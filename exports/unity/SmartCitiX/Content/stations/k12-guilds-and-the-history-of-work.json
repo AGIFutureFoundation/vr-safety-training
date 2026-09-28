@@ -230,15 +230,6 @@
       "why": "This lesson keeps three things apart. A general fact card holds something widely established, like craft guilds training apprentices; a research question card holds something to find out; and a source card records where information came from. Keeping them separate is the historian's habit that stops guesses becoming facts."
     },
     {
-      "cue": "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
-      "id": "read-the-librarys-handling-rules",
-      "kind": "select",
-      "prompt": "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
-      "target": "kgu-handling-card",
-      "title": "Read the library's handling rules",
-      "why": "Old documents and books are fragile and often irreplaceable. Clean dry hands, pencils instead of pens, and asking before copying keep them safe for the next reader, and they are the rules every archive and library follows. A torn page or an ink mark cannot be undone, so the rules protect evidence nobody can replace."
-    },
-    {
       "cue": "Ask a question, find sources, check them, then write what they show.",
       "id": "put-the-research-method-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "A clear question tells you what to look for. Finding sources, checking who made them and whether they agree, and only then writing what they show keeps your account honest and lets a reader follow your trail back to the evidence. Skipping the checking step is how a confident but unsupported claim slips into a finished piece of work."
     },
     {
-      "cue": "Support the old book's cover gently on the rest while you read.",
-      "holdBreakNote": "The book slipped and pressed flat. Support the cover again gently.",
-      "id": "hold-the-old-book-open-gently",
-      "kind": "hold",
-      "prompt": "Support the old book's cover gently on the rest while you read.",
-      "seconds": 6,
-      "target": "kgu-book-hold",
-      "title": "Hold the old book open gently",
-      "why": "Forcing an old book flat can crack its spine. Supporting the cover gently on a rest, and holding it still while you read, protects it; the care you take with a source is part of respecting the evidence. Handling a source with care is also a way of respecting the people whose work and lives it records."
+      "cue": "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
+      "id": "read-the-librarys-handling-rules",
+      "kind": "select",
+      "prompt": "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
+      "target": "kgu-handling-card",
+      "title": "Read the library's handling rules",
+      "why": "Old documents and books are fragile and often irreplaceable. Clean dry hands, pencils instead of pens, and asking before copying keep them safe for the next reader, and they are the rules every archive and library follows. A torn page or an ink mark cannot be undone, so the rules protect evidence nobody can replace."
     },
     {
       "cue": "Turn the card over: this claim is not widely established, so make it a question.",
@@ -303,6 +292,17 @@
       "why": "Sources vary in reliability: a book that cites its evidence is stronger than an unsigned post that cites nothing. Judging each one, rather than trusting or rejecting everything, is how historians build an account that stands up. A weak source is not useless; it may point you to a stronger one that it failed to cite."
     },
     {
+      "cue": "Support the old book's cover gently on the rest while you read.",
+      "holdBreakNote": "The book slipped and pressed flat. Support the cover again gently.",
+      "id": "hold-the-old-book-open-gently",
+      "kind": "hold",
+      "prompt": "Support the old book's cover gently on the rest while you read.",
+      "seconds": 6,
+      "target": "kgu-book-hold",
+      "title": "Hold the old book open gently",
+      "why": "Forcing an old book flat can crack its spine. Supporting the cover gently on a rest, and holding it still while you read, protects it; the care you take with a source is part of respecting the evidence. Handling a source with care is also a way of respecting the people whose work and lives it records."
+    },
+    {
       "cue": "Drag the apprentice card to the start of the craft training sequence.",
       "drag": {
         "missNote": "Not at the start yet. Apprentices come first in the training sequence.",
@@ -315,15 +315,6 @@
       "target": "kgu-apprentice-token",
       "title": "Place the apprentice card in the sequence",
       "why": "It is widely established that craft guilds trained newcomers as apprentices, who learned from experienced workers before working more independently. Placing the apprentice at the start of the sequence reflects that general fact; the details for any one place or trade are research questions."
-    },
-    {
-      "cue": "Say one way guilds and modern unions differ, as a question to research further.",
-      "id": "say-how-a-guild-and-a",
-      "kind": "select",
-      "prompt": "Say one way guilds and modern unions differ, as a question to research further.",
-      "target": "kgu-compare-card",
-      "title": "Say how a guild and a union differ",
-      "why": "Guilds often included workshop owners, while unions organise workers; that general difference opens questions worth researching. Saying it carefully, and turning the rest into questions, is how you handle a topic where easy comparisons mislead. Keeping the comparison careful stops you from reading today's world back into the past."
     },
     {
       "cue": "Look at the draft research notes and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's notes",
       "why": "Research notes go wrong in familiar ways: an invented date, a claim with no source and a statement that everyone worked the same way. Spotting them in someone else's notes trains you to keep your own honest."
+    },
+    {
+      "cue": "Say one way guilds and modern unions differ, as a question to research further.",
+      "id": "say-how-a-guild-and-a",
+      "kind": "select",
+      "prompt": "Say one way guilds and modern unions differ, as a question to research further.",
+      "target": "kgu-compare-card",
+      "title": "Say how a guild and a union differ",
+      "why": "Guilds often included workshop owners, while unions organise workers; that general difference opens questions worth researching. Saying it carefully, and turning the rest into questions, is how you handle a topic where easy comparisons mislead. Keeping the comparison careful stops you from reading today's world back into the past."
     },
     {
       "cue": "Keep the marker on the trail from each claim back to its source.",
@@ -399,7 +399,7 @@
       "prompt": "Which research question would you most like to answer? What was tricky?",
       "target": "kgu-checkin",
       "title": "Check in at the end of the lesson",
-      "why": "A check-in lets learners name the question that caught their curiosity, which is where the next piece of research begins. It is not marked, and the teacher or a trusted adult is there for anyone who wants to talk."
+      "why": "Research ends with a list of open questions, not a list of answers, so the visit closes with each learner reading one question they wrote and the source they would try first. That habit, unknowns turned into questions, is what the hall's own historians want the class to carry away."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

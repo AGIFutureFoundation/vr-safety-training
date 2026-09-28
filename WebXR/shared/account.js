@@ -205,6 +205,8 @@ function ctAvatarView(panel) {
   panel.append(gtEl("div", { class: "gt-row" },
     gtEl("button", { type: "button", id: "ct-av-save", on: { click: () => { ctAvatarSave(style, gtStorage()); gtRenderChip(); gtMsg("Avatar saved to this profile."); } } }, "Save avatar"),
     gtEl("button", { type: "button", id: "ct-av-back", on: { click: () => gtRender() } }, "Back")));
+}
+
 /**
  * The learner's side of the organisation layer (docs/enterprise.md): the
  * cohorts this device has joined, each with its programme and how many of its

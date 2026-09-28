@@ -271,6 +271,42 @@
       "why": "A force meter only reads the pull correctly while the load is hanging still; any jerk or swing adds to the reading. Holding it steady until the needle settles gives a number you can compare fairly with the next test."
     },
     {
+      "cue": "Say why more pulley lines make the pull easier, and what you give up.",
+      "id": "say-why-more-pulleys-make-pulling",
+      "kind": "select",
+      "prompt": "Say why more pulley lines make the pull easier, and what you give up.",
+      "target": "kcr-compare-card",
+      "title": "Say why more pulleys make pulling easier",
+      "why": "More lines share the load, so each carries less and your pull is smaller, but you must pull a longer length of rope. Saying both halves, easier pull and longer rope, is understanding the trade instead of thinking the machine gives something for nothing."
+    },
+    {
+      "cue": "Look at the draft explanation and mark each problem.",
+      "decoyNotes": {
+        "kcr-ex-diagram": "A labelled diagram is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kcr-ex-free": "a machine said to give free work",
+        "kcr-ex-guide": "the load chart called a rough guide",
+        "kcr-ex-reach": "a longer reach said to lift more"
+      },
+      "itemNotes": {
+        "kcr-ex-free": "Machines trade force for distance.",
+        "kcr-ex-guide": "The chart is a limit.",
+        "kcr-ex-reach": "Further out, the crane lifts less."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft explanation and mark each problem.",
+      "targets": [
+        "kcr-ex-free",
+        "kcr-ex-reach",
+        "kcr-ex-guide"
+      ],
+      "title": "Spot the problems in a classmate's explanation",
+      "why": "Explanations of machines go wrong in the same ways: a machine said to give free work, a longer reach said to lift more and a load chart called a rough guide. Spotting them helps you write explanations that are true as well as tidy."
+    },
+    {
       "cue": "Turn the winch handle and watch how far it turns for a small lift.",
       "id": "turn-the-winch-handle-to-lift",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kcr-load-token",
       "title": "Move the load closer on the model boom",
       "why": "The same load has a bigger turning effect the further out it hangs, so a crane can lift less at long reach. Moving it inside the chart's limit is exactly the decision an operator makes before every lift, with the chart, not a guess, as the guide."
-    },
-    {
-      "cue": "Say why more pulley lines make the pull easier, and what you give up.",
-      "id": "say-why-more-pulleys-make-pulling",
-      "kind": "select",
-      "prompt": "Say why more pulley lines make the pull easier, and what you give up.",
-      "target": "kcr-compare-card",
-      "title": "Say why more pulleys make pulling easier",
-      "why": "More lines share the load, so each carries less and your pull is smaller, but you must pull a longer length of rope. Saying both halves, easier pull and longer rope, is understanding the trade instead of thinking the machine gives something for nothing."
-    },
-    {
-      "cue": "Look at the draft explanation and mark each problem.",
-      "decoyNotes": {
-        "kcr-ex-diagram": "A labelled diagram is good practice. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmates",
-      "itemNames": {
-        "kcr-ex-free": "a machine said to give free work",
-        "kcr-ex-guide": "the load chart called a rough guide",
-        "kcr-ex-reach": "a longer reach said to lift more"
-      },
-      "itemNotes": {
-        "kcr-ex-free": "Machines trade force for distance.",
-        "kcr-ex-guide": "The chart is a limit.",
-        "kcr-ex-reach": "Further out, the crane lifts less."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft explanation and mark each problem.",
-      "targets": [
-        "kcr-ex-free",
-        "kcr-ex-reach",
-        "kcr-ex-guide"
-      ],
-      "title": "Spot the problems in a classmate's explanation",
-      "why": "Explanations of machines go wrong in the same ways: a machine said to give free work, a longer reach said to lift more and a load chart called a rough guide. Spotting them helps you write explanations that are true as well as tidy."
     },
     {
       "cue": "Keep the lowering speed steady as the model load comes down.",
@@ -399,7 +399,7 @@
       "prompt": "Where else have you seen a lever or a pulley? What still puzzles you?",
       "target": "kcr-checkin",
       "title": "Check in at the end of the session",
-      "why": "A check-in helps learners spot simple machines in everyday things, from scissors to bike gears, and lets the teacher hear what needs revisiting. It is not marked, and a trusted adult is there if anything in the session was hard."
+      "why": "The terminal shift ends with a tailgate talk, so the visit ends with one too: every learner names the machine part that made the load easier to move and says how. The riggers listening can tell straight away who has seen the trade in a lever and a pulley and who has only seen a crane."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

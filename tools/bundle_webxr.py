@@ -610,6 +610,7 @@ APPS = {
             SHARED / "perf.js",
             SHARED / "touch.js",
             SHARED / "passport-programmes.js",
+            SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
             WEBXR / "redwood/js/rw-data.js",
             WEBXR / "redwood/js/rw-lore-data.js",
@@ -623,7 +624,6 @@ APPS = {
             SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
-            SHARED / "gate-names-data.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
@@ -657,9 +657,9 @@ APPS = {
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
             SHARED / "links.js",
+            SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
             SHARED / "field-lessons.js",
-            SHARED / "gate-names-data.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
@@ -1072,7 +1072,7 @@ DIST_SHARED = [
     # The treasure ledger account.js and guide.js import, and the Treasure Map
     # page (WebXR/treasures.html, copied beside the homepage) that reads it;
     # the gate engine treasures.js answers its locks through.
-    "treasures.js", "treasures-data.js", "skill-gates.js",
+    "treasures.js", "treasures-data.js", "skill-gates.js", "gate-names-data.js",
     # The language layer controls.js, account.js and guide.js import (docs/i18n.md).
     "i18n.js", "i18n-strings.js",
     # The avatar style space account.js imports for its picker (console CARTOGRAPHER).

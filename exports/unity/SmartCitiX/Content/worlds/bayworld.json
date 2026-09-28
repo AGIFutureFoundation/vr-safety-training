@@ -1900,13 +1900,15 @@
       "programmes": [
         "wojrc-pathway-edition",
         "port-operations",
-        "rigging-lifting"
+        "rigging-lifting",
+        "k12-science"
       ],
       "stations": [
         "mooring-line",
         "bunkering-watch",
         "crane-yard",
-        "dock-crane"
+        "dock-crane",
+        "k12-simple-machines-at-a-crane"
       ],
       "zone": "port"
     },
@@ -2097,25 +2099,30 @@
       "zone": "downtown"
     },
     {
-      "id": "ct-tool-crib-downtown-civic-center",
-      "kind": "tool-crib",
+      "id": "ct-notice-board-downtown-civic-center",
+      "kind": "notice-board",
       "link": {
-        "id": "public-comment-prep",
+        "id": "civic-leadership-and-ei",
         "site": "downtown-civic-center",
-        "type": "station"
+        "type": "programme"
       },
-      "name": "Tool crib · Downtown Civic Center",
+      "name": "Union hall notice board · Downtown Civic Center",
       "near": "downtown-civic-center",
       "position": [
         -17.2,
         39.9
       ],
       "programmes": [
-        "civic-leadership-and-ei"
+        "civic-leadership-and-ei",
+        "k12-practical-math",
+        "k12-history-and-civics"
       ],
       "stations": [
         "public-comment-prep",
-        "public-meeting-chair"
+        "public-meeting-chair",
+        "k12-household-budget-and-first-paycheck",
+        "k12-how-a-local-council-meeting-works",
+        "k12-map-literacy-across-eras"
       ],
       "zone": "downtown"
     },
@@ -2168,14 +2175,14 @@
       "zone": "downtown"
     },
     {
-      "id": "ct-tool-crib-uptown-construction-site",
-      "kind": "tool-crib",
+      "id": "ct-notice-board-uptown-construction-site",
+      "kind": "notice-board",
       "link": {
-        "id": "concrete-pour",
+        "id": "builders-trades",
         "site": "uptown-construction-site",
-        "type": "station"
+        "type": "programme"
       },
-      "name": "Tool crib · Uptown Construction Site",
+      "name": "Union hall notice board · Uptown Construction Site",
       "near": "uptown-construction-site",
       "position": [
         -3,
@@ -2183,23 +2190,25 @@
       ],
       "programmes": [
         "builders-trades",
-        "cement-masons-and-plasterers"
+        "cement-masons-and-plasterers",
+        "k12-practical-math"
       ],
       "stations": [
         "concrete-pour",
-        "cm-slab-screed-bull-float-and-trowel"
+        "cm-slab-screed-bull-float-and-trowel",
+        "k12-slope-and-angles-on-a-ramp"
       ],
       "zone": "uptown"
     },
     {
-      "id": "ct-kiosk-uptown-theatre-district",
-      "kind": "kiosk",
+      "id": "ct-notice-board-uptown-theatre-district",
+      "kind": "notice-board",
       "link": {
         "id": "screen-and-media-crafts",
         "site": "uptown-theatre-district",
         "type": "programme"
       },
-      "name": "Information kiosk · Uptown Theatre District",
+      "name": "Union hall notice board · Uptown Theatre District",
       "near": "uptown-theatre-district",
       "position": [
         -85.3,
@@ -2207,11 +2216,13 @@
       ],
       "programmes": [
         "screen-and-media-crafts",
-        "bartending-course"
+        "bartending-course",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "bar-well-setup",
-        "id-check-underage"
+        "id-check-underage",
+        "k12-public-speaking-at-the-hall"
       ],
       "zone": "uptown"
     },
@@ -2443,11 +2454,14 @@
         43.4
       ],
       "programmes": [
-        "bay-area-union-edition"
+        "bay-area-union-edition",
+        "k12-history-and-civics"
       ],
       "stations": [
         "press-brake",
-        "sm-shop-layout-and-shear"
+        "sm-shop-layout-and-shear",
+        "k12-oral-history-interview-skills",
+        "k12-guilds-and-the-history-of-work"
       ],
       "zone": "west-oakland"
     },
@@ -2476,14 +2490,14 @@
       "zone": "west-oakland"
     },
     {
-      "id": "ct-kiosk-fruitvale-community-college",
-      "kind": "kiosk",
+      "id": "ct-notice-board-fruitvale-community-college",
+      "kind": "notice-board",
       "link": {
         "id": "dental-hygiene-unspoken-smiles",
         "site": "fruitvale-community-college",
         "type": "programme"
       },
-      "name": "Information kiosk · Fruitvale Community College",
+      "name": "Union hall notice board · Fruitvale Community College",
       "near": "fruitvale-community-college",
       "position": [
         492.9,
@@ -2491,12 +2505,16 @@
       ],
       "programmes": [
         "dental-hygiene-unspoken-smiles",
-        "dental-careers-unspoken-smiles"
+        "dental-careers-unspoken-smiles",
+        "k12-science",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "phlebotomy",
         "dental-careers-pathway",
-        "four-handed-dentistry"
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
       ],
       "zone": "fruitvale"
     },
@@ -2515,35 +2533,45 @@
         280.9
       ],
       "programmes": [
-        "first-responders"
+        "first-responders",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "triage-point",
-        "structure-fire-sizeup"
+        "structure-fire-sizeup",
+        "k12-first-aid-awareness-call-for-help"
       ],
       "zone": "fruitvale"
     },
     {
-      "id": "ct-kiosk-fruitvale-elementary-school",
-      "kind": "kiosk",
+      "id": "ct-notice-board-fruitvale-elementary-school",
+      "kind": "notice-board",
       "link": {
         "id": "education-support-staff",
         "site": "fruitvale-elementary-school",
         "type": "programme"
       },
-      "name": "Information kiosk · Fruitvale Elementary School",
+      "name": "Union hall notice board · Fruitvale Elementary School",
       "near": "fruitvale-elementary-school",
       "position": [
         472.2,
         203.6
       ],
       "programmes": [
-        "education-support-staff"
+        "education-support-staff",
+        "k12-history-and-civics",
+        "k12-literacy-and-life-skills",
+        "k12-practical-math"
       ],
       "stations": [
         "ed-custodial-chemical-dilution-and-floor-machine",
         "ed-playground-equipment-inspection",
-        "ed-bus-pretrip-and-loading-zone"
+        "ed-bus-pretrip-and-loading-zone",
+        "k12-primary-and-secondary-sources",
+        "k12-reading-instructions-and-safety-labels",
+        "k12-building-a-timeline-from-documents",
+        "k12-writing-a-clear-incident-report",
+        "k12-fractions-in-the-kitchen"
       ],
       "zone": "fruitvale"
     },
@@ -2572,25 +2600,29 @@
       "zone": "coliseum"
     },
     {
-      "id": "ct-kiosk-coliseum-arena",
-      "kind": "kiosk",
+      "id": "ct-notice-board-coliseum-arena",
+      "kind": "notice-board",
       "link": {
         "id": "basketball-fundamentals",
         "site": "coliseum-arena",
         "type": "programme"
       },
-      "name": "Information kiosk · Coliseum Arena",
+      "name": "Union hall notice board · Coliseum Arena",
       "near": "coliseum-arena",
       "position": [
         561.2,
         380.2
       ],
       "programmes": [
-        "basketball-fundamentals"
+        "basketball-fundamentals",
+        "k12-practical-math",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "bb-warmup-injury-prevention-and-hydration",
-        "bb-stance-and-ball-handling"
+        "bb-stance-and-ball-handling",
+        "k12-measuring-and-scaling-the-court",
+        "k12-teamwork-and-feedback"
       ],
       "zone": "coliseum"
     },
@@ -2829,14 +2861,14 @@
       "zone": "island-harbour"
     },
     {
-      "id": "ct-kiosk-island-ferry-landing",
-      "kind": "kiosk",
+      "id": "ct-notice-board-island-ferry-landing",
+      "kind": "notice-board",
       "link": {
         "id": "transit-ramp",
         "site": "island-ferry-landing",
         "type": "programme"
       },
-      "name": "Information kiosk · Island Ferry Landing",
+      "name": "Union hall notice board · Island Ferry Landing",
       "near": "island-ferry-landing",
       "position": [
         180.9,
@@ -2844,12 +2876,14 @@
       ],
       "programmes": [
         "transit-ramp",
-        "bay-area-union-edition"
+        "bay-area-union-edition",
+        "k12-practical-math"
       ],
       "stations": [
         "mw-ferry-deckhand-and-passenger-safety",
         "tr-wheelchair-lift-and-securement-on-a-bus",
-        "forklift-dock"
+        "forklift-dock",
+        "k12-reading-a-map-scale-in-bay-world"
       ],
       "zone": "island-harbour"
     },
@@ -2879,14 +2913,14 @@
       "zone": "island-harbour"
     },
     {
-      "id": "ct-kiosk-island-airfield-park",
-      "kind": "kiosk",
+      "id": "ct-notice-board-island-airfield-park",
+      "kind": "notice-board",
       "link": {
         "id": "aviation-maintenance-and-ground",
         "site": "island-airfield-park",
         "type": "programme"
       },
-      "name": "Information kiosk · Island Airfield Park",
+      "name": "Union hall notice board · Island Airfield Park",
       "near": "island-airfield-park",
       "position": [
         179.3,
@@ -2894,24 +2928,26 @@
       ],
       "programmes": [
         "aviation-maintenance-and-ground",
-        "grounds-and-landscaping"
+        "grounds-and-landscaping",
+        "k12-practical-math"
       ],
       "stations": [
         "av-marshalling-and-wingwalker-signals",
         "av-ground-power-and-static-bonding-before-fuel",
-        "gk-sports-field-line-marking-and-goal-anchoring"
+        "gk-sports-field-line-marking-and-goal-anchoring",
+        "k12-probability-with-a-fair-spinner"
       ],
       "zone": "island-harbour"
     },
     {
-      "id": "ct-kiosk-north-marina-pier",
-      "kind": "kiosk",
+      "id": "ct-notice-board-north-marina-pier",
+      "kind": "notice-board",
       "link": {
         "id": "bay-restoration-maritime-underwater",
         "site": "north-marina-pier",
         "type": "programme"
       },
-      "name": "Information kiosk · North Marina Pier",
+      "name": "Union hall notice board · North Marina Pier",
       "near": "north-marina-pier",
       "position": [
         -780.7,
@@ -2919,12 +2955,14 @@
       ],
       "programmes": [
         "bay-restoration-maritime-underwater",
-        "ports-maritime-ecology"
+        "ports-maritime-ecology",
+        "k12-practical-math"
       ],
       "stations": [
         "br-workboat-crane-lift-from-water",
         "br-vhf-and-navigation-in-a-work-zone",
-        "spill-boom-deploy"
+        "spill-boom-deploy",
+        "k12-graphing-tide-readings-at-the-pier"
       ],
       "zone": "north-shoreline"
     },
@@ -2947,7 +2985,8 @@
         "hunters-point-bay-restoration",
         "bay-restoration-maritime-underwater",
         "marine-ecology-and-restoration",
-        "commercial-diving-and-scientific-scuba"
+        "commercial-diving-and-scientific-scuba",
+        "k12-science"
       ],
       "stations": [
         "air-monitor",
@@ -2958,7 +2997,8 @@
         "me-tidal-marsh-channel-restoration-day",
         "me-shoreline-debris-and-microplastics-survey",
         "cd-low-visibility-and-night-dive-line-work",
-        "cd-pier-piling-inspection-and-wrap-repair"
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
       ],
       "zone": "north-shoreline"
     },
@@ -2988,14 +3028,14 @@
       "zone": "emery-crossing"
     },
     {
-      "id": "ct-tool-crib-emery-lab-campus",
-      "kind": "tool-crib",
+      "id": "ct-notice-board-emery-lab-campus",
+      "kind": "notice-board",
       "link": {
-        "id": "hc-sterile-processing-decontamination-and-assembly",
+        "id": "healthcare-support",
         "site": "emery-lab-campus",
-        "type": "station"
+        "type": "programme"
       },
-      "name": "Tool crib · Emery Lab Campus",
+      "name": "Union hall notice board · Emery Lab Campus",
       "near": "emery-lab-campus",
       "position": [
         -712.5,
@@ -3003,12 +3043,14 @@
       ],
       "programmes": [
         "healthcare-support",
-        "outbreak-response-who"
+        "outbreak-response-who",
+        "k12-science"
       ],
       "stations": [
         "hc-sterile-processing-decontamination-and-assembly",
         "hc-hazardous-drug-spill-kit-response",
-        "who-surveillance-and-case-definition"
+        "who-surveillance-and-case-definition",
+        "k12-a-controlled-experiment"
       ],
       "zone": "emery-crossing"
     },
@@ -3054,13 +3096,15 @@
       "programmes": [
         "water-and-gas-utility-crews",
         "confined-space",
-        "stationary-engineer"
+        "stationary-engineer",
+        "k12-science"
       ],
       "stations": [
         "ut-water-treatment-chemical-delivery-unloading",
         "chlorine-room",
         "lift-station",
-        "cs-permit-entry-and-attendant-duties"
+        "cs-permit-entry-and-attendant-duties",
+        "k12-water-cycle-and-filtration"
       ],
       "zone": "south-shoreline"
     },
@@ -3149,27 +3193,31 @@
       "zone": "outer-bay"
     },
     {
-      "id": "ct-kiosk-ridge-wind-farm",
-      "kind": "kiosk",
+      "id": "ct-notice-board-ridge-wind-farm",
+      "kind": "notice-board",
       "link": {
         "id": "wind-and-data-infrastructure",
         "site": "ridge-wind-farm",
         "type": "programme"
       },
-      "name": "Information kiosk · Ridge Wind Farm",
+      "name": "Union hall notice board · Ridge Wind Farm",
       "near": "ridge-wind-farm",
       "position": [
         940.2,
         -517.5
       ],
       "programmes": [
-        "wind-and-data-infrastructure"
+        "wind-and-data-infrastructure",
+        "k12-science",
+        "k12-practical-math"
       ],
       "stations": [
         "ws-turbine-climb-and-rescue-kit-check",
         "ws-nacelle-lockout-and-yaw-brake-fault",
         "ws-blade-inspection-from-a-platform",
-        "ws-substation-switching-under-a-permit"
+        "ws-substation-switching-under-a-permit",
+        "k12-energy-transfer-at-the-wind-farm",
+        "k12-geometry-of-a-turbine-blade-sweep"
       ],
       "zone": "upper-hills"
     },
@@ -3435,12 +3483,16 @@
       ],
       "programmes": [
         "dental-hygiene-unspoken-smiles",
-        "dental-careers-unspoken-smiles"
+        "dental-careers-unspoken-smiles",
+        "k12-science",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "phlebotomy",
         "dental-careers-pathway",
-        "four-handed-dentistry"
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
       ],
       "tip": "A near miss is a free lesson: report it the same shift.",
       "zone": "fruitvale"
@@ -3565,11 +3617,13 @@
         261.5
       ],
       "programmes": [
-        "first-responders"
+        "first-responders",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "triage-point",
-        "structure-fire-sizeup"
+        "structure-fire-sizeup",
+        "k12-first-aid-awareness-call-for-help"
       ],
       "tip": "Check your PPE before you need it, not when you need it.",
       "zone": "fruitvale"
@@ -3588,11 +3642,14 @@
         32.5
       ],
       "programmes": [
-        "bay-area-union-edition"
+        "bay-area-union-edition",
+        "k12-history-and-civics"
       ],
       "stations": [
         "press-brake",
-        "sm-shop-layout-and-shear"
+        "sm-shop-layout-and-shear",
+        "k12-oral-history-interview-skills",
+        "k12-guilds-and-the-history-of-work"
       ],
       "tip": "A near miss is a free lesson: report it the same shift.",
       "zone": "west-oakland"
@@ -3613,12 +3670,16 @@
       ],
       "programmes": [
         "dental-hygiene-unspoken-smiles",
-        "dental-careers-unspoken-smiles"
+        "dental-careers-unspoken-smiles",
+        "k12-science",
+        "k12-literacy-and-life-skills"
       ],
       "stations": [
         "phlebotomy",
         "dental-careers-pathway",
-        "four-handed-dentistry"
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
       ],
       "tip": "Anyone on the crew can call stop-work. Use it when something looks wrong.",
       "zone": "fruitvale"
@@ -3740,12 +3801,14 @@
       ],
       "programmes": [
         "transit-ramp",
-        "bay-area-union-edition"
+        "bay-area-union-edition",
+        "k12-practical-math"
       ],
       "stations": [
         "mw-ferry-deckhand-and-passenger-safety",
         "tr-wheelchair-lift-and-securement-on-a-bus",
-        "forklift-dock"
+        "forklift-dock",
+        "k12-reading-a-map-scale-in-bay-world"
       ],
       "tip": "A near miss is a free lesson: report it the same shift.",
       "zone": "island-harbour"
@@ -3792,12 +3855,14 @@
       ],
       "programmes": [
         "bay-restoration-maritime-underwater",
-        "ports-maritime-ecology"
+        "ports-maritime-ecology",
+        "k12-practical-math"
       ],
       "stations": [
         "br-workboat-crane-lift-from-water",
         "br-vhf-and-navigation-in-a-work-zone",
-        "spill-boom-deploy"
+        "spill-boom-deploy",
+        "k12-graphing-tide-readings-at-the-pier"
       ],
       "tip": "Keep three points of contact on every ladder and every vessel boarding.",
       "zone": "north-shoreline"
@@ -3817,12 +3882,14 @@
       ],
       "programmes": [
         "healthcare-support",
-        "outbreak-response-who"
+        "outbreak-response-who",
+        "k12-science"
       ],
       "stations": [
         "hc-sterile-processing-decontamination-and-assembly",
         "hc-hazardous-drug-spill-kit-response",
-        "who-surveillance-and-case-definition"
+        "who-surveillance-and-case-definition",
+        "k12-a-controlled-experiment"
       ],
       "tip": "Before any task, walk the ground once and name the hazards out loud.",
       "zone": "emery-crossing"

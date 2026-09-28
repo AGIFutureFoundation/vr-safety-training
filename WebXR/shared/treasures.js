@@ -201,7 +201,6 @@ const tzCss = `
 #tz-reveal .tz-row.tz-col{flex-direction:column;align-items:stretch;justify-content:flex-start}
 #tz-reveal .tz-row.tz-col:empty{display:none}
 #tz-constellation circle:focus-visible{outline:2px solid #ffd166;outline-offset:2px}
-.tz-glint{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin:2px;padding:0;border:0;border-radius:50%;background:transparent;color:#f2c14b;opacity:.32;font:16px/1 system-ui,sans-serif;cursor:pointer;animation:tz-twinkle 3.2s ease-in-out infinite}
 .tz-glint:hover,.tz-glint:focus-visible{opacity:1;outline:2px solid #ffd166;outline-offset:1px}
 .tz-glint-fixed{position:fixed;right:10px;bottom:84px;z-index:9980}
 #tz-constellation{position:absolute;right:4%;top:10%;width:150px;height:90px;z-index:2;overflow:visible}

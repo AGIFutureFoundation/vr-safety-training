@@ -27,7 +27,8 @@
       "stations": [
         "br-workboat-crane-lift-from-water",
         "br-vhf-and-navigation-in-a-work-zone",
-        "spill-boom-deploy"
+        "spill-boom-deploy",
+        "k12-graphing-tide-readings-at-the-pier"
       ],
       "table": "CT_BAY_ASSETS",
       "world": "bayworld",
@@ -50,22 +51,6 @@
       "zone": "south-shoreline"
     },
     {
-      "id": "ct-kiosk-north-marina-pier",
-      "name": "Information kiosk · North Marina Pier",
-      "position": [
-        -780.7,
-        -634.7
-      ],
-      "stations": [
-        "br-workboat-crane-lift-from-water",
-        "br-vhf-and-navigation-in-a-work-zone",
-        "spill-boom-deploy"
-      ],
-      "table": "CT_BAY_ASSETS",
-      "world": "bayworld",
-      "zone": "north-shoreline"
-    },
-    {
       "id": "ct-kiosk-south-shoreline-marina",
       "name": "Information kiosk · South Shoreline Marina",
       "position": [
@@ -80,6 +65,23 @@
       "table": "CT_BAY_ASSETS",
       "world": "bayworld",
       "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-notice-board-north-marina-pier",
+      "name": "Union hall notice board · North Marina Pier",
+      "position": [
+        -780.7,
+        -634.7
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy",
+        "k12-graphing-tide-readings-at-the-pier"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
     },
     {
       "id": "ct-notice-board-north-shoreline-field-lab",
@@ -97,7 +99,8 @@
         "me-tidal-marsh-channel-restoration-day",
         "me-shoreline-debris-and-microplastics-survey",
         "cd-low-visibility-and-night-dive-line-work",
-        "cd-pier-piling-inspection-and-wrap-repair"
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
       ],
       "table": "CT_BAY_ASSETS",
       "world": "bayworld",
@@ -370,7 +373,8 @@
       "stations": [
         "br-underwater-debris-survey-and-mapping",
         "br-restoration-data-qa-and-public-reporting",
-        "me-kelp-transect-survey-and-photo-quadrats"
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
       ],
       "table": "CT_DEEP_ASSETS",
       "world": "underwater",
@@ -707,7 +711,8 @@
       "stations": [
         "br-underwater-debris-survey-and-mapping",
         "br-restoration-data-qa-and-public-reporting",
-        "me-kelp-transect-survey-and-photo-quadrats"
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
       ],
       "table": "CT_DEEP_ASSETS",
       "world": "underwater",
@@ -739,7 +744,8 @@
         "br-dive-site-hazard-assessment-and-jsa",
         "br-cold-water-immersion-and-mob-recovery",
         "trench-box",
-        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "k12-buoyancy-and-pressure-in-the-deep"
       ],
       "table": "CT_DEEP_ASSETS",
       "world": "underwater",

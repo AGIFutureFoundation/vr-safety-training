@@ -188,7 +188,7 @@
       "one-trial-is-enough",
       "prove-it-for-all-plants"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "A measurement is only fair if every seedling is measured the same way: ruler upright, zero at the soil surface, read at the tip. Holding it still until you have read it means your numbers can be compared across trays and repeats."
     },
     {
+      "cue": "Say why the test changes only the light and keeps the water the same.",
+      "id": "say-why-only-one-thing-may",
+      "kind": "select",
+      "prompt": "Say why the test changes only the light and keeps the water the same.",
+      "target": "kce-compare-card",
+      "title": "Say why only one thing may change",
+      "why": "If light and water both changed, a difference in growth could be caused by either, and you would not know which. Keeping everything else the same means any difference points to the one thing you changed, which is what makes the result mean something."
+    },
+    {
+      "cue": "Look at the draft experiment plan and mark each problem.",
+      "decoyNotes": {
+        "kce-pl-safety": "A safety note is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kce-pl-no-repeat": "no repeat trays",
+        "kce-pl-too-much": "a conclusion for every plant",
+        "kce-pl-two": "two variables changed at once"
+      },
+      "itemNotes": {
+        "kce-pl-no-repeat": "Repeats show whether a result is real.",
+        "kce-pl-too-much": "Conclude only what the evidence shows.",
+        "kce-pl-two": "Change only one thing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft experiment plan and mark each problem.",
+      "targets": [
+        "kce-pl-two",
+        "kce-pl-no-repeat",
+        "kce-pl-too-much"
+      ],
+      "title": "Spot the problems in a classmate's plan",
+      "why": "Experiment plans go wrong in familiar ways: two variables changed at once, no repeats and a conclusion that claims more than the test can show. Spotting them in someone else's plan is how you learn to design a fair test of your own."
+    },
+    {
       "cue": "Turn the dimmer on one tray's lamp and leave the other lamps alone.",
       "id": "turn-the-lamp-dimmer-for-one",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kce-repeat-token",
       "title": "Place the repeat tray beside the first",
       "why": "A repeat is the same test run again under the same conditions. Placing the repeat tray under the same lamp lets you see whether the result happens again, and a result that repeats is one you can start to trust."
-    },
-    {
-      "cue": "Say why the test changes only the light and keeps the water the same.",
-      "id": "say-why-only-one-thing-may",
-      "kind": "select",
-      "prompt": "Say why the test changes only the light and keeps the water the same.",
-      "target": "kce-compare-card",
-      "title": "Say why only one thing may change",
-      "why": "If light and water both changed, a difference in growth could be caused by either, and you would not know which. Keeping everything else the same means any difference points to the one thing you changed, which is what makes the result mean something."
-    },
-    {
-      "cue": "Look at the draft experiment plan and mark each problem.",
-      "decoyNotes": {
-        "kce-pl-safety": "A safety note is good practice. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmates",
-      "itemNames": {
-        "kce-pl-no-repeat": "no repeat trays",
-        "kce-pl-too-much": "a conclusion for every plant",
-        "kce-pl-two": "two variables changed at once"
-      },
-      "itemNotes": {
-        "kce-pl-no-repeat": "Repeats show whether a result is real.",
-        "kce-pl-too-much": "Conclude only what the evidence shows.",
-        "kce-pl-two": "Change only one thing."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft experiment plan and mark each problem.",
-      "targets": [
-        "kce-pl-two",
-        "kce-pl-no-repeat",
-        "kce-pl-too-much"
-      ],
-      "title": "Spot the problems in a classmate's plan",
-      "why": "Experiment plans go wrong in familiar ways: two variables changed at once, no repeats and a conclusion that claims more than the test can show. Spotting them in someone else's plan is how you learn to design a fair test of your own."
     },
     {
       "cue": "Keep the other trays' lamps steady at their set height as the day goes on.",
@@ -399,7 +399,7 @@
       "prompt": "What would you test next with a fair test? What was hardest to keep the same?",
       "target": "kce-checkin",
       "title": "Check in at the end of the lab",
-      "why": "A check-in lets learners name the hardest part of keeping a test fair, which is the part that matters most, and gives the teacher a clear idea of what to practise next time. It is not graded, and anyone can talk to the teacher or a trusted adult afterwards."
+      "why": "Scientists end a session by writing down what they would change next time, so the class does the same aloud: one thing kept the test fair, one thing nearly spoiled it. Naming a near miss in a fair test is a skill in itself, and the lab lead can hear who owns it now."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

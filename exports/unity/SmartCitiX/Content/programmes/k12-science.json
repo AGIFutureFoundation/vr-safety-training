@@ -2,6 +2,172 @@
   "accent": "#4fb88a",
   "anchors": [
     {
+      "id": "ct-bench-bay-city-college",
+      "name": "Bench · Bay City College",
+      "position": [
+        473.4,
+        248
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-bus-stop-emery-public-market",
+      "name": "Bus stop · Emery Public Market",
+      "position": [
+        -694.6,
+        -318.9
+      ],
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-hazardous-drug-spill-kit-response",
+        "who-surveillance-and-case-definition",
+        "k12-a-controlled-experiment"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "ct-bus-stop-market-street-stalls",
+      "name": "Bus stop · Market Street Stalls",
+      "position": [
+        456.6,
+        268
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-notice-board-emery-lab-campus",
+      "name": "Union hall notice board · Emery Lab Campus",
+      "position": [
+        -712.5,
+        -331.5
+      ],
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-hazardous-drug-spill-kit-response",
+        "who-surveillance-and-case-definition",
+        "k12-a-controlled-experiment"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "ct-notice-board-fruitvale-community-college",
+      "name": "Union hall notice board · Fruitvale Community College",
+      "position": [
+        492.9,
+        277.4
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-notice-board-port-container-terminal",
+      "name": "Union hall notice board · Port Container Terminal",
+      "position": [
+        -320,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane",
+        "k12-simple-machines-at-a-crane"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
+      "id": "ct-notice-board-ridge-wind-farm",
+      "name": "Union hall notice board · Ridge Wind Farm",
+      "position": [
+        940.2,
+        -517.5
+      ],
+      "stations": [
+        "ws-turbine-climb-and-rescue-kit-check",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
+        "ws-blade-inspection-from-a-platform",
+        "ws-substation-switching-under-a-permit",
+        "k12-energy-transfer-at-the-wind-farm",
+        "k12-geometry-of-a-turbine-blade-sweep"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-notice-board-south-treatment-plant",
+      "name": "Union hall notice board · South Treatment Plant",
+      "position": [
+        734.1,
+        579.1
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties",
+        "k12-water-cycle-and-filtration"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
       "id": "emery-lab-campus",
       "name": "Emery Lab Campus",
       "position": [
@@ -113,6 +279,72 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-buoy-kelp-transect",
+      "name": "Line buoy · Kelp Transect",
+      "position": [
+        -499.7,
+        -224
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Tall kelp anchored to a rocky rise, its canopy closing overhead into shifting green light.",
+        "centre": [
+          -500,
+          -220
+        ],
+        "id": "kelp-forest",
+        "name": "Kelp Forest",
+        "palette": {
+          "accent": 8042056,
+          "seabed": 3815978,
+          "water": 1790036
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-dive-slate-kelp-transect-start",
+      "name": "Dive slate · Kelp Transect Start",
+      "position": [
+        -495.6,
+        -209
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "ct-dive-slate-shelf-checkout-site",
+      "name": "Dive slate · Shelf Checkout Site",
+      "position": [
+        -349,
+        -525.7
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "k12-buoyancy-and-pressure-in-the-deep"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
     },
     {
       "id": "kelp-transect-start",

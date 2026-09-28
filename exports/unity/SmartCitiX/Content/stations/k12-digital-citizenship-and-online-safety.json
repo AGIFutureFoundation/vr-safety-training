@@ -188,7 +188,7 @@
       "share-before-checking",
       "share-your-home-address"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "A scam works when you click before thinking. Deliberately holding off while you check the sender and the request gives your judgement time to catch up with the message's pressure, and it costs nothing if the message turns out to be real."
     },
     {
+      "cue": "Say two ways to check whether a surprising post is true before sharing it.",
+      "id": "say-how-to-check-a-claim",
+      "kind": "select",
+      "prompt": "Say two ways to check whether a surprising post is true before sharing it.",
+      "target": "kdc-compare-card",
+      "title": "Say how to check a claim before sharing",
+      "why": "Checking who made a post and whether trusted sources report the same thing catches most false claims. Saying how you would check, not just that you would, is the skill that stops you passing on something untrue to people who trust you."
+    },
+    {
+      "cue": "Look at the invented practice profile and mark each problem.",
+      "decoyNotes": {
+        "kdc-pf-hobby": "Sharing a hobby with friends is fine. Keep it."
+      },
+      "id": "spot-the-problems-in-a-practice",
+      "itemNames": {
+        "kdc-pf-public": "the profile set to public",
+        "kdc-pf-school": "the school name in the bio",
+        "kdc-pf-street": "a street sign in a photo"
+      },
+      "itemNotes": {
+        "kdc-pf-public": "Set it to people you know.",
+        "kdc-pf-school": "Keep school and location private.",
+        "kdc-pf-street": "Photos can give away where you live."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the invented practice profile and mark each problem.",
+      "targets": [
+        "kdc-pf-school",
+        "kdc-pf-street",
+        "kdc-pf-public"
+      ],
+      "title": "Spot the problems in a practice profile",
+      "why": "Profiles give away more than people realise: a school name, a home street in a photo, a public setting. Spotting them on a practice profile teaches you to check your own before strangers can."
+    },
+    {
       "cue": "Turn the practice profile's privacy dial from public to friends only.",
       "id": "turn-the-privacy-setting-to-friends",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kdc-scam-token",
       "title": "Move the scam message to report",
       "why": "Reporting a scam helps the service block it for others, while replying tells the sender your account is active. Moving it to report and then deleting it is the safe way to deal with it, and showing a trusted adult is always fine too."
-    },
-    {
-      "cue": "Say two ways to check whether a surprising post is true before sharing it.",
-      "id": "say-how-to-check-a-claim",
-      "kind": "select",
-      "prompt": "Say two ways to check whether a surprising post is true before sharing it.",
-      "target": "kdc-compare-card",
-      "title": "Say how to check a claim before sharing",
-      "why": "Checking who made a post and whether trusted sources report the same thing catches most false claims. Saying how you would check, not just that you would, is the skill that stops you passing on something untrue to people who trust you."
-    },
-    {
-      "cue": "Look at the invented practice profile and mark each problem.",
-      "decoyNotes": {
-        "kdc-pf-hobby": "Sharing a hobby with friends is fine. Keep it."
-      },
-      "id": "spot-the-problems-in-a-practice",
-      "itemNames": {
-        "kdc-pf-public": "the profile set to public",
-        "kdc-pf-school": "the school name in the bio",
-        "kdc-pf-street": "a street sign in a photo"
-      },
-      "itemNotes": {
-        "kdc-pf-public": "Set it to people you know.",
-        "kdc-pf-school": "Keep school and location private.",
-        "kdc-pf-street": "Photos can give away where you live."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the invented practice profile and mark each problem.",
-      "targets": [
-        "kdc-pf-school",
-        "kdc-pf-street",
-        "kdc-pf-public"
-      ],
-      "title": "Spot the problems in a practice profile",
-      "why": "Profiles give away more than people realise: a school name, a home street in a photo, a public setting. Spotting them on a practice profile teaches you to check your own before strangers can."
     },
     {
       "cue": "Keep the chat's tone in the kind band as messages come in, stepping in gently when it slips.",
@@ -399,7 +399,7 @@
       "prompt": "Is there anything online that worries you? Who would you tell?",
       "target": "kdc-checkin",
       "title": "Check in at the end of the lesson",
-      "why": "A check-in gives every learner a quiet chance to say if something online has worried them, and reminds everyone who they can go to. It is not marked, and the teacher, a counsellor or a trusted adult at home is always there to help."
+      "why": "The session ends with each learner describing one choice they made online today and what they would do if a message worried them. Saying who they would go to, at school or at home, is the point; the college's IT staff listen for the learners who can name a person and not just a button."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

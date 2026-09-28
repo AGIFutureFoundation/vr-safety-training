@@ -115,6 +115,9 @@ export const WF_APPS = [
   { out: "treasures.html", dir: ".", index: "treasures.html", og: "og/treasures.jpg",
     title: "Treasure Map — Hidden Finds Across the Platform",
     desc: "How many treasures you have found in each world and area, never where the unfound ones are. Each find teaches a line from a union, a standard or a station." },
+  { out: "privacy.html", dir: ".", index: "privacy.html", og: "og/home.jpg",
+    title: "What Is Stored Where — Privacy",
+    desc: "What each store holds, where it lives (this browser only), what the free demo keeps, what an export contains, and what a cohort view can and cannot see." },
 ];
 
 /** Repo-layout pages the flat folder does not publish: their canonical is themselves. */

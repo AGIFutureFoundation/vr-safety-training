@@ -1341,274 +1341,684 @@
   ],
   "SM_FIELD_LESSONS": [
     {
-      "at": [
-        -1210,
-        270
-      ],
+      "anchor": {
+        "id": "ranger-station",
+        "kind": "site"
+      },
+      "band": "lower secondary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "Steep",
           "Flat",
           "Under water"
         ],
-        "q": "Contour lines packed close together mean the ground is…"
+        "question": "Contour lines packed close together mean the ground is…",
+        "why": "Close lines mean the height changes quickly over a short distance, which is a steep slope."
       },
       "id": "sm-fl-contours",
-      "k12": "k12-reading-a-map-scale-in-bay-world",
       "minutes": 3,
-      "place": "ranger-station",
-      "station": "or-wildland-fireline-construction-and-lookout",
+      "position": [
+        -1210,
+        270
+      ],
+      "station": "k12-reading-a-map-scale-in-bay-world",
       "steps": [
         "A contour line joins points on the map that are at the same height.",
         "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.",
-        "Open the map (M) and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."
+        "Open the map and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."
       ],
       "title": "Reading contour lines",
-      "trade": "Trail crews and rangers read contours to plan a route that avoids the steepest ground."
+      "trade": "Trail crews and rangers",
+      "tradeLine": "A trail crew reads the contours to plan a route that avoids the steepest ground.",
+      "tradeStation": "or-wildland-fireline-construction-and-lookout",
+      "world": "summit"
     },
     {
-      "at": [
+      "anchor": {
+        "id": "valley-base",
+        "kind": "site"
+      },
+      "band": "upper primary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "About twice as far",
+          "The same",
+          "Half as far"
+        ],
+        "question": "Two places look twice as far apart on the map as two others. On the ground that walk is…",
+        "why": "One scale for the whole map means map distance and ground distance grow together."
+      },
+      "id": "sm-fl-scale",
+      "minutes": 2,
+      "position": [
         -1520,
         1430
       ],
-      "check": {
-        "answer": 0,
-        "choices": [
-          "1024 m",
-          "2048 m",
-          "512 m"
-        ],
-        "q": "If the map is 4096 m across, a quarter of its width is…"
-      },
-      "id": "sm-fl-scale",
-      "k12": "k12-reading-a-map-scale-in-bay-world",
-      "minutes": 2,
-      "place": "valley-base",
-      "station": "gk-storm-cleanup-chipper-and-traffic-control",
+      "station": "k12-reading-a-map-scale-in-bay-world",
       "steps": [
-        "A map's scale says how many metres on the ground one unit on the map stands for.",
-        "This world's map is square and the world is 4096 m across, so half the map's width is 2048 m of walking.",
-        "Estimate the walk to the water plant on the map, then walk it and compare with the distance on the HUD."
+        "A map's scale says how much ground one step on the map stands for.",
+        "This map is square and every place on it is drawn at the same scale, so equal map distances are equal walks anywhere on it.",
+        "Pick two places on the map, guess which walk is longer, then read the distance the HUD shows as you go."
       ],
       "title": "Map scale and distance",
-      "trade": "A road crew measures a work zone off the plan sheet with its scale bar."
+      "trade": "Road crews",
+      "tradeLine": "A road crew measures a work zone off the plan sheet with its scale before a cone goes down.",
+      "tradeStation": "gk-storm-cleanup-chipper-and-traffic-control",
+      "world": "summit"
     },
     {
-      "at": [
-        -540,
-        760
-      ],
+      "anchor": {
+        "id": "powerhouse",
+        "kind": "landmark"
+      },
+      "band": "lower secondary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "Height",
           "Colour",
           "Temperature"
         ],
-        "q": "Water behind a dam stores energy mainly because of its…"
+        "question": "Water behind a dam stores energy mainly because of its…",
+        "why": "The higher the water sits above the turbine, the more energy it can give up on the way down."
       },
       "id": "sm-fl-falling-water",
-      "k12": "k12-energy-transfer-at-the-wind-farm",
       "minutes": 3,
-      "place": "powerhouse",
-      "station": "ib-hydrostatic-test-and-inspector-witness",
+      "position": [
+        -540,
+        760
+      ],
+      "station": "k12-energy-transfer-at-the-wind-farm",
       "steps": [
-        "Water held high behind a dam has stored (potential) energy because of its height.",
-        "As it falls through the penstock that energy becomes motion (kinetic energy).",
-        "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy — the same chain of transfers the wind-farm lesson follows with moving air."
+        "Water held high behind a dam has stored energy because of its height.",
+        "As it falls through the penstock that energy becomes motion.",
+        "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy."
       ],
       "title": "Falling water as stored energy",
-      "trade": "Plant operators at a powerhouse watch water's stored energy become electrical energy."
+      "trade": "Powerhouse operators",
+      "tradeLine": "A powerhouse operator watches water's stored energy become electrical energy, the same chain the wind farm follows with air.",
+      "tradeStation": "ib-hydrostatic-test-and-inspector-witness",
+      "world": "summit"
     },
     {
-      "at": [
-        -740,
-        490
-      ],
+      "anchor": {
+        "id": "dam",
+        "kind": "site"
+      },
+      "band": "lower secondary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "Water pressure is greatest at the bottom",
           "To save concrete at the top only",
           "Snow collects at the bottom"
         ],
-        "q": "Why is a dam thicker at the bottom?"
+        "question": "Why is a dam thicker at the bottom?",
+        "why": "The deepest water pushes hardest, so the wall needs the most strength at its base."
       },
       "id": "sm-fl-pressure-depth",
-      "k12": "k12-buoyancy-and-pressure-in-the-deep",
       "minutes": 3,
-      "place": "dam",
-      "station": "uw-intake-screen-cleaning-with-lockout",
+      "position": [
+        -740,
+        490
+      ],
+      "station": "k12-buoyancy-and-pressure-in-the-deep",
       "steps": [
         "Water pushes on everything in it, and the deeper you go the more water sits above you.",
         "That is why a dam wall is built thicker at the bottom than at the top.",
         "Look at the dam's face: it widens toward its base, where the push of the water is greatest."
       ],
       "title": "Pressure grows with depth",
-      "trade": "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth."
+      "trade": "Divers and dam engineers",
+      "tradeLine": "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.",
+      "tradeStation": "uw-intake-screen-cleaning-with-lockout",
+      "world": "summit"
     },
     {
-      "at": [
-        -1070,
-        1070
-      ],
+      "anchor": {
+        "id": "water-plant",
+        "kind": "site"
+      },
+      "band": "upper primary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "Melting and running downhill",
           "Being carried by trucks",
           "Blowing uphill"
         ],
-        "q": "Snow on the summit reaches the reservoir mainly by…"
+        "question": "Snow on the summit reaches the reservoir mainly by…",
+        "why": "Meltwater flows the way the river below the powerhouse does: down, into the streams and the reservoir."
       },
       "id": "sm-fl-water-cycle",
-      "k12": "k12-water-cycle-and-filtration",
       "minutes": 3,
-      "place": "water-plant",
-      "station": "chlorine-room",
+      "position": [
+        -1070,
+        1070
+      ],
+      "station": "k12-water-cycle-and-filtration",
       "steps": [
         "Water evaporates, condenses into clouds and falls as rain or snow on the mountain.",
         "Snowmelt and rain run downhill into streams and the reservoir.",
-        "At the treatment plant the water is filtered and disinfected before it goes to homes — the plant is one stop on the water cycle, not its end."
+        "At the treatment plant the water is filtered and disinfected before it goes to homes: the plant is one stop on the water cycle, not its end."
       ],
       "title": "From snowpack to tap",
-      "trade": "Water treatment operators treat the reservoir water that the mountain's snow and rain supply."
+      "trade": "Water treatment operators",
+      "tradeLine": "A water treatment operator treats the reservoir water that the mountain's snow and rain supply.",
+      "tradeStation": "chlorine-room",
+      "world": "summit"
     },
     {
-      "at": [
-        1030,
-        450
-      ],
+      "anchor": {
+        "id": "substation",
+        "kind": "site"
+      },
+      "band": "lower secondary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "It stops flowing in that circuit",
           "It doubles",
           "It flows faster"
         ],
-        "q": "What happens to current when a breaker opens the circuit?"
+        "question": "What happens to current when a breaker opens the circuit?",
+        "why": "With the loop broken there is no path for current, which is what the crew then proves with a tester."
       },
       "id": "sm-fl-circuit",
-      "k12": "k12-circuits-at-the-electrical-bench",
       "minutes": 3,
-      "place": "substation",
-      "station": "substation-switching",
+      "position": [
+        1030,
+        450
+      ],
+      "station": "k12-circuits-at-the-electrical-bench",
       "steps": [
-        "Current only flows around a complete loop — a closed circuit.",
+        "Current only flows around a complete loop, a closed circuit.",
         "Opening a switch or a breaker breaks the loop, so current stops.",
         "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."
       ],
       "title": "A complete circuit",
-      "trade": "Substation electricians open a breaker to break a circuit before anyone works on it."
+      "trade": "Substation electricians",
+      "tradeLine": "A substation electrician opens a breaker to break a circuit before anyone works on it.",
+      "tradeStation": "substation-switching",
+      "world": "summit"
     },
     {
-      "at": [
-        -1030,
-        1030
-      ],
+      "anchor": {
+        "id": "water-plant",
+        "kind": "site"
+      },
+      "band": "upper primary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "On its label and data sheet",
           "By guessing from the colour",
           "From the truck's paint"
         ],
-        "q": "Where does the crew find the protection a chemical needs?"
+        "question": "Where does the crew find the protection a chemical needs?",
+        "why": "The label and data sheet are written for exactly that chemical; a guess is not."
       },
       "id": "sm-fl-labels",
-      "k12": "k12-reading-instructions-and-safety-labels",
       "minutes": 2,
-      "place": "water-plant",
-      "station": "ut-water-treatment-chemical-delivery-unloading",
+      "position": [
+        -1030,
+        1030
+      ],
+      "station": "k12-reading-instructions-and-safety-labels",
       "steps": [
         "A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.",
-        "The label and the safety data sheet — not memory — say what protective equipment the job needs.",
+        "The label and the safety data sheet, not memory, say what protective equipment the job needs.",
         "Before any delivery, the crew reads the label on the load and matches it to the paperwork."
       ],
       "title": "Reading a hazard label",
-      "trade": "Water plant operators read a chemical's label and data sheet before a delivery is unloaded."
+      "trade": "Water plant operators",
+      "tradeLine": "A plant operator reads a chemical's label and data sheet before a delivery is unloaded.",
+      "tradeStation": "ut-water-treatment-chemical-delivery-unloading",
+      "world": "summit"
     },
     {
-      "at": [
+      "anchor": {
+        "id": "pass-summit",
+        "kind": "landmark"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Steeper",
+          "Gentler",
+          "The same"
+        ],
+        "question": "A road rises the same height over a shorter run. Its grade is…",
+        "why": "Grade is rise divided by run, so a shorter run for the same rise gives a bigger ratio."
+      },
+      "id": "sm-fl-grade",
+      "minutes": 3,
+      "position": [
         460,
         -120
       ],
-      "check": {
-        "answer": 0,
-        "choices": [
-          "5%",
-          "50%",
-          "20%"
-        ],
-        "q": "A road that rises 5 m over 100 m has a grade of…"
-      },
-      "id": "sm-fl-grade",
-      "k12": "k12-measuring-and-scaling-the-court",
-      "minutes": 3,
-      "place": "pass-summit",
-      "station": "drive-mountain-grade-and-engine-brake",
+      "station": "k12-measuring-and-scaling-the-court",
       "steps": [
-        "A road's grade is how much it rises for each unit it runs forward, written as a percentage.",
-        "Rising 6 m over 100 m of road is a 6% grade; the same rise over 50 m is twice as steep.",
-        "The HUD shows the slope under your feet: compare the switchbacks with the straight climb beside them."
+        "A road's grade is how much it rises for each unit it runs forward.",
+        "The same rise over half the run is twice as steep.",
+        "The HUD shows the slope under your feet: compare the climb here with the flatter road beside the yard."
       ],
       "title": "Grade as a ratio",
-      "trade": "Drivers and road crews read a grade as rise over run, and the pass road's signs state it."
+      "trade": "Drivers and road crews",
+      "tradeLine": "A driver reads a grade as rise over run, and the pass road's signs state it the same way.",
+      "tradeStation": "drive-mountain-grade-and-engine-brake",
+      "world": "summit"
     },
     {
-      "at": [
-        -1530,
-        -700
-      ],
+      "anchor": {
+        "id": "west-lookout",
+        "kind": "landmark"
+      },
+      "band": "lower secondary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "What the writer actually saw",
           "What might have happened",
           "Opinions about who is to blame"
         ],
-        "q": "A good report sticks to…"
+        "question": "A good report sticks to…",
+        "why": "A report is evidence for someone who was not there, so it carries only what was seen."
       },
       "id": "sm-fl-incident-report",
-      "k12": "k12-writing-a-clear-incident-report",
       "minutes": 3,
-      "place": "west-lookout",
-      "station": "or-transmission-line-right-of-way-patrol",
+      "position": [
+        -1530,
+        -700
+      ],
+      "station": "k12-writing-a-clear-incident-report",
       "steps": [
         "A clear report says what happened, where, when and who was involved.",
         "It sticks to what the writer saw, and says plainly what they do not know yet.",
         "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."
       ],
       "title": "Writing a clear trail report",
-      "trade": "Rangers and patrollers write what they saw, where and when — facts first, no guesses."
+      "trade": "Rangers and patrollers",
+      "tradeLine": "A ranger writes what they saw, where and when: facts first, no guesses.",
+      "tradeStation": "or-transmission-line-right-of-way-patrol",
+      "world": "summit"
     },
     {
-      "at": [
-        140,
-        -1170
-      ],
+      "anchor": {
+        "id": "gondola-top",
+        "kind": "landmark"
+      },
+      "band": "early primary to upper primary",
       "check": {
         "answer": 0,
-        "choices": [
+        "options": [
           "Where you are",
           "Your favourite colour",
           "Nothing, just hang up"
         ],
-        "q": "What should you say first when calling for help?"
+        "question": "What should you say first when calling for help?",
+        "why": "Help can only come once it knows where to go."
       },
       "id": "sm-fl-call-for-help",
-      "k12": "k12-first-aid-awareness-call-for-help",
       "minutes": 2,
-      "place": "gondola-top",
-      "station": "ew-elevator-entrapment-and-rescue-with-fire-service",
+      "position": [
+        140,
+        -1170
+      ],
+      "station": "k12-first-aid-awareness-call-for-help",
       "steps": [
         "When someone is hurt, make sure you are safe, then call for help.",
-        "Say where you are first — a named place like 'the gondola top station' — so help can find you.",
+        "Say where you are first, a named place like the gondola top station, so help can find you.",
         "Stay on the line and do what the call-taker asks."
       ],
       "title": "Calling for help on the mountain",
-      "trade": "Rangers and lift crews give a clear location first when they call for help."
+      "trade": "Rangers and lift crews",
+      "tradeLine": "A lift attendant gives a clear location first when they call for help.",
+      "tradeStation": "ew-elevator-entrapment-and-rescue-with-fire-service",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "tunnel-portal",
+        "kind": "site"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "The same meter is used in the same place",
+          "Different meters are used to be safe",
+          "One is taken outside in the sun"
+        ],
+        "question": "Two air readings are only comparable when…",
+        "why": "Changing the meter or the spot changes more than one thing, so the difference could be the meter, not the air."
+      },
+      "id": "sm-fl-tunnel-fair-test",
+      "minutes": 3,
+      "position": [
+        572,
+        -548
+      ],
+      "station": "k12-a-controlled-experiment",
+      "steps": [
+        "A fair test changes one thing at a time and keeps everything else the same.",
+        "The heading crew reads the air at the face before the ventilation runs and again after, with the same meter in the same place.",
+        "Only then can they say the fans made the difference, and the plan says what reading lets work go on."
+      ],
+      "title": "Testing the air is a fair test",
+      "trade": "Tunnel crews",
+      "tradeLine": "A tunnel crew tests the air with the same meter, at the same spot, before and after the fans run, so the two readings can be compared.",
+      "tradeStation": "cm-shotcrete-nozzle-and-rebound",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "tunnel-portal",
+        "kind": "site"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Put the events in the order they happened",
+          "Pick the most exciting one",
+          "Throw away the tickets"
+        ],
+        "question": "To build a timeline from documents you first…",
+        "why": "Order is what a timeline adds; every document is evidence for where an event sits on it."
+      },
+      "id": "sm-fl-tunnel-shift-log",
+      "minutes": 3,
+      "position": [
+        630,
+        -545
+      ],
+      "station": "k12-building-a-timeline-from-documents",
+      "steps": [
+        "A timeline puts events in the order they happened, with the evidence for each.",
+        "The portal crew's shift log, the concrete delivery tickets and the survey notes are three documents about the same day.",
+        "Put them in order and the day tells its own story: what was sprayed, when the survey checked it, and what came next."
+      ],
+      "title": "The shift log is a timeline",
+      "trade": "Tunnel and heavy civil crews",
+      "tradeLine": "A heading boss rebuilds what happened on a shift from the log, the delivery tickets and the survey notes, in time order.",
+      "tradeStation": "cm-shotcrete-nozzle-and-rebound",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "tunnel-portal",
+        "kind": "site"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "The locator's marks made today",
+          "A drawing copied years ago",
+          "A guess from the road edge"
+        ],
+        "question": "Which is the primary source for where a buried line is?",
+        "why": "First-hand evidence gathered on the day outranks a copy of an older record."
+      },
+      "id": "sm-fl-portal-sources",
+      "minutes": 3,
+      "position": [
+        600,
+        -520
+      ],
+      "station": "k12-primary-and-secondary-sources",
+      "steps": [
+        "A primary source is first-hand evidence; a secondary source describes or copies it.",
+        "At the portal trench the locator's paint on the ground is first-hand: it was found with an instrument today. The old drawing is a copy of what someone once recorded.",
+        "When the two disagree, the crew trusts the marks, and exposes the line by hand before the bucket goes near it."
+      ],
+      "title": "Marks on the ground and lines on the drawing",
+      "trade": "Excavator operators and locators",
+      "tradeLine": "An operator treats the locator's marks on the ground as the primary source and the drawing as secondary, and digs by hand where they disagree.",
+      "tradeStation": "op-excavator-trench-and-utility-locate",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "gondola-shop",
+        "kind": "site"
+      },
+      "band": "upper primary to lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "The bullwheel turning",
+          "The cabins pushing",
+          "The wind"
+        ],
+        "question": "On the gondola drive, the haul rope is moved by…",
+        "why": "The rope rides on the bullwheel, so the wheel's turn is the rope's travel."
+      },
+      "id": "sm-fl-gondola-wheel",
+      "minutes": 3,
+      "position": [
+        -268,
+        -292
+      ],
+      "station": "k12-simple-machines-at-a-crane",
+      "steps": [
+        "A wheel and axle is a simple machine: turning one turns the other, and the bigger part moves further for each turn.",
+        "In the drive room the motor turns the axle and the big bullwheel carries the haul rope around.",
+        "The brake grips the wheel, which is why the brake test is done before any cabin carries a person."
+      ],
+      "title": "The bullwheel is a wheel and axle",
+      "trade": "Lift mechanics",
+      "tradeLine": "A lift mechanic sees the drive as a wheel and axle: the motor turns the axle, the big wheel moves the rope, and the brake holds the wheel.",
+      "tradeStation": "ew-machine-room-lockout-and-brake-test",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "gondola-shop",
+        "kind": "site"
+      },
+      "band": "upper primary to lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "So the drive cannot start until every one of them is done",
+          "To make the lockout look tidy",
+          "Because one lock is not strong enough"
+        ],
+        "question": "Why does each mechanic hang their own lock?",
+        "why": "A lock per person means no one can be forgotten inside the machine when it is restarted."
+      },
+      "id": "sm-fl-gondola-two-locks",
+      "minutes": 2,
+      "position": [
+        -212,
+        -292
+      ],
+      "station": "k12-teamwork-and-feedback",
+      "steps": [
+        "Good teamwork means each person does their part and checks a partner's part without blame.",
+        "In the drive room each mechanic hangs their own lock on the isolation point, so nothing can start until every lock is off.",
+        "Then they check each other's lock and tag and say what they found, which is feedback the job depends on."
+      ],
+      "title": "Two people, one lockout",
+      "trade": "Lift mechanics and riggers",
+      "tradeLine": "A lift crew locks out the drive with each person's own lock, and each checks the other's before work starts.",
+      "tradeStation": "ew-machine-room-lockout-and-brake-test",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "gondola-top",
+        "kind": "landmark"
+      },
+      "band": "upper primary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Measuring it and comparing with the plan's limit",
+          "Asking a passenger",
+          "Looking at the colour of the sky"
+        ],
+        "question": "The crew decides the wind is too strong for the lift by…",
+        "why": "A limit written in the plan is only useful when the wind is actually measured against it."
+      },
+      "id": "sm-fl-gondola-sky",
+      "minutes": 3,
+      "position": [
+        130,
+        -1120
+      ],
+      "station": "k12-weather-and-the-sky",
+      "steps": [
+        "Wind, cloud and temperature are what a weather reading is made of, and each can be read from where you stand.",
+        "At the top station, feel the wind, watch which way the cloud moves and how fast, and read the temperature the HUD shows.",
+        "Lift and rigging plans set a wind limit; the crew does not guess at it, they measure and compare."
+      ],
+      "title": "Reading the sky before the lift opens",
+      "trade": "Lift operators and riggers",
+      "tradeLine": "A lift operator and a rigger both read the wind and the cloud before a cabin or a load leaves the ground, and the plan says when they stop.",
+      "tradeStation": "rl-critical-lift-plan-and-signalperson",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "ridge-line",
+        "kind": "site"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Hold its shape under a push",
+          "Heavier but no stronger",
+          "Easier to fold flat"
+        ],
+        "question": "Bracing a frame into triangles makes it…",
+        "why": "A triangle's angles are fixed by its sides, so the frame cannot lean without stretching or breaking a member."
+      },
+      "id": "sm-fl-ridge-triangles",
+      "minutes": 3,
+      "position": [
+        1452,
+        -548
+      ],
+      "station": "k12-slope-and-angles-on-a-ramp",
+      "steps": [
+        "A square frame can lean over and fold; a triangle cannot change shape without a side changing length.",
+        "Look up at the tower legs: every panel is braced into triangles, and each brace meets a leg at an angle the drawing sets.",
+        "That is why a climber's anchor point is a braced member, and the climb plan names which ones."
+      ],
+      "title": "Triangles hold a tower up",
+      "trade": "Tower climbers and lineworkers",
+      "tradeLine": "A tower climber clips to members braced into triangles, the shape that does not fold under a push.",
+      "tradeStation": "tower-climb",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "ridge-line",
+        "kind": "site"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "Water held high behind the dam",
+          "Wind in the trees",
+          "The sun warming the towers"
+        ],
+        "question": "The energy in the ridge line's wires began as…",
+        "why": "Follow the chain backwards: wire, generator, turbine, penstock, reservoir."
+      },
+      "id": "sm-fl-ridge-energy-path",
+      "minutes": 3,
+      "position": [
+        1508,
+        -548
+      ],
+      "station": "k12-energy-transfer-at-the-wind-farm",
+      "steps": [
+        "Energy is not made from nothing; it moves from one form and one place to another.",
+        "Water falling through the penstock becomes motion in a turbine, then electrical energy in a generator, then current in the wires you can see overhead.",
+        "The substation changes the voltage so the line can carry it a long way with less loss, and the switching crew is the last hand on that chain."
+      ],
+      "title": "Where the ridge's power goes",
+      "trade": "Lineworkers and substation electricians",
+      "tradeLine": "A lineworker follows the energy from the powerhouse to the substation and along the ridge line as one chain of transfers.",
+      "tradeStation": "substation-switching",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "ridge-line",
+        "kind": "site"
+      },
+      "band": "upper primary to lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "The listener understood the same message",
+          "The radio is switched on",
+          "The speaker was loud enough"
+        ],
+        "question": "A read-back proves that…",
+        "why": "Only hearing the message repeated shows it arrived as it was meant."
+      },
+      "id": "sm-fl-ridge-read-back",
+      "minutes": 2,
+      "position": [
+        1480,
+        -600
+      ],
+      "station": "k12-public-speaking-at-the-hall",
+      "steps": [
+        "Clear speaking is one message at a time, in a steady voice, with the important word first.",
+        "On the radio the operator gives the step, the other person repeats it back, and only a matching read-back means it was understood.",
+        "Practise here: say the name of this site and the next site on your map as if the listener could not see you."
+      ],
+      "title": "Say it once, clearly, and hear it back",
+      "trade": "Switching operators and line crews",
+      "tradeLine": "A switching operator speaks each order plainly and waits for the read-back before the next step.",
+      "tradeStation": "substation-switching",
+      "world": "summit"
+    },
+    {
+      "anchor": {
+        "id": "ridge-line",
+        "kind": "site"
+      },
+      "band": "lower secondary",
+      "check": {
+        "answer": 0,
+        "options": [
+          "It can be repeated the same way next time",
+          "It covers the whole mountain at once",
+          "It needs no notes"
+        ],
+        "question": "A transect count is useful because…",
+        "why": "Repeating the same line the same way is what makes two counts comparable."
+      },
+      "id": "sm-fl-ridge-transect",
+      "minutes": 3,
+      "position": [
+        1480,
+        -520
+      ],
+      "station": "k12-ecosystems-at-the-kelp-transect",
+      "steps": [
+        "A transect is a straight line through a habitat; you walk it and record what you find at set points along it.",
+        "Under the ridge line the crew notes which plants are growing back toward the wires and where the ground is bare.",
+        "The same count next season shows what changed, and the vegetation plan says what needs clearing."
+      ],
+      "title": "Counting life along a line",
+      "trade": "Right-of-way patrollers",
+      "tradeLine": "A right-of-way patroller walks the line and records what grows under it, the same transect method a kelp survey uses under water.",
+      "tradeStation": "or-transmission-line-right-of-way-patrol",
+      "world": "summit"
     }
   ],
   "SM_GATED": [
@@ -1620,7 +2030,17 @@
         ]
       },
       "id": "sm-side-night-patrol",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Night Patrol",
+        "cosmetic": "reflective-vest-stripe",
+        "xp": 90
+      },
+      "site": "ridge-line",
+      "siteName": "Transmission Ridge Line Crew",
+      "summary": "Walk the ridge towers at dusk with the patrol log.",
+      "title": "Night Patrol on the Ridge",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1630,7 +2050,17 @@
         ]
       },
       "id": "sm-side-cabin-rescue",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Rescue Ready",
+        "cosmetic": "helmet-sticker-cabin",
+        "xp": 90
+      },
+      "site": "gondola-shop",
+      "siteName": "Gondola Maintenance Shop",
+      "summary": "Run the entrapment and rescue drill with the fire service.",
+      "title": "Cabin Rescue Drill",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1640,7 +2070,17 @@
         ]
       },
       "id": "sm-side-avalanche-control",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Winter Road",
+        "cosmetic": "beanie-orange",
+        "xp": 90
+      },
+      "site": "pass-road",
+      "siteName": "Pass Road Crew Yard",
+      "summary": "Walk to the chute sign where the winter plan starts.",
+      "title": "Avalanche-Season Traffic Control",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1651,7 +2091,17 @@
         ]
       },
       "id": "sm-side-penstock-walk",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Penstock Walker",
+        "cosmetic": "gloves-blue",
+        "xp": 100
+      },
+      "site": "dam",
+      "siteName": "Hydroelectric Dam & Penstock",
+      "summary": "Walk the penstock down to the powerhouse.",
+      "title": "Penstock Inspection Walk",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1661,7 +2111,17 @@
         ]
       },
       "id": "sm-side-fire-lookout",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Fire Lookout",
+        "cosmetic": "bandana-green",
+        "xp": 90
+      },
+      "site": "ranger-station",
+      "siteName": "Ranger Station & Trailhead",
+      "summary": "Take the watch at the West Ridge Lookout.",
+      "title": "Fire Lookout Watch",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1671,7 +2131,17 @@
         ]
       },
       "id": "sm-side-portal-trench",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Portal Trench",
+        "cosmetic": "hardhat-decal-portal",
+        "xp": 90
+      },
+      "site": "tunnel-portal",
+      "siteName": "Pass Tunnel Portal",
+      "summary": "Build the headwall scaffold on proper sills.",
+      "title": "Utility Trench at the Portal",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1687,7 +2157,17 @@
         ]
       },
       "id": "sm-side-arc-labels",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Label Reader",
+        "cosmetic": "arc-hood-trim",
+        "xp": 90
+      },
+      "site": "substation",
+      "siteName": "Ridge Substation",
+      "summary": "Walk the line-up and study every arc-flash label.",
+      "title": "Every Door Has a Label",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1700,7 +2180,17 @@
         ]
       },
       "id": "sm-side-plant-delivery",
-      "kind": "quest"
+      "kind": "quest",
+      "reward": {
+        "badge": "Delivery Hand",
+        "cosmetic": "apron-teal",
+        "xp": 80
+      },
+      "site": "water-plant",
+      "siteName": "Valley Water Treatment Plant",
+      "summary": "Receive and unload the chemical delivery.",
+      "title": "The Morning Delivery",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1710,7 +2200,12 @@
         ]
       },
       "id": "sm-egg-tether-tools",
-      "kind": "egg"
+      "kind": "egg",
+      "site": "summit-lookout",
+      "siteName": "Summit Lookout",
+      "summary": "A field note: find it once its gate is open.",
+      "title": "Field Note — Summit Lookout",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1720,7 +2215,12 @@
         ]
       },
       "id": "sm-egg-fall-plan",
-      "kind": "egg"
+      "kind": "egg",
+      "site": "gondola-top",
+      "siteName": "Gondola Top Station",
+      "summary": "A field note: find it once its gate is open.",
+      "title": "Field Note — Gondola Top Station",
+      "world": "summit"
     },
     {
       "gate": {
@@ -1730,7 +2230,12 @@
         ]
       },
       "id": "sm-egg-spot-weather",
-      "kind": "egg"
+      "kind": "egg",
+      "site": "west-lookout",
+      "siteName": "West Ridge Lookout",
+      "summary": "A field note: find it once its gate is open.",
+      "title": "Field Note — West Ridge Lookout",
+      "world": "summit"
     }
   ],
   "SM_GONDOLA": [
@@ -1743,6 +2248,7 @@
       -1150
     ]
   ],
+  "SM_IMPOSTOR_RING": 2,
   "SM_LAKE": {
     "centre": [
       -700,
@@ -1843,7 +2349,7 @@
     }
   ],
   "SM_LOD_SEGMENTS": [
-    48,
+    32,
     24,
     12,
     8
@@ -1959,6 +2465,11 @@
           "target": "pass-road",
           "text": "Report to the pass road crew yard.",
           "type": "goto"
+        },
+        {
+          "target": "sm-ride-pass-descent",
+          "text": "Ride the switchbacks with the crew and set the engine brake at the pull-out.",
+          "type": "ride"
         },
         {
           "target": "drive-mountain-grade-and-engine-brake",
@@ -2082,8 +2593,24 @@
       700
     ],
     [
+      -240,
+      580
+    ],
+    [
+      280,
+      470
+    ],
+    [
+      -60,
+      360
+    ],
+    [
       300,
       300
+    ],
+    [
+      40,
+      150
     ],
     [
       450,
@@ -2116,33 +2643,138 @@
       760
     ]
   ],
+  "SM_RIDES": [
+    {
+      "advice": {
+        "stationId": "drive-mountain-grade-and-engine-brake",
+        "stepId": "drm-pullout",
+        "text": "The pull-out before a long grade is where the brakes are checked, while it is still easy to stop: the air pressure built and holding, the engine brake switched on so it is ready the moment you lift off the throttle, and the mirrors set to show the trailer tandems, because smoke from a hot brake shows there before you smell it."
+      },
+      "blurb": "Board the crew pickup at the yard. It climbs the switchbacks and stops at the pass saddle's pull-out: set the engine brake there (E) before it starts down to the tunnel portal. Setting it on the grade scores less; not setting it at all costs more than the arrival is worth.",
+      "from": "pass-road",
+      "id": "sm-ride-pass-descent",
+      "name": "Ride the Pass With the Crew",
+      "scoring": {
+        "arrive": 10,
+        "brakeAtPullout": 30,
+        "brakeLate": 10,
+        "noBrake": -25
+      },
+      "speed": 11,
+      "stopAt": "pass-summit",
+      "to": "tunnel-portal"
+    }
+  ],
+  "SM_RIVER": [
+    [
+      -560,
+      790
+    ],
+    [
+      -646,
+      913
+    ],
+    [
+      -789,
+      957
+    ],
+    [
+      -753,
+      1103
+    ],
+    [
+      -766,
+      1252
+    ],
+    [
+      -844,
+      1380
+    ],
+    [
+      -952,
+      1484
+    ],
+    [
+      -1075,
+      1571
+    ],
+    [
+      -1225,
+      1573
+    ],
+    [
+      -1224,
+      1723
+    ],
+    [
+      -1195,
+      1870
+    ],
+    [
+      -1278,
+      1995
+    ],
+    [
+      -1250,
+      2048
+    ]
+  ],
+  "SM_RIVER_CHANNEL": {
+    "corridor": 70,
+    "depth": 4,
+    "width": 22
+  },
+  "SM_RIVER_SURFACE": 1.6,
+  "SM_ROAD_LENGTH": 6932.04571909578,
+  "SM_ROAD_LENGTHS": [
+    0,
+    602.0797289396147,
+    1102.0797289396146,
+    1734.5352609732904,
+    2293.552255348238,
+    2561.8804126482128,
+    3093.387703284945,
+    3450.739070989058,
+    3815.704822806951,
+    4115.871443203024,
+    4623.906875038246,
+    5060.4844740971075,
+    5513.915836047293,
+    6154.228259790578,
+    6932.04571909578
+  ],
+  "SM_ROAD_MAX_GRADE": 0.125,
   "SM_ROAD_PROFILE": [
     [
       0,
       150
     ],
     [
-      0.28,
+      0.159,
       190
     ],
     [
-      0.45,
-      330
+      0.3309,
+      300
     ],
     [
-      0.62,
+      0.667,
+      510
+    ],
+    [
+      0.73,
       560
     ],
     [
-      0.7,
-      600
+      0.7589,
+      560
     ],
     [
-      0.8,
-      600
+      0.8387,
+      560
     ],
     [
-      0.9,
+      0.8878,
       520
     ],
     [
@@ -2584,11 +3216,16 @@
   ],
   "SM_SIZE": 4096,
   "SM_SNOWLINE": 900,
+  "SM_SNOW_ASPECT": 80,
   "SM_STREAM_RADIUS": {
     "balanced": 3,
     "high": 3,
     "low": 2
   },
+  "SM_SWITCHBACKS": [
+    4,
+    10
+  ],
   "SM_TRAILS": [
     {
       "id": "lookout-trail",
@@ -2698,9 +3335,19 @@
     "high": 2,
     "low": 1
   },
+  "SM_TREE_RING_FACTOR": [
+    1,
+    0.8,
+    0.28
+  ],
+  "SM_TRI": {
+    "backdrop": 18432,
+    "conifer": 38,
+    "impostor": 4
+  },
   "SM_TUNNEL_SPAN": [
-    0.7,
-    0.8
+    0.7589,
+    0.8387
   ],
   "SM_WATER_LEVEL": 369,
   "SM_ZONES": [

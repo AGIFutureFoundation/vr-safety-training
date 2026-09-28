@@ -417,11 +417,11 @@ rwTrailPts.forEach(([px, pz, trail], i) => {
 const SM_FL_SRC = rd("WebXR/shared/summit-data.js");
 const RW_FL_SRC = rd("WebXR/redwood/js/rw-lore-data.js");
 SM_FIELD_LESSONS.forEach((l) => {
-  if (!SM_FL_SRC.includes(`"${l.trade}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim`);
+  if (!SM_FL_SRC.includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim`);
   add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "summit", world: "Sierra Summit", area: "Field lessons",
     set: "field-scholar", how: "lesson", trigger: { world: "summit", lesson: l.id },
-    hint: "Take a field lesson at a landmark and answer its check question.", reveal: "scroll", lesson: l.trade, source: { file: "WebXR/shared/summit-data.js", text: true, lesson: l.id },
-    place: { id: l.place, stations: [l.station, l.k12] } });
+    hint: "Take a field lesson at a landmark and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: "WebXR/shared/summit-data.js", text: true, lesson: l.id },
+    place: { id: l.anchor?.id, stations: [l.station, l.tradeStation] } });
 });
 RW_FIELD_LESSONS.forEach((l) => {
   if (!RW_FL_SRC.includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim`);
@@ -503,8 +503,6 @@ export const TZ_SETS = ${JSON.stringify(SETS, null, 1)};
 export const TZ_TREASURES = ${JSON.stringify(T, null, 1)};
 
 /** The treasures behind a skill gate, in the shape tools/check_gates.mjs discovers (docs/skill-gates.md). A treasure stays hidden, so this carries its gate and name, never its place. */
-export const TZ_GATED = TZ_TREASURES.filter((t) => t.gate).map((t) => ({ id: t.id, kind: "treasure", world: t.surface === "deep" ? "underwater" : t.surface, title: t.name, gate: t.gate }));
-/** The gated treasures, for tools/check_gates.mjs (it discovers any exported \`…GATED…\` array). */
 export const TZ_GATED = ${JSON.stringify(GATED, null, 1)};
 
 /** The earlier egg layers the Treasure Map counts read-only from their own stores (never copied into the ledger). */

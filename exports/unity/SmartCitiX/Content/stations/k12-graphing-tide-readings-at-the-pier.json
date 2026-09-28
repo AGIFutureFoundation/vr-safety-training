@@ -188,7 +188,7 @@
       "time-up-the-side",
       "uneven-axis-steps"
     ],
-    "meshes": 275
+    "meshes": 233
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "A tide staff is a tall ruler fixed in the water, and a reading means nothing without three things: where the water surface meets the scale, what unit the scale is marked in, and the time you read it. Taking all three together is what turns looking at the water into data you can plot."
     },
     {
-      "cue": "Stand at the viewing rail before the technician switches on the staff camera.",
-      "id": "take-your-place-behind-the-rail",
-      "kind": "select",
-      "prompt": "Stand at the viewing rail before the technician switches on the staff camera.",
-      "target": "ktp-rail-card",
-      "title": "Take your place behind the rail",
-      "why": "A pier is a working edge above deep water, and the rail marks where visitors stop. Taking your place behind it first means the whole lesson can happen without anyone near the drop, which is the same habit harbour workers keep when they work to the edge only with the right equipment."
-    },
-    {
       "cue": "Record the readings, draw the axes, choose an even scale, then plot the points.",
       "id": "put-the-graphing-method-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "Recording the readings first, in a table with their times, means the graph is drawn from data and not from memory. Drawing and labelling the axes, choosing an even scale that fits the smallest and largest readings, and only then plotting each point keeps every point honest and the shape true."
     },
     {
-      "cue": "Hold your view level with the waterline on the camera feed until the ripples settle.",
-      "holdBreakNote": "The view tilted and the reading jumped. Look level again and let the ripples settle.",
-      "id": "read-the-staff-at-eye-level",
-      "kind": "hold",
-      "prompt": "Hold your view level with the waterline on the camera feed until the ripples settle.",
-      "seconds": 6,
-      "target": "ktp-eye-level",
-      "title": "Read the staff at eye level",
-      "why": "Looking at a scale from above or below makes the reading seem higher or lower than it is, which is called parallax. Holding your eye level with the waterline and waiting for the ripples to settle gives a reading that another person would agree with, and that is what makes data trustworthy."
+      "cue": "Stand at the viewing rail before the technician switches on the staff camera.",
+      "id": "take-your-place-behind-the-rail",
+      "kind": "select",
+      "prompt": "Stand at the viewing rail before the technician switches on the staff camera.",
+      "target": "ktp-rail-card",
+      "title": "Take your place behind the rail",
+      "why": "A pier is a working edge above deep water, and the rail marks where visitors stop. Taking your place behind it first means the whole lesson can happen without anyone near the drop, which is the same habit harbour workers keep when they work to the edge only with the right equipment."
     },
     {
       "cue": "Turn the axis dial until time runs along the bottom and height runs up the side.",
@@ -303,6 +292,17 @@
       "why": "Plotting means finding the time along the bottom, going straight up to the reading's height, and marking there. Stopping exactly at the height the table shows, not roughly near it, is what keeps the line honest when the points are joined."
     },
     {
+      "cue": "Hold your view level with the waterline on the camera feed until the ripples settle.",
+      "holdBreakNote": "The view tilted and the reading jumped. Look level again and let the ripples settle.",
+      "id": "read-the-staff-at-eye-level",
+      "kind": "hold",
+      "prompt": "Hold your view level with the waterline on the camera feed until the ripples settle.",
+      "seconds": 6,
+      "target": "ktp-eye-level",
+      "title": "Read the staff at eye level",
+      "why": "Looking at a scale from above or below makes the reading seem higher or lower than it is, which is called parallax. Holding your eye level with the waterline and waiting for the ripples to settle gives a reading that another person would agree with, and that is what makes data trustworthy."
+    },
+    {
       "cue": "Drag the marker along the bottom to the time the reading was taken.",
       "drag": {
         "missNote": "Not at its time yet. Slide it along the bottom to the time in the table.",
@@ -315,15 +315,6 @@
       "target": "ktp-time-marker",
       "title": "Place the point at its time",
       "why": "A point sits where its time and its height meet. Placing it at the time the reading was actually taken, not at the next free space, keeps the gaps between readings true, so that a graph with readings taken at uneven times still shows the tide's real shape."
-    },
-    {
-      "cue": "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
-      "id": "say-what-the-graph-shows",
-      "kind": "select",
-      "prompt": "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
-      "target": "ktp-compare-card",
-      "title": "Say what the graph shows",
-      "why": "A line going up from left to right means the height grew as time went on; going down means it fell. Describing the pattern in words, and pointing to the part of the graph that shows it, is reading a graph rather than just drawing one."
     },
     {
       "cue": "Look at the draft graph and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's tide graph",
       "why": "Line graphs go wrong in a few familiar ways: an axis with no label, a scale whose steps are not even, and a point plotted at the wrong time. Spotting them on someone else's graph trains the eye that checks your own before it is shared."
+    },
+    {
+      "cue": "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
+      "id": "say-what-the-graph-shows",
+      "kind": "select",
+      "prompt": "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
+      "target": "ktp-compare-card",
+      "title": "Say what the graph shows",
+      "why": "A line going up from left to right means the height grew as time went on; going down means it fell. Describing the pattern in words, and pointing to the part of the graph that shows it, is reading a graph rather than just drawing one."
     },
     {
       "cue": "Keep the marker on the waterline as the water moves up and down the staff.",
@@ -399,7 +399,7 @@
       "prompt": "How did the readings and the graph go? What would you change next time?",
       "target": "ktp-checkin",
       "title": "Check in at the end of the visit",
-      "why": "Ending with a check-in lets each learner say what made sense and what did not, and lets the teacher plan the next lesson around it. It is not a test; it is a moment to notice what you can now do with a graph, and a trusted adult is there if anything was hard."
+      "why": "The pier crew closes every shift by reading the day's log back together, so the class does the same with its tide graph. Each learner points to one reading they plotted and says what the curve told them; a puzzled face here is worth more than a tidy chart, because it shows where the graph still needs explaining."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

@@ -188,7 +188,7 @@
       "one-voice-decides",
       "wet-floor-sprint"
     ],
-    "meshes": 275
+    "meshes": 297
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "Teams work well when everyone knows the shared goal, each person has a clear role, and there are agreed ways to talk, like taking turns and listening. Finding those three on the team board shows that good teamwork is built on purpose, not left to luck."
     },
     {
-      "cue": "Read the coach's card: walk round the cone, never across a wet court.",
-      "id": "walk-round-the-wet-patch",
-      "kind": "select",
-      "prompt": "Read the coach's card: walk round the cone, never across a wet court.",
-      "target": "ktf-wet-card",
-      "title": "Walk round the wet patch",
-      "why": "A wet patch on a sports floor is as slippery as ice. Walking round the cone and letting the coach dry it is the rule every team follows, because an injured teammate helps nobody, and looking after each other is where teamwork starts. A wet patch is also a test of the team: the one who stops to warn others is doing the team's work."
-    },
-    {
       "cue": "Ask if they want feedback, name something specific, suggest one next step, then listen.",
       "id": "put-the-feedback-steps-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "Asking first makes feedback something offered, not forced. Naming something specific that went well, suggesting one clear next step and then listening to their reply keeps feedback useful and kind, and it is the pattern good coaches use every day. Skipping the listening step turns feedback into a lecture, and people stop hearing lectures quickly."
     },
     {
-      "cue": "Stay quiet and listen fully until your teammate has finished.",
-      "holdBreakNote": "You jumped in before they finished. Let them finish, then reply.",
-      "id": "hold-your-reply-while-a-teammate",
-      "kind": "hold",
-      "prompt": "Stay quiet and listen fully until your teammate has finished.",
-      "seconds": 6,
-      "target": "ktf-listen-hold",
-      "title": "Hold your reply while a teammate speaks",
-      "why": "Waiting until someone has finished, instead of planning your answer while they talk, is what listening really means. It shows respect, it means you hear the whole idea, and it often changes what you were going to say. People can tell when they are really being listened to, and it makes them more willing to listen back."
+      "cue": "Read the coach's card: walk round the cone, never across a wet court.",
+      "id": "walk-round-the-wet-patch",
+      "kind": "select",
+      "prompt": "Read the coach's card: walk round the cone, never across a wet court.",
+      "target": "ktf-wet-card",
+      "title": "Walk round the wet patch",
+      "why": "A wet patch on a sports floor is as slippery as ice. Walking round the cone and letting the coach dry it is the rule every team follows, because an injured teammate helps nobody, and looking after each other is where teamwork starts. A wet patch is also a test of the team: the one who stops to warn others is doing the team's work."
     },
     {
       "cue": "Turn the role wheel so each teammate gets a different job this round.",
@@ -303,6 +292,17 @@
       "why": "Feedback that is too vague helps nobody, and feedback that is harsh makes people stop listening. Aiming for specific and kind, the middle of the band, gives your teammate something clear to work on and the confidence to try it. The same words can land as help or as criticism depending on how they are said, so tone matters."
     },
     {
+      "cue": "Stay quiet and listen fully until your teammate has finished.",
+      "holdBreakNote": "You jumped in before they finished. Let them finish, then reply.",
+      "id": "hold-your-reply-while-a-teammate",
+      "kind": "hold",
+      "prompt": "Stay quiet and listen fully until your teammate has finished.",
+      "seconds": 6,
+      "target": "ktf-listen-hold",
+      "title": "Hold your reply while a teammate speaks",
+      "why": "Waiting until someone has finished, instead of planning your answer while they talk, is what listening really means. It shows respect, it means you hear the whole idea, and it often changes what you were going to say. People can tell when they are really being listened to, and it makes them more willing to listen back."
+    },
+    {
       "cue": "Drag the specific, kind feedback card to your teammate's spot.",
       "drag": {
         "missNote": "Not given yet. Take the specific, kind card to your teammate.",
@@ -315,15 +315,6 @@
       "target": "ktf-feedback-token",
       "title": "Choose a helpful feedback card",
       "why": "A card that says what went well and one thing to try next gives your teammate a clear way forward. Choosing it over a vague or harsh card is practising exactly the words that make feedback land well."
-    },
-    {
-      "cue": "Say what you do when someone gives you feedback, even if you disagree.",
-      "id": "say-how-to-receive-feedback-well",
-      "kind": "select",
-      "prompt": "Say what you do when someone gives you feedback, even if you disagree.",
-      "target": "ktf-compare-card",
-      "title": "Say how to receive feedback well",
-      "why": "Receiving feedback well means listening, asking a question to understand and thanking the person, then deciding what to use. Saying that aloud builds the habit, and it is one of the most valuable skills in school, sport and work. Nobody has to agree with every piece of feedback, but hearing it fully before deciding is fair to both people."
     },
     {
       "cue": "Look at the practice team talk and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a practice team talk",
       "why": "Team talks go wrong in familiar ways: feedback aimed at the person, a quiet teammate never asked and a decision made by the loudest voice. Spotting them in a practice talk helps you notice and fix them in real ones."
+    },
+    {
+      "cue": "Say what you do when someone gives you feedback, even if you disagree.",
+      "id": "say-how-to-receive-feedback-well",
+      "kind": "select",
+      "prompt": "Say what you do when someone gives you feedback, even if you disagree.",
+      "target": "ktf-compare-card",
+      "title": "Say how to receive feedback well",
+      "why": "Receiving feedback well means listening, asking a question to understand and thanking the person, then deciding what to use. Saying that aloud builds the habit, and it is one of the most valuable skills in school, sport and work. Nobody has to agree with every piece of feedback, but hearing it fully before deciding is fair to both people."
     },
     {
       "cue": "Keep the discussion's temperature in the calm band as teammates disagree.",
@@ -399,7 +399,7 @@
       "prompt": "How did working as a team feel today? What would you do differently?",
       "target": "ktf-checkin",
       "title": "Check in at the end of the session",
-      "why": "A check-in lets every learner say how teamwork felt for them, which may be different for quiet and loud members, and helps the coach and teacher support everyone. It is not marked, and a trusted adult is always there to talk to. Some people find group work easy and others find it tiring, and both are normal things to say out loud."
+      "why": "The arena crew ends a shift with a huddle, so the class ends with one: each learner says what the team did well and what they personally would change. Practising that in front of the group, with no blame in it, is the whole of the lesson, and the coach can hear which teams found their voice."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

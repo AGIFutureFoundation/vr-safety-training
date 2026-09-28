@@ -291,8 +291,19 @@ for (const world of ["bayworld", "underwater"]) {
   const RWL = await import("../WebXR/redwood/js/rw-lore-data.js");
   const smAnchors = new Set([...SM.SM_SITES.map((s) => s.id), ...SM.SM_LANDMARKS.map((l) => l.id)]);
   const rwSites = new Set(RWD.RW_SITES.map((s) => s.id)), rwLandmarks = new Set(RWD.RW_LANDMARKS.map((l) => l.id));
+  // Summit's own schema (site/landmark under `anchor`, the k12 link under
+  // `station`, the trade station under `tradeStation`, the question under
+  // `check.question`) predates this shared place/k12/station/check.q shape;
+  // normalise here rather than fork the checks below.
+  const smLessons = SM.SM_FIELD_LESSONS.map((l) => ({
+    ...l,
+    place: l.anchor?.id,
+    k12: l.station,
+    station: l.tradeStation,
+    check: l.check ? { ...l.check, q: l.check.question } : l.check,
+  }));
   const worlds = [
-    ["summit", SM.SM_FIELD_LESSONS, (l) => (smAnchors.has(l.place) ? [] : [`place ${l.place} is not a Summit site or landmark`]), (l) => l.check?.choices],
+    ["summit", smLessons, (l) => (smAnchors.has(l.place) ? [] : [`place ${l.place} is not a Summit site or landmark`]), (l) => l.check?.options],
     ["redwood", RWL.RW_FIELD_LESSONS, (l) => [...(rwSites.has(l.site) ? [] : [`site ${l.site} is not a Redwood site`]), ...(l.landmark && !rwLandmarks.has(l.landmark) ? [`landmark ${l.landmark} is not a Redwood landmark`] : [])], (l) => l.check?.options],
   ];
   let digits = 0;

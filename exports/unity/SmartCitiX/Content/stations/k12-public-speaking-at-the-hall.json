@@ -188,7 +188,7 @@
       "read-the-script-word-for-word",
       "step-back-to-the-edge"
     ],
-    "meshes": 275
+    "meshes": 297
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "A slow breath before speaking calms your heartbeat and steadies your voice. Standing still for that moment also signals to the audience that you are about to begin, and it gives you time to find your first line instead of rushing into it."
     },
     {
+      "cue": "Say why a talk with one clear message is remembered better than one with many.",
+      "id": "say-why-one-message-beats-many",
+      "kind": "select",
+      "prompt": "Say why a talk with one clear message is remembered better than one with many.",
+      "target": "kpk-compare-card",
+      "title": "Say why one message beats many",
+      "why": "Listeners cannot flip back a page, so they remember what is clear and repeated. One message, supported and repeated, gives them something to take home; many messages compete and are lost. Saying why is understanding how talks work."
+    },
+    {
+      "cue": "Look at the draft talk plan and mark each problem.",
+      "decoyNotes": {
+        "kpk-tp-opening": "A question is a good opening. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kpk-tp-ending": "an ending that just stops",
+        "kpk-tp-no-message": "no clear message",
+        "kpk-tp-script": "a full script to read"
+      },
+      "itemNotes": {
+        "kpk-tp-ending": "End by repeating the message.",
+        "kpk-tp-no-message": "Choose one thing to remember.",
+        "kpk-tp-script": "Use key-word cards instead."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft talk plan and mark each problem.",
+      "targets": [
+        "kpk-tp-no-message",
+        "kpk-tp-script",
+        "kpk-tp-ending"
+      ],
+      "title": "Spot the problems in a classmate's talk plan",
+      "why": "Talk plans go wrong in familiar ways: no clear message, a full script to read and an ending that stops without repeating the point. Spotting them in someone else's plan helps you build a stronger one of your own."
+    },
+    {
       "cue": "Turn so you face the middle of the audience, not the teacher or the wall.",
       "id": "turn-to-face-the-whole-audience",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kpk-card-token",
       "title": "Put the prompt card in your hand",
       "why": "A prompt card with a few key words keeps your place while letting you look up. Leaving the full script behind stops the temptation to read, and it is what experienced speakers do so that they talk to people rather than to paper."
-    },
-    {
-      "cue": "Say why a talk with one clear message is remembered better than one with many.",
-      "id": "say-why-one-message-beats-many",
-      "kind": "select",
-      "prompt": "Say why a talk with one clear message is remembered better than one with many.",
-      "target": "kpk-compare-card",
-      "title": "Say why one message beats many",
-      "why": "Listeners cannot flip back a page, so they remember what is clear and repeated. One message, supported and repeated, gives them something to take home; many messages compete and are lost. Saying why is understanding how talks work."
-    },
-    {
-      "cue": "Look at the draft talk plan and mark each problem.",
-      "decoyNotes": {
-        "kpk-tp-opening": "A question is a good opening. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmates",
-      "itemNames": {
-        "kpk-tp-ending": "an ending that just stops",
-        "kpk-tp-no-message": "no clear message",
-        "kpk-tp-script": "a full script to read"
-      },
-      "itemNotes": {
-        "kpk-tp-ending": "End by repeating the message.",
-        "kpk-tp-no-message": "Choose one thing to remember.",
-        "kpk-tp-script": "Use key-word cards instead."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft talk plan and mark each problem.",
-      "targets": [
-        "kpk-tp-no-message",
-        "kpk-tp-script",
-        "kpk-tp-ending"
-      ],
-      "title": "Spot the problems in a classmate's talk plan",
-      "why": "Talk plans go wrong in familiar ways: no clear message, a full script to read and an ending that stops without repeating the point. Spotting them in someone else's plan helps you build a stronger one of your own."
     },
     {
       "cue": "Keep your speaking pace in the band, not rushing as nerves build.",
@@ -399,7 +399,7 @@
       "prompt": "How did it feel to speak? What would help you next time?",
       "target": "kpk-checkin",
       "title": "Check in at the end of the rehearsal",
-      "why": "A check-in lets each speaker say how it felt, which matters as much as how it sounded, and lets the teacher support anyone who found it hard. It is not marked, and anyone who felt anxious can talk to the teacher or a trusted adult."
+      "why": "Every performer gets notes after a run, so each learner leaves the stage with one thing that landed and one thing to work on next time, said kindly and specifically. Hearing the notes given well is itself the lesson in feedback, and the theatre's stage manager can see who is ready to speak again."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

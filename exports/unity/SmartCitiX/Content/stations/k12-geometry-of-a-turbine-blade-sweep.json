@@ -188,7 +188,7 @@
       "kbs-wk-unit",
       "walk-to-the-turbine-base"
     ],
-    "meshes": 275
+    "meshes": 235
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "The radius runs from the centre of the hub, not from its edge, to the very tip of the blade. Holding the tape straight along that line until the reading steadies gives the true radius; starting at the hub's edge quietly shortens every answer that follows."
     },
     {
+      "cue": "Say how the swept area changes if the blade is twice as long, and why.",
+      "id": "say-what-happens-when-the-blade",
+      "kind": "select",
+      "prompt": "Say how the swept area changes if the blade is twice as long, and why.",
+      "target": "kbs-compare-card",
+      "title": "Say what happens when the blade doubles",
+      "why": "Doubling the radius makes the area four times larger, because area depends on the radius multiplied by itself. Saying why, not just the answer, is the understanding engineers use when they explain why longer blades catch so much more of the wind."
+    },
+    {
+      "cue": "Look at the draft calculation and mark each problem.",
+      "decoyNotes": {
+        "kbs-wk-drawing": "A labelled drawing is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kbs-wk-diameter": "the blade used as the diameter",
+        "kbs-wk-formula": "the circumference formula used for area",
+        "kbs-wk-unit": "an area with a plain length unit"
+      },
+      "itemNotes": {
+        "kbs-wk-diameter": "The blade is the radius.",
+        "kbs-wk-formula": "Match the formula to the question.",
+        "kbs-wk-unit": "Area needs a square unit."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft calculation and mark each problem.",
+      "targets": [
+        "kbs-wk-diameter",
+        "kbs-wk-unit",
+        "kbs-wk-formula"
+      ],
+      "title": "Spot the problems in a classmate's working",
+      "why": "Circle calculations go wrong in the same few ways: the blade used as the diameter, an area given in a plain length unit, and the circumference formula used for area. Spotting them on another page trains you to check your own before you hand it in."
+    },
+    {
       "cue": "Turn the model rotor slowly so one tip traces the whole circle.",
       "id": "turn-the-rotor-through-a-full",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kbs-radius-token",
       "title": "Place the radius on the drawing",
       "why": "Drawing the radius in the right place, centre to edge, is the step that stops the blade-as-diameter mistake. A labelled drawing also shows anyone checking your work exactly which length you used, before they look at a single number."
-    },
-    {
-      "cue": "Say how the swept area changes if the blade is twice as long, and why.",
-      "id": "say-what-happens-when-the-blade",
-      "kind": "select",
-      "prompt": "Say how the swept area changes if the blade is twice as long, and why.",
-      "target": "kbs-compare-card",
-      "title": "Say what happens when the blade doubles",
-      "why": "Doubling the radius makes the area four times larger, because area depends on the radius multiplied by itself. Saying why, not just the answer, is the understanding engineers use when they explain why longer blades catch so much more of the wind."
-    },
-    {
-      "cue": "Look at the draft calculation and mark each problem.",
-      "decoyNotes": {
-        "kbs-wk-drawing": "A labelled drawing is good practice. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmates",
-      "itemNames": {
-        "kbs-wk-diameter": "the blade used as the diameter",
-        "kbs-wk-formula": "the circumference formula used for area",
-        "kbs-wk-unit": "an area with a plain length unit"
-      },
-      "itemNotes": {
-        "kbs-wk-diameter": "The blade is the radius.",
-        "kbs-wk-formula": "Match the formula to the question.",
-        "kbs-wk-unit": "Area needs a square unit."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft calculation and mark each problem.",
-      "targets": [
-        "kbs-wk-diameter",
-        "kbs-wk-unit",
-        "kbs-wk-formula"
-      ],
-      "title": "Spot the problems in a classmate's working",
-      "why": "Circle calculations go wrong in the same few ways: the blade used as the diameter, an area given in a plain length unit, and the circumference formula used for area. Spotting them on another page trains you to check your own before you hand it in."
     },
     {
       "cue": "Keep the pointer on the blade tip as the model rotor turns.",
@@ -399,7 +399,7 @@
       "prompt": "What made sense about circles today, and what still feels tricky?",
       "target": "kbs-checkin",
       "title": "Check in at the end of the visit",
-      "why": "A check-in at the end gives every learner a chance to say what clicked and what did not, so the teacher knows where to start next time. Nobody is marked on it, and the teacher or a trusted adult is there for anyone who found the lesson hard."
+      "why": "Standing under a rotor, the group finishes by describing the circle a blade draws and what happened to the swept area when the blade grew. Whoever leads the visit listens for the learners who can explain radius and area with their hands and the ones who need to see the model turn once more."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

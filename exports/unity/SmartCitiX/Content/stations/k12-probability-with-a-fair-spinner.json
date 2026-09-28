@@ -188,7 +188,7 @@
       "kfs-track-meter",
       "spin-near-the-guy-ropes"
     ],
-    "meshes": 275
+    "meshes": 235
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "A spinner is fair when every part is the same size, the pointer turns freely and nothing makes it stop in one place more than another. Checking those three before predicting anything means the maths describes the real spinner, not a spinner you are imagining."
     },
     {
-      "cue": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
-      "id": "agree-what-the-prizes-are",
-      "kind": "select",
-      "prompt": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
-      "target": "kfs-prize-card",
-      "title": "Agree what the prizes are",
-      "why": "This lesson is about how chance works, so the stall uses stickers and nobody pays or loses anything. Being clear about that from the start matters, because the same maths explains why games where money is at stake are built so that, over time, the players lose."
-    },
-    {
       "cue": "Check the spinner, predict, spin and tally, then compare.",
       "id": "put-the-experiment-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "Checking the spinner first and writing a prediction before spinning keeps the experiment honest, because you cannot change the prediction to match the result. Spinning and tallying many times, and only then comparing, is how any probability experiment is run, from a classroom to a lab."
     },
     {
-      "cue": "Hold the spinner board steady and level while the pointer turns.",
-      "holdBreakNote": "The board tipped while the pointer turned. Set it level and hold it again.",
-      "id": "hold-the-board-level-while-it",
-      "kind": "hold",
-      "prompt": "Hold the spinner board steady and level while the pointer turns.",
-      "seconds": 6,
-      "target": "kfs-hold-board",
-      "title": "Hold the board level while it spins",
-      "why": "If the board tilts, the pointer tends to settle at the lowest point, and the spinner stops being fair even if its parts are equal. Holding it level while it turns is part of running a fair test, the same as keeping any other condition the same between trials."
+      "cue": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
+      "id": "agree-what-the-prizes-are",
+      "kind": "select",
+      "prompt": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
+      "target": "kfs-prize-card",
+      "title": "Agree what the prizes are",
+      "why": "This lesson is about how chance works, so the stall uses stickers and nobody pays or loses anything. Being clear about that from the start matters, because the same maths explains why games where money is at stake are built so that, over time, the players lose."
     },
     {
       "cue": "Turn the pointer firmly so it goes round more than once before it stops.",
@@ -303,6 +292,17 @@
       "why": "A result only counts once you can see which part the pointer's tip sits in. If it lands on a line, the stall's rule is to spin again, decided before the game starts, so that nobody chooses the result they would prefer."
     },
     {
+      "cue": "Hold the spinner board steady and level while the pointer turns.",
+      "holdBreakNote": "The board tipped while the pointer turned. Set it level and hold it again.",
+      "id": "hold-the-board-level-while-it",
+      "kind": "hold",
+      "prompt": "Hold the spinner board steady and level while the pointer turns.",
+      "seconds": 6,
+      "target": "kfs-hold-board",
+      "title": "Hold the board level while it spins",
+      "why": "If the board tilts, the pointer tends to settle at the lowest point, and the spinner stops being fair even if its parts are equal. Holding it level while it turns is part of running a fair test, the same as keeping any other condition the same between trials."
+    },
+    {
       "cue": "Drag the tally mark to the row for the part the pointer stopped on.",
       "drag": {
         "missNote": "Not in its row yet. Put the mark beside the part the pointer landed on.",
@@ -315,15 +315,6 @@
       "target": "kfs-tally-token",
       "title": "Add the result to the tally",
       "why": "A tally is a running record, one mark per spin in the row it belongs to. Putting each mark in the right row as it happens, rather than trying to remember a string of results, is what makes the final count something you can trust."
-    },
-    {
-      "cue": "The spinner has equal parts. Say the chance of one of them as a fraction.",
-      "id": "say-the-chance-of-landing-on",
-      "kind": "select",
-      "prompt": "The spinner has equal parts. Say the chance of one of them as a fraction.",
-      "target": "kfs-compare-card",
-      "title": "Say the chance of landing on one part",
-      "why": "With equal parts, the chance of one part is one out of the number of parts, written as a fraction. Saying it as a fraction, and why, links probability to the fractions you already know and gives a prediction you can test."
     },
     {
       "cue": "Look at the draft experiment report and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's report",
       "why": "Probability reports go wrong in a few familiar ways: a prediction written after the spins, a conclusion drawn from too few trials and an outcome called due. Spotting them in another report is how you learn to write a conclusion that the evidence actually supports."
+    },
+    {
+      "cue": "The spinner has equal parts. Say the chance of one of them as a fraction.",
+      "id": "say-the-chance-of-landing-on",
+      "kind": "select",
+      "prompt": "The spinner has equal parts. Say the chance of one of them as a fraction.",
+      "target": "kfs-compare-card",
+      "title": "Say the chance of landing on one part",
+      "why": "With equal parts, the chance of one part is one out of the number of parts, written as a fraction. Saying it as a fraction, and why, links probability to the fractions you already know and gives a prediction you can test."
     },
     {
       "cue": "Keep up with the spins, marking each one as it lands.",
@@ -399,7 +399,7 @@
       "prompt": "What surprised you about the spins? What would you test next?",
       "target": "kfs-checkin",
       "title": "Check in at the end of the lesson",
-      "why": "A check-in lets each learner say what surprised them and what still feels strange about chance, which is often the most useful thing for a teacher to hear. It is not marked, and anyone who wants to talk more can go to the teacher or a trusted adult."
+      "why": "The stall closes with the class comparing what they expected the spinner to do with what it did. That gap between the guess and the tally is the whole lesson in chance, and hearing classmates describe it in their own words helps the ones who still think a spinner remembers its last spin."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

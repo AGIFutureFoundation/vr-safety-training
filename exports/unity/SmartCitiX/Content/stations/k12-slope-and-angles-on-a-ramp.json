@@ -188,7 +188,7 @@
       "mix-the-units",
       "steeper-is-just-quicker"
     ],
-    "meshes": 275
+    "meshes": 235
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "The run is measured along level ground, so the base has to be level before any length means anything. A spirit level's bubble sits in the middle only when the surface is flat, and holding it still until it settles is how setters-out on a real site start every ramp and every floor."
     },
     {
+      "cue": "Two ramps climb the same rise; one has a longer run. Say which is steeper, and why.",
+      "id": "say-which-ramp-is-steeper",
+      "kind": "select",
+      "prompt": "Two ramps climb the same rise; one has a longer run. Say which is steeper, and why.",
+      "target": "ksr-compare-card",
+      "title": "Say which ramp is steeper",
+      "why": "For the same rise, a longer run means a smaller rise for each step along, so the ramp with the longer run is gentler. Saying why, in terms of rise for each step along, is the understanding that lets you compare any two slopes without drawing them."
+    },
+    {
+      "cue": "Look at the draft slope calculation and mark each problem.",
+      "decoyNotes": {
+        "ksr-sl-sketch": "A labelled sketch is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "ksr-sl-sloping": "the sloping length used as the run",
+        "ksr-sl-units": "a rise and a run in different units",
+        "ksr-sl-upside": "the run divided by the rise"
+      },
+      "itemNotes": {
+        "ksr-sl-sloping": "The run is measured flat along the ground.",
+        "ksr-sl-units": "Same unit before you divide.",
+        "ksr-sl-upside": "Slope is rise over run."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft slope calculation and mark each problem.",
+      "targets": [
+        "ksr-sl-upside",
+        "ksr-sl-units",
+        "ksr-sl-sloping"
+      ],
+      "title": "Spot the problems in a classmate's slope sheet",
+      "why": "Slope calculations go wrong in the same few ways: the fraction written upside down, two lengths in different units, and the sloping length used in place of the run. Finding them in someone else's working is practice at checking your own before it goes to anyone who will build from it."
+    },
+    {
       "cue": "Turn the dial until the model ramp matches the angle on the drawing.",
       "id": "turn-the-model-ramp-to-the",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "ksr-rod",
       "title": "Place the measuring rod along the run",
       "why": "The run is the horizontal distance, measured flat along the ground under the ramp, not the sloping length up its surface. The sloping length is always a little longer, and using it instead of the run makes a ramp look gentler than it is, which is the wrong way to be wrong."
-    },
-    {
-      "cue": "Two ramps climb the same rise; one has a longer run. Say which is steeper, and why.",
-      "id": "say-which-ramp-is-steeper",
-      "kind": "select",
-      "prompt": "Two ramps climb the same rise; one has a longer run. Say which is steeper, and why.",
-      "target": "ksr-compare-card",
-      "title": "Say which ramp is steeper",
-      "why": "For the same rise, a longer run means a smaller rise for each step along, so the ramp with the longer run is gentler. Saying why, in terms of rise for each step along, is the understanding that lets you compare any two slopes without drawing them."
-    },
-    {
-      "cue": "Look at the draft slope calculation and mark each problem.",
-      "decoyNotes": {
-        "ksr-sl-sketch": "A labelled sketch is good practice. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmates",
-      "itemNames": {
-        "ksr-sl-sloping": "the sloping length used as the run",
-        "ksr-sl-units": "a rise and a run in different units",
-        "ksr-sl-upside": "the run divided by the rise"
-      },
-      "itemNotes": {
-        "ksr-sl-sloping": "The run is measured flat along the ground.",
-        "ksr-sl-units": "Same unit before you divide.",
-        "ksr-sl-upside": "Slope is rise over run."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft slope calculation and mark each problem.",
-      "targets": [
-        "ksr-sl-upside",
-        "ksr-sl-units",
-        "ksr-sl-sloping"
-      ],
-      "title": "Spot the problems in a classmate's slope sheet",
-      "why": "Slope calculations go wrong in the same few ways: the fraction written upside down, two lengths in different units, and the sloping length used in place of the run. Finding them in someone else's working is practice at checking your own before it goes to anyone who will build from it."
     },
     {
       "cue": "Hold the model's slope inside the band as the engineer adds weight to the top.",
@@ -399,7 +399,7 @@
       "prompt": "How did the slope work go? What was hard, and what would you try next time?",
       "target": "ksr-checkin",
       "title": "Check in at the end of the visit",
-      "why": "A short check-in at the end tells the teacher who is confident and who wants another go, and gives every learner a moment to notice what they learned about slope and angle. Nobody is graded here, and the teacher or a trusted adult is there for anyone who wants to talk it through."
+      "why": "Before the group leaves the visitor bay, everyone names the measurement that surprised them and the one they would take again more carefully. Saying it out loud fixes the idea of rise over run far better than a worksheet, and it shows the site supervisor which learners want another turn at the model ramp."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

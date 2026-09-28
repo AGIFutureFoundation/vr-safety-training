@@ -188,7 +188,7 @@
       "stay-out-with-thunder",
       "wind-named-by-where-it-goes"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "Describing the weather properly means reading the sky and the instruments together: the kind of cloud, which way the wind is coming from, and what the station's displays show. Each one alone can mislead; all three together give a description another observer would recognise."
     },
     {
-      "cue": "Read the lab's rule on the card: if you hear thunder, go indoors.",
-      "id": "learn-the-field-labs-lightning-rule",
-      "kind": "select",
-      "prompt": "Read the lab's rule on the card: if you hear thunder, go indoors.",
-      "target": "kws-lightning-card",
-      "title": "Learn the field lab's lightning rule",
-      "why": "Lightning can strike well away from the storm cloud, so waiting until it is overhead is too late. The simple rule, hear thunder and go inside, is the one weather services and outdoor workers use, and knowing it before the lesson starts means nobody has to think in a hurry."
-    },
-    {
       "cue": "Look at the sky, read the wind, read the instruments, then write the observation.",
       "id": "put-the-observation-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "Looking at the sky first gives the big picture, the wind shows what is coming, and the instruments put careful measurements to both. Writing the observation last, in the same order every time, makes records from different days easy to compare, which is how patterns are spotted."
     },
     {
-      "cue": "Hold the compass flat and still beside the windsock until the needle settles.",
-      "holdBreakNote": "The compass tilted and the needle stuck. Hold it flat and let it settle.",
-      "id": "hold-the-compass-steady-to-read",
-      "kind": "hold",
-      "prompt": "Hold the compass flat and still beside the windsock until the needle settles.",
-      "seconds": 6,
-      "target": "kws-compass",
-      "title": "Hold the compass steady to read the wind",
-      "why": "A compass needle swings before it settles, and a tilted compass can stick. Holding it flat and still beside the windsock gives the direction the wind is coming from, which is the single most useful clue to what the next few hours will bring."
+      "cue": "Read the lab's rule on the card: if you hear thunder, go indoors.",
+      "id": "learn-the-field-labs-lightning-rule",
+      "kind": "select",
+      "prompt": "Read the lab's rule on the card: if you hear thunder, go indoors.",
+      "target": "kws-lightning-card",
+      "title": "Learn the field lab's lightning rule",
+      "why": "Lightning can strike well away from the storm cloud, so waiting until it is overhead is too late. The simple rule, hear thunder and go inside, is the one weather services and outdoor workers use, and knowing it before the lesson starts means nobody has to think in a hurry."
     },
     {
       "cue": "Turn the arrow on the weather chart to show where the wind is coming from.",
@@ -303,6 +292,17 @@
       "why": "The water in a rain gauge curves slightly at the edge, and reading it from above or below gives the wrong amount. Reading at eye level, at the flat middle of the surface, is the same care scientists take with any measuring cylinder."
     },
     {
+      "cue": "Hold the compass flat and still beside the windsock until the needle settles.",
+      "holdBreakNote": "The compass tilted and the needle stuck. Hold it flat and let it settle.",
+      "id": "hold-the-compass-steady-to-read",
+      "kind": "hold",
+      "prompt": "Hold the compass flat and still beside the windsock until the needle settles.",
+      "seconds": 6,
+      "target": "kws-compass",
+      "title": "Hold the compass steady to read the wind",
+      "why": "A compass needle swings before it settles, and a tilted compass can stick. Holding it flat and still beside the windsock gives the direction the wind is coming from, which is the single most useful clue to what the next few hours will bring."
+    },
+    {
       "cue": "Drag the tall heaped cloud card to the weather it can bring.",
       "drag": {
         "missNote": "Not matched yet. Tall heaped clouds bring showers and thunder.",
@@ -315,15 +315,6 @@
       "target": "kws-cloud-token",
       "title": "Match the cloud to its weather",
       "why": "Tall, heaped clouds that build upwards through the day can bring heavy showers and thunder; flat grey sheets tend to bring steady drizzle. Matching cloud to weather is forecasting at its simplest, and it has helped sailors and farmers long before any instrument."
-    },
-    {
-      "cue": "Say what weather is, what climate is, and why one day cannot show a climate.",
-      "id": "say-the-difference-between-weather-and",
-      "kind": "select",
-      "prompt": "Say what weather is, what climate is, and why one day cannot show a climate.",
-      "target": "kws-compare-card",
-      "title": "Say the difference between weather and climate",
-      "why": "Weather is what happens today; climate is the pattern of weather over many years. Being able to say that clearly, and why one day is not enough, is what lets you make sense of news about climate without being fooled by a single hot or cold spell."
     },
     {
       "cue": "Look at the draft weather log and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's weather log",
       "why": "Weather logs go wrong in predictable ways: a wind named by where it goes, a reading with no time, and one day's weather used to judge the climate. Spotting them in a classmate's log is practice for keeping your own records useful."
+    },
+    {
+      "cue": "Say what weather is, what climate is, and why one day cannot show a climate.",
+      "id": "say-the-difference-between-weather-and",
+      "kind": "select",
+      "prompt": "Say what weather is, what climate is, and why one day cannot show a climate.",
+      "target": "kws-compare-card",
+      "title": "Say the difference between weather and climate",
+      "why": "Weather is what happens today; climate is the pattern of weather over many years. Being able to say that clearly, and why one day is not enough, is what lets you make sense of news about climate without being fooled by a single hot or cold spell."
     },
     {
       "cue": "Keep the marker with the wind speed as the gusts rise and fall.",
@@ -399,7 +399,7 @@
       "prompt": "What will you notice about the sky on the way home? What was hard today?",
       "target": "kws-checkin",
       "title": "Check in at the end of the lesson",
-      "why": "A check-in helps every learner connect the lesson to the sky they walk under every day, and lets the teacher hear what needs going over again. It is not marked, and the teacher or a trusted adult is there for anyone who wants to talk."
+      "why": "At the field lab's door the class reviews the readings against the sky it watched, and each learner offers a forecast for the next hour with a reason. The reasons matter more than being right, because a forecast with a reason can be checked tomorrow, and that is how the station's own observers learn."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

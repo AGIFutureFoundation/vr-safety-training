@@ -188,7 +188,7 @@
       "lean-over-the-gunwale",
       "remove-one-changes-nothing"
     ],
-    "meshes": 275
+    "meshes": 233
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "A survey only counts what is along the line, so the camera has to stay on the tape. Holding the view steady while the diver swims keeps the survey fair: the same strip is watched from start to end, and nothing is counted twice or missed because the camera wandered."
     },
     {
+      "cue": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
+      "id": "say-what-happens-if-the-urchins",
+      "kind": "select",
+      "prompt": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
+      "target": "kek-compare-card",
+      "title": "Say what happens if the urchin's predator goes",
+      "why": "With no predator, urchins can grow in number and graze the kelp faster than it regrows. Explaining that chain, predator to urchin to kelp, is understanding the web as a system rather than a list, which is what ecology is about."
+    },
+    {
+      "cue": "Look at the draft food web and mark each problem.",
+      "decoyNotes": {
+        "kek-fw-key": "A key helps anyone read the web. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kek-fw-backwards": "an arrow pointing from eater to food",
+        "kek-fw-no-base": "no producer at the base",
+        "kek-fw-unseen": "an animal the camera never showed"
+      },
+      "itemNotes": {
+        "kek-fw-backwards": "Arrows follow the energy, food to eater.",
+        "kek-fw-no-base": "Every web starts with a producer.",
+        "kek-fw-unseen": "Only what was observed goes in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft food web and mark each problem.",
+      "targets": [
+        "kek-fw-backwards",
+        "kek-fw-unseen",
+        "kek-fw-no-base"
+      ],
+      "title": "Spot the problems in a classmate's food web",
+      "why": "Food webs go wrong in a few ways: an arrow pointing the wrong way, an animal the camera never showed and a missing producer at the base. Spotting them in someone else's web helps you check that your own tells the truth about the transect."
+    },
+    {
       "cue": "Turn the arrow on the web card so it points from the kelp to the urchin.",
       "id": "turn-the-web-card-to-add",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kek-star-token",
       "title": "Place the sea star in the web",
       "why": "A predator that eats urchins keeps their numbers in check, and fewer urchins means more kelp survives. Placing it above the urchin in the web shows that chain, and it is the kind of link marine scientists watch when they ask why a kelp forest is thriving or thinning."
-    },
-    {
-      "cue": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
-      "id": "say-what-happens-if-the-urchins",
-      "kind": "select",
-      "prompt": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
-      "target": "kek-compare-card",
-      "title": "Say what happens if the urchin's predator goes",
-      "why": "With no predator, urchins can grow in number and graze the kelp faster than it regrows. Explaining that chain, predator to urchin to kelp, is understanding the web as a system rather than a list, which is what ecology is about."
-    },
-    {
-      "cue": "Look at the draft food web and mark each problem.",
-      "decoyNotes": {
-        "kek-fw-key": "A key helps anyone read the web. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmates",
-      "itemNames": {
-        "kek-fw-backwards": "an arrow pointing from eater to food",
-        "kek-fw-no-base": "no producer at the base",
-        "kek-fw-unseen": "an animal the camera never showed"
-      },
-      "itemNotes": {
-        "kek-fw-backwards": "Arrows follow the energy, food to eater.",
-        "kek-fw-no-base": "Every web starts with a producer.",
-        "kek-fw-unseen": "Only what was observed goes in."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft food web and mark each problem.",
-      "targets": [
-        "kek-fw-backwards",
-        "kek-fw-unseen",
-        "kek-fw-no-base"
-      ],
-      "title": "Spot the problems in a classmate's food web",
-      "why": "Food webs go wrong in a few ways: an arrow pointing the wrong way, an animal the camera never showed and a missing producer at the base. Spotting them in someone else's web helps you check that your own tells the truth about the transect."
     },
     {
       "cue": "Keep the survey marker on the diver as they move along the transect.",
@@ -399,7 +399,7 @@
       "prompt": "What did the camera show you that surprised you? What would you look for next time?",
       "target": "kek-checkin",
       "title": "Check in at the end of the trip",
-      "why": "Ending the trip with a check-in lets every learner name what they noticed, which is where curiosity for the next survey comes from. It is not marked, and anyone who felt uneasy on the boat can say so to the teacher or a trusted adult."
+      "why": "Back on the tender's deck, the survey ends the way a dive crew debriefs: each person names one thing they counted and one thing they would count differently. Hearing the group's answers shows the skipper who has grasped the transect line and who wants another pass along it."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

@@ -11,10 +11,10 @@ import { pickup } from "../../shared/fleet.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
 import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
-import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL, SM_RIDES, SM_ROAD_LENGTH, smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace, smRoadPointAt, // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
+// Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
-import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_GATED, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_WATER_LEVEL, SM_SNOWLINE, smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace } from "../../shared/summit-data.js";
+import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_GATED, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL, SM_RIDES, SM_ROAD_LENGTH, SM_SNOWLINE, smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace, smRoadPointAt } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import { smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson, smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone } from "./state.js";
 import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";

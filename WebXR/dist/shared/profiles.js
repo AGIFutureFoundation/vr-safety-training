@@ -40,6 +40,8 @@ export const GT_PROFILE_KEYS = [
   // The treasure ledger (shared/treasures.js, docs/treasures.md).
   "vr-treasures-v1",
   "redwood-career-v1",
+  // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
+  "vr-avatar-style-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
 ];

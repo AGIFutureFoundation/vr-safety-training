@@ -188,7 +188,7 @@
       "record-without-asking",
       "share-without-permission"
     ],
-    "meshes": 275
+    "meshes": 297
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "A good interview is prepared. A consent form sets out what will be recorded and who may hear it, a short list of open questions keeps the conversation focused without controlling it, and a working recorder means the words are kept. With those three ready, you can give your full attention to listening."
     },
     {
-      "cue": "Explain what the recording is for and ask the interviewee to agree before you press record.",
-      "id": "ask-for-consent-before-recording",
-      "kind": "select",
-      "prompt": "Explain what the recording is for and ask the interviewee to agree before you press record.",
-      "target": "koh-consent-card",
-      "title": "Ask for consent before recording",
-      "why": "Consent is the foundation of oral history. Explaining clearly what the recording is for, who will hear it and that they can stop at any time lets the interviewee make a real choice, and it is how every responsible archive works."
-    },
-    {
       "cue": "Consent, an easy opening, open questions with follow-ups, then thank and check.",
       "id": "put-the-interview-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "Consent first makes the interview possible. An easy opening, such as asking where they grew up, helps the interviewee relax. Open questions and follow-ups draw out detail, and a thank-you with a check of what they are happy to share closes it respectfully."
     },
     {
-      "cue": "Stay quiet and hold the pause while the interviewee gathers their thoughts.",
-      "holdBreakNote": "You filled the silence too soon. Let them think, and hold the pause again.",
-      "id": "hold-the-pause-while-they-think",
-      "kind": "hold",
-      "prompt": "Stay quiet and hold the pause while the interviewee gathers their thoughts.",
-      "seconds": 6,
-      "target": "koh-hold-pause",
-      "title": "Hold the pause while they think",
-      "why": "The best part of an answer often comes after a pause. Staying quiet and letting the silence sit gives the interviewee time to remember, instead of jumping in with another question that cuts off what they were about to say."
+      "cue": "Explain what the recording is for and ask the interviewee to agree before you press record.",
+      "id": "ask-for-consent-before-recording",
+      "kind": "select",
+      "prompt": "Explain what the recording is for and ask the interviewee to agree before you press record.",
+      "target": "koh-consent-card",
+      "title": "Ask for consent before recording",
+      "why": "Consent is the foundation of oral history. Explaining clearly what the recording is for, who will hear it and that they can stop at any time lets the interviewee make a real choice, and it is how every responsible archive works."
     },
     {
       "cue": "Turn the recording level so their voice is clear without distorting.",
@@ -303,6 +292,17 @@
       "why": "A level meter shows whether the voice is being recorded well. Checking it while they speak, not only in silence, catches a quiet speaker or a noisy room before the whole interview is spoiled."
     },
     {
+      "cue": "Stay quiet and hold the pause while the interviewee gathers their thoughts.",
+      "holdBreakNote": "You filled the silence too soon. Let them think, and hold the pause again.",
+      "id": "hold-the-pause-while-they-think",
+      "kind": "hold",
+      "prompt": "Stay quiet and hold the pause while the interviewee gathers their thoughts.",
+      "seconds": 6,
+      "target": "koh-hold-pause",
+      "title": "Hold the pause while they think",
+      "why": "The best part of an answer often comes after a pause. Staying quiet and letting the silence sit gives the interviewee time to remember, instead of jumping in with another question that cuts off what they were about to say."
+    },
+    {
       "cue": "Drag the open follow-up card into the question slot.",
       "drag": {
         "missNote": "Not in the slot yet. Put the open follow-up in the next question.",
@@ -315,15 +315,6 @@
       "target": "koh-followup-token",
       "title": "Choose an open follow-up question",
       "why": "A follow-up like tell me more about that invites detail in the interviewee's own words. Choosing it over a yes or no question keeps the story theirs, and it is the single most useful habit of a good interviewer."
-    },
-    {
-      "cue": "Say what a memory can tell a historian, and what it needs checking against.",
-      "id": "say-how-a-memory-is-a",
-      "kind": "select",
-      "prompt": "Say what a memory can tell a historian, and what it needs checking against.",
-      "target": "koh-compare-card",
-      "title": "Say how a memory is a source",
-      "why": "A memory tells you how something felt and what mattered to the person who lived it, which documents often miss. But memories change, so a historian checks the details against records and other accounts, weighing the memory as they would any source."
     },
     {
       "cue": "Look at the draft interview plan and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's interview plan",
       "why": "Interview plans go wrong in familiar ways: no consent step, leading questions and a plan to share recordings more widely than agreed. Spotting them helps you plan an interview that is both good history and respectful of the person."
+    },
+    {
+      "cue": "Say what a memory can tell a historian, and what it needs checking against.",
+      "id": "say-how-a-memory-is-a",
+      "kind": "select",
+      "prompt": "Say what a memory can tell a historian, and what it needs checking against.",
+      "target": "koh-compare-card",
+      "title": "Say how a memory is a source",
+      "why": "A memory tells you how something felt and what mattered to the person who lived it, which documents often miss. But memories change, so a historian checks the details against records and other accounts, weighing the memory as they would any source."
     },
     {
       "cue": "Keep your attention on the speaker through a long answer, noting follow-ups quietly.",
@@ -399,7 +399,7 @@
       "prompt": "What did the interview teach you that a book could not? What was hard?",
       "target": "koh-checkin",
       "title": "Check in at the end of the session",
-      "why": "A check-in gives learners a chance to reflect on what they heard, which may have been moving, and to say what they found difficult about interviewing. It is not marked, and the teacher or a trusted adult is there for anyone who wants to talk."
+      "why": "Interviewers debrief after every recording, so the class does too: each learner says what their question drew out and what they would ask differently. Speaking about consent and listening in front of the group is practice for the real interviews, and it shows the archivist who is ready to lead one."
     }
   ],
   "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",

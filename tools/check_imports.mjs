@@ -103,6 +103,15 @@ for (const [file, src] of sources) {
       if (name) local.add(name);
     }
   }
+  // A destructured parameter with an options-bag default, e.g. `function f(a,
+  // { surface = null } = {})` — a real local binding like the one above, just
+  // in a parameter list rather than a `const` statement.
+  for (const m of rawSrc.matchAll(/\{([^{}]*)\}\s*=\s*\{\}/g)) {
+    for (const part of m[1].split(",")) {
+      const name = (part.split(":").pop() ?? "").trim().replace(/=.*$/, "").trim();
+      if (name) local.add(name);
+    }
+  }
   // …and what it imports, including default and namespace forms.
   for (const m of rawSrc.matchAll(/import\s+(?:\*\s+as\s+([A-Za-z_$][\w$]*)|\{([^}]*)\}|([A-Za-z_$][\w$]*))\s+from/g)) {
     if (m[1]) local.add(m[1]);
