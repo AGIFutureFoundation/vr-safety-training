@@ -17,14 +17,8 @@ import { ppRecordStation, ppProgressChip, ppCompleteReturns, ppCompleted, ppBoar
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 import { lkStationLink } from "../../shared/links.js";
 import { FAIRWAY_HOLES, fairwayHeight } from "./course.js";
-import {
-  GOLF_CLUBS, CARE_HABITS,
-  glCreateRound, glCurrentHole, glSetClub, glAdjustAim, glAimYaw, glDistanceToPin, glCanPutt,
-  glSwing, glPutt, glSetWind, glCareEvent, glSummary,
-} from "./golf.js";
-import {
-  sprintCreate, sprintStep, freethrowCreate, freethrowStep, penaltyCreate, penaltyStep, FAIRWAY_MINIGAMES_INFO,
-} from "./minigames.js";
+import { GOLF_CLUBS, CARE_HABITS, glCreateRound, glCurrentHole, glSetClub, glAdjustAim, glAimYaw, glDistanceToPin, glCanPutt, glSwing, glPutt, glSetWind, glCareEvent, glSummary } from "./golf.js";
+import { sprintCreate, sprintStep, freethrowCreate, freethrowStep, penaltyCreate, penaltyStep, FAIRWAY_MINIGAMES_INFO } from "./minigames.js";
 import { fgCrewTag, fgLoadScores, fgSubmitRound, fgSubmitMinigame, FAIRWAY_TABLE_SIZE } from "./scores.js";
 import { fwBuildWorld } from "./world.js";
 // The K-12 layer (shared/field-lessons.js): the park's field lessons listed on the facility screen.
@@ -647,3 +641,7 @@ qmMountSideGames({ world: "fairway", worldName: "Fairway Park", items: QM_WORLD_
 // (console CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only
 // while the menu is on screen, poster only under reduced motion or Save-Data.
 cnMount($("scr-menu"), "start-fairway", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
+
+// Live-test handle (tools/measure_frames.mjs, tools/phone_pass.mjs): the app
+// state with its scene and renderer once the course is up; read-only by convention.
+window.__fairwayTest = { app };

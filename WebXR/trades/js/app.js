@@ -1588,6 +1588,9 @@ window.__tradesTest = {
   scene: () => scene,
   camera: () => camera,
   rig: () => rig,
+  // The renderer, for the frame-time harness (tools/measure_frames.mjs) to
+  // read renderer.info; read-only by convention.
+  renderer: () => renderer,
   room: () => state.room,
   // The way home the results card offers (`?from=` + `?return=`), or null.
   returnTarget: () => lkTradesReturn,

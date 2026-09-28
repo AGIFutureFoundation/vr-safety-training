@@ -3,10 +3,32 @@
  * the single command CI and a contributor both run before pushing.
  *
  *     node tools/check_all.mjs
+ *     CHECK_JOBS=1 node tools/check_all.mjs      # the old one-at-a-time run
+ *     CHECK_JOBS=4 node tools/check_all.mjs      # a fixed pool of four
+ *
+ * Console PROVING (docs/consoles/PROVING.md): the checkers are independent
+ * processes that never write into the tree (each writes under its own
+ * scratch dir), so after the two gatekeepers — check_parse, then
+ * check_imports, which ask whether the code can run at all — the rest run in
+ * a pool. The pool respects the shared machine: a checker starts only while
+ * the weighted number running is under the job limit, and the limit itself
+ * follows the one-minute load average (cores minus the load other people
+ * put on the box, never under 1, never over CHECK_JOBS or the core count).
+ * Browser checkers weigh two: headless Chromium under SwiftShader uses more
+ * than one core and more than one of them at once slows both. Every
+ * assertion is still run by its checker exactly as before — this file only
+ * schedules them.
+ *
+ * Each run is recorded to docs/perf/checkers-last.json (per-checker ms, the
+ * wall time, the sum of the checker times — what the one-at-a-time run would
+ * have taken — the job limit used and the load average), which
+ * tools/check_proving.mjs compares to docs/perf/checkers-baseline.json.
  */
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { availableParallelism, loadavg } from "node:os";
+import { mkdirSync, writeFileSync } from "node:fs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const CHECKERS = [
@@ -62,16 +84,89 @@ const CHECKERS = [
   "check_design.mjs",
   // Layered maps, interactive assets, service liveries and avatar styles (docs/consoles/CARTOGRAPHER.md).
   "check_worlds_detail.mjs",
+  // The perf files, their budgets and the checkers' own speed (docs/consoles/PROVING.md).
+  "check_proving.mjs",
 ];
 
-let failed = 0;
-for (const name of CHECKERS) {
-  const started = Date.now();
-  const r = spawnSync(process.execPath, [join(here, name)], { encoding: "utf8" });
-  const ok = r.status === 0;
-  const tail = (r.stdout + r.stderr).trim().split("\n").filter(Boolean).pop() ?? "";
-  console.log(`${ok ? "✓" : "✗"} ${name.padEnd(24)} ${String(Date.now() - started).padStart(5)} ms  ${tail}`);
-  if (!ok) { failed += 1; console.log(r.stdout + r.stderr); }
+// The two gatekeepers run alone and in order, then the two checkers that
+// rewrite a generated file in the tree (check_interop regenerates
+// shared/passport-programmes.js, which check_gates and check_links read;
+// check_standards rewrites docs/standards/README.md) — under a second
+// together, and nothing may read those files while they are written.
+// Everything after them may run together. Browser checkers (headless
+// Chromium) weigh two slots.
+const SERIAL_FIRST = ["check_parse.mjs", "check_imports.mjs", "check_interop.mjs", "check_standards.mjs"];
+const HEAVY = new Set(["check_links.mjs", "check_ui.mjs", "check_guide.mjs", "check_home.mjs", "check_mobile.mjs", "check_i18n.mjs"]);
+const weightOf = (name) => (HEAVY.has(name) ? 2 : 1);
+
+const CORES = Math.max(1, availableParallelism());
+const MAX_JOBS = Math.max(1, Math.min(CORES, Number(process.env.CHECK_JOBS) || CORES));
+
+/** How many weighted slots may run right now: the cores that the rest of the
+ *  machine is not using (the load average less what we run ourselves). */
+function jobLimit(running) {
+  if (process.env.CHECK_JOBS) return MAX_JOBS;
+  const others = Math.max(0, loadavg()[0] - running);
+  return Math.max(1, Math.min(MAX_JOBS, Math.floor(CORES - others + 0.5)));
 }
+
+function runOne(name) {
+  return new Promise((resolve) => {
+    const started = Date.now();
+    let out = "";
+    const child = spawn(process.execPath, [join(here, name)], { stdio: ["ignore", "pipe", "pipe"] });
+    child.stdout.on("data", (d) => { out += d; });
+    child.stderr.on("data", (d) => { out += d; });
+    child.on("close", (status) => resolve({ name, ok: status === 0, ms: Date.now() - started, out: out.trim() }));
+    child.on("error", (e) => resolve({ name, ok: false, ms: Date.now() - started, out: String(e) }));
+  });
+}
+
+const results = new Map();
+let failed = 0;
+function report(r) {
+  results.set(r.name, r);
+  const tail = r.out.split("\n").filter(Boolean).pop() ?? "";
+  console.log(`${r.ok ? "✓" : "✗"} ${r.name.padEnd(24)} ${String(r.ms).padStart(6)} ms  ${tail}`);
+  if (!r.ok) { failed += 1; console.log(r.out); }
+}
+
+const wallStart = Date.now();
+const loadAtStart = loadavg()[0];
+for (const name of SERIAL_FIRST) report(await runOne(name));
+
+const queue = CHECKERS.filter((n) => !SERIAL_FIRST.includes(n));
+let running = 0, runningWeight = 0, peak = 0;
+const limitsSeen = [];
+await new Promise((done) => {
+  const pump = () => {
+    while (queue.length) {
+      const limit = jobLimit(running);
+      const w = weightOf(queue[0]);
+      // Never starve a heavy checker: it may start when nothing else runs.
+      if (running && runningWeight + w > limit) break;
+      const name = queue.shift();
+      running += 1; runningWeight += w; peak = Math.max(peak, running); limitsSeen.push(limit);
+      runOne(name).then((r) => { running -= 1; runningWeight -= w; report(r); if (!queue.length && !running) done(); else pump(); });
+    }
+    if (!queue.length && !running) done();
+  };
+  pump();
+});
+
+const wallMs = Date.now() - wallStart;
+const sumMs = [...results.values()].reduce((a, r) => a + r.ms, 0);
+const record = {
+  at: new Date().toISOString(), cores: CORES, maxJobs: MAX_JOBS, peakParallel: peak,
+  loadAvgStart: +loadAtStart.toFixed(2), loadAvgEnd: +loadavg()[0].toFixed(2), wallMs, sumMs,
+  checkers: Object.fromEntries(CHECKERS.map((n) => [n, { ms: results.get(n)?.ms ?? null, ok: results.get(n)?.ok ?? false }])),
+};
+try {
+  mkdirSync(join(here, "..", "docs", "perf"), { recursive: true });
+  writeFileSync(join(here, "..", "docs", "perf", "checkers-last.json"), JSON.stringify(record, null, 2) + "\n");
+} catch { /* a read-only checkout still gets its verdict */ }
+
+const sec = (ms) => (ms / 1000).toFixed(1);
+console.log(`\n${sec(wallMs)} s wall for ${sec(sumMs)} s of checker time (up to ${peak} at once on ${CORES} cores; load ${loadAtStart.toFixed(1)} → ${loadavg()[0].toFixed(1)}).`);
 console.log(failed ? `\n${failed} checker(s) failed.` : `\nAll ${CHECKERS.length} checkers pass.`);
 process.exit(failed ? 1 : 0);

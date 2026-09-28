@@ -77409,6 +77409,8 @@ window.__smartcityTest = {
   // stage districts, headset-budget spot checks); read-only by convention.
   scene: () => scene,
   camera: () => camera,
+  // The renderer itself, for the frame-time harness (tools/measure_frames.mjs).
+  renderer: () => renderer,
   // What the renderer actually did for the last frame. A visual upgrade that
   // claims to cost texture memory rather than draw calls has to be checkable,
   // and renderer.info is the only honest place to check it.

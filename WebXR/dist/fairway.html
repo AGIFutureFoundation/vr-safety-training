@@ -20810,6 +20810,10 @@ qmMountSideGames({ world: "fairway", worldName: "Fairway Park", items: QM_WORLD_
 // while the menu is on screen, poster only under reduced motion or Save-Data.
 cnMount($("scr-menu"), "start-fairway", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
 
+// Live-test handle (tools/measure_frames.mjs, tools/phone_pass.mjs): the app
+// state with its scene and renderer once the course is up; read-only by convention.
+window.__fairwayTest = { app };
+
 </script>
 </body>
 </html>
