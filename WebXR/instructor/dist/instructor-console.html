@@ -126,6 +126,8 @@
   th{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:11px;color:var(--muted)}
   td.dir-sent{color:var(--accent)} td.dir-recv{color:var(--muted)}
   #log-wrap{max-height:520px;overflow:auto}
+  .at-empty{margin:18px auto}
+  .at-empty .at-illo{max-width:160px}
   [hidden]{display:none !important}
 </style>
 </head>
@@ -238,6 +240,7 @@
       </div>
     </section>
 
+    <div class="at-empty" id="live-empty" hidden><svg class="at-illo at-illo--pathway" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 86h28V70h28V54h28V38h28v48z"/><path class="at-il-line" d="M126 38V12"/><path class="at-il-warm" d="M126 12h22l-6 7 6 7h-22z"/></svg><p class="at-empty__title">No sessions yet</p><p>Open a station in any app on this device, or through the relay, and it appears here as it starts.</p></div>
     <div id="list"></div>
   </section>
 
@@ -250,6 +253,7 @@
       <p class="fine" id="roster-count">Loading the catalog…</p>
       <p class="fine">“Send selected” goes to the learner selected on the Live class view; “Send all live” goes to every live session. Both are the same open command the learner's app answers, so the class lands in the station the same way a deep link would.</p>
     </section>
+    <div class="at-empty" id="roster-empty" hidden><svg class="at-illo at-illo--safety" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-warm" d="M40 70c0-24 16-40 40-40s40 16 40 40z"/><rect class="at-il-fill" x="30" y="68" width="100" height="10" rx="4"/><path class="at-il-line" d="M80 30v16M68 34l4 14M92 34l-4 14"/></svg><p class="at-empty__title">Nothing in the catalog matches</p><p>Clear the search to see every station and programme again.</p></div>
     <div id="roster-programmes"></div>
     <div id="roster-tree"></div>
   </section>
@@ -272,6 +276,7 @@
           <thead><tr><th>Time</th><th>Dir</th><th>Kind</th><th>Learner</th><th>Station</th><th>Detail</th></tr></thead>
           <tbody id="log-rows"></tbody>
         </table>
+        <div class="at-empty" id="log-empty" hidden><svg class="at-illo at-illo--logistics" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-warm" x="30" y="56" width="30" height="26" rx="2"/><rect class="at-il-fill" x="62" y="56" width="30" height="26" rx="2"/><rect class="at-il-accent" x="46" y="30" width="30" height="26" rx="2"/><path class="at-il-line" d="M26 86h70M104 50h28M124 42l8 8-8 8"/></svg><p class="at-empty__title">Nothing logged yet</p><p>Every command this console sends and every event it hears will be listed here, newest first.</p></div>
       </div>
     </section>
   </section>
@@ -23762,6 +23767,8 @@ function renderClass() {
     : `${rows.length} session${rows.length === 1 ? "" : "s"} · ${live} live`;
   const list = $("list");
   list.replaceChildren();
+  const liveEmpty = $("live-empty");
+  if (liveEmpty) liveEmpty.hidden = rows.length !== 0 || !bus.available;
   if (selected && !roster.has(selected)) selected = null;
 
   for (const r of rows) {
@@ -24014,6 +24021,8 @@ function renderRoster() {
   const programmes = catalog.programmes.filter((p) => matchProgramme(p, query));
   count.textContent = `${stations.length} of ${catalog.total} stations · ${programmes.length} of ${catalog.programmes.length} programmes`
     + (query ? ` matching “${query}”` : "") + ` · ${liveRows().length} live session(s)`;
+  const rosterEmpty = $("roster-empty");
+  if (rosterEmpty) rosterEmpty.hidden = stations.length + programmes.length !== 0;
 
   const progWrap = $("roster-programmes");
   progWrap.replaceChildren();
@@ -24084,6 +24093,8 @@ function renderLog() {
     + (hidden ? ` · ${hidden} position snapshot${hidden === 1 ? "" : "s"} folded away` : "");
   const body = $("log-rows");
   body.replaceChildren();
+  const logEmpty = $("log-empty");
+  if (logEmpty) logEmpty.hidden = rows.length !== 0;
   for (const r of [...rows].reverse()) {
     const tr = el("tr");
     tr.append(el("td", null, new Date(r.at).toLocaleTimeString()));

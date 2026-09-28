@@ -137,6 +137,8 @@ function renderClass() {
     : `${rows.length} session${rows.length === 1 ? "" : "s"} · ${live} live`;
   const list = $("list");
   list.replaceChildren();
+  const liveEmpty = $("live-empty");
+  if (liveEmpty) liveEmpty.hidden = rows.length !== 0 || !bus.available;
   if (selected && !roster.has(selected)) selected = null;
 
   for (const r of rows) {
@@ -389,6 +391,8 @@ function renderRoster() {
   const programmes = catalog.programmes.filter((p) => matchProgramme(p, query));
   count.textContent = `${stations.length} of ${catalog.total} stations · ${programmes.length} of ${catalog.programmes.length} programmes`
     + (query ? ` matching “${query}”` : "") + ` · ${liveRows().length} live session(s)`;
+  const rosterEmpty = $("roster-empty");
+  if (rosterEmpty) rosterEmpty.hidden = stations.length + programmes.length !== 0;
 
   const progWrap = $("roster-programmes");
   progWrap.replaceChildren();
@@ -459,6 +463,8 @@ function renderLog() {
     + (hidden ? ` · ${hidden} position snapshot${hidden === 1 ? "" : "s"} folded away` : "");
   const body = $("log-rows");
   body.replaceChildren();
+  const logEmpty = $("log-empty");
+  if (logEmpty) logEmpty.hidden = rows.length !== 0;
   for (const r of [...rows].reverse()) {
     const tr = el("tr");
     tr.append(el("td", null, new Date(r.at).toLocaleTimeString()));
