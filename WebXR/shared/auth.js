@@ -148,6 +148,48 @@ export function cleanEnterprise(raw) {
   };
 }
 
+/** The seat-billing plan periods payments.js knows (docs/payments.md). */
+const PAYMENT_PERIODS = ["month", "quarter", "year", "once"];
+
+/**
+ * The `payments` block of auth-config.json (docs/payments.md): enterprise
+ * seat billing on the organisation layer. Only ever read from the file — a
+ * launch URL can neither name a provider nor set a price. `publishableKey`
+ * is kept as text only when it does not look like a secret; a secret never
+ * belongs in this file at all. An amount is an integer in the currency's
+ * minor unit or null ("not configured"); nothing here invents one.
+ */
+export function cleanPayments(raw) {
+  const p = raw && typeof raw === "object" ? raw : {};
+  const provider = authText(p.provider, 40).toLowerCase();
+  const key = authText(p.publishableKey, 200);
+  const currency = authText(p.currency, 3).toUpperCase();
+  const exp = Number(p.currencyExponent);
+  const amount = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  const plans = [];
+  for (const pl of Array.isArray(p.plans) ? p.plans : []) {
+    const id = authText(pl?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(pl?.period, 10).toLowerCase();
+    const days = Number(pl?.periodDays);
+    plans.push({
+      id, name: authText(pl?.name, 80) || id,
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(pl?.amountMinor),
+    });
+  }
+  return {
+    provider: /^[a-z][a-z0-9-]{0,39}$/.test(provider) ? provider : null,
+    publishableKey: key && !/^(sk|rk|whsec)_/i.test(key) ? key : null,
+    // A hosted provider's checkout endpoint the deployment operates (https only); the mock needs none.
+    checkoutEndpoint: cleanHttpsUrl(p.checkoutEndpoint),
+    currency: /^[A-Z]{3}$/.test(currency) ? currency : null,
+    currencyExponent: Number.isInteger(exp) && exp >= 0 && exp <= 4 ? exp : 2,
+    plans,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -174,6 +216,8 @@ export function parseAuthConfig(file = null, search = "") {
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
     // The organisation layer's block, from the file only (docs/enterprise.md).
     enterprise: cleanEnterprise(file?.enterprise),
+    // Seat billing (docs/payments.md), from the file only as well.
+    payments: cleanPayments(file?.payments),
   };
 }
 

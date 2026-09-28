@@ -255,6 +255,12 @@ APPS = {
             # certificates — after profiles, records and the programme catalogue.
             SHARED / "org.js",
             WEBXR / "instructor/js/cohort.js",
+            # Enterprise seat billing (console TILL, docs/payments.md): the
+            # adapter and the budget agent read org.js; the Billing tab reads
+            # both and cohort.js's programme filter.
+            SHARED / "payments.js",
+            SHARED / "pm-agent.js",
+            WEBXR / "instructor/js/billing.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",

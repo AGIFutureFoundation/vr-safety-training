@@ -44,6 +44,8 @@ export const GT_PROFILE_KEYS = [
   "vr-avatar-style-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
+  // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.
+  "vr-payments-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
