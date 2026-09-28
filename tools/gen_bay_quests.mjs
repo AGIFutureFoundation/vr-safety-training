@@ -285,6 +285,55 @@ function buildSideQuestsForProgramme(prog) {
 const SIDE_PROGRAMMES = CURRICULA.filter((p) => p.id !== "job-readiness-edition");
 const SIDE_QUESTS = SIDE_PROGRAMMES.flatMap(buildSideQuestsForProgramme);
 
+// The Teamwork pair: one opener and one capstone that cross two programmes —
+// the basketball teamwork stations and the emotional-intelligence-at-work
+// stations — at the college's gym. Marked `track: "teamwork"` so the
+// per-programme coverage check counts them apart from the generated pairs.
+function buildTeamworkPair() {
+  const bb = CURRICULA.find((p) => p.id === "basketball-fundamentals");
+  const ei = CURRICULA.find((p) => p.id === "civic-leadership-and-ei");
+  if (!bb || !ei) throw new Error("teamwork quests need basketball-fundamentals and civic-leadership-and-ei");
+  const bbWhy = whyLookup(bb), eiWhy = whyLookup(ei);
+  const site = "Fruitvale Community College";
+  const opener = {
+    id: "bw-side-teamwork-opener",
+    title: "Teamwork — Talk Before You Move",
+    giver: "the college's team captain",
+    site,
+    kind: "side",
+    tier: 1,
+    requires: null,
+    track: "teamwork",
+    role: "opener",
+    steps: [
+      { type: "goto", target: site, text: "The captain meets you on the college gym floor, a ball under one arm, and says the first drill has no shooting in it at all." },
+      ...["bb-pick-and-roll-communication", "bb-help-defense-rotations", "bb-transition-spacing-and-roles"].map((id) => ({ type: "station", target: id, text: why(bb, bbWhy, id) })),
+      { type: "talk", target: "team-captain", text: "\"Every one of those was about a word said early. That is the whole of teamwork, most days.\"" },
+    ],
+    reward: tierReward(1, "Teamwork — Opener"),
+  };
+  const capstone = {
+    id: "bw-side-teamwork-capstone",
+    title: "Teamwork — Steady the Crew",
+    giver: "the college's workforce instructor",
+    site,
+    kind: "side",
+    tier: 2,
+    requires: opener.id,
+    track: "teamwork",
+    role: "capstone",
+    steps: [
+      { type: "goto", target: site, text: "Across the quad from the gym, the workforce instructor has a crew scenario waiting: the same habits, off the court and on the job." },
+      { type: "station", target: "bb-timeout-huddle-and-adjustment", text: why(bb, bbWhy, "bb-timeout-huddle-and-adjustment") },
+      ...["ei-conflict-on-the-crew", "ei-giving-and-taking-feedback", "ei-leading-under-pressure"].map((id) => ({ type: "station", target: id, text: why(ei, eiWhy, id) })),
+      { type: "talk", target: "workforce-instructor", text: "\"One fact, one change, one encouragement. It works in a huddle and it works beside a trench.\"" },
+    ],
+    reward: tierReward(2, "Teamwork — Capstone"),
+  };
+  return [opener, capstone];
+}
+SIDE_QUESTS.push(...buildTeamworkPair());
+
 // ================================================================= EGGS
 // Twenty-four easter-egg tasks, each hidden at a real, generic Bay Area
 // public landmark and each teaching one true safety or trade habit quoted
@@ -599,7 +648,7 @@ const body = [
 writeFileSync(OUT_FILE, header + "\n" + body + "\n");
 console.log(`wrote ${OUT_FILE}`);
 console.log(`  main quests:   ${MAIN_QUESTS.length}`);
-console.log(`  side quests:   ${SIDE_QUESTS.length} (${SIDE_PROGRAMMES.length} programmes × 2)`);
+console.log(`  side quests:   ${SIDE_QUESTS.length} (${SIDE_PROGRAMMES.length} programmes × 2, plus the Teamwork pair)`);
 console.log(`  egg quests:    ${EGG_QUESTS.length}`);
 console.log(`  field guide:   ${FIELD_GUIDE_EGGS.length}`);
 console.log(`  side activities: ${SIDE_ACTIVITIES.length}`);

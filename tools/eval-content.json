@@ -119,59 +119,6 @@
     },
     {
       "app": "smartcity",
-      "id": "civic-principles-briefing",
-      "name": "Civic Principles Briefing",
-      "category": "Community Environmental Justice",
-      "steps": 10,
-      "score": 81,
-      "d": {
-        "variety": {
-          "score": 0.15000000000000002,
-          "distinct": 2,
-          "longestRun": 7
-        },
-        "decisions": {
-          "score": 0.875,
-          "hazards": 5,
-          "interrupts": 0
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 260,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 1,
-          "got": 1
-        },
-        "scene": {
-          "score": null,
-          "meshes": 0,
-          "materials": 0,
-          "interactables": 0,
-          "flat": true
-        },
-        "originality": {
-          "score": 0.6269406392694066,
-          "nearest": "public-meeting-chair",
-          "similarity": 0.2146118721461187
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "trades-lineage-briefing",
       "name": "Trades Lineage Briefing",
       "category": "Community Environmental Justice",
@@ -429,6 +376,59 @@
           "score": 0.511881188118812,
           "nearest": "mw-oil-transfer-watch-and-boom",
           "similarity": 0.2376237623762376
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "civic-principles-briefing",
+      "name": "Civic Principles Briefing",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 90,
+      "d": {
+        "variety": {
+          "score": 0.55,
+          "distinct": 3,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 8,
+          "interrupts": 0
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 4,
+          "got": 4
+        },
+        "scene": {
+          "score": null,
+          "meshes": 0,
+          "materials": 0,
+          "interactables": 0,
+          "flat": true
+        },
+        "originality": {
+          "score": 0.4870619946091645,
+          "nearest": "ethics-and-conflict-of-interest",
+          "similarity": 0.24258760107816713
         }
       }
     },
@@ -6726,6 +6726,162 @@
     },
     {
       "app": "smartcity",
+      "id": "bb-transition-spacing-and-roles",
+      "name": "Transition Spacing and Roles",
+      "category": "Youth Sports & Coaching",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 314,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 117,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.1385113268608415,
+          "nearest": "bb-pick-and-roll-communication",
+          "similarity": 0.3122977346278317
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-help-defense-rotations",
+      "name": "Help Defence and Rotations",
+      "category": "Youth Sports & Coaching",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 117,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "bb-pick-and-roll-communication",
+          "similarity": 0.3867595818815331
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-pick-and-roll-communication",
+      "name": "Pick-and-Roll Communication",
+      "category": "Youth Sports & Coaching",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 334,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 117,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "bb-help-defense-rotations",
+          "similarity": 0.3867595818815331
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "yc-tender-launch-and-guest-transfer",
       "name": "Tender Launch & Guest Transfer",
       "category": "Maritime & Ports",
@@ -12030,6 +12186,214 @@
     },
     {
       "app": "smartcity",
+      "id": "ei-leading-under-pressure",
+      "name": "Leading Under Pressure",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 326,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 114,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.29472049689441004,
+          "nearest": "ei-conflict-on-the-crew",
+          "similarity": 0.281055900621118
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ei-conflict-on-the-crew",
+      "name": "Conflict on the Crew",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 317,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 114,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.29472049689441004,
+          "nearest": "ei-leading-under-pressure",
+          "similarity": 0.281055900621118
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-losing-well-and-film-review",
+      "name": "Losing Well and Film Review",
+      "category": "Youth Sports & Coaching",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 318,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 117,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2736925515055469,
+          "nearest": "bb-timeout-huddle-and-adjustment",
+          "similarity": 0.28526148969889065
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-timeout-huddle-and-adjustment",
+      "name": "Timeout Huddle and Adjustment",
+      "category": "Youth Sports & Coaching",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 313,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 117,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2736925515055469,
+          "nearest": "bb-losing-well-and-film-review",
+          "similarity": 0.28526148969889065
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "ml-retail-counter-deescalation",
       "name": "Retail Counter De-escalation",
       "category": "Mobility & Transit",
@@ -15189,7 +15553,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 261,
+          "meshes": 259,
           "materials": 92,
           "interactables": 29
         },
@@ -20137,6 +20501,58 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ei-giving-and-taking-feedback",
+      "name": "Giving and Taking Feedback",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 271,
+          "materials": 114,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.43076923076923096,
+          "nearest": "ei-conflict-on-the-crew",
+          "similarity": 0.25384615384615383
         }
       }
     },

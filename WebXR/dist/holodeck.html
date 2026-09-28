@@ -893,6 +893,49 @@ function eiLine(moment, ctx = {}) {
   }
 }
 
+// Teamwork moments: what the guide says when the moment belongs to the team
+// rather than to one pair of hands. The same peer-support rules hold — name
+// it plainly, point at the next thing to do, blame nobody, never shrink it.
+const EI_TEAM = {
+  "teammate-mistake": [
+    "A teammate got it wrong. Say the next thing to do, not the last thing they did — \"next one\" is the whole sentence.",
+    "Their mistake is the team's next play. Pick them up with one word and one job, and save the fix for the film.",
+  ],
+  "huddle-disagreement": [
+    "Two good players, two different reads. Hear both in a sentence each, pick one, and both of you run it hard.",
+    "A disagreement in the huddle is information. Lower your voice, ask what they saw, then decide together.",
+  ],
+  "loss": [
+    "A loss hurts because it mattered. Own your part out loud, name one thing to fix, and leave the rest on the floor.",
+    "Nobody lost this alone. Say what you will do differently, and thank the person who covered for you.",
+  ],
+  "win-shared": [
+    "A good result. Name the teammate whose work nobody saw — that is how a win stays a team's.",
+    "Share it: the pass before the pass, the screen, the call from the bench. Credit spreads; it does not run out.",
+  ],
+};
+
+/** The guide's line for a teamwork moment: "teammate-mistake",
+ *  "huddle-disagreement", "loss" or "win-shared". */
+function eiTeamLine(moment, ctx = {}) {
+  const list = EI_TEAM[moment];
+  return list ? eiPick(list, ctx.seed ?? 0) : "";
+}
+
+/** The short reflection offered after a team station: three questions, none
+ *  scored, the same whatever the result. */
+const REFLECTION_QUESTIONS = [
+  "What did you say out loud that helped?",
+  "Where did you wait when you could have spoken?",
+  "Who covered for you, and have you told them?",
+];
+
+function reflectionPrompt({ team = true } = {}) {
+  return team
+    ? `Before you go: ${REFLECTION_QUESTIONS.join(" ")} There is no score on this.`
+    : "Before you go: what will you do the same way next time, and what will you change? There is no score on this.";
+}
+
 /** The end-of-run check-in. Three answers, none scored, one supportive line
  *  each; a hard run (hazards or missed interruptions) adds the support
  *  pointer. The department's or local's own line goes in `supportLine`. */
@@ -13267,7 +13310,7 @@ const PROGRAMME_COMPETENCIES = [
       "coalition-building-table", "budget-tradeoff-hearing", "ethics-and-conflict-of-interest", "crisis-communication-podium",
       "community-listening-session", "conflict-mediation-room", "mentorship-and-succession", "cv-open-meeting-law-and-agenda-notice",
       "cv-voter-registration-drive-and-nonpartisan-conduct", "cv-neighborhood-emergency-block-captain", "cv-restorative-justice-circle-facilitation", "cv-grant-application-and-nonprofit-compliance",
-      "cv-difficult-conversation-across-difference"
+      "cv-difficult-conversation-across-difference", "ei-conflict-on-the-crew", "ei-giving-and-taking-feedback", "ei-leading-under-pressure"
     ],
     require: 6,
   },
@@ -13434,7 +13477,8 @@ const PROGRAMME_COMPETENCIES = [
       "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
       "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss", "bb-pre-game-routine-and-visualisation",
       "bb-composure-with-a-hostile-crowd-and-officials", "bb-teammate-conflict-and-accountability", "bb-coach-feedback-and-growth-mindset", "bb-final-possession-decision-under-pressure",
-      "bb-layups-and-finishing-at-the-rim", "bb-dribble-moves-and-change-of-pace"
+      "bb-layups-and-finishing-at-the-rim", "bb-dribble-moves-and-change-of-pace", "bb-pick-and-roll-communication", "bb-help-defense-rotations",
+      "bb-transition-spacing-and-roles", "bb-timeout-huddle-and-adjustment", "bb-losing-well-and-film-review"
     ],
     require: 6,
   },
@@ -28507,7 +28551,7 @@ const SIMS_META = [
       "name": "Principles Held",
       "note": "The eight principles, the framework and the law answered without an unsafe conclusion"
     },
-    "stepCount": 10,
+    "stepCount": 13,
     "interruptCount": 0,
     "flat": true,
     "dossier": [
@@ -44694,6 +44738,342 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-pick-and-roll-communication",
+    "index": "725",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for teaching team defence and communication at an age-appropriate stage; NFHS basketball rules for what makes a screen legal — set still, inside the screener's own space — and what a moving screen is; the Association for Applied Sport Psychology's guidance on attention and cue words under pressure; CDC Heads Up for the blind-side collision a silent screen causes; the U.S. Center for SafeSport for correction that is observable and never shaming; the American Red Cross first aid course for the check before a player who collided goes back in; AFSCME and SEIU parks-and-recreation staff who run the public gym",
+    "name": "Pick-and-Roll Communication",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Pick-and-Roll Communication VR",
+    "tagline": "Talk before you move: the screen called by whoever sees it, the switch agreed out loud, the recovery announced before anybody leaves their man",
+    "accent": 3912703,
+    "accentCss": "#3bb3ff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "heard-it-first",
+      "name": "Heard It First",
+      "note": "Every screen called, every switch agreed and every recovery announced before a defender moved"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Talk Board",
+      "currency": "CALLS",
+      "ranks": [
+        "Quiet Defender",
+        "Caller",
+        "Floor Voice",
+        "Defensive Captain",
+        "Team Voice"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-help-defense-rotations",
+    "index": "726",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for teaching team defence in stages, positioning before contact; NFHS basketball rules on legal guarding position and the verticality a helper keeps at the rim; CDC Heads Up for the collision under the basket a late help step causes; the Association for Applied Sport Psychology's guidance on trust and communication inside a team; the U.S. Center for SafeSport for correction given calmly and in view; the American Red Cross first aid course for the check after a fall; AFSCME and SEIU recreation staff who run the public gym",
+    "name": "Help Defence and Rotations",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Help Defence and Rotations VR",
+    "tagline": "Trust the rotation behind you: the helper steps in and says so, the next teammate rotates, and the beaten defender recovers to whoever is left",
+    "accent": 8019199,
+    "accentCss": "#7a5cff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "one-string",
+      "name": "On One String",
+      "note": "Help, rotate and recover run as one team move, every step called before it was taken"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shell Board",
+      "currency": "ROTATIONS",
+      "ranks": [
+        "Ball Watcher",
+        "Helper",
+        "Rotator",
+        "Back-Line Voice",
+        "Defensive Anchor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-transition-spacing-and-roles",
+    "index": "727",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for teaching team offence and roles at an age-appropriate stage, with rest built into full-court work; NFHS basketball rules and its sports medicine guidance on hydration and a clear run-off behind the baseline; CDC Heads Up for a collision at the end of a sprint; the Association for Applied Sport Psychology's guidance on shared goals and unselfish decisions in a team; the U.S. Center for SafeSport for coaching that praises the pass as loudly as the basket; the American Red Cross first aid course; AFSCME and SEIU recreation staff who run the public gym",
+    "name": "Transition Spacing and Roles",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Transition Spacing and Roles VR",
+    "tagline": "Lanes filled, roles held, the extra pass over the hero shot — and a finish that never runs into the wall behind the baseline",
+    "accent": 3134362,
+    "accentCss": "#2fd39a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "extra-pass",
+      "name": "The Extra Pass",
+      "note": "Three lanes filled, every role held and the better shot found with one more pass"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Break Board",
+      "currency": "LANES",
+      "ranks": [
+        "Trailer",
+        "Wing Runner",
+        "Outlet",
+        "Floor General",
+        "Team Engine"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-timeout-huddle-and-adjustment",
+    "index": "728",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball team captain",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on player leadership and on water and rest in games; NFHS basketball rules for how a timeout is requested and how long the team has before play resumes; the Association for Applied Sport Psychology's guidance on composure, short cue-based instruction and encouragement under pressure; the U.S. Center for SafeSport for a huddle kept free of shaming; CDC Heads Up for the teammate who took a knock and is quieter than usual; the American Red Cross first aid course for the check-in that finds them; AFSCME and SEIU recreation staff who run the league",
+    "name": "Timeout Huddle and Adjustment",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Timeout Huddle and Adjustment VR",
+    "tagline": "Thirty seconds, one fact, one change, one encouragement — and nobody blamed",
+    "accent": 16763195,
+    "accentCss": "#ffc93b",
+    "parSeconds": 330,
+    "badge": {
+      "id": "thirty-seconds",
+      "name": "Thirty Seconds",
+      "note": "A huddle that named one fact, made one change and sent five players out steadier, with no one blamed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Huddle Board",
+      "currency": "STEADY",
+      "ranks": [
+        "Teammate",
+        "Voice",
+        "Co-Captain",
+        "Captain",
+        "Team Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-losing-well-and-film-review",
+    "index": "729",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on keeping winning and losing in proportion for young players; the Association for Applied Sport Psychology's guidance on coach feedback, growth mindset and learning from a loss without shame; NFHS basketball rules and its sportsmanship expectations for how a team talks about a game and its officials; the U.S. Center for SafeSport for observable, non-shaming correction and for a review room with two adults present; CDC Heads Up for the knock from last night's game that still needs following up; the American Red Cross first aid course; AFSCME and SEIU recreation staff who run the league",
+    "name": "Losing Well and Film Review",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Losing Well and Film Review VR",
+    "tagline": "After a loss: own your part, name one thing to fix, and thank the teammate who covered for you",
+    "accent": 14704762,
+    "accentCss": "#e0607a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "lost-well",
+      "name": "Lost Well",
+      "note": "A loss reviewed with every player owning one thing, fixing one thing and thanking one teammate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Review Board",
+      "currency": "LESSONS",
+      "ranks": [
+        "Viewer",
+        "Owner",
+        "Fixer",
+        "Film Captain",
+        "Team Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ei-conflict-on-the-crew",
+    "index": "730",
+    "domain": "Civic",
+    "trade": "City street maintenance crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a hazard a worker raises is heard and corrected and how a threat between co-workers is reported; the MUTCD for the temporary traffic control the crew is arguing about; SAMHSA's trauma-informed principles of safety, trustworthiness, peer support and collaboration; Psychological First Aid for calm, practical presence with somebody upset; SEIU and AFSCME for the public-works members whose contract and steward process sit behind any discipline. The emotional-intelligence steps follow the programme's own guide",
+    "name": "Conflict on the Crew",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Conflict on the Crew VR",
+    "tagline": "Two crew members clash beside live traffic: notice it, name it, slow it down, and get to the fix — the work zone safe first",
+    "accent": 15895608,
+    "accentCss": "#f28c38",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cooled-and-fixed",
+      "name": "Cooled and Fixed",
+      "note": "A crew conflict noticed early, slowed down, heard on both sides and settled into a decision the crew worked under"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crew Board",
+      "currency": "TRUST",
+      "ranks": [
+        "Crew Member",
+        "Senior Worker",
+        "Crew Lead",
+        "Supervisor",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ei-giving-and-taking-feedback",
+    "index": "731",
+    "domain": "Civic",
+    "trade": "City parks crew — senior worker and apprentice",
+    "category": "Community Environmental Justice",
+    "certification": "8 CCR 3203, the employer's Injury and Illness Prevention Program, for correcting an unsafe practice through training rather than blame and for recording what was corrected; Labor Code §6310 for a worker's protection when they raise a safety concern, including one about a senior colleague's instructions; SAMHSA's trauma-informed principles of safety, trustworthiness and collaboration for how a correction is delivered; Psychological First Aid for staying calm and practical with somebody who is upset; SEIU and AFSCME for the parks members whose contract governs any formal discipline. The emotional-intelligence steps follow the programme's own guide",
+    "name": "Giving and Taking Feedback",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Giving and Taking Feedback VR",
+    "tagline": "Name the behaviour, not the person — and when it comes back to you, take it without defending",
+    "accent": 5227465,
+    "accentCss": "#4fc3c9",
+    "parSeconds": 330,
+    "badge": {
+      "id": "both-directions",
+      "name": "Both Directions",
+      "note": "Feedback given about the behaviour and taken without defence, in the same conversation"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Feedback Board",
+      "currency": "CLARITY",
+      "ranks": [
+        "Apprentice",
+        "Crew Member",
+        "Senior Worker",
+        "Crew Lead",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ei-leading-under-pressure",
+    "index": "732",
+    "domain": "Civic",
+    "trade": "City public works crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "NIMS and ICS for the structure a lead keeps under pressure — unity of command, a manageable span of control and objectives stated plainly; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for hazards that are not traded for schedule; the MUTCD for the work zone that has to stay set until the street reopens; SAMHSA's trauma-informed principles of safety, peer support and empowerment for a tired crew; Psychological First Aid for the calm, practical presence a lead offers; SEIU and AFSCME for the public-works members whose contract sets rest breaks and overtime. The emotional-intelligence steps follow the programme's own guide",
+    "name": "Leading Under Pressure",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Leading Under Pressure VR",
+    "tagline": "The schedule slips and the crew is tired: a calm voice, one clear next step, no safety step traded for time, and credit shared at the end",
+    "accent": 11565823,
+    "accentCss": "#b07aff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "steady-lead",
+      "name": "Steady Lead",
+      "note": "A slipping schedule led with a calm voice, one next step at a time, every safety step kept and every crew member credited"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lead Board",
+      "currency": "STEADY",
+      "ranks": [
+        "Crew Member",
+        "Lead Hand",
+        "Crew Lead",
+        "Supervisor",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -46488,7 +46868,7 @@ const PP_PROGRAMMES = {
   "culinary-kitchen": { name: "Culinary — The Working Kitchen", stations: ["kitchen","knife-skills","slicer-lockout","bakery-mixer","fryer-oil-change","hood-suppression","kitchen-gas-shutoff","walk-in-cooler","receiving-dock-food","prep-cooling","dish-pit","grease-trap","allergen-control","banquet-hot-hold","cafeteria-serving","grill-line-burns"] },
   "dental-hygiene-unspoken-smiles": { name: "Dental Hygiene — Unspoken Smiles", stations: ["phlebotomy","operatory-turnover","instrument-reprocessing","sharps-exposure-response","patient-intake-screening","radiograph-safety","periodontal-charting","ultrasonic-scaling","aerosol-management","fluoride-and-sealants","nitrous-oxide-monitoring","chairside-emergency","amalgam-waste-handling","mobile-dental-outreach","pediatric-visit","oral-cancer-screening","dn-medical-history-and-medication-review","dn-oral-hygiene-instruction-and-motivational-interviewing","dn-public-health-dentistry-and-fluoridation-advocacy"] },
   "dental-careers-unspoken-smiles": { name: "Dental Careers — Unspoken Smiles", stations: ["patient-intake-screening","dental-careers-pathway","four-handed-dentistry","dental-radiography-fmx","sterilisation-technician-cycle","dental-lab-bench","orthodontic-assisting","oral-surgery-assisting","front-office-treatment-coordination","infection-control-audit","school-screening-outreach","implant-surgery-assisting","endodontic-assisting","denture-delivery-and-adjustment","special-needs-and-geriatric-dentistry","teledentistry-and-triage","dn-digital-intraoral-scanning-and-cad-cam","dn-dental-trauma-and-avulsed-tooth-response","dn-dental-coding-billing-and-preauthorisation"] },
-  "civic-leadership-and-ei": { name: "Civic Leadership and Emotional Intelligence", stations: ["public-comment-prep","civic-principles-briefing","public-meeting-chair","constituent-service-desk","coalition-building-table","budget-tradeoff-hearing","ethics-and-conflict-of-interest","crisis-communication-podium","community-listening-session","conflict-mediation-room","mentorship-and-succession","cv-open-meeting-law-and-agenda-notice","cv-voter-registration-drive-and-nonpartisan-conduct","cv-neighborhood-emergency-block-captain","cv-restorative-justice-circle-facilitation","cv-grant-application-and-nonprofit-compliance","cv-difficult-conversation-across-difference"] },
+  "civic-leadership-and-ei": { name: "Civic Leadership and Emotional Intelligence", stations: ["public-comment-prep","civic-principles-briefing","public-meeting-chair","constituent-service-desk","coalition-building-table","budget-tradeoff-hearing","ethics-and-conflict-of-interest","crisis-communication-podium","community-listening-session","conflict-mediation-room","mentorship-and-succession","cv-open-meeting-law-and-agenda-notice","cv-voter-registration-drive-and-nonpartisan-conduct","cv-neighborhood-emergency-block-captain","cv-restorative-justice-circle-facilitation","cv-grant-application-and-nonprofit-compliance","cv-difficult-conversation-across-difference","ei-conflict-on-the-crew","ei-giving-and-taking-feedback","ei-leading-under-pressure"] },
   "property-management": { name: "Property Management — Twenty Zones", stations: ["boiler-room","pm-lobby-and-front-desk","pm-leasing-office-fair-housing","pm-unit-turnover","pm-trash-and-recycling-room","pm-fire-alarm-panel-room","pm-sprinkler-riser-room","pm-elevator-machine-room","pm-parking-garage","pm-roof-and-drains","pm-electrical-room","pm-domestic-water-and-backflow","pm-laundry-room","pm-pool-and-spa-chemistry","pm-fitness-room-and-gym","pm-community-room-and-events","pm-mail-and-package-room","pm-loading-dock-and-moves","pm-landscaping-and-irrigation","pm-playground-and-courtyard","pm-storage-and-bike-room"] },
   "outbreak-response-who": { name: "Outbreak and Disease Response — WHO and UN Practice", stations: ["decon-line","who-surveillance-and-case-definition","who-ppe-donning-and-doffing","who-isolation-ward-setup","who-contact-tracing-visit","who-treatment-centre-triage","who-water-sanitation-and-hygiene","who-vaccination-line","who-risk-communication-and-community-engagement","who-safe-and-dignified-burial","who-after-action-review"] },
   "job-readiness-edition": { name: "Job Readiness Edition — wojrc.org programmes", stations: ["forklift-dock","tdl-pallet-jack-and-racking","tdl-pick-pack-and-scan","tdl-trailer-loading-and-dock-plate","tdl-hazmat-labeling-and-segregation","tdl-lifting-and-ergonomics","tdl-pretrip-inspection","tdl-air-brake-test","tdl-coupling-and-uncoupling","tdl-backing-and-docking","tdl-cargo-securement-and-hours","drive-city-route-and-turns","drive-freeway-merge-and-following-distance","drive-mountain-grade-and-engine-brake","drive-night-fog-and-rail-crossing","drive-backing-serpentine-and-alley-dock","drive-light-vehicle-fleet-and-forklift-course","apprenticeship-standards-reading","apprenticeship-application-and-test","jobsite-orientation-and-osha-10","union-hall-and-dispatch","first-period-evaluation","credit-report-reading","debt-reduction-plan","pay-stub-and-withholding","budget-with-irregular-income","emergency-savings-and-predatory-lending","trades-lineage-briefing","wellness-shift-work-sleep-and-stress","wellness-peer-support-conversation","wellness-substance-use-and-the-job","wellness-asking-for-help-and-resources"] },
@@ -46503,7 +46883,7 @@ const PP_PROGRAMMES = {
   "situational-awareness": { name: "Situational Awareness — Interruption Drill", stations: ["electrical","welding","trench-box","crane-yard","chlorine-room","confined-rescue","substation-switching","airport-ramp","fire-pump","tower-climb","elevator-pit","boiler-room","forklift-dock","phlebotomy","transformer-vault","wind-nacelle","digester-gas","data-hall","steel-erector","triage-point","dock-crane","press-brake"] },
   "ports-maritime-ecology": { name: "Ports, Maritime and Bay Ecology", stations: ["dock-crane","container-lashing","shore-power-hookup","bunkering-watch","ballast-water-sampling","spill-boom-deploy","pilot-transfer","mooring-line","reefer-yard-monitoring","straddle-carrier-ops","hazmat-container-inspection"] },
   "air-quality-monitoring": { name: "Air Quality — Monitoring and Control", stations: ["air-monitor","mobile-air-lab","opacity-reading","stack-test","landfill-gas","soil-loadout"] },
-  "basketball-fundamentals": { name: "Basketball Fundamentals", stations: ["bb-warmup-injury-prevention-and-hydration","bb-stance-and-ball-handling","bb-footwork-pivots-and-jump-stops","bb-passing-and-catching","bb-shooting-form-and-arc","bb-free-throw-routine","bb-defensive-stance-and-closeouts","bb-rebounding-and-boxing-out","bb-team-offense-spacing-and-screens","bb-scrimmage-and-sportsmanship-debrief","bb-reset-routine-after-a-miss","bb-pre-game-routine-and-visualisation","bb-composure-with-a-hostile-crowd-and-officials","bb-teammate-conflict-and-accountability","bb-coach-feedback-and-growth-mindset","bb-final-possession-decision-under-pressure","bb-layups-and-finishing-at-the-rim","bb-dribble-moves-and-change-of-pace"] },
+  "basketball-fundamentals": { name: "Basketball Fundamentals", stations: ["bb-warmup-injury-prevention-and-hydration","bb-stance-and-ball-handling","bb-footwork-pivots-and-jump-stops","bb-passing-and-catching","bb-shooting-form-and-arc","bb-free-throw-routine","bb-defensive-stance-and-closeouts","bb-rebounding-and-boxing-out","bb-team-offense-spacing-and-screens","bb-scrimmage-and-sportsmanship-debrief","bb-reset-routine-after-a-miss","bb-pre-game-routine-and-visualisation","bb-composure-with-a-hostile-crowd-and-officials","bb-teammate-conflict-and-accountability","bb-coach-feedback-and-growth-mindset","bb-final-possession-decision-under-pressure","bb-layups-and-finishing-at-the-rim","bb-dribble-moves-and-change-of-pace","bb-pick-and-roll-communication","bb-help-defense-rotations","bb-transition-spacing-and-roles","bb-timeout-huddle-and-adjustment","bb-losing-well-and-film-review"] },
   "bay-restoration-maritime-underwater": { name: "SF Bay Restoration & Cleanup — Maritime and Underwater", stations: ["br-dive-site-hazard-assessment-and-jsa","br-surface-supplied-dive-station-setup","br-underwater-debris-survey-and-mapping","br-underwater-sediment-core-sampling","br-derelict-gear-recovery-dive","br-hyperbaric-chamber-standby","br-dive-tender-and-umbilical-management","br-derelict-vessel-salvage-rigging","br-workboat-crane-lift-from-water","br-debris-skimmer-vessel-operations","br-boom-towing-between-two-vessels","br-barge-loading-of-contaminated-sediment","br-cold-water-immersion-and-mob-recovery","br-vhf-and-navigation-in-a-work-zone","br-dredge-spoils-dewatering-pad","br-turbidity-curtain-deployment","br-sediment-chain-of-custody-and-lab-prep","br-water-quality-sonde-calibration-and-deploy","br-legacy-mercury-and-pcb-hotspot-handling","br-trash-capture-device-service","br-dredge-material-screening-and-disposal-decision","br-marine-mammal-observer-during-pile-driving","br-bird-nesting-buffer-and-work-window","br-tidal-marsh-grading-amphibious-excavator","br-native-planting-and-erosion-mats","br-culvert-retrofit-for-fish-passage","br-shoreline-cleanup-sharps-and-hazardous-debris","br-intertidal-invasive-removal-by-hand-crew","br-levee-inspection-and-seepage","br-fish-screen-maintenance","br-drone-shoreline-survey","br-volunteer-cleanup-day-safety-lead","br-restoration-data-qa-and-public-reporting","br-beach-seine-fish-survey-and-handling","br-benthic-grab-and-invertebrate-sorting"] },
   "railroad-crafts": { name: "Railroad Crafts — Track, Car and Cab", stations: ["ra-roadway-worker-protection-and-job-briefing","ra-tie-and-rail-replacement-with-track-machines","ra-switch-inspection-and-lubrication","ra-air-brake-test-and-train-inspection","ra-hand-brake-and-securement-on-a-grade","ra-crossing-signal-maintenance-and-flagging","ra-locomotive-cab-startup-and-alerter","ra-blue-flag-protection-in-the-yard"] },
   "heavy-equipment-operators": { name: "Heavy Equipment Operators — IUOE Local 3", stations: ["op-excavator-trench-and-utility-locate","op-dozer-slope-work-and-rollover-protection","op-loader-truck-loading-and-blind-spots","op-grader-fine-grade-and-crown","op-compactor-lift-thickness-and-edge","op-crawler-crane-assembly-and-load-chart","op-pile-driving-rig-and-lead-setup","op-equipment-daily-walkaround-and-fluids"] },

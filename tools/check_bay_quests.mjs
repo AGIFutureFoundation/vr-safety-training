@@ -86,7 +86,7 @@ await check("every quest step's station id is a real (app, id) pair in the catal
 await check("every non-Job-Readiness programme has one opener and one capstone side quest", () => {
   const programmeIds = CURRICULA.map((p) => p.id).filter((id) => id !== "job-readiness-edition");
   const byProgramme = new Map();
-  for (const q of SIDE_QUESTS) {
+  for (const q of SIDE_QUESTS.filter((x) => x.track !== "teamwork")) {
     if (!byProgramme.has(q.programmeId)) byProgramme.set(q.programmeId, []);
     byProgramme.get(q.programmeId).push(q);
   }
@@ -102,7 +102,9 @@ await check("every non-Job-Readiness programme has one opener and one capstone s
   assert(missing.length === 0, missing.join("\n"));
   assert(wrongShape.length === 0, wrongShape.join("\n"));
   assert(extra.length === 0, `side quests reference unknown programme id(s): ${extra.join(", ")}`);
-  eq(SIDE_QUESTS.length, programmeIds.length * 2, "side quest count");
+  eq(SIDE_QUESTS.filter((x) => x.track !== "teamwork").length, programmeIds.length * 2, "side quest count");
+  const team = SIDE_QUESTS.filter((x) => x.track === "teamwork").map((x) => x.role).sort().join(",");
+  eq(team, "capstone,opener", "Teamwork side quest pair");
 });
 
 // ---------------------------------------------------- 3. eggs cite real steps

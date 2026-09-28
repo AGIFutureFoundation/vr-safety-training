@@ -54,6 +54,49 @@ export function eiLine(moment, ctx = {}) {
   }
 }
 
+// Teamwork moments: what the guide says when the moment belongs to the team
+// rather than to one pair of hands. The same peer-support rules hold — name
+// it plainly, point at the next thing to do, blame nobody, never shrink it.
+const EI_TEAM = {
+  "teammate-mistake": [
+    "A teammate got it wrong. Say the next thing to do, not the last thing they did — \"next one\" is the whole sentence.",
+    "Their mistake is the team's next play. Pick them up with one word and one job, and save the fix for the film.",
+  ],
+  "huddle-disagreement": [
+    "Two good players, two different reads. Hear both in a sentence each, pick one, and both of you run it hard.",
+    "A disagreement in the huddle is information. Lower your voice, ask what they saw, then decide together.",
+  ],
+  "loss": [
+    "A loss hurts because it mattered. Own your part out loud, name one thing to fix, and leave the rest on the floor.",
+    "Nobody lost this alone. Say what you will do differently, and thank the person who covered for you.",
+  ],
+  "win-shared": [
+    "A good result. Name the teammate whose work nobody saw — that is how a win stays a team's.",
+    "Share it: the pass before the pass, the screen, the call from the bench. Credit spreads; it does not run out.",
+  ],
+};
+
+/** The guide's line for a teamwork moment: "teammate-mistake",
+ *  "huddle-disagreement", "loss" or "win-shared". */
+export function eiTeamLine(moment, ctx = {}) {
+  const list = EI_TEAM[moment];
+  return list ? eiPick(list, ctx.seed ?? 0) : "";
+}
+
+/** The short reflection offered after a team station: three questions, none
+ *  scored, the same whatever the result. */
+export const REFLECTION_QUESTIONS = [
+  "What did you say out loud that helped?",
+  "Where did you wait when you could have spoken?",
+  "Who covered for you, and have you told them?",
+];
+
+export function reflectionPrompt({ team = true } = {}) {
+  return team
+    ? `Before you go: ${REFLECTION_QUESTIONS.join(" ")} There is no score on this.`
+    : "Before you go: what will you do the same way next time, and what will you change? There is no score on this.";
+}
+
 /** The end-of-run check-in. Three answers, none scored, one supportive line
  *  each; a hard run (hazards or missed interruptions) adds the support
  *  pointer. The department's or local's own line goes in `supportLine`. */

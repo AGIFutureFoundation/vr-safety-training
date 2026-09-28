@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cooled-and-fixed",
+    "name": "Cooled and Fixed",
+    "note": "A crew conflict noticed early, slowed down, heard on both sides and settled into a decision the crew worked under"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a hazard a worker raises is heard and corrected and how a threat between co-workers is reported; the MUTCD for the temporary traffic control the crew is arguing about; SAMHSA's trauma-informed principles of safety, trustworthiness, peer support and collaboration; Psychological First Aid for calm, practical presence with somebody upset; SEIU and AFSCME for the public-works members whose contract and steward process sit behind any discipline. The emotional-intelligence steps follow the programme's own guide",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "Noticed Early",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-blame",
+        "name": "No Blame",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Crew Member",
+      "Senior Worker",
+      "Crew Lead",
+      "Supervisor",
+      "Mentor"
+    ],
+    "system": "Crew Board"
+  },
+  "hazards": {
+    "argue-it-out-in-the-lane": "You let the argument carry on standing in the open lane beside traffic. Two people facing each other in anger are two people facing away from the traffic, and the MUTCD work zone exists precisely so that nobody is standing in the path of vehicles unprotected; the conversation moves behind the barrier first.",
+    "pick-the-senior-worker-by-default": "You sided with the more senior crew member without hearing the other. Deciding by seniority tells the newer worker that raising a safety concern is pointless, and 8 CCR 3203 asks the employer to have a way for any worker to raise a hazard without fear — which starts with actually hearing them.",
+    "tell-them-to-just-get-over-it": "You told them both to get over it and get back to work. Waving off a conflict without hearing it pushes it underground, where it comes back as silence on the radio and a cone left unset; SAMHSA's trauma-informed principles put safety and trust first, and neither comes from being told to stop feeling something.",
+    "threaten-a-write-up-on-the-spot": "You threatened both of them with a write-up in front of the crew. Discipline announced in anger in front of others shames people rather than fixing anything, and any real discipline runs through the process SEIU and AFSCME contracts set out, with a steward, not on the shoulder of a road."
+  },
+  "id": "ei-conflict-on-the-crew",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-a-steady-presence",
+      "alert": "A car drifts toward the taper while the crew's attention is on the argument.",
+      "cue": "Sound the warning horn and clear everyone to the safe side — the conversation stops.",
+      "delay": 3,
+      "id": "a-car-drifts-toward-the-taper",
+      "kind": "Vehicle intrusion",
+      "missNote": "Nobody sounded the warning, the car clipped two cones at the taper, and one crew member jumped back into the second one's path.",
+      "seconds": 12,
+      "target": "ecc-horn-signal",
+      "why": "This is why the conversation moved behind the barrier. An intrusion warning beats any conversation, and a lead who sounds it and clears the crew is protecting the two people who were too busy arguing to see the car.",
+      "wrongNote": "That does not warn the crew. Sound the horn and clear everyone."
+    },
+    {
+      "after": "hold-crew-trust",
+      "alert": "One of the two throws down their gloves and starts walking off the site toward the road.",
+      "cue": "Radio the supervisor to meet them safely off the road — you keep the crew working the zone.",
+      "delay": 3,
+      "id": "one-walks-off-the-site",
+      "kind": "Crew member leaves",
+      "missNote": "Nobody radioed, the worker walked along the live lane to the corner, and the crew stopped work to watch.",
+      "seconds": 12,
+      "target": "ecc-radio-supervisor",
+      "why": "A worker walking off angry toward a road is a safety problem first. The supervisor meets them off the traffic side and away from the crew, while the lead keeps the work zone staffed; nobody chases anyone into traffic.",
+      "wrongNote": "That does not get anyone to them. Radio the supervisor."
+    }
+  ],
+  "lateNotes": {
+    "ecc-crew-checkin": "The crew check-in comes at the very end of the shift.",
+    "ecc-tailboard-log": "The tailboard note is written once the crew is back working under the decision — nothing to record yet."
+  },
+  "name": "Conflict on the Crew",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "argue-it-out-in-the-lane",
+      "ecc-agreed-spot",
+      "ecc-back-to-traffic",
+      "ecc-barrier-spot",
+      "ecc-both-heard-card",
+      "ecc-credit-board",
+      "ecc-crew-checkin",
+      "ecc-decision-token",
+      "ecc-flagger-waving",
+      "ecc-horn-signal",
+      "ecc-hot-crew-muttering",
+      "ecc-hot-joking",
+      "ecc-hot-not-talking",
+      "ecc-hot-radio-silent",
+      "ecc-order-fix",
+      "ecc-order-name",
+      "ecc-order-notice",
+      "ecc-order-slow",
+      "ecc-pace-meter",
+      "ecc-pause-dial",
+      "ecc-radio-supervisor",
+      "ecc-raised-voices",
+      "ecc-steady-spot",
+      "ecc-tailboard-log",
+      "ecc-tool-thrown-down",
+      "ecc-trust-meter",
+      "pick-the-senior-worker-by-default",
+      "tell-them-to-just-get-over-it",
+      "threaten-a-write-up-on-the-spot"
+    ],
+    "meshes": 271
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look across the work zone: where are the signs that two people on the crew are clashing?",
+      "decoyNotes": {
+        "ecc-flagger-waving": "The flagger waving traffic through is doing their job — leave them to it."
+      },
+      "id": "notice-the-conflict-early",
+      "itemNames": {
+        "ecc-back-to-traffic": "a crew member with their back to traffic",
+        "ecc-raised-voices": "two raised voices at the taper",
+        "ecc-tool-thrown-down": "a shovel thrown down on the asphalt"
+      },
+      "itemNotes": {
+        "ecc-back-to-traffic": "Anyone arguing with their back to traffic has stopped watching it. That is the safety problem inside the people problem.",
+        "ecc-raised-voices": "Raised voices are the first sign and the easiest to act on. Walk over before it becomes the third sign.",
+        "ecc-tool-thrown-down": "A tool thrown down is anger turning physical, and a trip hazard in the work zone. Pick it up on the way in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look across the work zone: where are the signs that two people on the crew are clashing?",
+      "targets": [
+        "ecc-raised-voices",
+        "ecc-back-to-traffic",
+        "ecc-tool-thrown-down"
+      ],
+      "title": "Notice the conflict while it is small",
+      "why": "Crew conflicts are easiest to settle in their first minute and hardest after the third. Raised voices, a crew member with their back to live traffic and a tool thrown down on the asphalt are three signs of the same thing at different stages, and a lead who notices the first one walks over before the last one happens."
+    },
+    {
+      "cue": "Before anything is said about who is right, both crew members step behind the barrier.",
+      "id": "move-everyone-behind-the-barrier",
+      "kind": "select",
+      "prompt": "Before anything is said about who is right, both crew members step behind the barrier.",
+      "target": "ecc-barrier-spot",
+      "title": "Move the conversation behind the barrier",
+      "why": "The work zone is set to keep people out of the path of traffic, and an argument pulls people's attention off it. Moving the conversation behind the barrier first is not avoiding the conflict; it is making sure the conflict is the only risk left in the conversation, which is the order a crew lead keeps under the MUTCD and the employer's injury prevention programme."
+    },
+    {
+      "cue": "Notice, name, slow down, then fix — never straight to the fix.",
+      "id": "build-the-slowdown-in-order",
+      "itemNames": {
+        "ecc-order-fix": "4 · get to the fix",
+        "ecc-order-name": "2 · name it out loud",
+        "ecc-order-notice": "1 · notice it",
+        "ecc-order-slow": "3 · slow it down"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Name it out loud before trying to fix it — a fix handed to two angry people is a fix neither follows.",
+      "prompt": "Notice, name, slow down, then fix — never straight to the fix.",
+      "targets": [
+        "ecc-order-notice",
+        "ecc-order-name",
+        "ecc-order-slow",
+        "ecc-order-fix"
+      ],
+      "title": "Take the conflict in order",
+      "why": "Jumping straight to the fix while two people are still angry produces a decision neither will work under. Naming what you see makes the heat something the crew can talk about rather than act on; slowing down lets both people be heard; only then is there room for a fix that sticks through the rest of the shift."
+    },
+    {
+      "cue": "Stand side-on between the two, voice low, hands open — hold it.",
+      "holdBreakNote": "You moved or raised your voice before the hold was up. Your calm is what the crew borrows — stand steady and breathe.",
+      "id": "hold-a-steady-presence",
+      "kind": "hold",
+      "prompt": "Stand side-on between the two, voice low, hands open — hold it.",
+      "seconds": 6,
+      "target": "ecc-steady-spot",
+      "title": "Stand steady between them and breathe",
+      "why": "Psychological First Aid describes calm, practical presence as the first thing someone upset needs, and a lead standing side-on between two crew members with open hands and a low voice is that presence in a work zone. Holding it lets both bodies come down before the words start, which is what makes the words useful when they come."
+    },
+    {
+      "cue": "Pause the one task they were clashing over — the rest of the crew keeps working safely.",
+      "id": "turn-the-pause-dial",
+      "kind": "turn",
+      "prompt": "Pause the one task they were clashing over — the rest of the crew keeps working safely.",
+      "target": "ecc-pause-dial",
+      "title": "Turn the dial to pause that task",
+      "turn": {
+        "axis": "y",
+        "label": "PAUSE",
+        "turns": 0.5
+      },
+      "why": "Pausing the task in dispute, rather than the whole job, takes the pressure off without stopping the crew. It tells both workers the disagreement is worth a few minutes, and it means nobody is setting cones or cutting asphalt while still angry, which is when a concern that started as a disagreement becomes an injury."
+    },
+    {
+      "cue": "Commit when the pace reads right — each person heard fully, then on to the fix.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PACE",
+        "missNote": "Outside the band. Rushed and nobody is heard; dragged out and it becomes a trial. Keep it short and complete.",
+        "speed": 0.6
+      },
+      "id": "pace-the-conversation",
+      "kind": "gauge",
+      "prompt": "Commit when the pace reads right — each person heard fully, then on to the fix.",
+      "target": "ecc-pace-meter",
+      "title": "Keep the conversation at the right pace",
+      "why": "A conflict conversation rushed through to get back to work leaves both people feeling unheard and the disagreement intact; one dragged out on the shoulder of a road turns into a hearing. The right pace is short and complete: each person says what they saw and why it mattered, the lead repeats it back, and the crew moves to the decision."
+    },
+    {
+      "cue": "Drag the decision token — longer taper, as the traffic plan shows — to the agreed spot, and get a nod from each.",
+      "drag": {
+        "missNote": "The decision is not on the board yet. A fix both can work under goes all the way to agreed — say it and get two nods.",
+        "radius": 0.45,
+        "to": "ecc-agreed-spot"
+      },
+      "id": "move-to-the-fix",
+      "kind": "drag",
+      "prompt": "Drag the decision token — longer taper, as the traffic plan shows — to the agreed spot, and get a nod from each.",
+      "target": "ecc-decision-token",
+      "title": "Move the decision to agreed",
+      "why": "Both crew members were arguing about something real: one wanted a longer taper, the other wanted to finish before the traffic peak. A decision that uses the traffic plan as the tiebreaker, rather than seniority, is one both can accept, and getting a nod from each is what turns the lead's decision into the crew's."
+    },
+    {
+      "cue": "\"You first — then you.\" Each speaks without interruption and you say back what you heard.",
+      "id": "hear-both-in-turn",
+      "kind": "select",
+      "prompt": "\"You first — then you.\" Each speaks without interruption and you say back what you heard.",
+      "target": "ecc-both-heard-card",
+      "title": "Hear both sides in turn",
+      "why": "Hearing both sides in turn, and saying back what each one said, is how a crew lead shows that neither will be decided against without being heard. It is also usually where the fix appears, because two people who both care about the job were almost always arguing about different parts of the same concern."
+    },
+    {
+      "cue": "Watch the crew after the decision — where has it not really settled?",
+      "decoyNotes": {
+        "ecc-hot-joking": "Two crew members joking at the truck is the crew settling back in — that is fine."
+      },
+      "id": "spot-what-is-still-hot",
+      "itemNames": {
+        "ecc-hot-crew-muttering": "the rest of the crew muttering and picking sides",
+        "ecc-hot-not-talking": "the two still not talking to each other",
+        "ecc-hot-radio-silent": "the radio gone quiet between them"
+      },
+      "itemNotes": {
+        "ecc-hot-crew-muttering": "A crew picking sides keeps the conflict alive after the two have settled it. That needs its own word.",
+        "ecc-hot-not-talking": "Not talking after a fix means it is agreed but not settled. A second word before the next task.",
+        "ecc-hot-radio-silent": "Radio silence between two crew members in a work zone is a safety gap, not just a mood. Check it now."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the crew after the decision — where has it not really settled?",
+      "targets": [
+        "ecc-hot-not-talking",
+        "ecc-hot-crew-muttering",
+        "ecc-hot-radio-silent"
+      ],
+      "title": "Find where the conflict is still running",
+      "why": "A decision agreed is not the same as a conflict settled. Two people still not talking, the rest of the crew muttering about who was right, and a radio gone quiet between two workers who need to talk to each other in traffic are all signs to go back once more before the job carries on."
+    },
+    {
+      "cue": "Keep trust in band as the paused task restarts — not tense, not forced cheerful.",
+      "holdBreakNote": "Trust left the band — gone tense or forced. Slow the restart and check in with both.",
+      "id": "hold-crew-trust",
+      "kind": "track",
+      "prompt": "Keep trust in band as the paused task restarts — not tense, not forced cheerful.",
+      "seconds": 8,
+      "target": "ecc-trust-meter",
+      "title": "Hold crew trust as work restarts",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TRUST",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The first ten minutes after a conflict decide whether the crew works as one again or around each other. Holding trust in band — the two working the task together, the lead nearby but not hovering, the radio talking — is what shows the fix held, and is the peer support and collaboration SAMHSA's principles describe."
+    },
+    {
+      "cue": "Write the safety concern raised, the decision made and why, on the tailboard log.",
+      "id": "note-it-on-the-tailboard",
+      "kind": "select",
+      "prompt": "Write the safety concern raised, the decision made and why, on the tailboard log.",
+      "target": "ecc-tailboard-log",
+      "title": "Record the concern and the decision",
+      "why": "The concern that started the argument was a real safety concern, and 8 CCR 3203 asks for hazards raised by workers to be recorded and corrected. Writing it down with the decision and the reason protects both workers, shows the concern was taken seriously, and gives the next crew the answer before they have the same argument."
+    },
+    {
+      "cue": "At the end of the task, name what each one got right — in front of the crew.",
+      "id": "credit-both-out-loud",
+      "kind": "select",
+      "prompt": "At the end of the task, name what each one got right — in front of the crew.",
+      "target": "ecc-credit-board",
+      "title": "Credit both of them in front of the crew",
+      "why": "Both crew members were right about something — the taper and the timing. Crediting each in front of the crew, after the work is done, repairs what the argument cost in public and tells everyone watching that raising a concern on this crew is worth doing, which is the culture the employer's injury prevention programme depends on."
+    },
+    {
+      "cue": "At the truck: how is everyone after today, and is anything still sitting with anyone?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the truck: how is everyone after today, and is anything still sitting with anyone?",
+      "target": "ecc-crew-checkin",
+      "title": "Check in with the crew at the end of the shift",
+      "why": "A conflict on the crew can stay with people after the shift, including the lead who stepped into it. Asking how everyone is at the end, with the steward and the employee assistance line named for anyone who wants them, is the check-in the programme's guide offers, and it catches what a tailboard note cannot."
+    }
+  ],
+  "supportLine": "your supervisor, your union steward, or the employee assistance line — a conflict on the crew that stays with you is worth talking through",
+  "tagline": "Two crew members clash beside live traffic: notice it, name it, slow it down, and get to the fix — the work zone safe first",
+  "title": "SmartCiti.X~ Conflict on the Crew VR",
+  "trade": "City street maintenance crew lead",
+  "underwater": null,
+  "weather": "overcast"
+}
