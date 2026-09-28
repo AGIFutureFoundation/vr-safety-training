@@ -7,12 +7,14 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
+import { pickup } from "../../shared/fleet.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
+import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
 import {
   SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES,
-  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_WATER_LEVEL, SM_SNOWLINE,
-  smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace,
+  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL,
+  smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace,
 } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import {
@@ -81,8 +83,40 @@ function smApplySky() {
   $("hud-weather").textContent = SM_WEATHERS[sm.weatherIdx];
 }
 smApplySky();
-// Gulls over the reservoir: the one shared wildlife kind that fits here.
-const gulls = buildWildlife(root, { zone: { x: SM_LAKE.centre[0], z: SM_LAKE.centre[1], w: 500, d: 500, y: SM_WATER_LEVEL + 20 }, kind: "gulls", count: 6 });
+// Wildlife from the shared budget table: gulls over the reservoir, raptors
+// soaring over the transmission ridge, a deer group at the meadow edge by
+// the ranger station (the pad is flat there, so the group stands level).
+const smRanger = smPlace("ranger-station");
+const smRidgeTop = smPlace("ridge-line");
+const smWild = [
+  buildWildlife(root, { zone: { x: SM_LAKE.centre[0], z: SM_LAKE.centre[1], w: 500, d: 500, y: SM_WATER_LEVEL + 20 }, kind: "gulls", count: 6 }),
+  buildWildlife(root, { zone: { x: smRidgeTop.at[0], z: smRidgeTop.at[1] - 120, w: 420, d: 420, y: smHeightAt(smRidgeTop.at[0], smRidgeTop.at[1]) + 40 }, kind: "raptors", count: 3 }),
+  buildWildlife(root, { zone: { x: smRanger.at[0] + 34, z: smRanger.at[1] + 26, w: 26, d: 22, y: smHeightAt(smRanger.at[0], smRanger.at[1]) }, kind: "deer", count: 4 }),
+];
+
+// The crew pickup: drives the pass road end to end and back (through the
+// tunnel, where the ridge hides it), so the road reads as a road. Distance
+// along the road is kept in metres; the road profile gives its height.
+const smTruck = pickup(root, 0, 0, 0, { livery: { colour: 0xf2a53a, fleetName: "PASS ROAD CREW" } });
+const smRoadLens = [0];
+for (let i = 1; i < SM_PASS_ROAD.length; i++) smRoadLens.push(smRoadLens[i - 1] + Math.hypot(SM_PASS_ROAD[i][0] - SM_PASS_ROAD[i - 1][0], SM_PASS_ROAD[i][1] - SM_PASS_ROAD[i - 1][1]));
+const smRoadTotal = smRoadLens[smRoadLens.length - 1];
+let smTruckD = smRoadTotal * 0.12, smTruckDir = 1;
+function smRoadAt(d) {
+  let i = 1; while (i < smRoadLens.length - 1 && smRoadLens[i] < d) i++;
+  const u = Math.max(0, Math.min(1, (d - smRoadLens[i - 1]) / ((smRoadLens[i] - smRoadLens[i - 1]) || 1)));
+  const [ax, az] = SM_PASS_ROAD[i - 1], [bx, bz] = SM_PASS_ROAD[i];
+  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, yaw: Math.atan2(bx - ax, bz - az) };
+}
+function smDriveTruck(dt) {
+  smTruckD += smTruckDir * 11 * dt;
+  if (smTruckD > smRoadTotal - 40) { smTruckD = smRoadTotal - 40; smTruckDir = -1; }
+  if (smTruckD < 40) { smTruckD = 40; smTruckDir = 1; }
+  const p = smRoadAt(smTruckD);
+  smTruck.position.set(p.x, smHeightAt(p.x, p.z) + 0.35, p.z);
+  smTruck.rotation.y = p.yaw + (smTruckDir > 0 ? 0 : Math.PI);
+}
+smDriveTruck(0);
 
 addEventListener("resize", () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); smRenderer.setSize(innerWidth, innerHeight); });
 
@@ -127,7 +161,7 @@ function smLink(id, siteId) { return lkStationLink(id, { runner: SM_RUNNER, from
 function smLockHtml(gate) {
   const miss = smGateMissing(gate, sm.state);
   if (!miss.length) return "";
-  const links = miss.map((m) => (m.kind === "station" || m.kind === "k12") ? `<a href="${smLink(m.id, sm.near?.site?.id ?? null)}">${lkStationLabel(m.id)}</a>` : `${m.kind} ${lkStationLabel(m.id)}`).join(", ");
+  const links = miss.map((m) => (m.kind === "station" || m.kind === "k12") ? `<a href="${smLink(m.id, sm.near?.site?.id ?? null)}">${lkStationLabel(m.id)}</a>` : `${m.kind} ${m.label ?? lkStationLabel(m.id)}${m.detail ? ` (${m.detail})` : ""}`).join(", ");
   return `<p class="lock">🔒 ${gate.note} — needs ${links}</p>`;
 }
 
@@ -151,20 +185,20 @@ function smOpenBoard(site) {
 }
 
 function smOpenLesson(l) {
-  $("lesson-title").textContent = l.title; $("lesson-min").textContent = l.minutes; $("lesson-trade").textContent = l.trade;
+  $("lesson-title").textContent = l.title; $("lesson-min").textContent = l.minutes; $("lesson-trade").textContent = `${l.trade} · ${l.tradeLine} (${l.band})`;
   $("lesson-steps").innerHTML = l.steps.map((s) => `<li>${s}</li>`).join("");
-  $("lesson-q").textContent = l.check.q;
+  $("lesson-q").textContent = l.check.question;
   const box = $("lesson-choices"); box.textContent = "";
-  l.check.choices.forEach((c, i) => {
+  l.check.options.forEach((c, i) => {
     const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = c;
     b.addEventListener("click", () => {
       const r = smAnswerLesson(sm.state, l.id, i); smSave(sm.state);
-      smToast(r.ok ? `Right — ${l.title} passed.` : "Not quite — read the steps again and try another answer.");
+      smToast(r.ok ? `Right — ${l.check.why}` : "Not quite — read the steps again and try another answer.", r.ok ? 6000 : 3200);
       b.classList.toggle("on", r.ok); smHud();
     });
     box.appendChild(b);
   });
-  $("lesson-links").innerHTML = `K-12 station: <a href="${smLink(l.k12, l.place)}">${lkStationLabel(l.k12)}</a> · Trade station: <a href="${smLink(l.station, l.place)}">${lkStationLabel(l.station)}</a>`;
+  $("lesson-links").innerHTML = `K-12 station: <a href="${smLink(l.station, l.anchor.id)}">${lkStationLabel(l.station)}</a> · Trade station: <a href="${smLink(l.tradeStation, l.anchor.id)}">${lkStationLabel(l.tradeStation)}</a>`;
   smOpen("lesson");
 }
 
@@ -179,10 +213,10 @@ function smRenderMap() {
     const ctx = base.getContext("2d"), img = ctx.createImageData(W, W), c = [0, 0, 0];
     for (let j = 0; j < W; j++) for (let i = 0; i < W; i++) {
       const x = SM_BOUNDS.minX + (i + 0.5) / W * SM_SIZE, z = SM_BOUNDS.minZ + (j + 0.5) / W * SM_SIZE;
-      const h = smHeightAt(x, z), hx = smHeightAt(x + 8, z) - h, hz = smHeightAt(x, z + 8) - h;
-      smGroundColour(x, z, h, Math.hypot(hx, hz) / 8, c);
+      const h = smHeightAt(x, z), hx = smHeightAt(x + 8, z) - h, hz = smHeightAt(x, z + 8) - h, sl = Math.hypot(hx, hz) / 8;
+      smGroundColour(x, z, h, sl, c, sl > 0.02 ? -(hz / 8) / sl : 0);
       let shade = 1 - (hx * 0.6 + hz * 0.4) * 0.05; shade = Math.max(0.55, Math.min(1.3, shade));
-      if (smInLake(x, z)) { c[0] = 0.18; c[1] = 0.42; c[2] = 0.56; shade = 1; }
+      if (smInLake(x, z) || smInRiver(x, z)) { c[0] = 0.18; c[1] = 0.42; c[2] = 0.56; shade = 1; }
       const contour = Math.abs((h % 100) - 50) > 48.5 ? 0.82 : 1;
       const k = (j * W + i) * 4;
       img.data[k] = Math.min(255, c[0] * 255 * shade * contour); img.data[k + 1] = Math.min(255, c[1] * 255 * shade * contour); img.data[k + 2] = Math.min(255, c[2] * 255 * shade * contour); img.data[k + 3] = 255;
@@ -192,11 +226,15 @@ function smRenderMap() {
   const over = $("map-over"), o = over.getContext("2d");
   o.clearRect(0, 0, W, W);
   const line = (pts, col, w, dash = []) => { o.strokeStyle = col; o.lineWidth = w; o.setLineDash(dash); o.beginPath(); pts.forEach(([x, z], i) => { const [px, pz] = smMapXY(x, z, W); if (i) o.lineTo(px, pz); else o.moveTo(px, pz); }); o.stroke(); o.setLineDash([]); };
-  if (SM_LAYERS.roads) { line(SM_PASS_ROAD, "#222", 3); line(SM_SERVICE_ROAD, "#5b4b3a", 2); line(SM_TRANSMISSION, "#ffd24a", 1.5, [4, 3]); line(SM_GONDOLA, "#e8492f", 2, [2, 2]); }
+  if (SM_LAYERS.roads) { line(SM_RIVER, "#4aa3cf", 2); line(SM_PASS_ROAD, "#222", 3); line(SM_SERVICE_ROAD, "#5b4b3a", 2); line(SM_TRANSMISSION, "#ffd24a", 1.5, [4, 3]); line(SM_GONDOLA, "#e8492f", 2, [2, 2]); }
   if (SM_LAYERS.trails) for (const t of SM_TRAILS) line(t.pts, "#fff3c4", 1.5, [3, 3]);
   const dot = (x, z, col, r, label) => { const [px, pz] = smMapXY(x, z, W); o.fillStyle = col; o.beginPath(); o.arc(px, pz, r, 0, Math.PI * 2); o.fill(); if (label) { o.font = "11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText(label, px + r + 2, pz + 4); o.fillText(label, px + r + 2, pz + 4); } };
   if (SM_LAYERS.sites) for (const s of SM_SITES) dot(s.at[0], s.at[1], sm.state.visited.includes(s.id) ? "#ffb020" : "#b0b8c0", 5, s.name);
-  if (SM_LAYERS.lessons) for (const l of SM_FIELD_LESSONS) dot(l.at[0], l.at[1], sm.state.lessons.includes(l.id) ? "#8be28b" : "#2f6fd6", 3.5);
+  if (SM_LAYERS.lessons) {
+    // SCHOLAR-2's K-12 layer draws the squares; a green dot marks a lesson passed.
+    k2DrawFieldLayer(o, SM_FIELD_LESSONS.map((l) => { const [x, y] = smMapXY(l.position[0], l.position[1], W); return { ...l, x, y }; }), null, null);
+    for (const l of SM_FIELD_LESSONS) if (sm.state.lessons.includes(l.id)) dot(l.position[0], l.position[1], "#8be28b", 2.5);
+  }
   if (SM_LAYERS.notes) for (const e of SM_EGGS) if (sm.state.eggs.includes(e.id)) dot(e.at[0], e.at[1], "#f2e6b8", 2.5);
   if (SM_LAYERS.locks) for (const q of SM_SIDE_QUESTS) if (q.gate && !smGateOpen(q.gate, sm.state)) { const s = smPlace(q.site); const [px, pz] = smMapXY(s.at[0], s.at[1], W); o.font = "13px system-ui"; o.fillText("🔒", px - 16, pz - 6); }
   if (SM_LAYERS.activities) for (const a of SM_ACTIVITIES) (a.controls ?? a.points).forEach(([x, z], i) => dot(x, z, "#ff5ad0", 2.5, i === 0 ? a.kind : ""));
@@ -234,7 +272,7 @@ function smNearest() {
   let best = null, bd = 9;
   for (const b of world.siteBoards) { const d = Math.hypot(sm.x - b.x, sm.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site }; } }
   for (const e of SM_EGGS) { if (sm.state.eggs.includes(e.id)) continue; const d = Math.hypot(sm.x - e.at[0], sm.z - e.at[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "egg", egg: e }; } }
-  for (const l of SM_FIELD_LESSONS) { const d = Math.hypot(sm.x - l.at[0], sm.z - l.at[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: l }; } }
+  for (const l of SM_FIELD_LESSONS) { const d = Math.hypot(sm.x - l.position[0], sm.z - l.position[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: l }; } }
   return best;
 }
 
@@ -309,6 +347,7 @@ function frame(now) {
     let nx = sm.x + (fx * f - fz * s) * speed * dt, nz = sm.z + (fz * f + fx * s) * speed * dt;
     nx = Math.max(SM_BOUNDS.minX + 5, Math.min(SM_BOUNDS.maxX - 5, nx)); nz = Math.max(SM_BOUNDS.minZ + 5, Math.min(SM_BOUNDS.maxZ - 5, nz));
     if (!smInLake(nx, nz)) { sm.x = nx; sm.z = nz; }
+    // Fording the river is allowed, just slow: the speed factor above already eases on steep banks.
     if (sm.run) {
       smActStep(sm.run, sm.x, sm.z, dt, { mapOpen: false, radioed: !!sm.radioed }); sm.radioed = false;
       if (sm.run.done && !sm.run.pendingCheck) { const best = smActFinish(sm.state, sm.run); smToast(`Activity finished: score ${sm.run.score}${best ? " — a new best" : ""}.`, 6000); sm.run = null; smSave(sm.state); }
@@ -320,7 +359,8 @@ function frame(now) {
   world.update(sm.x, sm.z, 2);
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
-  gulls.animate(now / 1000, dt);
+  for (const w of smWild) w.animate(now / 1000, dt);
+  smDriveTruck(dt);
   smHudT += dt; smVisitT += dt;
   if (smVisitT > 0.5) {
     smVisitT = 0;
@@ -372,5 +412,6 @@ window.__summitTest = {
   THREE, camera, scene, smRenderer, world, sm,
   teleport(x, z, yaw = sm.yaw, pitch = sm.pitch, lift = 0) { sm.x = x; sm.z = z; sm.yaw = yaw; sm.pitch = pitch; sm.lift = lift; world.update(x, z, 999); },
   begin: smBegin, stats: () => world.stats(), setTime(i) { sm.timeIdx = i; smApplySky(); }, setWeather(i) { sm.weatherIdx = i; smApplySky(); },
+  wildlife: smWild, truck: smTruck, truckAt: () => ({ d: smTruckD, dir: smTruckDir }),
 };
-void SM_SNOWLINE;
+

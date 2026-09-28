@@ -3,15 +3,21 @@
 // the skill-gate answers, quest progress and the two activities' scoring.
 // No three.js and no DOM: tools/check_summit.mjs drives it directly.
 //
-// Gates follow the frontier brief's contract. QUESTMASTER's shared engine
-// (shared/skill-gates.js) had not landed when this was written, so
-// smGateMissing() answers the same question from the passport directly; when
-// that engine lands, swap the body for its isOpen()/missing() — the call
-// sites stay the same.
+// Gates follow the frontier brief's contract and are answered by
+// QUESTMASTER's shared engine (shared/skill-gates.js): smGateMissing() builds
+// one of its snapshots (stars per station and finished quests from the
+// learner's stores) and adds this world's own finished quests, then asks
+// qmMissing(). The call sites are unchanged from the first phase. For the
+// headless checker, `done` may be a function id -> boolean instead of a
+// store: the snapshot is then built by probing every id the gate names.
 
 import { SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_SITES, SM_TRAILS, smPolyDistance } from "../../shared/summit-data.js";
-import { ppCompleted, ppProgramme } from "../../shared/passport.js";
+import { ppCompleted } from "../../shared/passport.js";
 import { gtStorage } from "../../shared/profiles.js";
+import { qmMissing, qmCachedSnapshot, qmNameQuests } from "../../shared/skill-gates.js";
+import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
+
+qmNameQuests([...SM_MAIN_QUESTS, ...SM_SIDE_QUESTS]);
 
 export const SM_STORE_KEY = "summit-v1";
 
@@ -30,21 +36,34 @@ export function smLoad(store = gtStorage()) {
 
 export function smSave(state, store = gtStorage()) { try { store?.setItem(SM_STORE_KEY, JSON.stringify(state)); } catch { /* private mode */ } }
 
-/** The ids in a gate the learner has not yet completed, each { kind, id }. */
-export function smGateMissing(gate, state = smBlank(), done = ppCompleted) {
-  if (!gate) return [];
-  const out = [];
-  for (const id of gate.stations ?? []) if (!done(id)) out.push({ kind: "station", id });
-  for (const id of gate.k12 ?? []) if (!done(id)) out.push({ kind: "k12", id });
-  for (const p of gate.programmes ?? []) {
-    let stars = 0; try { stars = ppProgramme(p.id)?.stars ?? 0; } catch { stars = 0; }
-    if (stars < (p.minStars ?? 1)) out.push({ kind: "programme", id: p.id });
+/**
+ * A skill-gate snapshot for this world: QUESTMASTER's (best stars per
+ * station, finished quests and side games) plus the quests finished in this
+ * ledger. `done` is null for the live stores, or a probe function for the
+ * checker; `gate` says which ids a probe must answer for.
+ */
+export function smSnapshot(state = smBlank(), done = null, gate = null) {
+  let snap;
+  if (typeof done === "function") {
+    snap = { stars: new Map(), questsDone: new Set() };
+    const ids = [...(gate?.stations ?? []), ...(gate?.k12 ?? [])];
+    for (const p of gate?.programmes ?? []) ids.push(...(PP_PROGRAMMES[p.id]?.stations ?? []));
+    for (const id of ids) if (done(id)) snap.stars.set(id, 1);
+  } else {
+    const live = qmCachedSnapshot();
+    snap = { stars: new Map(live.stars), questsDone: new Set(live.questsDone) };
   }
-  for (const id of gate.quests ?? []) if (!state.quests.includes(id)) out.push({ kind: "quest", id });
-  return out;
+  for (const id of state?.quests ?? []) snap.questsDone.add(id);
+  return snap;
 }
 
-export function smGateOpen(gate, state, done) { return smGateMissing(gate, state, done).length === 0; }
+/** The requirements in a gate the learner has not yet met, QUESTMASTER's rows: each { kind, id, label, detail? }. */
+export function smGateMissing(gate, state = smBlank(), done = null) {
+  if (!gate) return [];
+  return qmMissing(gate, smSnapshot(state, done, gate));
+}
+
+export function smGateOpen(gate, state, done = null) { return smGateMissing(gate, state, done).length === 0; }
 
 /** The current main-arc quest (the first not done whose `requires` is done), or null when the arc is finished. */
 export function smCurrentMain(state) {
@@ -52,15 +71,15 @@ export function smCurrentMain(state) {
 }
 
 /** Is one quest step satisfied by the ledger and the passport? */
-export function smStepDone(step, state, done = ppCompleted) {
+export function smStepDone(step, state, done = null) {
   if (step.type === "goto") return state.visited.includes(step.target);
-  if (step.type === "station") return done(step.target);
+  if (step.type === "station") return (done ?? ppCompleted)(step.target);
   if (step.type === "find") return state.eggs.includes(step.target);
   return false;
 }
 
 /** Mark every quest whose steps are all satisfied (and whose gate and prerequisite are open). Returns the newly completed ids. */
-export function smAdvanceQuests(state, done = ppCompleted) {
+export function smAdvanceQuests(state, done = null) {
   const fresh = [];
   let changed = true;
   while (changed) {
@@ -81,7 +100,7 @@ export function smVisit(state, siteId) {
   state.visited.push(siteId); return true;
 }
 
-export function smFindEgg(state, eggId, done = ppCompleted) {
+export function smFindEgg(state, eggId, done = null) {
   const egg = SM_EGGS.find((e) => e.id === eggId);
   if (!egg || state.eggs.includes(eggId)) return { ok: false, egg };
   if (egg.gate && !smGateOpen(egg.gate, state, done)) return { ok: false, locked: true, egg };

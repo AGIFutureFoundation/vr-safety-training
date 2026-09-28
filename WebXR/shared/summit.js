@@ -14,9 +14,10 @@
 
 import {
   SM_BOUNDS, SM_SIZE, SM_CHUNK, SM_LOD_SEGMENTS, SM_STREAM_RADIUS, SM_TREE_RADIUS, SM_TREES_PER_CHUNK,
-  SM_SNOWLINE, SM_SCREE, SM_TREELINE, SM_WATER_LEVEL, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION,
-  SM_GONDOLA, SM_PENSTOCK, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_TRAILS, SM_TUNNEL_SPAN,
-  smHeightAt, smSlopeAt, smChunksAround, smTreesForChunk, smPolyDistance, smInLake,
+  SM_TREE_RING_FACTOR, SM_IMPOSTOR_RING, SM_SCREE, SM_TREELINE, SM_WATER_LEVEL, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD,
+  SM_TRANSMISSION, SM_GONDOLA, SM_PENSTOCK, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_TRAILS, SM_TUNNEL_SPAN,
+  SM_RIVER, SM_RIVER_CHANNEL,
+  smHeightAt, smGradAt, smSnowlineAt, smRiverSurfaceAt, smChunksAround, smTreesForChunk, smPolyDistance, smInLake,
 } from "./summit-data.js";
 
 const SM_COL = {
@@ -24,16 +25,29 @@ const SM_COL = {
   snow: [0.93, 0.95, 0.98], bed: [0.36, 0.33, 0.28],
 };
 
-/** The ground colour for a height and slope (vertex colours, no textures). */
-export function smGroundColour(x, z, h, slope, out) {
+const smStep = (e0, e1, v) => { const t = Math.max(0, Math.min(1, (v - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
+const smMix = (a, b, k) => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
+/** Strata noise in [-1, 1]: near-horizontal bands that wander with position, for cliff bands and scree fans. */
+function smBandNoise(x, z, h) { return Math.sin(h * 0.09 + Math.sin(x * 0.021) * 1.7 + Math.cos(z * 0.017) * 1.3); }
+
+/**
+ * The ground colour for a height, slope and aspect (vertex colours, no
+ * textures). Cliffs (slope over one) read as banded rock; the snowline is
+ * lower on north-facing ground (smSnowlineAt); scree comes in by height
+ * above the scree line and, below it, in fans down steep gullies.
+ */
+export function smGroundColour(x, z, h, slope, out, aspect = 0) {
   let c;
+  const band = smBandNoise(x, z, h);
   if (h < SM_WATER_LEVEL + 1 && smInLake(x, z)) c = SM_COL.bed;
-  else if (slope > 1.0) c = SM_COL.rock;
-  else if (h > SM_SNOWLINE + (slope * 90)) c = SM_COL.snow;
-  else if (h > SM_SCREE) {
-    const k = Math.min(1, (h - SM_SCREE) / 120);
-    c = [SM_COL.forest[0] + (SM_COL.scree[0] - SM_COL.forest[0]) * k, SM_COL.forest[1] + (SM_COL.scree[1] - SM_COL.forest[1]) * k, SM_COL.forest[2] + (SM_COL.scree[2] - SM_COL.forest[2]) * k];
-  } else c = (Math.sin(x * 0.011) + Math.cos(z * 0.013)) > 0.2 ? SM_COL.meadow : SM_COL.forest;
+  else if (slope > 1.0) { const k = band > 0.25 ? 0.78 : band < -0.35 ? 1.12 : 1; c = [SM_COL.rock[0] * k, SM_COL.rock[1] * k, SM_COL.rock[2] * k]; }
+  else if (h > smSnowlineAt(aspect) + slope * 90) c = SM_COL.snow;
+  else {
+    const byHeight = smStep(SM_SCREE - 40, SM_SCREE + 120, h);
+    const fan = smStep(0.5, 0.85, slope) * smStep(SM_SCREE - 240, SM_SCREE, h) * (0.55 + 0.45 * band);
+    const base = (Math.sin(x * 0.011) + Math.cos(z * 0.013)) > 0.2 ? SM_COL.meadow : SM_COL.forest;
+    c = smMix(base, SM_COL.scree, Math.min(1, byHeight + fan));
+  }
   const n = 0.92 + ((Math.sin(x * 12.9898 + z * 78.233) * 43758.5453) % 1 + 1) % 1 * 0.14;
   out[0] = c[0] * n; out[1] = c[1] * n; out[2] = c[2] * n;
   return out;
@@ -47,7 +61,8 @@ function smTerrainGeometry(THREE, x0, z0, size, segs, drop = 0) {
     const x = x0 + i * step, z = z0 + j * step, h = smHeightAt(x, z) - drop;
     const k = (j * n + i) * 3;
     pos[k] = x; pos[k + 1] = h; pos[k + 2] = z;
-    smGroundColour(x, z, h + drop, smSlopeAt(x, z, Math.max(3, step * 0.5)), tmp);
+    const gr = smGradAt(x, z, Math.max(3, step * 0.5));
+    smGroundColour(x, z, h + drop, gr.slope, tmp, gr.aspect);
     col[k] = tmp[0]; col[k + 1] = tmp[1]; col[k + 2] = tmp[2];
   }
   const idx = new (n * n > 65535 ? Uint32Array : Uint16Array)(segs * segs * 6);
@@ -82,6 +97,12 @@ function smMerge(THREE, parts) {
   out.setAttribute("color", new THREE.BufferAttribute(col, 3));
   out.computeVertexNormals();
   return out;
+}
+
+/** A billboard impostor for far conifers: two crossed vertical quads, 4 triangles, drawn double-sided. */
+function smImpostorGeometry(THREE) {
+  const quad = new THREE.PlaneGeometry(5.2, 10.4).translate(0, 5.2, 0);
+  return smMerge(THREE, [[quad, 0x21492d, new THREE.Matrix4()], [quad, 0x1e432a, new THREE.Matrix4().makeRotationY(Math.PI / 2)]]);
 }
 
 function smConiferGeometry(THREE) {
@@ -125,7 +146,7 @@ function smSignGeometry(THREE) {
 }
 
 /** A flat ribbon draped on the terrain along a polyline (road or trail). */
-function smRibbon(THREE, pts, width, lift, colour, { skip = null, stepLen = 8 } = {}) {
+function smRibbon(THREE, pts, width, lift, colour, { skip = null, stepLen = 8, surface = null, omit = null } = {}) {
   const verts = [], cols = [], c = new THREE.Color(colour);
   let total = 0; const lens = [0];
   for (let i = 1; i < pts.length; i++) { total += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); lens.push(total); }
@@ -139,10 +160,11 @@ function smRibbon(THREE, pts, width, lift, colour, { skip = null, stepLen = 8 } 
   let prev = null;
   for (let d = 0; d <= total + 0.01; d += stepLen) {
     const p = at(Math.min(d, total));
-    const off = skip && d / total > skip[0] && d / total < skip[1];
+    const off = (skip && d / total > skip[0] && d / total < skip[1]) || (omit && omit(p.x, p.z));
     const w = width / 2;
     const l = [p.x + p.nx * w, 0, p.z + p.nz * w], r = [p.x - p.nx * w, 0, p.z - p.nz * w];
-    l[1] = smHeightAt(l[0], l[2]) + lift; r[1] = smHeightAt(r[0], r[2]) + lift;
+    if (surface) { l[1] = r[1] = surface(Math.min(d, total) / (total || 1)) + lift; }
+    else { l[1] = smHeightAt(l[0], l[2]) + lift; r[1] = smHeightAt(r[0], r[2]) + lift; }
     if (prev && !off && !prev.off) {
       verts.push(...prev.l, ...prev.r, ...l, ...prev.r, ...r, ...l);
       for (let k = 0; k < 6; k++) cols.push(c.r, c.g, c.b);
@@ -199,6 +221,13 @@ export function smBuildSummit(root, THREE, opts = {}) {
   water.position.set(SM_LAKE.centre[0], SM_WATER_LEVEL, SM_LAKE.centre[1]);
   water.name = "summit-reservoir";
   fixed.add(water);
+
+  // The river: a flat water ribbon on the channel's own descending surface, absent under the road's culvert.
+  const riverMat = new THREE.MeshLambertMaterial({ color: 0x3a7fa0, transparent: true, opacity: 0.86 });
+  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x3a7fa0,
+    { stepLen: 10, surface: smRiverSurfaceAt, omit: (x, z) => smPolyDistance(x, z, SM_PASS_ROAD).d < 12 }), riverMat);
+  river.name = "summit-river";
+  fixed.add(river);
 
   // Roads and trails.
   fixed.add(new THREE.Mesh(smRibbon(THREE, SM_PASS_ROAD, 8, 0.35, 0x3b3d40, { skip: SM_TUNNEL_SPAN }), groundMat));
@@ -354,7 +383,7 @@ export function smBuildSummit(root, THREE, opts = {}) {
   fixed.add(eggMesh);
   const lessonMesh = new THREE.InstancedMesh(smSignGeometry(THREE), flatMat, SM_FIELD_LESSONS.length);
   lessonMesh.name = "summit-lessons";
-  SM_FIELD_LESSONS.forEach((l, i) => { m4.makeTranslation(l.at[0], smHeightAt(l.at[0], l.at[1]), l.at[1]); lessonMesh.setMatrixAt(i, m4); });
+  SM_FIELD_LESSONS.forEach((l, i) => { m4.makeTranslation(l.position[0], smHeightAt(l.position[0], l.position[1]), l.position[1]); lessonMesh.setMatrixAt(i, m4); });
   fixed.add(lessonMesh);
   function hideEgg(id) {
     const i = eggIndex.get(id); if (i === undefined) return;
@@ -363,6 +392,8 @@ export function smBuildSummit(root, THREE, opts = {}) {
 
   // ---- streaming
   const conifer = smConiferGeometry(THREE);
+  const impostor = smImpostorGeometry(THREE);
+  const impostorMat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
   const loaded = new Map(); // key -> { mesh, trees, lod, treeRing }
   let lastKey = null;
   function disposeChunk(c) {
@@ -376,10 +407,11 @@ export function smBuildSummit(root, THREE, opts = {}) {
     chunkRoot.add(mesh);
     let trees = null;
     if (ch.ring <= treeR) {
-      const n = Math.round(SM_TREES_PER_CHUNK * (ch.ring === 0 ? 1 : ch.ring === 1 ? 0.8 : 0.55) * (tier === "low" ? 0.5 : 1));
+      const n = Math.round(SM_TREES_PER_CHUNK * (SM_TREE_RING_FACTOR[ch.ring] ?? SM_TREE_RING_FACTOR[SM_TREE_RING_FACTOR.length - 1]) * (tier === "low" ? 0.5 : 1));
       const list = smTreesForChunk(ch.cx, ch.cz, n);
       if (list.length) {
-        trees = new THREE.InstancedMesh(conifer, flatMat, list.length);
+        const far = ch.ring >= SM_IMPOSTOR_RING;
+        trees = new THREE.InstancedMesh(far ? impostor : conifer, far ? impostorMat : flatMat, list.length);
         list.forEach((t, i) => {
           q.setFromAxisAngle(up, t.r);
           m4.compose(new THREE.Vector3(t.x, t.y - 0.3, t.z), q, new THREE.Vector3(t.s, t.s * (0.9 + (i % 5) * 0.06), t.s));
@@ -438,5 +470,5 @@ export function smBuildSummit(root, THREE, opts = {}) {
   }
 
   update(opts.start?.[0] ?? 0, opts.start?.[1] ?? 0, 999);
-  return { update, animate, stats, eggMesh, eggIndex, hideEgg, siteBoards, backdrop, water, dam, damHeight: damH, towers, cabins, loaded };
+  return { update, animate, stats, eggMesh, eggIndex, hideEgg, siteBoards, backdrop, water, river, dam, damHeight: damH, towers, cabins, loaded };
 }

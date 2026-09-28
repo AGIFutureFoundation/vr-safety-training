@@ -28,19 +28,44 @@ export const SM_SIZE = 4096;
 export const SM_CHUNK = 256;
 export const SM_CHUNKS_PER_SIDE = SM_SIZE / SM_CHUNK;
 /** Grid segments per chunk at each LOD ring (0 = the player's chunk and its neighbours). */
-export const SM_LOD_SEGMENTS = [48, 24, 12, 8];
+export const SM_LOD_SEGMENTS = [32, 24, 12, 8];
 /** Chunks kept loaded around the player, per quality tier (Chebyshev radius). */
 export const SM_STREAM_RADIUS = { low: 2, balanced: 3, high: 3 };
 /** Chunk rings that carry instanced conifers, per tier. */
 export const SM_TREE_RADIUS = { low: 1, balanced: 2, high: 2 };
 /** Conifers per full forested chunk at ring 0 (fewer further out). */
 export const SM_TREES_PER_CHUNK = 200;
+/** Share of SM_TREES_PER_CHUNK each tree ring carries; ring 2 is half of what it was and draws billboard impostors. */
+export const SM_TREE_RING_FACTOR = [1, 0.8, 0.28];
+/** The ring from which conifers are two-quad impostors instead of the three-part mesh. */
+export const SM_IMPOSTOR_RING = 2;
+/** Triangles per tree, by representation (the builder's geometries: cylinder(4) + cone(6) + cone(5); two crossed quads). */
+export const SM_TRI = { conifer: 38, impostor: 4, backdrop: 96 * 96 * 2 };
 /** Heights (metres) where the land changes character. */
 export const SM_TREELINE = 760;
 export const SM_SNOWLINE = 900;
 export const SM_SCREE = 640;
 /** Mesh and triangle budget the builder is held to (tools/check_summit.mjs). */
 export const SM_BUDGET = { drawCalls: 180, triangles: 420000, chunksLoaded: 49 };
+
+/**
+ * A pure, worst-case triangle estimate for one streamed view on a tier:
+ * every chunk in the square at its ring's LOD, every tree ring fully
+ * forested, plus the backdrop. The builder's stats() measures the real
+ * count; tools/check_summit.mjs holds this estimate to SM_BUDGET.triangles.
+ */
+export function smTriangleEstimate(tier = "high") {
+  const r = SM_STREAM_RADIUS[tier] ?? 3, tr = SM_TREE_RADIUS[tier] ?? 2;
+  let tri = SM_TRI.backdrop;
+  for (const c of smChunksAround(0, 0, r)) {
+    tri += SM_LOD_SEGMENTS[c.lod] ** 2 * 2;
+    if (c.ring <= tr) {
+      const n = Math.round(SM_TREES_PER_CHUNK * (SM_TREE_RING_FACTOR[c.ring] ?? SM_TREE_RING_FACTOR.at(-1)) * (tier === "low" ? 0.5 : 1));
+      tri += n * (c.ring >= SM_IMPOSTOR_RING ? SM_TRI.impostor : SM_TRI.conifer);
+    }
+  }
+  return tri;
+}
 
 // ------------------------------------------------------------------ noise
 
@@ -119,6 +144,10 @@ export const SM_GONDOLA = [[-240, -300], [160, -1150]];
 export const SM_PENSTOCK = [[-640, 360], [-560, 760]];
 /** The reservoir behind the dam. */
 export const SM_LAKE = { centre: [-700, -40], radius: 380 };
+/** The tailrace river: from the powerhouse down the valley to the south-west corner, under the pass road once (a culvert). */
+export const SM_RIVER = [[-560, 790], [-646, 913], [-789, 957], [-753, 1103], [-766, 1252], [-844, 1380], [-952, 1484], [-1075, 1571], [-1225, 1573], [-1224, 1723], [-1195, 1870], [-1278, 1995], [-1250, 2048]];
+/** The river channel: half-width in metres where the bed is cut, its depth below the banks, and the corridor the banks blend over. */
+export const SM_RIVER_CHANNEL = { width: 14, depth: 2.6, corridor: 70 };
 /** Hiking trails (the orienteering course follows the first). */
 export const SM_TRAILS = [
   { id: "lookout-trail", name: "West Ridge Lookout Trail", pts: [[-1230, 290], [-1300, 100], [-1380, -150], [-1450, -400], [-1510, -690]] },
@@ -226,8 +255,48 @@ function smRawHeight(x, z) {
     const w = 1 - smSmooth(14, 160, r.d);
     h += (smRoadHeight(r.t) - h) * w;
   }
+  // The river: its bed is held to a profile that only ever descends (the
+  // running minimum of the natural ground along it), the banks blend to it
+  // over the corridor, and a shallow channel is cut in the middle. Both
+  // yield within the road corridor, where a culvert carries the river under
+  // the road bed.
+  const rv = smPolyDistance(x, z, SM_RIVER);
+  if (rv.d < SM_RIVER_CHANNEL.corridor) {
+    const open = smSmooth(12, 40, r.d);
+    const prof = smRiverProfile(rv.t);
+    if (prof < h) h += (prof - h) * (1 - smSmooth(6, SM_RIVER_CHANNEL.corridor, rv.d)) * open;
+    if (rv.d < SM_RIVER_CHANNEL.width) h -= SM_RIVER_CHANNEL.depth * (1 - smSmooth(3, SM_RIVER_CHANNEL.width, rv.d)) * open;
+  }
   return h;
 }
+
+/**
+ * The river's bed profile: the natural ground sampled every SM_RIVER_STEP
+ * metres along the polyline, held to its running minimum so the bed never
+ * rises downstream. Sampled once at load; smRiverProfile(t) interpolates.
+ */
+const SM_RIVER_STEP = 16;
+const SM_RIVER_TOTAL = SM_RIVER.slice(1).reduce((s, q, k) => s + Math.hypot(q[0] - SM_RIVER[k][0], q[1] - SM_RIVER[k][1]), 0);
+const SM_RIVER_PROFILE = (() => {
+  const n = Math.ceil(SM_RIVER_TOTAL / SM_RIVER_STEP), out = [];
+  let run = 0, i = 1, floor = Infinity;
+  for (let k = 0; k <= n; k++) {
+    const d = Math.min(SM_RIVER_TOTAL, k * SM_RIVER_STEP);
+    while (i < SM_RIVER.length - 1 && run + Math.hypot(SM_RIVER[i][0] - SM_RIVER[i - 1][0], SM_RIVER[i][1] - SM_RIVER[i - 1][1]) < d) { run += Math.hypot(SM_RIVER[i][0] - SM_RIVER[i - 1][0], SM_RIVER[i][1] - SM_RIVER[i - 1][1]); i++; }
+    const L = Math.hypot(SM_RIVER[i][0] - SM_RIVER[i - 1][0], SM_RIVER[i][1] - SM_RIVER[i - 1][1]) || 1;
+    const u = smClamp((d - run) / L, 0, 1);
+    const x = SM_RIVER[i - 1][0] + (SM_RIVER[i][0] - SM_RIVER[i - 1][0]) * u, z = SM_RIVER[i - 1][1] + (SM_RIVER[i][1] - SM_RIVER[i - 1][1]) * u;
+    floor = Math.min(floor, smNatural(x, z) - 1);
+    out.push(floor);
+  }
+  return out;
+})();
+function smRiverProfile(t) {
+  const f = smClamp(t, 0, 1) * (SM_RIVER_PROFILE.length - 1), i = Math.min(SM_RIVER_PROFILE.length - 2, Math.floor(f)), u = f - i;
+  return SM_RIVER_PROFILE[i] + (SM_RIVER_PROFILE[i + 1] - SM_RIVER_PROFILE[i]) * u;
+}
+/** The river's surface height at an along-river fraction (the bed plus most of the channel's depth). */
+export function smRiverSurfaceAt(t) { return smRiverProfile(t) - SM_RIVER_CHANNEL.depth + 0.9; }
 
 /** The reservoir's water level (metres), fixed from the terrain at load. */
 export const SM_WATER_LEVEL = Math.round(smRawHeight(SM_LAKE.centre[0], SM_LAKE.centre[1]) + 6);
@@ -264,11 +333,30 @@ export function smSlopeAt(x, z, e = 4) {
   return Math.hypot(dx, dz) / (2 * e);
 }
 
+/**
+ * The height gradient at (x, z) by central differences: { dx, dz, slope, aspect }.
+ * `aspect` is -1 for a slope facing north (uphill toward +z, since north is
+ * -z), +1 facing south, 0 for east/west or flat ground.
+ */
+export function smGradAt(x, z, e = 4) {
+  const dx = (smHeightAt(x + e, z) - smHeightAt(x - e, z)) / (2 * e);
+  const dz = (smHeightAt(x, z + e) - smHeightAt(x, z - e)) / (2 * e);
+  const slope = Math.hypot(dx, dz);
+  return { dx, dz, slope, aspect: slope > 0.02 ? -dz / slope : 0 };
+}
+
+/** The snowline at a point: lower on north-facing ground, higher on south-facing, by SM_SNOW_ASPECT metres. */
+export const SM_SNOW_ASPECT = 80;
+export function smSnowlineAt(aspect) { return SM_SNOWLINE + aspect * SM_SNOW_ASPECT; }
+
+/** True within the river channel's water. */
+export function smInRiver(x, z) { return smPolyDistance(x, z, SM_RIVER).d < SM_RIVER_CHANNEL.width * 0.45 && smPolyDistance(x, z, SM_PASS_ROAD).d > 12; }
+
 /** Ground cover at (x, z): "water" | "snow" | "scree" | "rock" | "meadow" | "forest" | "road". */
 export function smCoverAt(x, z, h = smHeightAt(x, z), slope = smSlopeAt(x, z)) {
-  if (smInLake(x, z)) return "water";
+  if (smInLake(x, z) || smInRiver(x, z)) return "water";
   if (smPolyDistance(x, z, SM_PASS_ROAD).d < 7) return "road";
-  if (h > SM_SNOWLINE && slope < 0.9) return "snow";
+  if (h > smSnowlineAt(smGradAt(x, z).aspect) && slope < 0.9) return "snow";
   if (slope > 1.0) return "rock";
   if (h > SM_SCREE) return "scree";
   return smFbm(x / 180 + 40, z / 180, 3) > -0.05 ? "forest" : "meadow";
@@ -315,6 +403,7 @@ export function smTreesForChunk(cx, cz, count = SM_TREES_PER_CHUNK) {
     if (smCoverAt(x, z, h, s) !== "forest") continue;
     if (SM_SITES.some((st) => Math.hypot(x - st.at[0], z - st.at[1]) < st.pad + 10)) continue;
     if (smPolyDistance(x, z, SM_SERVICE_ROAD).d < 8) continue;
+    if (smPolyDistance(x, z, SM_RIVER).d < SM_RIVER_CHANNEL.width + 4) continue;
     if (SM_TRAILS.some((t) => smPolyDistance(x, z, t.pts).d < 3)) continue;
     out.push({ x, z, y: h, s: 0.7 + rng() * 0.8, r: rng() * Math.PI * 2 });
   }
@@ -401,56 +490,107 @@ export const SM_EGGS = SM_EGG_TABLE.map(([slug, place, x, z, stationId, stepId, 
   return egg;
 });
 
-// ------------------------------------------------------------ field lessons
+// -------------------------------------------------------- field lessons
 //
-// SCHOLAR-2's field-lesson schema was not merged when this world was built,
-// so this one is documented here and kept compatible in spirit: a 2-4 minute
-// micro-lesson at a landmark, tied to a K-12 station and to the trade that
-// uses the idea, ending in one check question.
-//   { id, title, k12, trade, place, at, minutes, steps: [text…],
-//     check: { q, choices: [text…], answer: index }, station }
+// Twenty field lessons on SCHOLAR-2's exported schema (shared/field-lessons.js,
+// K2_FIELD_LESSON_SCHEMA): a two-to-four-minute micro-lesson at a real site or
+// landmark, three steps that teach one idea where the learner stands, one
+// check question with its reason, the K-12 station that teaches the idea in
+// full (`station`) and the trade that uses it (`trade`, `tradeLine`). This
+// world adds one field, `tradeStation`: the catalog station where the trade
+// practises the same idea, linked beside the K-12 one. No digits anywhere in
+// the text (the facts rule); tools/check_summit.mjs validates every lesson
+// with k2ValidateFieldLesson against this world's own anchors.
+
+const smFl = (id, anchor, position, title, station, tradeStation, trade, tradeLine, minutes, band, steps, check) =>
+  ({ id, world: "summit", anchor, position, title, station, tradeStation, trade, tradeLine, minutes, band, steps, check });
+const smQ = (question, options, answer, why) => ({ question, options, answer, why });
 
 export const SM_FIELD_LESSONS = [
-  { id: "sm-fl-contours", title: "Reading contour lines", k12: "k12-reading-a-map-scale-in-bay-world", trade: "Trail crews and rangers read contours to plan a route that avoids the steepest ground.",
-    place: "ranger-station", at: [-1210, 270], minutes: 3, station: "or-wildland-fireline-construction-and-lookout",
-    steps: ["A contour line joins points on the map that are at the same height.", "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.", "Open the map (M) and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."],
-    check: { q: "Contour lines packed close together mean the ground is…", choices: ["Steep", "Flat", "Under water"], answer: 0 } },
-  { id: "sm-fl-scale", title: "Map scale and distance", k12: "k12-reading-a-map-scale-in-bay-world", trade: "A road crew measures a work zone off the plan sheet with its scale bar.",
-    place: "valley-base", at: [-1520, 1430], minutes: 2, station: "gk-storm-cleanup-chipper-and-traffic-control",
-    steps: ["A map's scale says how many metres on the ground one unit on the map stands for.", "This world's map is square and the world is 4096 m across, so half the map's width is 2048 m of walking.", "Estimate the walk to the water plant on the map, then walk it and compare with the distance on the HUD."],
-    check: { q: "If the map is 4096 m across, a quarter of its width is…", choices: ["1024 m", "2048 m", "512 m"], answer: 0 } },
-  { id: "sm-fl-falling-water", title: "Falling water as stored energy", k12: "k12-energy-transfer-at-the-wind-farm", trade: "Plant operators at a powerhouse watch water's stored energy become electrical energy.",
-    place: "powerhouse", at: [-540, 760], minutes: 3, station: "ib-hydrostatic-test-and-inspector-witness",
-    steps: ["Water held high behind a dam has stored (potential) energy because of its height.", "As it falls through the penstock that energy becomes motion (kinetic energy).", "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy — the same chain of transfers the wind-farm lesson follows with moving air."],
-    check: { q: "Water behind a dam stores energy mainly because of its…", choices: ["Height", "Colour", "Temperature"], answer: 0 } },
-  { id: "sm-fl-pressure-depth", title: "Pressure grows with depth", k12: "k12-buoyancy-and-pressure-in-the-deep", trade: "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.",
-    place: "dam", at: [-740, 490], minutes: 3, station: "uw-intake-screen-cleaning-with-lockout",
-    steps: ["Water pushes on everything in it, and the deeper you go the more water sits above you.", "That is why a dam wall is built thicker at the bottom than at the top.", "Look at the dam's face: it widens toward its base, where the push of the water is greatest."],
-    check: { q: "Why is a dam thicker at the bottom?", choices: ["Water pressure is greatest at the bottom", "To save concrete at the top only", "Snow collects at the bottom"], answer: 0 } },
-  { id: "sm-fl-water-cycle", title: "From snowpack to tap", k12: "k12-water-cycle-and-filtration", trade: "Water treatment operators treat the reservoir water that the mountain's snow and rain supply.",
-    place: "water-plant", at: [-1070, 1070], minutes: 3, station: "chlorine-room",
-    steps: ["Water evaporates, condenses into clouds and falls as rain or snow on the mountain.", "Snowmelt and rain run downhill into streams and the reservoir.", "At the treatment plant the water is filtered and disinfected before it goes to homes — the plant is one stop on the water cycle, not its end."],
-    check: { q: "Snow on the summit reaches the reservoir mainly by…", choices: ["Melting and running downhill", "Being carried by trucks", "Blowing uphill"], answer: 0 } },
-  { id: "sm-fl-circuit", title: "A complete circuit", k12: "k12-circuits-at-the-electrical-bench", trade: "Substation electricians open a breaker to break a circuit before anyone works on it.",
-    place: "substation", at: [1030, 450], minutes: 3, station: "substation-switching",
-    steps: ["Current only flows around a complete loop — a closed circuit.", "Opening a switch or a breaker breaks the loop, so current stops.", "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."],
-    check: { q: "What happens to current when a breaker opens the circuit?", choices: ["It stops flowing in that circuit", "It doubles", "It flows faster"], answer: 0 } },
-  { id: "sm-fl-labels", title: "Reading a hazard label", k12: "k12-reading-instructions-and-safety-labels", trade: "Water plant operators read a chemical's label and data sheet before a delivery is unloaded.",
-    place: "water-plant", at: [-1030, 1030], minutes: 2, station: "ut-water-treatment-chemical-delivery-unloading",
-    steps: ["A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.", "The label and the safety data sheet — not memory — say what protective equipment the job needs.", "Before any delivery, the crew reads the label on the load and matches it to the paperwork."],
-    check: { q: "Where does the crew find the protection a chemical needs?", choices: ["On its label and data sheet", "By guessing from the colour", "From the truck's paint"], answer: 0 } },
-  { id: "sm-fl-grade", title: "Grade as a ratio", k12: "k12-measuring-and-scaling-the-court", trade: "Drivers and road crews read a grade as rise over run, and the pass road's signs state it.",
-    place: "pass-summit", at: [460, -120], minutes: 3, station: "drive-mountain-grade-and-engine-brake",
-    steps: ["A road's grade is how much it rises for each unit it runs forward, written as a percentage.", "Rising 6 m over 100 m of road is a 6% grade; the same rise over 50 m is twice as steep.", "The HUD shows the slope under your feet: compare the switchbacks with the straight climb beside them."],
-    check: { q: "A road that rises 5 m over 100 m has a grade of…", choices: ["5%", "50%", "20%"], answer: 0 } },
-  { id: "sm-fl-incident-report", title: "Writing a clear trail report", k12: "k12-writing-a-clear-incident-report", trade: "Rangers and patrollers write what they saw, where and when — facts first, no guesses.",
-    place: "west-lookout", at: [-1530, -700], minutes: 3, station: "or-transmission-line-right-of-way-patrol",
-    steps: ["A clear report says what happened, where, when and who was involved.", "It sticks to what the writer saw, and says plainly what they do not know yet.", "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."],
-    check: { q: "A good report sticks to…", choices: ["What the writer actually saw", "What might have happened", "Opinions about who is to blame"], answer: 0 } },
-  { id: "sm-fl-call-for-help", title: "Calling for help on the mountain", k12: "k12-first-aid-awareness-call-for-help", trade: "Rangers and lift crews give a clear location first when they call for help.",
-    place: "gondola-top", at: [140, -1170], minutes: 2, station: "ew-elevator-entrapment-and-rescue-with-fire-service",
-    steps: ["When someone is hurt, make sure you are safe, then call for help.", "Say where you are first — a named place like 'the gondola top station' — so help can find you.", "Stay on the line and do what the call-taker asks."],
-    check: { q: "What should you say first when calling for help?", choices: ["Where you are", "Your favourite colour", "Nothing, just hang up"], answer: 0 } },
+  // ---- the valley and the reservoir (the first ten, re-homed onto the schema)
+  smFl("sm-fl-contours", { kind: "site", id: "ranger-station" }, [-1210, 270], "Reading contour lines", "k12-reading-a-map-scale-in-bay-world", "or-wildland-fireline-construction-and-lookout",
+    "Trail crews and rangers", "A trail crew reads the contours to plan a route that avoids the steepest ground.", 3, "lower secondary",
+    ["A contour line joins points on the map that are at the same height.", "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.", "Open the map and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."],
+    smQ("Contour lines packed close together mean the ground is…", ["Steep", "Flat", "Under water"], 0, "Close lines mean the height changes quickly over a short distance, which is a steep slope.")),
+  smFl("sm-fl-scale", { kind: "site", id: "valley-base" }, [-1520, 1430], "Map scale and distance", "k12-reading-a-map-scale-in-bay-world", "gk-storm-cleanup-chipper-and-traffic-control",
+    "Road crews", "A road crew measures a work zone off the plan sheet with its scale before a cone goes down.", 2, "upper primary",
+    ["A map's scale says how much ground one step on the map stands for.", "This map is square and every place on it is drawn at the same scale, so equal map distances are equal walks anywhere on it.", "Pick two places on the map, guess which walk is longer, then read the distance the HUD shows as you go."],
+    smQ("Two places look twice as far apart on the map as two others. On the ground that walk is…", ["About twice as far", "The same", "Half as far"], 0, "One scale for the whole map means map distance and ground distance grow together.")),
+  smFl("sm-fl-falling-water", { kind: "landmark", id: "powerhouse" }, [-540, 760], "Falling water as stored energy", "k12-energy-transfer-at-the-wind-farm", "ib-hydrostatic-test-and-inspector-witness",
+    "Powerhouse operators", "A powerhouse operator watches water's stored energy become electrical energy, the same chain the wind farm follows with air.", 3, "lower secondary",
+    ["Water held high behind a dam has stored energy because of its height.", "As it falls through the penstock that energy becomes motion.", "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy."],
+    smQ("Water behind a dam stores energy mainly because of its…", ["Height", "Colour", "Temperature"], 0, "The higher the water sits above the turbine, the more energy it can give up on the way down.")),
+  smFl("sm-fl-pressure-depth", { kind: "site", id: "dam" }, [-740, 490], "Pressure grows with depth", "k12-buoyancy-and-pressure-in-the-deep", "uw-intake-screen-cleaning-with-lockout",
+    "Divers and dam engineers", "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.", 3, "lower secondary",
+    ["Water pushes on everything in it, and the deeper you go the more water sits above you.", "That is why a dam wall is built thicker at the bottom than at the top.", "Look at the dam's face: it widens toward its base, where the push of the water is greatest."],
+    smQ("Why is a dam thicker at the bottom?", ["Water pressure is greatest at the bottom", "To save concrete at the top only", "Snow collects at the bottom"], 0, "The deepest water pushes hardest, so the wall needs the most strength at its base.")),
+  smFl("sm-fl-water-cycle", { kind: "site", id: "water-plant" }, [-1070, 1070], "From snowpack to tap", "k12-water-cycle-and-filtration", "chlorine-room",
+    "Water treatment operators", "A water treatment operator treats the reservoir water that the mountain's snow and rain supply.", 3, "upper primary",
+    ["Water evaporates, condenses into clouds and falls as rain or snow on the mountain.", "Snowmelt and rain run downhill into streams and the reservoir.", "At the treatment plant the water is filtered and disinfected before it goes to homes: the plant is one stop on the water cycle, not its end."],
+    smQ("Snow on the summit reaches the reservoir mainly by…", ["Melting and running downhill", "Being carried by trucks", "Blowing uphill"], 0, "Meltwater flows the way the river below the powerhouse does: down, into the streams and the reservoir.")),
+  smFl("sm-fl-circuit", { kind: "site", id: "substation" }, [1030, 450], "A complete circuit", "k12-circuits-at-the-electrical-bench", "substation-switching",
+    "Substation electricians", "A substation electrician opens a breaker to break a circuit before anyone works on it.", 3, "lower secondary",
+    ["Current only flows around a complete loop, a closed circuit.", "Opening a switch or a breaker breaks the loop, so current stops.", "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."],
+    smQ("What happens to current when a breaker opens the circuit?", ["It stops flowing in that circuit", "It doubles", "It flows faster"], 0, "With the loop broken there is no path for current, which is what the crew then proves with a tester.")),
+  smFl("sm-fl-labels", { kind: "site", id: "water-plant" }, [-1030, 1030], "Reading a hazard label", "k12-reading-instructions-and-safety-labels", "ut-water-treatment-chemical-delivery-unloading",
+    "Water plant operators", "A plant operator reads a chemical's label and data sheet before a delivery is unloaded.", 2, "upper primary",
+    ["A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.", "The label and the safety data sheet, not memory, say what protective equipment the job needs.", "Before any delivery, the crew reads the label on the load and matches it to the paperwork."],
+    smQ("Where does the crew find the protection a chemical needs?", ["On its label and data sheet", "By guessing from the colour", "From the truck's paint"], 0, "The label and data sheet are written for exactly that chemical; a guess is not.")),
+  smFl("sm-fl-grade", { kind: "landmark", id: "pass-summit" }, [460, -120], "Grade as a ratio", "k12-measuring-and-scaling-the-court", "drive-mountain-grade-and-engine-brake",
+    "Drivers and road crews", "A driver reads a grade as rise over run, and the pass road's signs state it the same way.", 3, "lower secondary",
+    ["A road's grade is how much it rises for each unit it runs forward.", "The same rise over half the run is twice as steep.", "The HUD shows the slope under your feet: compare the climb here with the flatter road beside the yard."],
+    smQ("A road rises the same height over a shorter run. Its grade is…", ["Steeper", "Gentler", "The same"], 0, "Grade is rise divided by run, so a shorter run for the same rise gives a bigger ratio.")),
+  smFl("sm-fl-incident-report", { kind: "landmark", id: "west-lookout" }, [-1530, -700], "Writing a clear trail report", "k12-writing-a-clear-incident-report", "or-transmission-line-right-of-way-patrol",
+    "Rangers and patrollers", "A ranger writes what they saw, where and when: facts first, no guesses.", 3, "lower secondary",
+    ["A clear report says what happened, where, when and who was involved.", "It sticks to what the writer saw, and says plainly what they do not know yet.", "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."],
+    smQ("A good report sticks to…", ["What the writer actually saw", "What might have happened", "Opinions about who is to blame"], 0, "A report is evidence for someone who was not there, so it carries only what was seen.")),
+  smFl("sm-fl-call-for-help", { kind: "landmark", id: "gondola-top" }, [140, -1170], "Calling for help on the mountain", "k12-first-aid-awareness-call-for-help", "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "Rangers and lift crews", "A lift attendant gives a clear location first when they call for help.", 2, "early primary to upper primary",
+    ["When someone is hurt, make sure you are safe, then call for help.", "Say where you are first, a named place like the gondola top station, so help can find you.", "Stay on the line and do what the call-taker asks."],
+    smQ("What should you say first when calling for help?", ["Where you are", "Your favourite colour", "Nothing, just hang up"], 0, "Help can only come once it knows where to go.")),
+  // ---- the tunnel portal
+  smFl("sm-fl-tunnel-fair-test", { kind: "site", id: "tunnel-portal" }, [572, -548], "Testing the air is a fair test", "k12-a-controlled-experiment", "cm-shotcrete-nozzle-and-rebound",
+    "Tunnel crews", "A tunnel crew tests the air with the same meter, at the same spot, before and after the fans run, so the two readings can be compared.", 3, "lower secondary",
+    ["A fair test changes one thing at a time and keeps everything else the same.", "The heading crew reads the air at the face before the ventilation runs and again after, with the same meter in the same place.", "Only then can they say the fans made the difference, and the plan says what reading lets work go on."],
+    smQ("Two air readings are only comparable when…", ["The same meter is used in the same place", "Different meters are used to be safe", "One is taken outside in the sun"], 0, "Changing the meter or the spot changes more than one thing, so the difference could be the meter, not the air.")),
+  smFl("sm-fl-tunnel-shift-log", { kind: "site", id: "tunnel-portal" }, [630, -545], "The shift log is a timeline", "k12-building-a-timeline-from-documents", "cm-shotcrete-nozzle-and-rebound",
+    "Tunnel and heavy civil crews", "A heading boss rebuilds what happened on a shift from the log, the delivery tickets and the survey notes, in time order.", 3, "lower secondary",
+    ["A timeline puts events in the order they happened, with the evidence for each.", "The portal crew's shift log, the concrete delivery tickets and the survey notes are three documents about the same day.", "Put them in order and the day tells its own story: what was sprayed, when the survey checked it, and what came next."],
+    smQ("To build a timeline from documents you first…", ["Put the events in the order they happened", "Pick the most exciting one", "Throw away the tickets"], 0, "Order is what a timeline adds; every document is evidence for where an event sits on it.")),
+  smFl("sm-fl-portal-sources", { kind: "site", id: "tunnel-portal" }, [600, -520], "Marks on the ground and lines on the drawing", "k12-primary-and-secondary-sources", "op-excavator-trench-and-utility-locate",
+    "Excavator operators and locators", "An operator treats the locator's marks on the ground as the primary source and the drawing as secondary, and digs by hand where they disagree.", 3, "lower secondary",
+    ["A primary source is first-hand evidence; a secondary source describes or copies it.", "At the portal trench the locator's paint on the ground is first-hand: it was found with an instrument today. The old drawing is a copy of what someone once recorded.", "When the two disagree, the crew trusts the marks, and exposes the line by hand before the bucket goes near it."],
+    smQ("Which is the primary source for where a buried line is?", ["The locator's marks made today", "A drawing copied years ago", "A guess from the road edge"], 0, "First-hand evidence gathered on the day outranks a copy of an older record.")),
+  // ---- the gondola
+  smFl("sm-fl-gondola-wheel", { kind: "site", id: "gondola-shop" }, [-268, -292], "The bullwheel is a wheel and axle", "k12-simple-machines-at-a-crane", "ew-machine-room-lockout-and-brake-test",
+    "Lift mechanics", "A lift mechanic sees the drive as a wheel and axle: the motor turns the axle, the big wheel moves the rope, and the brake holds the wheel.", 3, "upper primary to lower secondary",
+    ["A wheel and axle is a simple machine: turning one turns the other, and the bigger part moves further for each turn.", "In the drive room the motor turns the axle and the big bullwheel carries the haul rope around.", "The brake grips the wheel, which is why the brake test is done before any cabin carries a person."],
+    smQ("On the gondola drive, the haul rope is moved by…", ["The bullwheel turning", "The cabins pushing", "The wind"], 0, "The rope rides on the bullwheel, so the wheel's turn is the rope's travel.")),
+  smFl("sm-fl-gondola-two-locks", { kind: "site", id: "gondola-shop" }, [-212, -292], "Two people, one lockout", "k12-teamwork-and-feedback", "ew-machine-room-lockout-and-brake-test",
+    "Lift mechanics and riggers", "A lift crew locks out the drive with each person's own lock, and each checks the other's before work starts.", 2, "upper primary to lower secondary",
+    ["Good teamwork means each person does their part and checks a partner's part without blame.", "In the drive room each mechanic hangs their own lock on the isolation point, so nothing can start until every lock is off.", "Then they check each other's lock and tag and say what they found, which is feedback the job depends on."],
+    smQ("Why does each mechanic hang their own lock?", ["So the drive cannot start until every one of them is done", "To make the lockout look tidy", "Because one lock is not strong enough"], 0, "A lock per person means no one can be forgotten inside the machine when it is restarted.")),
+  smFl("sm-fl-gondola-sky", { kind: "landmark", id: "gondola-top" }, [130, -1120], "Reading the sky before the lift opens", "k12-weather-and-the-sky", "rl-critical-lift-plan-and-signalperson",
+    "Lift operators and riggers", "A lift operator and a rigger both read the wind and the cloud before a cabin or a load leaves the ground, and the plan says when they stop.", 3, "upper primary",
+    ["Wind, cloud and temperature are what a weather reading is made of, and each can be read from where you stand.", "At the top station, feel the wind, watch which way the cloud moves and how fast, and read the temperature the HUD shows.", "Lift and rigging plans set a wind limit; the crew does not guess at it, they measure and compare."],
+    smQ("The crew decides the wind is too strong for the lift by…", ["Measuring it and comparing with the plan's limit", "Asking a passenger", "Looking at the colour of the sky"], 0, "A limit written in the plan is only useful when the wind is actually measured against it.")),
+  // ---- the transmission ridge
+  smFl("sm-fl-ridge-triangles", { kind: "site", id: "ridge-line" }, [1452, -548], "Triangles hold a tower up", "k12-slope-and-angles-on-a-ramp", "tower-climb",
+    "Tower climbers and lineworkers", "A tower climber clips to members braced into triangles, the shape that does not fold under a push.", 3, "lower secondary",
+    ["A square frame can lean over and fold; a triangle cannot change shape without a side changing length.", "Look up at the tower legs: every panel is braced into triangles, and each brace meets a leg at an angle the drawing sets.", "That is why a climber's anchor point is a braced member, and the climb plan names which ones."],
+    smQ("Bracing a frame into triangles makes it…", ["Hold its shape under a push", "Heavier but no stronger", "Easier to fold flat"], 0, "A triangle's angles are fixed by its sides, so the frame cannot lean without stretching or breaking a member.")),
+  smFl("sm-fl-ridge-energy-path", { kind: "site", id: "ridge-line" }, [1508, -548], "Where the ridge's power goes", "k12-energy-transfer-at-the-wind-farm", "substation-switching",
+    "Lineworkers and substation electricians", "A lineworker follows the energy from the powerhouse to the substation and along the ridge line as one chain of transfers.", 3, "lower secondary",
+    ["Energy is not made from nothing; it moves from one form and one place to another.", "Water falling through the penstock becomes motion in a turbine, then electrical energy in a generator, then current in the wires you can see overhead.", "The substation changes the voltage so the line can carry it a long way with less loss, and the switching crew is the last hand on that chain."],
+    smQ("The energy in the ridge line's wires began as…", ["Water held high behind the dam", "Wind in the trees", "The sun warming the towers"], 0, "Follow the chain backwards: wire, generator, turbine, penstock, reservoir.")),
+  smFl("sm-fl-ridge-read-back", { kind: "site", id: "ridge-line" }, [1480, -600], "Say it once, clearly, and hear it back", "k12-public-speaking-at-the-hall", "substation-switching",
+    "Switching operators and line crews", "A switching operator speaks each order plainly and waits for the read-back before the next step.", 2, "upper primary to lower secondary",
+    ["Clear speaking is one message at a time, in a steady voice, with the important word first.", "On the radio the operator gives the step, the other person repeats it back, and only a matching read-back means it was understood.", "Practise here: say the name of this site and the next site on your map as if the listener could not see you."],
+    smQ("A read-back proves that…", ["The listener understood the same message", "The radio is switched on", "The speaker was loud enough"], 0, "Only hearing the message repeated shows it arrived as it was meant.")),
+  smFl("sm-fl-ridge-transect", { kind: "site", id: "ridge-line" }, [1480, -520], "Counting life along a line", "k12-ecosystems-at-the-kelp-transect", "or-transmission-line-right-of-way-patrol",
+    "Right-of-way patrollers", "A right-of-way patroller walks the line and records what grows under it, the same transect method a kelp survey uses under water.", 3, "lower secondary",
+    ["A transect is a straight line through a habitat; you walk it and record what you find at set points along it.", "Under the ridge line the crew notes which plants are growing back toward the wires and where the ground is bare.", "The same count next season shows what changed, and the vegetation plan says what needs clearing."],
+    smQ("A transect count is useful because…", ["It can be repeated the same way next time", "It covers the whole mountain at once", "It needs no notes"], 0, "Repeating the same line the same way is what makes two counts comparable.")),
 ];
 
 // ------------------------------------------------------------------ quests
