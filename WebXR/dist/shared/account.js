@@ -21,6 +21,7 @@
 
 import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
 import { trT } from "./i18n.js";
+import { cnMount } from "./cinema.js";
 import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile } from "./profiles.js";
 // The treasure ledger rides with the chip: the dialog links the Treasure Map and every page arms its finders.
 import { tzArmPage, tzMapHref, tzFoundIds } from "./treasures.js";
@@ -224,6 +225,10 @@ export function gtMountAccount(nav, { configUrl = null } = {}) {
       on: { pointerdown: (e) => { if (e.target === d) gtClose(); }, keydown: (e) => { if (e.key === "Escape") { e.stopPropagation(); gtClose(); } } } },
     gtEl("div", { class: "gt-panel" }));
     document.body.appendChild(d);
+    // The backdrop plays a recorded loop behind the panel (console CINEMA,
+    // shared/cinema.js) — only while the dialog is open, poster only under
+    // reduced motion or Save-Data; the dark scrim keeps the panel the focus.
+    cnMount(d, "signin", { scrim: "rgba(0,0,0,.62)" });
   }
   if (!gtState.mounted) {
     gtState.mounted = true;

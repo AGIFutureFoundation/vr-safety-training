@@ -560,24 +560,25 @@ await check("a signed-in identity flows into Identity, is stored once, and signi
 
 const HM_WORLDS = ["bayworld", "regatta", "underwater", "summit", "fairway", "redwood", "atlas", "smartcity", "holodeck"];
 
-await check("the hero carries a canvas scene, one headline and the two actions", () => {
+await check("the hero carries a recorded loop, one headline and the two actions", () => {
   for (const [file, html, layout] of [["index.html", home, { go: "bayworld/index.html" }], ["home.html", flat, { go: "bayworld.html" }]]) {
-    assert(/<section class="hero" id="hero"[^>]*>\s*<canvas id="hm-hero-canvas" aria-hidden="true"><\/canvas>/.test(html), `${file}: the hero has no decorative canvas scene`);
+    assert(/<section class="hero" id="hero"[^>]*>\s*<div class="cn-bg" aria-hidden="true"[^>]*><video data-cn-slot="hero" autoplay muted loop playsinline preload="metadata"/.test(html), `${file}: the hero has no decorative background loop`);
     eq((html.match(/<h1\b/g) ?? []).length, 1, `${file}: headlines on the page`);
     assert(html.includes(`<a class="hm-act go" id="hm-start" href="${layout.go}">`) && />Start playing<\/a>/.test(html), `${file}: no "Start playing" action into Bay World`);
     assert(html.includes('<a class="hm-act alt" id="hm-find" href="#finder">') && />Find your trade<\/a>/.test(html), `${file}: no "Find your trade" action into the finder`);
   }
-  // Nothing from the network beyond what the page already loaded: the scene is
-  // drawn, not fetched.
+  // Nothing from another origin: the loop and its poster are files beside the page.
   const hero = /<section class="hero"[\s\S]*?<\/section>/.exec(home)[0];
   assert(!/https?:/.test(hero), "the hero reaches for a network resource");
 });
 
-await check("reduced motion gets one still frame, and the scene pauses off-screen", () => {
+await check("reduced motion or Save-Data gets the poster only, and the loops pause off-screen", () => {
   const src = readFileSync(join(ROOT, "tools", "gen_home.mjs"), "utf8");
+  const cn = readFileSync(join(WEBXR, "shared", "cinema.js"), "utf8");
   assert(home.includes('window.matchMedia("(prefers-reduced-motion: reduce)")'), "the hero never asks for prefers-reduced-motion");
-  assert(/if \(hmStill\(\)\) \{ cancelAnimationFrame\(raf\); raf = 0; hmDraw\(14\); return; \}/.test(home), "under reduced motion the hero does not stop at one still frame");
-  assert(/IntersectionObserver/.test(home) && /document\.hidden/.test(home), "the hero keeps animating off-screen or in a hidden tab");
+  assert(/navigator\.connection && navigator\.connection\.saveData/.test(home) && /navigator\.connection && navigator\.connection\.saveData/.test(cn), "Save-Data is never asked for");
+  assert(/@media \(prefers-reduced-motion: reduce\)\{\.cn-bg video\{display:none\}/.test(home), "the page's stylesheet does not hide the loops under reduced motion before any script runs");
+  assert(/IntersectionObserver/.test(cn) && /document\.hidden/.test(cn) && /document\.hidden/.test(home), "the loops keep playing off-screen or in a hidden tab");
   assert(/@media \(prefers-reduced-motion:reduce\)/.test(src), "the stylesheet has no reduced-motion rule");
 });
 
@@ -630,6 +631,90 @@ await check("the continue strip is on the page with a first-visit state, and how
   // Mobile-first order: hero, continue, how it works, worlds, finder, unions, then the roster.
   const order = ['id="hero"', 'id="continue"', 'id="how"', 'id="worlds"', 'id="finder"', 'id="unions"', 'id="tracks"', 'id="catalog"'].map((k) => home.indexOf(k));
   assert(order.every((v, i) => v > 0 && (i === 0 || v > order[i - 1])), `the sections are out of order: ${order.join(", ")}`);
+});
+
+// ------------------------------------- 4b. background loops (console CINEMA)
+
+const CN_MEDIA = join(WEBXR, "home", "media");
+const CN_SLOTS = JSON.parse(readFileSync(join(CN_MEDIA, "backgrounds.json"), "utf8")).slots;
+const CN_BUDGET = (slot) => (slot === "hero" ? 2.5 : 1.2) * 1024 * 1024;
+
+await check("background loops: every slot's files exist, are H.264 MP4 with no audio and faststart, and fit the budget", () => {
+  const ids = new Set();
+  for (const e of CN_SLOTS) {
+    assert(/^[a-z0-9-]+$/.test(e.slot) && !ids.has(e.slot), `slot ${e.slot}: not a plain, unique id`);
+    ids.add(e.slot);
+    assert(["in-game", "licensed"].includes(e.kind), `slot ${e.slot}: kind is ${e.kind}`);
+    assert(e.credit && e.licence, `slot ${e.slot}: no credit or licence`);
+    for (const k of ["src", "poster"]) assert(/^[a-z0-9][a-z0-9._-]*\.(mp4|jpg)$/.test(e[k] ?? "") && existsSync(join(CN_MEDIA, e[k])), `slot ${e.slot}: ${k} ${e[k]} missing from WebXR/home/media`);
+    const mp4 = readFileSync(join(CN_MEDIA, e.src));
+    assert(mp4.length <= CN_BUDGET(e.slot), `slot ${e.slot}: ${e.src} is ${(mp4.length / 1048576).toFixed(2)} MB, over ${(CN_BUDGET(e.slot) / 1048576).toFixed(1)} MB`);
+    eq(mp4.toString("latin1", 4, 8), "ftyp", `${e.src}: not an MP4`);
+    const moov = mp4.indexOf("moov"), mdat = mp4.indexOf("mdat");
+    assert(moov > 0 && moov < mdat, `${e.src}: the index is not at the front (encode with -movflags +faststart)`);
+    assert(mp4.includes("avc1"), `${e.src}: not H.264`);
+    assert(!mp4.includes("soun"), `${e.src}: carries an audio track`);
+    if (e.webm) {
+      assert(/^[a-z0-9][a-z0-9._-]*\.webm$/.test(e.webm) && existsSync(join(CN_MEDIA, e.webm)), `slot ${e.slot}: webm ${e.webm} missing`);
+      const webm = readFileSync(join(CN_MEDIA, e.webm));
+      assert(webm.readUInt32BE(0) === 0x1a45dfa3 && webm.length <= CN_BUDGET(e.slot), `slot ${e.slot}: ${e.webm} is not a WebM within the budget`);
+    }
+    const jpg = readFileSync(join(CN_MEDIA, e.poster));
+    assert(jpg[0] === 0xff && jpg[1] === 0xd8 && jpg.length <= 200 * 1024, `${e.poster}: not a JPEG under 200 KB`);
+  }
+  for (const want of ["hero", "bayworld", "underwater", "regatta", "fairway", "start-bayworld", "start-underwater", "start-regatta", "start-fairway", "track-bayworld", "track-underwater", "track-default", "atlas-header", "signin", "holodeck-landing"]) {
+    assert(ids.has(want), `backgrounds.json has no ${want} slot`);
+  }
+  assert(existsSync(join(ROOT, "docs", "home-backgrounds.md")), "docs/home-backgrounds.md is missing");
+});
+
+await check("the homepage's videos are muted, inline, looped, with posters on disk; only the hero autoplays", () => {
+  for (const [file, html, dir] of [["index.html", home, WEBXR], ["home.html", flat, join(WEBXR, "dist")]]) {
+    const vids = [...html.matchAll(/<video ([^>]*)>([\s\S]*?)<\/video>/g)];
+    eq(vids.length, 5, `${file}: background videos (hero and four world cards)`);
+    for (const [, attrs, inner] of vids) {
+      const slot = /data-cn-slot="([a-z0-9-]+)"/.exec(attrs)?.[1];
+      assert(slot && CN_SLOTS.some((e) => e.slot === slot), `${file}: a video with no listed slot`);
+      for (const a of [" muted", " loop", " playsinline", ' preload="metadata"', ' aria-hidden="true"']) assert(attrs.includes(a), `${file} ${slot}: no${a}`);
+      eq(attrs.includes(" autoplay"), slot === "hero", `${file} ${slot}: autoplay only on the hero`);
+      const poster = /poster="([^"]+)"/.exec(attrs)?.[1];
+      assert(poster && !/^https?:/.test(poster), `${file} ${slot}: no local poster`);
+      if (file === "index.html") assert(existsSync(resolve(dir, poster)), `${file} ${slot}: poster ${poster} does not resolve`);
+      assert(/<source src="[^"]+\.mp4" type="video\/mp4">/.test(inner), `${file} ${slot}: no MP4 source`);
+      assert(!inner.includes("webm") || /^<source src="[^"]+\.webm" type="video\/webm">/.test(inner), `${file} ${slot}: the WebM source is not first`);
+    }
+    assert(/<button class="cn-toggle" type="button" data-cn-toggle="hero" aria-pressed="false">Pause background<\/button>/.test(html), `${file}: the hero has no pause button`);
+  }
+});
+
+await check("the other surfaces mount their slots: world start screens, Atlas header, Holodeck landing, sign-in, track bands", () => {
+  const uses = [
+    ["bayworld/js/app.js", "start-bayworld"], ["underwater/js/app.js", "start-underwater"], ["regatta/js/app.js", "start-regatta"], ["fairway/js/app.js", "start-fairway"],
+    ["bayworld/js/atlas.js", "atlas-header"], ["holodeck/js/app.js", "holodeck-landing"], ["shared/account.js", "signin"],
+  ];
+  for (const [f, slot] of uses) {
+    const src = readFileSync(join(WEBXR, f), "utf8");
+    assert(/import \{ cnMount \} from "\.{1,2}\/(?:\.\.\/shared\/)?cinema\.js";/.test(src), `${f}: does not import cnMount from shared/cinema.js`);
+    assert(src.includes(`"${slot}"`), `${f}: does not mount the ${slot} slot`);
+  }
+  const tracks = join(WEBXR, "home", "tracks");
+  const tg = readFileSync(join(ROOT, "tools", "gen_tracks.mjs"), "utf8");
+  assert(/trackVideo\(prog\.id\)/.test(tg), "gen_tracks.mjs does not write the header band loop");
+  let n = 0;
+  for (const c of catalog.curricula) {
+    const f = join(tracks, `${c.id}.html`);
+    if (!existsSync(f)) continue;
+    const html = readFileSync(f, "utf8");
+    const m = /<section class="hero cn-band">\s*<div class="cn-bg"[^>]*><video data-cn-slot="(track-[a-z]+)" muted loop playsinline preload="metadata" poster="\.\.\/media\/([^"]+)"/.exec(html);
+    assert(m, `${c.id}: the track page has no header band loop`);
+    assert(existsSync(join(CN_MEDIA, m[2])), `${c.id}: poster ${m[2]} missing`);
+    assert(html.includes('import { cnEnhanceAll } from "../shared/cinema.js"'), `${c.id}: the band loop is never wired`);
+    n += 1;
+  }
+  assert(n === catalog.curricula.length, `${n} of ${catalog.curricula.length} track pages carry a band loop`);
+  const dist = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
+  assert(dist.includes('"cinema.js"') && /WEBXR \/ "home" \/ "media"/.test(dist), "the bundler does not ship cinema.js and the media folder");
+  for (const e of CN_SLOTS) for (const k of ["src", "webm", "poster"]) if (e[k]) assert(existsSync(join(WEBXR, "dist", "media", e[k])), `WebXR/dist/media/${e[k]} missing — run python3 tools/bundle_webxr.py`);
 });
 
 // Headless: the flat page as it ships (WebXR/dist/index.html), at a 360 px
@@ -756,6 +841,94 @@ await check("in a browser: no overlap, no sideways scroll, readable text, a live
     }
   } finally { await browser.close(); server.close(); }
   function catalog_len() { return catalog.curricula.length; }
+  assert(problems.length === 0, problems.slice(0, 8).join("\n      "));
+});
+
+// Headless: the loops as they ship (WebXR/dist/index.html and one track page).
+await check("in a browser: the hero loop plays and its button pauses it, cards wait until on screen, reduced motion shows posters, 360 px stays in bounds", async () => {
+  const { createServer } = await import("node:http");
+  const { statSync } = await import("node:fs");
+  const { extname, normalize } = await import("node:path");
+  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
+  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg", ".mp4": "video/mp4", ".webm": "video/webm" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" });
+    res.end(readFileSync(file));
+  });
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const { chromium } = await import(PW);
+  const browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox", "--autoplay-policy=no-user-gesture-required"] });
+  const problems = [];
+  try {
+    for (const motion of ["no-preference", "reduce"]) {
+      for (const size of [{ w: 1280, h: 720 }, { w: 360, h: 640, phone: true }]) {
+        const tag = `${size.w}px ${motion}`;
+        const context = await browser.newContext({ viewport: { width: size.w, height: size.h }, isMobile: !!size.phone, hasTouch: !!size.phone, reducedMotion: motion });
+        await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+        const page = await context.newPage();
+        await page.goto(`${base}/dist/index.html`, { waitUntil: "load", timeout: 30000 });
+        await page.waitForTimeout(1500);
+        const m = await page.evaluate(() => {
+          const hero = document.querySelector('video[data-cn-slot="hero"]');
+          const cards = [...document.querySelectorAll("#worlds video[data-cn-slot]")];
+          const layers = [...document.querySelectorAll("#hero .cn-bg, #worlds .cn-bg")];
+          return {
+            sideways: document.documentElement.scrollWidth - innerWidth,
+            heroPlaying: !!hero && !hero.paused && hero.currentTime > 0,
+            heroShown: !!hero && getComputedStyle(hero).display !== "none",
+            cardsShown: cards.filter((v) => getComputedStyle(v).display !== "none").length,
+            offscreenPlaying: cards.filter((v) => v.getBoundingClientRect().top > innerHeight && !v.paused).length,
+            posters: layers.filter((l) => /\.jpg/.test(getComputedStyle(l).backgroundImage)).length, layers: layers.length,
+            toggle: (() => { const t = document.querySelector('[data-cn-toggle="hero"]'); return t && getComputedStyle(t).display !== "none" && !t.hidden; })(),
+          };
+        });
+        if (m.sideways > 1) problems.push(`${tag}: the page scrolls sideways by ${m.sideways}px`);
+        if (m.posters !== m.layers || m.layers !== 5) problems.push(`${tag}: ${m.posters} of ${m.layers} background layers show a poster`);
+        if (motion === "reduce") {
+          if (m.heroShown || m.cardsShown) problems.push(`${tag}: a loop is visible under reduced motion`);
+          if (m.heroPlaying) problems.push(`${tag}: the hero plays under reduced motion`);
+          if (m.toggle) problems.push(`${tag}: the pause button shows with no loop to pause`);
+        } else {
+          if (!m.heroPlaying) problems.push(`${tag}: the hero loop is not playing`);
+          if (m.offscreenPlaying) problems.push(`${tag}: ${m.offscreenPlaying} off-screen card loops are playing`);
+          if (!m.toggle) problems.push(`${tag}: no pause button`);
+          else {
+            await page.click('[data-cn-toggle="hero"]');
+            const off = await page.evaluate(() => ({ pressed: document.querySelector('[data-cn-toggle="hero"]').getAttribute("aria-pressed"), paused: document.querySelector('video[data-cn-slot="hero"]').paused }));
+            if (off.pressed !== "true" || !off.paused) problems.push(`${tag}: the pause button does not pause the hero (${JSON.stringify(off)})`);
+            await page.click('[data-cn-toggle="hero"]');
+            await page.waitForTimeout(300);
+            const on = await page.evaluate(() => ({ pressed: document.querySelector('[data-cn-toggle="hero"]').getAttribute("aria-pressed"), paused: document.querySelector('video[data-cn-slot="hero"]').paused }));
+            if (on.pressed !== "false" || on.paused) problems.push(`${tag}: the button does not resume the hero (${JSON.stringify(on)})`);
+          }
+          if (!size.phone) {
+            await page.evaluate(() => document.getElementById("worlds").scrollIntoView());
+            await page.waitForTimeout(1200);
+            const playing = await page.evaluate(() => [...document.querySelectorAll("#worlds video[data-cn-slot]")].filter((v) => !v.paused).length);
+            if (playing < 1) problems.push(`${tag}: no card loop plays once the cards are on screen`);
+            const heroPaused = await page.evaluate(() => document.querySelector('video[data-cn-slot="hero"]').paused);
+            if (!heroPaused) problems.push(`${tag}: the hero keeps playing when scrolled away`);
+          }
+        }
+        await context.close();
+      }
+    }
+    // A track page's header band.
+    const context = await browser.newContext({ viewport: { width: 360, height: 640 } });
+    await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+    const page = await context.newPage();
+    await page.goto(`${base}/dist/tracks/${catalog.curricula[0].id}.html`, { waitUntil: "load", timeout: 30000 });
+    await page.waitForTimeout(1200);
+    const t = await page.evaluate(() => { const v = document.querySelector(".cn-band video[data-cn-slot]"); return { v: !!v, playing: !!v && !v.paused, sideways: Math.round(document.querySelector(".cn-band").getBoundingClientRect().right - innerWidth) }; });
+    if (!t.v || !t.playing) problems.push(`track page: the band loop is ${t.v ? "not playing" : "missing"}`);
+    if (t.sideways > 1) problems.push(`track page: the header band overflows by ${t.sideways}px`);
+    await context.close();
+  } finally { await browser.close(); server.close(); }
   assert(problems.length === 0, problems.slice(0, 8).join("\n      "));
 });
 

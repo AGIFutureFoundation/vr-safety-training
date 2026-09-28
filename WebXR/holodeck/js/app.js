@@ -1,6 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
+import { cnMount } from "../../shared/cinema.js";
 import {
   box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp, easeOut,
   GESTURE_HINTS,
@@ -1742,3 +1743,18 @@ ctlMount({
     { label: "Take the focused control", keys: ["Enter"], pad: "A", touch: "Tap it" },
   ],
 });
+
+// The landing's backdrop (console CINEMA, shared/cinema.js): a recorded loop
+// in a layer of its own under the React intro overlay — never inside React's
+// tree — shown only while the intro is open, so the overlay's own tint is
+// the scrim and the loop stops as soon as a course is generated.
+{
+  const cnHost = document.createElement("div");
+  cnHost.id = "cn-holodeck";
+  cnHost.style.cssText = "position:fixed;inset:0;z-index:19;pointer-events:none";
+  cnHost.hidden = !document.getElementById("intro");
+  document.body.appendChild(cnHost);
+  cnMount(cnHost, "holodeck-landing", { scrim: "rgba(5,10,16,.35)" });
+  const root = document.getElementById("react-root");
+  if (root && "MutationObserver" in window) new MutationObserver(() => { cnHost.hidden = !document.getElementById("intro"); }).observe(root, { childList: true, subtree: true });
+}

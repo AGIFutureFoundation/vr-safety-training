@@ -3,6 +3,7 @@ import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
 import { qmMountSideGames } from "../../shared/skill-gates-ui.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
+import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
 // Hidden treasures (shared/treasures.js, docs/treasures.md).
 import { tzWatchWorld } from "../../shared/treasures.js";
@@ -342,3 +343,7 @@ ctlMount({
 
 // The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
 qmMountSideGames({ world: "regatta", worldName: "the Bay Regatta", items: QM_WORLD_GAMES.regatta, from: "regatta", page: ppHerePage() });
+// The start screen plays a recorded loop of this world behind the menu card
+// (console CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only
+// while the menu is on screen, poster only under reduced motion or Save-Data.
+cnMount($("scr-menu"), "start-regatta", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
