@@ -6,18 +6,17 @@
 <title>Training Simulators — every station</title>
 <meta name="description" content="Every station in the training network on one page: 671 AR/VR simulators across 20 categories, with a deep link to each one.">
 <meta name="generator" content="tools/gen_home.mjs">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="./shared/design.css">
 <style>
   :root{
-    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
-    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
-    --accent:#4fd1ff; --accent-2:#7ee6ff; --accent-ink:#03202b; --violet:#a079ff;
-    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
-    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
-    --r-sm:6px; --r-md:10px; --r-lg:14px;
-    --shadow-1:0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-    --shadow-2:0 24px 60px rgba(0,0,0,.55);
+    --void:var(--at-bg, #050a10); --panel:var(--at-surface, #0b141d); --panel-2:var(--at-surface-2, #101b27); --raised:var(--at-raised, #142130); --raised-2:var(--at-raised-2, #192a3b);
+    --text:var(--at-on-surface, #edf6fb); --muted:var(--at-on-surface-muted, #93b2c3); --dim:var(--at-on-surface-dim, #6f8ea2);
+    --accent:var(--at-primary, #4fd1ff); --accent-2:var(--at-primary-strong, #7ee6ff); --accent-ink:var(--at-on-primary, #03202b); --violet:var(--at-secondary, #a079ff);
+    --warn:var(--at-warning, #f2c14b); --danger:var(--at-danger, #f0645b); --good:var(--at-success, #59c97b);
+    --edge:var(--at-border, rgba(126,170,200,.16)); --edge-strong:var(--at-border-strong, rgba(126,170,200,.32));
+    --r-sm:var(--at-r-sm, 6px); --r-md:var(--at-r-md, 10px); --r-lg:var(--at-r-lg, 14px);
+    --shadow-1:var(--at-elev-1, 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04));
+    --shadow-2:var(--at-elev-3, 0 24px 60px rgba(0,0,0,.55));
     --ring:0 0 0 3px rgba(79,209,255,.22);
     --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
     --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
@@ -77,7 +76,7 @@
   button{font:inherit; color:inherit}
   .btn{
     background:var(--raised); color:var(--text); border:1px solid var(--edge-strong);
-    border-radius:var(--r-sm); padding:8px 14px; cursor:pointer;
+    border-radius:var(--at-r-pill, 6px); padding:8px 14px; cursor:pointer;
     font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px;
   }
   .btn:hover{background:var(--raised-2)}
@@ -565,6 +564,7 @@
     <p class="hm-find-count" id="hm-find-count" role="status">60 programmes.</p>
     <div class="hm-progs" id="hm-progs">
       <article class="prog" style="--tint:#5aa9ff" data-cat="19 0" data-u="4" data-w="bayworld smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--electrical" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M34 88V22M24 30h20M26 40h16"/><path class="at-il-thin" d="M44 30c20 6 36 6 56 0M44 40c20 8 38 8 58 2"/><path class="at-il-warm" d="M112 14l-16 30h12l-8 26 22-34h-13l9-22z"/></svg></span>
         <h3 data-tr="prog.electrical-first-period.t">Inside Wireman — First Period</h3>
         <p class="prog-tag" data-tr="prog.electrical-first-period.g">Prove it dead before you touch it.</p>
         <p class="prog-union">IBEW — International Brotherhood of Electrical Workers</p>
@@ -574,6 +574,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=electrical-first-period">Start<span class="vh"> Inside Wireman — First Period</span></a></span>
       </article>
       <article class="prog" style="--tint:#4fd1ff" data-cat="2 4" data-u="1 3 7 10" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.confined-space.t">Confined Space — Entry and Rescue</h3>
         <p class="prog-tag" data-tr="prog.confined-space.g">Four spaces and the rescue.</p>
         <p class="prog-union">LIUNA, UA, IUOE and IAFF technical rescue</p>
@@ -583,6 +584,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=confined-space">Start<span class="vh"> Confined Space — Entry and Rescue</span></a></span>
       </article>
       <article class="prog" style="--tint:#f2c14b" data-cat="7 3 4" data-u="9" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.fall-protection.t">Working at Height — Fall Protection</h3>
         <p class="prog-tag" data-tr="prog.fall-protection.g">Anchor, connect, and check what holds you.</p>
         <p class="prog-union">Ironworkers, Carpenters, CWA and NATE climbers</p>
@@ -592,6 +594,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=fall-protection">Start<span class="vh"> Working at Height — Fall Protection</span></a></span>
       </article>
       <article class="prog" style="--tint:#78c8a0" data-cat="10 2 4 16" data-u="1 10" data-w="bayworld deep smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--environmental" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M50 80c-18-18-8-50 34-56 4 36-12 58-34 56z"/><path class="at-il-line" d="M50 80c10-18 20-30 32-40"/><path class="at-il-accent" d="M116 40c10 14 14 22 14 30a14 14 0 0 1-28 0c0-8 4-16 14-30z"/></svg></span>
         <h3 data-tr="prog.hazmat-environmental.t">Hazmat and Environmental Response</h3>
         <p class="prog-tag" data-tr="prog.hazmat-environmental.g">Contain, decontaminate and measure.</p>
         <p class="prog-union">LIUNA hazmat and environmental crews, IAFF, and environmental technicians</p>
@@ -601,6 +604,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=hazmat-environmental">Start<span class="vh"> Hazmat and Environmental Response</span></a></span>
       </article>
       <article class="prog" style="--tint:#a079ff" data-cat="7 9 8" data-u="3 5 14" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.rigging-lifting.t">Rigging and Lifting</h3>
         <p class="prog-tag" data-tr="prog.rigging-lifting.g">Load, radius, chart, and what is under the load.</p>
         <p class="prog-union">Ironworkers, IUOE crane operators, ILWU and IATSE riggers</p>
@@ -610,6 +614,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=rigging-lifting">Start<span class="vh"> Rigging and Lifting</span></a></span>
       </article>
       <article class="prog" style="--tint:#6fc9e8" data-cat="6" data-u="3" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--electrical" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M34 88V22M24 30h20M26 40h16"/><path class="at-il-thin" d="M44 30c20 6 36 6 56 0M44 40c20 8 38 8 58 2"/><path class="at-il-warm" d="M112 14l-16 30h12l-8 26 22-34h-13l9-22z"/></svg></span>
         <h3 data-tr="prog.stationary-engineer.t">Stationary Engineer — Building Plant</h3>
         <p class="prog-tag" data-tr="prog.stationary-engineer.g">The four plants a building engineer runs.</p>
         <p class="prog-union">IUOE — International Union of Operating Engineers, stationary locals</p>
@@ -619,6 +624,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=stationary-engineer">Start<span class="vh"> Stationary Engineer — Building Plant</span></a></span>
       </article>
       <article class="prog" style="--tint:#3fa9d8" data-cat="9" data-u="5 11 12" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--maritime" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 64h116l-14 18H36z"/><rect class="at-il-warm" x="44" y="46" width="22" height="18" rx="1"/><rect class="at-il-accent" x="68" y="46" width="22" height="18" rx="1"/><rect class="at-il-warm" x="56" y="30" width="22" height="16" rx="1"/><path class="at-il-line" d="M110 64V36h14v28"/><path class="at-il-thin" d="M10 90q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0"/></svg></span>
         <h3 data-tr="prog.port-operations.t">Port and Terminal Operations</h3>
         <p class="prog-tag" data-tr="prog.port-operations.g">A ship arrives, is worked and leaves.</p>
         <p class="prog-union">ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers</p>
@@ -628,6 +634,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=port-operations">Start<span class="vh"> Port and Terminal Operations</span></a></span>
       </article>
       <article class="prog" style="--tint:#63b5f0" data-cat="1 5" data-u="4 13" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--logistics" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-warm" x="30" y="56" width="30" height="26" rx="2"/><rect class="at-il-fill" x="62" y="56" width="30" height="26" rx="2"/><rect class="at-il-accent" x="46" y="30" width="30" height="26" rx="2"/><path class="at-il-line" d="M26 86h70M104 50h28M124 42l8 8-8 8"/></svg></span>
         <h3 data-tr="prog.transit-ramp.t">Transit and Ramp Operations</h3>
         <p class="prog-tag" data-tr="prog.transit-ramp.g">Heavy vehicles moving near people on foot.</p>
         <p class="prog-union">ATU, TWU, IAM and IBEW signal locals</p>
@@ -637,6 +644,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=transit-ramp">Start<span class="vh"> Transit and Ramp Operations</span></a></span>
       </article>
       <article class="prog" style="--tint:#9fd84f" data-cat="0 3" data-u="4" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--electrical" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M34 88V22M24 30h20M26 40h16"/><path class="at-il-thin" d="M44 30c20 6 36 6 56 0M44 40c20 8 38 8 58 2"/><path class="at-il-warm" d="M112 14l-16 30h12l-8 26 22-34h-13l9-22z"/></svg></span>
         <h3 data-tr="prog.energy-transition.t">Energy Transition Systems</h3>
         <p class="prog-tag" data-tr="prog.energy-transition.g">The plant a utility is building now.</p>
         <p class="prog-union">IBEW outside construction and utility locals</p>
@@ -646,6 +654,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=energy-transition">Start<span class="vh"> Energy Transition Systems</span></a></span>
       </article>
       <article class="prog" style="--tint:#c58cff" data-cat="8" data-u="14" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--events" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-beam" d="M40 16l-20 70h60z"/><rect class="at-il-fill" x="30" y="10" width="20" height="12" rx="2"/><rect class="at-il-accent" x="92" y="48" width="44" height="34" rx="3"/><path class="at-il-warm" d="M92 40l44-8v10l-44 8z"/></svg></span>
         <h3 data-tr="prog.live-events.t">Live Events Production</h3>
         <p class="prog-tag" data-tr="prog.live-events.g">From the truck to the house lights.</p>
         <p class="prog-union">IATSE — International Alliance of Theatrical Stage Employees</p>
@@ -655,6 +664,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=live-events">Start<span class="vh"> Live Events Production</span></a></span>
       </article>
       <article class="prog" style="--tint:#8fd18b" data-cat="10 0 2 4 6 9" data-u="1 3 7" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--environmental" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M50 80c-18-18-8-50 34-56 4 36-12 58-34 56z"/><path class="at-il-line" d="M50 80c10-18 20-30 32-40"/><path class="at-il-accent" d="M116 40c10 14 14 22 14 30a14 14 0 0 1-28 0c0-8 4-16 14-30z"/></svg></span>
         <h3 data-tr="prog.hunters-point-bay-restoration.t">Hunters Point Clean-up and Bay Restoration</h3>
         <p class="prog-tag" data-tr="prog.hunters-point-bay-restoration.g">A shoreline clean-up, worked in order.</p>
         <p class="prog-union">LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen&#39;s Union of the Pacific</p>
@@ -664,6 +674,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=hunters-point-bay-restoration">Start<span class="vh"> Hunters Point Clean-up and Bay Restoration</span></a></span>
       </article>
       <article class="prog" style="--tint:#f2a23b" data-cat="19 13" data-u="0 2 8" data-w="bayworld smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--culinary" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M38 50h60v26a8 8 0 0 1-8 8H46a8 8 0 0 1-8-8z"/><path class="at-il-line" d="M30 50h76M60 44h16"/><path class="at-il-thin" d="M54 38c-4-6 4-10 0-16M68 38c-4-6 4-10 0-16M82 38c-4-6 4-10 0-16"/><path class="at-il-warm" d="M116 30l6 0 0 40-6 4z"/><path class="at-il-line" d="M119 74v12"/></svg></span>
         <h3 data-tr="prog.culinary-kitchen.t">Culinary — The Working Kitchen</h3>
         <p class="prog-tag" data-tr="prog.culinary-kitchen.g">From the receiving dock to the dish pit.</p>
         <p class="prog-union">UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service</p>
@@ -673,6 +684,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=culinary-kitchen">Start<span class="vh"> Culinary — The Working Kitchen</span></a></span>
       </article>
       <article class="prog" style="--tint:#7fd1c9" data-cat="19 14" data-u="0 2 17" data-w="bayworld smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--health" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M60 14l30 10v22c0 20-14 32-30 40-16-8-30-20-30-40V24z"/><path class="at-il-plus" d="M60 32v28M46 46h28"/><path class="at-il-warm-line" d="M96 62h12l6-14 8 26 6-12h14"/></svg></span>
         <h3 data-tr="prog.dental-hygiene-unspoken-smiles.t">Dental Hygiene — Unspoken Smiles</h3>
         <p class="prog-tag" data-tr="prog.dental-hygiene-unspoken-smiles.g">A hygienist&#39;s clinical day.</p>
         <p class="prog-union">SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession&#39;s body</p>
@@ -682,6 +694,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=dental-hygiene-unspoken-smiles">Start<span class="vh"> Dental Hygiene — Unspoken Smiles</span></a></span>
       </article>
       <article class="prog" style="--tint:#f0b86e" data-cat="14" data-u="0 2 17" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--health" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M60 14l30 10v22c0 20-14 32-30 40-16-8-30-20-30-40V24z"/><path class="at-il-plus" d="M60 32v28M46 46h28"/><path class="at-il-warm-line" d="M96 62h12l6-14 8 26 6-12h14"/></svg></span>
         <h3 data-tr="prog.dental-careers-unspoken-smiles.t">Dental Careers — Unspoken Smiles</h3>
         <p class="prog-tag" data-tr="prog.dental-careers-unspoken-smiles.g">Careers that start in the clinic.</p>
         <p class="prog-union">SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions&#39; bodies, DANB as the assisting credential</p>
@@ -691,6 +704,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=dental-careers-unspoken-smiles">Start<span class="vh"> Dental Careers — Unspoken Smiles</span></a></span>
       </article>
       <article class="prog" style="--tint:#c9a34a" data-cat="11" data-u="0 2" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--sports" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><circle class="at-il-warm" cx="58" cy="58" r="24"/><path class="at-il-seam" d="M34 58h48M58 34v48M41 41c10 10 10 24 0 34M75 41c-10 10-10 24 0 34"/><path class="at-il-line" d="M112 88V24M112 28h22M116 40h18"/><path class="at-il-thin" d="M118 40l4 14h8l4-14"/></svg></span>
         <h3 data-tr="prog.civic-leadership-and-ei.t">Civic Leadership and Emotional Intelligence</h3>
         <p class="prog-tag" data-tr="prog.civic-leadership-and-ei.g">The decisions a leader makes in public.</p>
         <p class="prog-union">SEIU and AFSCME public-service staff, the trades&#39; own apprenticeship coordinators, and community organisations that train residents for public life</p>
@@ -700,6 +714,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=civic-leadership-and-ei">Start<span class="vh"> Civic Leadership and Emotional Intelligence</span></a></span>
       </article>
       <article class="prog" style="--tint:#6fa8dc" data-cat="6" data-u="0 3 8" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--pathway" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 86h28V70h28V54h28V38h28v48z"/><path class="at-il-line" d="M126 38V12"/><path class="at-il-warm" d="M126 12h22l-6 7 6 7h-22z"/></svg></span>
         <h3 data-tr="prog.property-management.t">Property Management — Twenty Zones</h3>
         <p class="prog-tag" data-tr="prog.property-management.g">A working building in twenty zones.</p>
         <p class="prog-union">SEIU 87 and SEIU-USWW janitors and building staff, IUOE Local 39 stationary engineers, UNITE HERE for residential hospitality staff, and the apartment association&#39;s certified apartment manager and maintenance technician credentials</p>
@@ -709,6 +724,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=property-management">Start<span class="vh"> Property Management — Twenty Zones</span></a></span>
       </article>
       <article class="prog" style="--tint:#4fb0a0" data-cat="4" data-u="0 2" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--health" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M60 14l30 10v22c0 20-14 32-30 40-16-8-30-20-30-40V24z"/><path class="at-il-plus" d="M60 32v28M46 46h28"/><path class="at-il-warm-line" d="M96 62h12l6-14 8 26 6-12h14"/></svg></span>
         <h3 data-tr="prog.outbreak-response-who.t">Outbreak and Disease Response — WHO and UN Practice</h3>
         <p class="prog-tag" data-tr="prog.outbreak-response-who.g">From the first alert to the last discharge.</p>
         <p class="prog-union">SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters</p>
@@ -718,6 +734,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=outbreak-response-who">Start<span class="vh"> Outbreak and Disease Response — WHO and UN Practice</span></a></span>
       </article>
       <article class="prog" style="--tint:#e07a3f" data-cat="5 1 11" data-u="0 2 5" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--pathway" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 86h28V70h28V54h28V38h28v48z"/><path class="at-il-line" d="M126 38V12"/><path class="at-il-warm" d="M126 12h22l-6 7 6 7h-22z"/></svg></span>
         <h3 data-tr="prog.job-readiness-edition.t">Job Readiness Edition — wojrc.org programmes</h3>
         <p class="prog-tag" data-tr="prog.job-readiness-edition.g">Getting ready for the first job.</p>
         <p class="prog-union">Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff</p>
@@ -727,6 +744,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=job-readiness-edition">Start<span class="vh"> Job Readiness Edition — wojrc.org programmes</span></a></span>
       </article>
       <article class="prog" style="--tint:#e8552d" data-cat="5 7 9" data-u="3 5 11 12 15 16" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--pathway" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 86h28V70h28V54h28V38h28v48z"/><path class="at-il-line" d="M126 38V12"/><path class="at-il-warm" d="M126 12h22l-6 7 6 7h-22z"/></svg></span>
         <h3 data-tr="prog.bay-area-union-edition.t">Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine</h3>
         <p class="prog-tag" data-tr="prog.bay-area-union-edition.g">One tool for four union families.</p>
         <p class="prog-union">SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen&#39;s Union of the ILWU, MEBA and SIU, with the Pile Drivers&#39; commercial divers for the underwater work</p>
@@ -736,6 +754,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=bay-area-union-edition">Start<span class="vh"> Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine</span></a></span>
       </article>
       <article class="prog" style="--tint:#b8862b" data-cat="19 13" data-u="8" data-w="bayworld smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--culinary" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M38 50h60v26a8 8 0 0 1-8 8H46a8 8 0 0 1-8-8z"/><path class="at-il-line" d="M30 50h76M60 44h16"/><path class="at-il-thin" d="M54 38c-4-6 4-10 0-16M68 38c-4-6 4-10 0-16M82 38c-4-6 4-10 0-16"/><path class="at-il-warm" d="M116 30l6 0 0 40-6 4z"/><path class="at-il-line" d="M119 74v12"/></svg></span>
         <h3 data-tr="prog.bartending-course.t">Bartending — Behind the Bar</h3>
         <p class="prog-tag" data-tr="prog.bartending-course.g">From opening the well to closing the till.</p>
         <p class="prog-union">UNITE HERE Local 2 bartenders and barbacks</p>
@@ -745,6 +764,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=bartending-course">Start<span class="vh"> Bartending — Behind the Bar</span></a></span>
       </article>
       <article class="prog" style="--tint:#f2c14b" data-cat="11" data-u="1 3" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--environmental" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M50 80c-18-18-8-50 34-56 4 36-12 58-34 56z"/><path class="at-il-line" d="M50 80c10-18 20-30 32-40"/><path class="at-il-accent" d="M116 40c10 14 14 22 14 30a14 14 0 0 1-28 0c0-8 4-16 14-30z"/></svg></span>
         <h3 data-tr="prog.hunters-point-can-we-live.t">Hunters Point Edition — Can We Live?</h3>
         <p class="prog-tag" data-tr="prog.hunters-point-can-we-live.g">A neighbourhood&#39;s health and its work.</p>
         <p class="prog-union">Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway</p>
@@ -754,6 +774,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=hunters-point-can-we-live">Start<span class="vh"> Hunters Point Edition — Can We Live?</span></a></span>
       </article>
       <article class="prog" style="--tint:#b86bd6" data-cat="19 15" data-u="0 8" data-w="bayworld smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--garment" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-fill" x="34" y="38" width="30" height="36" rx="3"/><rect class="at-il-warm" x="30" y="32" width="38" height="8" rx="2"/><rect class="at-il-warm" x="30" y="72" width="38" height="8" rx="2"/><path class="at-il-line" d="M130 14L96 82"/><circle class="at-il-thin" cx="127" cy="20" r="3"/><path class="at-il-thin" d="M127 20c-30 10-50 40-64 24"/></svg></span>
         <h3 data-tr="prog.sewing-garment-trades.t">Sewing and Garment Trades</h3>
         <p class="prog-tag" data-tr="prog.sewing-garment-trades.g">Sewing taught as a trade.</p>
         <p class="prog-union">Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service</p>
@@ -763,6 +784,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=sewing-garment-trades">Start<span class="vh"> Sewing and Garment Trades</span></a></span>
       </article>
       <article class="prog" style="--tint:#8a9bb0" data-cat="7" data-u="1 3 15" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.bridge-and-structural.t">Bridge and Structural Trades</h3>
         <p class="prog-tag" data-tr="prog.bridge-and-structural.g">The bridge as a workplace.</p>
         <p class="prog-union">Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck</p>
@@ -772,6 +794,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=bridge-and-structural">Start<span class="vh"> Bridge and Structural Trades</span></a></span>
       </article>
       <article class="prog" style="--tint:#d67b6b" data-cat="13" data-u="8" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--culinary" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M38 50h60v26a8 8 0 0 1-8 8H46a8 8 0 0 1-8-8z"/><path class="at-il-line" d="M30 50h76M60 44h16"/><path class="at-il-thin" d="M54 38c-4-6 4-10 0-16M68 38c-4-6 4-10 0-16M82 38c-4-6 4-10 0-16"/><path class="at-il-warm" d="M116 30l6 0 0 40-6 4z"/><path class="at-il-line" d="M119 74v12"/></svg></span>
         <h3 data-tr="prog.hotel-workers.t">Hotel Workers — Back of House</h3>
         <p class="prog-tag" data-tr="prog.hotel-workers.g">The hotel jobs that carry the injuries.</p>
         <p class="prog-union">UNITE HERE hotel housekeepers, laundry and banquet staff</p>
@@ -781,6 +804,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=hotel-workers">Start<span class="vh"> Hotel Workers — Back of House</span></a></span>
       </article>
       <article class="prog" style="--tint:#c9a36b" data-cat="7" data-u="1 3" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.builders-trades.t">Builders — Carpenters, Laborers and Masons</h3>
         <p class="prog-tag" data-tr="prog.builders-trades.g">The building trades&#39; own stations.</p>
         <p class="prog-union">UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators</p>
@@ -790,6 +814,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=builders-trades">Start<span class="vh"> Builders — Carpenters, Laborers and Masons</span></a></span>
       </article>
       <article class="prog" style="--tint:#f0645b" data-cat="4" data-u="0 1 2 10" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--health" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M60 14l30 10v22c0 20-14 32-30 40-16-8-30-20-30-40V24z"/><path class="at-il-plus" d="M60 32v28M46 46h28"/><path class="at-il-warm-line" d="M96 62h12l6-14 8 26 6-12h14"/></svg></span>
         <h3 data-tr="prog.first-responders.t">First Responders — Fire, EMS, Police, Crisis and Relief</h3>
         <p class="prog-tag" data-tr="prog.first-responders.g">For the people who run toward the call.</p>
         <p class="prog-union">IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce</p>
@@ -799,6 +824,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=first-responders">Start<span class="vh"> First Responders — Fire, EMS, Police, Crisis and Relief</span></a></span>
       </article>
       <article class="prog" style="--tint:#f0645b" data-cat="19 7 2 4 0 1 6 3 5 9" data-u="1 4 7 10" data-w="bayworld deep smartcity trades">
+        <span class="at-card__art"><svg class="at-illo at-illo--sports" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><circle class="at-il-warm" cx="58" cy="58" r="24"/><path class="at-il-seam" d="M34 58h48M58 34v48M41 41c10 10 10 24 0 34M75 41c-10 10-10 24 0 34"/><path class="at-il-line" d="M112 88V24M112 28h22M116 40h18"/><path class="at-il-thin" d="M118 40l4 14h8l4-14"/></svg></span>
         <h3 data-tr="prog.situational-awareness.t">Situational Awareness — Interruption Drill</h3>
         <p class="prog-tag" data-tr="prog.situational-awareness.g">Procedures that interrupt you while you work.</p>
         <p class="prog-union">Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals</p>
@@ -808,6 +834,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=situational-awareness">Start<span class="vh"> Situational Awareness — Interruption Drill</span></a></span>
       </article>
       <article class="prog" style="--tint:#4fb8c9" data-cat="9" data-u="1 4 5" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--maritime" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 64h116l-14 18H36z"/><rect class="at-il-warm" x="44" y="46" width="22" height="18" rx="1"/><rect class="at-il-accent" x="68" y="46" width="22" height="18" rx="1"/><rect class="at-il-warm" x="56" y="30" width="22" height="16" rx="1"/><path class="at-il-line" d="M110 64V36h14v28"/><path class="at-il-thin" d="M10 90q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0"/></svg></span>
         <h3 data-tr="prog.ports-maritime-ecology.t">Ports, Maritime and Bay Ecology</h3>
         <p class="prog-tag" data-tr="prog.ports-maritime-ecology.g">A working port and the bay it sits on.</p>
         <p class="prog-union">ILWU, the Inlandboatmen&#39;s Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay</p>
@@ -817,6 +844,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=ports-maritime-ecology">Start<span class="vh"> Ports, Maritime and Bay Ecology</span></a></span>
       </article>
       <article class="prog" style="--tint:#9fd8ff" data-cat="10" data-u="1 2 3" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--environmental" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M50 80c-18-18-8-50 34-56 4 36-12 58-34 56z"/><path class="at-il-line" d="M50 80c10-18 20-30 32-40"/><path class="at-il-accent" d="M116 40c10 14 14 22 14 30a14 14 0 0 1-28 0c0-8 4-16 14-30z"/></svg></span>
         <h3 data-tr="prog.air-quality-monitoring.t">Air Quality — Monitoring and Control</h3>
         <p class="prog-tag" data-tr="prog.air-quality-monitoring.g">Measuring the air a neighbourhood breathes.</p>
         <p class="prog-union">AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews</p>
@@ -826,6 +854,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=air-quality-monitoring">Start<span class="vh"> Air Quality — Monitoring and Control</span></a></span>
       </article>
       <article class="prog" style="--tint:#ff7a3b" data-cat="12" data-u="0 2" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--sports" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><circle class="at-il-warm" cx="58" cy="58" r="24"/><path class="at-il-seam" d="M34 58h48M58 34v48M41 41c10 10 10 24 0 34M75 41c-10 10-10 24 0 34"/><path class="at-il-line" d="M112 88V24M112 28h22M116 40h18"/><path class="at-il-thin" d="M118 40l4 14h8l4-14"/></svg></span>
         <h3 data-tr="prog.basketball-fundamentals.t">Basketball Fundamentals</h3>
         <p class="prog-tag" data-tr="prog.basketball-fundamentals.g">The fundamentals on an indoor court.</p>
         <p class="prog-union">AFSCME and SEIU parks-and-recreation staff where a public gym runs the league; the programme itself is taught against USA Basketball&#39;s youth guidelines rather than a union apprenticeship</p>
@@ -835,6 +864,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=basketball-fundamentals">Start<span class="vh"> Basketball Fundamentals</span></a></span>
       </article>
       <article class="prog" style="--tint:#4fb3c8" data-cat="9 10 2" data-u="0 1 2 3 5 11 12" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--dive" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><circle class="at-il-fill" cx="70" cy="54" r="24"/><circle class="at-il-sky-dot" cx="70" cy="54" r="11"/><path class="at-il-line" d="M46 78h48M70 30v-6"/><circle class="at-il-thin" cx="112" cy="36" r="5"/><circle class="at-il-thin" cx="120" cy="22" r="3.5"/><circle class="at-il-thin" cx="108" cy="14" r="2.5"/><path class="at-il-thin" d="M10 30q10-5 20 0t20 0"/></svg></span>
         <h3 data-tr="prog.bay-restoration-maritime-underwater.t">SF Bay Restoration &amp; Cleanup — Maritime and Underwater</h3>
         <p class="prog-tag" data-tr="prog.bay-restoration-maritime-underwater.g">Restoring the bay above and below the water.</p>
         <p class="prog-union">ILWU and the Inlandboatmen&#39;s Union, MEBA and SIU marine crews, Pile Drivers Local 34 divers, IUOE Local 3 dredge and excavator operators, LIUNA Local 261 hazmat and shoreline crews, AFSCME and SEIU agency scientists</p>
@@ -844,6 +874,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=bay-restoration-maritime-underwater">Start<span class="vh"> SF Bay Restoration &amp; Cleanup — Maritime and Underwater</span></a></span>
       </article>
       <article class="prog" style="--tint:#d63b3b" data-cat="1" data-u="16" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--logistics" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-warm" x="30" y="56" width="30" height="26" rx="2"/><rect class="at-il-fill" x="62" y="56" width="30" height="26" rx="2"/><rect class="at-il-accent" x="46" y="30" width="30" height="26" rx="2"/><path class="at-il-line" d="M26 86h70M104 50h28M124 42l8 8-8 8"/></svg></span>
         <h3 data-tr="prog.railroad-crafts.t">Railroad Crafts — Track, Car and Cab</h3>
         <p class="prog-tag" data-tr="prog.railroad-crafts.g">The jobs a freight railroad runs on.</p>
         <p class="prog-union">BLET, SMART-TD and BMWED</p>
@@ -853,6 +884,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=railroad-crafts">Start<span class="vh"> Railroad Crafts — Track, Car and Cab</span></a></span>
       </article>
       <article class="prog" style="--tint:#dba428" data-cat="7" data-u="3" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.heavy-equipment-operators.t">Heavy Equipment Operators — IUOE Local 3</h3>
         <p class="prog-tag" data-tr="prog.heavy-equipment-operators.g">Eight machines, eight jobs.</p>
         <p class="prog-union">IUOE — International Union of Operating Engineers Local 3 operating engineer training</p>
@@ -862,6 +894,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=heavy-equipment-operators">Start<span class="vh"> Heavy Equipment Operators — IUOE Local 3</span></a></span>
       </article>
       <article class="prog" style="--tint:#2f6f4a" data-cat="6 2" data-u="7" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.plumbers-and-pipefitters.t">Plumbers and Pipefitters — Journeyman Rough-In and Test Block</h3>
         <p class="prog-tag" data-tr="prog.plumbers-and-pipefitters.g">Rough-in, test and sign-off.</p>
         <p class="prog-union">UA Local 38 apprenticeship</p>
@@ -871,6 +904,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=plumbers-and-pipefitters">Start<span class="vh"> Plumbers and Pipefitters — Journeyman Rough-In and Test Block</span></a></span>
       </article>
       <article class="prog" style="--tint:#4fa3d1" data-cat="7" data-u="15" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.glaziers-and-architectural-metal.t">Glaziers and Architectural Metal</h3>
         <p class="prog-tag" data-tr="prog.glaziers-and-architectural-metal.g">A glass and metal crew across a building.</p>
         <p class="prog-union">IUPAT DC 16 — International Union of Painters and Allied Trades, District Council 16 glaziers apprenticeship</p>
@@ -880,6 +914,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=glaziers-and-architectural-metal">Start<span class="vh"> Glaziers and Architectural Metal</span></a></span>
       </article>
       <article class="prog" style="--tint:#ff9f43" data-cat="6" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--electrical" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M34 88V22M24 30h20M26 40h16"/><path class="at-il-thin" d="M44 30c20 6 36 6 56 0M44 40c20 8 38 8 58 2"/><path class="at-il-warm" d="M112 14l-16 30h12l-8 26 22-34h-13l9-22z"/></svg></span>
         <h3 data-tr="prog.elevator-constructors.t">Elevator Constructor — IUEC Core Skills</h3>
         <p class="prog-tag" data-tr="prog.elevator-constructors.g">Machine room, pit, car top and doors.</p>
         <p class="prog-union">IUEC and the NEIEP apprenticeship as a body</p>
@@ -889,6 +924,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=elevator-constructors">Start<span class="vh"> Elevator Constructor — IUEC Core Skills</span></a></span>
       </article>
       <article class="prog" style="--tint:#d8663a" data-cat="6" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.insulators-and-boilermakers.t">Insulators and Boilermakers — Building Systems</h3>
         <p class="prog-tag" data-tr="prog.insulators-and-boilermakers.g">Keeping a plant&#39;s pipes and vessels sound.</p>
         <p class="prog-union">Insulators Local 16 and Boilermakers Local 549</p>
@@ -898,6 +934,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=insulators-and-boilermakers">Start<span class="vh"> Insulators and Boilermakers — Building Systems</span></a></span>
       </article>
       <article class="prog" style="--tint:#f2c14b" data-cat="7" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.cement-masons-and-plasterers.t">Cement Masons and Plasterers</h3>
         <p class="prog-tag" data-tr="prog.cement-masons-and-plasterers.g">Slabs, curbs, walls and floors closed right.</p>
         <p class="prog-union">OPCMIA — Operative Plasterers&#39; and Cement Masons&#39; International Association</p>
@@ -907,6 +944,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=cement-masons-and-plasterers">Start<span class="vh"> Cement Masons and Plasterers</span></a></span>
       </article>
       <article class="prog" style="--tint:#5f8fd6" data-cat="17" data-u="0" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--health" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M60 14l30 10v22c0 20-14 32-30 40-16-8-30-20-30-40V24z"/><path class="at-il-plus" d="M60 32v28M46 46h28"/><path class="at-il-warm-line" d="M96 62h12l6-14 8 26 6-12h14"/></svg></span>
         <h3 data-tr="prog.healthcare-support.t">Healthcare Support</h3>
         <p class="prog-tag" data-tr="prog.healthcare-support.g">The support jobs that hold a hospital up.</p>
         <p class="prog-union">SEIU-UHW and NUHW, the training bodies for California&#39;s hospital and clinic support workforce</p>
@@ -916,6 +954,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=healthcare-support">Start<span class="vh"> Healthcare Support</span></a></span>
       </article>
       <article class="prog" style="--tint:#f2c14b" data-cat="7" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.roofers-and-waterproofers.t">Roofers and Waterproofers</h3>
         <p class="prog-tag" data-tr="prog.roofers-and-waterproofers.g">Covering, guarding and closing out a roof.</p>
         <p class="prog-union">Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers (URW)</p>
@@ -925,6 +964,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=roofers-and-waterproofers">Start<span class="vh"> Roofers and Waterproofers</span></a></span>
       </article>
       <article class="prog" style="--tint:#2f9ed1" data-cat="2 0" data-u="4" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--electrical" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M34 88V22M24 30h20M26 40h16"/><path class="at-il-thin" d="M44 30c20 6 36 6 56 0M44 40c20 8 38 8 58 2"/><path class="at-il-warm" d="M112 14l-16 30h12l-8 26 22-34h-13l9-22z"/></svg></span>
         <h3 data-tr="prog.water-and-gas-utility-crews.t">Water and Gas Utility Crews — Distribution Authority</h3>
         <p class="prog-tag" data-tr="prog.water-and-gas-utility-crews.g">The jobs a utility crew rotates through.</p>
         <p class="prog-union">UWUA — Utility Workers Union of America; IBEW gas locals as bodies</p>
@@ -934,6 +974,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=water-and-gas-utility-crews">Start<span class="vh"> Water and Gas Utility Crews — Distribution Authority</span></a></span>
       </article>
       <article class="prog" style="--tint:#ffb13a" data-cat="1" data-u="13" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--aerospace" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M20 60l60-8 24-22h10l-12 24 34-4 8-10h6l-4 16 4 16h-6l-8-10-34-4 12 24h-10l-24-22-60-8z" transform="translate(0 -6)"/><path class="at-il-thin" d="M10 72h50M18 80h34"/></svg></span>
         <h3 data-tr="prog.aviation-maintenance-and-ground.t">Aviation Maintenance and Ground — IAM/TWU Ramp and Line</h3>
         <p class="prog-tag" data-tr="prog.aviation-maintenance-and-ground.g">Ramp and line work at the airport.</p>
         <p class="prog-union">IAM and TWU</p>
@@ -943,6 +984,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=aviation-maintenance-and-ground">Start<span class="vh"> Aviation Maintenance and Ground — IAM/TWU Ramp and Line</span></a></span>
       </article>
       <article class="prog" style="--tint:#e4622a" data-cat="5" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--robotics" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-fill" x="30" y="76" width="40" height="10" rx="2"/><path class="at-il-arm" d="M50 76V52l30-18 26 14"/><circle class="at-il-warm" cx="50" cy="52" r="6"/><circle class="at-il-warm" cx="80" cy="34" r="6"/><path class="at-il-line" d="M106 48l10-6M106 48l8 10"/></svg></span>
         <h3 data-tr="prog.warehouse-and-logistics-automation.t">Warehouse and Logistics Automation — Teamsters Distribution Floor</h3>
         <p class="prog-tag" data-tr="prog.warehouse-and-logistics-automation.g">Working safely on an automated floor.</p>
         <p class="prog-union">Teamsters (IBT) warehouse and logistics automation training</p>
@@ -952,6 +994,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=warehouse-and-logistics-automation">Start<span class="vh"> Warehouse and Logistics Automation — Teamsters Distribution Floor</span></a></span>
       </article>
       <article class="prog" style="--tint:#d9a441" data-cat="6 1 13" data-u="6" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--maritime" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 64h116l-14 18H36z"/><rect class="at-il-warm" x="44" y="46" width="22" height="18" rx="1"/><rect class="at-il-accent" x="68" y="46" width="22" height="18" rx="1"/><rect class="at-il-warm" x="56" y="30" width="22" height="16" rx="1"/><path class="at-il-line" d="M110 64V36h14v28"/><path class="at-il-thin" d="M10 90q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0"/></svg></span>
         <h3 data-tr="prog.education-support-staff.t">Education Support Staff — Custodial, Grounds, Transport and Classroom</h3>
         <p class="prog-tag" data-tr="prog.education-support-staff.g">The staff who keep a school running.</p>
         <p class="prog-union">AFT and CSEA</p>
@@ -961,6 +1004,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=education-support-staff">Start<span class="vh"> Education Support Staff — Custodial, Grounds, Transport and Classroom</span></a></span>
       </article>
       <article class="prog" style="--tint:#3f9c5a" data-cat="18" data-u="0 1 2" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--environmental" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M50 80c-18-18-8-50 34-56 4 36-12 58-34 56z"/><path class="at-il-line" d="M50 80c10-18 20-30 32-40"/><path class="at-il-accent" d="M116 40c10 14 14 22 14 30a14 14 0 0 1-28 0c0-8 4-16 14-30z"/></svg></span>
         <h3 data-tr="prog.grounds-and-landscaping.t">Grounds &amp; Landscaping Crew</h3>
         <p class="prog-tag" data-tr="prog.grounds-and-landscaping.g">The jobs a grounds crew rotates through.</p>
         <p class="prog-union">LIUNA, SEIU and AFSCME grounds and landscaping crews</p>
@@ -970,6 +1014,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=grounds-and-landscaping">Start<span class="vh"> Grounds &amp; Landscaping Crew</span></a></span>
       </article>
       <article class="prog" style="--tint:#e0a23f" data-cat="11 1 5" data-u="0 2" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--pathway" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 86h28V70h28V54h28V38h28v48z"/><path class="at-il-line" d="M126 38V12"/><path class="at-il-warm" d="M126 12h22l-6 7 6 7h-22z"/></svg></span>
         <h3 data-tr="prog.wojrc-pathway-edition.t">Pathway Edition — wojrc.org</h3>
         <p class="prog-tag" data-tr="prog.wojrc-pathway-edition.g">A participant&#39;s own journey through the programmes.</p>
         <p class="prog-union">Teamsters for warehouse and driving work, the building-trades apprenticeship programmes the pathway prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff a participant meets along the way</p>
@@ -979,6 +1024,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=wojrc-pathway-edition">Start<span class="vh"> Pathway Edition — wojrc.org</span></a></span>
       </article>
       <article class="prog" style="--tint:#d8232a" data-cat="13" data-u="17" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--culinary" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M38 50h60v26a8 8 0 0 1-8 8H46a8 8 0 0 1-8-8z"/><path class="at-il-line" d="M30 50h76M60 44h16"/><path class="at-il-thin" d="M54 38c-4-6 4-10 0-16M68 38c-4-6 4-10 0-16M82 38c-4-6 4-10 0-16"/><path class="at-il-warm" d="M116 30l6 0 0 40-6 4z"/><path class="at-il-line" d="M119 74v12"/></svg></span>
         <h3 data-tr="prog.grocery-and-meatpacking.t">Grocery and Meatpacking — UFCW Store and Plant Floor</h3>
         <p class="prog-tag" data-tr="prog.grocery-and-meatpacking.g">The store and the plant floor.</p>
         <p class="prog-union">UFCW — United Food and Commercial Workers International Union</p>
@@ -988,6 +1034,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=grocery-and-meatpacking">Start<span class="vh"> Grocery and Meatpacking — UFCW Store and Plant Floor</span></a></span>
       </article>
       <article class="prog" style="--tint:#5a8fd8" data-cat="1" data-u="9" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--aerospace" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M20 60l60-8 24-22h10l-12 24 34-4 8-10h6l-4 16 4 16h-6l-8-10-34-4 12 24h-10l-24-22-60-8z" transform="translate(0 -6)"/><path class="at-il-thin" d="M10 72h50M18 80h34"/></svg></span>
         <h3 data-tr="prog.airline-cabin-and-flight-crew.t">Airline Cabin and Flight Crew — AFA-CWA and ALPA</h3>
         <p class="prog-tag" data-tr="prog.airline-cabin-and-flight-crew.g">The cabin and the flight deck.</p>
         <p class="prog-union">AFA-CWA and ALPA</p>
@@ -997,6 +1044,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=airline-cabin-and-flight-crew">Start<span class="vh"> Airline Cabin and Flight Crew — AFA-CWA and ALPA</span></a></span>
       </article>
       <article class="prog" style="--tint:#c77a2e" data-cat="5" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--construction" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M40 90V18M40 18h82M40 30l12-12M52 30V18M40 42l12-12M40 54l12-12M40 66l12-12M40 78l12-12"/><path class="at-il-thin" d="M108 18v26"/><rect class="at-il-warm" x="96" y="44" width="24" height="10" rx="2"/><rect class="at-il-fill" x="24" y="10" width="26" height="8" rx="2"/></svg></span>
         <h3 data-tr="prog.mill-and-mine.t">Mill and Mine</h3>
         <p class="prog-tag" data-tr="prog.mill-and-mine.g">Four mill stations and four mine stations.</p>
         <p class="prog-union">USW steelworkers and paper crews, UMWA underground and surface mine crews</p>
@@ -1006,6 +1054,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=mill-and-mine">Start<span class="vh"> Mill and Mine</span></a></span>
       </article>
       <article class="prog" style="--tint:#d6558f" data-cat="8" data-u="9 14" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--events" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-beam" d="M40 16l-20 70h60z"/><rect class="at-il-fill" x="30" y="10" width="20" height="12" rx="2"/><rect class="at-il-accent" x="92" y="48" width="44" height="34" rx="3"/><path class="at-il-warm" d="M92 40l44-8v10l-44 8z"/></svg></span>
         <h3 data-tr="prog.screen-and-media-crafts.t">Screen &amp; Media Crafts</h3>
         <p class="prog-tag" data-tr="prog.screen-and-media-crafts.g">The crafts behind a screen production.</p>
         <p class="prog-union">SAG-AFTRA, the American Federation of Musicians (AFM), Actors&#39; Equity Association, the NewsGuild-CWA, and IATSE crew locals</p>
@@ -1015,6 +1064,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=screen-and-media-crafts">Start<span class="vh"> Screen &amp; Media Crafts</span></a></span>
       </article>
       <article class="prog" style="--tint:#2f6fb0" data-cat="1 5" data-u="" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--logistics" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-warm" x="30" y="56" width="30" height="26" rx="2"/><rect class="at-il-fill" x="62" y="56" width="30" height="26" rx="2"/><rect class="at-il-accent" x="46" y="30" width="30" height="26" rx="2"/><path class="at-il-line" d="M26 86h70M104 50h28M124 42l8 8-8 8"/></svg></span>
         <h3 data-tr="prog.postal-and-mail-processing.t">Postal &amp; Mail Processing Crew</h3>
         <p class="prog-tag" data-tr="prog.postal-and-mail-processing.g">A route, a plant and a counter.</p>
         <p class="prog-union">NALC, APWU and NPMHU as training bodies for postal and mail processing</p>
@@ -1024,6 +1074,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=postal-and-mail-processing">Start<span class="vh"> Postal &amp; Mail Processing Crew</span></a></span>
       </article>
       <article class="prog" style="--tint:#2b6f9e" data-cat="9" data-u="11 12" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--maritime" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 64h116l-14 18H36z"/><rect class="at-il-warm" x="44" y="46" width="22" height="18" rx="1"/><rect class="at-il-accent" x="68" y="46" width="22" height="18" rx="1"/><rect class="at-il-warm" x="56" y="30" width="22" height="16" rx="1"/><path class="at-il-line" d="M110 64V36h14v28"/><path class="at-il-thin" d="M10 90q10-6 20 0t20 0 20 0 20 0 20 0 20 0 20 0"/></svg></span>
         <h3 data-tr="prog.yacht-and-charter-crew.t">Yacht &amp; Charter Crew</h3>
         <p class="prog-tag" data-tr="prog.yacht-and-charter-crew.g">A motor yacht at her berth and under way.</p>
         <p class="prog-union">IBU, SIU and MEBA as training bodies for charter yacht deck, steward and engineering crew</p>
@@ -1033,6 +1084,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=yacht-and-charter-crew">Start<span class="vh"> Yacht &amp; Charter Crew</span></a></span>
       </article>
       <article class="prog" style="--tint:#2e8b57" data-cat="2" data-u="0 1 2 9" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--dive" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><circle class="at-il-fill" cx="70" cy="54" r="24"/><circle class="at-il-sky-dot" cx="70" cy="54" r="11"/><path class="at-il-line" d="M46 78h48M70 30v-6"/><circle class="at-il-thin" cx="112" cy="36" r="5"/><circle class="at-il-thin" cx="120" cy="22" r="3.5"/><circle class="at-il-thin" cx="108" cy="14" r="2.5"/><path class="at-il-thin" d="M10 30q10-5 20 0t20 0"/></svg></span>
         <h3 data-tr="prog.marine-ecology-and-restoration.t">Marine Ecology &amp; Restoration — Survey and Restoration Crews</h3>
         <p class="prog-tag" data-tr="prog.marine-ecology-and-restoration.g">The field methods of a restoration crew.</p>
         <p class="prog-union">AFSCME and SEIU 1021 agency and nonprofit field staff, UPTE-CWA research technicians and LIUNA habitat crews, as training bodies</p>
@@ -1042,6 +1094,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=marine-ecology-and-restoration">Start<span class="vh"> Marine Ecology &amp; Restoration — Survey and Restoration Crews</span></a></span>
       </article>
       <article class="prog" style="--tint:#1f6f8b" data-cat="9" data-u="1" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--dive" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><circle class="at-il-fill" cx="70" cy="54" r="24"/><circle class="at-il-sky-dot" cx="70" cy="54" r="11"/><path class="at-il-line" d="M46 78h48M70 30v-6"/><circle class="at-il-thin" cx="112" cy="36" r="5"/><circle class="at-il-thin" cx="120" cy="22" r="3.5"/><circle class="at-il-thin" cx="108" cy="14" r="2.5"/><path class="at-il-thin" d="M10 30q10-5 20 0t20 0"/></svg></span>
         <h3 data-tr="prog.commercial-diving-and-scientific-scuba.t">Commercial Diving &amp; Scientific Scuba</h3>
         <p class="prog-tag" data-tr="prog.commercial-diving-and-scientific-scuba.g">The dive crew and the scientific pair.</p>
         <p class="prog-union">Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community&#39;s own diving safety manuals for the scuba work</p>
@@ -1051,6 +1104,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=commercial-diving-and-scientific-scuba">Start<span class="vh"> Commercial Diving &amp; Scientific Scuba</span></a></span>
       </article>
       <article class="prog" style="--tint:#6fd3e8" data-cat="5 1" data-u="13" data-w="bayworld smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--robotics" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><rect class="at-il-fill" x="30" y="76" width="40" height="10" rx="2"/><path class="at-il-arm" d="M50 76V52l30-18 26 14"/><circle class="at-il-warm" cx="50" cy="52" r="6"/><circle class="at-il-warm" cx="80" cy="34" r="6"/><path class="at-il-line" d="M106 48l10-6M106 48l8 10"/></svg></span>
         <h3 data-tr="prog.aerospace-defense-and-robotics.t">Aerospace Depot and Robotics — IAM and UAW Skilled Trades</h3>
         <p class="prog-tag" data-tr="prog.aerospace-defense-and-robotics.g">Depot, test stand and robot cell safety.</p>
         <p class="prog-union">IAM (International Association of Machinists and Aerospace Workers) aerospace and depot training, with UAW skilled-trades training for the robotics floor</p>
@@ -1060,6 +1114,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=aerospace-defense-and-robotics">Start<span class="vh"> Aerospace Depot and Robotics — IAM and UAW Skilled Trades</span></a></span>
       </article>
       <article class="prog" style="--tint:#3fa7d6" data-cat="0 3" data-u="3 4 7 16" data-w="bayworld deep smartcity">
+        <span class="at-card__art"><svg class="at-illo at-illo--electrical" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-line" d="M34 88V22M24 30h20M26 40h16"/><path class="at-il-thin" d="M44 30c20 6 36 6 56 0M44 40c20 8 38 8 58 2"/><path class="at-il-warm" d="M112 14l-16 30h12l-8 26 22-34h-13l9-22z"/></svg></span>
         <h3 data-tr="prog.wind-and-data-infrastructure.t">Wind &amp; Data Infrastructure</h3>
         <p class="prog-tag" data-tr="prog.wind-and-data-infrastructure.g">A wind farm, a data hall and an ocean data pod.</p>
         <p class="prog-union">IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies</p>
@@ -1069,6 +1124,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=wind-and-data-infrastructure">Start<span class="vh"> Wind &amp; Data Infrastructure</span></a></span>
       </article>
       <article class="prog" style="--tint:#5a9fd8" data-cat="11" data-u="6" data-w="bayworld smartcity" data-aud="classroom">
+        <span class="at-card__art"><svg class="at-illo at-illo--k12" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 34c14-6 30-6 44 2v48c-14-8-30-8-44-2z"/><path class="at-il-accent" d="M66 36c14-8 30-8 44-2v48c-14-6-30-6-44 2z"/><path class="at-il-line" d="M66 36v48"/><path class="at-il-warm" d="M122 20l10 4-22 54-8 6 0-10z"/></svg></span>
         <h3 data-tr="prog.k12-practical-math.t">K-12 Practical Maths</h3>
         <p class="prog-tag" data-tr="prog.k12-practical-math.g"></p>
         <p class="prog-union">AFT and the National Education Association as the teachers&#39; own training bodies; the programme is a classroom resource, not a union apprenticeship</p>
@@ -1078,6 +1134,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=k12-practical-math">Start<span class="vh"> K-12 Practical Maths</span></a></span>
       </article>
       <article class="prog" style="--tint:#4fb88a" data-cat="11" data-u="6" data-w="bayworld deep smartcity" data-aud="classroom">
+        <span class="at-card__art"><svg class="at-illo at-illo--k12" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 34c14-6 30-6 44 2v48c-14-8-30-8-44-2z"/><path class="at-il-accent" d="M66 36c14-8 30-8 44-2v48c-14-6-30-6-44 2z"/><path class="at-il-line" d="M66 36v48"/><path class="at-il-warm" d="M122 20l10 4-22 54-8 6 0-10z"/></svg></span>
         <h3 data-tr="prog.k12-science.t">K-12 Science</h3>
         <p class="prog-tag" data-tr="prog.k12-science.g"></p>
         <p class="prog-union">AFT and the National Education Association as the teachers&#39; own training bodies; the programme is a classroom resource, not a union apprenticeship</p>
@@ -1087,6 +1144,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=k12-science">Start<span class="vh"> K-12 Science</span></a></span>
       </article>
       <article class="prog" style="--tint:#c08a4a" data-cat="11" data-u="6" data-w="bayworld smartcity" data-aud="classroom">
+        <span class="at-card__art"><svg class="at-illo at-illo--k12" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 34c14-6 30-6 44 2v48c-14-8-30-8-44-2z"/><path class="at-il-accent" d="M66 36c14-8 30-8 44-2v48c-14-6-30-6-44 2z"/><path class="at-il-line" d="M66 36v48"/><path class="at-il-warm" d="M122 20l10 4-22 54-8 6 0-10z"/></svg></span>
         <h3 data-tr="prog.k12-history-and-civics.t">K-12 History and Civics</h3>
         <p class="prog-tag" data-tr="prog.k12-history-and-civics.g"></p>
         <p class="prog-union">AFT and the National Education Association as the teachers&#39; own training bodies; the programme is a classroom resource, not a union apprenticeship</p>
@@ -1096,6 +1154,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=k12-history-and-civics">Start<span class="vh"> K-12 History and Civics</span></a></span>
       </article>
       <article class="prog" style="--tint:#9a6ad0" data-cat="11" data-u="6" data-w="bayworld smartcity" data-aud="classroom">
+        <span class="at-card__art"><svg class="at-illo at-illo--k12" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M22 34c14-6 30-6 44 2v48c-14-8-30-8-44-2z"/><path class="at-il-accent" d="M66 36c14-8 30-8 44-2v48c-14-6-30-6-44 2z"/><path class="at-il-line" d="M66 36v48"/><path class="at-il-warm" d="M122 20l10 4-22 54-8 6 0-10z"/></svg></span>
         <h3 data-tr="prog.k12-literacy-and-life-skills.t">K-12 Literacy and Life Skills</h3>
         <p class="prog-tag" data-tr="prog.k12-literacy-and-life-skills.g"></p>
         <p class="prog-union">AFT and the National Education Association as the teachers&#39; own training bodies; the programme is a classroom resource, not a union apprenticeship</p>
@@ -1105,7 +1164,7 @@
         <span class="prog-foot"><a class="btn primary prog-go" href="smartcity/index.html?programme=k12-literacy-and-life-skills">Start<span class="vh"> K-12 Literacy and Life Skills</span></a></span>
       </article>
     </div>
-    <p class="nohits" id="hm-find-none" hidden>No programme matches all of that. <button type="button" class="linkbtn" id="hm-find-reset" data-tr="home.showEvery">Show every programme</button></p>
+    <p class="nohits at-empty" id="hm-find-none" hidden><svg class="at-illo at-illo--safety" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-warm" d="M40 70c0-24 16-40 40-40s40 16 40 40z"/><rect class="at-il-fill" x="30" y="68" width="100" height="10" rx="4"/><path class="at-il-line" d="M80 30v16M68 34l4 14M92 34l-4 14"/></svg>No programme matches all of that. <button type="button" class="linkbtn" id="hm-find-reset" data-tr="home.showEvery">Show every programme</button></p>
     <button type="button" class="btn hm-more" id="hm-find-more" data-tr="home.showMatching" hidden>Show all matching programmes</button>
   </section>
 

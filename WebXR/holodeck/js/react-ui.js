@@ -77,7 +77,7 @@ export function mountUI(store, actions) {
       onClick: actions.speakHint,
       title: "Read the current step aloud",
       "aria-label": "Read the current step aloud",
-    }, "🔊");
+    }, h("span", { className: "at-i at-i--volume-2", "aria-hidden": "true" }));
   }
 
   function ThemePicks() {
@@ -120,7 +120,7 @@ export function mountUI(store, actions) {
               className: intro.listening ? "listening" : "",
               disabled: !intro.speechSupported,
               onClick: actions.toggleMic,
-            }, intro.listening ? "■ Listening…" : "🎙 Speak it"),
+            }, intro.listening ? "■ Listening…" : h(Fragment, null, h("span", { className: "at-i at-i--mic", "aria-hidden": "true" }), " Speak it")),
             h("button", { className: "primary", type: "button", onClick: actions.generate }, "Generate course"),
             h("button", {
               type: "button", disabled: !intro.xrSupported,

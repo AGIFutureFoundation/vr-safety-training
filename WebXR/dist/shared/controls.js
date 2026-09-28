@@ -287,7 +287,7 @@ export function ctlMount(opts = {}) {
     if (chip) nav.appendChild(chip);
     else if (o.home !== false) {
       const a = document.createElement("a");
-      a.className = "home-chip ctl-home"; a.href = o.home ?? "./index.html"; a.textContent = "⌂ Home";
+      a.className = "home-chip ctl-home"; a.href = o.home ?? "./index.html"; a.textContent = "Home";
       a.setAttribute("aria-label", "Back to the homepage");
       a.setAttribute("data-tr", "nav.home"); a.setAttribute("data-tr-aria", "nav.homeAria");
       nav.appendChild(a);

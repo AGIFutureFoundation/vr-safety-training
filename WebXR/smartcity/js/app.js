@@ -2469,7 +2469,7 @@ function showLevelResults() {
   const milestoneHtml = milestone ? `
     <div class="milestone-banner" role="status">
       ${milestoneConfettiSvg(run.programme, run.level)}
-      <div class="milestone-badge">🏅 LEVEL ${run.level} MILESTONE</div>
+      <div class="milestone-badge"><span class="at-i at-i--medal" aria-hidden="true"></span> LEVEL ${run.level} MILESTONE</div>
       <p class="milestone-quote">“${escapeHtml(milestone.quote)}”<br><span class="muted">— ${escapeHtml(milestone.stationName)}, ${escapeHtml(ladder.name)}</span></p>
     </div>` : "";
   const nextLine = result.passed

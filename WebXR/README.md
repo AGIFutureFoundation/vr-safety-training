@@ -33,11 +33,13 @@ The page is a single static file with one pinned external dependency
 (three.js 0.160.0 from cdnjs.cloudflare.com; swap the import URL for a self-hosted copy of
 `three.module.min.js` if the site must be fully self-contained).
 
-1. Copy `campus/index.html` to the web root (or a path such as `/safety-campus/`).
+1. Copy `campus/index.html` to the web root (or a path such as `/safety-campus/`), with
+   `shared/design.css` and `vendor/fonts/` one level up from it (the page links
+   `../shared/design.css`, which self-hosts the fonts; without it the page falls back to system fonts).
 2. Serve over **HTTPS** — WebXR requires a secure context.
 3. No headers are strictly required; if the site sets a Content-Security-Policy it must allow
-   `script-src` from `cdnjs.cloudflare.com` and `style-src`/`font-src` from
-   `fonts.googleapis.com` / `fonts.gstatic.com` (or self-host those too).
+   `script-src` from `cdnjs.cloudflare.com`; the fonts and the design stylesheet are
+   self-hosted (`shared/design.css`, `vendor/fonts/`), so `style-src`/`font-src` need no outside host.
 4. If the page is ever embedded in an iframe, the embedding page must grant
    `allow="xr-spatial-tracking"`, or the Enter VR button will report VR unavailable.
 5. Open the URL in the Meta Quest Browser and press **Enter VR**.

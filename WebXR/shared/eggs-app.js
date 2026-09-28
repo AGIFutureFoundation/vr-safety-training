@@ -677,7 +677,7 @@ export function mountSmartCityEggs(ctx) {
     if (typeof document === "undefined") return;
     fnBtn = document.createElement("button");
     fnBtn.type = "button";
-    fnBtn.id = "field-notes-btn";
+    fnBtn.id = "field-notes-btn"; fnBtn.setAttribute("data-at-icon", "notebook-pen");
     fnBtn.style.cssText = "position:fixed;left:16px;bottom:16px;z-index:9989;"
       + "font:600 13px 'Barlow',Arial,sans-serif;padding:9px 14px;border-radius:20px;cursor:pointer;"
       + "background:#182430;color:#eaf1f7;border:1px solid #3a4a58;box-shadow:0 4px 14px rgba(0,0,0,0.35);";
@@ -709,7 +709,7 @@ export function mountSmartCityEggs(ctx) {
       li.style.cssText = `margin:0 0 8px;padding-left:20px;position:relative;color:${found ? "#eaf1f7" : "#6d7488"};`;
       const mark = document.createElement("span");
       mark.style.cssText = "position:absolute;left:0;";
-      mark.textContent = found ? "✓" : "\u{1F512}";
+      mark.textContent = ""; mark.setAttribute("data-at-icon", found ? "check" : "lock"); mark.setAttribute("aria-label", found ? "found" : "locked");
       const label = document.createElement("b");
       label.textContent = note.name;
       const body = document.createElement("div");
@@ -717,7 +717,7 @@ export function mountSmartCityEggs(ctx) {
       li.append(mark, label, body);
       fnList.appendChild(li);
     }
-    if (fnBtn) fnBtn.textContent = `\u{1F5D2} Field notes (${fnUnlocked.size}/${FIELD_NOTES.length})`;
+    if (fnBtn) fnBtn.textContent = `Field notes (${fnUnlocked.size}/${FIELD_NOTES.length})`;
   }
 
   function fieldNoteToast(text) {
@@ -1112,7 +1112,7 @@ export function mountInstructorEggs(ctx) {
   const { getRoster, stationHazards } = ctx;
   const btn = document.createElement("button");
   btn.type = "button";
-  btn.textContent = "🎯 Toolbox Talk Bingo";
+  btn.textContent = "Toolbox Talk Bingo"; btn.setAttribute("data-at-icon", "target");
   btn.title = "Print a bingo card for the room — not for the record.";
   btn.style.cssText = "position:fixed;right:16px;bottom:16px;z-index:9990;"
     + "font:600 13px 'Barlow',Arial,sans-serif;padding:9px 14px;border-radius:20px;cursor:pointer;"
