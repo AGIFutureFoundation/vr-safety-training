@@ -106,6 +106,15 @@ export const WF_APPS = [
   { out: "underwater.html", dir: "underwater", index: "underwater.html", og: "og/underwater.jpg",
     title: "The Deep — Dive and ROV Game Under the Bay",
     desc: "Swim or pilot an ROV over a large seabed, with a buddy line and an ascent line at every site, and job boards that launch real dive stations." },
+  { out: "summit.html", dir: "summit", index: "index.html", og: "og/summit.jpg",
+    title: "Sierra Summit — Mountain World With Work Sites",
+    desc: "A four-kilometre mountain world: a reservoir and dam, a pass road, a transmission ridge and a lift shop, with job boards that open real training stations." },
+  { out: "redwood.html", dir: "redwood", index: "redwood.html", og: "og/redwood.jpg",
+    title: "Redwood Reach — Forest World With Work Sites",
+    desc: "A four-kilometre coastal forest: a river valley, fire roads, a lookout, a sawmill and a wildland fire station, with job boards that open real stations." },
+  { out: "treasures.html", dir: ".", index: "treasures.html", og: "og/treasures.jpg",
+    title: "Treasure Map — Hidden Finds Across the Platform",
+    desc: "How many treasures you have found in each world and area, never where the unfound ones are. Each find teaches a line from a union, a standard or a station." },
 ];
 
 /** Repo-layout pages the flat folder does not publish: their canonical is themselves. */
@@ -298,6 +307,7 @@ function wf404(page) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 ${wfBlock(page, "dist/404.html")}
+<link rel="stylesheet" href="shared/design.css">
 <style>
   :root{--void:#050a10;--panel:#0b141d;--text:#edf6fb;--muted:#a9c2d0;--accent:#4fd1ff;--accent-ink:#03202b;--edge:rgba(126,170,200,.32)}
   *{box-sizing:border-box}

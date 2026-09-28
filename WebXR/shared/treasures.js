@@ -149,7 +149,7 @@ const tzCss = `
 #tz-reveal .tz-row{position:relative;display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
 #tz-reveal .tz-row a,#tz-reveal .tz-row button{min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;padding:0 12px;cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
 #tz-reveal .tz-lock{color:#ffcf8a}
-.tz-glint{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin:2px;padding:0;border:0;border-radius:50%;background:transparent;color:#f2c14b;opacity:.32;font:16px/1 system-ui,sans-serif;cursor:pointer;animation:tz-twinkle 3.2s ease-in-out infinite}
+.tz-glint{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:2px;padding:0;border:0;border-radius:50%;background:transparent;color:#f2c14b;opacity:.32;font:16px/1 system-ui,sans-serif;cursor:pointer;animation:tz-twinkle 3.2s ease-in-out infinite}
 .tz-glint:hover,.tz-glint:focus-visible{opacity:1;outline:2px solid #ffd166;outline-offset:1px}
 .tz-glint-fixed{position:fixed;right:10px;bottom:84px;z-index:9980}
 #tz-constellation{position:absolute;right:4%;top:10%;width:150px;height:90px;z-index:2;overflow:visible}
