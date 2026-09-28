@@ -31,6 +31,7 @@
 
 import { observe } from "./robot.js";
 import { observeEmbodied, embodimentFor } from "./robot-embodiment.js";
+import { gtStorage } from "./profiles.js";
 
 export const EPISODE_SCHEMA_VERSION = 1;
 
@@ -64,10 +65,10 @@ function fnv1a(str) {
 
 function loadSalt() {
   try {
-    let s = localStorage.getItem(SALT_KEY);
+    let s = gtStorage()?.getItem(SALT_KEY);
     if (!s) {
       s = `${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
-      localStorage.setItem(SALT_KEY, s);
+      gtStorage()?.setItem(SALT_KEY, s);
     }
     return s;
   } catch (_) {
@@ -98,12 +99,12 @@ export function hashCrewTag(tag) {
 // ------------------------------------------------------------------ store
 
 function loadJSON(key, fallback) {
-  try { const raw = JSON.parse(localStorage.getItem(key) ?? "null"); return raw ?? fallback; }
+  try { const raw = JSON.parse(gtStorage()?.getItem(key) ?? "null"); return raw ?? fallback; }
   catch (_) { return fallback; }
 }
 function byteLength(v) { try { return JSON.stringify(v).length; } catch (_) { return Infinity; } }
 function trySave(key, v) {
-  try { localStorage.setItem(key, JSON.stringify(v)); return true; }
+  try { gtStorage()?.setItem(key, JSON.stringify(v)); return true; }
   catch (_) { return false; }
 }
 
@@ -135,11 +136,11 @@ export const EpisodeStore = {
   append(episode) {
     const list = evict([...EpisodeStore.list(), episode]);
     trySave(EPISODES_KEY, list);
-    try { localStorage.removeItem(CURRENT_KEY); } catch (_) { /* ignore */ }
+    try { gtStorage()?.removeItem(CURRENT_KEY); } catch (_) { /* ignore */ }
     return episode;
   },
   clear() {
-    try { localStorage.removeItem(EPISODES_KEY); localStorage.removeItem(CURRENT_KEY); } catch (_) { /* ignore */ }
+    try { gtStorage()?.removeItem(EPISODES_KEY); gtStorage()?.removeItem(CURRENT_KEY); } catch (_) { /* ignore */ }
   },
 };
 

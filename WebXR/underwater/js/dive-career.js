@@ -10,6 +10,7 @@
 // passes a plain object in place of localStorage).
 
 import { myTrainingSummary } from "../../shared/tracking.js";
+import { gtStorage } from "../../shared/profiles.js";
 
 const DV_CAREER_KEY = "underwater-career-v1";
 
@@ -17,7 +18,7 @@ const DV_STARTER_UNLOCKS = { craft: ["scuba"], ascentLines: [], badges: ["first-
 
 function dvCareerStorage(storage) {
   if (storage) return storage;
-  try { return globalThis.localStorage ?? null; } catch (_) { return null; }
+  try { return gtStorage(); } catch (_) { return null; }
 }
 
 function dvLoad(storage) {

@@ -497,7 +497,13 @@ const SCRIPT = `
     setMsg(res.reason || res.note || "");
   }
 
-  openBtn.addEventListener("click", () => { renderOptions(); dialog.showModal(); });
+  // One sign-in entry everywhere: the account chip's dialog (shared/account.js,
+  // mounted by controls.js) when it is on the page, this page's own otherwise.
+  openBtn.addEventListener("click", () => {
+    const chip = document.getElementById("gt-account");
+    if (chip) { chip.click(); return; }
+    renderOptions(); dialog.showModal();
+  });
   document.getElementById("dlg-close").addEventListener("click", () => dialog.close());
   outBtn.addEventListener("click", () => {
     const also = confirm("Signed out. Also clear the training records stored in this browser?");

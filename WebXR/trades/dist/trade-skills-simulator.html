@@ -364,6 +364,242 @@
 <script type="module">
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 
+/* ===== shared/profiles.js ===== */
+// A private experience per person on one device, and a free demo that keeps
+// nothing (console GATE, tools/briefs/signin-brief.md, docs/sign-in.md).
+//
+// Every progress store — the training records, the learner passport, the
+// episode log, the Bay World and Deep careers, and the quest stores — reads
+// and writes through gtStorage() instead of `localStorage` directly. Which
+// physical key that lands on depends on who is here:
+//
+//   This device   nobody signed in: the original, un-namespaced keys, exactly
+//                 as before. The first time anybody signs in on this device,
+//                 that data is adopted once into the "This device" profile
+//                 (recorded in GT_REGISTRY_KEY) — in place, never moved, never
+//                 deleted — so it reappears the moment they sign out.
+//   An account    signed in (shared/auth.js's `vr-training-auth-v1`): every
+//                 key gets a `::id-<digest>` suffix. The digest is the learner
+//                 id folded through a salted FNV-1a pair in the style of
+//                 episodes.js's hashCrewTag(), so no e-mail address, wallet
+//                 address or provider subject is ever part of a storage key.
+//                 Data minimisation, not cryptography.
+//   Demo          "Try the free demo": everything these stores write goes to
+//                 sessionStorage under `::demo` and dies with the tab. Nothing
+//                 is written to localStorage while the demo is on.
+//
+// This module has no imports and touches no network. The bundler concatenates
+// every module into one scope, so every top-level name here starts with `gt`.
+
+const GT_AUTH_KEY = "vr-training-auth-v1";
+const GT_DEMO_KEY = "vr-training-demo-v1";
+const GT_SALT_KEY = "vr-training-profile-salt-v1";
+const GT_REGISTRY_KEY = "vr-training-profiles-v1";
+
+/** The stores that are private to a profile. Everything else passes through untouched. */
+const GT_PROFILE_KEYS = [
+  "vr-training-records-v1",
+  "vr-passport-v1",
+  "vr-training-episodes-v1", "vr-training-episodes-current-v1",
+  "bayworld-career-v1", "underwater-career-v1",
+  "bayworld-quests-v1", "underwater-dives-v1", "underwater-activities-v1",
+];
+
+function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
+function gtSession() { try { return globalThis.sessionStorage ?? null; } catch (_) { return null; } }
+
+/** 32-bit FNV-1a as hex — the same mixing episodes.js uses. */
+function gtFnv1a(s) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i += 1) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(16).padStart(8, "0");
+}
+
+function gtSalt() {
+  const ls = gtLocal();
+  let s = null;
+  try { s = ls?.getItem(GT_SALT_KEY) ?? null; } catch (_) { s = null; }
+  if (!s) {
+    const bytes = new Uint8Array(12);
+    try { globalThis.crypto.getRandomValues(bytes); } catch (_) { for (let i = 0; i < bytes.length; i += 1) bytes[i] = Math.floor(Math.random() * 256); }
+    s = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+    try { ls?.setItem(GT_SALT_KEY, s); } catch (_) { /* private mode: a per-load salt */ }
+  }
+  return s;
+}
+
+const gtHashCache = new Map();
+/** A learner id folded to `id-<16 hex>`: the only form of it that is ever part of a key. */
+function gtHashId(id) {
+  const t = String(id ?? "").trim();
+  if (!t) return null;
+  const salt = gtSalt();
+  const memo = `${salt}|${t}`;
+  if (gtHashCache.has(memo)) return gtHashCache.get(memo);
+  const h1 = gtFnv1a(`${salt}:${t}`);
+  const h2 = gtFnv1a(`${t}:${salt}:${h1}`);
+  const out = `id-${h1}${h2}`;
+  gtHashCache.set(memo, out);
+  return out;
+}
+
+/** The signed-in learner id, read straight from auth.js's one key (no import, no cycle). */
+function gtSignedInId() {
+  try {
+    const raw = JSON.parse(gtLocal()?.getItem(GT_AUTH_KEY) || "null");
+    return typeof raw?.id === "string" && raw.id ? raw.id : null;
+  } catch (_) { return null; }
+}
+
+function gtIsDemo() {
+  try { return gtSession()?.getItem(GT_DEMO_KEY) === "1"; } catch (_) { return false; }
+}
+
+/** Who the stores belong to right now: { kind: "demo" | "account" | "device", ns, label }. */
+function gtProfile() {
+  if (gtIsDemo()) return { kind: "demo", ns: "demo", label: "Demo" };
+  const id = gtSignedInId();
+  if (id) return { kind: "account", ns: gtHashId(id), label: "Signed in" };
+  return { kind: "device", ns: null, label: "This device" };
+}
+
+/** The physical key a store's key lands on for a profile. */
+function gtKeyFor(key, profile = gtProfile()) {
+  if (profile.kind === "demo") return `${key}::demo`;
+  if (!profile.ns || !GT_PROFILE_KEYS.includes(key)) return key;
+  return `${key}::${profile.ns}`;
+}
+
+/**
+ * The one-time, non-destructive migration: the un-namespaced progress already
+ * on this device becomes the "This device" profile, in place. It is recorded
+ * once and nothing is copied over, moved or removed — signing out shows it
+ * again exactly as it was. Returns the registry.
+ */
+function gtMigrateOnce(ls = gtLocal()) {
+  if (!ls) return null;
+  try {
+    const have = JSON.parse(ls.getItem(GT_REGISTRY_KEY) || "null");
+    if (have?.v === 1) return have;
+  } catch (_) { /* rewrite below */ }
+  const keys = GT_PROFILE_KEYS.filter((k) => { try { return ls.getItem(k) != null; } catch (_) { return false; } });
+  const reg = { v: 1, device: { label: "This device", adoptedAt: new Date().toISOString(), keys } };
+  try { ls.setItem(GT_REGISTRY_KEY, JSON.stringify(reg)); } catch (_) { /* private mode */ }
+  return reg;
+}
+
+/**
+ * A Storage-shaped object for the current profile. Stores call this on every
+ * read and write, so signing in, out or into the demo takes effect at once.
+ */
+function gtStorage() {
+  const p = gtProfile();
+  const back = p.kind === "demo" ? gtSession() : gtLocal();
+  if (p.kind === "account") gtMigrateOnce();
+  if (!back) return null;
+  return {
+    getItem: (k) => back.getItem(gtKeyFor(k, p)),
+    setItem: (k, v) => back.setItem(gtKeyFor(k, p), v),
+    removeItem: (k) => back.removeItem(gtKeyFor(k, p)),
+  };
+}
+
+// ---------------------------------------------------------------- the demo
+
+function gtEmit() {
+  try { globalThis.dispatchEvent?.(new Event("gt:profile")); } catch (_) { /* headless */ }
+}
+
+/** One tap: every world opens, and nothing outlives this tab. */
+function gtEnterDemo() {
+  try { gtSession()?.setItem(GT_DEMO_KEY, "1"); } catch (_) { return false; }
+  gtEmit();
+  return true;
+}
+
+/** How many runs the demo holds (records written this tab). */
+function gtDemoRuns() {
+  try {
+    const raw = JSON.parse(gtSession()?.getItem("vr-training-records-v1::demo") || "[]");
+    return Array.isArray(raw) ? raw.length : 0;
+  } catch (_) { return 0; }
+}
+
+function gtDropDemo() {
+  const ss = gtSession();
+  for (const k of GT_PROFILE_KEYS) { try { ss?.removeItem(`${k}::demo`); } catch (_) { /* ignore */ } }
+}
+
+/** Leave the demo. Its runs stay in the tab until carried over or discarded. */
+function gtLeaveDemo({ discard = false } = {}) {
+  try { gtSession()?.removeItem(GT_DEMO_KEY); } catch (_) { /* ignore */ }
+  if (discard) gtDropDemo();
+  gtEmit();
+}
+
+function gtMerge(into, from) {
+  if (Array.isArray(into) && Array.isArray(from)) {
+    const seen = new Set(into.map((x) => JSON.stringify(x)));
+    return into.concat(from.filter((x) => !seen.has(JSON.stringify(x))));
+  }
+  if (into && from && typeof into === "object" && typeof from === "object") {
+    const out = { ...into };
+    for (const [k, v] of Object.entries(from)) out[k] = k in out ? gtMerge(out[k], v) : v;
+    return out;
+  }
+  return into ?? from;
+}
+
+/**
+ * Carry the demo's runs into the signed-in account — only when the learner
+ * pressed the button for it (the default is off). Lists are appended, objects
+ * merged with the account's own values winning. Returns the stores carried.
+ */
+function gtCarryDemo() {
+  const id = gtSignedInId();
+  const ls = gtLocal(), ss = gtSession();
+  if (!id || !ls || !ss) return 0;
+  const p = { kind: "account", ns: gtHashId(id) };
+  gtMigrateOnce(ls);
+  let carried = 0;
+  for (const k of GT_PROFILE_KEYS) {
+    let from = null, into = null;
+    try { from = JSON.parse(ss.getItem(`${k}::demo`) || "null"); } catch (_) { from = null; }
+    if (from == null) continue;
+    try { into = JSON.parse(ls.getItem(gtKeyFor(k, p)) || "null"); } catch (_) { into = null; }
+    try { ls.setItem(gtKeyFor(k, p), JSON.stringify(into == null ? from : gtMerge(into, from))); carried += 1; } catch (_) { /* quota */ }
+  }
+  gtDropDemo();
+  gtEmit();
+  return carried;
+}
+
+/**
+ * The line every results screen shows during the demo. records.js calls this
+ * after each run; it shows a small notice with a Sign in button beside it.
+ */
+function gtNoteDemoRun() {
+  if (!gtIsDemo() || typeof document === "undefined" || !document.body) return false;
+  let el = document.getElementById("gt-demo-note");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "gt-demo-note"; el.setAttribute("role", "status");
+    el.style.cssText = "position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:10040;background:#0e1822;color:#f2f6fa;border:1px solid #ffd54a;border-radius:10px;padding:10px 12px;font:15px/1.4 system-ui,sans-serif;display:flex;gap:10px;align-items:center;max-width:calc(100vw - 32px)";
+    const t = document.createElement("span");
+    t.textContent = "Demo run — sign in to keep it";
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = "Sign in";
+    b.style.cssText = "min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 10px";
+    b.addEventListener("click", () => { el.remove(); document.getElementById("gt-account")?.click(); });
+    el.append(t, b);
+    document.body.appendChild(el);
+  }
+  clearTimeout(gtNoteDemoRun.timer);
+  gtNoteDemoRun.timer = setTimeout(() => el.remove(), 9000);
+  return true;
+}
+
+
 /* ===== shared/a11y.js ===== */
 // Accessibility support shared by every app.
 //
@@ -12257,6 +12493,7 @@ function stopSpeaking() {
 //
 // Shared by every app on this engine; SmartCiti.X is the first to wire it.
 
+
 const RECORDS_KEY = "vr-training-records-v1";
 const MAX_ENTRIES = 1000;
 
@@ -12288,13 +12525,13 @@ function interruptTally(entry) {
 
 function loadRecords() {
   try {
-    const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
+    const raw = JSON.parse(gtStorage()?.getItem(RECORDS_KEY) || "[]");
     return Array.isArray(raw) ? raw : [];
   } catch (_) { return []; }
 }
 
 function saveRecords(list) {
-  try { localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+  try { gtStorage()?.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
 }
 
 const TrainingRecords = {
@@ -12320,10 +12557,11 @@ const TrainingRecords = {
     list.push(full);
     if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
     saveRecords(list);
+    gtNoteDemoRun();
     return full;
   },
 
-  clear() { try { localStorage.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
+  clear() { try { gtStorage()?.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
 
   /**
    * Per-category roll-up for an instructor view: attempts, passes, distinct
@@ -14723,16 +14961,19 @@ const Auth = {
   },
 
   /**
-   * Sign out. Clears the identity always; clears this browser's training
+   * Sign out. Clears the identity always and hides that person's progress
+   * (it stays under their own namespace for next time); clears their training
    * records only when the learner asked for that, because the records are
    * theirs and leaving a kiosk is not the same as discarding them.
    */
   signOut({ clearRecords = false } = {}) {
     Identity.emit(AUTH_MSG_SIGNOUT, { provider: this.session?.provider ?? null });
+    // Records are private to the signed-in identity (shared/profiles.js), so
+    // the ones cleared are that person's, before their session key goes.
+    if (clearRecords) TrainingRecords.clear();
     this.session = null;
     try { localStorage.removeItem(AUTH_KEY); } catch (_) { /* ignore */ }
     Identity.clear();
-    if (clearRecords) TrainingRecords.clear();
     return true;
   },
 
@@ -22645,6 +22886,7 @@ const PP_PROGRAMMES = {
 
 
 
+
 const PP_KEY = "vr-passport-v1";
 /** The stores a world keeps its own reputation and credits in (read, never written here). */
 const PP_NATIVE_STORES = { bayworld: "bayworld-career-v1", underwater: "underwater-career-v1" };
@@ -22663,7 +22905,7 @@ const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 
 const ppListeners = new Map();
 
-function ppStore() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
+function ppStore() { try { return gtStorage(); } catch (_) { return null; } }
 
 function ppReadJson(key, fallback) {
   try {
@@ -23027,6 +23269,245 @@ function ppExport({ records = ppRecords(), homePage = null } = {}) {
 }
 
 
+/* ===== shared/account.js ===== */
+// The account chip and the one sign-in dialog every page shares (console
+// GATE, tools/briefs/signin-brief.md, docs/sign-in.md).
+//
+// controls.js mounts the chip beside the Home and help chips, so every page
+// that carries the shared control grammar — the homepage, every bundle, every
+// training-track page — gets the same entry. The dialog lists, in this order:
+//
+//   Continue with Google     Google's own button, only when `googleClientId`
+//                            is configured; otherwise a disabled line saying so.
+//   Connect MetaMask         Sign-In with Ethereum through `window.ethereum`;
+//                            with no wallet, one plain line and a link to
+//                            install one. The name is text only, no logo.
+//   E-mail me a link         the configured `emailEndpoint`, else a passkey on
+//                            this device (auth.js's own fallback).
+//   Try the free demo        no sign-in; progress lives in this tab only
+//                            (profiles.js), and the chip wears a Demo badge.
+//
+// Everything that can reach the network is auth.js's, under its one rule:
+// nothing is ever sent to an endpoint that was not configured. This file
+// makes no request of its own. Every top-level name starts with `gt`.
+
+
+
+const gtHasDom = typeof document !== "undefined";
+const GT_WALLET_INSTALL = "https://metamask.io/download/";
+
+const gtCss = `
+#gt-account{display:inline-flex;align-items:center;gap:6px;min-height:32px;border-radius:16px;border:1px solid rgba(255,255,255,.35);background:rgba(10,20,30,.78);color:#fff;font:600 14px/1 system-ui,sans-serif;cursor:pointer;padding:0 12px;max-width:44vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gt-account:hover{background:rgba(79,209,255,.3)}
+#gt-account .gt-badge{background:#ffd54a;color:#1a1400;border-radius:8px;padding:2px 6px;font-size:12px;font-weight:700}
+#gt-dialog{position:fixed;inset:0;z-index:10060;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);padding:12px}
+#gt-dialog[hidden]{display:none}
+#gt-dialog .gt-panel{background:#0e1822;color:#f2f6fa;border:1px solid #40596e;border-radius:12px;max-width:440px;width:100%;max-height:calc(100vh - 24px);overflow:auto;padding:16px 18px;font:15px/1.45 system-ui,sans-serif}
+#gt-dialog h2{margin:0 0 6px;font-size:20px}
+#gt-dialog p{margin:4px 0 10px;color:#d4dee8}
+#gt-dialog .gt-opt{display:block;width:100%;text-align:left;min-height:44px;margin:0 0 10px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 15px system-ui,sans-serif;cursor:pointer;padding:10px 12px}
+#gt-dialog .gt-opt[disabled]{opacity:.6;cursor:not-allowed}
+#gt-dialog .gt-opt small{display:block;font-weight:400;font-size:13px;color:#bcd0e0;margin-top:3px}
+#gt-dialog .gt-line{font-size:14px;color:#d4dee8;margin:0 0 10px}
+#gt-dialog .gt-line a{color:#7fd4ff}
+#gt-dialog input{width:100%;box-sizing:border-box;min-height:40px;margin:0 0 6px;padding:8px 10px;border-radius:8px;border:1px solid #6a8296;background:#081018;color:#fff;font:16px system-ui,sans-serif}
+#gt-dialog .gt-msg{color:#ffcf8a;font-size:14px;min-height:1em}
+#gt-dialog .gt-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+#gt-dialog .gt-row button{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
+#gt-dialog label.gt-check{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}
+#gt-dialog label.gt-check input{width:auto;min-height:0;margin:0}
+`;
+
+const gtState = { mounted: false, env: null, configUrl: null, ready: null, returnTo: null, googleStarted: false };
+
+/**
+ * The deployment's auth-config.json sits beside the homepage, so its path is
+ * the Home chip's own href with the file name swapped (../index.html →
+ * ../auth-config.json). Relative, same-origin, and cleaned by auth.js.
+ */
+function gtConfigUrlFrom(homeHref) {
+  const h = String(homeHref ?? "").split(/[?#]/)[0];
+  if (!h) return "auth-config.json";
+  const guess = h.endsWith("/") ? `${h}auth-config.json` : h.replace(/[^/]*$/, "auth-config.json");
+  return cleanConfigUrl(guess.replace(/^\.\//, "")) ?? "auth-config.json";
+}
+
+/** What the chip says: the signed-in name, or Sign in (with a Demo badge in the demo). */
+function gtChipLabel(session = Auth.session, demo = gtIsDemo()) {
+  if (session) return { text: String(session.name || "Signed in").slice(0, 24), badge: null };
+  return { text: "Sign in", badge: demo ? "Demo" : null };
+}
+
+function gtEl(tag, props = {}, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "text") el.textContent = v;
+    else if (k === "on") for (const [ev, fn] of Object.entries(v)) el.addEventListener(ev, fn);
+    else if (v === true) el.setAttribute(k, "");
+    else if (v != null && v !== false) el.setAttribute(k, String(v));
+  }
+  for (const kid of kids) if (kid != null) el.append(kid);
+  return el;
+}
+
+function gtRenderChip() {
+  const chip = document.getElementById("gt-account");
+  if (!chip) return;
+  const { text, badge } = gtChipLabel();
+  chip.textContent = "";
+  chip.append(text);
+  if (badge) chip.append(" ", gtEl("span", { class: "gt-badge", text: badge }));
+  chip.setAttribute("aria-label", Auth.session ? `Account: ${text}` : (badge ? "Sign in (demo mode on)" : "Sign in"));
+}
+
+function gtMsg(text) {
+  const m = document.getElementById("gt-msg");
+  if (m) m.textContent = text || "";
+}
+
+async function gtRun(providerId, opts = {}) {
+  gtMsg("");
+  const hadDemo = gtIsDemo() && gtDemoRuns() > 0;
+  const res = await Auth.signIn(providerId, { ...opts, env: gtState.env ?? undefined });
+  if (res?.kind === "signed-in") {
+    if (gtIsDemo()) gtLeaveDemo();
+    gtRenderChip();
+    gtRender(hadDemo ? "carry" : "account");
+    try { globalThis.dispatchEvent?.(new Event("gt:profile")); } catch (_) { /* ignore */ }
+    return res;
+  }
+  gtMsg(res?.reason || res?.note || "");
+  return res;
+}
+
+function gtSignInView(panel) {
+  const cfg = Auth.config ?? {};
+  const env = gtState.env ?? {};
+  // 1. Google — its own button when configured, a plain disabled line otherwise.
+  if (cfg.googleClientId) {
+    const mount = gtEl("div", { id: "gt-google" });
+    panel.append(gtEl("p", { class: "gt-line", text: "Continue with Google" }), mount);
+    if (!gtState.googleStarted) { gtState.googleStarted = true; gtRun("google", { mount }).finally(() => { gtState.googleStarted = false; }); }
+  } else {
+    panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "google", disabled: true },
+      "Continue with Google", gtEl("small", { text: "Google sign-in is available when this deployment is configured" })));
+  }
+  // 2. MetaMask — Sign-In with Ethereum through window.ethereum.
+  if (env.ethereum?.request) {
+    panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "wallet", on: { click: () => gtRun("wallet") } },
+      "Connect MetaMask", gtEl("small", { text: "Your wallet signs a Sign-In with Ethereum message. It spends nothing; your training host verifies the signature." })));
+  } else {
+    const line = gtEl("p", { class: "gt-line", "data-provider": "wallet" }, "Connect MetaMask: no Ethereum wallet was found in this browser. ");
+    line.append(gtEl("a", { href: GT_WALLET_INSTALL, target: "_blank", rel: "noopener noreferrer", text: "Install MetaMask" }), ".");
+    panel.append(line);
+  }
+  // 3. E-mail link, or the device passkey when no link service is configured.
+  const input = gtEl("input", { id: "gt-field", type: cfg.emailEndpoint ? "email" : "text", autocomplete: cfg.emailEndpoint ? "email" : "nickname",
+    placeholder: cfg.emailEndpoint ? "Your e-mail address" : "A name for this device's passkey", "aria-label": cfg.emailEndpoint ? "Your e-mail address" : "A name for this device's passkey" });
+  const passkeyOk = !!env.hasPasskey && !!env.credentials;
+  const mailBtn = gtEl("button", { type: "button", class: "gt-opt", "data-provider": cfg.emailEndpoint ? "email" : "passkey",
+    disabled: !cfg.emailEndpoint && !passkeyOk,
+    on: { click: () => gtRun(cfg.emailEndpoint ? "email" : "passkey", { email: input.value, name: input.value }) } },
+  "E-mail me a link", gtEl("small", { text: cfg.emailEndpoint
+    ? "One request to your training provider's link service; it mails a link that opens this page signed in."
+    : (passkeyOk ? "No e-mail service is configured here, so this makes a passkey on this device instead. Nothing is sent anywhere."
+      : "No e-mail service is configured and this browser has no passkeys.") }));
+  panel.append(input, mailBtn);
+  // 4. The free demo.
+  panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
+    on: { click: () => { gtEnterDemo(); gtRenderChip(); gtClose(); } } },
+  "Try the free demo — no sign-in", gtEl("small", { text: "Every world and station opens. Nothing is kept beyond this tab." })));
+}
+
+function gtRender(view = null) {
+  const panel = document.querySelector("#gt-dialog .gt-panel");
+  if (!panel) return;
+  panel.textContent = "";
+  const v = view ?? (Auth.session ? "account" : "signin");
+  panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? "Sign in" : "Your account" }));
+  if (v === "signin") {
+    panel.append(gtEl("p", { text: gtIsDemo()
+      ? "Demo mode is on: your runs live in this tab only. Sign in to keep them."
+      : "Signing in keeps your progress private to you on this device. These pages are static files: your training host, not this page, verifies the credential." }));
+    gtSignInView(panel);
+  } else if (v === "carry") {
+    panel.append(gtEl("p", { text: `Signed in as ${Auth.session?.name ?? "you"}. This tab holds ${gtDemoRuns()} demo run(s).` }));
+    panel.append(gtEl("div", { class: "gt-row" },
+      gtEl("button", { type: "button", id: "gt-carry", on: { click: () => { gtCarryDemo(); gtRender("account"); gtMsg("Your demo runs are now in your account."); } } }, "Keep my demo runs"),
+      gtEl("button", { type: "button", id: "gt-nocarry", on: { click: () => { gtLeaveDemo({ discard: true }); gtRender("account"); } } }, "Not now")));
+  } else {
+    panel.append(gtEl("p", { text: Auth.describe() ?? "" }));
+    panel.append(gtEl("p", { text: `Progress shown: ${gtProfile().kind === "account" ? "yours only" : "this device"}. Another person signing in here sees their own.` }));
+    panel.append(gtEl("div", { class: "gt-row" },
+      gtEl("button", { type: "button", id: "gt-signout", on: { click: () => { Auth.signOut(); gtRenderChip(); gtRender("signin"); gtMsg("Signed out. Your progress is kept, hidden until you sign in again."); } } }, "Sign out"),
+      gtEl("button", { type: "button", id: "gt-signout-clear", on: { click: () => {
+        if (typeof confirm === "function" && !confirm("Sign out and delete your training records on this device?")) return;
+        Auth.signOut({ clearRecords: true }); gtRenderChip(); gtRender("signin"); gtMsg("Signed out and your records on this device were deleted.");
+      } } }, "Sign out and clear my records")));
+  }
+  panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
+  panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, "Close")));
+}
+
+function gtClose() {
+  const d = document.getElementById("gt-dialog");
+  if (!d || d.hidden) return;
+  d.hidden = true;
+  document.getElementById("gt-account")?.setAttribute("aria-expanded", "false");
+  const back = gtState.returnTo; gtState.returnTo = null;
+  if (back && document.contains(back)) back.focus?.();
+}
+
+/** Open the dialog (from the chip, a page's own Sign in button, or a demo notice). */
+async function gtOpenAccount() {
+  if (!gtHasDom) return false;
+  const d = document.getElementById("gt-dialog");
+  if (!d) return false;
+  await gtState.ready;
+  // Re-read the browser each time: a wallet extension may inject itself late.
+  gtState.env = makeAuthEnv({ configUrl: gtState.configUrl });
+  gtState.returnTo = document.activeElement && document.activeElement !== document.body ? document.activeElement : document.getElementById("gt-account");
+  gtRender();
+  d.hidden = false;
+  document.getElementById("gt-account")?.setAttribute("aria-expanded", "true");
+  d.querySelector("button:not([disabled]),input")?.focus();
+  return true;
+}
+
+/** Mount the chip into `nav` (controls.js's #ctl-nav) and the dialog into the page. */
+function gtMountAccount(nav, { configUrl = null } = {}) {
+  if (!gtHasDom || !nav) return null;
+  if (!document.getElementById("gt-style")) {
+    const s = document.createElement("style"); s.id = "gt-style"; s.textContent = gtCss; document.head.appendChild(s);
+  }
+  let chip = document.getElementById("gt-account");
+  if (!chip) {
+    chip = gtEl("button", { type: "button", id: "gt-account", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-controls": "gt-dialog",
+      on: { click: () => gtOpenAccount() } });
+    nav.appendChild(chip);
+  }
+  if (!document.getElementById("gt-dialog")) {
+    const d = gtEl("div", { id: "gt-dialog", role: "dialog", "aria-modal": "true", "aria-labelledby": "gt-title", hidden: true,
+      on: { pointerdown: (e) => { if (e.target === d) gtClose(); }, keydown: (e) => { if (e.key === "Escape") { e.stopPropagation(); gtClose(); } } } },
+    gtEl("div", { class: "gt-panel" }));
+    document.body.appendChild(d);
+  }
+  if (!gtState.mounted) {
+    gtState.mounted = true;
+    const url = configUrl ?? gtConfigUrlFrom(document.querySelector("#ctl-nav .home-chip, .home-chip")?.getAttribute("href"));
+    gtState.configUrl = url;
+    gtState.env = makeAuthEnv({ configUrl: url });
+    gtState.ready = (Auth.env ? Promise.resolve(Auth.config) : Auth.loadConfig(gtState.env))
+      .then(() => { if (!Auth.session) Auth.load(); })
+      .catch(() => null)
+      .finally(() => gtRenderChip());
+    addEventListener("gt:profile", () => gtRenderChip());
+  }
+  gtRenderChip();
+  return chip;
+}
+
+
 /* ===== shared/controls.js ===== */
 // The shared control grammar and help overlay (console LENS,
 // tools/briefs/ui-review-brief.md). One table of verbs — move, look,
@@ -23049,8 +23530,13 @@ function ppExport({ records = ppRecords(), homePage = null } = {}) {
 // tcMountTouch()'s own `buttons` list so the touch labels carry the same
 // verbs, and Q presses TOUCH's Low / Balanced / High toggle.
 //
+// The account chip and the one sign-in dialog (shared/account.js, console
+// GATE) sit beside the help button, so every page that mounts this grammar
+// carries the same sign-in entry.
+//
 // The bundler concatenates every module into one scope, so every top-level
 // name here starts with `ctl`.
+
 
 const ctlHasDom = typeof document !== "undefined";
 
@@ -23315,6 +23801,8 @@ function ctlMount(opts = {}) {
     nav.appendChild(btn);
     body.prepend(nav);
   }
+  // The account chip: one sign-in entry on every page (shared/account.js).
+  if (o.account !== false) gtMountAccount(nav, { configUrl: o.authConfig ?? null });
   let el = document.getElementById("ctl-help");
   if (!el) {
     el = document.createElement("div");

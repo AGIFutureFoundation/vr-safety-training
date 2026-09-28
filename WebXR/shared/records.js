@@ -13,6 +13,7 @@
 //
 // Shared by every app on this engine; SmartCiti.X is the first to wire it.
 
+import { gtStorage, gtNoteDemoRun } from "./profiles.js";
 const RECORDS_KEY = "vr-training-records-v1";
 const MAX_ENTRIES = 1000;
 
@@ -44,13 +45,13 @@ function interruptTally(entry) {
 
 function loadRecords() {
   try {
-    const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
+    const raw = JSON.parse(gtStorage()?.getItem(RECORDS_KEY) || "[]");
     return Array.isArray(raw) ? raw : [];
   } catch (_) { return []; }
 }
 
 function saveRecords(list) {
-  try { localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+  try { gtStorage()?.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
 }
 
 export const TrainingRecords = {
@@ -76,10 +77,11 @@ export const TrainingRecords = {
     list.push(full);
     if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
     saveRecords(list);
+    gtNoteDemoRun();
     return full;
   },
 
-  clear() { try { localStorage.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
+  clear() { try { gtStorage()?.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
 
   /**
    * Per-category roll-up for an instructor view: attempts, passes, distinct
