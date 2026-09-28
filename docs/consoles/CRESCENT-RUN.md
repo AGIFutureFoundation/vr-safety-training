@@ -15,7 +15,7 @@ Report page with video: the "Crescent Run" artifact.
   258 spoken lines, each re-read verbatim from the Guide's knowledge base, the catalog, the standards or the union
   registry; 123 hand-offs resolved; `grMount()` hook for the parishes; `check_npc.mjs` (15,308 checks) in the suite.
   Suite stopped at 69/89 for the deadline; singles green. Left: Bay World quest hand-offs, the parish mount, voice.
-- [ ] **SECONDLINE** — running. `sl-parish-play.js` committed (storm-season arc, gated games, treasures, lessons).
+- [x] **SECONDLINE** — handed back 19:52. `sl-parish-play.js`: 5 parishes / 42 sites, a 7-quest arc over 5 connector crossings, 35 gated side games (all 12 mechanics), 42 field lessons, 84 parish treasures (273 platform-wide), 161 NPC hand-offs, 5 path boards; check_gates/treasures/k12 extended, `check_parish_play.mjs` (3,880 checks) in the suite; 112 gated items resolve, 0 failed. Suite 68/89 at the deadline, singles green. Left: binding to `np-data-<parish>.js` once PARISH and DELTA land.
 - [ ] **TILL** — running. Five increments; scope widened to the budget agent, then to membership levels with Apple Pay,
   Google Pay and Wallet passes.
 - [ ] **EDGE** — running. Four increments; scope widened to the deploy agent.
