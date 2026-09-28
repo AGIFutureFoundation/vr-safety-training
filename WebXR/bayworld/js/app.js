@@ -6,7 +6,8 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
-import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
+import { lkRenderStations, lkSiteHeading, lkStationLink } from "../../shared/links.js";
+import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
@@ -20,7 +21,7 @@ import {
 } from "./career.js";
 import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn } from "./quest-engine.js";
 import { BW_QUESTS } from "./quests-select.js";
-import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap } from "./map.js";
+import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap, bwMapFieldLessons } from "./map.js";
 import { bwBuildWorld } from "./world.js";
 
 // Bay World — the app: menus, the phone-style HUD, keyboard/touch/gamepad
@@ -385,6 +386,7 @@ function bwDrawFullMap() {
     bwToggleMap(false);
     bwToast(`Fast-travelled to ${site.name}.`);
   }));
+  k2DrawFieldLayer(ctx, bwMapFieldLessons(size), listEl, lkStationLink); // the K-12 layer
   const p = bwWorldToMap(bwApp.player.x, bwApp.player.z, size);
   ctx.fillStyle = "#4fd1ff"; ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, Math.PI * 2); ctx.fill();
 }

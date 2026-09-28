@@ -1434,6 +1434,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-reading-instructions-and-safety-labels", why: "Instructions read right through and a label read before use, the reading habit every later station in the block leans on." },
       { app: "smartcity", id: "k12-writing-a-clear-incident-report", why: "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it." },
       { app: "smartcity", id: "k12-first-aid-awareness-call-for-help", why: "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open." },
+      { app: "smartcity", id: "k12-public-speaking-at-the-hall", why: "A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and nerves handled, with the stage edge respected." },
+      { app: "smartcity", id: "k12-digital-citizenship-and-online-safety", why: "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told." },
+      { app: "smartcity", id: "k12-teamwork-and-feedback", why: "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations." },
     ],
   },
 ];

@@ -28546,5 +28546,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-public-speaking-at-the-hall",
+    "index": "826",
+    "domain": "Education",
+    "trade": "Literacy class on the theatre's rehearsal stage — learner and stage manager",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Public Speaking at the Hall",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Public Speaking at the Hall VR",
+    "tagline": "One clear message, told so the back row hears it — and mind the stage edge",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "back-row",
+      "name": "Back Row",
+      "note": "A short talk planned around one message, spoken clearly to the back row and questions answered calmly"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Stage Board",
+      "currency": "CUES",
+      "ranks": [
+        "Listener",
+        "Rehearser",
+        "Speaker",
+        "Presenter",
+        "Orator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-digital-citizenship-and-online-safety",
+    "index": "827",
+    "domain": "Education",
+    "trade": "Life-skills class in the community college's computer lab — learner and digital skills tutor",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Digital Citizenship and Online Safety",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Digital Citizenship and Online Safety VR",
+    "tagline": "Pause before you click, share or post — and tell a trusted adult when something feels wrong",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "pause-and-check",
+      "name": "Pause and Check",
+      "note": "A strong passphrase set, a scam spotted, a claim checked before sharing and a trusted adult told"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Safety Board",
+      "currency": "CHECKS",
+      "ranks": [
+        "Newcomer",
+        "Checker",
+        "Guardian",
+        "Mentor",
+        "Digital Citizen"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-teamwork-and-feedback",
+    "index": "828",
+    "domain": "Education",
+    "trade": "Life-skills class at the arena's team room — learner and team coach",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Teamwork and Feedback",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Teamwork and Feedback VR",
+    "tagline": "Specific, kind and useful — give feedback on the work, never the person",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "team-player",
+      "name": "Team Player",
+      "note": "Roles agreed, feedback given specific and kind, received without defending and a disagreement settled fairly"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Team Board",
+      "currency": "ASSISTS",
+      "ranks": [
+        "Newcomer",
+        "Teammate",
+        "Supporter",
+        "Captain",
+        "Coach"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

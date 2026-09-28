@@ -691,9 +691,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
-      "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm"
+      "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm",
+      "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment"
     ],
-    require: 2,
+    require: 4,
   },
   {
     id: "k12-history-and-civics",
@@ -701,9 +702,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
-      "k12-primary-and-secondary-sources", "k12-building-a-timeline-from-documents", "k12-how-a-local-council-meeting-works"
+      "k12-primary-and-secondary-sources", "k12-building-a-timeline-from-documents", "k12-how-a-local-council-meeting-works", "k12-oral-history-interview-skills",
+      "k12-guilds-and-the-history-of-work", "k12-map-literacy-across-eras"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "k12-literacy-and-life-skills",
