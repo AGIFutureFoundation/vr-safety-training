@@ -1,0 +1,12 @@
+# Console POLISH — one look everywhere, Home and the Guide on every page, every link lands
+
+Team: POLISH · Brief: `tools/briefs/polish-brief.md` (with `console-brief.md`, `WebXR/ACCESSIBILITY.md`, `docs/ui-review.md`) · Branch: `claude/vr-ar-safety-training-wkwmve`
+
+Rules kept here: every new top-level name is prefixed `th…`/`TH_` (or `lk…` inside `check_links.mjs`) because the bundler concatenates every module into one scope and erases import aliases. Paint only: the tokens change backgrounds, border colours, radii, shadows and focus, never a box's size, so every layout the UI and mobile checkers measure stays put.
+
+- 02:40 UTC · Console opened; fast-forwarded the branch; read the briefs, ACCESSIBILITY.md, ui-review.md, controls/guide/account/links.js, gen_home.mjs, the runner UI, check_ui, check_links and the bundler · next: tokens.
+- 02:44 UTC · Plan: (1) `shared/theme.js` tokens from the homepage's `:root`, mounted by `ctlMount` so every page carries them, bundled before controls.js and copied to `dist/shared/`; (2) Home chip + Guide on every page (homepage gets its own chip to `#top`; portal, verifier and campus get the bar and the Guide); (3) check_ui asserts chip, Guide and one sign-in entry per page, check_links asserts chip and Guide on every page and loads every link target; (4) Atlas chips → track pages, homepage refresher → the signed-in profile's store; (5) runner results: next station and Back to <world>; (6) captures · next: build.
+- 02:46 UTC · Before captures taken from HEAD's committed `WebXR/dist/` (git archive into the scratchpad, `POLISH_DIST=… node tools/capture_polish.mjs before`) · next: checkers.
+- 02:47 UTC · Coordinator finding: two sign-in controls on the homepage. The shared account chip in the top-left bar is the one entry; the header's own Sign in hides wherever the chip mounted (`html:has(#gt-account) .who`), and SmartCiti.X's intro toolbar Sign in likewise (voice command and dialog kept). check_ui asserts exactly one visible sign-in entry, inside `#ctl-nav` · next: links.
+- 02:50 UTC · check_ui full run: only SmartCiti.X's second sign-in failed; fixed as above, re-run clean for that page · next: check_links.
+- 02:56 UTC · check_links first run: world pages open on a menu, so "draws a canvas" failed for Bay World, the Deep, Fairway, the Regatta; the target loader now presses through each menu as a player does. The Atlas draws SVG (no Mapbox token): asserted by its markers instead · next: gate.
