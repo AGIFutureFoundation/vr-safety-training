@@ -30,3 +30,14 @@ Read `docs/consoles/memory/REDWOOD.md` and `REDWOOD-2.md` first; this file adds 
   layouts, 17.3k instances drawn (was 38k in PROVING's view).
 - Low tier (390×844, radius 2 so no far ring): drive mean 141 ms / median 133 ms (REDWOOD-2: 150 / 133), 48–57k triangles per view.
 - Colliders: 490 logs and 490 stumps in the high ring all block at their centre; every arrival, activity start and board spot stays clear.
+
+## Wiring lessons
+- `shared/skill-gates-ui.js` imports `links.js`, `skill-gates.js` and `side-games-data.js`; the bundler refuses an app whose module list
+  misses one ("app.js imports skill-gates-ui.js, which is not in this app's module list"). Redwood lists `side-games-data.js` then
+  `skill-gates-ui.js` after `links.js`.
+- `qmBoardRows` writes an `<h3>Side games here</h3>`; a quest board renames it ("Locked quests here"). Locked quests go through the
+  shared rows; open and done quests keep Redwood's own rows (a goto quest has no Play button).
+- The UTV is placed at the driver's own ground height (`camera.y - eye`), not the ground a metre ahead: on a slope the ground
+  ahead can sit a metre lower and the body drops out of the view. No roof slab over the eye — it reads as a black band.
+- `check_ui`/`check_mobile` read `WebXR/dist/redwood.html`: run the full bundler after the per-app one (about a minute here).
+- RESCUE note (landing): this console's lock-UI wiring (the first two lessons above, and the board-locks still) was dropped when it landed — the Crescent tree already had Redwood on the shared skill-gates UI (1fc8b6d). The UTV and the budget work landed as written; see docs/consoles/RESCUE.md.
