@@ -52,3 +52,8 @@ tree at 01539ab. Prefix `cf`, port 8996, temp under `$SP/crescent/edge/`. Nothin
   in check_all · `node tools/check_deploy.mjs` → All deploy checks pass: 321 checks · failed twice on its own
   fake credentials (literal 32-hex; `NAME: "literal"`) — fakes are now built at run time · wrangler absent here,
   dry run skipped with the note · next: commit, check_links/check_seo on the new dist files, next brief
+- 19:08 UTC · c7b2a76 first increment; 49bf36f: the agent resolves the KV id into wrangler.toml only for the
+  duration of a wrangler command and restores it (proved incl. on a throw); docs index + product-overview rows;
+  edge-next brief · full `python3 tools/bundle_webxr.py` (5.8 s) reproduces the tree byte for byte and emits the
+  three edge files · check_proving needed a `check_deploy.mjs` row in docs/perf/checkers-baseline.json (2400 ms
+  vs ~1.8 s measured) — 162 checks pass · next: check_enterprise/check_auth, then the single full check_all
