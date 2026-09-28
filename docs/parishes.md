@@ -15,7 +15,7 @@ the parish, not a survey: real places appear only by their public names *as plac
 | Jefferson Parish | `jefferson` | `np-data-jefferson.js` | `NP_JEFFERSON` | 8 m | 10 | 12 | 4 |
 | St. Bernard Parish | `st-bernard` | `np-data-st-bernard.js` | `NP_ST_BERNARD` | 8 m | 10 | 11 | 3 |
 | Plaquemines Parish | `plaquemines` | `np-data-plaquemines.js` | `NP_PLAQUEMINES` | 20 m | 10 | 12 | 3 |
-| St. Tammany Parish | `st-tammany` | `np-data-st-tammany.js` | `NP_ST_TAMMANY` | 10 m | 11 | 12 | 2 |
+| St. Tammany Parish | `st-tammany` | `np-data-st-tammany.js` | `NP_ST_TAMMANY` | 10 m | 10 | 12 | 2 |
 
 DELTA's four modules are pure literals (no imports, no helpers, nothing for the bundler to erase) written once by a
 generator from approximate public lon/lat through one north-up uniform scale per parish (x east, +z south, like Bay
@@ -29,11 +29,39 @@ Schema notes beyond the brief's printout:
   are existing catalog stations only (DELTA added no station).
 - `fieldLessons[]` follow `RW_FIELD_LESSONS` (`id` with `-fl-`, `title`, `site`, optional `landmark`, `k12`, `trade`,
   `tradeLine`, `minutes` 2–4, `steps[3]`, `check { q, options, answer, why }`) with no digits in the text.
-- `gated[]` follow the gate contract and also carry `world` (the parish id), `siteName` and `summary`, ready for the
-  shared lock UI. They are *not* exported as a top-level `*GATED*` array, so `check_gates.mjs` does not discover them
+- `gated[]` follow the gate contract and also carry `world: "parishes"` with `parish` (the parish id), `siteName` and
+  `summary`, ready for the shared lock UI (ASSAYER moved them from `world: "<parish id>"` onto the engine's contract). They are *not* exported as a top-level `*GATED*` array, so `check_gates.mjs` does not discover them
   twice; PARISH's engine can aggregate `NP_*.gated` into one `NP_GATED` export when it mounts the lock UI.
 - `connectors[]` carry two extra optional fields, `lonlat` (the agreed crossing point, approximate) and
   `approximate: true`. See below.
+
+## The stylised scale — a recorded decision (console ASSAYER, the Bayou run)
+
+The engine's rule holds a parish between one half and six real metres per map metre, the scale at which Orleans's
+streets, pads and massing read at walking pace. DELTA's four parishes are drawn smaller than that on purpose: a whole
+parish in one 4096 m field means one map metre stands for several on the ground. That is a decision, not a fault, so
+each module declares it in a top-level `scale` (real metres per map metre) and `check_parishes.mjs` holds the fit to the
+declared figure within 15 % (and the declared figure between one half and twenty-five) instead of the half-to-six rule:
+
+- `jefferson` (Jefferson Parish): 8 real metres per map metre — both banks from the lake to the West Bank canals.
+- `st-bernard` (St. Bernard Parish): 8 real metres per map metre — the river road to the marsh and Shell Beach.
+- `plaquemines` (Plaquemines Parish): 20 real metres per map metre — the long river parish from Belle Chasse to Venice;
+  at this scale the river is a forty-metre ribbon, so each bank is drawn as levee at 45 m and river road at 78 m from the
+  river's centre line (the roads were re-derived from the river so they no longer cross it).
+- `st-tammany` (St. Tammany Parish): 10 real metres per map metre — the north shore from Madisonville to Slidell.
+- `orleans` declares none and stays under the half-to-six rule.
+
+What the scale costs: walking distances are compressed (a site five hundred map metres away is kilometres on the
+ground), building massing reads as district texture rather than blocks, and narrow rivers (the Tchefuncte, the Bogue
+Falaya, Bayou Lacombe) are a few metres wide, so a site pad beside one is kept far enough back that the bed stays under
+the water line. A new map (the San Francisco districts) declares `scale` the same way when it departs from the rule.
+
+The engine geometry that was deferred at the Crescent gate and fixed here: roads that sampled a river or lake
+(Westbank Expressway, Williams Boulevard, St. Bernard Highway, St. Claude Avenue, the Plaquemines river roads and
+Woodland Highway, Highway 190, Highway 22, Lakeshore Drive, the Tammany Trace) now run on land; landmarks of kind
+`bridge` or `river` stand at a bank or landing (the Huey P. Long Bridge, Caernarvon's bend, the Belle Chasse tunnel, the
+twin spans); St. Tammany keeps ten anchors (Big Branch Marsh dropped — the marsh has no single point); the gated items
+carry `world: "parishes"`. All five parishes are now in `NP_ENGINE_STRICT`.
 
 ## Connectors — the rule and how a long crossing meets it
 
