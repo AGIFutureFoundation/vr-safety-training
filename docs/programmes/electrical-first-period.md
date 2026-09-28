@@ -20,14 +20,14 @@ Why each station is in the programme is given in the station list below, from th
 
 | # | Station | Category | Summary | Why it is here | Eval |
 |---|---|---|---|---|---|
-| 1 | `electrical` Isolation Bay | Trade Skills Simulator | Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel | The bench case: lockout, tagout and live-dead-live on a 480 V panel, with nothing else going on. | 97 |
-| 2 | `charge-point` Charge Point | Energy & Power | DC fast-charger fault isolation, capacitor discharge and busbar torque | The same habit under a live utility service, where the load is a vehicle and the public is a metre away. | 97 |
-| 3 | `substation-switching` Substation Switching | Energy & Power | Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off | Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building. | 97 |
-| 4 | `line-truck` Line Truck | Energy & Power | Bucket-truck line work: rubber goods testing, isolation and correct grounding order | Overhead: the same sequence with cover-up, an approach boundary and a bucket. | 95 |
-| 5 | `battery-yard` Battery Yard | Energy & Power | Grid battery module swap: gas and vent check from outside, stop from the controller, AC before DC, rack disconnects in order, bleed-down wait, live-dead-live on the DC bus, racks grounded, insulated tools, thermal check before the door | Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline. | 98 |
-| 6 | `motor-control-center` Motor Control Center | Energy & Power | Racking a bucket out of a live motor control centre: label, PPE, disconnect, remote rack, proven dead, inspected, racked back in | Isolation inside the building again, but now the disconnect is not the whole story — the bucket still has to be racked off a bus that stays live for everyone else on the section. | 96 |
-| 7 | `arc-flash-label-study` Arc-Flash Label Study | Energy & Power | One-line to label: fault current, clearing time, incident energy, boundaries, printed and posted | Where the label the first four stations all trusted actually comes from — the study, not a guess, behind every incident-energy number this block has been working to. | 95 |
-| 8 | `temporary-site-power` Temporary Site Power | Energy & Power | Standing up construction power: panel grounded, GFCI on every receptacle, the AEGCP schedule, cords clear of traffic and water | The isolation habit turned around: building a service worth trusting in the first place, grounded and GFCI-protected before anyone plugs a tool into it. | 98 |
+| 1 | `electrical` [Isolation Bay](../../WebXR/dist/trade-skills-simulator.html?room=electrical) | Trade Skills Simulator | Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel | The bench case: lockout, tagout and live-dead-live on a 480 V panel, with nothing else going on. | 97 |
+| 2 | `charge-point` [Charge Point](../../WebXR/dist/smartcity-x.html?sim=charge-point) | Energy & Power | DC fast-charger fault isolation, capacitor discharge and busbar torque | The same habit under a live utility service, where the load is a vehicle and the public is a metre away. | 97 |
+| 3 | `substation-switching` [Substation Switching](../../WebXR/dist/smartcity-x.html?sim=substation-switching) | Energy & Power | Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off | Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building. | 97 |
+| 4 | `line-truck` [Line Truck](../../WebXR/dist/smartcity-x.html?sim=line-truck) | Energy & Power | Bucket-truck line work: rubber goods testing, isolation and correct grounding order | Overhead: the same sequence with cover-up, an approach boundary and a bucket. | 95 |
+| 5 | `battery-yard` [Battery Yard](../../WebXR/dist/smartcity-x.html?sim=battery-yard) | Energy & Power | Grid battery module swap: gas and vent check from outside, stop from the controller, AC before DC, rack disconnects in order, bleed-down wait, live-dead-live on the DC bus, racks grounded, insulated tools, thermal check before the door | Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline. | 98 |
+| 6 | `motor-control-center` [Motor Control Center](../../WebXR/dist/smartcity-x.html?sim=motor-control-center) | Energy & Power | Racking a bucket out of a live motor control centre: label, PPE, disconnect, remote rack, proven dead, inspected, racked back in | Isolation inside the building again, but now the disconnect is not the whole story — the bucket still has to be racked off a bus that stays live for everyone else on the section. | 96 |
+| 7 | `arc-flash-label-study` [Arc-Flash Label Study](../../WebXR/dist/smartcity-x.html?sim=arc-flash-label-study) | Energy & Power | One-line to label: fault current, clearing time, incident energy, boundaries, printed and posted | Where the label the first four stations all trusted actually comes from — the study, not a guess, behind every incident-energy number this block has been working to. | 95 |
+| 8 | `temporary-site-power` [Temporary Site Power](../../WebXR/dist/smartcity-x.html?sim=temporary-site-power) | Energy & Power | Standing up construction power: panel grounded, GFCI on every receptacle, the AEGCP schedule, cords clear of traffic and water | The isolation habit turned around: building a service worth trusting in the first place, grounded and GFCI-protected before anyone plugs a tool into it. | 98 |
 
 ## Competency rule
 
@@ -39,9 +39,9 @@ Why each station is in the programme is given in the station list below, from th
 
 ## Where it sits in Bay World and the Deep
 
-Bay World: West Oakland Substation Yard (`west-oakland-substation-yard`, zone west-oakland).
+[Bay World](../../WebXR/dist/bayworld.html): [West Oakland Substation Yard](../../WebXR/dist/bayworld.html?site=west-oakland-substation-yard) (`west-oakland-substation-yard`, zone west-oakland).
 
-The Deep: no site anchors this programme.
+[The Deep](../../WebXR/dist/underwater.html): no site anchors this programme.
 
 ## Standards it cites
 

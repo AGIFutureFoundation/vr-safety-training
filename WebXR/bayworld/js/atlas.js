@@ -17,6 +17,7 @@ import { BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES } from "../.
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
 import { bayToGeo } from "../../shared/bay-geo.js";
+import { lkStationLink } from "../../shared/links.js";
 import {
   mapboxToken, rememberMapboxToken, forgetMapboxToken, readMapboxConfig, createBayMap,
 } from "../../shared/mapbox.js";
@@ -27,6 +28,7 @@ import {
 export const ATLAS_LINKS = {
   bayworld: "../bayworld/index.html",
   smartcity: "../smartcity/dist/smartcity-x.html",
+  trades: "../trades/index.html",
 };
 
 /** The SVG map's drawing size; the viewBox, not the on-screen size. */
@@ -73,7 +75,8 @@ export function atlasDeepLinks(place) {
   const enc = encodeURIComponent;
   return {
     bayworld: `${ATLAS_LINKS.bayworld}?${place.kind === "landmark" ? "landmark" : "site"}=${enc(place.id)}`,
-    station: place.stations?.[0] ? `${ATLAS_LINKS.smartcity}?sim=${enc(place.stations[0])}&from=atlas` : null,
+    // A Trade Skills room opens in the Trade Skills app (shared/links.js).
+    station: place.stations?.[0] ? lkStationLink(place.stations[0], { runner: ATLAS_LINKS.smartcity, trades: ATLAS_LINKS.trades, from: "atlas" }) : null,
     programmes: (place.programmes ?? []).map((id) => ({ id, href: `${ATLAS_LINKS.smartcity}?programme=${enc(id)}` })),
   };
 }

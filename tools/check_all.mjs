@@ -35,6 +35,8 @@ const CHECKERS = [
   "check_ui.mjs",
   // The Guide on every page, its knowledge base and its answers (docs/consoles/COMPASS.md).
   "check_guide.mjs",
+  // Every open-world link, in the repo layout and the flat build (tools/briefs/links-brief.md).
+  "check_links.mjs",
 ];
 
 let failed = 0;

@@ -89,6 +89,7 @@ function nearestRoadDistance(x, z, roads) {
 const jsPath = (f) => join(BAYWORLD, "js", f);
 const CITY = await import(pathToFileURL(jsPath("city.js")).href);
 const SIM = await import(pathToFileURL(jsPath("sim.js")).href);
+const TRADES_ROOMS = new Set((await import(new URL("../WebXR/shared/links.js", import.meta.url).href)).LK_TRADES_ROOMS);
 const CAREER = await import(pathToFileURL(jsPath("career.js")).href);
 const QE = await import(pathToFileURL(jsPath("quest-engine.js")).href);
 const QS = await import(pathToFileURL(jsPath("quests-select.js")).href);
@@ -231,7 +232,9 @@ await check("bwMissionLink forms the platform's own deep-link shape, for a stati
   assert(staffed.length > 0, "no site carries a station to test a deep link against");
   for (const site of staffed) {
     const link = SIM.bwMissionLink(site);
-    eq(link, `../smartcity/index.html?sim=${site.stations[0]}&from=bayworld`, `mission link for ${site.id}`);
+    // A Trade Skills room opens in the Trade Skills app (shared/links.js).
+    const room = TRADES_ROOMS.has(site.stations[0]);
+    eq(link, room ? `../trades/index.html?room=${site.stations[0]}&from=bayworld` : `../smartcity/index.html?sim=${site.stations[0]}&from=bayworld`, `mission link for ${site.id}`);
   }
   const bare = CITY.BW_SITES.find((s) => !s.stations.length);
   if (bare) {

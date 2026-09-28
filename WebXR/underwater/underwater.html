@@ -76,6 +76,9 @@
   #toast.on{opacity:1}
 
   #jb-progress, #jb-programmes, #jb-zone{color:var(--muted);font-size:14px;margin:4px 0}
+  .jb-stations{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+  .jb-stations li{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
+  .jb-stations a.btn{text-decoration:none;padding:7px 12px;white-space:nowrap}
   .activity-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:10px 0}
   .activity-list .btn{text-align:left;padding:14px;text-transform:none;letter-spacing:0;font-family:var(--sans);font-weight:500}
   .activity-list .btn b{font-family:var(--cond);text-transform:uppercase;letter-spacing:.06em;font-size:15px}
@@ -173,6 +176,7 @@
     <p id="jb-programmes"></p>
     <p id="jb-chip" class="pp-chip" hidden></p>
     <p id="jb-done" hidden>Board done: passed, on your passport.</p>
+    <ul id="jb-stations" class="jb-stations" aria-label="Stations on this board" hidden></ul>
     <div class="row" style="margin-top:14px">
       <button class="btn primary" id="jb-launch">Start the station</button>
       <button class="btn ghost" id="jb-close">Close</button>

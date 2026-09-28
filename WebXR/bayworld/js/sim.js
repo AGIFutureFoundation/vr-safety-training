@@ -4,6 +4,7 @@
 // any time step, the same way race/js/sim.js and fairway/js/golf.js do for
 // their own apps.
 import { BAY_BOUNDS, BAY_ROADS, bwZoneAt, bwBuildings, bwJunctions } from "./city.js";
+import { lkStationLink, LK_TRADES_PAGE } from "../../shared/links.js";
 
 const bwClamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 
@@ -111,14 +112,15 @@ export function bwStepVehicle(state, input, dt) {
 }
 
 /** `../smartcity/index.html?sim=<id>&from=bayworld` — the one deep link
- *  every mission launches by. `station` defaults to the site's first one.
- *  `page` (this world's own path) adds the way home the runner's "Back to
- *  Bay World" button takes: `&return=<page>#site=<id>` (docs/interop.md). */
-export function bwMissionLink(site, { base = "../smartcity/index.html", station = null, page = null } = {}) {
+ *  every mission launches by, or `../trades/index.html?room=<id>&from=bayworld`
+ *  when the station is a Trade Skills room (shared/links.js). `station`
+ *  defaults to the site's first one. `page` (this world's own path) adds the
+ *  way home the runner's "Back to Bay World" button takes:
+ *  `&return=<page>#site=<id>` (docs/interop.md). */
+export function bwMissionLink(site, { base = "../smartcity/index.html", trades = LK_TRADES_PAGE, station = null, page = null } = {}) {
   const sim = station ?? site.stations?.[0];
   if (!sim) throw new Error(`site "${site.id}" has no station to launch`);
-  const back = page ? `&return=${encodeURIComponent(`${page}#site=${encodeURIComponent(site.id)}`)}` : "";
-  return `${base}?sim=${encodeURIComponent(sim)}&from=bayworld${back}`;
+  return lkStationLink(sim, { runner: base, trades, from: "bayworld", page, siteId: site.id });
 }
 
 // -------------------------------------------------------------------- traffic

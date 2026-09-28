@@ -5,7 +5,8 @@ import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/i
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
-import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage } from "../../shared/passport.js";
+import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
+import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt } from "./seabed.js";
 import {
   dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine,
@@ -180,7 +181,7 @@ function dvTryAscend() {
 
 function dvOpenJobBoard(site) {
   dvApp.lastSite = site;
-  $("jb-title").textContent = site.name;
+  lkSiteHeading($("jb-title"), site);
   $("jb-zone").textContent = DV_ZONES.find((z) => z.id === site.zone)?.name ?? site.zone;
   const progress = dvSiteProgress(TrainingRecords.list(), site);
   $("jb-progress").textContent = progress.attempts
@@ -190,7 +191,10 @@ function dvOpenJobBoard(site) {
   // The programme chip and the board's done mark read only the passport.
   ppProgressChip($("jb-chip"), site.programmes?.[0] ?? null);
   $("jb-done")?.toggleAttribute("hidden", !ppBoardDone("underwater", site));
-  $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
+  // A board with several stations lists each with its own Start link (every
+  // one routed by shared/links.js); "Start the station" stays for a board of one.
+  const lkCount = lkRenderStations($("jb-stations"), site.stations, (id) => dvMissionLink(site, { station: id, page: ppHerePage() }), { done: ppCompleted });
+  $("jb-launch")?.toggleAttribute("hidden", lkCount !== 1);
   dvOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {

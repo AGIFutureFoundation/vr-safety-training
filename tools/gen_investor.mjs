@@ -55,6 +55,12 @@ const { CURRICULA } = await mod("WebXR/smartcity/js/curricula.js");
 const { COMPETENCIES, PROGRAMME_COMPETENCIES, CORE_COMPETENCIES } = await mod("WebXR/shared/competency.js");
 const bay = await mod("WebXR/shared/bayworld-data.js");
 const deep = await mod("WebXR/shared/underwater-data.js");
+const links = await mod("WebXR/shared/links.js");
+// Every station, site and world an overview names links to it in the published
+// flat build (tools/briefs/links-brief.md): stations through shared/links.js.
+const OV_DIST = "../../WebXR/dist/";
+const ovStation = (id) => links.lkStationLink(id, { runner: `${OV_DIST}smartcity-x.html`, trades: `${OV_DIST}trade-skills-simulator.html` });
+const ovSite = (page, id) => `${OV_DIST}${page}${links.lkSiteLink(id)}`;
 const fair = await mod("WebXR/shared/fairway-data.js");
 const courses = await mod("WebXR/regatta/js/courses.js");
 const rgEvents = await mod("WebXR/regatta/js/events.js");
@@ -374,7 +380,7 @@ function overview(c) {
     const st = stationBy.get(stationKey(s.app, s.id));
     const why = isW && /wojrc|sponsor/i.test(s.why ?? "") ? "—" : pick(firstSentence(s.why));
     const summary = pick(st?.tagline, firstSentence(s.why), st?.name);
-    L.push(`| ${i + 1} | \`${s.id}\` ${mdEsc(pick(st?.name, s.id))} | ${mdEsc(st?.category ?? "")} | ${mdEsc(summary)} | ${mdEsc(why)} | ${evalBy.get(stationKey(s.app, s.id))?.score ?? "—"} |`);
+    L.push(`| ${i + 1} | \`${s.id}\` [${mdEsc(pick(st?.name, s.id))}](${ovStation(s.id)}) | ${mdEsc(st?.category ?? "")} | ${mdEsc(summary)} | ${mdEsc(why)} | ${evalBy.get(stationKey(s.app, s.id))?.score ?? "—"} |`);
   });
   L.push("", "## Competency rule", "");
   if (comp) L.push(`**${pick(comp.title)}** — demonstrated by a mastery run on ${comp.require} of its ${comp.stations.length} stations. Programme completion: ${c.completionRule ?? "—"}.`, "");
@@ -384,8 +390,8 @@ function overview(c) {
   L.push("## Where it sits in Bay World and the Deep", "");
   const bs = bay.BAY_SITES.filter((s) => (s.programmes ?? []).includes(c.id));
   const ds = deep.DEEP_SITES.filter((s) => (s.programmes ?? []).includes(c.id));
-  L.push(bs.length ? `Bay World: ${bs.map((s) => `${s.name} (\`${s.id}\`, zone ${s.zone})`).join("; ")}.` : "Bay World: no site anchors this programme.");
-  L.push("", ds.length ? `The Deep: ${ds.map((s) => `${s.name} (\`${s.id}\`, zone ${s.zone})`).join("; ")}.` : "The Deep: no site anchors this programme.", "");
+  L.push(bs.length ? `[Bay World](${OV_DIST}bayworld.html): ${bs.map((s) => `[${s.name}](${ovSite("bayworld.html", s.id)}) (\`${s.id}\`, zone ${s.zone})`).join("; ")}.` : `[Bay World](${OV_DIST}bayworld.html): no site anchors this programme.`);
+  L.push("", ds.length ? `[The Deep](${OV_DIST}underwater.html): ${ds.map((s) => `[${s.name}](${ovSite("underwater.html", s.id)}) (\`${s.id}\`, zone ${s.zone})`).join("; ")}.` : `[The Deep](${OV_DIST}underwater.html): no site anchors this programme.`, "");
   L.push("## Standards it cites", "");
   const cited = [...new Set([...(guidesBy.get(c.id) ?? []), ...(comp?.standards ?? [])])].sort(byStr);
   for (const id of cited) { const s = standardBy.get(id); L.push(`- \`${id}\` — ${s ? `${s.body}: ${pick(s.title)}` : "not in the registry"}`); }

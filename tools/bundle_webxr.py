@@ -346,6 +346,7 @@ APPS = {
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
             SHARED / "controls.js",
+            SHARED / "links.js",
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -436,6 +437,7 @@ APPS = {
             WEBXR / "bayworld/js/quests-select.js",
             WEBXR / "bayworld/js/quest-engine.js",
             WEBXR / "bayworld/js/career.js",
+            SHARED / "links.js",
             WEBXR / "bayworld/js/sim.js",
             WEBXR / "bayworld/js/map.js",
             # Real ground under the city (docs/mapbox.md): bay-geo's fit and
@@ -489,6 +491,7 @@ APPS = {
             WEBXR / "underwater/js/dives-select.js",
             WEBXR / "underwater/js/dive-engine.js",
             WEBXR / "underwater/js/dive-career.js",
+            SHARED / "links.js",
             WEBXR / "underwater/js/dive-sim.js",
             WEBXR / "underwater/js/dive-map.js",
             WEBXR / "underwater/js/activities.js",
@@ -517,6 +520,7 @@ APPS = {
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
             SHARED / "controls.js",
+            SHARED / "links.js",
             WEBXR / "bayworld/js/atlas.js",
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
@@ -554,6 +558,7 @@ APPS = {
             WEBXR / "bayworld/js/career.js",
             WEBXR / "regatta/js/courses.js",
             WEBXR / "regatta/js/race.js",
+            SHARED / "links.js",
             WEBXR / "regatta/js/events.js",
             WEBXR / "regatta/js/world.js",
             # The learner passport (docs/interop.md): one read/write API over
@@ -607,6 +612,10 @@ for _gd_cfg in APPS.values():
         _gd_mods[_gd_at:_gd_at] = _gd_add
 
 def dist_fixup(html: str) -> str:
+    # The repository's docs/ folder is not published beside any bundle: a
+    # source page's link into it keeps its text reference and loses the dead
+    # link in every dist (tools/briefs/links-brief.md).
+    html = re.sub(r'<a href="(?:\.\./)+docs/([\w./-]+\.md)">([^<]*)</a>', r'<code>\2</code>', html)
     for name in SIBLING_APP_DIRS:
         for q in LINK_QUOTES:
             html = html.replace(f'{q}../{name}/', f'{q}../../{name}/')
@@ -630,6 +639,10 @@ IMPORT_RE = re.compile(r"^import\s+[\s\S]*?from\s+[\"'][^\"']+[\"'];\s*$", re.MU
 IMPORT_FROM_RE = re.compile(r"""^import\s+[\s\S]*?from\s+["']([^"']+)["'];\s*$""", re.MULTILINE)
 EXPORT_BLOCK_RE = re.compile(r"^export\s*\{[^}]*\}\s*;\s*$", re.MULTILINE)
 EXPORT_KEYWORD_RE = re.compile(r"^export\s+(?=(const|let|var|function|class|async))", re.MULTILINE)
+# A re-export (`export * from "../shared/textures.js";`, citykit.js's) names a
+# module the bundle already inlines; left in, it is a real network import the
+# flat folder cannot answer, and the page's whole module fails to link.
+EXPORT_STAR_RE = re.compile(r"""^export\s+\*\s+from\s+["'][^"']+["'];\s*$""", re.MULTILINE)
 TOP_DECL_RE = re.compile(r"^(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)", re.MULTILINE)
 # Whole statement up to its closing `;`, not just up to the first `=` — a
 # multi-declarator line like `const A = 1, B = 2, C = 3;` used to only ever
@@ -653,6 +666,7 @@ def local_imports(path: Path) -> list[Path]:
 def strip_module_syntax(source: str) -> str:
     source = IMPORT_RE.sub("", source)
     source = EXPORT_BLOCK_RE.sub("", source)
+    source = EXPORT_STAR_RE.sub("", source)
     source = EXPORT_KEYWORD_RE.sub("", source)
     return source.strip() + "\n"
 
@@ -787,6 +801,11 @@ DIST_SHARED = [
     # The programme chips on the homepage rails (docs/interop.md) import the
     # passport lazily, with the modules it reads.
     "passport.js", "passport-programmes.js", "competency.js", "game.js",
+    # The lazy-loaded SmartCiti.X sims and citykit.js import these by their
+    # "../../../shared/" path, which from sims/ and the folder root lands on
+    # this folder's shared/ — without them no station loads in the flat build
+    # (tools/check_links.mjs loads one per world). Their own imports included.
+    "kit.js", "textures.js", "eggs.js", "ei-guide.js", "equipment.js", "fleet.js", "props.js", "toolkit.js", "perf.js",
 ]
 
 
@@ -812,6 +831,10 @@ def combined_fixup(html: str) -> str:
     for q in LINK_QUOTES:
         # The homepage sits beside the bundles in this folder.
         html = html.replace(f'{q}../../index.html{q}', f'{q}./index.html{q}')
+        # The network portal page is not published in the flat folder; its
+        # link (SmartCiti.X's intro, the instructor console) goes to the
+        # homepage, which is the network map here. The repo layout keeps it.
+        html = html.replace(f'{q}../../portal/index.html', f'{q}./index.html')
         html = html.replace(f'{q}../../', f'{q}../')
     return html
 

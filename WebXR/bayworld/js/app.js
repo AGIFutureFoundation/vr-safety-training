@@ -5,7 +5,8 @@ import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor, driveInputFrom, DRIVE
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
-import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage } from "../../shared/passport.js";
+import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
+import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
@@ -186,7 +187,7 @@ function bwTryEnterExit() {
 
 function bwOpenJobBoard(site) {
   bwApp.lastMissionSite = site;
-  $("jb-title").textContent = site.name;
+  lkSiteHeading($("jb-title"), site);
   $("jb-zone").textContent = BW_ZONES.find((z) => z.id === site.zone)?.name ?? site.zone;
   const progress = bwSiteProgress(TrainingRecords.list(), site);
   $("jb-progress").textContent = progress.attempts
@@ -201,7 +202,10 @@ function bwOpenJobBoard(site) {
   // Some of BAY1's sites (a lighting shed, a fire watch, a maintenance yard)
   // carry no station at all — a real place on the map with nothing to launch
   // yet, rather than an invented one just to fill the button.
-  $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
+  // A board with several stations lists each with its own Start link (every
+  // one routed by shared/links.js); "Start the mission" stays for a board of one.
+  const lkCount = lkRenderStations($("jb-stations"), site.stations, (id) => bwMissionLink(site, { station: id, page: ppHerePage() }), { done: ppCompleted });
+  $("jb-launch")?.toggleAttribute("hidden", lkCount !== 1);
   // The yacht harbour's board also opens the Bay Regatta (WebXR/regatta): the
   // fleet, the hosted events and the race courses on this same water.
   $("jb-regatta")?.toggleAttribute("hidden", site.id !== "island-yacht-harbor");
