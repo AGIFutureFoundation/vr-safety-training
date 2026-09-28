@@ -9,7 +9,7 @@ Read `docs/consoles/memory/REDWOOD.md` first (conventions, prefixes, the river/p
   south), activity starts (0.3 × pad south) and the spot 3 m south of every job board must stay clear — the probe asserts it.
 - **Understory** per chunk: fern clumps, sword ferns (five-frond geometry), fallen logs with a root plate, cut stumps, and light
   shafts (additive gradient planes, visible only in the `day` band — `setHour` toggles `shaftMeshes`). Stumps and logs do not
-  collide. Density: `fstep` 9 on high, 12 on low; log cap 10/6, shaft cap 14/6 per chunk.
+  collide. Density: `fstep` 9 on high, 14 on low; log cap 10/6; shafts 14 per chunk on high, 4 on balanced, none on low.
 - Site labels shrink long names to fit the plate (`label()` measures the text) — "Fern Hollow Campground & Trailhead" clipped before.
 
 ## Wiring lessons
@@ -31,7 +31,10 @@ Read `docs/consoles/memory/REDWOOD.md` first (conventions, prefixes, the river/p
   bundle written from `git show <sha>:WebXR/redwood/dist/redwood.html` into `WebXR/redwood/dist/redwood-base.html` (untracked, delete after).
 - The worktree sandbox refuses compound shell lines that mix `cat <<EOF` and variables; write configs with the editor.
 
-## Numbers (headless SwiftShader, 20 s vehicle drive from the fire station)
-- High, 1280×720: baseline 2197 ms/frame mean → 2346 ms with the thicker understory (+7%); 49 chunks, 8.3k trees, ~28k
-  understory instances, ~690 shafts, 100k ground triangles, 98 site colliders.
-- Low, 390×844: 163 ms/frame mean, p90 200 ms; 25 chunks, 1.75k trees, ~8.2k understory, 95 shafts, 12.8k ground triangles.
+## Numbers (headless SwiftShader, 20 s vehicle drive from the fire station, load average 12–20 on four cores)
+- High, 1280×720: previous bundle 2197 ms/frame mean → 2346 ms with the thicker understory (+7%); 49 chunks, 8.3k trees,
+  ~28k understory instances, ~690 shafts, 100k ground triangles, 98 site colliders.
+- Low, 390×844: previous 142 ms mean / 133 median → 150 mean / 133 median with the understory and no shafts (with 100
+  shafts it was 163 mean: tall translucent planes are fill-rate, so the phone tier draws none). 25 chunks, 1.75k trees,
+  ~6.1k understory, 12.8k ground triangles.
+- The shaft count varies with where the camera stands (chunks stream), so compare medians, not single runs.
