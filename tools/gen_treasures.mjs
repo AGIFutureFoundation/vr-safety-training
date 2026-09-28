@@ -13,6 +13,7 @@
 //   WebXR/shared/toolkit.js           a trade tool's own name (TOOLKIT_BUDGET note)
 //   WebXR/arcade/js/games/*.js        a cabinet's own "what this teaches" line
 //   a station's own sim file          (the tool crib line)
+//   WebXR/shared/summit-data.js, WebXR/redwood/js/rw-lore-data.js   a field lesson's own trade line
 //
 // Places come from the worlds' own data (BAY_SITES, DEEP_SITES, RG_COURSES,
 // FAIRWAY_HOLES, SM_TRAILS / SM_TRANSMISSION, RW_ROADS / RW_TRAILS), so a
@@ -37,9 +38,9 @@ const { BAY_SITES, BAY_ZONES } = await imp("WebXR/shared/bayworld-data.js");
 const { DEEP_SITES, DEEP_ZONES } = await imp("WebXR/shared/underwater-data.js");
 const { RG_COURSES } = await imp("WebXR/regatta/js/courses.js");
 const { FAIRWAY_HOLES } = await imp("WebXR/shared/fairway-data.js");
-const { SM_SITES, SM_ZONES, SM_TRAILS, SM_TRANSMISSION, SM_EGGS, smInLake, smZoneAt } = await imp("WebXR/shared/summit-data.js");
+const { SM_SITES, SM_ZONES, SM_TRAILS, SM_TRANSMISSION, SM_EGGS, SM_FIELD_LESSONS, smInLake, smZoneAt } = await imp("WebXR/shared/summit-data.js");
 const { RW_SITES, RW_ROADS, RW_TRAILS, rwIsWater } = await imp("WebXR/redwood/js/rw-data.js");
-const { RW_EGGS } = await imp("WebXR/redwood/js/rw-lore-data.js");
+const { RW_EGGS, RW_FIELD_LESSONS } = await imp("WebXR/redwood/js/rw-lore-data.js");
 const { PP_PROGRAMMES } = await imp("WebXR/shared/passport-programmes.js");
 // The older egg layers, read here only for their ids and counts (the Treasure
 // Map's read-only "Earlier eggs" section); their stores stay their own.
@@ -67,6 +68,24 @@ function whyLesson(stationId) {
   const w = WHY.get(stationId);
   if (!w) return null;
   return { lesson: w.why, source: { file: "WebXR/smartcity/js/curricula.js", station: stationId } };
+}
+/** A named station's why, claimed once: the theme tables below point places at stations by id, never by a regex. */
+function namedWhy(stationId) {
+  if (!WHY.has(stationId)) throw new Error(`theme table names unknown station ${stationId}`);
+  if (used.has(`why:${stationId}`)) throw new Error(`theme table station ${stationId} was already used`);
+  used.add(`why:${stationId}`);
+  return { ...whyLesson(stationId), station: stationId };
+}
+/** The programmes a place's own stations belong to. */
+const programmesOf = (stations) => new Set((stations ?? []).map((id) => WHY.get(id)?.programme).filter(Boolean));
+/** The first unused station why from one of these programmes, so a place's lesson stays in its own programme. */
+function programmeWhy(programmes) {
+  for (const [id, w] of WHY) {
+    if (used.has(`why:${id}`) || !programmes.has(w.programme)) continue;
+    used.add(`why:${id}`);
+    return { ...whyLesson(id), station: id };
+  }
+  return null;
 }
 /** The first unused station why matching `re` (on its id or its text), for a themed lesson. */
 function pickWhy(re, { app = null } = {}) {
@@ -152,14 +171,27 @@ for (const u of LORE) {
 
 // ------------------------------------------------------------ Trade Skills rooms
 
+// ------------------------------------------------------------ theme tables
+//
+// A place whose own stations have no why left takes a NAMED station's why
+// (these tables), never a pooled one: a Trade Skills room that is not itself
+// a station, and each racing course. tools/check_treasures.mjs flags any
+// treasure whose lesson station sits in a different programme from its place.
+const ROOM_WHY = { devops: "data-hall", plumbing: "ut-pe-pipe-fusion-and-squeeze-off", "paint-sprayer": "gg-paint-containment-on-the-deck" };
+const TRACK_WHY = {
+  "night-highway": "drive-night-fog-and-rail-crossing", "port-terminal": "po-yard-hostler-and-pedestrian-separation", "bay-fog-span": "gg-deck-lane-closure-and-traveller",
+  "quarry-haul": "mm-haul-truck-berm", "downtown-site": "drive-city-route-and-turns", "beach-boardwalk": "drive-light-vehicle-fleet-and-forklift-course",
+  "cold-storage": "ml-mail-handler-forklift-and-container-dock", "aurora-skyway": "drive-freeway-merge-and-following-distance", "marsh-levee": "haul-road-dust",
+  "quarry-night-shift": "op-loader-truck-loading-and-blind-spots",
+};
+
 const ROOMS = [...rd("WebXR/shared/links.js").match(/LK_TRADES_ROOMS = Object\.freeze\(\[([^\]]+)\]/)[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
 ROOMS.forEach((room, i) => {
   const a = (i * 2.1) % (Math.PI * 2);
-  const L = whyLesson(room) ?? pickWhy(new RegExp(room.split("-")[0], "i"));
-  if (whyLesson(room)) used.add(`why:${room}`);
+  const L = WHY.has(room) ? namedWhy(room) : namedWhy(ROOM_WHY[room] ?? room);
   add({ id: `tz-trades-${room}`, name: `Bench Mark: ${room.replace(/-/g, " ")}`, surface: "trades", world: "Trade Skills", area: room.replace(/-/g, " "),
     set: "every-bench", how: "plant", trigger: { host: `trades/${room}`, pos: [round(Math.cos(a) * 1.5), 1.0, round(Math.sin(a) * 1.5)] },
-    hint: "A small brass mark hides in every Trade Skills room.", reveal: "glint", lesson: L.lesson, source: L.source });
+    hint: "A small brass mark hides in every Trade Skills room.", reveal: "glint", lesson: L.lesson, source: L.source, place: { id: room, stations: [L.station] } });
 });
 
 // ------------------------------------------------------------ the station runner
@@ -206,11 +238,13 @@ add({ id: "tz-arcade-glint-2", name: "Break Room Notice", surface: "arcade", wor
 
 const TRACK_IDS = [...rd("WebXR/race/js/tracks.js").matchAll(/import \{ (TRACK_[A-Z_]+) \} from "\.\.\/tracks\/([a-z-]+)\.js"/g)].map((m) => m[2]);
 for (const id of TRACK_IDS) {
-  const L = pickWhy(/driv|truck|haul|forklift|traffic|road|lane/i);
+  if (!TRACK_WHY[id]) throw new Error(`TRACK_WHY has no station for course ${id}`);
+  const L = namedWhy(TRACK_WHY[id]);
   const src = rd(`WebXR/race/tracks/${id}.js`);
   const trackId = src.match(/\bid: "([^"]+)"/)?.[1] ?? id;
   add({ id: `tz-race-${id}`, name: `Finish Line: ${id.replace(/-/g, " ")}`, surface: "race", world: "Night Highway Circuit", area: "Courses",
-    set: "every-course", how: "race", trigger: { track: trackId }, hint: "Finish a race on every course.", reveal: "flag", lesson: L.lesson, source: L.source });
+    set: "every-course", how: "race", trigger: { track: trackId }, hint: "Finish a race on every course.", reveal: "flag", lesson: L.lesson, source: L.source,
+    place: { id: trackId, stations: Object.values(TRACK_WHY) } });
 }
 add({ id: "tz-race-glint", name: "Pit Wall Glint", surface: "race", world: "Night Highway Circuit", area: "Menu",
   how: "glint", trigger: { anchor: "main, body" }, hint: "Something glints on the pit wall.", reveal: "glint", ...unionLesson("teamsters") });
@@ -235,15 +269,32 @@ waterSites.slice(0, 7).forEach((s, i) => {
 });
 const baySpread = [];
 for (let i = 0; i < landSites.length && baySpread.length < 17; i += Math.max(1, Math.floor(landSites.length / 17))) baySpread.push(landSites[i]);
+/**
+ * A lesson for a place: the site's own first unused station why; else an unused
+ * why from one of the site's programmes; else (a site with no stations at all)
+ * a themed why. Returns `{ lesson, source, station, place }`; the checker flags
+ * a lesson whose station is in a different programme from its place.
+ */
+function siteLesson(site, re) {
+  const place = { id: site.id, stations: [...(site.stations ?? [])] };
+  const st = (site.stations ?? []).find((id) => WHY.has(id) && !used.has(`why:${id}`));
+  if (st) { used.add(`why:${st}`); return { ...whyLesson(st), station: st, place, own: true }; }
+  const progs = programmesOf(site.stations);
+  if (progs.size) {
+    const L = programmeWhy(progs);
+    if (!L) throw new Error(`${site.id}: no station why left in its programmes ${[...progs].join(", ")}`);
+    return { ...L, place, own: false };
+  }
+  return { ...pickWhy(re), place, own: false };
+}
+
 baySpread.forEach((s, i) => {
   const [x, z] = xz(s.position);
-  const st = (s.stations ?? []).find((id) => WHY.has(id) && !used.has(`why:${id}`));
-  if (st) used.add(`why:${st}`);
-  const L = st ? { ...whyLesson(st), station: st } : pickWhy(/./);
+  const L = siteLesson(s, /./);
   add({ id: `tz-bay-${s.id}`, name: `Crew Cache: ${s.name}`, surface: "bayworld", world: "Bay World", area: zoneName(BAY_ZONES, s.zone),
     set: i < 6 ? "crew-caches" : null, how: "proximity", trigger: { world: "bayworld", x: round(x - 8), z: round(z + 8), r: 6 },
-    hint: "Crews tuck a cache near their site. Walk the sites.", reveal: "chest", lesson: L.lesson, source: L.source,
-    gate: i % 5 === 2 && st ? { stations: [st], note: `The ${s.name} crew keeps this cache for people who have done the job there.` } : null });
+    hint: "Crews tuck a cache near their site. Walk the sites.", reveal: "chest", lesson: L.lesson, source: L.source, place: L.place,
+    gate: i % 5 === 2 && L.own ? { stations: [L.station], note: `The ${s.name} crew keeps this cache for people who have done the job there.` } : null });
 });
 
 // ------------------------------------------------------------ the Deep
@@ -252,13 +303,11 @@ const deepSpread = [];
 for (let i = 0; i < DEEP_SITES.length && deepSpread.length < 16; i += Math.max(1, Math.floor(DEEP_SITES.length / 16))) deepSpread.push(DEEP_SITES[i]);
 deepSpread.forEach((s, i) => {
   const [x, z] = xz(s.position);
-  const st = (s.stations ?? []).find((id) => WHY.has(id) && !used.has(`why:${id}`));
-  if (st) used.add(`why:${st}`);
-  const L = st ? { ...whyLesson(st), station: st } : pickWhy(/div|diver|umbilical|scuba/i);
+  const L = siteLesson(s, /div|diver|umbilical|scuba/i);
   add({ id: `tz-deep-${s.id}`, name: `Sea Glass: ${s.name}`, surface: "deep", world: "The Deep", area: zoneName(DEEP_ZONES, s.zone),
     set: "sea-glass", how: "proximity", trigger: { world: "underwater", x: round(x - 6), z: round(z - 6), r: 6 },
-    hint: "Sea glass settles near the dive sites, never at the lanterns.", reveal: "glass", lesson: L.lesson, source: L.source,
-    gate: i % 5 === 1 && st ? { stations: [st], note: `Dive the ${s.name} station first; this one sits in water you have to be trained for.` } : null });
+    hint: "Sea glass settles near the dive sites, never at the lanterns.", reveal: "glass", lesson: L.lesson, source: L.source, place: L.place,
+    gate: i % 5 === 1 && L.own ? { stations: [L.station], note: `Dive the ${s.name} station first; this one sits in water you have to be trained for.` } : null });
 });
 
 // ------------------------------------------------------------ the Regatta
@@ -305,12 +354,6 @@ const dedupe = (pts) => pts.filter((p, i) => pts.findIndex((q) => q[0] === p[0] 
 function nearestSite(sites, x, z, at) {
   return sites.map((s) => ({ s, d: Math.hypot(at(s)[0] - x, at(s)[1] - z) })).sort((a, b) => a.d - b.d)[0].s;
 }
-/** A lesson for a spot: the nearest site's first unused station why, else a themed why. */
-function siteLesson(site, re) {
-  const st = (site.stations ?? []).find((id) => WHY.has(id) && !used.has(`why:${id}`));
-  if (st) { used.add(`why:${st}`); return { ...whyLesson(st), station: st }; }
-  return pickWhy(re);
-}
 
 // Sierra Summit: a cairn at every trail vertex (the field notes sit at the
 // sites and landmarks) and a tag on every transmission tower.
@@ -326,7 +369,7 @@ smTrailPts.forEach(([px, pz, trail], i) => {
   const L = siteLesson(site, /mountain|grade|slope|fire|water|line|tower|rescue|weather|trail/i);
   add({ id: `tz-summit-cairn-${i + 1}`, name: `Trail Cairn ${i + 1}: ${trail.name}`, surface: "summit", world: "Sierra Summit", area: smZoneName(x, z),
     set: "trail-cairns", how: "proximity", trigger: { world: "summit", x, z, r: 9 },
-    hint: "Cairns stand a little off every trail on the mountain. Walk the trails.", reveal: "cairn", lesson: L.lesson, source: L.source,
+    hint: "Cairns stand a little off every trail on the mountain. Walk the trails.", reveal: "cairn", lesson: L.lesson, source: L.source, place: L.place,
     gate: i === 3 ? { stations: [L.station], note: `The crews who walk ${trail.name} built this cairn for people who have done ${L.station.replace(/-/g, " ")}.` } : null });
 });
 const RIDGE_UNIONS = ["ibew", "uwua", "iuoe", "liuna", "ibew-local1245"];
@@ -351,7 +394,7 @@ rwRoadPts.slice(0, 12).forEach(([px, pz, road], i) => {
   const L = i % 2 === 0 ? siteLesson(site, /fire|wildland|saw|tree|log|forest|trail|road|grade|culvert|line/i) : unionLesson(FOREST_UNIONS[i]);
   add({ id: `tz-redwood-page-${i + 1}`, name: `Logbook Page ${i + 1}: ${road.name}`, surface: "redwood", world: "Redwood Reach", area: road.name,
     set: "logbook-pages", how: "proximity", trigger: { world: "redwood", x, z, r: 9 },
-    hint: "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them.", reveal: "page", lesson: L.lesson, source: L.source,
+    hint: "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them.", reveal: "page", lesson: L.lesson, source: L.source, place: L.place ?? null,
     gate: i === 4 && L.station ? { stations: [L.station], note: `The ${site.name} crew keeps this page for people who have done ${L.station.replace(/-/g, " ")}.` } : null });
 });
 const rwTrailPts = dedupe(RW_TRAILS.flatMap((t) => t.points.slice(1, -1).map((p) => [p[0], p[1], t])))
@@ -362,7 +405,30 @@ rwTrailPts.forEach(([px, pz, trail], i) => {
   const L = siteLesson(site, /trail|tree|saw|chainsaw|brush|fire|forest|marsh|survey/i);
   add({ id: `tz-redwood-blaze-${i + 1}`, name: `Trail Blaze ${i + 1}: ${trail.name}`, surface: "redwood", world: "Redwood Reach", area: trail.name,
     set: "trail-blazes", how: "proximity", trigger: { world: "redwood", x, z, r: 9 },
-    hint: "Trail blazes mark the foot trails between the sites.", reveal: "blaze", lesson: L.lesson, source: L.source });
+    hint: "Trail blazes mark the foot trails between the sites.", reveal: "blaze", lesson: L.lesson, source: L.source, place: L.place });
+});
+
+// ------------------------------------------------------------ K-12 field lessons (quiet treasures)
+//
+// Sierra Summit's and Redwood Reach's field lessons each end in one check
+// question. Answering it right finds a treasure with no marker and no mesh:
+// the world calls tzLessonAnswered(lessonId). The lesson text is the field
+// lesson's own trade line, lifted verbatim from the world's data module.
+const SM_FL_SRC = rd("WebXR/shared/summit-data.js");
+const RW_FL_SRC = rd("WebXR/redwood/js/rw-lore-data.js");
+SM_FIELD_LESSONS.forEach((l) => {
+  if (!SM_FL_SRC.includes(`"${l.trade}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim`);
+  add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "summit", world: "Sierra Summit", area: "Field lessons",
+    set: "field-scholar", how: "lesson", trigger: { world: "summit", lesson: l.id },
+    hint: "Take a field lesson at a landmark and answer its check question.", reveal: "scroll", lesson: l.trade, source: { file: "WebXR/shared/summit-data.js", text: true, lesson: l.id },
+    place: { id: l.place, stations: [l.station, l.k12] } });
+});
+RW_FIELD_LESSONS.forEach((l) => {
+  if (!RW_FL_SRC.includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim`);
+  add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "redwood", world: "Redwood Reach", area: "Field lessons",
+    set: "field-scholar", how: "lesson", trigger: { world: "redwood", lesson: l.id },
+    hint: "Take a field lesson from a site's job board and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: "WebXR/redwood/js/rw-lore-data.js", text: true, lesson: l.id },
+    place: { id: l.site, stations: [l.k12] } });
 });
 
 // ------------------------------------------------------------ sets
@@ -384,6 +450,7 @@ const SETS = [
   ["tower-tags", "Tower Tags", "Ridge Walker", "A tag at the foot of every transmission tower on the ridge."],
   ["logbook-pages", "Lookout Logbook", "Lookout", "Pages from the fire lookout's logbook, blown along Redwood Reach's fire roads."],
   ["trail-blazes", "Trail Blazes", "Trail Hand", "A blaze on every foot trail through Redwood Reach."],
+  ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit and in Redwood Reach."],
 ].map(([id, name, badge, blurb]) => ({ id, name, badge, blurb, members: T.filter((t) => t.set === id).map((t) => t.id) }));
 
 const SURFACES = [
@@ -408,6 +475,13 @@ const EARLIER = [
   { id: "redwood-tins", name: "Field tins", where: "Redwood Reach", key: "redwood-career-v1", shape: "state", field: "found", total: RW_EGGS.length, ids: RW_EGGS.map((e) => e.id) },
 ];
 for (const e of EARLIER) if (e.ids && new Set(e.ids).size !== e.total) throw new Error(`${e.id}: ${e.total} eggs but ${new Set(e.ids).size} ids`);
+
+// A station lesson stays in its place's programme (the checker re-runs this).
+for (const t of T) {
+  if (!t.source.station || !t.place?.stations?.length) continue;
+  const progs = programmesOf(t.place.stations);
+  if (progs.size && !progs.has(WHY.get(t.source.station)?.programme)) throw new Error(`${t.id}: lesson station ${t.source.station} is not in ${t.place.id}'s programmes`);
+}
 
 // Every gated treasure, in the shape tools/check_gates.mjs discovers from any
 // `*-data.js` module that exports a `…GATED…` array. `world: "treasures"` keeps

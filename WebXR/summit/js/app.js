@@ -15,7 +15,7 @@ import {
   smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace,
 } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
-import { tzWatchWorld } from "../../shared/treasures.js";
+import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
 import {
   smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson,
   smActStart, smActStep, smActFinish,
@@ -164,6 +164,7 @@ function smOpenLesson(l) {
     const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = c;
     b.addEventListener("click", () => {
       const r = smAnswerLesson(sm.state, l.id, i); smSave(sm.state);
+      if (r.ok) tzLessonAnswered(l.id); // a quiet treasure (docs/treasures.md)
       smToast(r.ok ? `Right — ${l.title} passed.` : "Not quite — read the steps again and try another answer.");
       b.classList.toggle("on", r.ok); smHud();
     });
@@ -369,6 +370,7 @@ ctlMount({
     { label: "Quests", keys: ["Q"], pad: "—", touch: "Quests button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
     { label: "Radio check (activities)", keys: ["R"], pad: "—", touch: "—" },
+    { label: "Look around for treasure markers", keys: ["L"], pad: "—", touch: "—" },
   ],
 });
 

@@ -20,6 +20,14 @@ the field notes, the Foreman's Radio, the racer and the arcade), Bay World's egg
   Deep's lanterns, Sierra Summit's field notes and Redwood Reach's field tins. `tzEarlierEggs()`
   reads each layer's key through the same profile storage and returns counts only; nothing is copied
   into `vr-treasures-v1`, and the checker proves no egg id leaves the counts.
+- **Look around.** In every open world the L key lists the still-visible treasure markers within
+  ninety metres as buttons in the reveal card's chrome (distance only, never a name), and choosing
+  one picks it up where the learner stands, so every marker is reachable without a pointer. The
+  homepage constellation's stars are focusable buttons with screen-reader labels, and with
+  reduced motion on the markers hold still.
+- **Quiet treasures.** Answering a field lesson's check question right on Sierra Summit or in
+  Redwood Reach finds a treasure with no marker and no mesh; the lesson shown is the field
+  lesson's own trade line.
 - **Locked treasures.** A few treasures use the frontier gate contract
   (`gate: { stations, programmes, quests, k12, note }`), answered by the shared gate engine
   (`WebXR/shared/skill-gates.js`, `docs/skill-gates.md`) — the same engine the side quests and games
@@ -44,10 +52,10 @@ the field notes, the Foreman's Radio, the racer and the arcade), Bay World's egg
 | The Deep | 16 | sea glass beside dive sites, away from the lanterns |
 | The Regatta | 13 | a pennant off every rounding mark |
 | Fairway Park | 9 | a lost ball off every tee |
-| Sierra Summit | 15 | a cairn off every trail vertex and a tag at the foot of the ridge's transmission towers; the field notes at the sites and landmarks stay the world's own |
-| Redwood Reach | 19 | logbook pages blown from the fire lookout along the fire roads, and a blaze on every foot trail; the field tins at the landmarks stay the world's own |
+| Sierra Summit | 25 | a cairn off every trail vertex and a tag at the foot of the ridge's transmission towers, plus a quiet find for every field lesson's check question answered right; the field notes at the sites and landmarks stay the world's own |
+| Redwood Reach | 29 | logbook pages blown from the fire lookout along the fire roads, a blaze on every foot trail, plus a quiet find for every field lesson's check question answered right; the field tins at the landmarks stay the world's own |
 
-There are 159 treasures in 16 themed sets. Completing a set earns a badge, for example Bell Ringer for all seven harbour bells.
+There are 179 treasures in 17 themed sets. Completing a set earns a badge, for example Bell Ringer for all seven harbour bells.
 
 ## Nothing invented
 
@@ -61,6 +69,13 @@ that source:
 - a trade tool's note in `WebXR/shared/toolkit.js`
 - a cabinet's "what this teaches" line in `WebXR/arcade/js/games/`
 - one line from a station's own sim file
+- a field lesson's own trade line in `WebXR/shared/summit-data.js` or `WebXR/redwood/js/rw-lore-data.js`
+
+Lessons are themed, not pooled: a place's treasure takes one of the place's own stations' whys,
+then an unused why from one of the place's programmes, and a place with no station of its own (a
+Trade Skills room, a racing course) is mapped to a named station in a table in the generator.
+Every station lesson carries `place: { id, stations }`, and the checker flags any whose lesson
+station sits in a different programme from its place.
 
 Places come from the worlds' own data (`BAY_SITES`, `DEEP_SITES`, `RG_COURSES`, `FAIRWAY_HOLES`,
 `SM_TRAILS` and `SM_TRANSMISSION`, `RW_ROADS` and `RW_TRAILS`).
@@ -81,7 +96,8 @@ the water and outside every site's pad; the checker measures all three.
   `tzPlantHost(root, T3, host)` after a station or room is built, handing in their three.js library
   as `T3`. Bay World, the Deep, the Regatta, Fairway, Sierra Summit and Redwood Reach call
   `tzWatchWorld(world, …)` once their scene exists. The arcade and the racer call
-  `tzArcadeRound()` and `tzRaceFinish()`.
+  `tzArcadeRound()` and `tzRaceFinish()`; Sierra Summit and Redwood Reach call `tzLessonAnswered(id)`
+  when a field lesson's check question is answered right.
 - `treasures.js` is shared chrome and never spells the three.js global itself: the bundler loads
   three.js into any page whose modules do, and the account chip rides on every flat page. The
   library always comes from the caller.
@@ -99,11 +115,13 @@ the water and outside every site's pad; the checker measures all three.
 
 - the counts for each surface
 - every lesson, re-read word for word from its source
+- every placed station lesson is in one of its place's programmes; the field-lesson treasures
+  name a real lesson and carry its trade line
 - the sets and badges
 - the ledger: repeat finds do nothing, finds persist, and each profile keeps its own (device and demo included)
 - the gates: answered through the shared engine; every station and programme id resolves, a fresh profile sees locked, one completion short stays locked, the completions open it
 - the map model, which must not leak anything unfound
-- the finders: the Guide's answers, the DOM anchors on their pages, plants within reach, world markers inside the world's bounds, Summit and Redwood markers clear of the field notes and tins and out of the water
+- the finders: the Guide's answers, the DOM anchors on their pages, plants within reach, world markers inside the world's bounds, Summit and Redwood markers clear of the field notes and tins and out of the water, an answered field lesson finds its treasure, the look-around key and the constellation's keyboard reach, the reduced-motion stop
 - that every app is wired and bundled
 
 ```
