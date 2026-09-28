@@ -60,3 +60,4 @@ reports it *pending* until then.
   Guide's `world:san-francisco` chunk; parishes, Atlas and Bay World bundles rebuilt and flattened.
 - 3cf40cc — check_links section 9 (the Bay Bridge both ways, both layouts, a crossing loaded); check_parish_play
   knows the SF caches; `tools/briefs/next/golden-b-next.md`.
+- check_links green: 22940 checks, section 9 (the Bay Bridge) 6 resolutions plus the crossing and Marina loads. Full suite not run (single checkers only, shared cores).
