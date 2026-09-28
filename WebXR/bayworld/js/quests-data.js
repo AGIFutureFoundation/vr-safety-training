@@ -928,7 +928,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stations that follow that order, each with a different way to put oil or steel where it should not be.\""
+        "text": "\"A ship comes alongside, is secured, is fuelled, is worked and leaves. Its stations follow that order, each with a different way to put oil or steel where it should not be.\""
       }
     ],
     "reward": {
@@ -1348,7 +1348,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.\""
+        "text": "\"One kitchen, station by station, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.\""
       }
     ],
     "reward": {
@@ -1432,7 +1432,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Eighteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.\""
+        "text": "\"Stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.\""
       }
     ],
     "reward": {
@@ -1600,7 +1600,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Ten stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.\""
+        "text": "\"Stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.\""
       }
     ],
     "reward": {
@@ -1768,7 +1768,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Ten stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.\""
+        "text": "\"Stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.\""
       }
     ],
     "reward": {
@@ -1936,7 +1936,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.\""
+        "text": "\"Stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.\""
       }
     ],
     "reward": {
@@ -2020,7 +2020,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.\""
+        "text": "\"A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.\""
       }
     ],
     "reward": {
@@ -2440,7 +2440,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.\""
+        "text": "\"Stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.\""
       }
     ],
     "reward": {
@@ -2776,7 +2776,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Ten stations on an indoor court that teach players the fundamentals and teach coaches to run a session nobody gets hurt in: the floor walked before anyone runs on it, contact introduced by size and stage, every knock to the head taken out of play, water and rest on the clock, and every heated moment, alarm and parent at the door handled calmly and in view.\""
+        "text": "\"Stations on an indoor court that teach players the fundamentals and teach coaches to run a session nobody gets hurt in: the floor walked before anyone runs on it, contact introduced by size and stage, every knock to the head taken out of play, water and rest on the clock, and every heated moment, alarm and parent at the door handled calmly and in view.\""
       }
     ],
     "reward": {
@@ -3364,7 +3364,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Eight stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.\""
+        "text": "\"Stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.\""
       }
     ],
     "reward": {
@@ -4120,7 +4120,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those eight stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.\""
+        "text": "\"The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.\""
       }
     ],
     "reward": {

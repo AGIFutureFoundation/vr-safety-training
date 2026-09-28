@@ -192,7 +192,7 @@ Fifteen stations in a working commercial kitchen for UNITE HERE Local 2 kitchen 
 
 **Certifications and standards:** The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned
 
-Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.
+One kitchen, station by station, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -233,7 +233,7 @@ A fifteen-station dental-hygienist series built for the Unspoken Smiles training
 
 **Certifications and standards:** The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance
 
-Eighteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.
+Stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -278,7 +278,7 @@ A full bartending course for UNITE HERE Local 2 bartenders and barbacks with the
 
 **Certifications and standards:** California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips
 
-Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.
+Stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -473,7 +473,7 @@ The four plants a building engineer is responsible for at two in the morning, an
 
 **Certifications and standards:** USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals
 
-A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stations that follow that order, each with a different way to put oil or steel where it should not be.
+A ship comes alongside, is secured, is fuelled, is worked and leaves. Its stations follow that order, each with a different way to put oil or steel where it should not be.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -613,7 +613,7 @@ The careers a student can step into from the Unspoken Smiles clinic: dental assi
 
 **Certifications and standards:** The Brown Act and public-meeting law, the Political Reform Act's conflict-of-interest rules, the city charter's ethics provisions, and the principles of civic leadership the module states; the foundation whose principles the module draws on is not sourced in this repository and is named only as an attribution to verify
 
-Ten stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.
+Stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -686,7 +686,7 @@ A working building as twenty zones, each its own station: lobby to roof, boiler 
 
 **Certifications and standards:** WHO infection prevention and control guidance, WHO outbreak communication guidance, CDC isolation precautions, OSHA 29 CFR 1910.1030 and 1910.134, the Sphere Handbook's minimum standards, and IASC cluster coordination practice
 
-Ten stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.
+Stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -820,7 +820,7 @@ One Bay Area tool for four union families: the sheet metal shop and the duct run
 
 **Certifications and standards:** EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule
 
-A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.
+A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -980,7 +980,7 @@ The building trades' own stations: formwork and shoring to the engineer's drawin
 
 **Certifications and standards:** NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030
 
-Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.
+Stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -1067,7 +1067,7 @@ Twenty-two procedures that interrupt you while you work. Every station in this b
 
 **Certifications and standards:** USA Basketball youth development guidelines for age-appropriate play, practice and rest; NFHS basketball rules and sports medicine guidance; CDC Heads Up concussion training; U.S. Center for SafeSport abuse-prevention policies; the American Red Cross first aid, CPR and AED course
 
-Ten stations on an indoor court that teach players the fundamentals and teach coaches to run a session nobody gets hurt in: the floor walked before anyone runs on it, contact introduced by size and stage, every knock to the head taken out of play, water and rest on the clock, and every heated moment, alarm and parent at the door handled calmly and in view.
+Stations on an indoor court that teach players the fundamentals and teach coaches to run a session nobody gets hurt in: the floor walked before anyone runs on it, contact introduced by size and stage, every knock to the head taken out of play, water and rest on the clock, and every heated moment, alarm and parent at the door handled calmly and in view.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -1249,7 +1249,7 @@ Eight jobs across new installation, machine room, pit, car top, door, escalator,
 
 **Certifications and standards:** Insulators Local 16 and Boilermakers Local 549 apprenticeship and training, OSHA 29 CFR 1926.1101 asbestos in construction, 29 CFR 1910.146 permit-required confined spaces, ASME Section I and Section IX, and the National Board Inspection Code (NBIC), as taught across mechanical insulation, firestop, abatement, boiler and pressure-vessel repair work
 
-Eight stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.
+Stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
@@ -1433,7 +1433,7 @@ Twelve jobs a grounds crew actually rotates through: a ride-on mower's own pre-s
 
 **Certifications and standards:** Registered apprenticeship standards as a category, the OSHA Outreach Training Program's OSHA 10 course, FMCSA 49 CFR 380 Subpart F entry-level driver training with 49 CFR 383, 393 and 395, OSHA 29 CFR 1910.178 powered industrial trucks and ANSI/ITSDF B56.1, the Revised NIOSH Lifting Equation, HIPAA's Privacy Rule, CFPB and IRS consumer guidance, and SAMHSA's guidance on help-seeking — every credential and requirement stated only as the cited body publishes it, or as "per the programme's requirements" where this edition does not have a source for the organisation's own paperwork
 
-The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those eight stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.
+The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|

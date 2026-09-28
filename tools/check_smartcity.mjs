@@ -970,6 +970,41 @@ for (const sim of suite.SIMS) {
     }
   }
   if (!failures) console.log(`  ✓ ${String(CURRICULA.length).padStart(2)} training programmes${" ".repeat(22)} ${CURRICULA.reduce((a, c) => a + c.stations.length, 0)} station entries, all resolved`);
+
+  // A summary that counts its stations ("Eighteen stations that…") goes
+  // stale the day a station is added, so any number — word or digit —
+  // immediately followed by "station(s)" must equal the programme's own
+  // station count, in curricula.js and in the generated catalog.json alike.
+  const before = failures;
+  const UNITS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+  const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+  const numberOf = (w) => {
+    w = w.toLowerCase();
+    if (/^\d+$/.test(w)) return Number(w);
+    if (UNITS.includes(w)) return UNITS.indexOf(w);
+    const [t, u] = w.split("-");
+    const tens = TENS.indexOf(t);
+    if (tens < 2) return null;
+    if (u === undefined) return tens * 10;
+    const unit = UNITS.indexOf(u);
+    return unit >= 1 && unit <= 9 ? tens * 10 + unit : null;
+  };
+  const COUNTED = /\b(\d+|[a-z]+(?:-[a-z]+)?)\s+stations?\b/gi;
+  const catalogPath = join(ROOT, "WebXR/smartcity/catalog.json");
+  const catalogCurricula = existsSync(catalogPath) ? JSON.parse(readFileSync(catalogPath, "utf8")).curricula ?? [] : [];
+  let counted = 0;
+  for (const [source, list] of [["curricula.js", CURRICULA], ["catalog.json", catalogCurricula]]) {
+    for (const c of list) {
+      const have = c.stations?.length ?? 0;
+      for (const m of String(c.summary ?? "").matchAll(COUNTED)) {
+        const n = numberOf(m[1]);
+        if (n === null) continue;
+        counted += 1;
+        if (n !== have) fail("curricula", `${source} programme "${c.id}" summary says "${m[0]}" but has ${have} station(s) — drop the count or correct it`);
+      }
+    }
+  }
+  if (failures === before) console.log(`  ✓ programme summaries${" ".repeat(27)} ${counted} stated station count(s), each equal to its programme's list`);
 }
 
 console.log(failures ? `\n${failures} problem(s) found.` : `\nAll ${suite.SIMS.length} simulators pass.`);
