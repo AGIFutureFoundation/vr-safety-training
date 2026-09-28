@@ -47,8 +47,6 @@ APPS = {
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "textures.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "fleet.js",
             SHARED / "equipment.js",
             SHARED / "toolkit.js",
@@ -101,8 +99,6 @@ APPS = {
             SHARED / "ei-guide.js",
             SHARED / "input.js",
             SHARED / "hands.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "kit.js",
             SHARED / "textures.js",
             SHARED / "fleet.js",
@@ -281,8 +277,6 @@ APPS = {
             SHARED / "kit.js",
             SHARED / "textures.js",
             SHARED / "perf.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "fleet.js",
             SHARED / "equipment.js",
             SHARED / "toolkit.js",
@@ -415,8 +409,6 @@ APPS = {
             SHARED / "kit.js",
             SHARED / "textures.js",
             SHARED / "perf.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "fleet.js",
             SHARED / "equipment.js",
             SHARED / "unions.js",
@@ -480,8 +472,6 @@ APPS = {
             SHARED / "textures.js",
             SHARED / "perf.js",
             SHARED / "touch.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "fleet.js",
             # Crew figures and the avatar style space (console CARTOGRAPHER), before world.js.
             SHARED / "crew.js",
@@ -561,8 +551,6 @@ APPS = {
             SHARED / "textures.js",
             SHARED / "perf.js",
             SHARED / "touch.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "fleet.js",
             # Crew figures and the avatar style space (console CARTOGRAPHER), before world.js.
             SHARED / "crew.js",
@@ -636,7 +624,6 @@ APPS = {
             SHARED / "controls.js",
             SHARED / "links.js",
             SHARED / "gate-names-data.js",
-            SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
@@ -733,8 +720,6 @@ APPS = {
             SHARED / "textures.js",
             SHARED / "perf.js",
             SHARED / "touch.js",
-            SHARED / "kit.js",
-            SHARED / "textures.js",
             SHARED / "fleet.js",
             SHARED / "props.js",
             WEBXR / "smartcity/js/citykit.js",
@@ -848,7 +833,7 @@ for _tz_cfg in APPS.values():
     # carries the treasure layer but not the engine gets both, right before it.
     if SHARED / "treasures.js" in _tz_mods and SHARED / "skill-gates.js" not in _tz_mods:
         _tz_at = _tz_mods.index(SHARED / "treasures-data.js")
-        _tz_mods[_tz_at:_tz_at] = ([] if SHARED / "passport-programmes.js" in _tz_mods else [SHARED / "passport-programmes.js"]) + [SHARED / "skill-gates.js"]
+        _tz_mods[_tz_at:_tz_at] = ([] if SHARED / "passport-programmes.js" in _tz_mods else [SHARED / "passport-programmes.js"]) + ([] if SHARED / "gate-names-data.js" in _tz_mods else [SHARED / "gate-names-data.js"]) + [SHARED / "skill-gates.js"]
 # The video-background layer (console CINEMA, shared/cinema.js) imports
 # nothing, so every app with a module that imports it gets it first.
 for _cn_cfg in APPS.values():
