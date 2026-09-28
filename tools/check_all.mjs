@@ -50,6 +50,8 @@ const CHECKERS = [
   "check_links.mjs",
   // The account chip, the free demo and one private profile per person (docs/sign-in.md).
   "check_auth.mjs",
+  // The organisation layer: cohorts, the cohort view, the enterprise block, audit and privacy (docs/enterprise.md).
+  "check_enterprise.mjs",
   // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).
   "check_i18n.mjs",
 ];

@@ -527,6 +527,8 @@ const GT_PROFILE_KEYS = [
   // The treasure ledger (shared/treasures.js, docs/treasures.md).
   "vr-treasures-v1",
   "redwood-career-v1",
+  // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
+  "vr-org-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -21458,6 +21460,38 @@ function cleanChainId(v) {
   return Number.isInteger(n) && n > 0 && n < 1e12 ? n : null;
 }
 
+/** The sign-in methods a deployment may restrict itself to (docs/enterprise.md). */
+const ENTERPRISE_METHODS = ["google", "microsoft", "wallet", "email", "passkey", "demo"];
+/** The worlds a deployment may enable; null in the block means all of them. */
+const ENTERPRISE_WORLDS = ["bayworld", "regatta", "underwater", "summit", "fairway", "redwood", "atlas", "smartcity", "holodeck"];
+
+function authIdList(v, allowed) {
+  if (!Array.isArray(v)) return null;
+  const out = [...new Set(v.map((x) => authText(x, 80)).filter((x) => /^[a-z0-9-]{1,80}$/.test(x) && (!allowed || allowed.includes(x))))];
+  return out.length ? out : null;
+}
+
+/**
+ * The `enterprise` block of auth-config.json (docs/enterprise.md): who this
+ * deployment trains for and what it switches off. Only ever read from the
+ * file, never from the launch URL — a link must not be able to rename the
+ * organisation or re-enable a method the deployment turned off. Nothing here
+ * names an identity vendor; `sso` is a note the deployment writes for itself.
+ */
+function cleanEnterprise(raw) {
+  const e = raw && typeof raw === "object" ? raw : {};
+  const lang = authText(e.defaultLanguage, 8).toLowerCase();
+  return {
+    organisation: authText(e.organisation, 80) || null,
+    signInMethods: authIdList(e.signInMethods, ENTERPRISE_METHODS),
+    defaultLanguage: /^[a-z]{2}(-[a-z]{2})?$/.test(lang) ? lang : null,
+    worlds: authIdList(e.worlds, ENTERPRISE_WORLDS),
+    programmes: authIdList(e.programmes, null),
+    dataRetention: authText(e.dataRetention, 400) || null,
+    sso: authText(e.sso?.note ?? e.sso, 400) || null,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -21482,7 +21516,15 @@ function parseAuthConfig(file = null, search = "") {
     // Where a signed-in identity and its token are posted, and the only origin
     // this page will ever post to (identity.js enforces that).
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
+    // The organisation layer's block, from the file only (docs/enterprise.md).
+    enterprise: cleanEnterprise(file?.enterprise),
   };
+}
+
+/** True when the deployment allows this sign-in method (all are allowed until the block lists some). */
+function enterpriseAllows(config, method) {
+  const list = config?.enterprise?.signInMethods;
+  return !Array.isArray(list) || list.includes(method);
 }
 
 /** What a deployment that configured nothing gets. */
@@ -22060,11 +22102,21 @@ async function gtRun(providerId, opts = {}) {
   return res;
 }
 
+/** The privacy page beside the homepage (WebXR/privacy.html): the Home chip's folder, file name swapped. */
+function gtPrivacyHref(homeHref = null) {
+  const h = String(homeHref ?? document.querySelector("#ctl-nav .home-chip, .home-chip")?.getAttribute("href") ?? "").split(/[?#]/)[0];
+  if (!h || h.startsWith("#")) return "privacy.html";
+  return h.endsWith("/") ? `${h}privacy.html` : h.replace(/[^/]*$/, "privacy.html");
+}
+
 function gtSignInView(panel) {
   const cfg = Auth.config ?? {};
   const env = gtState.env ?? {};
+  // The organisation layer (docs/enterprise.md): a deployment may switch methods off.
+  const allow = (m) => enterpriseAllows(cfg, m);
+  if (cfg.enterprise?.organisation) panel.append(gtEl("p", { class: "gt-line", id: "gt-org", text: `Training for ${cfg.enterprise.organisation}.` }));
   // 1. Google — its own button when configured, a plain disabled line otherwise.
-  if (cfg.googleClientId) {
+  if (!allow("google")) { /* switched off by the deployment */ } else if (cfg.googleClientId) {
     const mount = gtEl("div", { id: "gt-google" });
     panel.append(gtEl("p", { class: "gt-line", text: trT("acct.google", null, "Continue with Google") }), mount);
     if (!gtState.googleStarted) { gtState.googleStarted = true; gtRun("google", { mount }).finally(() => { gtState.googleStarted = false; }); }
@@ -22073,7 +22125,7 @@ function gtSignInView(panel) {
       trT("acct.google"), gtEl("small", { text: trT("acct.googleOff") })));
   }
   // 2. MetaMask — Sign-In with Ethereum through window.ethereum.
-  if (env.ethereum?.request) {
+  if (!allow("wallet")) { /* switched off */ } else if (env.ethereum?.request) {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "wallet", on: { click: () => gtRun("wallet") } },
       trT("acct.wallet", null, "Connect MetaMask"), gtEl("small", { text: trT("acct.walletNote") })));
   } else {
@@ -22089,9 +22141,9 @@ function gtSignInView(panel) {
     disabled: !cfg.emailEndpoint && !passkeyOk,
     on: { click: () => gtRun(cfg.emailEndpoint ? "email" : "passkey", { email: input.value, name: input.value }) } },
   trT("acct.email", null, "E-mail me a link"), gtEl("small", { text: trT(cfg.emailEndpoint ? "acct.emailNote" : (passkeyOk ? "acct.passkeyNote" : "acct.noPasskey")) }));
-  panel.append(input, mailBtn);
+  if (allow(cfg.emailEndpoint ? "email" : "passkey")) panel.append(input, mailBtn);
   // 4. The free demo.
-  panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
+  if (allow("demo")) panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
     on: { click: () => { gtEnterDemo(); gtRenderChip(); gtClose(); } } },
   trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
@@ -22125,6 +22177,9 @@ function gtRender(view = null) {
   // The Treasure Map (docs/treasures.md): counts only, never where an unfound one is.
   panel.append(gtEl("p", { class: "gt-line", id: "gt-treasures" }, `Treasures found: ${tzFoundIds().length} of ${TZ_TREASURES.length}. `,
     gtEl("a", { href: tzMapHref(), id: "gt-treasure-map", text: "Open the Treasure Map" })));
+  // What is stored where (WebXR/privacy.html, docs/enterprise.md).
+  panel.append(gtEl("p", { class: "gt-line", id: "gt-privacy-line" }, "Nothing about you leaves this device without your say. ",
+    gtEl("a", { href: gtPrivacyHref(), id: "gt-privacy", text: "What is stored where" }), "."));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }

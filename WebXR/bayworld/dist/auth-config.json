@@ -10,5 +10,17 @@
   "mapboxToken": null,
   "guideConfig": {
     "endpoint": null
+  },
+  "enterprise": {
+    "_read_me": "The organisation layer (docs/enterprise.md). null everywhere means the public platform: every sign-in method, every world and programme, English until the visitor picks a language. A deployment for one organisation fills these in; the homepage, the sign-in dialog and the instructor console honour them. Nothing here is read from the launch URL. sso is a note for the deployment's own identity provider — no vendor is named or implemented here; a real provider is wired through the host page (docs/sign-in.md, 'What reaches the host page').",
+    "organisation": null,
+    "signInMethods": null,
+    "defaultLanguage": null,
+    "worlds": null,
+    "programmes": null,
+    "dataRetention": "Everything a person does stays in the browser that recorded it (localStorage under a per-person namespace; the free demo uses sessionStorage and ends with the tab). Nothing leaves the device without an explicit export or an opt-in. A deployment states its own retention period for exported files here.",
+    "sso": {
+      "note": "Single sign-on is a configuration point, not a feature of these static pages: the host page that embeds them verifies the credential and passes the learner through the existing launch context (?learner=, ?learner_id=, ?learner_home=) or the smartcitix:identity message. Fill in signInMethods to hide the methods the organisation does not use."
+    }
   }
 }
