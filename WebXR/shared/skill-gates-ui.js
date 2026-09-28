@@ -17,6 +17,8 @@ const qmCss = `
 #qm-chip{height:32px;padding:0 12px;border-radius:16px;border:1px solid rgba(255,255,255,.35);background:rgba(10,20,30,.78);color:#fff;font:700 13px/1 system-ui,sans-serif;cursor:pointer}
 #qm-chip.qm-float{position:fixed;top:calc(48px + env(safe-area-inset-top,0px));left:10px;z-index:9985}
 #qm-chip:hover{background:rgba(79,209,255,.3)}
+#qm-chip .qm-lock{vertical-align:-2px;margin-right:5px}
+@media (max-width:520px){#qm-chip{width:32px;padding:0}#qm-chip .qm-chip-text{display:none}#qm-chip .qm-lock{margin:0}}
 #qm-panel{position:fixed;inset:0;z-index:10040;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);padding:12px}
 #qm-panel[hidden]{display:none}
 #qm-panel .qm-box{background:#0f1a24;color:#e9f1f7;border:1px solid rgba(160,210,235,.35);border-radius:14px;width:min(640px,100%);max-height:calc(100vh - 24px);overflow:auto;padding:16px 18px;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -131,7 +133,10 @@ export function qmMountSideGames({ world, worldName = world, items, from = world
   const chip = document.createElement("button");
   chip.id = "qm-chip";
   chip.type = "button";
-  chip.textContent = "Side games";
+  // Icon-only on a phone so the shared nav stays one line (check_ui overlap at 360 px).
+  chip.innerHTML = `${QM_LOCK_SVG}<span class="qm-chip-text">Side games</span>`;
+  chip.setAttribute("aria-label", "Side games");
+  chip.title = "Side games";
   chip.setAttribute("aria-haspopup", "dialog");
   const nav = document.getElementById("ctl-nav");
   if (nav) nav.appendChild(chip); else { chip.classList.add("qm-float"); document.body.appendChild(chip); }
