@@ -17,7 +17,7 @@ import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_GATED, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_WATER_LEVEL, SM_SNOWLINE, smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import { smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson, smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone } from "./state.js";
-import { tzWatchWorld } from "../../shared/treasures.js";
+import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
 
 // Sierra Summit — the app: a first-person walker over the streamed mountain,
 // the HUD, job boards, field notes, field lessons, the map with layers and
@@ -225,6 +225,8 @@ function smOpenLesson(l) {
     b.addEventListener("click", () => {
       const r = smAnswerLesson(sm.state, l.id, i); smSave(sm.state);
       smToast(r.ok ? `Right — ${l.check.why}` : "Not quite — read the steps again and try another answer.", r.ok ? 6000 : 3200);
+      if (r.ok) tzLessonAnswered(l.id); // a quiet treasure (docs/treasures.md)
+      smToast(r.ok ? `Right — ${l.title} passed.` : "Not quite — read the steps again and try another answer.");
       b.classList.toggle("on", r.ok); smHud();
     });
     box.appendChild(b);
@@ -459,6 +461,7 @@ ctlMount({
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
     { label: "Radio check (activities)", keys: ["R"], pad: "—", touch: "—" },
     { label: "Engine brake (riding the pickup)", keys: ["E"], pad: "A", touch: "Use button" },
+    { label: "Look around for treasure markers", keys: ["L"], pad: "—", touch: "—" },
   ],
 });
 

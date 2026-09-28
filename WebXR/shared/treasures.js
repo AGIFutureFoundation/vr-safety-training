@@ -198,6 +198,10 @@ const tzCss = `
 #tz-reveal .tz-row a,#tz-reveal .tz-row button{min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;padding:0 12px;cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
 #tz-reveal .tz-lock{color:#ffcf8a}
 .tz-glint{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:2px;padding:0;border:0;border-radius:50%;background:transparent;color:#f2c14b;opacity:.32;font:16px/1 system-ui,sans-serif;cursor:pointer;animation:tz-twinkle 3.2s ease-in-out infinite}
+#tz-reveal .tz-row.tz-col{flex-direction:column;align-items:stretch;justify-content:flex-start}
+#tz-reveal .tz-row.tz-col:empty{display:none}
+#tz-constellation circle:focus-visible{outline:2px solid #ffd166;outline-offset:2px}
+.tz-glint{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin:2px;padding:0;border:0;border-radius:50%;background:transparent;color:#f2c14b;opacity:.32;font:16px/1 system-ui,sans-serif;cursor:pointer;animation:tz-twinkle 3.2s ease-in-out infinite}
 .tz-glint:hover,.tz-glint:focus-visible{opacity:1;outline:2px solid #ffd166;outline-offset:1px}
 .tz-glint-fixed{position:fixed;right:10px;bottom:84px;z-index:9980}
 #tz-constellation{position:absolute;right:4%;top:10%;width:150px;height:90px;z-index:2;overflow:visible}
@@ -343,17 +347,22 @@ function tzConstellation(t) {
   if (getComputedStyle(hero).position === "static") hero.style.position = "relative";
   const NS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("id", "tz-constellation"); svg.setAttribute("viewBox", "0 0 150 90"); svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("id", "tz-constellation"); svg.setAttribute("viewBox", "0 0 150 90");
+  // Screen readers get the shape and the count; each star is a focusable button.
+  svg.setAttribute("role", "group"); svg.setAttribute("aria-label", "Seven faint stars in the shape of a jib crane. Light each one.");
   // A jib crane: mast, jib and hook — seven stars.
   const pts = [[20, 85], [20, 55], [20, 25], [60, 20], [100, 15], [140, 12], [100, 45]];
   const lit = new Set();
   pts.forEach(([x, y], i) => {
     const c = document.createElementNS(NS, "circle");
     c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 3.2);
-    c.addEventListener("click", (e) => {
-      e.stopPropagation(); lit.add(i); c.classList.add("tz-lit");
+    c.setAttribute("role", "button"); c.setAttribute("tabindex", "0"); c.setAttribute("aria-label", `Star ${i + 1} of ${pts.length}`); c.setAttribute("aria-pressed", "false");
+    const light = (e) => {
+      e.stopPropagation(); lit.add(i); c.classList.add("tz-lit"); c.setAttribute("aria-pressed", "true");
       if (lit.size === pts.length) tzFind(t.id);
-    });
+    };
+    c.addEventListener("click", light);
+    c.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); light(e); } });
     svg.appendChild(c);
   });
   hero.appendChild(svg);
@@ -425,8 +434,13 @@ export function tzArmPage(surface = tzDetectSurface()) {
   return mine.length;
 }
 
-// ------------------------------------------------------------------ arcade and race
+// ------------------------------------------------------------------ arcade, race and field lessons
 
+/** A field lesson's check question answered right (Sierra Summit, Redwood Reach): a quiet find with no marker. */
+export function tzLessonAnswered(lessonId) {
+  const t = TZ_TREASURES.find((x) => x.how === "lesson" && x.trigger.lesson === lessonId);
+  return t ? tzFind(t.id) : null;
+}
 /** A cabinet round finished (Break Room Arcade). */
 export function tzArcadeRound(cabinetId) {
   const t = TZ_TREASURES.find((x) => x.how === "arcade" && x.trigger.cabinet === cabinetId);
@@ -479,8 +493,13 @@ function tzMarker(T3, t, size) {
   return mesh;
 }
 
+/** prefers-reduced-motion: the markers hold still (and the reveal card appears without its animation). */
+function tzReducedMotion() {
+  try { return !!(tzHasDom && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches); } catch (_) { return false; }
+}
+
 function tzSpin(mesh, y0) {
-  if (typeof requestAnimationFrame !== "function") return;
+  if (typeof requestAnimationFrame !== "function" || tzReducedMotion()) return;
   const t0 = performance.now() / 1000;
   const step = () => {
     if (!mesh.parent) return;
@@ -530,7 +549,7 @@ export function tzPlantHost(root, T3, host, camera = tzDefaultCamera) {
  * learner comes within its radius (or clicks it). A locked one shows its lock
  * once per visit. Returns the markers planted.
  */
-export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = null, size = 0.6, lift = 1.4 } = {}) {
+export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = null, size = 0.6, lift = 1.4, key = TZ_LOOK_KEY, near = 90 } = {}) {
   if (!scene || !T3) return 0;
   const mine = TZ_TREASURES.filter((t) => t.how === "proximity" && t.trigger.world === world);
   const markers = new Map();
@@ -558,6 +577,57 @@ export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = 
     }
   };
   if (typeof setInterval === "function") setInterval(tick, 400);
-  if (tzHasDom) window.__treasuresTest = { ...(window.__treasuresTest ?? {}), world, markers: markers.size, tick };
+  tzWatched.set(world, { mine, markers, pos, near });
+  tzArmLookKey(key);
+  if (tzHasDom) window.__treasuresTest = { ...(window.__treasuresTest ?? {}), world, markers: markers.size, tick, lookAround: () => tzLookAround(world) };
   return markers.size;
+}
+
+// ------------------------------------------------------------------ look around (no pointer needed)
+
+/** The worlds being watched on this page: world → { mine, markers, pos, near }. */
+const tzWatched = new Map();
+export const TZ_LOOK_KEY = "KeyL";
+
+/**
+ * Lists the still-visible markers within reach as buttons in the reveal
+ * card's chrome — distance only, never a name, so nothing is given away that
+ * the marker on screen does not — and finds (or shows the lock of) the one
+ * chosen. Every marker is reachable without a pointer this way.
+ * Returns the rows listed, or -1 when nothing is watched.
+ */
+export function tzLookAround(world = [...tzWatched.keys()][0]) {
+  const w = tzWatched.get(world);
+  if (!w || !tzHasDom || !document.body) return -1;
+  const p = typeof w.pos === "function" ? w.pos() : null;
+  const rows = !p ? [] : w.mine
+    .map((t) => ({ t, d: Math.hypot(p[0] - t.trigger.x, p[1] - t.trigger.z) }))
+    .filter(({ t, d }) => d <= w.near && w.markers.get(t.id)?.visible)
+    .sort((a, b) => a.d - b.d).slice(0, 8);
+  const buttons = rows.map(({ t, d }, i) => {
+    const locked = t.gate && !tzGateOpen(t.gate);
+    return tzEl("button", { type: "button", "data-tz-look": t.id, text: `Marker ${i + 1}: ${Math.round(d)} m away${locked ? " (locked)" : ""}`,
+      on: { click: () => { const r = tzFind(t.id); if (!r.locked) { const m = w.markers.get(t.id); if (m) m.visible = false; } } } });
+  });
+  const box = tzCard([
+    tzEl("p", { class: "tz-small", text: "Look around" }),
+    tzEl("h2", { text: rows.length ? `${rows.length} treasure marker${rows.length === 1 ? "" : "s"} within ${w.near} m` : `No treasure markers within ${w.near} m` }),
+    tzEl("p", { class: "tz-small", text: rows.length ? "Choose one to pick it up where you stand." : "Walk on and look again." }),
+    tzEl("div", { class: "tz-row tz-col" }, ...buttons),
+    tzCloseRow(),
+  ], 20000);
+  box?.querySelector("[data-tz-look]")?.focus();
+  return rows.length;
+}
+
+let tzLookArmed = false;
+function tzArmLookKey(code) {
+  if (tzLookArmed || !tzHasDom || !code) return;
+  tzLookArmed = true;
+  window.addEventListener("keydown", (e) => {
+    if (e.code !== code || e.repeat || e.altKey || e.ctrlKey || e.metaKey) return;
+    const tag = e.target?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || e.target?.isContentEditable) return;
+    tzLookAround();
+  });
 }

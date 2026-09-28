@@ -20,7 +20,7 @@ import {
   rwScoreActivity, rwRecordActivity,
 } from "./rw-career.js";
 import { rwBuildWorld } from "./rw-world.js";
-import { tzWatchWorld } from "../../shared/treasures.js";
+import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
 
 // Redwood Reach — the app: the menu, the walk (and the fire-road vehicle),
 // the HUD, the job boards, the quest log with its skill gates, the field tins,
@@ -360,6 +360,7 @@ function rwRunLesson(fl) {
       onPick: (k) => {
         if (k === fl.check.answer) {
           if (!rwApp.state.lessons.includes(fl.id)) { rwApp.state.lessons.push(fl.id); rwApp.state.xp += 30; rwPersist(); }
+          tzLessonAnswered(fl.id); // a quiet treasure (docs/treasures.md)
           rwToast("Right. Lesson logged — it ties to the K-12 station " + lkStationLabel(fl.k12) + ".");
           rwShow(null);
         } else { rwToast("Not quite — read the steps again."); i = 0; next(); }
@@ -593,6 +594,7 @@ ctlMount({
     { label: "Fire-road vehicle", keys: ["R"], pad: "Y", touch: "Drive button" },
     { label: "Quest log", keys: ["J"], pad: "—", touch: "Quests button" },
     { label: "Advance the clock", keys: ["T"], pad: "—", touch: "—" },
+    { label: "Look around for treasure markers", keys: ["L"], pad: "—", touch: "—" },
   ],
 });
 // The shared "Side games" chip and quest-log panel: every gated quest here, open rows first, then the Skills to unlock roll-up.

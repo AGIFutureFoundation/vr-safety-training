@@ -47,9 +47,9 @@ const { CURRICULA } = await import(join(WEBXR, "smartcity/js/curricula.js"));
 const { BAY_BOUNDS } = await import(join(WEBXR, "shared/bayworld-data.js"));
 const { DEEP_BOUNDS } = await import(join(WEBXR, "shared/underwater-data.js"));
 const { FAIRWAY_BOUNDS } = await import(join(WEBXR, "shared/fairway-data.js"));
-const { SM_BOUNDS, SM_EGGS, smInLake } = await import(join(WEBXR, "shared/summit-data.js"));
+const { SM_BOUNDS, SM_EGGS, SM_FIELD_LESSONS, smInLake } = await import(join(WEBXR, "shared/summit-data.js"));
 const { RW_BOUNDS, rwIsWater } = await import(join(WEBXR, "redwood/js/rw-data.js"));
-const { RW_EGGS } = await import(join(WEBXR, "redwood/js/rw-lore-data.js"));
+const { RW_EGGS, RW_FIELD_LESSONS } = await import(join(WEBXR, "redwood/js/rw-lore-data.js"));
 const { PP_PROGRAMMES } = await import(join(WEBXR, "shared/passport-programmes.js"));
 const T = D.TZ_TREASURES;
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
@@ -89,6 +89,31 @@ await check("every treasure has a reveal, a lesson and a source, re-read verbati
     } else assert(text(s.file).includes(`"${t.lesson}"`), `${t.id}: lesson is not a string in ${s.file}`);
     if (t.tool) assert(text(t.toolSource.file).includes(`note: "${t.tool}"`), `${t.id}: tool name is not a toolkit note`);
     assert(!/\d{4}s?\b.*(founded|established)/i.test(t.lesson), `${t.id} carries a founding claim`);
+  }
+});
+
+await check("themed lessons: a station lesson's programme is one of its place's; no pooled why on a placed treasure", () => {
+  const prog = new Map();
+  for (const c of CURRICULA) for (const s of c.stations) if (!prog.has(s.id)) prog.set(s.id, c.id);
+  let placed = 0;
+  for (const t of T.filter((x) => x.source?.station)) {
+    if (!t.place) continue; // the runner's tools and the Guide's lore have no place of their own
+    assert(t.place.id && Array.isArray(t.place.stations), `${t.id}'s place is malformed`);
+    const progs = new Set(t.place.stations.map((id) => prog.get(id)).filter(Boolean));
+    if (!progs.size) continue; // a site with no stations at all cannot be judged
+    placed += 1;
+    assert(progs.has(prog.get(t.source.station)), `${t.id}: lesson station ${t.source.station} (${prog.get(t.source.station)}) is not in ${t.place.id}'s programmes ${[...progs].join(", ")}`);
+  }
+  assert(placed >= 60, `only ${placed} placed station lessons were judged`);
+  for (const s of ["bayworld", "deep", "summit", "redwood", "race", "trades"]) assert(T.some((t) => t.surface === s && t.place), `${s} carries no placed lesson`);
+  // The field-lesson treasures name their lesson and its world; the lesson is the field lesson's own trade line.
+  const lessons = T.filter((t) => t.how === "lesson");
+  assert(lessons.length >= 20, `only ${lessons.length} field-lesson treasures`);
+  for (const t of lessons) {
+    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
+    assert(l, `${t.id} names unknown field lesson ${t.trigger.lesson} in ${t.trigger.world}`);
+    assert(t.lesson === (l.tradeLine ?? l.trade), `${t.id}'s lesson is not the field lesson's trade line`);
+    assert(t.set === "field-scholar" && t.place?.id, `${t.id} is not in the Field Scholar set with a place`);
   }
 });
 
@@ -261,11 +286,11 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
   // Summit and Redwood keep their own field notes and tins: a treasure never
   // shares a spot with one (15 m apart at least) and never sits in the water.
   const eggAt = (e) => e.at ?? e.position ?? [e.x, e.z];
-  for (const t of T.filter((x) => x.trigger?.world === "summit")) {
+  for (const t of T.filter((x) => x.how === "proximity" && x.trigger.world === "summit")) {
     assert(!smInLake(t.trigger.x, t.trigger.z), `${t.id} sits in the lake`);
     for (const e of SM_EGGS) assert(Math.hypot(eggAt(e)[0] - t.trigger.x, eggAt(e)[1] - t.trigger.z) >= 15, `${t.id} sits on Summit field note ${e.id}`);
   }
-  for (const t of T.filter((x) => x.trigger?.world === "redwood")) {
+  for (const t of T.filter((x) => x.how === "proximity" && x.trigger.world === "redwood")) {
     assert(!rwIsWater(t.trigger.x, t.trigger.z), `${t.id} sits in the water`);
     for (const e of RW_EGGS) assert(Math.hypot(eggAt(e)[0] - t.trigger.x, eggAt(e)[1] - t.trigger.z) >= 15, `${t.id} sits on Redwood field tin ${e.id}`);
   }
@@ -276,6 +301,18 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
   Z.tzClear();
   assert(Z.tzArcadeRound(cab.trigger.cabinet)?.added, "a finished cabinet round found nothing");
   assert(Z.tzRaceFinish(`${race.trigger.track}-mirror`)?.added, "a mirrored race finish found nothing");
+  // A field lesson answered right is a quiet find; an unknown lesson finds nothing.
+  const fl = T.find((x) => x.how === "lesson");
+  assert(Z.tzLessonAnswered(fl.trigger.lesson)?.added && Z.tzIsFound(fl.id), "an answered field lesson found nothing");
+  assert(Z.tzLessonAnswered("not-a-lesson") === null, "an unknown lesson found a treasure");
+  // Without a pointer: a look-around key lists nearby markers as buttons (nothing watched headless → -1);
+  // the constellation reads to a screen reader; reduced motion stops the marker spin.
+  assert(Z.TZ_LOOK_KEY === "KeyL" && Z.tzLookAround() === -1, "tzLookAround is not the pointer-free finder");
+  const modSrc = rd("WebXR/shared/treasures.js");
+  assert(/tzArmLookKey\(key\)/.test(modSrc) && /"data-tz-look"/.test(modSrc), "tzWatchWorld does not arm the look-around key");
+  assert(/function tzSpin[\s\S]{0,120}tzReducedMotion\(\)/.test(modSrc) && modSrc.includes("prefers-reduced-motion: reduce"), "tzSpin ignores prefers-reduced-motion");
+  assert(!/tz-constellation"\); svg\.setAttribute\("viewBox", "0 0 150 90"\); svg\.setAttribute\("aria-hidden"/.test(modSrc) && modSrc.includes('c.setAttribute("role", "button"); c.setAttribute("tabindex", "0")'), "the constellation is not keyboard- and screen-reader-reachable");
+  for (const f of ["WebXR/summit/js/app.js", "WebXR/redwood/js/app.js"]) assert(rd(f).includes('keys: ["L"]'), `${f} does not list the look-around key in its controls`);
   // The perfect run reads the records only.
   Z.tzCheckRecords([{ simId: "valve-vault", stars: 2, errors: 1, hazardHits: 0 }]);
   assert(!Z.tzIsFound("tz-runner-perfect"), "an imperfect run found the perfect-run secret");
@@ -292,6 +329,7 @@ await check("every surface is wired, bundled and registered", () => {
     ["WebXR/regatta/js/app.js", 'tzWatchWorld("regatta"'], ["WebXR/fairway/js/app.js", 'tzWatchWorld("fairway"'],
     ["WebXR/arcade/js/app.js", "tzArcadeRound(aa.cabinet.id)"], ["WebXR/race/js/app.js", "tzRaceFinish(race.track.id)"],
     ["WebXR/summit/js/app.js", 'tzWatchWorld("summit"'], ["WebXR/redwood/js/app.js", 'tzWatchWorld("redwood"'],
+    ["WebXR/summit/js/app.js", "tzLessonAnswered(l.id)"], ["WebXR/redwood/js/app.js", "tzLessonAnswered(fl.id)"],
   ];
   for (const [f, needle] of wires) assert(rd(f).includes(needle), `${f} never calls ${needle}`);
   for (const f of ["smartcity/dist/smartcity-x.html", "trades/dist/trade-skills-simulator.html", "bayworld/dist/bayworld.html", "underwater/dist/underwater.html",
