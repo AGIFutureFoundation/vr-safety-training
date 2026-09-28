@@ -119,7 +119,9 @@
     <button id="tab-live" role="tab" aria-selected="true" aria-controls="view-live">Live class</button>
     <button id="tab-roster" role="tab" aria-selected="false" aria-controls="view-roster">Roster</button>
     <button id="tab-log" role="tab" aria-selected="false" aria-controls="view-log">Session log</button>
+    <button id="tab-cohort" role="tab" aria-selected="false" aria-controls="view-cohort">Cohorts</button>
   </div>
+  <p class="fine" id="en-deployment" hidden></p>
 
   <section id="view-live" role="tabpanel" aria-labelledby="tab-live">
     <section class="panel">
@@ -247,6 +249,13 @@
         </table>
       </div>
     </section>
+  </section>
+
+  <section id="view-cohort" role="tabpanel" aria-labelledby="tab-cohort" hidden>
+    <section class="panel">
+      <p class="fine">The organisation layer (<a href="../../docs/enterprise.md">docs/enterprise.md</a>): organisations, cohorts joined by invite code, a progress grid per learner per station from each learner's own shared snapshot, a needs-attention list, CSV and xAPI per cohort, a cohort file to carry to another device, a printable certificate per learner (prototype — not a credential), and this device's audit log of coordinator actions. Everything here is kept with the signed-in profile on this device; nothing about a person leaves it without their opt-in. <a href="../privacy.html">What is stored where</a>.</p>
+    </section>
+    <div id="en-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <a href="../../docs/instructor-console.md">docs/instructor-console.md</a>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../portal/index.html">Back to the network portal</a>.</p>

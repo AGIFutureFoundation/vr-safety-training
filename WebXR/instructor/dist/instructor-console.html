@@ -121,7 +121,9 @@
     <button id="tab-live" role="tab" aria-selected="true" aria-controls="view-live">Live class</button>
     <button id="tab-roster" role="tab" aria-selected="false" aria-controls="view-roster">Roster</button>
     <button id="tab-log" role="tab" aria-selected="false" aria-controls="view-log">Session log</button>
+    <button id="tab-cohort" role="tab" aria-selected="false" aria-controls="view-cohort">Cohorts</button>
   </div>
+  <p class="fine" id="en-deployment" hidden></p>
 
   <section id="view-live" role="tabpanel" aria-labelledby="tab-live">
     <section class="panel">
@@ -249,6 +251,13 @@
         </table>
       </div>
     </section>
+  </section>
+
+  <section id="view-cohort" role="tabpanel" aria-labelledby="tab-cohort" hidden>
+    <section class="panel">
+      <p class="fine">The organisation layer (<code>docs/enterprise.md</code>): organisations, cohorts joined by invite code, a progress grid per learner per station from each learner's own shared snapshot, a needs-attention list, CSV and xAPI per cohort, a cohort file to carry to another device, a printable certificate per learner (prototype — not a credential), and this device's audit log of coordinator actions. Everything here is kept with the signed-in profile on this device; nothing about a person leaves it without their opt-in. <a href="../privacy.html">What is stored where</a>.</p>
+    </section>
+    <div id="en-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <code>docs/instructor-console.md</code>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../../portal/index.html">Back to the network portal</a>.</p>
@@ -543,6 +552,8 @@ const GT_PROFILE_KEYS = [
   // The treasure ledger (shared/treasures.js, docs/treasures.md).
   "vr-treasures-v1",
   "redwood-career-v1",
+  // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
+  "vr-org-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -12305,6 +12316,897 @@ function ppExport({ records = ppRecords(), homePage = null } = {}) {
 }
 
 
+/* ===== shared/org.js ===== */
+// The organisation layer (console ENTERPRISE, docs/enterprise.md): the
+// platform trains individuals; an enterprise trains cohorts.
+//
+// One local-first store, `vr-org-v1`, read and written through profiles.js's
+// gtStorage() so it is private to the signed-in profile (or to "This device",
+// or to the demo tab) exactly like the records and the passport. It holds:
+//
+//   organisations  name, a wordmark-free colour, the programmes it runs
+//   cohorts        name, programme, edition, start date, seats, invite code
+//   members        a display name the person typed, a role (learner,
+//                  instructor, coordinator), the cohort joined by invite code,
+//                  and a progress-sharing consent that is OFF until the person
+//                  turns it on. Only with that consent does a data-minimised
+//                  progress snapshot (per station: best stars, unsafe actions,
+//                  interruptions handled, attempts, last date — no free text,
+//                  no identity) sit on the member, and only that snapshot is
+//                  ever exported with a cohort.
+//   audit          a per-device log of coordinator actions (exports, imports,
+//                  role changes, cohort creation), shown in the console.
+//
+// Privacy is the hard rule: this module makes no network request, never reads
+// the sign-in session's raw id, and the member id is a random local handle —
+// never an e-mail address, wallet address or provider subject. Moving a cohort
+// between devices is an explicit export the coordinator downloads and imports.
+//
+// The bundler concatenates every module into one scope and erases import
+// aliases, so every top-level name here starts with `en`/`EN_`.
+
+
+
+
+const EN_KEY = "vr-org-v1";
+const EN_SCHEMA_VERSION = 1;
+const EN_ROLES = ["learner", "instructor", "coordinator"];
+/** The invite-code alphabet: no 0/O, 1/I/L so a code read aloud survives. */
+const EN_CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const EN_MAX_AUDIT = 500;
+/** Platform defaults for "needs attention", named as defaults and never as a rule. */
+const EN_ATTENTION = { stuckAttempts: 3, inactiveDays: 14 };
+
+// ------------------------------------------------------------------ store
+
+function enStore() { try { return gtStorage(); } catch (_) { return null; } }
+
+function enText(v, max = 80) {
+  return String(v ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").trim().slice(0, max);
+}
+
+function enId(prefix) {
+  const bytes = new Uint8Array(6);
+  try { globalThis.crypto.getRandomValues(bytes); } catch (_) { for (let i = 0; i < 6; i += 1) bytes[i] = Math.floor(Math.random() * 256); }
+  return `${prefix}-${[...bytes].map((b) => b.toString(16).padStart(2, "0")).join("")}`;
+}
+
+/** An empty store. */
+function enEmpty() { return { v: EN_SCHEMA_VERSION, orgs: [], cohorts: [], members: [], audit: [] }; }
+
+/** The store as it stands (never throws; a damaged value reads as empty). */
+function enLoad() {
+  try {
+    const raw = JSON.parse(enStore()?.getItem(EN_KEY) || "null");
+    if (!raw || raw.v !== EN_SCHEMA_VERSION) return enEmpty();
+    return {
+      v: EN_SCHEMA_VERSION,
+      orgs: Array.isArray(raw.orgs) ? raw.orgs : [],
+      cohorts: Array.isArray(raw.cohorts) ? raw.cohorts : [],
+      members: Array.isArray(raw.members) ? raw.members : [],
+      audit: Array.isArray(raw.audit) ? raw.audit : [],
+    };
+  } catch (_) { return enEmpty(); }
+}
+
+function enSave(state) {
+  try { enStore()?.setItem(EN_KEY, JSON.stringify(state)); return true; } catch (_) { return false; }
+}
+
+function enEmit(kind) {
+  try { globalThis.dispatchEvent?.(new CustomEvent("en:change", { detail: { kind } })); } catch (_) { /* headless */ }
+}
+
+/** Forget every organisation, cohort, member and audit line of this profile. */
+function enClear() { try { enStore()?.removeItem(EN_KEY); } catch (_) { /* ignore */ } enEmit("clear"); }
+
+// ------------------------------------------------------------------ audit
+
+/** Append one coordinator action to this device's audit log. */
+function enAudit(action, detail = "", state = null) {
+  const own = !state;
+  const s = state ?? enLoad();
+  s.audit.push({ at: new Date().toISOString(), action: enText(action, 40), detail: enText(detail, 200) });
+  if (s.audit.length > EN_MAX_AUDIT) s.audit.splice(0, s.audit.length - EN_MAX_AUDIT);
+  if (own) { enSave(s); enEmit("audit"); }
+  return s.audit[s.audit.length - 1];
+}
+
+/** The audit log, newest first. */
+function enAuditList() { return enLoad().audit.slice().reverse(); }
+
+// ------------------------------------------------------------ organisation
+
+/** A colour as `#rrggbb`, or the platform's neutral slate. */
+function enColour(v) {
+  const s = String(v ?? "").trim();
+  return /^#[0-9a-fA-F]{6}$/.test(s) ? s.toLowerCase() : "#4fd1ff";
+}
+
+/** Create an organisation. `programmes` are filtered to the passport's catalogue. */
+function enCreateOrg({ name, colour = null, programmes = [] } = {}) {
+  const n = enText(name);
+  if (!n) return null;
+  const s = enLoad();
+  const org = {
+    id: enId("org"), name: n, colour: enColour(colour),
+    programmes: [...new Set((programmes ?? []).filter((p) => PP_PROGRAMMES[p]))],
+    createdAt: new Date().toISOString(),
+  };
+  s.orgs.push(org);
+  enAudit("org-create", org.name, s);
+  enSave(s); enEmit("org");
+  return org;
+}
+
+function enOrgs() { return enLoad().orgs.slice(); }
+function enOrg(id) { return enLoad().orgs.find((o) => o.id === id) ?? null; }
+
+// ----------------------------------------------------------------- cohorts
+
+/** A fresh invite code, `XXXX-XXXX`, unique within this store. */
+function enInviteCode(state = enLoad()) {
+  const used = new Set(state.cohorts.map((c) => c.code));
+  for (let tries = 0; tries < 50; tries += 1) {
+    const bytes = new Uint8Array(8);
+    try { globalThis.crypto.getRandomValues(bytes); } catch (_) { for (let i = 0; i < 8; i += 1) bytes[i] = Math.floor(Math.random() * 256); }
+    const chars = [...bytes].map((b) => EN_CODE_CHARS[b % EN_CODE_CHARS.length]).join("");
+    const code = `${chars.slice(0, 4)}-${chars.slice(4)}`;
+    if (!used.has(code)) return code;
+  }
+  return null;
+}
+
+/** Normalise what a learner typed: upper-case, the one hyphen, no spaces. */
+function enNormaliseCode(v) {
+  const s = String(v ?? "").toUpperCase().replace(/[^A-Z2-9]/g, "");
+  return s.length === 8 ? `${s.slice(0, 4)}-${s.slice(4)}` : null;
+}
+
+/** A date as `YYYY-MM-DD`, or null. */
+function enDate(v) {
+  const s = String(v ?? "").trim().slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(new Date(s).getTime()) ? s : null;
+}
+
+/** Create a cohort in an organisation for one programme edition. */
+function enCreateCohort({ orgId, name, programme, edition = "", startDate = null, seats = 20 } = {}) {
+  const s = enLoad();
+  const org = s.orgs.find((o) => o.id === orgId);
+  const n = enText(name);
+  if (!org || !n || !PP_PROGRAMMES[programme]) return null;
+  const cohort = {
+    id: enId("cohort"), orgId: org.id, name: n, programme, edition: enText(edition, 40),
+    startDate: enDate(startDate) ?? new Date().toISOString().slice(0, 10),
+    seats: Math.min(1000, Math.max(1, Number(seats) | 0 || 20)),
+    code: enInviteCode(s), createdAt: new Date().toISOString(),
+  };
+  s.cohorts.push(cohort);
+  enAudit("cohort-create", `${cohort.name} (${cohort.programme}) code ${cohort.code}`, s);
+  enSave(s); enEmit("cohort");
+  return cohort;
+}
+
+function enCohorts(orgId = null) { return enLoad().cohorts.filter((c) => !orgId || c.orgId === orgId); }
+function enCohort(id) { return enLoad().cohorts.find((c) => c.id === id) ?? null; }
+function enMembers(cohortId) { return enLoad().members.filter((m) => m.cohortId === cohortId); }
+
+// ----------------------------------------------------------------- members
+
+/**
+ * Join a cohort by invite code. `local: true` marks the member as the person
+ * training on THIS device, whose snapshot can be refreshed from the records
+ * here (only with consent). Returns `{ ok, member, cohort, reason }`.
+ */
+function enJoin(code, { name, role = "learner", local = false, consent = false } = {}) {
+  const c = enNormaliseCode(code);
+  if (!c) return { ok: false, reason: "That is not an invite code (eight letters and digits)." };
+  const s = enLoad();
+  const cohort = s.cohorts.find((k) => k.code === c);
+  if (!cohort) return { ok: false, reason: "No cohort on this device carries that invite code." };
+  const n = enText(name, 40);
+  if (!n) return { ok: false, reason: "A display name is needed — initials are fine." };
+  const taken = s.members.filter((m) => m.cohortId === cohort.id && m.role === "learner").length;
+  if (role === "learner" && taken >= cohort.seats) return { ok: false, reason: "This cohort has no seat left." };
+  const member = {
+    id: enId("m"), cohortId: cohort.id, name: n, role: EN_ROLES.includes(role) ? role : "learner",
+    joinedAt: new Date().toISOString(), local: !!local, consent: { progress: !!consent }, progress: null,
+  };
+  s.members.push(member);
+  enSave(s); enEmit("member");
+  return { ok: true, member, cohort };
+}
+
+/** Change a member's role (a coordinator action, audited). */
+function enSetRole(memberId, role) {
+  if (!EN_ROLES.includes(role)) return false;
+  const s = enLoad();
+  const m = s.members.find((x) => x.id === memberId);
+  if (!m || m.role === role) return false;
+  const before = m.role; m.role = role;
+  enAudit("role-change", `${m.name}: ${before} → ${role}`, s);
+  enSave(s); enEmit("member");
+  return true;
+}
+
+/** Turn progress sharing on or off for a member; off also drops the snapshot. */
+function enSetConsent(memberId, on) {
+  const s = enLoad();
+  const m = s.members.find((x) => x.id === memberId);
+  if (!m) return false;
+  m.consent = { progress: !!on, at: new Date().toISOString() };
+  if (!on) m.progress = null;
+  enSave(s); enEmit("member");
+  return true;
+}
+
+/** Remove a member (audited). */
+function enRemoveMember(memberId) {
+  const s = enLoad();
+  const i = s.members.findIndex((x) => x.id === memberId);
+  if (i < 0) return false;
+  enAudit("member-remove", s.members[i].name, s);
+  s.members.splice(i, 1);
+  enSave(s); enEmit("member");
+  return true;
+}
+
+// ---------------------------------------------------------------- progress
+
+/**
+ * The data-minimised snapshot of a record list for one programme: per
+ * station, attempts, best stars, unsafe actions on the best run, interruptions
+ * handled (answered) and missed, a pass flag and the last attempt's date.
+ * Nothing else from the record — no crew tag, no id, no debrief text.
+ */
+function enSnapshot(records, programmeId, at = new Date().toISOString()) {
+  const prog = PP_PROGRAMMES[programmeId];
+  if (!prog) return null;
+  const ids = new Set(prog.stations);
+  const by = new Map();
+  for (const r of records ?? []) {
+    if (!ids.has(r?.simId)) continue;
+    const cur = by.get(r.simId) ?? { simId: r.simId, attempts: 0, stars: 0, unsafe: 0, handled: 0, missed: 0, passed: false, lastAt: null };
+    cur.attempts += 1;
+    const stars = r.stars | 0;
+    if (stars > cur.stars || (stars === cur.stars && (r.hazardHits | 0) < cur.unsafe)) { cur.stars = stars; cur.unsafe = r.hazardHits | 0; }
+    cur.handled += r.interrupts?.answered | 0;
+    cur.missed += (r.interrupts?.missed | 0) + (r.interrupts?.wrong | 0);
+    cur.passed = cur.passed || !!r.passed;
+    if (!cur.lastAt || String(r.at) > cur.lastAt) cur.lastAt = String(r.at ?? "");
+    by.set(r.simId, cur);
+  }
+  return { at, programme: programmeId, stations: [...by.values()] };
+}
+
+/**
+ * Refresh the snapshot of every local member who consented, from the records
+ * on this device (records.js). Returns how many were refreshed.
+ */
+function enRefreshLocal(records = null) {
+  const s = enLoad();
+  let n = 0;
+  for (const m of s.members) {
+    if (!m.local || !m.consent?.progress) continue;
+    const cohort = s.cohorts.find((c) => c.id === m.cohortId);
+    if (!cohort) continue;
+    m.progress = enSnapshot(records ?? TrainingRecords.list(), cohort.programme);
+    n += 1;
+  }
+  if (n) enSave(s);
+  return n;
+}
+
+/**
+ * The cohort view's model: the programme ladder as a grid — one row per
+ * learner, one column per station — with `{ stars, unsafe, handled, missed,
+ * attempts, passed }` in each cell (null when no attempt, or when the learner
+ * has not consented to share), plus per-learner totals.
+ */
+function enCohortProgress(cohortId) {
+  const s = enLoad();
+  const cohort = s.cohorts.find((c) => c.id === cohortId);
+  if (!cohort) return null;
+  const prog = PP_PROGRAMMES[cohort.programme];
+  const stations = prog?.stations ?? [];
+  const learners = s.members.filter((m) => m.cohortId === cohort.id && m.role === "learner");
+  const rows = learners.map((m) => {
+    const by = new Map((m.progress?.stations ?? []).map((st) => [st.simId, st]));
+    const cells = stations.map((id) => {
+      const st = by.get(id);
+      return st ? { stars: st.stars, unsafe: st.unsafe, handled: st.handled, missed: st.missed, attempts: st.attempts, passed: st.passed } : null;
+    });
+    const passed = cells.filter((c) => c?.passed).length;
+    const stars = cells.reduce((a, c) => a + (c?.stars ?? 0), 0);
+    const lastAt = (m.progress?.stations ?? []).map((st) => st.lastAt).filter(Boolean).sort().pop() ?? null;
+    return { memberId: m.id, name: m.name, shared: !!m.consent?.progress, cells, passed, total: stations.length, stars, lastAt };
+  });
+  return { cohort, programme: { id: cohort.programme, name: prog?.name ?? cohort.programme, stations }, rows };
+}
+
+/**
+ * Learners who need attention, with the platform-default thresholds named:
+ * stuck (≥ `stuckAttempts` attempts at a station without a pass), inactive
+ * (no attempt in `inactiveDays`, counted from the cohort's start date when
+ * there is none), and not sharing (no consent, so nothing can be seen).
+ */
+function enNeedsAttention(cohortId, { now = Date.now(), stuckAttempts = EN_ATTENTION.stuckAttempts, inactiveDays = EN_ATTENTION.inactiveDays } = {}) {
+  const view = enCohortProgress(cohortId);
+  if (!view) return [];
+  const out = [];
+  for (const row of view.rows) {
+    if (!row.shared) { out.push({ memberId: row.memberId, name: row.name, kind: "not-sharing", note: "has not turned on progress sharing, so nothing can be seen here" }); continue; }
+    row.cells.forEach((c, i) => {
+      if (c && !c.passed && c.attempts >= stuckAttempts) out.push({ memberId: row.memberId, name: row.name, kind: "stuck", station: view.programme.stations[i], note: `${c.attempts} attempts at ${view.programme.stations[i]} without a pass` });
+    });
+    const since = row.lastAt ? new Date(row.lastAt).getTime() : new Date(view.cohort.startDate).getTime();
+    const days = Math.floor((now - since) / 86400000);
+    if (row.passed < row.total && Number.isFinite(days) && days >= inactiveDays) out.push({ memberId: row.memberId, name: row.name, kind: "inactive", note: row.lastAt ? `no attempt in ${days} days` : `no attempt since the cohort started ${days} days ago` });
+  }
+  return out;
+}
+
+// ----------------------------------------------------------------- exports
+
+function enCsvCell(v) {
+  if (v == null) return "";
+  const s = String(v);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+const EN_CSV_COLUMNS = ["cohort", "programme", "learner", "station", "attempts", "bestStars", "unsafeActions", "interruptsHandled", "interruptsMissed", "passed", "lastAt"];
+
+/** One RFC 4180 row per learner per attempted station; learners who did not share contribute nothing. */
+function enCohortCSV(cohortId) {
+  const view = enCohortProgress(cohortId);
+  if (!view) return "";
+  const lines = [EN_CSV_COLUMNS.join(",")];
+  for (const row of view.rows) {
+    if (!row.shared) continue;
+    row.cells.forEach((c, i) => {
+      if (!c) return;
+      const st = view.programme.stations[i];
+      lines.push([view.cohort.name, view.programme.id, row.name, st, c.attempts, c.stars, c.unsafe, c.handled, c.missed, c.passed, row.lastAt ?? ""].map(enCsvCell).join(","));
+    });
+  }
+  return lines.join("\r\n") + "\r\n";
+}
+
+/**
+ * xAPI 1.0.3 statements per learner per attempted station (the best run), in
+ * the same verb, activity and extension vocabulary records.js's toXAPI uses.
+ * The actor account is the local member handle under the cohort's activity
+ * id — never an e-mail address or wallet address.
+ */
+function enCohortXAPI(cohortId, { homePage = "https://smartciti.example" } = {}) {
+  const view = enCohortProgress(cohortId);
+  if (!view) return { statements: [] };
+  const ext = (k) => `${homePage}/xapi/ext/${k}`;
+  const statements = [];
+  for (const row of view.rows) {
+    if (!row.shared) continue;
+    row.cells.forEach((c, i) => {
+      if (!c) return;
+      const st = view.programme.stations[i];
+      const m = enLoad().members.find((x) => x.id === row.memberId);
+      statements.push({
+        id: `${view.cohort.id}:${row.memberId}:${st}`,
+        timestamp: (m?.progress?.stations ?? []).find((x) => x.simId === st)?.lastAt || new Date().toISOString(),
+        actor: { objectType: "Agent", name: row.name, account: { homePage: `${homePage}/cohorts/${view.cohort.id}`, name: row.memberId } },
+        verb: { id: c.passed ? "http://adlnet.gov/expapi/verbs/passed" : "http://adlnet.gov/expapi/verbs/failed", display: { "en-US": c.passed ? "passed" : "failed" } },
+        object: { objectType: "Activity", id: `${homePage}/smartcity/${st}`, definition: { name: { "en-US": st }, type: "http://adlnet.gov/expapi/activities/simulation" } },
+        result: { success: !!c.passed, completion: true, extensions: { [ext("stars")]: c.stars, [ext("unsafe-actions")]: c.unsafe, [ext("interrupts-caught")]: c.handled, [ext("interrupts-missed")]: c.missed, [ext("attempts")]: c.attempts } },
+        context: {
+          platform: "SmartCiti.X ~Holodeck · cohort view",
+          contextActivities: { grouping: [{ objectType: "Activity", id: `${homePage}/programmes/${view.programme.id}`, definition: { name: { "en-US": view.programme.name } } }] },
+          extensions: { [ext("cohort")]: view.cohort.name, [ext("programme")]: view.programme.id },
+        },
+      });
+    });
+  }
+  return { statements };
+}
+
+// ----------------------------------------------------- move between devices
+
+/**
+ * A cohort as one JSON document a coordinator can carry to another device:
+ * the organisation, the cohort and its members — a member's snapshot only
+ * when they consented. Audited. Never the audit log itself, never the
+ * sign-in session.
+ */
+function enExportCohort(cohortId) {
+  const s = enLoad();
+  const cohort = s.cohorts.find((c) => c.id === cohortId);
+  if (!cohort) return null;
+  const org = s.orgs.find((o) => o.id === cohort.orgId) ?? null;
+  const members = s.members.filter((m) => m.cohortId === cohort.id).map((m) => ({
+    id: m.id, name: m.name, role: m.role, joinedAt: m.joinedAt, consent: { progress: !!m.consent?.progress },
+    progress: m.consent?.progress ? m.progress ?? null : null,
+  }));
+  enAudit("cohort-export", `${cohort.name}: ${members.length} members, ${members.filter((m) => m.progress).length} with shared progress`, s);
+  enSave(s); enEmit("audit");
+  return { v: EN_SCHEMA_VERSION, kind: "cohort", exportedAt: new Date().toISOString(), org, cohort, members };
+}
+
+/** Is this a cohort document this module wrote (or one shaped like it)? */
+function enValidateCohortDoc(doc) {
+  const errors = [];
+  if (!doc || typeof doc !== "object") return ["not an object"];
+  if (doc.v !== EN_SCHEMA_VERSION) errors.push(`v must be ${EN_SCHEMA_VERSION}`);
+  if (doc.kind !== "cohort") errors.push('kind must be "cohort"');
+  if (!doc.org?.id || !enText(doc.org?.name)) errors.push("org needs an id and a name");
+  const c = doc.cohort;
+  if (!c?.id || !enText(c?.name) || !PP_PROGRAMMES[c?.programme] || !enNormaliseCode(c?.code)) errors.push("cohort needs id, name, a known programme and an invite code");
+  if (!Array.isArray(doc.members)) errors.push("members must be a list");
+  else doc.members.forEach((m, i) => { if (!m?.id || !enText(m?.name) || !EN_ROLES.includes(m?.role)) errors.push(`member ${i} needs id, name and a role`); });
+  return errors;
+}
+
+/**
+ * Import a cohort document: organisations, cohorts and members merge by id
+ * (a member already here keeps its own consent and snapshot unless the
+ * imported one is newer). Returns `{ ok, errors, added: { orgs, cohorts, members } }`.
+ */
+function enImportCohort(doc) {
+  const errors = enValidateCohortDoc(doc);
+  if (errors.length) return { ok: false, errors, added: { orgs: 0, cohorts: 0, members: 0 } };
+  const s = enLoad();
+  const added = { orgs: 0, cohorts: 0, members: 0 };
+  if (!s.orgs.some((o) => o.id === doc.org.id)) {
+    s.orgs.push({ id: doc.org.id, name: enText(doc.org.name), colour: enColour(doc.org.colour), programmes: (doc.org.programmes ?? []).filter((p) => PP_PROGRAMMES[p]), createdAt: doc.org.createdAt ?? new Date().toISOString() });
+    added.orgs += 1;
+  }
+  const c = doc.cohort;
+  if (!s.cohorts.some((k) => k.id === c.id)) {
+    s.cohorts.push({ id: c.id, orgId: doc.org.id, name: enText(c.name), programme: c.programme, edition: enText(c.edition, 40), startDate: enDate(c.startDate) ?? new Date().toISOString().slice(0, 10), seats: Math.min(1000, Math.max(1, Number(c.seats) | 0 || 20)), code: enNormaliseCode(c.code), createdAt: c.createdAt ?? new Date().toISOString() });
+    added.cohorts += 1;
+  }
+  for (const m of doc.members) {
+    const have = s.members.find((x) => x.id === m.id);
+    const snap = m.consent?.progress && m.progress && Array.isArray(m.progress.stations) ? { at: m.progress.at ?? new Date().toISOString(), programme: c.programme, stations: m.progress.stations.map((st) => ({ simId: String(st.simId), attempts: st.attempts | 0, stars: st.stars | 0, unsafe: st.unsafe | 0, handled: st.handled | 0, missed: st.missed | 0, passed: !!st.passed, lastAt: st.lastAt ? String(st.lastAt) : null })) } : null;
+    if (have) {
+      if (snap && (!have.progress || String(snap.at) > String(have.progress.at))) { have.progress = snap; have.consent = { progress: true, at: snap.at }; }
+      continue;
+    }
+    s.members.push({ id: m.id, cohortId: c.id, name: enText(m.name, 40), role: m.role, joinedAt: m.joinedAt ?? new Date().toISOString(), local: false, consent: { progress: !!m.consent?.progress }, progress: snap });
+    added.members += 1;
+  }
+  enAudit("cohort-import", `${enText(c.name)}: +${added.orgs} org, +${added.cohorts} cohort, +${added.members} members`, s);
+  enSave(s); enEmit("import");
+  return { ok: true, errors: [], added };
+}
+
+// ------------------------------------------------------------- certificate
+
+function enEsc(s) { return String(s ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])); }
+
+/**
+ * A printable completion certificate as a procedural SVG (A4 landscape in
+ * millimetres): the organisation's name and the programme's, the learner's
+ * display name, the cohort and edition, stations passed of total, stars, the
+ * date — and "PROTOTYPE — NOT A CREDENTIAL" across it. No logo, no image, no
+ * script. Returns null unless the learner has passed every station.
+ */
+function enCertificateSVG({ org, cohort, programme, learner, passed, total, stars, date = new Date().toISOString().slice(0, 10), allowPartial = false } = {}) {
+  if (!org || !programme || !learner) return null;
+  if (!allowPartial && (!(total > 0) || passed < total)) return null;
+  const colour = enColour(org.colour);
+  const W = 297, H = 210;
+  const line = (y) => `<line x1="20" y1="${y}" x2="${W - 20}" y2="${y}" stroke="${colour}" stroke-width="0.6"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}" role="img" aria-label="Completion certificate — prototype, not a credential">
+<rect width="${W}" height="${H}" fill="#fbfbf7"/>
+<rect x="8" y="8" width="${W - 16}" height="${H - 16}" fill="none" stroke="${colour}" stroke-width="1.4"/>
+<rect x="11" y="11" width="${W - 22}" height="${H - 22}" fill="none" stroke="#1a2230" stroke-width="0.4"/>
+<text x="${W / 2}" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="7" letter-spacing="1.2" fill="#1a2230">${enEsc(org.name.toUpperCase())}</text>
+${line(36)}
+<text x="${W / 2}" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#1a2230">Certificate of Completion</text>
+<text x="${W / 2}" y="72" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="5.2" fill="#3a4656">This records that</text>
+<text x="${W / 2}" y="90" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="${colour}">${enEsc(learner)}</text>
+<text x="${W / 2}" y="103" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="5.2" fill="#3a4656">completed every station of the programme</text>
+<text x="${W / 2}" y="116" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#1a2230">${enEsc(programme.name ?? programme.id)}</text>
+<text x="${W / 2}" y="128" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="4.6" fill="#3a4656">${enEsc(cohort?.name ?? "")}${cohort?.edition ? ` · ${enEsc(cohort.edition)}` : ""} · ${passed} of ${total} stations passed · ${stars} stars in total</text>
+${line(140)}
+<text x="30" y="152" font-family="Arial, Helvetica, sans-serif" font-size="4.2" fill="#3a4656">Date: ${enEsc(date)}</text>
+<text x="${W - 30}" y="152" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="4.2" fill="#3a4656">SmartCiti.X ~Holodeck · procedure engine record</text>
+<text x="30" y="160" font-family="Arial, Helvetica, sans-serif" font-size="3.6" fill="#5a6676">A pass is two or more stars with no unsafe action on the station's ordered procedure. This page evidences simulator practice; it is not a licence, a card or a certification.</text>
+<g transform="translate(${W / 2} ${H / 2}) rotate(-18)" opacity="0.16"><text text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="15" fill="#b0262e">PROTOTYPE — NOT A CREDENTIAL</text></g>
+<text x="${W / 2}" y="${H - 16}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="4.4" fill="#b0262e">PROTOTYPE — NOT A CREDENTIAL</text>
+</svg>`;
+}
+
+/** Whole seconds as an xAPI duration (re-exported for the console). */
+const enDuration = isoDuration;
+
+// ------------------------------------------------------------- sample data
+
+/**
+ * A sample organisation with one cohort of four learners and synthetic
+ * snapshots, clearly named as a sample, for the console's empty state, the
+ * capture and the checker. Idempotent: a second call returns the existing one.
+ */
+function enLoadSample({ programme = "fall-protection" } = {}) {
+  const have = enLoad().cohorts.find((c) => c.name === "Sample cohort");
+  if (have) return { org: enOrg(have.orgId), cohort: have, fresh: false };
+  const org = enCreateOrg({ name: "Sample Organisation", colour: "#4fd1ff", programmes: [programme] });
+  const cohort = enCreateCohort({ orgId: org.id, name: "Sample cohort", programme, edition: "2026 spring", startDate: "2026-03-02", seats: 12 });
+  const stations = PP_PROGRAMMES[programme].stations;
+  const people = [
+    { name: "A. Learner", done: stations.length, stuck: null, daysAgo: 1 },
+    { name: "B. Learner", done: Math.ceil(stations.length / 2), stuck: stations[Math.ceil(stations.length / 2)], daysAgo: 3 },
+    { name: "C. Learner", done: 1, stuck: null, daysAgo: 30 },
+    { name: "D. Learner", done: 0, stuck: null, daysAgo: null, consent: false },
+  ];
+  for (const p of people) {
+    const res = enJoin(cohort.code, { name: p.name, consent: p.consent !== false });
+    if (!res.ok) continue;
+    const st = [];
+    stations.slice(0, p.done).forEach((id, i) => st.push({ simId: id, attempts: 1 + (i % 2), stars: 3 - (i % 2), unsafe: 0, handled: 1 + (i % 2), missed: 0, passed: true, lastAt: new Date(Date.now() - (p.daysAgo + i) * 86400000).toISOString() }));
+    if (p.stuck) st.push({ simId: p.stuck, attempts: 4, stars: 1, unsafe: 1, handled: 1, missed: 2, passed: false, lastAt: new Date(Date.now() - p.daysAgo * 86400000).toISOString() });
+    const s2 = enLoad();
+    const m = s2.members.find((x) => x.id === res.member.id);
+    if (m && m.consent.progress) m.progress = { at: new Date().toISOString(), programme, stations: st };
+    enSave(s2);
+  }
+  enAudit("sample-load", `${org.name} / ${cohort.name}`);
+  return { org, cohort, fresh: true };
+}
+
+
+/* ===== instructor/js/cohort.js ===== */
+// The Cohorts view of the instructor console (console ENTERPRISE,
+// docs/enterprise.md): the organisation layer shared/org.js keeps, rendered
+// as plain text nodes. Nothing here sets markup from a string — a learner's
+// display name, an organisation's name and a coordinator's note are all
+// untrusted input by the time they reach this page (tools/check_console.mjs).
+//
+// What it shows: the organisation and its cohorts, an invite code per cohort
+// and the join form a learner on this device uses, the programme ladder as a
+// grid (one row per learner, one column per station: stars, unsafe actions,
+// interruptions handled), a "needs attention" list, exports (CSV, xAPI, the
+// cohort as JSON for another device) and the import that reads such a file,
+// a printable certificate per learner, and this device's audit log.
+//
+// Every top-level name starts with `en` (the bundler shares one scope).
+
+
+
+const enEl = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+const enState = { root: null, cohortId: null, enterprise: null, toast: null };
+
+function enSay(text) { try { enState.toast?.(text); } catch (_) { /* no toast */ } }
+
+function enDownload(name, text, type) {
+  if (typeof URL?.createObjectURL !== "function") return false;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  return true;
+}
+
+/** The programmes this deployment enables (docs/enterprise.md), else every one in the passport's catalogue. */
+function enEnabledProgrammes(enterprise = enState.enterprise) {
+  const all = Object.keys(PP_PROGRAMMES);
+  const list = enterprise?.programmes;
+  const on = Array.isArray(list) ? all.filter((id) => list.includes(id)) : all;
+  return on.length ? on : all;
+}
+
+function enButton(label, onClick, cls = "small") {
+  const b = enEl("button", cls, label);
+  b.type = "button";
+  b.addEventListener("click", onClick);
+  return b;
+}
+
+function enField(label, input) {
+  const wrap = enEl("label", "en-field");
+  wrap.append(enEl("span", "muted", label), input);
+  return wrap;
+}
+
+function enInput(type, placeholder, attrs = {}) {
+  const i = enEl("input");
+  i.type = type; i.placeholder = placeholder; i.autocomplete = "off";
+  i.setAttribute("aria-label", placeholder);
+  for (const [k, v] of Object.entries(attrs)) i.setAttribute(k, String(v));
+  return i;
+}
+
+function enSelect(options, value = null) {
+  const s = enEl("select");
+  for (const [v, label] of options) { const o = enEl("option", null, label); o.value = v; s.append(o); }
+  if (value != null) s.value = value;
+  return s;
+}
+
+// ------------------------------------------------------------ organisation
+
+function enOrgPanel(root) {
+  const panel = enEl("section", "panel");
+  panel.id = "en-org";
+  const orgs = enOrgs();
+  panel.append(enEl("h2", null, "Organisation"));
+  if (enState.enterprise?.organisation) panel.append(enEl("p", "fine", `This deployment is configured for ${enState.enterprise.organisation} (auth-config.json, enterprise block).`));
+  if (!orgs.length) {
+    panel.append(enEl("p", "fine", "No organisation on this device yet. Create one, or load the sample to see the view filled in."));
+  } else {
+    const ul = enEl("ul", "ints");
+    for (const o of orgs) {
+      const li = enEl("li", "int");
+      const head = enEl("p", "int-kind", o.name);
+      const dot = enEl("span", "en-dot"); dot.style.background = o.colour; dot.setAttribute("aria-hidden", "true");
+      head.prepend(dot);
+      li.append(head, enEl("p", null, `${enCohorts(o.id).length} cohort(s) · programmes: ${o.programmes.length ? o.programmes.map((p) => PP_PROGRAMMES[p]?.name ?? p).join(", ") : "any"}`));
+      ul.append(li);
+    }
+    panel.append(ul);
+  }
+  const name = enInput("text", enState.enterprise?.organisation ? "Organisation name" : "Organisation name (e.g. a hall, a school, a company)", { maxlength: 80 });
+  if (enState.enterprise?.organisation && !orgs.length) name.value = enState.enterprise.organisation;
+  const colour = enInput("color", "Organisation colour"); colour.value = "#4fd1ff";
+  const row = enEl("div", "row");
+  row.append(name, colour, enButton("Create organisation", () => {
+    const o = enCreateOrg({ name: name.value, colour: colour.value });
+    if (!o) { enSay("Give the organisation a name."); return; }
+    enSay(`Created ${o.name}.`); enRender(root);
+  }, "primary small"));
+  const tools = enEl("div", "row");
+  tools.append(enButton("Load sample cohort", () => { const r = enLoadSample(); enState.cohortId = r.cohort?.id ?? null; enSay(r.fresh ? "Sample organisation and cohort loaded." : "The sample is already here."); enRender(root); }),
+    enButton("Forget everything on this device", () => { if (typeof confirm === "function" && !confirm("Forget every organisation, cohort, member and audit line kept for this profile on this device?")) return; enClear(); enState.cohortId = null; enRender(root); }));
+  panel.append(row, tools);
+  return panel;
+}
+
+// ----------------------------------------------------------------- cohorts
+
+function enCohortPanel(root) {
+  const panel = enEl("section", "panel");
+  panel.id = "en-cohorts";
+  panel.append(enEl("h2", null, "Cohorts"));
+  const orgs = enOrgs();
+  const cohorts = enCohorts();
+  if (cohorts.length) {
+    const ul = enEl("ul", "ints");
+    for (const c of cohorts) {
+      const li = enEl("li", `int${c.id === enState.cohortId ? " en-sel" : ""}`);
+      const members = enMembers(c.id);
+      const learners = members.filter((m) => m.role === "learner").length;
+      li.append(enEl("p", "int-kind", `${c.name} · ${PP_PROGRAMMES[c.programme]?.name ?? c.programme}${c.edition ? ` · ${c.edition}` : ""}`));
+      li.append(enEl("p", null, `Starts ${c.startDate} · ${learners} of ${c.seats} seats · invite code `), enEl("code", "en-code", c.code));
+      li.append(enButton(c.id === enState.cohortId ? "Shown below" : "Show this cohort", () => { enState.cohortId = c.id; enRender(root); }));
+      ul.append(li);
+    }
+    panel.append(ul);
+  } else panel.append(enEl("p", "fine", "No cohort yet."));
+  if (orgs.length) {
+    const org = enSelect(orgs.map((o) => [o.id, o.name]));
+    const name = enInput("text", "Cohort name", { maxlength: 80 });
+    const programme = enSelect(enEnabledProgrammes().map((id) => [id, PP_PROGRAMMES[id].name]));
+    const edition = enInput("text", "Edition (e.g. 2026 spring)", { maxlength: 40 });
+    const start = enInput("date", "Start date");
+    const seats = enInput("number", "Seats", { min: 1, max: 1000 }); seats.value = "20";
+    const row = enEl("div", "row");
+    row.append(enField("Organisation", org), enField("Name", name), enField("Programme", programme), enField("Edition", edition), enField("Start", start), enField("Seats", seats));
+    row.append(enButton("Create cohort", () => {
+      const c = enCreateCohort({ orgId: org.value, name: name.value, programme: programme.value, edition: edition.value, startDate: start.value, seats: seats.value });
+      if (!c) { enSay("A cohort needs a name and a programme."); return; }
+      enState.cohortId = c.id; enSay(`Created ${c.name}; invite code ${c.code}.`); enRender(root);
+    }, "primary small"));
+    panel.append(enEl("h3", null, "New cohort"), row);
+  }
+  // Joining, for the learner on this device.
+  const code = enInput("text", "Invite code", { maxlength: 9 });
+  const who = enInput("text", "Your display name (initials are fine)", { maxlength: 40 });
+  const role = enSelect(EN_ROLES.map((r) => [r, r]), "learner");
+  const consent = enEl("input"); consent.type = "checkbox"; consent.id = "en-consent";
+  const consentLabel = enEl("label", "muted"); consentLabel.setAttribute("for", "en-consent");
+  consentLabel.append(consent, " Share my progress in this programme with the cohort's coordinator, on this device (off until you tick it)");
+  const join = enEl("div", "row");
+  join.append(code, who, role, enButton("Join", () => {
+    const r = enJoin(code.value, { name: who.value, role: role.value, local: true, consent: consent.checked });
+    if (!r.ok) { enSay(r.reason); return; }
+    enState.cohortId = r.cohort.id; enSay(`${r.member.name} joined ${r.cohort.name} as ${r.member.role}.`); enRender(root);
+  }, "primary small"));
+  panel.append(enEl("h3", null, "Join a cohort on this device"), join, consentLabel);
+  return panel;
+}
+
+// ---------------------------------------------------------- the cohort view
+
+function enStars(n) { return "★".repeat(Math.max(0, Math.min(3, n | 0))) || "—"; }
+
+function enMembersTable(root, view) {
+  const wrap = enEl("div", "en-scroll");
+  const table = enEl("table");
+  table.id = "en-members";
+  const thead = enEl("thead"); const hr = enEl("tr");
+  for (const h of ["Member", "Role", "Joined", "Sharing", ""]) hr.append(enEl("th", null, h));
+  thead.append(hr); table.append(thead);
+  const tbody = enEl("tbody");
+  for (const m of enMembers(view.cohort.id)) {
+    const tr = enEl("tr");
+    tr.append(enEl("td", null, `${m.name}${m.local ? " (this device)" : ""}`));
+    const role = enSelect(EN_ROLES.map((r) => [r, r]), m.role);
+    role.setAttribute("aria-label", `Role of ${m.name}`);
+    role.addEventListener("change", () => { if (enSetRole(m.id, role.value)) { enSay(`${m.name} is now ${role.value}.`); enRender(root); } });
+    const tdRole = enEl("td"); tdRole.append(role); tr.append(tdRole);
+    tr.append(enEl("td", null, String(m.joinedAt ?? "").slice(0, 10)));
+    const tdShare = enEl("td");
+    if (m.local) {
+      const share = enButton(m.consent?.progress ? "Sharing — stop" : "Not sharing — start", () => { enSetConsent(m.id, !m.consent?.progress); enRender(root); });
+      tdShare.append(share);
+    } else tdShare.textContent = m.consent?.progress ? "shared" : "not shared";
+    tr.append(tdShare);
+    const tdX = enEl("td"); tdX.append(enButton("Remove", () => { if (typeof confirm === "function" && !confirm(`Remove ${m.name} from ${view.cohort.name}?`)) return; enRemoveMember(m.id); enRender(root); }));
+    tr.append(tdX);
+    tbody.append(tr);
+  }
+  table.append(tbody); wrap.append(table);
+  return wrap;
+}
+
+function enGrid(view) {
+  const wrap = enEl("div", "en-scroll");
+  const table = enEl("table", "en-grid");
+  table.id = "en-grid";
+  const thead = enEl("thead"); const hr = enEl("tr");
+  hr.append(enEl("th", null, "Learner"));
+  for (const st of view.programme.stations) { const th = enEl("th", "en-station", st); th.title = st; hr.append(th); }
+  hr.append(enEl("th", null, "Passed"), enEl("th", null, "Stars"));
+  thead.append(hr); table.append(thead);
+  const tbody = enEl("tbody");
+  for (const row of view.rows) {
+    const tr = enEl("tr");
+    tr.append(enEl("td", null, row.name));
+    if (!row.shared) {
+      const td = enEl("td", "muted", "not sharing progress"); td.colSpan = view.programme.stations.length; tr.append(td);
+    } else {
+      for (const c of row.cells) {
+        const td = enEl("td", c ? (c.passed ? "en-pass" : c.attempts >= EN_ATTENTION.stuckAttempts ? "en-stuck" : "en-try") : "en-none");
+        if (c) {
+          td.append(enEl("div", "en-stars", enStars(c.stars)));
+          td.append(enEl("div", "en-cell", `${c.unsafe} unsafe · ${c.handled}/${c.handled + c.missed} interrupts · ${c.attempts} try`));
+          td.title = `${c.attempts} attempt(s), best ${c.stars} stars, ${c.unsafe} unsafe action(s), ${c.handled} interruption(s) handled, ${c.missed} missed`;
+        } else td.textContent = "·";
+        tr.append(td);
+      }
+    }
+    tr.append(enEl("td", null, `${row.passed}/${row.total}`), enEl("td", null, String(row.stars)));
+    tbody.append(tr);
+  }
+  if (!view.rows.length) { const tr = enEl("tr"); const td = enEl("td", "muted", "No learner has joined this cohort yet."); td.colSpan = view.programme.stations.length + 3; tr.append(td); tbody.append(tr); }
+  table.append(tbody); wrap.append(table);
+  return wrap;
+}
+
+function enAttention(view) {
+  const ul = enEl("ul", "ints");
+  ul.id = "en-attention";
+  const items = enNeedsAttention(view.cohort.id);
+  if (!items.length) ul.append(enEl("li", "muted", "Nobody needs attention by the platform defaults."));
+  for (const it of items) {
+    const li = enEl("li", `int en-${it.kind}`);
+    li.append(enEl("p", "int-kind", `${it.name} · ${it.kind.replace("-", " ")}`), enEl("p", null, it.note));
+    ul.append(li);
+  }
+  return ul;
+}
+
+/** Open a learner's certificate in a new tab (for printing) and download the SVG. */
+function enOpenCertificate(view, row) {
+  const org = enOrgs().find((o) => o.id === view.cohort.orgId);
+  const svg = enCertificateSVG({ org, cohort: view.cohort, programme: view.programme, learner: row.name, passed: row.passed, total: row.total, stars: row.stars });
+  if (!svg) { enSay(`${row.name} has passed ${row.passed} of ${row.total} stations — a certificate is for a completed programme.`); return null; }
+  const name = `certificate-${row.name.replace(/[^A-Za-z0-9]+/g, "-").toLowerCase()}-${view.programme.id}.svg`;
+  enDownload(name, svg, "image/svg+xml");
+  enSay(`Certificate for ${row.name} written as ${name} — open it and print.`);
+  return svg;
+}
+
+function enViewPanel(root) {
+  const panel = enEl("section", "panel");
+  panel.id = "en-view";
+  const view = enState.cohortId ? enCohortProgress(enState.cohortId) : null;
+  if (!view) { panel.append(enEl("h2", null, "Cohort view"), enEl("p", "fine", "Pick a cohort above to see its ladder.")); return panel; }
+  panel.append(enEl("h2", null, `${view.cohort.name} — ${view.programme.name}`));
+  panel.append(enEl("p", "fine", `${view.rows.length} learner(s) · ${view.programme.stations.length} stations · invite code ${view.cohort.code}. Progress here comes from each learner's own snapshot, shared with their consent; a learner who has not shared shows as "not sharing".`));
+  const tools = enEl("div", "row");
+  tools.append(
+    enButton("Export CSV", () => { enDownload(`cohort-${view.cohort.name.replace(/\W+/g, "-").toLowerCase()}.csv`, enCohortCSV(view.cohort.id), "text/csv"); enSay("CSV written."); enRender(root); }),
+    enButton("Export xAPI", () => { enDownload(`cohort-${view.cohort.name.replace(/\W+/g, "-").toLowerCase()}-xapi.json`, JSON.stringify(enCohortXAPI(view.cohort.id), null, 2), "application/json"); enSay("xAPI statements written."); enRender(root); }),
+    enButton("Export cohort (JSON, for another device)", () => { const doc = enExportCohort(view.cohort.id); if (doc) enDownload(`cohort-${view.cohort.name.replace(/\W+/g, "-").toLowerCase()}.json`, JSON.stringify(doc, null, 2), "application/json"); enSay("Cohort file written."); enRender(root); }),
+  );
+  const file = enInput("file", "Import a cohort file"); file.accept = "application/json,.json"; file.id = "en-import";
+  file.addEventListener("change", () => {
+    const f = file.files?.[0];
+    if (!f || typeof f.text !== "function") return;
+    f.text().then((t) => { let doc = null; try { doc = JSON.parse(t); } catch (_) { doc = null; }
+      const r = enImportCohort(doc);
+      enSay(r.ok ? `Imported: +${r.added.cohorts} cohort, +${r.added.members} members.` : `Not a cohort file: ${r.errors[0]}`);
+      enRender(root);
+    });
+  });
+  tools.append(enField("Import cohort JSON", file));
+  panel.append(tools);
+  panel.append(enEl("h3", null, "Members"), enMembersTable(root, view));
+  panel.append(enEl("h3", null, "Programme ladder"), enGrid(view));
+  panel.append(enEl("h3", null, `Needs attention (platform defaults: ${EN_ATTENTION.stuckAttempts}+ attempts without a pass, or ${EN_ATTENTION.inactiveDays}+ days inactive)`), enAttention(view));
+  const certs = enEl("div", "row"); certs.id = "en-certs";
+  for (const row of view.rows) {
+    const b = enButton(`Certificate: ${row.name}${row.passed < row.total ? ` (${row.passed}/${row.total})` : ""}`, () => enOpenCertificate(view, row));
+    if (row.passed < row.total) b.disabled = true;
+    certs.append(b);
+  }
+  panel.append(enEl("h3", null, "Completion certificates (prototype — not a credential)"), certs);
+  return panel;
+}
+
+function enAuditPanel() {
+  const panel = enEl("section", "panel");
+  panel.id = "en-audit";
+  panel.append(enEl("h2", null, "Audit log — coordinator actions on this device"));
+  panel.append(enEl("p", "fine", "Exports, imports, role changes and cohort creation, newest first. Kept with this profile on this device only; never sent anywhere."));
+  const list = enAuditList();
+  const table = enEl("table"); const tbody = enEl("tbody");
+  const thead = enEl("thead"); const hr = enEl("tr"); for (const h of ["Time", "Action", "Detail"]) hr.append(enEl("th", null, h)); thead.append(hr); table.append(thead);
+  for (const a of list.slice(0, 100)) { const tr = enEl("tr"); tr.append(enEl("td", null, String(a.at).replace("T", " ").slice(0, 19)), enEl("td", null, a.action), enEl("td", null, a.detail)); tbody.append(tr); }
+  if (!list.length) { const tr = enEl("tr"); const td = enEl("td", "muted", "Nothing yet."); td.colSpan = 3; tr.append(td); tbody.append(tr); }
+  table.append(tbody); panel.append(table);
+  return panel;
+}
+
+/** Rebuild the whole view from the store (plain text nodes only). */
+function enRender(root = enState.root) {
+  if (!root) return null;
+  enRefreshLocal();
+  root.replaceChildren();
+  root.append(enOrgPanel(root), enCohortPanel(root), enViewPanel(root), enAuditPanel());
+  return root;
+}
+
+const EN_CSS = `
+#view-cohort .en-field{display:inline-flex;flex-direction:column;gap:3px;font-size:12px}
+#view-cohort .en-field input,#view-cohort .en-field select{min-width:120px}
+#view-cohort input[type=color]{width:44px;min-height:40px;padding:2px;flex:0 0 auto}
+#view-cohort .en-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
+#view-cohort code.en-code{font:600 14px ui-monospace,Menlo,Consolas,monospace;color:var(--accent);letter-spacing:.08em}
+#view-cohort .int.en-sel{border-color:var(--accent)}
+#view-cohort .en-scroll{overflow:auto;max-width:100%}
+#view-cohort table.en-grid th.en-station{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+#view-cohort table.en-grid td{min-width:96px;font-size:11.5px;line-height:1.35}
+#view-cohort .en-stars{color:var(--warn);font-size:13px}
+#view-cohort td.en-pass{background:rgba(89,201,123,.14)}
+#view-cohort td.en-stuck{background:rgba(240,100,91,.18)}
+#view-cohort td.en-try{background:rgba(242,193,75,.12)}
+#view-cohort td.en-none{color:var(--muted);text-align:center}
+#view-cohort .int.en-stuck{border-left:3px solid var(--bad)}
+#view-cohort .int.en-inactive{border-left:3px solid var(--warn)}
+#view-cohort .int.en-not-sharing{border-left:3px solid var(--edge)}
+`;
+
+/**
+ * Mount the view into `root` (the console's #view-cohort). `enterprise` is the
+ * deployment's block (Auth.config.enterprise) once auth-config.json has been
+ * read; `toast` is the console's own status line.
+ */
+function enMountCohortView(root, { enterprise = null, toast = null } = {}) {
+  if (!root) return null;
+  enState.root = root; enState.enterprise = enterprise; enState.toast = toast;
+  if (!document.getElementById("en-style")) { const s = document.createElement("style"); s.id = "en-style"; s.textContent = EN_CSS; document.head.appendChild(s); }
+  if (!enState.cohortId) enState.cohortId = enLoad().cohorts[0]?.id ?? null;
+  try { addEventListener("gt:profile", () => enRender(root)); } catch (_) { /* headless */ }
+  return enRender(root);
+}
+
+/** Let the console hand over the enterprise block after the config loads. */
+function enSetEnterprise(enterprise) { enState.enterprise = enterprise ?? null; if (enState.root) enRender(enState.root); }
+
+
 /* ===== shared/auth.js ===== */
 /**
  * Sign-in options for a static training page — honestly scoped.
@@ -12423,6 +13325,38 @@ function cleanChainId(v) {
   return Number.isInteger(n) && n > 0 && n < 1e12 ? n : null;
 }
 
+/** The sign-in methods a deployment may restrict itself to (docs/enterprise.md). */
+const ENTERPRISE_METHODS = ["google", "microsoft", "wallet", "email", "passkey", "demo"];
+/** The worlds a deployment may enable; null in the block means all of them. */
+const ENTERPRISE_WORLDS = ["bayworld", "regatta", "underwater", "summit", "fairway", "redwood", "atlas", "smartcity", "holodeck"];
+
+function authIdList(v, allowed) {
+  if (!Array.isArray(v)) return null;
+  const out = [...new Set(v.map((x) => authText(x, 80)).filter((x) => /^[a-z0-9-]{1,80}$/.test(x) && (!allowed || allowed.includes(x))))];
+  return out.length ? out : null;
+}
+
+/**
+ * The `enterprise` block of auth-config.json (docs/enterprise.md): who this
+ * deployment trains for and what it switches off. Only ever read from the
+ * file, never from the launch URL — a link must not be able to rename the
+ * organisation or re-enable a method the deployment turned off. Nothing here
+ * names an identity vendor; `sso` is a note the deployment writes for itself.
+ */
+function cleanEnterprise(raw) {
+  const e = raw && typeof raw === "object" ? raw : {};
+  const lang = authText(e.defaultLanguage, 8).toLowerCase();
+  return {
+    organisation: authText(e.organisation, 80) || null,
+    signInMethods: authIdList(e.signInMethods, ENTERPRISE_METHODS),
+    defaultLanguage: /^[a-z]{2}(-[a-z]{2})?$/.test(lang) ? lang : null,
+    worlds: authIdList(e.worlds, ENTERPRISE_WORLDS),
+    programmes: authIdList(e.programmes, null),
+    dataRetention: authText(e.dataRetention, 400) || null,
+    sso: authText(e.sso?.note ?? e.sso, 400) || null,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -12447,7 +13381,15 @@ function parseAuthConfig(file = null, search = "") {
     // Where a signed-in identity and its token are posted, and the only origin
     // this page will ever post to (identity.js enforces that).
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
+    // The organisation layer's block, from the file only (docs/enterprise.md).
+    enterprise: cleanEnterprise(file?.enterprise),
   };
+}
+
+/** True when the deployment allows this sign-in method (all are allowed until the block lists some). */
+function enterpriseAllows(config, method) {
+  const list = config?.enterprise?.signInMethods;
+  return !Array.isArray(list) || list.includes(method);
 }
 
 /** What a deployment that configured nothing gets. */
@@ -13025,11 +13967,21 @@ async function gtRun(providerId, opts = {}) {
   return res;
 }
 
+/** The privacy page beside the homepage (WebXR/privacy.html): the Home chip's folder, file name swapped. */
+function gtPrivacyHref(homeHref = null) {
+  const h = String(homeHref ?? document.querySelector("#ctl-nav .home-chip, .home-chip")?.getAttribute("href") ?? "").split(/[?#]/)[0];
+  if (!h || h.startsWith("#")) return "privacy.html";
+  return h.endsWith("/") ? `${h}privacy.html` : h.replace(/[^/]*$/, "privacy.html");
+}
+
 function gtSignInView(panel) {
   const cfg = Auth.config ?? {};
   const env = gtState.env ?? {};
+  // The organisation layer (docs/enterprise.md): a deployment may switch methods off.
+  const allow = (m) => enterpriseAllows(cfg, m);
+  if (cfg.enterprise?.organisation) panel.append(gtEl("p", { class: "gt-line", id: "gt-org", text: `Training for ${cfg.enterprise.organisation}.` }));
   // 1. Google — its own button when configured, a plain disabled line otherwise.
-  if (cfg.googleClientId) {
+  if (!allow("google")) { /* switched off by the deployment */ } else if (cfg.googleClientId) {
     const mount = gtEl("div", { id: "gt-google" });
     panel.append(gtEl("p", { class: "gt-line", text: trT("acct.google", null, "Continue with Google") }), mount);
     if (!gtState.googleStarted) { gtState.googleStarted = true; gtRun("google", { mount }).finally(() => { gtState.googleStarted = false; }); }
@@ -13038,7 +13990,7 @@ function gtSignInView(panel) {
       trT("acct.google"), gtEl("small", { text: trT("acct.googleOff") })));
   }
   // 2. MetaMask — Sign-In with Ethereum through window.ethereum.
-  if (env.ethereum?.request) {
+  if (!allow("wallet")) { /* switched off */ } else if (env.ethereum?.request) {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "wallet", on: { click: () => gtRun("wallet") } },
       trT("acct.wallet", null, "Connect MetaMask"), gtEl("small", { text: trT("acct.walletNote") })));
   } else {
@@ -13054,9 +14006,9 @@ function gtSignInView(panel) {
     disabled: !cfg.emailEndpoint && !passkeyOk,
     on: { click: () => gtRun(cfg.emailEndpoint ? "email" : "passkey", { email: input.value, name: input.value }) } },
   trT("acct.email", null, "E-mail me a link"), gtEl("small", { text: trT(cfg.emailEndpoint ? "acct.emailNote" : (passkeyOk ? "acct.passkeyNote" : "acct.noPasskey")) }));
-  panel.append(input, mailBtn);
+  if (allow(cfg.emailEndpoint ? "email" : "passkey")) panel.append(input, mailBtn);
   // 4. The free demo.
-  panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
+  if (allow("demo")) panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
     on: { click: () => { gtEnterDemo(); gtRenderChip(); gtClose(); } } },
   trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
@@ -13090,6 +14042,9 @@ function gtRender(view = null) {
   // The Treasure Map (docs/treasures.md): counts only, never where an unfound one is.
   panel.append(gtEl("p", { class: "gt-line", id: "gt-treasures" }, `Treasures found: ${tzFoundIds().length} of ${TZ_TREASURES.length}. `,
     gtEl("a", { href: tzMapHref(), id: "gt-treasure-map", text: "Open the Treasure Map" })));
+  // What is stored where (WebXR/privacy.html, docs/enterprise.md).
+  panel.append(gtEl("p", { class: "gt-line", id: "gt-privacy-line" }, "Nothing about you leaves this device without your say. ",
+    gtEl("a", { href: gtPrivacyHref(), id: "gt-privacy", text: "What is stored where" }), "."));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }
@@ -14130,6 +15085,11 @@ function ctlMount(opts = {}) {
 // generic padding list (tools/gen_bingo_hazards.mjs).
 
 
+// The organisation layer's Cohorts view (shared/org.js, docs/enterprise.md)
+// and the deployment's enterprise block it and the programme picker honour.
+
+
+
 // The instructor console. It owns no simulation and no records: it listens to
 // the sessions it can hear — other tabs on this machine over a
 // BroadcastChannel, plus anything on the relay when ?relay= is given — shows
@@ -14472,7 +15432,9 @@ function fillPickers() {
   }
   const programme = $("programme");
   if (!programme.options.length && catalog?.programmes?.length) {
-    for (const p of catalog.programmes) {
+    // A deployment that enables some programmes only (docs/enterprise.md) offers those.
+    const enabled = new Set(enEnabledProgrammes(Auth.config?.enterprise));
+    for (const p of catalog.programmes.filter((x) => enabled.has(x.id) || !(x.id in PP_PROGRAMMES))) {
       const opt = el("option", null, p.name);
       opt.value = p.id;
       programme.append(opt);
@@ -14672,7 +15634,7 @@ fetch("../../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -14686,6 +15648,7 @@ function setView(next) { view = next; render(); }
 $("tab-live").addEventListener("click", () => setView("live"));
 $("tab-roster").addEventListener("click", () => setView("roster"));
 $("tab-log").addEventListener("click", () => setView("log"));
+$("tab-cohort").addEventListener("click", () => setView("cohort"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
@@ -14751,6 +15714,23 @@ setInterval(render, 1000);
 render();
 
 mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS });
+
+// The Cohorts view (docs/enterprise.md). The enterprise block arrives once
+// the account chip has read auth-config.json (controls.js mounts it below);
+// until then the view runs with no deployment restrictions.
+enMountCohortView($("en-root"), { toast });
+function enApplyDeployment() {
+  const e = Auth.config?.enterprise ?? null;
+  enSetEnterprise(e);
+  const line = $("en-deployment");
+  if (e?.organisation) {
+    line.hidden = false;
+    line.textContent = `Deployment: ${e.organisation}${e.programmes ? ` · ${e.programmes.length} programme(s) enabled` : ""}${e.defaultLanguage ? ` · default language ${e.defaultLanguage}` : ""}`;
+  }
+  if (e?.programmes && catalog) { $("programme").replaceChildren(); fillPickers(); }
+}
+addEventListener("gt:profile", enApplyDeployment);
+setTimeout(enApplyDeployment, 1500);
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
 // The Guide (shared/guide.js): the floating help button and its question panel.
