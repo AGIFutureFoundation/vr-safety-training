@@ -221,6 +221,28 @@ export function kwFerryLanding(parent, x, y, z, opts = {}) {
   return root;
 }
 
+/** A kiosk: a roofed sign board on two posts over a small counter, where a mini-game is played (front +Z). */
+export function kwKioskBoard(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwKioskBoard"), g = kwShift(root, 0, -0.22);
+  for (const s of [1, -1]) box(g, 0.14, 2.6, 0.14, s * 1.0, 1.3, 0, KW_C.dark);
+  box(g, 2.3, 1.2, 0.1, 0, 1.9, 0.02, KW_C.cream);
+  box(g, 2.3, 0.18, 0.12, 0, 2.55, 0.02, KW_C.gate);
+  box(g, 2.6, 0.12, 0.9, 0, 2.7, 0.2, KW_C.red);
+  box(g, 1.6, 0.9, 0.5, 0, 0.45, 0.45, KW_C.wood);
+  return root;
+}
+
+/** A sandbag pallet: a low pallet with bags stacked in staggered rows (the sandbag relay's load). */
+export function kwSandbagStack(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwSandbagStack");
+  box(g, 1.2, 0.14, 1.2, 0, 0.07, 0, KW_C.wood);
+  for (let row = 0; row < 3; row++) for (let i = 0; i < 2; i++) {
+    const bag = box(g, 1.0, 0.24, 0.5, 0, 0.26 + row * 0.24, (i - 0.5) * 0.52, 0xb8a47a);
+    if (row % 2) bag.rotation.y = Math.PI / 2;
+  }
+  return g;
+}
+
 /**
  * The kits and what each costs: meshes after mergeStatic(), footprint [W, H, L] in metres
  * (measured with `node tools/check_fleet.mjs --measure`), and triangles as drawn in a parish
@@ -238,11 +260,13 @@ export const KW_BUDGET = {
   bandstand: { build: "kwBandstand", meshes: 4, footprint: [11.2, 7.1, 12], tri: 316 },
   paradeBarriers: { build: "kwParadeBarriers", meshes: 4, footprint: [13.7, 1.13, 0.7], tri: 372 },
   ferryLanding: { build: "kwFerryLanding", meshes: 7, footprint: [14.65, 3.4, 15.8], tri: 288 },
+  kioskBoard: { build: "kwKioskBoard", meshes: 5, footprint: [2.6, 2.76, 0.95], tri: 72 },
+  sandbagStack: { build: "kwSandbagStack", meshes: 2, footprint: [1.2, 0.86, 1.52], tri: 84 },
 };
 
 export const KW_KIT_BUILDERS = {
   kwStreetcar, kwPumpHouse, kwLeveeWall, kwFloodgate, kwShrimpBoat, kwOysterLugger,
-  kwShotgunBlock, kwLiveOak, kwBandstand, kwParadeBarriers, kwFerryLanding,
+  kwShotgunBlock, kwLiveOak, kwBandstand, kwParadeBarriers, kwFerryLanding, kwKioskBoard, kwSandbagStack,
 };
 
 // ------------------------------------------------------------------ baking and dressing a parish

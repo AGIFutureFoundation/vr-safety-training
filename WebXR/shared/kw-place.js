@@ -24,21 +24,21 @@ import {
 import { kwKioskSpots } from "./kw-play-data.js";
 
 /** The whole dressing of one parish: one draw call per kit, and this many triangles at most. */
-export const KW_DRESS_BUDGET = { drawCalls: 11, triangles: 45000 };
+export const KW_DRESS_BUDGET = { drawCalls: 13, triangles: 45000 };
 /** Placements per kit per parish, at most (high tier; `low` keeps about half of the trees, blocks and barriers). */
 export const KW_CAPS = {
   streetcar: 8, pumpHouse: 4, leveeWall: 24, floodgate: 6, shrimpBoat: 6, oysterLugger: 6,
-  shotgunBlock: 10, liveOak: 44, bandstand: 4, paradeBarriers: 16, ferryLanding: 4,
+  shotgunBlock: 10, liveOak: 44, bandstand: 4, paradeBarriers: 16, ferryLanding: 4, kioskBoard: 5, sandbagStack: 10,
 };
 /** The triangles each kit costs as drawn (kept equal to KW_BUDGET's `tri` by tools/check_krewe.mjs). */
 export const KW_TRI = {
   streetcar: 96, pumpHouse: 288, leveeWall: 60, floodgate: 128, shrimpBoat: 180, oysterLugger: 156,
-  shotgunBlock: 384, liveOak: 336, bandstand: 316, paradeBarriers: 372, ferryLanding: 288,
+  shotgunBlock: 384, liveOak: 336, bandstand: 316, paradeBarriers: 372, ferryLanding: 288, kioskBoard: 72, sandbagStack: 84,
 };
 
 const KW_SITE_RULES = [
   { re: /pump/, kits: ["pumpHouse"] },
-  { re: /levee|floodwall|floodgate|lock/, kits: ["leveeWall", "floodgate"] },
+  { re: /levee|floodwall|floodgate|lock/, kits: ["leveeWall", "floodgate", "sandbagStack"] },
   { re: /harbou?r|marina|port|ferry|landing|shipyard/, kits: ["shrimpBoat", "oysterLugger"] },
   { re: /ferry|landing/, kits: ["ferryLanding"] },
   { re: /park|campus/, kits: ["bandstand", "liveOak"] },
@@ -99,7 +99,7 @@ export function kwPlacements(parish, { tier = "high" } = {}) {
   const room = (kit) => (count[kit] ?? 0) < Math.ceil(KW_CAPS[kit] * (tier === "low" && /liveOak|shotgunBlock|paradeBarriers/.test(kit) ? 0.5 : 1));
   const put = (kit, x, z, y, ry, why) => {
     if (!room(kit)) return false;
-    if (out.some((s) => Math.hypot(s.x - x, s.z - z) < (kit === "leveeWall" ? 6 : kit === "liveOak" ? 9 : 12))) return false;
+    if (out.some((s) => Math.hypot(s.x - x, s.z - z) < (kit === "leveeWall" ? 6 : kit === "sandbagStack" ? 2 : kit === "kioskBoard" ? 3 : kit === "liveOak" ? 9 : 12))) return false;
     count[kit] = (count[kit] ?? 0) + 1;
     out.push({ kit, x: Math.round(x * 10) / 10, z: Math.round(z * 10) / 10, y: Math.round(y * 100) / 100, ry: Math.round(ry * 1000) / 1000, why });
     return true;
@@ -108,6 +108,8 @@ export function kwPlacements(parish, { tier = "high" } = {}) {
 
   // ---- the KREWE kiosks: the kiosk's own kit beside it
   for (const k of kwKioskSpots(parish)) {
+    put("kioskBoard", k.x, k.z, ground(k.x, k.z), 0, `kiosk ${k.kiosk.id}`);
+    if (k.kiosk.id === "kw-sandbag-relay") for (let i = 0; i < 3; i++) { const x = k.x + 4 + i * 2.2, z = k.z - 6; put("sandbagStack", x, z, ground(x, z), 0, `kiosk ${k.kiosk.id}`); }
     const kit = k.kiosk.kit.replace(/^kw/, "").replace(/^./, (c) => c.toLowerCase());
     if (kit === "shrimpBoat" || kit === "ferryLanding" || kit === "floodgate" || kit === "leveeWall") continue; // placed by the site rules below
     const x = k.x - 10, z = k.z;
@@ -151,6 +153,9 @@ export function kwPlacements(parish, { tier = "high" } = {}) {
           if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), rng() * Math.PI, `park or campus ${s.id}`);
         } else if (kit === "liveOak") {
           for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3 + 0.3, x = sx + Math.sin(a) * 34, z = sz + Math.cos(a) * 34; if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), rng() * Math.PI * 2, `park or campus ${s.id}`); }
+        } else if (kit === "sandbagStack") {
+          const x = sx + 12, z = sz - 12;
+          if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), 0, `levee crew at ${s.id}`);
         } else if (kit === "streetcar") {
           for (const dx of [-6, 6]) { const x = sx + dx, z = sz - 14; put(kit, x, z, ground(x, z), 0, `barn ${s.id}`); }
         }

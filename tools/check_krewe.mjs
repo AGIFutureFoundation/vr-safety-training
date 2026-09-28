@@ -63,7 +63,7 @@ const clean = (where, text) => {
 };
 
 // ------------------------------------------------------------ kits (a counting stub)
-const WANT_KITS = ["streetcar", "pumpHouse", "leveeWall", "floodgate", "shrimpBoat", "oysterLugger", "shotgunBlock", "liveOak", "bandstand", "paradeBarriers", "ferryLanding"];
+const WANT_KITS = ["streetcar", "pumpHouse", "leveeWall", "floodgate", "shrimpBoat", "oysterLugger", "shotgunBlock", "liveOak", "bandstand", "paradeBarriers", "ferryLanding", "kioskBoard", "sandbagStack"];
 const dir = mkdtempSync(join(tmpdir(), "krewe-"));
 process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch */ } });
 writeFileSync(join(dir, "three.mjs"), `
@@ -135,9 +135,45 @@ for (const [id, parish] of Object.entries(PARISHES)) {
     else if (s.kit === "streetcar") { check(id === "orleans", "facts", `${where}: a streetcar outside Orleans`); check(cover === "road" || cover === "pad", "place", `${where}: a streetcar off the road (${cover})`); }
     else if (s.kit === "leveeWall" || s.kit === "floodgate") check(NP.npLeveeRise(parish, s.x, s.z) > 0.5 && (!w || w.kind === "wetland"), "place", `${where}: a floodwall off the levee`);
     else if (s.kit === "ferryLanding") check(!w, "place", `${where}: a ferry landing in the water`);
-    else check(!w && cover !== "road" && cover !== "levee", "place", `${where}: on ${cover}`);
+    else {
+      // A site's pad is flattened over a levee (npHeightAt), so "levee" cover inside a pad is flat ground.
+      const onPad = parish.sites.some((st) => Math.hypot(st.position[0] - s.x, st.position[1] - s.z) < NP.NP_PAD);
+      check(!w && cover !== "road" && (cover !== "levee" || onPad), "place", `${where}: on ${cover}`);
+    }
   }
   dressLines.push(`${id} ${cost.placements} kits / ${cost.drawCalls} draws / ${cost.triangles} tri`);
+}
+
+// ------------------------------------------------------------ a real build on the vendored three.js, with the engine
+// kw-kits.js and kit.js import three.js from the CDN; copies here point them at WebXR/vendor/three.
+{
+  const threeUrl = pathToFileURL(join(WEBXR, "vendor/three/dist/three.module.min.js")).href;
+  const cdn = /"https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/three\.js\/[^"]+"/g;
+  writeFileSync(join(dir, "kit-real.mjs"), rd("WebXR/shared/kit.js").replace(cdn, JSON.stringify(threeUrl)));
+  writeFileSync(join(dir, "kw-kits-real.mjs"), rd("WebXR/shared/kw-kits.js").replace(cdn, JSON.stringify(threeUrl))
+    .replace(/from\s+"\.\/kit\.js"/, 'from "./kit-real.mjs"').replace(/from\s+"\.\/kw-place\.js"/, `from ${JSON.stringify(pathToFileURL(join(WEBXR, "shared/kw-place.js")).href)}`));
+  const THREE = await import(threeUrl);
+  const KR = await import(pathToFileURL(join(dir, "kw-kits-real.mjs")));
+  const W = await imp("shared/np-world.js");
+  for (const [id, parish] of Object.entries(PARISHES)) {
+    if (!parish) continue;
+    for (const tier of ["low", "high"]) {
+      const root = new THREE.Group();
+      const start = NP.npStartSite(parish);
+      const world = W.npBuildParish(root, THREE, parish, { tier, start: start.position });
+      let dress;
+      try { dress = KR.kwDressParish(root, THREE, parish, { tier }); } catch (err) { fail("build", `${id}/${tier}: kwDressParish threw — ${err.message}`); continue; }
+      const ds = dress.stats();
+      check(ds.triangles === PL.kwDressCost(dress.spots).triangles, "build", `${id}/${tier}: built ${ds.triangles} triangles, kw-place.js counts ${PL.kwDressCost(dress.spots).triangles}`);
+      check(ds.drawCalls <= PL.KW_DRESS_BUDGET.drawCalls, "build", `${id}/${tier}: ${ds.drawCalls} draw calls`);
+      let worstMesh = 0, worstTri = 0;
+      for (const s of [start, ...parish.sites]) { world.update(s.position[0], s.position[1], 999); const st = world.stats(); worstMesh = Math.max(worstMesh, st.meshes); worstTri = Math.max(worstTri, st.triangles); }
+      // world.stats() walks the whole root, so it already counts the dressing.
+      check(worstMesh <= NP.NP_BUDGET.drawCalls, "budget", `${id}/${tier}: ${worstMesh} meshes with the dressing, over ${NP.NP_BUDGET.drawCalls}`);
+      check(worstTri <= NP.NP_BUDGET.triangles, "budget", `${id}/${tier}: ${worstTri} triangles with the dressing, over ${NP.NP_BUDGET.triangles}`);
+      if (tier === "high") dressLines.push(`${id} worst ${worstMesh} meshes / ${worstTri} tri with the engine`);
+    }
+  }
 }
 
 // ------------------------------------------------------------ kiosks
