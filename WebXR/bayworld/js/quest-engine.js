@@ -28,15 +28,37 @@
 //             bwNoteStationReturn(questId, simId) once career.js's own
 //             bwCollectMissionReturns() reports a fresh attempt at that step's
 //             target station id.
+//
+// Prerequisites: a quest's `requires` (and, optionally, a step's own) names
+// the quest id — or an array of ids — that must be done first. While any is
+// not done the quest is locked: no step of it progresses, no event fires for
+// it, and questState() reports it `locked`. A capstone therefore never moves
+// before its opener, even when both start with a goto to the same site.
+//
+// Spawn: the app calls bwMarkSpawn() with the point the shift starts at.
+// Until the player has moved BW_SPAWN_GRACE metres from it, no goto or drive
+// step completes — the player spawns a few metres from a site, so without
+// this a goto to that site would "complete" before the participant had done
+// anything at all.
 
 import { gtStorage } from "../../shared/profiles.js";
 const BW_QUEST_KEY = "bayworld-quests-v1";
 export const BW_GOTO_RADIUS = 12;
 export const BW_DRIVE_MIN_SPEED = 3;
+export const BW_SPAWN_GRACE = 4;
 
 let bwQuests = new Map();
 let bwStepListeners = [];
 let bwDoneListeners = [];
+let bwSpawn = null; // { x, z } until the player first leaves BW_SPAWN_GRACE of it
+
+/** The point this shift starts at (see "Spawn" above); null clears it. */
+export function bwMarkSpawn(point) { bwSpawn = point && Number.isFinite(point.x) && Number.isFinite(point.z) ? { x: point.x, z: point.z } : null; }
+
+function bwReqList(req) { return req == null ? [] : Array.isArray(req) ? req : [req]; }
+function bwReqsMet(req, state) { return bwReqList(req).every((id) => !!state.byId[id]?.done); }
+/** True while any prerequisite of the quest (or of its current step) is not done. */
+function bwLocked(quest, state, step) { return !bwReqsMet(quest.requires, state) || (!!step && !bwReqsMet(step.requires, state)); }
 
 function bwQuestStorage(storage) {
   if (storage) return storage;
@@ -81,7 +103,7 @@ export function registeredQuests() { return [...bwQuests.values()]; }
 
 /** Clears every registration — used by the checker between runs, never by
  *  the app itself. */
-export function bwClearQuests() { bwQuests = new Map(); }
+export function bwClearQuests() { bwQuests = new Map(); bwSpawn = null; }
 
 export function onQuestStep(cb) { bwStepListeners.push(cb); return () => { bwStepListeners = bwStepListeners.filter((f) => f !== cb); }; }
 export function onQuestDone(cb) { bwDoneListeners.push(cb); return () => { bwDoneListeners = bwDoneListeners.filter((f) => f !== cb); }; }
@@ -96,11 +118,13 @@ export function questState(storage) {
   const raw = bwLoadState(storage);
   return [...bwQuests.values()].map((q) => {
     const entry = raw.byId[q.id] ?? { stepIndex: 0, done: false };
+    const currentStep = entry.done ? null : q.steps[entry.stepIndex | 0] ?? null;
     return {
       id: q.id, title: q.title, giver: q.giver, site: q.site, kind: q.kind ?? "side",
       stepIndex: entry.stepIndex | 0, totalSteps: q.steps.length,
-      currentStep: entry.done ? null : q.steps[entry.stepIndex | 0] ?? null,
+      currentStep,
       done: !!entry.done, startedAt: entry.startedAt ?? null, doneAt: entry.doneAt ?? null,
+      requires: bwReqList(q.requires), locked: !entry.done && bwLocked(q, raw, currentStep),
     };
   });
 }
@@ -135,11 +159,16 @@ function bwFireDone(quest, entry) { for (const cb of bwDoneListeners) cb({ quest
 export function bwAdvanceQuests(snapshot, { storage } = {}) {
   const state = bwLoadState(storage);
   const advanced = [];
+  const p = snapshot.player;
+  if (bwSpawn && p && Math.hypot(p.x - bwSpawn.x, p.z - bwSpawn.z) > BW_SPAWN_GRACE) bwSpawn = null;
   for (const quest of bwQuests.values()) {
-    const entry = bwEntryFor(state, quest.id);
-    if (entry.done) continue;
-    const step = quest.steps[entry.stepIndex];
+    const prior = state.byId[quest.id];
+    if (prior?.done) continue;
+    const step = quest.steps[prior?.stepIndex ?? 0];
     if (!step || step.type === "station") continue; // station steps only move via bwNoteStationReturn
+    if (bwLocked(quest, state, step)) continue;
+    if (bwSpawn && (step.type === "goto" || step.type === "drive")) continue; // not moved off the spawn yet
+    const entry = bwEntryFor(state, quest.id);
     let hit = false;
     if (step.type === "goto") hit = bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS, quest.anchor);
     else if (step.type === "find" || step.type === "talk") hit = !!snapshot.interact && bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS, quest.anchor);
@@ -174,11 +203,13 @@ export function bwNoteStationReturn(siteIdOrSimId, { storage } = {}) {
   const state = bwLoadState(storage);
   const advanced = [];
   for (const quest of bwQuests.values()) {
-    const entry = bwEntryFor(state, quest.id);
-    if (entry.done) continue;
-    const step = quest.steps[entry.stepIndex];
+    const prior = state.byId[quest.id];
+    if (prior?.done) continue;
+    const step = quest.steps[prior?.stepIndex ?? 0];
     if (!step || step.type !== "station") continue;
     if (step.target !== siteIdOrSimId) continue;
+    if (bwLocked(quest, state, step)) continue;
+    const entry = bwEntryFor(state, quest.id);
     bwStepComplete(state, quest, entry);
     advanced.push(quest.id);
   }
