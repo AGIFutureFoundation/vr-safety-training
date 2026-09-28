@@ -29,6 +29,9 @@ export const ATLAS_LINKS = {
   bayworld: "../bayworld/index.html",
   smartcity: "../smartcity/dist/smartcity-x.html",
   trades: "../trades/index.html",
+  // The programme track pages (tools/gen_tracks.mjs) live in the flat build's
+  // tracks/ folder; tools/bundle_webxr.py rewrites this to "./tracks/" there.
+  tracks: "../dist/tracks/",
 };
 
 /** The SVG map's drawing size; the viewBox, not the on-screen size. */
@@ -69,7 +72,7 @@ export function atlasPlaces() {
  * The deep links for one place: `bayworld` opens Bay World at it
  * (`?site=` or `?landmark=`), `station` launches its first training station
  * in SmartCiti.X (`?sim=`), null when it has none, and `programmes` is one
- * `{ id, href }` per programme (`?programme=`).
+ * `{ id, href }` per programme (its track page, tracks/<id>.html).
  */
 export function atlasDeepLinks(place) {
   const enc = encodeURIComponent;
@@ -77,7 +80,8 @@ export function atlasDeepLinks(place) {
     bayworld: `${ATLAS_LINKS.bayworld}?${place.kind === "landmark" ? "landmark" : "site"}=${enc(place.id)}`,
     // A Trade Skills room opens in the Trade Skills app (shared/links.js).
     station: place.stations?.[0] ? lkStationLink(place.stations[0], { runner: ATLAS_LINKS.smartcity, trades: ATLAS_LINKS.trades, from: "atlas" }) : null,
-    programmes: (place.programmes ?? []).map((id) => ({ id, href: `${ATLAS_LINKS.smartcity}?programme=${enc(id)}` })),
+    // A programme chip opens the programme's own track page, not SmartCiti.X.
+    programmes: (place.programmes ?? []).map((id) => ({ id, href: `${ATLAS_LINKS.tracks}${enc(id)}.html` })),
   };
 }
 
