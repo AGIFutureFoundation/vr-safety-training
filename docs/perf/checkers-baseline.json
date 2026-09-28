@@ -77,7 +77,7 @@
     "check_ui.mjs": 407527,
     "check_guide.mjs": 157101,
     "check_links.mjs": 673079,
-    "check_treasures_live.mjs": 21916,
+    "check_treasures_live.mjs": 47940,
     "check_auth.mjs": 954,
     "check_enterprise.mjs": 33972,
     "check_i18n.mjs": 149537,
@@ -86,6 +86,12 @@
     "check_worlds_detail.mjs": 648,
     "check_deploy.mjs": 2400,
     "check_proving.mjs": 170,
-    "check_payments.mjs": 2000
+    "check_payments.mjs": 2000,
+    "check_drivables.mjs": 579,
+    "check_parishes.mjs": 11024,
+    "check_npc.mjs": 1332
+  },
+  "notes": {
+    "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression."
   }
 }

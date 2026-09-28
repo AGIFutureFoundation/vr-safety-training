@@ -790,7 +790,7 @@ const SCRIPT = `
       for (const a of document.querySelectorAll(".app.world")) {
         const h = a.getAttribute("href") || "";
         // The Atlas lives under bayworld/ in the repo layout, so it is tested first.
-        const id = /atlas/.test(h) ? "atlas" : (/(bayworld|regatta|underwater|summit|fairway|redwood|smartcity|holodeck)/.exec(h) || [])[1];
+        const id = /atlas/.test(h) ? "atlas" : (/(bayworld|regatta|underwater|summit|parishes|fairway|redwood|smartcity|holodeck)/.exec(h) || [])[1];
         if (id && !e.worlds.includes(id)) a.style.display = "none";
       }
     }

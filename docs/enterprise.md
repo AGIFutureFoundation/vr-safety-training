@@ -122,7 +122,7 @@ with `EN_SHOTS=docs/img/enterprise`).
   "organisation": null,        // the organisation's name, shown on the homepage brand line, the sign-in dialog and the console
   "signInMethods": null,       // null = all; else a subset of ["google","microsoft","wallet","email","passkey","demo"]
   "defaultLanguage": null,     // a language code the platform ships (docs/i18n.md); applied until the visitor picks one
-  "worlds": null,              // null = all; else a subset of ["bayworld","regatta","underwater","summit","fairway","redwood","atlas","smartcity","holodeck"]
+  "worlds": null,              // null = all; else a subset of ["bayworld","regatta","underwater","summit","parishes","fairway","redwood","atlas","smartcity","holodeck"]
   "programmes": null,          // null = all; else passport programme ids
   "dataRetention": "…",        // a note the deployment writes for itself; shown nowhere but here and the privacy page's summary
   "sso": { "note": "…" }       // see below
