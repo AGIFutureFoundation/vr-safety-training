@@ -155,6 +155,7 @@
   .grounds{margin:14px 0 4px}
   .gs-row{display:flex;flex-wrap:wrap;gap:6px}
   .gs-link{font-size:13px;padding:5px 9px;border-radius:8px;border:1px solid rgba(127,127,127,.4);color:inherit;text-decoration:none}
+  @media (max-width:700px){.gs-link{display:inline-flex;align-items:center;min-height:44px}}
 </style>
 </head>
 <body>
@@ -179,7 +180,7 @@
 </div>
 <button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
 
-<div class="screen" id="scr-menu">
+<div class="screen" id="scr-menu" role="main">
   <div class="card">
     <p class="eyebrow">Fairway Park</p>
     <h1 class="logo">Fairway Park</h1>
@@ -24788,6 +24789,11 @@ const ctlCss = `
   #ctl-nav > *{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
+}
+/* On a phone every chip in the shared bar is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. */
+@media (max-width:700px){
+  #ctl-nav > *{min-height:44px;display:inline-flex;align-items:center}
+  #ctl-nav #ctl-help-btn{width:44px;height:44px;justify-content:center}
 }
 `;
 

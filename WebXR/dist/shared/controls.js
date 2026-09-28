@@ -92,6 +92,11 @@ const ctlCss = `
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
 }
+/* On a phone every chip in the shared bar is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. */
+@media (max-width:700px){
+  #ctl-nav > *{min-height:44px;display:inline-flex;align-items:center}
+  #ctl-nav #ctl-help-btn{width:44px;height:44px;justify-content:center}
+}
 `;
 
 function ctlInjectCss() {

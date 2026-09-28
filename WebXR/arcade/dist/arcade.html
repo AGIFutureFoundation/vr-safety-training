@@ -52,7 +52,7 @@
   p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px;line-height:1.55}
   .note{font-size:13px;color:var(--dim);line-height:1.5;margin:14px 0 0;max-width:86ch}
   .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;min-height:44px;
     font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
   .btn:hover{background:var(--raised-2)}
   .btn.primary{background:linear-gradient(180deg,#ffd862,var(--amber));color:#1b1300;border-color:transparent}
@@ -138,7 +138,7 @@
 </div>
 <div id="toast" role="status"></div>
 
-<section class="screen" id="scr-menu" aria-labelledby="t-menu">
+<section class="screen" id="scr-menu" role="main" aria-labelledby="t-menu">
   <div class="card">
     <p class="eyebrow">The crew's other Easter egg</p>
     <h1 class="logo" id="t-menu">BREAK ROOM ARCADE</h1>
@@ -16788,6 +16788,11 @@ const ctlCss = `
   #ctl-nav > *{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
+}
+/* On a phone every chip in the shared bar is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. */
+@media (max-width:700px){
+  #ctl-nav > *{min-height:44px;display:inline-flex;align-items:center}
+  #ctl-nav #ctl-help-btn{width:44px;height:44px;justify-content:center}
 }
 `;
 

@@ -120,6 +120,7 @@
   .theme-chip{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.05em;
     text-transform:uppercase; padding:8px 12px; border-radius:20px; border:1px solid var(--edge);
     background:var(--raised); color:var(--text); cursor:pointer; touch-action:manipulation; min-height:auto; }
+  @media (max-width:700px){ .theme-chip{ min-height:44px; } }
   .theme-chip.active{ background:var(--accent); border-color:var(--accent); color:#1c0d33 }
 
   .scorecard{ width:100%; border-collapse:collapse; margin:10px 0; font-size:14px }
@@ -58856,7 +58857,7 @@ function mountUI(store, actions) {
     const intro = useSlice("intro");
     if (!intro.visible) return null;
     return h("div", { className: "overlay", id: "intro", role: "dialog", "aria-modal": "true", "aria-label": "Holodeck prompt" },
-      h("div", { className: "card" },
+      h("div", { className: "card", role: "main" },
         h("div", { className: "brandline" }, "Holodeck ~ Powered by AGI Corp & Visko"),
         h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
         h("h1", null, "Holodeck"),
@@ -62315,6 +62316,11 @@ const ctlCss = `
   #ctl-nav > *{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
+}
+/* On a phone every chip in the shared bar is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. */
+@media (max-width:700px){
+  #ctl-nav > *{min-height:44px;display:inline-flex;align-items:center}
+  #ctl-nav #ctl-help-btn{width:44px;height:44px;justify-content:center}
 }
 `;
 

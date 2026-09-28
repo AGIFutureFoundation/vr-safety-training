@@ -96,6 +96,7 @@
   .atlas-chips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}
   .chip{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid rgba(79,209,255,.45);background:rgba(79,209,255,.12);color:#dcf1ff;font-size:12px;text-decoration:none}
   .chip:hover{background:rgba(79,209,255,.26)}
+  @media (max-width:700px){.chip{display:inline-flex;align-items:center;min-height:44px}}
   .atlas-none{font-size:12.5px;color:var(--dim)}
   .atlas-links{font-size:13px;margin:6px 0 0}
 
@@ -16652,6 +16653,11 @@ const ctlCss = `
   #ctl-nav > *{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
+}
+/* On a phone every chip in the shared bar is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. */
+@media (max-width:700px){
+  #ctl-nav > *{min-height:44px;display:inline-flex;align-items:center}
+  #ctl-nav #ctl-help-btn{width:44px;height:44px;justify-content:center}
 }
 `;
 

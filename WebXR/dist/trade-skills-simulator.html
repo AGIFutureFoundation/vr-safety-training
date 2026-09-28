@@ -318,7 +318,7 @@
 <div id="voice-heard" hidden></div>
 
 <div class="overlay" id="intro" role="dialog" aria-modal="true" aria-label="Trade Skills Simulator">
-  <div class="card">
+  <div class="card" role="main">
     <div class="eyebrow">Vocational XR · nine trades, nine rooms</div>
     <h1>Trade Skills Simulator</h1>
     <p class="lead">Each room is a working environment with the real order of operations behind it.
@@ -36895,6 +36895,11 @@ const ctlCss = `
   #ctl-nav > *{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
+}
+/* On a phone every chip in the shared bar is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. */
+@media (max-width:700px){
+  #ctl-nav > *{min-height:44px;display:inline-flex;align-items:center}
+  #ctl-nav #ctl-help-btn{width:44px;height:44px;justify-content:center}
 }
 `;
 

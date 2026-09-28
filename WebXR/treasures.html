@@ -55,11 +55,52 @@
   .found p { margin: 6px 0 0; }
   .empty { color: var(--muted); font-style: italic; }
   .note { margin-top: 28px; font-size: 14px; color: var(--muted); }
-  #tz-reset, #tz-account { min-height: 36px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+  #tz-reset, #tz-account { min-height: 44px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+  /* Site header, navigation, breadcrumb and footer (console WAYFINDER-2): the same three places as the homepage and the
+     track pages. The shared bar (shared/controls.js #ctl-nav) is fixed at the top left; --hm-nav-w, measured from it at
+     run time, keeps the brand line clear of it. */
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--panel); color: var(--ink); padding: 10px 14px; border-radius: 8px; z-index: 40; }
+  .skip:focus { left: 16px; top: 8px; }
+  header.top { position: sticky; top: 0; z-index: 30; background: rgba(11, 21, 32, .92); border-bottom: 1px solid var(--line); backdrop-filter: blur(8px); }
+  .top-in { display: flex; gap: 12px; align-items: center; justify-content: space-between; min-height: 50px; padding: 8px 16px 8px var(--hm-nav-w, 56px); max-width: 980px; margin: 0 auto; }
+  .brandline { font-weight: 600; text-transform: uppercase; letter-spacing: .1em; font-size: 12px; color: var(--muted); margin: 0; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wf-nav { display: flex; gap: 4px; align-items: center; }
+  .wf-nav a, .back { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; border-radius: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .09em; font-size: 14px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .wf-nav a:hover, .back:hover, .wf-crumbs a:hover { color: var(--ink); text-decoration: underline; }
+  .wf-crumbs { padding: 0 0 14px; }
+  .wf-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; font-size: 15px; color: var(--muted); }
+  .wf-crumbs li { display: inline-flex; align-items: center; min-width: 0; }
+  .wf-crumbs li + li::before { content: "/"; color: var(--line); margin: 0 6px 0 2px; }
+  .wf-crumbs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; color: var(--gold-2); text-decoration: none; }
+  .wf-crumbs [aria-current] { color: var(--ink); }
+  footer { max-width: 980px; margin: 0 auto; padding: 0 16px 48px; color: var(--muted); font-size: 15px; }
+  footer a { color: var(--gold-2); }
+  @media (max-width: 700px) {
+    .wf-nav { display: none; }
+    .note, .card ul, footer { font-size: 16px; }
+  }
 </style>
 </head>
 <body>
+<a class="skip" href="#top">Skip to the map</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X · treasure map</p>
+    <nav class="wf-nav" aria-label="Site" data-tr-aria="wf.nav.label">
+      <a href="./index.html" data-tr="wf.nav.home">Home</a>
+      <a href="./index.html#worlds-sec" data-tr="wf.nav.worlds">Worlds</a>
+      <a href="./index.html#finder" data-tr="wf.nav.programmes">Programmes</a>
+    </nav>
+    <a class="back" href="./index.html#worlds-sec" data-tr="wf.nav.worlds">Worlds</a>
+  </div>
+</header>
 <main id="top">
+  <nav class="wf-crumbs" aria-label="Breadcrumb" data-tr-aria="wf.crumbs.label">
+    <ol>
+      <li><a href="./index.html" data-tr="wf.nav.home">Home</a></li>
+      <li><span aria-current="page">Treasure Map</span></li>
+    </ol>
+  </nav>
   <h1>Treasure Map</h1>
   <p class="lead">Treasures and easter eggs are hidden all over the platform: the homepage, the Guide, every Trade Skills room, the stations, the Atlas, the arcade and the racer, Bay World, the Deep, the Regatta and Fairway Park. Each one teaches something real, taken word for word from the platform's own union registry, standards registry, station notes or tool list. This map shows how many you have found in each place. It never shows where an unfound one is.</p>
   <div class="total"><b id="tz-count">0</b><span id="tz-of">of 0 found</span><span id="tz-who"></span></div>
@@ -80,6 +121,9 @@
 
   <p class="note">Your treasures are saved to your own profile: signed in, this device, or the demo tab (the demo keeps nothing once the tab closes). Some treasures stay locked until you have passed a station; when you find a locked one, it tells you which station to pass. <button id="tz-account" type="button">Sign in or switch profile</button> <button id="tz-reset" type="button">Clear my treasures</button></p>
 </main>
+<footer>
+  <p><a href="./index.html#worlds-sec" data-tr="wf.nf.worlds">Choose a world</a> to find more. <span data-tr="wf.nf.help">Still lost? The Guide button in the corner answers questions about every world and programme.</span></p>
+</footer>
 <script type="module">
 import { tzMapModel, tzClear, tzEarlierEggs } from "./shared/treasures.js";
 import { gtProfile } from "./shared/profiles.js";
@@ -131,7 +175,7 @@ addEventListener("gt:profile", render);
 addEventListener("tz:found", render);
 render();
 </script>
-<script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the Treasure Map", home: "./index.html", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter follows the focused link.", map: "This page is the map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the Treasure Map", home: "./index.html", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter follows the focused link.", map: "This page is the map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>
 <script type="module">import { gdMount } from "./shared/guide.js"; gdMount({ root: "./" });</script>
 </body>
 </html>

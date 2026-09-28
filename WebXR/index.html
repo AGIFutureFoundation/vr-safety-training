@@ -67,6 +67,8 @@
   .skip:focus{inset-inline-start:var(--gutter); top:8px}
   /* Readable copy on a phone (console WAYFINDER): card and section text at 16 px. */
   @media (max-width:700px){ body:not(#wf) :is(.card-blurb, .prog-meta, .prog-union, .prog-tag, .sub, .hm-sub, .aside, .devices, .cont-line, .count, .tag, .card p, .catmeta, main p:not(.eyebrow)){font-size:16px} }
+  /* Footer links and buttons are 44 px tap targets on a phone (console WAYFINDER-2). */
+  @media (max-width:700px){ body .foot li a{display:inline-flex; align-items:center; min-height:44px} body .foot button{min-width:44px; min-height:44px} }
   .eyebrow{
     font-family:var(--cond); font-weight:600; text-transform:uppercase;
     letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0;

@@ -380,7 +380,7 @@ export function mountUI(store, actions) {
   function IntroCard() {
     const intro = useSlice("intro");
     return h("div", { className: "overlay", id: "intro", hidden: !intro.visible, role: "dialog", "aria-modal": "true", "aria-label": "SmartCiti.X training campus" },
-      h("div", { className: "card" },
+      h("div", { className: "card", role: "main" },
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_HEAD_HTML } }),
         h(SimsGrid),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_TAIL_HTML } }),
