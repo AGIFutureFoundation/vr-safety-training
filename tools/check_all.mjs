@@ -20,6 +20,8 @@ const CHECKERS = [
   "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_share.mjs", "check_episodes.mjs", "check_dataset_tools.mjs", "check_robot.mjs",
   // The skill registry, the export layouts and the draft platform agent (docs/agent-roadmap.md).
   "check_agent.mjs",
+  // SmartCiti.X on the Virtuals agent platform: package, offerings, provider stub (docs/virtuals/strategy.md).
+  "check_virtuals.mjs",
   "check_platform.mjs", "check_lti.mjs", "check_orbis_stable.mjs", "check_verify.mjs", "check_observer.mjs", "check_budget.mjs", "check_layout.mjs",
   "check_interrupts.mjs", "check_events.mjs", "check_lessons.mjs", "check_hands.mjs", "check_variants.mjs", "check_incidents.mjs", "check_crew.mjs",
   "check_devices.mjs", "check_input.mjs", "check_standards.mjs", "check_console.mjs", "check_competency.mjs", "check_models.mjs",
