@@ -1,6 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzWatchWorld } from "../../shared/treasures.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor, driveInputFrom, DRIVE_KEYS, driveActionForKey } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -410,6 +412,7 @@ function bwSetup3D() {
   scene.add(root);
   const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale });
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
+  tzWatchWorld("bayworld", { scene, THREE, pos: () => (bwApp.screen === "game" ? [bwApp.player.x, bwApp.player.z] : null), camera: () => bwApp.camera });
 
   bwApp.traffic = bwSpawnTraffic(tier.trafficScale < 1 ? 1 : 2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);

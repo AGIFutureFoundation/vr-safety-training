@@ -22,6 +22,9 @@
 import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
 import { trT } from "./i18n.js";
 import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile } from "./profiles.js";
+// The treasure ledger rides with the chip: the dialog links the Treasure Map and every page arms its finders.
+import { tzArmPage, tzMapHref, tzFoundIds } from "./treasures.js";
+import { TZ_TREASURES } from "./treasures-data.js";
 
 const gtHasDom = typeof document !== "undefined";
 const GT_WALLET_INSTALL = "https://metamask.io/download/";
@@ -172,6 +175,9 @@ function gtRender(view = null) {
         Auth.signOut({ clearRecords: true }); gtRenderChip(); gtRender("signin"); gtMsg(trT("acct.cleared"));
       } } }, trT("acct.signoutClear"))));
   }
+  // The Treasure Map (docs/treasures.md): counts only, never where an unfound one is.
+  panel.append(gtEl("p", { class: "gt-line", id: "gt-treasures" }, `Treasures found: ${tzFoundIds().length} of ${TZ_TREASURES.length}. `,
+    gtEl("a", { href: tzMapHref(), id: "gt-treasure-map", text: "Open the Treasure Map" })));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }
@@ -233,5 +239,6 @@ export function gtMountAccount(nav, { configUrl = null } = {}) {
     addEventListener("tr:change", () => { gtRenderChip(); const d = document.getElementById("gt-dialog"); if (d && !d.hidden) gtRender(); });
   }
   gtRenderChip();
+  try { tzArmPage(); } catch (_) { /* a page with no treasures */ }
   return chip;
 }

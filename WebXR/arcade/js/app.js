@@ -1,5 +1,7 @@
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { ctlMount } from "../../shared/controls.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzArcadeRound } from "../../shared/treasures.js";
 import { gdMount } from "../../shared/guide.js";
 import { ARCADE_CABINETS } from "./cabinets.js";
 import { arLoadScores, arSubmitScore, ARCADE_TABLE_SIZE } from "./scores.js";
@@ -329,6 +331,7 @@ function aaShowGameOver() {
   const lowest = table.length < ARCADE_TABLE_SIZE ? -1 : table[table.length - 1].score;
   const qualifies = scores.some((s) => s > lowest);
   aaAudio.play(aa.state.win ? "win" : "over");
+  tzArcadeRound(aa.cabinet.id); // a finished round drops the cabinet's treasure token, once
   $("go-title").textContent = aa.state.win ? "Board cleared!" : "Game over";
   $("go-score").innerHTML = scores.map((s, i) => `<div>${scores.length > 1 ? `Player ${i + 1}: ` : "Score: "}<b>${s}</b></div>`).join("");
   $("go-entry").hidden = !qualifies;

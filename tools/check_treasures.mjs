@@ -1,0 +1,248 @@
+#!/usr/bin/env node
+/**
+ * Headless checks for the treasure layer (console TREASURE, docs/treasures.md):
+ *
+ *     node tools/check_treasures.mjs
+ *
+ * - counts: 120+ treasures, every surface the brief names at its floor
+ * - every treasure has a reveal, a lesson and a source, and the lesson is
+ *   re-read verbatim from that source (nothing invented)
+ * - every set's members exist, and completing a set stamps its badge once
+ * - the ledger is idempotent, persists, and is private per profile
+ *   (GT_PROFILE_KEYS lists it; two storages never see each other's finds)
+ * - gates: every station id exists; a fresh profile sees a gated treasure
+ *   locked, a profile with the station passed finds it
+ * - the Treasure Map model never leaks an unfound treasure (no id, name,
+ *   hint, trigger or position)
+ * - finders: the Guide's secret questions answer with the registry line; the
+ *   DOM anchors exist on their pages; station plants sit inside reach; world
+ *   markers sit inside their world's bounds; every app is wired and bundled
+ */
+import { readFileSync, existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const WEBXR = join(ROOT, "WebXR");
+const rd = (p) => readFileSync(join(ROOT, p), "utf8");
+
+let failures = 0;
+async function check(name, fn) {
+  try { await fn(); console.log(`ok   ${name}`); } catch (e) { failures += 1; console.log(`FAIL ${name}\n     ${e.message}`); }
+}
+function assert(c, msg) { if (!c) throw new Error(msg); }
+
+function fakeStorage() {
+  const m = new Map();
+  return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k), _m: m };
+}
+// A browser-shaped global localStorage for profiles.js's gtStorage().
+globalThis.localStorage = fakeStorage();
+globalThis.sessionStorage = fakeStorage();
+
+const D = await import(join(WEBXR, "shared/treasures-data.js"));
+const Z = await import(join(WEBXR, "shared/treasures.js"));
+const P = await import(join(WEBXR, "shared/profiles.js"));
+const { CURRICULA } = await import(join(WEBXR, "smartcity/js/curricula.js"));
+const { BAY_BOUNDS } = await import(join(WEBXR, "shared/bayworld-data.js"));
+const { DEEP_BOUNDS } = await import(join(WEBXR, "shared/underwater-data.js"));
+const { FAIRWAY_BOUNDS } = await import(join(WEBXR, "shared/fairway-data.js"));
+const T = D.TZ_TREASURES;
+const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
+
+const FLOORS = { home: 3, guide: 5, trades: 9, runner: 2, atlas: 1, arcade: 1, race: 1, bayworld: 10, deep: 10, regatta: 5, fairway: 5 };
+
+await check(`at least 120 treasures, every surface at its floor (${T.length} total)`, () => {
+  assert(T.length >= 120, `only ${T.length} treasures`);
+  const ids = new Set();
+  for (const t of T) { assert(!ids.has(t.id), `duplicate id ${t.id}`); ids.add(t.id); assert(t.id.startsWith("tz-"), `${t.id} lacks the tz- prefix`); }
+  for (const [s, n] of Object.entries(FLOORS)) {
+    const have = T.filter((t) => t.surface === s).length;
+    assert(have >= n, `${s} has ${have} treasures, floor ${n}`);
+  }
+  for (const s of D.TZ_SURFACES) assert(s.count === T.filter((t) => t.surface === s.id).length, `TZ_SURFACES count drifted for ${s.id}`);
+  const home = new Set(T.filter((t) => t.surface === "home").map((t) => t.how));
+  for (const how of ["constellation", "keys", "clicks"]) assert(home.has(how), `the homepage has no ${how} treasure`);
+  assert(T.some((t) => t.id === "tz-runner-tool-crib"), "no hidden tool in the tool crib");
+  assert(T.some((t) => t.how === "records" && t.trigger.rule === "perfect"), "no perfect-run secret");
+});
+
+await check("every treasure has a reveal, a lesson and a source, re-read verbatim", () => {
+  const unions = JSON.parse(rd("tools/unions.json")).unions;
+  const standards = JSON.parse(rd("tools/standards.json")).standards;
+  const cache = new Map();
+  const text = (f) => { if (!cache.has(f)) cache.set(f, rd(f)); return cache.get(f); };
+  for (const t of T) {
+    assert(t.reveal && typeof t.reveal === "string", `${t.id} has no reveal`);
+    assert(typeof t.lesson === "string" && t.lesson.length >= 12, `${t.id} has no lesson`);
+    assert(t.source?.file && existsSync(join(ROOT, t.source.file)), `${t.id} names no real source file`);
+    const s = t.source;
+    if (s.union) assert(unions.find((u) => u.id === s.union)?.note === t.lesson, `${t.id}: lesson is not unions.json ${s.union}'s note`);
+    else if (s.standard) assert(standards.find((u) => u.id === s.standard)?.title === t.lesson, `${t.id}: lesson is not standards.json ${s.standard}'s title`);
+    else if (s.station) {
+      const st = CURRICULA.flatMap((c) => c.stations).find((x) => x.id === s.station && x.why === t.lesson);
+      assert(st, `${t.id}: lesson is not ${s.station}'s why in curricula.js`);
+    } else assert(text(s.file).includes(`"${t.lesson}"`), `${t.id}: lesson is not a string in ${s.file}`);
+    if (t.tool) assert(text(t.toolSource.file).includes(`note: "${t.tool}"`), `${t.id}: tool name is not a toolkit note`);
+    assert(!/\d{4}s?\b.*(founded|established)/i.test(t.lesson), `${t.id} carries a founding claim`);
+  }
+});
+
+await check("sets: members exist, each set has 3+, completing one stamps its badge once", () => {
+  assert(D.TZ_SETS.length >= 8, `only ${D.TZ_SETS.length} sets`);
+  for (const s of D.TZ_SETS) {
+    assert(s.members.length >= 3, `${s.id} has ${s.members.length} members`);
+    for (const m of s.members) assert(Z.tzById(m)?.set === s.id, `${s.id} lists ${m}, which is not in it`);
+    assert(s.badge && s.name, `${s.id} has no badge`);
+  }
+  const bells = D.TZ_SETS.find((s) => s.id === "harbour-bells");
+  assert(bells?.members.length === 7, "the harbour bells are not seven");
+  const st = fakeStorage();
+  let last = null;
+  for (const m of bells.members) last = Z.tzRecord(m, st);
+  assert(last.completed.some((s) => s.id === "harbour-bells"), "the seventh bell did not complete the set");
+  assert(Z.tzLoad(st).badges["harbour-bells"], "the set badge was not stamped");
+  const again = Z.tzRecord(bells.members[0], st);
+  assert(!again.added && again.completed.length === 0, "a repeat find re-stamped the badge");
+});
+
+await check("the ledger is idempotent, persists and is private per profile", () => {
+  assert(P.GT_PROFILE_KEYS.includes(Z.TZ_KEY), "profiles.js GT_PROFILE_KEYS does not list the treasure ledger");
+  const a = fakeStorage(); const b = fakeStorage();
+  const id = T[0].id;
+  assert(Z.tzRecord(id, a).added, "first find not added");
+  assert(!Z.tzRecord(id, a).added, "second find added again");
+  assert(Z.tzRecord("tz-not-a-treasure", a).added === false, "an unknown id was recorded");
+  assert(JSON.parse(a.getItem(Z.TZ_KEY)).found[id], "the find is not persisted under the ledger key");
+  assert(Z.tzFoundIds(b).length === 0, "a second profile's storage sees the first profile's find");
+  // Through gtStorage(): the device profile and the demo tab are separate keys.
+  Z.tzClear();
+  Z.tzRecord(id);
+  assert(Z.tzIsFound(id), "gtStorage() did not keep the find");
+  P.gtEnterDemo();
+  assert(!Z.tzIsFound(id), "the demo tab sees the device's treasures");
+  Z.tzRecord(T[1].id);
+  assert(sessionStorage.getItem(`${Z.TZ_KEY}::demo`), "the demo find did not land in sessionStorage");
+  P.gtLeaveDemo({ discard: true });
+  assert(Z.tzIsFound(id) && !Z.tzIsFound(T[1].id), "leaving the demo mixed the ledgers");
+  Z.tzClear();
+});
+
+await check("gates: every id resolves; fresh profile locked, a passed station opens it", () => {
+  const gated = T.filter((t) => t.gate);
+  assert(gated.length >= 5, `only ${gated.length} gated treasures`);
+  assert(gated.length < T.length / 3, "most treasures should be pure exploration");
+  for (const t of gated) {
+    assert(t.gate.note && t.gate.note.length > 10, `${t.id}'s gate has no note`);
+    for (const s of t.gate.stations ?? []) assert(STATIONS.has(s), `${t.id} gates on unknown station ${s}`);
+    const st = fakeStorage();
+    const locked = Z.tzFind(t.id, { storage: st, records: [], silent: true });
+    assert(locked.locked && !locked.added && locked.missing.length, `${t.id} is open on a fresh profile`);
+    const recs = t.gate.stations.map((simId) => ({ simId, stars: 1 }));
+    const open = Z.tzFind(t.id, { storage: st, records: recs, silent: true });
+    assert(!open.locked && open.added, `${t.id} stays locked with its stations passed`);
+  }
+  assert(Z.tzStationHref("valve-vault", "../").endsWith("smartcity/index.html?sim=valve-vault"), "folder-layout station link is wrong");
+  assert(Z.tzStationHref("valve-vault", "./") === "./smartcity-x.html?sim=valve-vault", "flat-layout station link is wrong");
+});
+
+await check("the Treasure Map model never leaks an unfound treasure", () => {
+  const st = fakeStorage();
+  const foundOne = T.find((t) => !t.gate);
+  Z.tzRecord(foundOne.id, st);
+  const m = Z.tzMapModel(st);
+  const json = JSON.stringify(m);
+  assert(m.count === 1 && m.total === T.length, "map counts are wrong");
+  for (const t of T) {
+    if (t.id === foundOne.id) continue;
+    assert(!json.includes(`"${t.id}"`), `the map model names unfound ${t.id}`);
+    if (!T.some((x) => x.id !== t.id && x.name === t.name)) assert(!json.includes(t.name), `the map model shows unfound ${t.name}`);
+    assert(!json.includes(t.hint), `the map model shows ${t.id}'s hint`);
+  }
+  assert(!/"trigger"|"x":|"pos":|"hint"/.test(json), "the map model carries a trigger, position or hint");
+  const page = readFileSync(join(WEBXR, "treasures.html"), "utf8");
+  assert(page.includes("tzMapModel") && !/TZ_TREASURES|treasures-data/.test(page), "treasures.html reads more than the map model");
+  assert(page.includes('class="home-chip') || page.includes("ctlMount("), "treasures.html has no Home chip");
+  assert(page.includes("gdMount("), "treasures.html has no Guide");
+  const acct = rd("WebXR/shared/account.js");
+  assert(acct.includes("tzMapHref()") && acct.includes("gt-treasure-map"), "the account dialog does not link the Treasure Map");
+  assert(existsSync(join(WEBXR, "dist", "treasures.html")), "WebXR/dist/treasures.html is missing — run python3 tools/bundle_webxr.py");
+});
+
+await check("finders: Guide secret questions, DOM anchors, plants in reach, world markers in bounds", () => {
+  for (const t of T.filter((x) => x.how === "guide")) {
+    const q = `tell me the secret of ${t.trigger.names[0]}`;
+    const ans = Z.tzGuideLore(q);
+    assert(ans?.matched && ans.text.includes(t.lesson) && ans.treasure === t.id, `the Guide does not answer "${q}" with ${t.id}`);
+  }
+  assert(Z.tzGuideLore("how do I lock out a panel") === null, "an ordinary question was taken as a secret");
+  const pages = { home: ["WebXR/index.html", "WebXR/home.html"], atlas: ["WebXR/bayworld/atlas.html"] };
+  for (const t of T.filter((x) => x.trigger?.anchor && pages[x.surface])) {
+    for (const f of pages[t.surface]) {
+      const html = rd(f);
+      const ok = t.trigger.anchor.split(",").map((s) => s.trim()).some((sel) =>
+        sel.startsWith("#") ? html.includes(`id="${sel.slice(1)}"`) : sel.startsWith(".") ? new RegExp(`class="[^"]*\\b${sel.slice(1)}\\b`).test(html) : html.includes(`<${sel}`));
+      assert(ok, `${t.id}'s anchor ${t.trigger.anchor} is not on ${f}`);
+    }
+  }
+  const sims = new Set(CURRICULA.flatMap((c) => c.stations.filter((s) => s.app === "smartcity").map((s) => s.id)));
+  const rooms = rd("WebXR/shared/links.js");
+  for (const t of T.filter((x) => x.how === "plant")) {
+    const [app, id] = t.trigger.host.split("/");
+    const [x, y, z] = t.trigger.pos;
+    if (app === "smartcity") {
+      assert(sims.has(id) && existsSync(join(WEBXR, "smartcity/js/sims", `${id}.js`)), `${t.id} is planted at unknown station ${id}`);
+      assert(Math.hypot(x, z) <= 4.4 && y >= 0 && y <= 2.2, `${t.id} sits outside the roam circle's reach`);
+    } else {
+      assert(app === "trades" && rooms.includes(`"${id}"`) && existsSync(join(WEBXR, "trades/js/rooms", `${id}.js`)), `${t.id} is planted in unknown room ${id}`);
+      assert(Math.hypot(x, z) <= 2 && y >= 0 && y <= 2, `${t.id} sits outside the room`);
+    }
+  }
+  const bounds = { bayworld: BAY_BOUNDS, underwater: DEEP_BOUNDS, fairway: FAIRWAY_BOUNDS, regatta: BAY_BOUNDS };
+  for (const t of T.filter((x) => x.how === "proximity")) {
+    const b = bounds[t.trigger.world];
+    assert(b, `${t.id} names unknown world ${t.trigger.world}`);
+    assert(t.trigger.x >= b.minX && t.trigger.x <= b.maxX && t.trigger.z >= b.minZ && t.trigger.z <= b.maxZ, `${t.id} sits outside ${t.trigger.world}'s bounds`);
+    assert(t.trigger.r > 0 && t.trigger.r <= 25, `${t.id} has an odd radius`);
+  }
+  // A cabinet round and a race finish find their treasure; a mirrored course counts as its original.
+  const cab = T.find((x) => x.how === "arcade");
+  const race = T.find((x) => x.how === "race");
+  Z.tzClear();
+  assert(Z.tzArcadeRound(cab.trigger.cabinet)?.added, "a finished cabinet round found nothing");
+  assert(Z.tzRaceFinish(`${race.trigger.track}-mirror`)?.added, "a mirrored race finish found nothing");
+  // The perfect run reads the records only.
+  Z.tzCheckRecords([{ simId: "valve-vault", stars: 2, errors: 1, hazardHits: 0 }]);
+  assert(!Z.tzIsFound("tz-runner-perfect"), "an imperfect run found the perfect-run secret");
+  Z.tzCheckRecords([{ simId: "valve-vault", stars: 3, errors: 0, hazardHits: 0 }]);
+  assert(Z.tzIsFound("tz-runner-perfect"), "a perfect run did not find the perfect-run secret");
+  Z.tzClear();
+});
+
+await check("every surface is wired, bundled and registered", () => {
+  const wires = [
+    ["WebXR/shared/account.js", "tzArmPage()"], ["WebXR/shared/guide.js", "tzGuideLore(question)"],
+    ["WebXR/smartcity/js/app.js", "tzPlantHost(root, THREE, `smartcity/${room.id}`)"], ["WebXR/trades/js/app.js", "tzPlantHost(root, THREE, `trades/${room.id}`)"],
+    ["WebXR/bayworld/js/app.js", 'tzWatchWorld("bayworld"'], ["WebXR/underwater/js/app.js", 'tzWatchWorld("underwater"'],
+    ["WebXR/regatta/js/app.js", 'tzWatchWorld("regatta"'], ["WebXR/fairway/js/app.js", 'tzWatchWorld("fairway"'],
+    ["WebXR/arcade/js/app.js", "tzArcadeRound(aa.cabinet.id)"], ["WebXR/race/js/app.js", "tzRaceFinish(race.track.id)"],
+  ];
+  for (const [f, needle] of wires) assert(rd(f).includes(needle), `${f} never calls ${needle}`);
+  for (const f of ["smartcity/dist/smartcity-x.html", "trades/dist/trade-skills-simulator.html", "bayworld/dist/bayworld.html", "underwater/dist/underwater.html",
+    "regatta/dist/regatta.html", "fairway/dist/fairway.html", "arcade/dist/arcade.html", "race/dist/race.html", "bayworld/dist/atlas.html"]) {
+    const p = join(WEBXR, f);
+    assert(existsSync(p), `${f} is not built`);
+    const html = readFileSync(p, "utf8");
+    assert(html.includes("function tzWatchWorld") && html.includes("const TZ_TREASURES"), `${f} does not bundle the treasure layer — run python3 tools/bundle_webxr.py`);
+  }
+  for (const n of ["treasures.js", "treasures-data.js"]) assert(existsSync(join(WEBXR, "dist", "shared", n)), `WebXR/dist/shared/${n} is missing`);
+  const data = rd("WebXR/shared/treasures-data.js");
+  for (const m of data.matchAll(/^(?:export )?(?:const|let|function|class) ([A-Za-z_$][\w$]*)/gm)) assert(/^tz|^TZ_/.test(m[1]), `treasures-data.js top-level ${m[1]} lacks the tz prefix`);
+  const mod = rd("WebXR/shared/treasures.js");
+  for (const m of mod.matchAll(/^(?:export )?(?:const|let|function|class) ([A-Za-z_$][\w$]*)/gm)) assert(/^tz|^TZ_/.test(m[1]), `treasures.js top-level ${m[1]} lacks the tz prefix`);
+  assert(rd("tools/check_all.mjs").includes('"check_treasures.mjs"'), "check_all.mjs does not run check_treasures.mjs");
+  assert(existsSync(join(ROOT, "docs", "treasures.md")), "docs/treasures.md is missing");
+});
+
+console.log(failures ? `\n${failures} check(s) failed.` : `\nAll checks pass: ${T.length} treasures on ${D.TZ_SURFACES.length} surfaces, ${D.TZ_SETS.length} sets, ${T.filter((t) => t.gate).length} gated, nothing leaked.`);
+process.exit(failures ? 1 : 0);

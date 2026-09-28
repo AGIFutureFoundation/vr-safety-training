@@ -694,6 +694,20 @@ for _tr_cfg in APPS.values():
     if any(SHARED / n in _tr_mods for n in ("controls.js", "account.js", "guide.js")) and SHARED / "i18n.js" not in _tr_mods:
         _tr_mods[0:0] = [SHARED / "i18n-strings.js", SHARED / "i18n.js"]
 
+# The treasure ledger (console TREASURE, docs/treasures.md) rides with the
+# chrome too: account.js and guide.js import shared/treasures.js, which reads
+# profiles.js and its generated data, so every app carrying either gets the
+# data and the module right after profiles.js (or first, with profiles.js
+# put in front of them when an app did not list it).
+for _tz_cfg in APPS.values():
+    _tz_mods = _tz_cfg["modules"]
+    if any(SHARED / n in _tz_mods for n in ("account.js", "guide.js")) and SHARED / "treasures.js" not in _tz_mods:
+        if SHARED / "profiles.js" not in _tz_mods:
+            _tz_first = min(_tz_mods.index(SHARED / n) for n in ("account.js", "guide.js") if SHARED / n in _tz_mods)
+            _tz_mods.insert(_tz_first, SHARED / "profiles.js")
+        _tz_at = _tz_mods.index(SHARED / "profiles.js") + 1
+        _tz_mods[_tz_at:_tz_at] = [SHARED / "treasures-data.js", SHARED / "treasures.js"]
+
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a
     # source page's link into it keeps its text reference and loses the dead
@@ -880,6 +894,9 @@ DIST_SHARED = [
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
     "controls.js", "account.js", "profiles.js",
+    # The treasure ledger account.js and guide.js import, and the Treasure Map
+    # page (WebXR/treasures.html, copied beside the homepage) that reads it.
+    "treasures.js", "treasures-data.js",
     # The language layer controls.js, account.js and guide.js import (docs/i18n.md).
     "i18n.js", "i18n-strings.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
@@ -961,6 +978,9 @@ def build_combined() -> int:
         (DIST / page).write_text(combined_fixup(src.read_text()))
         copied += 1
     (DIST / AUTH_CONFIG).write_bytes((WEBXR / AUTH_CONFIG).read_bytes())
+    copied += 1
+    # The Treasure Map sits beside the homepage in both layouts, reading ./shared/.
+    (DIST / "treasures.html").write_text((WEBXR / "treasures.html").read_text())
     copied += 1
     for name in DIST_SHARED:
         (DIST / "shared").mkdir(parents=True, exist_ok=True)

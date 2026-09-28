@@ -69,6 +69,8 @@ import { mountUI, stripHtml, introMenu, diveReadout, courtReadout } from "./reac
 // union abbreviation — everything else it does is self-contained.
 import { mountSmartCityEggs } from "../../shared/eggs-app.js";
 import { recordLedgerFind } from "../../shared/eggs.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzPlantHost } from "../../shared/treasures.js";
 import { UNIONS_BY_ID } from "../../shared/unions.js";
 
 // The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
@@ -839,6 +841,7 @@ async function enterSim(id, { briefed = false } = {}) {
   state.room = room;
   state.api = room.build(root);
   state.hits = state.api.hits;
+  tzPlantHost(root, THREE, `smartcity/${room.id}`); // off the interaction system, like the hard hats
   if (room.activeFault) {
     state.api.onFault?.(room.activeFault);
     setRail("warn", `<b>${escapeHtml(room.faultLabel ?? room.activeFault)}</b> — ${escapeHtml(room.faultNote ?? "")}`);

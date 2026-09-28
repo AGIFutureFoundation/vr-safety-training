@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treasure Map</title>
+<meta name="description" content="Hidden treasures and easter eggs found across the platform: counts per world and area, sets and badges. Unfound treasures stay hidden.">
+<style>
+  :root { --bg: #0b1520; --panel: #101e2b; --line: #2c4458; --ink: #eef5fa; --muted: #b6c8d6; --gold: #f2c14b; --gold-2: #ffd97a; --ok: #6fdc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 72px 16px 96px; }
+  h1 { margin: 0 0 4px; font-size: clamp(26px, 5vw, 36px); color: var(--gold-2); }
+  h2 { margin: 28px 0 10px; font-size: 20px; }
+  p.lead { margin: 0 0 16px; color: var(--muted); max-width: 64ch; }
+  .total { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
+  .total b { font-size: 40px; color: var(--gold); }
+  .bar { height: 10px; border-radius: 5px; background: #1c2e3e; overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-2)); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .card h3 { margin: 0 0 6px; font-size: 17px; display: flex; justify-content: space-between; gap: 8px; }
+  .card h3 span { color: var(--gold); font-variant-numeric: tabular-nums; }
+  .card ul { list-style: none; margin: 8px 0 0; padding: 0; font-size: 14px; color: var(--muted); }
+  .card li { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; border-top: 1px dashed #22384a; }
+  .card li:first-child { border-top: 0; }
+  .set.done { border-color: var(--gold); }
+  .badge { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 10px; font-size: 13px; font-weight: 700; background: #2a3a48; color: var(--muted); }
+  .set.done .badge { background: var(--gold); color: #1a1400; }
+  .found { display: grid; gap: 10px; }
+  .found article { background: var(--panel); border-left: 3px solid var(--gold); border-radius: 8px; padding: 10px 12px; }
+  .found h3 { margin: 0; font-size: 16px; }
+  .found .where { font-size: 13px; color: var(--muted); }
+  .found p { margin: 6px 0 0; }
+  .empty { color: var(--muted); font-style: italic; }
+  .note { margin-top: 28px; font-size: 14px; color: var(--muted); }
+  #tz-reset, #tz-account { min-height: 36px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+</style>
+</head>
+<body>
+<main id="top">
+  <h1>Treasure Map</h1>
+  <p class="lead">Treasures and easter eggs are hidden all over the platform: the homepage, the Guide, every Trade Skills room, the stations, the Atlas, the arcade and the racer, Bay World, the Deep, the Regatta and Fairway Park. Each one teaches something real, taken word for word from the platform's own union registry, standards registry, station notes or tool list. This map shows how many you have found in each place. It never shows where an unfound one is.</p>
+  <div class="total"><b id="tz-count">0</b><span id="tz-of">of 0 found</span><span id="tz-who"></span></div>
+  <div class="bar" aria-hidden="true"><i id="tz-bar" style="width:0%"></i></div>
+
+  <h2>By world and area</h2>
+  <div class="grid" id="tz-surfaces"></div>
+
+  <h2>Sets and badges</h2>
+  <div class="grid" id="tz-sets"></div>
+
+  <h2>What you have found</h2>
+  <div class="found" id="tz-found"><p class="empty">Nothing yet. Try knocking on things.</p></div>
+
+  <p class="note">Your treasures are saved to your own profile: signed in, this device, or the demo tab (the demo keeps nothing once the tab closes). Some treasures stay locked until you have passed a station; when you find a locked one, it tells you which station to pass. <button id="tz-account" type="button">Sign in or switch profile</button> <button id="tz-reset" type="button">Clear my treasures</button></p>
+</main>
+<script type="module">
+import { tzMapModel, tzClear } from "./shared/treasures.js";
+import { gtProfile } from "./shared/profiles.js";
+
+const $ = (id) => document.getElementById(id);
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+function render() {
+  const m = tzMapModel();
+  $("tz-count").textContent = String(m.count);
+  $("tz-of").textContent = `of ${m.total} found`;
+  $("tz-who").textContent = `· ${gtProfile().label}`;
+  $("tz-bar").style.width = `${m.total ? Math.round((m.count / m.total) * 100) : 0}%`;
+  const s = $("tz-surfaces"); s.textContent = "";
+  for (const w of m.surfaces) {
+    const c = el("section", "card");
+    const h = el("h3", null, w.name); h.append(el("span", null, `${w.found} / ${w.total}`)); c.append(h);
+    const ul = el("ul");
+    for (const a of w.areas) { const li = el("li"); li.append(el("span", null, a.area), el("span", null, `${a.found} / ${a.total}`)); ul.append(li); }
+    c.append(ul); s.append(c);
+  }
+  const sets = $("tz-sets"); sets.textContent = "";
+  for (const x of m.sets) {
+    const c = el("section", `card set${x.complete ? " done" : ""}`);
+    const h = el("h3", null, x.name); h.append(el("span", null, `${x.found} / ${x.total}`)); c.append(h);
+    c.append(el("div", null, x.blurb), el("span", "badge", x.complete ? `Badge: ${x.badge}` : "Badge locked"));
+    sets.append(c);
+  }
+  const f = $("tz-found"); f.textContent = "";
+  if (!m.found.length) f.append(el("p", "empty", "Nothing yet. Try knocking on things."));
+  for (const t of m.found.slice().sort((a, b) => String(b.at).localeCompare(String(a.at)))) {
+    const a = el("article");
+    a.append(el("h3", null, t.name), el("div", "where", `${t.world} · ${t.area}`));
+    if (t.tool) a.append(el("p", null, `Tool: ${t.tool}.`));
+    a.append(el("p", null, t.lesson));
+    f.append(a);
+  }
+}
+$("tz-account").addEventListener("click", () => document.getElementById("gt-account")?.click());
+$("tz-reset").addEventListener("click", () => { if (typeof confirm !== "function" || confirm("Clear every treasure found on this profile?")) { tzClear(); render(); } });
+addEventListener("gt:profile", render);
+addEventListener("tz:found", render);
+render();
+</script>
+<script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the Treasure Map", home: "./index.html", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter follows the focused link.", map: "This page is the map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { gdMount } from "./shared/guide.js"; gdMount({ root: "./" });</script>
+</body>
+</html>
