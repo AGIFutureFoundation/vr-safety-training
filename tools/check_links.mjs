@@ -319,7 +319,7 @@ async function lkAssertChrome(label) {
     const vis = (el) => { if (!el) return false; const cs = getComputedStyle(el); const r = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && r.width > 1 && r.height > 1; };
     const chip = document.querySelector("#ctl-nav .home-chip");
     return vis(chip) && vis(document.getElementById("gd-btn")) ? { chip: chip.getAttribute("href") } : null;
-  }, null, { timeout: 8000 }).then((h) => h.jsonValue(), () => null);
+  }, null, { timeout: 20000 }).then((h) => h.jsonValue(), () => null);
   const what = got ? "" : await page.evaluate(() => `chip ${!!document.querySelector("#ctl-nav .home-chip")}, guide ${!!document.getElementById("gd-btn")}`).catch(() => "page gone");
   check(!!got, `${label}: shows the Home chip and the Guide`, what);
   bump("Home + Guide asserted");

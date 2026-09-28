@@ -18,7 +18,7 @@ If your deployment holds a union's written permission to display its logo:
    `<WebXR root>/assets/brand/manifest.json` relative to the page).
 
 When the file loads, the union's sign shows it in place of the wordmark and
-keeps the "Training partner" line. When it does not load, or the manifest is
+keeps the "Trade reference" line. When it does not load, or the manifest is
 missing, the wordmark stays. Nothing else changes.
 
 Do not commit a logo or a non-null `file` to this repository:

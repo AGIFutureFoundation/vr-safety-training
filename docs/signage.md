@@ -13,15 +13,18 @@ gate is `tools/check_signage.mjs`. Screenshots:
 is its registered trademark, and the platform holds no licence to it. What
 the sign shows is a **wordmark** — the union's abbreviation set large, its
 full name set small, the local where the repository already names one with
-certainty, and a "Training partner" line naming the union's training fund
+certainty, and a "Trade reference" line naming the union's training fund
 from the standards registry — typeset at runtime from `tools/unions.json`.
-The wordmark uses the platform's own palette; a union's colour scheme is used
-only where it is public and certain, and so far no entry sets one.
+The line reads "Trade reference", never "Training partner": the platform has
+no partnership with any union, and the sign only names the union whose trade
+and training fund the station refers to. The wordmark uses the platform's own
+palette; a union's colour scheme is used only where it is public and certain,
+and so far no entry sets one.
 
 A licensed deployment that holds a union's written permission to display its
 logo can supply the file itself: `WebXR/assets/brand/manifest.json` maps each
 union id to a `file` under `assets/brand/`, and when that file exists and
-loads the sign shows it in place of the wordmark, keeping the training-partner
+loads the sign shows it in place of the wordmark, keeping the trade-reference
 line. **The repository ships the manifest with every `file` null**, a licence
 note stating that the deployment must hold permission, and nothing under
 `assets/brand/` but the manifest and its README. `tools/check_signage.mjs`

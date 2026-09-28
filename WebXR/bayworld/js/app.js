@@ -18,7 +18,7 @@ import {
   bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress,
   bwIsVehicleUnlocked, bwIsFastTravelUnlocked, bwIsSiteVisited,
 } from "./career.js";
-import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn } from "./quest-engine.js";
+import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn, bwMarkSpawn } from "./quest-engine.js";
 import { BW_QUESTS } from "./quests-select.js";
 import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap } from "./map.js";
 import { bwBuildWorld } from "./world.js";
@@ -309,7 +309,8 @@ function bwRenderQuizQuestion() {
 
 function bwRenderQuestHud() {
   const list = questState(bwStore);
-  const active = list.find((q) => !q.done) ?? list[0];
+  // A locked quest (its `requires` not yet done) is never the objective.
+  const active = list.find((q) => !q.done && !q.locked) ?? list[0];
   const el = $("hud-objective");
   if (!el) return;
   if (!active) { el.textContent = "No active job."; return; }
@@ -511,6 +512,7 @@ function bwLoop(now) {
 
 function bwStart() {
   registerQuests(BW_QUESTS);
+  bwMarkSpawn(bwApp.player); // no goto completes until the participant moves off the spawn
   bwSetup3D();
   bwWireTouch();
   tcMountQuality($("hud-stats"), (t) => tcApplyRenderer(bwApp.renderer, tcTier(t)));

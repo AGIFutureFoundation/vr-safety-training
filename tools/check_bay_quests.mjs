@@ -28,6 +28,14 @@
  *  7. Rewards are monotone: every main/side quest's reward.xp matches
  *     rewardForTier(tier) exactly, tiers are positive integers, and a
  *     quest's reward.xp is never lower than the quest it requires.
+ *  6b. The engine (bayworld/js/quest-engine.js) honours the graph, run on
+ *     the adapted quests the app registers: every `requires` id (quest or
+ *     step, string or array) resolves; a fresh profile spawned at every
+ *     spawn point app.js can start a shift at (the depot, and beside every
+ *     site and landmark) completes no step and fires no event before the
+ *     participant moves; and no quest that requires another progresses —
+ *     every one of its steps played — until its prerequisite is done, while
+ *     the Pathway Edition and Teamwork pairs still run opener -> capstone.
  *
  * WebXR/shared/bayworld-data.js (BAY1's sites and landmarks) is optional:
  * when it exists, every quest.site and egg.landmark string is also checked
@@ -176,11 +184,144 @@ await check("landmark notes carry no invented facts (no digits, no fact-shaped w
 await check("the quest graph (requires) is a DAG with no dangling edges", () => {
   const ids = new Set(ALL_QUESTS.map((q) => q.id));
   eq(ids.size, ALL_QUESTS.length, "quest ids must be unique");
-  const dangling = ALL_QUESTS.filter((q) => q.requires && !ids.has(q.requires)).map((q) => `${q.id} -> requires missing "${q.requires}"`);
+  const reqs = (r) => (r == null ? [] : Array.isArray(r) ? r : [r]);
+  const dangling = [];
+  for (const q of ALL_QUESTS) {
+    for (const r of reqs(q.requires)) if (!ids.has(r)) dangling.push(`${q.id} -> requires missing "${r}"`);
+    for (const [i, st] of q.steps.entries()) for (const r of reqs(st.requires)) if (!ids.has(r)) dangling.push(`${q.id} step ${i} -> requires missing "${r}"`);
+  }
   assert(dangling.length === 0, dangling.join("\n"));
   const cycle = findCycle(ALL_QUESTS);
   assert(cycle === null, `cycle found: ${cycle?.join(" -> ")}`);
 });
+
+// ------------------------------------ 6b. the engine honours the graph
+// The quests exactly as the app registers them (quests-select.js adapts
+// sites and targets to map ids), run through the real engine.
+const QE = await import(pathToFileURL(join(WEBXR, "bayworld", "js", "quest-engine.js")));
+const QS = await import(pathToFileURL(join(WEBXR, "bayworld", "js", "quests-select.js")));
+const CITY = await import(pathToFileURL(join(WEBXR, "bayworld", "js", "city.js")));
+const PLACES = [...CITY.BW_SITES, ...CITY.BW_LANDMARKS];
+function fakeStorage() {
+  const m = new Map();
+  return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) };
+}
+function freshEngine() {
+  QE.bwClearQuests();
+  QE.registerQuests(QS.BW_QUESTS);
+  return fakeStorage();
+}
+function placePoint(target, anchor) {
+  const hit = PLACES.find((p) => p.id === target);
+  if (hit) return hit.position ? { x: hit.position[0], z: hit.position[2] } : { x: hit.center[0], z: hit.center[1] };
+  return anchor ? { x: anchor[0], z: anchor[1] } : null;
+}
+/** Performs one step the way a player would: a station return, or standing
+ *  at the target, interacting, in a moving vehicle for a drive (covers goto,
+ *  find, talk and drive alike). */
+function playStep(q, step, storage) {
+  if (step.type === "station") return QE.bwNoteStationReturn(step.target, { storage });
+  const at = placePoint(step.target, q.anchor);
+  assert(at, `${q.id}: step target "${step.target}" resolves to no point`);
+  return QE.bwAdvanceQuests({ player: at, places: PLACES, interact: true, inVehicle: step.type === "drive", speed: 10 }, { storage });
+}
+const stateOf = (id, storage) => QE.questState(storage).find((x) => x.id === id);
+function playToEnd(q, storage) {
+  for (let guard = 0; guard < q.steps.length + 2; guard += 1) {
+    const st = stateOf(q.id, storage);
+    if (st.done) return st;
+    playStep(q, q.steps[st.stepIndex], storage);
+  }
+  return stateOf(q.id, storage);
+}
+
+await check("a fresh profile spawned at every spawn point completes no quest step before moving", () => {
+  const app = readFileSync(join(WEBXR, "bayworld", "js", "app.js"), "utf8");
+  const off = app.match(/x: bwStartPlace\.position\[0\] \+ (-?[\d.]+), z: bwStartPlace\.position\[2\] \+ (-?[\d.]+)/);
+  const depot = app.match(/: \{ x: (-?[\d.]+), z: (-?[\d.]+), heading: 0, speed: 0 \},\s*\n\s*vehicleId/);
+  assert(off && depot, "app.js's spawn (beside a deep-linked place, else the depot) changed shape; update this check");
+  assert(/function bwStart\(\) \{[^}]*bwMarkSpawn\(bwApp\.player\)/.test(app), "app.js's bwStart() must hand the spawn point to bwMarkSpawn()");
+  const [dx, dz] = [Number(off[1]), Number(off[2])];
+  const spawns = [{ id: "depot", x: Number(depot[1]), z: Number(depot[2]) },
+    ...PLACES.filter((p) => p.position).map((p) => ({ id: p.id, x: p.position[0] + dx, z: p.position[2] + dz }))];
+  const bad = [];
+  let wouldHaveFired = 0;
+  for (const sp of spawns) {
+    const storage = freshEngine();
+    const events = [];
+    const offS = QE.onQuestStep((e) => events.push(`${e.questId} step`));
+    const offD = QE.onQuestDone((e) => events.push(`${e.questId} done`));
+    QE.bwMarkSpawn(sp);
+    for (let frame = 0; frame < 3; frame += 1) {
+      const adv = QE.bwAdvanceQuests({ player: { x: sp.x, z: sp.z }, places: PLACES, interact: false, inVehicle: false, speed: 0 }, { storage });
+      if (adv.length) bad.push(`${sp.id}: frame ${frame} advanced ${adv.join(", ")}`);
+    }
+    const moved = QE.questState(storage).filter((q) => q.stepIndex > 0 || q.done).map((q) => q.id);
+    if (moved.length) bad.push(`${sp.id}: fresh profile shows progress on ${moved.join(", ")}`);
+    if (events.length) bad.push(`${sp.id}: fired ${events.join(", ")}`);
+    offS(); offD();
+    // The same spawn without the gate: counts the spawns the gate protects.
+    const bare = freshEngine();
+    if (QE.bwAdvanceQuests({ player: { x: sp.x, z: sp.z }, places: PLACES }, { storage: bare }).length) wouldHaveFired += 1;
+  }
+  assert(bad.length === 0, bad.slice(0, 20).join("\n"));
+  const port = spawns.find((s) => s.id === "port-container-terminal");
+  assert(port, "the port container terminal is no longer a site; pick another spawn for the regression below");
+  assert(wouldHaveFired > 0, "no spawn sits inside a goto radius — the spawn test no longer exercises the gate");
+  // Moving off the spawn lifts the gate: the Pathway Edition opener's goto then counts, its capstone does not.
+  const storage = freshEngine();
+  QE.bwMarkSpawn(port);
+  QE.bwAdvanceQuests({ player: { x: port.x - QE.BW_SPAWN_GRACE - 1, z: port.z }, places: PLACES }, { storage });
+  eq(stateOf("bw-side-wojrc-pathway-edition-opener", storage).stepIndex, 1, "after moving off the port spawn, the Pathway Edition opener's goto should count");
+  eq(stateOf("bw-side-wojrc-pathway-edition-capstone", storage).stepIndex, 0, "the Pathway Edition capstone must stay locked while its opener is open");
+  console.log(`      ${spawns.length} spawn points, ${wouldHaveFired} of them inside a goto radius`);
+});
+
+await check("no quest progresses before its prerequisites are done; Pathway Edition and Teamwork still run opener -> capstone", () => {
+  const byId = new Map(QS.BW_QUESTS.map((q) => [q.id, q]));
+  const bad = [];
+  let tested = 0;
+  for (const q of QS.BW_QUESTS) {
+    if (!q.requires) continue;
+    tested += 1;
+    const storage = freshEngine();
+    const events = [];
+    const offS = QE.onQuestStep((e) => { if (e.questId === q.id) events.push("step"); });
+    const offD = QE.onQuestDone((e) => { if (e.questId === q.id) events.push("done"); });
+    // Play every step of the locked quest. Where its steps overlap its
+    // prerequisite's (a capstone reusing its opener's site and stations),
+    // playing them can finish the prerequisite — from then on the quest is
+    // rightly unlocked, so the assertion holds only while it is still open.
+    for (const step of q.steps) {
+      playStep(q, step, storage);
+      if (stateOf(q.requires, storage)?.done) break;
+      const st = stateOf(q.id, storage);
+      if (st.stepIndex !== 0 || st.done) { bad.push(`${q.id}: progressed to step ${st.stepIndex} before ${q.requires} was done`); break; }
+      if (!st.locked) { bad.push(`${q.id}: questState() does not report it locked before ${q.requires} is done`); break; }
+      if (events.length) { bad.push(`${q.id}: fired ${events.join(", ")} while locked`); break; }
+    }
+    offS(); offD();
+  }
+  assert(tested >= 60, `only ${tested} quests carry requires; expected every capstone and the main arc`);
+  for (const [opener, capstone] of [["bw-side-wojrc-pathway-edition-opener", "bw-side-wojrc-pathway-edition-capstone"], ["bw-side-teamwork-opener", "bw-side-teamwork-capstone"]]) {
+    const o = byId.get(opener), c = byId.get(capstone);
+    if (!o || !c) { bad.push(`${opener} / ${capstone} missing`); continue; }
+    if (c.requires !== opener) bad.push(`${capstone} should require ${opener}, requires ${c.requires}`);
+    const storage = freshEngine();
+    const dones = [];
+    const offD = QE.onQuestDone((e) => dones.push(e.questId));
+    const os = playToEnd(o, storage);
+    if (!os.done) bad.push(`${opener}: did not complete end to end (stuck at step ${os.stepIndex})`);
+    if (stateOf(capstone, storage).locked) bad.push(`${capstone}: still locked after ${opener} completed`);
+    const cs = playToEnd(c, storage);
+    if (!cs.done) bad.push(`${capstone}: did not complete end to end after its opener (stuck at step ${cs.stepIndex})`);
+    if (dones.indexOf(opener) < 0 || dones.indexOf(capstone) < dones.indexOf(opener)) bad.push(`${opener} -> ${capstone}: onQuestDone order ${dones.filter((d) => d === opener || d === capstone).join(", ")}`);
+    offD();
+  }
+  assert(bad.length === 0, bad.slice(0, 20).join("\n"));
+  console.log(`      ${tested} quests with prerequisites held locked with every step played`);
+});
+QE.bwClearQuests();
 
 // -------------------------------------------------- 7. rewards monotone
 
