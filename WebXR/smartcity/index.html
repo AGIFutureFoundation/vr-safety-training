@@ -336,6 +336,18 @@
 
   /* --------------------------------------------------------- controls */
   .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 14px }
+  /* The results card's onward links (next station, Back to <world>) wear the
+     button look in the platform tokens (shared/theme.js, console POLISH). */
+  .btnrow a.btn{ display:inline-flex; align-items:center; font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
+    text-transform:uppercase; text-decoration:none; border-radius:var(--th-r-sm, 6px); padding:11px 20px; min-height:44px;
+    border:1px solid var(--th-edge-strong, rgba(126,170,200,.32)); background:var(--th-raised, #142130); color:var(--th-text, #edf6fb) }
+  .btnrow a.btn.primary{ background:var(--th-accent, #4fd1ff); border-color:transparent; color:var(--th-accent-ink, #03202b) }
+  .btnrow a.btn:focus-visible{ outline:3px solid var(--th-focus, #ffd166); outline-offset:2px }
+  /* One sign-in entry on every page (console POLISH): where the shared account
+     chip mounted in the top-left bar, the intro toolbar's own Sign in steps
+     aside; the voice command and the dialog behind it stay. */
+  html:has(#gt-account) #open-signin{ display:none }
+  .res-onward{ border-top:1px solid var(--th-edge, rgba(126,170,200,.16)); padding-top:12px }
   button{ font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
     text-transform:uppercase; cursor:pointer; border-radius:var(--r-sm); padding:11px 20px; min-height:44px;
     border:1px solid var(--edge-strong); background:var(--surface-raised); color:var(--text); touch-action:manipulation;

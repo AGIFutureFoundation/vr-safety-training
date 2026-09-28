@@ -27,6 +27,12 @@
  *  6. The round trip: a room opened from a board offers "Back to <world>",
  *     that link resolves, and with a passport record seeded Bay World comes
  *     home to that site's board.
+ *  1b. Every page shows the Home chip and the Guide (console POLISH): every
+ *     page in both layouts, three track pages (every one with LINKS_FULL=1);
+ *     and every link target renders its environment — one link per distinct
+ *     target page (every distinct link with LINKS_FULL=1) is loaded and must
+ *     draw a frame on its canvas, or render its heading and content for a
+ *     document page, with Home and the Guide and without a page error.
  *  7. The homepage continue strip (tools/gen_home.mjs, owned by MARQUEE) is
  *     checked in both layouts; while it is pending it is reported, not
  *     failed (LK_STRICT_CONTINUE=1 makes it fail).
@@ -243,6 +249,20 @@ for (const [world, repoPage, flatPage, build] of WORLDS) {
   bump(world, n);
 }
 
+// The Atlas's programme chips open the programme's own track page, never
+// SmartCiti.X (console POLISH), in both layouts.
+{
+  const chips = atlasPlaces().flatMap((p) => atlasDeepLinks(p).programmes);
+  const flatChips = lkFlatten(chips.map((c) => c.href));
+  chips.forEach((c, i) => {
+    for (const [layout, link, pg] of [["repo", c.href, "/WebXR/bayworld/atlas.html"], ["flat", flatChips[i], "/atlas.html"]]) {
+      const u = new URL(link, originOf(layout) + pg);
+      check(u.pathname.endsWith(`/tracks/${c.id}.html`) && !!lkFileFor(layout, u.pathname), `the Atlas ${layout}: the ${c.id} chip opens its track page`, link);
+    }
+  });
+  bump("Atlas programme chips", chips.length * 2);
+}
+
 // One browser, one context, one page, reused for every load in turn.
 let chromium, browser;
 try {
@@ -288,6 +308,68 @@ async function lkSeed(layout, records) {
   await page.evaluate((recs) => { try { localStorage.setItem("vr-training-records-v1", JSON.stringify(recs)); } catch { /* private */ } }, records);
 }
 
+/**
+ * Home and the Guide on every page, in the same places (console POLISH,
+ * tools/briefs/polish-brief.md): the Home chip in the shared top-left bar
+ * (#ctl-nav, shared/controls.js) and the Guide button (#gd-btn,
+ * shared/guide.js), both visible. Waits briefly for the late mounts.
+ */
+async function lkAssertChrome(label) {
+  const got = await page.waitForFunction(() => {
+    const vis = (el) => { if (!el) return false; const cs = getComputedStyle(el); const r = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && r.width > 1 && r.height > 1; };
+    const chip = document.querySelector("#ctl-nav .home-chip");
+    return vis(chip) && vis(document.getElementById("gd-btn")) ? { chip: chip.getAttribute("href") } : null;
+  }, null, { timeout: 8000 }).then((h) => h.jsonValue(), () => null);
+  const what = got ? "" : await page.evaluate(() => `chip ${!!document.querySelector("#ctl-nav .home-chip")}, guide ${!!document.getElementById("gd-btn")}`).catch(() => "page gone");
+  check(!!got, `${label}: shows the Home chip and the Guide`, what);
+  bump("Home + Guide asserted");
+  return !!got;
+}
+
+/**
+ * The environment a link lands on actually renders (console POLISH): a world
+ * or app page draws a frame on its canvas (the canvas's pixels are not one
+ * flat fill — a PNG of a single colour compresses to a few kilobytes), a
+ * document page (the homepage, a track page, the portal) shows its heading
+ * and its content. No page error either way; Home and the Guide on both.
+ */
+const LK_DOC_PAGES = /(^|\/)(index\.html|tracks\/[^/]+\.html|portal\/index\.html|verify\/index\.html|instructor-console\.html|instructor\/index\.html|campus\/index\.html)$/;
+const LK_WORLD_START = [[/bayworld(\/index)?\.html$/, ["#menu-start"]], [/underwater\.html$/, ["#menu-start"]], [/fairway(\/index)?\.html$/, ["#menu-play"]], [/regatta\.html$/, ["#menu-enter", "#menu-race"]]];
+async function lkRendersEnvironment(href) {
+  const u = new URL(href);
+  const label = short(href);
+  try {
+    await lkVisit(href, { until: "load", timeout: 30000, settle: 600 });
+    const docPage = LK_DOC_PAGES.test(u.pathname) && !/\/(smartcity|trades|holodeck|bayworld|fairway|regatta|underwater|race|arcade)\/index\.html$/.test(u.pathname);
+    if (docPage) {
+      const doc = await page.evaluate(() => ({ h: !!document.querySelector("h1, h2"), text: (document.body?.innerText ?? "").trim().length }));
+      check(doc.h && doc.text > 200, `${label}: the page renders its heading and content`, JSON.stringify(doc));
+    } else if (/atlas\.html$/.test(u.pathname)) {
+      // The Atlas draws its map as SVG (Mapbox GL only with a token): every place a marker.
+      const n = await page.waitForFunction(() => document.querySelectorAll("svg [data-place], svg circle, svg .atlas-marker").length || null, null, { timeout: 15000 }).then((h) => h.jsonValue(), () => 0);
+      check(n > 5, `${label}: the Atlas draws its map with its places`, `${n} markers`);
+    } else {
+      // A world opens on its menu; press through it the way a player would.
+      for (const sel of LK_WORLD_START.find(([re]) => re.test(u.pathname))?.[1] ?? []) {
+        await page.waitForSelector(sel, { state: "visible", timeout: 20000 }).then(() => page.evaluate((x) => document.querySelector(x).click(), sel), () => {});
+        await page.waitForTimeout(400);
+      }
+      const box = await page.waitForFunction(() => {
+        const c = [...document.querySelectorAll("canvas")].map((el) => ({ el, r: el.getBoundingClientRect() })).filter((x) => x.r.width > 100 && x.r.height > 100).sort((a, b) => b.r.width * b.r.height - a.r.width * a.r.height)[0];
+        return c ? { x: Math.max(0, c.r.x), y: Math.max(0, c.r.y), width: Math.min(innerWidth, c.r.width), height: Math.min(innerHeight, c.r.height) } : null;
+      }, null, { timeout: 20000 }).then((h) => h.jsonValue(), () => null);
+      if (check(!!box, `${label}: the page draws a canvas`)) {
+        await page.waitForTimeout(1500);
+        const png = await page.screenshot({ clip: box, timeout: 60000 });
+        check(png.length > 8000, `${label}: the canvas shows a drawn frame, not a flat fill`, `${png.length} bytes`);
+      }
+    }
+    await lkAssertChrome(label);
+    check(!visitErrors.filter((m) => !/reading .elements./.test(m)).length, `${label}: renders without a page error`, visitErrors.join(" | "));
+    bump("link targets rendered");
+  } catch (e) { check(false, `${label}: the link target renders`, `${String(e.message).split("\n")[0]} ${visitErrors.join(" | ")}`); }
+}
+
 // ------------------------------------------------------------ 1. anchors
 
 const REPO_PAGES = ["index.html", "smartcity/index.html", "trades/index.html", "holodeck/index.html", "instructor/index.html", "race/index.html",
@@ -303,6 +385,7 @@ for (const [layout, rel] of [...REPO_PAGES.map((p) => ["repo", p]), ...FLAT_PAGE
     hrefs = await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => ({ href: a.href, text: a.textContent.trim(), cls: a.className })));
   } catch (e) { check(false, `${layout} ${rel} opens`, String(e.message).split("\n")[0]); continue; }
   check(!visitErrors.length, `${layout} ${rel} opens without a page error`, visitErrors.join(" | "));
+  await lkAssertChrome(`${layout} ${rel}`);
   RENDERED[`${layout} ${rel}`] = hrefs;
   for (const h of new Set(hrefs.map((a) => a.href))) {
     if (!/^https?:/.test(h)) continue;
@@ -321,6 +404,39 @@ for (const rel of TRACK_PAGES) {
     check(!why, `flat ${rel}: anchor ${m[1]}`, why ?? "");
     bump("anchors flat");
   }
+}
+
+// ------------------------------------------------------------ 1b. every page carries Home and the Guide; every link target renders (POLISH)
+
+const FULL_SWEEP = !!process.env.LINKS_FULL;
+{
+  // The track pages: three sampled (first, middle, last), every one under LINKS_FULL=1.
+  const tracks = FULL_SWEEP ? TRACK_PAGES : [TRACK_PAGES[0], TRACK_PAGES[Math.floor(TRACK_PAGES.length / 2)], TRACK_PAGES[TRACK_PAGES.length - 1]].filter(Boolean);
+  for (const rel of tracks) {
+    try {
+      await lkVisit(pageUrl("flat", rel), { timeout: 30000, settle: 600 });
+      check(!visitErrors.length, `flat ${rel} opens without a page error`, visitErrors.join(" | "));
+      await lkAssertChrome(`flat ${rel}`);
+    } catch (e) { check(false, `flat ${rel} opens`, String(e.message).split("\n")[0]); }
+  }
+  // Every distinct page a rendered anchor or a track page points at (station
+  // launches are loaded in section 4): one link per target page, sampled; every
+  // distinct link under LINKS_FULL=1.
+  const targets = new Map();
+  const add = (layout, href) => {
+    let u; try { u = new URL(href); } catch { return; }
+    if (u.origin !== originOf(layout) || u.searchParams.get("sim") !== null || u.searchParams.get("room") !== null) return;
+    if (!/\.html$|\/$/.test(u.pathname)) return;
+    u.hash = "";
+    const key = FULL_SWEEP ? `${layout} ${u.pathname}${u.search}` : `${layout} ${u.pathname.replace(/\/tracks\/[^/]+\.html$/, "/tracks/*")}`;
+    if (!targets.has(key)) targets.set(key, u.href);
+  };
+  for (const [k, list] of Object.entries(RENDERED)) for (const a of list) add(k.split(" ")[0], a.href);
+  for (const rel of TRACK_PAGES) {
+    const html = readFileSync(join(DIST, rel), "utf8");
+    for (const m of html.matchAll(/<a\b[^>]*\shref="([^"]+)"/g)) add("flat", new URL(m[1].replace(/&amp;/g, "&"), pageUrl("flat", rel)).href);
+  }
+  for (const href of targets.values()) await lkRendersEnvironment(href);
 }
 
 // ------------------------------------------------------------ 3. job boards, as rendered

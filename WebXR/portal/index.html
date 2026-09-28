@@ -195,5 +195,8 @@
     for build/verification details on each.
   </footer>
 </main>
+<!-- Home, help and the account chip (shared/controls.js) and the Guide (shared/guide.js), in the same places as on every page (console POLISH). -->
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the network portal", home: "../index.html", except: { move: "A page, not a world: Tab walks the page.", look: "Scroll the page.", interact: "Enter opens the focused link.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
 </html>

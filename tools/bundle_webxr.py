@@ -671,6 +671,14 @@ LINK_QUOTES = ('"', "`")
 # it, and shared/voice-assist.js (its speech out) where the app has none.
 # Its knowledge base, shared/guide-kb.js, is not bundled: guide.js imports it
 # lazily from the dist folder the first time the panel opens.
+# The design tokens (console POLISH, shared/theme.js) ride with the control
+# grammar the same way: controls.js imports them, so every app that lists
+# controls.js gets theme.js just before it.
+for _th_cfg in APPS.values():
+    _th_mods = _th_cfg["modules"]
+    if SHARED / "controls.js" in _th_mods and SHARED / "theme.js" not in _th_mods:
+        _th_mods.insert(_th_mods.index(SHARED / "controls.js"), SHARED / "theme.js")
+
 for _gd_cfg in APPS.values():
     _gd_mods = _gd_cfg["modules"]
     if SHARED / "controls.js" in _gd_mods and SHARED / "guide.js" not in _gd_mods:
@@ -686,6 +694,9 @@ def dist_fixup(html: str) -> str:
     for name in SIBLING_APP_DIRS:
         for q in LINK_QUOTES:
             html = html.replace(f'{q}../{name}/', f'{q}../../{name}/')
+    # The programme track pages (the Atlas's chips) live in WebXR/dist/tracks/.
+    for q in LINK_QUOTES:
+        html = html.replace(f'{q}../dist/tracks/', f'{q}../../dist/tracks/')
     # The homepage link in every app's header chip: WebXR/index.html is one
     # level up from the source page and two from WebXR/<app>/dist/.
     for q in LINK_QUOTES:
@@ -855,7 +866,7 @@ DIST_PAGES = {
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported
     # by the homepage and the training-track pages.
-    "controls.js",
+    "controls.js", "theme.js",
     # The Guide, its speech out and its lazily loaded knowledge base
     # (docs/consoles/COMPASS.md), for the homepage, the track pages and every
     # bundle's panel.
@@ -897,6 +908,8 @@ def combined_fixup(html: str) -> str:
             html = html.replace(f'{q}../../{app}/{index}', f'{q}./{page}')
             html = html.replace(f'{q}../../{app}/dist/{page}', f'{q}./{page}')
     for q in LINK_QUOTES:
+        # The track pages are this folder's own tracks/.
+        html = html.replace(f'{q}../../dist/tracks/', f'{q}./tracks/')
         # The homepage sits beside the bundles in this folder.
         html = html.replace(f'{q}../../index.html{q}', f'{q}./index.html{q}')
         # The network portal page is not published in the flat folder; its

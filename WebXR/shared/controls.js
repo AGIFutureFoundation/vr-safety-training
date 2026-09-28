@@ -27,6 +27,7 @@
 // name here starts with `ctl`.
 
 import { gtMountAccount } from "./account.js";
+import { thMount } from "./theme.js";
 
 const ctlHasDom = typeof document !== "undefined";
 
@@ -307,7 +308,9 @@ export function ctlMount(opts = {}) {
     window.addEventListener("keydown", ctlOnKey, true);
     ctlState.mounted = true;
   }
-  const ctlSweep = () => { ctlNameButtons(); ctlPhoneText(); };
+  // The platform's design tokens (shared/theme.js), after every shared sheet.
+  thMount();
+  const ctlSweep = () => { ctlNameButtons(); ctlPhoneText(); thMount(); };
   ctlSweep();
   // Late-built HUD buttons get their names and sizes too, once the page settles.
   for (const ms of [400, 1500, 4000]) setTimeout(ctlSweep, ms);
