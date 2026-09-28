@@ -23,3 +23,10 @@
 - 05:17 UTC · Tagalog complete, 321/321 · d7abb59 · next: vi
 - 05:18 UTC · Vietnamese complete, 321/321 · 8b3294c · next: ko
 - 05:19 UTC · Korean complete, 321/321 · aadfcff · next: ja
+- 05:20 UTC · Japanese complete, 321/321 · fdf870f · next: am
+- 05:22 UTC · Amharic complete, 321/321 · 147dd9a · next: ha
+- 05:24 UTC · Hausa complete, 321/321 · deeffc3 · next: the remaining codes in tools/i18n/ (tr, yo)
+- 05:25 UTC · Turkish complete, 321/321 · b391a44 · next: yo
+- 05:27 UTC · Yoruba complete, 321/321; all 21 tables now 321/321 and gen_i18n reports "321–321 translated per language" · dcba06f · next: the checker
+- 05:29 UTC · check_i18n prints per-language coverage and fails if any of the 21 falls below 100% (MIN_COVERAGE = 1, set because every table is full); new headless checks load the homepage at 360x640 with ?lang= ar, ur, zh, hi and am and fail on sideways scroll, a wrong lang/dir, a raw key, or an English programme title. check_i18n alone: 237 checks pass. The scratch probe on 127.0.0.1:8974 (server closed after) agrees: scrollWidth 360 in all five. docs/i18n.md: coverage, the quotation note (no key is a quotation) and the proper-names rule · 955ec21 · next: check_all
+- Translation notes for a reviewer: "Guide" is translated as the language's word for guide (fr/de kept "Guide" because it is the same word); "The Deep" and "Bay Atlas" are translated, as in fr/de; Bay World, Bay Regatta, Fairway Park, SmartCiti.X and Holodeck stay in English; no numbers or limits were added to any string.
