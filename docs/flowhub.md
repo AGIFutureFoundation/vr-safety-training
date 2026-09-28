@@ -382,6 +382,26 @@ the user; not described in this repository). The flow uses only the existing
 contract: `ref` is the opaque string `host:basketball-fundamentals/handoff`,
 and nothing here assumes how that platform, or any other host, receives it.
 
+### The four K-12 classroom flows
+
+`k12-practical-math`, `k12-science`, `k12-history-and-civics` and
+`k12-literacy-and-life-skills` share one shape, described with the programmes
+in [k12.md](k12.md): the first station's pre-brief → the programme → a class
+check-in → a **teacher gate** (`rule: "passed"` over the programme's key
+stations, read from this run's own records) → a closing check-in, with the gate
+sending the class back into the programme when it does not hold. The gate
+certifies nothing; the teacher decides what a result evidences against the
+school's own curriculum.
+
+```mermaid
+flowchart LR
+    B["brief-first<br/>(pre-brief)"] --> P["prog<br/>(programme)"]
+    P --> M["checkin-mid"]
+    M --> G{{"gate-teacher<br/>passed over key stations"}}
+    G -- competency demonstrated --> K["checkin-close"]
+    G -- not yet --> P
+```
+
 ---
 
 ## 7. What a host has to do, in order

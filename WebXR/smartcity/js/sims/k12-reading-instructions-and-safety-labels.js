@@ -64,222 +64,222 @@ export const SIM_K12_READING_INSTRUCTIONS_AND_SAFETY_LABELS = {
 
   steps: [
     {
-      "id": "find-the-parts-of-the-label",
-      "kind": "find",
-      "noHint": true,
-      "targets": [
+      id: "find-the-parts-of-the-label",
+      kind: "find",
+      noHint: true,
+      targets: [
         "kri-signal-word",
         "kri-pictogram",
         "kri-first-aid"
       ],
-      "itemNames": {
+      itemNames: {
         "kri-signal-word": "the signal word",
         "kri-pictogram": "the warning picture",
         "kri-first-aid": "what to do if it goes wrong"
       },
-      "itemNotes": {
+      itemNotes: {
         "kri-signal-word": "The signal word tells you how serious the warning is. Read it first.",
         "kri-pictogram": "The picture shows the kind of danger at a glance. The words beside it say exactly what it means.",
         "kri-first-aid": "The part you hope never to need, and so the part to read before you start."
       },
-      "decoyNotes": {
+      decoyNotes: {
         "kri-brand-logo": "The logo tells you who made it, not how to use it safely. Look for the safety parts."
       },
-      "title": "Find the parts of the label",
-      "cue": "Mark the three parts of the safety label you must read before using the product.",
-      "why": "A safety label is organised so the most important information is easy to find: a signal word that says how serious the warning is, a picture that shows the kind of danger, and the instructions for what to do and what to do if something goes wrong. Knowing where each part is means you can read any label quickly and completely, whatever the product."
+      title: "Find the parts of the label",
+      cue: "Mark the three parts of the safety label you must read before using the product.",
+      why: "A safety label is organised so the most important information is easy to find: a signal word that says how serious the warning is, a picture that shows the kind of danger, and the instructions for what to do and what to do if something goes wrong. Knowing where each part is means you can read any label quickly and completely, whatever the product."
     },
     {
-      "id": "read-the-instructions-all-the-way",
-      "kind": "select",
-      "target": "kri-read-all",
-      "title": "Read the instructions all the way through",
-      "cue": "Before you touch anything, read every step to the end.",
-      "why": "Reading instructions all the way through before starting shows you what you will need, how long it will take and where the warnings are. It is the habit that separates people who finish a task smoothly from people who stop halfway to find something they needed at the start, and it applies to a recipe, a game or a form."
+      id: "read-the-instructions-all-the-way",
+      kind: "select",
+      target: "kri-read-all",
+      title: "Read the instructions all the way through",
+      cue: "Before you touch anything, read every step to the end.",
+      why: "Reading instructions all the way through before starting shows you what you will need, how long it will take and where the warnings are. It is the habit that separates people who finish a task smoothly from people who stop halfway to find something they needed at the start, and it applies to a recipe, a game or a form."
     },
     {
-      "id": "put-the-reading-routine-in-order",
-      "kind": "sequence",
-      "targets": [
+      id: "put-the-reading-routine-in-order",
+      kind: "sequence",
+      targets: [
         "kri-ord-title",
         "kri-ord-need",
         "kri-ord-steps",
         "kri-ord-warn"
       ],
-      "itemNames": {
+      itemNames: {
         "kri-ord-title": "1 · the title: what is it for?",
         "kri-ord-need": "2 · what you need",
         "kri-ord-steps": "3 · the steps",
         "kri-ord-warn": "4 · warnings and what to do if it goes wrong"
       },
-      "title": "Put the reading routine in order",
-      "cue": "Title, what you need, the steps, then the warnings and what to do if it goes wrong.",
-      "why": "Reading in a fixed routine makes any set of instructions manageable: the title says what it is for, the list of what you need lets you gather it first, the steps say what to do and the warnings say what to avoid. Following the same routine every time means nothing important gets missed, however long or unfamiliar the instructions are.",
-      "outOfOrderNote": "Out of order. Start with what the instructions are for, then gather what you need."
+      title: "Put the reading routine in order",
+      cue: "Title, what you need, the steps, then the warnings and what to do if it goes wrong.",
+      why: "Reading in a fixed routine makes any set of instructions manageable: the title says what it is for, the list of what you need lets you gather it first, the steps say what to do and the warnings say what to avoid. Following the same routine every time means nothing important gets missed, however long or unfamiliar the instructions are.",
+      outOfOrderNote: "Out of order. Start with what the instructions are for, then gather what you need."
     },
     {
-      "id": "keep-your-place-as-you-read",
-      "kind": "hold",
-      "target": "kri-finger-trace",
-      "seconds": 6,
-      "title": "Keep your place as you read the steps",
-      "cue": "Trace each line as you read so you do not skip a step.",
-      "why": "Keeping your place, with a finger or a ruler under the line, stops the eye jumping ahead and missing a step that looks like the one before it. Careful readers of instructions do this with anything that matters, because a skipped step is often the one that makes the rest work.",
-      "holdBreakNote": "You lost your place and skipped ahead. Go back to the last step you are sure of."
+      id: "keep-your-place-as-you-read",
+      kind: "hold",
+      target: "kri-finger-trace",
+      seconds: 6,
+      title: "Keep your place as you read the steps",
+      cue: "Trace each line as you read so you do not skip a step.",
+      why: "Keeping your place, with a finger or a ruler under the line, stops the eye jumping ahead and missing a step that looks like the one before it. Careful readers of instructions do this with anything that matters, because a skipped step is often the one that makes the rest work.",
+      holdBreakNote: "You lost your place and skipped ahead. Go back to the last step you are sure of."
     },
     {
-      "id": "look-up-the-word-you-do",
-      "kind": "turn",
-      "target": "kri-meaning-dial",
-      "turn": {
-        "turns": 0.5,
-        "axis": "y",
-        "label": "MEANING"
+      id: "look-up-the-word-you-do",
+      kind: "turn",
+      target: "kri-meaning-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "MEANING"
       },
-      "title": "Look up the word you do not know",
-      "cue": "One word in step four is new. Turn the dial from the word to its meaning before going on.",
-      "why": "An unfamiliar word in an instruction is a signal to stop, not to guess. Looking it up, in a glossary, a dictionary or by asking, means you follow the instruction that was written rather than the one you imagined; in safety instructions especially, one misunderstood word can change what you do."
+      title: "Look up the word you do not know",
+      cue: "One word in step four is new. Turn the dial from the word to its meaning before going on.",
+      why: "An unfamiliar word in an instruction is a signal to stop, not to guess. Looking it up, in a glossary, a dictionary or by asking, means you follow the instruction that was written rather than the one you imagined; in safety instructions especially, one misunderstood word can change what you do."
     },
     {
-      "id": "read-at-a-pace-that-lets",
-      "kind": "gauge",
-      "target": "kri-pace-meter",
-      "gauge": {
-        "label": "PACE",
-        "speed": 0.6,
-        "green": [
+      id: "read-at-a-pace-that-lets",
+      kind: "gauge",
+      target: "kri-pace-meter",
+      gauge: {
+        label: "PACE",
+        speed: 0.6,
+        green: [
           0.4,
           0.58
         ],
-        "missNote": "Outside the band. Too fast and you skim the warnings; too slow and you lose the thread. Settle into a steady pace."
+        missNote: "Outside the band. Too fast and you skim the warnings; too slow and you lose the thread. Settle into a steady pace."
       },
-      "title": "Read at a pace that lets you understand",
-      "cue": "Commit when your reading pace is steady — not rushing, not stopping on every word.",
-      "why": "Reading too fast skims over the details that matter; reading too slowly loses the thread of what the steps are building towards. A steady pace, slowing down only for warnings and new words, is how skilled readers take in instructions accurately."
+      title: "Read at a pace that lets you understand",
+      cue: "Commit when your reading pace is steady — not rushing, not stopping on every word.",
+      why: "Reading too fast skims over the details that matter; reading too slowly loses the thread of what the steps are building towards. A steady pace, slowing down only for warnings and new words, is how skilled readers take in instructions accurately."
     },
     {
-      "id": "return-the-product-to-its-labelled",
-      "kind": "drag",
-      "target": "kri-bottle-token",
-      "drag": {
-        "to": "kri-shelf-spot",
-        "radius": 0.45,
-        "missNote": "It is not back in its place yet. Take it all the way to the labelled shelf."
+      id: "return-the-product-to-its-labelled",
+      kind: "drag",
+      target: "kri-bottle-token",
+      drag: {
+        to: "kri-shelf-spot",
+        radius: 0.45,
+        missNote: "It is not back in its place yet. Take it all the way to the labelled shelf."
       },
-      "title": "Return the product to its labelled place",
-      "cue": "Drag the bottle back to its labelled shelf, still in its own container, when you are done.",
-      "why": "A product kept in its own labelled container, in its labelled place, can always be read by the next person who uses it. Putting it back properly finishes the task and protects everyone who comes after you, which is the reason labels exist in the first place."
+      title: "Return the product to its labelled place",
+      cue: "Drag the bottle back to its labelled shelf, still in its own container, when you are done.",
+      why: "A product kept in its own labelled container, in its labelled place, can always be read by the next person who uses it. Putting it back properly finishes the task and protects everyone who comes after you, which is the reason labels exist in the first place."
     },
     {
-      "id": "ask-the-teacher-about-the-part",
-      "kind": "select",
-      "target": "kri-ask-card",
-      "title": "Ask the teacher about the part you are unsure of",
-      "cue": "One instruction could be read two ways. Ask the teacher which it means.",
-      "why": "When an instruction can be read two ways, asking is the skilled thing to do, not a sign of weakness. Adults at work ask the same question every day, and the person who wrote the instruction would always rather be asked than have it done wrongly."
+      id: "ask-the-teacher-about-the-part",
+      kind: "select",
+      target: "kri-ask-card",
+      title: "Ask the teacher about the part you are unsure of",
+      cue: "One instruction could be read two ways. Ask the teacher which it means.",
+      why: "When an instruction can be read two ways, asking is the skilled thing to do, not a sign of weakness. Adults at work ask the same question every day, and the person who wrote the instruction would always rather be asked than have it done wrongly."
     },
     {
-      "id": "spot-the-problems-in-badly-written",
-      "kind": "find",
-      "noHint": true,
-      "targets": [
+      id: "spot-the-problems-in-badly-written",
+      kind: "find",
+      noHint: true,
+      targets: [
         "kri-draft-order",
         "kri-draft-jargon",
         "kri-draft-no-help"
       ],
-      "itemNames": {
+      itemNames: {
         "kri-draft-order": "two steps in the wrong order",
         "kri-draft-jargon": "a word the reader will not know",
         "kri-draft-no-help": "nothing on what to do if it goes wrong"
       },
-      "itemNotes": {
+      itemNotes: {
         "kri-draft-order": "A reader follows steps in the order written. Out of order means done wrong.",
         "kri-draft-jargon": "Explain it or use a plainer word. A reader cannot follow what they cannot understand.",
         "kri-draft-no-help": "Every set of instructions needs this part, even if it is only 'stop and get an adult'."
       },
-      "decoyNotes": {
+      decoyNotes: {
         "kri-draft-numbered": "Numbered steps help the reader keep their place. Keep them."
       },
-      "title": "Spot the problems in badly written instructions",
-      "cue": "Look at the classmate's draft instructions and mark each problem.",
-      "why": "Writing instructions is the best way to learn to read them. Badly written instructions usually give steps out of order, use a word the reader will not know without explaining it, and leave out what to do if something goes wrong. Spotting these in a draft teaches you to notice them in real instructions, and to ask about them."
+      title: "Spot the problems in badly written instructions",
+      cue: "Look at the classmate's draft instructions and mark each problem.",
+      why: "Writing instructions is the best way to learn to read them. Badly written instructions usually give steps out of order, use a word the reader will not know without explaining it, and leave out what to do if something goes wrong. Spotting these in a draft teaches you to notice them in real instructions, and to ask about them."
     },
     {
-      "id": "keep-your-focus-while-you-follow",
-      "kind": "track",
-      "target": "kri-focus-meter",
-      "seconds": 8,
-      "track": {
-        "start": 0.3,
-        "green": [
+      id: "keep-your-focus-while-you-follow",
+      kind: "track",
+      target: "kri-focus-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
           0.4,
           0.62
         ],
-        "rise": 0.46,
-        "fall": 0.38,
-        "drift": 0.14,
-        "label": "FOCUS"
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "FOCUS"
       },
-      "title": "Keep your focus while you follow the steps",
-      "cue": "Hold your attention in band as you carry out each step, checking back to the page.",
-      "why": "Following instructions well means looking back at the page between steps rather than working from memory after the first read. Keeping your focus on the page and the task together is what stops small slips turning into a finished job that does not work.",
-      "holdBreakNote": "Your attention drifted from the page. Look back at the step you are on before you carry on."
+      title: "Keep your focus while you follow the steps",
+      cue: "Hold your attention in band as you carry out each step, checking back to the page.",
+      why: "Following instructions well means looking back at the page between steps rather than working from memory after the first read. Keeping your focus on the page and the task together is what stops small slips turning into a finished job that does not work.",
+      holdBreakNote: "Your attention drifted from the page. Look back at the step you are on before you carry on."
     },
     {
-      "id": "record-what-you-read-and-what",
-      "kind": "select",
-      "target": "kri-reading-log",
-      "doneLine": "Reading and questions recorded",
-      "title": "Record what you read and what you asked",
-      "cue": "Write down the label parts, the new word and the question you asked.",
-      "why": "Recording what you read, the word you looked up and the question you asked shows your teacher how you worked, not just whether you finished. It also gives you a record to look back on the next time you meet a label or a set of instructions like it."
+      id: "record-what-you-read-and-what",
+      kind: "select",
+      target: "kri-reading-log",
+      doneLine: "Reading and questions recorded",
+      title: "Record what you read and what you asked",
+      cue: "Write down the label parts, the new word and the question you asked.",
+      why: "Recording what you read, the word you looked up and the question you asked shows your teacher how you worked, not just whether you finished. It also gives you a record to look back on the next time you meet a label or a set of instructions like it."
     },
     {
-      "id": "share-one-reading-tip-with-the",
-      "kind": "select",
-      "target": "kri-share-board",
-      "doneLine": "Reading tips shared",
-      "title": "Share one reading tip with the class",
-      "cue": "Tell the class one thing that helped you read the instructions well.",
-      "why": "Sharing a reading tip with classmates helps the ones who found it hard and fixes the habit in your own memory. The best tips are simple, read it all first, keep your place, ask when unsure, and everyone in the class can use them tomorrow."
+      id: "share-one-reading-tip-with-the",
+      kind: "select",
+      target: "kri-share-board",
+      doneLine: "Reading tips shared",
+      title: "Share one reading tip with the class",
+      cue: "Tell the class one thing that helped you read the instructions well.",
+      why: "Sharing a reading tip with classmates helps the ones who found it hard and fixes the habit in your own memory. The best tips are simple, read it all first, keep your place, ask when unsure, and everyone in the class can use them tomorrow."
     },
     {
-      "id": "crew-check-in",
-      "kind": "select",
-      "target": "kri-checkin",
-      "doneLine": "Checked in",
-      "title": "Check in at the end of the lesson",
-      "cue": "How did that go? Which part of reading the label was hardest?",
-      "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and it gives each learner a moment to notice what they can now do. Nobody is marked here, and a teacher or trusted adult is there for anyone who wants to talk more."
+      id: "crew-check-in",
+      kind: "select",
+      target: "kri-checkin",
+      doneLine: "Checked in",
+      title: "Check in at the end of the lesson",
+      cue: "How did that go? Which part of reading the label was hardest?",
+      why: "A short check-in at the end tells the teacher who is confident and who needs another go, and it gives each learner a moment to notice what they can now do. Nobody is marked here, and a teacher or trusted adult is there for anyone who wants to talk more."
     }
   ],
 
   interrupts: [
     {
-      "id": "a-bottle-is-knocked-over",
-      "kind": "Spill",
-      "after": "keep-your-place-as-you-read",
-      "delay": 3,
-      "seconds": 12,
-      "target": "kri-step-back-and-tell",
-      "alert": "A classmate knocks over an open bottle and it starts to spill across the bench.",
-      "cue": "Step back, keep others back, and tell the teacher — the label says what to do next.",
-      "why": "A spill is exactly the moment the label's what-to-do section was written for, but acting on it is the adult's job in a classroom. Stepping back, keeping others away and telling the teacher at once, so they can read the label and deal with it, keeps everyone safe.",
-      "missNote": "Nobody told the teacher, and a classmate wiped it up with bare hands before anyone read the label.",
-      "wrongNote": "That does not get help. Step back and tell the teacher."
+      id: "a-bottle-is-knocked-over",
+      kind: "Spill",
+      after: "keep-your-place-as-you-read",
+      delay: 3,
+      seconds: 12,
+      target: "kri-step-back-and-tell",
+      alert: "A classmate knocks over an open bottle and it starts to spill across the bench.",
+      cue: "Step back, keep others back, and tell the teacher — the label says what to do next.",
+      why: "A spill is exactly the moment the label's what-to-do section was written for, but acting on it is the adult's job in a classroom. Stepping back, keeping others away and telling the teacher at once, so they can read the label and deal with it, keeps everyone safe.",
+      missNote: "Nobody told the teacher, and a classmate wiped it up with bare hands before anyone read the label.",
+      wrongNote: "That does not get help. Step back and tell the teacher."
     },
     {
-      "id": "the-technician-asks-what-the-signal-word-means",
-      "kind": "Technician question",
-      "after": "keep-your-focus-while-you-follow",
-      "delay": 3,
-      "seconds": 12,
-      "target": "kri-explain-signal-word",
-      "alert": "The workshop technician points at the label and asks what its signal word tells you.",
-      "cue": "Say what the signal word shows about how serious the warning is, in your own words.",
-      "why": "Being able to explain a label in your own words is the proof that you have read it rather than looked at it. The technician asks because in a real workshop the people who can explain the label are the ones trusted to use the product.",
-      "missNote": "You could not say what it meant, so the technician kept the product off your bench.",
-      "wrongNote": "That does not explain the signal word. Say what it tells you about how serious the warning is."
+      id: "the-technician-asks-what-the-signal-word-means",
+      kind: "Technician question",
+      after: "keep-your-focus-while-you-follow",
+      delay: 3,
+      seconds: 12,
+      target: "kri-explain-signal-word",
+      alert: "The workshop technician points at the label and asks what its signal word tells you.",
+      cue: "Say what the signal word shows about how serious the warning is, in your own words.",
+      why: "Being able to explain a label in your own words is the proof that you have read it rather than looked at it. The technician asks because in a real workshop the people who can explain the label are the ones trusted to use the product.",
+      missNote: "You could not say what it meant, so the technician kept the product off your bench.",
+      wrongNote: "That does not explain the signal word. Say what it tells you about how serious the warning is."
     }
   ],
 

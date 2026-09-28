@@ -1147,13 +1147,14 @@ function hmScript(layout) {
   const hmSelU = document.getElementById("hm-find-union");
   const hmSelC = document.getElementById("hm-find-cat");
   const hmSelW = document.getElementById("hm-find-world");
+  const hmSelA = document.getElementById("hm-find-aud");
   const hmCount = document.getElementById("hm-find-count");
   const hmNone = document.getElementById("hm-find-none");
   const hmMore = document.getElementById("hm-find-more");
   const hmUnionBtns = [...document.querySelectorAll(".hm-union")];
   const hmCards = [...document.querySelectorAll("#hm-progs .prog")].map((el) => ({
     el, hay: el.textContent.toLowerCase().replace(/ +/g, " "),
-    cat: (el.dataset.cat || "").split(" "), u: (el.dataset.u || "").split(" "), w: (el.dataset.w || "").split(" "),
+    cat: (el.dataset.cat || "").split(" "), u: (el.dataset.u || "").split(" "), w: (el.dataset.w || "").split(" "), a: el.dataset.aud || "",
   }));
   const HM_FIRST = 9;
   let hmAll = false;
@@ -1162,7 +1163,7 @@ function hmScript(layout) {
     let matched = 0, shown = 0;
     for (const c of hmCards) {
       const ok = terms.every((t) => c.hay.includes(t)) && (!hmSelU.value || c.u.includes(hmSelU.value))
-        && (!hmSelC.value || c.cat.includes(hmSelC.value)) && (!hmSelW.value || c.w.includes(hmSelW.value));
+        && (!hmSelC.value || c.cat.includes(hmSelC.value)) && (!hmSelW.value || c.w.includes(hmSelW.value)) && (!hmSelA.value || c.a === hmSelA.value);
       if (ok) matched += 1;
       const show = ok && (hmAll || matched <= HM_FIRST);
       c.el.hidden = !show;
@@ -1175,10 +1176,10 @@ function hmScript(layout) {
     hmMore.textContent = "Show all " + matched + " programmes";
     for (const b of hmUnionBtns) b.setAttribute("aria-pressed", String(!!hmSelU.value && b.dataset.u === hmSelU.value));
   }
-  for (const el of [hmQ, hmSelU, hmSelC, hmSelW]) el.addEventListener(el === hmQ ? "input" : "change", () => { hmAll = false; hmApply(); });
+  for (const el of [hmQ, hmSelU, hmSelC, hmSelW, hmSelA]) el.addEventListener(el === hmQ ? "input" : "change", () => { hmAll = false; hmApply(); });
   hmMore.addEventListener("click", () => { hmAll = true; hmApply(); });
   document.getElementById("hm-find-reset").addEventListener("click", () => {
-    hmQ.value = ""; hmSelU.value = ""; hmSelC.value = ""; hmSelW.value = ""; hmAll = false; hmApply(); hmQ.focus();
+    hmQ.value = ""; hmSelU.value = ""; hmSelC.value = ""; hmSelW.value = ""; hmSelA.value = ""; hmAll = false; hmApply(); hmQ.focus();
   });
   for (const b of hmUnionBtns) b.addEventListener("click", () => {
     hmSelU.value = hmSelU.value === b.dataset.u ? "" : b.dataset.u;
@@ -1303,7 +1304,7 @@ function hmProgrammeCard(layout, c, { catIndex, unionTokens, tradesOf, catNames 
   const us = unionTokens.map((u, i) => (tokens.includes(u.token) ? i : -1)).filter((i) => i >= 0);
   const worlds = hmWorldsOf(c);
   const catLine = cats.slice(0, 2).map((i) => catNames[i]).join(", ");
-  return `      <article class="prog" style="--tint:${tint(c.accent)}" data-cat="${cats.join(" ")}" data-u="${us.join(" ")}" data-w="${worlds.join(" ")}">
+  return `      <article class="prog" style="--tint:${tint(c.accent)}" data-cat="${cats.join(" ")}" data-u="${us.join(" ")}" data-w="${worlds.join(" ")}"${c.audience === "classroom" ? ` data-aud="classroom"` : ""}>
         <h3>${esc(c.name)}</h3>
         <p class="prog-union">${esc(c.union ?? "")}</p>
         <p class="prog-meta">${n} station${n === 1 ? "" : "s"}${catLine ? ` · ${esc(catLine)}` : ""}</p>
@@ -1532,6 +1533,7 @@ ${moreApps}
       <label>Union<select id="hm-find-union"><option value="">Any union</option>${unionOptions}</select></label>
       <label>Category<select id="hm-find-cat"><option value="">Any category</option>${catOptions}</select></label>
       <label>World<select id="hm-find-world"><option value="">Any world</option>${worldOptions}</select></label>
+      <label>Who for<select id="hm-find-aud"><option value="">Everyone</option><option value="classroom">Classroom (K-12)</option></select></label>
     </div>
     <p class="hm-find-count" id="hm-find-count" role="status">${curricula.length} programmes.</p>
     <div class="hm-progs" id="hm-progs">

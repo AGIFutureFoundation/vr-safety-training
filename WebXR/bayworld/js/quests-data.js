@@ -5011,6 +5011,262 @@ export const SIDE_QUESTS = [
     }
   },
   {
+    "id": "bw-side-k12-practical-math-opener",
+    "title": "K-12 Practical Maths — First Shift",
+    "giver": "the programme's training lead",
+    "site": "K-12 Practical Maths",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "k12-practical-math",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Practical Maths",
+        "text": "The training lead meets you at K-12 Practical Maths and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "k12-measuring-and-scaling-the-court",
+        "text": "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Maths done where it is used: a court measured and drawn to scale, a first paycheck budgeted, a map scale read, fractions in a kitchen, a ramp's slope, tide readings graphed, a fair spinner and a turbine's sweep. Every number the learner works with is one the scene shows.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "K-12 Practical Maths — Opener"
+    }
+  },
+  {
+    "id": "bw-side-k12-practical-math-capstone",
+    "title": "K-12 Practical Maths — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "K-12 Practical Maths",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-k12-practical-math-opener",
+    "programmeId": "k12-practical-math",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Practical Maths",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "k12-measuring-and-scaling-the-court",
+        "text": "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "K-12 Practical Maths — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-k12-science-opener",
+    "title": "K-12 Science — First Shift",
+    "giver": "the programme's training lead",
+    "site": "K-12 Science",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "k12-science",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Science",
+        "text": "The training lead meets you at K-12 Science and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "k12-water-cycle-and-filtration",
+        "text": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "K-12 Science — Opener"
+    }
+  },
+  {
+    "id": "bw-side-k12-science-capstone",
+    "title": "K-12 Science — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "K-12 Science",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-k12-science-opener",
+    "programmeId": "k12-science",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Science",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "k12-water-cycle-and-filtration",
+        "text": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "K-12 Science — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-k12-history-and-civics-opener",
+    "title": "K-12 History and Civics — First Shift",
+    "giver": "the programme's training lead",
+    "site": "K-12 History and Civics",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "k12-history-and-civics",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 History and Civics",
+        "text": "The training lead meets you at K-12 History and Civics and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "k12-primary-and-secondary-sources",
+        "text": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "K-12 History and Civics — Opener"
+    }
+  },
+  {
+    "id": "bw-side-k12-history-and-civics-capstone",
+    "title": "K-12 History and Civics — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "K-12 History and Civics",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-k12-history-and-civics-opener",
+    "programmeId": "k12-history-and-civics",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 History and Civics",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "k12-primary-and-secondary-sources",
+        "text": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "K-12 History and Civics — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-k12-literacy-and-life-skills-opener",
+    "title": "K-12 Literacy and Life Skills — First Shift",
+    "giver": "the programme's training lead",
+    "site": "K-12 Literacy and Life Skills",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "k12-literacy-and-life-skills",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Literacy and Life Skills",
+        "text": "The training lead meets you at K-12 Literacy and Life Skills and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "k12-reading-instructions-and-safety-labels",
+        "text": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Reading and speaking for life: instructions and safety labels, a clear incident report, public speaking, digital citizenship, first aid awareness that always ends in calling for help, and teamwork and feedback alongside the emotional intelligence stations.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "K-12 Literacy and Life Skills — Opener"
+    }
+  },
+  {
+    "id": "bw-side-k12-literacy-and-life-skills-capstone",
+    "title": "K-12 Literacy and Life Skills — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "K-12 Literacy and Life Skills",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-k12-literacy-and-life-skills-opener",
+    "programmeId": "k12-literacy-and-life-skills",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Literacy and Life Skills",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "k12-reading-instructions-and-safety-labels",
+        "text": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "K-12 Literacy and Life Skills — Capstone"
+    }
+  },
+  {
     "id": "bw-side-teamwork-opener",
     "title": "Teamwork — Talk Before You Move",
     "giver": "the college's team captain",

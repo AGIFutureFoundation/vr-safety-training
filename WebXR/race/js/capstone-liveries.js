@@ -285,5 +285,25 @@ export const CAPSTONE_LIVERIES = [
     "programme": "wind-and-data-infrastructure",
     "name": "Wind & Data Infrastructure",
     "accent": "#3fa7d6"
+  },
+  {
+    "programme": "k12-practical-math",
+    "name": "K-12 Practical Maths",
+    "accent": "#5a9fd8"
+  },
+  {
+    "programme": "k12-science",
+    "name": "K-12 Science",
+    "accent": "#4fb88a"
+  },
+  {
+    "programme": "k12-history-and-civics",
+    "name": "K-12 History and Civics",
+    "accent": "#c08a4a"
+  },
+  {
+    "programme": "k12-literacy-and-life-skills",
+    "name": "K-12 Literacy and Life Skills",
+    "accent": "#9a6ad0"
   }
 ];

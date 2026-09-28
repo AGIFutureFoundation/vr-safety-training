@@ -64,222 +64,222 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
 
   steps: [
     {
-      "id": "find-what-you-need-to-measure",
-      "kind": "find",
-      "noHint": true,
-      "targets": [
+      id: "find-what-you-need-to-measure",
+      kind: "find",
+      noHint: true,
+      targets: [
         "kmc-side-line",
         "kmc-end-line",
         "kmc-corner-square"
       ],
-      "itemNames": {
+      itemNames: {
         "kmc-side-line": "the long side line",
         "kmc-end-line": "the short end line",
         "kmc-corner-square": "a corner, to check it is square"
       },
-      "itemNotes": {
+      itemNotes: {
         "kmc-side-line": "One of the two lengths the area depends on. Measure it end to end, along the line, not across the paint.",
         "kmc-end-line": "The second length. Length times width gives the area; the two added and doubled give the perimeter.",
         "kmc-corner-square": "If the corners are not square the shape is not a rectangle, and the rectangle formulas do not apply."
       },
-      "decoyNotes": {
+      decoyNotes: {
         "kmc-logo-centre": "The logo is interesting, but it does not change the area or the perimeter. Stick to what the question needs."
       },
-      "title": "Find what you need to measure",
-      "cue": "Mark the three things on the court you must measure before you can find its area and perimeter.",
-      "why": "Before any calculation, a mathematician decides what actually needs measuring. For a rectangular court that is the length of a side line, the length of an end line and a check that the corners are square; everything else, from the centre circle to the key, can wait. Choosing the measurements first stops you taping the whole floor and still missing the one you need."
+      title: "Find what you need to measure",
+      cue: "Mark the three things on the court you must measure before you can find its area and perimeter.",
+      why: "Before any calculation, a mathematician decides what actually needs measuring. For a rectangular court that is the length of a side line, the length of an end line and a check that the corners are square; everything else, from the centre circle to the key, can wait. Choosing the measurements first stops you taping the whole floor and still missing the one you need."
     },
     {
-      "id": "ask-the-caretaker-for-the-all",
-      "kind": "select",
-      "target": "kmc-wait-for-clear",
-      "title": "Ask the caretaker for the all-clear",
-      "cue": "Ask whether the court is clear before you take the tape onto it.",
-      "why": "A court is a working space before it is a maths lesson. The caretaker knows when play has stopped and the floor is dry, and asking first means the tape is never a trip line across a game. It is also the first habit of any fieldwork: the site's own rules come before the measurement, whatever the measurement is for."
+      id: "ask-the-caretaker-for-the-all",
+      kind: "select",
+      target: "kmc-wait-for-clear",
+      title: "Ask the caretaker for the all-clear",
+      cue: "Ask whether the court is clear before you take the tape onto it.",
+      why: "A court is a working space before it is a maths lesson. The caretaker knows when play has stopped and the floor is dry, and asking first means the tape is never a trip line across a game. It is also the first habit of any fieldwork: the site's own rules come before the measurement, whatever the measurement is for."
     },
     {
-      "id": "put-the-method-in-order",
-      "kind": "sequence",
-      "targets": [
+      id: "put-the-method-in-order",
+      kind: "sequence",
+      targets: [
         "kmc-ord-estimate",
         "kmc-ord-measure",
         "kmc-ord-record",
         "kmc-ord-calc"
       ],
-      "itemNames": {
+      itemNames: {
         "kmc-ord-estimate": "1 · estimate by pacing",
         "kmc-ord-measure": "2 · measure with the tape",
         "kmc-ord-record": "3 · record with the unit",
         "kmc-ord-calc": "4 · calculate from the record"
       },
-      "title": "Put the method in order",
-      "cue": "Estimate, measure, record with the unit, then calculate.",
-      "why": "Estimating first gives you a number to check the tape against, so a misread tape shows up at once. Measuring and recording with the unit keeps every number honest. Calculating last, from the written record rather than memory, means someone else can follow your working and find your mistake, which is how mathematics is checked in the real world.",
-      "outOfOrderNote": "Out of order. Estimate before you measure, so the estimate can catch a misread tape."
+      title: "Put the method in order",
+      cue: "Estimate, measure, record with the unit, then calculate.",
+      why: "Estimating first gives you a number to check the tape against, so a misread tape shows up at once. Measuring and recording with the unit keeps every number honest. Calculating last, from the written record rather than memory, means someone else can follow your working and find your mistake, which is how mathematics is checked in the real world.",
+      outOfOrderNote: "Out of order. Estimate before you measure, so the estimate can catch a misread tape."
     },
     {
-      "id": "hold-the-tape-taut-along-the",
-      "kind": "hold",
-      "target": "kmc-tape-held",
-      "seconds": 6,
-      "title": "Hold the tape taut along the line",
-      "cue": "Your classmate holds the zero end at the corner. Hold the tape taut and straight along the side line.",
-      "why": "A tape that sags or wanders off the line reads long, because a curve between two points is always longer than the straight line. Holding it taut and on the line for the whole reading is what makes the number the true length of the side, and it is the same care a surveyor takes on any real site.",
-      "holdBreakNote": "The tape went slack. A sagging tape reads long — pull it taut along the line and read again."
+      id: "hold-the-tape-taut-along-the",
+      kind: "hold",
+      target: "kmc-tape-held",
+      seconds: 6,
+      title: "Hold the tape taut along the line",
+      cue: "Your classmate holds the zero end at the corner. Hold the tape taut and straight along the side line.",
+      why: "A tape that sags or wanders off the line reads long, because a curve between two points is always longer than the straight line. Holding it taut and on the line for the whole reading is what makes the number the true length of the side, and it is the same care a surveyor takes on any real site.",
+      holdBreakNote: "The tape went slack. A sagging tape reads long — pull it taut along the line and read again."
     },
     {
-      "id": "switch-from-length-to-area-units",
-      "kind": "turn",
-      "target": "kmc-unit-dial",
-      "turn": {
-        "turns": 0.5,
-        "axis": "y",
-        "label": "SQ M"
+      id: "switch-from-length-to-area-units",
+      kind: "turn",
+      target: "kmc-unit-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "SQ M"
       },
-      "title": "Switch from length to area units",
-      "cue": "You have both lengths. Turn the unit dial from metres to square metres before you multiply.",
-      "why": "Area is measured in square units because it counts how many unit squares fit on the surface. Turning the unit from metres to square metres before you multiply is a reminder that the answer is a different kind of quantity from either side: a length times a length is an area, and writing the right unit is how you prove you know which one you found."
+      title: "Switch from length to area units",
+      cue: "You have both lengths. Turn the unit dial from metres to square metres before you multiply.",
+      why: "Area is measured in square units because it counts how many unit squares fit on the surface. Turning the unit from metres to square metres before you multiply is a reminder that the answer is a different kind of quantity from either side: a length times a length is an area, and writing the right unit is how you prove you know which one you found."
     },
     {
-      "id": "choose-a-scale-that-fits-the",
-      "kind": "gauge",
-      "target": "kmc-scale-meter",
-      "gauge": {
-        "label": "SCALE",
-        "speed": 0.6,
-        "green": [
+      id: "choose-a-scale-that-fits-the",
+      kind: "gauge",
+      target: "kmc-scale-meter",
+      gauge: {
+        label: "SCALE",
+        speed: 0.6,
+        green: [
           0.4,
           0.58
         ],
-        "missNote": "Outside the band. Too large and it will not fit; too small and nobody can read it. Try again."
+        missNote: "Outside the band. Too large and it will not fit; too small and nobody can read it. Try again."
       },
-      "title": "Choose a scale that fits the page",
-      "cue": "Commit when the scale factor lets the whole court fit on the paper with a margin, not too small to read.",
-      "why": "Choosing a scale is a trade: too large and the court runs off the page, too small and the key and circles become too tiny to draw. A good scale fits the whole shape with a margin and is easy to work with, which is why mapmakers and architects choose round, simple scale factors rather than awkward ones."
+      title: "Choose a scale that fits the page",
+      cue: "Commit when the scale factor lets the whole court fit on the paper with a margin, not too small to read.",
+      why: "Choosing a scale is a trade: too large and the court runs off the page, too small and the key and circles become too tiny to draw. A good scale fits the whole shape with a margin and is easy to work with, which is why mapmakers and architects choose round, simple scale factors rather than awkward ones."
     },
     {
-      "id": "place-the-scaled-length-on-the",
-      "kind": "drag",
-      "target": "kmc-length-token",
-      "drag": {
-        "to": "kmc-drawing-spot",
-        "radius": 0.45,
-        "missNote": "It is not on the drawing yet. Take it all the way to the paper."
+      id: "place-the-scaled-length-on-the",
+      kind: "drag",
+      target: "kmc-length-token",
+      drag: {
+        to: "kmc-drawing-spot",
+        radius: 0.45,
+        missNote: "It is not on the drawing yet. Take it all the way to the paper."
       },
-      "title": "Place the scaled length on the drawing",
-      "cue": "Drag the scaled side length onto the scale drawing, then do the same division for the width.",
-      "why": "A scale drawing is made by dividing every real length by the same scale factor and drawing the results. Placing the scaled length on the drawing, then the scaled width, gives a shape exactly the same as the court but smaller, which means any angle you measure on the drawing is the same angle on the floor."
+      title: "Place the scaled length on the drawing",
+      cue: "Drag the scaled side length onto the scale drawing, then do the same division for the width.",
+      why: "A scale drawing is made by dividing every real length by the same scale factor and drawing the results. Placing the scaled length on the drawing, then the scaled width, gives a shape exactly the same as the court but smaller, which means any angle you measure on the drawing is the same angle on the floor."
     },
     {
-      "id": "write-the-length-to-width-ratio",
-      "kind": "select",
-      "target": "kmc-ratio-card",
-      "title": "Write the length-to-width ratio",
-      "cue": "Write length to width as a ratio, then check it is the same on the drawing as on the court.",
-      "why": "A ratio compares two quantities of the same kind, and a true scale drawing keeps every ratio the court has. Checking that length to width is the same on paper as on the floor is the quickest proof that the drawing is right, and it is how a designer knows a model will look like the thing it models."
+      id: "write-the-length-to-width-ratio",
+      kind: "select",
+      target: "kmc-ratio-card",
+      title: "Write the length-to-width ratio",
+      cue: "Write length to width as a ratio, then check it is the same on the drawing as on the court.",
+      why: "A ratio compares two quantities of the same kind, and a true scale drawing keeps every ratio the court has. Checking that length to width is the same on paper as on the floor is the quickest proof that the drawing is right, and it is how a designer knows a model will look like the thing it models."
     },
     {
-      "id": "catch-the-mistakes-in-a-classmate",
-      "kind": "find",
-      "noHint": true,
-      "targets": [
+      id: "catch-the-mistakes-in-a-classmate",
+      kind: "find",
+      noHint: true,
+      targets: [
         "kmc-err-no-unit",
         "kmc-err-perim-area",
         "kmc-err-one-scaled"
       ],
-      "itemNames": {
+      itemNames: {
         "kmc-err-no-unit": "an answer with no unit",
         "kmc-err-perim-area": "a perimeter labelled as area",
         "kmc-err-one-scaled": "a drawing with one side scaled"
       },
-      "itemNotes": {
+      itemNotes: {
         "kmc-err-no-unit": "A number with no unit could be a length, an area or nothing at all. Every answer carries its unit.",
         "kmc-err-perim-area": "Adding sides gives the distance around. Area comes from length times width.",
         "kmc-err-one-scaled": "Every length must be divided by the same scale factor, or the shape changes."
       },
-      "decoyNotes": {
+      decoyNotes: {
         "kmc-ok-estimate": "Writing an estimate first is good practice. Leave it in."
       },
-      "title": "Catch the mistakes in a classmate's working",
-      "cue": "Look at the worked sheet on the bench and mark each mistake before it is handed in.",
-      "why": "Checking someone else's working is a skill of its own: you have to follow their reasoning, not just compare answers. The usual slips are a missing unit, a perimeter labelled as an area, and one side scaled while the other was not. Finding them in someone else's work is how you learn to find them in your own before a teacher does."
+      title: "Catch the mistakes in a classmate's working",
+      cue: "Look at the worked sheet on the bench and mark each mistake before it is handed in.",
+      why: "Checking someone else's working is a skill of its own: you have to follow their reasoning, not just compare answers. The usual slips are a missing unit, a perimeter labelled as an area, and one side scaled while the other was not. Finding them in someone else's work is how you learn to find them in your own before a teacher does."
     },
     {
-      "id": "keep-the-answer-close-to-the",
-      "kind": "track",
-      "target": "kmc-check-meter",
-      "seconds": 8,
-      "track": {
-        "start": 0.3,
-        "green": [
+      id: "keep-the-answer-close-to-the",
+      kind: "track",
+      target: "kmc-check-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
           0.4,
           0.62
         ],
-        "rise": 0.46,
-        "fall": 0.38,
-        "drift": 0.14,
-        "label": "AGREE"
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "AGREE"
       },
-      "title": "Keep the answer close to the estimate",
-      "cue": "Hold the calculated answer in band with your paced estimate while you recheck the arithmetic.",
-      "why": "An estimate is your safety net: if the calculated area is wildly different from what pacing suggested, something went wrong, usually a slipped decimal or a unit mixed in. Holding the two in agreement while you recheck is what careful people do with any number that matters, from a recipe to a bridge.",
-      "holdBreakNote": "The answer and the estimate drifted apart. Recheck the arithmetic and the units before you go on."
+      title: "Keep the answer close to the estimate",
+      cue: "Hold the calculated answer in band with your paced estimate while you recheck the arithmetic.",
+      why: "An estimate is your safety net: if the calculated area is wildly different from what pacing suggested, something went wrong, usually a slipped decimal or a unit mixed in. Holding the two in agreement while you recheck is what careful people do with any number that matters, from a recipe to a bridge.",
+      holdBreakNote: "The answer and the estimate drifted apart. Recheck the arithmetic and the units before you go on."
     },
     {
-      "id": "record-the-measurements-and-the-drawing",
-      "kind": "select",
-      "target": "kmc-class-record",
-      "doneLine": "Measurements and drawing recorded",
-      "title": "Record the measurements and the drawing",
-      "cue": "Write the lengths, the units, the scale factor and the ratio on the class record.",
-      "why": "A result nobody can check is not finished. Recording the measured lengths with their units, the scale factor you chose and the ratio you checked means your teacher, or anyone else, can repeat the work and get the same answer. It is the difference between a guess that happened to be right and a measurement."
+      id: "record-the-measurements-and-the-drawing",
+      kind: "select",
+      target: "kmc-class-record",
+      doneLine: "Measurements and drawing recorded",
+      title: "Record the measurements and the drawing",
+      cue: "Write the lengths, the units, the scale factor and the ratio on the class record.",
+      why: "A result nobody can check is not finished. Recording the measured lengths with their units, the scale factor you chose and the ratio you checked means your teacher, or anyone else, can repeat the work and get the same answer. It is the difference between a guess that happened to be right and a measurement."
     },
     {
-      "id": "show-the-class-how-you-checked",
-      "kind": "select",
-      "target": "kmc-share-board",
-      "doneLine": "Method shared with the class",
-      "title": "Show the class how you checked",
-      "cue": "Explain to the class how the estimate and the ratio proved your drawing was right.",
-      "why": "Explaining a method out loud is the strongest test of whether you understand it. Showing the class how the estimate caught errors and how the ratio proved the drawing matched the court helps classmates who got stuck and fixes the idea in your own memory far better than a mark on a page."
+      id: "show-the-class-how-you-checked",
+      kind: "select",
+      target: "kmc-share-board",
+      doneLine: "Method shared with the class",
+      title: "Show the class how you checked",
+      cue: "Explain to the class how the estimate and the ratio proved your drawing was right.",
+      why: "Explaining a method out loud is the strongest test of whether you understand it. Showing the class how the estimate caught errors and how the ratio proved the drawing matched the court helps classmates who got stuck and fixes the idea in your own memory far better than a mark on a page."
     },
     {
-      "id": "crew-check-in",
-      "kind": "select",
-      "target": "kmc-checkin",
-      "doneLine": "Checked in",
-      "title": "Check in at the end of the lesson",
-      "cue": "How did that go? What was hard, and what would you do differently next time?",
-      "why": "A short check-in at the end of a lesson tells the teacher who is confident and who needs another go, and it gives every learner a moment to notice what they learned. Nobody is graded here; the question is simply how it went and what to try next, with the teacher or a trusted adult there for anyone who wants to talk more."
+      id: "crew-check-in",
+      kind: "select",
+      target: "kmc-checkin",
+      doneLine: "Checked in",
+      title: "Check in at the end of the lesson",
+      cue: "How did that go? What was hard, and what would you do differently next time?",
+      why: "A short check-in at the end of a lesson tells the teacher who is confident and who needs another go, and it gives every learner a moment to notice what they learned. Nobody is graded here; the question is simply how it went and what to try next, with the teacher or a trusted adult there for anyone who wants to talk more."
     }
   ],
 
   interrupts: [
     {
-      "id": "a-ball-rolls-onto-the-court",
-      "kind": "Ball on the court",
-      "after": "hold-the-tape-taut-along-the",
-      "delay": 3,
-      "seconds": 12,
-      "target": "kmc-stop-and-clear",
-      "alert": "A ball from the next court rolls across the tape line and a younger pupil runs after it.",
-      "cue": "Stop measuring, call out, and let the caretaker clear the court before anyone steps back on.",
-      "why": "A tape across a court is a trip line the moment anyone runs, and a younger pupil chasing a ball is watching the ball. Stopping, calling out and letting the caretaker clear the court comes before any measurement; the reading can be taken again, a fall cannot be taken back.",
-      "missNote": "Nobody stopped. The pupil caught a foot on the tape and fell, and the reading was lost anyway.",
-      "wrongNote": "That does not stop anyone. Call out and pause the measuring."
+      id: "a-ball-rolls-onto-the-court",
+      kind: "Ball on the court",
+      after: "hold-the-tape-taut-along-the",
+      delay: 3,
+      seconds: 12,
+      target: "kmc-stop-and-clear",
+      alert: "A ball from the next court rolls across the tape line and a younger pupil runs after it.",
+      cue: "Stop measuring, call out, and let the caretaker clear the court before anyone steps back on.",
+      why: "A tape across a court is a trip line the moment anyone runs, and a younger pupil chasing a ball is watching the ball. Stopping, calling out and letting the caretaker clear the court comes before any measurement; the reading can be taken again, a fall cannot be taken back.",
+      missNote: "Nobody stopped. The pupil caught a foot on the tape and fell, and the reading was lost anyway.",
+      wrongNote: "That does not stop anyone. Call out and pause the measuring."
     },
     {
-      "id": "the-teacher-asks-for-your-estimate",
-      "kind": "Teacher question",
-      "after": "keep-the-answer-close-to-the",
-      "delay": 3,
-      "seconds": 12,
-      "target": "kmc-say-the-estimate",
-      "alert": "The teacher stops by and asks what you expect the area to be before you have finished calculating.",
-      "cue": "Give your paced estimate with its unit and say how you got it.",
-      "why": "A teacher asking for an estimate mid-task is checking your reasoning, not your arithmetic. Saying the estimate with its unit, and how pacing gave it to you, shows you know roughly what the answer should be, which is the skill that catches mistakes long after the tape is put away.",
-      "missNote": "You had no estimate to give, so the error in your calculation went unnoticed until it was marked.",
-      "wrongNote": "That is not an estimate with a unit. Say the number and how you got it."
+      id: "the-teacher-asks-for-your-estimate",
+      kind: "Teacher question",
+      after: "keep-the-answer-close-to-the",
+      delay: 3,
+      seconds: 12,
+      target: "kmc-say-the-estimate",
+      alert: "The teacher stops by and asks what you expect the area to be before you have finished calculating.",
+      cue: "Give your paced estimate with its unit and say how you got it.",
+      why: "A teacher asking for an estimate mid-task is checking your reasoning, not your arithmetic. Saying the estimate with its unit, and how pacing gave it to you, shows you know roughly what the answer should be, which is the skill that catches mistakes long after the tape is put away.",
+      missNote: "You had no estimate to give, so the error in your calculation went unnoticed until it was marked.",
+      wrongNote: "That is not an estimate with a unit. Say the number and how you got it."
     }
   ],
 

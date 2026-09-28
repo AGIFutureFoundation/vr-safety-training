@@ -64,222 +64,222 @@ export const SIM_K12_PRIMARY_AND_SECONDARY_SOURCES = {
 
   steps: [
     {
-      "id": "sort-what-is-on-the-table",
-      "kind": "find",
-      "noHint": true,
-      "targets": [
+      id: "sort-what-is-on-the-table",
+      kind: "find",
+      noHint: true,
+      targets: [
         "kps-letter",
         "kps-notice",
         "kps-photo"
       ],
-      "itemNames": {
+      itemNames: {
         "kps-letter": "a letter written at the time",
         "kps-notice": "a notice posted at the time",
         "kps-photo": "a photograph taken at the time"
       },
-      "itemNotes": {
+      itemNotes: {
         "kps-letter": "Made by someone who was there, at the time. Primary — but still a point of view.",
         "kps-notice": "An official notice from the time. Primary, and written for a purpose.",
         "kps-photo": "A photograph is primary, but someone chose what to put in the frame."
       },
-      "decoyNotes": {
+      decoyNotes: {
         "kps-later-book": "Written later, about the events. That is a secondary source — set it aside for now."
       },
-      "title": "Sort what is on the table",
-      "cue": "Mark each item on the table that was made at the time of the events — the primary sources.",
-      "why": "The first question a historian asks of any item is when it was made and by whom. A letter written at the time, a notice posted at the time and a photograph taken at the time are primary sources; a book written later about those events is secondary. Everything on this table belongs to the lesson's own fictional archive, labelled as such, so the method can be practised without any real claim being made."
+      title: "Sort what is on the table",
+      cue: "Mark each item on the table that was made at the time of the events — the primary sources.",
+      why: "The first question a historian asks of any item is when it was made and by whom. A letter written at the time, a notice posted at the time and a photograph taken at the time are primary sources; a book written later about those events is secondary. Everything on this table belongs to the lesson's own fictional archive, labelled as such, so the method can be practised without any real claim being made."
     },
     {
-      "id": "follow-the-archive-s-handling-rules",
-      "kind": "select",
-      "target": "kps-clean-hands",
-      "title": "Follow the archive's handling rules",
-      "cue": "Clean, dry hands, and a support under every page before you touch anything.",
-      "why": "An archive exists so that evidence survives for every reader who comes later. Following its handling rules, clean dry hands and a support under fragile pages, is part of the historian's method, not a separate rule: damaged evidence cannot be checked again, and history depends on evidence that can be checked."
+      id: "follow-the-archive-s-handling-rules",
+      kind: "select",
+      target: "kps-clean-hands",
+      title: "Follow the archive's handling rules",
+      cue: "Clean, dry hands, and a support under every page before you touch anything.",
+      why: "An archive exists so that evidence survives for every reader who comes later. Following its handling rules, clean dry hands and a support under fragile pages, is part of the historian's method, not a separate rule: damaged evidence cannot be checked again, and history depends on evidence that can be checked."
     },
     {
-      "id": "question-the-source-in-order",
-      "kind": "sequence",
-      "targets": [
+      id: "question-the-source-in-order",
+      kind: "sequence",
+      targets: [
         "kps-ord-who",
         "kps-ord-when",
         "kps-ord-why",
         "kps-ord-whom"
       ],
-      "itemNames": {
+      itemNames: {
         "kps-ord-who": "1 · who made it",
         "kps-ord-when": "2 · when",
         "kps-ord-why": "3 · why",
         "kps-ord-whom": "4 · for whom"
       },
-      "title": "Question the source in order",
-      "cue": "Who made it, when, why, and for whom.",
-      "why": "Asking who made a source, when, why and for whom tells you what kind of evidence it is before you trust what it says. A letter to a friend and a notice to the public can describe the same day very differently. Asking in this order, author first and audience last, builds a picture of the source's purpose, which is the thing most likely to shape what it leaves out.",
-      "outOfOrderNote": "Out of order. Start with who made it — you cannot judge why until you know who."
+      title: "Question the source in order",
+      cue: "Who made it, when, why, and for whom.",
+      why: "Asking who made a source, when, why and for whom tells you what kind of evidence it is before you trust what it says. A letter to a friend and a notice to the public can describe the same day very differently. Asking in this order, author first and audience last, builds a picture of the source's purpose, which is the thing most likely to shape what it leaves out.",
+      outOfOrderNote: "Out of order. Start with who made it — you cannot judge why until you know who."
     },
     {
-      "id": "read-the-letter-slowly-line-by",
-      "kind": "hold",
-      "target": "kps-read-slowly",
-      "seconds": 6,
-      "title": "Read the letter slowly, line by line",
-      "cue": "Hold your place and read the whole letter before you decide anything about it.",
-      "why": "Reading a source all the way through before judging it stops you seizing on the first line that fits what you expected. Historians read slowly because the detail that changes the meaning is often late in a document: a date, a condition, a sentence that undercuts the rest.",
-      "holdBreakNote": "You stopped reading and jumped to a conclusion. Go back and read the whole letter first."
+      id: "read-the-letter-slowly-line-by",
+      kind: "hold",
+      target: "kps-read-slowly",
+      seconds: 6,
+      title: "Read the letter slowly, line by line",
+      cue: "Hold your place and read the whole letter before you decide anything about it.",
+      why: "Reading a source all the way through before judging it stops you seizing on the first line that fits what you expected. Historians read slowly because the detail that changes the meaning is often late in a document: a date, a condition, a sentence that undercuts the rest.",
+      holdBreakNote: "You stopped reading and jumped to a conclusion. Go back and read the whole letter first."
     },
     {
-      "id": "turn-from-the-primary-to-the",
-      "kind": "turn",
-      "target": "kps-lens-dial",
-      "turn": {
-        "turns": 0.5,
-        "axis": "y",
-        "label": "SECONDARY"
+      id: "turn-from-the-primary-to-the",
+      kind: "turn",
+      target: "kps-lens-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "SECONDARY"
       },
-      "title": "Turn from the primary to the secondary source",
-      "cue": "Now turn the lens from the letter to the later book that tells the same story.",
-      "why": "Once you know what the primary source says, you can read the secondary account critically: which evidence it uses, where it agrees with the letter, and where it goes further than the letter can support. Turning deliberately from one to the other is the core skill of this lesson, and of history."
+      title: "Turn from the primary to the secondary source",
+      cue: "Now turn the lens from the letter to the later book that tells the same story.",
+      why: "Once you know what the primary source says, you can read the secondary account critically: which evidence it uses, where it agrees with the letter, and where it goes further than the letter can support. Turning deliberately from one to the other is the core skill of this lesson, and of history."
     },
     {
-      "id": "judge-how-certain-the-book-s",
-      "kind": "gauge",
-      "target": "kps-certainty-meter",
-      "gauge": {
-        "label": "CERTAINTY",
-        "speed": 0.6,
-        "green": [
+      id: "judge-how-certain-the-book-s",
+      kind: "gauge",
+      target: "kps-certainty-meter",
+      gauge: {
+        label: "CERTAINTY",
+        speed: 0.6,
+        green: [
           0.4,
           0.58
         ],
-        "missNote": "Outside the band. Too sure and one letter is doing too much; too doubtful and you ignore real evidence. Weigh it again."
+        missNote: "Outside the band. Too sure and one letter is doing too much; too doubtful and you ignore real evidence. Weigh it again."
       },
-      "title": "Judge how certain the book's claim is",
-      "cue": "Commit when your certainty matches the evidence: supported by the letter, but not proven by it alone.",
-      "why": "Historians rarely say certainly or never; they say how strongly the evidence supports a claim. One letter agreeing with a book makes a claim more likely, not proven, because a single witness can be wrong. Judging certainty to match the evidence is what separates careful history from a confident story."
+      title: "Judge how certain the book's claim is",
+      cue: "Commit when your certainty matches the evidence: supported by the letter, but not proven by it alone.",
+      why: "Historians rarely say certainly or never; they say how strongly the evidence supports a claim. One letter agreeing with a book makes a claim more likely, not proven, because a single witness can be wrong. Judging certainty to match the evidence is what separates careful history from a confident story."
     },
     {
-      "id": "link-the-claim-to-its-evidence",
-      "kind": "drag",
-      "target": "kps-claim-token",
-      "drag": {
-        "to": "kps-evidence-spot",
-        "radius": 0.45,
-        "missNote": "The claim is not linked to its evidence yet. Put it beside the source that supports it."
+      id: "link-the-claim-to-its-evidence",
+      kind: "drag",
+      target: "kps-claim-token",
+      drag: {
+        to: "kps-evidence-spot",
+        radius: 0.45,
+        missNote: "The claim is not linked to its evidence yet. Put it beside the source that supports it."
       },
-      "title": "Link the claim to its evidence",
-      "cue": "Drag the book's main claim onto the primary source that supports it.",
-      "why": "Tracing a claim to the evidence behind it is how historians check each other's work. Placing the book's claim beside the letter that supports it shows the reader exactly where the claim comes from, and it reveals at once any claim with nothing beneath it, which is the claim to be most careful about."
+      title: "Link the claim to its evidence",
+      cue: "Drag the book's main claim onto the primary source that supports it.",
+      why: "Tracing a claim to the evidence behind it is how historians check each other's work. Placing the book's claim beside the letter that supports it shows the reader exactly where the claim comes from, and it reveals at once any claim with nothing beneath it, which is the claim to be most careful about."
     },
     {
-      "id": "say-where-the-evidence-runs-out",
-      "kind": "select",
-      "target": "kps-gap-card",
-      "title": "Say where the evidence runs out",
-      "cue": "The diary has a missing page. Say what the evidence cannot tell us.",
-      "why": "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
+      id: "say-where-the-evidence-runs-out",
+      kind: "select",
+      target: "kps-gap-card",
+      title: "Say where the evidence runs out",
+      cue: "The diary has a missing page. Say what the evidence cannot tell us.",
+      why: "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
     },
     {
-      "id": "spot-the-problems-in-a-classmate",
-      "kind": "find",
-      "noHint": true,
-      "targets": [
+      id: "spot-the-problems-in-a-classmate",
+      kind: "find",
+      noHint: true,
+      targets: [
         "kps-ess-no-source",
         "kps-ess-book-as-witness",
         "kps-ess-guess-fact"
       ],
-      "itemNames": {
+      itemNames: {
         "kps-ess-no-source": "a claim with no source",
         "kps-ess-book-as-witness": "the book quoted as if it were there",
         "kps-ess-guess-fact": "a guess written as fact"
       },
-      "itemNotes": {
+      itemNotes: {
         "kps-ess-no-source": "Every claim needs evidence behind it. Where is it from?",
         "kps-ess-book-as-witness": "The book was written later. It is an interpretation, not a witness.",
         "kps-ess-guess-fact": "Where the evidence stops, say so. A guess must be labelled as one."
       },
-      "decoyNotes": {
+      decoyNotes: {
         "kps-ess-question": "Naming an open question is good history. Keep it."
       },
-      "title": "Spot the problems in a classmate's essay",
-      "cue": "Look at the draft essay and mark each problem before it is handed in.",
-      "why": "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
+      title: "Spot the problems in a classmate's essay",
+      cue: "Look at the draft essay and mark each problem before it is handed in.",
+      why: "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
     },
     {
-      "id": "keep-the-argument-balanced-as-you",
-      "kind": "track",
-      "target": "kps-balance-meter",
-      "seconds": 8,
-      "track": {
-        "start": 0.3,
-        "green": [
+      id: "keep-the-argument-balanced-as-you",
+      kind: "track",
+      target: "kps-balance-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
           0.4,
           0.62
         ],
-        "rise": 0.46,
-        "fall": 0.38,
-        "drift": 0.14,
-        "label": "BALANCE"
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "BALANCE"
       },
-      "title": "Keep the argument balanced as you write",
-      "cue": "Hold your conclusion in band — weighing both sources, not leaning on one.",
-      "why": "A balanced argument gives each source its due weight: what the letter shows, what the book adds and where they differ. Leaning on one source because it says what you hoped is the easiest trap in history, and holding the balance while you write is what makes the conclusion trustworthy.",
-      "holdBreakNote": "The argument tipped to one side. Bring the other source back in before you conclude."
+      title: "Keep the argument balanced as you write",
+      cue: "Hold your conclusion in band — weighing both sources, not leaning on one.",
+      why: "A balanced argument gives each source its due weight: what the letter shows, what the book adds and where they differ. Leaning on one source because it says what you hoped is the easiest trap in history, and holding the balance while you write is what makes the conclusion trustworthy.",
+      holdBreakNote: "The argument tipped to one side. Bring the other source back in before you conclude."
     },
     {
-      "id": "record-the-sources-the-links-and",
-      "kind": "select",
-      "target": "kps-research-log",
-      "doneLine": "Sources and gaps recorded",
-      "title": "Record the sources, the links and the gaps",
-      "cue": "Write down each source, which claim it supports, and where the evidence runs out.",
-      "why": "A research log lets anyone follow your reasoning back to the sources and check it for themselves. Recording the gaps as carefully as the findings tells the next researcher where the questions are, which is how historical knowledge actually grows: by one careful reader building on another."
+      id: "record-the-sources-the-links-and",
+      kind: "select",
+      target: "kps-research-log",
+      doneLine: "Sources and gaps recorded",
+      title: "Record the sources, the links and the gaps",
+      cue: "Write down each source, which claim it supports, and where the evidence runs out.",
+      why: "A research log lets anyone follow your reasoning back to the sources and check it for themselves. Recording the gaps as carefully as the findings tells the next researcher where the questions are, which is how historical knowledge actually grows: by one careful reader building on another."
     },
     {
-      "id": "show-the-class-how-you-checked",
-      "kind": "select",
-      "target": "kps-share-board",
-      "doneLine": "Method shared",
-      "title": "Show the class how you checked the claim",
-      "cue": "Explain how you traced the book's claim to the letter and where the evidence ran out.",
-      "why": "Showing classmates how a claim was traced to its evidence teaches the method, not just the answer, and it lets them test your reading against theirs. Historians publish their sources for exactly this reason: so that anyone can check the claim."
+      id: "show-the-class-how-you-checked",
+      kind: "select",
+      target: "kps-share-board",
+      doneLine: "Method shared",
+      title: "Show the class how you checked the claim",
+      cue: "Explain how you traced the book's claim to the letter and where the evidence ran out.",
+      why: "Showing classmates how a claim was traced to its evidence teaches the method, not just the answer, and it lets them test your reading against theirs. Historians publish their sources for exactly this reason: so that anyone can check the claim."
     },
     {
-      "id": "crew-check-in",
-      "kind": "select",
-      "target": "kps-checkin",
-      "doneLine": "Checked in",
-      "title": "Check in at the end of the lesson",
-      "cue": "How did that go? What was difficult about questioning a source?",
-      "why": "A short check-in lets the teacher hear what made sense and what did not, and it gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more."
+      id: "crew-check-in",
+      kind: "select",
+      target: "kps-checkin",
+      doneLine: "Checked in",
+      title: "Check in at the end of the lesson",
+      cue: "How did that go? What was difficult about questioning a source?",
+      why: "A short check-in lets the teacher hear what made sense and what did not, and it gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more."
     }
   ],
 
   interrupts: [
     {
-      "id": "a-page-starts-to-tear",
-      "kind": "Fragile page",
-      "after": "read-the-letter-slowly-line-by",
-      "delay": 3,
-      "seconds": 12,
-      "target": "kps-support-the-page",
-      "alert": "A classmate lifts a fragile page by one corner and it starts to tear.",
-      "cue": "Tell them to stop, lay the page flat on its support, and call the archivist.",
-      "why": "A tear in an archive document is permanent damage to evidence that exists nowhere else. Stopping, laying the page flat on its support and calling the archivist, who knows how to handle it, protects the source for every reader who comes after this class.",
-      "missNote": "Nobody stopped them, and the page tore across the date line — the one detail the lesson needed.",
-      "wrongNote": "That does not protect the page. Stop, lay it flat and call the archivist."
+      id: "a-page-starts-to-tear",
+      kind: "Fragile page",
+      after: "read-the-letter-slowly-line-by",
+      delay: 3,
+      seconds: 12,
+      target: "kps-support-the-page",
+      alert: "A classmate lifts a fragile page by one corner and it starts to tear.",
+      cue: "Tell them to stop, lay the page flat on its support, and call the archivist.",
+      why: "A tear in an archive document is permanent damage to evidence that exists nowhere else. Stopping, laying the page flat on its support and calling the archivist, who knows how to handle it, protects the source for every reader who comes after this class.",
+      missNote: "Nobody stopped them, and the page tore across the date line — the one detail the lesson needed.",
+      wrongNote: "That does not protect the page. Stop, lay it flat and call the archivist."
     },
     {
-      "id": "the-teacher-asks-how-you-know",
-      "kind": "Teacher question",
-      "after": "keep-the-argument-balanced-as-you",
-      "delay": 3,
-      "seconds": 12,
-      "target": "kps-name-the-source",
-      "alert": "The teacher points to a sentence in your notes and asks how you know it.",
-      "cue": "Name the source the claim comes from, or say plainly that you do not yet have one.",
-      "why": "How do you know is the historian's question. Naming the source behind a claim, or admitting that there is not one yet, shows you understand that history is built from evidence rather than from what sounds right.",
-      "missNote": "You had no source and defended the claim anyway, so it stayed in your notes as if it were fact.",
-      "wrongNote": "That does not name a source. Say where the claim comes from, or that you do not know yet."
+      id: "the-teacher-asks-how-you-know",
+      kind: "Teacher question",
+      after: "keep-the-argument-balanced-as-you",
+      delay: 3,
+      seconds: 12,
+      target: "kps-name-the-source",
+      alert: "The teacher points to a sentence in your notes and asks how you know it.",
+      cue: "Name the source the claim comes from, or say plainly that you do not yet have one.",
+      why: "How do you know is the historian's question. Naming the source behind a claim, or admitting that there is not one yet, shows you understand that history is built from evidence rather than from what sounds right.",
+      missNote: "You had no source and defended the claim anyway, so it stayed in your notes as if it were fact.",
+      wrongNote: "That does not name a source. Say where the claim comes from, or that you do not know yet."
     }
   ],
 

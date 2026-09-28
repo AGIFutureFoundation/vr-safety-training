@@ -221,6 +221,10 @@ export const STANDARDS = Object.fromEntries([
   S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
   S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
   S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("un-sdg-4-quality-education", "UN", "Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("unesco-education-guidance", "UNESCO", "Education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("inee-minimum-standards", "INEE", "Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("national-curriculum-framework", "national curriculum authority", "The national curriculum framework the school follows, as a category; no grade-level code is cited", ["Community Environmental Justice"], "unverified"),
   S("ansi-r15-06", "ANSI/ASSP", "R15.06 Safety requirements for industrial robots and robot systems", ["Manufacturing"]),
   S("iso-10218", "ISO", "10218 Robots and robotic devices — safety requirements for industrial robots", ["Manufacturing"]),
   S("ashrae-15", "ASHRAE", "15 Safety Standard for Refrigeration Systems", ["Manufacturing", "Building Systems"]),
@@ -669,6 +673,46 @@ export const PROGRAMME_COMPETENCIES = [
       "bb-transition-spacing-and-roles", "bb-timeout-huddle-and-adjustment", "bb-losing-well-and-film-review"
     ],
     require: 6,
+  },
+  {
+    id: "k12-practical-math",
+    title: "Use measurement, proportion, data and chance to reason about real places, with every unit written and every answer checked",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-measuring-and-scaling-the-court"
+    ],
+    require: 1,
+  },
+  {
+    id: "k12-science",
+    title: "Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-water-cycle-and-filtration"
+    ],
+    require: 1,
+  },
+  {
+    id: "k12-history-and-civics",
+    title: "Question sources, trace claims to evidence and say where the evidence runs out",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-primary-and-secondary-sources"
+    ],
+    require: 1,
+  },
+  {
+    id: "k12-literacy-and-life-skills",
+    title: "Read, write and speak clearly enough to act safely and work well with others",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    require: 1,
   },
   {
     id: "bay-restoration-maritime-underwater",

@@ -118,6 +118,7 @@ const catalog = {
   performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station. A SmartCiti.X station is measured against 320 because the shared stage is drawn around it; a Trade Skills room against 430 because the room is the whole scene. overBudget stations go first in the headset pass" },
   curricula: CURRICULA.map((c) => ({
     id: c.id, name: c.name, union: c.union, certification: c.certification, summary: c.summary, accent: c.accent ?? null,
+    ...(c.audience ? { audience: c.audience, band: c.band ?? null, teacherNote: c.teacherNote ?? null } : {}),
     stations: c.stations.map((s) => ({ app: s.app, id: s.id, why: s.why })),
     completionRule: "every station has a passing attempt (stars >= 2, no unsafe action)",
     ladder: ladderSummary(LADDER_OF.get(c.id)),

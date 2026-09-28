@@ -707,6 +707,9 @@ export function mountUI(store, actions) {
             h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
           h("div", { className: "prog-bar" }, h("span", { style: { width: `${p.pct}%` } })),
           h("p", { className: "prog-summary" }, p.summary),
+          // K-12 programmes carry a note for the teacher on running the
+          // lesson where the connection is poor (docs/k12.md).
+          p.teacherNote && h("p", { className: "prog-teacher" }, h("b", null, "For teachers: "), p.teacherNote),
           // A programme whose stations interrupt the learner reports on that
           // separately: passing the procedure and noticing the alarm are two
           // different competencies and a training director wants both.
