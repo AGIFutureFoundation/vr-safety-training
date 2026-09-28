@@ -90,14 +90,6 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       why: "A tide staff is a tall ruler fixed in the water, and a reading means nothing without three things: where the water surface meets the scale, what unit the scale is marked in, and the time you read it. Taking all three together is what turns looking at the water into data you can plot."
     },
     {
-      id: "take-your-place-behind-the-rail",
-      kind: "select",
-      target: "ktp-rail-card",
-      title: "Take your place behind the rail",
-      cue: "Stand at the viewing rail before the technician switches on the staff camera.",
-      why: "A pier is a working edge above deep water, and the rail marks where visitors stop. Taking your place behind it first means the whole lesson can happen without anyone near the drop, which is the same habit harbour workers keep when they work to the edge only with the right equipment."
-    },
-    {
       id: "put-the-graphing-method-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       outOfOrderNote: "Out of order. Record the readings in a table before you draw anything."
     },
     {
-      id: "read-the-staff-at-eye-level",
-      kind: "hold",
-      target: "ktp-eye-level",
-      seconds: 6,
-      title: "Read the staff at eye level",
-      cue: "Hold your view level with the waterline on the camera feed until the ripples settle.",
-      why: "Looking at a scale from above or below makes the reading seem higher or lower than it is, which is called parallax. Holding your eye level with the waterline and waiting for the ripples to settle gives a reading that another person would agree with, and that is what makes data trustworthy.",
-      holdBreakNote: "The view tilted and the reading jumped. Look level again and let the ripples settle."
+      id: "take-your-place-behind-the-rail",
+      kind: "select",
+      target: "ktp-rail-card",
+      title: "Take your place behind the rail",
+      cue: "Stand at the viewing rail before the technician switches on the staff camera.",
+      why: "A pier is a working edge above deep water, and the rail marks where visitors stop. Taking your place behind it first means the whole lesson can happen without anyone near the drop, which is the same habit harbour workers keep when they work to the edge only with the right equipment."
     },
     {
       id: "turn-the-graph-to-the-right",
@@ -158,6 +148,16 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       why: "Plotting means finding the time along the bottom, going straight up to the reading's height, and marking there. Stopping exactly at the height the table shows, not roughly near it, is what keeps the line honest when the points are joined."
     },
     {
+      id: "read-the-staff-at-eye-level",
+      kind: "hold",
+      target: "ktp-eye-level",
+      seconds: 6,
+      title: "Read the staff at eye level",
+      cue: "Hold your view level with the waterline on the camera feed until the ripples settle.",
+      why: "Looking at a scale from above or below makes the reading seem higher or lower than it is, which is called parallax. Holding your eye level with the waterline and waiting for the ripples to settle gives a reading that another person would agree with, and that is what makes data trustworthy.",
+      holdBreakNote: "The view tilted and the reading jumped. Look level again and let the ripples settle."
+    },
+    {
       id: "place-the-point-at-its-time",
       kind: "drag",
       target: "ktp-time-marker",
@@ -169,14 +169,6 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       title: "Place the point at its time",
       cue: "Drag the marker along the bottom to the time the reading was taken.",
       why: "A point sits where its time and its height meet. Placing it at the time the reading was actually taken, not at the next free space, keeps the gaps between readings true, so that a graph with readings taken at uneven times still shows the tide's real shape."
-    },
-    {
-      id: "say-what-the-graph-shows",
-      kind: "select",
-      target: "ktp-compare-card",
-      title: "Say what the graph shows",
-      cue: "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
-      why: "A line going up from left to right means the height grew as time went on; going down means it fell. Describing the pattern in words, and pointing to the part of the graph that shows it, is reading a graph rather than just drawing one."
     },
     {
       id: "spot-the-problems-in-a-classmates",
@@ -203,6 +195,14 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       title: "Spot the problems in a classmate's tide graph",
       cue: "Look at the draft graph and mark each problem.",
       why: "Line graphs go wrong in a few familiar ways: an axis with no label, a scale whose steps are not even, and a point plotted at the wrong time. Spotting them on someone else's graph trains the eye that checks your own before it is shared."
+    },
+    {
+      id: "say-what-the-graph-shows",
+      kind: "select",
+      target: "ktp-compare-card",
+      title: "Say what the graph shows",
+      cue: "Say whether the tide was rising or falling across your readings, and how the graph shows it.",
+      why: "A line going up from left to right means the height grew as time went on; going down means it fell. Describing the pattern in words, and pointing to the part of the graph that shows it, is reading a graph rather than just drawing one."
     },
     {
       id: "follow-the-waterline-as-the-tide",
@@ -250,7 +250,7 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       doneLine: "Checked in",
       title: "Check in at the end of the visit",
       cue: "How did the readings and the graph go? What would you change next time?",
-      why: "Ending with a check-in lets each learner say what made sense and what did not, and lets the teacher plan the next lesson around it. It is not a test; it is a moment to notice what you can now do with a graph, and a trusted adult is there if anything was hard."
+      why: "The pier crew closes every shift by reading the day's log back together, so the class does the same with its tide graph. Each learner points to one reading they plotted and says what the curve told them; a puzzled face here is worth more than a tidy chart, because it shows where the graph still needs explaining."
     }
   ],
 
@@ -368,29 +368,21 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#dce4e6", base2: "#ccd6d8", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+    // a working boat's deck: a rail along the stern, a wheelhouse, coiled lines and a life ring
+    void wallMat;
+    const rail = group(g, 0, 0, -4.6);
+    for (let i = 0; i < 9; i++) cyl(rail, 0.025, 0.025, 1.0, -3.2 + i * 0.8, 0.5, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(rail, 6.6, 0.05, 0.05, 0, 1.0, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    box(rail, 6.6, 0.03, 0.03, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    const house = group(g, -2.6, 0, -3.9);
+    box(house, 1.8, 2.1, 1.2, 0, 1.05, 0, 0xf4f0e6, { rough: 0.7 });
+    box(house, 1.5, 0.6, 0.04, 0, 1.5, 0.61, 0x2a3a4a, { rough: 0.3, metal: 0.2 });
+    box(house, 1.9, 0.08, 1.3, 0, 2.14, 0, 0xd8a54a, { rough: 0.6 });
+    for (const [cx0, cz0] of [[2.4, -3.8], [3.0, -3.3]]) for (let i = 0; i < 3; i++) cyl(g, 0.28 - i * 0.03, 0.28 - i * 0.03, 0.05, cx0, 0.03 + i * 0.05, cz0, 0xd8c04a, { rough: 0.9, seg: 14 });
+    const ring = group(g, 3.3, 1.2, -4.55);
+    cyl(ring, 0.32, 0.32, 0.06, 0, 0, 0, 0xf0645b, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    cyl(ring, 0.18, 0.18, 0.08, 0, 0, 0, 0xf4f0e6, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    for (const bx of [-3.6, 3.6]) box(g, 0.5, 0.5, 0.5, bx, 0.25, -2.6, 0x6b4a2e, { rough: 0.8 });
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};

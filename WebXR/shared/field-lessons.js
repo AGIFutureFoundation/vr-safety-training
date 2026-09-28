@@ -315,6 +315,15 @@ export function k2DrawFieldLayer(ctx, placed, listEl, linkFor) {
     ctx.fillStyle = "#6ad0c8"; ctx.fillRect(l.x - 4, l.y - 4, 8, 8);
     ctx.strokeStyle = "#0a1420"; ctx.lineWidth = 1; ctx.strokeRect(l.x - 4, l.y - 4, 8, 8);
   }
+  k2RenderLessonList(listEl, placed, linkFor);
+}
+
+/**
+ * The K-12 list on its own, for a world without a full map (the Regatta's
+ * briefing, Fairway Park's facility screen): a heading row and one row per
+ * lesson with its trade line and a link to the full station.
+ */
+export function k2RenderLessonList(listEl, placed, linkFor) {
   if (!listEl || !placed.length || typeof document === "undefined") return;
   const head = document.createElement("div");
   head.className = "map-site-row k2-layer-head";

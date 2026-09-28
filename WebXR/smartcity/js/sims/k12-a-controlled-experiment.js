@@ -128,6 +128,40 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
       holdBreakNote: "The ruler tipped off the soil line. Set zero at the soil and hold it again."
     },
     {
+      id: "say-why-only-one-thing-may",
+      kind: "select",
+      target: "kce-compare-card",
+      title: "Say why only one thing may change",
+      cue: "Say why the test changes only the light and keeps the water the same.",
+      why: "If light and water both changed, a difference in growth could be caused by either, and you would not know which. Keeping everything else the same means any difference points to the one thing you changed, which is what makes the result mean something."
+    },
+    {
+      id: "spot-the-problems-in-a-classmates",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kce-pl-two",
+        "kce-pl-no-repeat",
+        "kce-pl-too-much"
+      ],
+      itemNames: {
+        "kce-pl-two": "two variables changed at once",
+        "kce-pl-no-repeat": "no repeat trays",
+        "kce-pl-too-much": "a conclusion for every plant"
+      },
+      itemNotes: {
+        "kce-pl-two": "Change only one thing.",
+        "kce-pl-no-repeat": "Repeats show whether a result is real.",
+        "kce-pl-too-much": "Conclude only what the evidence shows."
+      },
+      decoyNotes: {
+        "kce-pl-safety": "A safety note is good practice. Keep it."
+      },
+      title: "Spot the problems in a classmate's plan",
+      cue: "Look at the draft experiment plan and mark each problem.",
+      why: "Experiment plans go wrong in familiar ways: two variables changed at once, no repeats and a conclusion that claims more than the test can show. Spotting them in someone else's plan is how you learn to design a fair test of your own."
+    },
+    {
       id: "turn-the-lamp-dimmer-for-one",
       kind: "turn",
       target: "kce-lamp-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
       title: "Place the repeat tray beside the first",
       cue: "Drag the repeat tray to sit under the same lamp as the first tray.",
       why: "A repeat is the same test run again under the same conditions. Placing the repeat tray under the same lamp lets you see whether the result happens again, and a result that repeats is one you can start to trust."
-    },
-    {
-      id: "say-why-only-one-thing-may",
-      kind: "select",
-      target: "kce-compare-card",
-      title: "Say why only one thing may change",
-      cue: "Say why the test changes only the light and keeps the water the same.",
-      why: "If light and water both changed, a difference in growth could be caused by either, and you would not know which. Keeping everything else the same means any difference points to the one thing you changed, which is what makes the result mean something."
-    },
-    {
-      id: "spot-the-problems-in-a-classmates",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kce-pl-two",
-        "kce-pl-no-repeat",
-        "kce-pl-too-much"
-      ],
-      itemNames: {
-        "kce-pl-two": "two variables changed at once",
-        "kce-pl-no-repeat": "no repeat trays",
-        "kce-pl-too-much": "a conclusion for every plant"
-      },
-      itemNotes: {
-        "kce-pl-two": "Change only one thing.",
-        "kce-pl-no-repeat": "Repeats show whether a result is real.",
-        "kce-pl-too-much": "Conclude only what the evidence shows."
-      },
-      decoyNotes: {
-        "kce-pl-safety": "A safety note is good practice. Keep it."
-      },
-      title: "Spot the problems in a classmate's plan",
-      cue: "Look at the draft experiment plan and mark each problem.",
-      why: "Experiment plans go wrong in familiar ways: two variables changed at once, no repeats and a conclusion that claims more than the test can show. Spotting them in someone else's plan is how you learn to design a fair test of your own."
     },
     {
       id: "keep-the-lamps-at-the-same",
@@ -250,7 +250,7 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
       doneLine: "Checked in",
       title: "Check in at the end of the lab",
       cue: "What would you test next with a fair test? What was hardest to keep the same?",
-      why: "A check-in lets learners name the hardest part of keeping a test fair, which is the part that matters most, and gives the teacher a clear idea of what to practise next time. It is not graded, and anyone can talk to the teacher or a trusted adult afterwards."
+      why: "Scientists end a session by writing down what they would change next time, so the class does the same aloud: one thing kept the test fair, one thing nearly spoiled it. Naming a near miss in a fair test is a skill in itself, and the lab lead can hear who owns it now."
     }
   ],
 
@@ -368,29 +368,26 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#e6e8ea", base2: "#d6d8dc", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+    // a lab bench behind the station, a fume cabinet, a reagent rack and an eyewash post
+    const back = group(g, 0, 0, -4.7);
+    box(back, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
+    const bench = group(g, 0, 0, -4.1);
+    box(bench, 4.6, 0.9, 0.7, 0, 0.45, 0, 0x2b2f35, { rough: 0.6 });
+    box(bench, 4.7, 0.05, 0.75, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    box(bench, 0.5, 0.02, 0.4, -1.4, 0.94, 0, 0x8aa0a8, { rough: 0.3, metal: 0.5 });
+    cyl(bench, 0.02, 0.02, 0.3, -1.4, 1.1, -0.15, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
+    for (let i = 0; i < 6; i++) cyl(bench, 0.05, 0.05, 0.22 + (i % 3) * 0.06, -0.4 + i * 0.28, 1.06, -0.15, [0x7fc4d8, 0xf2c14b, 0xa0e0a0][i % 3], { rough: 0.2, seg: 10 });
+    const hood = group(g, 2.9, 0, -4.2);
+    box(hood, 1.2, 0.9, 0.8, 0, 0.45, 0, 0xd8d4cc, { rough: 0.6 });
+    box(hood, 1.2, 1.3, 0.8, 0, 1.55, 0, 0xc8d8dc, { rough: 0.2, metal: 0.1 });
+    box(hood, 1.1, 0.04, 0.7, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    const rack = group(g, -2.9, 0, -4.3);
+    box(rack, 1.0, 1.8, 0.34, 0, 0.9, 0, 0x8a8f96, { rough: 0.5, metal: 0.4 });
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) cyl(rack, 0.06, 0.06, 0.24, -0.33 + c * 0.22, 0.32 + r * 0.55, 0.06, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.3, seg: 10 });
+    const wash = group(g, 3.6, 0, -2.8);
+    cyl(wash, 0.03, 0.03, 1.1, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(wash, 0.3, 0.1, 0.3, 0, 1.12, 0, 0x59c97b, { rough: 0.5 });
+    for (const bx of [-0.08, 0.08]) cyl(wash, 0.03, 0.03, 0.08, bx, 1.2, 0, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};

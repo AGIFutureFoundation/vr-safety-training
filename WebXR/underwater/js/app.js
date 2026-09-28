@@ -14,7 +14,9 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
 import { lkRenderStations, lkSiteHeading, lkStationLink, lkAssetLink, lkStationLabel } from "../../shared/links.js";
-import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
+import { k2DrawFieldLayer, k2LessonsFor } from "../../shared/field-lessons.js";
+// K-12 field lessons in play (shared/field-kiosk.js): a kiosk per lesson on the seabed, the lesson screen, the Field Notes badge.
+import { k2BuildKiosks, k2NearestKiosk, k2OpenLesson, k2KioskPrompt } from "../../shared/field-kiosk.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt, dvFloorY } from "./seabed.js";
 import { gtStorage } from "../../shared/profiles.js";
 import { ctAvatarLoad } from "../../shared/crew.js";
@@ -139,11 +141,27 @@ function dvOpenScreen(name) {
   dvApp.screen = name;
   for (const id of ["scr-menu", "scr-jobboard", "scr-activities", "scr-asset"]) $(id)?.toggleAttribute("hidden", true);
   if (name === "asset") $("scr-asset")?.removeAttribute("hidden");
+  for (const id of ["scr-menu", "scr-jobboard", "scr-activities", "scr-lesson"]) $(id)?.toggleAttribute("hidden", true);
   $("hud")?.toggleAttribute("hidden", name !== "game");
   $("view-toggle")?.toggleAttribute("hidden", name !== "game");
   if (name === "menu") $("scr-menu")?.removeAttribute("hidden");
   if (name === "jobboard") $("scr-jobboard")?.removeAttribute("hidden");
   if (name === "activities") { dvRenderActivities(); $("scr-activities")?.removeAttribute("hidden"); }
+  if (name === "lesson") $("scr-lesson")?.removeAttribute("hidden");
+}
+
+/** A K-12 field lesson at its kiosk: three steps, the check, the passport record. */
+function dvOpenLesson(lesson) {
+  k2OpenLesson(lesson, $("k2-lesson"), {
+    linkFor: lkStationLink,
+    onClose: () => dvOpenScreen("game"),
+    onDone: (r) => {
+      dvApp.kiosks?.refresh();
+      if (r.badge) dvToast("Field Notes badge earned — on your passport", 5000);
+      else if (r.first) dvToast(`Field lesson answered · ${r.notes.done} of ${r.notes.total} in the Deep`, 4000);
+    },
+  });
+  dvOpenScreen("lesson");
 }
 
 function dvToggleCamera() { dvApp.cameraMode = dvApp.cameraMode === "chase" ? "first" : "chase"; $("view-toggle").textContent = dvApp.cameraMode === "chase" ? "First person (V)" : "Chase camera (V)"; }
@@ -489,6 +507,7 @@ function dvSetup3D() {
   // The avatar picked on the account chip, live: a save or a profile change re-dresses the diver.
   for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => world.dvSetAvatar(ctAvatarLoad(gtStorage())));
   dvApp.scene = scene; dvApp.camera = camera; dvApp.renderer = renderer; dvApp.world = world;
+  dvApp.kiosks = k2BuildKiosks(root, THREE, k2LessonsFor("deep"), { ground: (x, z) => dvFloorY(x, z) + 0.1 });
   tzWatchWorld("underwater", { scene, THREE, pos: () => (dvApp.diver ? [dvApp.diver.x, dvApp.diver.z] : null), camera: () => dvApp.camera, groundAt: dvFloorY, size: 0.35, lift: 0.8 });
   // One lantern per egg dive, at the egg's own anchor, hidden once found.
   const done = new Set(dvDiveState(dvStore).filter((q) => q.done).map((q) => q.id));
@@ -539,10 +558,12 @@ function dvStep(dt) {
   dvApp.nearAsset = dvApp.mode === "swim" ? dvNearestPlace(dvApp.diver.x, dvApp.diver.z, CT_DV_ASSETS, 6) : null;
   dvApp.nearLandmark = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_LANDMARKS, 16);
   dvApp.nearAscent = dvNearestAscentLine(dvApp.diver.x, dvApp.diver.z, DV_ASCENT, 10);
+  dvApp.nearLesson = dvApp.mode === "swim" ? k2NearestKiosk(dvApp.diver.x, dvApp.diver.z, k2LessonsFor("deep")) : null;
   const prompt = $("hud-prompt");
   if (prompt) {
     if (dvApp.mode === "rov") prompt.textContent = "Press R to recover the ROV";
     else if (line.taut) prompt.textContent = "Buddy line taut — wait for your buddy";
+    else if (dvApp.nearLesson) prompt.textContent = k2KioskPrompt(dvApp.nearLesson);
     else if (dvApp.nearSite) prompt.textContent = `Press E — ${dvApp.nearSite.name} · R for the ROV · U for the ascent line`;
     else if (dvApp.nearAsset) prompt.textContent = `Press E — ${CT_DEEP_ASSET_KINDS[dvApp.nearAsset.kind].label}`;
     else if (dvApp.nearLandmark) prompt.textContent = `${dvApp.nearLandmark.name} — press E to look`;
@@ -551,6 +572,8 @@ function dvStep(dt) {
   }
   if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearSite && !dvApp.activity) dvOpenJobBoard(dvApp.nearSite);
   else if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearAsset && !dvApp.activity) ctDvOpenAsset(dvApp.nearAsset);
+  if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearLesson && !dvApp.activity) dvOpenLesson(dvApp.nearLesson);
+  else if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearSite && !dvApp.activity) dvOpenJobBoard(dvApp.nearSite);
   if (dvApp.rovPressed) dvTryRov();
   if (dvApp.ascendPressed) dvTryAscend();
 

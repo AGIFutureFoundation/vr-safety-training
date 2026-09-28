@@ -3,11 +3,12 @@
  *
  *     node tools/gen_k12_station.mjs tools/k12-data/<slug>.json [...more]
  *
- * Every K-12 station shares one scene layout (a learning wall, desks, shelves,
- * a ring of beads, cards, meters, dials and boards on a station pad) and one
- * thirteen-step shape: find, select, sequence, hold, turn, gauge, drag,
- * select, find, track, record, share, check-in, with the two interruptions
- * armed on the hold and the track steps. Only the words change. This script
+ * Every K-12 station shares one control ring (beads, cards, meters, dials and
+ * boards on a station pad) and thirteen step kinds: find, select, sequence,
+ * hold, turn, gauge, drag, select, find, track, record, share, check-in, with
+ * the two interruptions armed on the hold and the track steps. The JSON picks
+ * the `scene` behind the ring (wall, bench, deck, stage, lab) and the `order`
+ * of the steps (a, b, c — see ORDERS); the words are its own. This script
  * turns one compact JSON file into WebXR/smartcity/js/sims/<id>.js; after it,
  * run `node tools/add_station.mjs <id>` to register the station.
  *
@@ -44,23 +45,34 @@ function gen(d) {
     decoyNotes: { [k(f.decoy[0])]: f.decoy[2] },
     title: f.title, cue: f.cue, why: f.why,
   });
-  const steps = [
-    findStep(S.find1),
-    { id: S.select1.id, kind: "select", target: k(S.select1.key), title: S.select1.title, cue: S.select1.cue, why: S.select1.why },
-    { id: S.seq.id, kind: "sequence", targets: S.seq.items.map((i) => k(i[0])),
+  const STEP = {
+    find1: findStep(S.find1),
+    select1: { id: S.select1.id, kind: "select", target: k(S.select1.key), title: S.select1.title, cue: S.select1.cue, why: S.select1.why },
+    seq: { id: S.seq.id, kind: "sequence", targets: S.seq.items.map((i) => k(i[0])),
       itemNames: Object.fromEntries(S.seq.items.map((i, n) => [k(i[0]), `${n + 1} · ${i[1]}`])),
       title: S.seq.title, cue: S.seq.cue, why: S.seq.why, outOfOrderNote: S.seq.oon },
-    { id: S.hold.id, kind: "hold", target: k(S.hold.key), seconds: 6, title: S.hold.title, cue: S.hold.cue, why: S.hold.why, holdBreakNote: S.hold.brk },
-    { id: S.turn.id, kind: "turn", target: k(S.turn.key), turn: { turns: 0.5, axis: "y", label: S.turn.dial }, title: S.turn.title, cue: S.turn.cue, why: S.turn.why },
-    { id: S.gauge.id, kind: "gauge", target: k(S.gauge.key), gauge: { label: S.gauge.meter, speed: 0.6, green: [0.4, 0.58], missNote: S.gauge.miss }, title: S.gauge.title, cue: S.gauge.cue, why: S.gauge.why },
-    { id: S.drag.id, kind: "drag", target: k(S.drag.key), drag: { to: k(S.drag.spot), radius: 0.45, missNote: S.drag.miss }, title: S.drag.title, cue: S.drag.cue, why: S.drag.why },
-    { id: S.select2.id, kind: "select", target: k(S.select2.key), title: S.select2.title, cue: S.select2.cue, why: S.select2.why },
-    findStep(S.find2),
-    { id: S.track.id, kind: "track", target: k(S.track.key), seconds: 8, track: { start: 0.3, green: [0.4, 0.62], rise: 0.46, fall: 0.38, drift: 0.14, label: S.track.meter }, title: S.track.title, cue: S.track.cue, why: S.track.why, holdBreakNote: S.track.brk },
-    { id: S.record.id, kind: "select", target: k(S.record.key), doneLine: S.record.done, title: S.record.title, cue: S.record.cue, why: S.record.why },
-    { id: S.share.id, kind: "select", target: k(S.share.key), doneLine: S.share.done, title: S.share.title, cue: S.share.cue, why: S.share.why },
-    { id: "crew-check-in", kind: "select", target: k("checkin"), doneLine: "Checked in", title: d.checkin.title, cue: d.checkin.cue, why: d.checkin.why },
-  ];
+    hold: { id: S.hold.id, kind: "hold", target: k(S.hold.key), seconds: 6, title: S.hold.title, cue: S.hold.cue, why: S.hold.why, holdBreakNote: S.hold.brk },
+    turn: { id: S.turn.id, kind: "turn", target: k(S.turn.key), turn: { turns: 0.5, axis: "y", label: S.turn.dial }, title: S.turn.title, cue: S.turn.cue, why: S.turn.why },
+    gauge: { id: S.gauge.id, kind: "gauge", target: k(S.gauge.key), gauge: { label: S.gauge.meter, speed: 0.6, green: [0.4, 0.58], missNote: S.gauge.miss }, title: S.gauge.title, cue: S.gauge.cue, why: S.gauge.why },
+    drag: { id: S.drag.id, kind: "drag", target: k(S.drag.key), drag: { to: k(S.drag.spot), radius: 0.45, missNote: S.drag.miss }, title: S.drag.title, cue: S.drag.cue, why: S.drag.why },
+    select2: { id: S.select2.id, kind: "select", target: k(S.select2.key), title: S.select2.title, cue: S.select2.cue, why: S.select2.why },
+    find2: findStep(S.find2),
+    track: { id: S.track.id, kind: "track", target: k(S.track.key), seconds: 8, track: { start: 0.3, green: [0.4, 0.62], rise: 0.46, fall: 0.38, drift: 0.14, label: S.track.meter }, title: S.track.title, cue: S.track.cue, why: S.track.why, holdBreakNote: S.track.brk },
+    record: { id: S.record.id, kind: "select", target: k(S.record.key), doneLine: S.record.done, title: S.record.title, cue: S.record.cue, why: S.record.why },
+    share: { id: S.share.id, kind: "select", target: k(S.share.key), doneLine: S.share.done, title: S.share.title, cue: S.share.cue, why: S.share.why },
+    checkin: { id: "crew-check-in", kind: "select", target: k("checkin"), doneLine: "Checked in", title: d.checkin.title, cue: d.checkin.cue, why: d.checkin.why },
+  };
+  // Three step orders (`order` in the JSON: "a" is the original). Every order
+  // opens with the find, ends record → share → check-in, and keeps the hold
+  // and the track apart, because the two interruptions arm on those two steps.
+  const ORDERS = {
+    a: ["find1", "select1", "seq", "hold", "turn", "gauge", "drag", "select2", "find2", "track", "record", "share", "checkin"],
+    b: ["find1", "select1", "seq", "hold", "select2", "find2", "turn", "gauge", "drag", "track", "record", "share", "checkin"],
+    c: ["find1", "seq", "select1", "turn", "gauge", "hold", "drag", "find2", "select2", "track", "record", "share", "checkin"],
+  };
+  const order = ORDERS[d.order ?? "a"];
+  if (!order) throw new Error(`${d.id}: order "${d.order}" is not one of ${Object.keys(ORDERS).join(", ")}`);
+  const steps = order.map((key) => STEP[key]);
   const ints = d.interrupts.map((it, n) => ({
     id: it.id, kind: it.kind, after: n === 0 ? S.hold.id : S.track.id, delay: 3, seconds: 12, target: k(it.key),
     alert: it.alert, cue: it.cue, why: it.why, missNote: it.miss, wrongNote: it.wrong,
@@ -88,6 +100,109 @@ function gen(d) {
   const hzLines = d.hazards.map((h, n) => `    hazardCard(${HZ[n][0]}, 0.72, ${HZ[n][1]}, ${J(h.id)}, ${J(h.label)}, ${J(h.face)}, ${HZ[n][2]});`).join("\n");
   const crew = d.crew;
   const [i1, i2] = d.interrupts;
+
+  // The place: five scene variants (`scene` in the JSON; "wall" is the
+  // original classroom wall). Each keeps the same floor and the same clear
+  // ring for the controls, and dresses the ground behind it as somewhere the
+  // lesson could really be taught: a bench outdoors, a boat's deck, a stage,
+  // a lab bench.
+  const SCENES = {
+    wall: `    // a learning wall behind the station, with a board the class works on
+    const wall = group(g, 0, 0, -4.7);
+    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
+    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
+    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
+    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
+    // desks and stools for the class, clear of every control
+    for (let i = 0; i < 4; i++) {
+      const side = i < 2 ? -1 : 1, k = i % 2;
+      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
+      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
+      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
+      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
+      const stool = group(desk, 0, 0, 0.55);
+      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
+      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
+    }
+    // shelves of the lesson's materials
+    for (const sx of [-2.9, 2.9]) {
+      const sh = group(g, sx, 0, -4.2);
+      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
+      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
+    }`,
+    bench: `    // outdoors: a low wall to sit on, planters, a notice board on posts and two trees
+    void wallMat;
+    for (const [bx, bz, ry] of [[-2.8, -3.4, 0.5], [2.8, -3.4, -0.5]]) {
+      const b = group(g, bx, 0, bz, ry);
+      box(b, 2.2, 0.42, 0.5, 0, 0.21, 0, 0x9a948a, { rough: 0.9 });
+      box(b, 2.3, 0.06, 0.56, 0, 0.45, 0, 0xb89a6a, { rough: 0.6 });
+    }
+    for (const px of [-1.4, 1.4]) {
+      const pl = group(g, px, 0, -4.5);
+      box(pl, 0.9, 0.5, 0.9, 0, 0.25, 0, 0x6b4a2e, { rough: 0.8 });
+      for (let i = 0; i < 5; i++) ball(pl, 0.16, -0.25 + (i % 3) * 0.25, 0.62 + (i % 2) * 0.08, -0.2 + Math.floor(i / 3) * 0.35, [0x5ab87a, 0x4a9a5a, 0x7fc464][i % 3], { rough: 0.9, seg: 8 });
+    }
+    const notice = group(g, 0, 0, -4.7);
+    for (const nx of [-0.9, 0.9]) cyl(notice, 0.05, 0.05, 2.2, nx, 1.1, 0, 0x6b4a2e, { rough: 0.8, seg: 8 });
+    box(notice, 2.0, 1.1, 0.06, 0, 1.6, 0, 0x2f4a3a, { rough: 0.9 });
+    box(notice, 2.1, 0.12, 0.1, 0, 2.2, 0, 0x6b4a2e, { rough: 0.8 });
+    for (const [tx, tz] of [[-3.6, -4.6], [3.6, -4.6]]) {
+      cyl(g, 0.12, 0.16, 2.4, tx, 1.2, tz, 0x5a4030, { rough: 0.9, seg: 8 });
+      ball(g, 1.1, tx, 2.9, tz, 0x4a8a4a, { rough: 0.9, seg: 10 });
+      ball(g, 0.8, tx + 0.5, 3.3, tz + 0.3, 0x5a9a52, { rough: 0.9, seg: 10 });
+    }`,
+    deck: `    // a working boat's deck: a rail along the stern, a wheelhouse, coiled lines and a life ring
+    void wallMat;
+    const rail = group(g, 0, 0, -4.6);
+    for (let i = 0; i < 9; i++) cyl(rail, 0.025, 0.025, 1.0, -3.2 + i * 0.8, 0.5, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(rail, 6.6, 0.05, 0.05, 0, 1.0, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    box(rail, 6.6, 0.03, 0.03, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    const house = group(g, -2.6, 0, -3.9);
+    box(house, 1.8, 2.1, 1.2, 0, 1.05, 0, 0xf4f0e6, { rough: 0.7 });
+    box(house, 1.5, 0.6, 0.04, 0, 1.5, 0.61, 0x2a3a4a, { rough: 0.3, metal: 0.2 });
+    box(house, 1.9, 0.08, 1.3, 0, 2.14, 0, 0xd8a54a, { rough: 0.6 });
+    for (const [cx0, cz0] of [[2.4, -3.8], [3.0, -3.3]]) for (let i = 0; i < 3; i++) cyl(g, 0.28 - i * 0.03, 0.28 - i * 0.03, 0.05, cx0, 0.03 + i * 0.05, cz0, 0xd8c04a, { rough: 0.9, seg: 14 });
+    const ring = group(g, 3.3, 1.2, -4.55);
+    cyl(ring, 0.32, 0.32, 0.06, 0, 0, 0, 0xf0645b, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    cyl(ring, 0.18, 0.18, 0.08, 0, 0, 0, 0xf4f0e6, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    for (const bx of [-3.6, 3.6]) box(g, 0.5, 0.5, 0.5, bx, 0.25, -2.6, 0x6b4a2e, { rough: 0.8 });`,
+    stage: `    // a hall's stage behind the station: risers, a curtain, footlights and rows of seats at the sides
+    void wallMat;
+    const stage = group(g, 0, 0, -4.4);
+    box(stage, 6.6, 0.5, 1.6, 0, 0.25, 0, 0x4a3a30, { rough: 0.7 });
+    box(stage, 6.8, 0.05, 1.7, 0, 0.52, 0, 0x6b4a2e, { rough: 0.6 });
+    box(stage, 6.6, 2.6, 0.1, 0, 1.85, -0.75, 0x7a2a2a, { rough: 0.95 });
+    for (let i = 0; i < 7; i++) box(stage, 0.12, 2.5, 0.06, -2.7 + i * 0.9, 1.85, -0.68, 0x8a3232, { rough: 0.95 });
+    for (let i = 0; i < 6; i++) ball(stage, 0.05, -2.5 + i * 1.0, 0.56, 0.8, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.2, rough: 0.4, seg: 8 });
+    for (const side of [-1, 1]) for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const seat = group(g, side * (2.9 + c * 0.55), 0, -3.2 + r * 0.7, side * 0.35);
+      box(seat, 0.45, 0.06, 0.45, 0, 0.45, 0, 0x2a5a8a, { rough: 0.8 });
+      box(seat, 0.45, 0.5, 0.06, 0, 0.72, -0.2, 0x2a5a8a, { rough: 0.8 });
+      for (const [lx, lz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) box(seat, 0.03, 0.42, 0.03, lx, 0.21, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
+    }`,
+    lab: `    // a lab bench behind the station, a fume cabinet, a reagent rack and an eyewash post
+    const back = group(g, 0, 0, -4.7);
+    box(back, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
+    const bench = group(g, 0, 0, -4.1);
+    box(bench, 4.6, 0.9, 0.7, 0, 0.45, 0, 0x2b2f35, { rough: 0.6 });
+    box(bench, 4.7, 0.05, 0.75, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    box(bench, 0.5, 0.02, 0.4, -1.4, 0.94, 0, 0x8aa0a8, { rough: 0.3, metal: 0.5 });
+    cyl(bench, 0.02, 0.02, 0.3, -1.4, 1.1, -0.15, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
+    for (let i = 0; i < 6; i++) cyl(bench, 0.05, 0.05, 0.22 + (i % 3) * 0.06, -0.4 + i * 0.28, 1.06, -0.15, [0x7fc4d8, 0xf2c14b, 0xa0e0a0][i % 3], { rough: 0.2, seg: 10 });
+    const hood = group(g, 2.9, 0, -4.2);
+    box(hood, 1.2, 0.9, 0.8, 0, 0.45, 0, 0xd8d4cc, { rough: 0.6 });
+    box(hood, 1.2, 1.3, 0.8, 0, 1.55, 0, 0xc8d8dc, { rough: 0.2, metal: 0.1 });
+    box(hood, 1.1, 0.04, 0.7, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    const rack = group(g, -2.9, 0, -4.3);
+    box(rack, 1.0, 1.8, 0.34, 0, 0.9, 0, 0x8a8f96, { rough: 0.5, metal: 0.4 });
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) cyl(rack, 0.06, 0.06, 0.24, -0.33 + c * 0.22, 0.32 + r * 0.55, 0.06, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.3, seg: 10 });
+    const wash = group(g, 3.6, 0, -2.8);
+    cyl(wash, 0.03, 0.03, 1.1, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(wash, 0.3, 0.1, 0.3, 0, 1.12, 0, 0x59c97b, { rough: 0.5 });
+    for (const bx of [-0.08, 0.08]) cyl(wash, 0.03, 0.03, 0.08, bx, 1.2, 0, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });`,
+  };
+  const place = SCENES[d.scene ?? "wall"];
+  if (!place) throw new Error(`${d.id}: scene "${d.scene}" is not one of ${Object.keys(SCENES).join(", ")}`);
 
   return `import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
@@ -234,29 +349,7 @@ export const ${exp} = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: ${J(w0)}, base2: ${J(w1)}, seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+${place}
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};
