@@ -7,8 +7,11 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { gtStorage } from "../../shared/profiles.js";
 import { ppCompleted, ppCompleteReturns, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkRenderStations, lkSiteHeading, lkStationLabel } from "../../shared/links.js";
+// Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
+import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
+import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import {
-  RW_BOUNDS, RW_SITES, RW_ROADS, RW_TRAILS, RW_RIVER, RW_MAIN_ARC, RW_SIDE_QUESTS, RW_ACTIVITIES, RW_MAP_LAYERS, RW_FUEL_BREAK,
+  RW_BOUNDS, RW_SITES, RW_ROADS, RW_TRAILS, RW_RIVER, RW_MAIN_ARC, RW_SIDE_QUESTS, RW_ACTIVITIES, RW_MAP_LAYERS, RW_FUEL_BREAK, RW_GATED,
   rwHeightAt, rwIsWater, rwSite, rwCoastZ,
 } from "./rw-data.js";
 import { RW_EGGS, RW_FIELD_LESSONS } from "./rw-lore-data.js";
@@ -166,6 +169,17 @@ function rwToggleDrive() {
 }
 
 // ---------------------------------------------------------------- nearby
+let rwQmNear = null;
+/** Walking up to a board with a locked gated quest: the lock toast with the stations to complete, once per approach. */
+function rwQmApproach(near) {
+  const site = near?.kind === "board" ? near.site : null;
+  if (!site) { rwQmNear = null; return; }
+  if (rwQmNear === site.id) return;
+  rwQmNear = site.id;
+  const locked = RW_GATED.find((g) => g.site === site.id && !qmIsOpen(g.gate, qmSnapshot()));
+  if (locked) qmLockToast(locked, { from: "redwood", page: ppHerePage(), link: { runner: RW_RUNNER, siteId: site.id } });
+}
+
 function rwNearest() {
   const { x, z } = rwApp;
   for (const s of RW_SITES) {
@@ -207,6 +221,11 @@ function rwOpenBoard(site) {
   ql.textContent = "";
   for (const q of RW_SIDE_QUESTS.filter((x) => x.site === site.id)) ql.appendChild(rwQuestRow(q));
   if (!ql.children.length) ql.innerHTML = "<li>None posted here.</li>";
+  // The shared lock rows for the gated quests posted here (padlock, reason, a link to each station).
+  document.getElementById("jb-qm")?.remove();
+  const qmBox = document.createElement("div"); qmBox.id = "jb-qm";
+  ql.insertAdjacentElement("afterend", qmBox);
+  qmBoardRows(qmBox, RW_GATED.filter((g) => g.site === site.id), { from: "redwood", page: ppHerePage(), link: { runner: RW_RUNNER, siteId: site.id }, heading: "Skill locks here", done: (id) => rwQuestStatus(rwApp.state, RW_SIDE_QUESTS.find((q) => q.id === id), rwDone) === "done" });
   const ll = $("jb-lessons");
   ll.textContent = "";
   for (const fl of RW_FIELD_LESSONS.filter((l) => l.site === site.id)) {
@@ -422,7 +441,7 @@ function rwDrawMap(canvas, { mini = false } = {}) {
   if (L.has("quests")) for (const q of RW_SIDE_QUESTS) {
     const s = rwSite(q.site); const [a, b] = rwToMap(s.position[0] - 40, s.position[1] + 30, S);
     const st = rwQuestStatus(rwApp.state, q, rwDone);
-    g.fillStyle = st === "locked" ? "#ff7a6a" : st === "done" ? "#8fd06a" : "#ffd060"; g.fillText(st === "locked" ? "🔒" : "!", a, b);
+    if (st === "done") { g.fillStyle = "#8fd06a"; g.fillText("✓", a, b); } else qmDrawPin(g, a, b - 4, st !== "locked");
   }
   if (L.has("found")) for (const id of rwApp.state.found) {
     const e = RW_EGGS.find((x) => x.id === id); if (!e) continue;
@@ -507,6 +526,7 @@ function rwTick(dt) {
 
   const near = rwNearest();
   rwApp.near = near;
+  rwQmApproach(near);
   const prompt = $("hud-prompt");
   if (near) {
     prompt.hidden = false;
@@ -570,3 +590,5 @@ ctlMount({
     { label: "Advance the clock", keys: ["T"], pad: "—", touch: "—" },
   ],
 });
+// The shared "Side games" chip and quest-log panel: every gated quest here, open rows first, then the Skills to unlock roll-up.
+qmMountSideGames({ world: "redwood", worldName: "Redwood Reach", items: RW_GATED, from: "redwood", page: ppHerePage() });

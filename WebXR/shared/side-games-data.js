@@ -93,6 +93,18 @@ const QM_REGATTA_GAMES = [
     ["weather", "comms", "ppe"], "pilot-boat crew beanie", "Hold station alongside for a pilot ladder transfer and call each stage."),
 ];
 
+/** Where each Regatta game sits on the water: a course and a mark on it (or its dock), for the course card's pin, the briefing's rows and the approach toast. */
+const QM_REGATTA_PLACES = {
+  "qm-regatta-rescue-drill": { course: "rg-estuary-sprint", mark: 1 },
+  "qm-regatta-crosswind-docking": { course: "rg-estuary-sprint", mark: "dock" },
+  "qm-regatta-fuel-dock-drill": { course: "rg-outer-bay-loop", mark: "dock" },
+  "qm-regatta-boom-tow-formation": { course: "rg-outer-bay-loop", mark: 1 },
+  "qm-regatta-work-zone-passage": { course: "rg-north-channel-passage", mark: 1 },
+  "qm-regatta-tender-transfer": { course: "rg-north-channel-passage", mark: "dock" },
+  "qm-regatta-pilot-ladder": { course: "rg-outer-bay-loop", mark: 2 },
+};
+for (const g of QM_REGATTA_GAMES) Object.assign(g, QM_REGATTA_PLACES[g.id]);
+
 /** Fairway Park: grounds crew, sports-field and course care. */
 const QM_FAIRWAY_GAMES = [
   qmG("qm-fairway-greens-crew-dawn", "fairway", "Greens Crew at Dawn", "the greens", "greens round",

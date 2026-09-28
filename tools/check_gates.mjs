@@ -52,6 +52,8 @@ const { PP_PROGRAMMES } = await imp("shared/passport-programmes.js");
 const BQ = await imp("bayworld/js/quests.js");
 const DV = await imp("underwater/js/dives.js");
 const LK = await imp("shared/links.js");
+const NM = await imp("shared/gate-names-data.js");
+const RG = await imp("regatta/js/courses.js");
 
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 const K12 = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));
@@ -96,6 +98,13 @@ const fourWorlds = ["bayworld", "underwater", "regatta", "fairway"];
 const inFour = items.filter((i) => fourWorlds.includes(i.world)).length;
 if (inFour < 30) fail("count", `${inFour} gated side quests/games across Bay World, the Deep, the Regatta and Fairway (need 30+)`); else ok();
 for (const w of fourWorlds) if ((byWorld[w] ?? 0) < 5) fail("count", `${w} has ${byWorld[w] ?? 0} gated items (need 5+)`); else ok();
+// The next-phase bar (tools/briefs/next/questmaster-next.md): 60+ items across 6+ worlds, every one placed in a world.
+const sixWorlds = [...fourWorlds, "summit", "redwood"];
+for (const w of ["summit", "redwood"]) if ((byWorld[w] ?? 0) < 5) fail("count", `${w} has ${byWorld[w] ?? 0} gated items (need 5+)`); else ok();
+if (items.length < 60) fail("count", `${items.length} gated items on the platform (need 60+)`); else ok();
+if (Object.keys(byWorld).filter((w) => w !== "?").length < 6) fail("count", `gated items in ${Object.keys(byWorld).length} worlds (need 6+)`); else ok();
+if (byWorld["?"]) fail("count", `${byWorld["?"]} gated items name no world`); else ok();
+if (!discovered) fail("discover", "no gated items discovered from other consoles' modules"); else ok();
 const ids = new Set();
 for (const it of items) { if (ids.has(it.id)) fail("ids", `duplicate gated id ${it.id}`); else ok(); ids.add(it.id); }
 
@@ -123,6 +132,9 @@ for (const it of items) {
   const req = G.qmGateStations(it.gate);
   if (!req.length && !(it.gate.programmes ?? []).length && !(it.gate.quests ?? []).length) fail("links", `${where}: nothing to link to`);
   for (const id of req) {
+    // the lock UI shows the catalog's display name, never the id read aloud (tools/gen_gate_names.mjs)
+    if (typeof NM.QM_STATION_NAMES[id] !== "string" || !NM.QM_STATION_NAMES[id].trim()) fail("names", `${where}: no display name for ${id} — run node tools/gen_gate_names.mjs`); else ok();
+    if (G.qmLabel(id) === id.replace(/-/g, " ") && NM.QM_STATION_NAMES[id]) fail("names", `${where}: qmLabel(${id}) ignores the display name`); else ok();
     const href = LK.lkStationLink(id, { from: it.world, page: null });
     if (!href || !existsSync(runnerPage(href))) fail("links", `${where}: station link for ${id} does not resolve (${href})`); else ok();
   }
@@ -152,7 +164,8 @@ for (const it of items) {
   // safe-practice scoring and a cosmetic reward: the side games' contract.
   // Gated quests, eggs and treasures from other worlds (Summit, Redwood,
   // TREASURE) share only the gate; they are not scored games.
-  const isGame = it.kind === "side-game" || it.practices !== undefined || it.reward !== undefined;
+  const isGame = it.kind === "side-game" || it.practices !== undefined;
+  if (!isGame && it.reward && !it.reward.cosmetic && !it.reward.badge) fail("reward", `${where}: a gated quest with a reward that is neither a cosmetic nor a badge`); else ok();
   if (isGame) {
     if (!it.reward?.cosmetic) fail("reward", `${where}: no cosmetic reward`); else ok();
     const prac = it.practices ?? [];
@@ -218,6 +231,15 @@ for (const [k, p] of Object.entries(SG.QM_SAFE_PRACTICES)) {
   const BS = await imp("bayworld/js/quests-select.js");
   for (const q of BS.BW_GATED_QUESTS) { if (!Array.isArray(q.anchor)) fail("place", `${q.id}: no Bay World site anchor (no board row, no map pin)`); else ok(); }
   for (const g of SG.QM_WORLD_GAMES.fairway) { if (!Array.isArray(g.pin)) fail("place", `${g.id}: no map position`); else ok(); }
+  for (const g of SG.QM_WORLD_GAMES.regatta) {
+    const c = RG.RG_COURSES.find((x) => x.id === g.course);
+    if (!c) { fail("place", `${g.id}: course "${g.course}" is not a Regatta course (no pin, no briefing row)`); continue; }
+    if (g.mark === "dock" || (Number.isInteger(g.mark) && g.mark >= 0 && g.mark < c.marks.length)) ok(); else fail("place", `${g.id}: mark "${g.mark}" is not on ${c.id}`);
+  }
+  const SMD = await imp("shared/summit-data.js");
+  for (const g of SMD.SM_GATED) { if (!g.title || !g.world) fail("place", `${g.id}: Summit's gated item has no title or world`); else ok(); }
+  const RWD = await imp("redwood/js/rw-data.js");
+  for (const g of RWD.RW_GATED) { if (!g.title || !g.world || !g.siteName) fail("place", `${g.id}: Redwood's gated item has no title, world or site name`); else ok(); }
 }
 
 // ------------------------------------------------------------ ledger
@@ -254,14 +276,23 @@ globalThis.localStorage.clear(); G.qmInvalidate();
 
 // ------------------------------------------------------------ wiring
 const bundle = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
-for (const w of fourWorlds) {
+for (const w of sixWorlds) {
   const app = readFileSync(join(WEBXR, w, "js/app.js"), "utf8");
   if (!/qmMountSideGames\(/.test(app)) fail("wiring", `${w}/js/app.js does not mount the side-games panel`); else ok();
   const block = bundle.slice(bundle.indexOf(`"${w}": {`), bundle.indexOf(`WEBXR / "${w}/js/app.js"`));
-  for (const m of ["skill-gates.js", "side-games-data.js", "side-game-mechanics.js", "skill-gates-ui.js", "links.js", "passport-programmes.js"]) {
+  for (const m of ["gate-names-data.js", "skill-gates.js", "side-games-data.js", "side-game-mechanics.js", "skill-gates-ui.js", "links.js", "passport-programmes.js"]) {
     if (!block.includes(`"${m}"`)) fail("bundle", `the ${w} bundle lacks ${m}`); else ok();
   }
+  // gate-names-data.js precedes skill-gates.js, which reads it at module top level
+  if (block.indexOf('"gate-names-data.js"') > block.indexOf('"skill-gates.js"')) fail("bundle", `the ${w} bundle loads skill-gates.js before gate-names-data.js`); else ok();
 }
+// Pins, board rows and the lock toast in every world that has a map or a board.
+const QM_UI = { underwater: ["qmDrawPin", "qmBoardRows", "qmLockToast"], regatta: ["qmDrawPin", "qmBoardRows", "qmLockToast"], fairway: ["qmBoardRows", "qmLockToast"], summit: ["qmDrawPin", "qmBoardRows", "qmLockToast"], redwood: ["qmDrawPin", "qmBoardRows", "qmLockToast"] };
+for (const [w, fns] of Object.entries(QM_UI)) {
+  const app = readFileSync(join(WEBXR, w, "js/app.js"), "utf8");
+  for (const fn of fns) { if (!new RegExp(`${fn}\\(`).test(app)) fail("wiring", `${w} lacks ${fn}`); else ok(); }
+}
+if (!/TZ_GATED/.test(readFileSync(join(ROOT, "tools/gen_treasures.mjs"), "utf8"))) fail("wiring", "gen_treasures.mjs does not emit TZ_GATED"); else ok();
 const bwApp = readFileSync(join(WEBXR, "bayworld/js/app.js"), "utf8");
 for (const [what, re] of [["map pin", /qmDrawPin\(/], ["board rows", /qmBoardRows\(/], ["lock toast", /qmLockToast\(/], ["gated quests registered", /registerQuests\(BW_GATED_QUESTS\)/]]) {
   if (!re.test(bwApp)) fail("wiring", `Bay World lacks the ${what}`); else ok();

@@ -56,7 +56,7 @@ function qmEnsureCss() {
 function qmMissingHtml(missing, { from = null, page = null } = {}) {
   return missing.map((m) => {
     if (m.kind === "station" || m.kind === "k12") {
-      const href = lkStationLink(m.id, { from, page });
+      const href = lkStationLink(m.id, { from, page, ...(opts.link ?? {}) });
       return `<li><a href="${qmEsc(href)}">${qmEsc(m.label)}</a>${m.kind === "k12" ? " (K-12 lesson)" : ""}</li>`;
     }
     if (m.kind === "programme") return `<li>Programme: ${qmEsc(m.label)} — ${qmEsc(m.detail)}</li>`;
@@ -69,6 +69,7 @@ export function qmRowHtml(item, snap, opts = {}) {
   const missing = qmMissing(item.gate, snap);
   const led = qmLedger(opts.storage);
   const rec = led.done[item.id];
+  const worldDone = typeof opts.done === "function" && opts.done(item.id); // a world engine's own "quest done"
   const locked = missing.length > 0;
   const where = item.siteName ?? (/\s/.test(String(item.site ?? "")) ? item.site : String(item.site ?? "").replace(/-/g, " "));
   let body;
@@ -81,20 +82,25 @@ export function qmRowHtml(item, snap, opts = {}) {
       body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">${qmEsc(mech.name)}: ${qmEsc(mech.blurb)} Scored on safe practice. Reward: ${qmEsc(item.reward?.cosmetic ?? "")}</div>${done}<br><button class="qm-btn" data-qm-play="${qmEsc(item.id)}">${rec ? "Play again" : "Play"}</button>`;
     } else {
       // A gated quest from a world's own engine (Summit, Redwood): open here, played in the world.
-      body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">Open — play it in the world${where ? ` at ${qmEsc(where)}` : ""}.${item.reward?.cosmetic ? ` Reward: ${qmEsc(item.reward.cosmetic)}` : ""}</div>`;
+      body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">${worldDone ? '<span class="qm-done">Done</span>' : `Open — play it in the world${where ? ` at ${qmEsc(where)}` : ""}.`}${item.reward?.cosmetic ? ` Reward: ${qmEsc(item.reward.cosmetic)}` : ""}</div>`;
     }
   }
   return `<div class="qm-row${locked ? " qm-locked" : ""}" data-qm-id="${qmEsc(item.id)}"><div class="qm-title">${locked ? QM_LOCK_SVG : ""}${qmEsc(item.title)}</div><div class="qm-meta">${qmEsc(where)}${locked ? " · locked" : " · open"}</div>${body}</div>`;
 }
 
-/** Append the gated items to a job board's list element as board rows. */
+/**
+ * Append the gated items to a job board's list element as board rows.
+ * `opts`: `from`/`page` (the way home on every station link), `link` (extra
+ * lkStationLink options such as `siteId`), `heading`, `done(id)` (a world
+ * engine's own completion for its gated quests).
+ */
 export function qmBoardRows(el, items, opts = {}) {
   if (!el || !items?.length) return;
   qmEnsureCss();
   const snap = qmSnapshot(opts.storage);
   const wrap = document.createElement("div");
   wrap.className = "qm-board";
-  wrap.innerHTML = `<h3>Side games here</h3>${items.map((it) => qmRowHtml(it, snap, opts)).join("")}`;
+  wrap.innerHTML = `<h3>${qmEsc(opts.heading ?? "Side games here")}</h3>${items.map((it) => qmRowHtml(it, snap, opts)).join("")}`;
   el.appendChild(wrap);
 }
 
