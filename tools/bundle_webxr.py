@@ -989,8 +989,22 @@ def main(argv: list[str]) -> int:
     # The combined folder is assembled from the per-app bundles, so it is only
     # rebuilt when all of them were just built.
     if len(wanted) == len(APPS):
-        return build_combined()
-    return 0
+        code = build_combined()
+        if code:
+            return code
+    return stamp_seo()
+
+
+def stamp_seo() -> int:
+    """Search and share metadata into every page just written (tools/gen_seo.mjs,
+    console WAYFINDER): titles, descriptions, canonical, Open Graph, JSON-LD,
+    and the published folder's sitemap.xml, robots.txt, manifest and 404 page."""
+    import subprocess
+    r = subprocess.run(["node", str(ROOT / "tools" / "gen_seo.mjs")], capture_output=True, text=True)
+    sys.stdout.write(r.stdout)
+    if r.returncode:
+        sys.stderr.write(r.stderr)
+    return r.returncode
 
 
 if __name__ == "__main__":

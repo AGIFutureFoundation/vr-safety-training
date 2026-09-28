@@ -35,6 +35,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
 import { conditionLabel, conditionParams, parseCondition, LADDER_LEVELS, LESSON_BAR } from "../WebXR/shared/ladder.js";
+import { wfHeadFor } from "./gen_seo.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -173,6 +174,22 @@ const CSS = `
   .skip{position:absolute; inset-inline-start:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
   .skip:focus{inset-inline-start:var(--gutter); top:8px}
   .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  /* Site navigation and breadcrumbs (console WAYFINDER): the same three places as the homepage, the current one marked. */
+  .wf-nav{display:flex; gap:4px; align-items:center}
+  .wf-nav a{display:inline-flex; align-items:center; min-height:44px; padding:0 10px; border-radius:var(--r-sm); font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:14px; color:var(--muted)}
+  .wf-nav a[aria-current="page"]{color:var(--text); box-shadow:inset 0 -2px 0 var(--accent)}
+  .wf-crumbs{padding:14px 0 0}
+  .wf-crumbs ol{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; align-items:center; gap:0 4px; font-size:15px; color:var(--muted)}
+  .wf-crumbs li{display:inline-flex; align-items:center; min-width:0}
+  .wf-crumbs li + li::before{content:"/"; color:var(--dim); margin:0 6px 0 2px}
+  .wf-crumbs a{display:inline-flex; align-items:center; min-height:44px; padding:0 4px}
+  .wf-crumbs [aria-current]{color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:60vw}
+  @media (max-width:700px){
+    .wf-nav{display:none}
+    body .back{display:inline-flex; align-items:center; min-height:44px}
+    body .sub, body .why, body .cert, body .gapnote, body .summary, body .foot p{font-size:16px}
+    body .launch, body .lvl-foot a{display:inline-flex; align-items:center; min-height:44px}
+  }
   header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
   .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
   .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
@@ -299,7 +316,7 @@ function stationCard(prog, ladder, s, standards, thumbs) {
   for (const r of runs) { if (!byCond.has(r.condition)) byCond.set(r.condition, []); byCond.get(r.condition).push(r.n); }
   const runChips = [...byCond].map(([c, ns]) => `<span class="run"><a href="${taskHref(s.app, s.id, c)}">${chip(c)}</a> <span class="st-meta">L${ns.join(", L")}</span></span>`).join(" ");
   const thumb = thumbs.has(s.id)
-    ? `<img class="shot" src="img/${slug(s.id, "station id")}.jpg" alt="" loading="lazy" width="480" height="270">`
+    ? `<img class="shot" src="img/${slug(s.id, "station id")}.jpg" alt="${esc(`A scene from the ${row.name} station`)}" loading="lazy" width="480" height="270">`
     : `<div class="noshot">No screenshot in docs/screenshots yet</div>`;
   const std = row.standards.map((id) => standards[id]).filter(Boolean);
   return `        <article class="station" style="--tint:${tint(s.accent)}">
@@ -350,8 +367,7 @@ ${ladder.levels.filter((lv) => lv.n >= a && lv.n <= b).map((lv) => levelRow(prog
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>${esc(prog.name)} — training track</title>
-<meta name="description" content="${esc(`${prog.name}: a twenty-level training track, ${ladder.lessons} lessons across ${stations.length} stations.`)}">
+${wfHeadFor(`tracks/${prog.id}.html`, `dist/tracks/${prog.id}.html`)}
 <meta name="generator" content="tools/gen_tracks.mjs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
@@ -365,10 +381,22 @@ ${ladder.levels.filter((lv) => lv.n >= a && lv.n <= b).map((lv) => levelRow(prog
 <header class="top">
   <div class="top-in">
     <p class="brandline">${esc(network)} · training track</p>
-    <a class="back" href="${TRACK_LINKS.home}">All stations</a>
+    <nav class="wf-nav" aria-label="Site" data-tr-aria="wf.nav.label">
+      <a href="${TRACK_LINKS.home}" data-tr="wf.nav.home">Home</a>
+      <a href="${TRACK_LINKS.home}#worlds-sec" data-tr="wf.nav.worlds">Worlds</a>
+      <a href="${TRACK_LINKS.home}#finder" aria-current="page" data-tr="wf.nav.programmes">Programmes</a>
+    </nav>
+    <a class="back" href="${TRACK_LINKS.home}#catalog">All stations</a>
   </div>
 </header>
 <main class="wrap">
+  <nav class="wf-crumbs" aria-label="Breadcrumb" data-tr-aria="wf.crumbs.label">
+    <ol>
+      <li><a href="${TRACK_LINKS.home}" data-tr="wf.nav.home">Home</a></li>
+      <li><a href="${TRACK_LINKS.home}#finder" data-tr="wf.nav.programmes">Programmes</a></li>
+      <li><span aria-current="page">${esc(prog.name)}</span></li>
+    </ol>
+  </nav>
   <section class="hero">
     <p class="eyebrow">Training track · ${stations.length} stations · ${LADDER_LEVELS} levels · ${ladder.lessons} lessons</p>
     <h1>${esc(prog.name)}</h1>

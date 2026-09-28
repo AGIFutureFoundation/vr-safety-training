@@ -91,7 +91,7 @@ await check("every link resolves to a file, a station under a valid condition, o
       const v = unescape(a.value);
       if (/^(https?:)?\/\//.test(v) || v.startsWith("#")) continue;
       linkCount += 1;
-      const [path, query = ""] = v.split("?");
+      const [path, query = ""] = v.split("#")[0].split("?"); // a #section on the target page is not part of its file
       if (!existsSync(resolve(DIST_TRACK_DIR, path))) { broken.push(`${pid} → ${v} (no file)`); continue; }
       if (!query) continue;
       const q = new URLSearchParams(query);

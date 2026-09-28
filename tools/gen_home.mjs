@@ -30,6 +30,8 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { tracksSection } from "./gen_tracks.mjs";
+import { wfHeadFor } from "./gen_seo.mjs";
+import { wfSearchScript } from "./wf_search.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -611,7 +613,7 @@ const SCRIPT = `
     const terms = q.value.toLowerCase().split(/\\s+/).filter(Boolean);
     let shown = 0;
     for (const c of cards) {
-      const on = terms.every((t) => c.hay.includes(t));
+      const on = terms.every((t) => (window.wfHit ? window.wfHit(c, t) : c.hay.includes(t)));
       c.el.hidden = !on;
       if (on) shown += 1;
     }
@@ -1178,7 +1180,7 @@ function hmScript(layout) {
     const terms = hmQ.value.toLowerCase().trim().split(/ +/).filter(Boolean);
     let matched = 0, shown = 0;
     for (const c of hmCards) {
-      const ok = terms.every((t) => c.hay.includes(t)) && (!hmSelU.value || c.u.includes(hmSelU.value))
+      const ok = terms.every((t) => (window.wfHit ? window.wfHit(c, t) : c.hay.includes(t))) && (!hmSelU.value || c.u.includes(hmSelU.value))
         && (!hmSelC.value || c.cat.includes(hmSelC.value)) && (!hmSelW.value || c.w.includes(hmSelW.value)) && (!hmSelA.value || c.a === hmSelA.value);
       if (ok) matched += 1;
       const show = ok && (hmAll || matched <= HM_FIRST);
@@ -1470,8 +1472,7 @@ ${cards}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Training Simulators — every station</title>
-<meta name="description" content="Every station in the training network on one page: ${stations.length} AR/VR simulators across ${categories.length} categories, with a deep link to each one.">
+${wfHeadFor("index.html", layoutName === "flat" ? "dist/index.html" : "index.html")}
 <meta name="generator" content="tools/gen_home.mjs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
@@ -1708,6 +1709,7 @@ ${docs}
   </div>
 </dialog>
 
+<script type="module">${wfSearchScript(catalog)}</script>
 <script type="module">${SCRIPT}</script>
 <script type="module">${hmScript(layout)}</script>
 <script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: "#top", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>
