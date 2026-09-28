@@ -47,6 +47,10 @@ export async function qmCollectGatedItems() {
   const BQ = await imp("bayworld/js/quests.js");
   const SG = await imp("shared/side-games-data.js");
   items.push(...BQ.GATED_QUESTS, ...SG.QM_SIDE_GAMES);
+  // The New Orleans parishes' side games (SECONDLINE, docs/parish-play.md): the
+  // module is not a `*-data.js`, so it is read by name, as check_gates reads it.
+  const SLP = await imp("shared/sl-parish-play.js");
+  items.push(...SLP.SL_GATED);
   const seen = new Set(items.map((i) => i.id));
   for (const file of walk(WEBXR)) {
     const src = readFileSync(file, "utf8");

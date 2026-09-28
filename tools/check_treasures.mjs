@@ -51,10 +51,12 @@ const { SM_BOUNDS, SM_EGGS, SM_FIELD_LESSONS, smInLake } = await import(join(WEB
 const { RW_BOUNDS, rwIsWater } = await import(join(WEBXR, "redwood/js/rw-data.js"));
 const { RW_EGGS, RW_FIELD_LESSONS } = await import(join(WEBXR, "redwood/js/rw-lore-data.js"));
 const { PP_PROGRAMMES } = await import(join(WEBXR, "shared/passport-programmes.js"));
+// The New Orleans parishes (SECONDLINE, docs/parish-play.md): site-relative triggers and field-lesson finds.
+const SLP = await import(join(WEBXR, "shared/sl-parish-play.js"));
 const T = D.TZ_TREASURES;
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 
-const FLOORS = { home: 3, guide: 5, trades: 9, runner: 2, atlas: 1, arcade: 1, race: 1, bayworld: 10, deep: 10, regatta: 5, fairway: 5, summit: 15, redwood: 15 };
+const FLOORS = { home: 3, guide: 5, trades: 9, runner: 2, atlas: 1, arcade: 1, race: 1, bayworld: 10, deep: 10, regatta: 5, fairway: 5, summit: 15, redwood: 15, parishes: 40 };
 
 await check(`at least 120 treasures, every surface at its floor (${T.length} total)`, () => {
   assert(T.length >= 120, `only ${T.length} treasures`);
@@ -110,7 +112,7 @@ await check("themed lessons: a station lesson's programme is one of its place's;
   const lessons = T.filter((t) => t.how === "lesson");
   assert(lessons.length >= 20, `only ${lessons.length} field-lesson treasures`);
   for (const t of lessons) {
-    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
+    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : t.trigger.world === "parishes" ? SLP.SL_FIELD_LESSONS : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
     assert(l, `${t.id} names unknown field lesson ${t.trigger.lesson} in ${t.trigger.world}`);
     assert(t.lesson === (l.tradeLine ?? l.trade), `${t.id}'s lesson is not the field lesson's trade line`);
     assert(t.set === "field-scholar" && t.place?.id, `${t.id} is not in the Field Scholar set with a place`);
@@ -277,7 +279,35 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
     }
   }
   const bounds = { bayworld: BAY_BOUNDS, underwater: DEEP_BOUNDS, fairway: FAIRWAY_BOUNDS, regatta: BAY_BOUNDS, summit: SM_BOUNDS, redwood: RW_BOUNDS };
-  for (const t of T.filter((x) => x.how === "proximity")) {
+  // A parish treasure carries no coordinate: its trigger names the parish, one of
+  // that parish's sites and a small offset, resolved at watch time by
+  // slTreasureAt(parishData) (the site positions belong to np-data-<parish>.js).
+  const parishTreasures = T.filter((x) => x.how === "proximity" && x.trigger.world === "parishes");
+  assert(parishTreasures.length >= 40, `only ${parishTreasures.length} parish storm kit caches`);
+  for (const t of parishTreasures) {
+    const tr = t.trigger;
+    assert(tr.x === undefined && tr.z === undefined, `${t.id} carries a coordinate; parish positions belong to PARISH's data`);
+    assert(SLP.slSiteDef(tr.parish, tr.site), `${t.id} names unknown parish site ${tr.parish}/${tr.site}`);
+    assert(Number.isFinite(tr.dx) && Number.isFinite(tr.dz) && Math.hypot(tr.dx, tr.dz) >= 6 && Math.hypot(tr.dx, tr.dz) <= 25, `${t.id}'s offset is not a short walk off the site`);
+    assert(tr.r > 0 && tr.r <= 25, `${t.id} has an odd radius`);
+  }
+  for (const p of SLP.SL_PARISHES) for (const s of p.sites) assert(parishTreasures.some((t) => t.trigger.parish === p.id && t.trigger.site === s.id), `${p.id}/${s.id} has no storm kit cache`);
+  {
+    // The resolver places a trigger at the bound site plus its offset, binds a renamed site by its match, and places nothing it cannot bind.
+    const fake = { id: "orleans", sites: [{ id: "port-terminal", name: "Port Terminal", kind: "port", position: [100, -200] }, { id: "np-levee-yard", name: "Levee Yard", kind: "levee", position: [40, 60] }] };
+    const at = SLP.slTreasureAt(fake);
+    const port = parishTreasures.find((t) => t.trigger.parish === "orleans" && t.trigger.site === "port-terminal");
+    const levee = parishTreasures.find((t) => t.trigger.parish === "orleans" && t.trigger.site === "levee-crew");
+    const other = parishTreasures.find((t) => t.trigger.parish === "jefferson");
+    const xz = Z.tzTriggerAt(port, at);
+    assert(xz && xz[0] === 100 + port.trigger.dx && xz[1] === -200 + port.trigger.dz, "slTreasureAt does not place a site-relative trigger at the site plus its offset");
+    const lz = Z.tzTriggerAt(levee, at);
+    assert(lz && lz[0] === 40 + levee.trigger.dx, "slTreasureAt does not bind a renamed site by its match pattern");
+    assert(Z.tzTriggerAt(other, at) === null, "slTreasureAt placed another parish's trigger");
+    assert(Z.tzTriggerAt(parishTreasures.find((t) => t.trigger.site === "pumping-station" && t.trigger.parish === "orleans"), at) === null, "slTreasureAt placed a trigger at a site the data does not carry");
+    assert(Z.tzTriggerAt({ trigger: { x: 3, z: 4 } }) [0] === 3, "tzTriggerAt ignores a trigger's own coordinates");
+  }
+  for (const t of T.filter((x) => x.how === "proximity" && x.trigger.world !== "parishes")) {
     const b = bounds[t.trigger.world];
     assert(b, `${t.id} names unknown world ${t.trigger.world}`);
     assert(t.trigger.x >= b.minX && t.trigger.x <= b.maxX && t.trigger.z >= b.minZ && t.trigger.z <= b.maxZ, `${t.id} sits outside ${t.trigger.world}'s bounds`);
@@ -295,6 +325,13 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
     for (const e of RW_EGGS) assert(Math.hypot(eggAt(e)[0] - t.trigger.x, eggAt(e)[1] - t.trigger.z) >= 15, `${t.id} sits on Redwood field tin ${e.id}`);
   }
   for (const s of ["summit", "redwood"]) assert(D.TZ_SURFACES.some((x) => x.id === s && x.count >= 15), `the Treasure Map has no ${s} count`);
+  assert(D.TZ_SURFACES.some((x) => x.id === "parishes" && x.count >= 40), "the Treasure Map has no parishes count");
+  for (const p of SLP.SL_PARISHES) { const set = D.TZ_SETS.find((s) => s.id === `storm-kits-${p.id}`); assert(set && set.members.length === p.sites.length, `${p.id} has no complete storm-kit set`); }
+  // tzWatchWorld takes the resolver and plants only what it can place (a headless three.js stand-in).
+  {
+    const src = rd("WebXR/shared/treasures.js");
+    assert(/tzWatchWorld\(world, \{[^}]*\bat = null\b/.test(src) && src.includes("tzTriggerAt(t, at)") && src.includes("w.spots"), "tzWatchWorld does not take an `at` resolver for site-relative triggers");
+  }
   // A cabinet round and a race finish find their treasure; a mirrored course counts as its original.
   const cab = T.find((x) => x.how === "arcade");
   const race = T.find((x) => x.how === "race");

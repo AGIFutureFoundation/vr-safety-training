@@ -548,14 +548,23 @@ export function tzPlantHost(root, T3, host, camera = tzDefaultCamera) {
  * learner comes within its radius (or clicks it). A locked one shows its lock
  * once per visit. Returns the markers planted.
  */
-export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = null, size = 0.6, lift = 1.4, key = TZ_LOOK_KEY, near = 90 } = {}) {
+export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = null, size = 0.6, lift = 1.4, key = TZ_LOOK_KEY, near = 90, at = null } = {}) {
   if (!scene || !T3) return 0;
-  const mine = TZ_TREASURES.filter((t) => t.how === "proximity" && t.trigger.world === world);
+  // A trigger carries its own x/z, or (the parishes) names a site and an offset
+  // that the caller's `at(trigger)` resolves against the world's data; a trigger
+  // the resolver cannot place plants no marker.
+  const spots = new Map();
+  const mine = TZ_TREASURES.filter((t) => t.how === "proximity" && t.trigger.world === world).filter((t) => {
+    const xz = tzTriggerAt(t, at);
+    if (xz) spots.set(t.id, xz);
+    return !!xz;
+  });
   const markers = new Map();
   for (const t of mine) {
+    const [tx, tz] = spots.get(t.id);
     const mesh = tzMarker(T3, t, size);
-    const y = (groundAt ? Number(groundAt(t.trigger.x, t.trigger.z)) || 0 : 0) + lift;
-    mesh.position.set(t.trigger.x, y, t.trigger.z);
+    const y = (groundAt ? Number(groundAt(tx, tz)) || 0 : 0) + lift;
+    mesh.position.set(tx, y, tz);
     mesh.visible = !tzIsFound(t.id);
     scene.add(mesh);
     markers.set(t.id, mesh);
@@ -569,22 +578,35 @@ export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = 
     for (const t of mine) {
       const mesh = markers.get(t.id);
       if (!mesh?.visible) continue;
-      if (Math.hypot(p[0] - t.trigger.x, p[1] - t.trigger.z) > t.trigger.r) continue;
+      const [tx, tz] = spots.get(t.id);
+      if (Math.hypot(p[0] - tx, p[1] - tz) > t.trigger.r) continue;
       if (t.gate && !tzGateOpen(t.gate)) { if (!warned.has(t.id)) { warned.add(t.id); tzLockNotice(t); } continue; }
       tzFind(t.id);
       mesh.visible = false;
     }
   };
   if (typeof setInterval === "function") setInterval(tick, 400);
-  tzWatched.set(world, { mine, markers, pos, near });
+  tzWatched.set(world, { mine, markers, pos, near, spots });
   tzArmLookKey(key);
   if (tzHasDom) window.__treasuresTest = { ...(window.__treasuresTest ?? {}), world, markers: markers.size, tick, lookAround: () => tzLookAround(world) };
   return markers.size;
 }
 
+/**
+ * Where a proximity trigger sits: its own `x`/`z`, else what the world's `at(trigger)`
+ * resolver says (a site-relative trigger, `{ site, dx, dz }`, in the parishes). Null when
+ * neither places it.
+ */
+export function tzTriggerAt(t, at = null) {
+  const tr = t?.trigger ?? {};
+  if (Number.isFinite(tr.x) && Number.isFinite(tr.z)) return [tr.x, tr.z];
+  const p = typeof at === "function" ? at(tr) : null;
+  return Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1]) ? [p[0], p[1]] : null;
+}
+
 // ------------------------------------------------------------------ look around (no pointer needed)
 
-/** The worlds being watched on this page: world → { mine, markers, pos, near }. */
+/** The worlds being watched on this page: world → { mine, markers, pos, near, spots }. */
 const tzWatched = new Map();
 export const TZ_LOOK_KEY = "KeyL";
 
@@ -600,7 +622,7 @@ export function tzLookAround(world = [...tzWatched.keys()][0]) {
   if (!w || !tzHasDom || !document.body) return -1;
   const p = typeof w.pos === "function" ? w.pos() : null;
   const rows = !p ? [] : w.mine
-    .map((t) => ({ t, d: Math.hypot(p[0] - t.trigger.x, p[1] - t.trigger.z) }))
+    .map((t) => { const xz = w.spots?.get(t.id) ?? [t.trigger.x, t.trigger.z]; return { t, d: Math.hypot(p[0] - xz[0], p[1] - xz[1]) }; })
     .filter(({ t, d }) => d <= w.near && w.markers.get(t.id)?.visible)
     .sort((a, b) => a.d - b.d).slice(0, 8);
   const buttons = rows.map(({ t, d }, i) => {

@@ -54,8 +54,9 @@ the field notes, the Foreman's Radio, the racer and the arcade), Bay World's egg
 | Fairway Park | 9 | a lost ball off every tee |
 | Sierra Summit | 25 | a cairn off every trail vertex and a tag at the foot of the ridge's transmission towers, plus a quiet find for every field lesson's check question answered right; the field notes at the sites and landmarks stay the world's own |
 | Redwood Reach | 29 | logbook pages blown from the fire lookout along the fire roads, a blaze on every foot trail, plus a quiet find for every field lesson's check question answered right; the field tins at the landmarks stay the world's own |
+| The Parishes | 84 | a Storm Kit Cache off every site in the five New Orleans parishes (`docs/parish-play.md`), in a set per parish, plus a quiet find for every parish field lesson answered right. A parish trigger names the parish, the site and an offset, never a coordinate: `tzWatchWorld("parishes", { …, at: slTreasureAt(parish) })` places it against the parish data at watch time |
 
-There are 179 treasures in 17 themed sets. Completing a set earns a badge, for example Bell Ringer for all seven harbour bells.
+There are 273 treasures in 22 themed sets. Completing a set earns a badge, for example Bell Ringer for all seven harbour bells or Orleans Storm Crew for every cache in Orleans Parish.
 
 ## Nothing invented
 
@@ -69,7 +70,7 @@ that source:
 - a trade tool's note in `WebXR/shared/toolkit.js`
 - a cabinet's "what this teaches" line in `WebXR/arcade/js/games/`
 - one line from a station's own sim file
-- a field lesson's own trade line in `WebXR/shared/summit-data.js` or `WebXR/redwood/js/rw-lore-data.js`
+- a field lesson's own trade line in `WebXR/shared/summit-data.js`, `WebXR/redwood/js/rw-lore-data.js` or `WebXR/shared/sl-parish-play.js`
 
 Lessons are themed, not pooled: a place's treasure takes one of the place's own stations' whys,
 then an unused why from one of the place's programmes, and a place with no station of its own (a

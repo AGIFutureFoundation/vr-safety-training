@@ -55,14 +55,19 @@ const LK = await imp("shared/links.js");
 const NM = await imp("shared/gate-names-data.js");
 const RG = await imp("regatta/js/courses.js");
 
+// The New Orleans parishes (SECONDLINE, docs/parish-play.md): side games keyed by
+// parish and site, in a module that is not a `*-data.js`, so it is read by name.
+const SLP = await imp("shared/sl-parish-play.js");
+
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 const K12 = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));
-const QUEST_IDS = new Set([...BQ.ALL_QUESTS, ...BQ.GATED_QUESTS, ...DV.DV_ALL_DIVES, ...SG.QM_SIDE_GAMES].map((q) => q.id));
+const QUEST_IDS = new Set([...BQ.ALL_QUESTS, ...BQ.GATED_QUESTS, ...DV.DV_ALL_DIVES, ...SG.QM_SIDE_GAMES, ...SLP.SL_MAIN_QUESTS, ...SLP.SL_SIDE_GAMES].map((q) => q.id));
 
 // ------------------------------------------------------------ collect items
 const items = [
   ...BQ.GATED_QUESTS.map((q) => ({ ...q, world: "bayworld", source: "bayworld/js/quests-data.js GATED_QUESTS" })),
   ...SG.QM_SIDE_GAMES.map((g) => ({ ...g, source: "shared/side-games-data.js QM_SIDE_GAMES" })),
+  ...SLP.SL_GATED.map((g) => ({ ...g, source: "shared/sl-parish-play.js SL_GATED" })),
 ];
 const own = new Set(items.map((i) => i.id));
 
@@ -104,6 +109,16 @@ for (const w of ["summit", "redwood"]) if ((byWorld[w] ?? 0) < 5) fail("count", 
 if (items.length < 60) fail("count", `${items.length} gated items on the platform (need 60+)`); else ok();
 if (Object.keys(byWorld).filter((w) => w !== "?").length < 6) fail("count", `gated items in ${Object.keys(byWorld).length} worlds (need 6+)`); else ok();
 if (byWorld["?"]) fail("count", `${byWorld["?"]} gated items name no world`); else ok();
+// The parishes (crescent brief, SECONDLINE): 25+ gated side games behind union skills, five or more in each of the five parishes.
+{
+  const parishItems = items.filter((i) => i.world === "parishes");
+  if (parishItems.length < 25) fail("count", `${parishItems.length} gated side games across the parishes (need 25+)`); else ok();
+  for (const p of SLP.SL_PARISHES) {
+    const n = parishItems.filter((i) => i.parish === p.id).length;
+    if (n < 5) fail("count", `${p.name} has ${n} gated side games (need 5+)`); else ok();
+  }
+  for (const i of parishItems) if (!SLP.SL_PARISH_IDS.includes(i.parish)) fail("count", `${i.id} names unknown parish "${i.parish}"`); else ok();
+}
 if (!discovered) fail("discover", "no gated items discovered from other consoles' modules"); else ok();
 const ids = new Set();
 for (const it of items) { if (ids.has(it.id)) fail("ids", `duplicate gated id ${it.id}`); else ok(); ids.add(it.id); }
@@ -242,6 +257,14 @@ for (const [k, p] of Object.entries(SG.QM_SAFE_PRACTICES)) {
   for (const g of SMD.SM_GATED) { if (!g.title || !g.world) fail("place", `${g.id}: Summit's gated item has no title or world`); else ok(); }
   const RWD = await imp("redwood/js/rw-data.js");
   for (const g of RWD.RW_GATED) { if (!g.title || !g.world || !g.siteName) fail("place", `${g.id}: Redwood's gated item has no title, world or site name`); else ok(); }
+  // A parish game sits at one of its parish's sites (a board row and a pin once PARISH's engine binds the site), with a site name and an explicit mechanic.
+  for (const g of SLP.SL_GATED) {
+    const site = SLP.slSiteDef(g.parish, g.site);
+    if (!site) fail("place", `${g.id}: site "${g.site}" is not a ${g.parish} site in sl-parish-play.js`); else ok();
+    if (!g.title || !g.siteName || g.siteName !== site?.name) fail("place", `${g.id}: no title or a site name that is not the site's`); else ok();
+    if (!MX.QM_MECHANICS[g.mechanic]) fail("place", `${g.id}: mechanic "${g.mechanic}" is not one of the twelve`); else ok();
+    if (!/^sl-/.test(g.id) || !/^[a-z0-9-]+$/.test(g.site)) fail("place", `${g.id}: id lacks the sl- prefix or the site id is not kebab-case`); else ok();
+  }
 }
 
 // ------------------------------------------------------------ ledger
@@ -295,6 +318,20 @@ for (const [w, fns] of Object.entries(QM_UI)) {
   for (const fn of fns) { if (!new RegExp(`${fn}\\(`).test(app)) fail("wiring", `${w} lacks ${fn}`); else ok(); }
 }
 if (!/TZ_GATED/.test(readFileSync(join(ROOT, "tools/gen_treasures.mjs"), "utf8"))) fail("wiring", "gen_treasures.mjs does not emit TZ_GATED"); else ok();
+// The parishes page is PARISH's engine, built in a parallel worktree: when it is in
+// this tree it must mount the lock UI over the parish games; until then, a note.
+{
+  const parishApp = join(WEBXR, "parishes/js/app.js");
+  if (existsSync(parishApp)) {
+    const app = readFileSync(parishApp, "utf8");
+    if (!/qmMountSideGames\(/.test(app)) fail("wiring", "parishes/js/app.js does not mount the side-games panel"); else ok();
+    for (const fn of ["qmBoardRows", "qmLockToast"]) { if (!new RegExp(`${fn}\\(`).test(app)) fail("wiring", `parishes lacks ${fn}`); else ok(); }
+    if (!/slGamesFor\(|SL_SIDE_GAMES|slPathBoard\(|slMountPathBoard\(/.test(app)) fail("wiring", "parishes/js/app.js reads none of sl-parish-play.js's games or path board"); else ok();
+    const block = bundle.slice(bundle.indexOf('"parishes": {'), bundle.indexOf('WEBXR / "parishes/js/app.js"'));
+    if (bundle.includes('"parishes": {') && !block.includes('"sl-parish-play.js"')) fail("bundle", "the parishes bundle lacks sl-parish-play.js"); else ok();
+  } else console.log("  · WebXR/parishes/js/app.js is not in this tree yet (PARISH builds it); the parish games are checked as data only");
+  if (!/gen_gate_names|SL_GATED/.test(readFileSync(join(ROOT, "tools/gen_gate_names.mjs"), "utf8")) || !readFileSync(join(ROOT, "tools/gen_gate_names.mjs"), "utf8").includes("sl-parish-play.js")) fail("wiring", "gen_gate_names.mjs does not read the parish games (SL_GATED)"); else ok();
+}
 const bwApp = readFileSync(join(WEBXR, "bayworld/js/app.js"), "utf8");
 for (const [what, re] of [["map pin", /qmDrawPin\(/], ["board rows", /qmBoardRows\(/], ["lock toast", /qmLockToast\(/], ["gated quests registered", /registerQuests\(BW_GATED_QUESTS\)/]]) {
   if (!re.test(bwApp)) fail("wiring", `Bay World lacks the ${what}`); else ok();

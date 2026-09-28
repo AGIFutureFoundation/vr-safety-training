@@ -330,6 +330,48 @@ for (const world of ["bayworld", "underwater"]) {
   if (digits) console.log(`  · ${digits} Summit/Redwood lesson(s) state a figure their scene shows (reported, not failed; the K-12 lessons themselves carry none)`);
 }
 
+// 8d — the New Orleans parishes' field lessons (WebXR/shared/sl-parish-play.js,
+// SECONDLINE, docs/parish-play.md): the Redwood shape plus `parish` and the trade
+// `station`; twenty-five or more, five or more in each of the five parishes, every
+// one at a parish site, tied to a classroom station and a trade station, three
+// steps, a check with a right answer and a why, minutes two to four, no digit
+// (the Facts rule for New Orleans), reading level inside the field-lesson bound,
+// and every classroom programme reached.
+{
+  globalThis.localStorage ??= { getItem: () => null, setItem() {}, removeItem() {} };
+  globalThis.sessionStorage ??= globalThis.localStorage;
+  const SLP = await import("../WebXR/shared/sl-parish-play.js");
+  const list = SLP.SL_FIELD_LESSONS;
+  if (!Array.isArray(list) || list.length < 25) fail("parishes", `${list?.length ?? 0} parish field lessons, fewer than twenty-five`); else ok();
+  for (const p of SLP.SL_PARISHES) {
+    const n = list.filter((l) => l.parish === p.id).length;
+    if (n < 5) fail("parishes", `${p.name} has ${n} field lessons, fewer than five`); else ok();
+  }
+  const seen = new Set();
+  for (const l of list) {
+    if (!/^sl-fl-/.test(l.id ?? "")) fail("parishes", `lesson id "${l.id}" lacks the sl-fl- prefix`); else ok();
+    if (seen.has(l.id)) fail("parishes", `duplicate lesson id ${l.id}`); seen.add(l.id);
+    if (!SLP.slSiteDef(l.parish, l.site)) fail(l.id, `site ${l.parish}/${l.site} is not a parish site`); else ok();
+    if (!seenStations.has(l.k12)) fail(l.id, `k12 "${l.k12}" is not a classroom station`); else ok();
+    if (!ROOMS.has(l.station)) fail(l.id, `trade station "${l.station}" is not a station`); else ok();
+    if (!(l.minutes >= 2 && l.minutes <= 4)) fail(l.id, `minutes ${l.minutes} outside two to four`); else ok();
+    if (!Array.isArray(l.steps) || l.steps.length !== 3 || !l.steps.every((s) => typeof s === "string" && s.trim())) fail(l.id, "steps are not three sentences"); else ok();
+    const c = l.check;
+    if (!c?.q || !Array.isArray(c.options) || c.options.length < 2 || !Number.isInteger(c.answer) || c.answer < 0 || c.answer >= c.options.length || !c.why) fail(l.id, "check question malformed"); else ok();
+    for (const f of ["title", "trade", "tradeLine"]) if (typeof l[f] !== "string" || !l[f].trim()) fail(l.id, `no ${f}`); else ok();
+    const text = [l.title, l.tradeLine, ...(l.steps ?? []), c?.q ?? "", ...(c?.options ?? []), c?.why ?? ""].join(" ");
+    if (/\d/.test(text)) fail(l.id, "states a figure (a digit) — the Facts rule for New Orleans"); else ok();
+    if (/\b(built|opened|founded|established|dedicated|acres|feet|miles|tall|population|century|anniversary|named after)\b/i.test(text)) fail(l.id, "carries a fact-shaped claim about the place"); else ok();
+    const st = readingStats([`${l.title}.`, ...(l.steps ?? []), c?.q ?? ""].join(" "));
+    if (st.grade > RL_LESSON_MAX) fail(l.id, `reading level ${st.grade.toFixed(1)} over ${RL_LESSON_MAX}`); else ok();
+    if (st.wordsPerSentence < WPS_LESSON[0] || st.wordsPerSentence > WPS_LESSON[1]) fail(l.id, `${st.wordsPerSentence.toFixed(1)} words per sentence, outside ${WPS_LESSON.join("–")}`); else ok();
+    const href = lkStationLink(l.k12, { from: "parishes", page: "parishes.html", siteId: l.site });
+    if (!href.includes(`sim=${l.k12}`) || !href.includes("from=parishes")) fail(l.id, `link "${href}" does not launch its classroom station`); else ok();
+  }
+  for (const c of K12) if (!list.some((l) => c.stations.some((s) => s.id === l.k12))) fail(c.id, "no parish field lesson points at this programme"); else ok();
+  console.log(`  · ${list.length} parish field lessons across ${SLP.SL_PARISHES.length} parishes`);
+}
+
 // 6 — the finder, the doc
 const home = read("tools/gen_home.mjs");
 if (!/value="classroom">Classroom/.test(home) || !/data-aud="classroom"/.test(home)) fail("homepage", "the finder has no Classroom filter"); else ok();
