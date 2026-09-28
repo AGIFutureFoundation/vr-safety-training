@@ -15,13 +15,13 @@ with its Shared rules, the Crescent Facts rule for New Orleans, `docs/skill-gate
 - 5 kiosks (`kw-sandbag-relay`, `kw-pump-startup`, `kw-floodgate-closeout`, `kw-container-sort`, `kw-ferry-lineup`) in
   the side-game contract (KW_GATED, discovered by check_gates), each behind union stations, scored on safe practice with
   three kiosk-specific calls, rewarding a cosmetic and a derived stamp; listed on the side-game panel and site boards.
-- 10 side quests (lesson → union station → game) on BAYOU placeholder lesson ids `by-<topic>`; a quest board on the
+- 10 side quests (lesson → union station → game) on BAYOU's K-12 stations `k12-by-<topic>` (reconciled; pending until BAYOU merges); a quest board on the
   parish menu (`#menu-krewe`).
 
 ## The next phase
-1. **Reconcile BAYOU's lesson ids.** Replace the placeholders in `KW_BAYOU_LESSONS` and the ten `kwMakeQuest` rows with
-   BAYOU's merged ids; make `check_krewe` resolve each lesson in BAYOU's station list (`CURRICULA` classroom audience or
-   BAYOU's flow ids) instead of the placeholder pattern; link the lesson row on the quest board to the lesson opener.
+1. **Hold BAYOU's lesson ids after the merge.** Once BAYOU's stations are in `CURRICULA`, turn `check_krewe`'s pending
+   count into a failure (every `k12-by-` lesson must resolve), and hand each quest's lesson to BAYOU's flow agent
+   (`by-flow-agent.js`) so a GRIOT character can teach it before the station and the kiosk.
 2. **GRIOT at the kiosks.** When the parish `grMount` lands, pass `[...kwGriotSites(parish), ...parish.sites]` so a
    character stands at every kiosk (Jefferson's pump site is kind `pumping-station`, which no character matches), and
    add a `check_npc` or `check_krewe` assertion that each kiosk has a figure within ten metres.

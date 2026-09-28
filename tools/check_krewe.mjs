@@ -17,7 +17,8 @@
  *     safe-practice keys that exist; three or more own calls; a unique cosmetic and a kw-stamp;
  *     a GRIOT parish character of the kiosk's kind; the sandbag relay's Motor Pool drivable
  *     exists; a clean headless run (every safe call) earns the cosmetic and one unsafe call does not;
- *   - quests: ten, each lesson → union station → game, the lesson a BAYOU placeholder `by-<topic>`,
+ *   - quests: ten, each lesson → union station → game, the lesson BAYOU's K-12 station `k12-by-<topic>`
+ *     (resolved in CURRICULA when BAYOU's branch is merged, else counted as pending the merge),
  *     the game a KREWE kiosk or a SECONDLINE side game in the same parish;
  *   - facts and tone: no digit, no fact-shaped word, no banned wording in any title, call or step;
  *   - wiring: the parishes app dresses the parish and lists the kiosks, the bundler carries the
@@ -53,6 +54,8 @@ const { CURRICULA } = await imp("smartcity/js/curricula.js");
 const { GR_ROSTER } = await imp("shared/npc-data.js");
 const { DV_DRIVABLES } = await imp("shared/drivables-data.js");
 
+const K12_STATIONS = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));
+const pendingLessons = new Set();
 const UNION_STATIONS = new Set(CURRICULA.filter((c) => c.audience !== "classroom" && c.union).flatMap((c) => c.stations.map((s) => s.id)));
 const FACTS = /\b(built|opened|founded|established|dedicated|acres|feet|miles|tall|population|century|anniversary|named after|oldest|largest|longest|first ever)\b/i;
 const BANNED = /\b(gambl\w*|bet|wager|loot ?box\w*|purchase\w*|buy|kill\w*|shoot\w*|weapon\w*|blood|casino|jackpot)\b/i;
@@ -229,7 +232,8 @@ const WANT_KIOSKS = ["kw-sandbag-relay", "kw-pump-startup", "kw-floodgate-closeo
     const types = q.steps.map((s) => s.type).join(",");
     check(types === "goto,lesson,station,game", "quests", `${q.id}: steps are ${types}, not goto → lesson → station → game`);
     const lesson = q.steps.find((s) => s.type === "lesson")?.lesson, station = q.steps.find((s) => s.type === "station")?.station, gameId = q.steps.find((s) => s.type === "game")?.game;
-    check(/^by-[a-z-]+$/.test(lesson) && KP.KW_BAYOU_LESSONS.includes(lesson), "quests", `${q.id}: lesson ${lesson} is not a BAYOU placeholder by-<topic>`);
+    check(/^k12-by-[a-z0-9-]+$/.test(lesson) && KP.KW_BAYOU_LESSONS.includes(lesson), "quests", `${q.id}: lesson ${lesson} is not one of BAYOU's k12-by- stations`);
+    if (K12_STATIONS.has(lesson)) ok(); else pendingLessons.add(lesson); // lands with BAYOU's merge
     check(UNION_STATIONS.has(station), "quests", `${q.id}: station ${station} is not a union station`);
     const game = KP.kwGameFor(gameId);
     check(!!game && game.parish === q.parish, "quests", `${q.id}: game ${gameId} does not resolve in ${q.parish}`);
@@ -242,7 +246,7 @@ const WANT_KIOSKS = ["kw-sandbag-relay", "kw-pump-startup", "kw-floodgate-closeo
   let rows = 0;
   for (const id of PARISH_IDS) for (const r of KP.kwQuestBoard(id, { snap: G.qmSnapshot() })) {
     rows += 1;
-    check(/from=parishes/.test(r.station.href) && r.game.title && !r.game.done && r.lesson.id.startsWith("by-"), "board", `${r.id}: board row lacks a station link, a game or its lesson slot`);
+    check(/from=parishes/.test(r.station.href) && r.game.title && !r.game.done && r.lesson.id.startsWith("k12-by-") && /from=parishes/.test(r.lesson.href), "board", `${r.id}: board row lacks a station link, a game or its lesson slot`);
   }
   check(rows === Q.length, "board", `the quest boards show ${rows} rows for ${Q.length} quests`);
 }
@@ -269,5 +273,5 @@ const WANT_KIOSKS = ["kw-sandbag-relay", "kw-pump-startup", "kw-floodgate-closeo
 
 console.log(failed
   ? `\n${failed} KREWE problem(s); ${passed} checks passed.`
-  : `\nKREWE: ${passed} checks passed — ${Object.keys(KK.KW_BUDGET).length} kits, ${KP.KW_KIOSKS.length} kiosks, ${KP.KW_QUESTS.length} side quests; ${dressLines.join("; ")}.`);
+  : `\nKREWE: ${passed} checks passed${pendingLessons.size ? ` (${pendingLessons.size} BAYOU lesson stations pending the merge)` : ""} — ${Object.keys(KK.KW_BUDGET).length} kits, ${KP.KW_KIOSKS.length} kiosks, ${KP.KW_QUESTS.length} side quests; ${dressLines.join("; ")}.`);
 process.exit(failed ? 1 : 0);

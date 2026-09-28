@@ -33728,8 +33728,8 @@ function slCounts() {
 //                 safe-practice calls and the kiosk's own calls), each rewarding a cosmetic
 //                 and a stamp. KW_GATED is the same list for check_gates's discovery.
 //   KW_QUESTS     ten side quests, each a chain: a K-12 lesson → a union station → a mini-game.
-//                 The lesson slot holds BAYOU's placeholder id `by-<topic>` (BAYOU writes the
-//                 lessons in a parallel worktree; the coordinator reconciles the ids).
+//                 The lesson slot holds BAYOU's K-12 station id (`k12-by-<topic>`, reconciled by the
+//                 coordinator from BAYOU's hand-back; the stations land when BAYOU's branch merges).
 //   kwKioskSpots(parishData)   where each kiosk stands in a parish data module (bound through
 //                 SECONDLINE's slResolveSite), for the world, the HUD and GRIOT.
 //   kwGriotSites(parishData)   site records in grMount's documented shape so a GRIOT parish
@@ -33853,10 +33853,10 @@ function kwStampsEarned(snap) {
 
 // ------------------------------------------------------------------ side quests: lesson → station → game
 
-/** BAYOU's lesson topics (placeholders until the coordinator reconciles BAYOU's ids). */
+/** BAYOU's K-12 lesson stations (ids from BAYOU's hand-back, reconciled by the coordinator). */
 const KW_BAYOU_LESSONS = [
-  "by-levee-holds", "by-pump-rain", "by-wetland-speed-bump", "by-river-pilot", "by-readiness-plan", "by-lake-to-tap",
-  "by-streetcar-timetable", "by-ferry-tides", "by-fair-count", "by-flood-map-colours", "by-container-sort", "by-floodwall-steps",
+  "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job", "k12-by-a-family-readiness-plan", "k12-by-the-water-cycle-from-lake-to-tap",
+  "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours", "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps",
 ];
 
 const kwMakeQuest = (id, title, parish, site, giver, lesson, station, game, text) => ({
@@ -33871,25 +33871,25 @@ const kwMakeQuest = (id, title, parish, site, giver, lesson, station, game, text
 });
 
 const KW_QUESTS = [
-  kwMakeQuest("sandbag-line", "Hold the Line", "orleans", "levee-crew", "the levee inspector", "by-levee-holds", "br-levee-inspection-and-seepage", "kw-sandbag-relay",
+  kwMakeQuest("sandbag-line", "Hold the Line", "orleans", "levee-crew", "the levee inspector", "k12-by-how-a-levee-holds-water-back", "br-levee-inspection-and-seepage", "kw-sandbag-relay",
     ["Learn how a levee holds the water back.", "Walk the levee with the inspection station.", "Build the sandbag line where the inspector flags."]),
-  kwMakeQuest("rain-night-pumps", "Rain Night Pumps", "jefferson", "drainage-canal-pumps", "the drainage operator", "by-pump-rain", "stormwater-outfall", "kw-pump-startup",
+  kwMakeQuest("rain-night-pumps", "Rain Night Pumps", "jefferson", "drainage-canal-pumps", "the drainage operator", "k12-by-what-a-pump-station-does-in-the-rain", "stormwater-outfall", "kw-pump-startup",
     ["Learn what a pump station does when it rains.", "Do the stormwater outfall station.", "Start the pumps in the right order."]),
-  kwMakeQuest("close-the-gate", "Close the Gate", "st-bernard", "floodgate-station", "the gate operator", "by-floodwall-steps", "tide-gate", "kw-floodgate-closeout",
+  kwMakeQuest("close-the-gate", "Close the Gate", "st-bernard", "floodgate-station", "the gate operator", "k12-by-measuring-a-floodwall-in-steps", "tide-gate", "kw-floodgate-closeout",
     ["Measure a floodwall in steps.", "Do the tide gate station.", "Work the floodgate close-out checklist."]),
-  kwMakeQuest("box-by-box", "Box by Box", "orleans", "port-terminal", "the terminal superintendent", "by-container-sort", "container-lashing", "kw-container-sort",
+  kwMakeQuest("box-by-box", "Box by Box", "orleans", "port-terminal", "the terminal superintendent", "k12-by-sorting-containers-at-the-port", "container-lashing", "kw-container-sort",
     ["Learn how the port sorts its boxes.", "Do the container lashing station.", "Sort the wharf's boxes by ship and weight."]),
-  kwMakeQuest("ferry-morning", "Ferry Morning", "plaquemines", "ferry-landing", "the ferry mate", "by-ferry-tides", "mw-ferry-deckhand-and-passenger-safety", "kw-ferry-lineup",
+  kwMakeQuest("ferry-morning", "Ferry Morning", "plaquemines", "ferry-landing", "the ferry mate", "k12-by-a-ferry-timetable-and-the-tide", "mw-ferry-deckhand-and-passenger-safety", "kw-ferry-lineup",
     ["Read the ferry's timetable and the tide.", "Do the ferry deckhand station.", "Line up the deck for the crossing."]),
-  kwMakeQuest("marsh-speed-bump", "The Marsh Speed Bump", "orleans", "wetlands-restoration", "the restoration crew lead", "by-wetland-speed-bump", "marsh-transect-survey", "sl-orleans-marsh-count",
+  kwMakeQuest("marsh-speed-bump", "The Marsh Speed Bump", "orleans", "wetlands-restoration", "the restoration crew lead", "k12-by-wetlands-as-a-storms-speed-bump", "marsh-transect-survey", "sl-orleans-marsh-count",
     ["Learn how wetlands slow a storm down.", "Do the marsh transect survey station.", "Count the marsh along the line."]),
-  kwMakeQuest("pilot-ladder", "Up the Pilot Ladder", "plaquemines", "pilot-station", "the pilot boat operator", "by-river-pilot", "pilot-transfer", "sl-plaquemines-pilot-transfer-watch",
+  kwMakeQuest("pilot-ladder", "Up the Pilot Ladder", "plaquemines", "pilot-station", "the pilot boat operator", "k12-by-the-rivers-current-and-a-pilots-job", "pilot-transfer", "sl-plaquemines-pilot-transfer-watch",
     ["Learn about the river's current and a pilot's job.", "Do the pilot transfer station.", "Keep the pilot transfer watch."]),
-  kwMakeQuest("family-plan", "The Family Plan", "st-tammany", "staging-yard", "the staging yard boss", "by-readiness-plan", "shelter-intake-operations", "sl-st-tammany-staging-yard-roll-out",
+  kwMakeQuest("family-plan", "The Family Plan", "st-tammany", "staging-yard", "the staging yard boss", "k12-by-a-family-readiness-plan", "shelter-intake-operations", "sl-st-tammany-staging-yard-roll-out",
     ["Make a readiness plan together: who helps, what to pack, where to go.", "Do the shelter intake station.", "Roll the staging yard out on the plan."]),
-  kwMakeQuest("barn-timetable", "Barn Timetable", "orleans", "streetcar-barn", "the barn foreman", "by-streetcar-timetable", "bus-depot-lift", "sl-orleans-barn-power-switching",
+  kwMakeQuest("barn-timetable", "Barn Timetable", "orleans", "streetcar-barn", "the barn foreman", "k12-by-a-streetcar-timetable", "bus-depot-lift", "sl-orleans-barn-power-switching",
     ["Read a streetcar schedule as a timetable.", "Do the depot lift station.", "Work the barn's switching order."]),
-  kwMakeQuest("fair-catch", "A Fair Catch", "st-bernard", "fishing-harbour", "the harbour master", "by-fair-count", "oyster-reef-monitoring", "sl-st-bernard-harbour-recovery",
+  kwMakeQuest("fair-catch", "A Fair Catch", "st-bernard", "fishing-harbour", "the harbour master", "k12-by-a-shrimp-boats-fair-count", "oyster-reef-monitoring", "sl-st-bernard-harbour-recovery",
     ["Count a shrimp boat's catch fairly.", "Do the oyster reef monitoring station.", "Run the harbour recovery drill."]),
 ];
 
@@ -33938,8 +33938,8 @@ function kwPlayCounts() {
 /**
  * The quest board's model for one parish (pure): each quest with its three links in order and
  * what is done. `snap` is a gate snapshot (qmSnapshot()); `completed(stationId)` says whether a
- * station has a record (the passport's ppCompleted); the lesson slot is BAYOU's and shows as text
- * until the coordinator reconciles its id.
+ * station has a record (the passport's ppCompleted); the lesson slot is BAYOU's K-12 station and
+ * links through links.js like any station.
  */
 function kwQuestBoard(parishId, { snap = null, completed = () => false, page = KW_PAGE } = {}) {
   const s = snap ?? qmSnapshot();
@@ -33947,7 +33947,7 @@ function kwQuestBoard(parishId, { snap = null, completed = () => false, page = K
     const lesson = q.steps[1], station = q.steps[2], game = kwGameFor(q.steps[3].game);
     return {
       id: q.id, title: q.title, siteName: slSiteName(q.parish, q.site), giver: q.giver,
-      lesson: { id: lesson.lesson, text: lesson.text },
+      lesson: { id: lesson.lesson, text: lesson.text, href: lkStationLink(lesson.lesson, { from: KW_WORLD, page, siteId: `${q.parish}/${q.site}` }) },
       station: { id: station.station, text: station.text, done: !!completed(station.station), href: lkStationLink(station.station, { from: KW_WORLD, page, siteId: `${q.parish}/${q.site}` }) },
       game: { id: game?.id ?? q.steps[3].game, title: game?.title ?? q.steps[3].game, text: q.steps[3].text, open: game ? qmIsOpen(game.gate, s) : false, done: !!s.questsDone?.has(game?.id) },
       stamp: q.reward.stamp,
@@ -33964,7 +33964,7 @@ function kwMountQuestBoard(el, parishId, opts = {}) {
   if (!rows.length) { el.innerHTML = ""; return rows; }
   el.innerHTML = `<section class="kw-quests" aria-label="Side quests"><p class="eyebrow" style="margin-top:16px">Side quests</p><p class="note">Each quest is a lesson, a union station and a mini-game at one site.</p><ol>${rows.map((r) =>
     `<li><strong>${kwEsc(r.title)}</strong> <span class="note">at ${kwEsc(r.siteName)}, with ${kwEsc(r.giver)}</span><br>` +
-    `<span data-kw-lesson="${kwEsc(r.lesson.id)}">Lesson: ${kwEsc(r.lesson.text)}</span> · ` +
+    `<a data-kw-lesson="${kwEsc(r.lesson.id)}" href="${kwEsc(r.lesson.href)}">Lesson: ${kwEsc(r.lesson.text)}</a> · ` +
     `<a href="${kwEsc(r.station.href)}">${r.station.done ? "✓ " : ""}Station: ${kwEsc(r.station.text)}</a> · ` +
     `<button type="button" class="btn" data-kw-game="${kwEsc(r.game.id)}">${r.game.done ? "✓ " : r.game.open ? "" : "Locked: "}${kwEsc(r.game.title)}</button></li>`).join("")}</ol></section>`;
   if (typeof opts.onGame === "function") for (const b of el.querySelectorAll("[data-kw-game]")) b.addEventListener("click", () => opts.onGame(b.getAttribute("data-kw-game")));

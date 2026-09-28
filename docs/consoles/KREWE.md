@@ -18,22 +18,23 @@ Stamps: `kw-stamp-<game>` (e.g. `kw-stamp-sandbag-relay`). A GRIOT character sta
 through `grMount("parish:<id>", …)`'s documented `sites` shape).
 
 ### Side quests (`KW_QUESTS`): lesson → union station → mini-game
-Lesson ids are BAYOU placeholders `by-<topic>` (BAYOU works in a separate worktree; the coordinator reconciles).
+Lesson ids are BAYOU's K-12 stations `k12-by-<topic>`, reconciled at 23:45 from the coordinator's message after BAYOU's
+hand-back (the stations land when BAYOU's branch merges; `check_krewe` counts them as pending until then).
 
-| quest id | lesson (placeholder) | station | game |
+| quest id | lesson (BAYOU K-12 station) | station | game |
 |---|---|---|---|
-| `kw-q-sandbag-line` | `by-levee-holds` | `br-levee-inspection-and-seepage` | `kw-sandbag-relay` |
-| `kw-q-rain-night-pumps` | `by-pump-rain` | `stormwater-outfall` | `kw-pump-startup` |
-| `kw-q-close-the-gate` | `by-floodwall-steps` | `tide-gate` | `kw-floodgate-closeout` |
-| `kw-q-box-by-box` | `by-container-sort` | `container-lashing` | `kw-container-sort` |
-| `kw-q-ferry-morning` | `by-ferry-tides` | `mw-ferry-deckhand-and-passenger-safety` | `kw-ferry-lineup` |
-| `kw-q-marsh-speed-bump` | `by-wetland-speed-bump` | `marsh-transect-survey` | `sl-orleans-marsh-count` |
-| `kw-q-pilot-ladder` | `by-river-pilot` | `pilot-transfer` | `sl-plaquemines-pilot-transfer-watch` |
-| `kw-q-family-plan` | `by-readiness-plan` | `shelter-intake-operations` | `sl-st-tammany-staging-yard-roll-out` |
-| `kw-q-barn-timetable` | `by-streetcar-timetable` | `bus-depot-lift` | `sl-orleans-barn-power-switching` |
-| `kw-q-fair-catch` | `by-fair-count` | `oyster-reef-monitoring` | `sl-st-bernard-harbour-recovery` |
+| `kw-q-sandbag-line` | `k12-by-how-a-levee-holds-water-back` | `br-levee-inspection-and-seepage` | `kw-sandbag-relay` |
+| `kw-q-rain-night-pumps` | `k12-by-what-a-pump-station-does-in-the-rain` | `stormwater-outfall` | `kw-pump-startup` |
+| `kw-q-close-the-gate` | `k12-by-measuring-a-floodwall-in-steps` | `tide-gate` | `kw-floodgate-closeout` |
+| `kw-q-box-by-box` | `k12-by-sorting-containers-at-the-port` | `container-lashing` | `kw-container-sort` |
+| `kw-q-ferry-morning` | `k12-by-a-ferry-timetable-and-the-tide` | `mw-ferry-deckhand-and-passenger-safety` | `kw-ferry-lineup` |
+| `kw-q-marsh-speed-bump` | `k12-by-wetlands-as-a-storms-speed-bump` | `marsh-transect-survey` | `sl-orleans-marsh-count` |
+| `kw-q-pilot-ladder` | `k12-by-the-rivers-current-and-a-pilots-job` | `pilot-transfer` | `sl-plaquemines-pilot-transfer-watch` |
+| `kw-q-family-plan` | `k12-by-a-family-readiness-plan` | `shelter-intake-operations` | `sl-st-tammany-staging-yard-roll-out` |
+| `kw-q-barn-timetable` | `k12-by-a-streetcar-timetable` | `bus-depot-lift` | `sl-orleans-barn-power-switching` |
+| `kw-q-fair-catch` | `k12-by-a-shrimp-boats-fair-count` | `oyster-reef-monitoring` | `sl-st-bernard-harbour-recovery` |
 
-Unused BAYOU topics KREWE can take next: `by-lake-to-tap`, `by-flood-map-colours`.
+Unused BAYOU topics KREWE can take next: `k12-by-the-water-cycle-from-lake-to-tap`, `k12-by-reading-a-flood-maps-colours`.
 
 ### Kits (`KW_KIT_BUILDERS` in `WebXR/shared/kw-kits.js`)
 `kwStreetcar`, `kwPumpHouse`, `kwLeveeWall`, `kwFloodgate`, `kwShrimpBoat`, `kwOysterLugger`, `kwShotgunBlock`,
@@ -47,8 +48,8 @@ first: `grMount(\`parish:${parish.id}\`, { three: THREE, root, sites: [...kwGrio
 (`kwGriotSites` from `shared/kw-play-data.js`; records in grMount's documented `{ id, name, kind, position }` shape).
 
 ### For BAYOU (lesson ids)
-KREWE's quests hold `by-levee-holds`, `by-pump-rain`, `by-floodwall-steps`, `by-container-sort`, `by-ferry-tides`,
-`by-wetland-speed-bump`, `by-river-pilot`, `by-readiness-plan`, `by-streetcar-timetable`, `by-fair-count` (list in
+KREWE's quests hold `k12-by-how-a-levee-holds-water-back`, `k12-by-what-a-pump-station-does-in-the-rain`, `k12-by-measuring-a-floodwall-in-steps`, `k12-by-sorting-containers-at-the-port`, `k12-by-a-ferry-timetable-and-the-tide`,
+`k12-by-wetlands-as-a-storms-speed-bump`, `k12-by-the-rivers-current-and-a-pilots-job`, `k12-by-a-family-readiness-plan`, `k12-by-a-streetcar-timetable`, `k12-by-a-shrimp-boats-fair-count` (list in
 `KW_BAYOU_LESSONS`, which `check_krewe` holds the quests to). If BAYOU's ids differ, change `KW_BAYOU_LESSONS` and the ten
 `kwMakeQuest` rows together; BAYOU's apply-steps can point at the five `kw-*` kiosk ids above.
 
