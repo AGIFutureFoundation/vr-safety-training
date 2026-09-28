@@ -158,7 +158,7 @@ for (const p of R.NP_PARISHES) {
   sj.check("budget", meshes.every((m) => m <= 45), `every new builder is within 45 meshes (worst ${Math.max(...meshes)})`);
   for (const d of DV.DV_DRIVABLES) sj.check("facts", !asDigits(d.name) || /\b(CDL|4x4|6x6)\b/.test(d.name), `${d.id}: no figure in the name ("${d.name}")`);
   const hullNames = budgetSrc.match(/"(GULF STAR|BAYOU PEARL|MISS DELTA)"/g) ?? [];
-  sj.check("facts", hullNames.length === 0, `the fishing hulls carry fictional boat names (${[...new Set(hullNames)].join(", ")}) — decide named or generic (MOTORPOOL next brief, item 7)`);
+  sj.check("facts", hullNames.length === 0, `the fishing hulls carry fictional boat names (${[...new Set(hullNames)].join(", ")}) — decide named or generic (MOTORPOOL next brief, item 7)`, "MOTORPOOL → next run");
 }
 
 // ---- Characters
@@ -182,7 +182,7 @@ for (const p of R.NP_PARISHES) {
   }
   const parishChars = all.filter((c) => /parish/.test(c.world ?? ""));
   sj.check("completable", parishChars.length >= 5, `characters for the parishes exist (${parishChars.length})`);
-  sj.check("completable", all.filter((c) => c.world === "bayworld").some((c) => (c.handoffs ?? []).some((h) => h.kind === "quest")), "a Bay World character hands off a quest (GRIOT's next brief, item 1)");
+  sj.check("completable", all.filter((c) => c.world === "bayworld").some((c) => (c.handoffs ?? []).some((h) => h.kind === "quest")), "a Bay World character hands off a quest (GRIOT's next brief, item 1)", "GRIOT → next run");
   for (const w of ["bayworld", "summit", "redwood", ...new Set(parishChars.map((c) => c.world))]) sj.check("budget", NPC.grMeshBudget(w) <= 12 * 12, `${w}: the characters' meshes stay within 144 (${NPC.grMeshBudget(w)})`);
 }
 
@@ -220,7 +220,7 @@ const asSnap = (await imp("shared/skill-gates.js")).qmSnapshot({ getItem: () => 
   const pay = cfg.payments ?? cfg.billing ?? {};
   sj.check("legible", existsSync(join(WEBXR, "instructor", "js", "billing.js")), "the instructor console has a Billing tab");
   const memSrc = readFileSync(join(WEBXR, "shared", "pm-membership.js"), "utf8");
-  sj.check("legible", /pmMountUpgrade|Upgrade/.test(memSrc) || /pmMountUpgrade/.test(appSrc), "an Upgrade view is reachable from the account chip (TILL's next brief)");
+  sj.check("legible", existsSync(join(WEBXR, "membership.html")) && /membership\.html|gtMembershipHref/.test(readFileSync(join(WEBXR, "shared", "account.js"), "utf8")), "an Upgrade view (membership.html) is linked from the account chip (TILL next brief, item 8)", "TILL → next run");
   const ad = PM.pmCreateAdapter(pay, { fetchImpl: () => { throw new Error("no network in an eval"); } });
   sj.check("completable", !!ad, "the payments adapter builds from the deployment's configuration");
   const plans = pay.plans ?? [];
@@ -306,6 +306,42 @@ if (AS_BROWSER) {
           sj.check("legible", first.whereVis && first.where.includes(sj.first.expect), `${tag}: the first screen names where you are ("${first.where.slice(0, 40)}")`);
           sj.check("legible", first.whatVis, `${tag}: the first screen shows what you can do (${sj.first.what})`);
           sj.check("legible", !first.overflow, `${tag}: no sideways scroll`);
+          // In a parish: walk up to a character and press G (the talk panel opens with a line), then open the Motor Pool
+          // board (every drivable listed) — the two mounts ASSAYER added, driven in the page itself.
+          // The frame budget as the page draws it: renderer.info after the walk begins at the start site, on the phone
+          // viewport (the low tier), held to the engine's mesh and triangle budget (draw calls include sky and wildlife).
+          if (sj.id.startsWith("parish:") && vp.width === 360) {
+            const info = await page.evaluate(async () => {
+              const T = window.__parishTest; if (!T) return null;
+              T.begin(); await new Promise((r) => setTimeout(r, 1200));
+              const i = T.npRenderer.info.render; return { calls: i.calls, triangles: i.triangles, tier: document.documentElement.dataset.tier ?? null };
+            });
+            sj.check("budget", !!info && info.calls <= E.NP_BUDGET.drawCalls + 40, `${tag}: draw calls in a frame at the start ${info?.calls} within the ${E.NP_BUDGET.drawCalls}-mesh budget plus sky and wildlife`);
+            sj.check("budget", !!info && info.triangles <= E.NP_BUDGET.triangles, `${tag}: triangles in a frame ${info?.triangles} within ${E.NP_BUDGET.triangles}`);
+            sj.frame = info;
+          }
+          if (sj.id.startsWith("parish:") && vp.width === 1280) {
+            const r = await page.evaluate(async () => {
+              const T = window.__parishTest; if (!T?.npc) return { err: "no npc on the test handle" };
+              T.begin();
+              const e = T.npc.characters[0];
+              if (!e) return { chars: 0 };
+              T.teleport(e.figure.position.x + 1, e.figure.position.z + 1);
+              await new Promise((r) => setTimeout(r, 300));
+              T.teleport(e.figure.position.x + 0.5, e.figure.position.z + 0.5);
+              dispatchEvent(new KeyboardEvent("keydown", { code: "KeyG", key: "g", bubbles: true }));
+              await new Promise((r) => setTimeout(r, 200));
+              const panel = document.getElementById("gr-panel");
+              const talk = !!panel && !panel.hidden && (panel.querySelector(".gr-log")?.textContent.length ?? 0) > 20;
+              document.getElementById("gr-close")?.click();
+              T.motorPool?.();
+              const rows = document.querySelectorAll("#dv-board [data-dv-id]").length;
+              return { chars: T.npc.characters.length, talk, rows, modal: T.np.modal };
+            });
+            sj.check("resolves", (r.chars ?? 0) >= 3, `${sj.id}: three or more characters stand at the parish's sites (${r.chars ?? r.err})`, "GRIOT → ASSAYER");
+            sj.check("resolves", !!r.talk, `${sj.id}: G beside a character opens the talk panel with a line`, "GRIOT → ASSAYER");
+            sj.check("resolves", r.rows === DV.DV_DRIVABLES.length && r.modal === "motorpool", `${sj.id}: the Motor Pool board opens with every drivable (${r.rows} rows)`, "MOTORPOOL → ASSAYER");
+          }
         } catch (e) { errors.push(`navigation: ${String(e.message).split("\n")[0]}`); }
         sj.check("loads", errors.length === 0, `${tag}: loads without a page error (${errors.slice(0, 2).join(" | ")})`);
         await context.close();
@@ -317,7 +353,7 @@ if (AS_BROWSER) {
 }
 
 // ------------------------------------------------------------------ report
-const rows = subjects.map((s) => ({ id: s.id, name: s.name, owner: s.owner, score: s.score(), crit: Object.fromEntries(Object.entries(s.crit).map(([k, c]) => [k, c.pass + c.fail ? `${c.pass}/${c.pass + c.fail}` : "—"])) }));
+const rows = subjects.map((s) => ({ id: s.id, name: s.name, owner: s.owner, score: s.score(), frame: s.frame ?? null, headless: s.stats ?? null, crit: Object.fromEntries(Object.entries(s.crit).map(([k, c]) => [k, c.pass + c.fail ? `${c.pass}/${c.pass + c.fail}` : "—"])) }));
 // A finding's cost: the points its criterion lost in its subject, shared across that criterion's failures.
 const findings = subjects.flatMap((s) => Object.entries(s.crit).flatMap(([k, c]) => {
   const n = c.pass + c.fail;

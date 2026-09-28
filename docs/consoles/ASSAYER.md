@@ -46,3 +46,15 @@ the full suite at most once.
   scale rule reads a declared `scale` (fit within 15 %, declared between one half and twenty-five, recorded in
   `docs/parishes.md`); `npValidate` checks the field. `NP_ENGINE_STRICT` holds all five: check_parishes 6,496 / 0,
   check_parish_data 2,763 / 0, check_parish_play 3,933 / 0, check_gates 6,246 / 0 · next: commit, the mounts.
+- 23:12 UTC · 6158ad0 committed the parishes. Mounts: `grMount(\`parish:${parish.id}\`, …)` in the parishes app over the
+  parish's own sites and ground (animated in the frame, G in the controls help); parish site kinds that the roster spells
+  differently map through a new `GR_PARISH_KIND_ALIAS` in npc.js's `grSiteFor` — Orleans places all ten characters,
+  Jefferson, St. Bernard and St. Tammany four, Plaquemines three (25 in all). `dvMountMotorPool({ world: "parishes" })`
+  in a new Motor Pool modal, reached from the menu, the Parishes modal (touch) and B; watercraft link the Regatta, a
+  finished pre-trip says Bay World drives it today (no vehicle mode in the parishes yet). crew.js, npc-data.js, npc.js,
+  drivables-data.js and drivables-board.js join the parishes bundle (1,959 KB, 53 modules). `check_npc` gains the five
+  real parishes (placement on dry ground clear of pad, board and arrival; the app mount; the bundler order): 15,594 / 0.
+  TILL's Upgrade view is a new page, a bundler list and an account-dialog link (till-next item 8) — not a small mount;
+  left. `eval_worlds` now drives the mounts in the page (walk to a character, G opens the panel; the board lists all 70)
+  and reads renderer.info at the start on the phone viewport (worst Orleans 59 calls / 31,472 triangles). Mid-run mean
+  99; check_drivables 2,049 / 0, check_payments green · next: commit, re-score, next brief.

@@ -17,6 +17,8 @@ import { NP_PARISHES, npParish, npResolveConnectors } from "../../shared/np-pari
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
+import { grMount } from "../../shared/npc.js";
+import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
@@ -125,6 +127,7 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyE") npUse();
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
+  if (e.code === "KeyB") asOpenMotorPool();
   if (e.code === "KeyT") { np.timeIdx = (np.timeIdx + 1) % NP_TIMES.length; npApplySky(); }
   if (e.code === "KeyF") { np.weatherIdx = (np.weatherIdx + 1) % NP_WEATHERS.length; npApplySky(); }
 });
@@ -323,6 +326,7 @@ function frame(now) {
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
+  asNpc.animate(now / 1000, dt);
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -375,14 +379,40 @@ ctlMount({
   unique: [
     { label: "Parish selector", keys: ["P"], pad: "—", touch: "Parishes button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
+    { label: "Talk to a crew member", keys: ["G"], pad: "—", touch: "Talk button" },
+    { label: "Motor Pool", keys: ["B"], pad: "—", touch: "Parishes, then Motor Pool" },
   ],
 });
+
+// The characters at the sites (GRIOT's parish hook, mounted by ASSAYER): each parish character stands at the first
+// site of its kind (npc.js's GR_PARISH_KIND_ALIAS reads the parish modules' spellings); a kind no site carries places
+// no one. G talks.
+const asNpc = grMount(`parish:${parish.id}`, {
+  three: THREE, root, sites: parish.sites,
+  groundAt: (x, z) => npHeightAt(parish, x, z), from: "parishes", page: ppHerePage(),
+  pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
+  openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); },
+});
+
+// MOTORPOOL's board (the next brief's parish mount): every drivable with its gate and pre-trip. The parish has no vehicle
+// mode yet, so a finished pre-trip says where it drives today (Bay World) and watercraft link the Regatta.
+let asMotorPool = null;
+function asOpenMotorPool() {
+  if (!asMotorPool) asMotorPool = dvMountMotorPool({
+    el: $("dv-board"), world: "parishes", page: ppHerePage(), regatta: "../regatta/regatta.html",
+    onDrive: (entry) => npToast(`${entry.name}: pre-trip done. Driving on the parish roads comes next; Bay World's Motor Pool drives it today.`, 6000),
+  });
+  else asMotorPool.refresh();
+  npOpen("motorpool");
+}
+$("menu-motorpool").addEventListener("click", asOpenMotorPool);
+$("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  begin: npBegin, stats: () => world.stats(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */

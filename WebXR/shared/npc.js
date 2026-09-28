@@ -183,11 +183,17 @@ export function grSiteOf(s) {
   return { id: s.id, name: s.name, kind: s.kind ?? null, pos: [p[0], p.length === 3 ? p[2] : p[1]], raw: s };
 }
 
+/**
+ * Site-kind spellings the parish modules use for the roster's kinds (ASSAYER, the Bayou run): PARISH's Orleans says
+ * `pump`, `streetcar`, `rail`; DELTA's parishes say `pumping-station`. A kind maps to itself when it is not listed.
+ */
+export const GR_PARISH_KIND_ALIAS = { pump: "pump-station", "pumping-station": "pump-station", streetcar: "streetcar-barn", rail: "rail-yard" };
+
 /** The site a character stands at among `sites` (by id, or by kind for a parish character), or null. */
 export function grSiteFor(ch, sites) {
   const list = sites.map(grSiteOf);
   if (ch.site) return list.find((s) => s.id === ch.site) ?? null;
-  if (ch.siteKind) return list.find((s) => s.kind === ch.siteKind) ?? null;
+  if (ch.siteKind) return list.find((s) => s.kind === ch.siteKind) ?? list.find((s) => GR_PARISH_KIND_ALIAS[s.kind] === ch.siteKind) ?? null;
   return null;
 }
 
