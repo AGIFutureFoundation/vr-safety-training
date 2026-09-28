@@ -20033,6 +20033,38 @@ function rwBuildWorld(scene, opts = {}) {
     for (const m of tinMeshes.values()) m.visible = !m.userData.found && Math.hypot(px - m.position.x, pz - m.position.z) < 220;
   }
 
+  // -------------------------------------------------------------- the UTV
+  // The fire-road vehicle: a low utility body, a roll cage, four wheels, a
+  // light bar and a hood, drawn under the camera while driving (app.js places
+  // it each frame). Hidden on foot.
+  const vehicle = (() => {
+    const g = new THREE.Group();
+    g.name = "rw-utv";
+    const body = M(0xb8322a), dark = M(0x2a2a28), cage = M(0x9aa0a6), lamp = new THREE.MeshLambertMaterial({ color: 0xfff2c0, emissive: 0xffe090 });
+    const part = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); g.add(m); return m; };
+    part(1.6, 0.5, 3.0, body, 0, 0.7, 0);          // tub
+    part(1.5, 0.3, 1.0, body, 0, 1.05, -1.0);       // hood
+    part(1.4, 0.35, 1.1, dark, 0, 1.1, 0.9);        // cargo bed rail
+    part(1.2, 0.2, 0.6, dark, 0, 1.05, 0.1);        // seat
+    for (const [x, z] of [[-0.7, -0.6], [0.7, -0.6], [-0.7, 0.8], [0.7, 0.8]]) part(0.08, 2.0, 0.08, cage, x, 1.8, z);
+    part(1.0, 0.1, 0.15, lamp, 0, 2.85, -0.6);      // light bar on the front posts (an open cage: no roof slab over the eye)
+    part(0.3, 0.14, 0.08, lamp, -0.5, 1.0, -1.52); part(0.3, 0.14, 0.08, lamp, 0.5, 1.0, -1.52); // headlights
+    const wheelGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.3, 10); wheelGeo.rotateZ(Math.PI / 2);
+    for (const [x, z] of [[-0.85, -1.0], [0.85, -1.0], [-0.85, 1.0], [0.85, 1.0]]) { const w = new THREE.Mesh(wheelGeo, dark); w.position.set(x, 0.42, z); g.add(w); }
+    g.visible = false;
+    root.add(g);
+    return {
+      group: g,
+      place(x, z, yaw, visible, y = rwHeightAt(x, z)) {
+        g.visible = !!visible;
+        if (!visible) return;
+        // Sits on the driver's own ground height so the body stays under the eye on a slope.
+        g.position.set(x, y, z);
+        g.rotation.y = yaw;
+      },
+    };
+  })();
+
   // ------------------------------------------------------ time of day
   let hour = opts.hour ?? 10;
   let clock = 0;
@@ -20063,7 +20095,7 @@ function rwBuildWorld(scene, opts = {}) {
 
   return {
     root, sky, update, stream, setHour, get hour() { return hour; }, get band() { return band; }, set band(b) { band = b; },
-    chunks, siteGroups, tinMeshes, budget, blocked, blockedBySite, siteColliders, understoryFor,
+    chunks, siteGroups, tinMeshes, budget, blocked, blockedBySite, siteColliders, understoryFor, vehicle,
     markFound(id) { const m = tinMeshes.get(id); if (m) { m.userData.found = true; m.visible = false; } },
     stats() {
       let inst = 0, tris = 0, under = 0, shafts = 0, drawn = 0, farChunks = 0, logs = 0, stumps = 0;
@@ -31025,6 +31057,8 @@ function rwPlaceCamera() {
   c.position.set(rwApp.x, rwGround(rwApp.x, rwApp.z) + eye, rwApp.z);
   c.rotation.order = "YXZ";
   c.rotation.set(rwApp.pitch, rwApp.yaw, 0);
+  // The UTV sits under the driver: its centre a metre ahead of the eye so the hood and the light bar read in the view.
+  rwApp.world?.vehicle?.place(rwApp.x - Math.sin(rwApp.yaw) * 1.1, rwApp.z - Math.cos(rwApp.yaw) * 1.1, rwApp.yaw, rwApp.driving, c.position.y - eye);
 }
 /** Where a traveller lands at a site: in its cleared yard, south of the buildings, facing them. */
 function rwArrival(s) { return [s.position[0], s.position[1] + s.pad * 0.75, 0]; }
@@ -31115,6 +31149,7 @@ $("btn-drive").addEventListener("click", () => rwToggleDrive());
 function rwToggleDrive() {
   rwApp.driving = !rwApp.driving;
   $("btn-drive").textContent = rwApp.driving ? "Walk" : "Drive";
+  if (rwApp.camera) rwPlaceCamera();
   rwToast(rwApp.driving ? "Fire-road vehicle: seatbelt on, lights on, stay on the graded road." : "On foot.");
 }
 
