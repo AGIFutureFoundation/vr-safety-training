@@ -20,6 +20,7 @@ import { TrainingRecords, toCSV, toXAPI } from "./records.js";
 import { Identity } from "./identity.js";
 import { competencyStatus, COMPETENCIES } from "./competency.js";
 import { PP_PROGRAMMES } from "./passport-programmes.js";
+import { gtStorage } from "./profiles.js";
 
 export const PP_KEY = "vr-passport-v1";
 /** The stores a world keeps its own reputation and credits in (read, never written here). */
@@ -39,7 +40,7 @@ export const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 
 const ppListeners = new Map();
 
-function ppStore() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
+function ppStore() { try { return gtStorage(); } catch (_) { return null; } }
 
 function ppReadJson(key, fallback) {
   try {

@@ -303,9 +303,11 @@ await check("auth.js has exactly three fetch call sites and no other network API
   assert(/if \(!endpoint\) return startPasskey\(ctx\);/.test(code), "the e-mail branch does not refuse an unconfigured endpoint");
 });
 
-await check("auth.js is in the three simulator bundles", () => {
+await check("auth.js is in every bundle, because every bundle carries the account chip", () => {
   const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
-  eq((bundler.match(/SHARED \/ "auth\.js"/g) ?? []).length, 3, "auth.js entries in the bundler's module lists");
+  const apps = (bundler.match(/"modules": \[/g) ?? []).length;
+  eq((bundler.match(/SHARED \/ "auth\.js"/g) ?? []).length, apps, "auth.js entries in the bundler's module lists");
+  eq((bundler.match(/SHARED \/ "account\.js"/g) ?? []).length, apps, "account.js entries in the bundler's module lists");
 });
 
 // ------------------------------------------------------ 3b. auth.js, running
@@ -543,9 +545,15 @@ await check("a signed-in identity flows into Identity, is stored once, and signi
   eq(Auth.session, null, "the session survived sign-out");
   eq(Identity.current, null, "the identity survived sign-out");
   eq(localStore.has("vr-training-auth-v1"), false, "the stored session survived sign-out");
+  // Records are private to the identity (shared/profiles.js): signing out
+  // hides them, signing back in shows them again — nothing was deleted.
+  eq(TrainingRecords.count(), 0, "signing out left the signed-in person's records on show");
+  await Auth.signIn("wallet", { config: Auth.config, env: happy.env });
   eq(TrainingRecords.count(), 1, "signing out deleted records nobody asked it to delete");
   Auth.signOut({ clearRecords: true });
+  await Auth.signIn("wallet", { config: Auth.config, env: happy.env });
   eq(TrainingRecords.count(), 0, "sign-out did not clear the records when asked to");
+  Auth.signOut();
 });
 
 // ------------------------------------------- 4. the front door (console MARQUEE)

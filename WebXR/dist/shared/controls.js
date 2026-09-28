@@ -19,8 +19,14 @@
 // tcMountTouch()'s own `buttons` list so the touch labels carry the same
 // verbs, and Q presses TOUCH's Low / Balanced / High toggle.
 //
+// The account chip and the one sign-in dialog (shared/account.js, console
+// GATE) sit beside the help button, so every page that mounts this grammar
+// carries the same sign-in entry.
+//
 // The bundler concatenates every module into one scope, so every top-level
 // name here starts with `ctl`.
+
+import { gtMountAccount } from "./account.js";
 
 const ctlHasDom = typeof document !== "undefined";
 
@@ -285,6 +291,8 @@ export function ctlMount(opts = {}) {
     nav.appendChild(btn);
     body.prepend(nav);
   }
+  // The account chip: one sign-in entry on every page (shared/account.js).
+  if (o.account !== false) gtMountAccount(nav, { configUrl: o.authConfig ?? null });
   let el = document.getElementById("ctl-help");
   if (!el) {
     el = document.createElement("div");

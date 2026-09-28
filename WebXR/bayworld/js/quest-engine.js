@@ -29,6 +29,7 @@
 //             bwCollectMissionReturns() reports a fresh attempt at that step's
 //             target station id.
 
+import { gtStorage } from "../../shared/profiles.js";
 const BW_QUEST_KEY = "bayworld-quests-v1";
 export const BW_GOTO_RADIUS = 12;
 export const BW_DRIVE_MIN_SPEED = 3;
@@ -39,7 +40,7 @@ let bwDoneListeners = [];
 
 function bwQuestStorage(storage) {
   if (storage) return storage;
-  try { return globalThis.localStorage ?? null; } catch (_) { return null; }
+  try { return gtStorage(); } catch (_) { return null; }
 }
 
 function bwLoadState(storage) {

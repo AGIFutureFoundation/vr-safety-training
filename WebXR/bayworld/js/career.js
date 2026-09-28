@@ -12,6 +12,7 @@
 // tools/check_bayworld_game.mjs drives every rule below with no DOM.
 
 import { myTrainingSummary } from "../../shared/tracking.js";
+import { gtStorage } from "../../shared/profiles.js";
 
 const BW_CAREER_KEY = "bayworld-career-v1";
 
@@ -19,7 +20,7 @@ const STARTER_UNLOCKS = { vehicles: ["pool-car"], fastTravel: [], liveries: ["fl
 
 function bwCareerStorage(storage) {
   if (storage) return storage;
-  try { return globalThis.localStorage ?? null; } catch (_) { return null; }
+  try { return gtStorage(); } catch (_) { return null; }
 }
 
 function bwLoad(storage) {

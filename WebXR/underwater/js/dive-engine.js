@@ -22,6 +22,7 @@
 //             once dive-career.js's dvCollectDiveReturns() reports a fresh
 //             attempt at that step's target station.
 
+import { gtStorage } from "../../shared/profiles.js";
 const DV_DIVES_KEY = "underwater-dives-v1";
 export const DV_GOTO_RADIUS = 12;
 export const DV_ROV_MIN_SPEED = 1;
@@ -32,7 +33,7 @@ let dvDoneListeners = [];
 
 function dvDiveStorage(storage) {
   if (storage) return storage;
-  try { return globalThis.localStorage ?? null; } catch (_) { return null; }
+  try { return gtStorage(); } catch (_) { return null; }
 }
 
 function dvLoadState(storage) {

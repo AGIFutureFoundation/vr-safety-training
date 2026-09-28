@@ -575,16 +575,19 @@ export const Auth = {
   },
 
   /**
-   * Sign out. Clears the identity always; clears this browser's training
+   * Sign out. Clears the identity always and hides that person's progress
+   * (it stays under their own namespace for next time); clears their training
    * records only when the learner asked for that, because the records are
    * theirs and leaving a kiosk is not the same as discarding them.
    */
   signOut({ clearRecords = false } = {}) {
     Identity.emit(AUTH_MSG_SIGNOUT, { provider: this.session?.provider ?? null });
+    // Records are private to the signed-in identity (shared/profiles.js), so
+    // the ones cleared are that person's, before their session key goes.
+    if (clearRecords) TrainingRecords.clear();
     this.session = null;
     try { localStorage.removeItem(AUTH_KEY); } catch (_) { /* ignore */ }
     Identity.clear();
-    if (clearRecords) TrainingRecords.clear();
     return true;
   },
 

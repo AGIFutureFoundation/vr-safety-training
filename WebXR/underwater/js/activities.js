@@ -6,6 +6,7 @@
 // scores every one of them headlessly. No violence, no gambling: every score
 // is a time, a count or a fraction of a run held, kept the way a leaderboard is.
 import { DV_LINES, DV_LANDMARKS, DV_SITES } from "./seabed.js";
+import { gtStorage } from "../../shared/profiles.js";
 
 const DV_ACTIVITY_KEY = "underwater-activities-v1";
 
@@ -25,7 +26,7 @@ export const DV_ACTIVITY_REACH = 5; // metres to a checkpoint, viewpoint or item
 
 function dvActStorage(storage) {
   if (storage) return storage;
-  try { return globalThis.localStorage ?? null; } catch (_) { return null; }
+  try { return gtStorage(); } catch (_) { return null; }
 }
 function dvLoadBest(storage) {
   try { const raw = JSON.parse(dvActStorage(storage)?.getItem(DV_ACTIVITY_KEY) || "null"); return raw && typeof raw === "object" ? raw : {}; } catch (_) { return {}; }

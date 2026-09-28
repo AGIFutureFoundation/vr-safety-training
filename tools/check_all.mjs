@@ -37,6 +37,8 @@ const CHECKERS = [
   "check_guide.mjs",
   // Every open-world link, in the repo layout and the flat build (tools/briefs/links-brief.md).
   "check_links.mjs",
+  // The account chip, the free demo and one private profile per person (docs/sign-in.md).
+  "check_auth.mjs",
 ];
 
 let failed = 0;

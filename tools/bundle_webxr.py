@@ -37,6 +37,9 @@ APPS = {
     "trades": {
         "out": "trade-skills-simulator.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "a11y.js",
             SHARED / "devices.js",
             SHARED / "ei-guide.js",
@@ -79,6 +82,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "trades/js/app.js",
         ],
@@ -87,6 +91,9 @@ APPS = {
     "smartcity": {
         "out": "smartcity-x.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "a11y.js",
             SHARED / "devices.js",
             SHARED / "ei-guide.js",
@@ -187,6 +194,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "smartcity/js/app.js",
         ],
@@ -213,6 +221,9 @@ APPS = {
     "instructor": {
         "out": "instructor-console.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "devices.js",
             SHARED / "observer.js",
             SHARED / "flowhub.js",
@@ -238,6 +249,9 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
         ],
@@ -246,6 +260,9 @@ APPS = {
     "holodeck": {
         "out": "holodeck.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "a11y.js",
             SHARED / "devices.js",
             SHARED / "ei-guide.js",
@@ -286,6 +303,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "holodeck/js/app.js",
         ],
@@ -298,6 +316,9 @@ APPS = {
     "arcade": {
         "out": "arcade.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "input.js",
             WEBXR / "arcade/js/scores.js",
             WEBXR / "arcade/js/audio.js",
@@ -306,6 +327,11 @@ APPS = {
             WEBXR / "arcade/js/games/palletstacker.js",
             WEBXR / "arcade/js/games/forkliftaisle.js",
             WEBXR / "arcade/js/cabinets.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "identity.js",
+            SHARED / "records.js",
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "arcade/js/app.js",
         ],
@@ -320,6 +346,9 @@ APPS = {
     "fairway": {
         "out": "fairway.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "input.js",
             SHARED / "weather.js",
             # The shared sky and wildlife (docs/consoles/SKY.md): sky.js reads
@@ -345,6 +374,9 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
             WEBXR / "fairway/js/app.js",
@@ -357,6 +389,9 @@ APPS = {
     "race": {
         "out": "race.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "input.js",
             SHARED / "kit.js",
             SHARED / "textures.js",
@@ -389,6 +424,10 @@ APPS = {
             WEBXR / "race/js/battle.js",
             WEBXR / "race/js/audio.js",
             WEBXR / "race/js/net.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "identity.js",
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "race/js/app.js",
         ],
@@ -407,6 +446,9 @@ APPS = {
     "bayworld": {
         "out": "bayworld.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "input.js",
             SHARED / "weather.js",
             # The shared sky and wildlife (docs/consoles/SKY.md), after
@@ -451,6 +493,9 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "bayworld/js/app.js",
         ],
@@ -468,6 +513,9 @@ APPS = {
         "index": "underwater.html",
         "out": "underwater.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "input.js",
             SHARED / "records.js",
             SHARED / "a11y.js",
@@ -501,6 +549,9 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "underwater/js/app.js",
         ],
@@ -516,9 +567,17 @@ APPS = {
         "index": "atlas.html",
         "out": "atlas.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "bayworld-data.js",
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "identity.js",
+            SHARED / "records.js",
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
             WEBXR / "bayworld/js/atlas.js",
@@ -536,6 +595,9 @@ APPS = {
         "index": "regatta.html",
         "out": "regatta.html",
         "modules": [
+            # Per-identity storage namespaces and the demo (docs/sign-in.md): no
+            # imports of its own, read by every progress store below.
+            SHARED / "profiles.js",
             SHARED / "input.js",
             SHARED / "weather.js",
             SHARED / "kit.js",
@@ -566,6 +628,9 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            # The account chip controls.js mounts (shared/account.js) and what it reads.
+            SHARED / "auth.js",
+            SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "regatta/js/app.js",
         ],
@@ -793,6 +858,7 @@ DIST_SHARED = [
     # (docs/consoles/COMPASS.md), for the homepage, the track pages and every
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
+    "controls.js", "account.js", "profiles.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
     # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
     # docs/agent-protocols.md), lazily imported by the homepage's own script
