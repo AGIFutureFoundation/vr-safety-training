@@ -1402,6 +1402,8 @@ export const CURRICULA = [
     accent: "#c08a4a",
     stations: [
       { app: "smartcity", id: "k12-primary-and-secondary-sources", why: "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled." },
+      { app: "smartcity", id: "k12-building-a-timeline-from-documents", why: "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes." },
+      { app: "smartcity", id: "k12-how-a-local-council-meeting-works", why: "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided." },
     ],
   },
   {

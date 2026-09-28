@@ -27832,5 +27832,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-building-a-timeline-from-documents",
+    "index": "809",
+    "domain": "Education",
+    "trade": "History class at the school archive table — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Building a Timeline from Documents",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Building a Timeline from Documents VR",
+    "tagline": "Order the documents by the evidence, not by the story you expect",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "in-order",
+      "name": "In Order",
+      "note": "A timeline built from the documents' own evidence, with uncertain dates marked as uncertain"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Timeline Board",
+      "currency": "DATES",
+      "ranks": [
+        "Sorter",
+        "Reader",
+        "Chronicler",
+        "Historian",
+        "Archivist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-how-a-local-council-meeting-works",
+    "index": "810",
+    "domain": "Education",
+    "trade": "Civics class at the civic centre's meeting chamber — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "How a Local Council Meeting Works",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ How a Local Council Meeting Works VR",
+    "tagline": "Read the agenda, sign up to speak, keep to your point, and check what the minutes record",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "heard-in-public",
+      "name": "Heard in Public",
+      "note": "An agenda read, a clear public comment given and the decision checked in the minutes"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chamber Board",
+      "currency": "VOICES",
+      "ranks": [
+        "Observer",
+        "Resident",
+        "Speaker",
+        "Organiser",
+        "Civic Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

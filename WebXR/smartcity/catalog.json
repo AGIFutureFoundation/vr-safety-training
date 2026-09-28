@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 656
+      "stations": 658
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,8 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-how-a-local-council-meeting-works",
+        "k12-building-a-timeline-from-documents",
         "k12-circuits-at-the-electrical-bench",
         "k12-buoyancy-and-pressure-in-the-deep",
         "k12-reading-a-map-scale-in-bay-world",
@@ -9843,6 +9845,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-how-a-local-council-meeting-works",
+      "name": "How a Local Council Meeting Works",
+      "title": "SmartCiti.X~ How a Local Council Meeting Works VR",
+      "tagline": "Read the agenda, sign up to speak, keep to your point, and check what the minutes record",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Civics class at the civic centre's meeting chamber — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "heard-in-public",
+        "name": "Heard in Public",
+        "note": "An agenda read, a clear public comment given and the decision checked in the minutes"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "810",
+      "flat": false,
+      "system": "Chamber Board",
+      "currency": "VOICES",
+      "ranks": [
+        "Observer",
+        "Resident",
+        "Speaker",
+        "Organiser",
+        "Civic Leader"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-how-a-local-council-meeting-works"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-building-a-timeline-from-documents",
+      "name": "Building a Timeline from Documents",
+      "title": "SmartCiti.X~ Building a Timeline from Documents VR",
+      "tagline": "Order the documents by the evidence, not by the story you expect",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class at the school archive table — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "in-order",
+        "name": "In Order",
+        "note": "A timeline built from the documents' own evidence, with uncertain dates marked as uncertain"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "809",
+      "flat": false,
+      "system": "Timeline Board",
+      "currency": "DATES",
+      "ranks": [
+        "Sorter",
+        "Reader",
+        "Chronicler",
+        "Historian",
+        "Archivist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-building-a-timeline-from-documents"
     },
     {
       "app": "smartcity",
@@ -33106,7 +33274,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -33766,7 +33934,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
