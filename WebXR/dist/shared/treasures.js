@@ -407,9 +407,9 @@ if (tzHasDom && typeof window.addEventListener === "function") {
       if (!m.mesh.visible) continue;
       const camera = m.camera?.();
       if (!camera) continue;
-      const THREE = m.THREE;
-      const ray = new THREE.Raycaster();
-      ray.setFromCamera(new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1), camera);
+      const T3 = m.THREE;
+      const ray = new T3.Raycaster();
+      ray.setFromCamera(new T3.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1), camera);
       if (!ray.intersectObject(m.mesh, true).length) continue;
       const r = tzFind(m.id);
       if (!r.locked) m.mesh.visible = false;
@@ -418,11 +418,11 @@ if (tzHasDom && typeof window.addEventListener === "function") {
   });
 }
 
-function tzMarker(THREE, t, size) {
+function tzMarker(T3, t, size) {
   const locked = t.gate && !tzGateOpen(t.gate);
-  const mesh = new THREE.Mesh(
-    new THREE.OctahedronGeometry(size, 0),
-    new THREE.MeshBasicMaterial({ color: locked ? 0x8a96a3 : 0xf2c14b, transparent: true, opacity: 0.92 }),
+  const mesh = new T3.Mesh(
+    new T3.OctahedronGeometry(size, 0),
+    new T3.MeshBasicMaterial({ color: locked ? 0x8a96a3 : 0xf2c14b, transparent: true, opacity: 0.92 }),
   );
   mesh.userData.treasure = t.id;
   mesh.name = `treasure:${t.id}`;
