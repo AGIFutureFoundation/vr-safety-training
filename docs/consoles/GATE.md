@@ -12,3 +12,4 @@
 - 00:14 UTC · failed: a compound shell line was refused by the worktree guard; fixed by running each command on its own · — · next: commit
 - 00:22 UTC · `tools/check_auth.mjs` (14 checks, registered in check_all) passes; failed first because the chip skipped the config read whenever `Auth.env` existed — fixed by keying on `Auth.config !== EMPTY_AUTH_CONFIG`; deploy notes added to `docs/sign-in.md` · this commit · next: full check_all
 - 00:50 UTC · full check_all: 61 of 62 passed; failed: check_investor (platform-summary counted 61 checkers) — fixed by `node tools/gen_investor.mjs` · this commit · next: re-run check_all
+- 01:05 UTC · HAND-BACK · All 62 checkers pass. · no eval scores (no procedures changed) · next: coordinator merge
