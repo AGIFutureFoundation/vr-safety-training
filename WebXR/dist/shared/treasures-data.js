@@ -297,26 +297,26 @@ export const TZ_TREASURES = [
   "set": "front-door",
   "gate": null,
   "id": "tz-home-konami",
-  "name": "The Old Code",
+  "name": "The Old Code, Upside Down",
   "surface": "home",
   "world": "Homepage",
   "area": "Keyboard",
   "how": "keys",
   "trigger": {
    "seq": [
-    "ArrowUp",
-    "ArrowUp",
     "ArrowDown",
     "ArrowDown",
-    "ArrowLeft",
+    "ArrowUp",
+    "ArrowUp",
     "ArrowRight",
     "ArrowLeft",
     "ArrowRight",
+    "ArrowLeft",
     "b",
     "a"
    ]
   },
-  "hint": "A very old cheat code still works here.",
+  "hint": "The old cheat code opens the racer. Try it upside down and back to front.",
   "reveal": "key",
   "lesson": "ANSI Z535.4 — Product safety signs and labels",
   "source": {

@@ -199,6 +199,7 @@ function tzCloseRow(extra = []) {
 
 /** The reveal: name, lesson, where the line comes from, and the set it belongs to. */
 export function tzReveal(t, r = {}) {
+  if (!tzHasDom || !document.body) return null;
   const set = t.set ? TZ_SETS.find((s) => s.id === t.set) : null;
   const led = tzLoad();
   const setLine = set ? `${set.name}: ${set.members.filter((m) => led.found[m]).length} of ${set.members.length}.` : null;
@@ -217,6 +218,7 @@ export function tzReveal(t, r = {}) {
 
 /** A locked treasure: its note and a link to every station it needs. Never hidden, never found. */
 export function tzLockNotice(t, records) {
+  if (!tzHasDom || !document.body) return null;
   const missing = tzGateMissing(t.gate, records);
   const links = missing.map((id) => tzEl("a", { href: tzStationHref(id), text: id.replace(/-/g, " ") }));
   return tzCard([

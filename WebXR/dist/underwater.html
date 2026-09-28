@@ -994,26 +994,26 @@ const TZ_TREASURES = [
   "set": "front-door",
   "gate": null,
   "id": "tz-home-konami",
-  "name": "The Old Code",
+  "name": "The Old Code, Upside Down",
   "surface": "home",
   "world": "Homepage",
   "area": "Keyboard",
   "how": "keys",
   "trigger": {
    "seq": [
-    "ArrowUp",
-    "ArrowUp",
     "ArrowDown",
     "ArrowDown",
-    "ArrowLeft",
+    "ArrowUp",
+    "ArrowUp",
     "ArrowRight",
     "ArrowLeft",
     "ArrowRight",
+    "ArrowLeft",
     "b",
     "a"
    ]
   },
-  "hint": "A very old cheat code still works here.",
+  "hint": "The old cheat code opens the racer. Try it upside down and back to front.",
   "reveal": "key",
   "lesson": "ANSI Z535.4 — Product safety signs and labels",
   "source": {
@@ -4241,6 +4241,7 @@ function tzCloseRow(extra = []) {
 
 /** The reveal: name, lesson, where the line comes from, and the set it belongs to. */
 function tzReveal(t, r = {}) {
+  if (!tzHasDom || !document.body) return null;
   const set = t.set ? TZ_SETS.find((s) => s.id === t.set) : null;
   const led = tzLoad();
   const setLine = set ? `${set.name}: ${set.members.filter((m) => led.found[m]).length} of ${set.members.length}.` : null;
@@ -4259,6 +4260,7 @@ function tzReveal(t, r = {}) {
 
 /** A locked treasure: its note and a link to every station it needs. Never hidden, never found. */
 function tzLockNotice(t, records) {
+  if (!tzHasDom || !document.body) return null;
   const missing = tzGateMissing(t.gate, records);
   const links = missing.map((id) => tzEl("a", { href: tzStationHref(id), text: id.replace(/-/g, " ") }));
   return tzCard([
