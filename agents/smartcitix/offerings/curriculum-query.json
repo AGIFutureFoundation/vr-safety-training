@@ -1,0 +1,58 @@
+{
+  "$comment": "An offering in the shape acp-cli's `acp offering create` takes (src/commands/offering.ts at commit 9aa61ae): name, description, priceType, priceValue, slaMinutes, requirements, deliverable, requiredFunds, isHidden, subscriptionIds. Prices are null: set by the owner. Keys under x-smartcitix are this repository's own and are never sent. Draft, in preparation; nothing is published.",
+  "name": "curriculum-query",
+  "description": "Ask the SmartCiti.X skill registry: the stations of a programme, or one station's task graph with its robot primitives in order, its preconditions (PPE, lockout) and its failure labels.",
+  "priceType": null,
+  "priceValue": null,
+  "priceNote": "set by the owner",
+  "slaMinutes": 5,
+  "requirements": {
+    "type": "object",
+    "properties": {
+      "programmeId": {
+        "type": "string"
+      },
+      "stationId": {
+        "type": "string",
+        "description": "A station id in the skill registry"
+      },
+      "app": {
+        "type": "string",
+        "enum": [
+          "smartcity",
+          "trades"
+        ]
+      }
+    },
+    "required": [],
+    "additionalProperties": false
+  },
+  "deliverable": {
+    "type": "object",
+    "properties": {
+      "programme": {
+        "type": "string"
+      },
+      "stations": {
+        "type": "array"
+      },
+      "station": {
+        "type": "object"
+      }
+    }
+  },
+  "requiredFunds": false,
+  "isHidden": true,
+  "subscriptionIds": [],
+  "x-smartcitix": {
+    "function": "curriculum_query",
+    "handler": "curriculumQuery",
+    "registry": {
+      "module": "WebXR/shared/skill-registry.js",
+      "export": "skStationsForProgramme",
+      "app": "smartcity",
+      "exampleStation": "charge-point",
+      "exampleProgramme": "electrical-first-period"
+    }
+  }
+}

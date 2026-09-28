@@ -1,0 +1,176 @@
+{
+  "$comment": "Tool manifest prepared for the skill-loading agent runtime the brief calls Hermes Agent; its manifest format is to verify against the official docs of that runtime. Each tool is one local command in this repository with JSON-schema parameters equal to its offering's requirements (agents/smartcitix/offerings/*.json). No network, no keys, no prices. Checked by tools/check_virtuals.mjs.",
+  "conventionsStatus": "to verify against the official docs",
+  "tools": [
+    {
+      "name": "evaluate_station",
+      "description": "Run a policy through a station in simulation and return the engine's summary: score, stars, unsafe actions, holds broken, pass or fail. Deterministic for a seed. Locally the policy is the reference robot agent at a given skill.",
+      "offering": "station-evaluation",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stationId": {
+            "type": "string",
+            "description": "A station id in the skill registry"
+          },
+          "app": {
+            "type": "string",
+            "enum": [
+              "smartcity",
+              "trades"
+            ]
+          },
+          "skill": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "stationId",
+          "app"
+        ],
+        "additionalProperties": false
+      },
+      "run": {
+        "kind": "local-command",
+        "command": [
+          "node",
+          "tools/smartcitix_provider.mjs",
+          "--offering",
+          "station-evaluation",
+          "--requirement",
+          "<parameters as JSON>"
+        ],
+        "network": false
+      }
+    },
+    {
+      "name": "export_skill_dataset",
+      "description": "A curated slice of synthetic robot-skill episodes in native, LeRobot-style and RLDS-style layouts, with the manifest's licence and consent fields.",
+      "offering": "robot-skill-dataset",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "app": {
+            "type": "string",
+            "enum": [
+              "smartcity",
+              "trades"
+            ]
+          },
+          "stations": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "seeds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "additionalProperties": false
+      },
+      "run": {
+        "kind": "local-command",
+        "command": [
+          "node",
+          "tools/smartcitix_provider.mjs",
+          "--offering",
+          "robot-skill-dataset",
+          "--requirement",
+          "<parameters as JSON>"
+        ],
+        "network": false
+      }
+    },
+    {
+      "name": "curriculum_query",
+      "description": "The stations of a programme, or one station's task graph with its preconditions and failure labels.",
+      "offering": "curriculum-query",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "programmeId": {
+            "type": "string"
+          },
+          "stationId": {
+            "type": "string",
+            "description": "A station id in the skill registry"
+          },
+          "app": {
+            "type": "string",
+            "enum": [
+              "smartcity",
+              "trades"
+            ]
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "run": {
+        "kind": "local-command",
+        "command": [
+          "node",
+          "tools/smartcitix_provider.mjs",
+          "--offering",
+          "curriculum-query",
+          "--requirement",
+          "<parameters as JSON>"
+        ],
+        "network": false
+      }
+    },
+    {
+      "name": "compose_lesson",
+      "description": "A lesson composed from real stations for a sentence, with a reason for the order and a pass bar.",
+      "offering": "lesson-service",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "max": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "additionalProperties": false
+      },
+      "run": {
+        "kind": "local-command",
+        "command": [
+          "node",
+          "tools/smartcitix_provider.mjs",
+          "--offering",
+          "lesson-service",
+          "--requirement",
+          "<parameters as JSON>"
+        ],
+        "network": false
+      }
+    }
+  ]
+}

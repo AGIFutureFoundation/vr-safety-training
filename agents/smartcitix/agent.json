@@ -1,0 +1,132 @@
+{
+  "$comment": "DRAFT, in preparation. The network-facing provider agent SmartCiti.X, prepared for the Virtuals agent platform's Agent Commerce Protocol as the owner's acp-cli repository describes it (README.md, SKILL.md, docs/tokenization.md at commit 9aa61ae). Nothing here is live: no agent created, no offering published, no wallet, no signer, no token. Same worker/function shape as agents/foreman/agent.json, which it extends: Foreman stays on the learner's device; SmartCiti.X reuses only the functions that carry no personal data. No keys, no endpoints, no wallet addresses, no prices, no network code. Validated by tools/check_virtuals.mjs; see docs/virtuals/strategy.md.",
+  "schemaVersion": 1,
+  "status": "draft",
+  "name": "SmartCiti.X",
+  "token": {
+    "symbol": "$Citi",
+    "status": "label only",
+    "note": "The agent token name the owner chose. No token exists. Any launch is the owner's decision, after legal review, per acp-cli docs/tokenization.md; see agents/smartcitix/runbook.md. No price, supply, fee, valuation or return is stated or implied anywhere in this package."
+  },
+  "extends": {
+    "agent": "agents/foreman/agent.json",
+    "relation": "SmartCiti.X is Foreman's provider face on the agent network. It reuses Foreman's registry and simulation functions and adds a lesson service; Foreman's passport-reading functions stay on the device and are listed under onDeviceOnly, never offered."
+  },
+  "goal": "Offer the Holodeck's robotics training to other agents as provider jobs: evaluate a robot or agent policy on a station in simulation, supply curated robot-skill datasets with their licence and consent fields, answer curriculum and skill-registry queries, and compose lessons from real stations — without ever moving personal data or training records off a learner's device.",
+  "description": "SmartCiti.X is the SmartCiti.X Holodeck's agent for the agent network. It answers jobs from the skill registry (every station as a task graph of robot primitives with preconditions and failure labels), the procedure engine a learner is scored by, the dataset exporter and the lesson composer. Every deliverable is evidence of a procedure under this engine's scoring, in simulation, and is not a certification.",
+  "constraints": [
+    "Nothing on-chain, nothing signed, nothing sent from this repository; the owner runs agents/smartcitix/runbook.md.",
+    "No personal data and no training records in any requirement, deliverable, message or resource; only synthetic rollouts, or episodes a learner chose to export with permission to distribute.",
+    "A station a robot runs is run in simulation; a step a station marks noRobot is handed to a person, never attempted.",
+    "Passing here is evidence of a procedure, not a credential.",
+    "Every protocol detail beyond acp-cli's own files is to verify against the official docs before use."
+  ],
+  "acp": {
+    "role": "provider",
+    "source": "AGIFutureFoundation/acp-cli README.md and SKILL.md at commit 9aa61ae",
+    "offerings": ["offerings/station-evaluation.json", "offerings/robot-skill-dataset.json", "offerings/curriculum-query.json", "offerings/lesson-service.json"],
+    "subscriptions": [],
+    "resources": [],
+    "buyerUses": ["compute", "data-labelling", "translation-review"],
+    "providerStub": "tools/smartcitix_provider.mjs",
+    "runbook": "agents/smartcitix/runbook.md"
+  },
+  "capabilities": {
+    "skillRegistry": { "module": "WebXR/shared/skill-registry.js", "exports": ["SK_PRIMITIVES", "SK_STATIONS", "skStation", "skPreconditionsAt", "skStationsForProgramme"] },
+    "passport": { "module": "WebXR/shared/passport.js", "exports": ["ppProgramme", "ppExport"], "onDeviceOnly": true, "note": "Read on the learner's device only, by Foreman; never an input to or output of a SmartCiti.X job." },
+    "engine": { "module": "WebXR/shared/robot.js", "exports": ["runEpisode"] },
+    "datasets": { "module": "tools/lib/dataset_formats.mjs", "exports": ["createFormatWriters"] },
+    "lessons": { "module": "WebXR/shared/lessons.js", "exports": ["composeLesson"] }
+  },
+  "workers": [
+    {
+      "id": "sim-evaluator",
+      "description": "Runs a policy through a station on the real procedure engine in simulation and reports the engine's own summary.",
+      "functions": ["evaluate_station"]
+    },
+    {
+      "id": "data-steward",
+      "description": "Builds dataset slices in the native, LeRobot-style and RLDS-style layouts from synthetic rollouts, carrying the licence and consent fields.",
+      "functions": ["export_skill_dataset"]
+    },
+    {
+      "id": "curriculum-desk",
+      "description": "Answers programme and station queries from the skill registry, and composes lessons from real stations.",
+      "functions": ["curriculum_query", "compose_lesson"]
+    }
+  ],
+  "functions": [
+    {
+      "name": "evaluate_station",
+      "description": "Run a policy through a station in simulation and return the engine's summary: score, stars, unsafe actions, holds broken, pass or fail. Deterministic for a seed. Locally the policy is the reference robot agent at a given skill.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stationId": { "type": "string", "description": "A station id in the skill registry, e.g. electrical." },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] },
+          "skill": { "type": "number", "minimum": 0, "maximum": 1 },
+          "seed": { "type": "integer", "minimum": 1 }
+        },
+        "required": ["stationId", "app"]
+      },
+      "binding": { "module": "WebXR/shared/robot.js", "export": "runEpisode" },
+      "alsoUses": [{ "module": "WebXR/shared/skill-registry.js", "export": "skStation" }],
+      "offering": "station-evaluation",
+      "handler": "evaluateStation",
+      "exampleStations": ["electrical", "welding"]
+    },
+    {
+      "name": "export_skill_dataset",
+      "description": "A curated slice of synthetic robot-skill episodes in native, LeRobot-style and RLDS-style layouts, with the manifest's licence and consent fields.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "app": { "type": "string", "enum": ["smartcity", "trades"] },
+          "stations": { "type": "integer", "minimum": 1, "maximum": 20 },
+          "seeds": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "skills": { "type": "array", "items": { "type": "number" } }
+        },
+        "required": ["app"]
+      },
+      "binding": { "module": "tools/lib/dataset_formats.mjs", "export": "createFormatWriters" },
+      "offering": "robot-skill-dataset",
+      "handler": "exportDatasetSlice",
+      "exampleStations": ["electrical"]
+    },
+    {
+      "name": "curriculum_query",
+      "description": "The stations of a programme, or one station's task graph with its preconditions and failure labels.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "programmeId": { "type": "string" },
+          "stationId": { "type": "string" },
+          "app": { "type": "string", "enum": ["smartcity", "trades"] }
+        },
+        "required": []
+      },
+      "binding": { "module": "WebXR/shared/skill-registry.js", "export": "skStationsForProgramme" },
+      "alsoUses": [{ "module": "WebXR/shared/skill-registry.js", "export": "skStation" }, { "module": "WebXR/shared/skill-registry.js", "export": "skPreconditionsAt" }],
+      "offering": "curriculum-query",
+      "handler": "curriculumQuery",
+      "exampleStations": ["charge-point", "valve-vault"]
+    },
+    {
+      "name": "compose_lesson",
+      "description": "A lesson composed from real stations for a sentence, with a reason for the order and a pass bar.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "prompt": { "type": "string" },
+          "max": { "type": "integer", "minimum": 1, "maximum": 8 }
+        },
+        "required": ["prompt"]
+      },
+      "binding": { "module": "WebXR/shared/lessons.js", "export": "composeLesson" },
+      "offering": "lesson-service",
+      "handler": "composeLessonJob",
+      "exampleStations": ["valve-vault"]
+    }
+  ],
+  "onDeviceOnly": ["learner_progress", "recommend_next_station", "answer_learner"]
+}
