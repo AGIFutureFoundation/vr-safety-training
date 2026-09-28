@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sierra Summit</title>
+<meta name="description" content="A large walkable mountain world on the training platform: a reservoir and dam, a pass road and tunnel, a transmission ridge, a gondola and a summit lookout, with job boards that open real training stations, quests, field notes, field lessons and two scored activities. Keyboard, touch and gamepad.">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<style>
+  :root{
+    --void:#0b1016; --glass:rgba(10,16,24,.88); --raised:#17222f; --raised-2:#1f2e3f;
+    --text:#eef3f8; --muted:#a9bccd; --dim:#7890a6; --accent:#7fd3ff; --accent2:#ffcf5a; --ok:#8be28b; --warn:#ff8a6a;
+    --edge:rgba(160,200,230,.22); --edge-strong:rgba(160,200,230,.45);
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{background:var(--void);color:var(--text);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block;width:100%;height:100%;touch-action:none}
+  button{font:inherit;color:inherit}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(10,16,24,.8);color:#e3eef8;border:1px solid rgba(127,211,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;backdrop-filter:blur(6px)}
+  .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;background:linear-gradient(180deg,rgba(11,16,22,.35),rgba(11,16,22,.8))}
+  .card{width:min(860px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--glass);border:1px solid var(--edge);border-radius:14px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0}
+  h1.logo{font-weight:800;text-transform:uppercase;margin:6px 0 4px;font-size:clamp(32px,7vw,60px);line-height:.95;background:linear-gradient(92deg,#fff,var(--accent) 55%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:22px;margin:4px 0 10px}
+  p.lead{color:var(--muted);max-width:70ch;line-height:1.5;margin:0 0 14px}
+  .note{font-size:13px;color:var(--dim);line-height:1.5;margin:10px 0 0}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:700;letter-spacing:.03em;text-decoration:none;color:var(--text);display:inline-block;min-height:44px}
+  .btn:hover{background:var(--raised-2)}
+  .btn.primary{background:linear-gradient(180deg,#a8e4ff,var(--accent));color:#08202e;border-color:transparent}
+  .btn.on{border-color:var(--accent2);color:var(--accent2)}
+  #hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+  #hud .panel{position:absolute;background:rgba(10,16,24,.74);border:1px solid var(--edge);border-radius:10px;padding:8px 12px;backdrop-filter:blur(4px)}
+  #hud-where{top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);text-align:center;min-width:240px}
+  #hud-where b{display:block;font-size:18px}
+  #hud-where span{font-size:14px;color:var(--muted)}
+  #hud-stats{top:calc(10px + env(safe-area-inset-top,0px));right:10px;text-align:right;font-size:14px;line-height:1.45}
+  #hud-quest{top:calc(132px + env(safe-area-inset-top,0px));right:10px;max-width:300px;font-size:14px;line-height:1.4}
+  #hud-quest b{color:var(--accent2)}
+  #hud-prompt{bottom:110px;left:50%;transform:translateX(-50%);font-size:15px;font-weight:700;color:var(--accent2)}
+  #hud-act{top:calc(56px + env(safe-area-inset-top,0px));left:10px;font-size:14px;max-width:260px}
+  #hud-keys{bottom:10px;left:10px;font-size:12px;color:var(--muted)}
+  .modal{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(5,8,12,.55)}
+  .modal .card{width:min(720px,100%)}
+  ul.stations{list-style:none;padding:0;margin:8px 0}
+  ul.stations li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--edge);text-transform:capitalize}
+  .lock{color:var(--warn);font-size:13px}
+  .lock a{color:var(--accent)}
+  .done{color:var(--ok)}
+  .quest{padding:8px 0;border-bottom:1px solid var(--edge);font-size:14px}
+  .quest small{color:var(--muted);display:block}
+  #map-wrap{position:relative;width:min(640px,100%);aspect-ratio:1/1;margin:8px auto}
+  #map-wrap canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:10px;border:1px solid var(--edge)}
+  .layers{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+  .layers label{font-size:13px;background:var(--raised);border:1px solid var(--edge);border-radius:999px;padding:4px 10px;cursor:pointer}
+  .choices{display:grid;gap:8px;margin:10px 0}
+  #toast{position:fixed;left:50%;bottom:160px;transform:translateX(-50%);z-index:40;background:rgba(10,16,24,.92);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;max-width:min(560px,92vw);font-size:14px;line-height:1.4;opacity:0;transition:opacity .25s;pointer-events:none}
+  #toast.on{opacity:1}
+  @media (max-width:760px){#hud-quest{display:none}#hud-keys{display:none}#hud-where{left:10px;top:calc(50px + env(safe-area-inset-top,0px));transform:none;min-width:0;max-width:46vw;text-align:left}#hud-where b{font-size:16px}#hud-stats{max-width:46vw}#hud-act{top:auto;bottom:170px}}
+</style>
+</head>
+<body>
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">⌂ Home</a>
+<div id="stage"></div>
+
+<div id="hud" hidden>
+  <div class="panel" id="hud-where"><b id="hud-zone">The Valley Floor</b><span id="hud-near">Valley Base</span></div>
+  <div class="panel" id="hud-stats"><span id="hud-alt">0 m</span> · <span id="hud-slope">0%</span><br><span id="hud-clock">day</span> · <span id="hud-weather">clear</span><br>Notes <b id="hud-eggs">0</b>/<span id="hud-eggs-total">0</span> · Lessons <b id="hud-lessons">0</b></div>
+  <div class="panel" id="hud-quest"><b>Quest</b> <span id="hud-quest-text"></span></div>
+  <div class="panel" id="hud-act" hidden></div>
+  <div class="panel" id="hud-prompt" hidden></div>
+  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · M map · Q quests · T time · F weather</div>
+</div>
+
+<section class="screen" id="menu">
+  <div class="card">
+    <p class="eyebrow">A mountain world · 4 km by 4 km</p>
+    <h1 class="logo">Sierra Summit</h1>
+    <p class="lead">Walk a mountain where the trades work: a treatment plant in the valley, a dam and its penstock, a ranger station on the reservoir, a pass road and its tunnel, a transmission ridge and substation, and a gondola to the summit lookout. Every job board opens a real training station and brings you back here.</p>
+    <div class="row">
+      <button class="btn primary" id="menu-start" type="button">Start walking</button>
+      <a class="btn" href="../index.html">Home</a>
+    </div>
+    <p class="note">Limits in this world — approach distances, load ratings, gas readings, avalanche terms — are always "per the plan, permit or label". Places are generic and original. Your progress is kept in this browser under your profile.</p>
+  </div>
+</section>
+
+<div class="modal" id="board" hidden role="dialog" aria-modal="true" aria-labelledby="board-title">
+  <div class="card">
+    <p class="eyebrow" id="board-trade"></p>
+    <h2 id="board-title"></h2>
+    <p class="lead" id="board-blurb"></p>
+    <ul class="stations" id="board-stations"></ul>
+    <div id="board-side"></div>
+    <div class="row"><button class="btn" type="button" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal" id="lesson" hidden role="dialog" aria-modal="true" aria-labelledby="lesson-title">
+  <div class="card">
+    <p class="eyebrow">Field lesson · <span id="lesson-min"></span> minutes</p>
+    <h2 id="lesson-title"></h2>
+    <p class="note" id="lesson-trade"></p>
+    <ol id="lesson-steps"></ol>
+    <p><b id="lesson-q"></b></p>
+    <div class="choices" id="lesson-choices"></div>
+    <p class="note" id="lesson-links"></p>
+    <div class="row"><button class="btn" type="button" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal" id="map" hidden role="dialog" aria-modal="true" aria-labelledby="map-title">
+  <div class="card">
+    <h2 id="map-title">Map</h2>
+    <div class="layers" id="map-layers"></div>
+    <div id="map-wrap"><canvas id="map-base" width="512" height="512"></canvas><canvas id="map-over" width="512" height="512"></canvas></div>
+    <p class="note">Tap a visited site to fast-travel there. Locked items show a lock; unfound field notes are never shown.</p>
+    <div class="row" id="map-travel"></div>
+    <div class="row"><button class="btn" type="button" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal" id="quests" hidden role="dialog" aria-modal="true" aria-labelledby="quests-title">
+  <div class="card">
+    <h2 id="quests-title">Quests &amp; activities</h2>
+    <div id="quests-list"></div>
+    <h2>Skills to unlock</h2>
+    <div id="quests-locks"></div>
+    <h2>Scored activities</h2>
+    <div id="quests-acts"></div>
+    <div class="row"><button class="btn" type="button" data-close>Close</button></div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

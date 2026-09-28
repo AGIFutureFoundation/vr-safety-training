@@ -87,6 +87,7 @@ check(LK.LK_TRADES_ROOMS.length === CAT_ROOMS.size && LK.LK_TRADES_ROOMS.every((
   "shared/links.js's Trade Skills rooms are the catalog's app: \"trades\" stations", `${LK.LK_TRADES_ROOMS} vs ${[...CAT_ROOMS]}`);
 const { BAY_SITES, BAY_LANDMARKS } = await imp("shared/bayworld-data.js");
 const { DEEP_SITES } = await imp("shared/underwater-data.js");
+const { SM_SITES } = await imp("shared/summit-data.js");
 const { bwMissionLink } = await imp("bayworld/js/sim.js");
 const { dvMissionLink } = await imp("underwater/js/dive-sim.js");
 const { RG_EVENTS, rgStationLink } = await imp("regatta/js/events.js");
@@ -198,6 +199,7 @@ const WORLDS = [
   ["Bay World", "bayworld/index.html", "bayworld.html", (page) => BAY_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: bwMissionLink(s, { station: id, page }) })))],
   ["the Deep", "underwater/underwater.html", "underwater.html", (page) => DEEP_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: dvMissionLink(s, { station: id, page }) })))],
   ["the Regatta", "regatta/regatta.html", "regatta.html", (page) => RG_EVENTS.flatMap((e) => e.stations.map((id) => ({ id, site: e.id, link: rgStationLink(id, { page, eventId: e.id }) })))],
+  ["Sierra Summit", "summit/index.html", "summit.html", (page) => SM_SITES.flatMap((s) => s.stations.map((id) => ({ id, site: s.id, link: LK.lkStationLink(id, { runner: "../smartcity/index.html", from: "summit", page, siteId: s.id }) })))],
   ["Fairway", "fairway/index.html", "fairway.html", (page) => FW_STATIONS.map((id) => ({ id, site: "grounds", link: LK.lkStationLink(id, { runner: FW_RUNNER, from: "fairway", page, siteId: "grounds" }) }))],
   ["the Atlas", "bayworld/atlas.html", "atlas.html", () => atlasPlaces().flatMap((p) => {
     const l = atlasDeepLinks(p);
@@ -334,13 +336,13 @@ async function lkAssertChrome(label) {
  * and its content. No page error either way; Home and the Guide on both.
  */
 const LK_DOC_PAGES = /(^|\/)(index\.html|tracks\/[^/]+\.html|portal\/index\.html|verify\/index\.html|instructor-console\.html|instructor\/index\.html|campus\/index\.html)$/;
-const LK_WORLD_START = [[/bayworld(\/index)?\.html$/, ["#menu-start"]], [/underwater\.html$/, ["#menu-start"]], [/fairway(\/index)?\.html$/, ["#menu-play"]], [/regatta\.html$/, ["#menu-enter", "#menu-race"]]];
+const LK_WORLD_START = [[/bayworld(\/index)?\.html$/, ["#menu-start"]], [/underwater\.html$/, ["#menu-start"]], [/fairway(\/index)?\.html$/, ["#menu-play"]], [/regatta\.html$/, ["#menu-enter", "#menu-race"]], [/summit(\/index)?\.html$/, ["#menu-start"]]];
 async function lkRendersEnvironment(href) {
   const u = new URL(href);
   const label = short(href);
   try {
     await lkVisit(href, { until: "load", timeout: 30000, settle: 600 });
-    const docPage = LK_DOC_PAGES.test(u.pathname) && !/\/(smartcity|trades|holodeck|bayworld|fairway|regatta|underwater|race|arcade)\/index\.html$/.test(u.pathname);
+    const docPage = LK_DOC_PAGES.test(u.pathname) && !/\/(smartcity|trades|holodeck|bayworld|fairway|regatta|underwater|race|arcade|summit)\/index\.html$/.test(u.pathname);
     if (docPage) {
       const doc = await page.evaluate(() => ({ h: !!document.querySelector("h1, h2"), text: (document.body?.innerText ?? "").trim().length }));
       check(doc.h && doc.text > 200, `${label}: the page renders its heading and content`, JSON.stringify(doc));
@@ -373,7 +375,7 @@ async function lkRendersEnvironment(href) {
 // ------------------------------------------------------------ 1. anchors
 
 const REPO_PAGES = ["index.html", "smartcity/index.html", "trades/index.html", "holodeck/index.html", "instructor/index.html", "race/index.html",
-  "arcade/index.html", "fairway/index.html", "bayworld/index.html", "bayworld/atlas.html", "regatta/regatta.html", "underwater/underwater.html",
+  "arcade/index.html", "fairway/index.html", "bayworld/index.html", "bayworld/atlas.html", "regatta/regatta.html", "underwater/underwater.html", "summit/index.html",
   "portal/index.html", "verify/index.html", "campus/index.html"].filter((p) => existsSync(join(WEBXR, p)));
 const FLAT_PAGES = readdirSync(DIST).filter((f) => f.endsWith(".html"));
 const TRACK_PAGES = existsSync(join(DIST, "tracks")) ? readdirSync(join(DIST, "tracks")).filter((f) => f.endsWith(".html")).map((f) => `tracks/${f}`) : [];

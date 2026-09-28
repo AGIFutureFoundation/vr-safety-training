@@ -581,6 +581,12 @@ APPS = {
     "redwood": {
         "index": "redwood.html",
         "out": "redwood.html",
+    # Sierra Summit (WebXR/summit, console SUMMIT): a 4096 m mountain world
+    # streamed in 256 m chunks. shared/summit-data.js is the pure ground truth
+    # (terrain field, sites, eggs, lessons, quests, activities), shared/
+    # summit.js the three.js builder, summit/js/state.js the headless ledger.
+    "summit": {
+        "out": "summit.html",
         "modules": [
             SHARED / "profiles.js",
             SHARED / "input.js",
@@ -596,6 +602,8 @@ APPS = {
             WEBXR / "redwood/js/rw-lore-data.js",
             WEBXR / "redwood/js/rw-career.js",
             WEBXR / "redwood/js/rw-world.js",
+            SHARED / "summit-data.js",
+            SHARED / "summit.js",
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
@@ -606,6 +614,8 @@ APPS = {
             SHARED / "controls.js",
             SHARED / "links.js",
             WEBXR / "redwood/js/app.js",
+            WEBXR / "summit/js/state.js",
+            WEBXR / "summit/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
@@ -939,6 +949,7 @@ DIST_PAGES = {
     "regatta": "regatta.html",
     "underwater": "underwater.html",
     "redwood": "redwood.html",
+    "summit": "summit.html",
 }
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported

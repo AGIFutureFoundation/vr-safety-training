@@ -35,6 +35,7 @@ export const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trad
 export const PP_APP_NAMES = {
   bayworld: "Bay World", underwater: "the Deep", regatta: "the Bay Regatta", fairway: "Fairway Park",
   trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas", redwood: "Redwood Reach",
+  summit: "Sierra Summit",
 };
 export const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 

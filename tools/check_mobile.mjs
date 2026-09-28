@@ -39,6 +39,7 @@ const GAMES_ALL = [
   { name: "Redwood Reach", page: "redwood.html", start: ["#menu-start"],
     panels: ["#hud-site", "#hud-objective", "#hud-stats", "#hud-minimap", "#hud-buttons"] },
 ];
+GAMES_ALL.push({ name: "Sierra Summit", page: "summit.html", start: ["#menu-start"], panels: ["#hud-where", "#hud-stats"] });
 const GAMES = process.env.TC_ONLY ? GAMES_ALL.filter((g) => g.page === process.env.TC_ONLY) : GAMES_ALL;
 const SIZES = [{ label: "360x640", width: 360, height: 640 }, { label: "640x360", width: 640, height: 360 }];
 

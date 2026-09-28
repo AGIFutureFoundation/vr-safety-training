@@ -1,0 +1,2756 @@
+{
+  "SM_ACTIVITIES": [
+    {
+      "blurb": "Sign out at the register, then find four controls up the lookout trail. Each control scores when you reach it and check the map there (M); leaving the trail costs points; signing back in at the station finishes the course.",
+      "controls": [
+        [
+          -1300,
+          100
+        ],
+        [
+          -1380,
+          -150
+        ],
+        [
+          -1450,
+          -400
+        ],
+        [
+          -1510,
+          -690
+        ]
+      ],
+      "id": "sm-act-lookout-orienteering",
+      "kind": "orienteering",
+      "name": "Hike to the Lookout — Orienteering",
+      "offTrailMetres": 25,
+      "scoring": {
+        "control": 20,
+        "mapCheck": 5,
+        "offTrailPenalty": 2,
+        "signOut": 10
+      },
+      "start": "ranger-station",
+      "trail": "lookout-trail"
+    },
+    {
+      "avoid": [
+        {
+          "at": [
+            480,
+            -1600
+          ],
+          "note": "Marked avalanche terrain — the route plan keeps you out",
+          "r": 90
+        },
+        {
+          "at": [
+            800,
+            -1420
+          ],
+          "note": "Cornice edge — stay back per the plan",
+          "r": 80
+        }
+      ],
+      "blurb": "A snowcat-free survey on foot from the gondola top: log six survey points in order and radio a buddy check at each; stepping into a marked avalanche zone costs more than any point is worth.",
+      "id": "sm-act-snowfield-survey",
+      "kind": "survey",
+      "name": "Snowfield Survey Route",
+      "points": [
+        [
+          260,
+          -1250
+        ],
+        [
+          400,
+          -1400
+        ],
+        [
+          560,
+          -1470
+        ],
+        [
+          700,
+          -1560
+        ],
+        [
+          860,
+          -1600
+        ],
+        [
+          980,
+          -1520
+        ]
+      ],
+      "scoring": {
+        "buddyCheck": 5,
+        "point": 15,
+        "zoneEntryPenalty": 25
+      },
+      "start": "gondola-top"
+    }
+  ],
+  "SM_BOUNDS": {
+    "maxX": 2048,
+    "maxZ": 2048,
+    "minX": -2048,
+    "minZ": -2048
+  },
+  "SM_BUDGET": {
+    "chunksLoaded": 49,
+    "drawCalls": 180,
+    "triangles": 420000
+  },
+  "SM_CHUNK": 256,
+  "SM_CHUNKS_PER_SIDE": 16,
+  "SM_EGGS": [
+    {
+      "at": [
+        1500,
+        -520
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "line-truck",
+        "stepId": "glove-test"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-glove-test",
+      "kind": "egg",
+      "landmark": "Transmission Ridge Line Crew",
+      "lesson": "A pinhole in rubber goods is invisible to the eye until it is under pressure.",
+      "method": "goto",
+      "place": "ridge-line",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Transmission Ridge Line Crew",
+      "steps": [
+        {
+          "target": "Transmission Ridge Line Crew",
+          "text": "Walk to Transmission Ridge Line Crew and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-glove-test",
+          "text": "Under the top stone of the cairn near Transmission Ridge Line Crew, a field note reads: \"A pinhole in rubber goods is invisible to the eye until it is under pressure.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Transmission Ridge Line Crew"
+    },
+    {
+      "at": [
+        1440,
+        -600
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "line-truck",
+        "stepId": "sleeve-check"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-sleeve-check",
+      "kind": "egg",
+      "landmark": "Transmission Ridge Line Crew",
+      "lesson": "Sleeves cover the reach between the glove cuff and the shoulder — a cut, an ozone crack or embedded debris there is just as live a path to a phase conductor as the same defect would be in the glove itself.",
+      "method": "goto",
+      "place": "ridge-line",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Transmission Ridge Line Crew",
+      "steps": [
+        {
+          "target": "Transmission Ridge Line Crew",
+          "text": "Walk to Transmission Ridge Line Crew and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-sleeve-check",
+          "text": "Under the top stone of the cairn near Transmission Ridge Line Crew, a field note reads: \"Sleeves cover the reach between the glove cuff and the shoulder — a cut, an ozone crack or embedded debris there is just as live a path to a phase conductor as the same defect would be in the glove itself.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Transmission Ridge Line Crew"
+    },
+    {
+      "at": [
+        1650,
+        -1080
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "or-transmission-line-right-of-way-patrol",
+        "stepId": "weather-conditions"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-row-weather",
+      "kind": "egg",
+      "landmark": "Transmission Ridge Line Crew",
+      "lesson": "Wind decides how a conductor sags and swings and how fast anything that ignites near it will run through dry range grass, and both of those change the segment's risk hour to hour.",
+      "method": "goto",
+      "place": "ridge-line",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Transmission Ridge Line Crew",
+      "steps": [
+        {
+          "target": "Transmission Ridge Line Crew",
+          "text": "Walk to Transmission Ridge Line Crew and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-row-weather",
+          "text": "Under the top stone of the cairn near Transmission Ridge Line Crew, a field note reads: \"Wind decides how a conductor sags and swings and how fast anything that ignites near it will run through dry range grass, and both of those change the segment's risk hour to hour.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Transmission Ridge Line Crew"
+    },
+    {
+      "at": [
+        1300,
+        -120
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "tower-climb",
+        "stepId": "rf-survey"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-rf-survey",
+      "kind": "egg",
+      "landmark": "Transmission Ridge Line Crew",
+      "lesson": "RF exposure is invisible, has no immediate sensation, and is averaged over time — so it is measured, not judged.",
+      "method": "goto",
+      "place": "ridge-line",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Transmission Ridge Line Crew",
+      "steps": [
+        {
+          "target": "Transmission Ridge Line Crew",
+          "text": "Walk to Transmission Ridge Line Crew and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-rf-survey",
+          "text": "Under the top stone of the cairn near Transmission Ridge Line Crew, a field note reads: \"RF exposure is invisible, has no immediate sensation, and is averaged over time — so it is measured, not judged.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Transmission Ridge Line Crew"
+    },
+    {
+      "at": [
+        1810,
+        -1680
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "tower-climb",
+        "stepId": "harness-donning"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-harness",
+      "kind": "egg",
+      "landmark": "Transmission Ridge Line Crew",
+      "lesson": "The harness is fitted and checked first, because a lanyard clipped to slack webbing is a fall arrested by your ribs.",
+      "method": "goto",
+      "place": "ridge-line",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Transmission Ridge Line Crew",
+      "steps": [
+        {
+          "target": "Transmission Ridge Line Crew",
+          "text": "Walk to Transmission Ridge Line Crew and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-harness",
+          "text": "Under the top stone of the cairn near Transmission Ridge Line Crew, a field note reads: \"The harness is fitted and checked first, because a lanyard clipped to slack webbing is a fall arrested by your ribs.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Transmission Ridge Line Crew"
+    },
+    {
+      "at": [
+        270,
+        -1330
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "tower-climb",
+        "stepId": "tether-tools"
+      },
+      "gate": {
+        "note": "Finish the tower climb to find the note the climbers left at the summit.",
+        "stations": [
+          "tower-climb"
+        ]
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-tether-tools",
+      "kind": "egg",
+      "landmark": "Summit Lookout",
+      "lesson": "Anything untethered is a dropped object the moment a glove slips, a hand cramps or a gust hits.",
+      "method": "goto",
+      "place": "summit-lookout",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Summit Lookout",
+      "steps": [
+        {
+          "target": "Summit Lookout",
+          "text": "Walk to Summit Lookout and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-tether-tools",
+          "text": "Under the top stone of the cairn near Summit Lookout, a field note reads: \"Anything untethered is a dropped object the moment a glove slips, a hand cramps or a gust hits.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Summit Lookout"
+    },
+    {
+      "at": [
+        180,
+        -1130
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "fp-anchor-selection-and-rescue-plan",
+        "stepId": "read-fall-protection-plan"
+      },
+      "gate": {
+        "note": "Anchor selection and a rescue plan before the top station's edge.",
+        "stations": [
+          "fp-anchor-selection-and-rescue-plan"
+        ]
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-fall-plan",
+      "kind": "egg",
+      "landmark": "Gondola Top Station",
+      "lesson": "The fall protection plan is what turns an edge into a system with numbers behind it — the load an anchor is actually rated for, how much clearance a fall needs below it, and how long a suspended worker can safely wait for rescue.",
+      "method": "goto",
+      "place": "gondola-top",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Gondola Top Station",
+      "steps": [
+        {
+          "target": "Gondola Top Station",
+          "text": "Walk to Gondola Top Station and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-fall-plan",
+          "text": "Under the top stone of the cairn near Gondola Top Station, a field note reads: \"The fall protection plan is what turns an edge into a system with numbers behind it — the load an anchor is actually rated for, how much clearance a fall needs below it, and how long a suspended worker can safely wait for rescue.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Gondola Top Station"
+    },
+    {
+      "at": [
+        1090,
+        440
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "substation-switching",
+        "stepId": "order-changed"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-order-changed",
+      "kind": "egg",
+      "landmark": "Ridge Substation",
+      "lesson": "A verbal change to a switching order is not a switching order.",
+      "method": "goto",
+      "place": "substation",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Ridge Substation",
+      "steps": [
+        {
+          "target": "Ridge Substation",
+          "text": "Walk to Ridge Substation and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-order-changed",
+          "text": "Under the top stone of the cairn near Ridge Substation, a field note reads: \"A verbal change to a switching order is not a switching order.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Ridge Substation"
+    },
+    {
+      "at": [
+        1010,
+        380
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "substation-switching",
+        "stepId": "readback"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-readback",
+      "kind": "egg",
+      "landmark": "Ridge Substation",
+      "lesson": "Two people agree on every switch before it moves, because the operator at the cubicle cannot see the rest of the system and the control centre cannot see the cubicle.",
+      "method": "goto",
+      "place": "substation",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Ridge Substation",
+      "steps": [
+        {
+          "target": "Ridge Substation",
+          "text": "Walk to Ridge Substation and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-readback",
+          "text": "Under the top stone of the cairn near Ridge Substation, a field note reads: \"Two people agree on every switch before it moves, because the operator at the cubicle cannot see the rest of the system and the control centre cannot see the cubicle.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Ridge Substation"
+    },
+    {
+      "at": [
+        1100,
+        360
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "substation-switching",
+        "stepId": "breaker"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-breaker",
+      "kind": "egg",
+      "landmark": "Ridge Substation",
+      "lesson": "The breaker is the one device in this line-up built to interrupt load current without destroying itself doing it.",
+      "method": "goto",
+      "place": "substation",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Ridge Substation",
+      "steps": [
+        {
+          "target": "Ridge Substation",
+          "text": "Walk to Ridge Substation and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-breaker",
+          "text": "Under the top stone of the cairn near Ridge Substation, a field note reads: \"The breaker is the one device in this line-up built to interrupt load current without destroying itself doing it.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Ridge Substation"
+    },
+    {
+      "at": [
+        -700,
+        540
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "ib-pressure-vessel-confined-entry-and-hot-work",
+        "stepId": "combustibles-clear"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-combustibles",
+      "kind": "egg",
+      "landmark": "Hydroelectric Dam & Penstock",
+      "lesson": "NFPA 51B's combustibles clearance is not a formality around the actual weld — it is the reason a patch job stays a patch job instead of becoming a fire with the crew still inside the vessel it started in.",
+      "method": "goto",
+      "place": "dam",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Hydroelectric Dam & Penstock",
+      "steps": [
+        {
+          "target": "Hydroelectric Dam & Penstock",
+          "text": "Walk to Hydroelectric Dam & Penstock and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-combustibles",
+          "text": "Under the top stone of the cairn near Hydroelectric Dam & Penstock, a field note reads: \"NFPA 51B's combustibles clearance is not a formality around the actual weld — it is the reason a patch job stays a patch job instead of becoming a fire with the crew still inside the vessel it started in.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Hydroelectric Dam & Penstock"
+    },
+    {
+      "at": [
+        -540,
+        800
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "confined-rescue",
+        "stepId": "meter-alarms"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-meter-alarms",
+      "kind": "egg",
+      "landmark": "Powerhouse",
+      "lesson": "A space that was inside the band twenty minutes ago is not inside it now.",
+      "method": "goto",
+      "place": "powerhouse",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Powerhouse",
+      "steps": [
+        {
+          "target": "Powerhouse",
+          "text": "Walk to Powerhouse and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-meter-alarms",
+          "text": "Under the top stone of the cairn near Powerhouse, a field note reads: \"A space that was inside the band twenty minutes ago is not inside it now.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Powerhouse"
+    },
+    {
+      "at": [
+        -590,
+        760
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "confined-rescue",
+        "stepId": "isolate"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-isolate",
+      "kind": "egg",
+      "landmark": "Powerhouse",
+      "lesson": "A closed valve is still a valve somebody else can open from a panel that has no idea a rescue is underway below it.",
+      "method": "goto",
+      "place": "powerhouse",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Powerhouse",
+      "steps": [
+        {
+          "target": "Powerhouse",
+          "text": "Walk to Powerhouse and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-isolate",
+          "text": "Under the top stone of the cairn near Powerhouse, a field note reads: \"A closed valve is still a valve somebody else can open from a panel that has no idea a rescue is underway below it.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Powerhouse"
+    },
+    {
+      "at": [
+        -820,
+        500
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "uw-intake-screen-cleaning-with-lockout",
+        "stepId": "verify-zero-energy"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-zero-energy",
+      "kind": "egg",
+      "landmark": "Hydroelectric Dam & Penstock",
+      "lesson": "A lockout is not proven by looking at the breaker — it is proven by trying to start whatever it feeds and watching nothing happen.",
+      "method": "goto",
+      "place": "dam",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Hydroelectric Dam & Penstock",
+      "steps": [
+        {
+          "target": "Hydroelectric Dam & Penstock",
+          "text": "Walk to Hydroelectric Dam & Penstock and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-zero-energy",
+          "text": "Under the top stone of the cairn near Hydroelectric Dam & Penstock, a field note reads: \"A lockout is not proven by looking at the breaker — it is proven by trying to start whatever it feeds and watching nothing happen.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Hydroelectric Dam & Penstock"
+    },
+    {
+      "at": [
+        -660,
+        470
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "ib-hydrostatic-test-and-inspector-witness",
+        "stepId": "pressurize-ramp"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-hydro-ramp",
+      "kind": "egg",
+      "landmark": "Hydroelectric Dam & Penstock",
+      "lesson": "A steady ramp gives every joint in the system time to show a problem gradually — a weep, a seep, a fitting working loose — while the pressure is still low enough to shut the pump down safely.",
+      "method": "goto",
+      "place": "dam",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Hydroelectric Dam & Penstock",
+      "steps": [
+        {
+          "target": "Hydroelectric Dam & Penstock",
+          "text": "Walk to Hydroelectric Dam & Penstock and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-hydro-ramp",
+          "text": "Under the top stone of the cairn near Hydroelectric Dam & Penstock, a field note reads: \"A steady ramp gives every joint in the system time to show a problem gradually — a weep, a seep, a fitting working loose — while the pressure is still low enough to shut the pump down safely.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Hydroelectric Dam & Penstock"
+    },
+    {
+      "at": [
+        320,
+        320
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "gk-storm-cleanup-chipper-and-traffic-control",
+        "stepId": "read-damage-assessment"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-damage-read",
+      "kind": "egg",
+      "landmark": "Avalanche Chute Sign",
+      "lesson": "The damage assessment is where the first crew through already noted what looked dangerous — reading it before setup means today's crew is working from what was actually found, not discovering the same hazards again from scratch.",
+      "method": "goto",
+      "place": "avalanche-gallery",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Avalanche Chute Sign",
+      "steps": [
+        {
+          "target": "Avalanche Chute Sign",
+          "text": "Walk to Avalanche Chute Sign and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-damage-read",
+          "text": "Under the top stone of the cairn near Avalanche Chute Sign, a field note reads: \"The damage assessment is where the first crew through already noted what looked dangerous — reading it before setup means today's crew is working from what was actually found, not discovering the same hazards again from scratch.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Avalanche Chute Sign"
+    },
+    {
+      "at": [
+        470,
+        -130
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "drive-mountain-grade-and-engine-brake",
+        "stepId": "drm-sign"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-grade-sign",
+      "kind": "egg",
+      "landmark": "The Pass Saddle",
+      "lesson": "A grade is driven with the numbers on its sign, read before the crest: how steep it is, how far it runs, the speed trucks are advised to hold and where the escape ramp is.",
+      "method": "goto",
+      "place": "pass-summit",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "The Pass Saddle",
+      "steps": [
+        {
+          "target": "The Pass Saddle",
+          "text": "Walk to The Pass Saddle and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-grade-sign",
+          "text": "Under the top stone of the cairn near The Pass Saddle, a field note reads: \"A grade is driven with the numbers on its sign, read before the crest: how steep it is, how far it runs, the speed trucks are advised to hold and where the escape ramp is.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — The Pass Saddle"
+    },
+    {
+      "at": [
+        430,
+        -170
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "drive-mountain-grade-and-engine-brake",
+        "stepId": "drm-crest"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-crest-gear",
+      "kind": "egg",
+      "landmark": "The Pass Saddle",
+      "lesson": "The gear for the descent is chosen at the top, while the rig is still slow enough to shift easily.",
+      "method": "goto",
+      "place": "pass-summit",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "The Pass Saddle",
+      "steps": [
+        {
+          "target": "The Pass Saddle",
+          "text": "Walk to The Pass Saddle and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-crest-gear",
+          "text": "Under the top stone of the cairn near The Pass Saddle, a field note reads: \"The gear for the descent is chosen at the top, while the rig is still slow enough to shift easily.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — The Pass Saddle"
+    },
+    {
+      "at": [
+        1420,
+        -1280
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "drive-mountain-grade-and-engine-brake",
+        "stepId": "drm-descent"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-descent",
+      "kind": "egg",
+      "landmark": "Far Side Gate",
+      "lesson": "Down the grade the engine brake carries the load and the service brakes are for the moments it cannot.",
+      "method": "goto",
+      "place": "far-gate",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Far Side Gate",
+      "steps": [
+        {
+          "target": "Far Side Gate",
+          "text": "Walk to Far Side Gate and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-descent",
+          "text": "Under the top stone of the cairn near Far Side Gate, a field note reads: \"Down the grade the engine brake carries the load and the service brakes are for the moments it cannot.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Far Side Gate"
+    },
+    {
+      "at": [
+        40,
+        720
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "traffic-incident-management",
+        "stepId": "taper-length"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-taper",
+      "kind": "egg",
+      "landmark": "Pass Road Crew Yard",
+      "lesson": "A taper is a calculation, not a feel.",
+      "method": "goto",
+      "place": "pass-road",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Pass Road Crew Yard",
+      "steps": [
+        {
+          "target": "Pass Road Crew Yard",
+          "text": "Walk to Pass Road Crew Yard and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-taper",
+          "text": "Under the top stone of the cairn near Pass Road Crew Yard, a field note reads: \"A taper is a calculation, not a feel.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Pass Road Crew Yard"
+    },
+    {
+      "at": [
+        280,
+        280
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "traffic-incident-management",
+        "stepId": "arrow-board"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-arrow-board",
+      "kind": "egg",
+      "landmark": "Avalanche Chute Sign",
+      "lesson": "Cones tell a driver something is wrong; an arrow tells them what to do about it, from far enough back to do it calmly.",
+      "method": "goto",
+      "place": "avalanche-gallery",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Avalanche Chute Sign",
+      "steps": [
+        {
+          "target": "Avalanche Chute Sign",
+          "text": "Walk to Avalanche Chute Sign and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-arrow-board",
+          "text": "Under the top stone of the cairn near Avalanche Chute Sign, a field note reads: \"Cones tell a driver something is wrong; an arrow tells them what to do about it, from far enough back to do it calmly.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Avalanche Chute Sign"
+    },
+    {
+      "at": [
+        620,
+        -540
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "cm-shotcrete-nozzle-and-rebound",
+        "stepId": "clear-crew"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-shotcrete-clear",
+      "kind": "egg",
+      "landmark": "Pass Tunnel Portal",
+      "lesson": "A charged shotcrete line delivers mix and rebound at the same velocity the moment the trigger is pulled, and nobody standing close to the panel for a last-minute look has any warning before that happens.",
+      "method": "goto",
+      "place": "tunnel-portal",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Pass Tunnel Portal",
+      "steps": [
+        {
+          "target": "Pass Tunnel Portal",
+          "text": "Walk to Pass Tunnel Portal and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-shotcrete-clear",
+          "text": "Under the top stone of the cairn near Pass Tunnel Portal, a field note reads: \"A charged shotcrete line delivers mix and rebound at the same velocity the moment the trigger is pulled, and nobody standing close to the panel for a last-minute look has any warning before that happens.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Pass Tunnel Portal"
+    },
+    {
+      "at": [
+        570,
+        -590
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "op-excavator-trench-and-utility-locate",
+        "stepId": "verify-marks"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-locate-marks",
+      "kind": "egg",
+      "landmark": "Pass Tunnel Portal",
+      "lesson": "A mark on the ground only means what a competent locate put there, and paint that is faded, contradictory or unfinished is not that — it is a line whose real position nobody has actually confirmed today.",
+      "method": "goto",
+      "place": "tunnel-portal",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Pass Tunnel Portal",
+      "steps": [
+        {
+          "target": "Pass Tunnel Portal",
+          "text": "Walk to Pass Tunnel Portal and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-locate-marks",
+          "text": "Under the top stone of the cairn near Pass Tunnel Portal, a field note reads: \"A mark on the ground only means what a competent locate put there, and paint that is faded, contradictory or unfinished is not that — it is a line whose real position nobody has actually confirmed today.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Pass Tunnel Portal"
+    },
+    {
+      "at": [
+        640,
+        -600
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "scaffold-erection",
+        "stepId": "sills"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-sills",
+      "kind": "egg",
+      "landmark": "Pass Tunnel Portal",
+      "lesson": "The sill spreads the leg load over the ground; the base plate sits on the sill, never on the ground or a block.",
+      "method": "goto",
+      "place": "tunnel-portal",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Pass Tunnel Portal",
+      "steps": [
+        {
+          "target": "Pass Tunnel Portal",
+          "text": "Walk to Pass Tunnel Portal and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-sills",
+          "text": "Under the top stone of the cairn near Pass Tunnel Portal, a field note reads: \"The sill spreads the leg load over the ground; the base plate sits on the sill, never on the ground or a block.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Pass Tunnel Portal"
+    },
+    {
+      "at": [
+        -220,
+        -280
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "ew-machine-room-lockout-and-brake-test",
+        "stepId": "lock"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-own-lock",
+      "kind": "egg",
+      "landmark": "Gondola Maintenance Shop",
+      "lesson": "Your padlock is the only thing on this switch that only you can take off, and that is the entire point of fitting it before a caliper or a feeler gauge ever touches the brake.",
+      "method": "goto",
+      "place": "gondola-shop",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Gondola Maintenance Shop",
+      "steps": [
+        {
+          "target": "Gondola Maintenance Shop",
+          "text": "Walk to Gondola Maintenance Shop and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-own-lock",
+          "text": "Under the top stone of the cairn near Gondola Maintenance Shop, a field note reads: \"Your padlock is the only thing on this switch that only you can take off, and that is the entire point of fitting it before a caliper or a feeler gauge ever touches the brake.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Gondola Maintenance Shop"
+    },
+    {
+      "at": [
+        -270,
+        -320
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "ew-machine-room-lockout-and-brake-test",
+        "stepId": "verify-zero"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-verify-zero",
+      "kind": "egg",
+      "landmark": "Gondola Maintenance Shop",
+      "lesson": "A locked-open switch describes what the switch is doing; it says nothing about what is happening at the terminals the meter actually touches.",
+      "method": "goto",
+      "place": "gondola-shop",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Gondola Maintenance Shop",
+      "steps": [
+        {
+          "target": "Gondola Maintenance Shop",
+          "text": "Walk to Gondola Maintenance Shop and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-verify-zero",
+          "text": "Under the top stone of the cairn near Gondola Maintenance Shop, a field note reads: \"A locked-open switch describes what the switch is doing; it says nothing about what is happening at the terminals the meter actually touches.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Gondola Maintenance Shop"
+    },
+    {
+      "at": [
+        -1490,
+        -670
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "wildland-urban-interface",
+        "stepId": "weather-brief"
+      },
+      "gate": {
+        "note": "The lookout's weather note opens after the wildland-urban interface station.",
+        "stations": [
+          "wildland-urban-interface"
+        ]
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-spot-weather",
+      "kind": "egg",
+      "landmark": "West Ridge Lookout",
+      "lesson": "Everything the crew is about to commit to this structure is a bet against what the fire does in the next hour, and the spot weather forecast is the best information anybody has about that bet before conditions actually change.",
+      "method": "goto",
+      "place": "west-lookout",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "West Ridge Lookout",
+      "steps": [
+        {
+          "target": "West Ridge Lookout",
+          "text": "Walk to West Ridge Lookout and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-spot-weather",
+          "text": "Under the top stone of the cairn near West Ridge Lookout, a field note reads: \"Everything the crew is about to commit to this structure is a bet against what the fire does in the next hour, and the spot weather forecast is the best information anybody has about that bet before conditions actually change.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — West Ridge Lookout"
+    },
+    {
+      "at": [
+        -1250,
+        310
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "psychological-first-aid",
+        "stepId": "honest-information"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-honest-answer",
+      "kind": "egg",
+      "landmark": "Ranger Station & Trailhead",
+      "lesson": "The honest answer, including 'we don't know yet,' respects a person more than a comforting guess does, and it is the only answer that will still be true the next time she asks somebody else the same question.",
+      "method": "goto",
+      "place": "ranger-station",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Ranger Station & Trailhead",
+      "steps": [
+        {
+          "target": "Ranger Station & Trailhead",
+          "text": "Walk to Ranger Station & Trailhead and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-honest-answer",
+          "text": "Under the top stone of the cairn near Ranger Station & Trailhead, a field note reads: \"The honest answer, including 'we don't know yet,' respects a person more than a comforting guess does, and it is the only answer that will still be true the next time she asks somebody else the same question.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Ranger Station & Trailhead"
+    },
+    {
+      "at": [
+        -1020,
+        1080
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "chlorine-room",
+        "stepId": "scba"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-scba",
+      "kind": "egg",
+      "landmark": "Valley Water Treatment Plant",
+      "lesson": "Nobody works a chlorine cylinder alone in this room.",
+      "method": "goto",
+      "place": "water-plant",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Valley Water Treatment Plant",
+      "steps": [
+        {
+          "target": "Valley Water Treatment Plant",
+          "text": "Walk to Valley Water Treatment Plant and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-scba",
+          "text": "Under the top stone of the cairn near Valley Water Treatment Plant, a field note reads: \"Nobody works a chlorine cylinder alone in this room.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Valley Water Treatment Plant"
+    },
+    {
+      "at": [
+        -1080,
+        1020
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "lift-station",
+        "stepId": "gas"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-vent-first",
+      "kind": "egg",
+      "landmark": "Valley Water Treatment Plant",
+      "lesson": "Testing through the vent with the hatch still closed means the first reading is taken with nobody's face anywhere near the opening it turns out to be bad news at.",
+      "method": "goto",
+      "place": "water-plant",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Valley Water Treatment Plant",
+      "steps": [
+        {
+          "target": "Valley Water Treatment Plant",
+          "text": "Walk to Valley Water Treatment Plant and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-vent-first",
+          "text": "Under the top stone of the cairn near Valley Water Treatment Plant, a field note reads: \"Testing through the vent with the hatch still closed means the first reading is taken with nobody's face anywhere near the opening it turns out to be bad news at.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Valley Water Treatment Plant"
+    },
+    {
+      "at": [
+        -30,
+        680
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "op-compactor-lift-thickness-and-edge",
+        "stepId": "lift-plan"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-lift-plan",
+      "kind": "egg",
+      "landmark": "Pass Road Crew Yard",
+      "lesson": "The compaction spec sets the loose lift thickness this drum can actually compact all the way through — a lift built thicker than the spec allows can look fully rolled on top while the bottom of it stays loose the whole time.",
+      "method": "goto",
+      "place": "pass-road",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Pass Road Crew Yard",
+      "steps": [
+        {
+          "target": "Pass Road Crew Yard",
+          "text": "Walk to Pass Road Crew Yard and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-lift-plan",
+          "text": "Under the top stone of the cairn near Pass Road Crew Yard, a field note reads: \"The compaction spec sets the loose lift thickness this drum can actually compact all the way through — a lift built thicker than the spec allows can look fully rolled on top while the bottom of it stays loose the whole time.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Pass Road Crew Yard"
+    },
+    {
+      "at": [
+        -1480,
+        1470
+      ],
+      "cites": {
+        "app": "smartcity",
+        "stationId": "or-ranch-road-grading-and-culvert",
+        "stepId": "equipment-find"
+      },
+      "giver": "found, not given",
+      "id": "sm-egg-walkaround",
+      "kind": "egg",
+      "landmark": "Valley Base",
+      "lesson": "A worn edge or a blocked camera found at the walkaround gets fixed in the yard with the machine shut down; the same defect found mid-pass is a defect the operator is working around instead of one that got fixed.",
+      "method": "goto",
+      "place": "valley-base",
+      "requires": null,
+      "reward": {
+        "badge": "Field Note",
+        "xp": 25
+      },
+      "site": "Valley Base",
+      "steps": [
+        {
+          "target": "Valley Base",
+          "text": "Walk to Valley Base and look for the stone cairn.",
+          "type": "goto"
+        },
+        {
+          "target": "sm-egg-walkaround",
+          "text": "Under the top stone of the cairn near Valley Base, a field note reads: \"A worn edge or a blocked camera found at the walkaround gets fixed in the yard with the machine shut down; the same defect found mid-pass is a defect the operator is working around instead of one that got fixed.\"",
+          "type": "find"
+        }
+      ],
+      "tier": 0,
+      "title": "Field Note — Valley Base"
+    }
+  ],
+  "SM_FIELD_LESSONS": [
+    {
+      "at": [
+        -1210,
+        270
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "Steep",
+          "Flat",
+          "Under water"
+        ],
+        "q": "Contour lines packed close together mean the ground is…"
+      },
+      "id": "sm-fl-contours",
+      "k12": "k12-reading-a-map-scale-in-bay-world",
+      "minutes": 3,
+      "place": "ranger-station",
+      "station": "or-wildland-fireline-construction-and-lookout",
+      "steps": [
+        "A contour line joins points on the map that are at the same height.",
+        "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.",
+        "Open the map (M) and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."
+      ],
+      "title": "Reading contour lines",
+      "trade": "Trail crews and rangers read contours to plan a route that avoids the steepest ground."
+    },
+    {
+      "at": [
+        -1520,
+        1430
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "1024 m",
+          "2048 m",
+          "512 m"
+        ],
+        "q": "If the map is 4096 m across, a quarter of its width is…"
+      },
+      "id": "sm-fl-scale",
+      "k12": "k12-reading-a-map-scale-in-bay-world",
+      "minutes": 2,
+      "place": "valley-base",
+      "station": "gk-storm-cleanup-chipper-and-traffic-control",
+      "steps": [
+        "A map's scale says how many metres on the ground one unit on the map stands for.",
+        "This world's map is square and the world is 4096 m across, so half the map's width is 2048 m of walking.",
+        "Estimate the walk to the water plant on the map, then walk it and compare with the distance on the HUD."
+      ],
+      "title": "Map scale and distance",
+      "trade": "A road crew measures a work zone off the plan sheet with its scale bar."
+    },
+    {
+      "at": [
+        -540,
+        760
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "Height",
+          "Colour",
+          "Temperature"
+        ],
+        "q": "Water behind a dam stores energy mainly because of its…"
+      },
+      "id": "sm-fl-falling-water",
+      "k12": "k12-energy-transfer-at-the-wind-farm",
+      "minutes": 3,
+      "place": "powerhouse",
+      "station": "ib-hydrostatic-test-and-inspector-witness",
+      "steps": [
+        "Water held high behind a dam has stored (potential) energy because of its height.",
+        "As it falls through the penstock that energy becomes motion (kinetic energy).",
+        "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy — the same chain of transfers the wind-farm lesson follows with moving air."
+      ],
+      "title": "Falling water as stored energy",
+      "trade": "Plant operators at a powerhouse watch water's stored energy become electrical energy."
+    },
+    {
+      "at": [
+        -740,
+        490
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "Water pressure is greatest at the bottom",
+          "To save concrete at the top only",
+          "Snow collects at the bottom"
+        ],
+        "q": "Why is a dam thicker at the bottom?"
+      },
+      "id": "sm-fl-pressure-depth",
+      "k12": "k12-buoyancy-and-pressure-in-the-deep",
+      "minutes": 3,
+      "place": "dam",
+      "station": "uw-intake-screen-cleaning-with-lockout",
+      "steps": [
+        "Water pushes on everything in it, and the deeper you go the more water sits above you.",
+        "That is why a dam wall is built thicker at the bottom than at the top.",
+        "Look at the dam's face: it widens toward its base, where the push of the water is greatest."
+      ],
+      "title": "Pressure grows with depth",
+      "trade": "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth."
+    },
+    {
+      "at": [
+        -1070,
+        1070
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "Melting and running downhill",
+          "Being carried by trucks",
+          "Blowing uphill"
+        ],
+        "q": "Snow on the summit reaches the reservoir mainly by…"
+      },
+      "id": "sm-fl-water-cycle",
+      "k12": "k12-water-cycle-and-filtration",
+      "minutes": 3,
+      "place": "water-plant",
+      "station": "chlorine-room",
+      "steps": [
+        "Water evaporates, condenses into clouds and falls as rain or snow on the mountain.",
+        "Snowmelt and rain run downhill into streams and the reservoir.",
+        "At the treatment plant the water is filtered and disinfected before it goes to homes — the plant is one stop on the water cycle, not its end."
+      ],
+      "title": "From snowpack to tap",
+      "trade": "Water treatment operators treat the reservoir water that the mountain's snow and rain supply."
+    },
+    {
+      "at": [
+        1030,
+        450
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "It stops flowing in that circuit",
+          "It doubles",
+          "It flows faster"
+        ],
+        "q": "What happens to current when a breaker opens the circuit?"
+      },
+      "id": "sm-fl-circuit",
+      "k12": "k12-circuits-at-the-electrical-bench",
+      "minutes": 3,
+      "place": "substation",
+      "station": "substation-switching",
+      "steps": [
+        "Current only flows around a complete loop — a closed circuit.",
+        "Opening a switch or a breaker breaks the loop, so current stops.",
+        "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."
+      ],
+      "title": "A complete circuit",
+      "trade": "Substation electricians open a breaker to break a circuit before anyone works on it."
+    },
+    {
+      "at": [
+        -1030,
+        1030
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "On its label and data sheet",
+          "By guessing from the colour",
+          "From the truck's paint"
+        ],
+        "q": "Where does the crew find the protection a chemical needs?"
+      },
+      "id": "sm-fl-labels",
+      "k12": "k12-reading-instructions-and-safety-labels",
+      "minutes": 2,
+      "place": "water-plant",
+      "station": "ut-water-treatment-chemical-delivery-unloading",
+      "steps": [
+        "A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.",
+        "The label and the safety data sheet — not memory — say what protective equipment the job needs.",
+        "Before any delivery, the crew reads the label on the load and matches it to the paperwork."
+      ],
+      "title": "Reading a hazard label",
+      "trade": "Water plant operators read a chemical's label and data sheet before a delivery is unloaded."
+    },
+    {
+      "at": [
+        460,
+        -120
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "5%",
+          "50%",
+          "20%"
+        ],
+        "q": "A road that rises 5 m over 100 m has a grade of…"
+      },
+      "id": "sm-fl-grade",
+      "k12": "k12-measuring-and-scaling-the-court",
+      "minutes": 3,
+      "place": "pass-summit",
+      "station": "drive-mountain-grade-and-engine-brake",
+      "steps": [
+        "A road's grade is how much it rises for each unit it runs forward, written as a percentage.",
+        "Rising 6 m over 100 m of road is a 6% grade; the same rise over 50 m is twice as steep.",
+        "The HUD shows the slope under your feet: compare the switchbacks with the straight climb beside them."
+      ],
+      "title": "Grade as a ratio",
+      "trade": "Drivers and road crews read a grade as rise over run, and the pass road's signs state it."
+    },
+    {
+      "at": [
+        -1530,
+        -700
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "What the writer actually saw",
+          "What might have happened",
+          "Opinions about who is to blame"
+        ],
+        "q": "A good report sticks to…"
+      },
+      "id": "sm-fl-incident-report",
+      "k12": "k12-writing-a-clear-incident-report",
+      "minutes": 3,
+      "place": "west-lookout",
+      "station": "or-transmission-line-right-of-way-patrol",
+      "steps": [
+        "A clear report says what happened, where, when and who was involved.",
+        "It sticks to what the writer saw, and says plainly what they do not know yet.",
+        "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."
+      ],
+      "title": "Writing a clear trail report",
+      "trade": "Rangers and patrollers write what they saw, where and when — facts first, no guesses."
+    },
+    {
+      "at": [
+        140,
+        -1170
+      ],
+      "check": {
+        "answer": 0,
+        "choices": [
+          "Where you are",
+          "Your favourite colour",
+          "Nothing, just hang up"
+        ],
+        "q": "What should you say first when calling for help?"
+      },
+      "id": "sm-fl-call-for-help",
+      "k12": "k12-first-aid-awareness-call-for-help",
+      "minutes": 2,
+      "place": "gondola-top",
+      "station": "ew-elevator-entrapment-and-rescue-with-fire-service",
+      "steps": [
+        "When someone is hurt, make sure you are safe, then call for help.",
+        "Say where you are first — a named place like 'the gondola top station' — so help can find you.",
+        "Stay on the line and do what the call-taker asks."
+      ],
+      "title": "Calling for help on the mountain",
+      "trade": "Rangers and lift crews give a clear location first when they call for help."
+    }
+  ],
+  "SM_GATED": [
+    {
+      "gate": {
+        "note": "Rubber goods and the tailboard first: finish the line truck station.",
+        "stations": [
+          "line-truck"
+        ]
+      },
+      "id": "sm-side-night-patrol",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Lockout and the brake test come before any rescue drill on the lift.",
+        "stations": [
+          "ew-machine-room-lockout-and-brake-test"
+        ]
+      },
+      "id": "sm-side-cabin-rescue",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Set a taper the way the plan calculates it before winter traffic control.",
+        "stations": [
+          "traffic-incident-management"
+        ]
+      },
+      "id": "sm-side-avalanche-control",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Lockout at the intake and a witnessed hydrotest before the penstock walk.",
+        "stations": [
+          "uw-intake-screen-cleaning-with-lockout",
+          "ib-hydrostatic-test-and-inspector-witness"
+        ]
+      },
+      "id": "sm-side-penstock-walk",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Fireline construction and lookouts first: the watch is a crew job.",
+        "stations": [
+          "or-wildland-fireline-construction-and-lookout"
+        ]
+      },
+      "id": "sm-side-fire-lookout",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Verify the locate marks before any digging at the portal.",
+        "stations": [
+          "op-excavator-trench-and-utility-locate"
+        ]
+      },
+      "id": "sm-side-portal-trench",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Switching first; the label study builds on it.",
+        "programmes": [
+          {
+            "id": "electrical-first-period",
+            "minStars": 1
+          }
+        ],
+        "stations": [
+          "substation-switching"
+        ]
+      },
+      "id": "sm-side-arc-labels",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "k12": [
+          "k12-reading-instructions-and-safety-labels"
+        ],
+        "note": "The chlorine room and the safety-labels lesson before a chemical delivery.",
+        "stations": [
+          "chlorine-room"
+        ]
+      },
+      "id": "sm-side-plant-delivery",
+      "kind": "quest"
+    },
+    {
+      "gate": {
+        "note": "Finish the tower climb to find the note the climbers left at the summit.",
+        "stations": [
+          "tower-climb"
+        ]
+      },
+      "id": "sm-egg-tether-tools",
+      "kind": "egg"
+    },
+    {
+      "gate": {
+        "note": "Anchor selection and a rescue plan before the top station's edge.",
+        "stations": [
+          "fp-anchor-selection-and-rescue-plan"
+        ]
+      },
+      "id": "sm-egg-fall-plan",
+      "kind": "egg"
+    },
+    {
+      "gate": {
+        "note": "The lookout's weather note opens after the wildland-urban interface station.",
+        "stations": [
+          "wildland-urban-interface"
+        ]
+      },
+      "id": "sm-egg-spot-weather",
+      "kind": "egg"
+    }
+  ],
+  "SM_GONDOLA": [
+    [
+      -240,
+      -300
+    ],
+    [
+      160,
+      -1150
+    ]
+  ],
+  "SM_LAKE": {
+    "centre": [
+      -700,
+      -40
+    ],
+    "radius": 380
+  },
+  "SM_LANDMARKS": [
+    {
+      "at": [
+        250,
+        -1350
+      ],
+      "blurb": "A stone lookout hut on the main peak with a view over every site in the world.",
+      "id": "summit-lookout",
+      "name": "Summit Lookout"
+    },
+    {
+      "at": [
+        -1510,
+        -690
+      ],
+      "blurb": "A timber fire lookout on a knob above the lake, the end of the orienteering course.",
+      "id": "west-lookout",
+      "name": "West Ridge Lookout"
+    },
+    {
+      "at": [
+        -1110,
+        -260
+      ],
+      "blurb": "A gravel beach on the lake's west shore where the lakeshore trail runs.",
+      "id": "reservoir-shore",
+      "name": "Reservoir Shore"
+    },
+    {
+      "at": [
+        -560,
+        780
+      ],
+      "blurb": "The powerhouse at the foot of the penstock where falling water turns the turbines.",
+      "id": "powerhouse",
+      "name": "Powerhouse"
+    },
+    {
+      "at": [
+        160,
+        -1150
+      ],
+      "blurb": "The upper terminal of the gondola, the start of the summit traverse and the survey route.",
+      "id": "gondola-top",
+      "name": "Gondola Top Station"
+    },
+    {
+      "at": [
+        450,
+        -150
+      ],
+      "blurb": "The high point of the pass road, a lay-by and a view down both sides.",
+      "id": "pass-summit",
+      "name": "The Pass Saddle"
+    },
+    {
+      "at": [
+        300,
+        300
+      ],
+      "blurb": "A roadside board where the pass road crosses a chute, the place the traffic-control plan starts in winter.",
+      "id": "avalanche-gallery",
+      "name": "Avalanche Chute Sign"
+    },
+    {
+      "at": [
+        1400,
+        -1300
+      ],
+      "blurb": "The pass road's gate on the far side of the tunnel, looking down the next valley.",
+      "id": "far-gate",
+      "name": "Far Side Gate"
+    },
+    {
+      "at": [
+        620,
+        -1520
+      ],
+      "blurb": "A broad snowfield below the summit traverse, where the survey route runs.",
+      "id": "snowfield",
+      "name": "High Snowfield"
+    },
+    {
+      "at": [
+        -1700,
+        1000
+      ],
+      "blurb": "An open meadow west of the plant where the valley trail loops.",
+      "id": "meadow",
+      "name": "Valley Meadow"
+    }
+  ],
+  "SM_LOD_SEGMENTS": [
+    48,
+    24,
+    12,
+    8
+  ],
+  "SM_MAIN_QUESTS": [
+    {
+      "giver": "the crew dispatcher",
+      "id": "sm-main-00-arrive",
+      "kind": "main",
+      "requires": null,
+      "reward": {
+        "badge": "Valley Walker",
+        "xp": 40
+      },
+      "site": "valley-base",
+      "steps": [
+        {
+          "target": "valley-base",
+          "text": "Check in at the valley base muster board.",
+          "type": "goto"
+        },
+        {
+          "target": "water-plant",
+          "text": "Walk up the valley road to the treatment plant.",
+          "type": "goto"
+        }
+      ],
+      "tier": 1,
+      "title": "Up the Valley"
+    },
+    {
+      "giver": "the plant's lead operator",
+      "id": "sm-main-01-water",
+      "kind": "main",
+      "requires": "sm-main-00-arrive",
+      "reward": {
+        "badge": "Plant Hand",
+        "xp": 60
+      },
+      "site": "water-plant",
+      "steps": [
+        {
+          "target": "chlorine-room",
+          "text": "Run the chlorine room changeout from the plant's job board.",
+          "type": "station"
+        }
+      ],
+      "tier": 1,
+      "title": "Water Before Anything"
+    },
+    {
+      "giver": "the dam's plant supervisor",
+      "id": "sm-main-02-dam",
+      "kind": "main",
+      "requires": "sm-main-01-water",
+      "reward": {
+        "badge": "Dam Crew",
+        "xp": 80
+      },
+      "site": "dam",
+      "steps": [
+        {
+          "target": "dam",
+          "text": "Follow the service road up to the dam.",
+          "type": "goto"
+        },
+        {
+          "target": "uw-intake-screen-cleaning-with-lockout",
+          "text": "Lock out the intake before the screen is cleaned.",
+          "type": "station"
+        }
+      ],
+      "tier": 2,
+      "title": "Behind the Wall"
+    },
+    {
+      "giver": "the duty ranger",
+      "id": "sm-main-03-ranger",
+      "kind": "main",
+      "requires": "sm-main-02-dam",
+      "reward": {
+        "badge": "Lookout",
+        "xp": 80
+      },
+      "site": "ranger-station",
+      "steps": [
+        {
+          "target": "ranger-station",
+          "text": "Sign the trail register at the ranger station.",
+          "type": "goto"
+        },
+        {
+          "target": "west-lookout",
+          "text": "Hike to the West Ridge Lookout.",
+          "type": "goto"
+        }
+      ],
+      "tier": 2,
+      "title": "The Trail Register"
+    },
+    {
+      "giver": "the road crew foreman",
+      "id": "sm-main-04-road",
+      "kind": "main",
+      "requires": "sm-main-03-ranger",
+      "reward": {
+        "badge": "Pass Crew",
+        "xp": 100
+      },
+      "site": "pass-road",
+      "steps": [
+        {
+          "target": "pass-road",
+          "text": "Report to the pass road crew yard.",
+          "type": "goto"
+        },
+        {
+          "target": "drive-mountain-grade-and-engine-brake",
+          "text": "Take the mountain grade the way the sign says.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Keep the Pass Open"
+    },
+    {
+      "giver": "the portal's heading boss",
+      "id": "sm-main-05-tunnel",
+      "kind": "main",
+      "requires": "sm-main-04-road",
+      "reward": {
+        "badge": "Portal Crew",
+        "xp": 100
+      },
+      "site": "tunnel-portal",
+      "steps": [
+        {
+          "target": "tunnel-portal",
+          "text": "Drive or walk up to the tunnel portal.",
+          "type": "goto"
+        },
+        {
+          "target": "cm-shotcrete-nozzle-and-rebound",
+          "text": "Clear the crew and shoot the portal face.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Under the Ridge"
+    },
+    {
+      "giver": "the substation's switching operator",
+      "id": "sm-main-06-lines",
+      "kind": "main",
+      "requires": "sm-main-05-tunnel",
+      "reward": {
+        "badge": "Ridge Crew",
+        "xp": 120
+      },
+      "site": "substation",
+      "steps": [
+        {
+          "target": "substation-switching",
+          "text": "Switch the substation with an order and a read-back.",
+          "type": "station"
+        },
+        {
+          "target": "ridge-line",
+          "text": "Climb to the ridge line crew's pad.",
+          "type": "goto"
+        }
+      ],
+      "tier": 4,
+      "title": "Power Off the Ridge"
+    },
+    {
+      "giver": "the lift's lead mechanic",
+      "id": "sm-main-07-gondola",
+      "kind": "main",
+      "requires": "sm-main-06-lines",
+      "reward": {
+        "badge": "Lift Crew",
+        "xp": 120
+      },
+      "site": "gondola-shop",
+      "steps": [
+        {
+          "target": "ew-machine-room-lockout-and-brake-test",
+          "text": "Lock out the drive and test the brake.",
+          "type": "station"
+        }
+      ],
+      "tier": 4,
+      "title": "The Lift Before the Guests"
+    },
+    {
+      "giver": "the whole mountain",
+      "id": "sm-main-08-summit",
+      "kind": "main",
+      "requires": "sm-main-07-gondola",
+      "reward": {
+        "badge": "Sierra Summit",
+        "xp": 200
+      },
+      "site": "summit-lookout",
+      "steps": [
+        {
+          "target": "summit-lookout",
+          "text": "Stand at the summit lookout and pick out every site you worked.",
+          "type": "goto"
+        }
+      ],
+      "tier": 5,
+      "title": "Every Site From the Top"
+    }
+  ],
+  "SM_PASS_ROAD": [
+    [
+      -1950,
+      1850
+    ],
+    [
+      -1500,
+      1450
+    ],
+    [
+      -1100,
+      1150
+    ],
+    [
+      -500,
+      950
+    ],
+    [
+      0,
+      700
+    ],
+    [
+      300,
+      300
+    ],
+    [
+      450,
+      -150
+    ],
+    [
+      600,
+      -560
+    ],
+    [
+      900,
+      -900
+    ],
+    [
+      1400,
+      -1300
+    ],
+    [
+      1950,
+      -1850
+    ]
+  ],
+  "SM_PENSTOCK": [
+    [
+      -640,
+      360
+    ],
+    [
+      -560,
+      760
+    ]
+  ],
+  "SM_ROAD_PROFILE": [
+    [
+      0,
+      150
+    ],
+    [
+      0.28,
+      190
+    ],
+    [
+      0.45,
+      330
+    ],
+    [
+      0.62,
+      560
+    ],
+    [
+      0.7,
+      600
+    ],
+    [
+      0.8,
+      600
+    ],
+    [
+      0.9,
+      520
+    ],
+    [
+      1,
+      430
+    ]
+  ],
+  "SM_SCREE": 640,
+  "SM_SEED": 4417,
+  "SM_SERVICE_ROAD": [
+    [
+      -1100,
+      1150
+    ],
+    [
+      -1050,
+      1050
+    ],
+    [
+      -760,
+      520
+    ],
+    [
+      -1230,
+      290
+    ],
+    [
+      -760,
+      520
+    ],
+    [
+      -260,
+      -240
+    ]
+  ],
+  "SM_SIDE_QUESTS": [
+    {
+      "gate": {
+        "note": "Rubber goods and the tailboard first: finish the line truck station.",
+        "stations": [
+          "line-truck"
+        ]
+      },
+      "giver": "the line crew foreman",
+      "id": "sm-side-night-patrol",
+      "kind": "side",
+      "requires": null,
+      "reward": {
+        "badge": "Night Patrol",
+        "cosmetic": "reflective-vest-stripe",
+        "xp": 90
+      },
+      "site": "ridge-line",
+      "steps": [
+        {
+          "target": "ridge-line",
+          "text": "Walk the ridge towers at dusk with the patrol log.",
+          "type": "goto"
+        },
+        {
+          "target": "or-transmission-line-right-of-way-patrol",
+          "text": "Patrol the right-of-way.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Night Patrol on the Ridge"
+    },
+    {
+      "gate": {
+        "note": "Lockout and the brake test come before any rescue drill on the lift.",
+        "stations": [
+          "ew-machine-room-lockout-and-brake-test"
+        ]
+      },
+      "giver": "the lift's rescue lead",
+      "id": "sm-side-cabin-rescue",
+      "kind": "side",
+      "requires": null,
+      "reward": {
+        "badge": "Rescue Ready",
+        "cosmetic": "helmet-sticker-cabin",
+        "xp": 90
+      },
+      "site": "gondola-shop",
+      "steps": [
+        {
+          "target": "ew-elevator-entrapment-and-rescue-with-fire-service",
+          "text": "Run the entrapment and rescue drill with the fire service.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Cabin Rescue Drill"
+    },
+    {
+      "gate": {
+        "note": "Set a taper the way the plan calculates it before winter traffic control.",
+        "stations": [
+          "traffic-incident-management"
+        ]
+      },
+      "giver": "the road crew foreman",
+      "id": "sm-side-avalanche-control",
+      "kind": "side",
+      "requires": null,
+      "reward": {
+        "badge": "Winter Road",
+        "cosmetic": "beanie-orange",
+        "xp": 90
+      },
+      "site": "pass-road",
+      "steps": [
+        {
+          "target": "avalanche-gallery",
+          "text": "Walk to the chute sign where the winter plan starts.",
+          "type": "goto"
+        },
+        {
+          "target": "gk-storm-cleanup-chipper-and-traffic-control",
+          "text": "Clear storm debris behind a proper work zone.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Avalanche-Season Traffic Control"
+    },
+    {
+      "gate": {
+        "note": "Lockout at the intake and a witnessed hydrotest before the penstock walk.",
+        "stations": [
+          "uw-intake-screen-cleaning-with-lockout",
+          "ib-hydrostatic-test-and-inspector-witness"
+        ]
+      },
+      "giver": "the dam's plant supervisor",
+      "id": "sm-side-penstock-walk",
+      "kind": "side",
+      "requires": null,
+      "reward": {
+        "badge": "Penstock Walker",
+        "cosmetic": "gloves-blue",
+        "xp": 100
+      },
+      "site": "dam",
+      "steps": [
+        {
+          "target": "powerhouse",
+          "text": "Walk the penstock down to the powerhouse.",
+          "type": "goto"
+        },
+        {
+          "target": "confined-rescue",
+          "text": "Rehearse the confined-space rescue plan at the powerhouse.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Penstock Inspection Walk"
+    },
+    {
+      "gate": {
+        "note": "Fireline construction and lookouts first: the watch is a crew job.",
+        "stations": [
+          "or-wildland-fireline-construction-and-lookout"
+        ]
+      },
+      "giver": "the duty ranger",
+      "id": "sm-side-fire-lookout",
+      "kind": "side",
+      "requires": "sm-main-03-ranger",
+      "reward": {
+        "badge": "Fire Lookout",
+        "cosmetic": "bandana-green",
+        "xp": 90
+      },
+      "site": "ranger-station",
+      "steps": [
+        {
+          "target": "west-lookout",
+          "text": "Take the watch at the West Ridge Lookout.",
+          "type": "goto"
+        },
+        {
+          "target": "wildland-urban-interface",
+          "text": "Walk the wildland-urban interface plan with the engine crew.",
+          "type": "station"
+        }
+      ],
+      "tier": 2,
+      "title": "Fire Lookout Watch"
+    },
+    {
+      "gate": {
+        "note": "Verify the locate marks before any digging at the portal.",
+        "stations": [
+          "op-excavator-trench-and-utility-locate"
+        ]
+      },
+      "giver": "the portal's heading boss",
+      "id": "sm-side-portal-trench",
+      "kind": "side",
+      "requires": null,
+      "reward": {
+        "badge": "Portal Trench",
+        "cosmetic": "hardhat-decal-portal",
+        "xp": 90
+      },
+      "site": "tunnel-portal",
+      "steps": [
+        {
+          "target": "scaffold-erection",
+          "text": "Build the headwall scaffold on proper sills.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Utility Trench at the Portal"
+    },
+    {
+      "gate": {
+        "note": "Switching first; the label study builds on it.",
+        "programmes": [
+          {
+            "id": "electrical-first-period",
+            "minStars": 1
+          }
+        ],
+        "stations": [
+          "substation-switching"
+        ]
+      },
+      "giver": "the substation's switching operator",
+      "id": "sm-side-arc-labels",
+      "kind": "side",
+      "requires": null,
+      "reward": {
+        "badge": "Label Reader",
+        "cosmetic": "arc-hood-trim",
+        "xp": 90
+      },
+      "site": "substation",
+      "steps": [
+        {
+          "target": "arc-flash-label-study",
+          "text": "Walk the line-up and study every arc-flash label.",
+          "type": "station"
+        }
+      ],
+      "tier": 3,
+      "title": "Every Door Has a Label"
+    },
+    {
+      "gate": {
+        "k12": [
+          "k12-reading-instructions-and-safety-labels"
+        ],
+        "note": "The chlorine room and the safety-labels lesson before a chemical delivery.",
+        "stations": [
+          "chlorine-room"
+        ]
+      },
+      "giver": "the plant's lead operator",
+      "id": "sm-side-plant-delivery",
+      "kind": "side",
+      "requires": "sm-main-01-water",
+      "reward": {
+        "badge": "Delivery Hand",
+        "cosmetic": "apron-teal",
+        "xp": 80
+      },
+      "site": "water-plant",
+      "steps": [
+        {
+          "target": "ut-water-treatment-chemical-delivery-unloading",
+          "text": "Receive and unload the chemical delivery.",
+          "type": "station"
+        }
+      ],
+      "tier": 2,
+      "title": "The Morning Delivery"
+    }
+  ],
+  "SM_SITES": [
+    {
+      "at": [
+        -1500,
+        1450
+      ],
+      "blurb": "The trailhead car park and crew muster point at the foot of the pass road, where every visit starts.",
+      "id": "valley-base",
+      "name": "Valley Base",
+      "pad": 70,
+      "stations": [],
+      "zone": "valley"
+    },
+    {
+      "at": [
+        -1050,
+        1050
+      ],
+      "blurb": "The plant below the dam that turns reservoir water into drinking water: chemical deliveries, the chlorine room and the lift station.",
+      "id": "water-plant",
+      "name": "Valley Water Treatment Plant",
+      "pad": 70,
+      "stations": [
+        "chlorine-room",
+        "ut-water-treatment-chemical-delivery-unloading",
+        "lift-station",
+        "k12-water-cycle-and-filtration"
+      ],
+      "trade": "Water treatment plant operators",
+      "zone": "valley"
+    },
+    {
+      "at": [
+        -760,
+        520
+      ],
+      "blurb": "The concrete dam holding the reservoir, its intake and the steel penstock running down to the powerhouse.",
+      "id": "dam",
+      "name": "Hydroelectric Dam & Penstock",
+      "pad": 60,
+      "stations": [
+        "ib-pressure-vessel-confined-entry-and-hot-work",
+        "confined-rescue",
+        "uw-intake-screen-cleaning-with-lockout",
+        "ib-hydrostatic-test-and-inspector-witness"
+      ],
+      "trade": "Boilermakers, divers and plant operators",
+      "zone": "reservoir"
+    },
+    {
+      "at": [
+        -1230,
+        290
+      ],
+      "blurb": "The ranger station at the lake's west shore, the trail register and the start of the lookout trail.",
+      "id": "ranger-station",
+      "name": "Ranger Station & Trailhead",
+      "pad": 55,
+      "stations": [
+        "or-wildland-fireline-construction-and-lookout",
+        "wildland-urban-interface",
+        "gk-chainsaw-start-and-limbing-on-the-ground",
+        "psychological-first-aid",
+        "k12-first-aid-awareness-call-for-help"
+      ],
+      "trade": "Wildland firefighters and trail crews",
+      "zone": "reservoir"
+    },
+    {
+      "at": [
+        0,
+        700
+      ],
+      "blurb": "The road crew's yard on the climb to the pass: grading, culverts, storm clean-up and the avalanche-season traffic control the plan calls for.",
+      "id": "pass-road",
+      "name": "Pass Road Crew Yard",
+      "pad": 60,
+      "stations": [
+        "drive-mountain-grade-and-engine-brake",
+        "gk-storm-cleanup-chipper-and-traffic-control",
+        "traffic-incident-management",
+        "or-ranch-road-grading-and-culvert",
+        "op-compactor-lift-thickness-and-edge"
+      ],
+      "trade": "Operating engineers, drivers and traffic control",
+      "zone": "pass"
+    },
+    {
+      "at": [
+        600,
+        -560
+      ],
+      "blurb": "The portal where the pass road goes under the ridge: shotcrete on the portal face, a utility trench and the scaffold at the headwall.",
+      "id": "tunnel-portal",
+      "name": "Pass Tunnel Portal",
+      "pad": 55,
+      "stations": [
+        "cm-shotcrete-nozzle-and-rebound",
+        "op-excavator-trench-and-utility-locate",
+        "scaffold-erection"
+      ],
+      "trade": "Tunnel and heavy civil crews",
+      "zone": "pass"
+    },
+    {
+      "at": [
+        -240,
+        -300
+      ],
+      "blurb": "The bottom station's shop: the drive room, the haul-rope brakes and the cabin-rescue drill, run the way the lift's own plan sets out.",
+      "id": "gondola-shop",
+      "name": "Gondola Maintenance Shop",
+      "pad": 55,
+      "stations": [
+        "ew-machine-room-lockout-and-brake-test",
+        "ew-elevator-entrapment-and-rescue-with-fire-service",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "trade": "Lift mechanics and riggers",
+      "zone": "pass"
+    },
+    {
+      "at": [
+        1050,
+        420
+      ],
+      "blurb": "The fenced substation where the ridge line lands: switching orders, read-backs and every door's arc-flash label.",
+      "id": "substation",
+      "name": "Ridge Substation",
+      "pad": 60,
+      "stations": [
+        "substation-switching",
+        "arc-flash-label-study"
+      ],
+      "trade": "Substation electricians",
+      "zone": "ridge"
+    },
+    {
+      "at": [
+        1480,
+        -560
+      ],
+      "blurb": "The line crew's staging pad under the ridge towers: right-of-way patrol, rubber goods, the climb and the rescue plan.",
+      "id": "ridge-line",
+      "name": "Transmission Ridge Line Crew",
+      "pad": 50,
+      "stations": [
+        "line-truck",
+        "or-transmission-line-right-of-way-patrol",
+        "tower-climb",
+        "fp-anchor-selection-and-rescue-plan"
+      ],
+      "trade": "Outside lineworkers and tower climbers",
+      "zone": "ridge"
+    }
+  ],
+  "SM_SIZE": 4096,
+  "SM_SNOWLINE": 900,
+  "SM_STREAM_RADIUS": {
+    "balanced": 3,
+    "high": 3,
+    "low": 2
+  },
+  "SM_TRAILS": [
+    {
+      "id": "lookout-trail",
+      "name": "West Ridge Lookout Trail",
+      "pts": [
+        [
+          -1230,
+          290
+        ],
+        [
+          -1300,
+          100
+        ],
+        [
+          -1380,
+          -150
+        ],
+        [
+          -1450,
+          -400
+        ],
+        [
+          -1510,
+          -690
+        ]
+      ]
+    },
+    {
+      "id": "lakeshore-trail",
+      "name": "Lakeshore Trail",
+      "pts": [
+        [
+          -1230,
+          290
+        ],
+        [
+          -1120,
+          120
+        ],
+        [
+          -1110,
+          -260
+        ],
+        [
+          -800,
+          -480
+        ],
+        [
+          -420,
+          -380
+        ],
+        [
+          -260,
+          -240
+        ]
+      ]
+    },
+    {
+      "id": "summit-traverse",
+      "name": "Summit Traverse",
+      "pts": [
+        [
+          160,
+          -1150
+        ],
+        [
+          250,
+          -1350
+        ],
+        [
+          520,
+          -1480
+        ],
+        [
+          820,
+          -1560
+        ]
+      ]
+    }
+  ],
+  "SM_TRANSMISSION": [
+    [
+      1050,
+      420
+    ],
+    [
+      1300,
+      -100
+    ],
+    [
+      1480,
+      -560
+    ],
+    [
+      1650,
+      -1100
+    ],
+    [
+      1820,
+      -1700
+    ]
+  ],
+  "SM_TREELINE": 760,
+  "SM_TREES_PER_CHUNK": 200,
+  "SM_TREE_RADIUS": {
+    "balanced": 2,
+    "high": 2,
+    "low": 1
+  },
+  "SM_TUNNEL_SPAN": [
+    0.7,
+    0.8
+  ],
+  "SM_WATER_LEVEL": 369,
+  "SM_ZONES": [
+    {
+      "blurb": "Meadow and pine at the foot of the pass, the treatment plant and the valley base.",
+      "centre": [
+        -1300,
+        1300
+      ],
+      "id": "valley",
+      "name": "The Valley Floor"
+    },
+    {
+      "blurb": "The lake behind the dam, its shoreline trail and the ranger station.",
+      "centre": [
+        -900,
+        200
+      ],
+      "id": "reservoir",
+      "name": "The Reservoir"
+    },
+    {
+      "blurb": "The pass road's switchbacks, the crew yard and the tunnel under the ridge.",
+      "centre": [
+        350,
+        -50
+      ],
+      "id": "pass",
+      "name": "The Pass"
+    },
+    {
+      "blurb": "Scree and snowfields above the treeline, the gondola and the summit lookout.",
+      "centre": [
+        100,
+        -1100
+      ],
+      "id": "summit",
+      "name": "The High Summit"
+    },
+    {
+      "blurb": "The long eastern ridge the transmission line follows down to the substation.",
+      "centre": [
+        1400,
+        -300
+      ],
+      "id": "ridge",
+      "name": "The Transmission Ridge"
+    }
+  ],
+  "id": "summit",
+  "schema": "smartcitix.world/1",
+  "source": "WebXR/shared/summit-data.js"
+}

@@ -107,6 +107,7 @@ async function build() {
   const bw = await imp("WebXR/shared/bayworld-data.js");
   const dw = await imp("WebXR/shared/underwater-data.js");
   const fw = await imp("WebXR/shared/fairway-data.js");
+  const sw = await imp("WebXR/shared/summit-data.js");
   const rg = await imp("WebXR/regatta/js/courses.js");
   const siteText = (site, world, zones) => {
     const zone = zones.find((z) => z.id === site.zone)?.name ?? site.zone;
@@ -117,6 +118,7 @@ async function build() {
   const worlds = [
     { key: "bayworld", name: "Bay World", page: "bayworld.html", zones: bw.BAY_ZONES, landmarks: bw.BAY_LANDMARKS, sites: bw.BAY_SITES, src: "WebXR/shared/bayworld-data.js" },
     { key: "underwater", name: "The Deep", page: "underwater.html", zones: dw.DEEP_ZONES, landmarks: dw.DEEP_LANDMARKS, sites: dw.DEEP_SITES, src: "WebXR/shared/underwater-data.js" },
+    { key: "summit", name: "Sierra Summit", page: "summit.html", zones: sw.SM_ZONES, landmarks: sw.SM_LANDMARKS, sites: sw.SM_SITES, src: "WebXR/shared/summit-data.js" },
   ];
   for (const w of worlds) {
     add({ id: `world:${w.key}`, kind: "world", title: w.name, src: w.src,
