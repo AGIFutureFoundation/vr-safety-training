@@ -114,7 +114,7 @@ export const WF_APPS = [
     desc: "A four-kilometre coastal forest: a river valley, fire roads, a lookout, a sawmill and a wildland fire station, with job boards that open real stations." },
   { out: "parishes.html", dir: "parishes", index: "parishes.html", og: "og/home.jpg",
     title: "New Orleans Parishes — Delta Worlds With Work Sites",
-    desc: "Streamed four-kilometre parish worlds on the delta: the river's bend, the lake shore, levees, canals and wetlands, with job boards that open real training stations by trade." },
+    desc: "Four-kilometre parish worlds on the delta: the river's bend, the lake shore, levees, canals and wetlands, with job boards that open real training stations." },
   { out: "treasures.html", dir: ".", index: "treasures.html", og: "og/treasures.jpg",
     title: "Treasure Map — Hidden Finds Across the Platform",
     desc: "How many treasures you have found in each world and area, never where the unfound ones are. Each find teaches a line from a union, a standard or a station." },
