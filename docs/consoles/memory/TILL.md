@@ -24,5 +24,16 @@ Short, durable lessons for the next team at this console (enterprise seat billin
   with `pmAgentEvents()` on the sample.
 - **Console pages set no markup from strings** (`check_console` greps the sinks in `instructor/js/*.js`). The invoice is
   an SVG *string* handed to a Blob download.
+- **A null policy number must stay null.** `Number(null)` is `0`, so a naive integer cleaner turned "no threshold"
+  into "queue everything" and would have turned "no ceiling" into "refuse everything". Treat null/undefined/"" as unset
+  before `Number()`.
+- **The console's `select{flex:0 1 240px}` inside a column-flex field makes the select 240 px *tall*.** Give a field's
+  controls `flex:0 0 auto;height:auto` in the tab's own CSS.
+- **The DOM-stub selector in the checkers handled only two-part chains** (`a b`); `#table tbody tr` also matched the
+  header row. check_payments' stub walks any length; check_enterprise's still does not.
+- **A stubbed `<select>` has no default value**; a real one selects its first option. `pmSelect` sets it explicitly.
+- **`check_enterprise` check 8 (headless Chromium, the flat build's homepage language) failed on the coordinator's tree
+  before TILL touched anything** — it reads `WebXR/dist/index.html`, which TILL never rebuilt. Re-run it alone after a
+  full bundle before blaming a change.
 - **Bundler order for the instructor app**: org.js → cohort.js → payments.js → pm-agent.js → billing.js → auth.js →
   account.js → controls.js → app.js. `python3 tools/bundle_webxr.py instructor` rebuilds only that dist.

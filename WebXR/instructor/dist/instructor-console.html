@@ -17709,7 +17709,8 @@ function pmRender(root = pmState.root) {
 
 const PM_CSS = `
 #view-billing .pm-field{display:inline-flex;flex-direction:column;gap:3px;font-size:12px}
-#view-billing .pm-field input,#view-billing .pm-field select{min-width:120px}
+#view-billing .pm-field input,#view-billing .pm-field select{min-width:120px;flex:0 0 auto;height:auto}
+#view-billing .pm-field select{max-width:320px}
 #view-billing .pm-scroll{overflow:auto;max-width:100%}
 #view-billing .int.pm-refuse,#view-billing .int.pm-deny{border-left:3px solid var(--bad)}
 #view-billing .int.pm-queue,#view-billing .int.pm-queued{border-left:3px solid var(--warn)}
