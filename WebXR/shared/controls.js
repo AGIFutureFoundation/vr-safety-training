@@ -87,7 +87,8 @@ const ctlCss = `
 #ctl-help .ctl-close{float:right;min-width:44px;min-height:44px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 15px system-ui,sans-serif;cursor:pointer;padding:0 12px}
 @media (max-width:560px){#ctl-help .ctl-hide-phone{display:none}#ctl-help .ctl-panel{padding:12px}}
 @media (max-width:480px){
-  #ctl-nav{top:calc(6px + env(safe-area-inset-top,0px));left:8px}
+  #ctl-nav{top:calc(6px + env(safe-area-inset-top,0px));left:8px;max-width:calc(100vw - 16px)}
+  #ctl-nav > *{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
 }
