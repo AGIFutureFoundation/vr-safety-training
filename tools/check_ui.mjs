@@ -32,7 +32,7 @@ const VERBS = ["move", "look", "interact", "map", "view", "menu", "help", "quali
 // Each page: how to get into it, and the fixed panels that must not overlap
 // (the Home/help bar is always added).
 const PAGES_ALL = [
-  { name: "Home", page: "index.html", home: false, panels: [] },
+  { name: "Home", page: "index.html", panels: [] },
   { name: "SmartCiti.X", page: "smartcity-x.html", panels: [] },
   { name: "Trade Skills", page: "trade-skills-simulator.html", panels: [] },
   { name: "Holodeck", page: "holodeck.html", panels: [] },
@@ -243,6 +243,22 @@ for (const pg of PAGES) {
       await page.waitForTimeout(100);
       const back = await page.evaluate(() => ({ closed: document.getElementById("ctl-help").hidden, focus: document.activeElement?.id }));
       check(back.closed && back.focus === "ctl-help-btn", `${tag}: the ? button opens the overlay and focus returns to it`, JSON.stringify(back));
+      // Home and the Guide in the same places on every page, and exactly one
+      // sign-in entry — the account chip in the top-left bar (console POLISH).
+      const chrome = await page.evaluate(() => {
+        const vis = (el) => { if (!el) return false; const cs = getComputedStyle(el); const r = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && r.width > 1 && r.height > 1; };
+        const nav = document.getElementById("ctl-nav");
+        const chip = nav?.querySelector(".home-chip");
+        const gd = document.getElementById("gd-btn");
+        const signIns = [...document.querySelectorAll("button, a[href], [role=button]")].filter((el) => vis(el) && (el.id === "gt-account" || /^\s*sign[ -]?in\s*$/i.test(el.textContent)));
+        const cr = chip?.getBoundingClientRect(), gr = gd?.getBoundingClientRect();
+        return { chip: vis(chip), chipTopLeft: !!cr && cr.left < 40 && cr.top < 40, guide: vis(gd), guideDocked: !!gr && (gd.dataset.side === "right" || gd.dataset.side === "left") && (gr.left <= 24 || gr.right >= innerWidth - 24),
+          signIns: signIns.map((el) => el.id || el.textContent.trim()), signInInNav: signIns.length === 1 && !!nav?.contains(signIns[0]) };
+      });
+      rec.chrome = chrome;
+      check(chrome.chip && chrome.chipTopLeft, `${tag}: the Home chip is in the top-left bar`, JSON.stringify(chrome));
+      check(chrome.guide && chrome.guideDocked, `${tag}: the Guide button is docked at a side edge (guide.js placement)`, JSON.stringify(chrome));
+      check(chrome.signInInNav, `${tag}: exactly one sign-in entry, the account chip in the top-left bar`, chrome.signIns.join(", "));
       // Names, phone text size, fixed-panel overlap.
       const m = await page.evaluate(probe, { panels: pg.panels, phone: size.phone });
       rec.buttons = m.buttons; rec.unnamed = m.unnamed; rec.small = m.small; rec.contrast = m.contrast;
