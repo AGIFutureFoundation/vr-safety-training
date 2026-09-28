@@ -148,15 +148,20 @@ for (const it of items) {
     globalThis.localStorage.setItem("vr-training-records-v1", JSON.stringify(records.filter((r) => r.simId !== (req[0] ?? records[0].simId))));
     if (G.qmIsOpen(it.gate, G.qmSnapshot()) && req.length) fail("locked", `${where}: opens with one required station missing`); else ok();
   }
-  // safe-practice scoring and a cosmetic reward
-  if (!it.reward?.cosmetic) fail("reward", `${where}: no cosmetic reward`); else ok();
-  const prac = it.practices ?? [];
-  if (prac.length < 3) fail("scoring", `${where}: fewer than three safe-practice calls`); else ok();
-  for (const k of prac) if (!SG.QM_SAFE_PRACTICES[k]) fail("scoring", `${where}: unknown practice "${k}"`);
-  if (prac.every((k) => SG.QM_SAFE_PRACTICES[k])) {
-    const rounds = SG.qmRounds(it);
-    if (!rounds.every((r) => r.options.filter((o) => o.safe).length === 1 && r.options.length === 2)) fail("scoring", `${where}: a round without exactly one safe call`); else ok();
-  }
+  // safe-practice scoring and a cosmetic reward: the side games' contract.
+  // Gated quests, eggs and treasures from other worlds (Summit, Redwood,
+  // TREASURE) share only the gate; they are not scored games.
+  const isGame = it.kind === "side-game" || it.practices !== undefined || it.reward !== undefined;
+  if (isGame) {
+    if (!it.reward?.cosmetic) fail("reward", `${where}: no cosmetic reward`); else ok();
+    const prac = it.practices ?? [];
+    if (prac.length < 3) fail("scoring", `${where}: fewer than three safe-practice calls`); else ok();
+    for (const k of prac) if (!SG.QM_SAFE_PRACTICES[k]) fail("scoring", `${where}: unknown practice "${k}"`);
+    if (prac.every((k) => SG.QM_SAFE_PRACTICES[k])) {
+      const rounds = SG.qmRounds(it);
+      if (!rounds.every((r) => r.options.filter((o) => o.safe).length === 1 && r.options.length === 2)) fail("scoring", `${where}: a round without exactly one safe call`); else ok();
+    }
+  } else ok();
   const text = [it.title, it.summary, it.gate.note, it.reward?.cosmetic, ...(it.steps ?? []).map((s) => s.text)].filter(Boolean).join(" ");
   if (BANNED.test(text)) fail("tone", `${where}: banned wording "${text.match(BANNED)[0]}"`); else ok();
 }

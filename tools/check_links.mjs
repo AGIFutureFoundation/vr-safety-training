@@ -336,7 +336,7 @@ async function lkAssertChrome(label) {
  * and its content. No page error either way; Home and the Guide on both.
  */
 const LK_DOC_PAGES = /(^|\/)(index\.html|tracks\/[^/]+\.html|portal\/index\.html|verify\/index\.html|instructor-console\.html|instructor\/index\.html|campus\/index\.html)$/;
-const LK_WORLD_START = [[/bayworld(\/index)?\.html$/, ["#menu-start"]], [/underwater\.html$/, ["#menu-start"]], [/fairway(\/index)?\.html$/, ["#menu-play"]], [/regatta\.html$/, ["#menu-enter", "#menu-race"]], [/summit(\/index)?\.html$/, ["#menu-start"]]];
+const LK_WORLD_START = [[/bayworld(\/index)?\.html$/, ["#menu-start"]], [/underwater\.html$/, ["#menu-start"]], [/fairway(\/index)?\.html$/, ["#menu-play"]], [/regatta\.html$/, ["#menu-enter", "#menu-race"]], [/summit(\/index)?\.html$/, ["#menu-start"]], [/redwood(\/redwood)?\.html$/, ["#menu-start"]]];
 async function lkRendersEnvironment(href) {
   const u = new URL(href);
   const label = short(href);

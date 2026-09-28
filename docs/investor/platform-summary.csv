@@ -1,6 +1,6 @@
 key,value,source
-procedures,671,WebXR/smartcity/catalog.json stations.length
-smartcityStations,662,WebXR/smartcity/catalog.json stations where app = smartcity
+procedures,685,WebXR/smartcity/catalog.json stations.length
+smartcityStations,676,WebXR/smartcity/catalog.json stations where app = smartcity
 tradeSkillsRooms,9,WebXR/smartcity/catalog.json stations where app = trades
 programmes,60,WebXR/smartcity/js/curricula.js CURRICULA.length
 categories,20,WebXR/smartcity/catalog.json categories.length
@@ -12,8 +12,8 @@ programmeCompetencies,60,WebXR/shared/competency.js PROGRAMME_COMPETENCIES.lengt
 coreCompetencies,10,WebXR/shared/competency.js CORE_COMPETENCIES.length
 profileLevels,33,WebXR/smartcity/catalog.json profile.levels
 programmeLadderLevels,1200,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
-programmeLadderLevelsFull,1119,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
-checkers,69,tools/check_all.mjs CHECKERS array
+programmeLadderLevelsFull,1199,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
+checkers,72,tools/check_all.mjs CHECKERS array
 evalProceduresScored,641,tools/eval-content.json results.length
 evalCorpusMean,95.8,tools/eval-content.json mean of results[].score
 evalBand95plus,521,tools/eval-content.json results with score >= 95
@@ -47,4 +47,4 @@ unityModels.equipment,45,exports/unity/SmartCitiX/Models/MANIFEST.json entries w
 unityModels.fleet,32,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = fleet
 unityModels.toolkit,22,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = toolkit
 unityExportBytes,7445344,exports/unity/SmartCitiX/Models/MANIFEST.json bytes
-uiPages,73,ls WebXR/dist/*.html WebXR/dist/tracks/*.html
+uiPages,75,ls WebXR/dist/*.html WebXR/dist/tracks/*.html

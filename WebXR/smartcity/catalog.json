@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 662
+      "stations": 676
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,20 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-teamwork-and-feedback",
+        "k12-digital-citizenship-and-online-safety",
+        "k12-public-speaking-at-the-hall",
+        "k12-map-literacy-across-eras",
+        "k12-guilds-and-the-history-of-work",
+        "k12-oral-history-interview-skills",
+        "k12-a-controlled-experiment",
+        "k12-simple-machines-at-a-crane",
+        "k12-weather-and-the-sky",
+        "k12-ecosystems-at-the-kelp-transect",
+        "k12-geometry-of-a-turbine-blade-sweep",
+        "k12-probability-with-a-fair-spinner",
+        "k12-graphing-tide-readings-at-the-pier",
+        "k12-slope-and-angles-on-a-ramp",
         "k12-energy-transfer-at-the-wind-farm",
         "k12-fractions-in-the-kitchen",
         "k12-first-aid-awareness-call-for-help",
@@ -5625,16 +5639,36 @@
           "app": "smartcity",
           "id": "k12-fractions-in-the-kitchen",
           "why": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-slope-and-angles-on-a-ramp",
+          "why": "Slope as rise over run on an access ramp at a working site, matched units, the run measured flat and the answer checked against the plan's own limit."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-graphing-tide-readings-at-the-pier",
+          "why": "A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for their pattern without guessing past the data."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-probability-with-a-fair-spinner",
+          "why": "Chance as a fraction of equal parts, a prediction written before the spins and a long tally compared with it, with a spinner that has no memory and stickers as the only prize."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-geometry-of-a-turbine-blade-sweep",
+          "why": "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1040,
-        "tasks": 80,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1560,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -5669,16 +5703,36 @@
           "app": "smartcity",
           "id": "k12-energy-transfer-at-the-wind-farm",
           "why": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-ecosystems-at-the-kelp-transect",
+          "why": "Producers, consumers and decomposers found on a live transect from the tender's deck, a food web built only from what the camera showed, arrows following the energy."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-weather-and-the-sky",
+          "why": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-simple-machines-at-a-crane",
+          "why": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-a-controlled-experiment",
+          "why": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1040,
-        "tasks": 80,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1560,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -5708,16 +5762,31 @@
           "app": "smartcity",
           "id": "k12-how-a-local-council-meeting-works",
           "why": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-oral-history-interview-skills",
+          "why": "Oral history as method: consent before recording, open questions and patient pauses, the interviewee's wellbeing first, and a memory weighed as a source like any other."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-guilds-and-the-history-of-work",
+          "why": "The history of work told only as widely established general facts about guilds, with everything else turned into research questions and every claim traced to a source."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-map-literacy-across-eras",
+          "why": "Fictional maps from different eras read for key, scale and orientation, their makers' purposes asked and the changes between them explained rather than dismissed."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 780,
-        "tasks": 60,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 3,
+        "lessons": 1560,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -5747,16 +5816,31 @@
           "app": "smartcity",
           "id": "k12-first-aid-awareness-call-for-help",
           "why": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-public-speaking-at-the-hall",
+          "why": "A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and nerves handled, with the stage edge respected."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-digital-citizenship-and-online-safety",
+          "why": "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-teamwork-and-feedback",
+          "why": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 780,
-        "tasks": 60,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 3,
+        "lessons": 1560,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9879,6 +9963,1168 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-teamwork-and-feedback",
+      "name": "Teamwork and Feedback",
+      "title": "SmartCiti.X~ Teamwork and Feedback VR",
+      "tagline": "Specific, kind and useful — give feedback on the work, never the person",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Life-skills class at the arena's team room — learner and team coach",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a6ad0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "team-player",
+        "name": "Team Player",
+        "note": "Roles agreed, feedback given specific and kind, received without defending and a disagreement settled fairly"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "828",
+      "flat": false,
+      "system": "Team Board",
+      "currency": "ASSISTS",
+      "ranks": [
+        "Newcomer",
+        "Teammate",
+        "Supporter",
+        "Captain",
+        "Coach"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-teamwork-and-feedback"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-digital-citizenship-and-online-safety",
+      "name": "Digital Citizenship and Online Safety",
+      "title": "SmartCiti.X~ Digital Citizenship and Online Safety VR",
+      "tagline": "Pause before you click, share or post — and tell a trusted adult when something feels wrong",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Life-skills class in the community college's computer lab — learner and digital skills tutor",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a6ad0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "pause-and-check",
+        "name": "Pause and Check",
+        "note": "A strong passphrase set, a scam spotted, a claim checked before sharing and a trusted adult told"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "827",
+      "flat": false,
+      "system": "Safety Board",
+      "currency": "CHECKS",
+      "ranks": [
+        "Newcomer",
+        "Checker",
+        "Guardian",
+        "Mentor",
+        "Digital Citizen"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-digital-citizenship-and-online-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-public-speaking-at-the-hall",
+      "name": "Public Speaking at the Hall",
+      "title": "SmartCiti.X~ Public Speaking at the Hall VR",
+      "tagline": "One clear message, told so the back row hears it — and mind the stage edge",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Literacy class on the theatre's rehearsal stage — learner and stage manager",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a6ad0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "back-row",
+        "name": "Back Row",
+        "note": "A short talk planned around one message, spoken clearly to the back row and questions answered calmly"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "826",
+      "flat": false,
+      "system": "Stage Board",
+      "currency": "CUES",
+      "ranks": [
+        "Listener",
+        "Rehearser",
+        "Speaker",
+        "Presenter",
+        "Orator"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-public-speaking-at-the-hall"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-map-literacy-across-eras",
+      "name": "Map Literacy Across Eras",
+      "title": "SmartCiti.X~ Map Literacy Across Eras VR",
+      "tagline": "Every map was made by someone, for a reason — find the key, the scale and the north first",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the civic centre's archive room — learner and archivist",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "map-reader",
+        "name": "Map Reader",
+        "note": "Maps from different eras read for key, scale and orientation, their makers' purposes asked and changes compared"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "825",
+      "flat": false,
+      "system": "Map Board",
+      "currency": "MAPS",
+      "ranks": [
+        "Browser",
+        "Reader",
+        "Comparer",
+        "Map Historian",
+        "Archivist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-map-literacy-across-eras"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-guilds-and-the-history-of-work",
+      "name": "Guilds and the History of Work",
+      "title": "SmartCiti.X~ Guilds and the History of Work VR",
+      "tagline": "Say only what is widely established, turn the rest into questions — and cite where you found it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the union hall's library corner — learner and hall librarian",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "research-prompt",
+        "name": "Research Prompt",
+        "note": "General facts about guilds kept apart from open questions, each claim traced to a source and a research question written"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "824",
+      "flat": false,
+      "system": "Research Board",
+      "currency": "SOURCES",
+      "ranks": [
+        "Reader",
+        "Note-taker",
+        "Researcher",
+        "Writer",
+        "Historian"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-guilds-and-the-history-of-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-oral-history-interview-skills",
+      "name": "Oral History Interview Skills",
+      "title": "SmartCiti.X~ Oral History Interview Skills VR",
+      "tagline": "Ask consent, ask open questions, then listen — a memory is a source, not a verdict",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the union hall's meeting room — learner and oral history volunteer",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "careful-listener",
+        "name": "Careful Listener",
+        "note": "An interview recorded with consent, open questions and follow-ups, and the memory weighed as a source"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "823",
+      "flat": false,
+      "system": "Archive Board",
+      "currency": "STORIES",
+      "ranks": [
+        "Listener",
+        "Interviewer",
+        "Recorder",
+        "Archivist",
+        "Historian"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-oral-history-interview-skills"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-a-controlled-experiment",
+      "name": "A Controlled Experiment",
+      "title": "SmartCiti.X~ A Controlled Experiment VR",
+      "tagline": "Change one thing, keep the rest the same — and goggles on before anything is poured",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the lab campus's teaching lab — learner and lab technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "fair-test",
+        "name": "Fair Test",
+        "note": "A question turned into a fair test, one variable changed, the rest controlled, repeated and concluded only as far as the evidence goes"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "822",
+      "flat": false,
+      "system": "Lab Board",
+      "currency": "TRIALS",
+      "ranks": [
+        "Assistant",
+        "Observer",
+        "Tester",
+        "Investigator",
+        "Scientist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-a-controlled-experiment"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-simple-machines-at-a-crane",
+      "name": "Simple Machines at a Crane",
+      "title": "SmartCiti.X~ Simple Machines at a Crane VR",
+      "tagline": "A machine trades force for distance, never free work — and the load chart has the last word",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the container terminal's training room — learner and crane operator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "force-for-distance",
+        "name": "Force for Distance",
+        "note": "A crane's levers and pulleys explained, force traded for distance on the model and the load chart respected"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "821",
+      "flat": false,
+      "system": "Machine Board",
+      "currency": "LIFTS",
+      "ranks": [
+        "Visitor",
+        "Rigger's Helper",
+        "Tester",
+        "Explainer",
+        "Engineer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-simple-machines-at-a-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-weather-and-the-sky",
+      "name": "Weather and the Sky",
+      "title": "SmartCiti.X~ Weather and the Sky VR",
+      "tagline": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the shoreline field lab's weather station — learner and field technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "sky-reader",
+        "name": "Sky Reader",
+        "note": "Clouds, wind and the station's instruments read together, weather told apart from climate and a forecast stated as a likelihood"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "820",
+      "flat": false,
+      "system": "Sky Board",
+      "currency": "OBSERVATIONS",
+      "ranks": [
+        "Watcher",
+        "Observer",
+        "Recorder",
+        "Forecaster",
+        "Meteorologist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-weather-and-the-sky"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-ecosystems-at-the-kelp-transect",
+      "name": "Ecosystems at the Kelp Transect",
+      "title": "SmartCiti.X~ Ecosystems at the Kelp Transect VR",
+      "tagline": "Every living thing on the line eats or is eaten — and learners watch from the deck, never the water",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class on the survey tender, watching the kelp transect — learner and marine scientist",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "web-of-life",
+        "name": "Web of Life",
+        "note": "A kelp food web built from what the transect camera showed, with producers, consumers and decomposers named and the count kept honest"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "819",
+      "flat": false,
+      "system": "Transect Board",
+      "currency": "SIGHTINGS",
+      "ranks": [
+        "Spotter",
+        "Counter",
+        "Recorder",
+        "Ecologist",
+        "Marine Scientist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-geometry-of-a-turbine-blade-sweep",
+      "name": "Geometry of a Turbine's Blade Sweep",
+      "title": "SmartCiti.X~ Geometry of a Turbine's Blade Sweep VR",
+      "tagline": "The blade is the radius, the tip draws the circle — and visitors stay outside the fence",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the wind farm's visitor centre — learner and site technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "full-sweep",
+        "name": "Full Sweep",
+        "note": "A rotor's swept circle worked from its blade length, circumference and area kept apart and the answer checked by estimate"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "818",
+      "flat": false,
+      "system": "Rotor Board",
+      "currency": "SWEEPS",
+      "ranks": [
+        "Visitor",
+        "Measurer",
+        "Drafter",
+        "Calculator",
+        "Engineer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-geometry-of-a-turbine-blade-sweep"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-probability-with-a-fair-spinner",
+      "name": "Probability with a Fair Spinner",
+      "title": "SmartCiti.X~ Probability with a Fair Spinner VR",
+      "tagline": "Equal parts make a fair spinner — and one lucky run proves nothing",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the community fair's games tent — learner and stall volunteer",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "fair-and-square",
+        "name": "Fair and Square",
+        "note": "A spinner checked for fairness, outcomes predicted from equal parts and a tally compared honestly with the prediction"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "817",
+      "flat": false,
+      "system": "Spinner Board",
+      "currency": "SPINS",
+      "ranks": [
+        "Spinner",
+        "Counter",
+        "Tallier",
+        "Predictor",
+        "Statistician"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-probability-with-a-fair-spinner"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-graphing-tide-readings-at-the-pier",
+      "name": "Graphing Tide Readings at the Pier",
+      "title": "SmartCiti.X~ Graphing Tide Readings at the Pier VR",
+      "tagline": "Time along the bottom, height up the side — and keep behind the rail while you read the staff",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class on the pier's viewing deck — learner and harbour technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "rise-and-fall",
+        "name": "Rise and Fall",
+        "note": "Tide readings taken from the staff, plotted on labelled axes and the pattern described from the graph"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "816",
+      "flat": false,
+      "system": "Tide Board",
+      "currency": "READINGS",
+      "ranks": [
+        "Watcher",
+        "Reader",
+        "Recorder",
+        "Plotter",
+        "Hydrographer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-graphing-tide-readings-at-the-pier"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-slope-and-angles-on-a-ramp",
+      "name": "Slope and Angles on a Ramp",
+      "title": "SmartCiti.X~ Slope and Angles on a Ramp VR",
+      "tagline": "Rise over run, both in the same unit — and stay behind the barrier while the crew works",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the construction site's visitor bay — learner and site engineer",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "rise-over-run",
+        "name": "Rise over Run",
+        "note": "A ramp's slope worked out from its own rise and run, compared with its angle and checked against the plan's limit"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "815",
+      "flat": false,
+      "system": "Ramp Board",
+      "currency": "LEVELS",
+      "ranks": [
+        "Visitor",
+        "Measurer",
+        "Setter-out",
+        "Checker",
+        "Engineer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-slope-and-angles-on-a-ramp"
     },
     {
       "app": "smartcity",
@@ -33640,7 +34886,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -34300,7 +35546,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
