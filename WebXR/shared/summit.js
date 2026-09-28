@@ -383,7 +383,7 @@ export function smBuildSummit(root, THREE, opts = {}) {
   fixed.add(eggMesh);
   const lessonMesh = new THREE.InstancedMesh(smSignGeometry(THREE), flatMat, SM_FIELD_LESSONS.length);
   lessonMesh.name = "summit-lessons";
-  SM_FIELD_LESSONS.forEach((l, i) => { m4.makeTranslation(l.at[0], smHeightAt(l.at[0], l.at[1]), l.at[1]); lessonMesh.setMatrixAt(i, m4); });
+  SM_FIELD_LESSONS.forEach((l, i) => { m4.makeTranslation(l.position[0], smHeightAt(l.position[0], l.position[1]), l.position[1]); lessonMesh.setMatrixAt(i, m4); });
   fixed.add(lessonMesh);
   function hideEgg(id) {
     const i = eggIndex.get(id); if (i === undefined) return;

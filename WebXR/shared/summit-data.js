@@ -490,56 +490,107 @@ export const SM_EGGS = SM_EGG_TABLE.map(([slug, place, x, z, stationId, stepId, 
   return egg;
 });
 
-// ------------------------------------------------------------ field lessons
+// -------------------------------------------------------- field lessons
 //
-// SCHOLAR-2's field-lesson schema was not merged when this world was built,
-// so this one is documented here and kept compatible in spirit: a 2-4 minute
-// micro-lesson at a landmark, tied to a K-12 station and to the trade that
-// uses the idea, ending in one check question.
-//   { id, title, k12, trade, place, at, minutes, steps: [text…],
-//     check: { q, choices: [text…], answer: index }, station }
+// Twenty field lessons on SCHOLAR-2's exported schema (shared/field-lessons.js,
+// K2_FIELD_LESSON_SCHEMA): a two-to-four-minute micro-lesson at a real site or
+// landmark, three steps that teach one idea where the learner stands, one
+// check question with its reason, the K-12 station that teaches the idea in
+// full (`station`) and the trade that uses it (`trade`, `tradeLine`). This
+// world adds one field, `tradeStation`: the catalog station where the trade
+// practises the same idea, linked beside the K-12 one. No digits anywhere in
+// the text (the facts rule); tools/check_summit.mjs validates every lesson
+// with k2ValidateFieldLesson against this world's own anchors.
+
+const smFl = (id, anchor, position, title, station, tradeStation, trade, tradeLine, minutes, band, steps, check) =>
+  ({ id, world: "summit", anchor, position, title, station, tradeStation, trade, tradeLine, minutes, band, steps, check });
+const smQ = (question, options, answer, why) => ({ question, options, answer, why });
 
 export const SM_FIELD_LESSONS = [
-  { id: "sm-fl-contours", title: "Reading contour lines", k12: "k12-reading-a-map-scale-in-bay-world", trade: "Trail crews and rangers read contours to plan a route that avoids the steepest ground.",
-    place: "ranger-station", at: [-1210, 270], minutes: 3, station: "or-wildland-fireline-construction-and-lookout",
-    steps: ["A contour line joins points on the map that are at the same height.", "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.", "Open the map (M) and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."],
-    check: { q: "Contour lines packed close together mean the ground is…", choices: ["Steep", "Flat", "Under water"], answer: 0 } },
-  { id: "sm-fl-scale", title: "Map scale and distance", k12: "k12-reading-a-map-scale-in-bay-world", trade: "A road crew measures a work zone off the plan sheet with its scale bar.",
-    place: "valley-base", at: [-1520, 1430], minutes: 2, station: "gk-storm-cleanup-chipper-and-traffic-control",
-    steps: ["A map's scale says how many metres on the ground one unit on the map stands for.", "This world's map is square and the world is 4096 m across, so half the map's width is 2048 m of walking.", "Estimate the walk to the water plant on the map, then walk it and compare with the distance on the HUD."],
-    check: { q: "If the map is 4096 m across, a quarter of its width is…", choices: ["1024 m", "2048 m", "512 m"], answer: 0 } },
-  { id: "sm-fl-falling-water", title: "Falling water as stored energy", k12: "k12-energy-transfer-at-the-wind-farm", trade: "Plant operators at a powerhouse watch water's stored energy become electrical energy.",
-    place: "powerhouse", at: [-540, 760], minutes: 3, station: "ib-hydrostatic-test-and-inspector-witness",
-    steps: ["Water held high behind a dam has stored (potential) energy because of its height.", "As it falls through the penstock that energy becomes motion (kinetic energy).", "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy — the same chain of transfers the wind-farm lesson follows with moving air."],
-    check: { q: "Water behind a dam stores energy mainly because of its…", choices: ["Height", "Colour", "Temperature"], answer: 0 } },
-  { id: "sm-fl-pressure-depth", title: "Pressure grows with depth", k12: "k12-buoyancy-and-pressure-in-the-deep", trade: "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.",
-    place: "dam", at: [-740, 490], minutes: 3, station: "uw-intake-screen-cleaning-with-lockout",
-    steps: ["Water pushes on everything in it, and the deeper you go the more water sits above you.", "That is why a dam wall is built thicker at the bottom than at the top.", "Look at the dam's face: it widens toward its base, where the push of the water is greatest."],
-    check: { q: "Why is a dam thicker at the bottom?", choices: ["Water pressure is greatest at the bottom", "To save concrete at the top only", "Snow collects at the bottom"], answer: 0 } },
-  { id: "sm-fl-water-cycle", title: "From snowpack to tap", k12: "k12-water-cycle-and-filtration", trade: "Water treatment operators treat the reservoir water that the mountain's snow and rain supply.",
-    place: "water-plant", at: [-1070, 1070], minutes: 3, station: "chlorine-room",
-    steps: ["Water evaporates, condenses into clouds and falls as rain or snow on the mountain.", "Snowmelt and rain run downhill into streams and the reservoir.", "At the treatment plant the water is filtered and disinfected before it goes to homes — the plant is one stop on the water cycle, not its end."],
-    check: { q: "Snow on the summit reaches the reservoir mainly by…", choices: ["Melting and running downhill", "Being carried by trucks", "Blowing uphill"], answer: 0 } },
-  { id: "sm-fl-circuit", title: "A complete circuit", k12: "k12-circuits-at-the-electrical-bench", trade: "Substation electricians open a breaker to break a circuit before anyone works on it.",
-    place: "substation", at: [1030, 450], minutes: 3, station: "substation-switching",
-    steps: ["Current only flows around a complete loop — a closed circuit.", "Opening a switch or a breaker breaks the loop, so current stops.", "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."],
-    check: { q: "What happens to current when a breaker opens the circuit?", choices: ["It stops flowing in that circuit", "It doubles", "It flows faster"], answer: 0 } },
-  { id: "sm-fl-labels", title: "Reading a hazard label", k12: "k12-reading-instructions-and-safety-labels", trade: "Water plant operators read a chemical's label and data sheet before a delivery is unloaded.",
-    place: "water-plant", at: [-1030, 1030], minutes: 2, station: "ut-water-treatment-chemical-delivery-unloading",
-    steps: ["A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.", "The label and the safety data sheet — not memory — say what protective equipment the job needs.", "Before any delivery, the crew reads the label on the load and matches it to the paperwork."],
-    check: { q: "Where does the crew find the protection a chemical needs?", choices: ["On its label and data sheet", "By guessing from the colour", "From the truck's paint"], answer: 0 } },
-  { id: "sm-fl-grade", title: "Grade as a ratio", k12: "k12-measuring-and-scaling-the-court", trade: "Drivers and road crews read a grade as rise over run, and the pass road's signs state it.",
-    place: "pass-summit", at: [460, -120], minutes: 3, station: "drive-mountain-grade-and-engine-brake",
-    steps: ["A road's grade is how much it rises for each unit it runs forward, written as a percentage.", "Rising 6 m over 100 m of road is a 6% grade; the same rise over 50 m is twice as steep.", "The HUD shows the slope under your feet: compare the switchbacks with the straight climb beside them."],
-    check: { q: "A road that rises 5 m over 100 m has a grade of…", choices: ["5%", "50%", "20%"], answer: 0 } },
-  { id: "sm-fl-incident-report", title: "Writing a clear trail report", k12: "k12-writing-a-clear-incident-report", trade: "Rangers and patrollers write what they saw, where and when — facts first, no guesses.",
-    place: "west-lookout", at: [-1530, -700], minutes: 3, station: "or-transmission-line-right-of-way-patrol",
-    steps: ["A clear report says what happened, where, when and who was involved.", "It sticks to what the writer saw, and says plainly what they do not know yet.", "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."],
-    check: { q: "A good report sticks to…", choices: ["What the writer actually saw", "What might have happened", "Opinions about who is to blame"], answer: 0 } },
-  { id: "sm-fl-call-for-help", title: "Calling for help on the mountain", k12: "k12-first-aid-awareness-call-for-help", trade: "Rangers and lift crews give a clear location first when they call for help.",
-    place: "gondola-top", at: [140, -1170], minutes: 2, station: "ew-elevator-entrapment-and-rescue-with-fire-service",
-    steps: ["When someone is hurt, make sure you are safe, then call for help.", "Say where you are first — a named place like 'the gondola top station' — so help can find you.", "Stay on the line and do what the call-taker asks."],
-    check: { q: "What should you say first when calling for help?", choices: ["Where you are", "Your favourite colour", "Nothing, just hang up"], answer: 0 } },
+  // ---- the valley and the reservoir (the first ten, re-homed onto the schema)
+  smFl("sm-fl-contours", { kind: "site", id: "ranger-station" }, [-1210, 270], "Reading contour lines", "k12-reading-a-map-scale-in-bay-world", "or-wildland-fireline-construction-and-lookout",
+    "Trail crews and rangers", "A trail crew reads the contours to plan a route that avoids the steepest ground.", 3, "lower secondary",
+    ["A contour line joins points on the map that are at the same height.", "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.", "Open the map and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."],
+    smQ("Contour lines packed close together mean the ground is…", ["Steep", "Flat", "Under water"], 0, "Close lines mean the height changes quickly over a short distance, which is a steep slope.")),
+  smFl("sm-fl-scale", { kind: "site", id: "valley-base" }, [-1520, 1430], "Map scale and distance", "k12-reading-a-map-scale-in-bay-world", "gk-storm-cleanup-chipper-and-traffic-control",
+    "Road crews", "A road crew measures a work zone off the plan sheet with its scale before a cone goes down.", 2, "upper primary",
+    ["A map's scale says how much ground one step on the map stands for.", "This map is square and every place on it is drawn at the same scale, so equal map distances are equal walks anywhere on it.", "Pick two places on the map, guess which walk is longer, then read the distance the HUD shows as you go."],
+    smQ("Two places look twice as far apart on the map as two others. On the ground that walk is…", ["About twice as far", "The same", "Half as far"], 0, "One scale for the whole map means map distance and ground distance grow together.")),
+  smFl("sm-fl-falling-water", { kind: "landmark", id: "powerhouse" }, [-540, 760], "Falling water as stored energy", "k12-energy-transfer-at-the-wind-farm", "ib-hydrostatic-test-and-inspector-witness",
+    "Powerhouse operators", "A powerhouse operator watches water's stored energy become electrical energy, the same chain the wind farm follows with air.", 3, "lower secondary",
+    ["Water held high behind a dam has stored energy because of its height.", "As it falls through the penstock that energy becomes motion.", "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy."],
+    smQ("Water behind a dam stores energy mainly because of its…", ["Height", "Colour", "Temperature"], 0, "The higher the water sits above the turbine, the more energy it can give up on the way down.")),
+  smFl("sm-fl-pressure-depth", { kind: "site", id: "dam" }, [-740, 490], "Pressure grows with depth", "k12-buoyancy-and-pressure-in-the-deep", "uw-intake-screen-cleaning-with-lockout",
+    "Divers and dam engineers", "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.", 3, "lower secondary",
+    ["Water pushes on everything in it, and the deeper you go the more water sits above you.", "That is why a dam wall is built thicker at the bottom than at the top.", "Look at the dam's face: it widens toward its base, where the push of the water is greatest."],
+    smQ("Why is a dam thicker at the bottom?", ["Water pressure is greatest at the bottom", "To save concrete at the top only", "Snow collects at the bottom"], 0, "The deepest water pushes hardest, so the wall needs the most strength at its base.")),
+  smFl("sm-fl-water-cycle", { kind: "site", id: "water-plant" }, [-1070, 1070], "From snowpack to tap", "k12-water-cycle-and-filtration", "chlorine-room",
+    "Water treatment operators", "A water treatment operator treats the reservoir water that the mountain's snow and rain supply.", 3, "upper primary",
+    ["Water evaporates, condenses into clouds and falls as rain or snow on the mountain.", "Snowmelt and rain run downhill into streams and the reservoir.", "At the treatment plant the water is filtered and disinfected before it goes to homes: the plant is one stop on the water cycle, not its end."],
+    smQ("Snow on the summit reaches the reservoir mainly by…", ["Melting and running downhill", "Being carried by trucks", "Blowing uphill"], 0, "Meltwater flows the way the river below the powerhouse does: down, into the streams and the reservoir.")),
+  smFl("sm-fl-circuit", { kind: "site", id: "substation" }, [1030, 450], "A complete circuit", "k12-circuits-at-the-electrical-bench", "substation-switching",
+    "Substation electricians", "A substation electrician opens a breaker to break a circuit before anyone works on it.", 3, "lower secondary",
+    ["Current only flows around a complete loop, a closed circuit.", "Opening a switch or a breaker breaks the loop, so current stops.", "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."],
+    smQ("What happens to current when a breaker opens the circuit?", ["It stops flowing in that circuit", "It doubles", "It flows faster"], 0, "With the loop broken there is no path for current, which is what the crew then proves with a tester.")),
+  smFl("sm-fl-labels", { kind: "site", id: "water-plant" }, [-1030, 1030], "Reading a hazard label", "k12-reading-instructions-and-safety-labels", "ut-water-treatment-chemical-delivery-unloading",
+    "Water plant operators", "A plant operator reads a chemical's label and data sheet before a delivery is unloaded.", 2, "upper primary",
+    ["A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.", "The label and the safety data sheet, not memory, say what protective equipment the job needs.", "Before any delivery, the crew reads the label on the load and matches it to the paperwork."],
+    smQ("Where does the crew find the protection a chemical needs?", ["On its label and data sheet", "By guessing from the colour", "From the truck's paint"], 0, "The label and data sheet are written for exactly that chemical; a guess is not.")),
+  smFl("sm-fl-grade", { kind: "landmark", id: "pass-summit" }, [460, -120], "Grade as a ratio", "k12-measuring-and-scaling-the-court", "drive-mountain-grade-and-engine-brake",
+    "Drivers and road crews", "A driver reads a grade as rise over run, and the pass road's signs state it the same way.", 3, "lower secondary",
+    ["A road's grade is how much it rises for each unit it runs forward.", "The same rise over half the run is twice as steep.", "The HUD shows the slope under your feet: compare the climb here with the flatter road beside the yard."],
+    smQ("A road rises the same height over a shorter run. Its grade is…", ["Steeper", "Gentler", "The same"], 0, "Grade is rise divided by run, so a shorter run for the same rise gives a bigger ratio.")),
+  smFl("sm-fl-incident-report", { kind: "landmark", id: "west-lookout" }, [-1530, -700], "Writing a clear trail report", "k12-writing-a-clear-incident-report", "or-transmission-line-right-of-way-patrol",
+    "Rangers and patrollers", "A ranger writes what they saw, where and when: facts first, no guesses.", 3, "lower secondary",
+    ["A clear report says what happened, where, when and who was involved.", "It sticks to what the writer saw, and says plainly what they do not know yet.", "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."],
+    smQ("A good report sticks to…", ["What the writer actually saw", "What might have happened", "Opinions about who is to blame"], 0, "A report is evidence for someone who was not there, so it carries only what was seen.")),
+  smFl("sm-fl-call-for-help", { kind: "landmark", id: "gondola-top" }, [140, -1170], "Calling for help on the mountain", "k12-first-aid-awareness-call-for-help", "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "Rangers and lift crews", "A lift attendant gives a clear location first when they call for help.", 2, "early primary to upper primary",
+    ["When someone is hurt, make sure you are safe, then call for help.", "Say where you are first, a named place like the gondola top station, so help can find you.", "Stay on the line and do what the call-taker asks."],
+    smQ("What should you say first when calling for help?", ["Where you are", "Your favourite colour", "Nothing, just hang up"], 0, "Help can only come once it knows where to go.")),
+  // ---- the tunnel portal
+  smFl("sm-fl-tunnel-fair-test", { kind: "site", id: "tunnel-portal" }, [572, -548], "Testing the air is a fair test", "k12-a-controlled-experiment", "cm-shotcrete-nozzle-and-rebound",
+    "Tunnel crews", "A tunnel crew tests the air with the same meter, at the same spot, before and after the fans run, so the two readings can be compared.", 3, "lower secondary",
+    ["A fair test changes one thing at a time and keeps everything else the same.", "The heading crew reads the air at the face before the ventilation runs and again after, with the same meter in the same place.", "Only then can they say the fans made the difference, and the plan says what reading lets work go on."],
+    smQ("Two air readings are only comparable when…", ["The same meter is used in the same place", "Different meters are used to be safe", "One is taken outside in the sun"], 0, "Changing the meter or the spot changes more than one thing, so the difference could be the meter, not the air.")),
+  smFl("sm-fl-tunnel-shift-log", { kind: "site", id: "tunnel-portal" }, [630, -545], "The shift log is a timeline", "k12-building-a-timeline-from-documents", "cm-shotcrete-nozzle-and-rebound",
+    "Tunnel and heavy civil crews", "A heading boss rebuilds what happened on a shift from the log, the delivery tickets and the survey notes, in time order.", 3, "lower secondary",
+    ["A timeline puts events in the order they happened, with the evidence for each.", "The portal crew's shift log, the concrete delivery tickets and the survey notes are three documents about the same day.", "Put them in order and the day tells its own story: what was sprayed, when the survey checked it, and what came next."],
+    smQ("To build a timeline from documents you first…", ["Put the events in the order they happened", "Pick the most exciting one", "Throw away the tickets"], 0, "Order is what a timeline adds; every document is evidence for where an event sits on it.")),
+  smFl("sm-fl-portal-sources", { kind: "site", id: "tunnel-portal" }, [600, -520], "Marks on the ground and lines on the drawing", "k12-primary-and-secondary-sources", "op-excavator-trench-and-utility-locate",
+    "Excavator operators and locators", "An operator treats the locator's marks on the ground as the primary source and the drawing as secondary, and digs by hand where they disagree.", 3, "lower secondary",
+    ["A primary source is first-hand evidence; a secondary source describes or copies it.", "At the portal trench the locator's paint on the ground is first-hand: it was found with an instrument today. The old drawing is a copy of what someone once recorded.", "When the two disagree, the crew trusts the marks, and exposes the line by hand before the bucket goes near it."],
+    smQ("Which is the primary source for where a buried line is?", ["The locator's marks made today", "A drawing copied years ago", "A guess from the road edge"], 0, "First-hand evidence gathered on the day outranks a copy of an older record.")),
+  // ---- the gondola
+  smFl("sm-fl-gondola-wheel", { kind: "site", id: "gondola-shop" }, [-268, -292], "The bullwheel is a wheel and axle", "k12-simple-machines-at-a-crane", "ew-machine-room-lockout-and-brake-test",
+    "Lift mechanics", "A lift mechanic sees the drive as a wheel and axle: the motor turns the axle, the big wheel moves the rope, and the brake holds the wheel.", 3, "upper primary to lower secondary",
+    ["A wheel and axle is a simple machine: turning one turns the other, and the bigger part moves further for each turn.", "In the drive room the motor turns the axle and the big bullwheel carries the haul rope around.", "The brake grips the wheel, which is why the brake test is done before any cabin carries a person."],
+    smQ("On the gondola drive, the haul rope is moved by…", ["The bullwheel turning", "The cabins pushing", "The wind"], 0, "The rope rides on the bullwheel, so the wheel's turn is the rope's travel.")),
+  smFl("sm-fl-gondola-two-locks", { kind: "site", id: "gondola-shop" }, [-212, -292], "Two people, one lockout", "k12-teamwork-and-feedback", "ew-machine-room-lockout-and-brake-test",
+    "Lift mechanics and riggers", "A lift crew locks out the drive with each person's own lock, and each checks the other's before work starts.", 2, "upper primary to lower secondary",
+    ["Good teamwork means each person does their part and checks a partner's part without blame.", "In the drive room each mechanic hangs their own lock on the isolation point, so nothing can start until every lock is off.", "Then they check each other's lock and tag and say what they found, which is feedback the job depends on."],
+    smQ("Why does each mechanic hang their own lock?", ["So the drive cannot start until every one of them is done", "To make the lockout look tidy", "Because one lock is not strong enough"], 0, "A lock per person means no one can be forgotten inside the machine when it is restarted.")),
+  smFl("sm-fl-gondola-sky", { kind: "landmark", id: "gondola-top" }, [130, -1120], "Reading the sky before the lift opens", "k12-weather-and-the-sky", "rl-critical-lift-plan-and-signalperson",
+    "Lift operators and riggers", "A lift operator and a rigger both read the wind and the cloud before a cabin or a load leaves the ground, and the plan says when they stop.", 3, "upper primary",
+    ["Wind, cloud and temperature are what a weather reading is made of, and each can be read from where you stand.", "At the top station, feel the wind, watch which way the cloud moves and how fast, and read the temperature the HUD shows.", "Lift and rigging plans set a wind limit; the crew does not guess at it, they measure and compare."],
+    smQ("The crew decides the wind is too strong for the lift by…", ["Measuring it and comparing with the plan's limit", "Asking a passenger", "Looking at the colour of the sky"], 0, "A limit written in the plan is only useful when the wind is actually measured against it.")),
+  // ---- the transmission ridge
+  smFl("sm-fl-ridge-triangles", { kind: "site", id: "ridge-line" }, [1452, -548], "Triangles hold a tower up", "k12-slope-and-angles-on-a-ramp", "tower-climb",
+    "Tower climbers and lineworkers", "A tower climber clips to members braced into triangles, the shape that does not fold under a push.", 3, "lower secondary",
+    ["A square frame can lean over and fold; a triangle cannot change shape without a side changing length.", "Look up at the tower legs: every panel is braced into triangles, and each brace meets a leg at an angle the drawing sets.", "That is why a climber's anchor point is a braced member, and the climb plan names which ones."],
+    smQ("Bracing a frame into triangles makes it…", ["Hold its shape under a push", "Heavier but no stronger", "Easier to fold flat"], 0, "A triangle's angles are fixed by its sides, so the frame cannot lean without stretching or breaking a member.")),
+  smFl("sm-fl-ridge-energy-path", { kind: "site", id: "ridge-line" }, [1508, -548], "Where the ridge's power goes", "k12-energy-transfer-at-the-wind-farm", "substation-switching",
+    "Lineworkers and substation electricians", "A lineworker follows the energy from the powerhouse to the substation and along the ridge line as one chain of transfers.", 3, "lower secondary",
+    ["Energy is not made from nothing; it moves from one form and one place to another.", "Water falling through the penstock becomes motion in a turbine, then electrical energy in a generator, then current in the wires you can see overhead.", "The substation changes the voltage so the line can carry it a long way with less loss, and the switching crew is the last hand on that chain."],
+    smQ("The energy in the ridge line's wires began as…", ["Water held high behind the dam", "Wind in the trees", "The sun warming the towers"], 0, "Follow the chain backwards: wire, generator, turbine, penstock, reservoir.")),
+  smFl("sm-fl-ridge-read-back", { kind: "site", id: "ridge-line" }, [1480, -600], "Say it once, clearly, and hear it back", "k12-public-speaking-at-the-hall", "substation-switching",
+    "Switching operators and line crews", "A switching operator speaks each order plainly and waits for the read-back before the next step.", 2, "upper primary to lower secondary",
+    ["Clear speaking is one message at a time, in a steady voice, with the important word first.", "On the radio the operator gives the step, the other person repeats it back, and only a matching read-back means it was understood.", "Practise here: say the name of this site and the next site on your map as if the listener could not see you."],
+    smQ("A read-back proves that…", ["The listener understood the same message", "The radio is switched on", "The speaker was loud enough"], 0, "Only hearing the message repeated shows it arrived as it was meant.")),
+  smFl("sm-fl-ridge-transect", { kind: "site", id: "ridge-line" }, [1480, -520], "Counting life along a line", "k12-ecosystems-at-the-kelp-transect", "or-transmission-line-right-of-way-patrol",
+    "Right-of-way patrollers", "A right-of-way patroller walks the line and records what grows under it, the same transect method a kelp survey uses under water.", 3, "lower secondary",
+    ["A transect is a straight line through a habitat; you walk it and record what you find at set points along it.", "Under the ridge line the crew notes which plants are growing back toward the wires and where the ground is bare.", "The same count next season shows what changed, and the vegetation plan says what needs clearing."],
+    smQ("A transect count is useful because…", ["It can be repeated the same way next time", "It covers the whole mountain at once", "It needs no notes"], 0, "Repeating the same line the same way is what makes two counts comparable.")),
 ];
 
 // ------------------------------------------------------------------ quests

@@ -632,6 +632,8 @@ APPS = {
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
             SHARED / "links.js",
+            SHARED / "skill-gates.js",
+            SHARED / "field-lessons.js",
             WEBXR / "summit/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",

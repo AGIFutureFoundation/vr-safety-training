@@ -7378,56 +7378,107 @@ const SM_EGGS = SM_EGG_TABLE.map(([slug, place, x, z, stationId, stepId, lesson]
   return egg;
 });
 
-// ------------------------------------------------------------ field lessons
+// -------------------------------------------------------- field lessons
 //
-// SCHOLAR-2's field-lesson schema was not merged when this world was built,
-// so this one is documented here and kept compatible in spirit: a 2-4 minute
-// micro-lesson at a landmark, tied to a K-12 station and to the trade that
-// uses the idea, ending in one check question.
-//   { id, title, k12, trade, place, at, minutes, steps: [text…],
-//     check: { q, choices: [text…], answer: index }, station }
+// Twenty field lessons on SCHOLAR-2's exported schema (shared/field-lessons.js,
+// K2_FIELD_LESSON_SCHEMA): a two-to-four-minute micro-lesson at a real site or
+// landmark, three steps that teach one idea where the learner stands, one
+// check question with its reason, the K-12 station that teaches the idea in
+// full (`station`) and the trade that uses it (`trade`, `tradeLine`). This
+// world adds one field, `tradeStation`: the catalog station where the trade
+// practises the same idea, linked beside the K-12 one. No digits anywhere in
+// the text (the facts rule); tools/check_summit.mjs validates every lesson
+// with k2ValidateFieldLesson against this world's own anchors.
+
+const smFl = (id, anchor, position, title, station, tradeStation, trade, tradeLine, minutes, band, steps, check) =>
+  ({ id, world: "summit", anchor, position, title, station, tradeStation, trade, tradeLine, minutes, band, steps, check });
+const smQ = (question, options, answer, why) => ({ question, options, answer, why });
 
 const SM_FIELD_LESSONS = [
-  { id: "sm-fl-contours", title: "Reading contour lines", k12: "k12-reading-a-map-scale-in-bay-world", trade: "Trail crews and rangers read contours to plan a route that avoids the steepest ground.",
-    place: "ranger-station", at: [-1210, 270], minutes: 3, station: "or-wildland-fireline-construction-and-lookout",
-    steps: ["A contour line joins points on the map that are at the same height.", "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.", "Open the map (M) and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."],
-    check: { q: "Contour lines packed close together mean the ground is…", choices: ["Steep", "Flat", "Under water"], answer: 0 } },
-  { id: "sm-fl-scale", title: "Map scale and distance", k12: "k12-reading-a-map-scale-in-bay-world", trade: "A road crew measures a work zone off the plan sheet with its scale bar.",
-    place: "valley-base", at: [-1520, 1430], minutes: 2, station: "gk-storm-cleanup-chipper-and-traffic-control",
-    steps: ["A map's scale says how many metres on the ground one unit on the map stands for.", "This world's map is square and the world is 4096 m across, so half the map's width is 2048 m of walking.", "Estimate the walk to the water plant on the map, then walk it and compare with the distance on the HUD."],
-    check: { q: "If the map is 4096 m across, a quarter of its width is…", choices: ["1024 m", "2048 m", "512 m"], answer: 0 } },
-  { id: "sm-fl-falling-water", title: "Falling water as stored energy", k12: "k12-energy-transfer-at-the-wind-farm", trade: "Plant operators at a powerhouse watch water's stored energy become electrical energy.",
-    place: "powerhouse", at: [-540, 760], minutes: 3, station: "ib-hydrostatic-test-and-inspector-witness",
-    steps: ["Water held high behind a dam has stored (potential) energy because of its height.", "As it falls through the penstock that energy becomes motion (kinetic energy).", "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy — the same chain of transfers the wind-farm lesson follows with moving air."],
-    check: { q: "Water behind a dam stores energy mainly because of its…", choices: ["Height", "Colour", "Temperature"], answer: 0 } },
-  { id: "sm-fl-pressure-depth", title: "Pressure grows with depth", k12: "k12-buoyancy-and-pressure-in-the-deep", trade: "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.",
-    place: "dam", at: [-740, 490], minutes: 3, station: "uw-intake-screen-cleaning-with-lockout",
-    steps: ["Water pushes on everything in it, and the deeper you go the more water sits above you.", "That is why a dam wall is built thicker at the bottom than at the top.", "Look at the dam's face: it widens toward its base, where the push of the water is greatest."],
-    check: { q: "Why is a dam thicker at the bottom?", choices: ["Water pressure is greatest at the bottom", "To save concrete at the top only", "Snow collects at the bottom"], answer: 0 } },
-  { id: "sm-fl-water-cycle", title: "From snowpack to tap", k12: "k12-water-cycle-and-filtration", trade: "Water treatment operators treat the reservoir water that the mountain's snow and rain supply.",
-    place: "water-plant", at: [-1070, 1070], minutes: 3, station: "chlorine-room",
-    steps: ["Water evaporates, condenses into clouds and falls as rain or snow on the mountain.", "Snowmelt and rain run downhill into streams and the reservoir.", "At the treatment plant the water is filtered and disinfected before it goes to homes — the plant is one stop on the water cycle, not its end."],
-    check: { q: "Snow on the summit reaches the reservoir mainly by…", choices: ["Melting and running downhill", "Being carried by trucks", "Blowing uphill"], answer: 0 } },
-  { id: "sm-fl-circuit", title: "A complete circuit", k12: "k12-circuits-at-the-electrical-bench", trade: "Substation electricians open a breaker to break a circuit before anyone works on it.",
-    place: "substation", at: [1030, 450], minutes: 3, station: "substation-switching",
-    steps: ["Current only flows around a complete loop — a closed circuit.", "Opening a switch or a breaker breaks the loop, so current stops.", "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."],
-    check: { q: "What happens to current when a breaker opens the circuit?", choices: ["It stops flowing in that circuit", "It doubles", "It flows faster"], answer: 0 } },
-  { id: "sm-fl-labels", title: "Reading a hazard label", k12: "k12-reading-instructions-and-safety-labels", trade: "Water plant operators read a chemical's label and data sheet before a delivery is unloaded.",
-    place: "water-plant", at: [-1030, 1030], minutes: 2, station: "ut-water-treatment-chemical-delivery-unloading",
-    steps: ["A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.", "The label and the safety data sheet — not memory — say what protective equipment the job needs.", "Before any delivery, the crew reads the label on the load and matches it to the paperwork."],
-    check: { q: "Where does the crew find the protection a chemical needs?", choices: ["On its label and data sheet", "By guessing from the colour", "From the truck's paint"], answer: 0 } },
-  { id: "sm-fl-grade", title: "Grade as a ratio", k12: "k12-measuring-and-scaling-the-court", trade: "Drivers and road crews read a grade as rise over run, and the pass road's signs state it.",
-    place: "pass-summit", at: [460, -120], minutes: 3, station: "drive-mountain-grade-and-engine-brake",
-    steps: ["A road's grade is how much it rises for each unit it runs forward, written as a percentage.", "Rising 6 m over 100 m of road is a 6% grade; the same rise over 50 m is twice as steep.", "The HUD shows the slope under your feet: compare the switchbacks with the straight climb beside them."],
-    check: { q: "A road that rises 5 m over 100 m has a grade of…", choices: ["5%", "50%", "20%"], answer: 0 } },
-  { id: "sm-fl-incident-report", title: "Writing a clear trail report", k12: "k12-writing-a-clear-incident-report", trade: "Rangers and patrollers write what they saw, where and when — facts first, no guesses.",
-    place: "west-lookout", at: [-1530, -700], minutes: 3, station: "or-transmission-line-right-of-way-patrol",
-    steps: ["A clear report says what happened, where, when and who was involved.", "It sticks to what the writer saw, and says plainly what they do not know yet.", "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."],
-    check: { q: "A good report sticks to…", choices: ["What the writer actually saw", "What might have happened", "Opinions about who is to blame"], answer: 0 } },
-  { id: "sm-fl-call-for-help", title: "Calling for help on the mountain", k12: "k12-first-aid-awareness-call-for-help", trade: "Rangers and lift crews give a clear location first when they call for help.",
-    place: "gondola-top", at: [140, -1170], minutes: 2, station: "ew-elevator-entrapment-and-rescue-with-fire-service",
-    steps: ["When someone is hurt, make sure you are safe, then call for help.", "Say where you are first — a named place like 'the gondola top station' — so help can find you.", "Stay on the line and do what the call-taker asks."],
-    check: { q: "What should you say first when calling for help?", choices: ["Where you are", "Your favourite colour", "Nothing, just hang up"], answer: 0 } },
+  // ---- the valley and the reservoir (the first ten, re-homed onto the schema)
+  smFl("sm-fl-contours", { kind: "site", id: "ranger-station" }, [-1210, 270], "Reading contour lines", "k12-reading-a-map-scale-in-bay-world", "or-wildland-fireline-construction-and-lookout",
+    "Trail crews and rangers", "A trail crew reads the contours to plan a route that avoids the steepest ground.", 3, "lower secondary",
+    ["A contour line joins points on the map that are at the same height.", "Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.", "Open the map and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd."],
+    smQ("Contour lines packed close together mean the ground is…", ["Steep", "Flat", "Under water"], 0, "Close lines mean the height changes quickly over a short distance, which is a steep slope.")),
+  smFl("sm-fl-scale", { kind: "site", id: "valley-base" }, [-1520, 1430], "Map scale and distance", "k12-reading-a-map-scale-in-bay-world", "gk-storm-cleanup-chipper-and-traffic-control",
+    "Road crews", "A road crew measures a work zone off the plan sheet with its scale before a cone goes down.", 2, "upper primary",
+    ["A map's scale says how much ground one step on the map stands for.", "This map is square and every place on it is drawn at the same scale, so equal map distances are equal walks anywhere on it.", "Pick two places on the map, guess which walk is longer, then read the distance the HUD shows as you go."],
+    smQ("Two places look twice as far apart on the map as two others. On the ground that walk is…", ["About twice as far", "The same", "Half as far"], 0, "One scale for the whole map means map distance and ground distance grow together.")),
+  smFl("sm-fl-falling-water", { kind: "landmark", id: "powerhouse" }, [-540, 760], "Falling water as stored energy", "k12-energy-transfer-at-the-wind-farm", "ib-hydrostatic-test-and-inspector-witness",
+    "Powerhouse operators", "A powerhouse operator watches water's stored energy become electrical energy, the same chain the wind farm follows with air.", 3, "lower secondary",
+    ["Water held high behind a dam has stored energy because of its height.", "As it falls through the penstock that energy becomes motion.", "The moving water spins a turbine, and the turbine turns a generator that makes electrical energy."],
+    smQ("Water behind a dam stores energy mainly because of its…", ["Height", "Colour", "Temperature"], 0, "The higher the water sits above the turbine, the more energy it can give up on the way down.")),
+  smFl("sm-fl-pressure-depth", { kind: "site", id: "dam" }, [-740, 490], "Pressure grows with depth", "k12-buoyancy-and-pressure-in-the-deep", "uw-intake-screen-cleaning-with-lockout",
+    "Divers and dam engineers", "A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.", 3, "lower secondary",
+    ["Water pushes on everything in it, and the deeper you go the more water sits above you.", "That is why a dam wall is built thicker at the bottom than at the top.", "Look at the dam's face: it widens toward its base, where the push of the water is greatest."],
+    smQ("Why is a dam thicker at the bottom?", ["Water pressure is greatest at the bottom", "To save concrete at the top only", "Snow collects at the bottom"], 0, "The deepest water pushes hardest, so the wall needs the most strength at its base.")),
+  smFl("sm-fl-water-cycle", { kind: "site", id: "water-plant" }, [-1070, 1070], "From snowpack to tap", "k12-water-cycle-and-filtration", "chlorine-room",
+    "Water treatment operators", "A water treatment operator treats the reservoir water that the mountain's snow and rain supply.", 3, "upper primary",
+    ["Water evaporates, condenses into clouds and falls as rain or snow on the mountain.", "Snowmelt and rain run downhill into streams and the reservoir.", "At the treatment plant the water is filtered and disinfected before it goes to homes: the plant is one stop on the water cycle, not its end."],
+    smQ("Snow on the summit reaches the reservoir mainly by…", ["Melting and running downhill", "Being carried by trucks", "Blowing uphill"], 0, "Meltwater flows the way the river below the powerhouse does: down, into the streams and the reservoir.")),
+  smFl("sm-fl-circuit", { kind: "site", id: "substation" }, [1030, 450], "A complete circuit", "k12-circuits-at-the-electrical-bench", "substation-switching",
+    "Substation electricians", "A substation electrician opens a breaker to break a circuit before anyone works on it.", 3, "lower secondary",
+    ["Current only flows around a complete loop, a closed circuit.", "Opening a switch or a breaker breaks the loop, so current stops.", "That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it."],
+    smQ("What happens to current when a breaker opens the circuit?", ["It stops flowing in that circuit", "It doubles", "It flows faster"], 0, "With the loop broken there is no path for current, which is what the crew then proves with a tester.")),
+  smFl("sm-fl-labels", { kind: "site", id: "water-plant" }, [-1030, 1030], "Reading a hazard label", "k12-reading-instructions-and-safety-labels", "ut-water-treatment-chemical-delivery-unloading",
+    "Water plant operators", "A plant operator reads a chemical's label and data sheet before a delivery is unloaded.", 2, "upper primary",
+    ["A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.", "The label and the safety data sheet, not memory, say what protective equipment the job needs.", "Before any delivery, the crew reads the label on the load and matches it to the paperwork."],
+    smQ("Where does the crew find the protection a chemical needs?", ["On its label and data sheet", "By guessing from the colour", "From the truck's paint"], 0, "The label and data sheet are written for exactly that chemical; a guess is not.")),
+  smFl("sm-fl-grade", { kind: "landmark", id: "pass-summit" }, [460, -120], "Grade as a ratio", "k12-measuring-and-scaling-the-court", "drive-mountain-grade-and-engine-brake",
+    "Drivers and road crews", "A driver reads a grade as rise over run, and the pass road's signs state it the same way.", 3, "lower secondary",
+    ["A road's grade is how much it rises for each unit it runs forward.", "The same rise over half the run is twice as steep.", "The HUD shows the slope under your feet: compare the climb here with the flatter road beside the yard."],
+    smQ("A road rises the same height over a shorter run. Its grade is…", ["Steeper", "Gentler", "The same"], 0, "Grade is rise divided by run, so a shorter run for the same rise gives a bigger ratio.")),
+  smFl("sm-fl-incident-report", { kind: "landmark", id: "west-lookout" }, [-1530, -700], "Writing a clear trail report", "k12-writing-a-clear-incident-report", "or-transmission-line-right-of-way-patrol",
+    "Rangers and patrollers", "A ranger writes what they saw, where and when: facts first, no guesses.", 3, "lower secondary",
+    ["A clear report says what happened, where, when and who was involved.", "It sticks to what the writer saw, and says plainly what they do not know yet.", "From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is."],
+    smQ("A good report sticks to…", ["What the writer actually saw", "What might have happened", "Opinions about who is to blame"], 0, "A report is evidence for someone who was not there, so it carries only what was seen.")),
+  smFl("sm-fl-call-for-help", { kind: "landmark", id: "gondola-top" }, [140, -1170], "Calling for help on the mountain", "k12-first-aid-awareness-call-for-help", "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "Rangers and lift crews", "A lift attendant gives a clear location first when they call for help.", 2, "early primary to upper primary",
+    ["When someone is hurt, make sure you are safe, then call for help.", "Say where you are first, a named place like the gondola top station, so help can find you.", "Stay on the line and do what the call-taker asks."],
+    smQ("What should you say first when calling for help?", ["Where you are", "Your favourite colour", "Nothing, just hang up"], 0, "Help can only come once it knows where to go.")),
+  // ---- the tunnel portal
+  smFl("sm-fl-tunnel-fair-test", { kind: "site", id: "tunnel-portal" }, [572, -548], "Testing the air is a fair test", "k12-a-controlled-experiment", "cm-shotcrete-nozzle-and-rebound",
+    "Tunnel crews", "A tunnel crew tests the air with the same meter, at the same spot, before and after the fans run, so the two readings can be compared.", 3, "lower secondary",
+    ["A fair test changes one thing at a time and keeps everything else the same.", "The heading crew reads the air at the face before the ventilation runs and again after, with the same meter in the same place.", "Only then can they say the fans made the difference, and the plan says what reading lets work go on."],
+    smQ("Two air readings are only comparable when…", ["The same meter is used in the same place", "Different meters are used to be safe", "One is taken outside in the sun"], 0, "Changing the meter or the spot changes more than one thing, so the difference could be the meter, not the air.")),
+  smFl("sm-fl-tunnel-shift-log", { kind: "site", id: "tunnel-portal" }, [630, -545], "The shift log is a timeline", "k12-building-a-timeline-from-documents", "cm-shotcrete-nozzle-and-rebound",
+    "Tunnel and heavy civil crews", "A heading boss rebuilds what happened on a shift from the log, the delivery tickets and the survey notes, in time order.", 3, "lower secondary",
+    ["A timeline puts events in the order they happened, with the evidence for each.", "The portal crew's shift log, the concrete delivery tickets and the survey notes are three documents about the same day.", "Put them in order and the day tells its own story: what was sprayed, when the survey checked it, and what came next."],
+    smQ("To build a timeline from documents you first…", ["Put the events in the order they happened", "Pick the most exciting one", "Throw away the tickets"], 0, "Order is what a timeline adds; every document is evidence for where an event sits on it.")),
+  smFl("sm-fl-portal-sources", { kind: "site", id: "tunnel-portal" }, [600, -520], "Marks on the ground and lines on the drawing", "k12-primary-and-secondary-sources", "op-excavator-trench-and-utility-locate",
+    "Excavator operators and locators", "An operator treats the locator's marks on the ground as the primary source and the drawing as secondary, and digs by hand where they disagree.", 3, "lower secondary",
+    ["A primary source is first-hand evidence; a secondary source describes or copies it.", "At the portal trench the locator's paint on the ground is first-hand: it was found with an instrument today. The old drawing is a copy of what someone once recorded.", "When the two disagree, the crew trusts the marks, and exposes the line by hand before the bucket goes near it."],
+    smQ("Which is the primary source for where a buried line is?", ["The locator's marks made today", "A drawing copied years ago", "A guess from the road edge"], 0, "First-hand evidence gathered on the day outranks a copy of an older record.")),
+  // ---- the gondola
+  smFl("sm-fl-gondola-wheel", { kind: "site", id: "gondola-shop" }, [-268, -292], "The bullwheel is a wheel and axle", "k12-simple-machines-at-a-crane", "ew-machine-room-lockout-and-brake-test",
+    "Lift mechanics", "A lift mechanic sees the drive as a wheel and axle: the motor turns the axle, the big wheel moves the rope, and the brake holds the wheel.", 3, "upper primary to lower secondary",
+    ["A wheel and axle is a simple machine: turning one turns the other, and the bigger part moves further for each turn.", "In the drive room the motor turns the axle and the big bullwheel carries the haul rope around.", "The brake grips the wheel, which is why the brake test is done before any cabin carries a person."],
+    smQ("On the gondola drive, the haul rope is moved by…", ["The bullwheel turning", "The cabins pushing", "The wind"], 0, "The rope rides on the bullwheel, so the wheel's turn is the rope's travel.")),
+  smFl("sm-fl-gondola-two-locks", { kind: "site", id: "gondola-shop" }, [-212, -292], "Two people, one lockout", "k12-teamwork-and-feedback", "ew-machine-room-lockout-and-brake-test",
+    "Lift mechanics and riggers", "A lift crew locks out the drive with each person's own lock, and each checks the other's before work starts.", 2, "upper primary to lower secondary",
+    ["Good teamwork means each person does their part and checks a partner's part without blame.", "In the drive room each mechanic hangs their own lock on the isolation point, so nothing can start until every lock is off.", "Then they check each other's lock and tag and say what they found, which is feedback the job depends on."],
+    smQ("Why does each mechanic hang their own lock?", ["So the drive cannot start until every one of them is done", "To make the lockout look tidy", "Because one lock is not strong enough"], 0, "A lock per person means no one can be forgotten inside the machine when it is restarted.")),
+  smFl("sm-fl-gondola-sky", { kind: "landmark", id: "gondola-top" }, [130, -1120], "Reading the sky before the lift opens", "k12-weather-and-the-sky", "rl-critical-lift-plan-and-signalperson",
+    "Lift operators and riggers", "A lift operator and a rigger both read the wind and the cloud before a cabin or a load leaves the ground, and the plan says when they stop.", 3, "upper primary",
+    ["Wind, cloud and temperature are what a weather reading is made of, and each can be read from where you stand.", "At the top station, feel the wind, watch which way the cloud moves and how fast, and read the temperature the HUD shows.", "Lift and rigging plans set a wind limit; the crew does not guess at it, they measure and compare."],
+    smQ("The crew decides the wind is too strong for the lift by…", ["Measuring it and comparing with the plan's limit", "Asking a passenger", "Looking at the colour of the sky"], 0, "A limit written in the plan is only useful when the wind is actually measured against it.")),
+  // ---- the transmission ridge
+  smFl("sm-fl-ridge-triangles", { kind: "site", id: "ridge-line" }, [1452, -548], "Triangles hold a tower up", "k12-slope-and-angles-on-a-ramp", "tower-climb",
+    "Tower climbers and lineworkers", "A tower climber clips to members braced into triangles, the shape that does not fold under a push.", 3, "lower secondary",
+    ["A square frame can lean over and fold; a triangle cannot change shape without a side changing length.", "Look up at the tower legs: every panel is braced into triangles, and each brace meets a leg at an angle the drawing sets.", "That is why a climber's anchor point is a braced member, and the climb plan names which ones."],
+    smQ("Bracing a frame into triangles makes it…", ["Hold its shape under a push", "Heavier but no stronger", "Easier to fold flat"], 0, "A triangle's angles are fixed by its sides, so the frame cannot lean without stretching or breaking a member.")),
+  smFl("sm-fl-ridge-energy-path", { kind: "site", id: "ridge-line" }, [1508, -548], "Where the ridge's power goes", "k12-energy-transfer-at-the-wind-farm", "substation-switching",
+    "Lineworkers and substation electricians", "A lineworker follows the energy from the powerhouse to the substation and along the ridge line as one chain of transfers.", 3, "lower secondary",
+    ["Energy is not made from nothing; it moves from one form and one place to another.", "Water falling through the penstock becomes motion in a turbine, then electrical energy in a generator, then current in the wires you can see overhead.", "The substation changes the voltage so the line can carry it a long way with less loss, and the switching crew is the last hand on that chain."],
+    smQ("The energy in the ridge line's wires began as…", ["Water held high behind the dam", "Wind in the trees", "The sun warming the towers"], 0, "Follow the chain backwards: wire, generator, turbine, penstock, reservoir.")),
+  smFl("sm-fl-ridge-read-back", { kind: "site", id: "ridge-line" }, [1480, -600], "Say it once, clearly, and hear it back", "k12-public-speaking-at-the-hall", "substation-switching",
+    "Switching operators and line crews", "A switching operator speaks each order plainly and waits for the read-back before the next step.", 2, "upper primary to lower secondary",
+    ["Clear speaking is one message at a time, in a steady voice, with the important word first.", "On the radio the operator gives the step, the other person repeats it back, and only a matching read-back means it was understood.", "Practise here: say the name of this site and the next site on your map as if the listener could not see you."],
+    smQ("A read-back proves that…", ["The listener understood the same message", "The radio is switched on", "The speaker was loud enough"], 0, "Only hearing the message repeated shows it arrived as it was meant.")),
+  smFl("sm-fl-ridge-transect", { kind: "site", id: "ridge-line" }, [1480, -520], "Counting life along a line", "k12-ecosystems-at-the-kelp-transect", "or-transmission-line-right-of-way-patrol",
+    "Right-of-way patrollers", "A right-of-way patroller walks the line and records what grows under it, the same transect method a kelp survey uses under water.", 3, "lower secondary",
+    ["A transect is a straight line through a habitat; you walk it and record what you find at set points along it.", "Under the ridge line the crew notes which plants are growing back toward the wires and where the ground is bare.", "The same count next season shows what changed, and the vegetation plan says what needs clearing."],
+    smQ("A transect count is useful because…", ["It can be repeated the same way next time", "It covers the whole mountain at once", "It needs no notes"], 0, "Repeating the same line the same way is what makes two counts comparable.")),
 ];
 
 // ------------------------------------------------------------------ quests
@@ -7892,7 +7943,7 @@ function smBuildSummit(root, THREE, opts = {}) {
   fixed.add(eggMesh);
   const lessonMesh = new THREE.InstancedMesh(smSignGeometry(THREE), flatMat, SM_FIELD_LESSONS.length);
   lessonMesh.name = "summit-lessons";
-  SM_FIELD_LESSONS.forEach((l, i) => { m4.makeTranslation(l.at[0], smHeightAt(l.at[0], l.at[1]), l.at[1]); lessonMesh.setMatrixAt(i, m4); });
+  SM_FIELD_LESSONS.forEach((l, i) => { m4.makeTranslation(l.position[0], smHeightAt(l.position[0], l.position[1]), l.position[1]); lessonMesh.setMatrixAt(i, m4); });
   fixed.add(lessonMesh);
   function hideEgg(id) {
     const i = eggIndex.get(id); if (i === undefined) return;
@@ -11511,20 +11562,551 @@ function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) {
 }
 
 
+/* ===== shared/skill-gates.js ===== */
+// Skill gates — "locked until the learner has completed these" for any quest,
+// side game, treasure or egg on the platform (tools/briefs/frontier-brief.md,
+// the shared data contract; docs/skill-gates.md).
+//
+//   gate: { stations?: [stationId…], programmes?: [{ id, minStars? }…],
+//           quests?: [questId…], k12?: [stationId…], note }
+//
+// A station (or K-12 station) counts as complete at 1+ star in the learner's
+// attempt log (records.js, the one log every world's passport reads). A
+// programme counts as complete when every one of its stations is complete,
+// or — when it names `minStars` — when the best stars summed over its
+// stations reach that number (the same sum passport.js's ppProgramme shows).
+// A quest counts as complete when Bay World's quest engine, the Deep's dive
+// engine or the side-game ledger below has it marked done.
+//
+// Pure and storage-injectable: no DOM, no three.js. Every world reads it
+// through one small hook (bayworld/js/quest-engine.js skips a gated quest
+// while qmIsOpen() says no); the lock UI lives in skill-gates-ui.js.
+// Every name is prefixed `qm`/`QM_`: the bundler concatenates modules into
+// one scope and erases import aliases (tools/bundle_webxr.py).
+
+
+
+/** The stores a gate reads (never writes, except the side-game ledger it owns). */
+const QM_RECORDS_KEY = "vr-training-records-v1";
+const QM_QUEST_KEYS = ["bayworld-quests-v1", "underwater-dives-v1"];
+/** The side-game ledger: finished games, best safe-practice score, cosmetics earned. */
+const QM_LEDGER_KEY = "qm-side-games-v1";
+const QM_GATE_FIELDS = ["stations", "programmes", "quests", "k12"];
+
+function qmStore(storage) {
+  if (storage) return storage;
+  try { return gtStorage(); } catch (_) { return null; }
+}
+
+function qmReadJson(store, key, fallback) {
+  try {
+    const raw = store?.getItem(key);
+    if (!raw) return fallback;
+    const v = JSON.parse(raw);
+    return v && typeof v === "object" ? v : fallback;
+  } catch (_) { return fallback; }
+}
+
+/** The side-game ledger: `{ done: { [gameId]: { score, of, at } }, cosmetics: [id…] }`. */
+function qmLedger(storage) {
+  const raw = qmReadJson(qmStore(storage), QM_LEDGER_KEY, {});
+  return {
+    done: raw.done && typeof raw.done === "object" ? raw.done : {},
+    cosmetics: Array.isArray(raw.cosmetics) ? raw.cosmetics : [],
+  };
+}
+
+/**
+ * Record a finished side game. Scored on safe practice only: `score` safe
+ * calls out of `of`. A game counts as done (and its cosmetic unlocks) only
+ * when every call was the safe one — a run with an unsafe call is a practice
+ * run, kept as the best score but never marked done.
+ */
+function qmFinishGame(game, { score, of }, storage) {
+  const store = qmStore(storage);
+  const led = qmLedger(store);
+  const prev = led.done[game.id];
+  const clean = (score | 0) >= (of | 0) && (of | 0) > 0;
+  if (clean || !prev) led.done[game.id] = { score: score | 0, of: of | 0, at: new Date().toISOString(), clean: clean || !!prev?.clean };
+  if (clean && game.reward?.cosmetic && !led.cosmetics.includes(game.reward.cosmetic)) led.cosmetics.push(game.reward.cosmetic);
+  try { store?.setItem(QM_LEDGER_KEY, JSON.stringify(led)); } catch (_) { /* private mode */ }
+  qmInvalidate();
+  return { clean, cosmetic: clean ? game.reward?.cosmetic ?? null : null };
+}
+
+/**
+ * One read of everything a gate can ask about: best stars per station, and
+ * the set of finished quest / side-game ids. Take it once per frame or per
+ * panel render and pass it to qmIsOpen / qmMissing.
+ */
+function qmSnapshot(storage) {
+  const store = qmStore(storage);
+  const stars = new Map();
+  let records = [];
+  try { records = JSON.parse(store?.getItem(QM_RECORDS_KEY) || "[]"); } catch (_) { records = []; }
+  for (const r of Array.isArray(records) ? records : []) {
+    if (!r || !r.simId) continue;
+    stars.set(r.simId, Math.max(stars.get(r.simId) ?? 0, r.stars | 0));
+  }
+  const questsDone = new Set();
+  for (const key of QM_QUEST_KEYS) {
+    const byId = qmReadJson(store, key, {}).byId ?? {};
+    for (const [id, e] of Object.entries(byId)) if (e && e.done) questsDone.add(id);
+  }
+  for (const [id, e] of Object.entries(qmLedger(store).done)) if (e && e.clean) questsDone.add(id);
+  return { stars, questsDone };
+}
+
+let qmCache = null;
+/**
+ * qmSnapshot() for a per-frame caller (the quest engine's hook): re-read at
+ * most once a second per storage, and at once after qmInvalidate() (a
+ * mission return, a finished side game).
+ */
+function qmCachedSnapshot(storage, now = Date.now()) {
+  if (qmCache && qmCache.storage === (storage ?? null) && now - qmCache.at < 1000) return qmCache.snap;
+  qmCache = { storage: storage ?? null, at: now, snap: qmSnapshot(storage) };
+  return qmCache.snap;
+}
+/** Drop the cached snapshot so the next gate read sees fresh completions. */
+function qmInvalidate() { qmCache = null; }
+
+function qmStationDone(id, snap) { return (snap.stars.get(id) ?? 0) >= 1; }
+
+function qmProgrammeState(p, snap) {
+  const prog = PP_PROGRAMMES[p.id];
+  if (!prog) return { done: false, stars: 0, total: 0, passed: 0 };
+  let stars = 0, passed = 0;
+  for (const s of prog.stations) { const n = snap.stars.get(s) ?? 0; stars += n; if (n >= 1) passed += 1; }
+  const done = p.minStars ? stars >= p.minStars : passed >= prog.stations.length;
+  return { done, stars, total: prog.stations.length, passed };
+}
+
+/**
+ * What still stands between the learner and this gate, as display-ready
+ * rows: `[{ kind: "station"|"k12"|"programme"|"quest", id, label, detail }]`.
+ * An empty list means open. A missing or empty gate is always open.
+ */
+function qmMissing(gate, snap = qmSnapshot()) {
+  if (!gate) return [];
+  const out = [];
+  for (const id of gate.stations ?? []) if (!qmStationDone(id, snap)) out.push({ kind: "station", id, label: qmLabel(id) });
+  for (const id of gate.k12 ?? []) if (!qmStationDone(id, snap)) out.push({ kind: "k12", id, label: qmLabel(id) });
+  for (const p of gate.programmes ?? []) {
+    const st = qmProgrammeState(p, snap);
+    if (st.done) continue;
+    const name = PP_PROGRAMMES[p.id]?.name ?? qmLabel(p.id);
+    out.push({ kind: "programme", id: p.id, label: name,
+      detail: p.minStars ? `${st.stars} of ${p.minStars} stars` : `${st.passed} of ${st.total} stations` });
+  }
+  for (const id of gate.quests ?? []) if (!snap.questsDone.has(id)) out.push({ kind: "quest", id, label: qmQuestTitles.get(id) ?? qmLabel(id.replace(/^(bw|dv|qm)-/, "")) });
+  return out;
+}
+
+/** True when every requirement in the gate is met (or there is no gate). */
+function qmIsOpen(gate, snap) {
+  if (!gate) return true;
+  return qmMissing(gate, snap ?? qmSnapshot()).length === 0;
+}
+
+/** Every station id a gate names, stations and K-12 alike (the lock's links). */
+function qmGateStations(gate) {
+  return [...(gate?.stations ?? []), ...(gate?.k12 ?? [])];
+}
+
+const qmQuestTitles = new Map();
+/** Teach the lock UI a world's quest titles, so a quest requirement reads "Yard Qualified", not its id. */
+function qmNameQuests(list) { for (const q of list ?? []) if (q?.id && q.title) qmQuestTitles.set(q.id, q.title); }
+
+/** A station id read aloud: "crane-yard" -> "crane yard". */
+function qmLabel(id) { return String(id ?? "").replace(/-/g, " "); }
+
+/**
+ * The "Skills to unlock" roll-up for a quest log: every station still
+ * missing across the locked items, with the items each one opens, most
+ * doors first. `items` is any list of `{ id, title, gate }`.
+ */
+function qmSkillsToUnlock(items, snap = qmSnapshot()) {
+  const by = new Map();
+  for (const it of items) {
+    for (const m of qmMissing(it.gate, snap)) {
+      const key = `${m.kind}:${m.id}`;
+      if (!by.has(key)) by.set(key, { ...m, opens: [] });
+      by.get(key).opens.push(it.title ?? it.id);
+    }
+  }
+  return [...by.values()].sort((a, b) => b.opens.length - a.opens.length || a.label.localeCompare(b.label));
+}
+
+/** Validate the gate's shape (the checker and the data modules share this). */
+function qmGateProblems(gate) {
+  const out = [];
+  if (!gate || typeof gate !== "object") return ["no gate object"];
+  if (typeof gate.note !== "string" || gate.note.trim().length < 12) out.push("gate has no one-line note");
+  const any = QM_GATE_FIELDS.some((f) => Array.isArray(gate[f]) && gate[f].length);
+  if (!any) out.push("gate names no requirement");
+  for (const k of Object.keys(gate)) if (k !== "note" && !QM_GATE_FIELDS.includes(k)) out.push(`unknown gate field "${k}"`);
+  for (const p of gate.programmes ?? []) if (!p || typeof p.id !== "string") out.push("programme entry without an id");
+  return out;
+}
+
+
+/* ===== shared/field-lessons.js ===== */
+// K-12 field lessons (console SCHOLAR-2, tools/briefs/frontier-brief.md).
+//
+// A field lesson is a two-to-four-minute, FlowHub-style micro-lesson placed at
+// a landmark in a world: a title, three short steps that teach one idea where
+// the learner is standing, one check question, and a link to the full K-12
+// station that teaches the idea properly. Each lesson names the trade that
+// uses the idea ("the crane operator's load chart is a ratio table"), so the
+// school subject and the worker's skill are seen as the same thing.
+//
+// The schema is exported so other worlds (SUMMIT, REDWOOD, any later one) can
+// add their own lessons in their own data module and validate them with
+// k2ValidateFieldLesson; tools/check_k12.mjs validates every lesson here.
+//
+// Facts rule: no figures, dates or limits in lesson text (no digits at all);
+// anything the lesson measures is what the scene shows. Every person named is
+// a role, never a real individual.
+//
+// Top-level names carry the `k2` prefix: tools/bundle_webxr.py concatenates
+// modules into one scope.
+
+/** The field-lesson schema: every field, its type and its rule. */
+const K2_FIELD_LESSON_SCHEMA = {
+  id: "string, unique, starts with a world prefix and '-fl-' (e.g. 'bw-fl-crane-ratio')",
+  world: "string, the world's app id: 'bayworld' | 'deep' | 'regatta' | 'fairway' (others may add their own)",
+  anchor: "{ kind: 'site' | 'landmark' | 'course' | 'facility' | 'hole', id: string } — a real anchor in that world's data",
+  position: "[x, z] world coordinates at or beside the anchor",
+  title: "string, one idea, no digits",
+  station: "string, the K-12 station id that teaches the idea in full (a classroom programme station)",
+  trade: "string, the trade that uses the idea",
+  tradeLine: "string, one sentence linking the idea to the trade's own practice, no digits",
+  minutes: "number, 2 to 4",
+  band: "string, one of: early primary, upper primary, lower secondary, upper secondary (or two joined by ' to ')",
+  steps: "string[3], short sentences a learner reads on the spot, no digits",
+  check: "{ question: string, options: string[3], answer: 0|1|2, why: string } — the check question",
+};
+
+const K2_BANDS = ["early primary", "upper primary", "lower secondary", "upper secondary"];
+const K2_WORLD_PAGES = {
+  bayworld: "../../bayworld/index.html",
+  deep: "../../underwater/underwater.html",
+  regatta: "../../regatta/regatta.html",
+  fairway: "../../fairway/index.html",
+  summit: "../../summit/index.html",
+};
+
+const k2L = (id, world, anchor, position, title, station, trade, tradeLine, minutes, band, steps, check) =>
+  ({ id, world, anchor, position, title, station, trade, tradeLine, minutes, band, steps, check });
+const k2Q = (question, options, answer, why) => ({ question, options, answer, why });
+
+const K2_FIELD_LESSONS = [
+  // ------------------------------------------------------------ Bay World
+  k2L("bw-fl-crane-load-chart-ratio", "bayworld", { kind: "landmark", id: "port-cranes" }, [-352, 372],
+    "The load chart is a ratio table", "k12-simple-machines-at-a-crane", "Crane operators",
+    "The crane operator's load chart is a ratio table: further out, less load, read before every lift.", 3, "lower secondary",
+    ["Look up at the gantry cranes on the quay.", "The further out a load hangs, the bigger its turning effect.", "So the chart lets the crane lift less at long reach."],
+    k2Q("A load moves further out along the boom. What does the chart allow?", ["More load", "Less load", "The same load"], 1, "A load further out turns the crane harder, so the chart allows less.")),
+  k2L("bw-fl-slope-of-the-access-ramp", "bayworld", { kind: "site", id: "uptown-construction-site" }, [-4, -226],
+    "Rise over run on a site ramp", "k12-slope-and-angles-on-a-ramp", "Carpenters and cement masons",
+    "A carpenter setting out an access ramp works the slope as rise over run, and checks it against the plan.", 3, "lower secondary",
+    ["Find the ramp the crew is building from the visitor bay.", "Slope is how far up for every step along.", "Both lengths must be in the same unit before you divide."],
+    k2Q("Two ramps climb the same height. One is longer. Which is gentler?", ["The longer one", "The shorter one", "They are the same"], 0, "Same rise over a longer run means less climb for each step along.")),
+  k2L("bw-fl-reading-a-safety-sign", "bayworld", { kind: "site", id: "port-hazmat-response-yard" }, [-350, 376],
+    "Signal words on a safety sign", "k12-reading-instructions-and-safety-labels", "Hazmat technicians",
+    "A hazmat technician reads the signal word and the pictogram before touching any container.", 2, "upper primary",
+    ["Find a sign on the yard fence.", "The signal word at the top tells you how serious the hazard is.", "The picture and the words underneath say what to do."],
+    k2Q("Where do you look first on a safety sign?", ["The small print", "The signal word at the top", "The colour of the post"], 1, "The signal word tells you how serious it is before anything else.")),
+  k2L("bw-fl-kitchen-fractions", "bayworld", { kind: "site", id: "uptown-restaurant-row" }, [-30, -270],
+    "Scaling a recipe by one fraction", "k12-fractions-in-the-kitchen", "Cooks and chefs",
+    "A cook scaling a recipe for fewer guests multiplies every quantity by the same fraction.", 2, "upper primary",
+    ["Look through the kitchen window on restaurant row.", "Halving a recipe means halving every ingredient.", "Keep the unit beside each number as you scale it."],
+    k2Q("You halve the flour. What happens to the milk?", ["Leave it", "Halve it too", "Double it"], 1, "Every quantity gets the same fraction, or the proportions change.")),
+  k2L("bw-fl-budget-at-the-market", "bayworld", { kind: "landmark", id: "market-street-stalls" }, [470, 278],
+    "Spending and saving from one wage", "k12-household-budget-and-first-paycheck", "Market traders",
+    "A market trader keeps takings, costs and savings in separate columns, the same way a first wage is planned.", 3, "lower secondary",
+    ["Walk past the stalls and read the price boards.", "A budget lists what comes in and what goes out.", "Keeping something back each time is saving, not spending less by chance."],
+    k2Q("What goes on a budget first?", ["What you want to buy", "What comes in", "What friends spend"], 1, "You plan spending from what actually comes in.")),
+  k2L("bw-fl-ferry-map-scale", "bayworld", { kind: "landmark", id: "island-ferry-landing-clock" }, [178, 574],
+    "Map scale at the ferry landing", "k12-reading-a-map-scale-in-bay-world", "Ferry deckhands",
+    "A ferry crew reads distances off a chart using its scale, the same as you read a map.", 2, "upper primary",
+    ["Find the route map beside the ferry clock.", "The scale bar links a gap on the map to a real distance.", "Measure along the route, not in a straight line across the water."],
+    k2Q("What does a map's scale bar tell you?", ["The map's age", "How map distance compares with real distance", "Which way is north"], 1, "The scale bar links distance on paper to distance on the ground.")),
+  k2L("bw-fl-court-area", "bayworld", { kind: "landmark", id: "bayside-arena" }, [574, 375],
+    "Area and perimeter of a court", "k12-measuring-and-scaling-the-court", "Floor layers and groundskeepers",
+    "A floor layer orders material by area and edging by perimeter; mixing them up costs a job.", 2, "upper primary",
+    ["Picture the court inside the arena.", "Perimeter is the distance round the edge.", "Area is the space inside, in square units."],
+    k2Q("You need paint for the whole court floor. Which do you work out?", ["Perimeter", "Area", "Height"], 1, "Covering a floor needs its area.")),
+  k2L("bw-fl-council-agenda", "bayworld", { kind: "site", id: "downtown-civic-center" }, [-32, 37],
+    "How an agenda runs a meeting", "k12-how-a-local-council-meeting-works", "Civic staff and organisers",
+    "A union organiser reads the agenda before a public meeting so they speak when their item comes up.", 3, "lower secondary",
+    ["Stand outside the civic centre doors.", "An agenda lists what the meeting will discuss, in order.", "Public comment happens at its own point, and speakers keep to the item."],
+    k2Q("Why read the agenda before a meeting?", ["To know when your issue comes up", "To skip the meeting", "To choose a seat"], 0, "The agenda tells you when and how you can speak.")),
+  k2L("bw-fl-timeline-in-the-tower", "bayworld", { kind: "landmark", id: "downtown-tower" }, [24, 20],
+    "Made date and described date", "k12-building-a-timeline-from-documents", "Archivists",
+    "An archivist records when a document was made apart from when the events it describes happened.", 3, "lower secondary",
+    ["Look up at the tower and imagine the papers filed inside.", "A letter written later can describe something much earlier.", "A timeline orders events, so check which date is which."],
+    k2Q("A diary written later describes an old event. Which date goes on the timeline?", ["The date the diary was written", "The date of the event it describes", "Today's date"], 1, "The timeline places the event; the writing date tells you about the source.")),
+  k2L("bw-fl-union-hall-oral-history", "bayworld", { kind: "landmark", id: "union-hall" }, [-378, 45],
+    "Consent before a recording", "k12-oral-history-interview-skills", "Union historians and archivists",
+    "A union archive records a retired member's story only after they agree how it will be kept and shared.", 2, "lower secondary",
+    ["Stand by the union hall entrance.", "An oral history belongs to the person telling it.", "Ask permission, explain who will hear it, and respect the answer."],
+    k2Q("What comes before pressing record?", ["The first question", "Asking for consent", "Checking the battery only"], 1, "Consent always comes first, and it can be withdrawn.")),
+  k2L("bw-fl-guild-apprentices", "bayworld", { kind: "site", id: "west-oakland-union-hall" }, [-390, 36],
+    "Apprentices then and now", "k12-guilds-and-the-history-of-work", "Apprentices in the building trades",
+    "Building-trades apprentices learn from experienced workers on the job, a practice with a long history worth researching.", 3, "lower secondary",
+    ["Find the apprenticeship board inside the hall.", "Craft guilds trained newcomers as apprentices; that much is widely established.", "The details for any place or trade are questions to research, with sources."],
+    k2Q("You do not know when a guild started. What do you write?", ["A date that sounds right", "A research question", "Nothing"], 1, "Unknowns become questions to research, never invented facts.")),
+  k2L("bw-fl-wind-energy-chain", "bayworld", { kind: "site", id: "ridge-wind-farm" }, [955, -515],
+    "Energy from moving air", "k12-energy-transfer-at-the-wind-farm", "Wind technicians",
+    "A wind technician follows the energy from air to blades to generator when finding a fault.", 3, "upper primary",
+    ["Watch the turbines turn from outside the fence.", "Moving air pushes the blades, and the turning shaft drives a generator.", "Some energy is always lost as heat and sound."],
+    k2Q("Where does a turbine's energy come from?", ["The tower", "Moving air", "The fence"], 1, "The wind's movement is transferred to the blades.")),
+  k2L("bw-fl-blade-sweep-circle", "bayworld", { kind: "landmark", id: "ridge-trail-summit" }, [995, -645],
+    "The blade is the radius", "k12-geometry-of-a-turbine-blade-sweep", "Wind technicians",
+    "Wind engineers work a rotor's swept area from its blade length, the radius of the circle.", 3, "lower secondary",
+    ["From the summit, look across at a turning rotor.", "Each blade reaches from the hub to the edge of a circle.", "So the blade is the radius, and area grows with it multiplied by itself."],
+    k2Q("The blade doubles in length. What happens to the swept area?", ["It doubles", "It is four times as big", "It stays the same"], 1, "Area depends on the radius times itself.")),
+  k2L("bw-fl-water-cycle-at-the-plant", "bayworld", { kind: "site", id: "south-treatment-plant" }, [720, 590],
+    "Where the water goes next", "k12-water-cycle-and-filtration", "Water treatment operators",
+    "A treatment operator knows the water they clean has been round the cycle many times before.", 2, "upper primary",
+    ["Look at the settling channels from the walkway.", "Water evaporates, condenses into clouds and falls as rain.", "Clearer water is not the same as safe to drink."],
+    k2Q("Water looks clear after a filter. Is it safe to drink?", ["Yes, always", "Not necessarily", "Only if cold"], 1, "Germs and dissolved substances can remain in clear water.")),
+  k2L("bw-fl-first-aid-call", "bayworld", { kind: "landmark", id: "fire-station" }, [426, 265],
+    "Calling for help clearly", "k12-first-aid-awareness-call-for-help", "Firefighters and dispatchers",
+    "A dispatcher can only send help fast when the caller gives a clear location.", 2, "upper primary",
+    ["Stand outside the fire station.", "Check for danger before going closer to anyone hurt.", "Fetch an adult, call for help and say exactly where you are."],
+    k2Q("What does the call-taker need most from you?", ["Your favourite colour", "Where you are", "What time it is"], 1, "A clear location lets help find you.")),
+  k2L("bw-fl-digital-at-the-college", "bayworld", { kind: "landmark", id: "bay-city-college" }, [478, 240],
+    "Pause before you click", "k12-digital-citizenship-and-online-safety", "IT support technicians",
+    "An IT technician trains staff to pause and check a message's sender before clicking any link.", 2, "upper primary",
+    ["Find the computer lab windows at the college.", "Scam messages rush you, come from odd senders and ask for passwords.", "Pause, check and tell a trusted adult if unsure."],
+    k2Q("A message says act now or lose your account. What do you do?", ["Click quickly", "Pause and check", "Reply with your password"], 1, "Rushing you is a warning sign; pause first.")),
+  k2L("bw-fl-teamwork-at-the-stadium", "bayworld", { kind: "landmark", id: "civic-stadium" }, [622, 389],
+    "Feedback on the work, not the person", "k12-teamwork-and-feedback", "Crew leads",
+    "A crew lead gives feedback about the task, specific and kind, so the crew improves without losing trust.", 2, "upper primary",
+    ["Picture a team talk in the stadium tunnel.", "Name something specific that went well.", "Suggest one next step, then listen."],
+    k2Q("Which is useful feedback?", ["You are bad at this", "Your pass was on time; try looking up sooner", "Fine"], 1, "Specific and kind, about the work, gives a clear next step.")),
+
+  // ------------------------------------------------------------ The Deep
+  k2L("dp-fl-kelp-food-web", "deep", { kind: "landmark", id: "kelp-cathedral" }, [-515, -236],
+    "Arrows follow the energy", "k12-ecosystems-at-the-kelp-transect", "Marine scientists and survey divers",
+    "A survey diver's count feeds a food web in which each arrow points from food to eater.", 3, "upper primary",
+    ["Look up through the kelp fronds towards the light.", "Kelp is a producer; urchins graze on it.", "In a food web, the arrow points from kelp to urchin."],
+    k2Q("Which way does the arrow go between kelp and urchin?", ["Urchin to kelp", "Kelp to urchin", "No arrow"], 1, "Energy goes from the food to the eater.")),
+  k2L("dp-fl-holdfast-ecosystem", "deep", { kind: "landmark", id: "holdfast-ledge" }, [-446, -176],
+    "One change spreads through a web", "k12-ecosystems-at-the-kelp-transect", "Restoration ecologists",
+    "A restoration ecologist watches urchin predators because losing them can strip a kelp forest.", 3, "lower secondary",
+    ["Find the holdfasts gripping the ledge.", "Predators keep urchin numbers in check.", "Remove the predator and the kelp can be grazed away."],
+    k2Q("The urchins' predator disappears. What may happen to the kelp?", ["It grows more", "It may be grazed away", "Nothing"], 1, "More urchins graze the kelp faster than it regrows.")),
+  k2L("dp-fl-buoyancy-at-the-anchor", "deep", { kind: "landmark", id: "old-anchor" }, [-386, -516],
+    "Why the anchor sinks", "k12-buoyancy-and-pressure-in-the-deep", "Salvage divers",
+    "A salvage diver uses lift bags because water pushes up harder on a large air-filled bag than on a solid anchor.", 3, "upper primary",
+    ["Look at the old anchor on the seabed.", "Water pushes up on everything in it.", "Heavy for its size sinks; light for its size floats."],
+    k2Q("Why does a lift bag raise a heavy object?", ["It is magic", "Water pushes up on the big bag of air", "The object gets lighter"], 1, "The large volume of air gets a big upward push from the water.")),
+  k2L("dp-fl-pressure-at-the-trench", "deep", { kind: "landmark", id: "trench-lip" }, [-655, 425],
+    "Pressure grows with depth", "k12-buoyancy-and-pressure-in-the-deep", "Commercial divers and ROV pilots",
+    "An ROV pilot knows pressure grows the deeper the vehicle goes, which is why its housing is built so strong.", 2, "lower secondary",
+    ["Look over the lip into the trench.", "The deeper you go, the more water presses from above.", "That is why deep equipment has thick, strong housings."],
+    k2Q("What happens to water pressure as you go deeper?", ["It falls", "It grows", "It stays the same"], 1, "More water above means more pressure.")),
+  k2L("dp-fl-tide-gauge-reading", "deep", { kind: "landmark", id: "tide-gauge-post" }, [-116, -236],
+    "Reading a tide gauge level", "k12-graphing-tide-readings-at-the-pier", "Hydrographic surveyors",
+    "A hydrographic surveyor records each gauge reading with its time, ready to plot.", 2, "upper primary",
+    ["Find the tide gauge post.", "A reading is where the water surface meets the scale.", "Write the time and the unit beside every reading."],
+    k2Q("What must go beside every tide reading?", ["Its time and unit", "A guess of the next one", "Nothing"], 0, "Without its time and unit a reading cannot be plotted.")),
+  k2L("dp-fl-sonde-controlled-test", "deep", { kind: "landmark", id: "sonde-mooring" }, [-56, -296],
+    "Keep everything else the same", "k12-a-controlled-experiment", "Water-quality scientists",
+    "A water-quality scientist compares sonde readings fairly by keeping the depth and time of day the same.", 3, "lower secondary",
+    ["Find the sonde on its mooring.", "To compare two places fairly, change only the place.", "Keep the depth, the time and the instrument the same."],
+    k2Q("You compare water at two sites. What should stay the same?", ["Nothing", "Depth, time and instrument", "Only the colour of the float"], 1, "Only the thing you test may change.")),
+  k2L("dp-fl-wreck-primary-source", "deep", { kind: "landmark", id: "wreck-bow" }, [234, 284],
+    "The wreck as a primary source", "k12-primary-and-secondary-sources", "Maritime archaeologists",
+    "A maritime archaeologist treats the wreck itself as a primary source and a later article about it as secondary.", 3, "lower secondary",
+    ["Look at the wreck's bow from the survey line.", "The wreck itself is a primary source: it was there.", "A book about it later is a secondary source; check what it is based on."],
+    k2Q("Which is a primary source?", ["A later magazine article", "The wreck itself", "A film about the wreck"], 1, "The wreck comes from the time itself.")),
+  k2L("dp-fl-reef-ball-count", "deep", { kind: "landmark", id: "reef-ball-rows" }, [344, -16],
+    "Count only what you see", "k12-ecosystems-at-the-kelp-transect", "Reef monitoring divers",
+    "A monitoring diver records only what is observed along the line, so next season's count can be compared fairly.", 2, "upper primary",
+    ["Look along the rows of reef balls.", "A survey counts what is seen, nothing added.", "Note the visibility so a murky day is not mistaken for a decline."],
+    k2Q("You expected crabs but saw none. What do you record?", ["Some crabs anyway", "None seen", "Skip the entry"], 1, "A survey records observations, not expectations.")),
+  k2L("dp-fl-outfall-water-cycle", "deep", { kind: "landmark", id: "outfall-diffuser" }, [424, -236],
+    "Treated water rejoins the cycle", "k12-water-cycle-and-filtration", "Outfall inspection divers",
+    "An outfall inspection diver checks the diffuser where treated water returns to the bay and the cycle.", 2, "upper primary",
+    ["Find the diffuser on the seabed.", "Treated water from the plant returns to the bay here.", "From the bay it can evaporate and fall as rain again."],
+    k2Q("Where does treated water go after the outfall?", ["It disappears", "Back into the bay and the water cycle", "Into space"], 1, "Water is never used up; it moves round the cycle.")),
+  k2L("dp-fl-channel-marker-map", "deep", { kind: "landmark", id: "channel-marker-chain" }, [-166, 84],
+    "Charts and their orientation", "k12-map-literacy-across-eras", "Buoy tender crews",
+    "A buoy tender crew reads the chart's own orientation and key before placing a marker.", 2, "upper primary",
+    ["Follow the marker chain up towards the surface.", "Every chart has a key, a scale and an orientation mark.", "Read those three before reading any route."],
+    k2Q("What do you find first on any chart?", ["The prettiest part", "Key, scale and orientation", "The oldest date"], 1, "Those three tell you how to read everything else.")),
+
+  // ------------------------------------------------------------ The Regatta
+  k2L("rg-fl-wind-direction-at-the-start", "regatta", { kind: "course", id: "rg-estuary-sprint" }, [65, 540],
+    "Winds are named from where they come", "k12-weather-and-the-sky", "Sailing coaches and skippers",
+    "A skipper names the wind by where it comes from before choosing a course to the first mark.", 2, "upper primary",
+    ["Look at the flag on the start boat.", "The flag streams away from where the wind comes from.", "A wind from the sea is a sea wind, even as it blows inland."],
+    k2Q("The flag streams towards the shore. Where is the wind from?", ["The shore", "The sea", "Nowhere"], 1, "Winds are named by where they come from.")),
+  k2L("rg-fl-course-map-scale", "regatta", { kind: "course", id: "rg-outer-bay-loop" }, [-905, 300],
+    "Distance to the next mark", "k12-reading-a-map-scale-in-bay-world", "Navigators",
+    "A navigator measures the leg to the next mark on the chart and scales it up to real distance.", 3, "upper primary",
+    ["Open the course card at the start line.", "Measure the leg to the first mark along the chart.", "Use the scale bar to turn it into a real distance."],
+    k2Q("What turns a chart measurement into a real distance?", ["The scale bar", "The colour key", "The date"], 0, "The scale links chart distance to real distance.")),
+  k2L("rg-fl-speed-distance-time", "regatta", { kind: "course", id: "rg-north-channel-passage" }, [-985, -560],
+    "Speed, distance and time on a leg", "k12-reading-a-map-scale-in-bay-world", "Ferry and charter skippers",
+    "A charter skipper estimates arrival time from distance and speed, then checks it makes sense.", 3, "lower secondary",
+    ["Read the long leg down the channel on the course card.", "Time is distance divided by speed.", "Check the answer makes sense before you rely on it."],
+    k2Q("The boat goes faster over the same leg. What happens to the time?", ["It grows", "It shrinks", "It stays the same"], 1, "Faster over the same distance takes less time.")),
+  k2L("rg-fl-buoyancy-of-a-hull", "regatta", { kind: "course", id: "rg-estuary-sprint" }, [-120, 420],
+    "Why a heavy hull floats", "k12-buoyancy-and-pressure-in-the-deep", "Boatbuilders",
+    "A boatbuilder shapes a hull to push aside enough water to float its weight.", 2, "upper primary",
+    ["Round the first mark and look at the hulls around you.", "A hull pushes water aside, and the water pushes back up.", "A wide hull of air and wood is light for its size."],
+    k2Q("Why does a heavy boat float?", ["It is light for its size", "Water pushes nothing", "Paint"], 0, "Its shape holds air, making it light for its size.")),
+  k2L("rg-fl-probability-of-a-wind-shift", "regatta", { kind: "course", id: "rg-outer-bay-loop" }, [-1000, 120],
+    "A forecast is a likelihood", "k12-weather-and-the-sky", "Race officers",
+    "A race officer treats a forecast wind shift as a likelihood and watches the water before deciding.", 2, "upper primary",
+    ["At the windward mark, look for darker patches on the water.", "Darker patches can mean a gust is coming.", "A forecast says what is likely, not what is certain."],
+    k2Q("A forecast says a shift is likely. What does that mean?", ["It will happen for sure", "It may happen", "It will not happen"], 1, "Likely is a chance, not a promise.")),
+  k2L("rg-fl-teamwork-on-deck", "regatta", { kind: "course", id: "rg-north-channel-passage" }, [-1050, -200],
+    "Clear roles on a crew", "k12-teamwork-and-feedback", "Deckhands and yacht crews",
+    "A yacht crew agrees roles before the start so every manoeuvre has one person on each job.", 2, "upper primary",
+    ["Before the next mark, picture who does what on deck.", "Each person has a clear role.", "Call the plan, listen and check before you act."],
+    k2Q("Why agree roles before a manoeuvre?", ["To look busy", "So every job has one person", "To go slower"], 1, "Clear roles stop jobs being missed or doubled.")),
+  k2L("rg-fl-incident-report-afloat", "regatta", { kind: "course", id: "rg-outer-bay-loop" }, [-950, 650],
+    "Facts first in a report", "k12-writing-a-clear-incident-report", "Harbour masters",
+    "A harbour master's report keeps what was seen apart from what someone guesses happened.", 3, "lower secondary",
+    ["After rounding the far mark, imagine reporting a near miss.", "Write what happened, where and when you saw it.", "Keep facts apart from guesses, and leave out blame."],
+    k2Q("What belongs in an incident report?", ["Who you think is to blame", "What you saw, where and when", "A guess of the cause as fact"], 1, "Facts first, guesses labelled, no blame.")),
+  k2L("rg-fl-public-speaking-briefing", "regatta", { kind: "course", id: "rg-estuary-sprint" }, [-350, 450],
+    "One clear message in a briefing", "k12-public-speaking-at-the-hall", "Race officers",
+    "A race officer's skipper briefing has one clear message about safety, said so the back row hears.", 2, "upper primary",
+    ["Picture the skippers' briefing before the start.", "One clear message is remembered.", "Speak to the back row, slowly and clearly."],
+    k2Q("What makes a briefing remembered?", ["Many messages", "One clear message", "Speaking quickly"], 1, "Listeners remember one clear, repeated message.")),
+
+  // ------------------------------------------------------------ Fairway Park
+  k2L("fw-fl-track-perimeter", "fairway", { kind: "facility", id: "track" }, [-225, 10],
+    "Perimeter on the running track", "k12-measuring-and-scaling-the-court", "Groundskeepers",
+    "A groundskeeper marking the track measures along each lane's edge, the perimeter of a curved shape.", 3, "upper primary",
+    ["Stand at the edge of the running track.", "Perimeter is the distance all the way round.", "An outer lane goes further round than an inner one."],
+    k2Q("Why do outer lanes start further ahead?", ["For fun", "Their perimeter is longer", "They are wider"], 1, "Outer lanes go further round, so starts are staggered.")),
+  k2L("fw-fl-weather-mast", "fairway", { kind: "facility", id: "weatherMast" }, [-278, -14],
+    "Reading the weather mast", "k12-weather-and-the-sky", "Groundskeepers",
+    "A groundskeeper checks the weather mast before irrigating or cutting, and heads in when thunder is heard.", 2, "upper primary",
+    ["Find the weather mast by the maintenance yard.", "Read the wind and the rain gauge at eye level.", "If you hear thunder, go indoors."],
+    k2Q("You hear thunder on the course. What do you do?", ["Keep playing", "Go indoors", "Stand under a tree"], 1, "If you can hear thunder, lightning can reach you.")),
+  k2L("fw-fl-fuel-cabinet-label", "fairway", { kind: "facility", id: "maintenanceYard" }, [-262, -26],
+    "Reading a label before use", "k12-reading-instructions-and-safety-labels", "Greenskeepers",
+    "A greenskeeper reads the label on every container in the cabinet before using it.", 2, "upper primary",
+    ["Look at the fuel cabinet in the yard from the path.", "Labels tell you what is inside and how to use it safely.", "Read the whole label before anything is opened."],
+    k2Q("When do you read a label?", ["After using it", "Before using it", "Never"], 1, "The label says how to use it safely, so read it first.")),
+  k2L("fw-fl-slope-on-the-green", "fairway", { kind: "hole", id: "hole-3" }, [-32, -24],
+    "Slope on a putting green", "k12-slope-and-angles-on-a-ramp", "Greenskeepers and course builders",
+    "A course builder shapes a green's slope so water drains but a ball can still stop.", 2, "lower secondary",
+    ["Stand beside the third green.", "A green slopes gently so rain can run off.", "Slope is rise over run, the same as a ramp."],
+    k2Q("Slope is worked out as…", ["Run over rise", "Rise over run", "Rise plus run"], 1, "How far up for every step along.")),
+  k2L("fw-fl-controlled-test-on-turf", "fairway", { kind: "hole", id: "hole-6" }, [129, -24],
+    "A fair test on two turf plots", "k12-a-controlled-experiment", "Turf scientists",
+    "A turf scientist tests a new mowing height on one plot and keeps everything else the same as the next plot.", 3, "lower secondary",
+    ["Look at the trial plots beside the sixth tee.", "Change only one thing between the plots.", "Repeat the test before trusting the result."],
+    k2Q("You change the mowing and the watering. What is wrong?", ["Nothing", "Two things changed at once", "Too few mowers"], 1, "With two changes you cannot tell which caused the difference.")),
+  k2L("fw-fl-teamwork-at-the-court", "fairway", { kind: "facility", id: "basketballCourt" }, [-270, -20],
+    "Receiving feedback well", "k12-teamwork-and-feedback", "Coaches",
+    "A coach teaches players to listen, ask and thank when they get feedback, then decide what to use.", 2, "upper primary",
+    ["Stand at the side of the basketball court.", "When a teammate gives feedback, listen to the end.", "Ask a question to understand, then thank them."],
+    k2Q("A teammate gives you feedback. What do you do first?", ["Argue back", "Listen to the end", "Walk away"], 1, "Listening first gets the most from feedback.")),
+  k2L("fw-fl-probability-on-the-tee", "fairway", { kind: "hole", id: "hole-9" }, [280, -26],
+    "A coin toss has no memory", "k12-probability-with-a-fair-spinner", "Match officials",
+    "A match official's coin toss is fair because each toss has the same chance, whatever came before.", 2, "upper primary",
+    ["At the ninth tee, imagine tossing for who goes first.", "Heads and tails each have an equal chance.", "The coin does not remember the last toss."],
+    k2Q("Heads came up three times running. What is the chance of tails now?", ["Higher than before", "The same as always", "Zero"], 1, "A fair coin has no memory.")),
+];
+
+/** Every lesson in one world. */
+function k2LessonsFor(world) { return K2_FIELD_LESSONS.filter((l) => l.world === world); }
+
+/** The launch link for a lesson's full station, with the way back to its world. */
+function k2LessonLink(lesson, linkFor) {
+  const page = K2_WORLD_PAGES[lesson.world]?.split("/").pop() ?? null;
+  return linkFor(lesson.station, { from: lesson.world, page });
+}
+
+/**
+ * Validate one lesson against the schema. `ctx` supplies what the world knows:
+ * { stations: Set<string> of K-12 station ids, anchors: Set<string> of "kind:id" }.
+ * Returns a list of problems (empty when the lesson is sound).
+ */
+function k2ValidateFieldLesson(l, ctx = {}) {
+  const bad = [];
+  const str = (v) => typeof v === "string" && v.trim().length > 0;
+  if (!str(l.id) || !/-fl-/.test(l.id)) bad.push("id missing or without '-fl-'");
+  if (!str(l.world)) bad.push("no world");
+  if (!l.anchor || !str(l.anchor.kind) || !str(l.anchor.id)) bad.push("no anchor");
+  else if (ctx.anchors && !ctx.anchors.has(`${l.anchor.kind}:${l.anchor.id}`)) bad.push(`anchor ${l.anchor.kind}:${l.anchor.id} not found in ${l.world}`);
+  if (!Array.isArray(l.position) || l.position.length !== 2 || !l.position.every(Number.isFinite)) bad.push("position is not [x, z]");
+  for (const f of ["title", "station", "trade", "tradeLine", "band"]) if (!str(l[f])) bad.push(`no ${f}`);
+  if (ctx.stations && !ctx.stations.has(l.station)) bad.push(`station ${l.station} is not a K-12 station`);
+  if (!(l.minutes >= 2 && l.minutes <= 4)) bad.push(`minutes ${l.minutes} outside two to four`);
+  if (str(l.band) && !l.band.split(" to ").every((b) => K2_BANDS.includes(b))) bad.push(`band "${l.band}" is not generic`);
+  if (!Array.isArray(l.steps) || l.steps.length !== 3 || !l.steps.every(str)) bad.push("steps must be three sentences");
+  const c = l.check;
+  if (!c || !str(c.question) || !Array.isArray(c.options) || c.options.length !== 3 || !c.options.every(str) || ![0, 1, 2].includes(c.answer) || !str(c.why)) bad.push("check question malformed");
+  const text = [l.title, l.tradeLine, ...(l.steps ?? []), c?.question, ...(c?.options ?? []), c?.why].join(" ");
+  if (/\d/.test(text)) bad.push("lesson text states a figure (a digit)");
+  return bad;
+}
+
+/** Lessons of one world placed on a map canvas by the world's own transform. */
+function k2MapFieldLessons(world, toMap, size = 512) {
+  return k2LessonsFor(world).map((l) => ({ ...l, ...toMap(l.position[0], l.position[1], size) }));
+}
+
+/**
+ * The K-12 layer on a world's full map: a teal square per field lesson and,
+ * under the site list, one row per lesson with its trade line and a link to
+ * the full station. Kept here so each world's app.js calls it in one line.
+ */
+function k2DrawFieldLayer(ctx, placed, listEl, linkFor) {
+  for (const l of placed) {
+    ctx.fillStyle = "#6ad0c8"; ctx.fillRect(l.x - 4, l.y - 4, 8, 8);
+    ctx.strokeStyle = "#0a1420"; ctx.lineWidth = 1; ctx.strokeRect(l.x - 4, l.y - 4, 8, 8);
+  }
+  if (!listEl || !placed.length || typeof document === "undefined") return;
+  const head = document.createElement("div");
+  head.className = "map-site-row k2-layer-head";
+  head.innerHTML = "<b>K-12 field lessons</b><span>Short lessons at landmarks, each tied to a trade</span>";
+  listEl.appendChild(head);
+  for (const l of placed) {
+    const row = document.createElement("div");
+    row.className = "map-site-row k2-layer-row";
+    row.innerHTML = "<b></b><span></span><a class=\"btn\">Full lesson</a>";
+    row.querySelector("b").textContent = `${l.title} · ${l.minutes} min`;
+    row.querySelector("span").textContent = l.tradeLine;
+    row.querySelector("a").href = k2LessonLink(l, linkFor);
+    listEl.appendChild(row);
+  }
+}
+
+
 /* ===== summit/js/state.js ===== */
 // Sierra Summit — the headless game state: the learner's summit ledger
 // (visited sites, found notes, lessons passed, quests done, activity bests),
 // the skill-gate answers, quest progress and the two activities' scoring.
 // No three.js and no DOM: tools/check_summit.mjs drives it directly.
 //
-// Gates follow the frontier brief's contract. QUESTMASTER's shared engine
-// (shared/skill-gates.js) had not landed when this was written, so
-// smGateMissing() answers the same question from the passport directly; when
-// that engine lands, swap the body for its isOpen()/missing() — the call
-// sites stay the same.
+// Gates follow the frontier brief's contract and are answered by
+// QUESTMASTER's shared engine (shared/skill-gates.js): smGateMissing() builds
+// one of its snapshots (stars per station and finished quests from the
+// learner's stores) and adds this world's own finished quests, then asks
+// qmMissing(). The call sites are unchanged from the first phase. For the
+// headless checker, `done` may be a function id -> boolean instead of a
+// store: the snapshot is then built by probing every id the gate names.
 
 
 
+
+
+
+qmNameQuests([...SM_MAIN_QUESTS, ...SM_SIDE_QUESTS]);
 
 const SM_STORE_KEY = "summit-v1";
 
@@ -11543,21 +12125,34 @@ function smLoad(store = gtStorage()) {
 
 function smSave(state, store = gtStorage()) { try { store?.setItem(SM_STORE_KEY, JSON.stringify(state)); } catch { /* private mode */ } }
 
-/** The ids in a gate the learner has not yet completed, each { kind, id }. */
-function smGateMissing(gate, state = smBlank(), done = ppCompleted) {
-  if (!gate) return [];
-  const out = [];
-  for (const id of gate.stations ?? []) if (!done(id)) out.push({ kind: "station", id });
-  for (const id of gate.k12 ?? []) if (!done(id)) out.push({ kind: "k12", id });
-  for (const p of gate.programmes ?? []) {
-    let stars = 0; try { stars = ppProgramme(p.id)?.stars ?? 0; } catch { stars = 0; }
-    if (stars < (p.minStars ?? 1)) out.push({ kind: "programme", id: p.id });
+/**
+ * A skill-gate snapshot for this world: QUESTMASTER's (best stars per
+ * station, finished quests and side games) plus the quests finished in this
+ * ledger. `done` is null for the live stores, or a probe function for the
+ * checker; `gate` says which ids a probe must answer for.
+ */
+function smSnapshot(state = smBlank(), done = null, gate = null) {
+  let snap;
+  if (typeof done === "function") {
+    snap = { stars: new Map(), questsDone: new Set() };
+    const ids = [...(gate?.stations ?? []), ...(gate?.k12 ?? [])];
+    for (const p of gate?.programmes ?? []) ids.push(...(PP_PROGRAMMES[p.id]?.stations ?? []));
+    for (const id of ids) if (done(id)) snap.stars.set(id, 1);
+  } else {
+    const live = qmCachedSnapshot();
+    snap = { stars: new Map(live.stars), questsDone: new Set(live.questsDone) };
   }
-  for (const id of gate.quests ?? []) if (!state.quests.includes(id)) out.push({ kind: "quest", id });
-  return out;
+  for (const id of state?.quests ?? []) snap.questsDone.add(id);
+  return snap;
 }
 
-function smGateOpen(gate, state, done) { return smGateMissing(gate, state, done).length === 0; }
+/** The requirements in a gate the learner has not yet met, QUESTMASTER's rows: each { kind, id, label, detail? }. */
+function smGateMissing(gate, state = smBlank(), done = null) {
+  if (!gate) return [];
+  return qmMissing(gate, smSnapshot(state, done, gate));
+}
+
+function smGateOpen(gate, state, done = null) { return smGateMissing(gate, state, done).length === 0; }
 
 /** The current main-arc quest (the first not done whose `requires` is done), or null when the arc is finished. */
 function smCurrentMain(state) {
@@ -11565,15 +12160,15 @@ function smCurrentMain(state) {
 }
 
 /** Is one quest step satisfied by the ledger and the passport? */
-function smStepDone(step, state, done = ppCompleted) {
+function smStepDone(step, state, done = null) {
   if (step.type === "goto") return state.visited.includes(step.target);
-  if (step.type === "station") return done(step.target);
+  if (step.type === "station") return (done ?? ppCompleted)(step.target);
   if (step.type === "find") return state.eggs.includes(step.target);
   return false;
 }
 
 /** Mark every quest whose steps are all satisfied (and whose gate and prerequisite are open). Returns the newly completed ids. */
-function smAdvanceQuests(state, done = ppCompleted) {
+function smAdvanceQuests(state, done = null) {
   const fresh = [];
   let changed = true;
   while (changed) {
@@ -11594,7 +12189,7 @@ function smVisit(state, siteId) {
   state.visited.push(siteId); return true;
 }
 
-function smFindEgg(state, eggId, done = ppCompleted) {
+function smFindEgg(state, eggId, done = null) {
   const egg = SM_EGGS.find((e) => e.id === eggId);
   if (!egg || state.eggs.includes(eggId)) return { ok: false, egg };
   if (egg.gate && !smGateOpen(egg.gate, state, done)) return { ok: false, locked: true, egg };
@@ -13587,7 +14182,7 @@ function smLink(id, siteId) { return lkStationLink(id, { runner: SM_RUNNER, from
 function smLockHtml(gate) {
   const miss = smGateMissing(gate, sm.state);
   if (!miss.length) return "";
-  const links = miss.map((m) => (m.kind === "station" || m.kind === "k12") ? `<a href="${smLink(m.id, sm.near?.site?.id ?? null)}">${lkStationLabel(m.id)}</a>` : `${m.kind} ${lkStationLabel(m.id)}`).join(", ");
+  const links = miss.map((m) => (m.kind === "station" || m.kind === "k12") ? `<a href="${smLink(m.id, sm.near?.site?.id ?? null)}">${lkStationLabel(m.id)}</a>` : `${m.kind} ${m.label ?? lkStationLabel(m.id)}${m.detail ? ` (${m.detail})` : ""}`).join(", ");
   return `<p class="lock">🔒 ${gate.note} — needs ${links}</p>`;
 }
 
@@ -13611,20 +14206,20 @@ function smOpenBoard(site) {
 }
 
 function smOpenLesson(l) {
-  $("lesson-title").textContent = l.title; $("lesson-min").textContent = l.minutes; $("lesson-trade").textContent = l.trade;
+  $("lesson-title").textContent = l.title; $("lesson-min").textContent = l.minutes; $("lesson-trade").textContent = `${l.trade} · ${l.tradeLine} (${l.band})`;
   $("lesson-steps").innerHTML = l.steps.map((s) => `<li>${s}</li>`).join("");
-  $("lesson-q").textContent = l.check.q;
+  $("lesson-q").textContent = l.check.question;
   const box = $("lesson-choices"); box.textContent = "";
-  l.check.choices.forEach((c, i) => {
+  l.check.options.forEach((c, i) => {
     const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = c;
     b.addEventListener("click", () => {
       const r = smAnswerLesson(sm.state, l.id, i); smSave(sm.state);
-      smToast(r.ok ? `Right — ${l.title} passed.` : "Not quite — read the steps again and try another answer.");
+      smToast(r.ok ? `Right — ${l.check.why}` : "Not quite — read the steps again and try another answer.", r.ok ? 6000 : 3200);
       b.classList.toggle("on", r.ok); smHud();
     });
     box.appendChild(b);
   });
-  $("lesson-links").innerHTML = `K-12 station: <a href="${smLink(l.k12, l.place)}">${lkStationLabel(l.k12)}</a> · Trade station: <a href="${smLink(l.station, l.place)}">${lkStationLabel(l.station)}</a>`;
+  $("lesson-links").innerHTML = `K-12 station: <a href="${smLink(l.station, l.anchor.id)}">${lkStationLabel(l.station)}</a> · Trade station: <a href="${smLink(l.tradeStation, l.anchor.id)}">${lkStationLabel(l.tradeStation)}</a>`;
   smOpen("lesson");
 }
 
@@ -13656,7 +14251,11 @@ function smRenderMap() {
   if (SM_LAYERS.trails) for (const t of SM_TRAILS) line(t.pts, "#fff3c4", 1.5, [3, 3]);
   const dot = (x, z, col, r, label) => { const [px, pz] = smMapXY(x, z, W); o.fillStyle = col; o.beginPath(); o.arc(px, pz, r, 0, Math.PI * 2); o.fill(); if (label) { o.font = "11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText(label, px + r + 2, pz + 4); o.fillText(label, px + r + 2, pz + 4); } };
   if (SM_LAYERS.sites) for (const s of SM_SITES) dot(s.at[0], s.at[1], sm.state.visited.includes(s.id) ? "#ffb020" : "#b0b8c0", 5, s.name);
-  if (SM_LAYERS.lessons) for (const l of SM_FIELD_LESSONS) dot(l.at[0], l.at[1], sm.state.lessons.includes(l.id) ? "#8be28b" : "#2f6fd6", 3.5);
+  if (SM_LAYERS.lessons) {
+    // SCHOLAR-2's K-12 layer draws the squares; a green dot marks a lesson passed.
+    k2DrawFieldLayer(o, SM_FIELD_LESSONS.map((l) => { const [x, y] = smMapXY(l.position[0], l.position[1], W); return { ...l, x, y }; }), null, null);
+    for (const l of SM_FIELD_LESSONS) if (sm.state.lessons.includes(l.id)) dot(l.position[0], l.position[1], "#8be28b", 2.5);
+  }
   if (SM_LAYERS.notes) for (const e of SM_EGGS) if (sm.state.eggs.includes(e.id)) dot(e.at[0], e.at[1], "#f2e6b8", 2.5);
   if (SM_LAYERS.locks) for (const q of SM_SIDE_QUESTS) if (q.gate && !smGateOpen(q.gate, sm.state)) { const s = smPlace(q.site); const [px, pz] = smMapXY(s.at[0], s.at[1], W); o.font = "13px system-ui"; o.fillText("🔒", px - 16, pz - 6); }
   if (SM_LAYERS.activities) for (const a of SM_ACTIVITIES) (a.controls ?? a.points).forEach(([x, z], i) => dot(x, z, "#ff5ad0", 2.5, i === 0 ? a.kind : ""));
@@ -13694,7 +14293,7 @@ function smNearest() {
   let best = null, bd = 9;
   for (const b of world.siteBoards) { const d = Math.hypot(sm.x - b.x, sm.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site }; } }
   for (const e of SM_EGGS) { if (sm.state.eggs.includes(e.id)) continue; const d = Math.hypot(sm.x - e.at[0], sm.z - e.at[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "egg", egg: e }; } }
-  for (const l of SM_FIELD_LESSONS) { const d = Math.hypot(sm.x - l.at[0], sm.z - l.at[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: l }; } }
+  for (const l of SM_FIELD_LESSONS) { const d = Math.hypot(sm.x - l.position[0], sm.z - l.position[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: l }; } }
   return best;
 }
 

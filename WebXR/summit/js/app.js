@@ -9,6 +9,7 @@ import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
+import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
 import {
   SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES,
   SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL,
@@ -127,7 +128,7 @@ function smLink(id, siteId) { return lkStationLink(id, { runner: SM_RUNNER, from
 function smLockHtml(gate) {
   const miss = smGateMissing(gate, sm.state);
   if (!miss.length) return "";
-  const links = miss.map((m) => (m.kind === "station" || m.kind === "k12") ? `<a href="${smLink(m.id, sm.near?.site?.id ?? null)}">${lkStationLabel(m.id)}</a>` : `${m.kind} ${lkStationLabel(m.id)}`).join(", ");
+  const links = miss.map((m) => (m.kind === "station" || m.kind === "k12") ? `<a href="${smLink(m.id, sm.near?.site?.id ?? null)}">${lkStationLabel(m.id)}</a>` : `${m.kind} ${m.label ?? lkStationLabel(m.id)}${m.detail ? ` (${m.detail})` : ""}`).join(", ");
   return `<p class="lock">🔒 ${gate.note} — needs ${links}</p>`;
 }
 
@@ -151,20 +152,20 @@ function smOpenBoard(site) {
 }
 
 function smOpenLesson(l) {
-  $("lesson-title").textContent = l.title; $("lesson-min").textContent = l.minutes; $("lesson-trade").textContent = l.trade;
+  $("lesson-title").textContent = l.title; $("lesson-min").textContent = l.minutes; $("lesson-trade").textContent = `${l.trade} · ${l.tradeLine} (${l.band})`;
   $("lesson-steps").innerHTML = l.steps.map((s) => `<li>${s}</li>`).join("");
-  $("lesson-q").textContent = l.check.q;
+  $("lesson-q").textContent = l.check.question;
   const box = $("lesson-choices"); box.textContent = "";
-  l.check.choices.forEach((c, i) => {
+  l.check.options.forEach((c, i) => {
     const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = c;
     b.addEventListener("click", () => {
       const r = smAnswerLesson(sm.state, l.id, i); smSave(sm.state);
-      smToast(r.ok ? `Right — ${l.title} passed.` : "Not quite — read the steps again and try another answer.");
+      smToast(r.ok ? `Right — ${l.check.why}` : "Not quite — read the steps again and try another answer.", r.ok ? 6000 : 3200);
       b.classList.toggle("on", r.ok); smHud();
     });
     box.appendChild(b);
   });
-  $("lesson-links").innerHTML = `K-12 station: <a href="${smLink(l.k12, l.place)}">${lkStationLabel(l.k12)}</a> · Trade station: <a href="${smLink(l.station, l.place)}">${lkStationLabel(l.station)}</a>`;
+  $("lesson-links").innerHTML = `K-12 station: <a href="${smLink(l.station, l.anchor.id)}">${lkStationLabel(l.station)}</a> · Trade station: <a href="${smLink(l.tradeStation, l.anchor.id)}">${lkStationLabel(l.tradeStation)}</a>`;
   smOpen("lesson");
 }
 
@@ -196,7 +197,11 @@ function smRenderMap() {
   if (SM_LAYERS.trails) for (const t of SM_TRAILS) line(t.pts, "#fff3c4", 1.5, [3, 3]);
   const dot = (x, z, col, r, label) => { const [px, pz] = smMapXY(x, z, W); o.fillStyle = col; o.beginPath(); o.arc(px, pz, r, 0, Math.PI * 2); o.fill(); if (label) { o.font = "11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText(label, px + r + 2, pz + 4); o.fillText(label, px + r + 2, pz + 4); } };
   if (SM_LAYERS.sites) for (const s of SM_SITES) dot(s.at[0], s.at[1], sm.state.visited.includes(s.id) ? "#ffb020" : "#b0b8c0", 5, s.name);
-  if (SM_LAYERS.lessons) for (const l of SM_FIELD_LESSONS) dot(l.at[0], l.at[1], sm.state.lessons.includes(l.id) ? "#8be28b" : "#2f6fd6", 3.5);
+  if (SM_LAYERS.lessons) {
+    // SCHOLAR-2's K-12 layer draws the squares; a green dot marks a lesson passed.
+    k2DrawFieldLayer(o, SM_FIELD_LESSONS.map((l) => { const [x, y] = smMapXY(l.position[0], l.position[1], W); return { ...l, x, y }; }), null, null);
+    for (const l of SM_FIELD_LESSONS) if (sm.state.lessons.includes(l.id)) dot(l.position[0], l.position[1], "#8be28b", 2.5);
+  }
   if (SM_LAYERS.notes) for (const e of SM_EGGS) if (sm.state.eggs.includes(e.id)) dot(e.at[0], e.at[1], "#f2e6b8", 2.5);
   if (SM_LAYERS.locks) for (const q of SM_SIDE_QUESTS) if (q.gate && !smGateOpen(q.gate, sm.state)) { const s = smPlace(q.site); const [px, pz] = smMapXY(s.at[0], s.at[1], W); o.font = "13px system-ui"; o.fillText("🔒", px - 16, pz - 6); }
   if (SM_LAYERS.activities) for (const a of SM_ACTIVITIES) (a.controls ?? a.points).forEach(([x, z], i) => dot(x, z, "#ff5ad0", 2.5, i === 0 ? a.kind : ""));
@@ -234,7 +239,7 @@ function smNearest() {
   let best = null, bd = 9;
   for (const b of world.siteBoards) { const d = Math.hypot(sm.x - b.x, sm.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site }; } }
   for (const e of SM_EGGS) { if (sm.state.eggs.includes(e.id)) continue; const d = Math.hypot(sm.x - e.at[0], sm.z - e.at[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "egg", egg: e }; } }
-  for (const l of SM_FIELD_LESSONS) { const d = Math.hypot(sm.x - l.at[0], sm.z - l.at[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: l }; } }
+  for (const l of SM_FIELD_LESSONS) { const d = Math.hypot(sm.x - l.position[0], sm.z - l.position[1]); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: l }; } }
   return best;
 }
 

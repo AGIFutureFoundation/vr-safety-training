@@ -21,6 +21,7 @@ const check = (ok, msg) => { if (ok) passes++; else { failures++; console.error(
 const D = await import(pathToFileURL(join(WEBXR, "shared", "summit-data.js")).href);
 const S = await import(pathToFileURL(join(WEBXR, "summit", "js", "state.js")).href);
 const LK = await import(pathToFileURL(join(WEBXR, "shared", "links.js")).href);
+const PPG = await import(pathToFileURL(join(WEBXR, "shared", "passport-programmes.js")).href);
 const catalog = JSON.parse(readFileSync(join(WEBXR, "smartcity", "catalog.json"), "utf8"));
 const stationIds = new Set(catalog.stations.map((s) => s.id));
 const programmeIds = new Set(catalog.curricula.map((c) => c.id));
@@ -121,14 +122,33 @@ for (const e of D.SM_EGGS) {
   check(!!D.smPlace(e.place), `${e.id}: its place ${e.place} exists`);
 }
 
-// 4. field lessons
-check(D.SM_FIELD_LESSONS.length >= 10, "at least 10 field lessons");
+// 4. field lessons: twenty on SCHOLAR-2's schema, validated by its own
+// validator against this world's anchors, ten of them at the tunnel, the
+// gondola and the ridge; each also links a trade station.
+const FL = await import(pathToFileURL(join(WEBXR, "shared", "field-lessons.js")).href);
+check(D.SM_FIELD_LESSONS.length >= 20, `at least 20 field lessons (got ${D.SM_FIELD_LESSONS.length})`);
+check(new Set(D.SM_FIELD_LESSONS.map((l) => l.id)).size === D.SM_FIELD_LESSONS.length, "lesson ids are unique");
+const k12Ids = new Set([...stationIds].filter((id) => id.startsWith("k12-")));
+const anchors = new Set([...D.SM_SITES.map((s) => `site:${s.id}`), ...D.SM_LANDMARKS.map((l) => `landmark:${l.id}`)]);
 for (const l of D.SM_FIELD_LESSONS) {
-  check(stationIds.has(l.k12) && l.k12.startsWith("k12-"), `${l.id}: tied to a K-12 station`);
-  check(stationIds.has(l.station), `${l.id}: tied to a trade station`);
-  check(l.minutes >= 2 && l.minutes <= 4 && l.steps.length >= 3, `${l.id}: 2-4 minutes, 3+ steps`);
-  check(l.check.answer >= 0 && l.check.answer < l.check.choices.length, `${l.id}: check question has a valid answer`);
-  check(!!D.smPlace(l.place) && !D.smInLake(...l.at), `${l.id}: anchored at a place on dry land`);
+  const bad = FL.k2ValidateFieldLesson(l, { stations: k12Ids, anchors });
+  check(bad.length === 0, `${l.id}: ${bad.join("; ")}`);
+  check(l.world === "summit" && !!FL.K2_WORLD_PAGES.summit, `${l.id}: in the summit world, which the schema's page table knows`);
+  check(stationIds.has(l.tradeStation) && !l.tradeStation.startsWith("k12-"), `${l.id}: links a trade station`);
+  const place = D.smPlace(l.anchor.id);
+  check(!!place && Math.hypot(l.position[0] - place.at[0], l.position[1] - place.at[1]) < 60, `${l.id}: placed within 60 m of its anchor`);
+  check(!D.smInLake(...l.position) && !D.smInRiver(...l.position), `${l.id}: on dry land`);
+  for (const other of D.SM_FIELD_LESSONS) if (other !== l) check(Math.hypot(l.position[0] - other.position[0], l.position[1] - other.position[1]) >= 10, `${l.id}: at least 10 m from ${other.id}`);
+  for (const e of D.SM_EGGS) check(Math.hypot(l.position[0] - e.at[0], l.position[1] - e.at[1]) >= 10, `${l.id}: at least 10 m from cairn ${e.id}`);
+}
+for (const [anchor, want] of [["tunnel-portal", 3], ["gondola-shop", 2], ["gondola-top", 2], ["ridge-line", 4]]) {
+  const n = D.SM_FIELD_LESSONS.filter((l) => l.anchor.id === anchor).length;
+  check(n >= want, `${anchor} has ${want}+ field lessons (got ${n})`);
+}
+{
+  const l = D.SM_FIELD_LESSONS[0], st = S.smBlank();
+  check(!S.smAnswerLesson(st, l.id, (l.check.answer + 1) % 3).ok && st.lessons.length === 0, "a wrong answer does not pass a lesson");
+  check(S.smAnswerLesson(st, l.id, l.check.answer).ok && st.lessons.includes(l.id), "the right answer passes it once");
 }
 
 // 5. quests and gates
@@ -150,13 +170,25 @@ for (const g of D.SM_GATED) {
   check(!!g.gate.note, `${g.id}: gate has a note`);
 }
 // Fresh profile: every gated side quest locked; with its stations done: open.
+// The answers come from QUESTMASTER's engine (shared/skill-gates.js) through
+// smSnapshot, which also carries this world's own finished quests.
 const fresh = S.smBlank();
 const none = () => false;
+const stateSrc = readFileSync(join(WEBXR, "summit", "js", "state.js"), "utf8");
+check(/from "\.\.\/\.\.\/shared\/skill-gates\.js"/.test(stateSrc) && /qmMissing\(/.test(stateSrc) && !/ppProgramme\(/.test(stateSrc), "state.js answers gates through shared/skill-gates.js, not its own copy");
 for (const q of D.SM_SIDE_QUESTS) {
   check(!S.smGateOpen(q.gate, fresh, none), `${q.id}: locked for a fresh profile`);
-  const done = new Set([...(q.gate.stations ?? []), ...(q.gate.k12 ?? [])]);
-  const missing = S.smGateMissing(q.gate, fresh, (id) => done.has(id)).filter((m) => m.kind !== "programme");
-  check(missing.length === 0, `${q.id}: open once its stations are done`);
+  const rows = S.smGateMissing(q.gate, fresh, none);
+  check(rows.every((m) => m.kind && m.id && m.label), `${q.id}: the lock rows carry kind, id and label`);
+  const done = new Set([...(q.gate.stations ?? []), ...(q.gate.k12 ?? []), ...(q.gate.programmes ?? []).flatMap((p) => PPG.PP_PROGRAMMES[p.id]?.stations ?? [])]);
+  check(S.smGateOpen(q.gate, fresh, (id) => done.has(id)), `${q.id}: open once its stations (and programme stations) are done`);
+}
+{
+  const gate = { quests: ["sm-side-night-patrol"], note: "after the night patrol" };
+  const st = S.smBlank();
+  check(!S.smGateOpen(gate, st, none), "a gate on a Summit quest is locked until that quest is done here");
+  st.quests.push("sm-side-night-patrol");
+  check(S.smGateOpen(gate, st, none), "and open once this ledger has it");
 }
 // The main arc advances with visits and passes.
 const st = S.smBlank();
