@@ -27496,5 +27496,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-measuring-and-scaling-the-court",
+    "index": "801",
+    "domain": "Education",
+    "trade": "Maths class on the arena court — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Measuring and Scaling the Court",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Measuring and Scaling the Court VR",
+    "tagline": "Measure it twice, write the unit, then scale it — a court drawn to scale is a court you can reason about",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "true-to-scale",
+      "name": "True to Scale",
+      "note": "Court measured, units kept and a scale drawing that matches"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scale Board",
+      "currency": "UNITS",
+      "ranks": [
+        "Counter",
+        "Measurer",
+        "Surveyor",
+        "Scaler",
+        "Designer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-water-cycle-and-filtration",
+    "index": "802",
+    "domain": "Education",
+    "trade": "Science class at the treatment plant's visitor bench — learner and plant educator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Water Cycle and Filtration",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Water Cycle and Filtration VR",
+    "tagline": "Follow the water round the cycle, then watch a filter work — and never drink from the bench",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "full-circle",
+      "name": "Full Circle",
+      "note": "The water cycle told in order and a filter set up, observed and explained"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cycle Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Observer",
+        "Sampler",
+        "Tester",
+        "Explainer",
+        "Scientist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-primary-and-secondary-sources",
+    "index": "803",
+    "domain": "Education",
+    "trade": "History class in the community archive room — learner and archivist",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Primary and Secondary Sources",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Primary and Secondary Sources VR",
+    "tagline": "Ask who made it, when, why and for whom — then check the story against the evidence",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "source-checked",
+      "name": "Source Checked",
+      "note": "A primary and a secondary source read against each other, with every claim traced to evidence"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Archive Board",
+      "currency": "SOURCES",
+      "ranks": [
+        "Reader",
+        "Questioner",
+        "Researcher",
+        "Historian",
+        "Archivist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-reading-instructions-and-safety-labels",
+    "index": "804",
+    "domain": "Education",
+    "trade": "Literacy class in the school workshop — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Reading Instructions and Safety Labels",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reading Instructions and Safety Labels VR",
+    "tagline": "Read it all before you start, and read the label before you open anything",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "read-first",
+      "name": "Read First",
+      "note": "Instructions read right through and every label read before use"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reading Board",
+      "currency": "PAGES",
+      "ranks": [
+        "Reader",
+        "Checker",
+        "Follower",
+        "Explainer",
+        "Guide"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

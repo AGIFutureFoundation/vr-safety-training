@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 648
+      "stations": 652
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,10 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-reading-instructions-and-safety-labels",
+        "k12-primary-and-secondary-sources",
+        "k12-water-cycle-and-filtration",
+        "k12-measuring-and-scaling-the-court",
         "ei-leading-under-pressure",
         "ei-giving-and-taking-feedback",
         "ei-conflict-on-the-crew",
@@ -9699,6 +9703,338 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-reading-instructions-and-safety-labels",
+      "name": "Reading Instructions and Safety Labels",
+      "title": "SmartCiti.X~ Reading Instructions and Safety Labels VR",
+      "tagline": "Read it all before you start, and read the label before you open anything",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Literacy class in the school workshop — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a6ad0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "read-first",
+        "name": "Read First",
+        "note": "Instructions read right through and every label read before use"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "804",
+      "flat": false,
+      "system": "Reading Board",
+      "currency": "PAGES",
+      "ranks": [
+        "Reader",
+        "Checker",
+        "Follower",
+        "Explainer",
+        "Guide"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-reading-instructions-and-safety-labels"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-primary-and-secondary-sources",
+      "name": "Primary and Secondary Sources",
+      "title": "SmartCiti.X~ Primary and Secondary Sources VR",
+      "tagline": "Ask who made it, when, why and for whom — then check the story against the evidence",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the community archive room — learner and archivist",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "source-checked",
+        "name": "Source Checked",
+        "note": "A primary and a secondary source read against each other, with every claim traced to evidence"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "803",
+      "flat": false,
+      "system": "Archive Board",
+      "currency": "SOURCES",
+      "ranks": [
+        "Reader",
+        "Questioner",
+        "Researcher",
+        "Historian",
+        "Archivist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-primary-and-secondary-sources"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-water-cycle-and-filtration",
+      "name": "The Water Cycle and Filtration",
+      "title": "SmartCiti.X~ The Water Cycle and Filtration VR",
+      "tagline": "Follow the water round the cycle, then watch a filter work — and never drink from the bench",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the treatment plant's visitor bench — learner and plant educator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "full-circle",
+        "name": "Full Circle",
+        "note": "The water cycle told in order and a filter set up, observed and explained"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "802",
+      "flat": false,
+      "system": "Cycle Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Observer",
+        "Sampler",
+        "Tester",
+        "Explainer",
+        "Scientist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-water-cycle-and-filtration"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-measuring-and-scaling-the-court",
+      "name": "Measuring and Scaling the Court",
+      "title": "SmartCiti.X~ Measuring and Scaling the Court VR",
+      "tagline": "Measure it twice, write the unit, then scale it — a court drawn to scale is a court you can reason about",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class on the arena court — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "true-to-scale",
+        "name": "True to Scale",
+        "note": "Court measured, units kept and a scale drawing that matches"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "801",
+      "flat": false,
+      "system": "Scale Board",
+      "currency": "UNITS",
+      "ranks": [
+        "Counter",
+        "Measurer",
+        "Surveyor",
+        "Scaler",
+        "Designer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-measuring-and-scaling-the-court"
     },
     {
       "app": "smartcity",
@@ -32298,7 +32634,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
