@@ -44,6 +44,9 @@ const { DEEP_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "underwa
 const { RW_SITES } = await import(pathToFileURL(join(WEBXR, "redwood", "js", "rw-data.js")).href);
 const { SM_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "summit-data.js")).href);
 const { NP_PARISHES } = await import(pathToFileURL(join(WEBXR, "shared", "np-parishes.js")).href);
+// The parishes page carries two regions: New Orleans (the Parishes card) and San Francisco (GOLDEN-B's districts card).
+const NP_SF = NP_PARISHES.filter((p) => p.region === "san-francisco");
+const NP_NOLA = NP_PARISHES.filter((p) => p.region !== "san-francisco");
 // The Hard Hat Hunt counter's total (docs/easter-egg.md) — imported rather
 // than retyped, so a station added to or removed from the hunt can never
 // leave this page's footer counting against a stale number.
@@ -1448,9 +1451,15 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       blurb: "A 4 km mountain to walk: a dam and its penstock, a pass road and tunnel, a transmission ridge, a gondola and a summit lookout — and every job board opens a real line, dam, road or lift station.",
     }),
     appCard(layout, {
-      href: layout.app.parishes, tint: "#7fd3ff", count: `${NP_PARISHES.length} parish${NP_PARISHES.length === 1 ? "" : "es"} · ${NP_PARISHES.reduce((n, p) => n + p.sites.length, 0)} job sites`, shot: "parishes",
+      href: layout.app.parishes, tint: "#7fd3ff", count: `${NP_NOLA.length} parish${NP_NOLA.length === 1 ? "" : "es"} · ${NP_NOLA.reduce((n, p) => n + p.sites.length, 0)} job sites`, shot: "parishes",
       name: "New Orleans Parishes", go: "Walk the delta",
       blurb: "Streamed 4 km parish worlds on the delta: the river's bend, the lake shore, levees and floodwalls, the outfall canals and a wetland triangle — with job boards for the port, the levee crews, a pumping station, the streetcar barn, the rail yard, the hospital and stadium districts and a wetland restoration site.",
+    }),
+    // San Francisco on the parish engine (GOLDEN-B): the districts with region "san-francisco", opened at Marina & Presidio.
+    appCard(layout, {
+      href: `${layout.app.parishes}?parish=sf-marina`, tint: "#f2a65a", count: `${NP_SF.length} district${NP_SF.length === 1 ? "" : "s"} · ${NP_SF.reduce((n, p) => n + p.sites.length, 0)} job sites`, shot: "sanfrancisco",
+      name: "San Francisco Districts", go: "Cross the Golden Gate",
+      blurb: "Streamed 4 km districts of San Francisco on the bay: the yacht harbour, the Presidio and the Golden Gate Bridge's crews in the north, the port's southern terminals, the Hunters Point clean-up and two wetlands coming back in the south-east — and the Bay Bridge across to Bay World.",
     }),
     appCard(layout, {
       href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes", shot: "fairway",
