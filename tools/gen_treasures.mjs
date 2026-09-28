@@ -466,6 +466,32 @@ SLP.SL_FIELD_LESSONS.forEach((l) => {
     hint: "Take a field lesson at a parish site and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: "WebXR/shared/sl-parish-play.js", text: true, lesson: l.id },
     place: { id: l.site, stations: [l.k12, l.station] } });
 });
+// San Francisco (GOLDEN-B, WebXR/shared/sg-sf-play.js): the Marina & Presidio and Bayview & Hunters Point districts
+// ride the parishes page, so their treasures are parish treasures — a Fog-Day Kit off every site (the same trigger
+// shape, resolved by slTreasureAt) and each SF field lesson's check as a quiet Field Scholar find.
+const SGP = await imp("WebXR/shared/sg-sf-play.js");
+const SG_KIT_UNIONS = ["ibu", "ironworkers", "liuna", "iuoe", "afscme", "ilwu", "twu-local250a", "iatse"];
+let sgIndex = 0;
+for (const d of SGP.SG_DISTRICTS) {
+  d.sites.forEach((s, i) => {
+    const [dx, dz] = SL_OFFSETS[(i + 3) % SL_OFFSETS.length];
+    let L;
+    try { L = siteLesson(s, /bridge|harbour|marina|rescue|park|marsh|shore|port|rail|clean|soil|well|sediment|court|pool/i); }
+    catch (_) { L = unionLesson(SG_KIT_UNIONS[sgIndex % SG_KIT_UNIONS.length]); }
+    sgIndex += 1;
+    add({ id: `tz-parish-${d.id}-${s.id}`, name: `Fog-Day Kit: ${s.name}`, surface: "parishes", world: "The Parishes", area: d.name,
+      set: `fog-kits-${d.id}`, how: "proximity", trigger: { world: "parishes", parish: d.id, site: s.id, dx, dz, r: 7 },
+      hint: SGP.SG_TREASURE_HINT, reveal: "chest", lesson: L.lesson, source: L.source, place: L.place ?? null,
+      gate: i % 4 === 2 && L.own ? { stations: [L.station], note: `The ${s.name} crew keeps this kit for people who have done the job there.` } : null });
+  });
+}
+SGP.SG_FIELD_LESSONS.forEach((l) => {
+  if (!rd(l.file).includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim from ${l.file}`);
+  add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "parishes", world: "The Parishes", area: "Field lessons",
+    set: "field-scholar", how: "lesson", trigger: { world: "parishes", lesson: l.id },
+    hint: "Take a field lesson at a San Francisco site and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: l.file, text: true, lesson: l.id },
+    place: { id: l.site, stations: [l.k12, l.station] } });
+});
 
 // ------------------------------------------------------------ sets
 
@@ -488,6 +514,7 @@ const SETS = [
   ["trail-blazes", "Trail Blazes", "Trail Hand", "A blaze on every foot trail through Redwood Reach."],
   ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit, in Redwood Reach and across the parishes."],
   ...SLP.SL_PARISHES.map((p) => [`storm-kits-${p.id}`, `${p.short} Storm Kits`, `${p.short} Storm Crew`, `A storm kit cache off every site in ${p.name}.`]),
+  ...SGP.SG_DISTRICTS.map((d) => [`fog-kits-${d.id}`, `${d.short} Fog-Day Kits`, `${d.short} Fog Crew`, `A fog-day kit off every site in ${d.name}.`]),
 ].map(([id, name, badge, blurb]) => ({ id, name, badge, blurb, members: T.filter((t) => t.set === id).map((t) => t.id) }));
 
 const SURFACES = [

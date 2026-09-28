@@ -53,6 +53,9 @@ const { RW_EGGS, RW_FIELD_LESSONS } = await import(join(WEBXR, "redwood/js/rw-lo
 const { PP_PROGRAMMES } = await import(join(WEBXR, "shared/passport-programmes.js"));
 // The New Orleans parishes (SECONDLINE, docs/parish-play.md): site-relative triggers and field-lesson finds.
 const SLP = await import(join(WEBXR, "shared/sl-parish-play.js"));
+// The San Francisco districts on the parishes page (GOLDEN-B): their lessons and sites ride the same surface.
+const SGP = await import(join(WEBXR, "shared/sg-sf-play.js"));
+const sgSiteDef = (parish, site) => SGP.sgDistrict(parish)?.sites.find((s) => s.id === site) ?? null;
 const T = D.TZ_TREASURES;
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 
@@ -112,7 +115,7 @@ await check("themed lessons: a station lesson's programme is one of its place's;
   const lessons = T.filter((t) => t.how === "lesson");
   assert(lessons.length >= 20, `only ${lessons.length} field-lesson treasures`);
   for (const t of lessons) {
-    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : t.trigger.world === "parishes" ? SLP.SL_FIELD_LESSONS : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
+    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : t.trigger.world === "parishes" ? [...SLP.SL_FIELD_LESSONS, ...SGP.SG_FIELD_LESSONS] : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
     assert(l, `${t.id} names unknown field lesson ${t.trigger.lesson} in ${t.trigger.world}`);
     assert(t.lesson === (l.tradeLine ?? l.trade), `${t.id}'s lesson is not the field lesson's trade line`);
     assert(t.set === "field-scholar" && t.place?.id, `${t.id} is not in the Field Scholar set with a place`);
@@ -287,7 +290,7 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
   for (const t of parishTreasures) {
     const tr = t.trigger;
     assert(tr.x === undefined && tr.z === undefined, `${t.id} carries a coordinate; parish positions belong to PARISH's data`);
-    assert(SLP.slSiteDef(tr.parish, tr.site), `${t.id} names unknown parish site ${tr.parish}/${tr.site}`);
+    assert(SLP.slSiteDef(tr.parish, tr.site) || sgSiteDef(tr.parish, tr.site), `${t.id} names unknown parish site ${tr.parish}/${tr.site}`);
     assert(Number.isFinite(tr.dx) && Number.isFinite(tr.dz) && Math.hypot(tr.dx, tr.dz) >= 6 && Math.hypot(tr.dx, tr.dz) <= 25, `${t.id}'s offset is not a short walk off the site`);
     assert(tr.r > 0 && tr.r <= 25, `${t.id} has an odd radius`);
   }
@@ -327,6 +330,7 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
   for (const s of ["summit", "redwood"]) assert(D.TZ_SURFACES.some((x) => x.id === s && x.count >= 15), `the Treasure Map has no ${s} count`);
   assert(D.TZ_SURFACES.some((x) => x.id === "parishes" && x.count >= 40), "the Treasure Map has no parishes count");
   for (const p of SLP.SL_PARISHES) { const set = D.TZ_SETS.find((s) => s.id === `storm-kits-${p.id}`); assert(set && set.members.length === p.sites.length, `${p.id} has no complete storm-kit set`); }
+  for (const d of SGP.SG_DISTRICTS) { const set = D.TZ_SETS.find((s) => s.id === `fog-kits-${d.id}`); assert(set && set.members.length === d.sites.length, `${d.id} has no complete fog-day kit set`); }
   // tzWatchWorld takes the resolver and plants only what it can place (a headless three.js stand-in).
   {
     const src = rd("WebXR/shared/treasures.js");
