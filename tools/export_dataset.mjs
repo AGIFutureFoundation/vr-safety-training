@@ -22,6 +22,14 @@
  *                                    totals, the field mapping, the shard list
  *   <out>/DATASET_CARD.md            contents, fields, licence, provenance,
  *                                    known limitations, "not a certification"
+ *   <out>/lerobot/                   LeRobot-style layout (meta/info.json,
+ *                                    meta/episodes.jsonl, meta/tasks.jsonl,
+ *                                    data/chunk-NNN/episode_NNNNNN.jsonl)
+ *   <out>/rlds/                      RLDS-style step list (episodes.jsonl,
+ *                                    features.json)
+ *
+ * --formats native,lerobot,rlds picks the extra layouts (all by default; the
+ * native shards are always written). See tools/lib/dataset_formats.mjs.
  *
  * Every episode object uses the same four decision fields regardless of
  * source — observation / action / reward / done — plus an `info` bag for
@@ -33,6 +41,7 @@
 import { mkdirSync, writeFileSync, appendFileSync, existsSync, rmSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { ROOT, loadSmartCity, loadTrades } from "./lib/headless.mjs";
+import { createFormatWriters } from "./lib/dataset_formats.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, dflt) => { const i = args.indexOf(`--${name}`); return i >= 0 && args[i + 1] && !args[i + 1].startsWith("--") ? args[i + 1] : dflt; };
@@ -68,6 +77,7 @@ const embodied = flag("embodied", true);
 const apps = opt("apps", "smartcity,trades").split(",").map((s) => s.trim()).filter(Boolean);
 const humanFiles = (opt("human", "") || "").split(",").map((s) => s.trim()).filter(Boolean);
 const out = resolve(opt("out", join(ROOT, "tools", "out", "dataset")));
+const formats = opt("formats", "native,lerobot,rlds").split(",").map((s) => s.trim()).filter(Boolean);
 
 // Never the shipped bundle folder — a dataset is build output for a training
 // pipeline, not something a browser should ever be asked to fetch.
@@ -131,12 +141,12 @@ function synthEpisode({ app, room, skill, seed, records, summary }) {
   const steps = records.map((r, i) => toStep(r, { isLast: i === records.length - 1 }));
   return {
     schemaVersion: SCHEMA_VERSION, source: "synthetic",
-    app, station: room.id, name: room.name ?? room.title, category: room.category ?? null,
+    app, sourceApp: app, station: room.id, name: room.name ?? room.title, category: room.category ?? null,
     embodied, skill, seed, crewTagHash: null,
     steps,
     summary: {
       score: summary.score, stars: summary.stars, errors: summary.errors, hazardHits: summary.hazardHits,
-      seconds: summary.seconds, passed: summary.passed,
+      seconds: summary.seconds, passed: summary.passed, finished: !!summary.finished,
       ...(embodied ? { keepOutViolations: summary.keepOutViolations, handoffs: summary.handoffs } : {}),
     },
   };
@@ -147,7 +157,7 @@ function humanEpisode(ep, sourceFile) {
   const steps = records.map((r, i) => toStep(r, { isLast: i === records.length - 1 }));
   return {
     schemaVersion: SCHEMA_VERSION, source: "human", sourceFile,
-    app: ep.app ?? null, station: ep.station ?? null, name: ep.station ?? null, category: null,
+    app: ep.app ?? null, sourceApp: ep.source ?? ep.app ?? null, station: ep.station ?? null, name: ep.station ?? null, category: null,
     embodied: !!ep.embodied, skill: null, seed: null, crewTagHash: ep.crewTagHash ?? null,
     steps,
     summary: ep.summary ?? null,
@@ -181,9 +191,15 @@ const manifest = {
 };
 
 let totalEpisodes = 0, totalSteps = 0;
+const writers = createFormatWriters(out, { lerobot: formats.includes("lerobot"), rlds: formats.includes("rlds"), generatedAt: manifest.generatedAt });
+const suites = new Map();
+async function suiteFor(app) {
+  if (!suites.has(app)) suites.set(app, app === "smartcity" ? await loadSmartCity() : app === "trades" ? await loadTrades() : null);
+  return suites.get(app);
+}
 
 for (const app of apps) {
-  const suite = app === "smartcity" ? await loadSmartCity() : app === "trades" ? await loadTrades() : null;
+  const suite = await suiteFor(app);
   if (!suite) { console.error(`unknown app: ${app} (smartcity, trades)`); process.exit(1); }
   suite.Sfx.muted = true;
   const rooms = sample(suite.ROOMS, stationsPerApp);
@@ -202,6 +218,7 @@ for (const app of apps) {
         const { summary, records } = runOne({ skill, seed, trajectory: true });
         const episode = synthEpisode({ app, room, skill, seed, records, summary });
         writeEpisode(app, episode);
+        writers.add(episode, room);
         stationEpisodes += 1; stationSteps += episode.steps.length;
       }
     }
@@ -228,6 +245,8 @@ for (const file of humanFiles) {
     if (!ep?.station || !Array.isArray(ep.records)) continue; // an in-progress (never finished) episode has no summary; skip rather than guess "done"
     const episode = humanEpisode(ep, file);
     writeEpisode("human", episode);
+    const hs = episode.app ? await suiteFor(episode.app) : null;
+    writers.add(episode, hs?.ROOMS.find((r) => r.id === episode.station) ?? null);
     count += 1; steps += episode.steps.length;
   }
   if (count) manifest.files.push("episodes-human.jsonl");
@@ -237,6 +256,7 @@ for (const file of humanFiles) {
 }
 
 manifest.totals = { episodes: totalEpisodes, steps: totalSteps };
+manifest.formats = writers.close();
 manifest.files = [...new Set(manifest.files)];
 writeFileSync(join(out, "manifest.json"), JSON.stringify(manifest, null, 2));
 
@@ -296,6 +316,19 @@ its own converter from these fields.
 | this dataset | episodic reinforcement-learning datasets (generic) | imitation-learning datasets (generic) |
 | --- | --- | --- |
 ${FIELD_MAP.map((r) => `| \`${r.field}\` | ${r.episodicRL} | ${r.imitationLearning} |`).join("\n")}
+
+## Other layouts
+
+${manifest.formats.lerobot ? `- \`lerobot/\` — a LeRobot-style episode layout: \`meta/info.json\`, \`meta/episodes.jsonl\` (one row per
+  episode, with its labels), \`meta/tasks.jsonl\` and \`data/chunk-NNN/episode_NNNNNN.jsonl\` (one frame per line:
+  \`observation\`, \`action\`, \`reward\`, \`done\`, \`primitive\`, \`language_instruction\`). ${manifest.formats.lerobot.episodes} episode(s),
+  ${manifest.formats.lerobot.frames} frame(s), ${manifest.formats.lerobot.tasks} task(s). JSON Lines values, no parquet.\n` : ""}${manifest.formats.rlds ? `- \`rlds/\` — an RLDS-style step list: \`episodes.jsonl\` (\`episode_metadata\` plus \`steps\`, each with
+  \`observation\`, \`action\`, \`reward\`, \`discount\`, \`is_first\`, \`is_last\`, \`is_terminal\`,
+  \`language_instruction\` from the step prompt) and \`features.json\`. ${manifest.formats.rlds.episodes} episode(s), ${manifest.formats.rlds.steps} step(s).\n` : ""}
+Both carry, per episode: the station, its programmes and union, its hazard and interruption labels (and the
+ones this episode actually hit or saw), the passport's source app, a licence and a consent field, and only the
+anonymised crew-tag hash. The primitive vocabulary is \`WebXR/shared/skill-registry.js\`. Neither layout is the
+byte format of any framework's own loader.
 
 ## Provenance
 

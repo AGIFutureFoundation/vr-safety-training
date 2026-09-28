@@ -52,6 +52,7 @@
  * deduplication key, not a cryptographic identifier.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { validateFormats } from "./lib/dataset_formats.mjs";
 import { join, resolve, basename } from "node:path";
 
 // ------------------------------------------------------------------ vocab
@@ -334,6 +335,10 @@ function buildReport(dir) {
       totalSteps, invalidSteps, invalidEpisodes, parseErrors,
       issues: schemaIssues.slice(0, 20), issuesTruncated: schemaIssues.length > 20,
     },
+    // The LeRobot-style and RLDS-style layouts, checked structurally (see
+    // tools/lib/dataset_formats.mjs validateFormats()). Reported, not scored:
+    // the score above describes the episodes, which both layouts share.
+    formats: validateFormats(dir),
   };
 }
 
@@ -416,6 +421,14 @@ function toMarkdown(report) {
     for (const i of report.schemaValidity.issues.slice(0, 10)) lines.push(`- ${i.file}:${i.line}${"step" in i ? ` step ${i.step}` : ""} — ${i.issues.join("; ")}`);
   }
   lines.push("");
+  lines.push(`## Other layouts`);
+  lines.push("");
+  for (const [name, f] of Object.entries(report.formats ?? {})) {
+    lines.push(f.present
+      ? `- \`${name}/\` — ${f.episodes} episode(s), ${name === "lerobot" ? `${f.frames} frame(s)` : `${f.steps} step(s)`}; ${f.valid ? "structurally valid" : `${f.issueCount} issue(s): ${f.issues.slice(0, 5).join("; ")}`}`
+      : `- \`${name}/\` — not present`);
+  }
+  lines.push("");
   lines.push(`## What this is not`);
   lines.push("");
   lines.push(`This report describes the *shape and spread* of a dataset — schema, balance, coverage, duplication. It says nothing about whether a model trained on it will behave well; see \`tools/train_baseline.mjs\` and its \`MODEL_CARD.md\` for that question, and \`docs/robot-datasets.md\` for what this dataset does and does not claim about certification.`);
@@ -452,5 +465,8 @@ console.log(`${basename(datasetDir)} — ${report.totals.episodes} episode(s), $
 console.log(`Quality score: ${report.score}/100`);
 for (const [k, w] of Object.entries(report.weights)) {
   console.log(`  ${k.padEnd(22)} ${(report.subScores[k]).toFixed(3)}  (x${w} = ${report.contributions[k].toFixed(1)})`);
+}
+for (const [name, f] of Object.entries(report.formats)) {
+  console.log(`  ${name.padEnd(22)} ${f.present ? `${f.episodes} episode(s), ${f.frames ?? f.steps} row(s), ${f.valid ? "valid" : `${f.issueCount} issue(s)`}` : "not present"}`);
 }
 console.log(`Wrote ${join(outDir, "quality-report.json")} and ${join(outDir, "QUALITY_REPORT.md")}`);

@@ -102,6 +102,29 @@ try {
     ok(dupReport.duplicates.duplicateEpisodeCount >= 1, "the injected duplicate was not detected");
   });
 
+  await check("the LeRobot-style and RLDS-style layouts are written, structurally valid, and agree with the native shards", () => {
+    const f = report1.formats;
+    ok(f?.lerobot?.present && f?.rlds?.present, "both layouts should be present in a default export");
+    ok(f.lerobot.valid, `lerobot layout issues: ${JSON.stringify(f.lerobot.issues)}`);
+    ok(f.rlds.valid, `rlds layout issues: ${JSON.stringify(f.rlds.issues)}`);
+    eq(f.lerobot.episodes, manifest.totals.episodes, "lerobot episode count");
+    eq(f.lerobot.frames, manifest.totals.steps, "lerobot frame count");
+    eq(f.rlds.steps, manifest.totals.steps, "rlds step count");
+    const first = JSON.parse(readFileSync(join(datasetDir, "rlds", "episodes.jsonl"), "utf8").split("\n")[0]);
+    ok(first.steps.some((s) => typeof s.language_instruction === "string" && s.language_instruction.length > 0), "no language_instruction from the step prompt");
+    ok(first.episode_metadata.consent && first.episode_metadata.licence, "licence and consent fields missing");
+  });
+
+  const primRun = spawnSync(NODE, [join(ROOT, "tools", "robot_train.mjs"), "--from-lerobot", join(datasetDir, "lerobot"), "--out", join(scratch, "prim")], { encoding: "utf8", cwd: ROOT });
+  await check("robot_train.mjs --from-lerobot reports a success rate per registry primitive", async () => {
+    ok(primRun.status === 0, `exit ${primRun.status}\n${primRun.stdout}\n${primRun.stderr}`);
+    const r = JSON.parse(readFileSync(join(scratch, "prim", "baseline-primitives.json"), "utf8"));
+    const { SK_PRIMITIVES } = await import("../WebXR/shared/skill-registry.js");
+    eq(r.primitives.length, SK_PRIMITIVES.length, "one row per primitive");
+    ok(r.primitives.some((p) => typeof p.demoSuccessRate === "number"), "no primitive has a success rate");
+    ok(r.testStations.length > 0 && r.trainStations.every((s) => !r.testStations.includes(s)), "train/held-out stations must be disjoint and non-empty");
+  });
+
   // ---------------------------------------------------------- 3. trainer
   const trainRun = spawnSync(NODE, [
     join(ROOT, "tools", "train_baseline.mjs"), datasetDir, "--out", baselineDir, "--epochs", "15",
