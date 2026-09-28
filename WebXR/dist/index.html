@@ -6867,7 +6867,7 @@
     if (e.defaultLanguage) {
       let saved = null;
       try { saved = localStorage.getItem("holodeck-lang-v1"); } catch (_) { saved = null; }
-      if (!saved && !/[?&]lang=/.test(location.search)) import("./shared/i18n.js").then((m) => m.trSet(e.defaultLanguage, { remember: false })).catch(() => {});
+      if (!saved && !/[?&]lang=/.test(location.search)) import("./shared/i18n.js").then((m) => m.trSetDefault(e.defaultLanguage)).catch(() => {});
     }
     document.documentElement.dataset.hmEnterprise = e.organisation ? "named" : "public";
   }
