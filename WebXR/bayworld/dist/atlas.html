@@ -2927,7 +2927,7 @@ function gtSignInView(panel) {
   // 1. Google — its own button when configured, a plain disabled line otherwise.
   if (cfg.googleClientId) {
     const mount = gtEl("div", { id: "gt-google" });
-    panel.append(gtEl("p", { class: "gt-line", text: trT("acct.google") }), mount);
+    panel.append(gtEl("p", { class: "gt-line", text: trT("acct.google", null, "Continue with Google") }), mount);
     if (!gtState.googleStarted) { gtState.googleStarted = true; gtRun("google", { mount }).finally(() => { gtState.googleStarted = false; }); }
   } else {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "google", disabled: true },
@@ -2936,7 +2936,7 @@ function gtSignInView(panel) {
   // 2. MetaMask — Sign-In with Ethereum through window.ethereum.
   if (env.ethereum?.request) {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "wallet", on: { click: () => gtRun("wallet") } },
-      trT("acct.wallet"), gtEl("small", { text: trT("acct.walletNote") })));
+      trT("acct.wallet", null, "Connect MetaMask"), gtEl("small", { text: trT("acct.walletNote") })));
   } else {
     const line = gtEl("p", { class: "gt-line", "data-provider": "wallet" }, `${trT("acct.noWallet")} `);
     line.append(gtEl("a", { href: GT_WALLET_INSTALL, target: "_blank", rel: "noopener noreferrer", text: trT("acct.installWallet") }), ".");
@@ -2949,12 +2949,12 @@ function gtSignInView(panel) {
   const mailBtn = gtEl("button", { type: "button", class: "gt-opt", "data-provider": cfg.emailEndpoint ? "email" : "passkey",
     disabled: !cfg.emailEndpoint && !passkeyOk,
     on: { click: () => gtRun(cfg.emailEndpoint ? "email" : "passkey", { email: input.value, name: input.value }) } },
-  trT("acct.email"), gtEl("small", { text: trT(cfg.emailEndpoint ? "acct.emailNote" : (passkeyOk ? "acct.passkeyNote" : "acct.noPasskey")) }));
+  trT("acct.email", null, "E-mail me a link"), gtEl("small", { text: trT(cfg.emailEndpoint ? "acct.emailNote" : (passkeyOk ? "acct.passkeyNote" : "acct.noPasskey")) }));
   panel.append(input, mailBtn);
   // 4. The free demo.
   panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
     on: { click: () => { gtEnterDemo(); gtRenderChip(); gtClose(); } } },
-  trT("acct.demoBtn"), gtEl("small", { text: trT("acct.demoNote") })));
+  trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
 
 function gtRender(view = null) {
