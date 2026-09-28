@@ -5,7 +5,7 @@ import {
   grassFace, plasterFace, gravelFace, woodGrainFace, txTexture, txTierPx, txPalette,
 } from "./textures.js";
 import { streetTree, parkBench, lightMast, fireHydrant, bollardRow, fencePanel, shippingContainer } from "./props.js";
-import { sedan, pickup, cargoVan, boxTruck, busTransit } from "./fleet.js";
+import { sedan, pickup, cargoVan, boxTruck, busTransit, ctServiceLivery } from "./fleet.js";
 // standingFigure and holoTag are the two SmartCiti.X-specific set pieces this
 // module borrows (see this file's own header): the shared crowd figure and
 // the floating AR-style name caption. Everything else it needs (kit.js,
@@ -680,12 +680,21 @@ function dressHillTrees(parent, zone, count, rng) {
 }
 
 const BW_FLEET_BUILDERS = [sedan, pickup, cargoVan];
+/** The service a zone's parked work vehicles are painted for (fleet.js's
+ *  CT_SERVICE_LIVERIES); sedans stay private cars in every zone. */
+export const CT_ZONE_SERVICE = {
+  downtown: "transit", uptown: "construction", lake: "utility", "estuary-waterfront": "port", port: "port",
+  "west-oakland": "delivery", fruitvale: "utility", coliseum: "emergency", hills: "utility", "bridge-approach": "construction",
+  "island-harbour": "port", "north-shoreline": "utility", "emery-crossing": "delivery", "south-shoreline": "utility",
+  "upper-hills": "construction", "outer-bay": "port",
+};
 function dressParkedFleet(parent, zone, count, rng) {
   const [cx, cz] = zone.centre;
   for (let i = 0; i < count; i++) {
     const fn = BW_FLEET_BUILDERS[Math.floor(rng() * BW_FLEET_BUILDERS.length)];
     const a = rng() * Math.PI * 2, r = zone.radius * (0.2 + rng() * 0.6);
-    fn(parent, cx + Math.cos(a) * r, 0, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2 });
+    const livery = fn === sedan ? undefined : ctServiceLivery(CT_ZONE_SERVICE[zone.id], i + 1);
+    fn(parent, cx + Math.cos(a) * r, 0, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2, ...(livery ? { livery } : {}) });
   }
 }
 

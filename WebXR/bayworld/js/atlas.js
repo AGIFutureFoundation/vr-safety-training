@@ -13,7 +13,7 @@
 // Names here are prefixed `atlas`/`ATLAS_` because tools/bundle_webxr.py
 // concatenates this file with shared/bayworld-data.js, bay-geo.js and
 // mapbox.js into one scope.
-import { BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES } from "../../shared/bayworld-data.js";
+import { BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS, CT_BAY_WILDLIFE, ctProgrammeColour } from "../../shared/bayworld-data.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
 import { bayToGeo } from "../../shared/bay-geo.js";
@@ -133,6 +133,8 @@ export function atlasListHtml(places) {
  */
 export function atlasSvg(opts = {}) {
   const size = opts.size ?? ATLAS_SVG_SIZE;
+  // The layer toggles (CT_BAY_LAYERS): a layer that is off is left out of the markup.
+  const on = { ...Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on])), ...(opts.layers ?? {}) };
   const scale = size.width / (BAY_BOUNDS.maxX - BAY_BOUNDS.minX);
   const out = [];
   out.push(`<svg class="atlas-svg" viewBox="0 0 ${size.width} ${size.height}" role="img" aria-label="Bay World: ${BAY_ZONES.length} zones, ${BAY_SITES.length} training sites and ${BAY_LANDMARKS.length} landmarks, drawn from the world's own data" xmlns="http://www.w3.org/2000/svg">`);
@@ -144,22 +146,49 @@ export function atlasSvg(opts = {}) {
     out.push(`<text x="${c.x.toFixed(1)}" y="${(c.y - z.radius * scale + 14).toFixed(1)}" text-anchor="middle" fill="#9fc3d8" font-size="11" font-family="system-ui, sans-serif">${atlasEsc(z.name)}</text>`);
   }
   out.push("</g>");
-  out.push('<g class="atlas-roads" fill="none" stroke="#4a5a68" stroke-linecap="round" stroke-linejoin="round">');
-  for (const r of BAY_ROADS) {
+  if (on.roads) out.push('<g class="atlas-roads atlas-layer" data-layer="roads" fill="none" stroke="#4a5a68" stroke-linecap="round" stroke-linejoin="round">');
+  for (const r of on.roads ? BAY_ROADS : []) {
     const pts = r.points.map(([x, z]) => { const p = atlasProject(x, z, size); return `${p.x.toFixed(1)},${p.y.toFixed(1)}`; }).join(" ");
     out.push(`<polyline points="${pts}" stroke-width="${(r.lanes * 0.8).toFixed(1)}" data-road="${atlasEsc(r.id)}"><title>${atlasEsc(r.name)}</title></polyline>`);
   }
-  out.push("</g>");
-  out.push('<g class="atlas-landmarks">');
-  for (const l of BAY_LANDMARKS) {
+  if (on.roads) out.push("</g>");
+  if (on.wildlife) {
+    out.push('<g class="atlas-layer" data-layer="wildlife" fill="none" stroke="#59c9c9" stroke-width="1.5">');
+    CT_BAY_WILDLIFE.forEach((w, i) => { const p = atlasProject(w.area.x, w.area.z, size); out.push(`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="8" data-wildlife="${atlasEsc(`${w.kind}-${i}`)}"><title>Wildlife: ${atlasEsc(w.kind)}</title></circle>`); });
+    out.push("</g>");
+  }
+  if (on.assets) {
+    out.push('<g class="atlas-layer" data-layer="assets">');
+    for (const a of CT_BAY_ASSETS) {
+      const p = atlasProject(a.position[0], a.position[1], size);
+      out.push(`<rect x="${(p.x - 2).toFixed(1)}" y="${(p.y - 2).toFixed(1)}" width="4" height="4" fill="${atlasHex(CT_BAY_ASSET_KINDS[a.kind].colour)}" data-asset="${atlasEsc(a.id)}"><title>${atlasEsc(a.name)}</title></rect>`);
+    }
+    out.push("</g>");
+  }
+  if (on.activities) {
+    // The Atlas holds no quest progress: without `opts.quests` it marks the landmarks where free-roam activities happen.
+    out.push('<g class="atlas-layer" data-layer="activities" fill="none" stroke="#8cff5a" stroke-width="1.2">');
+    const spots = BAY_LANDMARKS.filter((l) => ["park", "lookout", "stadium", "arena", "marina"].includes(l.kind)).map((l) => ({ id: l.id, site: l.id, title: `Activity: ${l.name}` }));
+    for (const q of opts.quests ?? spots) {
+      const at = [...BAY_SITES, ...BAY_LANDMARKS].find((p) => p.id === q.site);
+      if (!at) continue;
+      const p = atlasProject(at.position[0], at.position[1], size);
+      out.push(`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="9" data-activity="${atlasEsc(q.id)}"${q.done ? ' fill="#8cff5a" fill-opacity="0.3"' : ""}><title>${atlasEsc(q.title ?? q.id)}</title></circle>`);
+    }
+    out.push("</g>");
+  }
+  if (on.landmarks) out.push('<g class="atlas-landmarks atlas-layer" data-layer="landmarks">');
+  for (const l of on.landmarks ? BAY_LANDMARKS : []) {
     const p = atlasProject(l.position[0], l.position[1], size);
     out.push(`<path d="M${p.x.toFixed(1)} ${(p.y - 6).toFixed(1)} l6 6 l-6 6 l-6 -6 z" fill="#a079ff" stroke="#0a1420" stroke-width="1.2" class="atlas-landmark" data-landmark="${atlasEsc(l.id)}" tabindex="0" role="button" aria-label="${atlasEsc(l.name)}, landmark"><title>${atlasEsc(l.name)}</title></path>`);
   }
-  out.push("</g>");
-  out.push('<g class="atlas-sites">');
+  if (on.landmarks) out.push("</g>");
+  // Job sites stay drawn (they are what the list and the deep links select);
+  // the jobs layer colours each by its first programme instead of one gold.
+  out.push('<g class="atlas-sites atlas-layer" data-layer="jobs">');
   for (const s of BAY_SITES) {
     const p = atlasProject(s.position[0], s.position[1], size);
-    out.push(`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6" fill="#f2c14b" stroke="#0a1420" stroke-width="1.5" class="atlas-site" data-site="${atlasEsc(s.id)}" tabindex="0" role="button" aria-label="${atlasEsc(s.name)}, training site"><title>${atlasEsc(s.name)}</title></circle>`);
+    out.push(`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6" fill="${on.jobs ? atlasHex(ctProgrammeColour(s.programmes?.[0])) : "#f2c14b"}" stroke="#0a1420" stroke-width="1.5" class="atlas-site" data-site="${atlasEsc(s.id)}" tabindex="0" role="button" aria-label="${atlasEsc(s.name)}, training site"><title>${atlasEsc(s.name)}</title></circle>`);
   }
   out.push("</g>");
   const bar = 200 * scale;
@@ -188,8 +217,12 @@ export function atlasMount(doc = globalThis.document, opts = {}) {
   const say = (el, text) => { if (el) el.textContent = text; };
   const storage = { search: opts.search, session: opts.session, local: opts.local };
 
+  const layerKey = "atlas-map-layers-v1";
+  let layers = {};
+  try { layers = JSON.parse(opts.local?.getItem?.(layerKey) ?? globalThis.localStorage?.getItem(layerKey) ?? "{}") ?? {}; } catch (_) { layers = {}; }
+  state.layers = { ...Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on])), ...layers };
   const drawSvg = () => {
-    if (mapEl) { mapEl.innerHTML = atlasSvg(); mapEl.classList?.remove?.("atlas-map-live"); }
+    if (mapEl) { mapEl.innerHTML = atlasSvg({ layers: state.layers }); mapEl.classList?.remove?.("atlas-map-live"); }
     state.mode = "svg"; state.map = null;
     say(modeEl, "Built-in map");
   };
@@ -211,6 +244,27 @@ export function atlasMount(doc = globalThis.document, opts = {}) {
   };
   const byId = (kind, id) => places.find((p) => p.kind === kind && p.id === id) ?? null;
 
+  // One checkbox per layer; a change redraws the built-in map (Mapbox mode keeps its own markers).
+  const layersEl = $("atlas-layers");
+  if (layersEl && doc?.createElement) {
+    layersEl.textContent = "";
+    for (const l of CT_BAY_LAYERS) {
+      const label = doc.createElement("label");
+      const cb = doc.createElement("input");
+      cb.type = "checkbox"; cb.checked = !!state.layers[l.id];
+      cb.setAttribute?.("data-layer", l.id);
+      cb.addEventListener?.("change", () => {
+        state.layers[l.id] = !!cb.checked;
+        try { (opts.local ?? globalThis.localStorage)?.setItem(layerKey, JSON.stringify(state.layers)); } catch (_) { /* private mode */ }
+        if (state.mode === "svg") drawSvg();
+      });
+      const sw = doc.createElement("span");
+      sw.className = "swatch";
+      if (sw.style) sw.style.background = atlasHex(l.colour);
+      label.append?.(cb, sw, l.label);
+      layersEl.append?.(label);
+    }
+  }
   drawSvg();
   drawList("");
   say(statusEl, "Drawn from Bay World's own data. Paste a Mapbox public token to see the same places over a real-world map.");

@@ -1,0 +1,10 @@
+# Console CARTOGRAPHER — layered maps, interactive assets, fleets and avatars
+
+Team: CARTOGRAPHER · Brief: `tools/briefs/worlds-detail-brief.md` with `assets-brief.md` and `console-brief.md` · Branch: `claude/vr-ar-safety-training-wkwmve`
+
+Rules held: every asset procedural and licence-clean; no real brand, operator or person; liveries carry generic platform names only; avatars have no gender axis and no option on one axis is tied to another; new top-level names prefixed `ct`/`CT_` (the bundler concatenates every module into one scope).
+
+- 02:40 UTC · Fast-forwarded to the branch of record; read the worlds-detail, console and assets briefs, the Bay World and Deep data, builders and game code, the Atlas, fleet/yacht-fleet/crew/kit/profiles/account/links and check_fleet · next: data layer.
+- 02:50 UTC · Plan fixed: layers and assets are pure data in `bayworld-data.js` (`CT_BAY_LAYERS`, `CT_BAY_ASSETS`, `CT_BAY_WILDLIFE`) and `underwater-data.js` (`CT_DEEP_LAYERS`, `CT_DEEP_ASSETS`, `CT_DEEP_WILDLIFE`); `links.js` gains `lkAssetLink` (station, programme, `?site=`, sibling page); service liveries and the traffic/harbour fleets in `fleet.js`; the avatar style space, figure and per-profile store in `crew.js`, key added to `GT_PROFILE_KEYS`; picker on the account chip · next: wire the worlds.
+- 02:55 UTC · Worlds wired: Bay World and the Deep build assets as one InstancedMesh pair per kind (12 and 8 meshes for 85 and 50 assets), E opens an asset panel whose link comes from `lkAssetLink`, the full maps gain layer toggles, traffic cycles `CT_TRAFFIC_FLEET`, harbour boats are liveried, the learner's figure is the avatar from the profile (diver in dive gear in the Deep), live on `ct:avatar`. Atlas SVG draws the same layers with toggles. Bundler puts `crew.js` before `account.js` in every app · next: checkers.
+- 02:57 UTC · check_imports failed on a local `pick` closure in `ctAvatarVariety` (name collides with other modules' `pick`) — renamed `ctStep`. check_auth failed because the avatar button became the dialog's first option ahead of Google — moved it after the sign-in options · next: world checkers, commit.

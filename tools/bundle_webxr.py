@@ -462,6 +462,8 @@ APPS = {
             SHARED / "perf.js",
             SHARED / "touch.js",
             SHARED / "fleet.js",
+            # Crew figures and the avatar style space (console CARTOGRAPHER), before world.js.
+            SHARED / "crew.js",
             SHARED / "props.js",
             WEBXR / "smartcity/js/citykit.js",
             SHARED / "records.js",
@@ -531,6 +533,8 @@ APPS = {
             SHARED / "perf.js",
             SHARED / "touch.js",
             SHARED / "fleet.js",
+            # Crew figures and the avatar style space (console CARTOGRAPHER), before world.js.
+            SHARED / "crew.js",
             SHARED / "props.js",
             WEBXR / "smartcity/js/citykit.js",
             SHARED / "underwater-data.js",
@@ -677,6 +681,20 @@ for _gd_cfg in APPS.values():
         _gd_at = _gd_mods.index(SHARED / "controls.js")
         _gd_add = ([] if SHARED / "voice-assist.js" in _gd_mods else [SHARED / "voice-assist.js"]) + [SHARED / "guide.js"]
         _gd_mods[_gd_at:_gd_at] = _gd_add
+
+# The avatar picker on the account chip (console CARTOGRAPHER,
+# tools/briefs/worlds-detail-brief.md) reads shared/crew.js's style space, so
+# every app that bundles shared/account.js gets crew.js just before it (or has
+# it moved there when it was listed later).
+for _ct_cfg in APPS.values():
+    _ct_mods = _ct_cfg["modules"]
+    if SHARED / "account.js" not in _ct_mods:
+        continue
+    if SHARED / "crew.js" in _ct_mods and _ct_mods.index(SHARED / "crew.js") < _ct_mods.index(SHARED / "account.js"):
+        continue
+    if SHARED / "crew.js" in _ct_mods:
+        _ct_mods.remove(SHARED / "crew.js")
+    _ct_mods.insert(_ct_mods.index(SHARED / "account.js"), SHARED / "crew.js")
 
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a
@@ -861,6 +879,8 @@ DIST_SHARED = [
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
     "controls.js", "account.js", "profiles.js",
+    # The avatar style space account.js imports for its picker (console CARTOGRAPHER).
+    "crew.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
     # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
     # docs/agent-protocols.md), lazily imported by the homepage's own script

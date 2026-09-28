@@ -473,3 +473,75 @@ export function deepBandAt(x, z) {
   const d = deepDepthAt(x, z);
   return d < 12 ? "shallow" : d < 40 ? "mid" : "deep";
 }
+
+// ------------------------------------------------ layers and interactive assets
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// pure data derived from the tables above, read by the Deep's own map
+// (underwater/js/dive-map.js), its world build and
+// tools/check_worlds_detail.mjs. Every top-level name is prefixed `ct`/`CT_`
+// because the bundler concatenates every module into one scope.
+
+/** The map layers the Deep's map can toggle, in drawing order. */
+export const CT_DEEP_LAYERS = [
+  { id: "roads", label: "Dive lines and the channel", colour: 0xf2f2e0, on: true, source: "DEEP_LINES" },
+  { id: "jobs", label: "Dive sites by programme", colour: 0xf2c14b, on: true, source: "DEEP_SITES, coloured by first programme" },
+  { id: "landmarks", label: "Landmarks", colour: 0xa8f0e0, on: true, source: "DEEP_LANDMARKS" },
+  { id: "activities", label: "Activities and eggs found", colour: 0x8cff5a, on: false, source: "the activities and the lantern dives, done or open" },
+  { id: "assets", label: "Interactive assets", colour: 0x4fd1ff, on: false, source: "CT_DEEP_ASSETS" },
+  { id: "wildlife", label: "Wildlife sightings", colour: 0x59c9c9, on: false, source: "CT_DEEP_WILDLIFE" },
+];
+
+/**
+ * Sighting spots on the seabed map, by zone: generic kinds only (a fish
+ * school, a ray, a crab, seals at the pier), never a species claim or a
+ * count — a place a diver may see life, not a survey result.
+ */
+export const CT_DEEP_WILDLIFE = [
+  { kind: "fish", zone: "kelp-forest", area: { x: -500, z: -220, w: 80, d: 60 } },
+  { kind: "fish", zone: "reef-ball-field", area: { x: 350, z: 0, w: 80, d: 60 } },
+  { kind: "ray", zone: "tide-flats", area: { x: -100, z: -260, w: 90, d: 50 } },
+  { kind: "crab", zone: "pier-pilings", area: { x: -760, z: -600, w: 20, d: 20 } },
+  { kind: "seals", zone: "pier-pilings", area: { x: -700, z: -540, w: 30, d: 30 } },
+  { kind: "fish", zone: "wreck-hollow", area: { x: 250, z: 300, w: 60, d: 40 } },
+  { kind: "shorebirds", zone: "marsh-mouth", area: { x: 650, z: -560, w: 70, d: 30 } },
+];
+
+/** The Deep's interactive set dressing, what E does at each, and the page it links to. */
+export const CT_DEEP_ASSET_KINDS = {
+  buoy: { label: "Line buoy", does: "Shows the dive line it marks and where it leads.", link: "site", colour: 0xff9a5a },
+  "dive-slate": { label: "Dive slate", does: "Holds the dive plan for the nearest station, then opens it.", link: "station", colour: 0xe8e2d4 },
+  "survey-marker": { label: "Survey marker", does: "Opens the programme overview for the survey work anchored here.", link: "programme", colour: 0xf2c14b },
+  "tool-basket": { label: "Tool basket", does: "Shows the tools lowered for the nearest station, then opens that station.", link: "station", colour: 0x4fd1ff },
+};
+
+function ctDeepRing(p, i, r) {
+  const a = (i * 2.399963) % (Math.PI * 2);
+  return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+}
+
+function ctBuildDeepAssets() {
+  const out = [];
+  const rota = ["dive-slate", "survey-marker", "tool-basket"];
+  DEEP_SITES.forEach((s, i) => {
+    let kind = rota[i % rota.length];
+    const st = s.stations?.[0] ?? null, prog = s.programmes?.[0] ?? null;
+    let link = kind === "survey-marker" ? (prog ? { type: "programme", id: prog, site: s.id } : null) : (st ? { type: "station", id: st, site: s.id } : null);
+    if (!link) { kind = "buoy"; link = { type: "site", id: s.id }; }
+    out.push({ id: `ct-${kind}-${s.id}`, kind, zone: s.zone, near: s.id, name: `${CT_DEEP_ASSET_KINDS[kind].label} · ${s.name}`,
+      position: ctDeepRing(s.position, i, 18), programmes: s.programmes ?? [], stations: s.stations ?? [], link });
+  });
+  // A buoy at the first point of every line: it names the line and links to the nearest site's ?site= page.
+  DEEP_LINES.forEach((line, i) => {
+    const p = line.points[0];
+    let best = null, bd = Infinity;
+    for (const s of DEEP_SITES) { const d = Math.hypot(s.position[0] - p[0], s.position[1] - p[1]); if (d < bd) { bd = d; best = s; } }
+    out.push({ id: `ct-buoy-${line.id}`, kind: "buoy", zone: deepZoneAt(p[0], p[1]), near: best.id, line: line.id,
+      name: `${CT_DEEP_ASSET_KINDS.buoy.label} · ${line.name}`, position: ctDeepRing(p, i, 4), programmes: best.programmes ?? [], stations: best.stations ?? [],
+      link: { type: "site", id: best.id } });
+  });
+  return out;
+}
+
+/** Every interactive asset in the Deep: `{ id, kind, zone, near, name, position:[x,z], programmes, stations, link, line? }`. */
+export const CT_DEEP_ASSETS = ctBuildDeepAssets();

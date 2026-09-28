@@ -2,6 +2,7 @@
 // separate from the canvas drawing (world.js/app.js) so the coordinate
 // transform and "every site, once" rule are checkable with no DOM.
 import { BAY_BOUNDS, BAY_ROADS, BW_ZONES, BW_LANDMARKS, BW_SITES } from "./city.js";
+import { BAY_SITES, BAY_LANDMARKS, CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS, CT_BAY_WILDLIFE, ctProgrammeColour } from "../../shared/bayworld-data.js";
 import { bwIsSiteVisited, bwIsFastTravelUnlocked } from "./career.js";
 
 /** Metres per pixel's inverse — the one uniform scale that fits the whole of
@@ -43,6 +44,50 @@ export function bwMapZones(size = 512) {
 /** Every landmark, positioned. */
 export function bwMapLandmarks(size = 512) {
   return BW_LANDMARKS.map((l) => ({ id: l.id, name: l.name, ...bwWorldToMap(l.position[0], l.position[2], size) }));
+}
+
+/** The layer toggles' per-viewer memory (a convenience only; the defaults are CT_BAY_LAYERS' own `on`). */
+const CT_BW_LAYER_KEY = "bayworld-map-layers-v1";
+
+/** Which layers are on: `{ roads: true, … }`, from `storage` when it holds a choice. */
+export function ctBwLayerState(storage) {
+  const out = Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on]));
+  try { Object.assign(out, JSON.parse(storage?.getItem(CT_BW_LAYER_KEY) || "{}")); } catch (_) { /* defaults */ }
+  return out;
+}
+
+/** Turn one layer on or off and remember it. Returns the new state. */
+export function ctBwSetLayer(id, on, storage) {
+  const state = ctBwLayerState(storage);
+  if (!(id in state)) return state;
+  state[id] = !!on;
+  try { storage?.setItem(CT_BW_LAYER_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ }
+  return state;
+}
+
+/**
+ * Every layer's features in map space, `{ <layerId>: [feature…] }`, each
+ * feature `{ id, x, y, colour, label, … }` (roads carry `points`). `quests`
+ * is quest-engine's questState() list, for the activities-and-eggs layer
+ * (open or done). Pure: the in-game map draws exactly this and
+ * tools/check_worlds_detail.mjs counts it.
+ */
+export function ctBwMapLayers(size = 512, { quests = [] } = {}) {
+  const P = (x, z) => bwWorldToMap(x, z, size);
+  const places = new Map([...BAY_SITES, ...BAY_LANDMARKS].map((p) => [p.id, p]));
+  return {
+    roads: [
+      ...BAY_ROADS.map((r) => ({ id: r.id, label: r.name, lanes: r.lanes, colour: 0x8aa2b4, points: r.points.map(([x, z]) => P(x, z)) })),
+      ...BAY_LANDMARKS.filter((l) => l.kind === "transit").map((l) => ({ id: l.id, label: l.name, colour: 0x3b7bbf, transit: true, ...P(l.position[0], l.position[1]) })),
+    ],
+    jobs: BAY_SITES.map((s) => ({ id: s.id, label: s.name, programme: s.programmes?.[0] ?? null, colour: ctProgrammeColour(s.programmes?.[0]), ...P(s.position[0], s.position[1]) })),
+    landmarks: BAY_LANDMARKS.map((l) => ({ id: l.id, label: l.name, colour: 0xa079ff, ...P(l.position[0], l.position[1]) })),
+    activities: quests.map((q) => ({ q, at: places.get(q.site) })).filter((x) => x.at).map(({ q, at }) => ({
+      id: q.id, label: q.title, kind: q.kind, done: !!q.done, colour: q.done ? 0x8cff5a : q.kind === "egg" ? 0xffd54a : 0x6a8a5a, ...P(at.position[0], at.position[1]),
+    })),
+    assets: CT_BAY_ASSETS.map((a) => ({ id: a.id, label: a.name, kind: a.kind, colour: CT_BAY_ASSET_KINDS[a.kind].colour, ...P(a.position[0], a.position[1]) })),
+    wildlife: CT_BAY_WILDLIFE.map((w, i) => ({ id: `${w.kind}-${i}`, label: `Wildlife: ${w.kind}`, kind: w.kind, colour: 0x59c9c9, ...P(w.area.x, w.area.z) })),
+  };
 }
 
 /**

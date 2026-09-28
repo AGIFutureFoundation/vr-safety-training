@@ -36,6 +36,8 @@ export const GT_PROFILE_KEYS = [
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
   "bayworld-career-v1", "underwater-career-v1",
   "bayworld-quests-v1", "underwater-dives-v1", "underwater-activities-v1",
+  // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
+  "vr-avatar-style-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }

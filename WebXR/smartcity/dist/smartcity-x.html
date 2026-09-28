@@ -844,6 +844,8 @@ const GT_PROFILE_KEYS = [
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
   "bayworld-career-v1", "underwater-career-v1",
   "bayworld-quests-v1", "underwater-dives-v1", "underwater-activities-v1",
+  // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
+  "vr-avatar-style-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -8734,6 +8736,79 @@ const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, deliveryVan, ambulance, fireEngine,
   bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat, motorYacht, yachtTender, skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge, rov,
 };
+
+// ------------------------------------------------------------ service liveries
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// the traffic and harbour fleets are painted by service, each livery a
+// generic platform name and a colour pair — no real operator, carrier or
+// brand. The regatta's twelve yachts keep their own names
+// (shared/yacht-fleet.js); these liveries never touch them.
+
+/** One livery per service: `{ label, colour, accent, fleetName, prefix }`. */
+const CT_SERVICE_LIVERIES = {
+  transit: { label: "Transit", colour: 0x1c8f6f, accent: 0xf1f2ee, fleetName: "SMARTCITI TRANSIT", prefix: "T" },
+  utility: { label: "Utility", colour: 0xf2f2ee, accent: 0xf07a1f, fleetName: "SMARTCITI UTILITIES", prefix: "U" },
+  delivery: { label: "Delivery", colour: 0x5a3d8a, accent: 0xf2c14b, fleetName: "SMARTCITI PARCEL", prefix: "D" },
+  emergency: { label: "Emergency", colour: 0xf4f5f3, accent: 0xd8322c, fleetName: "SMARTCITI EMS", prefix: "E" },
+  construction: { label: "Construction", colour: 0xf2b21b, accent: 0x14171a, fleetName: "SMARTCITI BUILD", prefix: "C" },
+  port: { label: "Port", colour: 0x2c5a7a, accent: 0xf0b323, fleetName: "SMARTCITI PORT", prefix: "P" },
+  survey: { label: "Survey", colour: 0xf2c14b, accent: 0x1b1e22, fleetName: "SMARTCITI SURVEY", prefix: "S" },
+  dive: { label: "Dive support", colour: 0xd9dde0, accent: 0xd8322c, fleetName: "SMARTCITI DIVE", prefix: "DV" },
+  restoration: { label: "Restoration", colour: 0x2e8b57, accent: 0xf2f2ee, fleetName: "SMARTCITI RESTORE", prefix: "R" },
+};
+
+/** The six road-and-port services the brief names; every one appears in CT_TRAFFIC_FLEET. */
+const CT_TRAFFIC_SERVICES = ["transit", "utility", "delivery", "emergency", "construction", "port"];
+
+/** A builder's `opts.livery` for a service and a unit number. */
+function ctServiceLivery(service, unit = 1) {
+  const l = CT_SERVICE_LIVERIES[service];
+  if (!l) return undefined;
+  return { colour: l.colour, accent: l.accent, fleetName: l.fleetName, unitNumber: `${l.prefix}-${String(unit).padStart(2, "0")}` };
+}
+
+/**
+ * Bay World's ambient traffic, cycled in order: every road service once,
+ * plus private sedans and a second delivery truck. Builders are the kit's
+ * own, each inside its FLEET_BUDGET count.
+ */
+const CT_TRAFFIC_FLEET = [
+  { builder: "busTransit", service: "transit" },
+  { builder: "sedan", service: null },
+  { builder: "cargoVan", service: "utility" },
+  { builder: "deliveryVan", service: "delivery" },
+  { builder: "pickup", service: "construction" },
+  { builder: "sedan", service: null },
+  { builder: "ambulance", service: "emergency" },
+  { builder: "yardHustler", service: "port" },
+  { builder: "boxTruck", service: "delivery" },
+];
+
+/**
+ * The harbour fleets: Bay World's working boats at its marinas and piers,
+ * and the Deep's workboats, survey vessels and ROV, each with its own
+ * service livery and unit number (`at` is a site id in that world).
+ */
+const CT_HARBOUR_FLEET = [
+  { id: "bw-port-workboat", world: "bayworld", builder: "workboat", service: "port", unit: 3, at: "channel-buoy-tender-pier" },
+  { id: "bw-survey-skiff", world: "bayworld", builder: "skiff", service: "survey", unit: 1, at: "north-marina-pier" },
+  { id: "bw-restoration-skimmer", world: "bayworld", builder: "skimmerVessel", service: "restoration", unit: 2, at: "south-shoreline-marina" },
+  { id: "bw-dive-workboat", world: "bayworld", builder: "workboat", service: "dive", unit: 4, at: "island-boatyard" },
+  { id: "dv-dive-workboat", world: "underwater", builder: "workboat", service: "dive", unit: 1, at: "pier-surface-supplied-station" },
+  { id: "dv-survey-skiff", world: "underwater", builder: "skiff", service: "survey", unit: 2, at: "channel-dredge-survey" },
+  { id: "dv-restoration-workboat", world: "underwater", builder: "workboat", service: "restoration", unit: 5, at: "eelgrass-transplant-plots" },
+  { id: "dv-survey-rov", world: "underwater", builder: "rov", service: "survey", unit: 7, at: "trench-rov-station" },
+];
+
+/** Build one CT_TRAFFIC_FLEET / CT_HARBOUR_FLEET entry with its livery. */
+function ctBuildLiveried(parent, entry, x, y, z, opts = {}, unit = entry.unit ?? 1) {
+  const fn = FLEET_BUILDERS[entry.builder];
+  const livery = entry.service ? ctServiceLivery(entry.service, unit) : undefined;
+  const g = fn(parent, x, y, z, { ...opts, ...(livery ? { livery } : {}) });
+  g.userData.ctService = entry.service ?? "private";
+  return g;
+}
 
 
 /* ===== shared/equipment.js ===== */
@@ -20268,6 +20343,197 @@ function describeSplit(station, split = splitByRole(station)) {
   return `${stationName(station)} · ${pairOf(split.pair)?.name ?? split.pair} pair · ${parts.join(" · ")}`;
 }
 
+// ================================================================ avatar styles
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// crew figures — the learner's own and the people the worlds place — are
+// built from one style space: body proportions, a wide range of skin tones,
+// hair styles and head coverings, and trade PPE by category. The axes are
+// independent by construction: no option on one axis is tied to, defaults
+// from, or excludes an option on another, so no trade is tied to a skin tone,
+// a gender or a body type. There is no gender axis at all. The learner picks
+// a style on the account chip (shared/account.js); it is stored per profile
+// through shared/profiles.js (key CT_AVATAR_KEY in GT_PROFILE_KEYS).
+// Every top-level name is prefixed `ct`/`CT_` because the bundler
+// concatenates every module into one scope. No imports: THREE is passed in.
+
+/** The profile-private store key the learner's own style lives under. */
+const CT_AVATAR_KEY = "vr-avatar-style-v1";
+
+/** The declared mesh ceiling for one figure, whatever the style. */
+const CT_AVATAR_BUDGET = 12;
+
+/** The style space. Every axis is a list of `{ id, label, ... }`. */
+const CT_AVATAR_STYLES = {
+  body: [
+    { id: "slender", label: "Slender", h: 1.0, w: 0.86 },
+    { id: "average", label: "Average", h: 1.0, w: 1.0 },
+    { id: "broad", label: "Broad", h: 1.0, w: 1.18 },
+    { id: "tall", label: "Tall", h: 1.1, w: 0.98 },
+    { id: "compact", label: "Compact", h: 0.9, w: 1.04 },
+    { id: "full", label: "Full-figured", h: 0.98, w: 1.28 },
+  ],
+  // Twelve tones from very light to very deep, named by number only.
+  skin: [
+    { id: "tone-1", label: "Tone 1", hex: 0xf6e0d0 }, { id: "tone-2", label: "Tone 2", hex: 0xeccbb0 },
+    { id: "tone-3", label: "Tone 3", hex: 0xe0b894 }, { id: "tone-4", label: "Tone 4", hex: 0xd4a47c },
+    { id: "tone-5", label: "Tone 5", hex: 0xc49068 }, { id: "tone-6", label: "Tone 6", hex: 0xb07c56 },
+    { id: "tone-7", label: "Tone 7", hex: 0x9a6846 }, { id: "tone-8", label: "Tone 8", hex: 0x86563a },
+    { id: "tone-9", label: "Tone 9", hex: 0x70462e }, { id: "tone-10", label: "Tone 10", hex: 0x5c3824 },
+    { id: "tone-11", label: "Tone 11", hex: 0x4a2c1c }, { id: "tone-12", label: "Tone 12", hex: 0x382014 },
+  ],
+  // Hair styles and head coverings on one axis: what sits on the head.
+  hair: [
+    { id: "cropped", label: "Cropped", shape: "cap-low" },
+    { id: "short", label: "Short", shape: "cap" },
+    { id: "curly", label: "Curly", shape: "puff" },
+    { id: "coily", label: "Coily", shape: "puff-high" },
+    { id: "long", label: "Long", shape: "long" },
+    { id: "braids", label: "Braids", shape: "long-narrow" },
+    { id: "locs", label: "Locs", shape: "long" },
+    { id: "bun", label: "Bun", shape: "bun" },
+    { id: "shaved", label: "Shaved", shape: "none" },
+    { id: "hijab", label: "Hijab", shape: "wrap-full", covering: true },
+    { id: "turban", label: "Turban", shape: "wrap-high", covering: true },
+    { id: "headwrap", label: "Headwrap", shape: "wrap-high", covering: true },
+    { id: "patka", label: "Patka", shape: "wrap-low", covering: true },
+    { id: "kippah", label: "Kippah", shape: "disc", covering: true },
+    { id: "cap", label: "Cap", shape: "brim", covering: true },
+    { id: "beanie", label: "Beanie", shape: "cap", covering: true },
+  ],
+  hairColour: [
+    { id: "black", label: "Black", hex: 0x16120f }, { id: "dark-brown", label: "Dark brown", hex: 0x3a2618 },
+    { id: "brown", label: "Brown", hex: 0x6a4428 }, { id: "auburn", label: "Auburn", hex: 0x8a3a1e },
+    { id: "blonde", label: "Blonde", hex: 0xd8b86a }, { id: "grey", label: "Grey", hex: 0x9a9a98 },
+    { id: "white", label: "White", hex: 0xe8e6e0 }, { id: "navy", label: "Navy (covering)", hex: 0x1f2f5a },
+    { id: "teal", label: "Teal (covering)", hex: 0x1c7f7a }, { id: "maroon", label: "Maroon (covering)", hex: 0x6a1f2a },
+  ],
+  // Trade PPE by category. Hard hat colours follow the site's own colour
+  // code; nothing here says what a colour means.
+  ppe: [
+    { id: "none", label: "Everyday clothes", body: 0x3a6ea5 },
+    { id: "hard-hat-hivis", label: "Hard hat and hi-vis", body: 0xd8ff3a, helmet: true, vest: true },
+    { id: "electrical", label: "Arc-rated coveralls and hard hat", body: 0x2a3f6a, helmet: true },
+    { id: "dive", label: "Dive gear", body: 0x1f3a4a, tank: true, mask: true },
+    { id: "chef", label: "Chef whites", body: 0xf4f4f0, toque: true },
+    { id: "scrubs", label: "Scrubs", body: 0x3a8a8a },
+    { id: "flight-crew", label: "Flight crew uniform", body: 0x1f2f5a, trim: 0xf2c14b },
+    { id: "marine", label: "Life vest and deck gear", body: 0x2b3542, vest: true, vestColour: 0xf07a1f },
+    { id: "grounds", label: "Grounds crew hi-vis and ear defenders", body: 0x3d6b3a, vest: true, ears: true },
+  ],
+  hardHat: [
+    { id: "white", label: "White", hex: 0xf4f4f0 }, { id: "yellow", label: "Yellow", hex: 0xf2c14b },
+    { id: "orange", label: "Orange", hex: 0xf07a1f }, { id: "blue", label: "Blue", hex: 0x2a7de1 },
+    { id: "green", label: "Green", hex: 0x3d9a4a }, { id: "red", label: "Red", hex: 0xd8322c },
+  ],
+};
+
+/** The axes, in the order the picker shows them. */
+const CT_AVATAR_AXES = ["body", "skin", "hair", "hairColour", "ppe", "hardHat"];
+
+/** The default style: the first option on every axis except a mid skin tone. */
+const CT_AVATAR_DEFAULT = Object.freeze({ body: "average", skin: "tone-6", hair: "short", hairColour: "dark-brown", ppe: "hard-hat-hivis", hardHat: "white" });
+
+/** Any object to a valid style: unknown or missing ids fall back per axis, independently. */
+function ctAvatarNormalize(style = {}) {
+  const out = {};
+  for (const axis of CT_AVATAR_AXES) {
+    const want = style?.[axis];
+    out[axis] = CT_AVATAR_STYLES[axis].some((o) => o.id === want) ? want : CT_AVATAR_DEFAULT[axis];
+  }
+  return out;
+}
+
+/** One option's record on one axis. */
+function ctAvatarOption(axis, id) {
+  return CT_AVATAR_STYLES[axis]?.find((o) => o.id === id) ?? CT_AVATAR_STYLES[axis]?.[0] ?? null;
+}
+
+/** The learner's own style from a Storage-shaped handle (profiles.js's gtStorage()). */
+function ctAvatarLoad(storage) {
+  try { return ctAvatarNormalize(JSON.parse(storage?.getItem(CT_AVATAR_KEY) || "null") ?? {}); } catch (_) { return ctAvatarNormalize({}); }
+}
+
+/** Store the learner's own style; tells open worlds with a `ct:avatar` event. */
+function ctAvatarSave(style, storage) {
+  const clean = ctAvatarNormalize(style);
+  try { storage?.setItem(CT_AVATAR_KEY, JSON.stringify(clean)); } catch (_) { /* private mode: kept for this page only */ }
+  try { globalThis.dispatchEvent?.(new Event("ct:avatar")); } catch (_) { /* headless */ }
+  return clean;
+}
+
+/**
+ * The i-th figure of a crowd: every axis stepped by its own stride, co-prime
+ * with that axis's length, so every option on every axis turns up and each
+ * PPE category is worn across several skin tones, bodies and hair styles —
+ * no trade clothing travels with one skin tone or body type
+ * (tools/check_worlds_detail.mjs counts it).
+ */
+function ctAvatarVariety(i, { ppe = null } = {}) {
+  const ctStep = (axis, stride) => CT_AVATAR_STYLES[axis][(i * stride + stride) % CT_AVATAR_STYLES[axis].length].id;
+  return ctAvatarNormalize({ body: ctStep("body", 5), skin: ctStep("skin", 7), hair: ctStep("hair", 3), hairColour: ctStep("hairColour", 3), ppe: ppe ?? ctStep("ppe", 2), hardHat: ctStep("hardHat", 5) });
+}
+
+/**
+ * Build a standing figure for `style` (about 1.7 m at the "average" body)
+ * into a new THREE.Group, feet at y = 0, facing +z. At most
+ * CT_AVATAR_BUDGET meshes; `userData.parts` names head, torso, legs,
+ * headwear and any PPE part so a world can recolour or hide it.
+ */
+function ctAvatarFigure(THREE, style = {}) {
+  const s = ctAvatarNormalize(style);
+  const body = ctAvatarOption("body", s.body), skin = ctAvatarOption("skin", s.skin).hex;
+  const hair = ctAvatarOption("hair", s.hair), hairHex = ctAvatarOption("hairColour", s.hairColour).hex;
+  const ppe = ctAvatarOption("ppe", s.ppe), hat = ctAvatarOption("hardHat", s.hardHat).hex;
+  const mat = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: o.rough ?? 0.8, metalness: o.metal ?? 0, emissive: o.emissive ?? 0x000000 });
+  const g = new THREE.Group();
+  const parts = {};
+  const add = (name, geo, m, x, y, z) => { const mesh = new THREE.Mesh(geo, m); mesh.position.set(x, y, z); mesh.castShadow = true; g.add(mesh); parts[name] = mesh; return mesh; };
+  const H = body.h, W = body.w;
+  add("legs", new THREE.CylinderGeometry(0.17 * W, 0.14 * W, 0.78 * H, 8), mat(ppe.id === "chef" || ppe.id === "scrubs" ? ppe.body : 0x2a2f36, { rough: 0.9 }), 0, 0.39 * H, 0);
+  add("torso", new THREE.CapsuleGeometry(0.23 * W, 0.56 * H, 4, 8), mat(ppe.body), 0, 1.06 * H, 0);
+  const headY = 1.58 * H;
+  add("head", new THREE.SphereGeometry(0.14, 12, 10), mat(skin, { rough: 0.7 }), 0, headY, 0);
+  // What sits on the head: hair, or a covering, drawn in the chosen colour.
+  const hm = mat(hairHex, { rough: 0.85 });
+  const sh = hair.shape;
+  if (sh === "cap-low") add("headwear", new THREE.SphereGeometry(0.145, 12, 6, 0, Math.PI * 2, 0, Math.PI * 0.38), hm, 0, headY + 0.005, 0);
+  else if (sh === "cap") add("headwear", new THREE.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+  else if (sh === "puff") add("headwear", new THREE.SphereGeometry(0.19, 12, 10), hm, 0, headY + 0.05, -0.02);
+  else if (sh === "puff-high") add("headwear", new THREE.SphereGeometry(0.21, 12, 10), hm, 0, headY + 0.09, -0.02);
+  else if (sh === "long" || sh === "long-narrow") {
+    add("headwear", new THREE.SphereGeometry(0.155, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.55), hm, 0, headY + 0.01, 0);
+    add("hairBack", new THREE.BoxGeometry(sh === "long" ? 0.28 : 0.2, 0.34, 0.08), hm, 0, headY - 0.14, -0.1);
+  } else if (sh === "bun") {
+    add("headwear", new THREE.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+    add("bun", new THREE.SphereGeometry(0.07, 10, 8), hm, 0, headY + 0.1, -0.12);
+  } else if (sh === "wrap-full") {
+    // A hijab: the head and neck wrapped, the face open.
+    add("headwear", new THREE.SphereGeometry(0.165, 14, 10, Math.PI * 0.2, Math.PI * 1.6), hm, 0, headY, 0);
+    add("drape", new THREE.CylinderGeometry(0.15, 0.24 * W, 0.22, 12), hm, 0, headY - 0.2, 0);
+  } else if (sh === "wrap-high") add("headwear", new THREE.CylinderGeometry(0.15, 0.165, 0.16, 14), hm, 0, headY + 0.08, -0.01);
+  else if (sh === "wrap-low") add("headwear", new THREE.CylinderGeometry(0.15, 0.155, 0.09, 14), hm, 0, headY + 0.06, 0);
+  else if (sh === "disc") add("headwear", new THREE.CylinderGeometry(0.08, 0.08, 0.015, 12), hm, 0, headY + 0.135, -0.02);
+  else if (sh === "brim") {
+    add("headwear", new THREE.SphereGeometry(0.152, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+    add("brim", new THREE.BoxGeometry(0.2, 0.015, 0.12), hm, 0, headY + 0.03, 0.15);
+  }
+  // PPE by category: a hard hat rides over any hair or covering.
+  if (ppe.helmet) {
+    add("hardHat", new THREE.SphereGeometry(0.175, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0);
+    add("hardHatBrim", new THREE.CylinderGeometry(0.2, 0.2, 0.015, 14), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0.02);
+  }
+  if (ppe.vest) add("vest", new THREE.CylinderGeometry(0.25 * W, 0.25 * W, 0.42 * H, 10, 1, true), mat(ppe.vestColour ?? 0xd8ff3a, { emissive: 0x202000 }), 0, 1.12 * H, 0);
+  if (ppe.tank) add("tank", new THREE.CylinderGeometry(0.09, 0.09, 0.56, 8), mat(0xd9d9d0, { rough: 0.5, metal: 0.4 }), 0, 1.1 * H, -0.27 * W);
+  if (ppe.mask) add("mask", new THREE.BoxGeometry(0.2, 0.09, 0.06), mat(0x4fd1ff, { emissive: 0x1a5a70 }), 0, headY + 0.02, 0.13);
+  if (ppe.toque) add("toque", new THREE.CylinderGeometry(0.15, 0.13, 0.2, 12), mat(0xffffff), 0, headY + 0.17, 0);
+  if (ppe.trim) add("trim", new THREE.BoxGeometry(0.3 * W, 0.04, 0.02), mat(ppe.trim, { rough: 0.4 }), 0, 1.22 * H, 0.235 * W);
+  if (ppe.ears) add("ears", new THREE.TorusGeometry(0.15, 0.025, 6, 12, Math.PI), mat(0xd8322c), 0, headY + 0.02, 0);
+  g.userData.parts = parts;
+  g.userData.ctAvatar = s;
+  return g;
+}
+
 
 /* ===== shared/robot.js ===== */
 // Robot trainees — software agents that run the same procedure engine a
@@ -24913,6 +25179,130 @@ function bayRoadAt(x, z) {
   return { onRoad: true, lane: best.lane, heading: best.heading };
 }
 
+// ------------------------------------------------ layers and interactive assets
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER).
+// Everything below is pure data derived from the tables above, so the in-game
+// map, the Atlas's SVG fallback and tools/check_worlds_detail.mjs all read the
+// same thing. Every top-level name is prefixed `ct`/`CT_` because the bundler
+// concatenates every module into one scope.
+
+/**
+ * The map layers the in-game map and the Atlas can toggle, in drawing order.
+ * `source` names the data a layer is drawn from; nothing here is drawn twice.
+ */
+const CT_BAY_LAYERS = [
+  { id: "roads", label: "Roads and transit", colour: 0x8aa2b4, on: true, source: "BAY_ROADS and the transit landmarks" },
+  { id: "jobs", label: "Job sites by programme", colour: 0xf2c14b, on: true, source: "BAY_SITES, coloured by first programme" },
+  { id: "landmarks", label: "Landmarks", colour: 0xa079ff, on: true, source: "BAY_LANDMARKS" },
+  { id: "activities", label: "Activities and eggs found", colour: 0x8cff5a, on: false, source: "the quest layer, done or open" },
+  { id: "assets", label: "Interactive assets", colour: 0x4fd1ff, on: false, source: "CT_BAY_ASSETS" },
+  { id: "wildlife", label: "Wildlife sightings", colour: 0x59c9c9, on: false, source: "CT_BAY_WILDLIFE" },
+];
+
+/** A fixed, colour-blind-aware palette a programme's colour is drawn from. */
+const CT_PROGRAMME_PALETTE = [0xf2c14b, 0x4fd1ff, 0xf07a1f, 0x59c97b, 0xd86bd0, 0xe25c5c, 0x3b7bbf, 0xc9a06a, 0x8cff5a, 0xa079ff, 0x59c9c9, 0xffffff];
+
+/** A programme id's map colour: stable for the id, the same in every world. */
+function ctProgrammeColour(id) {
+  if (!id) return 0x7f8c96;
+  let h = 7;
+  for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return CT_PROGRAMME_PALETTE[h % CT_PROGRAMME_PALETTE.length];
+}
+
+/**
+ * Where the generic wildlife lives, by zone, each over a plain rectangle of
+ * water or shore in metres. bayworld/js/world.js builds these herds and the
+ * map's wildlife layer marks the same rectangles as sighting spots. Counts
+ * are shared/wildlife.js's own scene defaults, never a census.
+ */
+const CT_BAY_WILDLIFE = [
+  { kind: "gulls", zone: "port", area: { x: -300, z: 450, w: 260, d: 180, y: -0.4 } },
+  { kind: "pelicans", zone: "outer-bay", area: { x: -1000, z: 380, w: 300, d: 200, y: -0.4 } },
+  { kind: "fish", zone: "outer-bay", area: { x: -1000, z: 300, w: 120, d: 80, y: -0.4 } },
+  { kind: "ray", zone: "outer-bay", area: { x: -1060, z: 520, w: 100, d: 60, y: -0.4 } },
+  { kind: "shorebirds", zone: "island-harbour", area: { x: 80, z: 722, w: 80, d: 6, y: 0 } },
+  { kind: "seals", zone: "north-shoreline", area: { x: -960, z: -690, w: 20, d: 20, y: -0.4 } },
+  { kind: "crab", zone: "north-shoreline", area: { x: -928, z: -646, w: 4, d: 4, y: -0.2 } },
+];
+
+/**
+ * The kinds of interactive set dressing, what pressing E does at each, and
+ * the kind of page each one links to (shared/links.js's lkAssetLink turns an
+ * asset's `link` into an href). `meshes` is the per-asset share of the
+ * instanced build (one InstancedMesh per kind, however many assets).
+ */
+const CT_BAY_ASSET_KINDS = {
+  kiosk: { label: "Information kiosk", does: "Opens the nearest station's programme overview.", link: "programme", colour: 0x4fd1ff },
+  bench: { label: "Bench", does: "Sit down: the camera settles and the Guide offers a tip.", link: "station", colour: 0x9a6a3a },
+  "notice-board": { label: "Union hall notice board", does: "Lists the programmes anchored nearby.", link: "programme", colour: 0xd8232a },
+  "tool-crib": { label: "Tool crib", does: "Shows the tools the nearest station hands out, then opens that station.", link: "station", colour: 0xf2c14b },
+  "bus-stop": { label: "Bus stop", does: "Fast-travels to a site already visited.", link: "site", colour: 0x3b7bbf },
+  "dock-box": { label: "Dock box", does: "Holds the yacht briefing and opens the Bay Regatta.", link: "page", colour: 0xe8e2d4 },
+};
+
+/** A short, generic safety tip the Guide offers at a bench — method, never a claim about a place. */
+const CT_BENCH_TIPS = [
+  "Before any task, walk the ground once and name the hazards out loud.",
+  "If the plan changes, stop and re-brief everyone before the work restarts.",
+  "Check your PPE before you need it, not when you need it.",
+  "A near miss is a free lesson: report it the same shift.",
+  "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+  "Keep three points of contact on every ladder and every vessel boarding.",
+];
+
+const CT_BAY_SITE_KIND = (s) => {
+  if (/union-hall/.test(s.id) || (s.programmes ?? []).length >= 3) return "notice-board";
+  if (/shop|yard|plant|lab|terminal|center|centre|site|campus/.test(s.id)) return "tool-crib";
+  return "kiosk";
+};
+
+function ctRing(p, i, r) {
+  const a = (i * 2.399963) % (Math.PI * 2);
+  return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+}
+
+function ctBuildBayAssets() {
+  const out = [];
+  BAY_SITES.forEach((s, i) => {
+    const kind = CT_BAY_SITE_KIND(s);
+    const prog = s.programmes?.[0] ?? null, st = s.stations?.[0] ?? null;
+    // A site with no programme or station yet still gets a bench that links to its own ?site= page.
+    let link;
+    if (kind === "tool-crib" && st) link = { type: "station", id: st, site: s.id };
+    else if (prog) link = { type: "programme", id: prog, site: s.id };
+    else link = { type: "site", id: s.id };
+    out.push({ id: `ct-${kind}-${s.id}`, kind: link.type === "site" ? "bench" : kind, zone: s.zone, near: s.id,
+      name: `${CT_BAY_ASSET_KINDS[link.type === "site" ? "bench" : kind].label} · ${s.name}`, position: ctRing(s.position, i, 20),
+      programmes: s.programmes ?? [], stations: s.stations ?? [], link });
+  });
+  BAY_LANDMARKS.forEach((l, i) => {
+    const transit = l.kind === "transit" || l.kind === "plaza" || l.kind === "infrastructure" || l.kind === "market" || l.kind === "civic";
+    // The nearest site with a station, for the bench's tip-and-station link and the bus stop's hop.
+    let best = null, bd = Infinity;
+    for (const s of BAY_SITES) {
+      if (!(s.stations ?? []).length) continue;
+      const d = Math.hypot(s.position[0] - l.position[0], s.position[1] - l.position[1]);
+      if (d < bd) { bd = d; best = s; }
+    }
+    const kind = transit ? "bus-stop" : "bench";
+    const link = kind === "bus-stop" ? { type: "site", id: best.id } : { type: "station", id: best.stations[0], site: best.id };
+    out.push({ id: `ct-${kind}-${l.id}`, kind, zone: l.zone, near: best.id, name: `${CT_BAY_ASSET_KINDS[kind].label} · ${l.name}`,
+      position: ctRing(l.position, i + 3, 12), tip: CT_BENCH_TIPS[i % CT_BENCH_TIPS.length], programmes: best.programmes ?? [], stations: best.stations ?? [], link });
+  });
+  for (const id of ["island-yacht-harbor", "estuary-marina-boatyard", "north-marina-pier", "south-shoreline-marina"]) {
+    const s = BAY_SITES.find((x) => x.id === id);
+    if (!s) continue;
+    out.push({ id: `ct-dock-box-${s.id}`, kind: "dock-box", zone: s.zone, near: s.id, name: `${CT_BAY_ASSET_KINDS["dock-box"].label} · ${s.name}`,
+      position: ctRing(s.position, 11, 9), programmes: ["yacht-and-charter-crew"], stations: [], link: { type: "page", href: "../../regatta/regatta.html" } });
+  }
+  return out;
+}
+
+/** Every interactive asset in Bay World: `{ id, kind, zone, near, name, position:[x,z], programmes, stations, link, tip? }`. */
+const CT_BAY_ASSETS = ctBuildBayAssets();
+
 
 /* ===== shared/bayworld.js ===== */
 // standingFigure and holoTag are the two SmartCiti.X-specific set pieces this
@@ -25580,12 +25970,21 @@ function dressHillTrees(parent, zone, count, rng) {
 }
 
 const BW_FLEET_BUILDERS = [sedan, pickup, cargoVan];
+/** The service a zone's parked work vehicles are painted for (fleet.js's
+ *  CT_SERVICE_LIVERIES); sedans stay private cars in every zone. */
+const CT_ZONE_SERVICE = {
+  downtown: "transit", uptown: "construction", lake: "utility", "estuary-waterfront": "port", port: "port",
+  "west-oakland": "delivery", fruitvale: "utility", coliseum: "emergency", hills: "utility", "bridge-approach": "construction",
+  "island-harbour": "port", "north-shoreline": "utility", "emery-crossing": "delivery", "south-shoreline": "utility",
+  "upper-hills": "construction", "outer-bay": "port",
+};
 function dressParkedFleet(parent, zone, count, rng) {
   const [cx, cz] = zone.centre;
   for (let i = 0; i < count; i++) {
     const fn = BW_FLEET_BUILDERS[Math.floor(rng() * BW_FLEET_BUILDERS.length)];
     const a = rng() * Math.PI * 2, r = zone.radius * (0.2 + rng() * 0.6);
-    fn(parent, cx + Math.cos(a) * r, 0, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2 });
+    const livery = fn === sedan ? undefined : ctServiceLivery(CT_ZONE_SERVICE[zone.id], i + 1);
+    fn(parent, cx + Math.cos(a) * r, 0, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2, ...(livery ? { livery } : {}) });
   }
 }
 
@@ -26242,6 +26641,78 @@ function deepBandAt(x, z) {
   const d = deepDepthAt(x, z);
   return d < 12 ? "shallow" : d < 40 ? "mid" : "deep";
 }
+
+// ------------------------------------------------ layers and interactive assets
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// pure data derived from the tables above, read by the Deep's own map
+// (underwater/js/dive-map.js), its world build and
+// tools/check_worlds_detail.mjs. Every top-level name is prefixed `ct`/`CT_`
+// because the bundler concatenates every module into one scope.
+
+/** The map layers the Deep's map can toggle, in drawing order. */
+const CT_DEEP_LAYERS = [
+  { id: "roads", label: "Dive lines and the channel", colour: 0xf2f2e0, on: true, source: "DEEP_LINES" },
+  { id: "jobs", label: "Dive sites by programme", colour: 0xf2c14b, on: true, source: "DEEP_SITES, coloured by first programme" },
+  { id: "landmarks", label: "Landmarks", colour: 0xa8f0e0, on: true, source: "DEEP_LANDMARKS" },
+  { id: "activities", label: "Activities and eggs found", colour: 0x8cff5a, on: false, source: "the activities and the lantern dives, done or open" },
+  { id: "assets", label: "Interactive assets", colour: 0x4fd1ff, on: false, source: "CT_DEEP_ASSETS" },
+  { id: "wildlife", label: "Wildlife sightings", colour: 0x59c9c9, on: false, source: "CT_DEEP_WILDLIFE" },
+];
+
+/**
+ * Sighting spots on the seabed map, by zone: generic kinds only (a fish
+ * school, a ray, a crab, seals at the pier), never a species claim or a
+ * count — a place a diver may see life, not a survey result.
+ */
+const CT_DEEP_WILDLIFE = [
+  { kind: "fish", zone: "kelp-forest", area: { x: -500, z: -220, w: 80, d: 60 } },
+  { kind: "fish", zone: "reef-ball-field", area: { x: 350, z: 0, w: 80, d: 60 } },
+  { kind: "ray", zone: "tide-flats", area: { x: -100, z: -260, w: 90, d: 50 } },
+  { kind: "crab", zone: "pier-pilings", area: { x: -760, z: -600, w: 20, d: 20 } },
+  { kind: "seals", zone: "pier-pilings", area: { x: -700, z: -540, w: 30, d: 30 } },
+  { kind: "fish", zone: "wreck-hollow", area: { x: 250, z: 300, w: 60, d: 40 } },
+  { kind: "shorebirds", zone: "marsh-mouth", area: { x: 650, z: -560, w: 70, d: 30 } },
+];
+
+/** The Deep's interactive set dressing, what E does at each, and the page it links to. */
+const CT_DEEP_ASSET_KINDS = {
+  buoy: { label: "Line buoy", does: "Shows the dive line it marks and where it leads.", link: "site", colour: 0xff9a5a },
+  "dive-slate": { label: "Dive slate", does: "Holds the dive plan for the nearest station, then opens it.", link: "station", colour: 0xe8e2d4 },
+  "survey-marker": { label: "Survey marker", does: "Opens the programme overview for the survey work anchored here.", link: "programme", colour: 0xf2c14b },
+  "tool-basket": { label: "Tool basket", does: "Shows the tools lowered for the nearest station, then opens that station.", link: "station", colour: 0x4fd1ff },
+};
+
+function ctDeepRing(p, i, r) {
+  const a = (i * 2.399963) % (Math.PI * 2);
+  return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+}
+
+function ctBuildDeepAssets() {
+  const out = [];
+  const rota = ["dive-slate", "survey-marker", "tool-basket"];
+  DEEP_SITES.forEach((s, i) => {
+    let kind = rota[i % rota.length];
+    const st = s.stations?.[0] ?? null, prog = s.programmes?.[0] ?? null;
+    let link = kind === "survey-marker" ? (prog ? { type: "programme", id: prog, site: s.id } : null) : (st ? { type: "station", id: st, site: s.id } : null);
+    if (!link) { kind = "buoy"; link = { type: "site", id: s.id }; }
+    out.push({ id: `ct-${kind}-${s.id}`, kind, zone: s.zone, near: s.id, name: `${CT_DEEP_ASSET_KINDS[kind].label} · ${s.name}`,
+      position: ctDeepRing(s.position, i, 18), programmes: s.programmes ?? [], stations: s.stations ?? [], link });
+  });
+  // A buoy at the first point of every line: it names the line and links to the nearest site's ?site= page.
+  DEEP_LINES.forEach((line, i) => {
+    const p = line.points[0];
+    let best = null, bd = Infinity;
+    for (const s of DEEP_SITES) { const d = Math.hypot(s.position[0] - p[0], s.position[1] - p[1]); if (d < bd) { bd = d; best = s; } }
+    out.push({ id: `ct-buoy-${line.id}`, kind: "buoy", zone: deepZoneAt(p[0], p[1]), near: best.id, line: line.id,
+      name: `${CT_DEEP_ASSET_KINDS.buoy.label} · ${line.name}`, position: ctDeepRing(p, i, 4), programmes: best.programmes ?? [], stations: best.stations ?? [],
+      link: { type: "site", id: best.id } });
+  });
+  return out;
+}
+
+/** Every interactive asset in the Deep: `{ id, kind, zone, near, name, position:[x,z], programmes, stations, link, line? }`. */
+const CT_DEEP_ASSETS = ctBuildDeepAssets();
 
 
 /* ===== shared/underwater.js ===== */
@@ -64196,6 +64667,7 @@ function ppExport({ records = ppRecords(), homePage = null } = {}) {
 
 
 
+
 const gtHasDom = typeof document !== "undefined";
 const GT_WALLET_INSTALL = "https://metamask.io/download/";
 
@@ -64219,6 +64691,12 @@ const gtCss = `
 #gt-dialog .gt-row button{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
 #gt-dialog label.gt-check{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}
 #gt-dialog label.gt-check input{width:auto;min-height:0;margin:0}
+#gt-account .ct-av{display:inline-block;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-sizing:content-box;flex:none}
+#gt-dialog .ct-av-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;margin:0 0 10px}
+#gt-dialog .ct-av-grid label{font-size:14px;color:#d4dee8}
+#gt-dialog .ct-av-grid select{min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#081018;color:#fff;font:15px system-ui,sans-serif;padding:0 8px}
+#gt-dialog .ct-av-preview{display:flex;gap:10px;align-items:center;margin:0 0 10px;font-size:14px;color:#d4dee8}
+#gt-dialog .ct-av-preview .ct-av{display:inline-block;width:28px;height:28px;border-radius:50%;border:5px solid #fff}
 `;
 
 const gtState = { mounted: false, env: null, configUrl: null, ready: null, returnTo: null, googleStarted: false };
@@ -64258,7 +64736,7 @@ function gtRenderChip() {
   if (!chip) return;
   const { text, badge } = gtChipLabel();
   chip.textContent = "";
-  chip.append(text);
+  chip.append(ctAvatarSwatch(), text);
   if (badge) chip.append(" ", gtEl("span", { class: "gt-badge", text: badge }));
   chip.setAttribute("aria-label", Auth.session ? `Account: ${text}` : (badge ? "Sign in (demo mode on)" : "Sign in"));
 }
@@ -64322,13 +64800,47 @@ function gtSignInView(panel) {
   "Try the free demo — no sign-in", gtEl("small", { text: "Every world and station opens. Nothing is kept beyond this tab." })));
 }
 
+/** The learner's avatar as a small swatch: skin tone inside, headwear or hard-hat colour as the ring. */
+function ctAvatarSwatch(style = ctAvatarLoad(gtStorage())) {
+  const hex = (n) => `#${(n >>> 0).toString(16).padStart(6, "0")}`;
+  const ppe = ctAvatarOption("ppe", style.ppe);
+  const ring = ppe.helmet ? ctAvatarOption("hardHat", style.hardHat).hex : ctAvatarOption("hairColour", style.hairColour).hex;
+  const el = gtEl("span", { class: "ct-av", "aria-hidden": "true" });
+  el.style.background = hex(ctAvatarOption("skin", style.skin).hex);
+  el.style.borderColor = hex(ring);
+  return el;
+}
+
+const CT_AXIS_LABELS = { body: "Body", skin: "Skin tone", hair: "Hair or head covering", hairColour: "Hair or covering colour", ppe: "Trade PPE", hardHat: "Hard hat colour" };
+
+/** The avatar picker: one select per axis, stored per profile (shared/profiles.js) on Save. */
+function ctAvatarView(panel) {
+  const style = ctAvatarLoad(gtStorage());
+  panel.append(gtEl("p", { text: "Choose how your own figure looks in Bay World and the Deep. Every option works with every trade; it is kept with your profile on this device." }));
+  const preview = gtEl("div", { class: "ct-av-preview", id: "ct-av-preview" });
+  const draw = () => { preview.textContent = ""; preview.append(ctAvatarSwatch(style), `${ctAvatarOption("body", style.body).label} · ${ctAvatarOption("hair", style.hair).label} · ${ctAvatarOption("ppe", style.ppe).label}`); };
+  const grid = gtEl("div", { class: "ct-av-grid" });
+  for (const axis of CT_AVATAR_AXES) {
+    const id = `ct-av-${axis}`;
+    const sel = gtEl("select", { id, "data-axis": axis, on: { change: (e) => { style[axis] = e.target.value; draw(); } } });
+    for (const o of CT_AVATAR_STYLES[axis]) sel.append(gtEl("option", { value: o.id, selected: o.id === style[axis], text: o.label }));
+    grid.append(gtEl("label", { for: id, text: CT_AXIS_LABELS[axis] ?? axis }), sel);
+  }
+  draw();
+  panel.append(preview, grid);
+  panel.append(gtEl("div", { class: "gt-row" },
+    gtEl("button", { type: "button", id: "ct-av-save", on: { click: () => { ctAvatarSave(style, gtStorage()); gtRenderChip(); gtMsg("Avatar saved to this profile."); } } }, "Save avatar"),
+    gtEl("button", { type: "button", id: "ct-av-back", on: { click: () => gtRender() } }, "Back")));
+}
+
 function gtRender(view = null) {
   const panel = document.querySelector("#gt-dialog .gt-panel");
   if (!panel) return;
   panel.textContent = "";
   const v = view ?? (Auth.session ? "account" : "signin");
-  panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? "Sign in" : "Your account" }));
-  if (v === "signin") {
+  panel.append(gtEl("h2", { id: "gt-title", text: v === "avatar" ? "Your avatar" : v === "signin" ? "Sign in" : "Your account" }));
+  if (v === "avatar") ctAvatarView(panel);
+  else if (v === "signin") {
     panel.append(gtEl("p", { text: gtIsDemo()
       ? "Demo mode is on: your runs live in this tab only. Sign in to keep them."
       : "Signing in keeps your progress private to you on this device. These pages are static files: your training host, not this page, verifies the credential." }));
@@ -64348,6 +64860,9 @@ function gtRender(view = null) {
         Auth.signOut({ clearRecords: true }); gtRenderChip(); gtRender("signin"); gtMsg("Signed out and your records on this device were deleted.");
       } } }, "Sign out and clear my records")));
   }
+  // The avatar picker sits after the sign-in options, so Google stays the first choice.
+  if (v !== "avatar") panel.append(gtEl("button", { type: "button", class: "gt-opt", id: "ct-av-open", on: { click: () => gtRender("avatar") } },
+    ctAvatarSwatch(), " Your avatar", gtEl("small", { text: "Body, skin tone, hair or head covering and trade PPE for your own figure in the worlds." })));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, "Close")));
 }
@@ -64406,6 +64921,7 @@ function gtMountAccount(nav, { configUrl = null } = {}) {
       .catch(() => null)
       .finally(() => gtRenderChip());
     addEventListener("gt:profile", () => gtRenderChip());
+    addEventListener("ct:avatar", () => gtRenderChip());
   }
   gtRenderChip();
   return chip;

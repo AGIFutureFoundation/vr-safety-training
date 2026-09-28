@@ -81,6 +81,11 @@
 
   /* ---------- map ---------- */
   #scr-map{z-index:22}
+  .map-layers{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 10px;font-size:13px}
+  .map-layers label{display:inline-flex;gap:6px;align-items:center;min-height:32px;cursor:pointer}
+  .map-layers .swatch{display:inline-block;width:10px;height:10px;border-radius:50%}
+  #scr-asset{z-index:23}
+  #asset-list{margin:6px 0 10px;padding-left:18px;font-size:14px}
   #map-canvas{border-radius:12px;border:1px solid var(--edge);max-width:100%;height:auto}
   .map-layout{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
   #map-sites{flex:1 1 220px;min-width:220px;max-height:512px;overflow:auto}
@@ -186,11 +191,22 @@
   </div>
 </div>
 
+<div class="screen" id="scr-asset" hidden>
+  <div class="card" style="width:min(560px,100%)">
+    <p class="eyebrow" id="asset-kind">Bay World</p>
+    <h2 id="asset-title">Asset</h2>
+    <p class="lead" id="asset-does"></p>
+    <p id="asset-text"></p>
+    <ul id="asset-list" hidden></ul>
+    <div class="row"><a class="btn primary" id="asset-link" href="#">Open</a><button class="btn" id="asset-close" type="button">Close</button></div>
+  </div>
+</div>
 <div class="screen" id="scr-map" hidden>
   <div class="card" style="width:min(1100px,100%)">
     <p class="eyebrow">Bay World</p>
     <h2>Map</h2>
     <p class="lead">Fast travel unlocks for a site once you have visited it once on foot or by road. The <a href="./atlas.html" id="map-atlas-link" style="color:var(--accent)">Atlas</a> lists every site and landmark with its programmes, over a real-world map when you bring your own token.</p>
+    <div id="map-layers" class="map-layers" role="group" aria-label="Map layers"></div>
     <div class="map-layout">
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>

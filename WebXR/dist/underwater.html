@@ -85,6 +85,11 @@
   .activity-list .btn span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
 
   #scr-map{z-index:22}
+  .map-layers{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 10px;font-size:13px}
+  .map-layers label{display:inline-flex;gap:6px;align-items:center;min-height:32px;cursor:pointer}
+  .map-layers .swatch{display:inline-block;width:10px;height:10px;border-radius:50%}
+  #scr-asset{z-index:23}
+  #asset-list{margin:6px 0 10px;padding-left:18px;font-size:14px}
   #map-canvas{border-radius:12px;border:1px solid var(--edge);max-width:100%;height:auto}
   .map-layout{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
   #map-sites{flex:1 1 220px;min-width:220px;max-height:512px;overflow:auto}
@@ -196,11 +201,22 @@
   </div>
 </div>
 
+<div class="screen" id="scr-asset" hidden>
+  <div class="card" style="width:min(560px,100%)">
+    <p class="eyebrow" id="asset-kind">The Deep</p>
+    <h2 id="asset-title">Asset</h2>
+    <p class="lead" id="asset-does"></p>
+    <p id="asset-text"></p>
+    <ul id="asset-list" hidden></ul>
+    <div class="row"><a class="btn primary" id="asset-link" href="#">Open</a><button class="btn" id="asset-close" type="button">Close</button></div>
+  </div>
+</div>
 <div class="screen" id="scr-map" hidden>
   <div class="card" style="width:min(1100px,100%)">
     <p class="eyebrow">The Deep</p>
     <h2>Dive map</h2>
     <p class="lead">Every site's ascent line opens for fast travel once you have finished a station or a dive there. <a href="./bayworld.html" style="color:var(--accent)">Bay World</a> is the city above this water.</p>
+    <div id="map-layers" class="map-layers" role="group" aria-label="Map layers"></div>
     <div class="map-layout">
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>
@@ -251,6 +267,8 @@ const GT_PROFILE_KEYS = [
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
   "bayworld-career-v1", "underwater-career-v1",
   "bayworld-quests-v1", "underwater-dives-v1", "underwater-activities-v1",
+  // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
+  "vr-avatar-style-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -11950,6 +11968,702 @@ const FLEET_BUILDERS = {
   bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat, motorYacht, yachtTender, skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge, rov,
 };
 
+// ------------------------------------------------------------ service liveries
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// the traffic and harbour fleets are painted by service, each livery a
+// generic platform name and a colour pair — no real operator, carrier or
+// brand. The regatta's twelve yachts keep their own names
+// (shared/yacht-fleet.js); these liveries never touch them.
+
+/** One livery per service: `{ label, colour, accent, fleetName, prefix }`. */
+const CT_SERVICE_LIVERIES = {
+  transit: { label: "Transit", colour: 0x1c8f6f, accent: 0xf1f2ee, fleetName: "SMARTCITI TRANSIT", prefix: "T" },
+  utility: { label: "Utility", colour: 0xf2f2ee, accent: 0xf07a1f, fleetName: "SMARTCITI UTILITIES", prefix: "U" },
+  delivery: { label: "Delivery", colour: 0x5a3d8a, accent: 0xf2c14b, fleetName: "SMARTCITI PARCEL", prefix: "D" },
+  emergency: { label: "Emergency", colour: 0xf4f5f3, accent: 0xd8322c, fleetName: "SMARTCITI EMS", prefix: "E" },
+  construction: { label: "Construction", colour: 0xf2b21b, accent: 0x14171a, fleetName: "SMARTCITI BUILD", prefix: "C" },
+  port: { label: "Port", colour: 0x2c5a7a, accent: 0xf0b323, fleetName: "SMARTCITI PORT", prefix: "P" },
+  survey: { label: "Survey", colour: 0xf2c14b, accent: 0x1b1e22, fleetName: "SMARTCITI SURVEY", prefix: "S" },
+  dive: { label: "Dive support", colour: 0xd9dde0, accent: 0xd8322c, fleetName: "SMARTCITI DIVE", prefix: "DV" },
+  restoration: { label: "Restoration", colour: 0x2e8b57, accent: 0xf2f2ee, fleetName: "SMARTCITI RESTORE", prefix: "R" },
+};
+
+/** The six road-and-port services the brief names; every one appears in CT_TRAFFIC_FLEET. */
+const CT_TRAFFIC_SERVICES = ["transit", "utility", "delivery", "emergency", "construction", "port"];
+
+/** A builder's `opts.livery` for a service and a unit number. */
+function ctServiceLivery(service, unit = 1) {
+  const l = CT_SERVICE_LIVERIES[service];
+  if (!l) return undefined;
+  return { colour: l.colour, accent: l.accent, fleetName: l.fleetName, unitNumber: `${l.prefix}-${String(unit).padStart(2, "0")}` };
+}
+
+/**
+ * Bay World's ambient traffic, cycled in order: every road service once,
+ * plus private sedans and a second delivery truck. Builders are the kit's
+ * own, each inside its FLEET_BUDGET count.
+ */
+const CT_TRAFFIC_FLEET = [
+  { builder: "busTransit", service: "transit" },
+  { builder: "sedan", service: null },
+  { builder: "cargoVan", service: "utility" },
+  { builder: "deliveryVan", service: "delivery" },
+  { builder: "pickup", service: "construction" },
+  { builder: "sedan", service: null },
+  { builder: "ambulance", service: "emergency" },
+  { builder: "yardHustler", service: "port" },
+  { builder: "boxTruck", service: "delivery" },
+];
+
+/**
+ * The harbour fleets: Bay World's working boats at its marinas and piers,
+ * and the Deep's workboats, survey vessels and ROV, each with its own
+ * service livery and unit number (`at` is a site id in that world).
+ */
+const CT_HARBOUR_FLEET = [
+  { id: "bw-port-workboat", world: "bayworld", builder: "workboat", service: "port", unit: 3, at: "channel-buoy-tender-pier" },
+  { id: "bw-survey-skiff", world: "bayworld", builder: "skiff", service: "survey", unit: 1, at: "north-marina-pier" },
+  { id: "bw-restoration-skimmer", world: "bayworld", builder: "skimmerVessel", service: "restoration", unit: 2, at: "south-shoreline-marina" },
+  { id: "bw-dive-workboat", world: "bayworld", builder: "workboat", service: "dive", unit: 4, at: "island-boatyard" },
+  { id: "dv-dive-workboat", world: "underwater", builder: "workboat", service: "dive", unit: 1, at: "pier-surface-supplied-station" },
+  { id: "dv-survey-skiff", world: "underwater", builder: "skiff", service: "survey", unit: 2, at: "channel-dredge-survey" },
+  { id: "dv-restoration-workboat", world: "underwater", builder: "workboat", service: "restoration", unit: 5, at: "eelgrass-transplant-plots" },
+  { id: "dv-survey-rov", world: "underwater", builder: "rov", service: "survey", unit: 7, at: "trench-rov-station" },
+];
+
+/** Build one CT_TRAFFIC_FLEET / CT_HARBOUR_FLEET entry with its livery. */
+function ctBuildLiveried(parent, entry, x, y, z, opts = {}, unit = entry.unit ?? 1) {
+  const fn = FLEET_BUILDERS[entry.builder];
+  const livery = entry.service ? ctServiceLivery(entry.service, unit) : undefined;
+  const g = fn(parent, x, y, z, { ...opts, ...(livery ? { livery } : {}) });
+  g.userData.ctService = entry.service ?? "private";
+  return g;
+}
+
+
+/* ===== shared/crew.js ===== */
+/**
+ * Crew roles: the same procedure, split between two people.
+ *
+ * Several stations in this platform are authored as one learner doing a job
+ * that nobody does alone. A confined-space entry has an attendant and an
+ * entrant. A crane pick has an operator and a signaller. Hot work has a
+ * welder and a fire watch. Played as one person, all of that collapses into
+ * a single ordered list and the single most important property of the job
+ * disappears: the two people stand in different places, can see different
+ * things, and each one's duty is invisible to the other. The way these jobs
+ * kill people is not that somebody forgot a step — it is that each of them
+ * assumed the other had done it.
+ *
+ * A role view does not change the procedure. It changes who performs each
+ * step. The steps this role owns are played exactly as authored; the rest
+ * become watch steps — the learner has to confirm the other person has done
+ * them before the procedure moves on, and cannot do them instead.
+ *
+ *   varied      who performs a step, and therefore what the learner practises
+ *   never       the steps, their ids, their targets, their order, the hazards,
+ *               or the reason any of it is right
+ *
+ * The hard part is not the view, it is the split. A role split that is wrong
+ * teaches a wrong division of duties to everyone who plays it, which is worse
+ * than not splitting at all — so everything below is built to decline. A
+ * station is split only when the station itself contains the evidence: the
+ * second person exists in the scene as something the learner interacts with,
+ * every step attributes to exactly one of the two roles with no evidence
+ * pointing the other way, and both roles end up owning real work. Anything
+ * less and splitByRole() reports the station as single-role and says why.
+ */
+
+/**
+ * Role archetypes.
+ *
+ * These are derived from what the stations actually contain, not from a
+ * taxonomy of trades. Each pair is two posts in one procedure: two places a
+ * person physically stands, with different information at each. `post` is
+ * what the role may never stop doing, because that is the duty a role view
+ * exists to teach.
+ */
+const ROLES = {
+  attendant: {
+    id: "attendant", name: "Attendant", pair: "permit-space", counterpart: "entrant",
+    post: "At the opening. Holds the permit and the log, isolates and ventilates the space, watches the meter and the walls, and never goes in.",
+    // Ids that ARE this person or the post they hold: a step reaching for one
+    // of them is by definition not performed by them. Only posts belong here.
+    // The coworker trying to climb in is a person in the scene but not a post,
+    // so stopping them stays the attendant's own duty.
+    posts: /^(attendant|tender-station|spotter|badge-attendant|badge-supervisor|outside-operator|floor-watch|ground-crew|observer|observer-post)$/,
+  },
+  entrant: {
+    id: "entrant", name: "Entrant", pair: "permit-space", counterpart: "attendant",
+    post: "Inside the space or below grade. Does the work the entry was opened for, and can see none of what is happening at the surface.",
+    posts: /^(entrant|badge-entrant|entrant-descend|buddy-present)$/,
+  },
+  operator: {
+    id: "operator", name: "Operator", pair: "lift", counterpart: "signaller",
+    post: "At the controls. Sets the machine up, reads the chart, and moves only on one person's signal — because from the cab the load is the one thing that cannot always be seen.",
+    // The radio to the crane is the operator's post, not the ground crew's:
+    // whoever reaches for it is calling the cab, so they are not in it.
+    posts: /^(crane-radio|crane-radio-clear)$/,
+  },
+  signaller: {
+    id: "signaller", name: "Signaller / rigger", pair: "lift", counterpart: "operator",
+    post: "On the ground with the load. Rigs it, keeps the zone under it clear, and is the only voice the operator answers to.",
+    posts: /^(signal-person|signaller-radio|rigger-radio|deck-check|marshal-wands)$/,
+  },
+  welder: {
+    id: "welder", name: "Welder", pair: "hot-work", counterpart: "fire-watch",
+    post: "Behind the hood. Under a dark lens with an arc in front of them, they cannot see where their own sparks land.",
+    posts: null,
+  },
+  "fire-watch": {
+    id: "fire-watch", name: "Fire watch", pair: "hot-work", counterpart: "welder",
+    post: "Outside the hood with the extinguisher. Clears and shields the radius, watches where the sparks go, and stays on after the arc stops.",
+    posts: null,
+  },
+  // Not a job title: the honest name for how this platform runs today, and
+  // what a station reports when it cannot be split. Naming it keeps every
+  // caller on one code path instead of special-casing a null.
+  solo: {
+    id: "solo", name: "Whole crew", pair: null, counterpart: null,
+    post: "One learner performs every duty in the procedure.",
+    posts: null,
+  },
+};
+
+/**
+ * The two-role procedures this platform contains, and the evidence that
+ * proves a station is one of them.
+ *
+ * `evidence` is deliberately about the scene rather than the prose. Any
+ * station can mention a spotter in a `why`; only a station that actually
+ * models one has an interactable the learner can reach for. That is the line
+ * between a procedure written for two people and a procedure written for one
+ * with a second person described in the margin. Hot work is the exception and
+ * says so: its fire watch is a duty (a step the learner holds) rather than a
+ * person in the scene, so its evidence is the duty.
+ */
+const PAIRS = [
+  {
+    id: "permit-space", name: "Permit space", roles: ["attendant", "entrant"],
+    evidence: "ids", test: /^(attendant|tender-station|spotter|badge-attendant|outside-operator|floor-watch|observer|observer-post)$/,
+    signals: {
+      attendant: [
+        /\bpermit\b|\bwork order\b|\bsize ?-?up\b/,
+        /\bcone\b|\bbarrier|\bbarricade|\bguard rail\b|guard the (opening|excavation|hatch)/,
+        /\bisolat|lock ?-?out|lock and tag|\btag ?-?out|\bblank\b|blanking plate|feed valve/,
+        /\bventilat|\bblower\b|\bduct\b/,
+        /\batmospher|gas meter|4-gas|\boxygen\b|\bmeter\b/,
+        /\btripod\b|\bretrieval\b|\bwinch\b|\bbelay\b|mechanical advantage|\breeve\b|rig the system/,
+        /\bheadcount\b|tool tally|everyone is out|account for everyone/,
+        /\bspoil\b|\bthe edge\b|above grade|at the opening|at the surface/,
+        /\bladder\b|trench box|protective (box|system)/,
+        /\bbackfill|secure the space|hand ?-?over|sign the (permit|plan)|close the permit/,
+        /competent[- ]person|classif(y|ication)|inspect the (trench|walls)/,
+        /grade[- ]control|\bwaypoint|machine control|\bgrader\b/,
+        /assign the .*role|\bbadge\b/,
+        /hold the crew|stop the (coworker|crew)/,
+      ],
+      entrant: [
+        /below grade|\bin the trench\b|inside the space|\bat the bottom\b|climb down|\bdown the ladder\b/,
+        // The patient is packaged from inside the hole and hauled out from
+        // above, so "the patient" alone says nothing about which post.
+        /package the patient|\bairway\b/,
+        /make the repair|the repair to|\brefractory\b|complete the .*repair/,
+        /maintain contact|hold contact|continuous communication/,
+      ],
+    },
+  },
+  {
+    id: "lift", name: "Lift", roles: ["operator", "signaller"],
+    evidence: "ids", test: /^(signal-person|signaller-radio|rigger-radio|crane-radio|deck-check|marshal-wands)$/,
+    signals: {
+      operator: [
+        /\boutrigger|\bstabilizer|\bpad\b/,
+        /\blevel\b|\bbubble\b|\bplumb\b/,
+        // "load chart" and "capacity plate", never bare "rated capacity" —
+        // a shackle carries a rated capacity too, and matching it turned the
+        // rigger's own shackle inspection into a contested step.
+        /load chart|capacity plate|\bthe chart\b/,
+        /\bboom\b|\bswing\b|\bslew\b|\bradius\b|\bluff\b/,
+        /\bhoist\b|\blower\b|\braise\b|\bretract\b|\bextend\b|set ?-?down/,
+        /\bcab\b|\bconsole\b|\bRCI\b|rated capacity indicator|anti-collision|\blever\b/,
+        /\bwind\b|anemometer/,
+        /lift plan|lift log|crane log|\bbriefing\b|pre-?lift/,
+        /\bAGV\b|\bwaypoint|\bdry-?run\b|machine control/,
+      ],
+      signaller: [
+        /\bsling\b|\bshackle\b|\bhook block\b|\brigging rack\b|\bthe rigging\b/,
+        /\btag line\b/,
+        /\blashing|\bturnbuckle|twist-?lock|\brod\b/,
+        /\bred zone\b|swing radius|under the (load|boom)/,
+        /corner casting|\bspreader\b/,
+      ],
+    },
+  },
+  {
+    id: "hot-work", name: "Hot work", roles: ["welder", "fire-watch"],
+    evidence: "text", test: /\bfire watch\b/,
+    signals: {
+      welder: [
+        /\barc\b|\bbead\b|\bpuddle\b|\belectrode\b|\bamperage\b|\bcurrent\b|\bweld\b/,
+        /\bhelmet\b|\blens\b|\bshade\b|\bleathers\b|\bgloves\b|\bjacket\b/,
+        /work clamp|return lead/,
+        /\bfume\b|extraction/,
+        /hot work permit|\bthe permit\b/,
+      ],
+      "fire-watch": [
+        /\bcombustible/,
+        /fire blanket|\bthe blanket\b|\bshielded?\b/,
+        /extinguisher|\bthe watch\b|\btimer\b/,
+        /\bsparks?\b|\bsmoulder|hot work area/,
+      ],
+    },
+  },
+];
+
+/** A role must own this much of the procedure for the split to mean anything. */
+const MIN_ROLE_STEPS = 2;
+
+function pairOf(id) { return PAIRS.find((p) => p.id === id) ?? null; }
+
+/** SmartCiti.X stations carry `name`; Trade Skills rooms only carry `title`. */
+function stationName(station) { return station?.name ?? station?.title ?? station?.id ?? "station"; }
+
+/** Every interactable id a station's steps and interruptions can reach for. */
+function interactableIds(station) {
+  const ids = new Set();
+  for (const step of station.steps ?? []) {
+    if (step.target) ids.add(step.target);
+    for (const t of step.targets ?? []) ids.add(t);
+  }
+  for (const it of station.interrupts ?? []) if (it.target) ids.add(it.target);
+  return [...ids];
+}
+
+/**
+ * The two halves of a step's text, kept apart on purpose.
+ *
+ * `action` is what the learner does — the title, the cue, the ids of the
+ * things they touch. `why` is the reason it is right, and it routinely names
+ * the other role ("the attendant never leaves the hole") in a step that role
+ * does not perform. Scoring the two together is how a splitter talks itself
+ * into a confident wrong answer, so `why` is only ever consulted when the
+ * action text said nothing at all.
+ */
+function stepText(step) {
+  const ids = [step.target, ...(step.targets ?? [])].filter(Boolean);
+  const names = Object.values(step.itemNames ?? {});
+  return {
+    ids,
+    action: [step.id, ...ids, ...names, step.title ?? "", step.cue ?? ""].join(" ").toLowerCase(),
+    why: (step.why ?? "").toLowerCase(),
+  };
+}
+
+function score(signals, text) {
+  let n = 0;
+  for (const re of signals) if (re.test(text)) n += 1;
+  return n;
+}
+
+/**
+ * Attribute one step to one of a pair's two roles, or to neither.
+ *
+ * Three rules, in order, and each one refuses rather than guesses:
+ *
+ *  1. You cannot be the person you are reaching for. A step whose target is
+ *     the attendant, the spotter or the signal person is performed by the
+ *     other role — that is what makes it a coordination step at all.
+ *  2. Otherwise the action text decides, and only when one role's evidence is
+ *     the only evidence. A step with signals on both sides is a step the
+ *     author wrote for two people at once; splitting it either way invents a
+ *     division of duties the station never stated.
+ *  3. A step whose action text says nothing falls back to its reason, under
+ *     the same one-sided rule.
+ */
+function attribute(step, pair) {
+  const [a, b] = pair.roles;
+  const text = stepText(step);
+
+  const reaches = (roleId) => {
+    const posts = ROLES[roleId].posts;
+    return !!posts && text.ids.some((id) => posts.test(id));
+  };
+  if (reaches(a) && !reaches(b)) return { role: b, by: "post" };
+  if (reaches(b) && !reaches(a)) return { role: a, by: "post" };
+  if (reaches(a) && reaches(b)) return { role: null, by: "both-posts" };
+
+  for (const [field, by] of [["action", "action"], ["why", "why"]]) {
+    const sa = score(pair.signals[a], text[field]);
+    const sb = score(pair.signals[b], text[field]);
+    if (sa > 0 && sb === 0) return { role: a, by };
+    if (sb > 0 && sa === 0) return { role: b, by };
+    if (sa > 0 && sb > 0) return { role: null, by: "contested" };
+  }
+  return { role: null, by: "silent" };
+}
+
+function declined(station, reason, unassigned = []) {
+  const assignments = {};
+  for (const step of station.steps ?? []) assignments[step.id] = "solo";
+  return { split: false, pair: null, roles: [ROLES.solo], assignments, basis: {}, unassigned, reason };
+}
+
+/**
+ * Which role owns each step of an authored station.
+ *
+ * Returns `{ split, pair, roles, assignments, basis, unassigned, reason }`. When
+ * `split` is false the station is single-role: `roles` is the whole crew,
+ * every step is assigned to it, and `reason` says in one sentence what the
+ * station did not provide. `unassigned` is the diagnostic — the steps that
+ * defeated the split — and it is empty when no split was attempted, because
+ * the station models nobody to split with.
+ *
+ * A split is only returned when every single step attributed cleanly. A
+ * procedure with one orphan step is precisely the failure this feature exists
+ * to teach about, so it is not a thing to ship in the feature itself.
+ */
+function splitByRole(station) {
+  const steps = station?.steps ?? [];
+  if (!steps.length) return declined(station ?? { steps: [] }, "the station has no steps");
+
+  const ids = interactableIds(station);
+  const text = [stationName(station), station.trade ?? "",
+    ...steps.map((s) => `${s.title ?? ""} ${s.cue ?? ""} ${s.why ?? ""}`),
+    ...(station.interrupts ?? []).map((i) => `${i.kind ?? ""} ${i.alert ?? ""} ${i.why ?? ""}`)].join(" ").toLowerCase();
+
+  const matched = PAIRS.filter((p) => (p.evidence === "ids" ? ids.some((id) => p.test.test(id)) : p.test.test(text)));
+  if (!matched.length) {
+    return declined(station, "no second role is modelled in this station — the other person is not something the learner can reach for");
+  }
+  if (matched.length > 1) {
+    // Three posts is a different exercise from two, and picking the loudest
+    // pair would be inventing the crew structure rather than reading it.
+    return declined(station, `more than one crew pairing is modelled here (${matched.map((p) => p.name).join(", ")}) — a two-role view would have to pick one`);
+  }
+
+  const pair = matched[0];
+  const [a, b] = pair.roles;
+  const assignments = {};
+  // Which of the three rules decided each step, so an author reviewing a
+  // split can see what it read rather than only what it concluded.
+  const basis = {};
+  const unassigned = [];
+  for (const step of steps) {
+    const { role, by } = attribute(step, pair);
+    basis[step.id] = by;
+    if (role) assignments[step.id] = role; else unassigned.push(step.id);
+  }
+  if (unassigned.length) {
+    return declined(station,
+      `${unassigned.length} of ${steps.length} step(s) could not be attributed to one side of a ${pair.name.toLowerCase()} pair without guessing`,
+      unassigned);
+  }
+
+  const owned = { [a]: [], [b]: [] };
+  for (const step of steps) owned[assignments[step.id]].push(step.id);
+  for (const roleId of pair.roles) {
+    if (owned[roleId].length < MIN_ROLE_STEPS) {
+      return declined(station,
+        `every duty here belongs to the ${ROLES[roleId === a ? b : a].name.toLowerCase()} — the ${ROLES[roleId].name.toLowerCase()} owns ${owned[roleId].length} step(s), so this is a one-post procedure with a second person in the scene`);
+    }
+  }
+
+  const roles = pair.roles.map((id) => ({
+    ...ROLES[id],
+    owns: owned[id].length,
+    watches: steps.length - owned[id].length,
+    share: Math.round((owned[id].length / steps.length) * 100) / 100,
+  }));
+  return { split: true, pair: pair.id, roles, assignments, basis, unassigned: [], reason: null };
+}
+
+/**
+ * Turn a step the learner does not own into a watch step.
+ *
+ * The kind has to change — the whole point is that they do not run the gauge,
+ * hold the line or spin the valve — but nothing else may be lost, so the
+ * authored kind and every target the step had are kept verbatim under
+ * `watch`. What the learner is left with is one deliberate act: look at the
+ * thing the other person was supposed to have dealt with, and confirm it.
+ * That is the drill. It is also the only moment in a two-person job where the
+ * assumption that kills people is available to be caught.
+ */
+function watchStep(step, mine, theirs) {
+  const targets = [step.target, ...(step.targets ?? [])].filter(Boolean);
+  const out = { ...step };
+  // Kind-specific configuration would make the engine run the task rather
+  // than a confirmation, so it moves wholesale onto `watch`.
+  for (const key of ["targets", "anyOrder", "gauge", "track", "turn", "drag", "seconds",
+    "itemNames", "itemNotes", "decoyNotes", "outOfOrderNote", "holdBreakNote"]) delete out[key];
+  out.kind = "select";
+  out.target = step.target ?? targets[0];
+  out.title = `Confirm — ${step.title}`;
+  out.cue = `${theirs.name} does this one. Check it is done, then carry on.`;
+  out.why = `${step.why} This is ${theirs.name.toLowerCase()}'s step, not yours. You confirm it because the way a two-person job goes wrong is each of you assuming the other one did it.`;
+  out.watch = {
+    of: step.kind,
+    by: theirs.id,
+    byName: theirs.name,
+    for: mine.id,
+    targets,
+    // Kept so a HUD can still name the items the other person worked through.
+    itemNames: step.itemNames ?? null,
+  };
+  return out;
+}
+
+/**
+ * One role's view of a station, as a room the Session engine plays unchanged.
+ *
+ * Same id, same order, same targets, same hazards, same reasons. The steps
+ * this role owns are the authored steps; the rest are watch steps. An
+ * interruption whose answer is this role's own post is dropped, because an
+ * alarm that says the attendant has left the hole cannot be answered by the
+ * attendant — every other interruption stays, since noticing is a duty both
+ * posts have.
+ *
+ * A station that cannot be split honestly returns itself, so a caller never
+ * has to branch on whether the split succeeded.
+ */
+function roleView(station, roleId, split = splitByRole(station)) {
+  if (!split.split) return station;
+  const mine = ROLES[roleId];
+  if (!mine || !split.roles.some((r) => r.id === roleId)) return null;
+  const theirs = ROLES[mine.counterpart];
+
+  const steps = station.steps.map((step) =>
+    (split.assignments[step.id] === roleId ? { ...step } : watchStep(step, mine, theirs)));
+
+  const interrupts = (station.interrupts ?? []).filter((it) =>
+    !(mine.posts && it.target && mine.posts.test(it.target)));
+
+  const owned = steps.filter((s) => !s.watch).length;
+  return {
+    ...station,
+    id: `crew:${station.id}:${roleId}`,
+    index: "◈",
+    name: `${stationName(station)} — ${mine.name}`,
+    title: `${station.title ?? stationName(station)} · ${mine.name}`,
+    tagline: `${mine.post} The rest of the procedure belongs to the ${theirs.name.toLowerCase()} — you confirm it, you do not do it.`,
+    steps,
+    interrupts,
+    isCrewView: true,
+    crew: {
+      baseId: station.id, baseName: stationName(station), pair: split.pair,
+      role: roleId, roleName: mine.name, counterpart: theirs.id, counterpartName: theirs.name,
+      owns: owned, watches: steps.length - owned,
+      droppedInterrupts: (station.interrupts ?? []).length - interrupts.length,
+    },
+    build: (root) => station.build(root),
+  };
+}
+
+/** Every playable view of a station — one per role, or the station itself. */
+function roleViews(station, split = splitByRole(station)) {
+  if (!split.split) return [station];
+  return split.roles.map((r) => roleView(station, r.id, split));
+}
+
+/** A one-line description an instructor can read before issuing it. */
+function describeSplit(station, split = splitByRole(station)) {
+  if (!split.split) return `${stationName(station)} · single-role · ${split.reason}`;
+  const parts = split.roles.map((r) => `${r.name} ${r.owns}/${station.steps.length}`);
+  return `${stationName(station)} · ${pairOf(split.pair)?.name ?? split.pair} pair · ${parts.join(" · ")}`;
+}
+
+// ================================================================ avatar styles
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// crew figures — the learner's own and the people the worlds place — are
+// built from one style space: body proportions, a wide range of skin tones,
+// hair styles and head coverings, and trade PPE by category. The axes are
+// independent by construction: no option on one axis is tied to, defaults
+// from, or excludes an option on another, so no trade is tied to a skin tone,
+// a gender or a body type. There is no gender axis at all. The learner picks
+// a style on the account chip (shared/account.js); it is stored per profile
+// through shared/profiles.js (key CT_AVATAR_KEY in GT_PROFILE_KEYS).
+// Every top-level name is prefixed `ct`/`CT_` because the bundler
+// concatenates every module into one scope. No imports: THREE is passed in.
+
+/** The profile-private store key the learner's own style lives under. */
+const CT_AVATAR_KEY = "vr-avatar-style-v1";
+
+/** The declared mesh ceiling for one figure, whatever the style. */
+const CT_AVATAR_BUDGET = 12;
+
+/** The style space. Every axis is a list of `{ id, label, ... }`. */
+const CT_AVATAR_STYLES = {
+  body: [
+    { id: "slender", label: "Slender", h: 1.0, w: 0.86 },
+    { id: "average", label: "Average", h: 1.0, w: 1.0 },
+    { id: "broad", label: "Broad", h: 1.0, w: 1.18 },
+    { id: "tall", label: "Tall", h: 1.1, w: 0.98 },
+    { id: "compact", label: "Compact", h: 0.9, w: 1.04 },
+    { id: "full", label: "Full-figured", h: 0.98, w: 1.28 },
+  ],
+  // Twelve tones from very light to very deep, named by number only.
+  skin: [
+    { id: "tone-1", label: "Tone 1", hex: 0xf6e0d0 }, { id: "tone-2", label: "Tone 2", hex: 0xeccbb0 },
+    { id: "tone-3", label: "Tone 3", hex: 0xe0b894 }, { id: "tone-4", label: "Tone 4", hex: 0xd4a47c },
+    { id: "tone-5", label: "Tone 5", hex: 0xc49068 }, { id: "tone-6", label: "Tone 6", hex: 0xb07c56 },
+    { id: "tone-7", label: "Tone 7", hex: 0x9a6846 }, { id: "tone-8", label: "Tone 8", hex: 0x86563a },
+    { id: "tone-9", label: "Tone 9", hex: 0x70462e }, { id: "tone-10", label: "Tone 10", hex: 0x5c3824 },
+    { id: "tone-11", label: "Tone 11", hex: 0x4a2c1c }, { id: "tone-12", label: "Tone 12", hex: 0x382014 },
+  ],
+  // Hair styles and head coverings on one axis: what sits on the head.
+  hair: [
+    { id: "cropped", label: "Cropped", shape: "cap-low" },
+    { id: "short", label: "Short", shape: "cap" },
+    { id: "curly", label: "Curly", shape: "puff" },
+    { id: "coily", label: "Coily", shape: "puff-high" },
+    { id: "long", label: "Long", shape: "long" },
+    { id: "braids", label: "Braids", shape: "long-narrow" },
+    { id: "locs", label: "Locs", shape: "long" },
+    { id: "bun", label: "Bun", shape: "bun" },
+    { id: "shaved", label: "Shaved", shape: "none" },
+    { id: "hijab", label: "Hijab", shape: "wrap-full", covering: true },
+    { id: "turban", label: "Turban", shape: "wrap-high", covering: true },
+    { id: "headwrap", label: "Headwrap", shape: "wrap-high", covering: true },
+    { id: "patka", label: "Patka", shape: "wrap-low", covering: true },
+    { id: "kippah", label: "Kippah", shape: "disc", covering: true },
+    { id: "cap", label: "Cap", shape: "brim", covering: true },
+    { id: "beanie", label: "Beanie", shape: "cap", covering: true },
+  ],
+  hairColour: [
+    { id: "black", label: "Black", hex: 0x16120f }, { id: "dark-brown", label: "Dark brown", hex: 0x3a2618 },
+    { id: "brown", label: "Brown", hex: 0x6a4428 }, { id: "auburn", label: "Auburn", hex: 0x8a3a1e },
+    { id: "blonde", label: "Blonde", hex: 0xd8b86a }, { id: "grey", label: "Grey", hex: 0x9a9a98 },
+    { id: "white", label: "White", hex: 0xe8e6e0 }, { id: "navy", label: "Navy (covering)", hex: 0x1f2f5a },
+    { id: "teal", label: "Teal (covering)", hex: 0x1c7f7a }, { id: "maroon", label: "Maroon (covering)", hex: 0x6a1f2a },
+  ],
+  // Trade PPE by category. Hard hat colours follow the site's own colour
+  // code; nothing here says what a colour means.
+  ppe: [
+    { id: "none", label: "Everyday clothes", body: 0x3a6ea5 },
+    { id: "hard-hat-hivis", label: "Hard hat and hi-vis", body: 0xd8ff3a, helmet: true, vest: true },
+    { id: "electrical", label: "Arc-rated coveralls and hard hat", body: 0x2a3f6a, helmet: true },
+    { id: "dive", label: "Dive gear", body: 0x1f3a4a, tank: true, mask: true },
+    { id: "chef", label: "Chef whites", body: 0xf4f4f0, toque: true },
+    { id: "scrubs", label: "Scrubs", body: 0x3a8a8a },
+    { id: "flight-crew", label: "Flight crew uniform", body: 0x1f2f5a, trim: 0xf2c14b },
+    { id: "marine", label: "Life vest and deck gear", body: 0x2b3542, vest: true, vestColour: 0xf07a1f },
+    { id: "grounds", label: "Grounds crew hi-vis and ear defenders", body: 0x3d6b3a, vest: true, ears: true },
+  ],
+  hardHat: [
+    { id: "white", label: "White", hex: 0xf4f4f0 }, { id: "yellow", label: "Yellow", hex: 0xf2c14b },
+    { id: "orange", label: "Orange", hex: 0xf07a1f }, { id: "blue", label: "Blue", hex: 0x2a7de1 },
+    { id: "green", label: "Green", hex: 0x3d9a4a }, { id: "red", label: "Red", hex: 0xd8322c },
+  ],
+};
+
+/** The axes, in the order the picker shows them. */
+const CT_AVATAR_AXES = ["body", "skin", "hair", "hairColour", "ppe", "hardHat"];
+
+/** The default style: the first option on every axis except a mid skin tone. */
+const CT_AVATAR_DEFAULT = Object.freeze({ body: "average", skin: "tone-6", hair: "short", hairColour: "dark-brown", ppe: "hard-hat-hivis", hardHat: "white" });
+
+/** Any object to a valid style: unknown or missing ids fall back per axis, independently. */
+function ctAvatarNormalize(style = {}) {
+  const out = {};
+  for (const axis of CT_AVATAR_AXES) {
+    const want = style?.[axis];
+    out[axis] = CT_AVATAR_STYLES[axis].some((o) => o.id === want) ? want : CT_AVATAR_DEFAULT[axis];
+  }
+  return out;
+}
+
+/** One option's record on one axis. */
+function ctAvatarOption(axis, id) {
+  return CT_AVATAR_STYLES[axis]?.find((o) => o.id === id) ?? CT_AVATAR_STYLES[axis]?.[0] ?? null;
+}
+
+/** The learner's own style from a Storage-shaped handle (profiles.js's gtStorage()). */
+function ctAvatarLoad(storage) {
+  try { return ctAvatarNormalize(JSON.parse(storage?.getItem(CT_AVATAR_KEY) || "null") ?? {}); } catch (_) { return ctAvatarNormalize({}); }
+}
+
+/** Store the learner's own style; tells open worlds with a `ct:avatar` event. */
+function ctAvatarSave(style, storage) {
+  const clean = ctAvatarNormalize(style);
+  try { storage?.setItem(CT_AVATAR_KEY, JSON.stringify(clean)); } catch (_) { /* private mode: kept for this page only */ }
+  try { globalThis.dispatchEvent?.(new Event("ct:avatar")); } catch (_) { /* headless */ }
+  return clean;
+}
+
+/**
+ * The i-th figure of a crowd: every axis stepped by its own stride, co-prime
+ * with that axis's length, so every option on every axis turns up and each
+ * PPE category is worn across several skin tones, bodies and hair styles —
+ * no trade clothing travels with one skin tone or body type
+ * (tools/check_worlds_detail.mjs counts it).
+ */
+function ctAvatarVariety(i, { ppe = null } = {}) {
+  const ctStep = (axis, stride) => CT_AVATAR_STYLES[axis][(i * stride + stride) % CT_AVATAR_STYLES[axis].length].id;
+  return ctAvatarNormalize({ body: ctStep("body", 5), skin: ctStep("skin", 7), hair: ctStep("hair", 3), hairColour: ctStep("hairColour", 3), ppe: ppe ?? ctStep("ppe", 2), hardHat: ctStep("hardHat", 5) });
+}
+
+/**
+ * Build a standing figure for `style` (about 1.7 m at the "average" body)
+ * into a new THREE.Group, feet at y = 0, facing +z. At most
+ * CT_AVATAR_BUDGET meshes; `userData.parts` names head, torso, legs,
+ * headwear and any PPE part so a world can recolour or hide it.
+ */
+function ctAvatarFigure(THREE, style = {}) {
+  const s = ctAvatarNormalize(style);
+  const body = ctAvatarOption("body", s.body), skin = ctAvatarOption("skin", s.skin).hex;
+  const hair = ctAvatarOption("hair", s.hair), hairHex = ctAvatarOption("hairColour", s.hairColour).hex;
+  const ppe = ctAvatarOption("ppe", s.ppe), hat = ctAvatarOption("hardHat", s.hardHat).hex;
+  const mat = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: o.rough ?? 0.8, metalness: o.metal ?? 0, emissive: o.emissive ?? 0x000000 });
+  const g = new THREE.Group();
+  const parts = {};
+  const add = (name, geo, m, x, y, z) => { const mesh = new THREE.Mesh(geo, m); mesh.position.set(x, y, z); mesh.castShadow = true; g.add(mesh); parts[name] = mesh; return mesh; };
+  const H = body.h, W = body.w;
+  add("legs", new THREE.CylinderGeometry(0.17 * W, 0.14 * W, 0.78 * H, 8), mat(ppe.id === "chef" || ppe.id === "scrubs" ? ppe.body : 0x2a2f36, { rough: 0.9 }), 0, 0.39 * H, 0);
+  add("torso", new THREE.CapsuleGeometry(0.23 * W, 0.56 * H, 4, 8), mat(ppe.body), 0, 1.06 * H, 0);
+  const headY = 1.58 * H;
+  add("head", new THREE.SphereGeometry(0.14, 12, 10), mat(skin, { rough: 0.7 }), 0, headY, 0);
+  // What sits on the head: hair, or a covering, drawn in the chosen colour.
+  const hm = mat(hairHex, { rough: 0.85 });
+  const sh = hair.shape;
+  if (sh === "cap-low") add("headwear", new THREE.SphereGeometry(0.145, 12, 6, 0, Math.PI * 2, 0, Math.PI * 0.38), hm, 0, headY + 0.005, 0);
+  else if (sh === "cap") add("headwear", new THREE.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+  else if (sh === "puff") add("headwear", new THREE.SphereGeometry(0.19, 12, 10), hm, 0, headY + 0.05, -0.02);
+  else if (sh === "puff-high") add("headwear", new THREE.SphereGeometry(0.21, 12, 10), hm, 0, headY + 0.09, -0.02);
+  else if (sh === "long" || sh === "long-narrow") {
+    add("headwear", new THREE.SphereGeometry(0.155, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.55), hm, 0, headY + 0.01, 0);
+    add("hairBack", new THREE.BoxGeometry(sh === "long" ? 0.28 : 0.2, 0.34, 0.08), hm, 0, headY - 0.14, -0.1);
+  } else if (sh === "bun") {
+    add("headwear", new THREE.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+    add("bun", new THREE.SphereGeometry(0.07, 10, 8), hm, 0, headY + 0.1, -0.12);
+  } else if (sh === "wrap-full") {
+    // A hijab: the head and neck wrapped, the face open.
+    add("headwear", new THREE.SphereGeometry(0.165, 14, 10, Math.PI * 0.2, Math.PI * 1.6), hm, 0, headY, 0);
+    add("drape", new THREE.CylinderGeometry(0.15, 0.24 * W, 0.22, 12), hm, 0, headY - 0.2, 0);
+  } else if (sh === "wrap-high") add("headwear", new THREE.CylinderGeometry(0.15, 0.165, 0.16, 14), hm, 0, headY + 0.08, -0.01);
+  else if (sh === "wrap-low") add("headwear", new THREE.CylinderGeometry(0.15, 0.155, 0.09, 14), hm, 0, headY + 0.06, 0);
+  else if (sh === "disc") add("headwear", new THREE.CylinderGeometry(0.08, 0.08, 0.015, 12), hm, 0, headY + 0.135, -0.02);
+  else if (sh === "brim") {
+    add("headwear", new THREE.SphereGeometry(0.152, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+    add("brim", new THREE.BoxGeometry(0.2, 0.015, 0.12), hm, 0, headY + 0.03, 0.15);
+  }
+  // PPE by category: a hard hat rides over any hair or covering.
+  if (ppe.helmet) {
+    add("hardHat", new THREE.SphereGeometry(0.175, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0);
+    add("hardHatBrim", new THREE.CylinderGeometry(0.2, 0.2, 0.015, 14), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0.02);
+  }
+  if (ppe.vest) add("vest", new THREE.CylinderGeometry(0.25 * W, 0.25 * W, 0.42 * H, 10, 1, true), mat(ppe.vestColour ?? 0xd8ff3a, { emissive: 0x202000 }), 0, 1.12 * H, 0);
+  if (ppe.tank) add("tank", new THREE.CylinderGeometry(0.09, 0.09, 0.56, 8), mat(0xd9d9d0, { rough: 0.5, metal: 0.4 }), 0, 1.1 * H, -0.27 * W);
+  if (ppe.mask) add("mask", new THREE.BoxGeometry(0.2, 0.09, 0.06), mat(0x4fd1ff, { emissive: 0x1a5a70 }), 0, headY + 0.02, 0.13);
+  if (ppe.toque) add("toque", new THREE.CylinderGeometry(0.15, 0.13, 0.2, 12), mat(0xffffff), 0, headY + 0.17, 0);
+  if (ppe.trim) add("trim", new THREE.BoxGeometry(0.3 * W, 0.04, 0.02), mat(ppe.trim, { rough: 0.4 }), 0, 1.22 * H, 0.235 * W);
+  if (ppe.ears) add("ears", new THREE.TorusGeometry(0.15, 0.025, 6, 12, Math.PI), mat(0xd8322c), 0, headY + 0.02, 0);
+  g.userData.parts = parts;
+  g.userData.ctAvatar = s;
+  return g;
+}
+
 
 /* ===== shared/props.js ===== */
 // Shared site-dressing kit — the clutter that makes a district read as a real
@@ -14024,6 +14738,78 @@ function deepBandAt(x, z) {
   const d = deepDepthAt(x, z);
   return d < 12 ? "shallow" : d < 40 ? "mid" : "deep";
 }
+
+// ------------------------------------------------ layers and interactive assets
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// pure data derived from the tables above, read by the Deep's own map
+// (underwater/js/dive-map.js), its world build and
+// tools/check_worlds_detail.mjs. Every top-level name is prefixed `ct`/`CT_`
+// because the bundler concatenates every module into one scope.
+
+/** The map layers the Deep's map can toggle, in drawing order. */
+const CT_DEEP_LAYERS = [
+  { id: "roads", label: "Dive lines and the channel", colour: 0xf2f2e0, on: true, source: "DEEP_LINES" },
+  { id: "jobs", label: "Dive sites by programme", colour: 0xf2c14b, on: true, source: "DEEP_SITES, coloured by first programme" },
+  { id: "landmarks", label: "Landmarks", colour: 0xa8f0e0, on: true, source: "DEEP_LANDMARKS" },
+  { id: "activities", label: "Activities and eggs found", colour: 0x8cff5a, on: false, source: "the activities and the lantern dives, done or open" },
+  { id: "assets", label: "Interactive assets", colour: 0x4fd1ff, on: false, source: "CT_DEEP_ASSETS" },
+  { id: "wildlife", label: "Wildlife sightings", colour: 0x59c9c9, on: false, source: "CT_DEEP_WILDLIFE" },
+];
+
+/**
+ * Sighting spots on the seabed map, by zone: generic kinds only (a fish
+ * school, a ray, a crab, seals at the pier), never a species claim or a
+ * count — a place a diver may see life, not a survey result.
+ */
+const CT_DEEP_WILDLIFE = [
+  { kind: "fish", zone: "kelp-forest", area: { x: -500, z: -220, w: 80, d: 60 } },
+  { kind: "fish", zone: "reef-ball-field", area: { x: 350, z: 0, w: 80, d: 60 } },
+  { kind: "ray", zone: "tide-flats", area: { x: -100, z: -260, w: 90, d: 50 } },
+  { kind: "crab", zone: "pier-pilings", area: { x: -760, z: -600, w: 20, d: 20 } },
+  { kind: "seals", zone: "pier-pilings", area: { x: -700, z: -540, w: 30, d: 30 } },
+  { kind: "fish", zone: "wreck-hollow", area: { x: 250, z: 300, w: 60, d: 40 } },
+  { kind: "shorebirds", zone: "marsh-mouth", area: { x: 650, z: -560, w: 70, d: 30 } },
+];
+
+/** The Deep's interactive set dressing, what E does at each, and the page it links to. */
+const CT_DEEP_ASSET_KINDS = {
+  buoy: { label: "Line buoy", does: "Shows the dive line it marks and where it leads.", link: "site", colour: 0xff9a5a },
+  "dive-slate": { label: "Dive slate", does: "Holds the dive plan for the nearest station, then opens it.", link: "station", colour: 0xe8e2d4 },
+  "survey-marker": { label: "Survey marker", does: "Opens the programme overview for the survey work anchored here.", link: "programme", colour: 0xf2c14b },
+  "tool-basket": { label: "Tool basket", does: "Shows the tools lowered for the nearest station, then opens that station.", link: "station", colour: 0x4fd1ff },
+};
+
+function ctDeepRing(p, i, r) {
+  const a = (i * 2.399963) % (Math.PI * 2);
+  return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+}
+
+function ctBuildDeepAssets() {
+  const out = [];
+  const rota = ["dive-slate", "survey-marker", "tool-basket"];
+  DEEP_SITES.forEach((s, i) => {
+    let kind = rota[i % rota.length];
+    const st = s.stations?.[0] ?? null, prog = s.programmes?.[0] ?? null;
+    let link = kind === "survey-marker" ? (prog ? { type: "programme", id: prog, site: s.id } : null) : (st ? { type: "station", id: st, site: s.id } : null);
+    if (!link) { kind = "buoy"; link = { type: "site", id: s.id }; }
+    out.push({ id: `ct-${kind}-${s.id}`, kind, zone: s.zone, near: s.id, name: `${CT_DEEP_ASSET_KINDS[kind].label} · ${s.name}`,
+      position: ctDeepRing(s.position, i, 18), programmes: s.programmes ?? [], stations: s.stations ?? [], link });
+  });
+  // A buoy at the first point of every line: it names the line and links to the nearest site's ?site= page.
+  DEEP_LINES.forEach((line, i) => {
+    const p = line.points[0];
+    let best = null, bd = Infinity;
+    for (const s of DEEP_SITES) { const d = Math.hypot(s.position[0] - p[0], s.position[1] - p[1]); if (d < bd) { bd = d; best = s; } }
+    out.push({ id: `ct-buoy-${line.id}`, kind: "buoy", zone: deepZoneAt(p[0], p[1]), near: best.id, line: line.id,
+      name: `${CT_DEEP_ASSET_KINDS.buoy.label} · ${line.name}`, position: ctDeepRing(p, i, 4), programmes: best.programmes ?? [], stations: best.stations ?? [],
+      link: { type: "site", id: best.id } });
+  });
+  return out;
+}
+
+/** Every interactive asset in the Deep: `{ id, kind, zone, near, name, position:[x,z], programmes, stations, link, line? }`. */
+const CT_DEEP_ASSETS = ctBuildDeepAssets();
 
 
 /* ===== shared/underwater.js ===== */
@@ -17983,6 +18769,41 @@ function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) {
   return list.length;
 }
 
+/**
+ * Where each open world's interactive assets link (tools/briefs/worlds-detail-brief.md):
+ * the world's own page (for a `site` link's `?site=`) and the SmartCiti.X
+ * runner its job boards already use, both relative to the world's folder.
+ */
+const LK_ASSET_WORLDS = Object.freeze({
+  bayworld: { page: "index.html", runner: "./smartcity-x.html" },
+  underwater: { page: "underwater.html", runner: "./smartcity-x.html" },
+});
+
+/** A programme's overview in SmartCiti.X (`?programme=<id>`), the Atlas's own form. */
+function lkProgrammeLink(id, { runner = "./smartcity-x.html", from = null } = {}) {
+  if (!id) throw new Error("lkProgrammeLink needs a programme id");
+  return `${runner}?programme=${encodeURIComponent(id)}${from ? `&from=${encodeURIComponent(from)}` : ""}`;
+}
+
+/**
+ * The one link an interactive asset opens, from its `link` record:
+ * `{ type: "station", id, site }` launches the station (lkStationLink, with
+ * the way home), `{ type: "programme", id }` opens the programme overview,
+ * `{ type: "site", id }` is the world's own `?site=` deep link and
+ * `{ type: "page", href }` a sibling app's page. `world` is "bayworld" or
+ * "underwater"; `page` is the calling page's own path for the return.
+ */
+function lkAssetLink(asset, { world = "bayworld", page = null } = {}) {
+  const w = LK_ASSET_WORLDS[world] ?? LK_ASSET_WORLDS.bayworld;
+  const l = asset?.link ?? {};
+  if (l.type === "station") return lkStationLink(l.id, { runner: w.runner, from: world, page, siteId: l.site ?? null });
+  if (l.type === "programme") return lkProgrammeLink(l.id, { runner: w.runner, from: world });
+  // `?site=` alone resolves to the calling page in every layout (the flat build renames it).
+  if (l.type === "site") return lkSiteLink(l.id);
+  if (l.type === "page" && l.href) return `${l.href}${l.href.includes("?") ? "&" : "?"}from=${encodeURIComponent(world)}`;
+  throw new Error(`asset "${asset?.id}" has no link`);
+}
+
 
 /* ===== underwater/js/dive-sim.js ===== */
 // The Deep — the dive simulation: swimming and ROV piloting over the seabed,
@@ -18188,6 +19009,58 @@ function dvDepthFraction(y, range) { return dvClamp(-y / range[1], 0, 1); }
 // the canvas drawing (app.js) so the transform and the "every site, once"
 // rule are checkable with no DOM. Mirrors bayworld/js/map.js over DEEP_BOUNDS.
 
+
+
+/** The layer toggles' per-viewer memory (a convenience only; defaults are CT_DEEP_LAYERS' own `on`). */
+const CT_DV_LAYER_KEY = "underwater-map-layers-v1";
+
+/** A programme id's map colour — the same rule as Bay World's ctProgrammeColour, kept here so this bundle needs no Bay World data. */
+const CT_DV_PALETTE = [0xf2c14b, 0x4fd1ff, 0xf07a1f, 0x59c97b, 0xd86bd0, 0xe25c5c, 0x3b7bbf, 0xc9a06a, 0x8cff5a, 0xa079ff, 0x59c9c9, 0xffffff];
+function ctDvProgrammeColour(id) {
+  if (!id) return 0x7f8c96;
+  let h = 7;
+  for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return CT_DV_PALETTE[h % CT_DV_PALETTE.length];
+}
+
+/** Which layers are on: `{ roads: true, … }`, from `storage` when it holds a choice. */
+function ctDvLayerState(storage) {
+  const out = Object.fromEntries(CT_DEEP_LAYERS.map((l) => [l.id, l.on]));
+  try { Object.assign(out, JSON.parse(storage?.getItem(CT_DV_LAYER_KEY) || "{}")); } catch (_) { /* defaults */ }
+  return out;
+}
+
+/** Turn one layer on or off and remember it. Returns the new state. */
+function ctDvSetLayer(id, on, storage) {
+  const state = ctDvLayerState(storage);
+  if (!(id in state)) return state;
+  state[id] = !!on;
+  try { storage?.setItem(CT_DV_LAYER_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ }
+  return state;
+}
+
+/**
+ * Every layer's features in map space, `{ <layerId>: [feature…] }`. `dives`
+ * is dive-engine's dvDiveState() list and `eggs` the lantern dives
+ * (`{ id, title, anchor:[x,z] }`), `activities` the activity definitions:
+ * together the activities-and-eggs layer, open or done.
+ */
+function ctDvMapLayers(size = 512, { dives = [], eggs = [], activities = [] } = {}) {
+  const P = (x, z) => dvWorldToMap(x, z, size);
+  const done = new Set(dives.filter((d) => d.done).map((d) => d.id));
+  const byName = new Map(DEEP_SITES.map((s) => [s.name, s]));
+  return {
+    roads: DEEP_LINES.map((l) => ({ id: l.id, label: l.name, kind: l.kind, colour: l.kind === "channel" ? 0x3b7bbf : 0x9fb6c8, points: l.points.map(([x, z]) => P(x, z)) })),
+    jobs: DEEP_SITES.map((s) => ({ id: s.id, label: s.name, programme: s.programmes?.[0] ?? null, colour: ctDvProgrammeColour(s.programmes?.[0]), ...P(s.position[0], s.position[1]) })),
+    landmarks: DEEP_LANDMARKS.map((l) => ({ id: l.id, label: l.name, colour: 0xa8f0e0, ...P(l.position[0], l.position[1]) })),
+    activities: [
+      ...eggs.filter((e) => Array.isArray(e.anchor)).map((e) => ({ id: e.id, label: e.title, kind: "egg", done: done.has(e.id), colour: done.has(e.id) ? 0x8cff5a : 0xffd54a, ...P(e.anchor[0], e.anchor[1]) })),
+      ...activities.map((a) => ({ a, at: byName.get(a.site) })).filter((x) => x.at).map(({ a, at }) => ({ id: a.id, label: a.title, kind: a.kind, colour: 0x6ad0a0, ...P(at.position[0], at.position[1]) })),
+    ],
+    assets: CT_DEEP_ASSETS.map((a) => ({ id: a.id, label: a.name, kind: a.kind, colour: CT_DEEP_ASSET_KINDS[a.kind].colour, ...P(a.position[0], a.position[1]) })),
+    wildlife: CT_DEEP_WILDLIFE.map((w, i) => ({ id: `${w.kind}-${i}`, label: `Wildlife: ${w.kind}`, kind: w.kind, colour: 0x59c9c9, ...P(w.area.x, w.area.z) })),
+  };
+}
 
 /** The one uniform scale that fits all of DEEP_BOUNDS inside a `size`-pixel
  *  square canvas with `pad` pixels of margin (letterboxing, never stretching). */
@@ -18408,6 +19281,9 @@ function dvBestActivityScore(id, storage) { return dvLoadBest(storage)[id] ?? nu
 
 
 
+
+
+
 const DV_EYE_HEIGHT = 0.4;
 
 function dvDiverFigure(THREE, { suit = 0x1f3a4a, tank = 0xd9d9d0, fins = 0x222a30 } = {}) {
@@ -18426,7 +19302,10 @@ function dvDiverFigure(THREE, { suit = 0x1f3a4a, tank = 0xd9d9d0, fins = 0x222a3
 
 function dvRovMesh(THREE) {
   const g = new THREE.Group();
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.5, 1.1), new THREE.MeshStandardMaterial({ color: 0xf2c14b, roughness: 0.6, metalness: 0.3 }));
+  // The survey service's livery (fleet.js's CT_SERVICE_LIVERIES), like the kit's own ROV.
+  const lv = ctServiceLivery("survey", 7);
+  g.userData.ctService = "survey";
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.5, 1.1), new THREE.MeshStandardMaterial({ color: lv.colour, roughness: 0.6, metalness: 0.3 }));
   const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff2c0, emissiveIntensity: 1.2 }));
   lamp.position.set(0, 0.1, 0.6);
   const thruster = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.04, 6, 10), new THREE.MeshStandardMaterial({ color: 0x222a30 }));
@@ -18461,7 +19340,17 @@ function dvBuildWorld(root, THREE, opts = {}) {
   let hemi = seabed.lights?.hemi ?? null, key = seabed.lights?.key ?? null;
   if (!hemi || !key) root.traverse((o) => { if (o.isHemisphereLight && !hemi) hemi = o; if (o.isDirectionalLight && !key) key = o; });
 
-  const diver = dvDiverFigure(THREE);
+  // The learner's own diver: the avatar style picked on the account chip
+  // (shared/crew.js), always in dive gear here, laid flat to swim.
+  const diver = new THREE.Group();
+  function dvSetAvatar(style) {
+    while (diver.children.length) diver.remove(diver.children[0]);
+    const fig = ctAvatarFigure(THREE, { ...(style ?? {}), ppe: "dive" });
+    fig.rotation.x = Math.PI / 2; fig.position.set(0, 0.2, -0.9);
+    diver.add(fig);
+    return diver;
+  }
+  dvSetAvatar(opts.avatar);
   const buddy = dvDiverFigure(THREE, { suit: 0x3a5a2a, tank: 0xf2c14b });
   const rov = dvRovMesh(THREE);
   rov.visible = false;
@@ -18489,6 +19378,41 @@ function dvBuildWorld(root, THREE, opts = {}) {
     root.add(line, float);
     return { line, float, siteId: l.siteId };
   });
+
+  // Interactive assets (CT_DEEP_ASSETS): one InstancedMesh per kind for the
+  // body and one for its marker, on the seabed; a buoy's float rides above.
+  const ctGeo = {
+    buoy: [new THREE.CylinderGeometry(0.04, 0.04, 3, 6), new THREE.SphereGeometry(0.45, 10, 8), 1.5, 3.2],
+    "dive-slate": [new THREE.BoxGeometry(0.1, 1.2, 0.1), new THREE.BoxGeometry(0.6, 0.45, 0.05), 0.6, 1.25],
+    "survey-marker": [new THREE.CylinderGeometry(0.05, 0.05, 1.6, 6), new THREE.BoxGeometry(0.4, 0.3, 0.04), 0.8, 1.55],
+    "tool-basket": [new THREE.BoxGeometry(0.9, 0.5, 0.6), new THREE.TorusGeometry(0.3, 0.03, 6, 12), 0.25, 0.7],
+  };
+  const ctAssetMeshes = [];
+  const ctDummy = new THREE.Object3D();
+  for (const [kind, [bodyGeo, topGeo, bodyY, topY]] of Object.entries(ctGeo)) {
+    const list = CT_DEEP_ASSETS.filter((a) => a.kind === kind && (!opts.zone || a.zone === opts.zone));
+    if (!list.length) continue;
+    const colour = CT_DEEP_ASSET_KINDS[kind].colour;
+    const body = new THREE.InstancedMesh(bodyGeo, new THREE.MeshStandardMaterial({ color: 0x5a6a70, roughness: 0.8 }), list.length);
+    const top = new THREE.InstancedMesh(topGeo, new THREE.MeshStandardMaterial({ color: colour, emissive: colour, emissiveIntensity: 0.4, roughness: 0.5 }), list.length);
+    list.forEach((a, i) => {
+      const fy = dvFloorY(a.position[0], a.position[1]);
+      ctDummy.rotation.set(0, (i * 1.3) % (Math.PI * 2), 0);
+      ctDummy.position.set(a.position[0], fy + bodyY, a.position[1]); ctDummy.updateMatrix(); body.setMatrixAt(i, ctDummy.matrix);
+      ctDummy.position.set(a.position[0], fy + topY, a.position[1]); ctDummy.updateMatrix(); top.setMatrixAt(i, ctDummy.matrix);
+    });
+    root.add(body, top);
+    ctAssetMeshes.push(body, top);
+  }
+
+  // The Deep's harbour fleet at the surface over its sites: the dive-support
+  // and restoration workboats and the survey skiff, each in its service
+  // livery (fleet.js's CT_HARBOUR_FLEET); the survey ROV is the one above.
+  const harbour = CT_HARBOUR_FLEET.filter((h) => h.world === "underwater" && h.builder !== "rov").map((h, i) => {
+    const site = DV_SITES.find((s) => s.id === h.at);
+    if (!site || (opts.zone && site.zone !== opts.zone)) return null;
+    return ctBuildLiveried(root, h, site.position[0] + 6, 0, site.position[2] - 6, { ry: i * 1.1 });
+  }).filter(Boolean);
 
   // Lanterns by egg id, placed on the seabed at the egg's anchor by app.js.
   const lanterns = {};
@@ -18565,7 +19489,7 @@ function dvBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    seabed, diver, buddy, rov, buddyLine, tether, ascentMeshes, lanterns, markers, hemi, key,
+    seabed, diver, buddy, rov, buddyLine, tether, ascentMeshes, lanterns, markers, hemi, key, ctAssetMeshes, harbour, dvSetAvatar,
     dvPlaceLantern, dvSetMarkers, dvMarkHit, dvApplyLighting, placeCamera, dvSetLine,
   };
 }
@@ -19794,6 +20718,7 @@ const Auth = {
 
 
 
+
 const gtHasDom = typeof document !== "undefined";
 const GT_WALLET_INSTALL = "https://metamask.io/download/";
 
@@ -19817,6 +20742,12 @@ const gtCss = `
 #gt-dialog .gt-row button{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
 #gt-dialog label.gt-check{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}
 #gt-dialog label.gt-check input{width:auto;min-height:0;margin:0}
+#gt-account .ct-av{display:inline-block;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-sizing:content-box;flex:none}
+#gt-dialog .ct-av-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;margin:0 0 10px}
+#gt-dialog .ct-av-grid label{font-size:14px;color:#d4dee8}
+#gt-dialog .ct-av-grid select{min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#081018;color:#fff;font:15px system-ui,sans-serif;padding:0 8px}
+#gt-dialog .ct-av-preview{display:flex;gap:10px;align-items:center;margin:0 0 10px;font-size:14px;color:#d4dee8}
+#gt-dialog .ct-av-preview .ct-av{display:inline-block;width:28px;height:28px;border-radius:50%;border:5px solid #fff}
 `;
 
 const gtState = { mounted: false, env: null, configUrl: null, ready: null, returnTo: null, googleStarted: false };
@@ -19856,7 +20787,7 @@ function gtRenderChip() {
   if (!chip) return;
   const { text, badge } = gtChipLabel();
   chip.textContent = "";
-  chip.append(text);
+  chip.append(ctAvatarSwatch(), text);
   if (badge) chip.append(" ", gtEl("span", { class: "gt-badge", text: badge }));
   chip.setAttribute("aria-label", Auth.session ? `Account: ${text}` : (badge ? "Sign in (demo mode on)" : "Sign in"));
 }
@@ -19920,13 +20851,47 @@ function gtSignInView(panel) {
   "Try the free demo — no sign-in", gtEl("small", { text: "Every world and station opens. Nothing is kept beyond this tab." })));
 }
 
+/** The learner's avatar as a small swatch: skin tone inside, headwear or hard-hat colour as the ring. */
+function ctAvatarSwatch(style = ctAvatarLoad(gtStorage())) {
+  const hex = (n) => `#${(n >>> 0).toString(16).padStart(6, "0")}`;
+  const ppe = ctAvatarOption("ppe", style.ppe);
+  const ring = ppe.helmet ? ctAvatarOption("hardHat", style.hardHat).hex : ctAvatarOption("hairColour", style.hairColour).hex;
+  const el = gtEl("span", { class: "ct-av", "aria-hidden": "true" });
+  el.style.background = hex(ctAvatarOption("skin", style.skin).hex);
+  el.style.borderColor = hex(ring);
+  return el;
+}
+
+const CT_AXIS_LABELS = { body: "Body", skin: "Skin tone", hair: "Hair or head covering", hairColour: "Hair or covering colour", ppe: "Trade PPE", hardHat: "Hard hat colour" };
+
+/** The avatar picker: one select per axis, stored per profile (shared/profiles.js) on Save. */
+function ctAvatarView(panel) {
+  const style = ctAvatarLoad(gtStorage());
+  panel.append(gtEl("p", { text: "Choose how your own figure looks in Bay World and the Deep. Every option works with every trade; it is kept with your profile on this device." }));
+  const preview = gtEl("div", { class: "ct-av-preview", id: "ct-av-preview" });
+  const draw = () => { preview.textContent = ""; preview.append(ctAvatarSwatch(style), `${ctAvatarOption("body", style.body).label} · ${ctAvatarOption("hair", style.hair).label} · ${ctAvatarOption("ppe", style.ppe).label}`); };
+  const grid = gtEl("div", { class: "ct-av-grid" });
+  for (const axis of CT_AVATAR_AXES) {
+    const id = `ct-av-${axis}`;
+    const sel = gtEl("select", { id, "data-axis": axis, on: { change: (e) => { style[axis] = e.target.value; draw(); } } });
+    for (const o of CT_AVATAR_STYLES[axis]) sel.append(gtEl("option", { value: o.id, selected: o.id === style[axis], text: o.label }));
+    grid.append(gtEl("label", { for: id, text: CT_AXIS_LABELS[axis] ?? axis }), sel);
+  }
+  draw();
+  panel.append(preview, grid);
+  panel.append(gtEl("div", { class: "gt-row" },
+    gtEl("button", { type: "button", id: "ct-av-save", on: { click: () => { ctAvatarSave(style, gtStorage()); gtRenderChip(); gtMsg("Avatar saved to this profile."); } } }, "Save avatar"),
+    gtEl("button", { type: "button", id: "ct-av-back", on: { click: () => gtRender() } }, "Back")));
+}
+
 function gtRender(view = null) {
   const panel = document.querySelector("#gt-dialog .gt-panel");
   if (!panel) return;
   panel.textContent = "";
   const v = view ?? (Auth.session ? "account" : "signin");
-  panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? "Sign in" : "Your account" }));
-  if (v === "signin") {
+  panel.append(gtEl("h2", { id: "gt-title", text: v === "avatar" ? "Your avatar" : v === "signin" ? "Sign in" : "Your account" }));
+  if (v === "avatar") ctAvatarView(panel);
+  else if (v === "signin") {
     panel.append(gtEl("p", { text: gtIsDemo()
       ? "Demo mode is on: your runs live in this tab only. Sign in to keep them."
       : "Signing in keeps your progress private to you on this device. These pages are static files: your training host, not this page, verifies the credential." }));
@@ -19946,6 +20911,9 @@ function gtRender(view = null) {
         Auth.signOut({ clearRecords: true }); gtRenderChip(); gtRender("signin"); gtMsg("Signed out and your records on this device were deleted.");
       } } }, "Sign out and clear my records")));
   }
+  // The avatar picker sits after the sign-in options, so Google stays the first choice.
+  if (v !== "avatar") panel.append(gtEl("button", { type: "button", class: "gt-opt", id: "ct-av-open", on: { click: () => gtRender("avatar") } },
+    ctAvatarSwatch(), " Your avatar", gtEl("small", { text: "Body, skin tone, hair or head covering and trade PPE for your own figure in the worlds." })));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, "Close")));
 }
@@ -20004,6 +20972,7 @@ function gtMountAccount(nav, { configUrl = null } = {}) {
       .catch(() => null)
       .finally(() => gtRenderChip());
     addEventListener("gt:profile", () => gtRenderChip());
+    addEventListener("ct:avatar", () => gtRenderChip());
   }
   gtRenderChip();
   return chip;
@@ -20868,7 +21837,7 @@ const dvApp = {
   rov: null,
   reserve: 1,
   hours: 9,
-  nearSite: null, nearLandmark: null, nearAscent: null,
+  nearSite: null, nearLandmark: null, nearAscent: null, nearAsset: null,
   interactPressed: false, rovPressed: false, ascendPressed: false,
   lastSite: null,
   activity: null,
@@ -20941,7 +21910,8 @@ const dvPad = createGamepad({ getGamepads: () => (navigator.getGamepads ? naviga
 
 function dvOpenScreen(name) {
   dvApp.screen = name;
-  for (const id of ["scr-menu", "scr-jobboard", "scr-activities"]) $(id)?.toggleAttribute("hidden", true);
+  for (const id of ["scr-menu", "scr-jobboard", "scr-activities", "scr-asset"]) $(id)?.toggleAttribute("hidden", true);
+  if (name === "asset") $("scr-asset")?.removeAttribute("hidden");
   $("hud")?.toggleAttribute("hidden", name !== "game");
   $("view-toggle")?.toggleAttribute("hidden", name !== "game");
   if (name === "menu") $("scr-menu")?.removeAttribute("hidden");
@@ -20954,7 +21924,7 @@ function dvToggleCamera() { dvApp.cameraMode = dvApp.cameraMode === "chase" ? "f
 function dvToggleMap(force) {
   dvApp.mapOpen = force ?? !dvApp.mapOpen;
   $("scr-map")?.toggleAttribute("hidden", !dvApp.mapOpen);
-  if (dvApp.mapOpen) dvDrawFullMap();
+  if (dvApp.mapOpen) { ctDvRenderLayerToggles(); dvDrawFullMap(); }
 }
 
 // ------------------------------------------------------------------- ROV
@@ -21133,6 +22103,79 @@ function dvDrawMinimap() {
   ctx.restore();
 }
 
+/** The interactive assets in the 3-D shape dvNearestPlace() reads. */
+const CT_DV_ASSETS = CT_DEEP_ASSETS.map((a) => ({ ...a, position: [a.position[0], 0, a.position[1]] }));
+const ctDvHex = (n) => `#${(n >>> 0 & 0xffffff).toString(16).padStart(6, "0")}`;
+
+/**
+ * What pressing E at an interactive asset does (CT_DEEP_ASSET_KINDS): the
+ * panel names it, says what it holds and links to its real page through
+ * shared/links.js's lkAssetLink. A buoy names the dive line it marks.
+ */
+function ctDvOpenAsset(asset) {
+  const kind = CT_DEEP_ASSET_KINDS[asset.kind];
+  $("asset-kind").textContent = kind.label;
+  $("asset-title").textContent = asset.name;
+  $("asset-does").textContent = kind.does;
+  const list = $("asset-list");
+  list.textContent = "";
+  let text = "";
+  if (asset.kind === "buoy") {
+    const line = DEEP_LINES.find((l) => l.id === asset.line);
+    text = line ? `This buoy marks the ${line.name} (${line.kind.replace(/-/g, " ")}), ${line.points.length} waypoints; follow it hand over hand, per the dive plan.` : "This buoy marks the site's descent line; the site's board has the dive plan.";
+  } else if (asset.kind === "survey-marker") {
+    text = "Programmes anchored at this site:";
+    for (const p of asset.programmes) list.append(Object.assign(document.createElement("li"), { textContent: lkStationLabel(p) }));
+  } else {
+    text = `For ${lkStationLabel(asset.link.id)}: the station itself lists the plan and every tool, and checks each one.`;
+  }
+  $("asset-text").textContent = text;
+  list.toggleAttribute("hidden", !list.children.length);
+  const a = $("asset-link");
+  a.href = lkAssetLink(asset, { world: "underwater", page: ppHerePage() });
+  a.textContent = { station: "Open the station", programme: "Open the programme", site: "Go to the site", page: "Open" }[asset.link.type];
+  dvOpenScreen("asset");
+}
+$("asset-close")?.addEventListener("click", () => dvOpenScreen("game"));
+
+/** The layer toggles above the full map, one checkbox per CT_DEEP_LAYERS entry. */
+function ctDvRenderLayerToggles() {
+  const box = $("map-layers");
+  if (!box) return;
+  const state = ctDvLayerState(dvStore);
+  box.textContent = "";
+  for (const l of CT_DEEP_LAYERS) {
+    const label = document.createElement("label");
+    const cb = Object.assign(document.createElement("input"), { type: "checkbox", checked: !!state[l.id] });
+    cb.dataset.layer = l.id;
+    cb.addEventListener("change", () => { ctDvSetLayer(l.id, cb.checked, dvStore); dvDrawFullMap(); });
+    const sw = Object.assign(document.createElement("span"), { className: "swatch" });
+    sw.style.background = ctDvHex(l.colour);
+    label.append(cb, sw, l.label);
+    box.append(label);
+  }
+}
+
+/** Draw every layer that is on, in CT_DEEP_LAYERS order. Returns the count drawn per layer. */
+function ctDvDrawLayers(ctx, size) {
+  const on = ctDvLayerState(dvStore);
+  const layers = ctDvMapLayers(size, { dives: dvDiveState(dvStore), eggs: DV_DIVES.filter((q) => q.kind === "egg"), activities: DV_ACTIVITIES });
+  const drawn = {};
+  for (const l of CT_DEEP_LAYERS) {
+    if (!on[l.id]) { drawn[l.id] = 0; continue; }
+    const feats = layers[l.id] ?? [];
+    for (const f of feats) {
+      if (f.points) { ctx.strokeStyle = ctDvHex(f.colour); ctx.lineWidth = f.kind === "channel" ? 4 : 2; ctx.beginPath(); f.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke(); continue; }
+      ctx.fillStyle = ctDvHex(f.colour);
+      if (l.id === "wildlife") { ctx.strokeStyle = ctDvHex(f.colour); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(f.x, f.y, 7, 0, Math.PI * 2); ctx.stroke(); continue; }
+      ctx.beginPath(); ctx.arc(f.x, f.y, l.id === "jobs" ? 5 : l.id === "assets" ? 2.5 : 4, 0, Math.PI * 2); ctx.fill();
+    }
+    drawn[l.id] = feats.length;
+  }
+  dvApp.ctLayersDrawn = drawn;
+  return drawn;
+}
+
 function dvDrawFullMap() {
   const canvas = $("map-canvas");
   if (!canvas) return;
@@ -21144,14 +22187,10 @@ function dvDrawFullMap() {
     ctx.beginPath(); ctx.arc(z.x, z.y, z.radius, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = "#9fd0e0"; ctx.font = "12px sans-serif"; ctx.fillText(z.name, z.x - 30, z.y);
   }
-  ctx.strokeStyle = "#5a7a88"; ctx.lineWidth = 2;
-  for (const l of dvMapLines(size)) { ctx.beginPath(); l.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke(); }
-  for (const l of dvMapLandmarks(size)) { ctx.fillStyle = "#f0c07a"; ctx.beginPath(); ctx.arc(l.x, l.y, 4, 0, Math.PI * 2); ctx.fill(); }
+  ctDvDrawLayers(ctx, size);
   const listEl = $("map-sites");
   listEl.innerHTML = "";
   for (const s of dvMapSites(size, dvStore)) {
-    ctx.fillStyle = s.visited ? "#8cff5a" : "#f2c14b";
-    ctx.beginPath(); ctx.arc(s.x, s.y, 5, 0, Math.PI * 2); ctx.fill();
     const row = document.createElement("div");
     row.className = "map-site-row";
     const btn = s.ascent ? `<button class="btn" data-ascent="${s.id}">Take the ascent line</button>` : `<span class="locked">Dive here to open its line</span>`;
@@ -21188,7 +22227,9 @@ function dvSetup3D() {
   });
   const root = new THREE.Group();
   scene.add(root);
-  const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale });
+  const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale, avatar: ctAvatarLoad(gtStorage()) });
+  // The avatar picked on the account chip, live: a save or a profile change re-dresses the diver.
+  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => world.dvSetAvatar(ctAvatarLoad(gtStorage())));
   dvApp.scene = scene; dvApp.camera = camera; dvApp.renderer = renderer; dvApp.world = world;
   // One lantern per egg dive, at the egg's own anchor, hidden once found.
   const done = new Set(dvDiveState(dvStore).filter((q) => q.done).map((q) => q.id));
@@ -21236,6 +22277,7 @@ function dvStep(dt) {
   dvApp.light = dvApp.world.dvApplyLighting(dvApp.scene, depth, dvApp.hours);
 
   dvApp.nearSite = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_SITES, 14);
+  dvApp.nearAsset = dvApp.mode === "swim" ? dvNearestPlace(dvApp.diver.x, dvApp.diver.z, CT_DV_ASSETS, 6) : null;
   dvApp.nearLandmark = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_LANDMARKS, 16);
   dvApp.nearAscent = dvNearestAscentLine(dvApp.diver.x, dvApp.diver.z, DV_ASCENT, 10);
   const prompt = $("hud-prompt");
@@ -21243,11 +22285,13 @@ function dvStep(dt) {
     if (dvApp.mode === "rov") prompt.textContent = "Press R to recover the ROV";
     else if (line.taut) prompt.textContent = "Buddy line taut — wait for your buddy";
     else if (dvApp.nearSite) prompt.textContent = `Press E — ${dvApp.nearSite.name} · R for the ROV · U for the ascent line`;
+    else if (dvApp.nearAsset) prompt.textContent = `Press E — ${CT_DEEP_ASSET_KINDS[dvApp.nearAsset.kind].label}`;
     else if (dvApp.nearLandmark) prompt.textContent = `${dvApp.nearLandmark.name} — press E to look`;
     else prompt.textContent = "";
     prompt.toggleAttribute("hidden", !prompt.textContent);
   }
   if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearSite && !dvApp.activity) dvOpenJobBoard(dvApp.nearSite);
+  else if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearAsset && !dvApp.activity) ctDvOpenAsset(dvApp.nearAsset);
   if (dvApp.rovPressed) dvTryRov();
   if (dvApp.ascendPressed) dvTryAscend();
 
@@ -21300,7 +22344,7 @@ $("map-close")?.addEventListener("click", () => dvToggleMap(false));
 window.addEventListener("pageshow", () => { if (dvApp.screen === "game") dvCheckDiveReturns(); });
 document.addEventListener("visibilitychange", () => { if (!document.hidden && dvApp.screen === "game") dvCheckDiveReturns(); });
 
-window.__underwaterTest = { app: dvApp, step: dvStep, jobBoard: dvOpenJobBoard, camera: () => dvApp.camera };
+window.__underwaterTest = { app: dvApp, step: dvStep, jobBoard: dvOpenJobBoard, camera: () => dvApp.camera, asset: ctDvOpenAsset, assets: CT_DV_ASSETS };
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
 // The Guide (shared/guide.js): the floating help button and its question panel.
