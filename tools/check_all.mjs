@@ -48,6 +48,9 @@ const CHECKERS = [
   "check_auth.mjs",
   // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).
   "check_i18n.mjs",
+  // One design system: the shared stylesheet on every page, self-hosted fonts,
+  // credited vendored packs, no emoji icons in the chrome, AA token pairs (docs/design-system/README.md).
+  "check_design.mjs",
 ];
 
 let failed = 0;
