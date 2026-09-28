@@ -103,10 +103,13 @@ const GR_NO_MATCH = "That is not in my notes, and I only pass along what is writ
  * `question`, else the line at `seed`), hand off (the hand-off at `seed`).
  * Returns { greet, teach: { text, src, topic } | null, noMatch, handoff }.
  */
+/** A role inside a sentence: ordinary words in lower case, a capitalised name or acronym kept ("K-12 teacher", "CDL driver"). */
+export function grRoleText(role) { return String(role ?? "").replace(/\b([A-Z])([a-z])/g, (m, a, b) => a.toLowerCase() + b); }
+
 export function grDialogue(ch, { question = "", seed = 0 } = {}) {
   const n = Math.max(0, Math.floor(seed));
   const where = ch.siteName ? ` at ${ch.siteName}` : "";
-  const greet = `${ch.name} here — ${ch.role.toLowerCase()}${where}. I only pass along what is written down; ask me about the work here.`;
+  const greet = `${ch.name} here — ${grRoleText(ch.role)}${where}. I only pass along what is written down; ask me about the work here.`;
   let teach = null, noMatch = false;
   if (String(question).trim()) { teach = grRetrieve(ch.pack, question); noMatch = !teach; }
   else if (ch.pack.length) teach = ch.pack[n % ch.pack.length];
@@ -421,7 +424,7 @@ export function grMount(world, hooks = {}) {
     if (e !== lastNear) {
       lastNear = e;
       ensureDom();
-      if (e && !open) { prompt.querySelector(".gr-prompt-text").textContent = `G — talk to ${e.ch.name}, ${e.ch.role.toLowerCase()}`; prompt.hidden = false; }
+      if (e && !open) { prompt.querySelector(".gr-prompt-text").textContent = `G — talk to ${e.ch.name}, ${grRoleText(e.ch.role)}`; prompt.hidden = false; }
       else prompt.hidden = true;
       if (!e && open) close();
     }

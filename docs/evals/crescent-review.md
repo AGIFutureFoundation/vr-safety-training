@@ -72,5 +72,25 @@ Owners read "built by → fixes in this run". The cost is the points each findin
 - **BAYOU:** lesson text is held to the facts criterion (no figures); flows and apply-steps are re-read at hand-back.
 - **GOLDEN-A / GOLDEN-B:** a new map is scored like a parish; the scale rule reads a per-map `scale` once ASSAYER lands it.
 
-## Re-score
-Pending — ASSAYER re-scores at hand-back.
+## Re-score (hand-back, 23:25 UTC)
+The rubric grew during the run, so the after column holds more checks than the before: in each parish the browser pass
+now walks to a character and presses G (the talk panel opens with a line), opens the Motor Pool board (all 70 rows),
+completes a field lesson at its sign with E, and reads `renderer.info` at the start on the phone viewport; the Upgrade
+check now asks for the page and the account link, not a word in a comment (it passed falsely before).
+
+| Subject | Before | After | What changed |
+|---|---:|---:|---|
+| Orleans Parish | 100 | **100** | characters (10) and the Motor Pool mounted; frame at the start 59 draw calls / 31,472 triangles |
+| Jefferson Parish | 97 | **100** | strict on the engine, `scale: 8` declared, blurb; 4 characters |
+| St. Bernard Parish | 96 | **100** | strict, `scale: 8`, blurb, river road re-derived inland; 4 characters |
+| Plaquemines Parish | 96 | **100** | strict, `scale: 20`, blurb, levees and river roads re-derived from the river, marsh districts; 3 characters |
+| St. Tammany Parish | 96 | **100** | strict, `scale: 10`, blurb, ten anchors, roads off the rivers and lake; 4 characters |
+| Motor Pool | 98 | **100** | the board mounted in the parishes (menu, Parishes modal, B) |
+| Characters (GRIOT) | 98 | **100** | the parish hook mounted (25 characters over five parishes); "K-12 teacher" keeps its capitals |
+| Play layer (SECONDLINE) | 100 | **100** | — |
+| Billing & membership (TILL) | 90 | **88** | the stricter Upgrade check; the `auth-config.json` keys still need the owner |
+| Deploy plan (EDGE) | 100 | **100** | — |
+
+Mean 97 → 99. Open findings (4): TILL's null `levels`/`applePay`/`googlePay`/`wallet` keys (the owner's write); the
+Upgrade view page (TILL, next run); a Bay World quest hand-off (GRIOT, next run); the named fishing hulls (MOTORPOOL,
+next run). The ten worst above are otherwise fixed. The rubric's next depth is in `tools/briefs/next/assayer-next.md`.

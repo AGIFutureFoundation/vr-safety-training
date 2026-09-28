@@ -336,8 +336,26 @@ if (AS_BROWSER) {
               document.getElementById("gr-close")?.click();
               T.motorPool?.();
               const rows = document.querySelectorAll("#dv-board [data-dv-id]").length;
-              return { chars: T.npc.characters.length, talk, rows, modal: T.np.modal };
+              const modal = T.np.modal;
+              document.querySelector("#motorpool [data-close]")?.click();
+              // A field lesson completed in the page: stand at its sign, E opens it, the right answer passes it.
+              let lesson = null;
+              const sign = T.world.lessonSigns[0];
+              if (sign) {
+                T.teleport(sign.x, sign.z);
+                // The page looks for what is near every half second of frame time (dt is capped per frame), and a
+                // SwiftShader frame is slow — wait for the sign to be the thing near, up to ten seconds.
+                for (let i = 0; i < 100 && T.np.near?.lesson !== sign.lesson; i++) await new Promise((r) => setTimeout(r, 100));
+                dispatchEvent(new KeyboardEvent("keydown", { code: "KeyE", key: "e", bubbles: true }));
+                dispatchEvent(new KeyboardEvent("keyup", { code: "KeyE", key: "e", bubbles: true }));
+                await new Promise((r) => setTimeout(r, 100));
+                const opened = !document.getElementById("lesson").hidden;
+                document.querySelectorAll("#lesson-choices button")[sign.lesson.check.answer]?.click();
+                lesson = { opened, passed: T.np.state.lessons.includes(sign.lesson.id) };
+              }
+              return { chars: T.npc.characters.length, talk, rows, modal, lesson };
             });
+            sj.check("completable", !!r.lesson?.opened && !!r.lesson?.passed, `${sj.id}: a field lesson opens at its sign with E and the right answer passes it in the page (${JSON.stringify(r.lesson)})`, "PARISH → ASSAYER");
             sj.check("resolves", (r.chars ?? 0) >= 3, `${sj.id}: three or more characters stand at the parish's sites (${r.chars ?? r.err})`, "GRIOT → ASSAYER");
             sj.check("resolves", !!r.talk, `${sj.id}: G beside a character opens the talk panel with a line`, "GRIOT → ASSAYER");
             sj.check("resolves", r.rows === DV.DV_DRIVABLES.length && r.modal === "motorpool", `${sj.id}: the Motor Pool board opens with every drivable (${r.rows} rows)`, "MOTORPOOL → ASSAYER");

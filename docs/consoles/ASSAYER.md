@@ -58,3 +58,13 @@ the full suite at most once.
   left. `eval_worlds` now drives the mounts in the page (walk to a character, G opens the panel; the board lists all 70)
   and reads renderer.info at the start on the phone viewport (worst Orleans 59 calls / 31,472 triangles). Mid-run mean
   99; check_drivables 2,049 / 0, check_payments green · next: commit, re-score, next brief.
+- 23:25 UTC · 533a560 committed the mounts. `grRoleText` in npc.js keeps a role's capitals in the greeting and the
+  prompt ("K-12 teacher", not "k-12 teacher"); check_npc's greeting test compares case-insensitively (15,595 / 0).
+  eval_worlds completes a field lesson in each parish page (E at the sign, the right answer; it waits for the page's
+  half-second near-test, which SwiftShader's slow frames stretch). Re-score: mean 97 → 99, four open findings, none
+  ASSAYER's (TILL ×2, GRIOT, MOTORPOOL), written into the review's Re-score. check_home, check_k12, check_imports
+  (897 modules) green; check_parse did not finish inside five minutes at load 19 (stopped by its timeout). The full
+  suite not started: load average 17–19 on four cores, where the Crescent suites never finished — singles instead.
+- HAND-BACK · commits 9c2b592, 6158ad0, 533a560 and the re-score commit; singles: check_parishes 6,496 / 0,
+  check_parish_data 2,763 / 0, check_parish_play 3,933 / 0, check_gates 6,246 / 0, check_npc 15,595 / 0,
+  check_drivables 2,049 / 0, check_payments, check_home, check_k12, check_imports; eval_worlds mean 99.

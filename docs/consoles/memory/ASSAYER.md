@@ -14,6 +14,11 @@ Short, durable lessons for the next team at this console. Read `docs/consoles/AS
 - **A worktree-isolated agent's Bash refuses compound commands with runtime variables near git/sed** — write files with
   the Write tool, put multi-line edits in a scratch Python file, and run git as plain separate commands.
 
+- **In-page probes wait on state, not on time**: the parish app caps dt per frame and tests what is near every half
+  second of frame time; SwiftShader frames are slow, so poll `__parishTest.np.near` before pressing E.
+- **Never `pkill -f` a pattern that your own command line contains** — it kills the shell running it.
+- **At load 17+ on four cores** check_parse needs more than five minutes and the full suite does not finish; run singles.
+
 ## The parish data
 - **DELTA's modules are one JSON literal after `export const NP_X = `** — parse the literal, edit the object, write it
   back with `JSON.stringify(p, null, 1)` and the diff stays minimal (the transform lives in `$SP/bayou/assayer/fix.mjs`).

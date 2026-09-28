@@ -248,7 +248,7 @@ for (const ch of GR_ROSTER) {
   for (const seed of [0, 1, 2]) {
     const d = S.grDialogue(ch, { seed });
     dialogues += 1;
-    ok(d.greet.startsWith(`${ch.name} here — `) && d.greet.includes(ch.role.toLowerCase()), id, "greet does not name the character and the role");
+    ok(d.greet.startsWith(`${ch.name} here — `) && d.greet.toLowerCase().includes(ch.role.toLowerCase()), id, "greet does not name the character and the role");
     ok(!/\d/.test(d.greet.replace(/k-12/gi, "")), id, "the greeting carries a digit (a template must not state a fact)");
     ok(d.teach && ch.pack.includes(d.teach), id, `seed ${seed} teaches a line that is not in the pack`);
     ok(d.handoff && ch.handoffs.includes(d.handoff), id, `seed ${seed} hands off something not in the list`);
