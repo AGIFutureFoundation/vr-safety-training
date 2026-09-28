@@ -28,7 +28,7 @@ One store, **`vr-org-v1`**, read and written through `gtStorage()` so it is priv
                 "consent": { "progress": false, "at": "ISO" },
                 "progress": null | { "at": "ISO", "programme": "<id>",
                   "stations": [{ "simId": "…", "attempts": 2, "stars": 3, "unsafe": 0, "handled": 1, "missed": 0, "passed": true, "lastAt": "ISO" }] } }],
-  "audit":   [{ "at": "ISO", "action": "cohort-export" | "cohort-import" | "role-change" | "cohort-create" | "org-create" | "member-remove" | "sample-load", "detail": "…" }]
+  "audit":   [{ "at": "ISO", "action": "cohort-export" | "cohort-import" | "role-change" | "cohort-create" | "org-create" | "member-join" | "member-remove" | "sample-load", "detail": "…" }]
 }
 ```
 
@@ -39,7 +39,13 @@ One store, **`vr-org-v1`**, read and written through `gtStorage()` so it is priv
 - **Member** — joins with `enJoin(code, { name, role, local, consent })`. The name is what the person typed (initials
   are fine); the id is random and local. `local: true` marks the person training on this device, whose snapshot
   `enRefreshLocal()` recomputes from `records.js` on every render — **only while `consent.progress` is true**.
-  Turning consent off drops the snapshot.
+  Turning consent off drops the snapshot. A join is audited (`member-join`) on the device where it happens — the
+  learner's own when they join from the sign-in dialog.
+- **The learner's own view** — `enMyCohorts(records?)`: every cohort the person on this device joined, with the
+  organisation, the programme and its ladder (`[{ simId, state: "passed" | "tried" | "todo", stars, attempts }]`)
+  computed from **this device's records** and never stored. It is what the person sees of their own training, so the
+  sharing consent is not involved — that consent governs what the coordinator may see. The sign-in dialog and the
+  homepage's continue strip render it (section 2b).
 - **Roles** — `learner`, `instructor`, `coordinator`. Seats count learners only. `enSetRole` is audited.
 - **Snapshot** — `enSnapshot(records, programmeId)` is the data-minimised view of a record list: per station, attempts,
   best stars (and the unsafe actions on that best run), interruptions handled and missed, a pass flag, the last date.
@@ -88,6 +94,27 @@ markup from strings on this page, and a learner's display name is untrusted inpu
 
 Captures: `docs/img/enterprise/cohort-view.png`, `docs/img/enterprise/certificate-sample.png` (and the `.svg`).
 
+## 2b. The learner's side — the sign-in dialog and the homepage
+
+A learner does not need the instructor console to join. The shared sign-in dialog (`WebXR/shared/account.js`, on every
+page) carries **Join a cohort**: the invite code, a display name and the progress-sharing consent checkbox, off until
+ticked (`#gt-join-code`, `#gt-join-name`, `#gt-join-consent`, `#gt-join`). The join calls `enJoin(..., { local: true })`
+on this device's store; a wrong code is refused with the reason in the dialog's status line; the dialog then lists the
+cohorts joined here (`#gt-cohorts`: cohort, organisation, role, stations passed on this device, sharing state).
+`account.js` imports `org.js` statically, so `tools/bundle_webxr.py` gives every app that carries `account.js` the
+module (after `profiles.js`, `records.js` and `passport-programmes.js`, adding any it lacked) and copies it into
+`dist/shared/`.
+
+The homepage's continue strip shows **My cohorts** (`#hm-cont-cohorts`, one `.hm-cont-cohort` card per cohort joined on
+this device): the cohort and organisation (the organisation's colour as the card's tint), the programme, stations
+passed of total from this device's records, the sharing state, the ladder as rungs (`.hm-rung-passed` ★,
+`.hm-rung-tried` ·, `.hm-rung-todo`) and a link into the programme. It is built by `hmCohorts()` in the page's runtime
+script through a lazy import of `./shared/org.js`, string-built like the rest of that script, and reads nothing but the
+store of whoever is using the page.
+
+Captures: `docs/img/enterprise/dialog-join.png`, `docs/img/enterprise/home-my-cohort.png` (written by check 8 below
+with `EN_SHOTS=docs/img/enterprise`).
+
 ## 3. Deployment configuration — the `enterprise` block of `WebXR/auth-config.json`
 
 ```jsonc
@@ -134,3 +161,13 @@ certificate button), the certificate (well-formed SVG, both names, the prototype
 text, null for a partial programme), the config block honoured (`cleanEnterprise` drops junk, `enterpriseAllows`, the
 dialog hides switched-off methods, the homepage script and the console filter), and no network calls (a static scan of
 `org.js`, `cohort.js`, `privacy.html`; no identity-vendor name in this document or the block).
+
+Check 8 is the **live pass**, in headless Chromium against the flat build (`WebXR/dist`) on a temporary port, the way
+`check_home` runs: the deployment block (an organisation, `signInMethods: ["passkey","demo"]`, `defaultLanguage: "es"`,
+two worlds, two programmes) is injected by fulfilling the page's own request for `auth-config.json` — no file is
+touched. It asserts the console's deployment line and programme picker, the homepage's brand line, two world cards and
+two programme cards shown, the page in Spanish until the visitor picks, the dialog naming the organisation and offering
+exactly two methods; then a learner joins the sample cohort from the dialog (a wrong code refused first, consent off),
+and the homepage's continue strip shows the card with one rung per station, the join audited as `member-join` on that
+device and no snapshot stored. The console bundle's three.js import is answered from `WebXR/vendor/three/` so the run
+makes no external request. ~15 s on the shared machine.

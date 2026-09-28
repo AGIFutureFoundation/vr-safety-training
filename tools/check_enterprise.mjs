@@ -142,6 +142,14 @@ await check("the invite flow: normalised codes, a wrong code and a full cohort r
   assert(j1.ok, `join: ${j1.reason}`);
   eq(j1.member.consent.progress, false, "consent is off by default");
   eq(j1.member.progress, null, "no snapshot without consent");
+  eq(org.enAuditList()[0].action, "member-join", "a join is audited on the device where it happens");
+  // The learner's own view (the dialog, the homepage): their ladder from this device's records, consent or not.
+  const mine = org.enMyCohorts([{ id: "r0", at: "2026-04-01T10:00:00.000Z", simId: PP_PROGRAMMES["fall-protection"].stations[0], stars: 2, hazardHits: 0, passed: true }]);
+  eq(mine.length, 1, "one local cohort");
+  eq(mine[0].cohort.name, "Spring", "the cohort"); eq(mine[0].member.sharing, false, "not sharing");
+  eq(mine[0].passed, 1, "one station passed on this device"); eq(mine[0].total, PP_PROGRAMMES["fall-protection"].stations.length, "the ladder's length");
+  eq(mine[0].ladder[0].state, "passed", "the first rung"); eq(mine[0].ladder[1].state, "todo", "the second rung");
+  eq(org.enMembers(c.id).find((x) => x.id === j1.member.id).progress, null, "the learner's own view stores no snapshot");
   const j2 = org.enJoin(c.code, { name: "J. Two" });
   assert(!j2.ok && /seat/.test(j2.reason), "a full cohort is refused");
   const j3 = org.enJoin(c.code, { name: "Coach", role: "instructor" });
@@ -274,9 +282,14 @@ await check("the enterprise block is honoured: the cleaner, the dialog, the home
   const acct = read("WebXR/shared/account.js");
   assert(acct.includes("enterpriseAllows(cfg, m)") && acct.includes('allow("demo")') && acct.includes('allow("wallet")') && acct.includes('allow("google")'), "the dialog does not honour signInMethods");
   assert(acct.includes("gt-org") && acct.includes("gtPrivacyHref"), "the dialog does not show the organisation or link the privacy page");
+  // The learner's side: the dialog's join form (consent off until ticked) and the homepage's "My cohorts" card.
+  assert(acct.includes('id: "gt-join"') && acct.includes('id: "gt-join-consent", type: "checkbox"') && acct.includes("enJoin(code.value, { name: name.value, role: \"learner\", local: true, consent: consent.checked })"), "the dialog's join form");
+  assert(!/gt-join-consent[^\n]*checked: true/.test(acct), "the consent box is ticked by default");
+  assert(/for _en_cfg in APPS\.values\(\)/.test(read("tools/bundle_webxr.py")) && read("tools/bundle_webxr.py").includes('"org.js",'), "the bundler does not carry org.js with account.js and into dist/shared");
   const home = read("tools/gen_home.mjs");
   assert(home.includes("function hmApplyEnterprise(") && home.includes("hmApplyEnterprise(mod.Auth.config?.enterprise)"), "the homepage script does not apply the block");
   for (const k of ["e.organisation", "e.worlds", "e.programmes", "e.defaultLanguage"]) assert(home.includes(k), `the homepage ignores ${k}`);
+  assert(home.includes("function hmCohorts(") && home.includes('import("./shared/org.js").then(hmCohorts)') && home.includes('id="hm-cont-cohorts"'), "the homepage's continue strip does not show the learner's cohorts");
   assert(read("WebXR/index.html").includes("hmApplyEnterprise") && read("WebXR/home.html").includes("hmApplyEnterprise"), "the generated homepages are stale — run node tools/gen_home.mjs");
   eq(cohortView.enEnabledProgrammes({ programmes: ["fall-protection", "nope"] }).join(","), "fall-protection", "the console's programme filter");
   eq(cohortView.enEnabledProgrammes(null).length, Object.keys(PP_PROGRAMMES).length, "no block: every programme");
@@ -302,6 +315,113 @@ await check("no network call, no identity-vendor name, the privacy page exists a
   const vendors = /\b(okta|auth0|ping ?identity|onelogin|keycloak|entra|azure ad|active directory|cognito|firebase auth|clerk|workos)\b/i;
   for (const f of ["docs/enterprise.md", "WebXR/auth-config.json", "WebXR/shared/org.js", "WebXR/privacy.html", "WebXR/instructor/js/cohort.js"]) assert(!vendors.test(read(f)), `${f} names an identity vendor`);
   assert(/single sign-on/i.test(read("docs/enterprise.md")) && /configuration point/i.test(read("docs/enterprise.md")), "docs/enterprise.md does not document SSO as a configuration point");
+});
+
+// ---------------------------------------------------- 8. live, in a browser
+// The flat build as it ships (WebXR/dist), served from a temporary port; the
+// deployment block is injected by answering the page's own request for
+// auth-config.json, so no file is touched. Then a learner joins the sample
+// cohort from the sign-in dialog and finds it on the homepage's continue strip.
+await check("in a browser: the block on the homepage, in the dialog and in the console; a learner joins from the dialog and sees the cohort on the continue strip", async () => {
+  const { createServer } = await import("node:http");
+  const { statSync, mkdirSync } = await import("node:fs");
+  const { extname, normalize } = await import("node:path");
+  const WEBXR = join(ROOT, "WebXR");
+  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
+  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" });
+    res.end(readFileSync(file));
+  });
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  let browser;
+  try {
+    const { chromium } = await import(PW);
+    browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox"] });
+  } catch (e) { server.close(); throw new Error(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`); }
+  const homeHtml = read("WebXR/dist/index.html");
+  const progIds = [...new Set([...homeHtml.matchAll(/data-tr="prog\.([a-z0-9-]+)\./g)].map((m) => m[1]))].filter((id) => PP_PROGRAMMES[id]);
+  assert(progIds.length >= 2, "the homepage's finder carries fewer than two passport programmes");
+  const block = { organisation: "Harbour Training Hall", signInMethods: ["passkey", "demo"], defaultLanguage: "es", worlds: ["bayworld", "summit"], programmes: progIds.slice(0, 2), dataRetention: "kept on the device only", sso: { note: "verified on the host page" } };
+  const shots = process.env.EN_SHOTS ? (mkdirSync(process.env.EN_SHOTS, { recursive: true }), process.env.EN_SHOTS) : null;
+  const errors = [];
+  try {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+    // The console bundle imports three.js from its CDN (devices.js, eggs-app.js spell THREE.) — served from the
+    // vendored copy when there is one, else as an empty module: the Cohorts tab never touches it.
+    const three = ["WebXR/vendor/three/three.module.min.js", "WebXR/vendor/three/three.module.js"].find((f) => existsSync(join(ROOT, f)));
+    await context.route(/three\.module(\.min)?\.js$/, (r) => r.fulfill({ status: 200, contentType: "application/javascript", body: three ? read(three) : "export {};" }));
+    await context.route(/auth-config\.json(\?.*)?$/, (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...JSON.parse(read("WebXR/auth-config.json")), enterprise: block }) }));
+    const page = await context.newPage();
+    page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+    // The console honours the block and gives us the sample cohort's invite code.
+    await page.goto(`${base}/dist/instructor-console.html`, { waitUntil: "load", timeout: 30000 });
+    await page.click("#tab-cohort");
+    await page.waitForFunction(() => { const l = document.getElementById("en-deployment"); return l && !l.hidden && l.textContent.length > 0; }, null, { timeout: 10000 });
+    const consoleLine = await page.evaluate(() => document.getElementById("en-deployment").textContent);
+    assert(consoleLine.includes(block.organisation) && /2 programme/.test(consoleLine) && /default language es/.test(consoleLine), `the console's deployment line: ${consoleLine}`);
+    await page.click("text=Load sample cohort");
+    await page.waitForSelector("code.en-code", { timeout: 5000 });
+    const code = await page.evaluate(() => document.querySelector("code.en-code").textContent);
+    assert(/^[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(code), `invite code ${code}`);
+    const picker = await page.evaluate(() => [...document.querySelectorAll("#programme option")].map((o) => o.value).filter(Boolean));
+    assert(picker.length === 2 && picker.every((id) => block.programmes.includes(id)), `the console's programme picker lists ${picker.join(", ")}`);
+    // The homepage: brand line, hidden worlds, two programmes, Spanish until the visitor picks.
+    await page.goto(`${base}/dist/index.html`, { waitUntil: "load", timeout: 30000 });
+    await page.waitForFunction(() => document.documentElement.dataset.hmEnterprise === "named", null, { timeout: 10000 });
+    // The default language arrives through a lazy import of the language layer; give it a moment, not a fixed one.
+    await page.waitForFunction(() => document.documentElement.lang === "es", null, { timeout: 10000 }).catch(() => null);
+    const home = await page.evaluate(() => {
+      const shown = (sel) => [...document.querySelectorAll(sel)].filter((el) => getComputedStyle(el).display !== "none");
+      return { brand: document.querySelector(".brandline")?.textContent ?? "", worlds: document.querySelectorAll(".app.world").length, worldsShown: shown(".app.world").length, progs: document.querySelectorAll(".prog").length, progsShown: shown(".prog").length, lang: document.documentElement.lang, cohorts: document.getElementById("hm-cont-cohorts")?.hidden };
+    });
+    assert(home.brand.includes(block.organisation), `the brand line reads "${home.brand}"`);
+    eq(home.worldsShown, 2, `world cards shown of ${home.worlds}`);
+    eq(home.progsShown, 2, `programme cards shown of ${home.progs}`);
+    eq(home.lang, "es", "the page language before the visitor picks one");
+    eq(home.cohorts, true, "the continue strip shows cohorts before any was joined");
+    // The dialog: the organisation named, two methods, the join form.
+    await page.click("#gt-account");
+    await page.waitForFunction(() => { const d = document.getElementById("gt-dialog"); return d && !d.hidden && document.getElementById("gt-join-open"); }, null, { timeout: 10000 });
+    const dlg = await page.evaluate(() => ({ org: document.getElementById("gt-org")?.textContent ?? "", methods: [...document.querySelectorAll("#gt-dialog [data-provider]")].map((el) => el.getAttribute("data-provider")), form: document.getElementById("gt-join-form")?.hidden, consent: document.getElementById("gt-join-consent")?.checked }));
+    assert(dlg.org.includes(block.organisation), `the dialog says "${dlg.org}"`);
+    eq(dlg.methods.sort().join(","), "demo,passkey", "the methods the dialog offers");
+    eq(dlg.form, true, "the join form is folded until asked for");
+    eq(dlg.consent, false, "the consent box is off by default");
+    await page.click("#gt-join-open");
+    await page.fill("#gt-join-code", "ZZZZ-ZZZZ"); await page.fill("#gt-join-name", "E. Learner"); await page.click("#gt-join");
+    const refused = await page.evaluate(() => document.getElementById("gt-msg").textContent);
+    assert(/no cohort/i.test(refused), `a wrong code was not refused: "${refused}"`);
+    await page.fill("#gt-join-code", code.toLowerCase()); await page.click("#gt-join");
+    await page.waitForSelector("#gt-cohorts .gt-cohort", { timeout: 5000 });
+    const joined = await page.evaluate(() => ({ line: document.querySelector("#gt-cohorts .gt-cohort").textContent, msg: document.getElementById("gt-msg").textContent }));
+    assert(joined.line.includes("Sample cohort") && joined.line.includes("progress not shared") && /0 of \d+ stations/.test(joined.line), `the dialog's cohort line: ${joined.line}`);
+    assert(/joined Sample cohort/.test(joined.msg) && !/shared with/.test(joined.msg), `the join message: ${joined.msg}`);
+    if (shots) await page.screenshot({ path: join(shots, "dialog-join.png"), clip: { x: 420, y: 40, width: 440, height: 820 } });
+    // Back on the homepage: the card, the ladder, the audit line on this device.
+    await page.goto(`${base}/dist/index.html`, { waitUntil: "load", timeout: 30000 });
+    await page.waitForFunction(() => document.getElementById("continue")?.dataset.cohorts === "1", null, { timeout: 10000 });
+    const strip = await page.evaluate(async () => {
+      const o = await import("./shared/org.js");
+      const mine = o.enMyCohorts();
+      return { cards: document.querySelectorAll("#hm-cont-cohorts .hm-cont-cohort").length, rungs: document.querySelectorAll("#hm-cont-cohorts .hm-rung").length, text: document.getElementById("hm-cont-cohorts").textContent, stations: mine[0]?.total ?? -1, audit: o.enAuditList().map((a) => a.action), snapshot: (() => { const lm = o.enMembers(mine[0]?.cohort.id).find((m) => m.local); return lm ? lm.progress : "no local member"; })(), sideways: document.documentElement.scrollWidth - innerWidth };
+    });
+    eq(strip.cards, 1, "cohort cards on the continue strip");
+    eq(strip.rungs, strip.stations, "ladder rungs");
+    assert(strip.text.includes("Sample cohort") && strip.text.includes("Sample Organisation") && strip.text.includes("progress not shared"), `the card reads: ${strip.text}`);
+    eq(strip.audit[0], "member-join", "the join is audited on the learner's device");
+    eq(strip.snapshot, null, "a join without consent stores no snapshot");
+    assert(strip.sideways <= 1, `the homepage scrolls sideways by ${strip.sideways}px`);
+    if (shots) { await page.evaluate(() => document.getElementById("continue").scrollIntoView()); await page.waitForTimeout(200); await page.screenshot({ path: join(shots, "home-my-cohort.png"), fullPage: false }); }
+    await context.close();
+  } finally { await browser.close(); server.close(); }
+  eq(errors.length, 0, `page errors: ${errors.join(" | ")}`);
 });
 
 console.log(failures ? `\n${failures} organisation-layer check(s) failed.` : "\nAll organisation-layer checks pass.");
