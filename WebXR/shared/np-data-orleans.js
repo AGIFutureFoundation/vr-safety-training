@@ -29,62 +29,122 @@ export const NP_ORLEANS = {
  "start": "hospitality-row",
  "anchors": [
   {
-   "xz": [-353, 552],
-   "lonlat": [-90.065, 29.958],
+   "xz": [
+    -353,
+    552
+   ],
+   "lonlat": [
+    -90.065,
+    29.958
+   ],
    "approximate": true,
    "name": "French Quarter"
   },
   {
-   "xz": [-805, 779],
-   "lonlat": [-90.081, 29.951],
+   "xz": [
+    -805,
+    779
+   ],
+   "lonlat": [
+    -90.081,
+    29.951
+   ],
    "approximate": true,
    "name": "the stadium district"
   },
   {
-   "xz": [14, 682],
-   "lonlat": [-90.052, 29.954],
+   "xz": [
+    14,
+    682
+   ],
+   "lonlat": [
+    -90.052,
+    29.954
+   ],
    "approximate": true,
    "name": "Algiers Point"
   },
   {
-   "xz": [-1201, -649],
-   "lonlat": [-90.095, 29.995],
+   "xz": [
+    -1201,
+    -649
+   ],
+   "lonlat": [
+    -90.095,
+    29.995
+   ],
    "approximate": true,
    "name": "City Park"
   },
   {
-   "xz": [-494, -1720],
-   "lonlat": [-90.07, 30.028],
+   "xz": [
+    -494,
+    -1720
+   ],
+   "lonlat": [
+    -90.07,
+    30.028
+   ],
    "approximate": true,
    "name": "the lakefront"
   },
   {
-   "xz": [-2020, -552],
-   "lonlat": [-90.124, 29.992],
+   "xz": [
+    -2020,
+    -552
+   ],
+   "lonlat": [
+    -90.124,
+    29.992
+   ],
    "approximate": true,
-   "name": "the 17th Street Canal at the parish line"
+   "name": "the Seventeenth Street Canal at the parish line"
   },
   {
-   "xz": [692, 422],
-   "lonlat": [-90.028, 29.962],
+   "xz": [
+    692,
+    422
+   ],
+   "lonlat": [
+    -90.028,
+    29.962
+   ],
    "approximate": true,
    "name": "the Industrial Canal lock"
   },
   {
-   "xz": [-2048, 1363],
-   "lonlat": [-90.125, 29.933],
+   "xz": [
+    -2048,
+    1363
+   ],
+   "lonlat": [
+    -90.125,
+    29.933
+   ],
    "approximate": true,
    "name": "Audubon Park and the university campuses"
   },
   {
-   "xz": [1709, -389],
-   "lonlat": [-89.992, 29.987],
+   "xz": [
+    1709,
+    -389
+   ],
+   "lonlat": [
+    -89.992,
+    29.987
+   ],
    "approximate": true,
    "name": "the Bayou Bienvenue wetland"
   },
   {
-   "xz": [-212, 1039],
-   "lonlat": [-90.06, 29.943],
+   "xz": [
+    -212,
+    1039
+   ],
+   "lonlat": [
+    -90.06,
+    29.943
+   ],
    "approximate": true,
    "name": "the Crescent City Connection"
   }
@@ -95,19 +155,58 @@ export const NP_ORLEANS = {
    "kind": "river",
    "name": "Mississippi River",
    "poly": [
-    [-2048, 2048],
-    [-1624, 2045],
-    [-1201, 1753],
-    [-777, 1461],
-    [-494, 1136],
-    [-268, 909],
-    [-71, 714],
-    [155, 584],
-    [410, 552],
-    [692, 617],
-    [1059, 747],
-    [1483, 844],
-    [2048, 974]
+    [
+     -2048,
+     2048
+    ],
+    [
+     -1624,
+     2045
+    ],
+    [
+     -1201,
+     1753
+    ],
+    [
+     -777,
+     1461
+    ],
+    [
+     -494,
+     1136
+    ],
+    [
+     -268,
+     909
+    ],
+    [
+     -71,
+     714
+    ],
+    [
+     155,
+     584
+    ],
+    [
+     410,
+     552
+    ],
+    [
+     692,
+     617
+    ],
+    [
+     1059,
+     747
+    ],
+    [
+     1483,
+     844
+    ],
+    [
+     2048,
+     974
+    ]
    ],
    "width": 200
   },
@@ -116,28 +215,73 @@ export const NP_ORLEANS = {
    "kind": "lake",
    "name": "Lake Pontchartrain",
    "poly": [
-    [-2048, -1461],
-    [-1624, -1590],
-    [-1201, -1655],
-    [-636, -1753],
-    [-212, -1785],
-    [212, -1818],
-    [636, -1818],
-    [1059, -1980],
-    [1624, -2048],
-    [2048, -2048],
-    [2048, -2048],
-    [-2048, -2048]
+    [
+     -2048,
+     -1461
+    ],
+    [
+     -1624,
+     -1590
+    ],
+    [
+     -1201,
+     -1655
+    ],
+    [
+     -636,
+     -1753
+    ],
+    [
+     -212,
+     -1785
+    ],
+    [
+     212,
+     -1818
+    ],
+    [
+     636,
+     -1818
+    ],
+    [
+     1059,
+     -1980
+    ],
+    [
+     1624,
+     -2048
+    ],
+    [
+     2048,
+     -2048
+    ],
+    [
+     2048,
+     -2048
+    ],
+    [
+     -2048,
+     -2048
+    ]
    ]
   },
   {
    "id": "seventeenth-street-canal",
    "kind": "canal",
-   "name": "17th Street Canal",
+   "name": "Seventeenth Street Canal",
    "poly": [
-    [-1991, -1493],
-    [-1991, -974],
-    [-2020, -552]
+    [
+     -1991,
+     -1493
+    ],
+    [
+     -1991,
+     -974
+    ],
+    [
+     -2020,
+     -552
+    ]
    ],
    "width": 36
   },
@@ -146,9 +290,18 @@ export const NP_ORLEANS = {
    "kind": "canal",
    "name": "Orleans Avenue Canal",
    "poly": [
-    [-1201, -1655],
-    [-1172, -974],
-    [-1172, -487]
+    [
+     -1201,
+     -1655
+    ],
+    [
+     -1172,
+     -974
+    ],
+    [
+     -1172,
+     -487
+    ]
    ],
    "width": 30
   },
@@ -157,9 +310,18 @@ export const NP_ORLEANS = {
    "kind": "canal",
    "name": "London Avenue Canal",
    "poly": [
-    [-212, -1785],
-    [-184, -1136],
-    [-240, -584]
+    [
+     -212,
+     -1785
+    ],
+    [
+     -184,
+     -1136
+    ],
+    [
+     -240,
+     -584
+    ]
    ],
    "width": 30
   },
@@ -168,10 +330,22 @@ export const NP_ORLEANS = {
    "kind": "canal",
    "name": "Industrial Canal",
    "poly": [
-    [692, 649],
-    [692, 0],
-    [664, -811],
-    [607, -1818]
+    [
+     692,
+     649
+    ],
+    [
+     692,
+     0
+    ],
+    [
+     664,
+     -811
+    ],
+    [
+     607,
+     -1818
+    ]
    ],
    "width": 60
   },
@@ -180,9 +354,18 @@ export const NP_ORLEANS = {
    "kind": "canal",
    "name": "the Intracoastal Waterway",
    "poly": [
-    [664, -487],
-    [1201, -519],
-    [2048, -552]
+    [
+     664,
+     -487
+    ],
+    [
+     1201,
+     -519
+    ],
+    [
+     2048,
+     -552
+    ]
    ],
    "width": 60
   },
@@ -191,11 +374,26 @@ export const NP_ORLEANS = {
    "kind": "bayou",
    "name": "Bayou St. John",
    "poly": [
-    [-777, -1655],
-    [-833, -1136],
-    [-946, -649],
-    [-1059, -260],
-    [-1144, 32]
+    [
+     -777,
+     -1655
+    ],
+    [
+     -833,
+     -1136
+    ],
+    [
+     -946,
+     -649
+    ],
+    [
+     -1059,
+     -260
+    ],
+    [
+     -1144,
+     32
+    ]
    ],
    "width": 26
   },
@@ -204,11 +402,26 @@ export const NP_ORLEANS = {
    "kind": "wetland",
    "name": "Bayou Bienvenue wetland",
    "poly": [
-    [918, -97],
-    [2048, -97],
-    [2048, -422],
-    [1342, -422],
-    [918, -292]
+    [
+     918,
+     -97
+    ],
+    [
+     2048,
+     -97
+    ],
+    [
+     2048,
+     -422
+    ],
+    [
+     1342,
+     -422
+    ],
+    [
+     918,
+     -292
+    ]
    ]
   },
   {
@@ -216,12 +429,30 @@ export const NP_ORLEANS = {
    "kind": "wetland",
    "name": "the eastern lakefront marsh",
    "poly": [
-    [918, -974],
-    [2048, -941],
-    [2048, -2045],
-    [1624, -1980],
-    [1059, -1785],
-    [805, -1396]
+    [
+     918,
+     -974
+    ],
+    [
+     2048,
+     -941
+    ],
+    [
+     2048,
+     -2045
+    ],
+    [
+     1624,
+     -1980
+    ],
+    [
+     1059,
+     -1785
+    ],
+    [
+     805,
+     -1396
+    ]
    ]
   }
  ],
@@ -231,15 +462,42 @@ export const NP_ORLEANS = {
    "name": "the east-bank river levee",
    "height": 6,
    "pts": [
-    [-1557, 2048],
-    [-1134, 1850],
-    [-699, 1550],
-    [-407, 1216],
-    [-185, 993],
-    [1, 808],
-    [193, 696],
-    [403, 670],
-    [665, 732]
+    [
+     -1557,
+     2048
+    ],
+    [
+     -1134,
+     1850
+    ],
+    [
+     -699,
+     1550
+    ],
+    [
+     -407,
+     1216
+    ],
+    [
+     -185,
+     993
+    ],
+    [
+     1,
+     808
+    ],
+    [
+     193,
+     696
+    ],
+    [
+     403,
+     670
+    ],
+    [
+     665,
+     732
+    ]
    ]
   },
   {
@@ -247,10 +505,22 @@ export const NP_ORLEANS = {
    "name": "the Holy Cross river levee",
    "height": 6,
    "pts": [
-    [653, 728],
-    [1026, 860],
-    [1457, 959],
-    [2022, 1089]
+    [
+     653,
+     728
+    ],
+    [
+     1026,
+     860
+    ],
+    [
+     1457,
+     959
+    ],
+    [
+     2022,
+     1089
+    ]
    ]
   },
   {
@@ -258,17 +528,50 @@ export const NP_ORLEANS = {
    "name": "the Algiers river levee",
    "height": 6,
    "pts": [
-    [-1268, 1656],
-    [-855, 1372],
-    [-581, 1056],
-    [-351, 825],
-    [-143, 620],
-    [117, 472],
-    [417, 434],
-    [726, 504],
-    [1092, 634],
-    [1509, 729],
-    [2048, 859]
+    [
+     -1268,
+     1656
+    ],
+    [
+     -855,
+     1372
+    ],
+    [
+     -581,
+     1056
+    ],
+    [
+     -351,
+     825
+    ],
+    [
+     -143,
+     620
+    ],
+    [
+     117,
+     472
+    ],
+    [
+     417,
+     434
+    ],
+    [
+     726,
+     504
+    ],
+    [
+     1092,
+     634
+    ],
+    [
+     1509,
+     729
+    ],
+    [
+     2048,
+     859
+    ]
    ]
   },
   {
@@ -276,26 +579,65 @@ export const NP_ORLEANS = {
    "name": "the lakefront levee and seawall",
    "height": 5,
    "pts": [
-    [-2048, -1331],
-    [-1624, -1461],
-    [-1201, -1525],
-    [-636, -1623],
-    [-212, -1655],
-    [212, -1688],
-    [636, -1688],
-    [1059, -1850],
-    [1624, -2012],
-    [2048, -2048]
+    [
+     -2048,
+     -1331
+    ],
+    [
+     -1624,
+     -1461
+    ],
+    [
+     -1201,
+     -1525
+    ],
+    [
+     -636,
+     -1623
+    ],
+    [
+     -212,
+     -1655
+    ],
+    [
+     212,
+     -1688
+    ],
+    [
+     636,
+     -1688
+    ],
+    [
+     1059,
+     -1850
+    ],
+    [
+     1624,
+     -2012
+    ],
+    [
+     2048,
+     -2048
+    ]
    ]
   },
   {
    "id": "seventeenth-street-floodwall-east",
-   "name": "the 17th Street Canal floodwall",
+   "name": "the Seventeenth Street Canal floodwall",
    "height": 4,
    "pts": [
-    [-1949, -1396],
-    [-1949, -974],
-    [-1977, -552]
+    [
+     -1949,
+     -1396
+    ],
+    [
+     -1949,
+     -974
+    ],
+    [
+     -1977,
+     -552
+    ]
    ]
   },
   {
@@ -303,9 +645,18 @@ export const NP_ORLEANS = {
    "name": "the Orleans Avenue Canal floodwalls",
    "height": 4,
    "pts": [
-    [-1158, -1525],
-    [-1130, -974],
-    [-1130, -487]
+    [
+     -1158,
+     -1525
+    ],
+    [
+     -1130,
+     -974
+    ],
+    [
+     -1130,
+     -487
+    ]
    ]
   },
   {
@@ -313,9 +664,18 @@ export const NP_ORLEANS = {
    "name": "the London Avenue Canal floodwalls",
    "height": 4,
    "pts": [
-    [-169, -1655],
-    [-141, -1136],
-    [-198, -584]
+    [
+     -169,
+     -1655
+    ],
+    [
+     -141,
+     -1136
+    ],
+    [
+     -198,
+     -584
+    ]
    ]
   },
   {
@@ -323,10 +683,22 @@ export const NP_ORLEANS = {
    "name": "the Industrial Canal west floodwall",
    "height": 5,
    "pts": [
-    [621, 487],
-    [621, 0],
-    [593, -811],
-    [537, -1688]
+    [
+     621,
+     487
+    ],
+    [
+     621,
+     0
+    ],
+    [
+     593,
+     -811
+    ],
+    [
+     537,
+     -1688
+    ]
    ]
   },
   {
@@ -334,10 +706,22 @@ export const NP_ORLEANS = {
    "name": "the Industrial Canal east floodwall",
    "height": 5,
    "pts": [
-    [763, 487],
-    [763, 0],
-    [734, -811],
-    [678, -1688]
+    [
+     763,
+     487
+    ],
+    [
+     763,
+     0
+    ],
+    [
+     734,
+     -811
+    ],
+    [
+     678,
+     -1688
+    ]
    ]
   }
  ],
@@ -347,14 +731,38 @@ export const NP_ORLEANS = {
    "name": "Interstate 10",
    "kind": "interstate",
    "pts": [
-    [-2048, -649],
-    [-1483, -487],
-    [-1059, -32],
-    [-777, 292],
-    [-494, 519],
-    [-212, 227],
-    [212, -97],
-    [494, -292]
+    [
+     -2048,
+     -649
+    ],
+    [
+     -1483,
+     -487
+    ],
+    [
+     -1059,
+     -32
+    ],
+    [
+     -777,
+     292
+    ],
+    [
+     -494,
+     519
+    ],
+    [
+     -212,
+     227
+    ],
+    [
+     212,
+     -97
+    ],
+    [
+     494,
+     -292
+    ]
    ]
   },
   {
@@ -362,9 +770,18 @@ export const NP_ORLEANS = {
    "name": "Interstate 10 High Rise",
    "kind": "bridge",
    "pts": [
-    [494, -292],
-    [692, -357],
-    [918, -389]
+    [
+     494,
+     -292
+    ],
+    [
+     692,
+     -357
+    ],
+    [
+     918,
+     -389
+    ]
    ]
   },
   {
@@ -372,9 +789,18 @@ export const NP_ORLEANS = {
    "name": "Interstate 10 east",
    "kind": "interstate",
    "pts": [
-    [918, -389],
-    [1483, -487],
-    [2048, -519]
+    [
+     918,
+     -389
+    ],
+    [
+     1483,
+     -487
+    ],
+    [
+     2048,
+     -519
+    ]
    ]
   },
   {
@@ -382,11 +808,26 @@ export const NP_ORLEANS = {
    "name": "Interstate 610",
    "kind": "interstate",
    "pts": [
-    [-1794, -779],
-    [-1059, -844],
-    [-212, -811],
-    [212, -552],
-    [353, -195]
+    [
+     -1794,
+     -779
+    ],
+    [
+     -1059,
+     -844
+    ],
+    [
+     -212,
+     -811
+    ],
+    [
+     212,
+     -552
+    ],
+    [
+     353,
+     -195
+    ]
    ]
   },
   {
@@ -394,10 +835,22 @@ export const NP_ORLEANS = {
    "name": "Pontchartrain Expressway",
    "kind": "interstate",
    "pts": [
-    [-1059, -32],
-    [-833, 487],
-    [-607, 779],
-    [-438, 876]
+    [
+     -1059,
+     -32
+    ],
+    [
+     -833,
+     487
+    ],
+    [
+     -607,
+     779
+    ],
+    [
+     -438,
+     876
+    ]
    ]
   },
   {
@@ -405,9 +858,18 @@ export const NP_ORLEANS = {
    "name": "Crescent City Connection",
    "kind": "bridge",
    "pts": [
-    [-438, 876],
-    [-212, 1039],
-    [14, 1201]
+    [
+     -438,
+     876
+    ],
+    [
+     -212,
+     1039
+    ],
+    [
+     14,
+     1201
+    ]
    ]
   },
   {
@@ -415,9 +877,18 @@ export const NP_ORLEANS = {
    "name": "West Bank Expressway",
    "kind": "interstate",
    "pts": [
-    [14, 1201],
-    [127, 1525],
-    [268, 2045]
+    [
+     14,
+     1201
+    ],
+    [
+     127,
+     1525
+    ],
+    [
+     268,
+     2045
+    ]
    ]
   },
   {
@@ -425,11 +896,26 @@ export const NP_ORLEANS = {
    "name": "Canal Street",
    "kind": "avenue",
    "pts": [
-    [-311, 763],
-    [-636, 552],
-    [-1059, 325],
-    [-1483, 65],
-    [-1907, -162]
+    [
+     -311,
+     763
+    ],
+    [
+     -636,
+     552
+    ],
+    [
+     -1059,
+     325
+    ],
+    [
+     -1483,
+     65
+    ],
+    [
+     -1907,
+     -162
+    ]
    ]
   },
   {
@@ -437,11 +923,26 @@ export const NP_ORLEANS = {
    "name": "St. Charles Avenue",
    "kind": "avenue",
    "pts": [
-    [-551, 844],
-    [-918, 1201],
-    [-1342, 1428],
-    [-1765, 1493],
-    [-2048, 1428]
+    [
+     -551,
+     844
+    ],
+    [
+     -918,
+     1201
+    ],
+    [
+     -1342,
+     1428
+    ],
+    [
+     -1765,
+     1493
+    ],
+    [
+     -2048,
+     1428
+    ]
    ]
   },
   {
@@ -449,10 +950,22 @@ export const NP_ORLEANS = {
    "name": "Esplanade Avenue",
    "kind": "avenue",
    "pts": [
-    [-155, 454],
-    [-494, 227],
-    [-777, 0],
-    [-1059, -227]
+    [
+     -155,
+     454
+    ],
+    [
+     -494,
+     227
+    ],
+    [
+     -777,
+     0
+    ],
+    [
+     -1059,
+     -227
+    ]
    ]
   },
   {
@@ -460,10 +973,22 @@ export const NP_ORLEANS = {
    "name": "Elysian Fields Avenue",
    "kind": "avenue",
    "pts": [
-    [-99, 422],
-    [-155, -162],
-    [-212, -811],
-    [-268, -1623]
+    [
+     -99,
+     422
+    ],
+    [
+     -155,
+     -162
+    ],
+    [
+     -212,
+     -811
+    ],
+    [
+     -268,
+     -1623
+    ]
    ]
   },
   {
@@ -471,11 +996,26 @@ export const NP_ORLEANS = {
    "name": "Carrollton Avenue",
    "kind": "avenue",
    "pts": [
-    [-1822, 1266],
-    [-1568, 649],
-    [-1427, 97],
-    [-1342, -487],
-    [-1285, -1396]
+    [
+     -1822,
+     1266
+    ],
+    [
+     -1568,
+     649
+    ],
+    [
+     -1427,
+     97
+    ],
+    [
+     -1342,
+     -487
+    ],
+    [
+     -1285,
+     -1396
+    ]
    ]
   },
   {
@@ -483,12 +1023,30 @@ export const NP_ORLEANS = {
    "name": "Claiborne Avenue",
    "kind": "avenue",
    "pts": [
-    [-1624, 1136],
-    [-1201, 779],
-    [-777, 487],
-    [-353, 325],
-    [71, 227],
-    [523, 162]
+    [
+     -1624,
+     1136
+    ],
+    [
+     -1201,
+     779
+    ],
+    [
+     -777,
+     487
+    ],
+    [
+     -353,
+     325
+    ],
+    [
+     71,
+     227
+    ],
+    [
+     523,
+     162
+    ]
    ]
   },
   {
@@ -496,9 +1054,18 @@ export const NP_ORLEANS = {
    "name": "Claiborne Avenue Bridge",
    "kind": "bridge",
    "pts": [
-    [523, 162],
-    [692, 162],
-    [862, 162]
+    [
+     523,
+     162
+    ],
+    [
+     692,
+     162
+    ],
+    [
+     862,
+     162
+    ]
    ]
   },
   {
@@ -506,9 +1073,18 @@ export const NP_ORLEANS = {
    "name": "Claiborne Avenue east",
    "kind": "avenue",
    "pts": [
-    [862, 162],
-    [1483, 162],
-    [2048, 195]
+    [
+     862,
+     162
+    ],
+    [
+     1483,
+     162
+    ],
+    [
+     2048,
+     195
+    ]
    ]
   },
   {
@@ -516,9 +1092,18 @@ export const NP_ORLEANS = {
    "name": "St. Claude Avenue",
    "kind": "avenue",
    "pts": [
-    [-212, 389],
-    [127, 357],
-    [523, 325]
+    [
+     -212,
+     389
+    ],
+    [
+     127,
+     357
+    ],
+    [
+     523,
+     325
+    ]
    ]
   },
   {
@@ -526,9 +1111,18 @@ export const NP_ORLEANS = {
    "name": "St. Claude Avenue Bridge",
    "kind": "bridge",
    "pts": [
-    [523, 325],
-    [692, 325],
-    [862, 325]
+    [
+     523,
+     325
+    ],
+    [
+     692,
+     325
+    ],
+    [
+     862,
+     325
+    ]
    ]
   },
   {
@@ -536,9 +1130,18 @@ export const NP_ORLEANS = {
    "name": "St. Claude Avenue east",
    "kind": "avenue",
    "pts": [
-    [862, 325],
-    [1483, 325],
-    [2048, 325]
+    [
+     862,
+     325
+    ],
+    [
+     1483,
+     325
+    ],
+    [
+     2048,
+     325
+    ]
    ]
   },
   {
@@ -546,10 +1149,22 @@ export const NP_ORLEANS = {
    "name": "Broad Street",
    "kind": "avenue",
    "pts": [
-    [-1483, 811],
-    [-1201, 422],
-    [-918, 0],
-    [-636, -389]
+    [
+     -1483,
+     811
+    ],
+    [
+     -1201,
+     422
+    ],
+    [
+     -918,
+     0
+    ],
+    [
+     -636,
+     -389
+    ]
    ]
   },
   {
@@ -557,10 +1172,22 @@ export const NP_ORLEANS = {
    "name": "Tulane Avenue",
    "kind": "avenue",
    "pts": [
-    [-523, 714],
-    [-1059, 389],
-    [-1483, 162],
-    [-1907, -32]
+    [
+     -523,
+     714
+    ],
+    [
+     -1059,
+     389
+    ],
+    [
+     -1483,
+     162
+    ],
+    [
+     -1907,
+     -32
+    ]
    ]
   },
   {
@@ -568,9 +1195,18 @@ export const NP_ORLEANS = {
    "name": "Poydras Street",
    "kind": "street",
    "pts": [
-    [-339, 779],
-    [-579, 682],
-    [-833, 584]
+    [
+     -339,
+     779
+    ],
+    [
+     -579,
+     682
+    ],
+    [
+     -833,
+     584
+    ]
    ]
   },
   {
@@ -578,11 +1214,26 @@ export const NP_ORLEANS = {
    "name": "Magazine Street",
    "kind": "street",
    "pts": [
-    [-381, 860],
-    [-777, 1168],
-    [-1201, 1461],
-    [-1568, 1672],
-    [-2048, 1753]
+    [
+     -381,
+     860
+    ],
+    [
+     -777,
+     1168
+    ],
+    [
+     -1201,
+     1461
+    ],
+    [
+     -1568,
+     1672
+    ],
+    [
+     -2048,
+     1753
+    ]
    ]
   },
   {
@@ -590,9 +1241,18 @@ export const NP_ORLEANS = {
    "name": "Decatur Street",
    "kind": "street",
    "pts": [
-    [-339, 714],
-    [-212, 584],
-    [-99, 438]
+    [
+     -339,
+     714
+    ],
+    [
+     -212,
+     584
+    ],
+    [
+     -99,
+     438
+    ]
    ]
   },
   {
@@ -600,9 +1260,18 @@ export const NP_ORLEANS = {
    "name": "Rampart Street",
    "kind": "street",
    "pts": [
-    [-508, 600],
-    [-395, 471],
-    [-297, 325]
+    [
+     -508,
+     600
+    ],
+    [
+     -395,
+     471
+    ],
+    [
+     -297,
+     325
+    ]
    ]
   },
   {
@@ -610,10 +1279,22 @@ export const NP_ORLEANS = {
    "name": "St. Bernard Avenue",
    "kind": "avenue",
    "pts": [
-    [-325, 292],
-    [-155, -227],
-    [14, -811],
-    [127, -1623]
+    [
+     -325,
+     292
+    ],
+    [
+     -155,
+     -227
+    ],
+    [
+     14,
+     -811
+    ],
+    [
+     127,
+     -1623
+    ]
    ]
   },
   {
@@ -621,10 +1302,22 @@ export const NP_ORLEANS = {
    "name": "Gentilly Boulevard",
    "kind": "avenue",
    "pts": [
-    [-1201, -487],
-    [-636, -682],
-    [-71, -811],
-    [523, -974]
+    [
+     -1201,
+     -487
+    ],
+    [
+     -636,
+     -682
+    ],
+    [
+     -71,
+     -811
+    ],
+    [
+     523,
+     -974
+    ]
    ]
   },
   {
@@ -632,9 +1325,18 @@ export const NP_ORLEANS = {
    "name": "the Chef Menteur Highway canal bridge",
    "kind": "bridge",
    "pts": [
-    [523, -974],
-    [636, -990],
-    [749, -974]
+    [
+     523,
+     -974
+    ],
+    [
+     636,
+     -990
+    ],
+    [
+     749,
+     -974
+    ]
    ]
   },
   {
@@ -642,9 +1344,18 @@ export const NP_ORLEANS = {
    "name": "Chef Menteur Highway",
    "kind": "avenue",
    "pts": [
-    [749, -974],
-    [1483, -909],
-    [2048, -811]
+    [
+     749,
+     -974
+    ],
+    [
+     1483,
+     -909
+    ],
+    [
+     2048,
+     -811
+    ]
    ]
   },
   {
@@ -652,13 +1363,34 @@ export const NP_ORLEANS = {
    "name": "Lakeshore Drive",
    "kind": "avenue",
    "pts": [
-    [-2020, -1363],
-    [-1624, -1493],
-    [-1201, -1558],
-    [-636, -1655],
-    [-212, -1688],
-    [212, -1720],
-    [523, -1688]
+    [
+     -2020,
+     -1363
+    ],
+    [
+     -1624,
+     -1493
+    ],
+    [
+     -1201,
+     -1558
+    ],
+    [
+     -636,
+     -1655
+    ],
+    [
+     -212,
+     -1688
+    ],
+    [
+     212,
+     -1720
+    ],
+    [
+     523,
+     -1688
+    ]
    ]
   },
   {
@@ -666,9 +1398,18 @@ export const NP_ORLEANS = {
    "name": "General de Gaulle Drive",
    "kind": "avenue",
    "pts": [
-    [71, 1266],
-    [494, 1396],
-    [918, 1525]
+    [
+     71,
+     1266
+    ],
+    [
+     494,
+     1396
+    ],
+    [
+     918,
+     1525
+    ]
    ]
   },
   {
@@ -676,11 +1417,26 @@ export const NP_ORLEANS = {
    "name": "Patterson Drive",
    "kind": "riverroad",
    "pts": [
-    [-99, 1006],
-    [99, 844],
-    [353, 747],
-    [636, 811],
-    [918, 941]
+    [
+     -99,
+     1006
+    ],
+    [
+     99,
+     844
+    ],
+    [
+     353,
+     747
+    ],
+    [
+     636,
+     811
+    ],
+    [
+     918,
+     941
+    ]
    ]
   },
   {
@@ -688,10 +1444,22 @@ export const NP_ORLEANS = {
    "name": "the Holy Cross river road",
    "kind": "riverroad",
    "pts": [
-    [805, 503],
-    [1144, 600],
-    [1483, 665],
-    [2048, 795]
+    [
+     805,
+     503
+    ],
+    [
+     1144,
+     600
+    ],
+    [
+     1483,
+     665
+    ],
+    [
+     2048,
+     795
+    ]
    ]
   },
   {
@@ -699,10 +1467,22 @@ export const NP_ORLEANS = {
    "name": "the riverfront wharf road",
    "kind": "riverroad",
    "pts": [
-    [-1342, 1542],
-    [-946, 1282],
-    [-636, 1022],
-    [-438, 828]
+    [
+     -1342,
+     1542
+    ],
+    [
+     -946,
+     1282
+    ],
+    [
+     -636,
+     1022
+    ],
+    [
+     -438,
+     828
+    ]
    ]
   },
   {
@@ -710,9 +1490,18 @@ export const NP_ORLEANS = {
    "name": "Canal Street Ferry",
    "kind": "ferry",
    "pts": [
-    [-339, 844],
-    [-155, 811],
-    [0, 795]
+    [
+     -339,
+     844
+    ],
+    [
+     -155,
+     811
+    ],
+    [
+     0,
+     795
+    ]
    ]
   }
  ],
@@ -722,10 +1511,22 @@ export const NP_ORLEANS = {
    "name": "French Quarter",
    "character": "quarter",
    "poly": [
-    [-508, 600],
-    [-297, 308],
-    [-99, 438],
-    [-339, 730]
+    [
+     -508,
+     600
+    ],
+    [
+     -297,
+     308
+    ],
+    [
+     -99,
+     438
+    ],
+    [
+     -339,
+     730
+    ]
    ]
   },
   {
@@ -733,10 +1534,22 @@ export const NP_ORLEANS = {
    "name": "Tremé",
    "character": "quarter",
    "poly": [
-    [-720, 422],
-    [-508, 600],
-    [-297, 308],
-    [-551, 97]
+    [
+     -720,
+     422
+    ],
+    [
+     -508,
+     600
+    ],
+    [
+     -297,
+     308
+    ],
+    [
+     -551,
+     97
+    ]
    ]
   },
   {
@@ -744,12 +1557,30 @@ export const NP_ORLEANS = {
    "name": "Marigny and Bywater",
    "character": "quarter",
    "poly": [
-    [-99, 438],
-    [-297, 308],
-    [71, 130],
-    [579, 243],
-    [579, 454],
-    [184, 487]
+    [
+     -99,
+     438
+    ],
+    [
+     -297,
+     308
+    ],
+    [
+     71,
+     130
+    ],
+    [
+     579,
+     243
+    ],
+    [
+     579,
+     454
+    ],
+    [
+     184,
+     487
+    ]
    ]
   },
   {
@@ -757,11 +1588,26 @@ export const NP_ORLEANS = {
    "name": "Central Business District",
    "character": "downtown",
    "poly": [
-    [-508, 600],
-    [-339, 730],
-    [-494, 957],
-    [-777, 844],
-    [-890, 682]
+    [
+     -508,
+     600
+    ],
+    [
+     -339,
+     730
+    ],
+    [
+     -494,
+     957
+    ],
+    [
+     -777,
+     844
+    ],
+    [
+     -890,
+     682
+    ]
    ]
   },
   {
@@ -769,14 +1615,38 @@ export const NP_ORLEANS = {
    "name": "Garden District and Uptown",
    "character": "garden",
    "poly": [
-    [-890, 682],
-    [-777, 844],
-    [-494, 957],
-    [-720, 1136],
-    [-1144, 1428],
-    [-1624, 1623],
-    [-1737, 1396],
-    [-1342, 974]
+    [
+     -890,
+     682
+    ],
+    [
+     -777,
+     844
+    ],
+    [
+     -494,
+     957
+    ],
+    [
+     -720,
+     1136
+    ],
+    [
+     -1144,
+     1428
+    ],
+    [
+     -1624,
+     1623
+    ],
+    [
+     -1737,
+     1396
+    ],
+    [
+     -1342,
+     974
+    ]
    ]
   },
   {
@@ -784,11 +1654,26 @@ export const NP_ORLEANS = {
    "name": "the university campuses and Audubon Park",
    "character": "campus",
    "poly": [
-    [-1737, 1396],
-    [-1624, 1623],
-    [-1850, 1753],
-    [-2048, 1558],
-    [-2048, 1201]
+    [
+     -1737,
+     1396
+    ],
+    [
+     -1624,
+     1623
+    ],
+    [
+     -1850,
+     1753
+    ],
+    [
+     -2048,
+     1558
+    ],
+    [
+     -2048,
+     1201
+    ]
    ]
   },
   {
@@ -796,10 +1681,22 @@ export const NP_ORLEANS = {
    "name": "the medical district",
    "character": "campus",
    "poly": [
-    [-890, 682],
-    [-720, 422],
-    [-551, 536],
-    [-621, 714]
+    [
+     -890,
+     682
+    ],
+    [
+     -720,
+     422
+    ],
+    [
+     -551,
+     536
+    ],
+    [
+     -621,
+     714
+    ]
    ]
   },
   {
@@ -807,14 +1704,38 @@ export const NP_ORLEANS = {
    "name": "Mid-City",
    "character": "suburb",
    "poly": [
-    [-1737, 1396],
-    [-1342, 974],
-    [-890, 682],
-    [-720, 422],
-    [-551, 97],
-    [-1059, -357],
-    [-1568, -292],
-    [-1850, 162]
+    [
+     -1737,
+     1396
+    ],
+    [
+     -1342,
+     974
+    ],
+    [
+     -890,
+     682
+    ],
+    [
+     -720,
+     422
+    ],
+    [
+     -551,
+     97
+    ],
+    [
+     -1059,
+     -357
+    ],
+    [
+     -1568,
+     -292
+    ],
+    [
+     -1850,
+     162
+    ]
    ]
   },
   {
@@ -822,16 +1743,46 @@ export const NP_ORLEANS = {
    "name": "Lakeview, Gentilly and the lakefront",
    "character": "suburb",
    "poly": [
-    [-2020, -487],
-    [-1568, -292],
-    [-1059, -357],
-    [-551, 97],
-    [71, 130],
-    [466, -97],
-    [466, -1525],
-    [-212, -1590],
-    [-1059, -1493],
-    [-2020, -1298]
+    [
+     -2020,
+     -487
+    ],
+    [
+     -1568,
+     -292
+    ],
+    [
+     -1059,
+     -357
+    ],
+    [
+     -551,
+     97
+    ],
+    [
+     71,
+     130
+    ],
+    [
+     466,
+     -97
+    ],
+    [
+     466,
+     -1525
+    ],
+    [
+     -212,
+     -1590
+    ],
+    [
+     -1059,
+     -1493
+    ],
+    [
+     -2020,
+     -1298
+    ]
    ]
   },
   {
@@ -839,14 +1790,38 @@ export const NP_ORLEANS = {
    "name": "the riverfront wharves",
    "character": "port",
    "poly": [
-    [-1342, 1590],
-    [-720, 1136],
-    [-494, 957],
-    [-325, 730],
-    [-198, 763],
-    [-381, 1055],
-    [-650, 1233],
-    [-1257, 1704]
+    [
+     -1342,
+     1590
+    ],
+    [
+     -720,
+     1136
+    ],
+    [
+     -494,
+     957
+    ],
+    [
+     -325,
+     730
+    ],
+    [
+     -198,
+     763
+    ],
+    [
+     -381,
+     1055
+    ],
+    [
+     -650,
+     1233
+    ],
+    [
+     -1257,
+     1704
+    ]
    ]
   },
   {
@@ -854,10 +1829,22 @@ export const NP_ORLEANS = {
    "name": "the Inner Harbor along the Industrial Canal",
    "character": "port",
    "poly": [
-    [466, 568],
-    [918, 536],
-    [975, -292],
-    [466, -227]
+    [
+     466,
+     568
+    ],
+    [
+     918,
+     536
+    ],
+    [
+     975,
+     -292
+    ],
+    [
+     466,
+     -227
+    ]
    ]
   },
   {
@@ -865,11 +1852,26 @@ export const NP_ORLEANS = {
    "name": "the rail and industrial corridor",
    "character": "industrial",
    "poly": [
-    [71, 130],
-    [466, 243],
-    [466, -227],
-    [14, -422],
-    [-155, -162]
+    [
+     71,
+     130
+    ],
+    [
+     466,
+     243
+    ],
+    [
+     466,
+     -227
+    ],
+    [
+     14,
+     -422
+    ],
+    [
+     -155,
+     -162
+    ]
    ]
   },
   {
@@ -877,14 +1879,38 @@ export const NP_ORLEANS = {
    "name": "Algiers",
    "character": "suburb",
    "poly": [
-    [-268, 1201],
-    [71, 909],
-    [353, 844],
-    [749, 941],
-    [918, 1298],
-    [636, 1623],
-    [71, 1818],
-    [-155, 1623]
+    [
+     -268,
+     1201
+    ],
+    [
+     71,
+     909
+    ],
+    [
+     353,
+     844
+    ],
+    [
+     749,
+     941
+    ],
+    [
+     918,
+     1298
+    ],
+    [
+     636,
+     1623
+    ],
+    [
+     71,
+     1818
+    ],
+    [
+     -155,
+     1623
+    ]
    ]
   },
   {
@@ -892,10 +1918,22 @@ export const NP_ORLEANS = {
    "name": "Lower Ninth Ward and Holy Cross",
    "character": "suburb",
    "poly": [
-    [918, 747],
-    [2048, 876],
-    [2048, -32],
-    [918, -32]
+    [
+     918,
+     747
+    ],
+    [
+     2048,
+     876
+    ],
+    [
+     2048,
+     -32
+    ],
+    [
+     918,
+     -32
+    ]
    ]
   },
   {
@@ -903,11 +1941,26 @@ export const NP_ORLEANS = {
    "name": "the Bayou Bienvenue wetland triangle",
    "character": "wetland",
    "poly": [
-    [918, -65],
-    [2048, -65],
-    [2048, -487],
-    [1342, -487],
-    [918, -325]
+    [
+     918,
+     -65
+    ],
+    [
+     2048,
+     -65
+    ],
+    [
+     2048,
+     -487
+    ],
+    [
+     1342,
+     -487
+    ],
+    [
+     918,
+     -325
+    ]
    ]
   },
   {
@@ -915,12 +1968,30 @@ export const NP_ORLEANS = {
    "name": "the eastern lakefront marsh",
    "character": "wetland",
    "poly": [
-    [862, -909],
-    [2048, -876],
-    [2048, -2048],
-    [1624, -2045],
-    [1059, -1850],
-    [777, -1396]
+    [
+     862,
+     -909
+    ],
+    [
+     2048,
+     -876
+    ],
+    [
+     2048,
+     -2048
+    ],
+    [
+     1624,
+     -2045
+    ],
+    [
+     1059,
+     -1850
+    ],
+    [
+     777,
+     -1396
+    ]
    ]
   }
  ],
@@ -929,7 +2000,10 @@ export const NP_ORLEANS = {
    "id": "port-terminal",
    "name": "Riverfront Wharves Terminal",
    "kind": "port",
-   "position": [-932, 1315],
+   "position": [
+    -932,
+    1315
+   ],
    "trades": [
     "ila",
     "iuoe",
@@ -955,7 +2029,10 @@ export const NP_ORLEANS = {
    "id": "levee-floodwall",
    "name": "River Levee and Floodwall Crew",
    "kind": "levee",
-   "position": [325, 406],
+   "position": [
+    325,
+    406
+   ],
    "trades": [
     "iuoe",
     "liuna",
@@ -981,7 +2058,10 @@ export const NP_ORLEANS = {
    "id": "pumping-station",
    "name": "Drainage Pumping Station",
    "kind": "pump",
-   "position": [-1893, -503],
+   "position": [
+    -1893,
+    -503
+   ],
    "trades": [
     "iuoe",
     "ibew",
@@ -1006,7 +2086,10 @@ export const NP_ORLEANS = {
    "id": "streetcar-barn",
    "name": "Streetcar Barn and Shops",
    "kind": "streetcar",
-   "position": [-1455, 16],
+   "position": [
+    -1455,
+    16
+   ],
    "trades": [
     "atu",
     "iam",
@@ -1030,7 +2113,10 @@ export const NP_ORLEANS = {
    "id": "rail-yard",
    "name": "Rail Yard and Passenger Terminal",
    "kind": "rail",
-   "position": [-918, 957],
+   "position": [
+    -918,
+    957
+   ],
    "trades": [
     "smart-td",
     "blet",
@@ -1054,7 +2140,10 @@ export const NP_ORLEANS = {
    "id": "hospital-district",
    "name": "Medical District Hospital Campus",
    "kind": "hospital",
-   "position": [-720, 568],
+   "position": [
+    -720,
+    568
+   ],
    "trades": [
     "nnu",
     "seiu",
@@ -1081,7 +2170,10 @@ export const NP_ORLEANS = {
    "id": "university-campus",
    "name": "Uptown University Campus",
    "kind": "campus",
-   "position": [-1893, 1444],
+   "position": [
+    -1893,
+    1444
+   ],
    "trades": [
     "aaup",
     "afscme",
@@ -1107,7 +2199,10 @@ export const NP_ORLEANS = {
    "id": "stadium-district",
    "name": "Stadium and Arena District",
    "kind": "stadium",
-   "position": [-819, 779],
+   "position": [
+    -819,
+    779
+   ],
    "trades": [
     "iatse",
     "seiu",
@@ -1133,7 +2228,10 @@ export const NP_ORLEANS = {
    "id": "hospitality-row",
    "name": "Canal Street Hospitality Row",
    "kind": "hospitality",
-   "position": [-452, 682],
+   "position": [
+    -452,
+    682
+   ],
    "trades": [
     "unite-here",
     "seiu"
@@ -1157,7 +2255,10 @@ export const NP_ORLEANS = {
    "id": "wetland-restoration",
    "name": "Bayou Wetland Restoration Site",
    "kind": "wetland",
-   "position": [1370, -16],
+   "position": [
+    1370,
+    -16
+   ],
    "trades": [
     "liuna",
     "iuoe",
@@ -1181,7 +2282,10 @@ export const NP_ORLEANS = {
    "id": "canal-lock",
    "name": "Industrial Canal Lock and Inner Harbor",
    "kind": "lock",
-   "position": [565, 471],
+   "position": [
+    565,
+    471
+   ],
    "trades": [
     "iuoe",
     "ibu",
@@ -1207,7 +2311,10 @@ export const NP_ORLEANS = {
    "id": "lakefront-levee",
    "name": "Lakefront Levee and Seawall",
    "kind": "levee",
-   "position": [-1003, -1493],
+   "position": [
+    -1003,
+    -1493
+   ],
    "trades": [
     "iuoe",
     "liuna",
@@ -1230,7 +2337,10 @@ export const NP_ORLEANS = {
    "id": "ferry-landing",
    "name": "Canal Street Ferry Landing",
    "kind": "ferry",
-   "position": [-395, 844],
+   "position": [
+    -395,
+    844
+   ],
    "trades": [
     "ibu",
     "siu",
@@ -1252,7 +2362,10 @@ export const NP_ORLEANS = {
    "id": "bridge-crew",
    "name": "River Bridge Maintenance Crew",
    "kind": "bridge",
-   "position": [-565, 828],
+   "position": [
+    -565,
+    828
+   ],
    "trades": [
     "ironworkers",
     "iupat",
@@ -1276,195 +2389,310 @@ export const NP_ORLEANS = {
   {
    "id": "jackson-square",
    "name": "Jackson Square",
-   "position": [-297, 568],
+   "position": [
+    -297,
+    568
+   ],
    "kind": "square"
   },
   {
    "id": "french-quarter-riverfront",
    "name": "the French Quarter riverfront",
-   "position": [-254, 649],
+   "position": [
+    -254,
+    649
+   ],
    "kind": "riverfront"
   },
   {
    "id": "algiers-point",
    "name": "Algiers Point",
-   "position": [14, 795],
+   "position": [
+    14,
+    795
+   ],
    "kind": "point"
   },
   {
    "id": "crescent-city-connection",
    "name": "Crescent City Connection",
-   "position": [-212, 1039],
+   "position": [
+    -212,
+    1039
+   ],
    "kind": "bridge"
   },
   {
    "id": "city-park",
    "name": "City Park",
-   "position": [-1201, -649],
+   "position": [
+    -1201,
+    -649
+   ],
    "kind": "park"
   },
   {
    "id": "audubon-park",
    "name": "Audubon Park",
-   "position": [-2048, 1525],
+   "position": [
+    -2048,
+    1525
+   ],
    "kind": "park"
   },
   {
    "id": "louis-armstrong-park",
    "name": "Louis Armstrong Park",
-   "position": [-466, 422],
+   "position": [
+    -466,
+    422
+   ],
    "kind": "park"
   },
   {
    "id": "bayou-st-john-mouth",
    "name": "the mouth of Bayou St. John",
-   "position": [-777, -1590],
+   "position": [
+    -777,
+    -1590
+   ],
    "kind": "bayou"
   },
   {
    "id": "lakefront",
    "name": "the lakefront",
-   "position": [-494, -1688],
+   "position": [
+    -494,
+    -1688
+   ],
    "kind": "shore"
   },
   {
    "id": "seventeenth-street-canal",
-   "name": "the 17th Street Canal",
-   "position": [-1977, -974],
+   "name": "the Seventeenth Street Canal",
+   "position": [
+    -1977,
+    -974
+   ],
    "kind": "canal"
   },
   {
    "id": "london-avenue-canal",
    "name": "the London Avenue Canal",
-   "position": [-198, -1136],
+   "position": [
+    -198,
+    -1136
+   ],
    "kind": "canal"
   },
   {
    "id": "industrial-canal-lock",
    "name": "the Industrial Canal lock",
-   "position": [692, 552],
+   "position": [
+    692,
+    552
+   ],
    "kind": "lock"
   },
   {
    "id": "holy-cross-levee",
    "name": "the Holy Cross levee",
-   "position": [1342, 633],
+   "position": [
+    1342,
+    633
+   ],
    "kind": "levee"
   },
   {
    "id": "bayou-bienvenue-platform",
    "name": "the Bayou Bienvenue viewing platform",
-   "position": [1144, -260],
+   "position": [
+    1144,
+    -260
+   ],
    "kind": "wetland"
   },
   {
    "id": "garden-district",
    "name": "the Garden District",
-   "position": [-862, 1217],
+   "position": [
+    -862,
+    1217
+   ],
    "kind": "neighbourhood"
   },
   {
    "id": "bywater",
    "name": "Bywater",
-   "position": [466, 406],
+   "position": [
+    466,
+    406
+   ],
    "kind": "neighbourhood"
   },
   {
    "id": "gentilly",
    "name": "Gentilly",
-   "position": [-381, -714],
+   "position": [
+    -381,
+    -714
+   ],
    "kind": "neighbourhood"
   },
   {
    "id": "lakeview",
    "name": "Lakeview",
-   "position": [-1624, -974],
+   "position": [
+    -1624,
+    -974
+   ],
    "kind": "neighbourhood"
   }
  ],
  "connectors": [
   {
    "id": "conn-i10-17th-street-canal",
-   "kind": "road",
-   "name": "Interstate 10 at the 17th Street Canal",
+   "kind": "bridge",
+   "name": "The interstate at the Seventeenth Street Canal",
    "from": {
     "parish": "orleans",
-    "position": [-2048, -649]
+    "position": [
+     -2048,
+     -649
+    ]
    },
    "to": {
     "parish": "jefferson",
-    "position": null,
-    "lonlat": [-90.125, 29.995]
-   }
+    "position": [
+     265,
+     415
+    ]
+   },
+   "lonlat": [
+    -90.118,
+    30
+   ],
+   "approximate": true
   },
   {
    "id": "conn-lakefront-17th-street-canal",
    "kind": "road",
-   "name": "the lakefront road at the canal mouth",
+   "name": "The lakefront road at the canal mouth",
    "from": {
     "parish": "orleans",
-    "position": [-2020, -1363]
+    "position": [
+     -2020,
+     -1363
+    ]
    },
    "to": {
     "parish": "jefferson",
-    "position": null,
-    "lonlat": [-90.124, 30.017]
-   }
+    "position": [
+     193,
+     180
+    ]
+   },
+   "lonlat": [
+    -90.124,
+    30.017
+   ],
+   "approximate": true
   },
   {
    "id": "conn-westbank-expressway",
    "kind": "road",
-   "name": "the West Bank Expressway south of Algiers",
+   "name": "Westbank Expressway at the Orleans line",
    "from": {
     "parish": "orleans",
-    "position": [268, 2045]
+    "position": [
+     268,
+     2045
+    ]
    },
    "to": {
     "parish": "jefferson",
-    "position": null,
-    "lonlat": [-90.043, 29.912]
-   }
+    "position": [
+     1144,
+     1451
+    ]
+   },
+   "lonlat": [
+    -90.045,
+    29.925
+   ],
+   "approximate": true
   },
   {
    "id": "conn-st-claude-avenue-east",
    "kind": "road",
-   "name": "St. Claude Avenue at the parish line",
+   "name": "St. Claude Avenue at the Orleans line",
    "from": {
     "parish": "orleans",
-    "position": [2048, 325]
+    "position": [
+     2048,
+     325
+    ]
    },
    "to": {
     "parish": "st-bernard",
-    "position": null,
-    "lonlat": [-89.98, 29.965]
-   }
-  },
-  {
-   "id": "conn-river-road-holy-cross",
-   "kind": "road",
-   "name": "the river road east of Holy Cross",
-   "from": {
-    "parish": "orleans",
-    "position": [2048, 795]
+    "position": [
+     -1833,
+     -581
+    ]
    },
-   "to": {
-    "parish": "st-bernard",
-    "position": null,
-    "lonlat": [-89.98, 29.951]
-   }
+   "lonlat": [
+    -89.997,
+    29.962
+   ],
+   "approximate": true
   },
   {
-   "id": "conn-canal-street-ferry",
+   "id": "conn-chalmette-ferry",
    "kind": "ferry",
-   "name": "Canal Street Ferry to Algiers Point",
+   "name": "Chalmette ferry across the river",
    "from": {
     "parish": "orleans",
-    "position": [-339, 844]
+    "position": [
+     2048,
+     795
+    ]
    },
    "to": {
+    "parish": "st-bernard",
+    "position": [
+     -1604,
+     -415
+    ]
+   },
+   "lonlat": [
+    -89.978,
+    29.95
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-twin-spans-east",
+   "kind": "bridge",
+   "name": "The interstate twin spans over the lake",
+   "from": {
     "parish": "orleans",
-    "position": [0, 795]
-   }
+    "position": [
+     2040,
+     -2040
+    ]
+   },
+   "to": {
+    "parish": "st-tammany",
+    "position": [
+     1297,
+     1714
+    ]
+   },
+   "lonlat": [
+    -89.82,
+    30.175
+   ],
+   "approximate": true
   }
  ],
  "fieldLessons": [

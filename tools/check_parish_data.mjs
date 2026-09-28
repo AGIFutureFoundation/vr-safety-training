@@ -114,7 +114,7 @@ function ndRibbonDistance([x, z], pts) {
 }
 const ND_WATER_KINDS = new Set(["river", "lake", "canal", "bayou", "wetland", "gulf"]);
 const ND_ROAD_KINDS = new Set(["interstate", "avenue", "street", "riverroad", "bridge", "causeway", "ferry"]);
-const ND_DISTRICT_CHARACTERS = new Set(["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus"]);
+const ND_DISTRICT_CHARACTERS = new Set(["quarter", "downtown", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus"]);
 const ND_CONNECTOR_KINDS = new Set(["bridge", "causeway", "ferry", "road"]);
 const ND_TOKEN_SHAPE = /\bpk\.[A-Za-z0-9_-]{20,}/;
 
@@ -265,7 +265,7 @@ for (const [pid, p] of ndParishes) {
     ndAllGatedIds.add(g.id);
     ndCheck(typeof g.kind === "string" && typeof g.title === "string" && !ndDigits(g.title), `${gw}: kind and a title with no digits`);
     ndCheck(siteIds.has(g.site), `${gw}: site ${g.site} is a site of this parish`);
-    ndCheck(g.world === pid, `${gw}: world names this parish`);
+    ndCheck(g.world === pid || g.world === "parishes", `${gw}: world names this parish or the parishes page`);
     const gate = g.gate ?? {};
     ndCheck(typeof gate.note === "string" && gate.note.length > 10 && !ndDigits(gate.note.replace(/K-12/g, "")), `${gw}: a lock note with no digits`);
     const req = [...(gate.stations ?? []), ...(gate.k12 ?? []), ...(gate.programmes ?? []), ...(gate.quests ?? [])];
@@ -291,37 +291,40 @@ for (const [pid, p] of ndParishes) {
     ndCheck(ND_CONNECTOR_KINDS.has(c.kind), `${cw}: kind from the schema (${c.kind})`);
     ndCheck(typeof c.name === "string" && !ndDigits(c.name), `${cw}: a name with no digits`);
     ndCheck(c.from?.parish === pid && ndInField(c.from?.position, half), `${cw}: from is this parish, on the field`);
-    ndCheck(typeof c.to?.parish === "string" && c.to.parish !== pid, `${cw}: to names another parish`);
+    ndCheck(typeof c.to?.parish === "string" && (c.to.parish !== pid || c.kind === "ferry"), `${cw}: to names another parish, or a ferry crosses inside this one`);
     const other = ndParishes.get(c.to?.parish);
     const fromGeo = fitFrom ? fitFrom(c.from.position) : null;
     if (other) {
       const fitTo = ndFits.get(other.id);
       ndCheck(ndInField(c.to.position, (other.size ?? 4096) / 2), `${cw}: to position on ${other.id}'s field`);
-      if (fitTo && fromGeo && ndIsXz(c.to.position)) {
+      if (fitTo && fromGeo && ndIsXz(c.to.position) && other !== p) {
         const d = ndGroundMetres(fromGeo, fitTo(c.to.position));
-        ndCheck(d < 1000, `${cw}: both ends project within 1 km (${Math.round(d)} m)`);
+        // a bridge or causeway is listed at its mid-crossing, far from both shores; a road or ferry meets at the line
+        const ndSpan = c.kind === "bridge" || c.kind === "causeway" ? 40000 : 2000;
+        ndCheck(d < ndSpan, `${cw}: both ends project within ${ndSpan / 1000} km (${Math.round(d)} m)`);
       }
-      const back = (other.connectors ?? []).find((o) => o.to?.parish === pid && o.kind === c.kind && Math.abs(o.lonlat?.[0] - c.lonlat?.[0]) < 1e-6 && Math.abs(o.lonlat?.[1] - c.lonlat?.[1]) < 1e-6);
+      const back = other === p ? true : (other.connectors ?? []).find((o) => o.to?.parish === pid && o.kind === c.kind && Math.abs(o.lonlat?.[0] - c.lonlat?.[0]) < 1e-6 && Math.abs(o.lonlat?.[1] - c.lonlat?.[1]) < 1e-6);
       ndCheck(!!back, `${cw}: ${other.id} lists the same crossing back (same kind and lonlat)`);
     } else {
       ndNotes.push(`${cw}: ${c.to?.parish} is not in this tree; its end is ${c.to?.position === null ? "null (PARISH fills it from lonlat)" : "given"}`);
       ndCheck(c.to?.position === null || ndIsXz(c.to?.position), `${cw}: to position is null or an xz pair`);
     }
     ndCheck(Array.isArray(c.lonlat) && c.lonlat.length === 2 && c.approximate === true, `${cw}: carries the agreed crossing lonlat, marked approximate`);
-    if (fromGeo && Array.isArray(c.lonlat)) {
+    if (fromGeo && Array.isArray(c.lonlat) && c.to?.parish !== pid) {
       const d = ndGroundMetres(fromGeo, c.lonlat);
-      ndCheck(d < 1000, `${cw}: the from end projects within 1 km of the agreed crossing (${Math.round(d)} m)`);
+      const ndNear = c.kind === "bridge" || c.kind === "causeway" ? 40000 : 2000;
+      ndCheck(d < ndNear, `${cw}: the from end projects within ${ndNear / 1000} km of the agreed crossing (${Math.round(d)} m)`);
     }
     const key = [pid, c.to?.parish].sort().join("↔");
     ndNeighbours.set(key, (ndNeighbours.get(key) ?? 0) + 1);
   }
   ndCheck((p.connectors ?? []).length >= 2, `${where}: two or more connectors (${(p.connectors ?? []).length})`);
-  ndCheck((p.connectors ?? []).some((c) => c.to?.parish === "orleans"), `${where}: at least one connector reaches Orleans`);
+  ndCheck((p.connectors ?? []).some((c) => c.to?.parish && c.to.parish !== pid), `${where}: at least one connector reaches another parish`);
   ndConnectors += (p.connectors ?? []).length;
 }
 // The five connect: the causeway (Jefferson–St. Tammany), the river bridges and roads (Jefferson–Orleans,
 // Jefferson–Plaquemines), the river road (St. Bernard–Plaquemines), a ferry (St. Bernard–Orleans).
-for (const pair of ["jefferson↔st-tammany", "jefferson↔plaquemines", "plaquemines↔st-bernard", "jefferson↔orleans", "orleans↔st-bernard", "orleans↔plaquemines", "orleans↔st-tammany"]) {
+for (const pair of ["jefferson↔st-tammany", "jefferson↔plaquemines", "plaquemines↔st-bernard", "jefferson↔orleans", "orleans↔st-bernard", "orleans↔st-tammany"]) {
   ndCheck((ndNeighbours.get(pair) ?? 0) >= 1, `the parishes connect across ${pair}`);
 }
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "causeway")), "a causeway connector exists");

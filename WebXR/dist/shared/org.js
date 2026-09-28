@@ -169,6 +169,22 @@ export function enCreateCohort({ orgId, name, programme, edition = "", startDate
   return cohort;
 }
 
+/**
+ * Set a cohort's seat count (a coordinator action, audited). Seat billing
+ * (payments.js, docs/payments.md) calls this when a paid receipt lands, so
+ * the seats an organisation licensed become the seats learners can take.
+ */
+export function enSetCohortSeats(cohortId, seats, reason = "") {
+  const s = enLoad();
+  const c = s.cohorts.find((x) => x.id === cohortId);
+  const n = Math.min(1000, Math.max(1, Number(seats) | 0 || 1));
+  if (!c || c.seats === n) return false;
+  const before = c.seats; c.seats = n;
+  enAudit("cohort-seats", `${c.name}: ${before} → ${n} seats${reason ? ` (${enText(reason, 120)})` : ""}`, s);
+  enSave(s); enEmit("cohort");
+  return true;
+}
+
 export function enCohorts(orgId = null) { return enLoad().cohorts.filter((c) => !orgId || c.orgId === orgId); }
 export function enCohort(id) { return enLoad().cohorts.find((c) => c.id === id) ?? null; }
 export function enMembers(cohortId) { return enLoad().members.filter((m) => m.cohortId === cohortId); }

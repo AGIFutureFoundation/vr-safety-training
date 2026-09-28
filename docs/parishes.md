@@ -97,3 +97,8 @@ shape, anchors and their affine, geometry on the field, sites with resolvable un
 connectors (both ends within 1 km, mirrored by the neighbour, the Orleans ends against the agreed `lonlat`), field
 lessons, gated items, the facts rule, and this document's table. PARISH's `tools/check_parishes.mjs` (in `check_all`)
 is meant to absorb it — the checker reads the modules directly and needs nothing from the engine.
+
+
+## Orleans-side connector ids (console PARISH)
+
+The Orleans module lists every crossing back under its own ids: `conn-i10-17th-street-canal` and `conn-lakefront-17th-street-canal` (Jefferson, paired with `jf-interstate-orleans` and `jf-lakefront-orleans`), `conn-westbank-expressway` (`jf-westbank-expressway-orleans`), `conn-st-claude-avenue-east` (`sb-st-claude-orleans`), `conn-chalmette-ferry` (`sb-chalmette-ferry`), `conn-twin-spans-east` (`st-twin-spans-orleans`). The Woodland Highway crossing into Plaquemines lies south of the Orleans box and is not a connector; Plaquemines instead carries its own river ferry, `pq-pointe-a-la-hache-crossing`. The Canal Street ferry to Algiers Point stays inside Orleans and is drawn as a ferry road, not a connector.

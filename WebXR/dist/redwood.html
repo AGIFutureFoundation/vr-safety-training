@@ -737,6 +737,10 @@ const GT_PROFILE_KEYS = [
   "vr-avatar-style-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
+  // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.
+  "vr-payments-v1",
+  // The person's membership level (shared/pm-membership.js, docs/payments.md §7).
+  "vr-membership-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -12165,7 +12169,10 @@ const WILDLIFE_BUDGET = {
   crab: { count: 1, meshes: 4, motion: "sidestep" },
   raptors: { count: 3, meshes: 9, motion: "soar" },
   deer: { count: 4, meshes: 28, motion: "graze" },
-  total: 99,
+  // The delta set (console PARISH): egrets wading a marsh edge, herons gliding a river.
+  egrets: { count: 5, meshes: 20, motion: "wade" },
+  herons: { count: 3, meshes: 9, motion: "glide" },
+  total: 128,
 };
 const WILDLIFE_KINDS = Object.keys(WILDLIFE_BUDGET).filter((k) => k !== "total");
 
@@ -12293,6 +12300,57 @@ function wlShorebirds(parent, zone, count, rng) {
       u.g.position.y = zone.y + (cyc < 1 ? Math.abs(Math.sin(cyc * 18)) * 0.03 : 0);
       u.g.rotation.y = u.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
       if (cyc > 3.9) u.dir = -u.dir;
+    }
+  };
+}
+
+/** Egrets: white waders at a marsh edge — body, neck, head, legs (4 meshes); a slow step and a neck dip. */
+function wlEgrets(parent, zone, count, rng) {
+  const body = wlMat(0xf6f6f2), leg = wlMat(0x2a2a28), bill = wlMat(0xd8b450);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const x = zone.x + (rng() - 0.5) * zone.w, z = zone.z + (rng() - 0.5) * zone.d;
+    const g = wlUnit(parent, "egrets", x, zone.y, z);
+    wlBall(g, 0.18, 0, 0.62, 0, body, 1, 0.8, 1.5);
+    const neck = wlBox(g, 0.06, 0.5, 0.06, 0, 0.98, 0.2, body);
+    wlBall(g, 0.08, 0, 1.28, 0.26, bill, 1, 0.8, 1.6);
+    wlBox(g, 0.03, 0.55, 0.03, 0, 0.28, 0, leg);
+    units.push({ g, neck, x0: x, z0: z, phase: rng() * 10, heading: rng() * Math.PI * 2, step: 0.6 + rng() * 0.6 });
+  }
+  return (t) => {
+    for (const u of units) {
+      const cyc = (t * 0.35 + u.phase) % 6;            // step for a second of every six, dip the neck in the middle
+      const run = cyc < 1 ? cyc : 1;
+      u.g.position.x = u.x0 + Math.sin(u.heading) * run * u.step;
+      u.g.position.z = u.z0 + Math.cos(u.heading) * run * u.step;
+      u.g.rotation.y = u.heading;
+      u.neck.rotation.x = cyc > 3 && cyc < 4 ? Math.sin((cyc - 3) * Math.PI) * 0.9 : 0;
+      if (cyc > 5.9) { u.x0 = u.g.position.x; u.z0 = u.g.position.z; u.heading += (Math.sin(t + u.phase) > 0 ? 1 : -1) * 0.8; }
+    }
+  };
+}
+
+/** Herons: grey-blue, slow wingbeats, one long pass along the zone and back (like the pelicans, higher and alone). */
+function wlHerons(parent, zone, count, rng) {
+  const body = wlMat(0x8a97a3), wing = wlMat(0x4f5b66);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const u = wlBird(parent, "herons", zone.x, zone.y + 9, zone.z, { len: 1.0, span: 2.2, body, wing });
+    u.offset = i * 14 + rng() * 6;
+    u.phase = i * 1.3;
+    u.height = zone.y + 8 + rng() * 6;
+    units.push(u);
+  }
+  const half = Math.max(30, zone.w * 0.45);
+  const period = Math.max(40, half / 3.2);
+  return (t) => {
+    const k = (t % (period * 2)) / period;
+    const dir = k < 1 ? 1 : -1;
+    const x = zone.x + (k < 1 ? -half + k * 2 * half : half - (k - 1) * 2 * half);
+    for (const u of units) {
+      u.g.position.set(x - dir * u.offset, u.height + Math.sin(t * 0.4 + u.phase) * 0.6, zone.z + (u.offset % 3) * 4 - 4);
+      u.g.rotation.y = dir > 0 ? -Math.PI / 2 : Math.PI / 2;
+      wlFlap(u, t, 1.6, 0.3);
     }
   };
 }
@@ -12444,7 +12502,7 @@ function wlDeer(parent, zone, count, rng) {
   };
 }
 
-const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer };
+const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer, egrets: wlEgrets, herons: wlHerons };
 
 /**
  * Build one wildlife group.
@@ -16925,6 +16983,22 @@ function enCreateCohort({ orgId, name, programme, edition = "", startDate = null
   return cohort;
 }
 
+/**
+ * Set a cohort's seat count (a coordinator action, audited). Seat billing
+ * (payments.js, docs/payments.md) calls this when a paid receipt lands, so
+ * the seats an organisation licensed become the seats learners can take.
+ */
+function enSetCohortSeats(cohortId, seats, reason = "") {
+  const s = enLoad();
+  const c = s.cohorts.find((x) => x.id === cohortId);
+  const n = Math.min(1000, Math.max(1, Number(seats) | 0 || 1));
+  if (!c || c.seats === n) return false;
+  const before = c.seats; c.seats = n;
+  enAudit("cohort-seats", `${c.name}: ${before} → ${n} seats${reason ? ` (${enText(reason, 120)})` : ""}`, s);
+  enSave(s); enEmit("cohort");
+  return true;
+}
+
 function enCohorts(orgId = null) { return enLoad().cohorts.filter((c) => !orgId || c.orgId === orgId); }
 function enCohort(id) { return enLoad().cohorts.find((c) => c.id === id) ?? null; }
 function enMembers(cohortId) { return enLoad().members.filter((m) => m.cohortId === cohortId); }
@@ -17332,10 +17406,18 @@ function enLoadSample({ programme = "fall-protection" } = {}) {
 // Names prefixed QM_ (the bundler shares one scope).
 const QM_STATION_NAMES = {
   "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+  "aerial-ladder": "Aerial Ladder",
   "air-sensor-install": "Neighbourhood Air Sensor",
   "airport-ramp": "Airport Ramp",
   "allergen-control": "Allergen Control",
+  "ambulance-scene-safety": "Ambulance Scene Safety",
+  "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+  "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+  "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation",
   "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
+  "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+  "ballast-water-sampling": "Ballast Water Sampling",
+  "br-barge-loading-of-contaminated-sediment": "Barge Loading of Contaminated Sediment",
   "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
   "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window",
   "br-boom-towing-between-two-vessels": "Boom Towing Between Two Vessels",
@@ -17369,8 +17451,16 @@ const QM_STATION_NAMES = {
   "decon-support-laborer": "Decon Support Laborer",
   "dock-crane": "Dock Crane",
   "dredge-barge": "Dredge Barge",
+  "drive-backing-serpentine-and-alley-dock": "Backing Serpentine and Alley Dock",
+  "drive-city-route-and-turns": "City Route and Turns",
+  "drive-freeway-merge-and-following-distance": "Freeway Merge and Following Distance",
+  "drive-light-vehicle-fleet-and-forklift-course": "Light Vehicle Fleet and Forklift Course",
+  "drive-night-fog-and-rail-crossing": "Night Fog and Rail Crossing",
+  "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
   "ew-machine-room-lockout-and-brake-test": "Machine Room Lockout and Brake Test",
+  "fire-pump": "Fire Pump",
   "firefighter-rehab-sector": "Firefighter Rehab Sector",
+  "forklift-dock": "Forklift Dock",
   "fp-anchor-selection-and-rescue-plan": "Anchor Selection & Rescue Plan",
   "gg-deck-lane-closure-and-traveller": "Deck Lane Closure & Traveller",
   "gg-fog-and-wind-work-stop": "Fog & Wind Work Stop",
@@ -17403,21 +17493,34 @@ const QM_STATION_NAMES = {
   "marsh-transect-survey": "Marsh Transect Survey",
   "me-eelgrass-seed-collection-and-nursery": "Eelgrass Seed Collection & Nursery",
   "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
+  "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
   "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
+  "me-water-column-sampling-from-a-small-boat": "Water Column Sampling From A Small Boat",
+  "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
+  "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
+  "mooring-line": "Mooring Line",
   "mw-dive-supervisor-and-dive-plan": "Dive Supervisor & Dive Plan",
   "mw-ferry-deckhand-and-passenger-safety": "Ferry Deckhand & Passenger Safety",
   "mw-oil-transfer-watch-and-boom": "Oil Transfer Watch & Boom",
   "mw-workboat-towing-and-line-handling": "Workboat Towing & Line Handling",
+  "op-compactor-lift-thickness-and-edge": "Compactor Lift Thickness & Edge",
+  "op-crawler-crane-assembly-and-load-chart": "Crawler Crane Assembly & Load Chart",
+  "op-dozer-slope-work-and-rollover-protection": "Dozer Slope Work & Rollover Protection",
   "op-excavator-trench-and-utility-locate": "Excavator Trench & Utility Locate",
   "op-grader-fine-grade-and-crown": "Grader Fine Grade & Crown",
+  "op-loader-truck-loading-and-blind-spots": "Loader Truck Loading & Blind Spots",
+  "op-pile-driving-rig-and-lead-setup": "Pile Driving Rig & Lead Setup",
   "or-transmission-line-right-of-way-patrol": "Transmission Line ROW Patrol",
   "or-wildland-fireline-construction-and-lookout": "Wildland Fireline Construction",
   "pilot-transfer": "Pilot Transfer",
   "po-lashing-gear-inspection-and-tagging": "Lashing Gear Inspection & Tagging",
+  "po-yard-hostler-and-pedestrian-separation": "Yard Hostler & Pedestrian Separation",
   "psychological-first-aid": "Psychological First Aid",
   "ra-blue-flag-protection-in-the-yard": "Blue Flag Protection in the Yard",
+  "ra-locomotive-cab-startup-and-alerter": "Locomotive Cab Startup & Alerter",
   "ra-switch-inspection-and-lubrication": "Switch Inspection & Lubrication",
   "rigging-loft": "Rigging Loft",
+  "rl-critical-lift-plan-and-signalperson": "Critical Lift Plan & Signalperson",
   "sensor-colocation-check": "Sensor Co-Location Check",
   "shelter-in-place-drill": "Shelter-in-Place Drill",
   "signal-cabinet": "Signal Cabinet",
@@ -17427,11 +17530,13 @@ const QM_STATION_NAMES = {
   "stormwater-outfall": "Stormwater Outfall",
   "substation-switching": "Substation Switching",
   "tdl-air-brake-test": "Air Brake Test",
+  "tdl-hazmat-labeling-and-segregation": "Hazmat Labeling and Segregation",
   "tdl-pallet-jack-and-racking": "Pallet Jack and Racking",
   "tdl-pretrip-inspection": "Pre-Trip Inspection",
   "tdl-trailer-loading-and-dock-plate": "Trailer Loading and Dock Plate",
   "tide-gate": "Tide Gate",
   "tower-climb": "Tower Climb",
+  "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus",
   "track-access": "Track Access",
   "traffic-incident-management": "Traffic Incident Management",
   "tw-conveyor-jam-clearing-and-loto": "Conveyor Jam Clearing & LOTO",
@@ -17442,6 +17547,7 @@ const QM_STATION_NAMES = {
   "uw-lift-bag-rigging-and-object-recovery": "Lift Bag Rigging & Object Recovery",
   "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management",
   "valve-vault": "Valve Vault",
+  "vessel-gangway-and-hatch-cover-safety": "Vessel Gangway & Hatch Cover Safety",
   "wildland-urban-interface": "Wildland-Urban Interface",
   "yc-fuel-dock-transfer-and-spill-kit": "Fuel Dock Transfer & Spill Kit",
   "yc-line-handling-and-docking-in-crosswind": "Line Handling & Docking In A Crosswind",
@@ -22841,7 +22947,7 @@ const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "h
 const PP_APP_NAMES = {
   bayworld: "Bay World", underwater: "the Deep", regatta: "the Bay Regatta", fairway: "Fairway Park",
   trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas", redwood: "Redwood Reach",
-  summit: "Sierra Summit",
+  summit: "Sierra Summit", parishes: "the Parishes",
 };
 const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 
@@ -23361,6 +23467,77 @@ function cleanEnterprise(raw) {
   };
 }
 
+/** The seat-billing plan periods payments.js knows (docs/payments.md). */
+const PAYMENT_PERIODS = ["month", "quarter", "year", "once"];
+
+/**
+ * The `payments` block of auth-config.json (docs/payments.md): enterprise
+ * seat billing on the organisation layer. Only ever read from the file — a
+ * launch URL can neither name a provider nor set a price. `publishableKey`
+ * is kept as text only when it does not look like a secret; a secret never
+ * belongs in this file at all. An amount is an integer in the currency's
+ * minor unit or null ("not configured"); nothing here invents one.
+ */
+function cleanPayments(raw) {
+  const p = raw && typeof raw === "object" ? raw : {};
+  const provider = authText(p.provider, 40).toLowerCase();
+  const key = authText(p.publishableKey, 200);
+  const currency = authText(p.currency, 3).toUpperCase();
+  const exp = Number(p.currencyExponent);
+  const amount = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  const plans = [];
+  for (const pl of Array.isArray(p.plans) ? p.plans : []) {
+    const id = authText(pl?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(pl?.period, 10).toLowerCase();
+    const days = Number(pl?.periodDays);
+    plans.push({
+      id, name: authText(pl?.name, 80) || id,
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(pl?.amountMinor),
+    });
+  }
+  // Membership levels (docs/payments.md §7): entitlements plus an amount that is null until configured.
+  const levels = [];
+  const idList = (v) => (Array.isArray(v) ? [...new Set(v.map((x) => authText(x, 40).toLowerCase()).filter((x) => /^[a-z0-9-]{1,40}$/.test(x)))] : null);
+  for (const lv of Array.isArray(p.levels) ? p.levels : []) {
+    const id = authText(lv?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || levels.some((x) => x.id === id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(lv?.period, 10).toLowerCase();
+    const days = Number(lv?.periodDays);
+    const en = lv?.entitlements && typeof lv.entitlements === "object" ? lv.entitlements : {};
+    levels.push({
+      id, name: authText(lv?.name, 80) || id, kind: "membership",
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(lv?.amountMinor),
+      entitlements: {
+        worlds: idList(en.worlds), programmes: idList(en.programmes),
+        certificates: en.certificates === true, cohortSeats: Number.isInteger(en.cohortSeats) && en.cohortSeats >= 0 ? Math.min(1000, en.cohortSeats) : 0, guideVoice: en.guideVoice === true,
+      },
+    });
+  }
+  // Wallet checkout through the Payment Request API: merchant details only from this block, null until a deployment fills them.
+  const ap = p.applePay && typeof p.applePay === "object" ? p.applePay : {};
+  const gp = p.googlePay && typeof p.googlePay === "object" ? p.googlePay : {};
+  const netList = (v) => (Array.isArray(v) ? v.map((x) => authText(x, 20)).filter((x) => /^[A-Za-z]{2,20}$/.test(x)) : []);
+  const applePay = { merchantIdentifier: authText(ap.merchantIdentifier, 120) || null, countryCode: /^[A-Z]{2}$/.test(authText(ap.countryCode, 2).toUpperCase()) ? authText(ap.countryCode, 2).toUpperCase() : null, supportedNetworks: netList(ap.supportedNetworks) };
+  const googlePay = { merchantId: authText(gp.merchantId, 60) || null, merchantName: authText(gp.merchantName, 80) || null, gateway: authText(gp.gateway, 40) || null, gatewayMerchantId: authText(gp.gatewayMerchantId, 120) || null, environment: authText(gp.environment, 10).toUpperCase() === "PRODUCTION" ? "PRODUCTION" : "TEST", allowedCardNetworks: netList(gp.allowedCardNetworks).map((x) => x.toUpperCase()) };
+  const wallet = p.wallet && typeof p.wallet === "object" ? p.wallet : {};
+  const walletPasses = { apple: wallet.apple === true, google: wallet.google === true };
+  return {
+    provider: /^[a-z][a-z0-9-]{0,39}$/.test(provider) ? provider : null,
+    publishableKey: key && !/^(sk|rk|whsec)_/i.test(key) ? key : null,
+    levels, applePay, googlePay, walletPasses,
+    // A hosted provider's checkout endpoint the deployment operates (https only); the mock needs none.
+    checkoutEndpoint: cleanHttpsUrl(p.checkoutEndpoint),
+    currency: /^[A-Z]{3}$/.test(currency) ? currency : null,
+    currencyExponent: Number.isInteger(exp) && exp >= 0 && exp <= 4 ? exp : 2,
+    plans,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -23387,6 +23564,8 @@ function parseAuthConfig(file = null, search = "") {
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
     // The organisation layer's block, from the file only (docs/enterprise.md).
     enterprise: cleanEnterprise(file?.enterprise),
+    // Seat billing (docs/payments.md), from the file only as well.
+    payments: cleanPayments(file?.payments),
   };
 }
 
@@ -25968,7 +26147,15 @@ function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) {
 const LK_ASSET_WORLDS = Object.freeze({
   bayworld: { page: "index.html", runner: "./smartcity-x.html" },
   underwater: { page: "underwater.html", runner: "./smartcity-x.html" },
+  // The New Orleans parishes (console PARISH): one page, `?parish=<id>`, sites deep-linked as `?parish=<id>&site=<site>`.
+  parishes: { page: "parishes.html", runner: "./smartcity-x.html" },
 });
+
+/** A parish page's deep link to one parish (and one of its sites), relative to a world's own folder. */
+function lkParishLink(parishId, siteId = null, page = "./parishes.html") {
+  if (!parishId) throw new Error("lkParishLink needs a parish id");
+  return `${page}?parish=${encodeURIComponent(parishId)}${siteId ? `&site=${encodeURIComponent(siteId)}` : ""}`;
+}
 
 /** A programme's overview in SmartCiti.X (`?programme=<id>`), the Atlas's own form. */
 function lkProgrammeLink(id, { runner = "./smartcity-x.html", from = null } = {}) {
@@ -25994,6 +26181,4008 @@ function lkAssetLink(asset, { world = "bayworld", page = null } = {}) {
   if (l.type === "page" && l.href) return `${l.href}${l.href.includes("?") ? "&" : "?"}from=${encodeURIComponent(world)}`;
   throw new Error(`asset "${asset?.id}" has no link`);
 }
+
+
+/* ===== shared/npc-data.js ===== */
+// GENERATED by tools/gen_npc.mjs — do not edit by hand (console GRIOT, docs/consoles/GRIOT.md).
+// 34 characters, 258 spoken lines (every one re-read verbatim from its source by tools/check_npc.mjs), 123 hand-offs.
+// Every top-level name starts with `gr` (the bundler shares one scope).
+
+const GR_ROSTER_VERSION = 1;
+
+const GR_ROSTER = [
+ {
+  "id": "gr-bw-longshore-foreman",
+  "name": "Kofi",
+  "role": "Longshore foreman",
+  "world": "bayworld",
+  "site": "port-container-terminal",
+  "siteKind": null,
+  "siteName": "Port Container Terminal",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 0
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Port Container Terminal is a site in Bay World, in The Port.",
+    "src": {
+     "kb": "site:bayworld:port-container-terminal"
+    },
+    "topic": "Port Container Terminal"
+   },
+   {
+    "text": "Taking a ship's lines: snap-back zone, heaving line, eye on the bollard, tension by radio, stopper, and the bight you never stand in",
+    "src": {
+     "station": "mooring-line"
+    },
+    "topic": "Mooring Line"
+   },
+   {
+    "text": "Why: Taking the lines: snap-back zones and the bight nobody stands in Part of Port and Terminal Operations, Bay Area Union Edition, Ports, Maritime and Bay Ecology.",
+    "src": {
+     "kb": "station:mooring-line"
+    },
+    "topic": "Mooring Line"
+   },
+   {
+    "text": "Fuel-oil transfer: plan and signed DOI, scuppers plugged and drip tray and SOPEP kit set, flange bolted all round, radio and emergency stop tested, line-up tank-first, slow start, soundings, topping off at reduced rate, manifold closed, sample sealed, BDN signed",
+    "src": {
+     "station": "bunkering-watch"
+    },
+    "topic": "Bunkering Watch"
+   },
+   {
+    "text": "Why: Fuel transfer as person in charge, with the deck contained before the hose comes aboard Part of Port and Terminal Operations, Ports, Maritime and Bay Ecology.",
+    "src": {
+     "kb": "station:bunkering-watch"
+    },
+    "topic": "Bunkering Watch"
+   },
+   {
+    "text": "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
+    "src": {
+     "station": "crane-yard"
+    },
+    "topic": "Crane Yard"
+   },
+   {
+    "text": "Why: The load chart and the pick plan, plus programming the anti-collision zone the yard actually needs Part of Rigging and Lifting, Situational Awareness.",
+    "src": {
+     "kb": "station:crane-yard"
+    },
+    "topic": "Crane Yard"
+   },
+   {
+    "text": "Operating and stationary engineers. The repository names both Local 3 (operating) and Local 39 (stationary), so no single local is carried.",
+    "src": {
+     "union": "iuoe"
+    },
+    "topic": "IUOE"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "mooring-line",
+    "label": "Mooring Line",
+    "siteId": "port-container-terminal"
+   },
+   {
+    "kind": "station",
+    "id": "bunkering-watch",
+    "label": "Bunkering Watch",
+    "siteId": "port-container-terminal"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-crane-load-chart-ratio",
+    "label": "The load chart is a ratio table",
+    "station": "k12-simple-machines-at-a-crane"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-bell-1",
+    "label": "Harbour Bell 1",
+    "hint": "Seven bells hang along the waterfront. Walk up and ring each."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-rail-inspector",
+  "name": "Ingrid",
+  "role": "Track inspector",
+  "world": "bayworld",
+  "site": "port-rail-yard",
+  "siteKind": null,
+  "siteName": "Port Rail Yard",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 1
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Port Rail Yard is a site in Bay World, in The Port.",
+    "src": {
+     "kb": "site:bayworld:port-rail-yard"
+    },
+    "topic": "Port Rail Yard"
+   },
+   {
+    "text": "The briefing signed, the limits requested and read back, the watchman posted at a sighting distance worked from the timetable speed, the work done inside the limits, and every piece of it handed back before anyone walks away",
+    "src": {
+     "station": "ra-roadway-worker-protection-and-job-briefing"
+    },
+    "topic": "Roadway Worker Protection & Job Briefing"
+   },
+   {
+    "text": "Why: Every job on the railroad starts with the same habit: a briefing everyone actually signs onto, working limits requested and read back, and…",
+    "src": {
+     "kb": "station:ra-roadway-worker-protection-and-job-briefing"
+    },
+    "topic": "Roadway Worker Protection & Job Briefing"
+   },
+   {
+    "text": "A crane swings a tie out and a new one in, a saw parts the old rail, a new length is dressed to the joint, and a tamper closes the ballast back around all of it — with a swing radius, a hot cut and a pinching bank in play the whole time",
+    "src": {
+     "station": "ra-tie-and-rail-replacement-with-track-machines"
+    },
+    "topic": "Tie & Rail Replacement with Track Machines"
+   },
+   {
+    "text": "Why: The machines that do the actual lifting on a tie and rail change-out — a crane, a saw, a tamper — each carry their own hazard zone, and the…",
+    "src": {
+     "kb": "station:ra-tie-and-rail-replacement-with-track-machines"
+    },
+    "topic": "Tie & Rail Replacement with Track Machines"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "ra-roadway-worker-protection-and-job-briefing",
+    "label": "Roadway Worker Protection & Job Briefing",
+    "siteId": "port-rail-yard"
+   },
+   {
+    "kind": "station",
+    "id": "ra-tie-and-rail-replacement-with-track-machines",
+    "label": "Tie & Rail Replacement with Track Machines",
+    "siteId": "port-rail-yard"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-crane-load-chart-ratio",
+    "label": "The load chart is a ratio table",
+    "station": "k12-simple-machines-at-a-crane"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-bell-2",
+    "label": "Harbour Bell 2",
+    "hint": "Seven bells hang along the waterfront. Walk up and ring each."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-journey-lineworker",
+  "name": "Tomas",
+  "role": "Journeyworker lineworker",
+  "world": "bayworld",
+  "site": "west-oakland-substation-yard",
+  "siteKind": null,
+  "siteName": "West Oakland Substation Yard",
+  "style": {
+   "ppe": "electrical",
+   "i": 2
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "West Oakland Substation Yard is a site in Bay World, in West Oakland.",
+    "src": {
+     "kb": "site:bayworld:west-oakland-substation-yard"
+    },
+    "topic": "West Oakland Substation Yard"
+   },
+   {
+    "text": "Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel",
+    "src": {
+     "station": "electrical"
+    },
+    "topic": "Isolation Bay"
+   },
+   {
+    "text": "Why: The bench case: lockout, tagout and live-dead-live on a 480 V panel, with nothing else going on Part of Inside Wireman, Situational Awareness.",
+    "src": {
+     "kb": "station:electrical"
+    },
+    "topic": "Isolation Bay"
+   },
+   {
+    "text": "Inside and outside wireman apprenticeship with NECA. The programmes name IBEW locals in the plural, so no single local is carried.",
+    "src": {
+     "union": "ibew"
+    },
+    "topic": "IBEW"
+   },
+   {
+    "text": "DC fast-charger fault isolation, capacitor discharge and busbar torque",
+    "src": {
+     "station": "charge-point"
+    },
+    "topic": "Charge Point"
+   },
+   {
+    "text": "Why: The same habit under a live utility service, where the load is a vehicle and the public is a metre away Part of Inside Wireman, Energy Transition Systems.",
+    "src": {
+     "kb": "station:charge-point"
+    },
+    "topic": "Charge Point"
+   },
+   {
+    "text": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
+    "src": {
+     "station": "substation-switching"
+    },
+    "topic": "Substation Switching"
+   },
+   {
+    "text": "Why: Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building Part of Inside Wireman, Energy Transition Systems, Situational Awareness.",
+    "src": {
+     "kb": "station:substation-switching"
+    },
+    "topic": "Substation Switching"
+   },
+   {
+    "text": "ANSI B11.3 — Safety requirements for power press brakes",
+    "src": {
+     "standard": "ansi-b11-3"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "electrical",
+    "label": "Isolation Bay",
+    "siteId": "west-oakland-substation-yard"
+   },
+   {
+    "kind": "station",
+    "id": "charge-point",
+    "label": "Charge Point",
+    "siteId": "west-oakland-substation-yard"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-union-hall-oral-history",
+    "label": "Consent before a recording",
+    "station": "k12-oral-history-interview-skills"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-west-oakland-substation-yard",
+    "label": "Crew Cache: West Oakland Substation Yard",
+    "hint": "Crews tuck a cache near their site. Walk the sites."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-nurse",
+  "name": "Adaeze",
+  "role": "Nurse",
+  "world": "bayworld",
+  "site": "coliseum-area-hospital",
+  "siteKind": null,
+  "siteName": "Coliseum Area Hospital",
+  "style": {
+   "ppe": "scrubs",
+   "i": 3
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Coliseum Area Hospital is a site in Bay World, in The Coliseum Area.",
+    "src": {
+     "kb": "site:bayworld:coliseum-area-hospital"
+    },
+    "topic": "Coliseum Area Hospital"
+   },
+   {
+    "text": "The isolation anteroom: kit inspected, the bin staged, hand hygiene in full, the donning order, a seal check every time, a buddy at the door, and the doffing order that keeps the respirator on until last",
+    "src": {
+     "station": "who-ppe-donning-and-doffing"
+    },
+    "topic": "PPE Donning and Doffing"
+   },
+   {
+    "text": "Why: The anteroom every clinical station after this one depends on: kit inspected, the donning order, a seal check every time, a buddy at the…",
+    "src": {
+     "kb": "station:who-ppe-donning-and-doffing"
+    },
+    "topic": "PPE Donning and Doffing"
+   },
+   {
+    "text": "ID checked against the ticket, brakes locked before every transfer, a gait belt instead of a solo lift, the route scanned for a line or a footrest that bites, and a real handoff at the other end",
+    "src": {
+     "station": "hc-patient-transport-and-safe-handling"
+    },
+    "topic": "Patient Transport & Safe Handling"
+   },
+   {
+    "text": "Why: The ID band checked against the ticket, the brakes locked before every transfer, a gait belt used instead of a solo lift, and a real verbal…",
+    "src": {
+     "kb": "station:hc-patient-transport-and-safe-handling"
+    },
+    "topic": "Patient Transport & Safe Handling"
+   },
+   {
+    "text": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services",
+    "src": {
+     "standard": "ada-title-ii"
+    },
+    "topic": "DOJ"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "who-ppe-donning-and-doffing",
+    "label": "PPE Donning and Doffing",
+    "siteId": "coliseum-area-hospital"
+   },
+   {
+    "kind": "station",
+    "id": "hc-patient-transport-and-safe-handling",
+    "label": "Patient Transport & Safe Handling",
+    "siteId": "coliseum-area-hospital"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-teamwork-at-the-stadium",
+    "label": "Feedback on the work, not the person",
+    "station": "k12-teamwork-and-feedback"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-coliseum-stadium",
+    "label": "Crew Cache: Coliseum Stadium",
+    "hint": "Crews tuck a cache near their site. Walk the sites."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-stagehand",
+  "name": "Luis",
+  "role": "Stagehand",
+  "world": "bayworld",
+  "site": "uptown-theatre-district",
+  "siteKind": null,
+  "siteName": "Uptown Theatre District",
+  "style": {
+   "ppe": "none",
+   "i": 4
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Uptown Theatre District is a site in Bay World, in Uptown.",
+    "src": {
+     "kb": "site:bayworld:uptown-theatre-district"
+    },
+    "topic": "Uptown Theatre District"
+   },
+   {
+    "text": "Sanitiser mixed to strength, the ice well burned and refilled with a scoop, garnish gloved and dated, the glass washer proven, the well pour-tested and the float counted before the doors open",
+    "src": {
+     "station": "bar-well-setup"
+    },
+    "topic": "Opening the Well"
+   },
+   {
+    "text": "Why: Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish…",
+    "src": {
+     "kb": "station:bar-well-setup"
+    },
+    "topic": "Opening the Well"
+   },
+   {
+    "text": "F.L.A.G., a UV check, the birth-date math against the calendar, a second form when in doubt, and a refusal that is polite, documented and handed to the rest of the bar",
+    "src": {
+     "station": "id-check-underage"
+    },
+    "topic": "Checking ID"
+   },
+   {
+    "text": "Why: The door: F.L.A.G Part of Bartending.",
+    "src": {
+     "kb": "station:id-check-underage"
+    },
+    "topic": "Checking ID"
+   },
+   {
+    "text": "One clear message, told so the back row hears it — and mind the stage edge",
+    "src": {
+     "station": "k12-public-speaking-at-the-hall"
+    },
+    "topic": "Public Speaking at the Hall"
+   },
+   {
+    "text": "Why: A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and…",
+    "src": {
+     "kb": "station:k12-public-speaking-at-the-hall"
+    },
+    "topic": "Public Speaking at the Hall"
+   },
+   {
+    "text": "California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages",
+    "src": {
+     "standard": "abc-25631"
+    },
+    "topic": "Cal. ABC"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "bar-well-setup",
+    "label": "Opening the Well",
+    "siteId": "uptown-theatre-district"
+   },
+   {
+    "kind": "station",
+    "id": "id-check-underage",
+    "label": "Checking ID",
+    "siteId": "uptown-theatre-district"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-slope-of-the-access-ramp",
+    "label": "Rise over run on a site ramp",
+    "station": "k12-slope-and-angles-on-a-ramp"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-uptown-construction-site",
+    "label": "Crew Cache: Uptown Construction Site",
+    "hint": "Crews tuck a cache near their site. Walk the sites."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-chef",
+  "name": "Priya",
+  "role": "Chef",
+  "world": "bayworld",
+  "site": "uptown-restaurant-row",
+  "siteKind": null,
+  "siteName": "Uptown Restaurant Row",
+  "style": {
+   "ppe": "chef",
+   "i": 5
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Uptown Restaurant Row is a site in Bay World, in Uptown.",
+    "src": {
+     "kb": "site:bayworld:uptown-restaurant-row"
+    },
+    "topic": "Uptown Restaurant Row"
+   },
+   {
+    "text": "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
+    "src": {
+     "station": "kitchen"
+    },
+    "topic": "Hot Line"
+   },
+   {
+    "text": "Why: The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own Part of Culinary, Bartending.",
+    "src": {
+     "kb": "station:kitchen"
+    },
+    "topic": "Hot Line"
+   },
+   {
+    "text": "Hotel, food-service and hospitality workers. Local 2 is the one UNITE HERE local the repository names (the culinary, bar and hotel programmes).",
+    "src": {
+     "union": "unite-here"
+    },
+    "topic": "UNITE HERE"
+   },
+   {
+    "text": "Board anchored, edge honed, claw grip, the cut-resistant glove on the mandoline, and a clean sanitised close",
+    "src": {
+     "station": "knife-skills"
+    },
+    "topic": "Knife Skills"
+   },
+   {
+    "text": "Why: The board anchored, the edge honed, and the claw grip that keeps a prep cook's own knuckles between the blade and the cut — plus the…",
+    "src": {
+     "kb": "station:knife-skills"
+    },
+    "topic": "Knife Skills"
+   },
+   {
+    "text": "Cord locked before the guard comes off, the blade cleaned gloved and edge-away, sanitiser contact time, and the interlock proven before the plug goes back in",
+    "src": {
+     "station": "slicer-lockout"
+    },
+    "topic": "Slicer Lockout"
+   },
+   {
+    "text": "Why: The deli slicer taken apart for a changeover the way a machine shop would: the cord locked out before the guard comes off, and the…",
+    "src": {
+     "kb": "station:slicer-lockout"
+    },
+    "topic": "Slicer Lockout"
+   },
+   {
+    "text": "ANSI B11.3 — Safety requirements for power press brakes",
+    "src": {
+     "standard": "ansi-b11-3"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "kitchen",
+    "label": "Hot Line",
+    "siteId": "uptown-restaurant-row"
+   },
+   {
+    "kind": "station",
+    "id": "knife-skills",
+    "label": "Knife Skills",
+    "siteId": "uptown-restaurant-row"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-kitchen-fractions",
+    "label": "Scaling a recipe by one fraction",
+    "station": "k12-fractions-in-the-kitchen"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-uptown-restaurant-row",
+    "label": "Crew Cache: Uptown Restaurant Row",
+    "hint": "Crews tuck a cache near their site. Walk the sites."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-teacher",
+  "name": "Hana",
+  "role": "K-12 teacher",
+  "world": "bayworld",
+  "site": "fruitvale-elementary-school",
+  "siteKind": null,
+  "siteName": "Fruitvale Elementary School",
+  "style": {
+   "ppe": "none",
+   "i": 6
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Fruitvale Elementary School is a site in Bay World, in Fruitvale.",
+    "src": {
+     "kb": "site:bayworld:fruitvale-elementary-school"
+    },
+    "topic": "Fruitvale Elementary School"
+   },
+   {
+    "text": "The hallway after the bell: the SDS read before the jug is touched, the dispenser metering the dilution instead of a guess, the machine walked round before it's plugged in, a wet-floor cone up before the pad turns, the eyewash proven, and the pad changed only once the cord is out of the wall",
+    "src": {
+     "station": "ed-custodial-chemical-dilution-and-floor-machine"
+    },
+    "topic": "Custodial Chemical Dilution & Floor Machine"
+   },
+   {
+    "text": "Why: A hallway chemical metered through the wall dispenser instead of eyeballed, a floor machine walked for defects before it's plugged in, and…",
+    "src": {
+     "kb": "station:ed-custodial-chemical-dilution-and-floor-machine"
+    },
+    "topic": "Custodial Chemical Dilution & Floor Machine"
+   },
+   {
+    "text": "Before the gate opens: the fence walked, the fall-zone surfacing probed for depth, the structure checked close up, a bolt torqued, an S-hook closed with the tool instead of a thumb, a handrail shake-tested, glass bagged rather than palmed, a broken swing tagged and roped off, and the drain that was clogged left clear",
+    "src": {
+     "station": "ed-playground-equipment-inspection"
+    },
+    "topic": "Playground Equipment Inspection"
+   },
+   {
+    "text": "Why: The fence, the fall-zone surfacing and the climbing structure all checked close up before the gate opens, with a sprung S-hook closed by…",
+    "src": {
+     "kb": "station:ed-playground-equipment-inspection"
+    },
+    "topic": "Playground Equipment Inspection"
+   },
+   {
+    "text": "First light in the yard: the walkaround before the engine turns over, a short pull-out to the curb, amber lights before the stop, a full stop, the stop arm and crossing gate out together, the danger zone scanned in the mirrors, students counted aboard, the door shut, and the mirrors checked again before the bus ever rolls",
+    "src": {
+     "station": "ed-bus-pretrip-and-loading-zone"
+    },
+    "topic": "Bus Pre-Trip & Loading Zone"
+   },
+   {
+    "text": "Why: The pre-trip walkaround before the engine starts, the stop arm and crossing gate out together at the curb, and the mirrors checked again…",
+    "src": {
+     "kb": "station:ed-bus-pretrip-and-loading-zone"
+    },
+    "topic": "Bus Pre-Trip & Loading Zone"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "ed-custodial-chemical-dilution-and-floor-machine",
+    "label": "Custodial Chemical Dilution & Floor Machine",
+    "siteId": "fruitvale-elementary-school"
+   },
+   {
+    "kind": "station",
+    "id": "ed-playground-equipment-inspection",
+    "label": "Playground Equipment Inspection",
+    "siteId": "fruitvale-elementary-school"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-digital-at-the-college",
+    "label": "Pause before you click",
+    "station": "k12-digital-citizenship-and-online-safety"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-fruitvale-fire-station",
+    "label": "Crew Cache: Fruitvale Fire Station",
+    "hint": "Crews tuck a cache near their site. Walk the sites."
+   }
+  ]
+ },
+ {
+  "id": "gr-bw-pilot",
+  "name": "Jerome",
+  "role": "Pilot",
+  "world": "bayworld",
+  "site": "island-ferry-landing",
+  "siteKind": null,
+  "siteName": "Island Ferry Landing",
+  "style": {
+   "ppe": "marine",
+   "i": 7
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Island Ferry Landing is a site in Bay World, in Island Harbour.",
+    "src": {
+     "kb": "site:bayworld:island-ferry-landing"
+    },
+    "topic": "Island Ferry Landing"
+   },
+   {
+    "text": "A passenger ferry at the float: the station bill read, vest and radio on, the deck walked before boarding, the gangway landed, the count held against the certificate while a passenger goes in between the float and the hull, the lines let go, the life-saving gear walked, the bow line tended on the capstan through a current shift, the passengers landed in order and the run logged",
+    "src": {
+     "station": "mw-ferry-deckhand-and-passenger-safety"
+    },
+    "topic": "Ferry Deckhand & Passenger Safety"
+   },
+   {
+    "text": "Why: The Inlandboatmen's deckhand at the float: the station bill read, the gangway landed before anyone crosses, every passenger counted against…",
+    "src": {
+     "kb": "station:mw-ferry-deckhand-and-passenger-safety"
+    },
+    "topic": "Ferry Deckhand & Passenger Safety"
+   },
+   {
+    "text": "The stop before the route continues: the ADA procedure read for the securement points and the stop-request rule, the bus kneeled and the lift deployed in order, the boarding pad checked clear before anyone rolls forward, the platform held steady while it lowers, the rider rolled aboard to the securement area, all four points locked and tensioned, the seatbelt fastened, the stop-request procedure briefed, the lift watched clean back into its stow, the mirrors checked for anyone at the curb, the kneel returned to ride height, the road supervisor checked in with, and the trip logged",
+    "src": {
+     "station": "tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    "topic": "Wheelchair Lift & Securement on a Bus"
+   },
+   {
+    "text": "Why: The stop that makes the route accessible: the boarding pad checked clear, all four securement points locked and tensioned, and the lift…",
+    "src": {
+     "kb": "station:tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    "topic": "Wheelchair Lift & Securement on a Bus"
+   },
+   {
+    "text": "Dock load-out: pre-shift inspection, belt on, trailer chocked and dock-locked before the plate, load against the capacity plate, forks under and mast back, low and steady, ramp in reverse, rack height, and the trailer that crept",
+    "src": {
+     "station": "forklift-dock"
+    },
+    "topic": "Forklift Dock"
+   },
+   {
+    "text": "Why: The dock: a trailer that creeps and a load that tips, on the most common powered truck in the country Part of Transit and Ramp Operations, Job Readiness Edition, Situational Awareness.",
+    "src": {
+     "kb": "station:forklift-dock"
+    },
+    "topic": "Forklift Dock"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "mw-ferry-deckhand-and-passenger-safety",
+    "label": "Ferry Deckhand & Passenger Safety",
+    "siteId": "island-ferry-landing"
+   },
+   {
+    "kind": "station",
+    "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+    "label": "Wheelchair Lift & Securement on a Bus",
+    "siteId": "island-ferry-landing"
+   },
+   {
+    "kind": "lesson",
+    "id": "bw-fl-ferry-map-scale",
+    "label": "Map scale at the ferry landing",
+    "station": "k12-reading-a-map-scale-in-bay-world"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-bay-bell-6",
+    "label": "Harbour Bell 6",
+    "hint": "Seven bells hang along the waterfront. Walk up and ring each."
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-dam-operator",
+  "name": "Rosa",
+  "role": "Dam operator",
+  "world": "summit",
+  "site": "dam",
+  "siteKind": null,
+  "siteName": "Hydroelectric Dam & Penstock",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 8
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Hydroelectric Dam & Penstock is a site in Sierra Summit, in The Reservoir.",
+    "src": {
+     "kb": "site:summit:dam"
+    },
+    "topic": "Hydroelectric Dam & Penstock"
+   },
+   {
+    "text": "A patch weld inside a process vessel, entered on a proven atmosphere and welded behind a posted fire watch with the combustibles already cleared",
+    "src": {
+     "station": "ib-pressure-vessel-confined-entry-and-hot-work"
+    },
+    "topic": "Pressure Vessel Confined Entry and Hot Work"
+   },
+   {
+    "text": "Why: Welding a patch inside a vessel means the confined-space permit and the hot-work permit are read as one job, because an atmosphere proven…",
+    "src": {
+     "kb": "station:ib-pressure-vessel-confined-entry-and-hot-work"
+    },
+    "topic": "Pressure Vessel Confined Entry and Hot Work"
+   },
+   {
+    "text": "Below-grade rescue: refuse the unprotected entry, isolate and ventilate, monitor top to bottom, tripod and mechanical advantage rigged, air-supplied entrant on a tended line, patient packaged, controlled haul, atmosphere log handed over",
+    "src": {
+     "station": "confined-rescue"
+    },
+    "topic": "Confined Rescue"
+   },
+   {
+    "text": "Why: The rescue, including the part where the first job is stopping a coworker from becoming the second patient Part of Confined Space, Situational Awareness.",
+    "src": {
+     "kb": "station:confined-rescue"
+    },
+    "topic": "Confined Rescue"
+   },
+   {
+    "text": "Fire and EMS.",
+    "src": {
+     "union": "iaff"
+    },
+    "topic": "IAFF"
+   },
+   {
+    "text": "Above water first: the motor breaker and the rake drive found, the breaker racked out and locked and tagged in order, the try-start proving dead, the isolation valve closed, the lockouts reported and the splash called — then below: the descent through a current shift, the clogged screen and the bent panel found, the no-flow gauge read again with your own hands, the debris cleared, the face scraped through a flickering flow indicator, the loose mesh and the dropped-tool risk found, the screen reported clear, and the diver's own signal held before the crew checks in",
+    "src": {
+     "station": "uw-intake-screen-cleaning-with-lockout"
+    },
+    "topic": "Intake Screen Cleaning With Lockout"
+   },
+   {
+    "text": "Why: The plant's own lockout worked above water first — breaker racked, locked and tagged, the isolation valve shut — before the diver ever…",
+    "src": {
+     "kb": "station:uw-intake-screen-cleaning-with-lockout"
+    },
+    "topic": "Intake Screen Cleaning With Lockout"
+   },
+   {
+    "text": "ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training",
+    "src": {
+     "standard": "ansi-a92"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "ib-pressure-vessel-confined-entry-and-hot-work",
+    "label": "Pressure Vessel Confined Entry and Hot Work",
+    "siteId": "dam"
+   },
+   {
+    "kind": "station",
+    "id": "confined-rescue",
+    "label": "Confined Rescue",
+    "siteId": "dam"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-pressure-depth",
+    "label": "Pressure grows with depth",
+    "station": "k12-buoyancy-and-pressure-in-the-deep"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-penstock-walk",
+    "label": "Penstock Inspection Walk"
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-road-foreman",
+  "name": "Deshawn",
+  "role": "Pass road crew foreman",
+  "world": "summit",
+  "site": "pass-road",
+  "siteKind": null,
+  "siteName": "Pass Road Crew Yard",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 9
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Pass Road Crew Yard is a site in Sierra Summit, in The Pass.",
+    "src": {
+     "kb": "site:summit:pass-road"
+    },
+    "topic": "Pass Road Crew Yard"
+   },
+   {
+    "text": "Over the crest and down the long grade: brakes checked at the top, the low gear picked before the crest, the engine brake doing the work, snub braking not riding, the escape ramp noted and a fading brake answered",
+    "src": {
+     "station": "drive-mountain-grade-and-engine-brake"
+    },
+    "topic": "Mountain Grade and Engine Brake"
+   },
+   {
+    "text": "Why: A long downgrade driven on the engine: brakes checked at the pull-out, the low gear chosen before the crest, snub braking instead of riding…",
+    "src": {
+     "kb": "station:drive-mountain-grade-and-engine-brake"
+    },
+    "topic": "Mountain Grade and Engine Brake"
+   },
+   {
+    "text": "A roadside storm cleanup after the wind: the damage walked for a sagging line, the taper and signs set to the traffic-control plan, the chipper's own guard checked and its chute aimed off the lane, every branch fed from behind the line, and the machine locked out before any jam is cleared",
+    "src": {
+     "station": "gk-storm-cleanup-chipper-and-traffic-control"
+    },
+    "topic": "Storm Cleanup: Chipper & Traffic Control"
+   },
+   {
+    "text": "Why: The taper and the signs go up to the traffic-control plan before the shoulder is worked, and every branch is fed from behind the marked…",
+    "src": {
+     "kb": "station:gk-storm-cleanup-chipper-and-traffic-control"
+    },
+    "topic": "Storm Cleanup: Chipper & Traffic Control"
+   },
+   {
+    "text": "Wet shoulder, live lane: the block set upstream, the taper built for the posted speed, the engine shielding, the driver kept out of the lane — and the lane given back",
+    "src": {
+     "station": "traffic-incident-management"
+    },
+    "topic": "Traffic Incident Management"
+   },
+   {
+    "text": "Why: Three services under one plan on a wet shoulder: the block upstream, the taper to the posted speed, a driver in shock kept out of the live…",
+    "src": {
+     "kb": "station:traffic-incident-management"
+    },
+    "topic": "Traffic Incident Management"
+   },
+   {
+    "text": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications",
+    "src": {
+     "standard": "aashto-bridge-inspection"
+    },
+    "topic": "AASHTO"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "drive-mountain-grade-and-engine-brake",
+    "label": "Mountain Grade and Engine Brake",
+    "siteId": "pass-road"
+   },
+   {
+    "kind": "station",
+    "id": "gk-storm-cleanup-chipper-and-traffic-control",
+    "label": "Storm Cleanup: Chipper & Traffic Control",
+    "siteId": "pass-road"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-avalanche-control",
+    "label": "Avalanche-Season Traffic Control"
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-line-journeyworker",
+  "name": "Malik",
+  "role": "Journeyworker lineworker",
+  "world": "summit",
+  "site": "ridge-line",
+  "siteKind": null,
+  "siteName": "Transmission Ridge Line Crew",
+  "style": {
+   "ppe": "electrical",
+   "i": 10
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Transmission Ridge Line Crew is a site in Sierra Summit, in The Transmission Ridge.",
+    "src": {
+     "kb": "site:summit:ridge-line"
+    },
+    "topic": "Transmission Ridge Line Crew"
+   },
+   {
+    "text": "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",
+    "src": {
+     "station": "line-truck"
+    },
+    "topic": "Line Truck"
+   },
+   {
+    "text": "Why: Overhead: the same sequence with cover-up, an approach boundary and a bucket Part of Inside Wireman.",
+    "src": {
+     "kb": "station:line-truck"
+    },
+    "topic": "Line Truck"
+   },
+   {
+    "text": "Inside and outside wireman apprenticeship with NECA. The programmes name IBEW locals in the plural, so no single local is carried.",
+    "src": {
+     "union": "ibew"
+    },
+    "topic": "IBEW"
+   },
+   {
+    "text": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "src": {
+     "station": "or-transmission-line-right-of-way-patrol"
+    },
+    "topic": "Transmission Line ROW Patrol"
+   },
+   {
+    "text": "Why: The corridor these stations feed and draw from, walked and driven on open range, where a downed conductor is treated as energised from the…",
+    "src": {
+     "kb": "station:or-transmission-line-right-of-way-patrol"
+    },
+    "topic": "Transmission Line ROW Patrol"
+   },
+   {
+    "text": "Guyed tower climb: 100% tie-off, RF lockout and a controlled descent",
+    "src": {
+     "station": "tower-climb"
+    },
+    "topic": "Tower Climb"
+   },
+   {
+    "text": "Why: A climb with a hundred metres under it: the transitions are where people fall Part of Working at Height, Situational Awareness.",
+    "src": {
+     "kb": "station:tower-climb"
+    },
+    "topic": "Tower Climb"
+   },
+   {
+    "text": "Outside-plant, tower and broadcast work.",
+    "src": {
+     "union": "cwa"
+    },
+    "topic": "CWA"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "line-truck",
+    "label": "Line Truck",
+    "siteId": "ridge-line"
+   },
+   {
+    "kind": "station",
+    "id": "or-transmission-line-right-of-way-patrol",
+    "label": "Transmission Line ROW Patrol",
+    "siteId": "ridge-line"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-ridge-triangles",
+    "label": "Triangles hold a tower up",
+    "station": "k12-slope-and-angles-on-a-ramp"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-night-patrol",
+    "label": "Night Patrol on the Ridge"
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-ranger",
+  "name": "Yuki",
+  "role": "Ranger",
+  "world": "summit",
+  "site": "ranger-station",
+  "siteKind": null,
+  "siteName": "Ranger Station & Trailhead",
+  "style": {
+   "ppe": "grounds",
+   "i": 11
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Ranger Station & Trailhead is a site in Sierra Summit, in The Reservoir.",
+    "src": {
+     "kb": "site:summit:ranger-station"
+    },
+    "topic": "Ranger Station & Trailhead"
+   },
+   {
+    "text": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "src": {
+     "station": "or-wildland-fireline-construction-and-lookout"
+    },
+    "topic": "Wildland Fireline Construction"
+   },
+   {
+    "text": "Why: The wildland edge from the crew's own side of it: LCES named before a tool moves, and a wind shift or a spot fire across the line answered…",
+    "src": {
+     "kb": "station:or-wildland-fireline-construction-and-lookout"
+    },
+    "topic": "Wildland Fireline Construction"
+   },
+   {
+    "text": "Structure defence at a WUI fire: LCES first, the structure triaged, ember-resistant prep, the trigger points and the pull-out call, a live wind and fire-behaviour read, and a resident who will not leave handled with respect and the sheriff's authority",
+    "src": {
+     "station": "wildland-urban-interface"
+    },
+    "topic": "Wildland-Urban Interface"
+   },
+   {
+    "text": "Why: A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind…",
+    "src": {
+     "kb": "station:wildland-urban-interface"
+    },
+    "topic": "Wildland-Urban Interface"
+   },
+   {
+    "text": "Fire and EMS.",
+    "src": {
+     "union": "iaff"
+    },
+    "topic": "IAFF"
+   },
+   {
+    "text": "A downed log limbed on the ground: chaps and PPE on first, the log walked for a spring pole and buried debris, the saw started braced in its own order, the chain brake proven, and every cut made braced, two-handed and clear of anyone else nearby",
+    "src": {
+     "station": "gk-chainsaw-start-and-limbing-on-the-ground"
+    },
+    "topic": "Chainsaw Start & Limbing on the Ground"
+   },
+   {
+    "text": "Why: The saw is started braced on the ground in its own order, the chain brake is proven at idle before the throttle is trusted, and every…",
+    "src": {
+     "kb": "station:gk-chainsaw-start-and-limbing-on-the-ground"
+    },
+    "topic": "Chainsaw Start & Limbing on the Ground"
+   },
+   {
+    "text": "ANSI/ISEA 107 — High-visibility safety apparel and accessories",
+    "src": {
+     "standard": "ansi-isea-107"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "label": "Wildland Fireline Construction",
+    "siteId": "ranger-station"
+   },
+   {
+    "kind": "station",
+    "id": "wildland-urban-interface",
+    "label": "Wildland-Urban Interface",
+    "siteId": "ranger-station"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-contours",
+    "label": "Reading contour lines",
+    "station": "k12-reading-a-map-scale-in-bay-world"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-fire-lookout",
+    "label": "Fire Lookout Watch"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-summit-cairn-1",
+    "label": "Trail Cairn 1: West Ridge Lookout Trail",
+    "hint": "Cairns stand a little off every trail on the mountain. Walk the trails."
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-water-operator",
+  "name": "Ana",
+  "role": "Water treatment operator",
+  "world": "summit",
+  "site": "water-plant",
+  "siteKind": null,
+  "siteName": "Valley Water Treatment Plant",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 12
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Valley Water Treatment Plant is a site in Sierra Summit, in The Valley Floor.",
+    "src": {
+     "kb": "site:summit:water-plant"
+    },
+    "topic": "Valley Water Treatment Plant"
+   },
+   {
+    "text": "150-lb chlorine cylinder change: room monitor and SCBA before the door, empty isolated and capped, full one on the scale and chained, new gasket, yoke a quarter turn past snug, ammonia leak test, valve one turn, wrench on the stem",
+    "src": {
+     "station": "chlorine-room"
+    },
+    "topic": "Chlorine Room"
+   },
+   {
+    "text": "Why: A space you do not enter blind: the monitor and the air pack are read and staged from outside the door Part of Confined Space, Situational Awareness.",
+    "src": {
+     "kb": "station:chlorine-room"
+    },
+    "topic": "Chlorine Room"
+   },
+   {
+    "text": "The shipping papers, the safety data sheet and the tank's own label all proven to agree before a single hose connects, the tanker grounded and watched from the first moment it flows, and the transfer stopped well short of a tank already checked for room",
+    "src": {
+     "station": "ut-water-treatment-chemical-delivery-unloading"
+    },
+    "topic": "Water Treatment Chemical Delivery Unloading"
+   },
+   {
+    "text": "Why: The shipping papers, the safety data sheet and the tank's own label all have to agree before a single hose connects, and the transfer is…",
+    "src": {
+     "kb": "station:ut-water-treatment-chemical-delivery-unloading"
+    },
+    "topic": "Water Treatment Chemical Delivery Unloading"
+   },
+   {
+    "text": "Wet-well pump pull: gas test, lockout, bypass pumping, guide-rail lift, no-entry retrieval, restart and level check",
+    "src": {
+     "station": "lift-station"
+    },
+    "topic": "Lift Station"
+   },
+   {
+    "text": "Why: A wet well, where the atmosphere changes while you are in it and the pumps are the second hazard Part of Confined Space.",
+    "src": {
+     "kb": "station:lift-station"
+    },
+    "topic": "Lift Station"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "chlorine-room",
+    "label": "Chlorine Room",
+    "siteId": "water-plant"
+   },
+   {
+    "kind": "station",
+    "id": "ut-water-treatment-chemical-delivery-unloading",
+    "label": "Water Treatment Chemical Delivery Unloading",
+    "siteId": "water-plant"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-water-cycle",
+    "label": "From snowpack to tap",
+    "station": "k12-water-cycle-and-filtration"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-plant-delivery",
+    "label": "The Morning Delivery"
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-lift-millwright",
+  "name": "Sione",
+  "role": "Lift millwright",
+  "world": "summit",
+  "site": "gondola-shop",
+  "siteKind": null,
+  "siteName": "Gondola Maintenance Shop",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 13
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Gondola Maintenance Shop is a site in Sierra Summit, in The Pass.",
+    "src": {
+     "kb": "site:summit:gondola-shop"
+    },
+    "topic": "Gondola Maintenance Shop"
+   },
+   {
+    "text": "Isolate the machine, guard the hand brake-release lever, measure lining and gap against wear limits, and prove the brake on a test run before restoring power",
+    "src": {
+     "station": "ew-machine-room-lockout-and-brake-test"
+    },
+    "topic": "Machine Room Lockout and Brake Test"
+   },
+   {
+    "text": "Why: Proving the traction machine's brake against its own wear limits, with the hand-release lever physically guarded so nobody can pull it…",
+    "src": {
+     "kb": "station:ew-machine-room-lockout-and-brake-test"
+    },
+    "topic": "Machine Room Lockout and Brake Test"
+   },
+   {
+    "text": "Confirming the car's true position before anything else, then a controlled hand-crank lowering, a level check, a bridge across the sill gap and a coordinated release of the passengers",
+    "src": {
+     "station": "ew-elevator-entrapment-and-rescue-with-fire-service"
+    },
+    "topic": "Elevator Entrapment and Rescue with Fire Service"
+   },
+   {
+    "text": "Why: A coordinated rescue with a responding fire company — the car's true position confirmed before a hand crank ever lowers it, and the sill…",
+    "src": {
+     "kb": "station:ew-elevator-entrapment-and-rescue-with-fire-service"
+    },
+    "topic": "Elevator Entrapment and Rescue with Fire Service"
+   },
+   {
+    "text": "The pad before the pick: the critical lift plan read for its chart percentage and exclusion zone, hi-vis and a hard hat on, a cracked shackle found in the rigging set before it is used, the load chart read against the plan's own limit, the outriggers set, the signalperson briefed on the channel and the signals, the sling and shackle rigged in order, the slack taken up slow, the lift held for the signalperson's own word before the boom moves, the load watched plumb the whole pick, the exclusion zone cleared, the load landed on its mark, the crew checked in, and the lift logged",
+    "src": {
+     "station": "rl-critical-lift-plan-and-signalperson"
+    },
+    "topic": "Critical Lift Plan & Signalperson"
+   },
+   {
+    "text": "Why: The lift where the plan and the signalperson are the load path: a chart read against its own limit, one voice running the pick, and the…",
+    "src": {
+     "kb": "station:rl-critical-lift-plan-and-signalperson"
+    },
+    "topic": "Critical Lift Plan & Signalperson"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "ew-machine-room-lockout-and-brake-test",
+    "label": "Machine Room Lockout and Brake Test",
+    "siteId": "gondola-shop"
+   },
+   {
+    "kind": "station",
+    "id": "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "label": "Elevator Entrapment and Rescue with Fire Service",
+    "siteId": "gondola-shop"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-gondola-wheel",
+    "label": "The bullwheel is a wheel and axle",
+    "station": "k12-simple-machines-at-a-crane"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-cabin-rescue",
+    "label": "Cabin Rescue Drill"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-summit-cairn-8",
+    "label": "Trail Cairn 8: Lakeshore Trail",
+    "hint": "Cairns stand a little off every trail on the mountain. Walk the trails."
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-tunnel-crew",
+  "name": "Farah",
+  "role": "Tunnel crew lead",
+  "world": "summit",
+  "site": "tunnel-portal",
+  "siteKind": null,
+  "siteName": "Pass Tunnel Portal",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 14
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Pass Tunnel Portal is a site in Sierra Summit, in The Pass.",
+    "src": {
+     "kb": "site:summit:tunnel-portal"
+    },
+    "topic": "Pass Tunnel Portal"
+   },
+   {
+    "text": "A reinforced wall shot right: the placement plan read, the rebar clearance and the hose coupling walked before the line is charged, the rebound zone cleared, the nozzle worked perpendicular and at distance in overlapping passes, the build tracked and probe-checked, the rebound shoveled up wet, and the panel cured",
+    "src": {
+     "station": "cm-shotcrete-nozzle-and-rebound"
+    },
+    "topic": "Shotcrete Nozzle & Rebound"
+   },
+   {
+    "text": "Why: Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for…",
+    "src": {
+     "kb": "station:cm-shotcrete-nozzle-and-rebound"
+    },
+    "topic": "Shotcrete Nozzle & Rebound"
+   },
+   {
+    "text": "Excavator trenching over a located utility: the ticket verified against the paint, the swing radius barricaded, the coupler locked, the line hand-exposed, and a spotter and grade checker both doing their own job",
+    "src": {
+     "station": "op-excavator-trench-and-utility-locate"
+    },
+    "topic": "Excavator Trench & Utility Locate"
+   },
+   {
+    "text": "Why: The excavator only earns the cut once the locate ticket is checked against the paint, the swing radius is barricaded, the coupler is…",
+    "src": {
+     "kb": "station:op-excavator-trench-and-utility-locate"
+    },
+    "topic": "Excavator Trench & Utility Locate"
+   },
+   {
+    "text": "Frame scaffold, two lifts: ground and sills, base plates, plumb and level, tie-ins, full planking, guardrails, ladder access, green tag",
+    "src": {
+     "station": "scaffold-erection"
+    },
+    "topic": "Scaffold Erection"
+   },
+   {
+    "text": "Why: Building the platform: the order in which a scaffold becomes safe to stand on, and the green tag that says so Part of Working at Height.",
+    "src": {
+     "kb": "station:scaffold-erection"
+    },
+    "topic": "Scaffold Erection"
+   },
+   {
+    "text": "ACI 347 Guide to Formwork for Concrete — design, construction, removal of forms and reshoring",
+    "src": {
+     "standard": "aci-347"
+    },
+    "topic": "ACI"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "cm-shotcrete-nozzle-and-rebound",
+    "label": "Shotcrete Nozzle & Rebound",
+    "siteId": "tunnel-portal"
+   },
+   {
+    "kind": "station",
+    "id": "op-excavator-trench-and-utility-locate",
+    "label": "Excavator Trench & Utility Locate",
+    "siteId": "tunnel-portal"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-tunnel-fair-test",
+    "label": "Testing the air is a fair test",
+    "station": "k12-a-controlled-experiment"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-portal-trench",
+    "label": "Utility Trench at the Portal"
+   }
+  ]
+ },
+ {
+  "id": "gr-sm-substation-electrician",
+  "name": "Owen",
+  "role": "Substation electrician",
+  "world": "summit",
+  "site": "substation",
+  "siteKind": null,
+  "siteName": "Ridge Substation",
+  "style": {
+   "ppe": "electrical",
+   "i": 15
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Ridge Substation is a site in Sierra Summit, in The Transmission Ridge.",
+    "src": {
+     "kb": "site:summit:substation"
+    },
+    "topic": "Ridge Substation"
+   },
+   {
+    "text": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
+    "src": {
+     "station": "substation-switching"
+    },
+    "topic": "Substation Switching"
+   },
+   {
+    "text": "Why: Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building Part of Inside Wireman, Energy Transition Systems, Situational Awareness.",
+    "src": {
+     "kb": "station:substation-switching"
+    },
+    "topic": "Substation Switching"
+   },
+   {
+    "text": "Inside and outside wireman apprenticeship with NECA. The programmes name IBEW locals in the plural, so no single local is carried.",
+    "src": {
+     "union": "ibew"
+    },
+    "topic": "IBEW"
+   },
+   {
+    "text": "One-line to label: fault current, clearing time, incident energy, boundaries, printed and posted",
+    "src": {
+     "station": "arc-flash-label-study"
+    },
+    "topic": "Arc-Flash Label Study"
+   },
+   {
+    "text": "Why: Where the label the first four stations all trusted actually comes from — the study, not a guess, behind every incident-energy number this…",
+    "src": {
+     "kb": "station:arc-flash-label-study"
+    },
+    "topic": "Arc-Flash Label Study"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "substation-switching",
+    "label": "Substation Switching",
+    "siteId": "substation"
+   },
+   {
+    "kind": "station",
+    "id": "arc-flash-label-study",
+    "label": "Arc-Flash Label Study",
+    "siteId": "substation"
+   },
+   {
+    "kind": "lesson",
+    "id": "sm-fl-circuit",
+    "label": "A complete circuit",
+    "station": "k12-circuits-at-the-electrical-bench"
+   },
+   {
+    "kind": "quest",
+    "id": "sm-side-arc-labels",
+    "label": "Every Door Has a Label"
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-crew-boss",
+  "name": "Nadia",
+  "role": "Wildland crew boss",
+  "world": "redwood",
+  "site": "fire-station",
+  "siteKind": null,
+  "siteName": "Wildland Fire Station",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 16
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Wildland Fire Station is a site in Redwood Reach for wildland fire.",
+    "src": {
+     "kb": "site:redwood:fire-station"
+    },
+    "topic": "Wildland Fire Station"
+   },
+   {
+    "text": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "src": {
+     "station": "or-wildland-fireline-construction-and-lookout"
+    },
+    "topic": "Wildland Fireline Construction"
+   },
+   {
+    "text": "Why: The wildland edge from the crew's own side of it: LCES named before a tool moves, and a wind shift or a spot fire across the line answered…",
+    "src": {
+     "kb": "station:or-wildland-fireline-construction-and-lookout"
+    },
+    "topic": "Wildland Fireline Construction"
+   },
+   {
+    "text": "Structure defence at a WUI fire: LCES first, the structure triaged, ember-resistant prep, the trigger points and the pull-out call, a live wind and fire-behaviour read, and a resident who will not leave handled with respect and the sheriff's authority",
+    "src": {
+     "station": "wildland-urban-interface"
+    },
+    "topic": "Wildland-Urban Interface"
+   },
+   {
+    "text": "Why: A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind…",
+    "src": {
+     "kb": "station:wildland-urban-interface"
+    },
+    "topic": "Wildland-Urban Interface"
+   },
+   {
+    "text": "Fire and EMS.",
+    "src": {
+     "union": "iaff"
+    },
+    "topic": "IAFF"
+   },
+   {
+    "text": "Rehab sector at a working fire under NFPA 1584: cylinder rotation, PPE broken down, vitals read against the release criteria, cooling and hydration, a heat-stressed member held back, and the crew's own check-in",
+    "src": {
+     "station": "firefighter-rehab-sector"
+    },
+    "topic": "Firefighter Rehab Sector"
+   },
+   {
+    "text": "Why: The sector behind the fire where the crew itself is the patient: vitals read against a real release criterion, and a member held back for…",
+    "src": {
+     "kb": "station:firefighter-rehab-sector"
+    },
+    "topic": "Firefighter Rehab Sector"
+   },
+   {
+    "text": "ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training",
+    "src": {
+     "standard": "ansi-a92"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "label": "Wildland Fireline Construction",
+    "siteId": "fire-station"
+   },
+   {
+    "kind": "station",
+    "id": "wildland-urban-interface",
+    "label": "Wildland-Urban Interface",
+    "siteId": "fire-station"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-incident-report",
+    "label": "Writing What Happened",
+    "station": "k12-writing-a-clear-incident-report"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-rehab-drill",
+    "label": "Rehab Drill"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-page-3",
+    "label": "Logbook Page 3: Valley Fire Road",
+    "hint": "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-lookout",
+  "name": "Tariq",
+  "role": "Fire lookout",
+  "world": "redwood",
+  "site": "lookout",
+  "siteKind": null,
+  "siteName": "Ridge Fire Lookout",
+  "style": {
+   "ppe": "grounds",
+   "i": 17
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Ridge Fire Lookout is a site in Redwood Reach for wildland fire.",
+    "src": {
+     "kb": "site:redwood:lookout"
+    },
+    "topic": "Ridge Fire Lookout"
+   },
+   {
+    "text": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "src": {
+     "station": "or-wildland-fireline-construction-and-lookout"
+    },
+    "topic": "Wildland Fireline Construction"
+   },
+   {
+    "text": "Why: The wildland edge from the crew's own side of it: LCES named before a tool moves, and a wind shift or a spot fire across the line answered…",
+    "src": {
+     "kb": "station:or-wildland-fireline-construction-and-lookout"
+    },
+    "topic": "Wildland Fireline Construction"
+   },
+   {
+    "text": "The survey a restoration record is built from: the airspace authorization read before anything is unpacked, the gear checked for a cracked prop or a swollen cell, the compass calibrated, the bird buffer confirmed and marked, the survey line flown clean end to end, a wind gust answered with an immediate return home, the battery landed inside its reserve band and every pass logged the way the permit requires",
+    "src": {
+     "station": "br-drone-shoreline-survey"
+    },
+    "topic": "Drone Shoreline Survey"
+   },
+   {
+    "text": "Why: A shoreline survey line only means what it claims to mean when the airspace was actually checked, the buffer marker was set to the…",
+    "src": {
+     "kb": "station:br-drone-shoreline-survey"
+    },
+    "topic": "Drone Shoreline Survey"
+   },
+   {
+    "text": "ANSI/ISEA 107 — High-visibility safety apparel and accessories",
+    "src": {
+     "standard": "ansi-isea-107"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "label": "Wildland Fireline Construction",
+    "siteId": "lookout"
+   },
+   {
+    "kind": "station",
+    "id": "br-drone-shoreline-survey",
+    "label": "Drone Shoreline Survey",
+    "siteId": "lookout"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-call-for-help",
+    "label": "A Clear Location When You Call",
+    "station": "k12-first-aid-awareness-call-for-help"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-night-lookout",
+    "label": "Night Watch at the Lookout"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-blaze-7",
+    "label": "Trail Blaze 7: Lookout Switchbacks",
+    "hint": "Trail blazes mark the foot trails between the sites."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-millwright",
+  "name": "Leilani",
+  "role": "Sawmill millwright",
+  "world": "redwood",
+  "site": "sawmill",
+  "siteKind": null,
+  "siteName": "Valley Sawmill & Log Yard",
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 18
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Valley Sawmill & Log Yard is a site in Redwood Reach for sawmill millwrights and operators.",
+    "src": {
+     "kb": "site:redwood:sawmill"
+    },
+    "topic": "Valley Sawmill & Log Yard"
+   },
+   {
+    "text": "Belt jam clearance: e-stop, lockout, stored-energy release, try-start, guard off and back on, pull-cord restored, restart",
+    "src": {
+     "station": "conveyor-guard"
+    },
+    "topic": "Conveyor Guard"
+   },
+   {
+    "text": "Clearing a jammed carton off a live roller line the way the line's own isolation sequence requires it: the pull-cord tried first, the drive isolated and locked at its own disconnect, the residual motion actually checked, the jam cleared with a hand that never has to trust the line's timer, and the guard and the isolation both returned before the belt sees power again",
+    "src": {
+     "station": "tw-conveyor-jam-clearing-and-loto"
+    },
+    "topic": "Conveyor Jam Clearing & LOTO"
+   },
+   {
+    "text": "Why: A jammed carton only gets pulled free once the pull-cord is tried, the drive is isolated and locked at its own disconnect, and the residual…",
+    "src": {
+     "kb": "station:tw-conveyor-jam-clearing-and-loto"
+    },
+    "topic": "Conveyor Jam Clearing & LOTO"
+   },
+   {
+    "text": "Wheel loader loading a haul truck: blind zones mapped, the spotter positioned where the cab can see them, the driver clear before the bucket swings, the truck chocked, and every pass counted against the scale",
+    "src": {
+     "station": "op-loader-truck-loading-and-blind-spots"
+    },
+    "topic": "Loader Truck Loading & Blind Spots"
+   },
+   {
+    "text": "Why: A wheel loader's blind zones are fixed facts of the machine, not something attention can compensate for, so this station maps them before…",
+    "src": {
+     "kb": "station:op-loader-truck-loading-and-blind-spots"
+    },
+    "topic": "Loader Truck Loading & Blind Spots"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "conveyor-guard",
+    "label": "Conveyor Guard",
+    "siteId": "sawmill"
+   },
+   {
+    "kind": "station",
+    "id": "tw-conveyor-jam-clearing-and-loto",
+    "label": "Conveyor Jam Clearing & LOTO",
+    "siteId": "sawmill"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-sources",
+    "label": "Primary and Secondary at the Mill",
+    "station": "k12-primary-and-secondary-sources"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-mill-restart",
+    "label": "Safe Restart at the Mill"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-page-6",
+    "label": "Logbook Page 6: Mill Road",
+    "hint": "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-watershed-tech",
+  "name": "Marcus",
+  "role": "Watershed technician",
+  "world": "redwood",
+  "site": "restoration",
+  "siteKind": null,
+  "siteName": "Watershed Restoration Reach",
+  "style": {
+   "ppe": "grounds",
+   "i": 19
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Watershed Restoration Reach is a site in Redwood Reach for watershed restoration.",
+    "src": {
+     "kb": "site:redwood:restoration"
+    },
+    "topic": "Watershed Restoration Reach"
+   },
+   {
+    "text": "Replacing a perched culvert with a fish-passage crossing on a dewatered reach: fish excluded and the channel dammed before the pump starts, the old bedding dug to a controlled swing, the barrel entered only on a confined space permit, the new box set to the laser and backfilled lift by lift, and the invert grade checked before the dam ever comes out",
+    "src": {
+     "station": "br-culvert-retrofit-for-fish-passage"
+    },
+    "topic": "Culvert Retrofit For Fish Passage"
+   },
+   {
+    "text": "Why: A perched culvert that a fish cannot swim through only becomes passable on a dry, fish-excluded channel, dug and backfilled to a…",
+    "src": {
+     "kb": "station:br-culvert-retrofit-for-fish-passage"
+    },
+    "topic": "Culvert Retrofit For Fish Passage"
+   },
+   {
+    "text": "Revegetating a graded bank on a permit and a buffer: plan and nesting closure checked, coir matting pinned top to bottom before a single plug goes in, holes bored and moisture read at the design depth, plants tamped in on a steady cart haul, the drip line opened, and the bench walked for anything the next gust or tide can still take",
+    "src": {
+     "station": "br-native-planting-and-erosion-mats"
+    },
+    "topic": "Native Planting & Erosion Control Mats"
+   },
+   {
+    "text": "Why: The graded bank above the marsh is only held until roots can hold it themselves, so the coir mat goes down pinned top to toe before a…",
+    "src": {
+     "kb": "station:br-native-planting-and-erosion-mats"
+    },
+    "topic": "Native Planting & Erosion Control Mats"
+   },
+   {
+    "text": "Servicing a positive-barrier fish screen on a tidal diversion intake: the drive motor locked out before anyone works the drum, the approach velocity read before and after, fouling found and cleared, a torn panel patched and cross-torqued back down, the bypass opened the moment a debris surge hits, and the lock never comes off until every hand is confirmed clear",
+    "src": {
+     "station": "br-fish-screen-maintenance"
+    },
+    "topic": "Fish Screen Maintenance"
+   },
+   {
+    "text": "Why: A fish screen's drive motor gets locked out before anyone's hands go near the drum, and the lock never comes off until a confirmed…",
+    "src": {
+     "kb": "station:br-fish-screen-maintenance"
+    },
+    "topic": "Fish Screen Maintenance"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "br-culvert-retrofit-for-fish-passage",
+    "label": "Culvert Retrofit For Fish Passage",
+    "siteId": "restoration"
+   },
+   {
+    "kind": "station",
+    "id": "br-native-planting-and-erosion-mats",
+    "label": "Native Planting & Erosion Control Mats",
+    "siteId": "restoration"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-planting-crew",
+    "label": "Plant the Bank"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-page-8",
+    "label": "Logbook Page 8: Ridge Fire Road",
+    "hint": "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-campground-host",
+  "name": "Sunita",
+  "role": "Campground host",
+  "world": "redwood",
+  "site": "campground",
+  "siteKind": null,
+  "siteName": "Fern Hollow Campground & Trailhead",
+  "style": {
+   "ppe": "none",
+   "i": 20
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Fern Hollow Campground & Trailhead is a site in Redwood Reach for forestry and trail crews.",
+    "src": {
+     "kb": "site:redwood:campground"
+    },
+    "topic": "Fern Hollow Campground & Trailhead"
+   },
+   {
+    "text": "A string trimmer and a backpack blower on a park path that still has people on it: PPE first, the guard and trigger interlock confirmed, the bystander zone posted and barricaded, and the blower's discharge kept off people, pets and the storm drain",
+    "src": {
+     "station": "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+    },
+    "topic": "Trimmer & Blower PPE and Bystander Zone"
+   },
+   {
+    "text": "Why: The guard and the trigger interlock are confirmed rather than assumed, the bystander zone is posted and barricaded before the engine…",
+    "src": {
+     "kb": "station:gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+    },
+    "topic": "Trimmer & Blower PPE and Bystander Zone"
+   },
+   {
+    "text": "Before the gate opens: the fence walked, the fall-zone surfacing probed for depth, the structure checked close up, a bolt torqued, an S-hook closed with the tool instead of a thumb, a handrail shake-tested, glass bagged rather than palmed, a broken swing tagged and roped off, and the drain that was clogged left clear",
+    "src": {
+     "station": "ed-playground-equipment-inspection"
+    },
+    "topic": "Playground Equipment Inspection"
+   },
+   {
+    "text": "Why: The fence, the fall-zone surfacing and the climbing structure all checked close up before the gate opens, with a sprung S-hook closed by…",
+    "src": {
+     "kb": "station:ed-playground-equipment-inspection"
+    },
+    "topic": "Playground Equipment Inspection"
+   },
+   {
+    "text": "The watch a volunteer crew doesn't know it needs: the briefing that actually covers sharps and the buddy system, the right glove and tool handed out for the right hazard, a loose needle found before the crew ever fans out, the tide window read off the table rather than guessed at, a missing volunteer answered with an immediate headcount, a surging tide answered with an immediate recall, and every hour of the day logged the way the sponsoring agency needs it logged",
+    "src": {
+     "station": "br-volunteer-cleanup-day-safety-lead"
+    },
+    "topic": "Volunteer Cleanup Day Safety Lead"
+   },
+   {
+    "text": "Why: A volunteer crew that has never worked this shoreline before is briefed on sharps and the buddy system before a single bag is opened, and a…",
+    "src": {
+     "kb": "station:br-volunteer-cleanup-day-safety-lead"
+    },
+    "topic": "Volunteer Cleanup Day Safety Lead"
+   },
+   {
+    "text": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula",
+    "src": {
+     "standard": "liuna-training-fund"
+    },
+    "topic": "union"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+    "label": "Trimmer & Blower PPE and Bystander Zone",
+    "siteId": "campground"
+   },
+   {
+    "kind": "station",
+    "id": "ed-playground-equipment-inspection",
+    "label": "Playground Equipment Inspection",
+    "siteId": "campground"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-map-scale",
+    "label": "Reading the Trail Map's Scale",
+    "station": "k12-reading-a-map-scale-in-bay-world"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-ember-ready",
+    "label": "Ember-Ready Campground"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-page-2",
+    "label": "Logbook Page 2: Valley Fire Road",
+    "hint": "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-nursery-lead",
+  "name": "Eli",
+  "role": "Nursery lead",
+  "world": "redwood",
+  "site": "nursery",
+  "siteKind": null,
+  "siteName": "Forest Nursery & Seed Bank",
+  "style": {
+   "ppe": "grounds",
+   "i": 21
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Forest Nursery & Seed Bank is a site in Redwood Reach for forestry nursery.",
+    "src": {
+     "kb": "site:redwood:nursery"
+    },
+    "topic": "Forest Nursery & Seed Bank"
+   },
+   {
+    "text": "A nursery chemical storage room kept the way the labels require: incompatible chemicals segregated, the eyewash path kept clear, the ventilation confirmed running, the eyewash station itself flow-tested, and every opened container relabelled",
+    "src": {
+     "station": "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+    },
+    "topic": "Greenhouse & Nursery Chemical Storage and Eyewash"
+   },
+   {
+    "text": "Why: Incompatible chemicals are segregated rather than shelved together, the path to the eyewash stays clear, and the eyewash station itself is…",
+    "src": {
+     "kb": "station:gk-greenhouse-nursery-chemical-storage-and-eyewash"
+    },
+    "topic": "Greenhouse & Nursery Chemical Storage and Eyewash"
+   },
+   {
+    "text": "The collecting permit read, the share meter set, the kit checked, the first bag cut into the cooler, the skiff drifted along the bed's edge while a bag heats on the thwart, the seeded and the torn bag found, the tank valve opened, bags labelled and hung in order, the sieve held while the flow alarm trips, the tank band read, the seed jar racked in the dark, the tender called and the collection logged",
+    "src": {
+     "station": "me-eelgrass-seed-collection-and-nursery"
+    },
+    "topic": "Eelgrass Seed Collection & Nursery"
+   },
+   {
+    "text": "Why: Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a…",
+    "src": {
+     "kb": "station:me-eelgrass-seed-collection-and-nursery"
+    },
+    "topic": "Eelgrass Seed Collection & Nursery"
+   },
+   {
+    "text": "A labelled turf product mixed and applied the way its own label sets out: PPE the label calls for, mixing over containment away from the drain, the treatment area walked for a pollinator bed and a play area, the buffer to water marked, and the rate and the wind held the whole pass",
+    "src": {
+     "station": "gk-pesticide-and-fertilizer-application-per-the-label"
+    },
+    "topic": "Pesticide & Fertilizer Application"
+   },
+   {
+    "text": "Why: The label and the SDS are read before the container is opened, the mixing happens over containment away from the drain, and the rate and…",
+    "src": {
+     "kb": "station:gk-pesticide-and-fertilizer-application-per-the-label"
+    },
+    "topic": "Pesticide & Fertilizer Application"
+   },
+   {
+    "text": "ASSE 1013 — Reduced pressure principle backflow preventers",
+    "src": {
+     "standard": "asse-1013"
+    },
+    "topic": "ASSE"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+    "label": "Greenhouse & Nursery Chemical Storage and Eyewash",
+    "siteId": "nursery"
+   },
+   {
+    "kind": "station",
+    "id": "me-eelgrass-seed-collection-and-nursery",
+    "label": "Eelgrass Seed Collection & Nursery",
+    "siteId": "nursery"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-safety-labels",
+    "label": "Read the Label First",
+    "station": "k12-reading-instructions-and-safety-labels"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-seed-run",
+    "label": "The Seed Run"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-page-1",
+    "label": "Logbook Page 1: Valley Fire Road",
+    "hint": "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-lineworker",
+  "name": "Grace",
+  "role": "Lineworker",
+  "world": "redwood",
+  "site": "substation",
+  "siteKind": null,
+  "siteName": "Rural Substation & Line Corridor",
+  "style": {
+   "ppe": "electrical",
+   "i": 22
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Rural Substation & Line Corridor is a site in Redwood Reach for linemen and substation electricians.",
+    "src": {
+     "kb": "site:redwood:substation"
+    },
+    "topic": "Rural Substation & Line Corridor"
+   },
+   {
+    "text": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
+    "src": {
+     "station": "substation-switching"
+    },
+    "topic": "Substation Switching"
+   },
+   {
+    "text": "Why: Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building Part of Inside Wireman, Energy Transition Systems, Situational Awareness.",
+    "src": {
+     "kb": "station:substation-switching"
+    },
+    "topic": "Substation Switching"
+   },
+   {
+    "text": "Inside and outside wireman apprenticeship with NECA. The programmes name IBEW locals in the plural, so no single local is carried.",
+    "src": {
+     "union": "ibew"
+    },
+    "topic": "IBEW"
+   },
+   {
+    "text": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "src": {
+     "station": "or-transmission-line-right-of-way-patrol"
+    },
+    "topic": "Transmission Line ROW Patrol"
+   },
+   {
+    "text": "Why: The corridor these stations feed and draw from, walked and driven on open range, where a downed conductor is treated as energised from the…",
+    "src": {
+     "kb": "station:or-transmission-line-right-of-way-patrol"
+    },
+    "topic": "Transmission Line ROW Patrol"
+   },
+   {
+    "text": "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",
+    "src": {
+     "station": "line-truck"
+    },
+    "topic": "Line Truck"
+   },
+   {
+    "text": "Why: Overhead: the same sequence with cover-up, an approach boundary and a bucket Part of Inside Wireman.",
+    "src": {
+     "kb": "station:line-truck"
+    },
+    "topic": "Line Truck"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "substation-switching",
+    "label": "Substation Switching",
+    "siteId": "substation"
+   },
+   {
+    "kind": "station",
+    "id": "or-transmission-line-right-of-way-patrol",
+    "label": "Transmission Line ROW Patrol",
+    "siteId": "substation"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-energy",
+    "label": "Energy on the Line",
+    "station": "k12-energy-transfer-at-the-wind-farm"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-danger-tree",
+    "label": "The Danger Tree Survey"
+   },
+   {
+    "kind": "treasure",
+    "id": "tz-redwood-page-4",
+    "label": "Logbook Page 4: Valley Fire Road",
+    "hint": "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them."
+   }
+  ]
+ },
+ {
+  "id": "gr-rw-estuary-scientist",
+  "name": "Noor",
+  "role": "Estuary field scientist",
+  "world": "redwood",
+  "site": "estuary",
+  "siteKind": null,
+  "siteName": "Estuary Field Station",
+  "style": {
+   "ppe": "marine",
+   "i": 23
+  },
+  "routine": {
+   "work": [
+    10,
+    2
+   ],
+   "rest": [
+    -9,
+    4
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Estuary Field Station is a site in Redwood Reach for watershed restoration.",
+    "src": {
+     "kb": "site:redwood:estuary"
+    },
+    "topic": "Estuary Field Station"
+   },
+   {
+    "text": "Vegetation survey on a fixed transect: bearing set from the start stake, tape run taut to the end stake, percent cover read to protocol class at every quadrat, elevation shot against the benchmark, the invasive hybrid Spartina flagged for the control crew, and the channel edge's erosion pins read before the tide takes the low transect",
+    "src": {
+     "station": "marsh-transect-survey"
+    },
+    "topic": "Marsh Transect Survey"
+   },
+   {
+    "text": "Why: The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the…",
+    "src": {
+     "kb": "station:marsh-transect-survey"
+    },
+    "topic": "Marsh Transect Survey"
+   },
+   {
+    "text": "The plan and the window read, waders and vest on, the staff read, the flagged path walked while the tide turns early, the alignment staked, the fence post driven, the buffer flag and the buried-line marker found, plugs cut, placed and tamped in order, the rod held for the shot while a bird lands in the buffer, spoil carried to its zone, the crew called and the day logged",
+    "src": {
+     "station": "me-tidal-marsh-channel-restoration-day"
+    },
+    "topic": "Tidal Marsh Channel Restoration Day"
+   },
+   {
+    "text": "Why: Working a marsh by hand inside three lines drawn before the crew arrived: the alignment, the buffer nobody crosses and the tide window the…",
+    "src": {
+     "kb": "station:me-tidal-marsh-channel-restoration-day"
+    },
+    "topic": "Tidal Marsh Channel Restoration Day"
+   },
+   {
+    "text": "Invasive hybrid cordgrass control on a restored marsh: treatment map and tide window read, boundary and rail buffer set out, imazapyr mixed off the marsh to the label rate, sprayer calibrated, applied under the wind limit with the drift card checked, clumps flagged for follow-up, containers triple-rinsed, and the treatment logged",
+    "src": {
+     "station": "spartina-removal"
+    },
+    "topic": "Spartina Removal"
+   },
+   {
+    "text": "Why: The planted marsh defended from the cordgrass that would take it over: the treatment map read instead of the eye, a buffer held around a…",
+    "src": {
+     "kb": "station:spartina-removal"
+    },
+    "topic": "Spartina Removal"
+   },
+   {
+    "text": "ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training",
+    "src": {
+     "standard": "ansi-a92"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "marsh-transect-survey",
+    "label": "Marsh Transect Survey",
+    "siteId": "estuary"
+   },
+   {
+    "kind": "station",
+    "id": "me-tidal-marsh-channel-restoration-day",
+    "label": "Tidal Marsh Channel Restoration Day",
+    "siteId": "estuary"
+   },
+   {
+    "kind": "lesson",
+    "id": "rw-fl-filtration",
+    "label": "The Estuary as a Filter",
+    "station": "k12-water-cycle-and-filtration"
+   },
+   {
+    "kind": "quest",
+    "id": "rw-side-seine-day",
+    "label": "Seine Day at the Mouth"
+   }
+  ]
+ },
+ {
+  "id": "gr-np-port-foreman",
+  "name": "Dante",
+  "role": "Terminal foreman",
+  "world": "parish",
+  "site": null,
+  "siteKind": "port",
+  "siteName": null,
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 24
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Deck stow securing: crane held off, twist-locks proven, rods and turnbuckles to the pattern, fall protection on the bridge, torque checked",
+    "src": {
+     "station": "container-lashing"
+    },
+    "topic": "Container Lashing"
+   },
+   {
+    "text": "Why: Deck stow: every twist-lock proven and the rods to the pattern the manual calls for Part of Port and Terminal Operations, Bay Area Union Edition, Ports, Maritime and Bay Ecology.",
+    "src": {
+     "kb": "station:container-lashing"
+    },
+    "topic": "Container Lashing"
+   },
+   {
+    "text": "Taking a ship's lines: snap-back zone, heaving line, eye on the bollard, tension by radio, stopper, and the bight you never stand in",
+    "src": {
+     "station": "mooring-line"
+    },
+    "topic": "Mooring Line"
+   },
+   {
+    "text": "Why: Taking the lines: snap-back zones and the bight nobody stands in Part of Port and Terminal Operations, Bay Area Union Edition, Ports, Maritime and Bay Ecology.",
+    "src": {
+     "kb": "station:mooring-line"
+    },
+    "topic": "Mooring Line"
+   },
+   {
+    "text": "The wharf edge in a berth window: vest and lanyard on before the cope, the fender frame walked for cracks, the chains checked while a ship's jib swings over the apron, the pad measured and a new one slung in and bolted, the bollard's base checked and its anchors tensioned by the number while a storm cell comes over the water, the load plate read, the edge and the ladder proven, and the wharf logged",
+    "src": {
+     "station": "pt-dock-fender-and-bollard-inspection"
+    },
+    "topic": "Dock Fender & Bollard Inspection"
+   },
+   {
+    "text": "Why: The wharf edge in a berth window: the vest before the cope, the fender pad measured and slung in, and the bollard's anchors tensioned by…",
+    "src": {
+     "kb": "station:pt-dock-fender-and-bollard-inspection"
+    },
+    "topic": "Dock Fender & Bollard Inspection"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "container-lashing",
+    "label": "Container Lashing",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "mooring-line",
+    "label": "Mooring Line",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-levee-inspector",
+  "name": "Keiko",
+  "role": "Levee inspector",
+  "world": "parish",
+  "site": null,
+  "siteKind": "levee",
+  "siteName": null,
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 25
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Walking a bay levee's crown and toe on a routine patrol: stations and the piezometer read before the walk starts, a sand boil ringed with sandbags instead of blocked, a crack measured and every deficiency flagged and logged, a burrow reported instead of disturbed, and the trail closed to the public before the crew works an unmarked hazard beside it",
+    "src": {
+     "station": "br-levee-inspection-and-seepage"
+    },
+    "topic": "Levee Inspection And Seepage"
+   },
+   {
+    "text": "Why: A sand boil gets ringed with sandbags and never blocked, and a burrow gets flagged and reported and never dug at, because on a levee patrol…",
+    "src": {
+     "kb": "station:br-levee-inspection-and-seepage"
+    },
+    "topic": "Levee Inspection And Seepage"
+   },
+   {
+    "text": "Tide-window gate swap: levels read before the cofferdam goes in, a failed flap gate backed out and replaced, the new gate levelled to design elevation, and the cofferdam pulled in order before the first flood",
+    "src": {
+     "station": "tide-gate"
+    },
+    "topic": "Tide Gate"
+   },
+   {
+    "text": "Why: The tide let back into a diked marsh: a self-regulating gate hung at low water, the cofferdam pulled in the order that keeps the levee Part of Hunters Point Clean-up and Bay Restoration.",
+    "src": {
+     "kb": "station:tide-gate"
+    },
+    "topic": "Tide Gate"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "br-levee-inspection-and-seepage",
+    "label": "Levee Inspection And Seepage",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "tide-gate",
+    "label": "Tide Gate",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-pump-operator",
+  "name": "Amara",
+  "role": "Pumping station operator",
+  "world": "parish",
+  "site": null,
+  "siteKind": "pump-station",
+  "siteName": null,
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 26
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Wet-well pump pull: gas test, lockout, bypass pumping, guide-rail lift, no-entry retrieval, restart and level check",
+    "src": {
+     "station": "lift-station"
+    },
+    "topic": "Lift Station"
+   },
+   {
+    "text": "Why: A wet well, where the atmosphere changes while you are in it and the pumps are the second hazard Part of Confined Space.",
+    "src": {
+     "kb": "station:lift-station"
+    },
+    "topic": "Lift Station"
+   },
+   {
+    "text": "Annual pump flow test: alarm notification, controller to manual, test header to safe discharge, churn / 100% / 150% points, curve compared, system restored",
+    "src": {
+     "station": "fire-pump"
+    },
+    "topic": "Fire Pump"
+   },
+   {
+    "text": "Why: The annual flow test, where the curve either matches the nameplate or the building has no fire protection Part of Stationary Engineer, Situational Awareness.",
+    "src": {
+     "kb": "station:fire-pump"
+    },
+    "topic": "Fire Pump"
+   },
+   {
+    "text": "Plumbers, pipefitters and HVAC service. Local 38 is the one UA local the repository names (the Hunters Point programme).",
+    "src": {
+     "union": "ua"
+    },
+    "topic": "UA"
+   },
+   {
+    "text": "Wet-weather NPDES grab: permit window, meters calibrated before the rain, bank staged with a buddy and tripod, grab from the flow, bottles in preservation order, field readings logged, custody sealed, sample on ice",
+    "src": {
+     "station": "stormwater-outfall"
+    },
+    "topic": "Stormwater Outfall"
+   },
+   {
+    "text": "Why: The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence Part of Hazmat and Environmental Response, Hunters Point Clean-up and Bay Restoration.",
+    "src": {
+     "kb": "station:stormwater-outfall"
+    },
+    "topic": "Stormwater Outfall"
+   },
+   {
+    "text": "ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements",
+    "src": {
+     "standard": "ansi-a10-9"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "lift-station",
+    "label": "Lift Station",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "fire-pump",
+    "label": "Fire Pump",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-streetcar-mechanic",
+  "name": "Bao",
+  "role": "Streetcar barn mechanic",
+  "world": "parish",
+  "site": null,
+  "siteKind": "streetcar-barn",
+  "siteName": null,
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 27
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Electric bus on column lifts: HV disable and prove, chocks, pad placement, synchronised raise, locks down, under-bus work, controlled lower",
+    "src": {
+     "station": "bus-depot-lift"
+    },
+    "topic": "Bus Depot Lift"
+   },
+   {
+    "text": "Why: A vehicle raised over a person, and the supports that go in before anyone is underneath Part of Transit and Ramp Operations.",
+    "src": {
+     "kb": "station:bus-depot-lift"
+    },
+    "topic": "Bus Depot Lift"
+   },
+   {
+    "text": "The stop before the route continues: the ADA procedure read for the securement points and the stop-request rule, the bus kneeled and the lift deployed in order, the boarding pad checked clear before anyone rolls forward, the platform held steady while it lowers, the rider rolled aboard to the securement area, all four points locked and tensioned, the seatbelt fastened, the stop-request procedure briefed, the lift watched clean back into its stow, the mirrors checked for anyone at the curb, the kneel returned to ride height, the road supervisor checked in with, and the trip logged",
+    "src": {
+     "station": "tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    "topic": "Wheelchair Lift & Securement on a Bus"
+   },
+   {
+    "text": "Why: The stop that makes the route accessible: the boarding pad checked clear, all four securement points locked and tensioned, and the lift…",
+    "src": {
+     "kb": "station:tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    "topic": "Wheelchair Lift & Securement on a Bus"
+   },
+   {
+    "text": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications",
+    "src": {
+     "standard": "aashto-bridge-inspection"
+    },
+    "topic": "AASHTO"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "bus-depot-lift",
+    "label": "Bus Depot Lift",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+    "label": "Wheelchair Lift & Securement on a Bus",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-rail-conductor",
+  "name": "Celeste",
+  "role": "Yard conductor",
+  "world": "parish",
+  "site": null,
+  "siteKind": "rail-yard",
+  "siteName": null,
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 28
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "The flag board checked before anything is assumed clear, your own blue flag displayed at every point that could move this equipment, a second crew's flag confirmed rather than trusted, and every flag down only by the hand that put it up",
+    "src": {
+     "station": "ra-blue-flag-protection-in-the-yard"
+    },
+    "topic": "Blue Flag Protection in the Yard"
+   },
+   {
+    "text": "Why: Two crews sharing one cut of equipment both need their own blue flag at every point it could be moved from, because a flag protects the…",
+    "src": {
+     "kb": "station:ra-blue-flag-protection-in-the-yard"
+    },
+    "topic": "Blue Flag Protection in the Yard"
+   },
+   {
+    "text": "Enough hand brakes applied from the downgrade end first, wound up hard, backed by chocks, tested by releasing the air and watching for the one thing that says it didn't hold, and the locomotive parted only once three-step is confirmed",
+    "src": {
+     "station": "ra-hand-brake-and-securement-on-a-grade"
+    },
+    "topic": "Hand Brake & Securement on a Grade"
+   },
+   {
+    "text": "Why: A cut left standing on a grade is held by hand brakes proven by a push-pull test with the air released, never assumed from a count of turns…",
+    "src": {
+     "kb": "station:ra-hand-brake-and-securement-on-a-grade"
+    },
+    "topic": "Hand Brake & Securement on a Grade"
+   },
+   {
+    "text": "A remote control shove worked from the ground: point protection on every movement, a blue signal put up and taken down by the one hand it protects, three-step before anybody fouls the equipment, and securement proved by pulling against it",
+    "src": {
+     "station": "rcl-switching"
+    },
+    "topic": "RCL Switching"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "ra-blue-flag-protection-in-the-yard",
+    "label": "Blue Flag Protection in the Yard",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "ra-hand-brake-and-securement-on-a-grade",
+    "label": "Hand Brake & Securement on a Grade",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-nurse",
+  "name": "Ravi",
+  "role": "Nurse",
+  "world": "parish",
+  "site": null,
+  "siteKind": "hospital",
+  "siteName": null,
+  "style": {
+   "ppe": "scrubs",
+   "i": 29
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "ID checked against the ticket, brakes locked before every transfer, a gait belt instead of a solo lift, the route scanned for a line or a footrest that bites, and a real handoff at the other end",
+    "src": {
+     "station": "hc-patient-transport-and-safe-handling"
+    },
+    "topic": "Patient Transport & Safe Handling"
+   },
+   {
+    "text": "Why: The ID band checked against the ticket, the brakes locked before every transfer, a gait belt used instead of a solo lift, and a real verbal…",
+    "src": {
+     "kb": "station:hc-patient-transport-and-safe-handling"
+    },
+    "topic": "Patient Transport & Safe Handling"
+   },
+   {
+    "text": "A crash cart proven ready every day, and the logistics of a real code run by someone who never touches the patient — the hallway kept clear, family redirected, a backup cart delivered, and the room's cart restocked and resealed the moment it clears",
+    "src": {
+     "station": "hc-code-response-support-and-crash-cart-check"
+    },
+    "topic": "Code Response Support & Crash Cart Check"
+   },
+   {
+    "text": "Why: A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the…",
+    "src": {
+     "kb": "station:hc-code-response-support-and-crash-cart-check"
+    },
+    "topic": "Code Response Support & Crash Cart Check"
+   },
+   {
+    "text": "START mass-casualty triage: rapid assessment, tagging and the golden hour",
+    "src": {
+     "station": "triage-point"
+    },
+    "topic": "Triage Point"
+   },
+   {
+    "text": "Why: The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you Part of First Responders, Situational Awareness.",
+    "src": {
+     "kb": "station:triage-point"
+    },
+    "topic": "Triage Point"
+   },
+   {
+    "text": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance",
+    "src": {
+     "standard": "cdc-guidance"
+    },
+    "topic": "CDC"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "hc-patient-transport-and-safe-handling",
+    "label": "Patient Transport & Safe Handling",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "hc-code-response-support-and-crash-cart-check",
+    "label": "Code Response Support & Crash Cart Check",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-campus-teacher",
+  "name": "Thandiwe",
+  "role": "K-12 teacher",
+  "world": "parish",
+  "site": null,
+  "siteKind": "campus",
+  "siteName": null,
+  "style": {
+   "ppe": "none",
+   "i": 30
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+    "src": {
+     "station": "k12-weather-and-the-sky"
+    },
+    "topic": "Weather and the Sky"
+   },
+   {
+    "text": "Why: Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate…",
+    "src": {
+     "kb": "station:k12-weather-and-the-sky"
+    },
+    "topic": "Weather and the Sky"
+   },
+   {
+    "text": "Follow the water round the cycle, then watch a filter work — and never drink from the bench",
+    "src": {
+     "station": "k12-water-cycle-and-filtration"
+    },
+    "topic": "The Water Cycle and Filtration"
+   },
+   {
+    "text": "Why: The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink Part of K-12 Science.",
+    "src": {
+     "kb": "station:k12-water-cycle-and-filtration"
+    },
+    "topic": "The Water Cycle and Filtration"
+   },
+   {
+    "text": "Time along the bottom, height up the side — and keep behind the rail while you read the staff",
+    "src": {
+     "station": "k12-graphing-tide-readings-at-the-pier"
+    },
+    "topic": "Graphing Tide Readings at the Pier"
+   },
+   {
+    "text": "Why: A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for…",
+    "src": {
+     "kb": "station:k12-graphing-tide-readings-at-the-pier"
+    },
+    "topic": "Graphing Tide Readings at the Pier"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "k12-weather-and-the-sky",
+    "label": "Weather and the Sky",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "k12-water-cycle-and-filtration",
+    "label": "The Water Cycle and Filtration",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-stadium-rigger",
+  "name": "Mateo",
+  "role": "Arena rigger",
+  "world": "parish",
+  "site": null,
+  "siteKind": "stadium",
+  "siteName": null,
+  "style": {
+   "ppe": "hard-hat-hivis",
+   "i": 31
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Setting a point in the roof steel: the point called and confirmed both ways, the bridle worked out on the plot, the beam checked against the grid drawing, the floor cleared and watched, tied off to structure the whole time",
+    "src": {
+     "station": "arena-rigging"
+    },
+    "topic": "Arena Rigging"
+   },
+   {
+    "text": "An arena load-in from the deck: the rigging plot read, hard hat and gloves on, a dented truss chord found, the sections spliced and the couplers bolted, the bridle angle read, a twisted motor chain caught, the tag line held while a stagehand pushes a cart under the load, the motors bumped up level until one falls out of step, trim checked, the load cells read, the steel secondaries rigged and the shackles moused, and the points logged",
+    "src": {
+     "station": "stage-load-in-and-truss-rigging"
+    },
+    "topic": "Stage Load-In & Truss Rigging"
+   },
+   {
+    "text": "Why: The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on…",
+    "src": {
+     "kb": "station:stage-load-in-and-truss-rigging"
+    },
+    "topic": "Stage Load-In & Truss Rigging"
+   },
+   {
+    "text": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+    "src": {
+     "station": "le-crowd-barricade-and-show-stop-call"
+    },
+    "topic": "Crowd Barricade & Show-Stop Call"
+   },
+   {
+    "text": "Why: The front-of-house rail before doors: a bent pin caught, the line built and gauged to the plan, and the show-stop chain briefed and used…",
+    "src": {
+     "kb": "station:le-crowd-barricade-and-show-stop-call"
+    },
+    "topic": "Crowd Barricade & Show-Stop Call"
+   },
+   {
+    "text": "ANSI/ASSP A10.8 — Scaffolding safety requirements",
+    "src": {
+     "standard": "ansi-a10-8"
+    },
+    "topic": "ANSI/ASSP"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "arena-rigging",
+    "label": "Arena Rigging",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "stage-load-in-and-truss-rigging",
+    "label": "Stage Load-In & Truss Rigging",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-hospitality-lead",
+  "name": "Ines",
+  "role": "Banquet lead",
+  "world": "parish",
+  "site": null,
+  "siteKind": "hospitality",
+  "siteName": null,
+  "style": {
+   "ppe": "chef",
+   "i": 32
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "A ballroom flipped from classroom to dinner with a stage, against the clock: the strike in order, rounds rolled onto the table truck and strapped, the riser cart pushed in, stage decks lifted by a called team of four while a vendor parks in the exit, the open back edge guarded, the AV snake ramped, aisles read against the floor plan, the exits walked and the flip logged — without skipping what the captain wants skipped",
+    "src": {
+     "station": "hw-banquet-room-flip-and-staging"
+    },
+    "topic": "Banquet Room Flip & Staging"
+   },
+   {
+    "text": "Why: The banquet floor against the clock: rounds rolled onto the truck, stage decks lifted by a called team, cables ramped and the exits walked…",
+    "src": {
+     "kb": "station:hw-banquet-room-flip-and-staging"
+    },
+    "topic": "Banquet Room Flip & Staging"
+   },
+   {
+    "text": "Banquet hot line: hot boxes probed, chafers lit lid-open, the buffet walked, time tags honoured, and the pull-down done to the rule",
+    "src": {
+     "station": "banquet-hot-hold"
+    },
+    "topic": "Banquet Hot Hold"
+   },
+   {
+    "text": "Why: The banquet line: hot boxes probed before they're loaded, chafers lit lid-open, the buffet walked before doors, and a pull-down cooled or…",
+    "src": {
+     "kb": "station:banquet-hot-hold"
+    },
+    "topic": "Banquet Hot Hold"
+   },
+   {
+    "text": "Board anchored, edge honed, claw grip, the cut-resistant glove on the mandoline, and a clean sanitised close",
+    "src": {
+     "station": "knife-skills"
+    },
+    "topic": "Knife Skills"
+   },
+   {
+    "text": "Why: The board anchored, the edge honed, and the claw grip that keeps a prep cook's own knuckles between the blade and the cut — plus the…",
+    "src": {
+     "kb": "station:knife-skills"
+    },
+    "topic": "Knife Skills"
+   },
+   {
+    "text": "California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21",
+    "src": {
+     "standard": "abc-25658"
+    },
+    "topic": "Cal. ABC"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "hw-banquet-room-flip-and-staging",
+    "label": "Banquet Room Flip & Staging",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "banquet-hot-hold",
+    "label": "Banquet Hot Hold",
+    "siteId": null
+   }
+  ]
+ },
+ {
+  "id": "gr-np-wetlands-ranger",
+  "name": "Mira",
+  "role": "Wetlands ranger",
+  "world": "parish",
+  "site": null,
+  "siteKind": "wetland",
+  "siteName": null,
+  "style": {
+   "ppe": "grounds",
+   "i": 33
+  },
+  "routine": {
+   "work": [
+    10,
+    -3
+   ],
+   "rest": [
+    -9,
+    -5
+   ],
+   "workSeconds": 12,
+   "restSeconds": 8,
+   "speed": 1.1
+  },
+  "pack": [
+   {
+    "text": "Vegetation survey on a fixed transect: bearing set from the start stake, tape run taut to the end stake, percent cover read to protocol class at every quadrat, elevation shot against the benchmark, the invasive hybrid Spartina flagged for the control crew, and the channel edge's erosion pins read before the tide takes the low transect",
+    "src": {
+     "station": "marsh-transect-survey"
+    },
+    "topic": "Marsh Transect Survey"
+   },
+   {
+    "text": "Why: The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the…",
+    "src": {
+     "kb": "station:marsh-transect-survey"
+    },
+    "topic": "Marsh Transect Survey"
+   },
+   {
+    "text": "Building a living shoreline on a falling tide: curtain set and tensioned, coir and oyster shell to the stakes, cordgrass at grade, silt fence at the edge, and the reach walked before the flood takes anything back",
+    "src": {
+     "station": "living-shoreline"
+    },
+    "topic": "Living Shoreline"
+   },
+   {
+    "text": "Why: The water's edge rebuilt as habitat — coir, oyster shell, cordgrass at the design elevation — inside the tide window and the fish window Part of Hunters Point Clean-up and Bay Restoration.",
+    "src": {
+     "kb": "station:living-shoreline"
+    },
+    "topic": "Living Shoreline"
+   },
+   {
+    "text": "Revegetating a graded bank on a permit and a buffer: plan and nesting closure checked, coir matting pinned top to bottom before a single plug goes in, holes bored and moisture read at the design depth, plants tamped in on a steady cart haul, the drip line opened, and the bench walked for anything the next gust or tide can still take",
+    "src": {
+     "station": "br-native-planting-and-erosion-mats"
+    },
+    "topic": "Native Planting & Erosion Control Mats"
+   },
+   {
+    "text": "Why: The graded bank above the marsh is only held until roots can hold it themselves, so the coir mat goes down pinned top to toe before a…",
+    "src": {
+     "kb": "station:br-native-planting-and-erosion-mats"
+    },
+    "topic": "Native Planting & Erosion Control Mats"
+   },
+   {
+    "text": "ACGIH Threshold Limit Values and Biological Exposure Indices",
+    "src": {
+     "standard": "acgih-tlvs"
+    },
+    "topic": "ACGIH"
+   }
+  ],
+  "handoffs": [
+   {
+    "kind": "station",
+    "id": "marsh-transect-survey",
+    "label": "Marsh Transect Survey",
+    "siteId": null
+   },
+   {
+    "kind": "station",
+    "id": "living-shoreline",
+    "label": "Living Shoreline",
+    "siteId": null
+   }
+  ]
+ }
+];
+
+
+/* ===== shared/npc.js ===== */
+// NPC characters that pass knowledge along (console GRIOT, docs/consoles/GRIOT.md).
+//
+// A griot keeps what was said and says it again, exactly. The characters here
+// are journeyworkers, foremen, a levee inspector, a pilot, a teacher, a
+// ranger, a nurse, a stagehand, a chef … placed at the worlds' sites with a
+// small routine (work a spot on the pad, walk to a second spot, take a break,
+// walk back), each carrying a knowledge pack that tools/gen_npc.mjs copied
+// verbatim from the Guide's knowledge base, the union and standards
+// registries and the catalog's station text — never written here. The
+// dialogue engine is deterministic and on-device and has three moves: greet,
+// teach one line with its source, hand off (a station link, a field lesson,
+// a side quest or a treasure hint). An agent adapter in shared/
+// agent-protocols.js's shape lets a deployment point a character at a model
+// later; until every field is configured it refuses without touching the
+// network, and even a configured reply is only spoken when it is one of the
+// pack's own lines, verbatim.
+//
+// The figures come from shared/crew.js's avatar space (ctAvatarFigure, at
+// most CT_AVATAR_BUDGET meshes each); movement is property writes on the
+// group, the way shared/wildlife.js animates — animated only within
+// GR_ANIMATE_RADIUS of the learner, hidden beyond GR_HIDE_RADIUS. The
+// three.js module comes from the caller as `three`, so a bundle that never
+// draws a figure never loads it. Every top-level name is prefixed `gr`/`GR_`
+// (tools/bundle_webxr.py concatenates every module into one scope).
+
+
+
+
+const GR_ANIMATE_RADIUS = 150;
+const GR_HIDE_RADIUS = 600;
+const GR_TALK_RADIUS = 4;
+const GR_KEY = "KeyG";
+const GR_REFUSAL = "configure per the provider's current documentation";
+const GR_WORK_BOB = 0.05;
+
+// ------------------------------------------------------------------ roster
+
+/** Every character, or those of one world ("bayworld", "summit", "redwood", "parish"). */
+function grCharacters(world = null) {
+  return world ? GR_ROSTER.filter((c) => c.world === world) : GR_ROSTER.slice();
+}
+function grCharacter(id) { return GR_ROSTER.find((c) => c.id === id) ?? null; }
+
+/** The avatar style of a character: crew.js's crowd stepper with the role's PPE. */
+function grStyle(ch) { return ctAvatarVariety(ch.style?.i ?? 0, { ppe: ch.style?.ppe ?? null }); }
+
+/** A human line naming where a line came from (for the panel's small print). */
+function grSourceLabel(src = {}) {
+  if (src.kb) return `the Guide's notes (${src.kb})`;
+  if (src.union) return `the union registry (${src.union})`;
+  if (src.standard) return `the standards registry (${src.standard})`;
+  if (src.station) return `the station "${src.station}"`;
+  return "this platform's own pages";
+}
+
+// --------------------------------------------------------------- retrieval
+// The Guide's own tokenizer and BM25 (shared/guide.js gdTokens/gdSearch), in
+// miniature over one character's pack: a few lines, scored on the spot.
+
+const grStop = new Set(("a an and are as at be by can could do does for from get go how i if in into is it its me my of on or please " +
+  "show should tell than that the their them then there these this to up us was we what when where which who why will with would you your about any have has want take find open").split(" "));
+
+function grTokens(text) {
+  const out = [];
+  for (let w of String(text ?? "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").split(/[^a-z0-9]+/)) {
+    if (!w || grStop.has(w)) continue;
+    if (w.length > 4 && w.endsWith("ies")) w = w.slice(0, -3) + "y";
+    else if (w.length > 5 && w.endsWith("ing")) w = w.slice(0, -3);
+    else if (w.length > 5 && w.endsWith("ed")) w = w.slice(0, -2);
+    else if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss")) w = w.slice(0, -1);
+    if (w.length > 4 && w.endsWith("e")) w = w.slice(0, -1);
+    out.push(w);
+  }
+  return out;
+}
+
+/** The pack line that best answers a question, or null when nothing matches. */
+function grRetrieve(pack, question) {
+  const q = [...new Set(grTokens(question))];
+  if (!q.length || !pack?.length) return null;
+  const docs = pack.map((l) => { const t = grTokens(l.topic), toks = [...t, ...t, ...grTokens(l.text)]; const tf = new Map(); for (const w of toks) tf.set(w, (tf.get(w) ?? 0) + 1); return { tf, len: toks.length }; });
+  const df = new Map(); for (const d of docs) for (const w of d.tf.keys()) df.set(w, (df.get(w) ?? 0) + 1);
+  const avg = docs.reduce((a, d) => a + d.len, 0) / docs.length, n = docs.length;
+  const idf = (w) => { const d = df.get(w) ?? 0; return d ? Math.log(1 + (n - d + 0.5) / (d + 0.5)) : 0; };
+  let best = null, bs = 0;
+  docs.forEach((d, i) => {
+    let s = 0, matched = 0;
+    for (const w of q) { const f = d.tf.get(w); if (!f) continue; matched += 1; s += (idf(w) + 0.2) * (f * 2.2) / (f + 1.2 * (0.25 + 0.75 * d.len / avg)); }
+    s *= 0.5 + 0.5 * (matched / q.length);
+    if (s > bs) { bs = s; best = pack[i]; }
+  });
+  return best;
+}
+
+// ----------------------------------------------------------------- dialogue
+
+const GR_NO_MATCH = "That is not in my notes, and I only pass along what is written down. Ask me about the work here, or ask the Guide.";
+
+/**
+ * The three moves, deterministic: greet (a template — role and place, no
+ * fact), teach (one pack line, verbatim, with its source: the best match to
+ * `question`, else the line at `seed`), hand off (the hand-off at `seed`).
+ * Returns { greet, teach: { text, src, topic } | null, noMatch, handoff }.
+ */
+function grDialogue(ch, { question = "", seed = 0 } = {}) {
+  const n = Math.max(0, Math.floor(seed));
+  const where = ch.siteName ? ` at ${ch.siteName}` : "";
+  const greet = `${ch.name} here — ${ch.role.toLowerCase()}${where}. I only pass along what is written down; ask me about the work here.`;
+  let teach = null, noMatch = false;
+  if (String(question).trim()) { teach = grRetrieve(ch.pack, question); noMatch = !teach; }
+  else if (ch.pack.length) teach = ch.pack[n % ch.pack.length];
+  const handoff = ch.handoffs.length ? ch.handoffs[n % ch.handoffs.length] : null;
+  return { greet, teach, noMatch, noMatchText: noMatch ? GR_NO_MATCH : null, handoff };
+}
+
+/**
+ * Resolve a hand-off for a page: a station opens through links.js, a lesson
+ * through the world's own opener (`hooks.openLesson(id)`) or its K-12 station
+ * link, a quest through `hooks.openQuest(id)` or the quest log's key, a
+ * treasure as its hint (the ledger's own line, never a location).
+ * Returns { kind, id, label, href?, action?, text }.
+ */
+function grResolveHandoff(h, hooks = {}) {
+  if (!h) return null;
+  const from = hooks.from ?? null, page = hooks.page ?? null, runner = hooks.runner ?? "./smartcity-x.html";
+  if (h.kind === "station") return { ...h, href: lkStationLink(h.id, { runner, from, page, siteId: h.siteId ?? null }), text: `Take the ${h.label} station.` };
+  if (h.kind === "lesson") {
+    const open = typeof hooks.openLesson === "function" ? () => hooks.openLesson(h.id) : null;
+    return { ...h, action: open, href: open ? null : lkStationLink(h.station, { runner, from, page }), text: `There is a field lesson nearby: ${h.label}.` };
+  }
+  if (h.kind === "quest") {
+    const open = typeof hooks.openQuest === "function" ? () => hooks.openQuest(h.id) : null;
+    return { ...h, action: open, text: `A quest is posted here: ${h.label}.${open ? "" : ` Open the quest log.`}` };
+  }
+  if (h.kind === "treasure") return { ...h, text: `A hint, if you like hunting: ${h.hint}` };
+  return { ...h, text: h.label ?? "" };
+}
+
+// ------------------------------------------------------------ agent adapter
+
+/**
+ * An adapter in shared/agent-protocols.js's shape for one character. Fields
+ * start unset; `respond()` refuses — nothing sent — while any is unset. A
+ * configured endpoint is posted the turn and the pack, and its reply is
+ * spoken only when it is one of the pack's lines verbatim (`grAcceptHosted`);
+ * otherwise the on-device dialogue speaks. `describe()` never guesses.
+ */
+function grAcceptHosted(ch, text) {
+  const t = String(text ?? "").trim();
+  return ch.pack.find((l) => l.text === t) ?? null;
+}
+
+function grAgentAdapter(ch, { fetchImpl } = {}) {
+  const fields = ["endpoint", "model"];
+  const config = { endpoint: null, model: null };
+  const missing = () => fields.filter((f) => config[f] == null || config[f] === "");
+  return {
+    id: `npc:${ch.id}`, fields: [...fields],
+    describe() { const m = missing(); return { id: `npc:${ch.id}`, character: ch.id, fields: [...fields], config: { ...config }, configured: m.length === 0, missing: m }; },
+    configure(next = {}) { for (const f of fields) if (f in next) config[f] = next[f] ?? null; return this.describe(); },
+    async respond(turn = {}) {
+      const local = grDialogue(ch, turn);
+      if (missing().length) return { ok: false, provider: `npc:${ch.id}`, reason: GR_REFUSAL, missing: missing(), fallback: local };
+      const fetchFn = fetchImpl ?? (typeof fetch === "function" ? fetch : null);
+      if (!fetchFn) return { ok: false, provider: `npc:${ch.id}`, reason: "This environment cannot reach the network.", fallback: local };
+      try {
+        const res = await fetchFn(config.endpoint, { method: "POST", mode: "cors", credentials: "omit", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ action: "respond", model: config.model, character: { id: ch.id, name: ch.name, role: ch.role }, pack: ch.pack, turn }) });
+        let body = null; try { body = await res.json(); } catch { /* no body */ }
+        const line = grAcceptHosted(ch, body?.text);
+        return { ok: !!res?.ok && !!line, provider: `npc:${ch.id}`, status: res?.status ?? null, teach: line ?? local.teach, hosted: !!line, fallback: local };
+      } catch (err) { return { ok: false, provider: `npc:${ch.id}`, reason: err?.message ?? "the request failed", fallback: local }; }
+    },
+  };
+}
+
+// --------------------------------------------------------------- placement
+
+/** Normalise a world's site record: `{ id, name, kind?, position | at }` → `{ id, name, kind, pos: [x, z] }`. */
+function grSiteOf(s) {
+  const p = s.position ?? s.at ?? s.pos ?? [0, 0];
+  return { id: s.id, name: s.name, kind: s.kind ?? null, pos: [p[0], p.length === 3 ? p[2] : p[1]], raw: s };
+}
+
+/** The site a character stands at among `sites` (by id, or by kind for a parish character), or null. */
+function grSiteFor(ch, sites) {
+  const list = sites.map(grSiteOf);
+  if (ch.site) return list.find((s) => s.id === ch.site) ?? null;
+  if (ch.siteKind) return list.find((s) => s.kind === ch.siteKind) ?? null;
+  return null;
+}
+
+/** The two routine points of a character at a site: [[x, z], [x, z]]. */
+function grRoutinePoints(ch, site) {
+  const [sx, sz] = site.pos;
+  return [[sx + ch.routine.work[0], sz + ch.routine.work[1]], [sx + ch.routine.rest[0], sz + ch.routine.rest[1]]];
+}
+
+/**
+ * Where a character is in its loop at time t (seconds): work at A for
+ * workSeconds, walk to B at speed, rest at B for restSeconds, walk back.
+ * Pure; returns { x, z, yaw, phase: "work"|"walk"|"rest", bob }.
+ */
+function grRoutineAt(ch, site, t) {
+  const [A, B] = grRoutinePoints(ch, site);
+  const r = ch.routine;
+  const len = Math.hypot(B[0] - A[0], B[1] - A[1]);
+  const walk = Math.max(0.5, len / Math.max(0.1, r.speed));
+  const period = r.workSeconds + walk + r.restSeconds + walk;
+  let u = ((t % period) + period) % period;
+  const face = (from, to) => Math.atan2(to[0] - from[0], to[1] - from[1]);
+  if (u < r.workSeconds) return { x: A[0], z: A[1], yaw: face(A, site.pos), phase: "work", bob: Math.abs(Math.sin(u * 2.4)) * GR_WORK_BOB };
+  u -= r.workSeconds;
+  if (u < walk) { const k = u / walk; return { x: A[0] + (B[0] - A[0]) * k, z: A[1] + (B[1] - A[1]) * k, yaw: face(A, B), phase: "walk", bob: Math.abs(Math.sin(u * 6)) * 0.04 }; }
+  u -= walk;
+  if (u < r.restSeconds) return { x: B[0], z: B[1], yaw: face(B, A), phase: "rest", bob: 0 };
+  u -= r.restSeconds;
+  const k = u / walk;
+  return { x: B[0] + (A[0] - B[0]) * k, z: B[1] + (A[1] - B[1]) * k, yaw: face(B, A), phase: "walk", bob: Math.abs(Math.sin(u * 6)) * 0.04 };
+}
+
+/** Build one character's figure (crew.js) into a new group, feet at y = 0. */
+function grBuildFigure(three, ch) {
+  const g = ctAvatarFigure(three, grStyle(ch));
+  g.userData.npc = { id: ch.id, name: ch.name, role: ch.role };
+  g.name = `npc-${ch.id}`;
+  return g;
+}
+
+// ------------------------------------------------------------------ the DOM
+
+// A real page, not the checkers' DOM stub (which has createElement alone).
+const grHasDom = typeof document !== "undefined" && typeof document.getElementById === "function" && !!document.body && typeof addEventListener === "function";
+const grEsc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+const GR_CSS = `
+#gr-prompt{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9980;max-width:calc(100vw - 32px);
+  padding:8px 14px;border-radius:20px;background:rgba(8,22,32,.88);color:#fff;border:1px solid rgba(160,210,235,.5);font:600 14px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;
+  display:flex;gap:10px;align-items:center}
+#gr-prompt[hidden]{display:none}
+#gr-prompt button{min-height:36px;min-width:64px;border-radius:18px;border:1px solid rgba(160,210,235,.6);background:#8fe3ff;color:#0b1a24;font:700 14px system-ui,sans-serif;cursor:pointer}
+#gr-panel{position:fixed;z-index:9996;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(440px,calc(100vw - 24px));max-height:min(70vh,560px);
+  display:flex;flex-direction:column;background:#0b1a24;color:#eef7fb;border:1px solid rgba(160,210,235,.45);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.5);
+  font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#gr-panel[hidden]{display:none}
+#gr-panel header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(160,210,235,.25)}
+#gr-panel h2{margin:0;font-size:16px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gr-panel .gr-log{flex:1;overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+#gr-panel .gr-msg{padding:8px 10px;border-radius:10px;background:#12303f;overflow-wrap:anywhere}
+#gr-panel .gr-msg.gr-you{align-self:flex-end;background:#1d4a5e}
+#gr-panel .gr-src{display:block;margin-top:4px;font-size:12px;color:#b9d3de}
+#gr-panel .gr-hand{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+#gr-panel .gr-hand a,#gr-panel .gr-hand button{color:#0b1a24;background:#8fe3ff;border-radius:14px;padding:6px 12px;min-height:36px;text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer}
+#gr-panel form{display:flex;gap:6px;padding:10px 12px;border-top:1px solid rgba(160,210,235,.25)}
+#gr-panel input{flex:1;min-width:0;font:16px system-ui,sans-serif;padding:8px 10px;border-radius:8px;border:1px solid rgba(160,210,235,.5);background:#07131b;color:#fff}
+#gr-panel button{font:600 14px system-ui,sans-serif;min-height:36px;min-width:36px;padding:0 10px;border-radius:8px;border:1px solid rgba(160,210,235,.5);background:#12303f;color:#fff;cursor:pointer}
+#gr-panel a:focus-visible,#gr-panel button:focus-visible,#gr-panel input:focus-visible,#gr-prompt button:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+`;
+
+/** The panel's body for one dialogue, as HTML (pure; the checker renders it headless). */
+function grRenderDialogueHtml(ch, d, resolved = null) {
+  const parts = [`<div class="gr-msg">${grEsc(d.greet)}</div>`];
+  if (d.teach) parts.push(`<div class="gr-msg">${grEsc(d.teach.text)}<span class="gr-src">— from ${grEsc(grSourceLabel(d.teach.src))}</span></div>`);
+  else if (d.noMatchText) parts.push(`<div class="gr-msg">${grEsc(d.noMatchText)}</div>`);
+  const h = resolved ?? grResolveHandoff(d.handoff);
+  if (h) {
+    const btn = h.href ? `<a href="${grEsc(h.href)}" data-handoff="${grEsc(h.kind)}:${grEsc(h.id)}">${grEsc(h.kind === "station" ? "Start" : h.kind === "lesson" ? "Open the lesson" : h.kind === "quest" ? "Open the quest" : "Noted")}</a>`
+      : h.action ? `<button type="button" data-handoff="${grEsc(h.kind)}:${grEsc(h.id)}">${grEsc(h.kind === "lesson" ? "Open the lesson" : "Open the quest")}</button>` : "";
+    parts.push(`<div class="gr-msg">${grEsc(h.text)}${btn ? `<div class="gr-hand">${btn}</div>` : ""}</div>`);
+  }
+  return parts.join("");
+}
+
+function grInjectCss() {
+  if (!grHasDom || document.getElementById("gr-style")) return;
+  const s = document.createElement("style"); s.id = "gr-style"; s.textContent = GR_CSS; document.head.appendChild(s);
+}
+
+// ------------------------------------------------------------------- mount
+
+/**
+ * Mount the characters of `world` into a page. hooks:
+ *   three      the three.js module (required to draw figures)
+ *   root       the group to add figures to
+ *   sites      the world's site records ({ id, name, kind?, position | at })
+ *   groundAt   (x, z) → y (default 0)
+ *   pos        () → [x, z] of the learner, or null when not playing
+ *   from, page, runner   for links.js (the way home)
+ *   openLesson(id), openQuest(id)   the world's own openers (optional)
+ *   keys       false to skip the G key and the prompt (default true)
+ *   onTalk(entry)  called when a dialogue opens (optional)
+ * Returns { world, characters: [{ ch, site, figure, points }], animate(t, dt),
+ * near(x, z), talk(entry, question?), close(), open, dispose() }.
+ */
+function grMount(world, hooks = {}) {
+  const worldKey = String(world).startsWith("parish") ? "parish" : String(world);
+  const three = hooks.three ?? null;
+  const groundAt = typeof hooks.groundAt === "function" ? hooks.groundAt : () => 0;
+  const sites = hooks.sites ?? [];
+  const characters = [];
+  for (const ch of grCharacters(worldKey)) {
+    const site = grSiteFor(ch, sites);
+    if (!site) continue;
+    const points = grRoutinePoints(ch, site);
+    let figure = null;
+    if (three && hooks.root) {
+      figure = grBuildFigure(three, ch);
+      const p = grRoutineAt(ch, site, 0);
+      figure.position.set(p.x, groundAt(p.x, p.z), p.z); figure.rotation.y = p.yaw;
+      hooks.root.add(figure);
+    }
+    characters.push({ ch, site, figure, points, phase: "work", x: points[0][0], z: points[0][1], offset: (ch.style?.i ?? 0) * 3.7 });
+  }
+  let clock = 0;
+  let open = null;
+
+  function animate(t, dt = 0) {
+    clock = t;
+    const here = hooks.pos?.() ?? null;
+    for (const e of characters) {
+      const p = grRoutineAt(e.ch, e.site, t + e.offset);
+      e.x = p.x; e.z = p.z; e.phase = p.phase;
+      if (!e.figure) continue;
+      const d = here ? Math.hypot(here[0] - p.x, here[1] - p.z) : 0;
+      e.figure.visible = d <= GR_HIDE_RADIUS;
+      if (d > GR_ANIMATE_RADIUS) continue;
+      if (open?.entry === e) { // a character being spoken to turns to the learner and stands still
+        e.figure.rotation.y = here ? Math.atan2(here[0] - e.figure.position.x, here[1] - e.figure.position.z) : p.yaw;
+        continue;
+      }
+      e.figure.position.set(p.x, groundAt(p.x, p.z) + p.bob, p.z);
+      e.figure.rotation.y = p.yaw;
+    }
+  }
+
+  /** The character within GR_TALK_RADIUS of (x, z), nearest first, or null. */
+  function near(x, z, r = GR_TALK_RADIUS) {
+    let best = null, bd = r;
+    for (const e of characters) {
+      const fx = e.figure ? e.figure.position.x : e.x, fz = e.figure ? e.figure.position.z : e.z;
+      const d = Math.hypot(x - fx, z - fz);
+      if (d < bd) { bd = d; best = e; }
+    }
+    return best;
+  }
+
+  // The DOM: a prompt when a character is near, the panel when talking.
+  let prompt = null, panel = null, visits = 0;
+  function ensureDom() {
+    if (!grHasDom || panel) return;
+    grInjectCss();
+    prompt = document.createElement("div"); prompt.id = "gr-prompt"; prompt.hidden = true; prompt.className = "gd-avoid";
+    prompt.innerHTML = `<span class="gr-prompt-text"></span><button type="button" id="gr-talk" aria-label="Talk">Talk</button>`;
+    prompt.querySelector("#gr-talk").addEventListener("click", () => { const e = near(...(hooks.pos?.() ?? [Infinity, Infinity])); if (e) talk(e); });
+    panel = document.createElement("section"); panel.id = "gr-panel"; panel.hidden = true; panel.className = "gd-avoid";
+    panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "false"); panel.setAttribute("aria-labelledby", "gr-title");
+    panel.innerHTML = `<header><h2 id="gr-title"></h2><button type="button" id="gr-close" aria-label="Close">Close</button></header>
+<div class="gr-log" aria-live="polite"></div>
+<form id="gr-form"><label for="gr-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Ask about the work here</label>
+<input id="gr-q" type="text" autocomplete="off" placeholder="Ask about the work here…" enterkeyhint="send"><button type="submit" id="gr-send">Ask</button></form>`;
+    panel.querySelector("#gr-close").addEventListener("click", close);
+    panel.querySelector("#gr-form").addEventListener("submit", (ev) => { ev.preventDefault(); const q = panel.querySelector("#gr-q"); const text = q.value; q.value = ""; if (open && text.trim()) ask(text); });
+    // Keys typed in the panel stay in the panel: the world behind never walks while you type.
+    panel.addEventListener("keydown", (ev) => { if (ev.key === "Escape") { ev.preventDefault(); close(); } ev.stopPropagation(); });
+    panel.addEventListener("keyup", (ev) => ev.stopPropagation());
+    document.body.appendChild(prompt); document.body.appendChild(panel);
+  }
+
+  function say(html, you = false) {
+    const log = panel.querySelector(".gr-log");
+    const div = document.createElement("div");
+    if (you) { div.className = "gr-msg gr-you"; div.textContent = html; } else { div.innerHTML = html; }
+    log.appendChild(div); log.scrollTop = log.scrollHeight;
+  }
+  function wireHandoff(resolved) {
+    if (!resolved?.action) return;
+    panel.querySelector(`[data-handoff="${resolved.kind}:${resolved.id}"]`)?.addEventListener("click", () => { close(); resolved.action(); });
+  }
+
+  /** Open the dialogue with a character (the three moves; `question` retrieves a line instead of the seeded one). */
+  function talk(entry, question = "") {
+    if (!entry) return null;
+    visits += 1;
+    const d = grDialogue(entry.ch, { question, seed: visits - 1 });
+    const resolved = grResolveHandoff(d.handoff, hooks);
+    open = { entry, dialogue: d, resolved };
+    if (grHasDom) {
+      ensureDom();
+      panel.querySelector("#gr-title").textContent = `${entry.ch.name} · ${entry.ch.role}`;
+      panel.querySelector(".gr-log").innerHTML = grRenderDialogueHtml(entry.ch, d, resolved);
+      wireHandoff(resolved);
+      panel.hidden = false; prompt.hidden = true;
+      panel.querySelector("#gr-q")?.focus();
+    }
+    hooks.onTalk?.(open);
+    return open;
+  }
+  function ask(question) {
+    if (!open) return null;
+    const d = grDialogue(open.ch ?? open.entry.ch, { question, seed: visits });
+    if (grHasDom && panel) {
+      say(question, true);
+      say(d.teach ? `<div class="gr-msg">${grEsc(d.teach.text)}<span class="gr-src">— from ${grEsc(grSourceLabel(d.teach.src))}</span></div>` : `<div class="gr-msg">${grEsc(d.noMatchText)}</div>`);
+    }
+    return d;
+  }
+  function close() { open = null; if (panel) panel.hidden = true; }
+
+  let lastNear = null;
+  function tick() { // the prompt follows the learner; the G key opens the talk
+    if (!grHasDom || hooks.keys === false) return;
+    const here = hooks.pos?.() ?? null;
+    const e = here ? near(here[0], here[1]) : null;
+    if (e !== lastNear) {
+      lastNear = e;
+      ensureDom();
+      if (e && !open) { prompt.querySelector(".gr-prompt-text").textContent = `G — talk to ${e.ch.name}, ${e.ch.role.toLowerCase()}`; prompt.hidden = false; }
+      else prompt.hidden = true;
+      if (!e && open) close();
+    }
+  }
+  const onKey = (ev) => {
+    if (ev.code !== GR_KEY || ev.repeat || ev.target?.tagName === "INPUT" || ev.target?.tagName === "TEXTAREA") return;
+    const here = hooks.pos?.() ?? null;
+    const e = here ? near(here[0], here[1]) : null;
+    if (e) { ev.preventDefault(); ev.stopImmediatePropagation(); if (open) close(); else talk(e); }
+  };
+  if (grHasDom && hooks.keys !== false) addEventListener("keydown", onKey, true);
+
+  return {
+    world: worldKey, characters,
+    animate(t, dt = 0) { animate(t, dt); tick(); },
+    near, talk, ask, close, get open() { return open; },
+    meshCount() { let n = 0; for (const e of characters) e.figure?.traverse((o) => { if (o.isMesh) n += 1; }); return n; },
+    dispose() { if (grHasDom) removeEventListener("keydown", onKey, true); for (const e of characters) e.figure?.parent?.remove(e.figure); prompt?.remove(); panel?.remove(); characters.length = 0; },
+  };
+}
+
+/** The declared mesh ceiling for one mounted world's figures (a check_npc budget). */
+function grMeshBudget(world) { return grCharacters(world).length * CT_AVATAR_BUDGET; }
 
 
 /* ===== shared/side-games-data.js ===== */
@@ -26624,6 +30813,8 @@ function qmMountSideGames({ world, worldName = world, items, from = world, page 
 
 
 
+// NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
+
 // Redwood Reach — the app: the menu, the walk (and the fire-road vehicle),
 // the HUD, the job boards, the quest log with its skill gates, the field tins,
 // the field lessons, the three scored activities, the map with layers and
@@ -26675,6 +30866,13 @@ function rwInitScene() {
   // markers along the fire roads and foot trails, found by walking or driving
   // up to them; the field tins stay the world's own. It raycasts for itself.
   tzWatchWorld("redwood", { scene, THREE, pos: () => [rwApp.x, rwApp.z], camera: () => rwApp.camera, groundAt: rwHeightAt, size: 0.7, lift: 1.3 });
+  // The characters at the sites (docs/consoles/GRIOT.md): a crew figure on each pad with a work/walk/break loop; G talks.
+  rwApp.npc = grMount("redwood", {
+    three: THREE, root: scene, sites: RW_SITES, groundAt: rwHeightAt, from: "redwood", page: ppHerePage(),
+    pos: () => (rwApp.screen === "playing" && !rwApp.driving ? [rwApp.x, rwApp.z] : null),
+    openLesson: (id) => { const fl = RW_FIELD_LESSONS.find((x) => x.id === id); if (fl) rwRunLesson(fl); },
+    openQuest: () => rwOpenQuests(),
+  });
   rwPlaceCamera();
   world.stream(rwApp.x, rwApp.z, { all: true });
   // For the headless checkers and the still captures.
@@ -27099,6 +31297,7 @@ function rwFrame(now) {
   if (rwApp.screen === "playing" && rwApp.world) rwTick(dt);
   if (rwApp.world && rwApp.renderer) {
     rwApp.world.update(dt, rwApp.camera);
+    rwApp.npc?.animate(now / 1000, dt);
     rwApp.renderer.render(rwApp.scene, rwApp.camera);
   }
   rwEdge.clear();
@@ -27199,6 +31398,7 @@ ctlMount({
     { label: "Fire-road vehicle", keys: ["R"], pad: "Y", touch: "Drive button" },
     { label: "Quest log", keys: ["J"], pad: "—", touch: "Quests button" },
     { label: "Advance the clock", keys: ["T"], pad: "—", touch: "—" },
+    { label: "Talk to a crew member at a site", keys: ["G"], pad: "—", touch: "Talk button" },
     { label: "Look around for treasure markers", keys: ["L"], pad: "—", touch: "—" },
   ],
 });

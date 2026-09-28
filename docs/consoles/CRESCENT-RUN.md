@@ -20,8 +20,19 @@ Report page with video: the "Crescent Run" artifact.
 - [x] **EDGE** — handed back 20:13 (8 commits). Root `wrangler.toml` (Pages → WebXR/dist, KV binding with a placeholder id); `workers/edge/router.mjs` (health, auth-config with an organisation's enterprise block from KV, TILL's handlers routed through a table); the bundler's `[edge]` step emitting `_headers` (33 rules: CSP for the named CDN and Mapbox hosts, no-store HTML, immutable vendor and media), `_redirects` (42) and `_routes.json`; `tools/deploy_agent.mjs` (build → gate → provision → deploy → configure → verify → roll back; dry-run by default, credentials by environment name, log at docs/deploy/last-run.md); `tools/deploy_cloudflare.sh`; a gated `deploy-cloudflare.yml`; docs/deploy-cloudflare.md; `check_deploy.mjs` in the suite — 329 checks. Suite 68/80 at the deadline; singles green. Left: the wrangler dry run (npm blocked here), TILL's handlers replacing the two stubs at the gate.
 
 ## Merges through the gate
-- (none yet) — the first batch goes once the box's load allows a regeneration and a full suite; PARISH and GRIOT wait
-  for it.
+- 20:09–20:12 All seven branches merged in one pass (keep-both on the bundler, the checker list and the gate-names table; TILL's
+  Worker handlers over EDGE's stubs; the two checker-baseline entries unioned). A module-goal sweep of 65 merged modules: clean.
+- 20:16–20:45 The first suite on the merged tree found the seams the consoles could not see from their worktrees, fixed by the
+  coordinator: DELTA's four parishes registered in `np-parishes.js` and bundled; SECONDLINE's `sl-parish-play.js` bundled and
+  wired into the parishes app (side games on the panel and the boards, the path board on the menu); Orleans's connectors on the
+  agreed crossings with `lonlat`/`approximate`, the Seventeenth Street Canal spelled out, the Canal Street ferry as a ferry
+  road, a twin-spans connector added, the Woodland Highway crossing dropped (it lies south of the Orleans box); Jefferson lists
+  the lakefront road back; Plaquemines carries its own river ferry; the interstate crossing is a bridge (the arc's bridge);
+  SECONDLINE's four site patterns widened; both parish checkers pair connectors by id or by the agreed crossing and allow a
+  bridge's mid-crossing; DELTA's validator accepts PARISH's `downtown` character and `world: "parishes"`.
+- **Deferred to the Bayou run (ASSAYER):** 28 engine-geometry findings in Jefferson, St. Bernard, Plaquemines and St. Tammany
+  (landmarks on water, water beds above the water line, roads sampling wet, anchor counts, the ten-metres-per-metre stylised
+  scale) — `check_parishes.mjs` prints them as notes and holds strict geometry for Orleans only (`NP_ENGINE_STRICT`).
 
 ## Decisions
 - 18:45 Seven consoles, one parish schema printed in the brief so PARISH, DELTA and SECONDLINE could work apart.

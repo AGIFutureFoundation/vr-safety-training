@@ -143,6 +143,7 @@
     <button id="tab-roster" role="tab" aria-selected="false" aria-controls="view-roster">Roster</button>
     <button id="tab-log" role="tab" aria-selected="false" aria-controls="view-log">Session log</button>
     <button id="tab-cohort" role="tab" aria-selected="false" aria-controls="view-cohort">Cohorts</button>
+    <button id="tab-billing" role="tab" aria-selected="false" aria-controls="view-billing">Billing</button>
   </div>
   <p class="fine" id="en-deployment" hidden></p>
 
@@ -279,6 +280,13 @@
       <p class="fine">The organisation layer (<code>docs/enterprise.md</code>): organisations, cohorts joined by invite code, a progress grid per learner per station from each learner's own shared snapshot, a needs-attention list, CSV and xAPI per cohort, a cohort file to carry to another device, a printable certificate per learner (prototype — not a credential), and this device's audit log of coordinator actions. Everything here is kept with the signed-in profile on this device; nothing about a person leaves it without their opt-in. <a href="../privacy.html">What is stored where</a>.</p>
     </section>
     <div id="en-root"></div>
+  </section>
+
+  <section id="view-billing" role="tabpanel" aria-labelledby="tab-billing" hidden>
+    <section class="panel">
+      <p class="fine">Enterprise seat billing (<code>docs/payments.md</code>): an organisation licenses seats for its cohorts — a learner never buys anything. Plans and amounts are the deployment's configuration (auth-config.json, payments block) and are shown exactly as configured; with no provider configured the on-device mock stands in and nothing is charged. Seats used against seats licensed per cohort, a quote and a checkout, receipts with a printable invoice (prototype — not an invoice), the budget agent's policy, spend, decisions and approval queue, and the payment lines of this device's audit log. Nothing here leaves the device without a configured provider.</p>
+    </section>
+    <div id="pm-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <code>docs/instructor-console.md</code>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="./index.html">Back to the network portal</a>.</p>
@@ -816,6 +824,10 @@ const GT_PROFILE_KEYS = [
   "vr-avatar-style-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
+  // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.
+  "vr-payments-v1",
+  // The person's membership level (shared/pm-membership.js, docs/payments.md §7).
+  "vr-membership-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -1020,10 +1032,18 @@ function gtNoteDemoRun() {
 // Names prefixed QM_ (the bundler shares one scope).
 const QM_STATION_NAMES = {
   "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+  "aerial-ladder": "Aerial Ladder",
   "air-sensor-install": "Neighbourhood Air Sensor",
   "airport-ramp": "Airport Ramp",
   "allergen-control": "Allergen Control",
+  "ambulance-scene-safety": "Ambulance Scene Safety",
+  "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+  "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+  "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation",
   "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
+  "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+  "ballast-water-sampling": "Ballast Water Sampling",
+  "br-barge-loading-of-contaminated-sediment": "Barge Loading of Contaminated Sediment",
   "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
   "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window",
   "br-boom-towing-between-two-vessels": "Boom Towing Between Two Vessels",
@@ -1057,8 +1077,16 @@ const QM_STATION_NAMES = {
   "decon-support-laborer": "Decon Support Laborer",
   "dock-crane": "Dock Crane",
   "dredge-barge": "Dredge Barge",
+  "drive-backing-serpentine-and-alley-dock": "Backing Serpentine and Alley Dock",
+  "drive-city-route-and-turns": "City Route and Turns",
+  "drive-freeway-merge-and-following-distance": "Freeway Merge and Following Distance",
+  "drive-light-vehicle-fleet-and-forklift-course": "Light Vehicle Fleet and Forklift Course",
+  "drive-night-fog-and-rail-crossing": "Night Fog and Rail Crossing",
+  "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
   "ew-machine-room-lockout-and-brake-test": "Machine Room Lockout and Brake Test",
+  "fire-pump": "Fire Pump",
   "firefighter-rehab-sector": "Firefighter Rehab Sector",
+  "forklift-dock": "Forklift Dock",
   "fp-anchor-selection-and-rescue-plan": "Anchor Selection & Rescue Plan",
   "gg-deck-lane-closure-and-traveller": "Deck Lane Closure & Traveller",
   "gg-fog-and-wind-work-stop": "Fog & Wind Work Stop",
@@ -1091,21 +1119,34 @@ const QM_STATION_NAMES = {
   "marsh-transect-survey": "Marsh Transect Survey",
   "me-eelgrass-seed-collection-and-nursery": "Eelgrass Seed Collection & Nursery",
   "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
+  "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
   "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
+  "me-water-column-sampling-from-a-small-boat": "Water Column Sampling From A Small Boat",
+  "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
+  "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
+  "mooring-line": "Mooring Line",
   "mw-dive-supervisor-and-dive-plan": "Dive Supervisor & Dive Plan",
   "mw-ferry-deckhand-and-passenger-safety": "Ferry Deckhand & Passenger Safety",
   "mw-oil-transfer-watch-and-boom": "Oil Transfer Watch & Boom",
   "mw-workboat-towing-and-line-handling": "Workboat Towing & Line Handling",
+  "op-compactor-lift-thickness-and-edge": "Compactor Lift Thickness & Edge",
+  "op-crawler-crane-assembly-and-load-chart": "Crawler Crane Assembly & Load Chart",
+  "op-dozer-slope-work-and-rollover-protection": "Dozer Slope Work & Rollover Protection",
   "op-excavator-trench-and-utility-locate": "Excavator Trench & Utility Locate",
   "op-grader-fine-grade-and-crown": "Grader Fine Grade & Crown",
+  "op-loader-truck-loading-and-blind-spots": "Loader Truck Loading & Blind Spots",
+  "op-pile-driving-rig-and-lead-setup": "Pile Driving Rig & Lead Setup",
   "or-transmission-line-right-of-way-patrol": "Transmission Line ROW Patrol",
   "or-wildland-fireline-construction-and-lookout": "Wildland Fireline Construction",
   "pilot-transfer": "Pilot Transfer",
   "po-lashing-gear-inspection-and-tagging": "Lashing Gear Inspection & Tagging",
+  "po-yard-hostler-and-pedestrian-separation": "Yard Hostler & Pedestrian Separation",
   "psychological-first-aid": "Psychological First Aid",
   "ra-blue-flag-protection-in-the-yard": "Blue Flag Protection in the Yard",
+  "ra-locomotive-cab-startup-and-alerter": "Locomotive Cab Startup & Alerter",
   "ra-switch-inspection-and-lubrication": "Switch Inspection & Lubrication",
   "rigging-loft": "Rigging Loft",
+  "rl-critical-lift-plan-and-signalperson": "Critical Lift Plan & Signalperson",
   "sensor-colocation-check": "Sensor Co-Location Check",
   "shelter-in-place-drill": "Shelter-in-Place Drill",
   "signal-cabinet": "Signal Cabinet",
@@ -1115,11 +1156,13 @@ const QM_STATION_NAMES = {
   "stormwater-outfall": "Stormwater Outfall",
   "substation-switching": "Substation Switching",
   "tdl-air-brake-test": "Air Brake Test",
+  "tdl-hazmat-labeling-and-segregation": "Hazmat Labeling and Segregation",
   "tdl-pallet-jack-and-racking": "Pallet Jack and Racking",
   "tdl-pretrip-inspection": "Pre-Trip Inspection",
   "tdl-trailer-loading-and-dock-plate": "Trailer Loading and Dock Plate",
   "tide-gate": "Tide Gate",
   "tower-climb": "Tower Climb",
+  "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus",
   "track-access": "Track Access",
   "traffic-incident-management": "Traffic Incident Management",
   "tw-conveyor-jam-clearing-and-loto": "Conveyor Jam Clearing & LOTO",
@@ -1130,6 +1173,7 @@ const QM_STATION_NAMES = {
   "uw-lift-bag-rigging-and-object-recovery": "Lift Bag Rigging & Object Recovery",
   "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management",
   "valve-vault": "Valve Vault",
+  "vessel-gangway-and-hatch-cover-safety": "Vessel Gangway & Hatch Cover Safety",
   "wildland-urban-interface": "Wildland-Urban Interface",
   "yc-fuel-dock-transfer-and-spill-kit": "Fuel Dock Transfer & Spill Kit",
   "yc-line-handling-and-docking-in-crosswind": "Line Handling & Docking In A Crosswind",
@@ -18425,7 +18469,7 @@ const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "h
 const PP_APP_NAMES = {
   bayworld: "Bay World", underwater: "the Deep", regatta: "the Bay Regatta", fairway: "Fairway Park",
   trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas", redwood: "Redwood Reach",
-  summit: "Sierra Summit",
+  summit: "Sierra Summit", parishes: "the Parishes",
 };
 const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 
@@ -18964,6 +19008,22 @@ function enCreateCohort({ orgId, name, programme, edition = "", startDate = null
   enAudit("cohort-create", `${cohort.name} (${cohort.programme}) code ${cohort.code}`, s);
   enSave(s); enEmit("cohort");
   return cohort;
+}
+
+/**
+ * Set a cohort's seat count (a coordinator action, audited). Seat billing
+ * (payments.js, docs/payments.md) calls this when a paid receipt lands, so
+ * the seats an organisation licensed become the seats learners can take.
+ */
+function enSetCohortSeats(cohortId, seats, reason = "") {
+  const s = enLoad();
+  const c = s.cohorts.find((x) => x.id === cohortId);
+  const n = Math.min(1000, Math.max(1, Number(seats) | 0 || 1));
+  if (!c || c.seats === n) return false;
+  const before = c.seats; c.seats = n;
+  enAudit("cohort-seats", `${c.name}: ${before} → ${n} seats${reason ? ` (${enText(reason, 120)})` : ""}`, s);
+  enSave(s); enEmit("cohort");
+  return true;
 }
 
 function enCohorts(orgId = null) { return enLoad().cohorts.filter((c) => !orgId || c.orgId === orgId); }
@@ -19720,6 +19780,1109 @@ function enMountCohortView(root, { enterprise = null, toast = null } = {}) {
 function enSetEnterprise(enterprise) { enState.enterprise = enterprise ?? null; if (enState.root) enRender(enState.root); }
 
 
+/* ===== shared/payments.js ===== */
+// Enterprise seat billing on the organisation layer (console TILL,
+// docs/payments.md). The platform trains individuals for free; an
+// organisation licenses seats for its cohorts. A learner never buys anything
+// here, and nothing in this file is a price: amounts are whatever the
+// `payments` block of auth-config.json says (null in the public build, shown
+// as "not configured").
+//
+// The adapter mirrors shared/agent-protocols.js — `describe()`, `quote()`,
+// `checkout()`, `webhook()`, `status()` — so the console never knows which
+// provider a deployment pointed it at:
+//
+//   provider null    no provider: checkout() returns null and requests nothing.
+//   provider "mock"  the on-device stub: a checkout is a session with a
+//                    hosted-redirect *stub* (a fragment, no navigation); the
+//                    mock "completes" it by feeding a signed-shape event to
+//                    webhook(). Nothing leaves the device.
+//   any other name   a hosted-checkout provider the deployment operates,
+//                    reached only through a fetch implementation the caller
+//                    hands in and a checkoutEndpoint the block names; until
+//                    both exist checkout() refuses with nothing sent.
+//
+// One store, `vr-payments-v1`, through profiles.js's gtStorage() (a private
+// profile key like vr-org-v1): checkout sessions, receipts, licences, the
+// event ids already applied (idempotency) and the budget agent's state
+// (pm-agent.js). Coordinator-facing lines go through org.js's enAudit so they
+// sit in the organisation's own audit log.
+//
+// The bundler concatenates every module into one scope and erases import
+// aliases, so every top-level name here starts with `pm`/`PM_`.
+
+
+
+const PM_KEY = "vr-payments-v1";
+const PM_SCHEMA_VERSION = 1;
+const PM_MOCK = "mock";
+const PM_REFUSAL = "configure per the provider's current documentation";
+const PM_EVENT_TYPES = ["checkout.completed", "checkout.failed", "payment.refunded"];
+const PM_MAX_SEATS = 1000;
+const PM_MAX_EVENTS = 2000;
+
+// ------------------------------------------------------------------ store
+
+function pmStore() { try { return gtStorage(); } catch (_) { return null; } }
+
+function pmText(v, max = 80) { return String(v ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").trim().slice(0, max); }
+
+function pmId(prefix, random = null) {
+  const bytes = new Uint8Array(6);
+  if (typeof random === "function") { for (let i = 0; i < 6; i += 1) bytes[i] = Math.floor(random() * 256) & 255; }
+  else { try { globalThis.crypto.getRandomValues(bytes); } catch (_) { for (let i = 0; i < 6; i += 1) bytes[i] = Math.floor(Math.random() * 256); } }
+  return `${prefix}-${[...bytes].map((b) => b.toString(16).padStart(2, "0")).join("")}`;
+}
+
+/** An empty store. */
+function pmEmpty() { return { v: PM_SCHEMA_VERSION, sessions: [], receipts: [], licences: [], events: [], agent: null }; }
+
+/** The store as it stands (never throws; a damaged value reads as empty). */
+function pmLoad() {
+  try {
+    const raw = JSON.parse(pmStore()?.getItem(PM_KEY) || "null");
+    if (!raw || raw.v !== PM_SCHEMA_VERSION) return pmEmpty();
+    return {
+      v: PM_SCHEMA_VERSION,
+      sessions: Array.isArray(raw.sessions) ? raw.sessions : [],
+      receipts: Array.isArray(raw.receipts) ? raw.receipts : [],
+      licences: Array.isArray(raw.licences) ? raw.licences : [],
+      events: Array.isArray(raw.events) ? raw.events : [],
+      agent: raw.agent && typeof raw.agent === "object" ? raw.agent : null,
+    };
+  } catch (_) { return pmEmpty(); }
+}
+
+function pmSave(state) {
+  try { pmStore()?.setItem(PM_KEY, JSON.stringify(state)); return true; } catch (_) { return false; }
+}
+
+function pmEmit(kind) {
+  try { globalThis.dispatchEvent?.(new CustomEvent("pm:change", { detail: { kind } })); } catch (_) { /* headless */ }
+}
+
+/** Forget every session, receipt, licence and agent decision of this profile. */
+function pmClear() { try { pmStore()?.removeItem(PM_KEY); } catch (_) { /* ignore */ } pmEmit("clear"); }
+
+// ------------------------------------------------------------------ money
+
+/** A configured amount as text, or "not configured" — never a number this file made up. */
+function pmMoney(amountMinor, config = {}) {
+  if (!Number.isInteger(amountMinor)) return "not configured";
+  const exp = Number.isInteger(config?.currencyExponent) ? config.currencyExponent : 2;
+  const major = (amountMinor / 10 ** exp).toFixed(exp);
+  return config?.currency ? `${major} ${config.currency}` : `${major} (currency not configured)`;
+}
+
+/** The plan (a seat plan, or a membership level — pm-membership.js) with this id from a cleaned `payments` block, or null. */
+function pmPlan(config, planId) { return (config?.plans ?? []).find((p) => p.id === planId) ?? (config?.levels ?? []).find((l) => l.id === planId) ?? null; }
+
+// ------------------------------------------------- Payment Request (wallets)
+
+const PM_APPLE_PAY = "https://apple.com/apple-pay";
+const PM_GOOGLE_PAY = "https://google.com/pay";
+
+/**
+ * The W3C Payment Request methods this page can offer: Apple Pay and Google
+ * Pay, each only when the deployment's block carries its merchant details,
+ * the page is a secure context and the browser has PaymentRequest. Merchant
+ * identifiers, gateway names and keys come from the block alone. An empty
+ * list means "hide the wallet buttons; the mock or hosted path stays".
+ */
+function pmPaymentMethods(config, env = globalThis) {
+  if (!env?.isSecureContext || typeof env?.PaymentRequest !== "function") return [];
+  const out = [];
+  const ap = config?.applePay ?? {};
+  if (ap.merchantIdentifier && ap.countryCode && ap.supportedNetworks?.length) {
+    out.push({ supportedMethods: PM_APPLE_PAY, data: { version: 3, merchantIdentifier: ap.merchantIdentifier, merchantCapabilities: ["supports3DS"], supportedNetworks: [...ap.supportedNetworks], countryCode: ap.countryCode } });
+  }
+  const gp = config?.googlePay ?? {};
+  if (gp.merchantId && gp.merchantName && gp.gateway && gp.gatewayMerchantId && gp.allowedCardNetworks?.length) {
+    out.push({ supportedMethods: PM_GOOGLE_PAY, data: {
+      environment: gp.environment === "PRODUCTION" ? "PRODUCTION" : "TEST", apiVersion: 2, apiVersionMinor: 0,
+      merchantInfo: { merchantId: gp.merchantId, merchantName: gp.merchantName },
+      allowedPaymentMethods: [{ type: "CARD", parameters: { allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"], allowedCardNetworks: [...gp.allowedCardNetworks] }, tokenizationSpecification: { type: "PAYMENT_GATEWAY", parameters: { gateway: gp.gateway, gatewayMerchantId: gp.gatewayMerchantId } } }],
+    } });
+  }
+  return out;
+}
+
+/**
+ * Ask the browser's wallet sheet for a priced quote. Returns null — and
+ * constructs nothing — when no method is available or the quote has no
+ * configured amount. What comes back is the wallet's own response (a token
+ * for the deployment's relay to verify; never parsed here), with `complete`
+ * to close the sheet.
+ */
+async function pmRequestPayment(config, quote, env = globalThis) {
+  const methods = pmPaymentMethods(config, env);
+  if (!methods.length || !quote?.priced || !quote.currency) return null;
+  const value = (quote.totalMinor / 10 ** quote.currencyExponent).toFixed(quote.currencyExponent);
+  let request = null;
+  try { request = new env.PaymentRequest(methods, { id: quote.id, total: { label: quote.plan?.name ?? quote.planId, amount: { currency: quote.currency, value } } }); }
+  catch (err) { return { ok: false, reason: err?.message ?? "the browser refused the request" }; }
+  try {
+    if (typeof request.canMakePayment === "function" && (await request.canMakePayment()) === false) return { ok: false, reason: "no wallet on this device can pay with the configured methods" };
+    const response = await request.show();
+    return { ok: true, methodName: response.methodName, details: response.details ?? null, payerName: response.payerName ?? null, complete: (result = "success") => response.complete(result) };
+  } catch (err) { return { ok: false, reason: err?.name === "AbortError" ? "cancelled" : err?.message ?? "the wallet sheet failed" }; }
+}
+
+// ----------------------------------------------------------- membership hook
+
+const pmMembershipHooks = [];
+/** pm-membership.js registers how a paid membership receipt sets the person's level (no import cycle). */
+function pmOnMembership(fn) { if (typeof fn === "function") pmMembershipHooks.push(fn); }
+
+/** Whole seats between 1 and PM_MAX_SEATS, or null. */
+function pmSeatCount(v) {
+  const n = Number(v);
+  return Number.isInteger(n) && n >= 1 && n <= PM_MAX_SEATS ? n : null;
+}
+
+/**
+ * A quote, pure: seats × the plan's configured amount per seat per period.
+ * `priced` is false while the plan's amount is null; the quote still exists
+ * so the console can show what would be licensed. Nothing about tax is
+ * computed here — that is the provider's at checkout, per its own rules.
+ */
+function pmQuote(config, planId, seats, { orgId = null, cohortId = null, now = new Date().toISOString(), random = null } = {}) {
+  const plan = pmPlan(config, planId);
+  const n = pmSeatCount(seats);
+  if (!plan || !n) return null;
+  const unit = Number.isInteger(plan.amountMinor) ? plan.amountMinor : null;
+  const subtotal = unit == null ? null : unit * n;
+  return {
+    id: pmId("q", random), planId: plan.id, plan: { id: plan.id, name: plan.name, period: plan.period, periodDays: plan.periodDays },
+    seats: n, unitMinor: unit, subtotalMinor: subtotal, totalMinor: subtotal,
+    currency: config?.currency ?? null, currencyExponent: Number.isInteger(config?.currencyExponent) ? config.currencyExponent : 2,
+    priced: unit != null,
+    display: { unit: pmMoney(unit, config), total: pmMoney(subtotal, config) },
+    orgId: orgId ?? null, cohortId: cohortId ?? null, provider: config?.provider ?? null, createdAt: now,
+    note: "Seats × the configured amount per seat per period, before anything the provider adds at checkout.",
+  };
+}
+
+// ------------------------------------------------------------------ events
+
+/** What is wrong with a webhook event, as a list (empty when it is well formed). */
+function pmValidateEvent(ev) {
+  const errors = [];
+  if (!ev || typeof ev !== "object") return ["not an object"];
+  if (!/^evt-[A-Za-z0-9._-]{4,80}$/.test(String(ev.id ?? ""))) errors.push("id must read evt-…");
+  if (!PM_EVENT_TYPES.includes(ev.type)) errors.push(`type must be one of ${PM_EVENT_TYPES.join(", ")}`);
+  if (!/^(cs|sess)-[A-Za-z0-9._-]{4,80}$/.test(String(ev.sessionId ?? ""))) errors.push("sessionId must name a checkout session");
+  if (ev.amountMinor != null && !(Number.isInteger(ev.amountMinor) && ev.amountMinor >= 0)) errors.push("amountMinor must be a non-negative integer or null");
+  if (ev.seats != null && !pmSeatCount(ev.seats)) errors.push(`seats must be 1–${PM_MAX_SEATS}`);
+  if (ev.currency != null && !/^[A-Z]{3}$/.test(String(ev.currency))) errors.push("currency must be a three-letter code");
+  if (typeof ev.at !== "string" || Number.isNaN(new Date(ev.at).getTime())) errors.push("at must be an ISO date");
+  return errors;
+}
+
+// ---------------------------------------------------------------- licences
+
+/**
+ * Seats for a cohort: `used` (learners joined), `planned` (the cohort's own
+ * seat count), `licensed` (paid seats whose period has not ended) and the
+ * licences behind that number.
+ */
+function pmSeats(cohortId, now = new Date().toISOString()) {
+  const cohort = enCohort(cohortId);
+  if (!cohort) return null;
+  const licences = pmLoad().licences.filter((l) => l.cohortId === cohortId && l.state === "active" && (!l.periodEnd || l.periodEnd >= now));
+  const licensed = licences.reduce((a, l) => a + (l.seats | 0), 0);
+  const used = enMembers(cohortId).filter((m) => m.role === "learner").length;
+  return { cohortId, used, planned: cohort.seats, licensed, licences };
+}
+
+/** Every cohort's seats, for the billing tab. */
+function pmSeatsAll(now = new Date().toISOString()) { return enCohorts().map((c) => pmSeats(c.id, now)).filter(Boolean); }
+
+/** Licences ending within `days` of `now` (the agent's renewals). */
+function pmExpiring(days = 14, now = new Date().toISOString()) {
+  const limit = new Date(new Date(now).getTime() + days * 86400000).toISOString();
+  return pmLoad().licences.filter((l) => l.state === "active" && l.periodEnd && l.periodEnd >= now && l.periodEnd <= limit);
+}
+
+/**
+ * Release unused seats of a cohort: the newest licences shrink by `seats`,
+ * never below the learners already joined. No refund is implied or computed
+ * here — a release only narrows what the organisation keeps licensed.
+ */
+function pmReleaseSeats(cohortId, seats, reason = "") {
+  const n = pmSeatCount(seats);
+  const view = pmSeats(cohortId);
+  if (!n || !view) return { ok: false, released: 0 };
+  const canRelease = Math.max(0, Math.min(n, view.licensed - view.used));
+  if (!canRelease) return { ok: true, released: 0 };
+  const s = pmLoad();
+  let left = canRelease;
+  for (const l of s.licences.filter((x) => x.cohortId === cohortId && x.state === "active").reverse()) {
+    if (!left) break;
+    const take = Math.min(left, l.seats);
+    l.seats -= take; left -= take;
+    if (l.seats === 0) l.state = "released";
+  }
+  pmSave(s);
+  enAudit("payment-release", `${enCohort(cohortId)?.name ?? cohortId}: ${canRelease} seat(s) released${reason ? ` (${pmText(reason, 120)})` : ""}`);
+  pmEmit("licence");
+  return { ok: true, released: canRelease };
+}
+
+// ----------------------------------------------------------------- adapter
+
+/**
+ * One adapter over a cleaned `payments` block (auth.js's cleanPayments). A
+ * fresh instance per caller, like agent-protocols.js's createAdapter: its
+ * configuration never leaks into another. `fetchImpl` is the only way a
+ * hosted provider is ever reached; `now`/`random` make a test deterministic.
+ */
+function pmCreateAdapter(config = {}, { fetchImpl = null, now = null, random = null } = {}) {
+  const cfg = {
+    provider: config?.provider ?? null, publishableKey: config?.publishableKey ?? null, checkoutEndpoint: config?.checkoutEndpoint ?? null,
+    currency: config?.currency ?? null, currencyExponent: Number.isInteger(config?.currencyExponent) ? config.currencyExponent : 2,
+    plans: (config?.plans ?? []).map((p) => ({ ...p })),
+    levels: (config?.levels ?? []).map((l) => ({ ...l })),
+    applePay: config?.applePay ? { ...config.applePay } : null, googlePay: config?.googlePay ? { ...config.googlePay } : null,
+  };
+  const clock = () => (typeof now === "function" ? now() : new Date().toISOString());
+  const isMock = () => cfg.provider === PM_MOCK;
+  const missing = () => {
+    const out = [];
+    if (!cfg.provider) out.push("provider");
+    if (!cfg.currency) out.push("currency");
+    if (!cfg.plans.length) out.push("plans");
+    else if (!cfg.plans.some((p) => Number.isInteger(p.amountMinor))) out.push("plans[].amountMinor");
+    if (cfg.provider && !isMock() && !cfg.checkoutEndpoint) out.push("checkoutEndpoint");
+    return out;
+  };
+
+  function applyEvent(ev, state) {
+    const session = state.sessions.find((s) => s.id === ev.sessionId) ?? null;
+    if (ev.type === "checkout.completed") {
+      if (!session) return { ok: false, reason: "unknown checkout session" };
+      const q = session.quote;
+      const seats = pmSeatCount(ev.seats) ?? q.seats;
+      const plan = pmPlan(cfg, ev.planId ?? q.planId) ?? q.plan;
+      const start = ev.at;
+      const end = plan?.periodDays ? new Date(new Date(start).getTime() + plan.periodDays * 86400000).toISOString() : null;
+      const receipt = {
+        id: `r-${ev.id.slice(4)}`, eventId: ev.id, sessionId: session.id, quoteId: q.id, provider: cfg.provider,
+        orgId: q.orgId, cohortId: q.cohortId, planId: plan?.id ?? q.planId, seats,
+        kind: q.kind === "membership" ? "membership" : "seats", levelId: q.kind === "membership" ? q.levelId ?? q.planId : null,
+        amountMinor: Number.isInteger(ev.amountMinor) ? ev.amountMinor : q.totalMinor, currency: ev.currency ?? q.currency,
+        state: "paid", at: ev.at, periodStart: start, periodEnd: end, number: `PM-${String(ev.at).slice(0, 4)}-${String(state.receipts.length + 1).padStart(4, "0")}`,
+      };
+      state.receipts.push(receipt);
+      session.state = "completed"; session.receiptId = receipt.id;
+      if (receipt.kind === "membership") for (const fn of pmMembershipHooks) { try { fn(receipt); } catch (_) { /* a hook must not break the receipt */ } }
+      if (receipt.cohortId && receipt.kind !== "membership") state.licences.push({ id: `lic-${receipt.id.slice(2)}`, receiptId: receipt.id, cohortId: receipt.cohortId, planId: receipt.planId, seats, state: "active", periodStart: start, periodEnd: end });
+      return { ok: true, receipt, session };
+    }
+    if (ev.type === "checkout.failed") {
+      if (!session) return { ok: false, reason: "unknown checkout session" };
+      session.state = "failed"; session.failedAt = ev.at; session.reason = pmText(ev.reason, 120) || "declined by the provider";
+      return { ok: true, receipt: null, session };
+    }
+    // payment.refunded: the receipt of that session is marked and its licence ends now.
+    const receipt = state.receipts.find((r) => r.sessionId === ev.sessionId) ?? null;
+    if (!receipt) return { ok: false, reason: "no receipt for that session" };
+    receipt.state = "refunded"; receipt.refundedAt = ev.at;
+    for (const l of state.licences) if (l.receiptId === receipt.id) { l.state = "refunded"; l.periodEnd = ev.at; }
+    return { ok: true, receipt, session };
+  }
+
+  return {
+    id: cfg.provider,
+
+    /** The configuration as it stands; the key is reported as set or not, never echoed. */
+    describe() {
+      const miss = missing();
+      return {
+        provider: cfg.provider, mock: isMock(), configured: miss.length === 0, missing: miss,
+        currency: cfg.currency, currencyExponent: cfg.currencyExponent, publishableKey: cfg.publishableKey ? "set" : null,
+        checkoutEndpoint: cfg.checkoutEndpoint ? "set" : null,
+        plans: cfg.plans.map((p) => ({ ...p, display: pmMoney(p.amountMinor, cfg) })),
+      };
+    },
+
+    /** Merge a deployment's fields; unknown ones are dropped. */
+    configure(next = {}) {
+      for (const f of ["provider", "publishableKey", "checkoutEndpoint", "currency", "currencyExponent"]) if (f in next) cfg[f] = next[f] ?? null;
+      if (Array.isArray(next.plans)) cfg.plans = next.plans.map((p) => ({ ...p }));
+      return this.describe();
+    },
+
+    /** A quote for `seats` on `planId` (pure; nothing stored, nothing sent). */
+    quote(planId, seats, ctx = {}) { const q = pmQuote(cfg, planId, seats, { ...ctx, now: clock(), random }); return q && ctx.kind === "membership" ? { ...q, kind: "membership", levelId: planId } : q; },
+
+    /** The wallet methods this page could offer for the block (empty until a merchant is configured). */
+    paymentMethods(env = globalThis) { return pmPaymentMethods(cfg, env); },
+
+    /**
+     * Start a checkout for a quote. No provider → null, and nothing was
+     * requested. The mock → a session with a hosted-redirect stub. A hosted
+     * provider → refuses until configured; then posts the quote through the
+     * fetch implementation the caller handed in and returns what came back.
+     */
+    async checkout(quote) {
+      if (!cfg.provider) return null;
+      if (!quote?.id || !pmPlan(cfg, quote.planId) || !pmSeatCount(quote.seats)) return { ok: false, provider: cfg.provider, reason: "not a quote from this adapter" };
+      const miss = missing();
+      if (miss.length && !(isMock() && miss.every((m) => m === "currency" || m.startsWith("plans")))) return { ok: false, provider: cfg.provider, reason: PM_REFUSAL, missing: miss };
+      const s = pmLoad();
+      const session = { id: pmId("cs", random), quoteId: quote.id, quote: { ...quote }, provider: cfg.provider, state: "open", createdAt: clock() };
+      if (isMock()) {
+        session.redirect = { kind: "hosted-redirect-stub", href: `#pm-checkout/${session.id}`, note: "The mock provider never leaves this device: nothing is navigated to and nothing is charged. Complete or fail the session from the console." };
+      } else {
+        if (typeof fetchImpl !== "function") return { ok: false, provider: cfg.provider, reason: "This page was given no way to reach the provider.", missing: ["fetchImpl"] };
+        let res = null;
+        try {
+          res = await fetchImpl(cfg.checkoutEndpoint, { method: "POST", mode: "cors", credentials: "omit", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "checkout", provider: cfg.provider, quote, publishableKey: cfg.publishableKey }) });
+        } catch (err) { return { ok: false, provider: cfg.provider, reason: err?.message ?? "the request failed" }; }
+        let body = null; try { body = await res.json(); } catch (_) { /* no body */ }
+        if (!res?.ok || typeof body?.redirectUrl !== "string" || !/^https:\/\//.test(body.redirectUrl)) return { ok: false, provider: cfg.provider, reason: "the provider did not return a hosted checkout", status: res?.status ?? null };
+        session.redirect = { kind: "hosted-redirect", href: body.redirectUrl, note: "Open the provider's hosted checkout; the receipt arrives by webhook." };
+        if (typeof body.sessionId === "string" && /^[A-Za-z0-9._-]{4,80}$/.test(body.sessionId)) session.providerSessionId = body.sessionId;
+      }
+      s.sessions.push(session);
+      pmSave(s);
+      enAudit("payment-checkout", `${enCohort(quote.cohortId)?.name ?? "no cohort"}: ${quote.seats} seat(s) on ${quote.plan?.name ?? quote.planId}, ${quote.display?.total ?? pmMoney(quote.totalMinor, cfg)} · session ${session.id}${isMock() ? " (mock)" : ""}`);
+      pmEmit("session");
+      return { ok: true, provider: cfg.provider, session, redirect: session.redirect };
+    },
+
+    /**
+     * Apply a provider event. Idempotent by event id: a replay answers
+     * `duplicate: true` and changes nothing. A paid checkout writes one
+     * receipt and one licence, and provisions the cohort's seats (org.js).
+     */
+    webhook(event) {
+      const errors = pmValidateEvent(event);
+      if (errors.length) return { ok: false, reason: errors[0], errors };
+      const s = pmLoad();
+      const seen = s.events.find((e) => e.id === event.id);
+      if (seen) return { ok: true, duplicate: true, receipt: s.receipts.find((r) => r.eventId === event.id) ?? s.receipts.find((r) => r.sessionId === event.sessionId) ?? null };
+      const r = applyEvent(event, s);
+      if (!r.ok) return { ok: false, duplicate: false, reason: r.reason };
+      s.events.push({ id: event.id, type: event.type, at: event.at });
+      if (s.events.length > PM_MAX_EVENTS) s.events.splice(0, s.events.length - PM_MAX_EVENTS);
+      pmSave(s);
+      if (event.type === "checkout.completed" && r.receipt) {
+        enAudit("payment-receipt", `${r.receipt.number}: ${r.receipt.seats} seat(s) for ${enCohort(r.receipt.cohortId)?.name ?? "no cohort"}, ${pmMoney(r.receipt.amountMinor, cfg)}`);
+        // Provision: paying for more seats than the cohort planned grows it; paying for fewer never cuts anyone.
+        if (r.receipt.cohortId) { const v = pmSeats(r.receipt.cohortId, event.at); if (v && v.licensed > v.planned) enSetCohortSeats(r.receipt.cohortId, v.licensed, `licence ${r.receipt.number}`); }
+      } else if (event.type === "checkout.failed") enAudit("payment-failed", `session ${event.sessionId}: ${r.session.reason}`);
+      else if (event.type === "payment.refunded") enAudit("payment-refund", `${r.receipt.number} refunded; its licence ended`);
+      pmEmit("receipt");
+      return { ok: true, duplicate: false, receipt: r.receipt, session: r.session };
+    },
+
+    /** What this device knows about a receipt or a session — never a claim beyond the events applied here. */
+    status(receipt) {
+      const s = pmLoad();
+      const id = typeof receipt === "string" ? receipt : receipt?.id ?? receipt?.receiptId ?? null;
+      const r = s.receipts.find((x) => x.id === id) ?? null;
+      if (r) return { ok: true, provider: cfg.provider, kind: "receipt", id: r.id, state: r.state, receipt: r, session: s.sessions.find((x) => x.id === r.sessionId) ?? null };
+      const sess = s.sessions.find((x) => x.id === id) ?? null;
+      if (sess) return { ok: true, provider: cfg.provider, kind: "session", id: sess.id, state: sess.state, session: sess, receipt: s.receipts.find((x) => x.sessionId === sess.id) ?? null };
+      return { ok: false, provider: cfg.provider, reason: "unknown receipt or session" };
+    },
+
+    /** The mock provider completes an open session: one deterministic event (replay-safe) through webhook(). */
+    mockComplete(sessionId) {
+      if (!isMock()) return { ok: false, reason: "only the mock provider completes a session on this device" };
+      const sess = pmLoad().sessions.find((x) => x.id === sessionId);
+      if (!sess) return { ok: false, reason: "unknown checkout session" };
+      const q = sess.quote;
+      return this.webhook({ id: `evt-${sess.id}-completed`, type: "checkout.completed", sessionId: sess.id, at: clock(), amountMinor: q.totalMinor, currency: q.currency, seats: q.seats, planId: q.planId, cohortId: q.cohortId, orgId: q.orgId });
+    },
+
+    /** The mock provider declines an open session. */
+    mockFail(sessionId, reason = "declined (mock)") {
+      if (!isMock()) return { ok: false, reason: "only the mock provider fails a session on this device" };
+      const sess = pmLoad().sessions.find((x) => x.id === sessionId);
+      if (!sess) return { ok: false, reason: "unknown checkout session" };
+      return this.webhook({ id: `evt-${sess.id}-failed`, type: "checkout.failed", sessionId: sess.id, at: clock(), reason });
+    },
+
+    /** The mock provider refunds a paid session. */
+    mockRefund(sessionId) {
+      if (!isMock()) return { ok: false, reason: "only the mock provider refunds on this device" };
+      return this.webhook({ id: `evt-${sessionId}-refunded`, type: "payment.refunded", sessionId, at: clock() });
+    },
+  };
+}
+
+// ----------------------------------------------------------------- invoice
+
+function pmEsc(s) { return String(s ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])); }
+
+/**
+ * A receipt as a printable procedural SVG (A4 portrait in millimetres):
+ * organisation, cohort, plan, seats, period, the configured amount (or "not
+ * configured") — and "PROTOTYPE — NOT AN INVOICE" twice. No logo, no image,
+ * no script; every text is escaped. It evidences a mock or configured
+ * checkout on this device; it is not a tax document.
+ */
+function pmInvoiceSVG(receipt, { org = null, cohort = null, config = {} } = {}) {
+  if (!receipt?.id) return null;
+  const W = 210, H = 297;
+  const colour = /^#[0-9a-fA-F]{6}$/.test(String(org?.colour ?? "")) ? org.colour : "#4fd1ff";
+  const plan = pmPlan(config, receipt.planId);
+  const money = (v) => pmMoney(v, { currency: receipt.currency ?? config?.currency ?? null, currencyExponent: config?.currencyExponent });
+  const unit = Number.isInteger(receipt.amountMinor) && receipt.seats ? Math.round(receipt.amountMinor / receipt.seats) : null;
+  const row = (y, label, value) => `<text x="22" y="${y}" font-family="Arial, Helvetica, sans-serif" font-size="4.2" fill="#3a4656">${pmEsc(label)}</text><text x="${W - 22}" y="${y}" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="4.2" fill="#1a2230">${pmEsc(value)}</text>`;
+  const line = (y) => `<line x1="20" y1="${y}" x2="${W - 20}" y2="${y}" stroke="${colour}" stroke-width="0.5"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}" role="img" aria-label="Seat licence receipt — prototype, not an invoice">
+<rect width="${W}" height="${H}" fill="#fbfbf7"/>
+<rect x="8" y="8" width="${W - 16}" height="${H - 16}" fill="none" stroke="${colour}" stroke-width="1.2"/>
+<text x="22" y="28" font-family="Georgia, serif" font-size="7" letter-spacing="1" fill="#1a2230">${pmEsc((org?.name ?? "Organisation").toUpperCase())}</text>
+<text x="${W - 22}" y="28" text-anchor="end" font-family="Georgia, serif" font-size="9" fill="#1a2230">Seat licence receipt</text>
+<text x="${W - 22}" y="36" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="4.2" fill="#3a4656">${pmEsc(receipt.number ?? receipt.id)} · ${pmEsc(String(receipt.at ?? "").slice(0, 10))}</text>
+${line(42)}
+${row(54, "Cohort", `${cohort?.name ?? "—"}${cohort?.edition ? ` · ${cohort.edition}` : ""}`)}
+${row(62, "Plan", `${plan?.name ?? receipt.planId ?? "—"} (${plan?.period ?? "period as configured"})`)}
+${row(70, "Seats licensed", String(receipt.seats ?? "—"))}
+${row(78, "Licence period", `${String(receipt.periodStart ?? "").slice(0, 10) || "—"} to ${String(receipt.periodEnd ?? "").slice(0, 10) || "open"}`)}
+${row(86, "Provider", `${receipt.provider ?? "none"}${receipt.provider === PM_MOCK ? " (on-device mock — nothing was charged)" : ""}`)}
+${row(94, "Status", String(receipt.state ?? "—"))}
+${line(100)}
+${row(110, "Amount per seat, as configured", money(unit))}
+${row(118, "Seats", `× ${receipt.seats ?? "—"}`)}
+<text x="22" y="130" font-family="Georgia, serif" font-size="5.4" fill="#1a2230">Total, as configured</text><text x="${W - 22}" y="130" text-anchor="end" font-family="Georgia, serif" font-size="6.4" fill="${colour}">${pmEsc(money(receipt.amountMinor))}</text>
+${line(136)}
+<text x="22" y="146" font-family="Arial, Helvetica, sans-serif" font-size="3.6" fill="#5a6676">Amounts are the deployment's configuration (auth-config.json, payments block), shown as configured; nothing here is a price the platform set. No tax is computed on this page.</text>
+<text x="22" y="152" font-family="Arial, Helvetica, sans-serif" font-size="3.6" fill="#5a6676">This page evidences a checkout event recorded on this device. It is not a tax invoice, a contract or a statement of account.</text>
+<g transform="translate(${W / 2} ${H / 2}) rotate(-24)" opacity="0.16"><text text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="14" fill="#b0262e">PROTOTYPE — NOT AN INVOICE</text></g>
+<text x="${W / 2}" y="${H - 16}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="4.4" fill="#b0262e">PROTOTYPE — NOT AN INVOICE</text>
+</svg>`;
+}
+
+// ------------------------------------------------------------- sample data
+
+/**
+ * Sample billing for the console's empty state and the checker: the sample
+ * organisation and cohort (org.js), one mock checkout for the cohort's
+ * planned seats, completed. Amounts are whatever the config says (null in
+ * the public build → "not configured"). Idempotent.
+ */
+function pmLoadSample(config = {}) {
+  const { org, cohort } = enLoadSample();
+  const have = pmLoad().receipts.find((r) => r.cohortId === cohort.id);
+  if (have) return { org, cohort, receipt: have, fresh: false };
+  const adapter = pmCreateAdapter({ ...config, provider: PM_MOCK, plans: config?.plans?.length ? config.plans : [{ id: "seat-annual", name: "Seat, annual", period: "year", periodDays: 365, amountMinor: null }] });
+  const planId = adapter.describe().plans[0].id;
+  const quote = adapter.quote(planId, cohort.seats, { orgId: org.id, cohortId: cohort.id });
+  let receipt = null;
+  // The mock checkout is synchronous in effect (no awaited network), so the promise resolves on the next tick;
+  // callers that need the receipt right away read the store after a microtask, or use pmLoadSampleAsync.
+  const done = adapter.checkout(quote).then((r) => { if (r?.ok) { const w = adapter.mockComplete(r.session.id); receipt = w.receipt ?? null; } return receipt; });
+  return { org, cohort, receipt, fresh: true, done };
+}
+
+/** The sample, awaited: the receipt is there when this resolves. */
+async function pmLoadSampleAsync(config = {}) {
+  const r = pmLoadSample(config);
+  if (r.done) r.receipt = await r.done;
+  return r;
+}
+
+/** Payment-related audit lines (org.js's log), newest first. */
+function pmAuditList(all) { return (all ?? []).filter((a) => /^(payment-|agent-|cohort-seats)/.test(a.action)); }
+
+/** The organisation a receipt belongs to (for the invoice), or null. */
+function pmOrgOf(receipt) { return receipt?.orgId ? enOrg(receipt.orgId) : null; }
+
+
+/* ===== shared/pm-agent.js ===== */
+// The budget agent of enterprise seat billing (console TILL, docs/payments.md
+// §4). An organisation's coordinator writes a policy — a spend ceiling per
+// period, a seat floor and cap per cohort, auto-renew on or off, an approval
+// threshold above which a human confirms — and the agent plans within it:
+// it quotes and buys seats when a cohort fills, renews before a licence
+// ends, releases seats nobody uses, provisions the cohort once a receipt
+// lands, refuses anything over the ceiling and queues it for a human, and
+// writes every decision with its reason to the audit log.
+//
+// The step is pure and deterministic:
+//
+//     pmAgentStep(state, policy, events, { config, now }) → { actions, state }
+//
+// It touches no store and no network, skips events it has already applied
+// (idempotent across replays), and every action carries a reason. A price is
+// only ever the config block's amount for the policy's plan — an unpriced
+// plan means the agent buys nothing and asks a human. `pmAgentRun` is the
+// impure runner on this device: it executes the actions against a
+// payments.js adapter (the mock, on-device), provisions through org.js and
+// audits each decision. A deployment can run the same step in a Worker.
+//
+// Every top-level name here starts with `pm`/`PM_` (the bundler shares one scope).
+
+
+
+const PM_AGENT_VERSION = 1;
+const PM_AGENT_EVENT_TYPES = ["period.tick", "cohort.filled", "cohort.unused", "licence.expiring", "receipt.paid", "approval.granted", "approval.denied"];
+const PM_AGENT_ACTIONS = ["checkout", "release", "provision", "queue", "refuse", "dequeue"];
+const PM_MAX_DECISIONS = 50;
+const PM_MAX_SEEN = 2000;
+const PM_RENEW_WINDOW_DAYS = 14;
+
+// ------------------------------------------------------------------ policy
+
+/** A policy as the agent reads it: every number an integer or null ("not set"), never a default amount. */
+function pmPolicyClean(raw = {}) {
+  const p = raw && typeof raw === "object" ? raw : {};
+  // null, undefined and "" are "not set" — never zero (a zero ceiling would refuse everything; a zero threshold would queue everything).
+  const int = (v, min, max) => { if (v == null || v === "") return null; const n = Number(v); return Number.isInteger(n) && n >= min && n <= max ? n : null; };
+  return {
+    planId: /^[a-z0-9-]{1,40}$/.test(String(p.planId ?? "")) ? String(p.planId) : null,
+    ceilingMinor: int(p.ceilingMinor, 0, 1e12),
+    periodDays: int(p.periodDays, 1, 3660) ?? 30,
+    seatFloor: int(p.seatFloor, 0, 1000) ?? 0,
+    seatCap: int(p.seatCap, 1, 1000) ?? 1000,
+    autoRenew: p.autoRenew === true,
+    releaseUnused: p.releaseUnused !== false,
+    approvalThresholdMinor: int(p.approvalThresholdMinor, 0, 1e12),
+  };
+}
+
+/** A fresh agent state. */
+function pmAgentEmpty() { return { v: PM_AGENT_VERSION, period: null, spentMinor: 0, seen: [], queue: [], decisions: [] }; }
+
+// -------------------------------------------------------------- pure step
+
+function pmDecide(st, ev, kind, reason, action = null) {
+  st.decisions.push({ at: ev.at, eventId: ev.id, kind, reason: String(reason).slice(0, 160), action: action ? { ...action } : null });
+  if (st.decisions.length > PM_MAX_DECISIONS) st.decisions.splice(0, st.decisions.length - PM_MAX_DECISIONS);
+}
+
+function pmEnqueue(st, ev, why, proposed, reason, actions) {
+  const id = `aq-${ev.id.replace(/^evt-|^ev-/, "")}`;
+  if (!st.queue.some((q) => q.id === id)) st.queue.push({ id, why, proposed: { ...proposed }, reason: String(reason).slice(0, 160), at: ev.at });
+  const action = { kind: "queue", queueId: id, why, proposed: { ...proposed }, reason, eventId: ev.id };
+  actions.push(action);
+  pmDecide(st, ev, "queue", reason, action);
+}
+
+/**
+ * Consider buying `proposed.seats` on the policy's plan. The one place money
+ * is committed: unpriced → queue; no ceiling → queue; over the ceiling →
+ * refuse and queue; over the threshold (unless a human already approved) →
+ * queue; else a checkout action, and the spend is counted at once.
+ */
+function pmConsider(st, policy, ev, proposed, actions, config, approved = false) {
+  const plan = pmPlan(config, policy.planId);
+  const seats = pmSeatCount(proposed.seats);
+  const cohort = proposed.cohortName ?? proposed.cohortId ?? "the cohort";
+  if (!plan || !seats) { pmDecide(st, ev, "refuse", `${cohort}: no plan or no whole seat count to buy`); actions.push({ kind: "refuse", proposed, reason: "no plan or seats", eventId: ev.id }); return; }
+  if (!Number.isInteger(plan.amountMinor)) { pmEnqueue(st, ev, "unpriced", { ...proposed, seats, planId: plan.id }, `${cohort}: ${seats} seat(s) wanted, but ${plan.name} has no configured amount — a human must set it`, actions); return; }
+  const amount = plan.amountMinor * seats;
+  const money = pmMoney(amount, config);
+  if (policy.ceilingMinor == null) { pmEnqueue(st, ev, "no-ceiling", { ...proposed, seats, planId: plan.id, amountMinor: amount }, `${cohort}: ${seats} seat(s) at ${money} — no spend ceiling is set, so a human decides`, actions); return; }
+  const remaining = policy.ceilingMinor - st.spentMinor;
+  if (amount > remaining) {
+    const reason = `${cohort}: ${seats} seat(s) at ${money} exceeds the remaining ceiling (${pmMoney(Math.max(0, remaining), config)}) — refused, queued for a human`;
+    actions.push({ kind: "refuse", proposed: { ...proposed, seats, planId: plan.id, amountMinor: amount }, reason, eventId: ev.id });
+    pmDecide(st, ev, "refuse", reason);
+    pmEnqueue(st, ev, "over-ceiling", { ...proposed, seats, planId: plan.id, amountMinor: amount }, reason, actions);
+    return;
+  }
+  if (!approved && policy.approvalThresholdMinor != null && amount > policy.approvalThresholdMinor) {
+    pmEnqueue(st, ev, "approval", { ...proposed, seats, planId: plan.id, amountMinor: amount }, `${cohort}: ${seats} seat(s) at ${money} is over the approval threshold (${pmMoney(policy.approvalThresholdMinor, config)}) — waiting for a human`, actions);
+    return;
+  }
+  st.spentMinor += amount;
+  const reason = `${cohort}: ${proposed.renewal ? "renew" : "buy"} ${seats} seat(s) on ${plan.name} for ${money}${approved ? " (approved by a human)" : ""}; ${pmMoney(policy.ceilingMinor - st.spentMinor, config)} of the ceiling left`;
+  const action = { kind: "checkout", cohortId: proposed.cohortId ?? null, orgId: proposed.orgId ?? null, seats, planId: plan.id, amountMinor: amount, renewal: !!proposed.renewal, approved, reason, eventId: ev.id };
+  actions.push(action);
+  pmDecide(st, ev, "checkout", reason, action);
+}
+
+/**
+ * One deterministic step: the events in the order given, each applied once.
+ * Returns the actions to execute and the next state; the input state is not
+ * changed.
+ */
+function pmAgentStep(state, policy, events, { config = {}, now = null } = {}) {
+  const st = JSON.parse(JSON.stringify(state && state.v === PM_AGENT_VERSION ? state : pmAgentEmpty()));
+  const pol = pmPolicyClean(policy);
+  const actions = [];
+  for (const ev of Array.isArray(events) ? events : []) {
+    if (!ev || typeof ev.id !== "string" || !PM_AGENT_EVENT_TYPES.includes(ev.type) || typeof ev.at !== "string") continue;
+    if (st.seen.includes(ev.id)) continue;
+    st.seen.push(ev.id);
+    if (st.seen.length > PM_MAX_SEEN) st.seen.splice(0, st.seen.length - PM_MAX_SEEN);
+    // The spend period: opened by the first event, rolled over when an event lands past its end.
+    if (!st.period || ev.at >= st.period.end) {
+      const start = ev.at;
+      const end = new Date(new Date(start).getTime() + pol.periodDays * 86400000).toISOString();
+      if (st.period) pmDecide(st, ev, "period", `new ${pol.periodDays}-day period from ${start.slice(0, 10)}; ${pmMoney(st.spentMinor, config)} spent in the last one`);
+      st.period = { start, end }; st.spentMinor = 0;
+    }
+    const cohortName = ev.cohortName ?? ev.cohortId ?? "the cohort";
+    switch (ev.type) {
+      case "period.tick": break;
+      case "cohort.filled": {
+        const planned = pmSeatCount(ev.planned) ?? 0, licensed = Math.max(0, ev.licensed | 0), used = Math.max(0, ev.used | 0);
+        const target = Math.min(pol.seatCap, Math.max(pol.seatFloor, planned, used));
+        const need = target - licensed;
+        if (need <= 0) { pmDecide(st, ev, "hold", `${cohortName}: ${used} used of ${licensed} licensed; target ${target} within floor ${pol.seatFloor} / cap ${pol.seatCap} — nothing to buy`); break; }
+        pmConsider(st, pol, ev, { cohortId: ev.cohortId, orgId: ev.orgId ?? null, cohortName, seats: need }, actions, config);
+        break;
+      }
+      case "cohort.unused": {
+        const licensed = Math.max(0, ev.licensed | 0), used = Math.max(0, ev.used | 0);
+        const keep = Math.max(used, pol.seatFloor);
+        const release = licensed - keep;
+        if (!pol.releaseUnused) { pmDecide(st, ev, "hold", `${cohortName}: ${licensed - used} unused seat(s) kept — releasing is off in the policy`); break; }
+        if (release <= 0) { pmDecide(st, ev, "hold", `${cohortName}: ${licensed} licensed, ${used} used, floor ${pol.seatFloor} — nothing to release`); break; }
+        const reason = `${cohortName}: release ${release} unused seat(s) at period end (keeping ${keep}: ${used} used, floor ${pol.seatFloor})`;
+        const action = { kind: "release", cohortId: ev.cohortId, seats: release, keep, reason, eventId: ev.id };
+        actions.push(action); pmDecide(st, ev, "release", reason, action);
+        break;
+      }
+      case "licence.expiring": {
+        const seats = pmSeatCount(ev.seats);
+        if (!seats) { pmDecide(st, ev, "hold", `${cohortName}: licence ${ev.licenceId ?? ""} ends but names no seats`); break; }
+        // With releasing on, a renewal keeps what is used (never under the floor); otherwise the licence renews as it was.
+        const renew = Math.min(pol.seatCap, pol.releaseUnused && Number.isInteger(ev.used) ? Math.max(ev.used, pol.seatFloor, 1) : seats);
+        if (!pol.autoRenew) { pmEnqueue(st, ev, "renewal-off", { cohortId: ev.cohortId, orgId: ev.orgId ?? null, cohortName, seats: renew, renewal: true }, `${cohortName}: ${seats} seat(s) end ${String(ev.periodEnd ?? "").slice(0, 10)} — auto-renew is off, a human decides`, actions); break; }
+        pmConsider(st, pol, ev, { cohortId: ev.cohortId, orgId: ev.orgId ?? null, cohortName, seats: renew, renewal: true }, actions, config);
+        break;
+      }
+      case "receipt.paid": {
+        const seats = pmSeatCount(ev.seats) ?? 0;
+        const reason = `${cohortName}: receipt ${ev.receiptId ?? ""} landed for ${seats} seat(s) — provision the cohort`;
+        const action = { kind: "provision", cohortId: ev.cohortId, seats, receiptId: ev.receiptId ?? null, reason, eventId: ev.id };
+        actions.push(action); pmDecide(st, ev, "provision", reason, action);
+        break;
+      }
+      case "approval.granted": {
+        const i = st.queue.findIndex((q) => q.id === ev.queueId);
+        if (i < 0) { pmDecide(st, ev, "hold", `approval ${ev.queueId ?? ""} names nothing in the queue`); break; }
+        const [item] = st.queue.splice(i, 1);
+        actions.push({ kind: "dequeue", queueId: item.id, reason: `a human approved: ${item.reason}`, eventId: ev.id });
+        pmConsider(st, pol, ev, { ...item.proposed, cohortName: item.proposed.cohortName ?? cohortName }, actions, config, true);
+        break;
+      }
+      case "approval.denied": {
+        const i = st.queue.findIndex((q) => q.id === ev.queueId);
+        if (i < 0) { pmDecide(st, ev, "hold", `denial ${ev.queueId ?? ""} names nothing in the queue`); break; }
+        const [item] = st.queue.splice(i, 1);
+        const reason = `a human declined: ${item.reason}`;
+        actions.push({ kind: "dequeue", queueId: item.id, reason, eventId: ev.id }); pmDecide(st, ev, "deny", reason);
+        break;
+      }
+      default: break;
+    }
+  }
+  return { actions, state: st };
+}
+
+// ------------------------------------------------------------ on-device run
+
+/** The stored agent (policy + state) for this profile. */
+function pmAgentLoad() {
+  const a = pmLoad().agent;
+  return { policy: pmPolicyClean(a?.policy), state: a?.state && a.state.v === PM_AGENT_VERSION ? a.state : pmAgentEmpty() };
+}
+
+function pmAgentSave(policy, state) {
+  const s = pmLoad();
+  s.agent = { policy: pmPolicyClean(policy), state };
+  return pmSave(s);
+}
+
+/** A coordinator writes the policy (audited). */
+function pmAgentSetPolicy(policy) {
+  const { state } = pmAgentLoad();
+  const pol = pmPolicyClean(policy);
+  pmAgentSave(pol, state);
+  enAudit("agent-policy", `ceiling ${pol.ceilingMinor ?? "not set"} minor/${pol.periodDays}d · seats ${pol.seatFloor}–${pol.seatCap} · auto-renew ${pol.autoRenew ? "on" : "off"} · approval over ${pol.approvalThresholdMinor ?? "never"} · plan ${pol.planId ?? "none"}`);
+  return pol;
+}
+
+/**
+ * The events this device can see right now, with deterministic ids so a
+ * second run of the same picture is a replay and changes nothing: a period
+ * tick per day, a filled cohort (used ≥ licensed) or one with unused seats,
+ * a licence ending within the renewal window.
+ */
+function pmAgentEvents({ now = new Date().toISOString(), policy = null } = {}) {
+  const pol = pmPolicyClean(policy ?? pmAgentLoad().policy);
+  const day = String(now).slice(0, 10);
+  const events = [{ id: `ev-tick-${day}`, type: "period.tick", at: now }];
+  const expiring = pmExpiring(PM_RENEW_WINDOW_DAYS, now);
+  const ending = new Set(expiring.map((l) => l.cohortId));
+  for (const v of pmSeatsAll(now)) {
+    const c = enCohort(v.cohortId);
+    const base = { at: now, cohortId: v.cohortId, orgId: c?.orgId ?? null, cohortName: c?.name ?? v.cohortId, used: v.used, licensed: v.licensed, planned: v.planned };
+    if (v.used >= v.licensed && Math.min(pol.seatCap, Math.max(pol.seatFloor, v.planned, v.used)) > v.licensed) events.push({ id: `ev-filled-${v.cohortId}-${v.used}-${v.licensed}-${day}`, type: "cohort.filled", ...base });
+    // Unused seats are released at period end only (a seat is paid for its period), so a release and a fill never chase each other.
+    else if (ending.has(v.cohortId) && v.licensed - Math.max(v.used, pol.seatFloor) > 0) events.push({ id: `ev-unused-${v.cohortId}-${v.used}-${v.licensed}-${day}`, type: "cohort.unused", ...base });
+  }
+  for (const l of expiring) {
+    const c = enCohort(l.cohortId);
+    const v = pmSeats(l.cohortId, now);
+    events.push({ id: `ev-expiring-${l.id}`, type: "licence.expiring", at: now, cohortId: l.cohortId, orgId: c?.orgId ?? null, cohortName: c?.name ?? l.cohortId, licenceId: l.id, seats: l.seats, used: v?.used ?? null, periodEnd: l.periodEnd });
+  }
+  return events;
+}
+
+/**
+ * Run one step on this device and execute its actions against the adapter:
+ * a checkout is quoted, opened and (mock) completed so the receipt lands;
+ * a release narrows the licences; a provision re-asserts the cohort's seats;
+ * every decision is audited. Returns `{ actions, results, state }`.
+ */
+async function pmAgentRun(adapter, events, { config = {}, now = new Date().toISOString(), policy = null } = {}) {
+  const loaded = pmAgentLoad();
+  const pol = pmPolicyClean(policy ?? loaded.policy);
+  const { actions, state } = pmAgentStep(loaded.state, pol, events, { config, now });
+  const results = [];
+  for (const a of actions) {
+    if (a.kind === "checkout") {
+      const q = adapter.quote(a.planId, a.seats, { orgId: a.orgId, cohortId: a.cohortId });
+      const r = q ? await adapter.checkout(q) : null;
+      let receipt = null;
+      if (r?.ok && adapter.id === PM_MOCK) receipt = adapter.mockComplete(r.session.id)?.receipt ?? null;
+      results.push({ action: a, ok: !!r?.ok, session: r?.session ?? null, receipt });
+      if (receipt) { const st = pmAgentStep(state, pol, [{ id: `ev-paid-${receipt.id}`, type: "receipt.paid", at: now, cohortId: receipt.cohortId, cohortName: enCohort(receipt.cohortId)?.name, receiptId: receipt.number, seats: receipt.seats }], { config, now }); Object.assign(state, st.state); for (const p of st.actions) results.push({ action: p, ok: true }); }
+    } else if (a.kind === "release") {
+      const r = pmReleaseSeats(a.cohortId, a.seats, "budget agent, period end");
+      // The cohort's planned seats follow what is kept, so the next fill check agrees with the release.
+      if (r.released && pmSeatCount(a.keep)) enSetCohortSeats(a.cohortId, a.keep, "budget agent: unused seats released at period end");
+      results.push({ action: a, ...r });
+    }
+    else if (a.kind === "provision") { const v = pmSeats(a.cohortId, now); results.push({ action: a, ok: !!v, provisioned: v && v.licensed > v.planned ? enSetCohortSeats(a.cohortId, v.licensed, "budget agent: licence landed") : false }); }
+    else results.push({ action: a, ok: true });
+  }
+  // Every decision this run added is one audit line, so the trail re-reads the agent's reasoning.
+  const had = new Set(loaded.state.decisions.map((d) => `${d.eventId}|${d.kind}|${d.reason}`));
+  for (const d of state.decisions) if (!had.has(`${d.eventId}|${d.kind}|${d.reason}`)) enAudit("agent-decision", `${d.kind}: ${d.reason}`);
+  pmAgentSave(pol, state);
+  return { actions, results, state, policy: pol };
+}
+
+/** A human confirms or declines a queued item (audited through the step's own decision). */
+async function pmAgentResolve(adapter, queueId, granted, { config = {}, now = new Date().toISOString() } = {}) {
+  const ev = { id: `ev-${granted ? "approve" : "deny"}-${queueId}-${now}`, type: granted ? "approval.granted" : "approval.denied", at: now, queueId };
+  return pmAgentRun(adapter, [ev], { config, now });
+}
+
+/** The default adapter for the agent on this device: the block as configured, or the mock when no provider is named. */
+function pmAgentAdapter(config = {}) {
+  return pmCreateAdapter({ ...config, provider: config?.provider ?? PM_MOCK });
+}
+
+
+/* ===== instructor/js/billing.js ===== */
+// The Billing view of the instructor console (console TILL, docs/payments.md):
+// enterprise seat billing on the organisation layer, rendered as plain text
+// nodes — nothing here sets markup from a string (tools/check_console.mjs),
+// and an organisation's name or a cohort's is untrusted input by the time it
+// reaches this page.
+//
+// Panels: the provider and plans as configured (amounts shown as configured,
+// never invented); seats used / licensed / planned per cohort with a quote
+// and a mock checkout; receipts with a procedural SVG invoice each, marked
+// "prototype — not an invoice"; the Budget panel (the agent's policy, spend
+// against the ceiling, its last ten decisions, the approval queue); and the
+// payment lines of this device's audit log. A learner never sees this page
+// buy anything: only a coordinator's organisation licenses seats.
+//
+// Every top-level name starts with `pm` (the bundler shares one scope).
+
+
+
+
+
+
+const pmEl = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+const pmState = { root: null, enterprise: null, payments: null, adapter: null, toast: null, quote: null, busy: false, draft: null, readDraft: null };
+
+function pmSay(text) { try { pmState.toast?.(text); } catch (_) { /* no toast */ } }
+
+function pmDownload(name, text, type) {
+  if (typeof URL?.createObjectURL !== "function") return false;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  return true;
+}
+
+function pmButton(label, onClick, cls = "small") { const b = pmEl("button", cls, label); b.type = "button"; b.addEventListener("click", onClick); return b; }
+function pmField(label, input) { const wrap = pmEl("label", "pm-field"); wrap.append(pmEl("span", "muted", label), input); return wrap; }
+function pmInput(type, placeholder, attrs = {}) {
+  const i = pmEl("input"); i.type = type; i.placeholder = placeholder; i.autocomplete = "off"; i.setAttribute("aria-label", placeholder);
+  for (const [k, v] of Object.entries(attrs)) i.setAttribute(k, String(v));
+  return i;
+}
+function pmSelect(options, value = null) {
+  const s = pmEl("select");
+  for (const [v, label] of options) { const o = pmEl("option", null, label); o.value = v; s.append(o); }
+  s.value = value != null ? value : options[0]?.[0] ?? "";
+  return s;
+}
+function pmTable(headers, rows, empty) {
+  const wrap = pmEl("div", "pm-scroll"); const table = pmEl("table");
+  const thead = pmEl("thead"); const hr = pmEl("tr"); for (const h of headers) hr.append(pmEl("th", null, h)); thead.append(hr); table.append(thead);
+  const tbody = pmEl("tbody");
+  for (const cells of rows) { const tr = pmEl("tr"); for (const c of cells) { if (c instanceof Object && c.tagName) { const td = pmEl("td"); td.append(c); tr.append(td); } else tr.append(pmEl("td", null, String(c ?? ""))); } tbody.append(tr); }
+  if (!rows.length) { const tr = pmEl("tr"); const td = pmEl("td", "muted", empty); td.colSpan = headers.length; tr.append(td); tbody.append(tr); }
+  table.append(tbody); wrap.append(table);
+  return wrap;
+}
+
+/** The block the tab works from: the deployment's, or the mock standing in when no provider is named. */
+function pmEffectiveConfig(payments = pmState.payments) {
+  const p = payments ?? { provider: null, currency: null, currencyExponent: 2, plans: [] };
+  return p.provider ? p : { ...p, provider: PM_MOCK };
+}
+
+/** The cohorts this deployment's programmes allow (docs/enterprise.md), for the seat table and the quote form. */
+function pmVisibleCohorts(enterprise = pmState.enterprise) {
+  const on = new Set(enEnabledProgrammes(enterprise));
+  return enCohorts().filter((c) => on.has(c.programme));
+}
+
+// ------------------------------------------------------------ provider panel
+
+function pmProviderPanel() {
+  const panel = pmEl("section", "panel"); panel.id = "pm-plans";
+  panel.append(pmEl("h2", null, "Provider and plans"));
+  const d = pmState.adapter.describe();
+  const org = pmState.enterprise?.organisation;
+  if (org) panel.append(pmEl("p", "fine", `This deployment is configured for ${org}; its seats are licensed here, by a coordinator. Learners never buy anything.`));
+  const line = pmEl("p", "fine"); line.id = "pm-provider";
+  line.textContent = pmState.payments?.provider
+    ? `Provider: ${d.provider}${d.configured ? "" : ` — not fully configured (${d.missing.join(", ")}); checkout refuses until it is`}. Publishable key ${d.publishableKey ? "set" : "not set"}; currency ${d.currency ?? "not configured"}.`
+    : `No provider is configured (auth-config.json, payments block), so the on-device mock stands in: a checkout here is a stub, nothing is charged and nothing leaves this device. Currency ${d.currency ?? "not configured"}.`;
+  panel.append(line);
+  panel.append(pmTable(["Plan", "Period", "Amount per seat, as configured"], d.plans.map((p) => [p.name, `${p.period}${p.periodDays ? ` (${p.periodDays} days)` : ""}`, p.display]), "No plan is configured."));
+  panel.append(pmEl("p", "fine", "Amounts are the deployment's configuration and are shown exactly as configured; the platform sets no price. A quote is seats × the configured amount, before anything the provider adds at checkout."));
+  const tools = pmEl("div", "row");
+  tools.append(pmButton("Load sample billing", () => { const r = pmLoadSample(pmEffectiveConfig()); (r.done ?? Promise.resolve()).then(() => { pmSay(r.fresh ? "Sample cohort licensed through the mock." : "The sample billing is already here."); pmRender(); }); }),
+    pmButton("Forget billing on this device", () => { if (typeof confirm === "function" && !confirm("Forget every checkout session, receipt, licence and agent decision kept for this profile on this device?")) return; pmClear(); pmState.quote = null; pmRender(); }));
+  panel.append(tools);
+  return panel;
+}
+
+// --------------------------------------------------------------- seat panel
+
+function pmSeatPanel() {
+  const panel = pmEl("section", "panel"); panel.id = "pm-seats";
+  panel.append(pmEl("h2", null, "Seats — used, licensed, planned"));
+  const visible = new Set(pmVisibleCohorts().map((c) => c.id));
+  const rows = pmSeatsAll().filter((v) => visible.has(v.cohortId)).map((v) => {
+    const c = enCohort(v.cohortId);
+    const end = v.licences.map((l) => l.periodEnd).filter(Boolean).sort().pop();
+    return [c?.name ?? v.cohortId, PP_PROGRAMMES[c?.programme]?.name ?? c?.programme ?? "", String(v.used), String(v.licensed), String(v.planned), end ? end.slice(0, 10) : (v.licensed ? "open" : "—")];
+  });
+  const table = pmTable(["Cohort", "Programme", "Used", "Licensed", "Planned", "Licence ends"], rows, "No cohort yet — create one on the Cohorts tab, or load the sample.");
+  table.id = "pm-seat-table";
+  panel.append(table);
+  panel.append(pmEl("p", "fine", "Used is learners joined; licensed is paid seats whose period has not ended; planned is the cohort's own seat count. Paying for more seats than planned grows the cohort; paying for fewer never removes anyone."));
+  // Quote and checkout.
+  const cohorts = pmVisibleCohorts();
+  const plans = pmState.adapter.describe().plans;
+  if (cohorts.length && plans.length) {
+    const cohort = pmSelect(cohorts.map((c) => [c.id, c.name]));
+    const plan = pmSelect(plans.map((p) => [p.id, `${p.name} — ${p.display}`]));
+    const seats = pmInput("number", "Seats", { min: 1, max: PM_MAX_SEATS }); seats.value = String(cohorts[0].seats);
+    cohort.addEventListener("change", () => { seats.value = String(enCohort(cohort.value)?.seats ?? seats.value); });
+    const out = pmEl("p", "fine"); out.id = "pm-quote";
+    const row = pmEl("div", "row");
+    row.append(pmField("Cohort", cohort), pmField("Plan", plan), pmField("Seats", seats));
+    const buy = pmButton(`Checkout${pmState.adapter.id === PM_MOCK ? " (mock)" : ""}`, async () => {
+      if (!pmState.quote) { pmSay("Quote first."); return; }
+      const r = await pmState.adapter.checkout(pmState.quote);
+      if (r === null) { pmSay("No provider is configured: nothing was requested."); return; }
+      if (!r.ok) { pmSay(`Checkout refused: ${r.reason}.`); return; }
+      pmSay(`Checkout session ${r.session.id} opened — ${r.redirect.kind}. ${r.redirect.note}`);
+      pmState.quote = null; pmRender();
+    }, "primary small");
+    buy.disabled = true; buy.id = "pm-checkout";
+    row.append(pmButton("Quote", () => {
+      const c = enCohort(cohort.value);
+      const q = pmState.adapter.quote(plan.value, seats.value, { orgId: c?.orgId ?? null, cohortId: c?.id ?? null });
+      if (!q) { pmSay(`A quote needs a plan and 1–${PM_MAX_SEATS} seats.`); pmState.quote = null; buy.disabled = true; return; }
+      pmState.quote = q; buy.disabled = false;
+      out.textContent = `Quote ${q.id}: ${q.seats} seat(s) × ${q.display.unit} = ${q.display.total} per ${q.plan.period}${q.priced ? "" : " — the plan's amount is not configured, so the checkout would carry no amount"}. ${q.note}`;
+    }), buy);
+    panel.append(pmEl("h3", null, "Quote and checkout"), row, out);
+  }
+  // Open sessions (the mock completes or declines them here; a hosted provider answers by webhook).
+  const open = pmLoad().sessions.filter((s) => s.state === "open");
+  if (open.length) {
+    const list = pmEl("ul", "ints"); list.id = "pm-sessions";
+    for (const s of open) {
+      const li = pmEl("li", "int");
+      li.append(pmEl("p", "int-kind", `Session ${s.id} · ${enCohort(s.quote.cohortId)?.name ?? "no cohort"} · ${s.quote.seats} seat(s) · ${s.quote.display?.total ?? ""}`));
+      li.append(pmEl("p", null, `${s.redirect?.kind ?? "pending"}: ${s.redirect?.href ?? ""} — ${s.redirect?.note ?? ""}`));
+      if (s.provider === PM_MOCK) {
+        const row = pmEl("div", "row");
+        row.append(pmButton("Complete (mock)", () => { const w = pmState.adapter.mockComplete(s.id); pmSay(w.ok ? `Receipt ${w.receipt?.number ?? ""} landed.` : w.reason); pmRender(); }, "primary small"),
+          pmButton("Decline (mock)", () => { pmState.adapter.mockFail(s.id); pmSay("The mock declined the session."); pmRender(); }));
+        li.append(row);
+      }
+      list.append(li);
+    }
+    panel.append(pmEl("h3", null, "Open checkout sessions"), list);
+  }
+  return panel;
+}
+
+// ------------------------------------------------------------ invoice panel
+
+/** Download a receipt's invoice SVG (prototype — not an invoice). */
+function pmOpenInvoice(receipt) {
+  const org = enOrgs().find((o) => o.id === receipt.orgId) ?? null;
+  const svg = pmInvoiceSVG(receipt, { org, cohort: enCohort(receipt.cohortId), config: pmEffectiveConfig() });
+  if (!svg) return null;
+  const name = `receipt-${String(receipt.number ?? receipt.id).toLowerCase()}.svg`;
+  pmDownload(name, svg, "image/svg+xml");
+  pmSay(`${receipt.number} written as ${name} — a prototype, not an invoice.`);
+  return svg;
+}
+
+function pmInvoicePanel() {
+  const panel = pmEl("section", "panel"); panel.id = "pm-invoices";
+  panel.append(pmEl("h2", null, "Receipts and invoices (prototype — not an invoice)"));
+  const cfg = pmEffectiveConfig();
+  const receipts = pmLoad().receipts.slice().reverse();
+  const rows = receipts.map((r) => [r.number, String(r.at).slice(0, 10), enCohort(r.cohortId)?.name ?? "—", String(r.seats), pmMoney(r.amountMinor, { currency: r.currency ?? cfg.currency, currencyExponent: cfg.currencyExponent }), `${r.state}${r.provider === PM_MOCK ? " (mock)" : ""}`, pmButton("Invoice SVG", () => pmOpenInvoice(r))]);
+  const table = pmTable(["Number", "Date", "Cohort", "Seats", "Amount, as configured", "State", ""], rows, "No receipt yet.");
+  table.id = "pm-receipts";
+  panel.append(table);
+  panel.append(pmEl("p", "fine", "Each invoice is a procedural SVG of the receipt recorded on this device, marked \"PROTOTYPE — NOT AN INVOICE\": it is not a tax document."));
+  return panel;
+}
+
+// ------------------------------------------------------------- budget panel
+
+function pmBudgetPanel() {
+  const panel = pmEl("section", "panel"); panel.id = "pm-budget";
+  panel.append(pmEl("h2", null, "Budget — the agent's policy and decisions"));
+  panel.append(pmEl("p", "fine", "A coordinator sets the policy; the agent plans within it: it quotes and buys seats when a cohort fills, renews before a licence ends, releases unused seats at period end, provisions the cohort once the receipt lands, refuses anything over the ceiling and queues it for a human, and writes every decision with its reason to the audit log. On this device it runs against the mock; amounts are the configured plan's."));
+  const { policy: stored, state } = pmAgentLoad();
+  // A half-typed policy survives a re-render (the account chip re-renders the tab once its config arrives).
+  const policy = pmState.draft ? { ...stored, ...pmState.draft } : stored;
+  const cfg = pmEffectiveConfig();
+  const plans = pmState.adapter.describe().plans;
+  // Policy form. Amounts are typed in the currency's minor unit, as the block stores them.
+  const plan = pmSelect([["", "— plan —"], ...plans.map((p) => [p.id, `${p.name} — ${p.display}`])], policy.planId ?? "");
+  const ceiling = pmInput("number", "Ceiling (minor units)", { min: 0 }); if (policy.ceilingMinor != null) ceiling.value = String(policy.ceilingMinor);
+  const period = pmInput("number", "Period (days)", { min: 1, max: 3660 }); period.value = String(policy.periodDays);
+  const floor = pmInput("number", "Seat floor", { min: 0, max: 1000 }); floor.value = String(policy.seatFloor);
+  const cap = pmInput("number", "Seat cap", { min: 1, max: 1000 }); cap.value = String(policy.seatCap);
+  const threshold = pmInput("number", "Approval above (minor units)", { min: 0 }); if (policy.approvalThresholdMinor != null) threshold.value = String(policy.approvalThresholdMinor);
+  const renew = pmEl("input"); renew.type = "checkbox"; renew.id = "pm-autorenew"; renew.checked = policy.autoRenew;
+  const renewLabel = pmEl("label", "muted"); renewLabel.setAttribute("for", "pm-autorenew"); renewLabel.append(renew, " Auto-renew");
+  const release = pmEl("input"); release.type = "checkbox"; release.id = "pm-release"; release.checked = policy.releaseUnused;
+  const releaseLabel = pmEl("label", "muted"); releaseLabel.setAttribute("for", "pm-release"); releaseLabel.append(release, " Release unused seats at period end");
+  const form = pmEl("div", "row"); form.id = "pm-policy";
+  form.append(pmField("Plan", plan), pmField("Ceiling per period", ceiling), pmField("Period (days)", period), pmField("Seat floor", floor), pmField("Seat cap", cap), pmField("Human approval above", threshold), renewLabel, releaseLabel);
+  const readForm = () => ({ planId: plan.value || null, ceilingMinor: ceiling.value === "" ? null : Number(ceiling.value), periodDays: Number(period.value), seatFloor: Number(floor.value), seatCap: Number(cap.value), autoRenew: renew.checked, releaseUnused: release.checked, approvalThresholdMinor: threshold.value === "" ? null : Number(threshold.value) });
+  pmState.readDraft = readForm;
+  form.append(pmButton("Save policy", () => {
+    pmState.draft = null;
+    const p = pmAgentSetPolicy(readForm());
+    pmSay(`Policy saved: ceiling ${p.ceilingMinor == null ? "not set" : pmMoney(p.ceilingMinor, cfg)} per ${p.periodDays} days.`); pmRender();
+  }, "primary small"));
+  panel.append(pmEl("h3", null, "Policy"), form);
+  // Spend against ceiling.
+  const spend = pmEl("div"); spend.id = "pm-spend";
+  const spent = state.spentMinor | 0;
+  const text = policy.ceilingMinor == null ? `Spent this period: ${pmMoney(spent, cfg)} — no ceiling is set, so the agent buys nothing and asks a human.` : `Spent this period: ${pmMoney(spent, cfg)} of ${pmMoney(policy.ceilingMinor, cfg)}${state.period ? ` (period ${state.period.start.slice(0, 10)} to ${state.period.end.slice(0, 10)})` : ""}.`;
+  spend.append(pmEl("p", "fine", text));
+  const bar = pmEl("div", "bar"); const fill = pmEl("span"); fill.style.width = `${policy.ceilingMinor ? Math.min(100, Math.round((spent / Math.max(1, policy.ceilingMinor)) * 100)) : 0}%`; bar.append(fill); spend.append(bar);
+  const run = pmEl("div", "row");
+  run.append(pmButton("Run the agent now", async () => {
+    if (pmState.busy) return; pmState.busy = true;
+    try { const r = await pmAgentRun(pmAgentAdapter(cfg), pmAgentEvents(), { config: cfg }); pmSay(`${r.actions.length} action(s): ${r.actions.map((a) => a.kind).join(", ") || "nothing to do"}.`); }
+    finally { pmState.busy = false; pmRender(); }
+  }, "primary small"));
+  spend.append(run);
+  panel.append(pmEl("h3", null, "Spend against the ceiling"), spend);
+  // Last ten decisions.
+  const decisions = pmEl("ul", "ints"); decisions.id = "pm-decisions";
+  for (const d of state.decisions.slice(-10).reverse()) { const li = pmEl("li", `int pm-${d.kind}`); li.append(pmEl("p", "int-kind", `${String(d.at).replace("T", " ").slice(0, 16)} · ${d.kind}`), pmEl("p", null, d.reason)); decisions.append(li); }
+  if (!state.decisions.length) decisions.append(pmEl("li", "muted", "No decision yet — save a policy and run the agent."));
+  panel.append(pmEl("h3", null, "Last ten decisions"), decisions);
+  // Approval queue.
+  const queue = pmEl("ul", "ints"); queue.id = "pm-queue";
+  for (const q of state.queue) {
+    const li = pmEl("li", "int pm-queued");
+    li.append(pmEl("p", "int-kind", `${q.why} · ${q.proposed.cohortName ?? q.proposed.cohortId ?? ""} · ${q.proposed.seats} seat(s)${Number.isInteger(q.proposed.amountMinor) ? ` · ${pmMoney(q.proposed.amountMinor, cfg)}` : ""}`), pmEl("p", null, q.reason));
+    const row = pmEl("div", "row");
+    row.append(pmButton("Confirm", async () => { const r = await pmAgentResolve(pmAgentAdapter(cfg), q.id, true, { config: cfg }); pmSay(`Confirmed: ${r.actions.map((a) => a.kind).join(", ")}.`); pmRender(); }, "primary small"),
+      pmButton("Decline", async () => { await pmAgentResolve(pmAgentAdapter(cfg), q.id, false, { config: cfg }); pmSay("Declined."); pmRender(); }));
+    li.append(row); queue.append(li);
+  }
+  if (!state.queue.length) queue.append(pmEl("li", "muted", "Nothing waits for approval."));
+  panel.append(pmEl("h3", null, "Approval queue — a human confirms"), queue);
+  return panel;
+}
+
+// -------------------------------------------------------------- audit panel
+
+function pmAuditPanel() {
+  const panel = pmEl("section", "panel"); panel.id = "pm-audit";
+  panel.append(pmEl("h2", null, "Audit log — payment and agent lines on this device"));
+  const list = pmAuditList(enAuditList());
+  const rows = list.slice(0, 100).map((a) => [String(a.at).replace("T", " ").slice(0, 19), a.action, a.detail]);
+  panel.append(pmTable(["Time", "Action", "Detail"], rows, "Nothing yet."));
+  return panel;
+}
+
+/** Rebuild the whole view from the stores (plain text nodes only). */
+function pmRender(root = pmState.root) {
+  if (!root) return null;
+  if (!pmState.adapter) pmState.adapter = pmCreateAdapter(pmEffectiveConfig());
+  // Keep what a coordinator has typed into the policy form across this rebuild.
+  if (typeof pmState.readDraft === "function") { try { pmState.draft = pmState.readDraft(); } catch (_) { pmState.draft = null; } }
+  root.replaceChildren();
+  root.append(pmProviderPanel(), pmSeatPanel(), pmInvoicePanel(), pmBudgetPanel(), pmAuditPanel());
+  return root;
+}
+
+const PM_CSS = `
+#view-billing .pm-field{display:inline-flex;flex-direction:column;gap:3px;font-size:12px}
+#view-billing .pm-field input,#view-billing .pm-field select{min-width:120px;flex:0 0 auto;height:auto}
+#view-billing .pm-field select{max-width:320px}
+#view-billing .pm-scroll{overflow:auto;max-width:100%}
+#view-billing .int.pm-refuse,#view-billing .int.pm-deny{border-left:3px solid var(--bad)}
+#view-billing .int.pm-queue,#view-billing .int.pm-queued{border-left:3px solid var(--warn)}
+#view-billing .int.pm-checkout,#view-billing .int.pm-provision{border-left:3px solid var(--good)}
+#view-billing .int.pm-release,#view-billing .int.pm-hold,#view-billing .int.pm-period{border-left:3px solid var(--edge)}
+`;
+
+/**
+ * Mount the view into `root` (the console's #pm-root). `enterprise` and
+ * `payments` are the deployment's blocks (Auth.config) once auth-config.json
+ * has been read; `toast` is the console's status line.
+ */
+function pmMountBillingView(root, { enterprise = null, payments = null, toast = null } = {}) {
+  if (!root) return null;
+  pmState.root = root; pmState.enterprise = enterprise; pmState.payments = payments; pmState.toast = toast;
+  pmState.adapter = pmCreateAdapter(pmEffectiveConfig(payments));
+  if (!document.getElementById("pm-style")) { const s = document.createElement("style"); s.id = "pm-style"; s.textContent = PM_CSS; document.head.appendChild(s); }
+  try { addEventListener("gt:profile", () => pmRender(root)); addEventListener("en:change", () => pmRender(root)); } catch (_) { /* headless */ }
+  return pmRender(root);
+}
+
+/** Let the console hand over the blocks after the config loads. */
+function pmSetConfig({ enterprise = null, payments = null } = {}) {
+  pmState.enterprise = enterprise ?? null; pmState.payments = payments ?? null;
+  pmState.adapter = pmCreateAdapter(pmEffectiveConfig(pmState.payments));
+  if (pmState.root) pmRender(pmState.root);
+}
+
+
 /* ===== shared/auth.js ===== */
 /**
  * Sign-in options for a static training page — honestly scoped.
@@ -19870,6 +21033,77 @@ function cleanEnterprise(raw) {
   };
 }
 
+/** The seat-billing plan periods payments.js knows (docs/payments.md). */
+const PAYMENT_PERIODS = ["month", "quarter", "year", "once"];
+
+/**
+ * The `payments` block of auth-config.json (docs/payments.md): enterprise
+ * seat billing on the organisation layer. Only ever read from the file — a
+ * launch URL can neither name a provider nor set a price. `publishableKey`
+ * is kept as text only when it does not look like a secret; a secret never
+ * belongs in this file at all. An amount is an integer in the currency's
+ * minor unit or null ("not configured"); nothing here invents one.
+ */
+function cleanPayments(raw) {
+  const p = raw && typeof raw === "object" ? raw : {};
+  const provider = authText(p.provider, 40).toLowerCase();
+  const key = authText(p.publishableKey, 200);
+  const currency = authText(p.currency, 3).toUpperCase();
+  const exp = Number(p.currencyExponent);
+  const amount = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  const plans = [];
+  for (const pl of Array.isArray(p.plans) ? p.plans : []) {
+    const id = authText(pl?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(pl?.period, 10).toLowerCase();
+    const days = Number(pl?.periodDays);
+    plans.push({
+      id, name: authText(pl?.name, 80) || id,
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(pl?.amountMinor),
+    });
+  }
+  // Membership levels (docs/payments.md §7): entitlements plus an amount that is null until configured.
+  const levels = [];
+  const idList = (v) => (Array.isArray(v) ? [...new Set(v.map((x) => authText(x, 40).toLowerCase()).filter((x) => /^[a-z0-9-]{1,40}$/.test(x)))] : null);
+  for (const lv of Array.isArray(p.levels) ? p.levels : []) {
+    const id = authText(lv?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || levels.some((x) => x.id === id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(lv?.period, 10).toLowerCase();
+    const days = Number(lv?.periodDays);
+    const en = lv?.entitlements && typeof lv.entitlements === "object" ? lv.entitlements : {};
+    levels.push({
+      id, name: authText(lv?.name, 80) || id, kind: "membership",
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(lv?.amountMinor),
+      entitlements: {
+        worlds: idList(en.worlds), programmes: idList(en.programmes),
+        certificates: en.certificates === true, cohortSeats: Number.isInteger(en.cohortSeats) && en.cohortSeats >= 0 ? Math.min(1000, en.cohortSeats) : 0, guideVoice: en.guideVoice === true,
+      },
+    });
+  }
+  // Wallet checkout through the Payment Request API: merchant details only from this block, null until a deployment fills them.
+  const ap = p.applePay && typeof p.applePay === "object" ? p.applePay : {};
+  const gp = p.googlePay && typeof p.googlePay === "object" ? p.googlePay : {};
+  const netList = (v) => (Array.isArray(v) ? v.map((x) => authText(x, 20)).filter((x) => /^[A-Za-z]{2,20}$/.test(x)) : []);
+  const applePay = { merchantIdentifier: authText(ap.merchantIdentifier, 120) || null, countryCode: /^[A-Z]{2}$/.test(authText(ap.countryCode, 2).toUpperCase()) ? authText(ap.countryCode, 2).toUpperCase() : null, supportedNetworks: netList(ap.supportedNetworks) };
+  const googlePay = { merchantId: authText(gp.merchantId, 60) || null, merchantName: authText(gp.merchantName, 80) || null, gateway: authText(gp.gateway, 40) || null, gatewayMerchantId: authText(gp.gatewayMerchantId, 120) || null, environment: authText(gp.environment, 10).toUpperCase() === "PRODUCTION" ? "PRODUCTION" : "TEST", allowedCardNetworks: netList(gp.allowedCardNetworks).map((x) => x.toUpperCase()) };
+  const wallet = p.wallet && typeof p.wallet === "object" ? p.wallet : {};
+  const walletPasses = { apple: wallet.apple === true, google: wallet.google === true };
+  return {
+    provider: /^[a-z][a-z0-9-]{0,39}$/.test(provider) ? provider : null,
+    publishableKey: key && !/^(sk|rk|whsec)_/i.test(key) ? key : null,
+    levels, applePay, googlePay, walletPasses,
+    // A hosted provider's checkout endpoint the deployment operates (https only); the mock needs none.
+    checkoutEndpoint: cleanHttpsUrl(p.checkoutEndpoint),
+    currency: /^[A-Z]{3}$/.test(currency) ? currency : null,
+    currencyExponent: Number.isInteger(exp) && exp >= 0 && exp <= 4 ? exp : 2,
+    plans,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -19896,6 +21130,8 @@ function parseAuthConfig(file = null, search = "") {
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
     // The organisation layer's block, from the file only (docs/enterprise.md).
     enterprise: cleanEnterprise(file?.enterprise),
+    // Seat billing (docs/payments.md), from the file only as well.
+    payments: cleanPayments(file?.payments),
   };
 }
 
@@ -22393,6 +23629,8 @@ function ctlMount(opts = {}) {
 // The organisation layer's Cohorts view (shared/org.js, docs/enterprise.md)
 // and the deployment's enterprise block it and the programme picker honour.
 
+// Enterprise seat billing (docs/payments.md): the Billing tab, on the same blocks.
+
 
 
 // The instructor console. It owns no simulation and no records: it listens to
@@ -22939,7 +24177,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -22954,6 +24192,7 @@ $("tab-live").addEventListener("click", () => setView("live"));
 $("tab-roster").addEventListener("click", () => setView("roster"));
 $("tab-log").addEventListener("click", () => setView("log"));
 $("tab-cohort").addEventListener("click", () => setView("cohort"));
+$("tab-billing").addEventListener("click", () => setView("billing"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
@@ -23024,9 +24263,12 @@ mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS }
 // the account chip has read auth-config.json (controls.js mounts it below);
 // until then the view runs with no deployment restrictions.
 enMountCohortView($("en-root"), { toast });
+// The Billing tab (docs/payments.md) reads the same config: the enterprise block and the payments block.
+pmMountBillingView($("pm-root"), { toast });
 function enApplyDeployment() {
   const e = Auth.config?.enterprise ?? null;
   enSetEnterprise(e);
+  pmSetConfig({ enterprise: e, payments: Auth.config?.payments ?? null });
   const line = $("en-deployment");
   if (e?.organisation) {
     line.hidden = false;

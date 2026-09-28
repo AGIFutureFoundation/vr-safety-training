@@ -8,10 +8,14 @@
 // other parish's frame); npResolveConnectors() fills the position through
 // the other parish's own fit once that module is registered. Pure.
 import { NP_ORLEANS } from "./np-data-orleans.js";
+import { NP_JEFFERSON } from "./np-data-jefferson.js";
+import { NP_ST_BERNARD } from "./np-data-st-bernard.js";
+import { NP_PLAQUEMINES } from "./np-data-plaquemines.js";
+import { NP_ST_TAMMANY } from "./np-data-st-tammany.js";
 import { npGeoToXz, npToGeo } from "./np-geo.js";
 
 /** Every parish, in the selector's order. */
-export const NP_PARISHES = [NP_ORLEANS];
+export const NP_PARISHES = [NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY];
 
 /** A parish by id, or null. */
 export function npParish(id) { return NP_PARISHES.find((p) => p.id === id) ?? null; }

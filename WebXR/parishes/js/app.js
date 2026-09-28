@@ -12,6 +12,7 @@ import { lkStationLink, lkStationLabel } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
 import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { slGamesFor, slResolveSite, slMountPathBoard } from "../../shared/sl-parish-play.js";
 import { NP_PARISHES, npParish, npResolveConnectors } from "../../shared/np-parishes.js";
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
@@ -164,7 +165,7 @@ function npOpenBoard(site) {
     li.append(name, a); ul.appendChild(li);
   }
   $("board-side").textContent = "";
-  qmBoardRows($("board-side"), (parish.gated ?? []).filter((g) => g.site === site.id), { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` }, heading: "Skill locks here", done: () => false });
+  qmBoardRows($("board-side"), npPlayItems().filter((g) => g.site === site.id), { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` }, heading: "Skill locks here", done: () => false });
   npOpen("board");
 }
 
@@ -384,4 +385,9 @@ window.__parishTest = {
   begin: npBegin, stats: () => world.stats(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
-qmMountSideGames({ world: "parishes", worldName: parish.name, items: parish.gated ?? [], from: "parishes", page: ppHerePage() });
+/** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
+function npPlayItems() {
+  return [...(parish.gated ?? []), ...slGamesFor(parish.id).map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+}
+qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
+slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });

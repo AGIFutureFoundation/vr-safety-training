@@ -737,6 +737,10 @@ const GT_PROFILE_KEYS = [
   "vr-avatar-style-v1",
   // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
   "vr-org-v1",
+  // Seat billing (shared/payments.js, docs/payments.md): checkout sessions, receipts, licences, the budget agent.
+  "vr-payments-v1",
+  // The person's membership level (shared/pm-membership.js, docs/payments.md §7).
+  "vr-membership-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -12165,7 +12169,10 @@ const WILDLIFE_BUDGET = {
   crab: { count: 1, meshes: 4, motion: "sidestep" },
   raptors: { count: 3, meshes: 9, motion: "soar" },
   deer: { count: 4, meshes: 28, motion: "graze" },
-  total: 99,
+  // The delta set (console PARISH): egrets wading a marsh edge, herons gliding a river.
+  egrets: { count: 5, meshes: 20, motion: "wade" },
+  herons: { count: 3, meshes: 9, motion: "glide" },
+  total: 128,
 };
 const WILDLIFE_KINDS = Object.keys(WILDLIFE_BUDGET).filter((k) => k !== "total");
 
@@ -12293,6 +12300,57 @@ function wlShorebirds(parent, zone, count, rng) {
       u.g.position.y = zone.y + (cyc < 1 ? Math.abs(Math.sin(cyc * 18)) * 0.03 : 0);
       u.g.rotation.y = u.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
       if (cyc > 3.9) u.dir = -u.dir;
+    }
+  };
+}
+
+/** Egrets: white waders at a marsh edge — body, neck, head, legs (4 meshes); a slow step and a neck dip. */
+function wlEgrets(parent, zone, count, rng) {
+  const body = wlMat(0xf6f6f2), leg = wlMat(0x2a2a28), bill = wlMat(0xd8b450);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const x = zone.x + (rng() - 0.5) * zone.w, z = zone.z + (rng() - 0.5) * zone.d;
+    const g = wlUnit(parent, "egrets", x, zone.y, z);
+    wlBall(g, 0.18, 0, 0.62, 0, body, 1, 0.8, 1.5);
+    const neck = wlBox(g, 0.06, 0.5, 0.06, 0, 0.98, 0.2, body);
+    wlBall(g, 0.08, 0, 1.28, 0.26, bill, 1, 0.8, 1.6);
+    wlBox(g, 0.03, 0.55, 0.03, 0, 0.28, 0, leg);
+    units.push({ g, neck, x0: x, z0: z, phase: rng() * 10, heading: rng() * Math.PI * 2, step: 0.6 + rng() * 0.6 });
+  }
+  return (t) => {
+    for (const u of units) {
+      const cyc = (t * 0.35 + u.phase) % 6;            // step for a second of every six, dip the neck in the middle
+      const run = cyc < 1 ? cyc : 1;
+      u.g.position.x = u.x0 + Math.sin(u.heading) * run * u.step;
+      u.g.position.z = u.z0 + Math.cos(u.heading) * run * u.step;
+      u.g.rotation.y = u.heading;
+      u.neck.rotation.x = cyc > 3 && cyc < 4 ? Math.sin((cyc - 3) * Math.PI) * 0.9 : 0;
+      if (cyc > 5.9) { u.x0 = u.g.position.x; u.z0 = u.g.position.z; u.heading += (Math.sin(t + u.phase) > 0 ? 1 : -1) * 0.8; }
+    }
+  };
+}
+
+/** Herons: grey-blue, slow wingbeats, one long pass along the zone and back (like the pelicans, higher and alone). */
+function wlHerons(parent, zone, count, rng) {
+  const body = wlMat(0x8a97a3), wing = wlMat(0x4f5b66);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const u = wlBird(parent, "herons", zone.x, zone.y + 9, zone.z, { len: 1.0, span: 2.2, body, wing });
+    u.offset = i * 14 + rng() * 6;
+    u.phase = i * 1.3;
+    u.height = zone.y + 8 + rng() * 6;
+    units.push(u);
+  }
+  const half = Math.max(30, zone.w * 0.45);
+  const period = Math.max(40, half / 3.2);
+  return (t) => {
+    const k = (t % (period * 2)) / period;
+    const dir = k < 1 ? 1 : -1;
+    const x = zone.x + (k < 1 ? -half + k * 2 * half : half - (k - 1) * 2 * half);
+    for (const u of units) {
+      u.g.position.set(x - dir * u.offset, u.height + Math.sin(t * 0.4 + u.phase) * 0.6, zone.z + (u.offset % 3) * 4 - 4);
+      u.g.rotation.y = dir > 0 ? -Math.PI / 2 : Math.PI / 2;
+      wlFlap(u, t, 1.6, 0.3);
     }
   };
 }
@@ -12444,7 +12502,7 @@ function wlDeer(parent, zone, count, rng) {
   };
 }
 
-const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer };
+const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer, egrets: wlEgrets, herons: wlHerons };
 
 /**
  * Build one wildlife group.
@@ -16925,6 +16983,22 @@ function enCreateCohort({ orgId, name, programme, edition = "", startDate = null
   return cohort;
 }
 
+/**
+ * Set a cohort's seat count (a coordinator action, audited). Seat billing
+ * (payments.js, docs/payments.md) calls this when a paid receipt lands, so
+ * the seats an organisation licensed become the seats learners can take.
+ */
+function enSetCohortSeats(cohortId, seats, reason = "") {
+  const s = enLoad();
+  const c = s.cohorts.find((x) => x.id === cohortId);
+  const n = Math.min(1000, Math.max(1, Number(seats) | 0 || 1));
+  if (!c || c.seats === n) return false;
+  const before = c.seats; c.seats = n;
+  enAudit("cohort-seats", `${c.name}: ${before} → ${n} seats${reason ? ` (${enText(reason, 120)})` : ""}`, s);
+  enSave(s); enEmit("cohort");
+  return true;
+}
+
 function enCohorts(orgId = null) { return enLoad().cohorts.filter((c) => !orgId || c.orgId === orgId); }
 function enCohort(id) { return enLoad().cohorts.find((c) => c.id === id) ?? null; }
 function enMembers(cohortId) { return enLoad().members.filter((m) => m.cohortId === cohortId); }
@@ -17332,10 +17406,18 @@ function enLoadSample({ programme = "fall-protection" } = {}) {
 // Names prefixed QM_ (the bundler shares one scope).
 const QM_STATION_NAMES = {
   "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+  "aerial-ladder": "Aerial Ladder",
   "air-sensor-install": "Neighbourhood Air Sensor",
   "airport-ramp": "Airport Ramp",
   "allergen-control": "Allergen Control",
+  "ambulance-scene-safety": "Ambulance Scene Safety",
+  "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+  "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+  "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation",
   "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
+  "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+  "ballast-water-sampling": "Ballast Water Sampling",
+  "br-barge-loading-of-contaminated-sediment": "Barge Loading of Contaminated Sediment",
   "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
   "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window",
   "br-boom-towing-between-two-vessels": "Boom Towing Between Two Vessels",
@@ -17369,8 +17451,16 @@ const QM_STATION_NAMES = {
   "decon-support-laborer": "Decon Support Laborer",
   "dock-crane": "Dock Crane",
   "dredge-barge": "Dredge Barge",
+  "drive-backing-serpentine-and-alley-dock": "Backing Serpentine and Alley Dock",
+  "drive-city-route-and-turns": "City Route and Turns",
+  "drive-freeway-merge-and-following-distance": "Freeway Merge and Following Distance",
+  "drive-light-vehicle-fleet-and-forklift-course": "Light Vehicle Fleet and Forklift Course",
+  "drive-night-fog-and-rail-crossing": "Night Fog and Rail Crossing",
+  "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
   "ew-machine-room-lockout-and-brake-test": "Machine Room Lockout and Brake Test",
+  "fire-pump": "Fire Pump",
   "firefighter-rehab-sector": "Firefighter Rehab Sector",
+  "forklift-dock": "Forklift Dock",
   "fp-anchor-selection-and-rescue-plan": "Anchor Selection & Rescue Plan",
   "gg-deck-lane-closure-and-traveller": "Deck Lane Closure & Traveller",
   "gg-fog-and-wind-work-stop": "Fog & Wind Work Stop",
@@ -17403,21 +17493,34 @@ const QM_STATION_NAMES = {
   "marsh-transect-survey": "Marsh Transect Survey",
   "me-eelgrass-seed-collection-and-nursery": "Eelgrass Seed Collection & Nursery",
   "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
+  "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
   "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
+  "me-water-column-sampling-from-a-small-boat": "Water Column Sampling From A Small Boat",
+  "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
+  "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
+  "mooring-line": "Mooring Line",
   "mw-dive-supervisor-and-dive-plan": "Dive Supervisor & Dive Plan",
   "mw-ferry-deckhand-and-passenger-safety": "Ferry Deckhand & Passenger Safety",
   "mw-oil-transfer-watch-and-boom": "Oil Transfer Watch & Boom",
   "mw-workboat-towing-and-line-handling": "Workboat Towing & Line Handling",
+  "op-compactor-lift-thickness-and-edge": "Compactor Lift Thickness & Edge",
+  "op-crawler-crane-assembly-and-load-chart": "Crawler Crane Assembly & Load Chart",
+  "op-dozer-slope-work-and-rollover-protection": "Dozer Slope Work & Rollover Protection",
   "op-excavator-trench-and-utility-locate": "Excavator Trench & Utility Locate",
   "op-grader-fine-grade-and-crown": "Grader Fine Grade & Crown",
+  "op-loader-truck-loading-and-blind-spots": "Loader Truck Loading & Blind Spots",
+  "op-pile-driving-rig-and-lead-setup": "Pile Driving Rig & Lead Setup",
   "or-transmission-line-right-of-way-patrol": "Transmission Line ROW Patrol",
   "or-wildland-fireline-construction-and-lookout": "Wildland Fireline Construction",
   "pilot-transfer": "Pilot Transfer",
   "po-lashing-gear-inspection-and-tagging": "Lashing Gear Inspection & Tagging",
+  "po-yard-hostler-and-pedestrian-separation": "Yard Hostler & Pedestrian Separation",
   "psychological-first-aid": "Psychological First Aid",
   "ra-blue-flag-protection-in-the-yard": "Blue Flag Protection in the Yard",
+  "ra-locomotive-cab-startup-and-alerter": "Locomotive Cab Startup & Alerter",
   "ra-switch-inspection-and-lubrication": "Switch Inspection & Lubrication",
   "rigging-loft": "Rigging Loft",
+  "rl-critical-lift-plan-and-signalperson": "Critical Lift Plan & Signalperson",
   "sensor-colocation-check": "Sensor Co-Location Check",
   "shelter-in-place-drill": "Shelter-in-Place Drill",
   "signal-cabinet": "Signal Cabinet",
@@ -17427,11 +17530,13 @@ const QM_STATION_NAMES = {
   "stormwater-outfall": "Stormwater Outfall",
   "substation-switching": "Substation Switching",
   "tdl-air-brake-test": "Air Brake Test",
+  "tdl-hazmat-labeling-and-segregation": "Hazmat Labeling and Segregation",
   "tdl-pallet-jack-and-racking": "Pallet Jack and Racking",
   "tdl-pretrip-inspection": "Pre-Trip Inspection",
   "tdl-trailer-loading-and-dock-plate": "Trailer Loading and Dock Plate",
   "tide-gate": "Tide Gate",
   "tower-climb": "Tower Climb",
+  "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus",
   "track-access": "Track Access",
   "traffic-incident-management": "Traffic Incident Management",
   "tw-conveyor-jam-clearing-and-loto": "Conveyor Jam Clearing & LOTO",
@@ -17442,6 +17547,7 @@ const QM_STATION_NAMES = {
   "uw-lift-bag-rigging-and-object-recovery": "Lift Bag Rigging & Object Recovery",
   "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management",
   "valve-vault": "Valve Vault",
+  "vessel-gangway-and-hatch-cover-safety": "Vessel Gangway & Hatch Cover Safety",
   "wildland-urban-interface": "Wildland-Urban Interface",
   "yc-fuel-dock-transfer-and-spill-kit": "Fuel Dock Transfer & Spill Kit",
   "yc-line-handling-and-docking-in-crosswind": "Line Handling & Docking In A Crosswind",
@@ -22841,7 +22947,7 @@ const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "h
 const PP_APP_NAMES = {
   bayworld: "Bay World", underwater: "the Deep", regatta: "the Bay Regatta", fairway: "Fairway Park",
   trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas", redwood: "Redwood Reach",
-  summit: "Sierra Summit",
+  summit: "Sierra Summit", parishes: "the Parishes",
 };
 const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 
@@ -23361,6 +23467,77 @@ function cleanEnterprise(raw) {
   };
 }
 
+/** The seat-billing plan periods payments.js knows (docs/payments.md). */
+const PAYMENT_PERIODS = ["month", "quarter", "year", "once"];
+
+/**
+ * The `payments` block of auth-config.json (docs/payments.md): enterprise
+ * seat billing on the organisation layer. Only ever read from the file — a
+ * launch URL can neither name a provider nor set a price. `publishableKey`
+ * is kept as text only when it does not look like a secret; a secret never
+ * belongs in this file at all. An amount is an integer in the currency's
+ * minor unit or null ("not configured"); nothing here invents one.
+ */
+function cleanPayments(raw) {
+  const p = raw && typeof raw === "object" ? raw : {};
+  const provider = authText(p.provider, 40).toLowerCase();
+  const key = authText(p.publishableKey, 200);
+  const currency = authText(p.currency, 3).toUpperCase();
+  const exp = Number(p.currencyExponent);
+  const amount = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  const plans = [];
+  for (const pl of Array.isArray(p.plans) ? p.plans : []) {
+    const id = authText(pl?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(pl?.period, 10).toLowerCase();
+    const days = Number(pl?.periodDays);
+    plans.push({
+      id, name: authText(pl?.name, 80) || id,
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(pl?.amountMinor),
+    });
+  }
+  // Membership levels (docs/payments.md §7): entitlements plus an amount that is null until configured.
+  const levels = [];
+  const idList = (v) => (Array.isArray(v) ? [...new Set(v.map((x) => authText(x, 40).toLowerCase()).filter((x) => /^[a-z0-9-]{1,40}$/.test(x)))] : null);
+  for (const lv of Array.isArray(p.levels) ? p.levels : []) {
+    const id = authText(lv?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || levels.some((x) => x.id === id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(lv?.period, 10).toLowerCase();
+    const days = Number(lv?.periodDays);
+    const en = lv?.entitlements && typeof lv.entitlements === "object" ? lv.entitlements : {};
+    levels.push({
+      id, name: authText(lv?.name, 80) || id, kind: "membership",
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(lv?.amountMinor),
+      entitlements: {
+        worlds: idList(en.worlds), programmes: idList(en.programmes),
+        certificates: en.certificates === true, cohortSeats: Number.isInteger(en.cohortSeats) && en.cohortSeats >= 0 ? Math.min(1000, en.cohortSeats) : 0, guideVoice: en.guideVoice === true,
+      },
+    });
+  }
+  // Wallet checkout through the Payment Request API: merchant details only from this block, null until a deployment fills them.
+  const ap = p.applePay && typeof p.applePay === "object" ? p.applePay : {};
+  const gp = p.googlePay && typeof p.googlePay === "object" ? p.googlePay : {};
+  const netList = (v) => (Array.isArray(v) ? v.map((x) => authText(x, 20)).filter((x) => /^[A-Za-z]{2,20}$/.test(x)) : []);
+  const applePay = { merchantIdentifier: authText(ap.merchantIdentifier, 120) || null, countryCode: /^[A-Z]{2}$/.test(authText(ap.countryCode, 2).toUpperCase()) ? authText(ap.countryCode, 2).toUpperCase() : null, supportedNetworks: netList(ap.supportedNetworks) };
+  const googlePay = { merchantId: authText(gp.merchantId, 60) || null, merchantName: authText(gp.merchantName, 80) || null, gateway: authText(gp.gateway, 40) || null, gatewayMerchantId: authText(gp.gatewayMerchantId, 120) || null, environment: authText(gp.environment, 10).toUpperCase() === "PRODUCTION" ? "PRODUCTION" : "TEST", allowedCardNetworks: netList(gp.allowedCardNetworks).map((x) => x.toUpperCase()) };
+  const wallet = p.wallet && typeof p.wallet === "object" ? p.wallet : {};
+  const walletPasses = { apple: wallet.apple === true, google: wallet.google === true };
+  return {
+    provider: /^[a-z][a-z0-9-]{0,39}$/.test(provider) ? provider : null,
+    publishableKey: key && !/^(sk|rk|whsec)_/i.test(key) ? key : null,
+    levels, applePay, googlePay, walletPasses,
+    // A hosted provider's checkout endpoint the deployment operates (https only); the mock needs none.
+    checkoutEndpoint: cleanHttpsUrl(p.checkoutEndpoint),
+    currency: /^[A-Z]{3}$/.test(currency) ? currency : null,
+    currencyExponent: Number.isInteger(exp) && exp >= 0 && exp <= 4 ? exp : 2,
+    plans,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -23387,6 +23564,8 @@ function parseAuthConfig(file = null, search = "") {
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
     // The organisation layer's block, from the file only (docs/enterprise.md).
     enterprise: cleanEnterprise(file?.enterprise),
+    // Seat billing (docs/payments.md), from the file only as well.
+    payments: cleanPayments(file?.payments),
   };
 }
 
@@ -25968,7 +26147,15 @@ function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) {
 const LK_ASSET_WORLDS = Object.freeze({
   bayworld: { page: "index.html", runner: "../../smartcity/index.html" },
   underwater: { page: "underwater.html", runner: "../../smartcity/dist/smartcity-x.html" },
+  // The New Orleans parishes (console PARISH): one page, `?parish=<id>`, sites deep-linked as `?parish=<id>&site=<site>`.
+  parishes: { page: "parishes.html", runner: "../../smartcity/index.html" },
 });
+
+/** A parish page's deep link to one parish (and one of its sites), relative to a world's own folder. */
+function lkParishLink(parishId, siteId = null, page = "../../parishes/parishes.html") {
+  if (!parishId) throw new Error("lkParishLink needs a parish id");
+  return `${page}?parish=${encodeURIComponent(parishId)}${siteId ? `&site=${encodeURIComponent(siteId)}` : ""}`;
+}
 
 /** A programme's overview in SmartCiti.X (`?programme=<id>`), the Atlas's own form. */
 function lkProgrammeLink(id, { runner = "../../smartcity/index.html", from = null } = {}) {

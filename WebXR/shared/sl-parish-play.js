@@ -70,7 +70,7 @@ export const SL_PARISHES = [
       ["br-levee-inspection-and-seepage", "op-grader-fine-grade-and-crown", "op-loader-truck-loading-and-blind-spots"], "the levee patrol lead"),
   ] },
   { id: "st-bernard", name: "St. Bernard Parish", short: "St. Bernard", sites: [
-    slSite("river-road-terminal", "River Road Bulk Terminal", "port", "terminal|port|wharf|dock", ["ila", "ilwu", "iuoe"],
+    slSite("river-road-terminal", "River Road Bulk Terminal", "port", "terminal|port|wharf|dock|refinery", ["ila", "ilwu", "iuoe"],
       ["mooring-line", "bunkering-watch", "mw-oil-transfer-watch-and-boom", "pt-dock-fender-and-bollard-inspection"], "the person in charge of the transfer"),
     slSite("refinery-corridor", "Refinery Corridor", "refinery", "refin|process|chemical", ["usw", "ua", "ibb"],
       ["spill-boom-deploy", "shelter-in-place-drill", "decon-support-laborer", "ut-pe-pipe-fusion-and-squeeze-off"], "the process operator"),
@@ -94,13 +94,13 @@ export const SL_PARISHES = [
       ["br-workboat-crane-lift-from-water", "container-lashing", "mw-workboat-towing-and-line-handling", "straddle-carrier-ops"], "the crane barge master"),
     slSite("ferry-landing", "Ferry Landing", "ferry", "ferry", ["ibu", "meba", "siu"],
       ["mw-ferry-deckhand-and-passenger-safety", "yc-pre-departure-safety-briefing-and-guest-count", "mooring-line"], "the ferry mate"),
-    slSite("pilot-station", "Pilot Station", "pilot", "pilot", ["mmp", "amo", "meba"],
+    slSite("pilot-station", "Pilot Station", "pilot", "pilot|venice|marina", ["mmp", "amo", "meba"],
       ["pilot-transfer", "br-vhf-and-navigation-in-a-work-zone", "yc-engine-room-pre-start-and-bilge-check"], "the pilot boat operator"),
     slSite("coastal-restoration", "Coastal Restoration Site", "wetland", "coast|restoration|marsh|delta", ["liuna", "iuoe"],
       ["br-tidal-marsh-grading-amphibious-excavator", "br-bird-nesting-buffer-and-work-window", "br-native-planting-and-erosion-mats", "br-dredge-material-screening-and-disposal-decision"], "the wildlife compliance biologist"),
     slSite("delta-boat-launch", "Delta Boat Launch", "harbour", "launch|harbou?r|marina|boat", ["ibu", "siu"],
       ["yc-tender-launch-and-guest-transfer", "br-boom-towing-between-two-vessels", "yc-man-overboard-recovery-drill"], "the launch skipper"),
-    slSite("oil-and-gas-dock", "Oil and Gas Service Dock", "dock", "oil|gas|service dock|supply", ["usw", "ibb", "ua"],
+    slSite("oil-and-gas-dock", "Oil and Gas Service Dock", "dock", "oil|gas|service dock|supply|pipeline|fabrication", ["usw", "ibb", "ua"],
       ["bunkering-watch", "mw-oil-transfer-watch-and-boom", "ballast-water-sampling", "ib-pressure-vessel-confined-entry-and-hot-work"], "the dock tankerman"),
     slSite("last-road-end", "End of the Road Ranger Post", "ranger", "end of the road|last road|ranger|road.?s end", ["afscme", "nage"],
       ["br-shoreline-cleanup-sharps-and-hazardous-debris", "me-shoreline-debris-and-microplastics-survey", "br-volunteer-cleanup-day-safety-lead"], "the ranger"),
@@ -120,14 +120,14 @@ export const SL_PARISHES = [
       ["hc-patient-transport-and-safe-handling", "hc-code-response-support-and-crash-cart-check", "hc-hazardous-drug-spill-kit-response"], "the transport team lead"),
     slSite("staging-yard", "Storm Staging Yard", "staging", "staging|yard|laydown", ["teamsters", "ibew", "liuna", "uwua"],
       ["line-truck", "ut-night-storm-response-crew-and-portable-generator", "tdl-trailer-loading-and-dock-plate", "shelter-intake-operations", "battery-storage-container-commissioning"], "the staging yard boss"),
-    slSite("interstate-work-zone", "Interstate Work Zone", "work-zone", "interstate|work ?zone|highway", ["liuna", "iuoe", "opcmia"],
+    slSite("interstate-work-zone", "Interstate Work Zone", "work-zone", "interstate|work ?zone|highway|staging", ["liuna", "iuoe", "opcmia"],
       ["traffic-incident-management", "cm-concrete-saw-cutting-with-water-and-silica-control", "op-compactor-lift-thickness-and-edge", "deck-joint-replacement"], "the traffic control supervisor"),
   ] },
 ];
 
 /** The crossings the arc uses. Bound to a parish data module's `connectors` by kind and the two parishes (either direction). */
 export const SL_CONNECTORS = [
-  { id: "river-bridge-orleans-jefferson", kind: "bridge", from: "orleans", to: "jefferson", name: "the river bridge" },
+  { id: "river-bridge-orleans-jefferson", kind: "bridge", from: "orleans", to: "jefferson", name: "the interstate bridge over the canal" },
   { id: "road-orleans-st-bernard", kind: "road", from: "orleans", to: "st-bernard", name: "the river road" },
   { id: "river-road-st-bernard-plaquemines", kind: "road", from: "st-bernard", to: "plaquemines", name: "the river road south" },
   { id: "ferry-plaquemines-river", kind: "ferry", from: "plaquemines", to: "plaquemines", name: "the river ferry" },
@@ -561,7 +561,7 @@ export const SL_MAIN_QUESTS = [
   { id: "sl-main-06-across-the-river", title: "Across the River", kind: "main", tier: 6, parish: "jefferson", site: "drainage-canal-pumps", requires: "sl-main-05-down-the-river-road",
     giver: "the drainage operator",
     steps: [
-      slCross("river-bridge-orleans-jefferson", "jefferson", "drainage-canal-pumps", "Cross the river bridge into Jefferson Parish and find the drainage canal pump station."),
+      slCross("river-bridge-orleans-jefferson", "jefferson", "drainage-canal-pumps", "Cross the interstate bridge over the canal into Jefferson Parish and find the drainage canal pump station."),
       slTalk("the drainage operator", "We plot the canal through the storm and start the pumps before the line climbs. Learn to read the graph, then stand a storm night with us."),
       slLessonStep("sl-fl-canal-graph"),
       slStation("stormwater-outfall", "Do the stormwater outfall station."),
