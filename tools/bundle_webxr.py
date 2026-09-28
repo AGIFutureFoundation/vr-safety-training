@@ -843,6 +843,12 @@ for _tz_cfg in APPS.values():
             _tz_mods.insert(_tz_first, SHARED / "profiles.js")
         _tz_at = _tz_mods.index(SHARED / "profiles.js") + 1
         _tz_mods[_tz_at:_tz_at] = [SHARED / "treasures-data.js", SHARED / "treasures.js"]
+    # treasures.js answers its gates through the shared gate engine
+    # (shared/skill-gates.js, which reads passport-programmes.js): an app that
+    # carries the treasure layer but not the engine gets both, right before it.
+    if SHARED / "treasures.js" in _tz_mods and SHARED / "skill-gates.js" not in _tz_mods:
+        _tz_at = _tz_mods.index(SHARED / "treasures-data.js")
+        _tz_mods[_tz_at:_tz_at] = ([] if SHARED / "passport-programmes.js" in _tz_mods else [SHARED / "passport-programmes.js"]) + [SHARED / "skill-gates.js"]
 # The video-background layer (console CINEMA, shared/cinema.js) imports
 # nothing, so every app with a module that imports it gets it first.
 for _cn_cfg in APPS.values():
@@ -860,15 +866,10 @@ for _ct_cfg in APPS.values():
     if _CT_ACCOUNT not in _ct_mods:
         continue
     if _CT_CREW in _ct_mods and _ct_mods.index(_CT_CREW) < _ct_mods.index(_CT_ACCOUNT):
+        continue
     if _CT_CREW in _ct_mods:
         _ct_mods.remove(_CT_CREW)
     _ct_mods.insert(_ct_mods.index(_CT_ACCOUNT), _CT_CREW)
-    # treasures.js answers its gates through the shared gate engine
-    # (shared/skill-gates.js, which reads passport-programmes.js): an app that
-    # carries the treasure layer but not the engine gets both, right before it.
-    if SHARED / "treasures.js" in _tz_mods and SHARED / "skill-gates.js" not in _tz_mods:
-        _tz_at = _tz_mods.index(SHARED / "treasures-data.js")
-        _tz_mods[_tz_at:_tz_at] = ([] if SHARED / "passport-programmes.js" in _tz_mods else [SHARED / "passport-programmes.js"]) + [SHARED / "skill-gates.js"]
 
 # The organisation layer (console ENTERPRISE, docs/enterprise.md): account.js
 # imports shared/org.js so a learner can join a cohort from the sign-in
