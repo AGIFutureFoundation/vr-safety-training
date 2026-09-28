@@ -57,3 +57,7 @@ tree at 01539ab. Prefix `cf`, port 8996, temp under `$SP/crescent/edge/`. Nothin
   edge-next brief · full `python3 tools/bundle_webxr.py` (5.8 s) reproduces the tree byte for byte and emits the
   three edge files · check_proving needed a `check_deploy.mjs` row in docs/perf/checkers-baseline.json (2400 ms
   vs ~1.8 s measured) — 162 checks pass · next: check_enterprise/check_auth, then the single full check_all
+- 19:10 UTC · 84ef8b8 baseline row · check_enterprise fails one browser assertion (lang "es" within 10 s) at load
+  6.5 — pre-existing (`ok: false` in checkers-last.json before EDGE; no WebXR source changed in this worktree) ·
+  check_auth passes · single full `node tools/check_all.mjs` started 19:09 (log under $SP/crescent/edge/) ·
+  next: wait, hand-back

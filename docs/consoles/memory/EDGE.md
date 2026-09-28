@@ -28,3 +28,7 @@ Short, durable lessons for the next team on the Cloudflare layer (docs/deploy-cl
 - **TILL's handler contract** (`workers/payments/handler.mjs`): default `handle(request, env)`, named `ROUTES`
   (`{ method, path }` or `"METHOD /path"`; `cfRoute()` normalises both). The stub here is marked; on an add/add
   conflict take TILL's file whole. The secret is `env.PAYMENTS_WEBHOOK_SECRET` (set by name by the agent).
+- **`check_enterprise`'s browser step is load-sensitive**, not EDGE-sensitive: it waits 10 s for the lazy language
+  layer to set `lang="es"`; at load 6+ on four cores it misses and reports one failure. It was already `ok: false`
+  in the coordinator's `docs/perf/checkers-last.json` before EDGE's changes (no WebXR source changed here).
+  Re-run it alone on a quiet machine before blaming a deploy change.
