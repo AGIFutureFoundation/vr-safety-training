@@ -30,7 +30,7 @@ import { trStrings, trLangs } from "./i18n-strings.js";
 const trHasDom = typeof document !== "undefined";
 const TR_STORE = "holodeck-lang-v1";
 const TR_RTL = new Set(["ar", "ur"]);
-const trState = { lang: "en", subs: new Set(), started: false };
+const trState = { lang: "en", subs: new Set(), started: false, defaultLang: null };
 
 /** Every language the platform ships: [{ code, name, english, dir }]. */
 export const trLanguages = trLangs;
@@ -68,12 +68,24 @@ function trStored() {
   try { return localStorage.getItem(TR_STORE); } catch (_) { return null; }
 }
 
-/** The language a fresh page starts in: ?lang=, then the remembered choice, then English. */
+/** The language a fresh page starts in: ?lang=, then the remembered choice, then the deployment's default, then English. */
 export function trInitial() {
   let q = null;
   try { q = new URLSearchParams(globalThis.location?.search ?? "").get("lang"); } catch (_) { q = null; }
-  for (const c of [q, trStored()]) if (c && trStrings[c]) return c;
+  for (const c of [q, trStored(), trState.defaultLang]) if (c && trStrings[c]) return c;
   return "en";
+}
+
+/**
+ * A deployment's default language (the enterprise block of auth-config.json). It sits below ?lang= and the
+ * visitor's remembered choice in trInitial(); if the layer has already started and the visitor has picked
+ * nothing, the page switches now — so it holds whichever of the config and the controls arrives first.
+ */
+export function trSetDefault(lang) {
+  const code = lang && trStrings[lang] ? lang : null;
+  trState.defaultLang = code;
+  if (code && trState.started && trInitial() === code && trState.lang !== code) trSet(code, { remember: false });
+  return code;
 }
 
 /** Refill every data-tr* element under `root` in the current language. */
