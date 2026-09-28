@@ -45,7 +45,7 @@ function pmInput(type, placeholder, attrs = {}) {
 function pmSelect(options, value = null) {
   const s = pmEl("select");
   for (const [v, label] of options) { const o = pmEl("option", null, label); o.value = v; s.append(o); }
-  if (value != null) s.value = value;
+  s.value = value != null ? value : options[0]?.[0] ?? "";
   return s;
 }
 function pmTable(headers, rows, empty) {

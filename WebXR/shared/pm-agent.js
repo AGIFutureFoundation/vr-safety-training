@@ -36,7 +36,8 @@ const PM_RENEW_WINDOW_DAYS = 14;
 /** A policy as the agent reads it: every number an integer or null ("not set"), never a default amount. */
 export function pmPolicyClean(raw = {}) {
   const p = raw && typeof raw === "object" ? raw : {};
-  const int = (v, min, max) => { const n = Number(v); return Number.isInteger(n) && n >= min && n <= max ? n : null; };
+  // null, undefined and "" are "not set" — never zero (a zero ceiling would refuse everything; a zero threshold would queue everything).
+  const int = (v, min, max) => { if (v == null || v === "") return null; const n = Number(v); return Number.isInteger(n) && n >= min && n <= max ? n : null; };
   return {
     planId: /^[a-z0-9-]{1,40}$/.test(String(p.planId ?? "")) ? String(p.planId) : null,
     ceilingMinor: int(p.ceilingMinor, 0, 1e12),

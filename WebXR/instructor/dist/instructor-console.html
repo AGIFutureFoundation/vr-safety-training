@@ -17197,7 +17197,8 @@ const PM_RENEW_WINDOW_DAYS = 14;
 /** A policy as the agent reads it: every number an integer or null ("not set"), never a default amount. */
 function pmPolicyClean(raw = {}) {
   const p = raw && typeof raw === "object" ? raw : {};
-  const int = (v, min, max) => { const n = Number(v); return Number.isInteger(n) && n >= min && n <= max ? n : null; };
+  // null, undefined and "" are "not set" — never zero (a zero ceiling would refuse everything; a zero threshold would queue everything).
+  const int = (v, min, max) => { if (v == null || v === "") return null; const n = Number(v); return Number.isInteger(n) && n >= min && n <= max ? n : null; };
   return {
     planId: /^[a-z0-9-]{1,40}$/.test(String(p.planId ?? "")) ? String(p.planId) : null,
     ceilingMinor: int(p.ceilingMinor, 0, 1e12),
@@ -17487,7 +17488,7 @@ function pmInput(type, placeholder, attrs = {}) {
 function pmSelect(options, value = null) {
   const s = pmEl("select");
   for (const [v, label] of options) { const o = pmEl("option", null, label); o.value = v; s.append(o); }
-  if (value != null) s.value = value;
+  s.value = value != null ? value : options[0]?.[0] ?? "";
   return s;
 }
 function pmTable(headers, rows, empty) {
