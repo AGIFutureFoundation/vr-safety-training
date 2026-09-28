@@ -1393,6 +1393,10 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-buoyancy-and-pressure-in-the-deep", why: "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated." },
       { app: "smartcity", id: "k12-circuits-at-the-electrical-bench", why: "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches." },
       { app: "smartcity", id: "k12-energy-transfer-at-the-wind-farm", why: "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed." },
+      { app: "smartcity", id: "k12-ecosystems-at-the-kelp-transect", why: "Producers, consumers and decomposers found on a live transect from the tender's deck, a food web built only from what the camera showed, arrows following the energy." },
+      { app: "smartcity", id: "k12-weather-and-the-sky", why: "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood." },
+      { app: "smartcity", id: "k12-simple-machines-at-a-crane", why: "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed." },
+      { app: "smartcity", id: "k12-a-controlled-experiment", why: "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows." },
     ],
   },
   {

@@ -28252,5 +28252,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-ecosystems-at-the-kelp-transect",
+    "index": "819",
+    "domain": "Education",
+    "trade": "Science class on the survey tender, watching the kelp transect — learner and marine scientist",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Ecosystems at the Kelp Transect",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Ecosystems at the Kelp Transect VR",
+    "tagline": "Every living thing on the line eats or is eaten — and learners watch from the deck, never the water",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "web-of-life",
+      "name": "Web of Life",
+      "note": "A kelp food web built from what the transect camera showed, with producers, consumers and decomposers named and the count kept honest"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Transect Board",
+      "currency": "SIGHTINGS",
+      "ranks": [
+        "Spotter",
+        "Counter",
+        "Recorder",
+        "Ecologist",
+        "Marine Scientist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-weather-and-the-sky",
+    "index": "820",
+    "domain": "Education",
+    "trade": "Science class at the shoreline field lab's weather station — learner and field technician",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Weather and the Sky",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Weather and the Sky VR",
+    "tagline": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sky-reader",
+      "name": "Sky Reader",
+      "note": "Clouds, wind and the station's instruments read together, weather told apart from climate and a forecast stated as a likelihood"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sky Board",
+      "currency": "OBSERVATIONS",
+      "ranks": [
+        "Watcher",
+        "Observer",
+        "Recorder",
+        "Forecaster",
+        "Meteorologist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-simple-machines-at-a-crane",
+    "index": "821",
+    "domain": "Education",
+    "trade": "Science class at the container terminal's training room — learner and crane operator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Simple Machines at a Crane",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Simple Machines at a Crane VR",
+    "tagline": "A machine trades force for distance, never free work — and the load chart has the last word",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "force-for-distance",
+      "name": "Force for Distance",
+      "note": "A crane's levers and pulleys explained, force traded for distance on the model and the load chart respected"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Machine Board",
+      "currency": "LIFTS",
+      "ranks": [
+        "Visitor",
+        "Rigger's Helper",
+        "Tester",
+        "Explainer",
+        "Engineer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-a-controlled-experiment",
+    "index": "822",
+    "domain": "Education",
+    "trade": "Science class at the lab campus's teaching lab — learner and lab technician",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Controlled Experiment",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Controlled Experiment VR",
+    "tagline": "Change one thing, keep the rest the same — and goggles on before anything is poured",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "fair-test",
+      "name": "Fair Test",
+      "note": "A question turned into a fair test, one variable changed, the rest controlled, repeated and concluded only as far as the evidence goes"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lab Board",
+      "currency": "TRIALS",
+      "ranks": [
+        "Assistant",
+        "Observer",
+        "Tester",
+        "Investigator",
+        "Scientist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

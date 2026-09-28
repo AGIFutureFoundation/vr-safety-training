@@ -681,9 +681,9 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
-      "k12-slope-and-angles-on-a-ramp"
+      "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "k12-science",

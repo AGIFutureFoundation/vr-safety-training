@@ -250,7 +250,7 @@ export const BAY_ROADS = [
  */
 export const BAY_SITES = [
   { id: "port-container-terminal", name: "Port Container Terminal", zone: "port", position: [-340, 350],
-    programmes: ["wojrc-pathway-edition", "port-operations", "rigging-lifting"], stations: ["mooring-line", "bunkering-watch", "crane-yard", "dock-crane"] },
+    programmes: ["wojrc-pathway-edition", "port-operations", "rigging-lifting", "k12-science"], stations: ["mooring-line", "bunkering-watch", "crane-yard", "dock-crane", "k12-simple-machines-at-a-crane"] },
   { id: "port-rail-yard", name: "Port Rail Yard", zone: "port", position: [-416, 383],
     programmes: ["railroad-crafts"], stations: ["ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines"] },
   { id: "port-maintenance-shop", name: "Port Maintenance Shop", zone: "port", position: [-375, 293],
@@ -342,11 +342,11 @@ export const BAY_SITES = [
   { id: "north-marina-pier", name: "North Marina Pier", zone: "north-shoreline", position: [-800, -640],
     programmes: ["bay-restoration-maritime-underwater", "ports-maritime-ecology", "k12-practical-math"], stations: ["br-workboat-crane-lift-from-water", "br-vhf-and-navigation-in-a-work-zone", "spill-boom-deploy", "k12-graphing-tide-readings-at-the-pier"] },
   { id: "north-shoreline-field-lab", name: "North Shoreline Field Lab", zone: "north-shoreline", position: [-735, -590],
-    programmes: ["air-quality-monitoring", "hunters-point-bay-restoration", "bay-restoration-maritime-underwater", "marine-ecology-and-restoration", "commercial-diving-and-scientific-scuba"], stations: ["air-monitor", "marsh-transect-survey", "eelgrass-transplant", "br-water-quality-sonde-calibration-and-deploy", "me-eelgrass-seed-collection-and-nursery", "me-tidal-marsh-channel-restoration-day", "me-shoreline-debris-and-microplastics-survey", "cd-low-visibility-and-night-dive-line-work", "cd-pier-piling-inspection-and-wrap-repair"] },
+    programmes: ["air-quality-monitoring", "hunters-point-bay-restoration", "bay-restoration-maritime-underwater", "marine-ecology-and-restoration", "commercial-diving-and-scientific-scuba", "k12-science"], stations: ["air-monitor", "marsh-transect-survey", "eelgrass-transplant", "br-water-quality-sonde-calibration-and-deploy", "me-eelgrass-seed-collection-and-nursery", "me-tidal-marsh-channel-restoration-day", "me-shoreline-debris-and-microplastics-survey", "cd-low-visibility-and-night-dive-line-work", "cd-pier-piling-inspection-and-wrap-repair", "k12-weather-and-the-sky"] },
   { id: "emery-distribution-center", name: "Emery Distribution Center", zone: "emery-crossing", position: [-640, -400],
     programmes: ["warehouse-and-logistics-automation", "job-readiness-edition"], stations: ["tw-conveyor-jam-clearing-and-loto", "tw-dock-leveler-and-trailer-restraint-check", "tdl-trailer-loading-and-dock-plate"] },
   { id: "emery-lab-campus", name: "Emery Lab Campus", zone: "emery-crossing", position: [-720, -350],
-    programmes: ["healthcare-support", "outbreak-response-who"], stations: ["hc-sterile-processing-decontamination-and-assembly", "hc-hazardous-drug-spill-kit-response", "who-surveillance-and-case-definition"] },
+    programmes: ["healthcare-support", "outbreak-response-who", "k12-science"], stations: ["hc-sterile-processing-decontamination-and-assembly", "hc-hazardous-drug-spill-kit-response", "who-surveillance-and-case-definition", "k12-a-controlled-experiment"] },
   { id: "south-shoreline-marina", name: "South Shoreline Marina", zone: "south-shoreline", position: [790, 690],
     programmes: ["bay-restoration-maritime-underwater", "port-operations"], stations: ["br-cold-water-immersion-and-mob-recovery", "br-boom-towing-between-two-vessels", "mooring-line"] },
   { id: "south-treatment-plant", name: "South Treatment Plant", zone: "south-shoreline", position: [715, 585],

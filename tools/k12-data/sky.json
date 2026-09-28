@@ -1,0 +1,125 @@
+{
+  "id": "k12-weather-and-the-sky",
+  "index": "820",
+  "prefix": "kws",
+  "accent": "#4fb88a",
+  "floor": ["#727a78", "#666e6c"],
+  "wall": ["#dde6ea", "#cdd8de"],
+  "trade": "Science class at the shoreline field lab's weather station — learner and field technician",
+  "header": "Upper-primary science at a shoreline field lab's weather station: reading clouds, wind direction and the station's instruments, telling weather from climate, and why a forecast is a likelihood, using only the readings the station's own displays show.",
+  "name": "Weather and the Sky",
+  "tagline": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+  "badge": {"id": "sky-reader", "name": "Sky Reader", "note": "Clouds, wind and the station's instruments read together, weather told apart from climate and a forecast stated as a likelihood"},
+  "board": {"name": "Sky Board", "currency": "OBSERVATIONS", "ranks": ["Watcher", "Observer", "Recorder", "Forecaster", "Meteorologist"]},
+  "hazards": [
+    {"id": "wind-named-by-where-it-goes", "label": "Name the wind by the way it is blowing to?", "face": "WIND\nGOING TO", "text": "You named the wind by where it was blowing to. Winds are named by where they come from, so a wind from the sea is a sea wind even though it blows inland. Getting it backwards turns every forecast you read upside down."},
+    {"id": "one-cold-day-disproves-climate", "label": "Say one cold day shows the climate is not warming?", "face": "ONE COLD\nDAY", "text": "You said one cold day shows the climate is not changing. Weather is what the sky does today; climate is the pattern over many years. One day, cold or hot, cannot tell you about a pattern that needs decades of records to see."},
+    {"id": "stay-out-with-thunder", "label": "Stay outside to watch the storm come in?", "face": "WATCH THE\nSTORM", "text": "You wanted to stay outside to watch the storm. When thunder can be heard, lightning is close enough to be dangerous; the field lab's rule is everyone indoors, and the instruments keep recording without you."},
+    {"id": "forecast-is-a-promise", "label": "Say the forecast promised no rain?", "face": "FORECAST\nPROMISED", "text": "You said the forecast promised no rain. A forecast gives the likelihood of weather from what the instruments show now; it can be wrong, which is why it is stated as a chance, and why forecasters keep checking and updating."}
+  ],
+  "find1": {
+    "title": "Find what the sky and station show",
+    "cue": "Mark the three things you read before describing today's weather.",
+    "why": "Describing the weather properly means reading the sky and the instruments together: the kind of cloud, which way the wind is coming from, and what the station's displays show. Each one alone can mislead; all three together give a description another observer would recognise.",
+    "items": [["clouds", "the kind of cloud overhead", "Tall, heaped clouds and flat grey sheets bring different weather."], ["windsock", "the windsock on its mast", "It points away from where the wind comes from."], ["station-display", "the station's live display", "It shows readings the lesson can use; no figures are invented."]],
+    "decoy": ["gulls-flying", "gulls flying inland", "Folk sayings about gulls are fun but are not a reliable instrument."]
+  },
+  "select1": {
+    "title": "Learn the field lab's lightning rule",
+    "cue": "Read the lab's rule on the card: if you hear thunder, go indoors.",
+    "why": "Lightning can strike well away from the storm cloud, so waiting until it is overhead is too late. The simple rule, hear thunder and go inside, is the one weather services and outdoor workers use, and knowing it before the lesson starts means nobody has to think in a hurry.",
+    "key": "lightning-card", "label": "Hear thunder, go indoors", "face": "HEAR IT?\nGO IN"
+  },
+  "seq": {
+    "title": "Put the observation in order",
+    "cue": "Look at the sky, read the wind, read the instruments, then write the observation.",
+    "why": "Looking at the sky first gives the big picture, the wind shows what is coming, and the instruments put careful measurements to both. Writing the observation last, in the same order every time, makes records from different days easy to compare, which is how patterns are spotted.",
+    "oon": "Out of order. Start with the sky and the wind before the instruments.",
+    "items": [["ord-sky", "look at the sky"], ["ord-wind", "read where the wind comes from"], ["ord-instruments", "read the instruments"], ["ord-write", "write the observation"]]
+  },
+  "hold": {
+    "title": "Hold the compass steady to read the wind",
+    "cue": "Hold the compass flat and still beside the windsock until the needle settles.",
+    "why": "A compass needle swings before it settles, and a tilted compass can stick. Holding it flat and still beside the windsock gives the direction the wind is coming from, which is the single most useful clue to what the next few hours will bring.",
+    "brk": "The compass tilted and the needle stuck. Hold it flat and let it settle.",
+    "key": "compass", "label": "Compass held flat"
+  },
+  "turn": {
+    "title": "Turn the wind arrow to match the sock",
+    "cue": "Turn the arrow on the weather chart to show where the wind is coming from.",
+    "why": "On a weather chart the wind arrow is drawn flying with the wind, from where it comes. Turning it to match the windsock builds the habit of naming winds by their source, so a chart you draw means the same thing as a chart a forecaster draws.",
+    "key": "wind-dial", "label": "Chart wind arrow", "dial": "WIND"
+  },
+  "gauge": {
+    "title": "Read the rain gauge at eye level",
+    "cue": "Commit when your eye is level with the water in the gauge.",
+    "why": "The water in a rain gauge curves slightly at the edge, and reading it from above or below gives the wrong amount. Reading at eye level, at the flat middle of the surface, is the same care scientists take with any measuring cylinder.",
+    "key": "rain-meter", "label": "Rain gauge reading", "meter": "RAIN",
+    "miss": "Not level yet. Bring your eye to the water's surface and read the middle."
+  },
+  "drag": {
+    "title": "Match the cloud to its weather",
+    "cue": "Drag the tall heaped cloud card to the weather it can bring.",
+    "why": "Tall, heaped clouds that build upwards through the day can bring heavy showers and thunder; flat grey sheets tend to bring steady drizzle. Matching cloud to weather is forecasting at its simplest, and it has helped sailors and farmers long before any instrument.",
+    "key": "cloud-token", "label": "Tall heaped cloud", "spot": "cloud-spot", "spotLabel": "Showers and thunder",
+    "miss": "Not matched yet. Tall heaped clouds bring showers and thunder."
+  },
+  "select2": {
+    "title": "Say the difference between weather and climate",
+    "cue": "Say what weather is, what climate is, and why one day cannot show a climate.",
+    "why": "Weather is what happens today; climate is the pattern of weather over many years. Being able to say that clearly, and why one day is not enough, is what lets you make sense of news about climate without being fooled by a single hot or cold spell.",
+    "key": "compare-card", "label": "Weather or climate?", "face": "TODAY OR\nYEARS?"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's weather log",
+    "cue": "Look at the draft weather log and mark each problem.",
+    "why": "Weather logs go wrong in predictable ways: a wind named by where it goes, a reading with no time, and one day's weather used to judge the climate. Spotting them in a classmate's log is practice for keeping your own records useful.",
+    "items": [["lg-wind", "a wind named by where it blows to", "Name winds by where they come from."], ["lg-time", "a reading with no time", "Every reading needs its time."], ["lg-climate", "one day used to judge the climate", "Climate needs many years of records."]],
+    "decoy": ["lg-sketch", "a sketch of the clouds", "A cloud sketch is good practice. Keep it."]
+  },
+  "track": {
+    "title": "Follow the gusts on the wind display",
+    "cue": "Keep the marker with the wind speed as the gusts rise and fall.",
+    "why": "Wind comes in gusts and lulls, not one steady speed. Following the display for a while shows why observers describe the typical wind and the strongest gust separately, and why a single glance can give a very different picture.",
+    "brk": "The marker lost the wind reading. Catch up with the display and follow it.",
+    "key": "track-meter", "label": "Gusts followed", "meter": "GUSTS"
+  },
+  "record": {
+    "title": "Record today's observation",
+    "cue": "Write the cloud, the wind direction, the readings and the time.",
+    "why": "One observation is a snapshot; a year of them, in the same form, is a record from which patterns emerge. Writing the time and the same details every day is how weather records, and eventually climate records, are built.",
+    "key": "sky-log", "label": "Weather record", "done": "Observation recorded"
+  },
+  "share": {
+    "title": "Make a forecast as a likelihood",
+    "cue": "Say what you think the weather will do next, and how likely it is.",
+    "why": "A good forecast uses today's observations to say what is likely, not what is certain. Stating it as a likelihood, and checking it later against what happened, is how forecasters learn, and how you will too.",
+    "key": "share-board", "label": "Your forecast", "done": "Forecast made"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "What will you notice about the sky on the way home? What was hard today?",
+    "why": "A check-in helps every learner connect the lesson to the sky they walk under every day, and lets the teacher hear what needs going over again. It is not marked, and the teacher or a trusted adult is there for anyone who wants to talk.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {"id": "thunder-is-heard", "kind": "Thunder", "key": "go-indoors", "label": "Go straight indoors with the group",
+     "alert": "A low rumble of thunder rolls in from the hills.",
+     "cue": "Go straight indoors with your group and wait for the technician's all-clear.",
+     "why": "If you can hear thunder, lightning is close enough to strike. Going straight inside with your group, and waiting for the all-clear, is the rule weather services give everyone; the instruments keep recording while you are safe.",
+     "miss": "The group stayed out to watch, and the technician had to call everyone in as the storm arrived.",
+     "wrong": "That keeps you outside. Go indoors now. Choose the response that deals with it now.",
+     "done": "Everyone indoors, all-clear given later. The lesson carries on."},
+    {"id": "the-technician-asks-wind-direction", "kind": "Technician question", "key": "say-wind", "label": "Say where the wind is coming from",
+     "alert": "The field technician asks you which way the wind is blowing.",
+     "cue": "Say where the wind is coming from, reading the windsock and compass.",
+     "why": "The technician is checking you name winds by their source. Saying where it comes from, and how you read it, shows you would write the same thing in the station log as they would.",
+     "miss": "You said where the wind was going, and the technician's log would have been backwards.",
+     "wrong": "That names where it goes, not where it comes from. Choose the response that deals with it now.",
+     "done": "Wind named by where it comes from. It goes in the log."}
+  ],
+  "crew": ["Science teacher", "Classmate", "Field technician", "Lab volunteer"],
+  "guide": {"start": "Sky, wind, instruments.", "after": "Weather is today; climate is years.", "hazard": "Stop. Where does the wind come from? Is it today or years?"},
+  "lateRecord": "The weather record is written once every reading is taken — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson."
+}
