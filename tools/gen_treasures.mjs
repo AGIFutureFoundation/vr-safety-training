@@ -297,6 +297,9 @@ export const TZ_SURFACES = ${JSON.stringify(SURFACES, null, 1)};
 export const TZ_SETS = ${JSON.stringify(SETS, null, 1)};
 
 export const TZ_TREASURES = ${JSON.stringify(T, null, 1)};
+
+/** The treasures behind a skill gate, in the shape tools/check_gates.mjs discovers (docs/skill-gates.md). A treasure stays hidden, so this carries its gate and name, never its place. */
+export const TZ_GATED = TZ_TREASURES.filter((t) => t.gate).map((t) => ({ id: t.id, kind: "treasure", world: t.surface === "deep" ? "underwater" : t.surface, title: t.name, gate: t.gate }));
 `;
 fs.writeFileSync(path.join(ROOT, "WebXR/shared/treasures-data.js"), out);
 console.log(`gen_treasures: ${T.length} treasures, ${SETS.length} sets, ${T.filter((t) => t.gate).length} gated → WebXR/shared/treasures-data.js`);

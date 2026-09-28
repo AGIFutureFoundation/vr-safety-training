@@ -11,16 +11,12 @@ import { pickup } from "../../shared/fleet.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
 import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
-import {
-  SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES,
-  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL, SM_RIDES, SM_ROAD_LENGTH,
-  smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace, smRoadPointAt,
-} from "../../shared/summit-data.js";
+import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL, SM_RIDES, SM_ROAD_LENGTH, smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace, smRoadPointAt, // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
+import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
+import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_GATED, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_WATER_LEVEL, SM_SNOWLINE, smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
-import {
-  smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson,
-  smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone,
-} from "./state.js";
+import { smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson, smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone } from "./state.js";
 
 // Sierra Summit — the app: a first-person walker over the streamed mountain,
 // the HUD, job boards, field notes, field lessons, the map with layers and
@@ -209,6 +205,8 @@ function smOpenBoard(site) {
   if (!site.stations.length) ul.innerHTML = "<li>No stations here — this is where the crew musters. Open the map (M) to pick a site.</li>";
   const side = SM_SIDE_QUESTS.filter((q) => q.site === site.id);
   $("board-side").innerHTML = side.map((q) => `<div class="quest"><b>${q.title}</b>${sm.state.quests.includes(q.id) ? ' <span class="done">✓ done</span>' : ""}<small>${q.steps.map((s) => s.text).join(" ")}</small>${smLockHtml(q.gate)}</div>`).join("");
+  // The shared lock rows for the gated quests posted here (padlock, reason, a link to each station).
+  qmBoardRows($("board-side"), SM_GATED.filter((g) => g.site === site.id), { from: "summit", page: ppHerePage(), link: { siteId: site.id }, heading: "Skill locks here", done: (id) => sm.state.quests.includes(id) });
   smOpen("board");
 }
 
@@ -264,7 +262,7 @@ function smRenderMap() {
     for (const l of SM_FIELD_LESSONS) if (sm.state.lessons.includes(l.id)) dot(l.position[0], l.position[1], "#8be28b", 2.5);
   }
   if (SM_LAYERS.notes) for (const e of SM_EGGS) if (sm.state.eggs.includes(e.id)) dot(e.at[0], e.at[1], "#f2e6b8", 2.5);
-  if (SM_LAYERS.locks) for (const q of SM_SIDE_QUESTS) if (q.gate && !smGateOpen(q.gate, sm.state)) { const s = smPlace(q.site); const [px, pz] = smMapXY(s.at[0], s.at[1], W); o.font = "13px system-ui"; o.fillText("🔒", px - 16, pz - 6); }
+  if (SM_LAYERS.locks) { const qmSnap = qmSnapshot(); for (const q of SM_SIDE_QUESTS) if (q.gate) { const s = smPlace(q.site); const [px, pz] = smMapXY(s.at[0], s.at[1], W); qmDrawPin(o, px - 12, pz - 8, qmIsOpen(q.gate, qmSnap)); } }
   if (SM_LAYERS.activities) for (const a of SM_ACTIVITIES) (a.controls ?? a.points).forEach(([x, z], i) => dot(x, z, "#ff5ad0", 2.5, i === 0 ? a.kind : ""));
   if (SM_LAYERS.you) { const [px, pz] = smMapXY(sm.x, sm.z, W); o.fillStyle = "#ff3b3b"; o.beginPath(); o.moveTo(px - Math.sin(sm.yaw) * 9, pz - Math.cos(sm.yaw) * 9); o.lineTo(px + 5, pz + 5); o.lineTo(px - 5, pz + 5); o.fill(); }
   // Layer toggles and fast travel.
@@ -295,6 +293,17 @@ function smRenderQuests() {
 }
 
 // ------------------------------------------------------------------- use
+
+let smQmNear = null;
+/** Walking up to a board with a locked gated quest: the lock toast with the stations to complete, once per approach. */
+function smQmApproach(near) {
+  const site = near?.kind === "board" ? near.site : null;
+  if (!site) { smQmNear = null; return; }
+  if (smQmNear === site.id) return;
+  smQmNear = site.id;
+  const locked = SM_GATED.find((g) => g.site === site.id && !qmIsOpen(g.gate, qmSnapshot()));
+  if (locked) qmLockToast(locked, { from: "summit", page: ppHerePage(), link: { siteId: site.id } });
+}
 
 function smNearest() {
   let best = null, bd = 9;
@@ -404,6 +413,7 @@ function frame(now) {
   if (smVisitT > 0.5) {
     smVisitT = 0;
     sm.near = smNearest();
+    smQmApproach(sm.near);
     for (const s of [...SM_SITES, ...SM_LANDMARKS]) if (Math.hypot(sm.x - s.at[0], sm.z - s.at[1]) < 40 && smVisit(sm.state, s.id)) { smToast(`Visited: ${s.name}.${s.stations ? " Fast travel unlocked." : ""}`); smSave(sm.state); smProgress(); }
   }
   if (smHudT > 0.25 && sm.playing) { smHudT = 0; smHud(); }
@@ -456,3 +466,6 @@ window.__summitTest = {
   board(id = SM_RIDES[0].id) { smBoard(SM_RIDES.find((r) => r.id === id)); }, brake: smSetBrake, ride: () => sm.ride,
 };
 
+void SM_SNOWLINE;
+// The shared "Side games" chip and quest-log panel: every gated quest and field note here, open rows first, then the Skills to unlock roll-up.
+qmMountSideGames({ world: "summit", worldName: "Sierra Summit", items: SM_GATED, from: "summit", page: ppHerePage() });

@@ -1,7 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
-import { qmMountSideGames } from "../../shared/skill-gates-ui.js";
+import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
+import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
@@ -169,6 +170,19 @@ function fwRenderGroundsBoard() {
     a.textContent = `${ppCompleted(id) ? "✓ " : ""}${id.replace(/^gk-/, "").replace(/-/g, " ")}`;
     row.appendChild(a);
   }
+  // The skill-gated side games around the course, as board rows under the grounds board (docs/skill-gates.md).
+  const gb = $("grounds-board");
+  if (gb) { gb.querySelector(".qm-board")?.remove(); qmBoardRows(gb, QM_WORLD_GAMES.fairway, { from: "fairway", page: ppHerePage(), link: { runner: FW_RUNNER, siteId: FW_GROUNDS.id } }); }
+}
+let fwQmNear = null;
+/** The ball comes up on a side game's pin: the lock toast with the stations to complete, once per approach. */
+function fwQmApproach(x, z) {
+  const g = QM_WORLD_GAMES.fairway.find((it) => Array.isArray(it.pin) && Math.hypot(x - it.pin[0], z - it.pin[1]) < 25);
+  if (!g) { fwQmNear = null; return; }
+  if (fwQmNear === g.id) return;
+  fwQmNear = g.id;
+  if (!qmIsOpen(g.gate, qmSnapshot())) qmLockToast(g, { from: "fairway", page: ppHerePage(), link: { runner: FW_RUNNER } });
+  else toast(`${g.title} is open here — see Side games.`, 4200);
 }
 function fwCheckGroundsReturns() {
   const paid = ppCompleteReturns("fairway", [FW_GROUNDS], {
@@ -221,6 +235,7 @@ function fwStartRound() {
 function fwSyncBall() {
   const r = app.round;
   app.world.placeBall(r.ball.x, r.ball.z);
+  fwQmApproach(r.ball.x, r.ball.z);
   app.world.placeCamera(app.camera, app.cameraMode, r.ball.x, r.ball.z, glAimYaw(r));
 }
 

@@ -730,8 +730,8 @@ export const SM_RIDES = [
 
 /** Every gated item in this world, for tools/check_gates.mjs (QUESTMASTER). */
 export const SM_GATED = [
-  ...SM_SIDE_QUESTS.filter((q) => q.gate).map((q) => ({ id: q.id, kind: "quest", gate: q.gate })),
-  ...SM_EGGS.filter((e) => e.gate).map((e) => ({ id: e.id, kind: "egg", gate: e.gate })),
+  ...SM_SIDE_QUESTS.filter((q) => q.gate).map((q) => ({ id: q.id, kind: "quest", world: "summit", title: q.title, site: q.site, siteName: smPlace(q.site)?.name ?? q.site, gate: q.gate, summary: q.steps?.[0]?.text ?? "", reward: q.reward })),
+  ...SM_EGGS.filter((e) => e.gate).map((e) => ({ id: e.id, kind: "egg", world: "summit", title: e.title, site: e.place ?? null, siteName: smPlace(e.place)?.name ?? "a field note on the mountain", gate: e.gate, summary: "A field note: find it once its gate is open." })),
 ];
 
 /** A site or landmark by id. */

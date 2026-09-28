@@ -225,6 +225,12 @@ function gtRender(view = null) {
   // The avatar picker sits after the sign-in options, so Google stays the first choice.
   if (v !== "avatar") panel.append(gtEl("button", { type: "button", class: "gt-opt", id: "ct-av-open", on: { click: () => gtRender("avatar") } },
     ctAvatarSwatch(), " Your avatar", gtEl("small", { text: "Body, skin tone, hair or head covering and trade PPE for your own figure in the worlds." })));
+  // Cosmetics earned in the skill-gated side games (docs/skill-gates.md): the per-profile ledger's ids, read without the gate engine.
+  try {
+    const led = JSON.parse(gtStorage().getItem("qm-side-games-v1") || "{}");
+    const cos = Array.isArray(led.cosmetics) ? led.cosmetics : [];
+    if (cos.length) panel.append(gtEl("p", { class: "gt-line", id: "gt-cosmetics" }, `Cosmetics earned in side games: ${cos.length} — ${cos.join(" · ")}`));
+  } catch (_) { /* no ledger yet */ }
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }

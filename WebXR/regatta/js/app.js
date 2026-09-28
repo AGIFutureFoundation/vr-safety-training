@@ -1,7 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
-import { qmMountSideGames } from "../../shared/skill-gates-ui.js";
+import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
+import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
@@ -161,8 +162,30 @@ function rgOpenBriefing(event) {
     st.appendChild(a);
   }
   ppProgressChip($("br-chip"), RG_PROGRAMME);
+  // The skill-gated side games on this event's course, as board rows (locked with reason and links, or open).
+  document.getElementById("br-qm")?.remove();
+  const qmBox = document.createElement("div"); qmBox.id = "br-qm";
+  st.insertAdjacentElement("afterend", qmBox);
+  qmBoardRows(qmBox, QM_WORLD_GAMES.regatta.filter((g) => g.course === event.course), { from: "regatta", page: ppHerePage() });
   $("br-result").textContent = "";
   rgOpenScreen("briefing");
+}
+
+/** Where a side game sits on a course: one of its marks, or its dock. */
+function rgGamePos(course, g) {
+  if (!course || g.course !== course.id) return null;
+  if (g.mark === "dock") return { x: course.dock.x, z: course.dock.z };
+  const m = course.marks[Math.min(g.mark | 0, course.marks.length - 1)];
+  return m ? { x: m.x, z: m.z } : null;
+}
+let rgQmNear = null;
+/** Coming up on a side game's mark: the lock toast with the stations to complete, once per approach. */
+function rgQmApproach(course, me) {
+  const g = QM_WORLD_GAMES.regatta.find((it) => { const p = rgGamePos(course, it); return p && Math.hypot(me.x - p.x, me.z - p.z) < 45; });
+  if (!g) { rgQmNear = null; return; }
+  if (rgQmNear === g.id) return;
+  rgQmNear = g.id;
+  if (!qmIsOpen(g.gate, qmSnapshot())) qmLockToast(g, { from: "regatta", page: ppHerePage() });
 }
 $("br-go")?.addEventListener("click", () => {
   const e = rgApp.event; if (!e) return;
@@ -215,6 +238,9 @@ function rgDrawCourseCard() {
   });
   const d = toMap(c.dock.x, c.dock.z); ctx.fillStyle = "#8a7a62"; ctx.fillRect(d.x - 4, d.y - 4, 8, 8);
   k2DrawFieldLayer(ctx, rgCourseLessons(c.id).map((l) => ({ ...l, ...toMap(l.position[0], l.position[1]) })), null); // the K-12 layer
+  // Skill-gated side games on this course: a padlock while locked, a star once open (docs/skill-gates.md).
+  const qmSnap = qmSnapshot();
+  for (const g of QM_WORLD_GAMES.regatta) { const gp = rgGamePos(c, g); if (!gp) continue; const q = toMap(gp.x, gp.z); qmDrawPin(ctx, q.x + 8, q.y - 8, qmIsOpen(g.gate, qmSnap)); }
   for (const boat of rgApp.race.boats) {
     const p = toMap(boat.x, boat.z);
     ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(boat.heading);
@@ -238,6 +264,7 @@ function rgStep(dt) {
 
   const tgt = rgTargetFor(race, me);
   const here = regattaCourseAt(race.course, me.x, me.z);
+  rgQmApproach(race.course, me);
   $("hud-speed").textContent = `${(Math.abs(me.speed) * 1.944).toFixed(1)} kn`;
   $("hud-time").textContent = rgFormatTime(race.t);
   $("hud-next").textContent = tgt.kind === "mark" ? `Next: ${tgt.mark.id.toUpperCase()} — keep it to ${tgt.side} (${Math.round(Math.hypot(tgt.x - me.x, tgt.z - me.z))} m)`

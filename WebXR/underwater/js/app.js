@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
-import { qmMountSideGames, qmBoardRows, qmDrawPin } from "../../shared/skill-gates-ui.js";
+import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { cnMount } from "../../shared/cinema.js";
@@ -216,6 +216,16 @@ function dvBoardGates(site) {
   qmBoardRows(box, here, { from: "underwater", page: ppHerePage() });
 }
 /** The Deep's gated games with their site's display name and map position. */
+let dvQmNear = null;
+/** Swimming up to a site with a locked side game: the lock toast with the stations to complete, once per approach. */
+function dvQmApproach(site) {
+  if (!site) { dvQmNear = null; return; }
+  if (dvQmNear === site.id) return;
+  dvQmNear = site.id;
+  const locked = QM_WORLD_GAMES.underwater.find((g) => g.site === site.id && !qmIsOpen(g.gate, qmSnapshot()));
+  if (locked) qmLockToast({ ...locked, siteName: site.name }, { from: "underwater", page: ppHerePage() });
+}
+
 function dvQmItems() {
   return QM_WORLD_GAMES.underwater.map((g) => {
     const site = DV_SITES.find((s) => s.id === g.site);
@@ -556,6 +566,7 @@ function dvStep(dt) {
 
   dvApp.nearSite = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_SITES, 14);
   dvApp.nearAsset = dvApp.mode === "swim" ? dvNearestPlace(dvApp.diver.x, dvApp.diver.z, CT_DV_ASSETS, 6) : null;
+  dvQmApproach(dvApp.nearSite);
   dvApp.nearLandmark = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_LANDMARKS, 16);
   dvApp.nearAscent = dvNearestAscentLine(dvApp.diver.x, dvApp.diver.z, DV_ASCENT, 10);
   dvApp.nearLesson = dvApp.mode === "swim" ? k2NearestKiosk(dvApp.diver.x, dvApp.diver.z, k2LessonsFor("deep")) : null;

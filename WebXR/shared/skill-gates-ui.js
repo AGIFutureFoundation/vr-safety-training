@@ -4,11 +4,13 @@
 // station; open rows play a short safe-practice round — a "Skills to unlock"
 // roll-up, the lock toast, board rows a job board can append, and a map pin.
 //
-// DOM only, no three.js. The gate logic stays in skill-gates.js. Names are
-// prefixed `qm` (the bundler shares one scope).
+// DOM only, no three.js. The gate logic stays in skill-gates.js and the
+// playable mechanics in side-game-mechanics.js. Names are prefixed `qm`
+// (the bundler shares one scope).
 
 import { qmSnapshot, qmMissing, qmIsOpen, qmSkillsToUnlock, qmLedger, qmFinishGame, qmInvalidate } from "./skill-gates.js";
 import { qmRounds } from "./side-games-data.js";
+import { qmPlaySteps, qmMechanicFor, QM_MECHANICS } from "./side-game-mechanics.js";
 import { lkStationLink } from "./links.js";
 
 const QM_LOCK_SVG = '<svg class="qm-lock" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h.5A1.5 1.5 0 0 1 14 8.5v5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5v-5A1.5 1.5 0 0 1 3.5 7H4Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>';
@@ -35,6 +37,7 @@ const qmCss = `
 .qm-btn:hover{background:rgba(127,211,255,.3)}
 .qm-done{color:#8fe3a1;font-weight:600}
 .qm-opt{display:block;width:100%;text-align:left;margin:6px 0}
+.qm-board{margin:8px 0;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;color:#cfe6f5}
 #qm-toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:10030;max-width:min(520px,calc(100vw - 24px));background:#1b2733;color:#fff;border:1px solid #ffb44d;border-radius:10px;padding:10px 14px;font:14px/1.4 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.4)}
 #qm-toast[hidden]{display:none} #qm-toast a{color:#7fd3ff}
 `;
@@ -50,10 +53,11 @@ function qmEnsureCss() {
 }
 
 /** The link list for a missing requirement: stations open the runner, a quest or programme names itself. */
-function qmMissingHtml(missing, { from = null, page = null } = {}) {
+function qmMissingHtml(missing, opts = {}) {
+  const { from = null, page = null } = opts;
   return missing.map((m) => {
     if (m.kind === "station" || m.kind === "k12") {
-      const href = lkStationLink(m.id, { from, page });
+      const href = lkStationLink(m.id, { from, page, ...(opts.link ?? {}) });
       return `<li><a href="${qmEsc(href)}">${qmEsc(m.label)}</a>${m.kind === "k12" ? " (K-12 lesson)" : ""}</li>`;
     }
     if (m.kind === "programme") return `<li>Programme: ${qmEsc(m.label)} — ${qmEsc(m.detail)}</li>`;
@@ -66,26 +70,38 @@ export function qmRowHtml(item, snap, opts = {}) {
   const missing = qmMissing(item.gate, snap);
   const led = qmLedger(opts.storage);
   const rec = led.done[item.id];
+  const worldDone = typeof opts.done === "function" && opts.done(item.id); // a world engine's own "quest done"
   const locked = missing.length > 0;
-  const where = item.siteName ?? String(item.site ?? "").replace(/-/g, " ");
+  const where = item.siteName ?? (/\s/.test(String(item.site ?? "")) ? item.site : String(item.site ?? "").replace(/-/g, " "));
   let body;
   if (locked) {
     body = `<div class="qm-note">${qmEsc(item.gate.note)}</div><div class="qm-meta">Complete to unlock:</div><ul>${qmMissingHtml(missing, opts)}</ul>`;
   } else {
     const done = rec?.clean ? `<span class="qm-done">Done — ${qmEsc(item.reward?.cosmetic ?? "reward earned")}</span>` : rec ? `<span class="qm-meta">Best: ${rec.score} of ${rec.of} safe calls — every call safe earns the reward.</span>` : "";
-    body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">Scored on safe practice. Reward: ${qmEsc(item.reward?.cosmetic ?? "")}</div>${done}<br><button class="qm-btn" data-qm-play="${qmEsc(item.id)}">${rec ? "Play again" : "Play"}</button>`;
+    if (item.practices) {
+      const mech = QM_MECHANICS[qmMechanicFor(item)];
+      body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">${qmEsc(mech.name)}: ${qmEsc(mech.blurb)} Scored on safe practice. Reward: ${qmEsc(item.reward?.cosmetic ?? "")}</div>${done}<br><button class="qm-btn" data-qm-play="${qmEsc(item.id)}">${rec ? "Play again" : "Play"}</button>`;
+    } else {
+      // A gated quest from a world's own engine (Summit, Redwood): open here, played in the world.
+      body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">${worldDone ? '<span class="qm-done">Done</span>' : `Open — play it in the world${where ? ` at ${qmEsc(where)}` : ""}.`}${item.reward?.cosmetic ? ` Reward: ${qmEsc(item.reward.cosmetic)}` : ""}</div>`;
+    }
   }
   return `<div class="qm-row${locked ? " qm-locked" : ""}" data-qm-id="${qmEsc(item.id)}"><div class="qm-title">${locked ? QM_LOCK_SVG : ""}${qmEsc(item.title)}</div><div class="qm-meta">${qmEsc(where)}${locked ? " · locked" : " · open"}</div>${body}</div>`;
 }
 
-/** Append the gated items to a job board's list element as board rows. */
+/**
+ * Append the gated items to a job board's list element as board rows.
+ * `opts`: `from`/`page` (the way home on every station link), `link` (extra
+ * lkStationLink options such as `siteId`), `heading`, `done(id)` (a world
+ * engine's own completion for its gated quests).
+ */
 export function qmBoardRows(el, items, opts = {}) {
   if (!el || !items?.length) return;
   qmEnsureCss();
   const snap = qmSnapshot(opts.storage);
   const wrap = document.createElement("div");
   wrap.className = "qm-board";
-  wrap.innerHTML = `<h3>Side games here</h3>${items.map((it) => qmRowHtml(it, snap, opts)).join("")}`;
+  wrap.innerHTML = `<h3>${qmEsc(opts.heading ?? "Side games here")}</h3>${items.map((it) => qmRowHtml(it, snap, opts)).join("")}`;
   el.appendChild(wrap);
 }
 
@@ -167,7 +183,7 @@ export function qmMountSideGames({ world, worldName = world, items, from = world
   }
 
   function play(item) {
-    const rounds = qmRounds(item);
+    const rounds = qmPlaySteps(item, qmRounds(item));
     let i = 0, safe = 0;
     const box = panel.querySelector(".qm-box");
     const step = () => {
@@ -178,7 +194,8 @@ export function qmMountSideGames({ world, worldName = world, items, from = world
         return;
       }
       const r = rounds[i];
-      box.innerHTML = `<h2>${qmEsc(item.title)}</h2><p class="qm-sub">Call ${i + 1} of ${rounds.length}</p><p>${qmEsc(r.prompt)}</p>${r.options.map((o, k) => `<button class="qm-btn qm-opt" data-qm-opt="${k}">${qmEsc(o.text)}</button>`).join("")}`;
+      const board = r.board ? `<div class="qm-board" aria-label="the situation">${qmEsc(r.board.join("\n"))}</div>` : "";
+      box.innerHTML = `<h2>${qmEsc(item.title)}</h2><p class="qm-sub">${r.mechanic ? qmEsc(QM_MECHANICS[r.mechanic].name) : "Safe-practice call"} · ${i + 1} of ${rounds.length}</p>${board}<p>${qmEsc(r.prompt)}</p>${r.options.map((o, k) => `<button class="qm-btn qm-opt" data-qm-opt="${k}">${qmEsc(o.text)}</button>`).join("")}`;
       box.querySelectorAll("[data-qm-opt]").forEach((b) => b.addEventListener("click", () => {
         if (r.options[+b.dataset.qmOpt].safe) safe += 1;
         i += 1; step();
