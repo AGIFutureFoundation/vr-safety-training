@@ -19,9 +19,8 @@
       "path": { "type": "dolly", "from": { "p": [0, 5, 0], "t": [0, 0, -10] }, "to": { "p": [0, 5, 0], "t": [0, 0, -10] }, "fov": 46 }
     },
     "fairway": {
-      "page": "fairway.html?weather=clear", "start": ["#menu-play"], "settle": 4000, "size": [960, 540], "seconds": 10, "grade": "warm", "crf": 24, "hooks": [],
-      "path": { "type": "dolly", "from": { "p": [-152, 2.0, -54], "t": [-134, 2.4, 40] }, "to": { "p": [-144, 3.0, -46], "t": [-131, 1.8, 70] }, "fov": 58 },
-      "probe": [{ "p": [-160, 3, -20], "t": [-225, 3, 55], "fov": 55 }, { "p": [-150, 2.2, -10], "t": [-215, 4, 100], "fov": 60 }, { "p": [-140, 2.0, -34], "t": [-235, 2, 30], "fov": 62 }, { "p": [-170, 4, 0], "t": [-250, 2, 90], "fov": 58 }]
+      "page": "fairway.html?weather=clear", "start": ["#menu-play"], "settle": 4000, "size": [960, 540], "seconds": 10, "grade": "warm", "crf": 22, "hooks": [],
+      "path": { "type": "dolly", "from": { "p": [-150, 2.6, -50], "t": [-131, 2.2, 70] }, "to": { "p": [-140, 2.4, -38], "t": [-127, 1.8, 80] }, "fov": 60 }
     },
     "summit": {
       "page": "summit.html", "start": ["#menu-start"], "settle": 5000, "size": [960, 540], "seconds": 10, "grade": "alpine", "crf": 25, "hooks": ["summit-follow"],

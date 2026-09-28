@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
@@ -445,6 +446,10 @@ function smBegin() {
   smToast(smStartSite ? `Back at ${smStart.name}.` : "Welcome to Sierra Summit. Walk to the orange job board (E), or open the map (M).");
 }
 $("menu-start").addEventListener("click", smBegin);
+// The start screen's background loop, recorded over the reservoir (console
+// CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only while the
+// menu is on screen, poster only under reduced motion or Save-Data.
+cnMount($("menu"), "start-summit", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
 if (smStartSite) smBegin();
 
 // Touch: a stick to walk, buttons for use / map / quests.

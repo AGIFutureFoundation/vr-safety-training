@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
@@ -173,6 +174,10 @@ function rwStart() {
   if (!rwApp.state.visited.length) rwToast("Welcome to Redwood Reach. Report to the fire station's job board — press E there.");
 }
 $("menu-start").addEventListener("click", rwStart);
+// The start screen's background loop, recorded in the old growth (console
+// CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only while the
+// menu is on screen, poster only under reduced motion or Save-Data.
+cnMount($("scr-menu"), "start-redwood", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
 $("menu-map").addEventListener("click", () => { if (!rwApp.scene) rwInitScene(); rwOpenMap(); });
 $("menu-quests").addEventListener("click", () => rwOpenQuests());
 $("btn-map").addEventListener("click", () => rwOpenMap());

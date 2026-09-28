@@ -38,6 +38,8 @@ import { conditionLabel, conditionParams, parseCondition, LADDER_LEVELS, LESSON_
 import { CN_CSS, cnFile } from "../WebXR/shared/cinema.js";
 import { BAY_SITES } from "../WebXR/shared/bayworld-data.js";
 import { DEEP_SITES } from "../WebXR/shared/underwater-data.js";
+import { SM_SITES } from "../WebXR/shared/summit-data.js";
+import { RW_SITES } from "../WebXR/redwood/js/rw-data.js";
 import { wfHeadFor } from "./gen_seo.mjs";
 import { atIllustration } from "../WebXR/shared/illustrations.js";
 
@@ -52,13 +54,28 @@ const SHOTS = join(ROOT, "docs", "screenshots");
 
 /**
  * The world a programme is anchored in, for the header band's loop (console
- * CINEMA, docs/home-backgrounds.md): Bay World when one of its job boards
- * carries the programme, else the Deep when one of its sites does, else the
- * network's own hero loop. Read from the worlds' data, never written here.
+ * CINEMA, docs/home-backgrounds.md): the world whose job boards and dive
+ * sites carry the most of the programme's stations. Every programme is on a
+ * Bay World board (the hub), so a tie goes to the more specific world — the
+ * Deep, then Sierra Summit, then Redwood Reach — and a programme with no
+ * station in any world takes the network's own hero loop. Read from the
+ * worlds' data, never written here.
  */
-export function trackWorld(programmeId) {
-  const on = (sites) => sites.some((s) => (s.programmes ?? []).includes(programmeId));
-  return on(BAY_SITES) ? "bayworld" : on(DEEP_SITES) ? "underwater" : "default";
+export const TRACK_WORLDS = [["underwater", DEEP_SITES], ["summit", SM_SITES], ["redwood", RW_SITES], ["bayworld", BAY_SITES]];
+export function trackWorld(programmeId, stationIds = trackStations(programmeId)) {
+  const ids = new Set(stationIds);
+  let best = "default", n = 0;
+  for (const [world, sites] of TRACK_WORLDS) {
+    const hosted = new Set(sites.flatMap((s) => s.stations ?? []));
+    const k = [...ids].filter((id) => hosted.has(id)).length;
+    if (k > n) { best = world; n = k; }
+  }
+  return best;
+}
+let trackCatalog = null;
+function trackStations(programmeId) {
+  trackCatalog ??= JSON.parse(readFileSync(join(WEBXR, "smartcity", "catalog.json"), "utf8"));
+  return (trackCatalog.curricula.find((c) => c.id === programmeId)?.stations ?? []).map((s) => s.id);
 }
 
 /** The band's loop markup for a programme, or nothing when the slot or a file is missing. */

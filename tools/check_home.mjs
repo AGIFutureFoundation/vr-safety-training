@@ -662,7 +662,7 @@ await check("background loops: every slot's files exist, are H.264 MP4 with no a
     const jpg = readFileSync(join(CN_MEDIA, e.poster));
     assert(jpg[0] === 0xff && jpg[1] === 0xd8 && jpg.length <= 200 * 1024, `${e.poster}: not a JPEG under 200 KB`);
   }
-  for (const want of ["hero", "bayworld", "underwater", "regatta", "fairway", "start-bayworld", "start-underwater", "start-regatta", "start-fairway", "track-bayworld", "track-underwater", "track-default", "atlas-header", "signin", "holodeck-landing"]) {
+  for (const want of ["hero", "bayworld", "underwater", "regatta", "fairway", "summit", "redwood", "start-bayworld", "start-underwater", "start-regatta", "start-fairway", "start-summit", "start-redwood", "track-bayworld", "track-underwater", "track-summit", "track-redwood", "track-default", "atlas-header", "signin", "holodeck-landing"]) {
     assert(ids.has(want), `backgrounds.json has no ${want} slot`);
   }
   assert(existsSync(join(ROOT, "docs", "home-backgrounds.md")), "docs/home-backgrounds.md is missing");
@@ -671,7 +671,7 @@ await check("background loops: every slot's files exist, are H.264 MP4 with no a
 await check("the homepage's videos are muted, inline, looped, with posters on disk; only the hero autoplays", () => {
   for (const [file, html, dir] of [["index.html", home, WEBXR], ["home.html", flat, join(WEBXR, "dist")]]) {
     const vids = [...html.matchAll(/<video ([^>]*)>([\s\S]*?)<\/video>/g)];
-    eq(vids.length, 5, `${file}: background videos (hero and four world cards)`);
+    eq(vids.length, 7, `${file}: background videos (hero and six world cards)`);
     for (const [, attrs, inner] of vids) {
       const slot = /data-cn-slot="([a-z0-9-]+)"/.exec(attrs)?.[1];
       assert(slot && CN_SLOTS.some((e) => e.slot === slot), `${file}: a video with no listed slot`);
@@ -690,6 +690,7 @@ await check("the homepage's videos are muted, inline, looped, with posters on di
 await check("the other surfaces mount their slots: world start screens, Atlas header, Holodeck landing, sign-in, track bands", () => {
   const uses = [
     ["bayworld/js/app.js", "start-bayworld"], ["underwater/js/app.js", "start-underwater"], ["regatta/js/app.js", "start-regatta"], ["fairway/js/app.js", "start-fairway"],
+    ["summit/js/app.js", "start-summit"], ["redwood/js/app.js", "start-redwood"],
     ["bayworld/js/atlas.js", "atlas-header"], ["holodeck/js/app.js", "holodeck-landing"], ["shared/account.js", "signin"],
   ];
   for (const [f, slot] of uses) {
