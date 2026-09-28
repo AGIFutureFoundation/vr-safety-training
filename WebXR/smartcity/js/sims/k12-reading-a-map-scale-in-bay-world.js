@@ -90,14 +90,6 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
       why: "Before measuring anything, find what the map provides: the scale bar that links map length to real distance, the start and the destination, and the route between them. With these three a map becomes a calculation, and without any one of them it is only a picture."
     },
     {
-      id: "read-the-map-from-behind-the",
-      kind: "select",
-      target: "kms-behind-rope",
-      title: "Read the map from behind the rope",
-      cue: "Stand behind the landing rope where the board is meant to be read.",
-      why: "At a ferry landing, the rope marks where people wait safely while the boat comes in. The map board is placed to be read from that side; staying behind the rope is the landing's own rule, and following a site's rules comes before any lesson held there."
-    },
-    {
       id: "put-the-method-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
       outOfOrderNote: "Out of order. Measure on the map before you scale — there is nothing to scale yet."
     },
     {
-      id: "trace-the-route-with-the-string",
-      kind: "hold",
-      target: "kms-trace-route",
-      seconds: 6,
-      title: "Trace the route with the string",
-      cue: "Hold the string along the winding route from start to end.",
-      why: "A winding route cannot be measured with a straight ruler, so the string follows every bend and is then straightened against the ruler. Holding it carefully along the route gives the true path length, the same trick map readers have always used.",
-      holdBreakNote: "The string slipped off the route. Lay it back along the path from the last point you are sure of."
+      id: "read-the-map-from-behind-the",
+      kind: "select",
+      target: "kms-behind-rope",
+      title: "Read the map from behind the rope",
+      cue: "Stand behind the landing rope where the board is meant to be read.",
+      why: "At a ferry landing, the rope marks where people wait safely while the boat comes in. The map board is placed to be read from that side; staying behind the rope is the landing's own rule, and following a site's rules comes before any lesson held there."
     },
     {
       id: "convert-the-time-into-matching-units",
@@ -158,6 +148,16 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
       why: "A calculation is only as good as the numbers put into it. Choosing a sensible speed for the way the class will actually travel makes the time realistic, and questioning whether an input makes sense is a skill every good problem-solver uses."
     },
     {
+      id: "trace-the-route-with-the-string",
+      kind: "hold",
+      target: "kms-trace-route",
+      seconds: 6,
+      title: "Trace the route with the string",
+      cue: "Hold the string along the winding route from start to end.",
+      why: "A winding route cannot be measured with a straight ruler, so the string follows every bend and is then straightened against the ruler. Holding it carefully along the route gives the true path length, the same trick map readers have always used.",
+      holdBreakNote: "The string slipped off the route. Lay it back along the path from the last point you are sure of."
+    },
+    {
       id: "put-the-journey-time-on-the",
       kind: "drag",
       target: "kms-time-token",
@@ -169,14 +169,6 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
       title: "Put the journey time on the timetable",
       cue: "Drag the journey time onto the class timetable to see when you arrive.",
       why: "Placing the journey time on the day's timetable turns a calculation into a plan: it shows when the class arrives and whether it fits before the ferry leaves. This is why people work out journey times at all."
-    },
-    {
-      id: "check-the-answer-against-common-sense",
-      kind: "select",
-      target: "kms-sense-card",
-      title: "Check the answer against common sense",
-      cue: "Ask whether the journey time is believable for that walk.",
-      why: "A quick sense check catches the big errors: a walk across a small park should not take a day, and a long route should not take moments. If the answer looks wrong it probably is, and the usual culprit is a missed scale or mixed units."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -203,6 +195,14 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
       title: "Spot the problems in a classmate's route plan",
       cue: "Look at the draft route plan and mark each problem.",
       why: "Route plans go wrong in predictable ways: a straight line measured where the path winds, a map length used without the scale, and units mixed in the time. Spotting them in someone else's plan teaches you to check your own before the class sets off."
+    },
+    {
+      id: "check-the-answer-against-common-sense",
+      kind: "select",
+      target: "kms-sense-card",
+      title: "Check the answer against common sense",
+      cue: "Ask whether the journey time is believable for that walk.",
+      why: "A quick sense check catches the big errors: a walk across a small park should not take a day, and a long route should not take moments. If the answer looks wrong it probably is, and the usual culprit is a missed scale or mixed units."
     },
     {
       id: "keep-the-class-on-pace-along",
@@ -368,28 +368,26 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#e8e2d4", base2: "#dcd6c8", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
+    // outdoors: a low wall to sit on, planters, a notice board on posts and two trees
+    void wallMat;
+    for (const [bx, bz, ry] of [[-2.8, -3.4, 0.5], [2.8, -3.4, -0.5]]) {
+      const b = group(g, bx, 0, bz, ry);
+      box(b, 2.2, 0.42, 0.5, 0, 0.21, 0, 0x9a948a, { rough: 0.9 });
+      box(b, 2.3, 0.06, 0.56, 0, 0.45, 0, 0xb89a6a, { rough: 0.6 });
     }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
+    for (const px of [-1.4, 1.4]) {
+      const pl = group(g, px, 0, -4.5);
+      box(pl, 0.9, 0.5, 0.9, 0, 0.25, 0, 0x6b4a2e, { rough: 0.8 });
+      for (let i = 0; i < 5; i++) ball(pl, 0.16, -0.25 + (i % 3) * 0.25, 0.62 + (i % 2) * 0.08, -0.2 + Math.floor(i / 3) * 0.35, [0x5ab87a, 0x4a9a5a, 0x7fc464][i % 3], { rough: 0.9, seg: 8 });
+    }
+    const notice = group(g, 0, 0, -4.7);
+    for (const nx of [-0.9, 0.9]) cyl(notice, 0.05, 0.05, 2.2, nx, 1.1, 0, 0x6b4a2e, { rough: 0.8, seg: 8 });
+    box(notice, 2.0, 1.1, 0.06, 0, 1.6, 0, 0x2f4a3a, { rough: 0.9 });
+    box(notice, 2.1, 0.12, 0.1, 0, 2.2, 0, 0x6b4a2e, { rough: 0.8 });
+    for (const [tx, tz] of [[-3.6, -4.6], [3.6, -4.6]]) {
+      cyl(g, 0.12, 0.16, 2.4, tx, 1.2, tz, 0x5a4030, { rough: 0.9, seg: 8 });
+      ball(g, 1.1, tx, 2.9, tz, 0x4a8a4a, { rough: 0.9, seg: 10 });
+      ball(g, 0.8, tx + 0.5, 3.3, tz + 0.3, 0x5a9a52, { rough: 0.9, seg: 10 });
     }
 
     // ------------------------------------------------------------ controls

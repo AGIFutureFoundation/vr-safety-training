@@ -1,0 +1,262 @@
+{
+  "id": "k12-household-budget-and-first-paycheck",
+  "index": "805",
+  "prefix": "kbp",
+  "accent": "#5a9fd8",
+  "floor": [
+    "#7a7d80",
+    "#6c6f72"
+  ],
+  "wall": [
+    "#e8e2d4",
+    "#dcd6c8"
+  ],
+  "trade": "Maths class at the community centre's money desk — learner and teacher",
+  "header": "Lower- and upper-secondary maths for life: percentages on a first pay slip and a month's budget, using only the amounts the scene's own slip and bills show.",
+  "name": "A Household Budget and a First Paycheck",
+  "tagline": "Read the slip, find the percentage, plan the month — and keep something back for the unexpected",
+  "badge": {
+    "id": "month-planned",
+    "name": "Month Planned",
+    "note": "Pay slip read, percentages worked and a budget that balances with something saved"
+  },
+  "board": {
+    "name": "Budget Board",
+    "currency": "COINS",
+    "ranks": [
+      "Saver",
+      "Planner",
+      "Budgeter",
+      "Adviser",
+      "Treasurer"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "plan-with-the-gross-pay",
+      "label": "Plan the month with the pay before deductions?",
+      "face": "SPEND THE\nGROSS",
+      "text": "You planned the month with the pay before deductions. The money that actually arrives is the net pay, after tax and other deductions are taken; a budget built on the bigger figure runs out before the month does. Every budget starts from what reaches the account."
+    },
+    {
+      "id": "percentage-of-the-wrong-total",
+      "label": "Take the percentage of the wrong amount?",
+      "face": "PERCENT OF\nANYTHING",
+      "text": "You worked out the percentage of the wrong total. A percentage always means a part of a particular whole, so the first question is: per cent of what? Taking it of the net pay when the slip means the gross, or the reverse, gives an answer that looks right and is not."
+    },
+    {
+      "id": "no-money-kept-back",
+      "label": "Spend every last coin on the plan?",
+      "face": "NOTHING\nKEPT BACK",
+      "text": "You planned to spend every coin. A month always brings something unexpected, and a budget with nothing kept back turns a small surprise into borrowing; setting a part aside first is the habit that makes a budget survive real life."
+    },
+    {
+      "id": "share-the-account-details",
+      "label": "Read your account details aloud to the group?",
+      "face": "READ OUT\nMY DETAILS",
+      "text": "You read your account details aloud to the group. Personal financial details are private even in a practice lesson, and the habit of keeping them private is part of what the lesson teaches; the practice slip uses made-up details for exactly this reason."
+    }
+  ],
+  "find1": {
+    "title": "Find the parts of the pay slip",
+    "cue": "Mark the three parts of the practice pay slip you need before you can plan anything.",
+    "why": "A pay slip is a small table of arithmetic. The gross pay is what was earned, the deductions are what is taken before it reaches you, and the net pay is what arrives. Finding all three first stops you planning with the wrong number, which is the commonest mistake a first-time earner makes.",
+    "items": [
+      [
+        "gross",
+        "the gross pay",
+        "What was earned before anything is taken. Not what arrives."
+      ],
+      [
+        "deductions",
+        "the deductions",
+        "What is taken first. Gross minus deductions gives net."
+      ],
+      [
+        "net",
+        "the net pay",
+        "What actually reaches the account. The budget starts here."
+      ]
+    ],
+    "decoy": [
+      "employer-logo",
+      "the employer's logo",
+      "The logo says who paid, not how much arrived. Stick to the numbers."
+    ]
+  },
+  "select1": {
+    "title": "Keep your practice details private",
+    "cue": "Turn the slip face down when you are not working on it.",
+    "why": "Keeping personal financial details private is a life skill in its own right, and it starts in practice. The slip uses made-up details, but turning it face down when you are not working on it builds the same habit you will need with a real slip, a bank card or a message asking for account details.",
+    "key": "private-card",
+    "label": "Keep your details private",
+    "face": "KEEP IT\nPRIVATE"
+  },
+  "seq": {
+    "title": "Put the budget steps in order",
+    "cue": "Net pay first, then needs, then something saved, then wants.",
+    "why": "The order is what makes a budget work. Starting from the net pay tells you what you actually have; covering needs such as rent, food and travel comes next because they cannot be skipped; setting something aside before the wants means saving actually happens, instead of being whatever is left.",
+    "oon": "Out of order. Start from what actually arrives, then the needs, before anything else.",
+    "items": [
+      [
+        "ord-net",
+        "start from the net pay"
+      ],
+      [
+        "ord-needs",
+        "cover the needs"
+      ],
+      [
+        "ord-save",
+        "set something aside"
+      ],
+      [
+        "ord-wants",
+        "plan the wants"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Add up the bills without skipping one",
+    "cue": "Hold your place and add the bills on the table one by one.",
+    "why": "Adding a column of bills is easy to get wrong by skipping one or counting one twice. Working through them one by one, keeping your place, gives a total you can trust; it is the same care anyone takes with a real month's bills, where one forgotten bill can undo the whole plan.",
+    "brk": "You lost your place and skipped a bill. Go back to the last one you are sure of.",
+    "key": "add-bills",
+    "label": "Adding the bills on the table"
+  },
+  "turn": {
+    "title": "Turn the fraction into a percentage",
+    "cue": "Turn the dial from the fraction of pay spent on rent to the same amount as a percentage.",
+    "why": "A percentage is a fraction out of a hundred, which is why it makes different amounts easy to compare. Turning the fraction of pay spent on rent into a percentage lets you compare it with advice or with a friend's budget, even when the pay is different.",
+    "key": "percent-dial",
+    "label": "Fraction to percentage",
+    "dial": "PER CENT"
+  },
+  "gauge": {
+    "title": "Choose a realistic amount to set aside",
+    "cue": "Commit when the amount saved is realistic: enough to matter, not so much the needs go unpaid.",
+    "why": "Saving too little leaves nothing for a surprise; saving so much that the needs go unpaid leads to borrowing, which undoes the saving. A realistic amount is one the month can actually bear, and it is the same judgement adults make every month.",
+    "key": "save-meter",
+    "label": "Amount set aside",
+    "meter": "SAVE",
+    "miss": "Outside the band. Too little and a surprise sinks the month; too much and the needs go unpaid. Try again."
+  },
+  "drag": {
+    "title": "Cover the surprise from the buffer",
+    "cue": "A surprise cost arrives. Drag it onto the amount you kept back.",
+    "why": "This is what the kept-back amount is for. Covering a surprise from the buffer, rather than from the needs or by borrowing, shows the plan working exactly as designed, and it is why every budget keeps something in reserve.",
+    "key": "surprise-token",
+    "label": "Unexpected cost",
+    "spot": "buffer-spot",
+    "spotLabel": "Covered from what was kept back",
+    "miss": "It is not covered yet. Take it all the way to what you kept back."
+  },
+  "select2": {
+    "title": "Check the budget balances",
+    "cue": "Check that everything planned adds up to the net pay, no more.",
+    "why": "A budget balances when everything planned adds up to what arrives. Checking it before the month starts, rather than finding out at the end, is what separates a plan from a hope, and it is the same check a business does with its own accounts.",
+    "key": "check-card",
+    "label": "Check it balances",
+    "face": "IN = OUT?"
+  },
+  "find2": {
+    "id": "spot-the-problems-in-a-classmate",
+    "title": "Spot the problems in a classmate's budget",
+    "cue": "Look at the draft budget and mark each problem before it is handed in.",
+    "why": "Checking someone else's budget trains you to see the traps in your own. The usual problems are planning from the gross pay, a percentage taken of the wrong total and nothing kept back for surprises. Each one looks fine on paper until the month begins.",
+    "items": [
+      [
+        "bud-gross",
+        "a plan built on the gross pay",
+        "The plan has to start from what arrives, the net pay."
+      ],
+      [
+        "bud-wrong-percent",
+        "a percentage of the wrong total",
+        "Per cent of what? Check the whole the percentage belongs to."
+      ],
+      [
+        "bud-no-buffer",
+        "nothing kept back",
+        "One surprise and this budget is borrowing."
+      ]
+    ],
+    "decoy": [
+      "bud-needs-first",
+      "needs listed first",
+      "Needs before wants is right. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep spending on plan through the month",
+    "cue": "Hold spending in band with the plan as the weeks go by.",
+    "why": "A plan only works if spending follows it. Checking spending against the plan as the month goes on catches drift early, when a small change fixes it, rather than at the end when the money has gone.",
+    "brk": "Spending drifted off the plan. Look at what changed and bring it back before the month ends.",
+    "key": "track-meter",
+    "label": "Spending against the plan",
+    "meter": "ON PLAN"
+  },
+  "record": {
+    "title": "Record the budget and the working",
+    "cue": "Write down the net pay, the percentages, the buffer and how the surprise was covered.",
+    "why": "A written budget, with the working shown, can be checked and improved next month. Recording how the surprise was covered shows the buffer earning its place, which is the lesson most worth keeping.",
+    "key": "budget-log",
+    "label": "Budget record",
+    "done": "Budget and working recorded"
+  },
+  "share": {
+    "title": "Share one budgeting tip",
+    "cue": "Tell the class one thing that made your budget work.",
+    "why": "Sharing a tip helps classmates who found it hard, and saying it out loud fixes it in your own memory. The best tips are simple and anyone can use them, like starting from the net pay or keeping something back.",
+    "key": "share-board",
+    "label": "Share with the class",
+    "done": "Tips shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did the budget go? What was hard, and what would you try next time?",
+    "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and it gives every learner a moment to notice what they learned. Nobody is graded here, and the teacher or a trusted adult is there for anyone who found the lesson hard and wants to talk it through.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-message-asks-for-card-details",
+      "kind": "Suspicious message",
+      "key": "ignore-and-tell",
+      "label": "Do not reply, tell the teacher",
+      "alert": "A message pops up on the practice tablet saying your pay is on hold unless you send your card details.",
+      "cue": "Do not reply or click anything; show the teacher.",
+      "why": "A message that creates urgency and asks for card details is a classic scam. The right response is always the same: do not reply, do not click, and show a trusted adult. Real employers and banks do not ask for details that way.",
+      "miss": "Nobody told the teacher, and a classmate typed made-up details in to see what would happen.",
+      "wrong": "That engages with the message. Do not reply; show the teacher.",
+      "done": "Shown to the teacher and closed. That is how a real one is handled too."
+    },
+    {
+      "id": "the-adviser-asks-what-percentage-rent-is",
+      "kind": "Adviser question",
+      "key": "say-the-percentage",
+      "label": "Say the rent percentage and of what",
+      "alert": "The community centre adviser asks what percentage of your pay goes on rent.",
+      "cue": "Say the percentage and which pay it is a percentage of.",
+      "why": "The adviser wants two things: the percentage and what it is a percentage of. Saying both shows you understand that a percentage without its whole is meaningless, which is the idea the whole lesson rests on.",
+      "miss": "You gave a percentage without saying of what, and the adviser could not tell whether it was right.",
+      "wrong": "That leaves out what it is a percentage of. Say both. Choose the response that deals with it now.",
+      "done": "Percentage and whole given. The adviser can check it."
+    }
+  ],
+  "crew": [
+    "Maths teacher",
+    "Classmate",
+    "Community centre adviser",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Gross, deductions, net. Then plan.",
+    "after": "Needs first, a little saved, then wants.",
+    "hazard": "Stop. Check which number that percentage is of."
+  },
+  "lateRecord": "The budget record is written once the budget balances — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "wall",
+  "order": "c"
+}

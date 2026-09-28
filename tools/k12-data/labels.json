@@ -1,0 +1,262 @@
+{
+  "id": "k12-reading-instructions-and-safety-labels",
+  "index": "804",
+  "prefix": "kri",
+  "accent": "#9a6ad0",
+  "floor": [
+    "#6f6a78",
+    "#625e6c"
+  ],
+  "wall": [
+    "#e4dfe8",
+    "#d6d0dc"
+  ],
+  "trade": "Literacy class in the school workshop — learner and teacher",
+  "header": "Early-primary to lower-secondary literacy for life: reading a set of instructions right through, and reading a safety label before using the product it is on.",
+  "name": "Reading Instructions and Safety Labels",
+  "tagline": "Read it all before you start, and read the label before you open anything",
+  "badge": {
+    "id": "read-first",
+    "name": "Read First",
+    "note": "Instructions read right through and every label read before use"
+  },
+  "board": {
+    "name": "Reading Board",
+    "currency": "PAGES",
+    "ranks": [
+      "Reader",
+      "Checker",
+      "Follower",
+      "Explainer",
+      "Guide"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "start-before-reading-to-the-end",
+      "label": "Start step one before reading to the end?",
+      "face": "START NOW,\nREAD LATER",
+      "text": "You started on step one before reading to the end. Instructions often put an important warning or a thing you need later near the bottom, and discovering it halfway through a task is how people get stuck or hurt. Reading the whole set first is the single most useful reading habit for life."
+    },
+    {
+      "id": "guess-the-symbol",
+      "label": "Guess what the pictogram means?",
+      "face": "PROBABLY\nFINE",
+      "text": "You guessed what the picture on the label meant. Safety pictures are chosen to be understood quickly, but a guess can be wrong, and the words beside the picture say exactly what it means; when you are unsure, you read the words or ask, you do not guess."
+    },
+    {
+      "id": "pour-into-an-unlabelled-bottle",
+      "label": "Pour some into an unlabelled drinks bottle?",
+      "face": "IN A DRINKS\nBOTTLE",
+      "text": "You poured some of the product into an empty drinks bottle. A product separated from its label has lost its warnings and its first-aid instructions, and a drinks bottle invites someone to drink from it; products stay in their own labelled containers."
+    },
+    {
+      "id": "skip-the-if-it-goes-wrong",
+      "label": "Skip the part about what to do if something goes wrong?",
+      "face": "WON'T\nNEED IT",
+      "text": "You skipped the section on what to do if something goes wrong. That section is written for the moment when there is no time to read, which is exactly why it has to be read beforehand; knowing it already is what lets you act calmly and get an adult quickly."
+    }
+  ],
+  "find1": {
+    "title": "Find the parts of the label",
+    "cue": "Mark the three parts of the safety label you must read before using the product.",
+    "why": "A safety label is organised so the most important information is easy to find: a signal word that says how serious the warning is, a picture that shows the kind of danger, and the instructions for what to do and what to do if something goes wrong. Knowing where each part is means you can read any label quickly and completely, whatever the product.",
+    "items": [
+      [
+        "signal-word",
+        "the signal word",
+        "The signal word tells you how serious the warning is. Read it first."
+      ],
+      [
+        "pictogram",
+        "the warning picture",
+        "The picture shows the kind of danger at a glance. The words beside it say exactly what it means."
+      ],
+      [
+        "first-aid",
+        "what to do if it goes wrong",
+        "The part you hope never to need, and so the part to read before you start."
+      ]
+    ],
+    "decoy": [
+      "brand-logo",
+      "the brand logo",
+      "The logo tells you who made it, not how to use it safely. Look for the safety parts."
+    ]
+  },
+  "select1": {
+    "title": "Read the instructions all the way through",
+    "cue": "Before you touch anything, read every step to the end.",
+    "why": "Reading instructions all the way through before starting shows you what you will need, how long it will take and where the warnings are. It is the habit that separates people who finish a task smoothly from people who stop halfway to find something they needed at the start, and it applies to a recipe, a game or a form.",
+    "key": "read-all",
+    "label": "Read the whole thing first",
+    "face": "READ IT\nALL FIRST"
+  },
+  "seq": {
+    "title": "Put the reading routine in order",
+    "cue": "Title, what you need, the steps, then the warnings and what to do if it goes wrong.",
+    "why": "Reading in a fixed routine makes any set of instructions manageable: the title says what it is for, the list of what you need lets you gather it first, the steps say what to do and the warnings say what to avoid. Following the same routine every time means nothing important gets missed, however long or unfamiliar the instructions are.",
+    "oon": "Out of order. Start with what the instructions are for, then gather what you need.",
+    "items": [
+      [
+        "ord-title",
+        "the title: what is it for?"
+      ],
+      [
+        "ord-need",
+        "what you need"
+      ],
+      [
+        "ord-steps",
+        "the steps"
+      ],
+      [
+        "ord-warn",
+        "warnings and what to do if it goes wrong"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Keep your place as you read the steps",
+    "cue": "Trace each line as you read so you do not skip a step.",
+    "why": "Keeping your place, with a finger or a ruler under the line, stops the eye jumping ahead and missing a step that looks like the one before it. Careful readers of instructions do this with anything that matters, because a skipped step is often the one that makes the rest work.",
+    "brk": "You lost your place and skipped ahead. Go back to the last step you are sure of.",
+    "key": "finger-trace",
+    "label": "Tracing each line with a finger"
+  },
+  "turn": {
+    "title": "Look up the word you do not know",
+    "cue": "One word in step four is new. Turn the dial from the word to its meaning before going on.",
+    "why": "An unfamiliar word in an instruction is a signal to stop, not to guess. Looking it up, in a glossary, a dictionary or by asking, means you follow the instruction that was written rather than the one you imagined; in safety instructions especially, one misunderstood word can change what you do.",
+    "key": "meaning-dial",
+    "label": "Word to meaning",
+    "dial": "MEANING"
+  },
+  "gauge": {
+    "title": "Read at a pace that lets you understand",
+    "cue": "Commit when your reading pace is steady — not rushing, not stopping on every word.",
+    "why": "Reading too fast skims over the details that matter; reading too slowly loses the thread of what the steps are building towards. A steady pace, slowing down only for warnings and new words, is how skilled readers take in instructions accurately.",
+    "key": "pace-meter",
+    "label": "Reading pace",
+    "meter": "PACE",
+    "miss": "Outside the band. Too fast and you skim the warnings; too slow and you lose the thread. Settle into a steady pace."
+  },
+  "drag": {
+    "title": "Return the product to its labelled place",
+    "cue": "Drag the bottle back to its labelled shelf, still in its own container, when you are done.",
+    "why": "A product kept in its own labelled container, in its labelled place, can always be read by the next person who uses it. Putting it back properly finishes the task and protects everyone who comes after you, which is the reason labels exist in the first place.",
+    "key": "bottle-token",
+    "label": "The product bottle",
+    "spot": "shelf-spot",
+    "spotLabel": "Back on its labelled shelf",
+    "miss": "It is not back in its place yet. Take it all the way to the labelled shelf."
+  },
+  "select2": {
+    "title": "Ask the teacher about the part you are unsure of",
+    "cue": "One instruction could be read two ways. Ask the teacher which it means.",
+    "why": "When an instruction can be read two ways, asking is the skilled thing to do, not a sign of weakness. Adults at work ask the same question every day, and the person who wrote the instruction would always rather be asked than have it done wrongly.",
+    "key": "ask-card",
+    "label": "Ask when unsure",
+    "face": "NOT SURE?\nASK"
+  },
+  "find2": {
+    "title": "Spot the problems in badly written instructions",
+    "cue": "Look at the classmate's draft instructions and mark each problem.",
+    "why": "Writing instructions is the best way to learn to read them. Badly written instructions usually give steps out of order, use a word the reader will not know without explaining it, and leave out what to do if something goes wrong. Spotting these in a draft teaches you to notice them in real instructions, and to ask about them.",
+    "items": [
+      [
+        "draft-order",
+        "two steps in the wrong order",
+        "A reader follows steps in the order written. Out of order means done wrong."
+      ],
+      [
+        "draft-jargon",
+        "a word the reader will not know",
+        "Explain it or use a plainer word. A reader cannot follow what they cannot understand."
+      ],
+      [
+        "draft-no-help",
+        "nothing on what to do if it goes wrong",
+        "Every set of instructions needs this part, even if it is only 'stop and get an adult'."
+      ]
+    ],
+    "decoy": [
+      "draft-numbered",
+      "clearly numbered steps",
+      "Numbered steps help the reader keep their place. Keep them."
+    ]
+  },
+  "track": {
+    "title": "Keep your focus while you follow the steps",
+    "cue": "Hold your attention in band as you carry out each step, checking back to the page.",
+    "why": "Following instructions well means looking back at the page between steps rather than working from memory after the first read. Keeping your focus on the page and the task together is what stops small slips turning into a finished job that does not work.",
+    "brk": "Your attention drifted from the page. Look back at the step you are on before you carry on.",
+    "key": "focus-meter",
+    "label": "Focus on the task",
+    "meter": "FOCUS"
+  },
+  "record": {
+    "title": "Record what you read and what you asked",
+    "cue": "Write down the label parts, the new word and the question you asked.",
+    "why": "Recording what you read, the word you looked up and the question you asked shows your teacher how you worked, not just whether you finished. It also gives you a record to look back on the next time you meet a label or a set of instructions like it.",
+    "key": "reading-log",
+    "label": "Reading record",
+    "done": "Reading and questions recorded"
+  },
+  "share": {
+    "title": "Share one reading tip with the class",
+    "cue": "Tell the class one thing that helped you read the instructions well.",
+    "why": "Sharing a reading tip with classmates helps the ones who found it hard and fixes the habit in your own memory. The best tips are simple, read it all first, keep your place, ask when unsure, and everyone in the class can use them tomorrow.",
+    "key": "share-board",
+    "label": "Share with the class",
+    "done": "Reading tips shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did that go? Which part of reading the label was hardest?",
+    "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and it gives each learner a moment to notice what they can now do. Nobody is marked here, and a teacher or trusted adult is there for anyone who wants to talk more.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-bottle-is-knocked-over",
+      "kind": "Spill",
+      "key": "step-back-and-tell",
+      "label": "Step back and tell the teacher",
+      "alert": "A classmate knocks over an open bottle and it starts to spill across the bench.",
+      "cue": "Step back, keep others back, and tell the teacher — the label says what to do next.",
+      "why": "A spill is exactly the moment the label's what-to-do section was written for, but acting on it is the adult's job in a classroom. Stepping back, keeping others away and telling the teacher at once, so they can read the label and deal with it, keeps everyone safe.",
+      "miss": "Nobody told the teacher, and a classmate wiped it up with bare hands before anyone read the label.",
+      "wrong": "That does not get help. Step back and tell the teacher. Choose the response that deals with it now.",
+      "done": "Everyone stepped back and the teacher read the label before cleaning up."
+    },
+    {
+      "id": "the-technician-asks-what-the-signal-word-means",
+      "kind": "Technician question",
+      "key": "explain-signal-word",
+      "label": "Explain what the signal word tells you",
+      "alert": "The workshop technician points at the label and asks what its signal word tells you.",
+      "cue": "Say what the signal word shows about how serious the warning is, in your own words.",
+      "why": "Being able to explain a label in your own words is the proof that you have read it rather than looked at it. The technician asks because in a real workshop the people who can explain the label are the ones trusted to use the product.",
+      "miss": "You could not say what it meant, so the technician kept the product off your bench.",
+      "wrong": "That does not explain the signal word. Say what it tells you about how serious the warning is.",
+      "done": "Explained in your own words. That is reading, not just looking."
+    }
+  ],
+  "crew": [
+    "Literacy teacher",
+    "Classmate",
+    "Workshop technician",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Read it all first.",
+    "after": "Signal word, picture, what to do, what to do if it goes wrong.",
+    "hazard": "Stop. Go back and read that part again before you act."
+  },
+  "lateRecord": "The reading record is written once the task is finished — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "lab",
+  "order": "b",
+  "desk": "#8a5ab0"
+}

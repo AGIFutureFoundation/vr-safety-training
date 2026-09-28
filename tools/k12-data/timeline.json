@@ -1,0 +1,264 @@
+{
+  "id": "k12-building-a-timeline-from-documents",
+  "index": "809",
+  "prefix": "ktl",
+  "accent": "#c08a4a",
+  "floor": [
+    "#7a6a58",
+    "#6c5e4e"
+  ],
+  "wall": [
+    "#e6dcc8",
+    "#d8ceba"
+  ],
+  "trade": "History class at the school archive table — learner and teacher",
+  "header": "Lower- and upper-secondary history method: putting dated documents from the lesson's own fictional archive in order, and telling the date a document was made from the date it describes.",
+  "name": "Building a Timeline from Documents",
+  "tagline": "Order the documents by the evidence, not by the story you expect",
+  "badge": {
+    "id": "in-order",
+    "name": "In Order",
+    "note": "A timeline built from the documents' own evidence, with uncertain dates marked as uncertain"
+  },
+  "board": {
+    "name": "Timeline Board",
+    "currency": "DATES",
+    "ranks": [
+      "Sorter",
+      "Reader",
+      "Chronicler",
+      "Historian",
+      "Archivist"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "order-by-the-story",
+      "label": "Order the documents by the story you expect?",
+      "face": "ORDER BY\nTHE STORY",
+      "text": "You put the documents in the order the story you expected would need. A timeline is built from the evidence on the documents, not from a story in your head; when the evidence and the story disagree, the evidence wins and the story changes."
+    },
+    {
+      "id": "confuse-made-and-described",
+      "label": "Treat a later memoir's date as the event's date?",
+      "face": "WRITTEN =\nHAPPENED",
+      "text": "You placed a memoir at the date it was written as if the events happened then. A document has two dates that matter: when it was made and when the things it describes happened. Mixing them puts events in the wrong place on the timeline."
+    },
+    {
+      "id": "invent-a-missing-date",
+      "label": "Give the undated letter a date that fits?",
+      "face": "MAKE UP\nA DATE",
+      "text": "You gave the undated letter a date because it fitted. A document with no date is placed as undated, or given a range with the reason stated; inventing a date turns a guess into a false fact."
+    },
+    {
+      "id": "say-the-archive-is-real",
+      "label": "Tell the class these are real historical documents?",
+      "face": "THESE ARE\nREAL",
+      "text": "You told the class the documents were real history. These are the lesson's own fictional archive, labelled as such, made so the method can be practised without any real claim; saying otherwise is exactly the kind of false claim this lesson teaches you to avoid."
+    }
+  ],
+  "find1": {
+    "title": "Find the dating evidence",
+    "cue": "Mark the three kinds of dating evidence on the documents in the lesson's fictional archive.",
+    "why": "Documents carry dating evidence in different ways: a date written on the document, a reference to another event whose date you know, and clues such as the kind of paper or the name of a shop that opened later. Finding every kind before ordering anything is what makes the timeline rest on evidence. These documents are the lesson's own fictional archive, labelled as such.",
+    "items": [
+      [
+        "written-date",
+        "a date written on the page",
+        "The strongest evidence, but check whether it is when it was made or what it describes."
+      ],
+      [
+        "cross-reference",
+        "a reference to another dated document",
+        "Places this document before or after that one."
+      ],
+      [
+        "context-clue",
+        "a clue in the content",
+        "A mention of something that came later gives an earliest possible date."
+      ]
+    ],
+    "decoy": [
+      "decorative-border",
+      "a decorative border",
+      "A border is decoration, not evidence. Look for dating clues."
+    ]
+  },
+  "select1": {
+    "id": "read-the-archive-s-label-first",
+    "title": "Read the archive's label first",
+    "cue": "Read the label: these are the lesson's own fictional documents.",
+    "why": "Knowing what a source is, before using it, is the first step of historical method. These documents were made for the lesson and are labelled as such, so the method can be practised honestly; a historian always states what their sources are and where they come from.",
+    "key": "label-card",
+    "label": "Label it as the lesson's archive",
+    "face": "FICTIONAL\nARCHIVE"
+  },
+  "seq": {
+    "title": "Put the method in order",
+    "cue": "Find the evidence, date each document, sort, then mark what is uncertain.",
+    "why": "Dating each document from its own evidence before sorting stops the order being bent to fit a story. Marking the uncertain ones last, openly, means the timeline shows where the evidence is strong and where it is weak, which is exactly what the next researcher needs to know.",
+    "oon": "Out of order. Date each document from its evidence before you sort.",
+    "items": [
+      [
+        "ord-evidence",
+        "find the evidence"
+      ],
+      [
+        "ord-date",
+        "date each document"
+      ],
+      [
+        "ord-sort",
+        "sort them"
+      ],
+      [
+        "ord-uncertain",
+        "mark what is uncertain"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Read the memoir right through",
+    "cue": "Hold your place and read the whole memoir before placing it.",
+    "why": "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source. Checking which date is which takes a moment and saves the whole timeline from sliding out of order.",
+    "brk": "You stopped reading and placed it too soon. Read the whole memoir first.",
+    "key": "read-memoir",
+    "label": "Reading the memoir carefully"
+  },
+  "turn": {
+    "title": "Turn from when it was made to when it describes",
+    "cue": "Turn the dial from the memoir's writing date to the date of the events it describes.",
+    "why": "Separating the date a document was made from the date of what it describes is the key skill of this lesson. A memoir written long after is still evidence about the earlier events, but it is placed on the timeline where the events happened, with a note of when it was written.",
+    "key": "date-dial",
+    "label": "Made to described",
+    "dial": "DESCRIBED"
+  },
+  "gauge": {
+    "title": "Judge how confident each date is",
+    "cue": "Commit when your confidence matches the evidence for the undated letter's range.",
+    "why": "Some dates are certain, some are ranges, and some are guesses. Matching your confidence to the evidence, and saying so on the timeline, is what makes a timeline honest rather than tidy. A gap left open invites the next researcher to fill it with evidence rather than a guess.",
+    "key": "confidence-meter",
+    "label": "Confidence in the date",
+    "meter": "CONFIDENCE",
+    "miss": "Outside the band. Too sure and a guess becomes a fact; too doubtful and good evidence is wasted. Weigh it again."
+  },
+  "drag": {
+    "title": "Place the undated letter as a range",
+    "cue": "Drag the undated letter onto the timeline as a range between the two documents it mentions.",
+    "why": "An undated letter that mentions two dated events can be placed between them as a range. Placing it that way, rather than at a single invented date, uses exactly what the evidence supports and no more. A range like between these two documents is a perfectly good answer when that is all the evidence allows.",
+    "key": "letter-token",
+    "label": "The undated letter",
+    "spot": "range-spot",
+    "spotLabel": "On the timeline as a range",
+    "miss": "Not in place yet. Take it all the way to on the timeline as a range."
+  },
+  "select2": {
+    "title": "Mark the gaps on the timeline",
+    "cue": "Where no document covers a stretch of time, mark it as a gap.",
+    "why": "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page. It tells the reader exactly where more research is needed.",
+    "key": "gap-card",
+    "label": "Mark the gaps honestly",
+    "face": "GAPS\nMARKED"
+  },
+  "find2": {
+    "id": "spot-the-problems-in-a-classmate",
+    "title": "Spot the problems in a classmate's timeline",
+    "cue": "Look at the draft timeline and mark each problem.",
+    "why": "Timelines go wrong in predictable ways: a document placed at its writing date instead of its event date, an undated item given an exact date and the order bent to fit a story. Spotting these in a draft teaches you to check your own.",
+    "items": [
+      [
+        "tl-memoir",
+        "a memoir placed at its writing date",
+        "Place it where the events happened, noting when it was written."
+      ],
+      [
+        "tl-invented",
+        "an undated item with an exact date",
+        "Use a range and give the reason, or mark it undated."
+      ],
+      [
+        "tl-story",
+        "the order bent to fit a story",
+        "The evidence decides the order."
+      ]
+    ],
+    "decoy": [
+      "tl-labelled",
+      "the archive labelled as fictional",
+      "Saying what the sources are is right. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep the timeline led by the evidence",
+    "cue": "Hold the timeline in band with the evidence as you add the last documents.",
+    "why": "As a timeline fills up, it starts to suggest a story, and the last documents are tempting to force into it. Keeping every placement tied to its own evidence is the discipline that stops a timeline becoming a work of fiction. Every entry should be traceable to the document it came from.",
+    "brk": "The timeline drifted towards the story. Check the last placements against their evidence.",
+    "key": "track-meter",
+    "label": "Evidence over story",
+    "meter": "EVIDENCE"
+  },
+  "record": {
+    "title": "Record the timeline and its evidence",
+    "cue": "Write each document's placement and the evidence that put it there.",
+    "why": "Recording the evidence behind each placement lets anyone check the timeline and change it if new evidence appears. That is how historical timelines are built and improved over time. A timeline is never finished; each new document can confirm an entry or move it.",
+    "key": "timeline-log",
+    "label": "Timeline record",
+    "done": "Timeline and evidence recorded"
+  },
+  "share": {
+    "title": "Show the class how you placed the memoir",
+    "cue": "Explain how you separated when the memoir was written from when its events happened.",
+    "why": "Explaining the memoir's two dates to the class teaches the skill most people miss. Sharing the method, not just the finished timeline, lets classmates check their own and fix the same mistake. Explaining why each document sits where it does is the part that shows real understanding.",
+    "key": "share-board",
+    "label": "Share with the class",
+    "done": "Method shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did the timeline go? What question do you still have?",
+    "why": "A short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "documents-slide-off-the-table",
+      "kind": "Falling documents",
+      "key": "stop-and-gather",
+      "label": "Stop and gather them flat",
+      "alert": "A stack of the archive's fragile documents slides towards the edge of the table.",
+      "cue": "Stop, steady the stack and lay the papers flat, then call the archivist.",
+      "why": "Fragile papers damaged in a fall cannot be undamaged. Stopping, steadying them and laying them flat protects the archive, and calling the archivist means anything creased is handled by someone who knows how.",
+      "miss": "Nobody stopped, the stack fell and two documents creased across their dates. Next time, stop the lesson and deal with it first.",
+      "wrong": "That does not protect the papers. Stop and lay them flat. Choose the response that deals with it now.",
+      "done": "Gathered flat and the archivist called. Nothing was lost."
+    },
+    {
+      "id": "the-teacher-asks-why-there",
+      "kind": "Teacher question",
+      "key": "give-the-evidence",
+      "label": "Give the evidence for the placement",
+      "alert": "The teacher points at a document on your timeline and asks why it is there.",
+      "cue": "Name the evidence on the document that placed it, or say that it is a range and why.",
+      "why": "Why is it there is the historian's check on every timeline. Answering with the evidence, not with how it fits the story, shows the timeline was built the right way round.",
+      "miss": "You said it fitted there, with no evidence, and the placement stayed unchecked. Next time, stop the lesson and deal with it first.",
+      "wrong": "That is the story, not the evidence. Name what on the document placed it.",
+      "done": "Evidence given. The placement can be checked by anyone."
+    }
+  ],
+  "crew": [
+    "History teacher",
+    "Classmate",
+    "School archivist",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Made when? About when?",
+    "after": "Evidence first, then the order.",
+    "hazard": "Stop. Is that the date it was made, or the date it describes?"
+  },
+  "lateRecord": "The timeline record is written once every document is placed — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "wall",
+  "order": "c",
+  "desk": "#9a6a3a"
+}

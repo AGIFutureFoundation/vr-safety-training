@@ -128,6 +128,40 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       holdBreakNote: "The tape went slack. A sagging tape reads long — pull it taut along the line and read again."
     },
     {
+      id: "write-the-length-to-width-ratio",
+      kind: "select",
+      target: "kmc-ratio-card",
+      title: "Write the length-to-width ratio",
+      cue: "Write length to width as a ratio, then check it is the same on the drawing as on the court.",
+      why: "A ratio compares two quantities of the same kind, and a true scale drawing keeps every ratio the court has. Checking that length to width is the same on paper as on the floor is the quickest proof that the drawing is right, and it is how a designer knows a model will look like the thing it models."
+    },
+    {
+      id: "catch-the-mistakes-in-a-classmate",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kmc-err-no-unit",
+        "kmc-err-perim-area",
+        "kmc-err-one-scaled"
+      ],
+      itemNames: {
+        "kmc-err-no-unit": "an answer with no unit",
+        "kmc-err-perim-area": "a perimeter labelled as area",
+        "kmc-err-one-scaled": "a drawing with one side scaled"
+      },
+      itemNotes: {
+        "kmc-err-no-unit": "A number with no unit could be a length, an area or nothing at all. Every answer carries its unit.",
+        "kmc-err-perim-area": "Adding sides gives the distance around. Area comes from length times width.",
+        "kmc-err-one-scaled": "Every length must be divided by the same scale factor, or the shape changes."
+      },
+      decoyNotes: {
+        "kmc-ok-estimate": "Writing an estimate first is good practice. Leave it in."
+      },
+      title: "Catch the mistakes in a classmate's working",
+      cue: "Look at the worked sheet on the bench and mark each mistake before it is handed in.",
+      why: "Checking someone else's working is a skill of its own: you have to follow their reasoning, not just compare answers. The usual slips are a missing unit, a perimeter labelled as an area, and one side scaled while the other was not. Finding them in someone else's work is how you learn to find them in your own before a teacher does."
+    },
+    {
       id: "switch-from-length-to-area-units",
       kind: "turn",
       target: "kmc-unit-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       title: "Place the scaled length on the drawing",
       cue: "Drag the scaled side length onto the scale drawing, then do the same division for the width.",
       why: "A scale drawing is made by dividing every real length by the same scale factor and drawing the results. Placing the scaled length on the drawing, then the scaled width, gives a shape exactly the same as the court but smaller, which means any angle you measure on the drawing is the same angle on the floor."
-    },
-    {
-      id: "write-the-length-to-width-ratio",
-      kind: "select",
-      target: "kmc-ratio-card",
-      title: "Write the length-to-width ratio",
-      cue: "Write length to width as a ratio, then check it is the same on the drawing as on the court.",
-      why: "A ratio compares two quantities of the same kind, and a true scale drawing keeps every ratio the court has. Checking that length to width is the same on paper as on the floor is the quickest proof that the drawing is right, and it is how a designer knows a model will look like the thing it models."
-    },
-    {
-      id: "catch-the-mistakes-in-a-classmate",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kmc-err-no-unit",
-        "kmc-err-perim-area",
-        "kmc-err-one-scaled"
-      ],
-      itemNames: {
-        "kmc-err-no-unit": "an answer with no unit",
-        "kmc-err-perim-area": "a perimeter labelled as area",
-        "kmc-err-one-scaled": "a drawing with one side scaled"
-      },
-      itemNotes: {
-        "kmc-err-no-unit": "A number with no unit could be a length, an area or nothing at all. Every answer carries its unit.",
-        "kmc-err-perim-area": "Adding sides gives the distance around. Area comes from length times width.",
-        "kmc-err-one-scaled": "Every length must be divided by the same scale factor, or the shape changes."
-      },
-      decoyNotes: {
-        "kmc-ok-estimate": "Writing an estimate first is good practice. Leave it in."
-      },
-      title: "Catch the mistakes in a classmate's working",
-      cue: "Look at the worked sheet on the bench and mark each mistake before it is handed in.",
-      why: "Checking someone else's working is a skill of its own: you have to follow their reasoning, not just compare answers. The usual slips are a missing unit, a perimeter labelled as an area, and one side scaled while the other was not. Finding them in someone else's work is how you learn to find them in your own before a teacher does."
     },
     {
       id: "keep-the-answer-close-to-the",
@@ -368,28 +368,19 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#e8e2d4", base2: "#dcd6c8", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
+    // a hall's stage behind the station: risers, a curtain, footlights and rows of seats at the sides
+    void wallMat;
+    const stage = group(g, 0, 0, -4.4);
+    box(stage, 6.6, 0.5, 1.6, 0, 0.25, 0, 0x4a3a30, { rough: 0.7 });
+    box(stage, 6.8, 0.05, 1.7, 0, 0.52, 0, 0x6b4a2e, { rough: 0.6 });
+    box(stage, 6.6, 2.6, 0.1, 0, 1.85, -0.75, 0x7a2a2a, { rough: 0.95 });
+    for (let i = 0; i < 7; i++) box(stage, 0.12, 2.5, 0.06, -2.7 + i * 0.9, 1.85, -0.68, 0x8a3232, { rough: 0.95 });
+    for (let i = 0; i < 6; i++) ball(stage, 0.05, -2.5 + i * 1.0, 0.56, 0.8, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.2, rough: 0.4, seg: 8 });
+    for (const side of [-1, 1]) for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const seat = group(g, side * (2.9 + c * 0.55), 0, -3.2 + r * 0.7, side * 0.35);
+      box(seat, 0.45, 0.06, 0.45, 0, 0.45, 0, 0x2a5a8a, { rough: 0.8 });
+      box(seat, 0.45, 0.5, 0.06, 0, 0.72, -0.2, 0x2a5a8a, { rough: 0.8 });
+      for (const [lx, lz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) box(seat, 0.03, 0.42, 0.03, lx, 0.21, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
     }
 
     // ------------------------------------------------------------ controls

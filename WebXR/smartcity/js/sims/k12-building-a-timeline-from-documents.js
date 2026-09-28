@@ -90,14 +90,6 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       why: "Documents carry dating evidence in different ways: a date written on the document, a reference to another event whose date you know, and clues such as the kind of paper or the name of a shop that opened later. Finding every kind before ordering anything is what makes the timeline rest on evidence. These documents are the lesson's own fictional archive, labelled as such."
     },
     {
-      id: "read-the-archive-s-label-first",
-      kind: "select",
-      target: "ktl-label-card",
-      title: "Read the archive's label first",
-      cue: "Read the label: these are the lesson's own fictional documents.",
-      why: "Knowing what a source is, before using it, is the first step of historical method. These documents were made for the lesson and are labelled as such, so the method can be practised honestly; a historian always states what their sources are and where they come from."
-    },
-    {
       id: "put-the-method-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       outOfOrderNote: "Out of order. Date each document from its evidence before you sort."
     },
     {
-      id: "read-the-memoir-right-through",
-      kind: "hold",
-      target: "ktl-read-memoir",
-      seconds: 6,
-      title: "Read the memoir right through",
-      cue: "Hold your place and read the whole memoir before placing it.",
-      why: "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source. Checking which date is which takes a moment and saves the whole timeline from sliding out of order.",
-      holdBreakNote: "You stopped reading and placed it too soon. Read the whole memoir first."
+      id: "read-the-archive-s-label-first",
+      kind: "select",
+      target: "ktl-label-card",
+      title: "Read the archive's label first",
+      cue: "Read the label: these are the lesson's own fictional documents.",
+      why: "Knowing what a source is, before using it, is the first step of historical method. These documents were made for the lesson and are labelled as such, so the method can be practised honestly; a historian always states what their sources are and where they come from."
     },
     {
       id: "turn-from-when-it-was-made",
@@ -158,6 +148,16 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       why: "Some dates are certain, some are ranges, and some are guesses. Matching your confidence to the evidence, and saying so on the timeline, is what makes a timeline honest rather than tidy. A gap left open invites the next researcher to fill it with evidence rather than a guess."
     },
     {
+      id: "read-the-memoir-right-through",
+      kind: "hold",
+      target: "ktl-read-memoir",
+      seconds: 6,
+      title: "Read the memoir right through",
+      cue: "Hold your place and read the whole memoir before placing it.",
+      why: "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source. Checking which date is which takes a moment and saves the whole timeline from sliding out of order.",
+      holdBreakNote: "You stopped reading and placed it too soon. Read the whole memoir first."
+    },
+    {
       id: "place-the-undated-letter-as-a",
       kind: "drag",
       target: "ktl-letter-token",
@@ -169,14 +169,6 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       title: "Place the undated letter as a range",
       cue: "Drag the undated letter onto the timeline as a range between the two documents it mentions.",
       why: "An undated letter that mentions two dated events can be placed between them as a range. Placing it that way, rather than at a single invented date, uses exactly what the evidence supports and no more. A range like between these two documents is a perfectly good answer when that is all the evidence allows."
-    },
-    {
-      id: "mark-the-gaps-on-the-timeline",
-      kind: "select",
-      target: "ktl-gap-card",
-      title: "Mark the gaps on the timeline",
-      cue: "Where no document covers a stretch of time, mark it as a gap.",
-      why: "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page. It tells the reader exactly where more research is needed."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -203,6 +195,14 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       title: "Spot the problems in a classmate's timeline",
       cue: "Look at the draft timeline and mark each problem.",
       why: "Timelines go wrong in predictable ways: a document placed at its writing date instead of its event date, an undated item given an exact date and the order bent to fit a story. Spotting these in a draft teaches you to check your own."
+    },
+    {
+      id: "mark-the-gaps-on-the-timeline",
+      kind: "select",
+      target: "ktl-gap-card",
+      title: "Mark the gaps on the timeline",
+      cue: "Where no document covers a stretch of time, mark it as a gap.",
+      why: "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page. It tells the reader exactly where more research is needed."
     },
     {
       id: "keep-the-timeline-led-by-the",

@@ -1,0 +1,263 @@
+{
+  "id": "k12-writing-a-clear-incident-report",
+  "index": "811",
+  "prefix": "kir",
+  "accent": "#9a6ad0",
+  "floor": [
+    "#6f6a78",
+    "#625e6c"
+  ],
+  "wall": [
+    "#e4dfe8",
+    "#d6d0dc"
+  ],
+  "trade": "Literacy class in the school hall after a practice incident — learner and teacher",
+  "header": "Lower- and upper-secondary writing for life: a clear, factual report of something that happened in the scene, in order, separating what was seen from what was guessed.",
+  "name": "Writing a Clear Incident Report",
+  "tagline": "What happened, when, where, who, what was done — facts first, guesses labelled",
+  "badge": {
+    "id": "just-the-facts",
+    "name": "Just the Facts",
+    "note": "A report written in order, facts kept apart from guesses and read back for clarity"
+  },
+  "board": {
+    "name": "Report Board",
+    "currency": "LINES",
+    "ranks": [
+      "Noticer",
+      "Note-taker",
+      "Reporter",
+      "Editor",
+      "Writer"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "write-a-guess-as-fact",
+      "label": "Write down why they tripped as if you saw it?",
+      "face": "THEY WEREN'T\nLOOKING",
+      "text": "You wrote why the pupil tripped as if you had seen it. A report states what you saw; anything you think but did not see is labelled as what you think, or left out. Guesses written as facts can blame the wrong person and hide the real cause."
+    },
+    {
+      "id": "blame-in-the-report",
+      "label": "Write who was to blame?",
+      "face": "IT WAS\nTHEIR FAULT",
+      "text": "You wrote who was to blame. An incident report describes what happened so it can be put right; deciding blame is someone else's job, and a report that blames gets argued with instead of acted on."
+    },
+    {
+      "id": "wait-until-tomorrow",
+      "label": "Leave the report until tomorrow?",
+      "face": "DO IT\nTOMORROW",
+      "text": "You decided to write the report tomorrow. Memory fades and changes quickly, and a report written the same day is far more accurate; writing it while it is fresh is part of doing it properly."
+    },
+    {
+      "id": "name-people-carelessly",
+      "label": "Put classmates' full details in a report others will see?",
+      "face": "EVERYONE'S\nDETAILS",
+      "text": "You put classmates' details into a report that others would read. Reports go to the people who need them and include only the details they need; care with other people's information is part of writing responsibly."
+    }
+  ],
+  "find1": {
+    "title": "Find what the report needs",
+    "cue": "Mark the three things you saw that belong in the report.",
+    "why": "A good report starts with what you actually observed. Here that is the bag strap across the walkway, the pupil falling and holding their wrist, and the supervisor being called. Picking out the facts you saw, before writing a word, keeps the report accurate and useful.",
+    "items": [
+      [
+        "strap",
+        "the bag strap across the walkway",
+        "Something you saw. It may explain the fall — write it as what you saw."
+      ],
+      [
+        "fall",
+        "the pupil falling and holding their wrist",
+        "What happened, as seen. No guesses about why."
+      ],
+      [
+        "called",
+        "the supervisor being called",
+        "What was done. Reports include the response."
+      ]
+    ],
+    "decoy": [
+      "poster",
+      "a poster on the wall",
+      "Not part of what happened. Stick to what matters."
+    ]
+  },
+  "select1": {
+    "title": "Write the report while it is fresh",
+    "cue": "Start the report now, while you remember clearly.",
+    "why": "Memory is most accurate straight after something happens and changes quickly afterwards. Writing the report the same day, while details are fresh, is what makes it trustworthy, and it is what any workplace or school will ask for.",
+    "key": "fresh-card",
+    "label": "Write it the same day",
+    "face": "WRITE IT\nTODAY"
+  },
+  "seq": {
+    "title": "Put the report in order",
+    "cue": "What happened, when and where, who was involved, what was done.",
+    "why": "A report in a fixed order is easy to read and hard to misunderstand. Saying what happened first gives the reader the point; when and where set the scene; who was involved says who to ask; what was done shows the response. Readers find what they need without searching.",
+    "oon": "Out of order. Start with what happened, so the reader knows the point.",
+    "items": [
+      [
+        "ord-what",
+        "what happened"
+      ],
+      [
+        "ord-when",
+        "when and where"
+      ],
+      [
+        "ord-who",
+        "who was involved"
+      ],
+      [
+        "ord-done",
+        "what was done"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Recall exactly what you saw",
+    "cue": "Hold still and picture the moment before you write.",
+    "why": "Taking a moment to picture exactly what you saw, before writing, separates memory from assumption. It is often in that pause that you notice you did not actually see the pupil's foot catch, only the fall. Being honest about what you did not see is as important as reporting what you did.",
+    "brk": "You rushed into writing and mixed in a guess. Stop and picture what you actually saw.",
+    "key": "recall-hold",
+    "label": "Recalling what you saw"
+  },
+  "turn": {
+    "title": "Turn a guess into a statement of what you saw",
+    "cue": "Turn the dial from 'they weren't looking' to what you actually saw.",
+    "why": "Rewriting a guess as an observation is the core skill of report writing. 'They weren't looking' becomes 'I saw them fall near the strap'. The second can be checked; the first cannot, and could be unfair. Keeping to what you saw also protects the people involved from being judged on a guess.",
+    "key": "fact-dial",
+    "label": "Guess to fact",
+    "dial": "FACT"
+  },
+  "gauge": {
+    "title": "Keep sentences clear and short",
+    "cue": "Commit when your sentences are short enough to read at a glance but still complete.",
+    "why": "Long sentences hide facts and short fragments lose them. Clear, complete sentences of moderate length are what make a report readable by someone in a hurry, which is who usually reads them. The same fixed order also makes it easy to spot a part that has been left out before the report is handed in.",
+    "key": "clarity-meter",
+    "label": "Sentence length",
+    "meter": "CLEAR",
+    "miss": "Outside the band. Too long and the facts get lost; too clipped and they stop making sense. Try again."
+  },
+  "drag": {
+    "title": "Hand the report to the right person",
+    "cue": "Drag your report to the hall supervisor, who needs it.",
+    "why": "A report only helps once it reaches the person who can act on it. Handing it to the supervisor, rather than leaving it on a desk or sharing it around, means it gets acted on and other people's details stay private. A report left in a bag or shared around the class helps nobody and can hurt the people named in it.",
+    "key": "report-token",
+    "label": "Your report",
+    "spot": "supervisor-spot",
+    "spotLabel": "With the hall supervisor",
+    "miss": "Not in place yet. Take it all the way to with the hall supervisor."
+  },
+  "select2": {
+    "title": "Read the report back before handing it in",
+    "cue": "Read your report back as if you were someone who was not there.",
+    "why": "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught. Reading aloud slows you down enough to hear a missing word, a muddled order or a guess that crept in.",
+    "key": "readback-card",
+    "label": "Read it back",
+    "face": "READ IT\nBACK"
+  },
+  "find2": {
+    "id": "spot-the-problems-in-a-classmate",
+    "title": "Spot the problems in a classmate's report",
+    "cue": "Look at the draft report and mark each problem.",
+    "why": "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own. Reading someone else's draft with fresh eyes is easier than reading your own, which is why checking in pairs works so well.",
+    "items": [
+      [
+        "ir-guess",
+        "a guess written as fact",
+        "Did they see it? Label it or leave it out."
+      ],
+      [
+        "ir-blame",
+        "blame instead of description",
+        "Describe what happened; blame is not the report's job."
+      ],
+      [
+        "ir-no-response",
+        "nothing on what was done",
+        "The response belongs in every report."
+      ]
+    ],
+    "decoy": [
+      "ir-time",
+      "the time and place given",
+      "When and where are exactly right. Keep them."
+    ]
+  },
+  "track": {
+    "title": "Keep the report factual to the end",
+    "cue": "Hold the report in band with what you saw as you finish the last lines.",
+    "why": "The end of a report is where opinions creep in: a summary, a judgement, a suggestion of fault. Keeping the last lines as factual as the first is what makes the whole report trustworthy. A single guess stated as fact can make a reader doubt every other line, even the lines that are true.",
+    "brk": "The report drifted into opinion. Bring the last lines back to what you saw.",
+    "key": "track-meter",
+    "label": "Staying factual",
+    "meter": "FACTUAL"
+  },
+  "record": {
+    "title": "File the report",
+    "cue": "File the finished report where the school keeps them.",
+    "why": "Filing the report means it can be found later if the incident needs following up, and it helps the school spot patterns, like a walkway where bags are always left. A filed report does more good than a remembered one.",
+    "key": "report-log",
+    "label": "Report record",
+    "done": "Report filed"
+  },
+  "share": {
+    "title": "Share one report-writing tip",
+    "cue": "Tell the class one thing that made your report clearer.",
+    "why": "Sharing a tip helps classmates and fixes it in your own memory. The best tips are simple: write it today, facts first, read it back. Sharing them with classmates means a whole class knows how to report clearly, which helps the school when something does go wrong.",
+    "key": "share-board",
+    "label": "Share with the class",
+    "done": "Tips shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did the report go? Which part was hardest?",
+    "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and gives each learner a moment to notice what they can now do. Nobody is marked here, and a teacher or trusted adult is there for anyone who wants to talk more.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "the-pupil-looks-pale",
+      "kind": "Pupil unwell",
+      "key": "call-the-supervisor",
+      "label": "Call the supervisor at once",
+      "alert": "While you write, the pupil who fell says they feel sick and looks pale.",
+      "cue": "Stop writing and call the supervisor straight away; the report can wait.",
+      "why": "A report is never more important than a person. When someone looks unwell, the right thing is to stop and get an adult at once; the report can be finished afterwards.",
+      "miss": "Nobody called the supervisor, and the pupil was left alone while the reports were finished.",
+      "wrong": "That does not get help. Call the supervisor. Choose the response that deals with it now.",
+      "done": "Supervisor called at once. The report was finished afterwards."
+    },
+    {
+      "id": "the-supervisor-asks-did-you-see-it",
+      "kind": "Supervisor question",
+      "key": "say-what-you-saw",
+      "label": "Say what you saw and what you did not",
+      "alert": "The supervisor asks whether you saw the pupil trip on the strap.",
+      "cue": "Say exactly what you saw, and say plainly what you did not see.",
+      "why": "Saying what you did not see is as important as what you did. It stops a guess becoming the official version, and it is what makes your report trustworthy to the supervisor.",
+      "miss": "You said yes to be helpful, though you only saw the fall, and the report now states it as fact.",
+      "wrong": "That goes beyond what you saw. Say what you saw and what you did not.",
+      "done": "Seen and not seen, both stated. The supervisor can rely on the report."
+    }
+  ],
+  "crew": [
+    "Literacy teacher",
+    "Classmate",
+    "Hall supervisor",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Seen, not guessed.",
+    "after": "What, when, where, who, what was done.",
+    "hazard": "Stop. Did you see that, or are you guessing?"
+  },
+  "lateRecord": "The report is filed once it is written and read back — nothing to file yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "wall",
+  "order": "b",
+  "desk": "#8a5ab0"
+}

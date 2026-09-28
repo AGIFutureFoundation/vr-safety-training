@@ -1,0 +1,263 @@
+{
+  "id": "k12-buoyancy-and-pressure-in-the-deep",
+  "index": "807",
+  "prefix": "kbd",
+  "accent": "#4fb88a",
+  "floor": [
+    "#6d7470",
+    "#616864"
+  ],
+  "wall": [
+    "#dfe6e2",
+    "#cfd8d4"
+  ],
+  "trade": "Science class at the Deep's viewing platform — learner and teacher",
+  "header": "Upper-primary and lower-secondary science, qualitative only: why things float or sink and why water pushes harder the deeper you go, watched from the Deep's viewing platform with no depth figures stated.",
+  "name": "Buoyancy and Pressure in the Deep",
+  "tagline": "Float or sink is a push-up against a pull-down — and deeper water pushes harder",
+  "badge": {
+    "id": "float-or-sink",
+    "name": "Float or Sink",
+    "note": "Predictions made, tested fairly and explained with the upward push of the water"
+  },
+  "board": {
+    "name": "Buoyancy Board",
+    "currency": "BUBBLES",
+    "ranks": [
+      "Observer",
+      "Predictor",
+      "Tester",
+      "Explainer",
+      "Scientist"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "heavy-things-always-sink",
+      "label": "Say heavy things always sink?",
+      "face": "HEAVY =\nSINKS",
+      "text": "You said heavy things always sink. Whether something floats depends on how much water it pushes aside compared with its own weight, which is why a large ship floats and a small stone sinks. Heavy on its own does not decide it; the shape and the space it takes up matter too."
+    },
+    {
+      "id": "change-two-things-at-once",
+      "label": "Change the shape and the material in one test?",
+      "face": "CHANGE\nEVERYTHING",
+      "text": "You changed the shape and the material in the same test. When two things change at once, you cannot tell which one made the difference; a fair test changes one thing and keeps the rest the same."
+    },
+    {
+      "id": "lean-over-the-viewing-rail",
+      "label": "Lean over the viewing rail for a closer look?",
+      "face": "LEAN OVER\nTHE RAIL",
+      "text": "You leaned over the viewing rail. The rail is there because the edge is a drop into water, and the guide brings the test tank to the bench so nobody needs to lean; the lesson happens on the safe side of the rail."
+    },
+    {
+      "id": "say-pressure-is-the-same-everywhere",
+      "label": "Say the water pushes the same at every depth?",
+      "face": "SAME PUSH\nEVERYWHERE",
+      "text": "You said the water pushes the same at every depth. The deeper you go, the more water is above, and the harder it pushes from every side; that is why the holes lower down on the test bottle squirt furthest, and why deep-water equipment is built so strongly."
+    }
+  ],
+  "find1": {
+    "title": "Find what you will test",
+    "cue": "Mark the three objects on the bench you will predict and test.",
+    "why": "A good test starts with a clear set of things to try. Here that is a solid block, the same material shaped into a hollow boat, and a sealed bottle with air inside. Picking objects that differ in one useful way each is what lets the results teach something rather than just entertain.",
+    "items": [
+      [
+        "block",
+        "the solid block",
+        "A solid lump of material. Predict: float or sink?"
+      ],
+      [
+        "boat",
+        "the same material shaped as a boat",
+        "The same material, a different shape. This is the interesting one."
+      ],
+      [
+        "bottle",
+        "the sealed bottle of air",
+        "Mostly air inside. Predict what happens and why."
+      ]
+    ],
+    "decoy": [
+      "platform-sign",
+      "the platform's painted sign",
+      "Part of the platform, not the test. Choose the objects on the bench."
+    ]
+  },
+  "select1": {
+    "title": "Take your place behind the viewing rail",
+    "cue": "Stand behind the rail; the guide brings the test tank to the bench.",
+    "why": "The viewing rail marks the edge of a drop into water, and every visit starts behind it. The guide brings the test tank to the bench precisely so that curiosity never needs to lean over anything; following the platform's rule comes before the experiment.",
+    "key": "rail-card",
+    "label": "Stay behind the viewing rail",
+    "face": "BEHIND\nTHE RAIL"
+  },
+  "seq": {
+    "title": "Put the test in order",
+    "cue": "Predict, test one change, observe, explain.",
+    "why": "Writing a prediction before testing means the result can surprise you, which is where learning happens. Changing one thing at a time keeps the test fair, observing carefully keeps it honest, and explaining in terms of the water's upward push turns a result into understanding.",
+    "oon": "Out of order. Predict before you test, or the result cannot surprise you.",
+    "items": [
+      [
+        "ord-predict",
+        "predict"
+      ],
+      [
+        "ord-change",
+        "change one thing"
+      ],
+      [
+        "ord-observe",
+        "observe"
+      ],
+      [
+        "ord-explain",
+        "explain"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Watch the boat settle without touching it",
+    "cue": "Keep still and watch where the boat settles in the water.",
+    "why": "Watching an object settle, without nudging it, shows how low it sits once the water's upward push balances its weight. Touching it spoils the observation; patient watching is what lets you see the balance the whole topic is about. Floating is a balance between the object's weight and the water's upward push, and you can watch it settle.",
+    "brk": "You nudged the boat and spoiled the observation. Let it settle again on its own.",
+    "key": "watch-boat",
+    "label": "Watching the boat settle"
+  },
+  "turn": {
+    "title": "Turn the block into a boat",
+    "cue": "Turn the dial from the solid block to the same material shaped as a boat.",
+    "why": "Changing only the shape, and keeping the same material and amount, is the fair test that shows shape matters. A hollow shape pushes aside more water, so the water pushes up harder, and the same material that sank can float. That is why a heavy steel ship floats while a small steel bolt sinks straight to the bottom.",
+    "key": "shape-dial",
+    "label": "Block to boat",
+    "dial": "BOAT"
+  },
+  "gauge": {
+    "title": "Load the boat until it sits low but still floats",
+    "cue": "Commit when the boat is loaded low in the water but still floating.",
+    "why": "Adding cargo makes the boat sit lower as it pushes aside more water to balance the extra weight. Stopping while it still floats shows that balance at its limit, and it is the idea behind the load lines painted on real ships' hulls. Crews check those marks so a ship is never loaded so deep that it becomes unsafe.",
+    "key": "load-meter",
+    "label": "Cargo in the boat",
+    "meter": "CARGO",
+    "miss": "Outside the band. Too little and nothing is learned; too much and it sinks. Load it again."
+  },
+  "drag": {
+    "title": "Put your result on the class board",
+    "cue": "Drag your result card onto the class results board beside everyone else's.",
+    "why": "One result can be a fluke; many results from the class together show a pattern. Putting yours beside everyone else's is how science builds confidence in a finding, and it lets the class spot any result that needs repeating. Putting every group's results side by side shows which findings are solid and which were flukes.",
+    "key": "result-token",
+    "label": "Your result card",
+    "spot": "results-spot",
+    "spotLabel": "On the class results board",
+    "miss": "Not in place yet. Take it all the way to on the class results board."
+  },
+  "select2": {
+    "title": "Explain the squirting bottle",
+    "cue": "Water squirts furthest from the lowest hole. Say why.",
+    "why": "The lowest hole has the most water above it, so the water there pushes hardest and squirts furthest. Explaining that with the idea of water pressing from above is the qualitative understanding of pressure this lesson aims at, without needing any figures.",
+    "key": "depth-card",
+    "label": "Deeper water pushes harder",
+    "face": "DEEPER =\nHARDER PUSH"
+  },
+  "find2": {
+    "id": "spot-the-problems-in-a-classmate",
+    "title": "Spot the problems in a classmate's conclusion",
+    "cue": "Look at the draft conclusion and mark each problem.",
+    "why": "A conclusion should follow from the evidence and use the right idea to explain it. The usual problems are explaining floating by weight alone, drawing a conclusion from an unfair test and ignoring a result that did not fit. Spotting them makes your own conclusions stronger.",
+    "items": [
+      [
+        "con-weight",
+        "floating explained by weight alone",
+        "Weight is only half of it. Where is the water's upward push?"
+      ],
+      [
+        "con-unfair",
+        "a conclusion from an unfair test",
+        "Two things changed at once. Which one made the difference?"
+      ],
+      [
+        "con-ignored",
+        "a result that did not fit, left out",
+        "Odd results are kept and discussed, not hidden."
+      ]
+    ],
+    "decoy": [
+      "con-prediction",
+      "the prediction written first",
+      "Writing the prediction first is good practice. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep your observations matched to what you see",
+    "cue": "Hold your notes in band with what the tank actually shows as objects settle.",
+    "why": "It is easy to write what you expected rather than what happened. Keeping notes matched to the tank, including surprises, is the honesty that makes a science result worth trusting. A surprise is often where the most interesting question in the whole lesson is hiding.",
+    "brk": "Your notes drifted from what the tank shows. Look again and write what you see.",
+    "key": "track-meter",
+    "label": "Honest observation",
+    "meter": "HONEST"
+  },
+  "record": {
+    "title": "Record predictions, results and explanations",
+    "cue": "Write each prediction, what happened, and the explanation using the water's push.",
+    "why": "Recording predictions alongside results shows where your thinking changed, which is the real evidence of learning. Anyone can repeat the test from your record and check your explanation.",
+    "key": "lab-log",
+    "label": "Lab record",
+    "done": "Predictions and results recorded"
+  },
+  "share": {
+    "title": "Explain the boat to the class",
+    "cue": "Explain why the boat floats when the block of the same material sinks.",
+    "why": "Explaining the boat and the block to the class, using the push of the water, is the clearest test of whether the idea has landed. Classmates who predicted wrongly learn most from an explanation that uses the same objects they saw. Using the real objects keeps the explanation honest, because everyone can check it against what happened.",
+    "key": "share-board",
+    "label": "Share with the class",
+    "done": "Explanation shared"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did the experiment go? What surprised you, and what would you test next?",
+    "why": "Ending with a short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the lesson hard can talk to the teacher or a trusted adult afterwards.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "the-tank-starts-to-overflow",
+      "kind": "Overflow",
+      "key": "stop-and-tell-guide",
+      "label": "Stop pouring and tell the guide",
+      "alert": "The test tank starts to overflow onto the platform floor near the rail.",
+      "cue": "Stop adding water, step back from the wet patch and tell the guide.",
+      "why": "Water on a platform floor beside a rail is a slip hazard in exactly the wrong place. Stopping, stepping back and telling the guide, who can mop and mark it, comes before the experiment.",
+      "miss": "Nobody told the guide, and a classmate slipped on the wet floor by the rail. Next time, stop the lesson and deal with it first.",
+      "wrong": "That does not deal with the spill. Stop and tell the guide. Choose the response that deals with it now.",
+      "done": "Guide told, floor mopped and marked. The test carries on at the bench."
+    },
+    {
+      "id": "the-guide-asks-why-ships-float",
+      "kind": "Guide question",
+      "key": "explain-push",
+      "label": "Explain with the water's upward push",
+      "alert": "The platform guide asks how a huge metal ship can float when a small metal nut sinks.",
+      "cue": "Explain using shape and the water's upward push, not weight alone.",
+      "why": "The guide is checking whether the boat-and-block result transfers to something new. Explaining that the ship's hollow shape pushes aside a great deal of water, so the upward push balances its weight, shows real understanding.",
+      "miss": "You said the ship was lighter than it looks, which is not why it floats. Next time, stop the lesson and deal with it first.",
+      "wrong": "That explains by weight alone. Use the shape and the water's push.",
+      "done": "Explained with shape and the water's push. The idea has transferred."
+    }
+  ],
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Platform guide",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Predict, test, explain.",
+    "after": "Water pushes up; deeper water pushes harder.",
+    "hazard": "Stop. Heavy is not the whole story — think about the push of the water."
+  },
+  "lateRecord": "The lab record is written once the tests are done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "deck",
+  "order": "b",
+  "desk": "#4f9a7a"
+}
