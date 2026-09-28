@@ -1225,6 +1225,29 @@ function renderDebrief(s) {
   </details>`;
 }
 
+/**
+ * The station after `roomId` in the programme this run belongs to — the one
+ * the learner followed here (?programme= or an instructor's assignment) when
+ * it holds the station, else the first programme that does — as
+ * { href, label, programme }, or null at a programme's end. A SmartCiti.X
+ * station stays on this page (?sim=), a Trade Skills room opens that app
+ * (?room=); either keeps the world's ?from= and ?return= so "Back to <world>"
+ * still leads home after it (console POLISH).
+ */
+function thNextStation(roomId) {
+  const holds = (c) => c.stations.some((x) => x.id === roomId);
+  const pick = CURRICULA.find((c) => c.id === assignedProgram && holds(c)) ?? CURRICULA.find(holds);
+  if (!pick) return null;
+  const next = pick.stations[pick.stations.findIndex((x) => x.id === roomId) + 1];
+  if (!next) return null;
+  const here = new URLSearchParams(location.search);
+  const keep = ["from", "return"].filter((k) => here.get(k)).map((k) => `&${k}=${encodeURIComponent(here.get(k))}`).join("");
+  const id = encodeURIComponent(next.id);
+  const href = next.app === "trades" ? `../trades/index.html?room=${id}${keep}` : `${location.pathname}?sim=${id}${keep}`;
+  const meta = SIMS_META_BY_ID[next.id];
+  return { href, label: meta?.title ?? meta?.name ?? next.id.replace(/-/g, " "), programme: pick.name ?? pick.id };
+}
+
 function showResults(s, summary) {
   const room = s.room;
   const rank = Progress.simRank(room.id, room.game);
@@ -1265,9 +1288,7 @@ function showResults(s, summary) {
     ${renderCheckIn(s)}
     ${state.tour ? renderTourFooter() : ""}
     ${inLevel ? renderLevelFooter(levelTask, s) : ""}
-    ${ppRunnerReturn ? `<p class="res-note res-return"><a id="res-return" href="${escapeHtml(ppRunnerReturn.url)}"
-      style="display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:#04121a;font-weight:700;text-decoration:none">${escapeHtml(ppRunnerReturn.label)}</a>
-      <span class="muted">This run is on your passport; the board there is marked and paid once.</span></p>` : ""}`;
+    ${ppRunnerReturn ? `<p class="res-note res-return muted">This run is on your passport; the board in ${escapeHtml(ppRunnerReturn.label.replace(/^Back to /, ""))} is marked and paid once.</p>` : ""}`;
   // Where the learner stood on every competency BEFORE this run, so a
   // competency this run just earned can be told apart from one they already
   // had (see shared/competency.js and the Proof tab).
@@ -1331,6 +1352,10 @@ function showResults(s, summary) {
     // run uses the same button for its next task, then for the level's results.
     showNext: (touring && !tourDone) || flowPending || inLevel,
     retryPrimary: !flowPending && !inLevel && (!touring || tourDone),
+    // The next station in this run's programme, and the way home to the world
+    // that launched it (console POLISH): links, so they work as links do.
+    nextStation: flowPending || inLevel || touring ? null : thNextStation(room.id),
+    returnTo: ppRunnerReturn ? { url: ppRunnerReturn.url, label: ppRunnerReturn.label } : null,
     nextLabel: flowPending ? `Continue the flow → ${flowNextLabel()}`
       : inLevel ? (levelNext ? `Next task → ${levelTaskName(levelNext)}` : "Level results →")
       : "Next stop →",

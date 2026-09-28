@@ -458,7 +458,13 @@ export function mountUI(store, actions) {
         h("div", { className: "btnrow" },
           h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, results.nextLabel ?? "Next stop →"),
           h("button", { className: results.retryPrimary ? "primary" : "", id: "res-retry", onClick: actions.retryResult }, "Run it again"),
-          h("button", { id: "res-hub", onClick: actions.backToHub }, "Back to campus"))));
+          h("button", { id: "res-hub", onClick: actions.backToHub }, "Back to campus")),
+        // The next station in the programme and the way home to the world
+        // that launched this run (console POLISH).
+        (results.nextStation || results.returnTo) && h("div", { className: "btnrow res-onward" },
+          results.nextStation && h("a", { className: "btn primary", id: "res-next-station", href: results.nextStation.href,
+            "aria-label": `Next station in ${results.nextStation.programme}: ${results.nextStation.label}` }, `Next station → ${results.nextStation.label}`),
+          results.returnTo && h("a", { className: "btn", id: "res-return", href: results.returnTo.url }, results.returnTo.label))));
   }
 
   function LeaderboardCard() {
