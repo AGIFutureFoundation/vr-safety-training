@@ -33,6 +33,8 @@ const CHECKERS = [
   // One learner, one ledger, one set of records across every app (docs/interop.md).
   "check_interop.mjs",
   "check_ui.mjs",
+  // The Guide on every page, its knowledge base and its answers (docs/consoles/COMPASS.md).
+  "check_guide.mjs",
 ];
 
 let failed = 0;

@@ -1,5 +1,6 @@
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { ctlMount } from "../../shared/controls.js";
+import { gdMount } from "../../shared/guide.js";
 import { ARCADE_CABINETS } from "./cabinets.js";
 import { arLoadScores, arSubmitScore, ARCADE_TABLE_SIZE } from "./scores.js";
 import { arCreateAudio } from "./audio.js";
@@ -416,6 +417,8 @@ requestAnimationFrame(aaFrame);
 aaShow("menu");
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+// The Guide (shared/guide.js): the floating help button and its question panel.
+gdMount();
 ctlMount({
   world: "the Arcade",
   helpWhen: () => aa.screen !== "playing",

@@ -169,6 +169,8 @@ export function deviceLine(devicesMd) {
 const LAYOUTS = {
   repo: {
     out: "index.html",
+    // The Guide's links point into the published folder (console COMPASS).
+    guideRoot: "./dist/",
     app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html" },
     aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
@@ -179,6 +181,7 @@ const LAYOUTS = {
   },
   flat: {
     out: "home.html",
+    guideRoot: "./",
     app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", regatta: "regatta.html", underwater: "underwater.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
@@ -1667,6 +1670,7 @@ ${docs}
 <script type="module">${SCRIPT}</script>
 <script type="module">${hmScript(layout)}</script>
 <script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: false, except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { gdMount } from "./shared/guide.js"; gdMount({ root: ${JSON.stringify(layout.guideRoot)}, y: 0.9 });</script>
 </body>
 </html>
 `;

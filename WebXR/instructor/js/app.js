@@ -1,5 +1,6 @@
 import { createConsole, reduceRoster, COMMAND_LABELS, relayFromSearch } from "../../shared/observer.js";
 import { ctlMount } from "../../shared/controls.js";
+import { gdMount } from "../../shared/guide.js";
 import { validateFlow, flowFromJSON } from "../../shared/flowhub.js";
 import { DEVICES, PROFILES } from "../../shared/devices.js";
 import { buildRoster, matchStation, matchProgramme } from "./roster.js";
@@ -637,6 +638,8 @@ render();
 mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS });
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+// The Guide (shared/guide.js): the floating help button and its question panel.
+gdMount();
 ctlMount({
   world: "the instructor console",
   except: {
