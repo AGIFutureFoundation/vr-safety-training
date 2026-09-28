@@ -1,5 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+// Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
+import { qmMountSideGames } from "../../shared/skill-gates-ui.js";
+import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { gdMount } from "../../shared/guide.js";
 // Hidden treasures (shared/treasures.js, docs/treasures.md).
 import { tzWatchWorld } from "../../shared/treasures.js";
@@ -618,3 +621,6 @@ ctlMount({
     { label: "Pick a club", keys: ["1", "2", "3", "4"], pad: "—", touch: "Club buttons" },
   ],
 });
+
+// The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
+qmMountSideGames({ world: "fairway", worldName: "Fairway Park", items: QM_WORLD_GAMES.fairway, from: "fairway", page: ppHerePage() });

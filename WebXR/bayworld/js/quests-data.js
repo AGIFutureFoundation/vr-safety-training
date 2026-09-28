@@ -6,7 +6,8 @@
  * The Bay World quest layer's data: the Job Readiness Edition's main story
  * arc, one opener and one capstone side quest per every other programme,
  * the easter-egg field notes at generic public landmarks, the Field Guide's
- * wildlife-sighting eggs, and the scored side activities. See
+ * wildlife-sighting eggs, the scored side activities and the skill-gated
+ * side quests (GATED_QUESTS, docs/skill-gates.md). See
  * docs/bayworld-quests.md.
  *
  * Quest shape (BAY2's WebXR/bayworld/ quest engine):
@@ -6663,3 +6664,636 @@ export const LANDMARK_NOTES = {
   "Skyline Lookout": "A hillside lookout point along the ridge road.",
   "Bay Trail — Oakland Segment": "A shoreline path along the bay's edge."
 };
+
+export const GATED_QUESTS = [
+  {
+    "id": "bw-gated-night-shift-crane-puzzle",
+    "title": "Night-Shift Crane Puzzle",
+    "giver": "the night-shift lift supervisor",
+    "site": "Rigging and Lifting",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "rigging-lifting",
+    "gate": {
+      "stations": [
+        "crane-yard",
+        "dock-crane"
+      ],
+      "note": "Crane yard and dock crane stations before you take a night-shift lift."
+    },
+    "practices": [
+      "lift",
+      "comms",
+      "fatigue"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Rigging and Lifting",
+        "text": "The night shift is short a signalperson. Head to the terminal's crane lane."
+      },
+      {
+        "type": "talk",
+        "target": "night-shift-lift-supervisor",
+        "text": "\"Three lifts, one order that works. Sequence them so nobody stands under a load.\""
+      },
+      {
+        "type": "find",
+        "target": "Rigging and Lifting",
+        "text": "Walk the lift area and confirm it is clear before you call the first pick."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "night-shift crane crew hard-hat sticker"
+    }
+  },
+  {
+    "id": "bw-gated-class-a-delivery-run",
+    "title": "Timed-but-Safe Delivery Run",
+    "giver": "the yard dispatcher",
+    "site": "Job Readiness Edition — wojrc.org programmes",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "job-readiness-edition",
+    "gate": {
+      "stations": [
+        "tdl-pretrip-inspection",
+        "tdl-air-brake-test"
+      ],
+      "quests": [
+        "bw-main-02-yard"
+      ],
+      "note": "Pre-trip, air-brake test and Yard Qualified before you take a delivery run."
+    },
+    "practices": [
+      "inspect",
+      "traffic",
+      "fatigue"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Job Readiness Edition — wojrc.org programmes",
+        "text": "The dispatcher has a load waiting at the training yard."
+      },
+      {
+        "type": "talk",
+        "target": "yard-dispatcher",
+        "text": "\"The clock is on the board, but the score is the checks. A fast run with a skipped check does not count.\""
+      },
+      {
+        "type": "drive",
+        "target": "Job Readiness Edition — wojrc.org programmes",
+        "text": "Drive the route at a steady, legal pace."
+      },
+      {
+        "type": "find",
+        "target": "Job Readiness Edition — wojrc.org programmes",
+        "text": "Walk around the rig at the dock before you sign the delivery off."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "delivery-run dispatcher's cab pennant"
+    }
+  },
+  {
+    "id": "bw-gated-grid-restoration-puzzle",
+    "title": "Grid Restoration Puzzle",
+    "giver": "the storm-response foreman",
+    "site": "Inside Wireman — First Period",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "electrical-first-period",
+    "gate": {
+      "stations": [
+        "line-truck",
+        "substation-switching"
+      ],
+      "note": "Line truck and substation switching stations before you restore the grid."
+    },
+    "practices": [
+      "lockout",
+      "plan",
+      "comms"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Inside Wireman — First Period",
+        "text": "A storm took down a feeder. Report to the substation yard."
+      },
+      {
+        "type": "talk",
+        "target": "storm-response-foreman",
+        "text": "\"Restore the circuits in an order that never back-feeds a crew. Every switch gets a read-back.\""
+      },
+      {
+        "type": "find",
+        "target": "Inside Wireman — First Period",
+        "text": "Check the switching order posted at the yard gate before anything is closed."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "lineman's storm-crew glove tag"
+    }
+  },
+  {
+    "id": "bw-gated-kitchen-rush",
+    "title": "Kitchen Rush",
+    "giver": "the sous chef",
+    "site": "Culinary — The Working Kitchen",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "culinary-kitchen",
+    "gate": {
+      "stations": [
+        "kitchen",
+        "knife-skills",
+        "allergen-control"
+      ],
+      "note": "Kitchen, knife skills and allergen control stations before the dinner rush."
+    },
+    "practices": [
+      "allergen",
+      "spill",
+      "fatigue"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Culinary — The Working Kitchen",
+        "text": "Restaurant Row is slammed. The sous chef needs a hand on the line."
+      },
+      {
+        "type": "talk",
+        "target": "sous-chef",
+        "text": "\"Tickets come fast. Clean calls, clean boards, and every allergy flag stops the line.\""
+      },
+      {
+        "type": "find",
+        "target": "Culinary — The Working Kitchen",
+        "text": "Find the allergen board by the pass and read tonight's flags."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "line cook's embroidered apron patch"
+    }
+  },
+  {
+    "id": "bw-gated-lashing-relay",
+    "title": "Container Lashing Relay",
+    "giver": "the lashing gang boss",
+    "site": "Port and Terminal Operations",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "port-operations",
+    "gate": {
+      "stations": [
+        "container-lashing",
+        "po-lashing-gear-inspection-and-tagging"
+      ],
+      "note": "Container lashing and lashing-gear inspection before the lashing relay."
+    },
+    "practices": [
+      "inspect",
+      "zone",
+      "comms"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Port and Terminal Operations",
+        "text": "A vessel is working late at the container terminal."
+      },
+      {
+        "type": "talk",
+        "target": "lashing-gang-boss",
+        "text": "\"The relay is about gear, not speed: every rod and turnbuckle gets looked at before it goes up.\""
+      },
+      {
+        "type": "find",
+        "target": "Port and Terminal Operations",
+        "text": "Find the tagged-out gear bin and check nothing in it went back into use."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "lashing gang's twistlock key-ring"
+    }
+  },
+  {
+    "id": "bw-gated-confined-space-standby",
+    "title": "Confined Space Standby",
+    "giver": "the entry supervisor",
+    "site": "Confined Space — Entry and Rescue",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "confined-space",
+    "gate": {
+      "stations": [
+        "confined-rescue",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "note": "Confined-space rescue and attendant duties before you stand by on an entry."
+    },
+    "practices": [
+      "plan",
+      "comms",
+      "stopwork"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Confined Space — Entry and Rescue",
+        "text": "A vault entry is scheduled at the utility yard."
+      },
+      {
+        "type": "talk",
+        "target": "entry-supervisor",
+        "text": "\"You are the attendant. You never go in, and you stop the job the moment anything on the permit changes.\""
+      },
+      {
+        "type": "find",
+        "target": "Confined Space — Entry and Rescue",
+        "text": "Find the posted entry permit and check it covers today's work."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "entry attendant's clipboard pin"
+    }
+  },
+  {
+    "id": "bw-gated-rooftop-solar-sweep",
+    "title": "Rooftop Solar Sweep",
+    "giver": "the solar crew lead",
+    "site": "Energy Transition Systems",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "energy-transition",
+    "gate": {
+      "stations": [
+        "solar-deck",
+        "leading-edge-and-horizontal-lifeline"
+      ],
+      "note": "Solar deck and leading-edge lifeline stations before the rooftop sweep."
+    },
+    "practices": [
+      "ppe",
+      "inspect",
+      "weather"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Energy Transition Systems",
+        "text": "A rooftop array needs an inspection sweep near the transmission corridor."
+      },
+      {
+        "type": "talk",
+        "target": "solar-crew-lead",
+        "text": "\"Tie off before the edge, check the anchors, and if the wind picks up we come down.\""
+      },
+      {
+        "type": "find",
+        "target": "Energy Transition Systems",
+        "text": "Find the roof anchor points and check each one before you clip in."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "solar crew's sun-and-anchor patch"
+    }
+  },
+  {
+    "id": "bw-gated-water-main-night-call",
+    "title": "Water Main Night Call",
+    "giver": "the night-call crew chief",
+    "site": "Water and Gas Utility Crews — Distribution Authority",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "water-and-gas-utility-crews",
+    "gate": {
+      "stations": [
+        "ut-water-main-break-emergency-shutdown-and-excavation",
+        "ut-night-storm-response-crew-and-portable-generator"
+      ],
+      "note": "Water-main shutdown and night storm response before you take a night call."
+    },
+    "practices": [
+      "traffic",
+      "plan",
+      "fatigue"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Water and Gas Utility Crews — Distribution Authority",
+        "text": "A main has broken on a dark street. Meet the crew at the utility yard."
+      },
+      {
+        "type": "talk",
+        "target": "night-call-crew-chief",
+        "text": "\"Traffic control first, then the valves, then the dig. Nobody works tired on a night call.\""
+      },
+      {
+        "type": "find",
+        "target": "Water and Gas Utility Crews — Distribution Authority",
+        "text": "Find the valve map at the truck and confirm the shutdown order."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "night-call crew's reflective helmet band"
+    }
+  },
+  {
+    "id": "bw-gated-air-sensor-network",
+    "title": "Air Sensor Network Hunt",
+    "giver": "the community science lead",
+    "site": "Hunters Point Edition — Can We Live?",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "hunters-point-can-we-live",
+    "gate": {
+      "stations": [
+        "air-sensor-install",
+        "sensor-colocation-check"
+      ],
+      "note": "Air sensor install and co-location check before you service the network."
+    },
+    "practices": [
+      "plan",
+      "inspect",
+      "zone"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Hunters Point Edition — Can We Live?",
+        "text": "The neighbourhood sensor network has three units reporting oddly."
+      },
+      {
+        "type": "talk",
+        "target": "community-science-lead",
+        "text": "\"Find them, check the mounts and the co-location notes, and log what you see — not what you expect.\""
+      },
+      {
+        "type": "find",
+        "target": "Hunters Point Edition — Can We Live?",
+        "text": "Find the sensor mount by the trailhead and check its log card."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "community scientist's sensor badge"
+    }
+  },
+  {
+    "id": "bw-gated-bus-yard-brake-rally",
+    "title": "Bus Yard Brake Rally",
+    "giver": "the depot lead mechanic",
+    "site": "Transit and Ramp Operations",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "transit-ramp",
+    "gate": {
+      "stations": [
+        "bus-yard-fuelling-and-brake-check"
+      ],
+      "note": "The bus yard fuelling and brake check station before the brake rally."
+    },
+    "practices": [
+      "inspect",
+      "spill",
+      "zone"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Transit and Ramp Operations",
+        "text": "The morning pull-out is coming. The depot needs its brake checks done."
+      },
+      {
+        "type": "talk",
+        "target": "depot-lead-mechanic",
+        "text": "\"Every bus gets the same check in the same order. A bus that fails stays in the yard.\""
+      },
+      {
+        "type": "find",
+        "target": "Transit and Ramp Operations",
+        "text": "Find the defect board and make sure yesterday's failed bus is still tagged."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "depot mechanic's brake-shoe pin"
+    }
+  },
+  {
+    "id": "bw-gated-stage-load-in",
+    "title": "Stage Load-In Puzzle",
+    "giver": "the head rigger",
+    "site": "Live Events Production",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "live-events",
+    "gate": {
+      "stations": [
+        "stage-load-in-and-truss-rigging",
+        "chain-hoist"
+      ],
+      "note": "Stage load-in and chain hoist stations before you rig the show."
+    },
+    "practices": [
+      "lift",
+      "zone",
+      "comms"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Live Events Production",
+        "text": "A show loads in at the stadium tonight."
+      },
+      {
+        "type": "talk",
+        "target": "head-rigger",
+        "text": "\"Fly the truss in an order where nobody is ever under a moving load, and call every move.\""
+      },
+      {
+        "type": "find",
+        "target": "Live Events Production",
+        "text": "Find the rigging plot at the stage door and check it against the hoists."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "show rigger's truss-clamp pin"
+    }
+  },
+  {
+    "id": "bw-gated-banquet-room-flip",
+    "title": "Banquet Room Flip",
+    "giver": "the banquet captain",
+    "site": "Hotel Workers — Back of House",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "hotel-workers",
+    "gate": {
+      "stations": [
+        "hw-banquet-room-flip-and-staging"
+      ],
+      "programmes": [
+        {
+          "id": "hotel-workers",
+          "minStars": 4
+        }
+      ],
+      "note": "The banquet room flip station and some hotel-worker stars before a room flip."
+    },
+    "practices": [
+      "plan",
+      "fatigue",
+      "spill"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Hotel Workers — Back of House",
+        "text": "A ballroom has to turn from lunch to a gala at Hotel Row."
+      },
+      {
+        "type": "talk",
+        "target": "banquet-captain",
+        "text": "\"Carts, tables, risers: we lift as a team and we flip by the plan, not by the clock.\""
+      },
+      {
+        "type": "find",
+        "target": "Hotel Workers — Back of House",
+        "text": "Find the floor plan for tonight and check the exits stay clear."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "banquet captain's lapel pin"
+    }
+  },
+  {
+    "id": "bw-gated-map-scale-orienteering",
+    "title": "Map-Scale Orienteering",
+    "giver": "the civic-center guide",
+    "site": "K-12 Practical Maths",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "k12-practical-math",
+    "gate": {
+      "k12": [
+        "k12-reading-a-map-scale-in-bay-world"
+      ],
+      "note": "The K-12 map-scale lesson before you run the orienteering course."
+    },
+    "practices": [
+      "plan",
+      "weather",
+      "stopwork"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "K-12 Practical Maths",
+        "text": "An orienteering course starts at the civic center."
+      },
+      {
+        "type": "talk",
+        "target": "civic-center-guide",
+        "text": "\"Measure each leg on the map with the scale before you walk it, and stay on the paths.\""
+      },
+      {
+        "type": "find",
+        "target": "K-12 Practical Maths",
+        "text": "Find the course board and plan your first leg with the scale bar."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "orienteer's compass-rose badge"
+    }
+  },
+  {
+    "id": "bw-gated-union-hall-mentor-round",
+    "title": "Union Hall Mentor Round",
+    "giver": "the hall's mentor",
+    "site": "Job Readiness Edition — wojrc.org programmes",
+    "kind": "gated",
+    "tier": 2,
+    "requires": null,
+    "programmeId": "job-readiness-edition",
+    "gate": {
+      "stations": [
+        "union-hall-and-dispatch"
+      ],
+      "quests": [
+        "bw-main-04-apprenticeship"
+      ],
+      "note": "Union hall dispatch and Sign the Book before you mentor a new arrival."
+    },
+    "practices": [
+      "plan",
+      "comms",
+      "fatigue"
+    ],
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Job Readiness Edition — wojrc.org programmes",
+        "text": "A new arrival is at the hall and the mentor wants you to show them round."
+      },
+      {
+        "type": "talk",
+        "target": "hall's-mentor",
+        "text": "\"Walk them through the board, the dispatch and who to ask. Tell them what you wish someone had told you.\""
+      },
+      {
+        "type": "find",
+        "target": "Job Readiness Edition — wojrc.org programmes",
+        "text": "Find the dispatch board and explain it to the new arrival."
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": null,
+      "cosmetic": "hall mentor's lanyard"
+    }
+  }
+];

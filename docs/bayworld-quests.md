@@ -186,6 +186,16 @@ raises its floors to 16 zones, 28 landmarks and 50 sites. The game
 (`WebXR/bayworld/js/`) and `tools/check_bayworld_game.mjs` read every
 count from the data rather than assuming one.
 
+## 8. Skill-gated side quests
+
+`GATED_QUESTS` (14) holds real quests, each sited at a programme's site. Each has three or four steps: goto, talk, find, and one drive. Each also carries a `gate` in the platform's skill-gate contract, which lists the stations, programmes, quests or K-12 stations the learner must complete first. See `docs/skill-gates.md`.
+
+The generator validates every gate id against `curricula.js`. The lists are kept apart on purpose:
+- `GATED_QUESTS` stays out of `ALL_QUESTS`, so the counts and tier rules above are unchanged.
+- `quests-select.js` exports `BW_GATED_QUESTS`.
+- `app.js` registers `BW_GATED_QUESTS` beside `BW_QUESTS`.
+- `tools/check_gates.mjs` owns their rules.
+
 ## Regenerating and checking
 
 ```
