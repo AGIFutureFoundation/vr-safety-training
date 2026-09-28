@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "sf-marina", "sf-bayview"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -88,7 +88,13 @@ for (const p of R.NP_PARISHES) {
   const b = G.npBounds(p);
   gcheck(b.maxLon > b.minLon && b.maxLat > b.minLat && b.maxLon - b.minLon < 1 && b.maxLat - b.minLat < 1, `${tag}: lon/lat bounds are a sane box`);
   const sc = G.npScale(p);
-  gcheck(sc.x > 0.5 && sc.x < 6 && sc.z > 0.5 && sc.z < 6, `${tag}: the stylised scale is between one half and six real metres per metre (${sc.x.toFixed(2)}, ${sc.z.toFixed(2)})`);
+  // The stylised scale: between one half and six real metres per metre, unless the parish declares a `scale` (real metres
+  // per map metre, a decision recorded in docs/parishes.md) — then the fit must agree with the declared scale within 15 %.
+  if (Number.isFinite(p.scale)) {
+    gcheck(p.scale >= 0.5 && p.scale <= 25, `${tag}: the declared scale ${p.scale} is between one half and twenty-five real metres per metre`);
+    gcheck(Math.abs(sc.x / p.scale - 1) < 0.15 && Math.abs(sc.z / p.scale - 1) < 0.15, `${tag}: the fit agrees with the declared scale ${p.scale} within 15 % (${sc.x.toFixed(2)}, ${sc.z.toFixed(2)})`);
+    gcheck(readFileSync(join(ROOT, "docs", "parishes.md"), "utf8").includes(`\`${p.id}\``) && new RegExp(`\\b${p.scale} real metres`).test(readFileSync(join(ROOT, "docs", "parishes.md"), "utf8")), `${tag}: docs/parishes.md records the declared scale`);
+  } else gcheck(sc.x > 0.5 && sc.x < 6 && sc.z > 0.5 && sc.z < 6, `${tag}: the stylised scale is between one half and six real metres per metre (${sc.x.toFixed(2)}, ${sc.z.toFixed(2)})`);
   gcheck(p.anchors.every((a) => a.lonlat.every((v) => Math.abs(v * 1000 - Math.round(v * 1000)) < 1e-9)), `${tag}: anchors carry three decimals`);
   gcheck(!G.npSatelliteUrl(p, null) && !G.npSatelliteUrl(p, "not-a-token"), `${tag}: no satellite URL without a token`);
   const url = G.npSatelliteUrl(p, "pk.abcdefghij.klmnopqrst");

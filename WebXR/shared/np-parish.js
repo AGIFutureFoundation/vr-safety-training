@@ -553,6 +553,7 @@ export function npValidate(parish, ctx = {}) {
   if (!str(parish.id) || !/^[a-z][a-z0-9-]*$/.test(parish.id)) bad.push("id missing or not a slug");
   if (!str(parish.name)) bad.push("no name");
   if (parish.size !== NP_SIZE) bad.push(`size ${parish.size} is not ${NP_SIZE}`);
+  if (parish.scale != null && !(Number.isFinite(parish.scale) && parish.scale >= 0.5 && parish.scale <= 25)) bad.push(`scale ${parish.scale} is not a number of real metres per metre between one half and twenty-five`);
   const anchors = parish.anchors ?? [];
   if (anchors.length < 6 || anchors.length > 10) bad.push(`${anchors.length} anchors (need six to ten)`);
   for (const a of anchors) {

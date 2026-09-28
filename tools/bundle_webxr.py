@@ -745,6 +745,13 @@ APPS = {
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             SHARED / "sl-parish-play.js",
+            # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
+            # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
+            SHARED / "crew.js",
+            SHARED / "npc-data.js",
+            SHARED / "npc.js",
+            SHARED / "drivables-data.js",
+            SHARED / "drivables-board.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",

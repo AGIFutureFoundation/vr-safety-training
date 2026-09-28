@@ -107,18 +107,6 @@ export const NP_ST_TAMMANY = {
   },
   {
    "xz": [
-    336,
-    553
-   ],
-   "lonlat": [
-    -89.92,
-    30.28
-   ],
-   "approximate": true,
-   "name": "Big Branch Marsh"
-  },
-  {
-   "xz": [
     1297,
     1714
    ],
@@ -487,6 +475,10 @@ export const NP_ST_TAMMANY = {
     ],
     [
      -1393,
+     -1480
+    ],
+    [
+     -1330,
      -1603
     ],
     [
@@ -516,7 +508,7 @@ export const NP_ST_TAMMANY = {
    "kind": "avenue",
    "pts": [
     [
-     -1970,
+     -1940,
      -829
     ],
     [
@@ -539,11 +531,15 @@ export const NP_ST_TAMMANY = {
    "pts": [
     [
      -1249,
-     -299
+     -325
+    ],
+    [
+     -1057,
+     -312
     ],
     [
      -865,
-     -221
+     -247
     ]
    ]
   },
@@ -552,8 +548,8 @@ export const NP_ST_TAMMANY = {
    "kind": "street",
    "pts": [
     [
-     -1393,
-     -1603
+     -1350,
+     -1606
     ],
     [
      96,
@@ -1052,8 +1048,8 @@ export const NP_ST_TAMMANY = {
    "name": "Lacombe Substation & Line Yard",
    "kind": "substation",
    "position": [
-    115,
-    155
+    60,
+    150
    ],
    "trades": [
     "ibew"
@@ -1074,8 +1070,8 @@ export const NP_ST_TAMMANY = {
    "name": "Tchefuncte River Boatyard",
    "kind": "shipyard",
    "position": [
-    -1931,
-    -796
+    -1900,
+    -790
    ],
    "trades": [
     "ibb",
@@ -1195,8 +1191,8 @@ export const NP_ST_TAMMANY = {
    "id": "twin-spans",
    "name": "The twin spans over the lake",
    "position": [
-    1297,
-    1548
+    1470,
+    1120
    ],
    "kind": "bridge"
   },
@@ -1349,7 +1345,7 @@ export const NP_ST_TAMMANY = {
   {
    "id": "st-gate-causeway-fog-stop",
    "kind": "quest",
-   "world": "st-tammany",
+   "world": "parishes",
    "title": "Fog Work Stop on the Causeway",
    "site": "st-causeway-north",
    "siteName": "Causeway North Shore Maintenance Yard",
@@ -1360,12 +1356,13 @@ export const NP_ST_TAMMANY = {
     ],
     "note": "The fog and wind work stop and traffic control before a foggy morning on the causeway."
    },
-   "summary": "Call a fog work stop for every crew on the causeway."
+   "summary": "Call a fog work stop for every crew on the causeway.",
+   "parish": "st-tammany"
   },
   {
    "id": "st-gate-staging-night",
    "kind": "quest",
-   "world": "st-tammany",
+   "world": "parishes",
    "title": "North Shore Staging Night",
    "site": "st-slidell-staging",
    "siteName": "Slidell Storm Staging Area",
@@ -1376,7 +1373,10 @@ export const NP_ST_TAMMANY = {
     ],
     "note": "The night storm response and the line truck before you run the staging yard."
    },
-   "summary": "Run the storm staging yard through the night before landfall."
+   "summary": "Run the storm staging yard through the night before landfall.",
+   "parish": "st-tammany"
   }
- ]
+ ],
+ "scale": 10,
+ "blurb": "The parish on the lake's north shore: the causeway's north end at Mandeville and the lakefront harbour, the state park at Fontainebleau, the campus and hospital at Covington, the boatyard at Madisonville, the trail through Abita Springs and Lacombe, the marsh at Big Branch, and the rail yard and staging at Slidell by the twin spans."
 };

@@ -544,10 +544,6 @@ export const NP_JEFFERSON = {
     [
      1036,
      1520
-    ],
-    [
-     1144,
-     1451
     ]
    ]
   },
@@ -557,7 +553,7 @@ export const NP_JEFFERSON = {
    "pts": [
     [
      -1229,
-     -207
+     -150
     ],
     [
      -1229,
@@ -1141,8 +1137,8 @@ export const NP_JEFFERSON = {
    "id": "huey-p-long",
    "name": "Huey P. Long Bridge",
    "position": [
-    -337,
-    1202
+    -310,
+    1300
    ],
    "kind": "bridge"
   },
@@ -1394,7 +1390,7 @@ export const NP_JEFFERSON = {
   {
    "id": "jf-gate-night-pump-run",
    "kind": "quest",
-   "world": "jefferson",
+   "world": "parishes",
    "title": "Night Storm Pump Run",
    "site": "jf-pump-station",
    "siteName": "Drainage Pumping Station",
@@ -1405,12 +1401,13 @@ export const NP_JEFFERSON = {
     ],
     "note": "Lift station duties and the night storm response before a pump run in the dark."
    },
-   "summary": "Run the drainage pumping station through a night storm with the crew."
+   "summary": "Run the drainage pumping station through a night storm with the crew.",
+   "parish": "jefferson"
   },
   {
    "id": "jf-gate-causeway-closure",
    "kind": "quest",
-   "world": "jefferson",
+   "world": "parishes",
    "title": "Causeway Lane Closure at Dawn",
    "site": "jf-causeway-yard",
    "siteName": "Causeway Maintenance Yard",
@@ -1421,7 +1418,10 @@ export const NP_JEFFERSON = {
     ],
     "note": "Traffic control and a deck joint replacement before you set a closure on the causeway."
    },
-   "summary": "Set a lane closure on the causeway and replace a deck joint with the crew."
+   "summary": "Set a lane closure on the causeway and replace a deck joint with the crew.",
+   "parish": "jefferson"
   }
- ]
+ ],
+ "scale": 8,
+ "blurb": "The parish around the city on both banks: the lakefront at Bucktown and the causeway yard, the airport ramp at Kenner, the pump stations on the drainage canals, the river bridge and the freight yards at Elmwood, and the West Bank's canal shipyards at Harvey and the landing at Gretna."
 };

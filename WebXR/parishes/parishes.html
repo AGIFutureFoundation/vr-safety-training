@@ -90,7 +90,7 @@
   <div class="panel" id="hud-where"><b id="hud-zone">Orleans Parish</b><span id="hud-near"></span></div>
   <div class="panel" id="hud-stats"><span id="hud-alt">0 m</span> above the water<br><span id="hud-clock">day</span> · <span id="hud-weather">clear</span><br>Sites <b id="hud-visited">0</b> · Lessons <b id="hud-lessons">0</b></div>
   <div class="panel" id="hud-prompt" hidden></div>
-  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · M map · P maps · T time · F weather</div>
+  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · T time · F weather</div>
 </div>
 
 <section class="screen" id="menu">
@@ -101,6 +101,7 @@
     <p class="note" id="menu-count"></p>
     <div class="row">
       <button class="btn primary" id="menu-start" type="button">Start walking</button>
+      <button class="btn" id="menu-motorpool" type="button">Motor Pool</button>
       <a class="btn" href="../index.html">Home</a>
     </div>
     <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
@@ -152,6 +153,15 @@
     <div class="row" id="parish-list"></div>
     <h2 id="parish-ways-title">Ways out of this parish</h2>
     <div id="parish-ways"></div>
+    <div class="row"><button class="btn" type="button" id="parishes-motorpool">Motor Pool</button><button class="btn" type="button" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal" id="motorpool" hidden role="dialog" aria-modal="true" aria-labelledby="motorpool-title">
+  <div class="card">
+    <p class="eyebrow">Motor Pool</p>
+    <h2 id="motorpool-title">Vehicles and watercraft</h2>
+    <div id="dv-board" aria-label="Motor Pool board"></div>
     <div class="row"><button class="btn" type="button" data-close>Close</button></div>
   </div>
 </div>

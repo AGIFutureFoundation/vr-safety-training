@@ -133,7 +133,7 @@ ok(GR_ROSTER.filter((c) => c.handoffs.some((h) => h.kind === "treasure")).length
 
 // --------------------------------------------------------------- placement
 const S = await buildSuite(["shared/crew.js", "shared/links.js", "shared/npc-data.js", "shared/npc.js"],
-  "export { grMount, grDialogue, grResolveHandoff, grAgentAdapter, grRenderDialogueHtml, grRoutineAt, grRoutinePoints, grSiteFor, grSiteOf, grCharacters, grMeshBudget, GR_CSS, GR_TALK_RADIUS, GR_ANIMATE_RADIUS, GR_HIDE_RADIUS, THREE };", "npc");
+  "export { grMount, grDialogue, grResolveHandoff, grAgentAdapter, grRenderDialogueHtml, grRoutineAt, grRoutinePoints, grSiteFor, grSiteOf, grCharacters, grMeshBudget, GR_CSS, GR_TALK_RADIUS, GR_ANIMATE_RADIUS, GR_HIDE_RADIUS, GR_PARISH_KIND_ALIAS, THREE };", "npc");
 const countMeshes = (root) => { let n = 0; root.traverse((o) => { if (o.isMesh || o.isPoints) n += 1; }); return n; };
 const MOUNTS = {
   bayworld: { sites: BAY_SITES, bounds: BAY_BOUNDS, groundAt: () => 0, clear: (s) => [[s.pos[0], s.pos[1], 6, "the site centre"], [s.pos[0] + 6, s.pos[1] + 6, 4, "the pedestrian spawn"]] },
@@ -202,6 +202,44 @@ for (const [world, M] of Object.entries(MOUNTS)) {
   for (const e of m.characters) ok(e.site.kind === e.ch.siteKind, e.ch.id, "placed at a site of another kind");
   m.dispose();
 }
+// The five real parishes (ASSAYER, the Bayou run): the app mounts grMount("parish:<id>") over the parish's own sites and
+// ground; each character stands at a site of its kind (or the kind's parish spelling, GR_PARISH_KIND_ALIAS), on dry
+// ground, clear of the pad centre, the job board (z + 6) and the arrival spot (z + 16). Orleans places every character.
+{
+  const NPP = await imp("WebXR/shared/np-parishes.js");
+  const NPE = await imp("WebXR/shared/np-parish.js");
+  let placed = 0;
+  for (const p of NPP.NP_PARISHES) {
+    const root = new S.THREE.Group();
+    const groundAt = (x, z) => NPE.npHeightAt(p, x, z);
+    const m = S.grMount(`parish:${p.id}`, { three: S.THREE, root, sites: p.sites, groundAt, pos: () => null, from: "parishes", page: "parishes.html", keys: false });
+    const kinds = new Set(p.sites.map((s) => S.GR_PARISH_KIND_ALIAS[s.kind] ?? s.kind));
+    const expected = S.grCharacters("parish").filter((c) => kinds.has(c.siteKind) || p.sites.some((s) => s.kind === c.siteKind));
+    ok(m.characters.length === expected.length && m.characters.length >= 3, `mount parish:${p.id}`, `${m.characters.length} of ${expected.length} characters placed (three or more wanted)`);
+    if (p.id === "orleans") ok(m.characters.length === S.grCharacters("parish").length, "mount parish:orleans", "Orleans places every parish character");
+    for (const e of m.characters) {
+      placed += 1;
+      const id = `${e.ch.id} in parish:${p.id}`;
+      ok(e.site.kind === e.ch.siteKind || S.GR_PARISH_KIND_ALIAS[e.site.kind] === e.ch.siteKind, id, `placed at a ${e.site.kind} site`);
+      for (const [x, z] of e.points) {
+        const w = NPE.npWaterAt(p, x, z);
+        ok(!w || w.kind === "wetland", id, `routine point ${x},${z} stands in ${w?.id}`);
+        ok(Number.isFinite(groundAt(x, z)), id, "ground is not finite at a routine point");
+        for (const [cx, cz, r, what] of [[e.site.pos[0], e.site.pos[1], 6, "the pad centre"], [e.site.pos[0], e.site.pos[1] + 6, 5, "the job board"], [e.site.pos[0], e.site.pos[1] + 16, 5, "the arrival spot"]]) ok(Math.hypot(x - cx, z - cz) >= r, id, `routine point ${Math.hypot(x - cx, z - cz).toFixed(1)} m from ${what} (needs ${r})`);
+      }
+    }
+    try { for (let t = 0; t < 20; t += 0.5) m.animate(t, 0.5); } catch (e) { fail(`mount parish:${p.id}`, `animate threw: ${e.message}`); }
+    m.dispose();
+  }
+  const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
+  ok(app.includes('from "../../shared/npc.js"') && app.includes("grMount(`parish:${parish.id}`"), "app parishes", "does not import grMount and mount the parish");
+  ok(/asNpc\.animate\(/.test(app) && app.includes('keys: ["G"]'), "app parishes", "does not animate the characters or list G in the controls help");
+  const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
+  const i = bundler.indexOf('"parishes": {'), b = bundler.slice(i, bundler.indexOf('"entry":', i));
+  const at = (name) => b.indexOf(`SHARED / "${name}"`);
+  ok(at("crew.js") >= 0 && at("links.js") >= 0 && at("crew.js") < at("npc.js") && at("links.js") < at("npc.js") && at("npc-data.js") < at("npc.js"), "bundler parishes", "crew.js, links.js and npc-data.js must come before npc.js");
+  ok(placed >= 20, "mount parishes", `${placed} characters placed across the five parishes`);
+}
 
 // ----------------------------------------------------------------- dialogue
 let dialogues = 0;
@@ -210,7 +248,7 @@ for (const ch of GR_ROSTER) {
   for (const seed of [0, 1, 2]) {
     const d = S.grDialogue(ch, { seed });
     dialogues += 1;
-    ok(d.greet.startsWith(`${ch.name} here — `) && d.greet.includes(ch.role.toLowerCase()), id, "greet does not name the character and the role");
+    ok(d.greet.startsWith(`${ch.name} here — `) && d.greet.toLowerCase().includes(ch.role.toLowerCase()), id, "greet does not name the character and the role");
     ok(!/\d/.test(d.greet.replace(/k-12/gi, "")), id, "the greeting carries a digit (a template must not state a fact)");
     ok(d.teach && ch.pack.includes(d.teach), id, `seed ${seed} teaches a line that is not in the pack`);
     ok(d.handoff && ch.handoffs.includes(d.handoff), id, `seed ${seed} hands off something not in the list`);

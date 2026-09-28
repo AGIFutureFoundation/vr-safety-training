@@ -103,10 +103,13 @@ const GR_NO_MATCH = "That is not in my notes, and I only pass along what is writ
  * `question`, else the line at `seed`), hand off (the hand-off at `seed`).
  * Returns { greet, teach: { text, src, topic } | null, noMatch, handoff }.
  */
+/** A role inside a sentence: ordinary words in lower case, a capitalised name or acronym kept ("K-12 teacher", "CDL driver"). */
+export function grRoleText(role) { return String(role ?? "").replace(/\b([A-Z])([a-z])/g, (m, a, b) => a.toLowerCase() + b); }
+
 export function grDialogue(ch, { question = "", seed = 0 } = {}) {
   const n = Math.max(0, Math.floor(seed));
   const where = ch.siteName ? ` at ${ch.siteName}` : "";
-  const greet = `${ch.name} here — ${ch.role.toLowerCase()}${where}. I only pass along what is written down; ask me about the work here.`;
+  const greet = `${ch.name} here — ${grRoleText(ch.role)}${where}. I only pass along what is written down; ask me about the work here.`;
   let teach = null, noMatch = false;
   if (String(question).trim()) { teach = grRetrieve(ch.pack, question); noMatch = !teach; }
   else if (ch.pack.length) teach = ch.pack[n % ch.pack.length];
@@ -183,11 +186,17 @@ export function grSiteOf(s) {
   return { id: s.id, name: s.name, kind: s.kind ?? null, pos: [p[0], p.length === 3 ? p[2] : p[1]], raw: s };
 }
 
+/**
+ * Site-kind spellings the parish modules use for the roster's kinds (ASSAYER, the Bayou run): PARISH's Orleans says
+ * `pump`, `streetcar`, `rail`; DELTA's parishes say `pumping-station`. A kind maps to itself when it is not listed.
+ */
+export const GR_PARISH_KIND_ALIAS = { pump: "pump-station", "pumping-station": "pump-station", streetcar: "streetcar-barn", rail: "rail-yard" };
+
 /** The site a character stands at among `sites` (by id, or by kind for a parish character), or null. */
 export function grSiteFor(ch, sites) {
   const list = sites.map(grSiteOf);
   if (ch.site) return list.find((s) => s.id === ch.site) ?? null;
-  if (ch.siteKind) return list.find((s) => s.kind === ch.siteKind) ?? null;
+  if (ch.siteKind) return list.find((s) => s.kind === ch.siteKind) ?? list.find((s) => GR_PARISH_KIND_ALIAS[s.kind] === ch.siteKind) ?? null;
   return null;
 }
 
@@ -415,7 +424,7 @@ export function grMount(world, hooks = {}) {
     if (e !== lastNear) {
       lastNear = e;
       ensureDom();
-      if (e && !open) { prompt.querySelector(".gr-prompt-text").textContent = `G — talk to ${e.ch.name}, ${e.ch.role.toLowerCase()}`; prompt.hidden = false; }
+      if (e && !open) { prompt.querySelector(".gr-prompt-text").textContent = `G — talk to ${e.ch.name}, ${grRoleText(e.ch.role)}`; prompt.hidden = false; }
       else prompt.hidden = true;
       if (!e && open) close();
     }
