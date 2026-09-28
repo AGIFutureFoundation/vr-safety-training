@@ -408,8 +408,6 @@ export const RW_GATED = RW_SIDE_QUESTS.filter((q) => q.gate).map((q) => ({
   id: q.id, kind: "quest", world: "redwood", title: q.title, site: q.site, siteName: rwSite(q.site)?.name ?? q.site,
   gate: q.gate, summary: q.steps?.[0]?.text ?? "", reward: q.reward,
 }));
-/** The same list as a constant, which tools/check_gates.mjs discovers by name (`…GATED…` in a `-data.js` module). */
-export const RW_GATED = rwGatedItems();
 
 /** The in-game map's layers. */
 export const RW_MAP_LAYERS = Object.freeze([
