@@ -187,6 +187,60 @@ check(R.NP_PARISHES.some((p) => p.id === "orleans" && p.sites.length >= 10), "Or
   check(!/\d/.test(text.replace(/\b\d+(st|nd|rd|th)\b/g, "")), "orleans: no figure in a site, landmark or district name or blurb");
 }
 
+// 2b. regions and hills (console GOLDEN-A, docs/consoles/GOLDEN-A.md): the registry groups maps by region, the five
+// parishes stay New Orleans and flat, and the San Francisco districts rise on named, gentle hills.
+const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
+{
+  check(Array.isArray(R.NP_REGIONS) && R.NP_REGIONS[0]?.id === "new-orleans" && R.npRegion("new-orleans")?.noun === "parish" && R.npRegion("san-francisco")?.noun === "district", "regions: New Orleans first (parishes), San Francisco (districts)");
+  check(R.NP_REGIONS.every((r) => /^[a-z][a-z0-9-]*$/.test(r.id) && r.title && r.name && r.nouns) && !R.npRegion("atlantis"), "every region has an id, a name, a title and nouns; an unknown region is null");
+  for (const p of R.NP_PARISHES) check(!!R.npRegion(R.npRegionOf(p)), `${p.id}: region ${R.npRegionOf(p)} is a known region`);
+  const groups = R.npRegionGroups();
+  check(groups.reduce((s, g) => s + g.parishes.length, 0) === R.NP_PARISHES.length && groups.every((g, i) => i === 0 || R.NP_REGIONS.indexOf(g.region) > R.NP_REGIONS.indexOf(groups[i - 1].region)), "regions group every map once, in the regions' order");
+  check(groups.find((g) => g.region.id === "new-orleans")?.parishes.slice(0, 5).map((p) => p.id).join() === "orleans,jefferson,st-bernard,plaquemines,st-tammany", "the five parishes stay in New Orleans, in selector order");
+  const sf = groups.find((g) => g.region.id === "san-francisco")?.parishes ?? [];
+  check(["sf-downtown", "sf-mission", "sf-golden-gate-park"].every((id) => sf.some((p) => p.id === id)), "San Francisco: Downtown & Embarcadero, Mission & SoMa and Golden Gate Park are registered");
+  for (const p of sf) check(p.id.startsWith("sf-") && p.region === "san-francisco", `${p.id}: an sf- id that names its region`);
+  // hills: none in New Orleans; in San Francisco each rises at its centre, ends at its radius, and stays gentle
+  for (const p of R.NP_PARISHES.filter((q) => R.npRegionOf(q) === "new-orleans")) check(!(p.hills?.length) && E.npHillRise(p, 0, 0) === 0, `${p.id}: no hills, the delta stays flat`);
+  const hillNames = new Set();
+  for (const p of sf) {
+    check((p.hills ?? []).length >= 1, `${p.id}: at least one hill`);
+    for (const h of p.hills ?? []) {
+      hillNames.add(h.name);
+      check(E.npHillRise(p, ...h.center) >= h.height * 0.95 && E.npHeightAt(p, ...h.center) > E.NP_GROUND + h.height * 0.9, `${p.id}/${h.id}: the ground rises at the hill's centre (${E.npHeightAt(p, ...h.center).toFixed(1)} m)`);
+      check(E.npHillRise(p, h.center[0] + h.radius + 1, h.center[1]) === 0 || (p.hills ?? []).some((o) => o !== h && Math.hypot(o.center[0] - h.center[0] - h.radius - 1, o.center[1] - h.center[1]) < o.radius), `${p.id}/${h.id}: the mound ends at its radius`);
+      let steep = 0;
+      for (let i = 0; i < 16; i++) { const a = (i / 16) * Math.PI * 2, r = h.radius * (0.25 + (i % 3) * 0.25); const x = h.center[0] + Math.cos(a) * r, z = h.center[1] + Math.sin(a) * r; if (Math.abs(x) < 2040 && Math.abs(z) < 2040 && !E.npWaterAt(p, x, z)) steep = Math.max(steep, E.npHillRise(p, x + 2, z) - E.npHillRise(p, x - 2, z), E.npHillRise(p, x, z + 2) - E.npHillRise(p, x, z - 2)); }
+      check(steep / 4 < E.NP_HILL.maxSlope, `${p.id}/${h.id}: its flanks are gentle (steepest sampled ${(steep / 4).toFixed(2)})`);
+      check(!/\d/.test(h.name) && !/\d/.test(h.id), `${p.id}/${h.id}: a name only, no figure`);
+    }
+    for (const s of p.sites) {
+      const hill = E.npHillAt(p, ...s.position);
+      if (hill) check(Math.abs(E.npHeightAt(p, ...s.position) - (E.NP_GROUND + E.npHillRise(p, ...s.position))) < 0.5, `${p.id}/${s.id}: a site on ${hill.name} stands on a terrace at the hill's height, not in a pit`);
+    }
+  }
+  for (const n of ["Twin Peaks", "Nob Hill", "Russian Hill", "Telegraph Hill", "Bernal Heights"]) check(hillNames.has(n), `San Francisco: ${n} rises`);
+  // the district briefs: each has the brief's kinds of site, its water, and names no figure or history
+  const kinds = { "sf-downtown": ["port", "ferry", "transit", "hospital", "union-hall"], "sf-mission": ["rail", "construction", "school", "stadium", "workshop"], "sf-golden-gate-park": ["park", "lifeguard", "hospital", "campus"] };
+  const waters = { "sf-downtown": ["bay"], "sf-mission": ["bay"], "sf-golden-gate-park": ["ocean", "lake"] };
+  for (const p of sf) {
+    check(p.sites.length >= 8, `${p.id}: eight or more sites (${p.sites.length})`);
+    for (const k of kinds[p.id] ?? []) check(p.sites.some((s) => s.kind === k), `${p.id}: a ${k} site`);
+    for (const k of waters[p.id] ?? []) check(p.water.some((w) => w.kind === k), `${p.id}: ${k} water`);
+    check(p.connectors.some((c) => R.npRegionOf(parishes.get(c.to.parish) ?? { region: "san-francisco" }) === "san-francisco" && c.to.parish !== p.id), `${p.id}: a way to another San Francisco district`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${p.id}.js`), "utf8");
+    check(!/population|founded|built in|opened in|census|since \d|est\.|\bcirca\b|elevation|feet high|metres high|meters high/i.test(src), `${p.id}: no history, statistics or elevations`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb ?? ""}`;
+    check(!/\d/.test(text), `${p.id}: no figure in a name or blurb`);
+  }
+  check(sf.find((p) => p.id === "sf-golden-gate-park")?.landmarks.some((l) => l.kind === "windmill"), "sf-golden-gate-park: a windmill landmark");
+  check(sf.find((p) => p.id === "sf-downtown")?.landmarks.some((l) => l.id === "the-ferry-building"), "sf-downtown: the Ferry Building as a place");
+  // the Bay Bridge way out (GOLDEN-B's world connector) leaves from dry ground the learner can walk to
+  { const d = R.npParish("sf-downtown"); if (d) { const bb = G.npGeoToXz(d, [-122.387, 37.790]); check(G.npInField(d, bb) && !E.npWaterAt(d, ...bb), `sf-downtown: the Bay Bridge point [-122.387, 37.790] is on dry ground (${bb.map(Math.round)})`); } }
+  // the page follows the region
+  check(/npRegionGroups\(NP_PARISHES\)/.test(app0) && /document\.title = `\$\{parish\.name\} — \$\{npRegionHere\.title\}`/.test(app0), "the selector shows regions then maps and the page title follows the region");
+}
+
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
 // 3. the ledger
 {

@@ -95,7 +95,7 @@
 
 <section class="screen" id="menu">
   <div class="card">
-    <p class="eyebrow">New Orleans parishes · a 4 km by 4 km delta world each</p>
+    <p class="eyebrow" id="menu-eyebrow">New Orleans parishes · a 4 km by 4 km delta world each</p>
     <h1 class="logo" id="menu-parish">Orleans Parish</h1>
     <p class="lead" id="menu-blurb"></p>
     <p class="note" id="menu-count"></p>
@@ -103,7 +103,7 @@
       <button class="btn primary" id="menu-start" type="button">Start walking</button>
       <a class="btn" href="../index.html">Home</a>
     </div>
-    <p class="eyebrow" style="margin-top:16px">Choose a parish</p>
+    <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
     <div class="row" id="menu-parishes"></div>
     <div id="menu-paths"></div>
     <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
@@ -148,9 +148,9 @@
 
 <div class="modal" id="parishes" hidden role="dialog" aria-modal="true" aria-labelledby="parishes-title">
   <div class="card">
-    <h2 id="parishes-title">The parishes</h2>
+    <h2 id="parishes-title">Regions and maps</h2>
     <div class="row" id="parish-list"></div>
-    <h2>Ways out of this parish</h2>
+    <h2 id="parish-ways-title">Ways out of this parish</h2>
     <div id="parish-ways"></div>
     <div class="row"><button class="btn" type="button" data-close>Close</button></div>
   </div>

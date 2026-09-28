@@ -102,3 +102,56 @@ is meant to absorb it — the checker reads the modules directly and needs nothi
 ## Orleans-side connector ids (console PARISH)
 
 The Orleans module lists every crossing back under its own ids: `conn-i10-17th-street-canal` and `conn-lakefront-17th-street-canal` (Jefferson, paired with `jf-interstate-orleans` and `jf-lakefront-orleans`), `conn-westbank-expressway` (`jf-westbank-expressway-orleans`), `conn-st-claude-avenue-east` (`sb-st-claude-orleans`), `conn-chalmette-ferry` (`sb-chalmette-ferry`), `conn-twin-spans-east` (`st-twin-spans-orleans`). The Woodland Highway crossing into Plaquemines lies south of the Orleans box and is not a connector; Plaquemines instead carries its own river ferry, `pq-pointe-a-la-hache-crossing`. The Canal Street ferry to Algiers Point stays inside Orleans and is drawn as a ferry road, not a connector.
+
+## San Francisco — the second region (console GOLDEN-A)
+
+The engine carries regions: `np-parishes.js` lists `NP_REGIONS` (`new-orleans` "New Orleans Parishes", a map is a
+*parish*; `san-francisco` "San Francisco Districts", a map is a *district*), and each map may name its `region` (a map
+without one is a New Orleans parish, so the five parish modules are unchanged). The selector draws each region, then its
+maps; the page title is `<map> — <region title>`. The same 4096 m schema holds, plus two additions:
+
+- `hills: [{ id, name, center: [x, z], radius, height }]` — a gentle procedural mound (a raised cosine) that
+  `npHeightAt` adds over the flat field before the water cut; a site on a hill flattens to a terrace at the hill's height.
+  Hills carry public names only (Twin Peaks, Nob Hill, Russian Hill, Telegraph Hill, Bernal Heights, Potrero Hill); a
+  `height` is a map number, never an elevation.
+- Water kinds `bay` and `ocean` (open water: no site inside), and the district character `park` (trees, no buildings).
+
+Each SF map was written once by a scratch generator from approximate public lon/lat through one north-up uniform scale of
+about 2.2 real metres per map metre (a 9 km box), with one shared coastline clipped to each field, so the districts agree
+on the shore; the three boxes overlap, as the parishes do.
+
+| district | id | module | export | sites | hills | connectors |
+|---|---|---|---|---|---|---|
+| Downtown & Embarcadero | `sf-downtown` | `np-data-sf-downtown.js` | `NP_SF_DOWNTOWN` | 9 | Nob Hill, Russian Hill, Telegraph Hill, Twin Peaks | 5 |
+| Mission & SoMa | `sf-mission` | `np-data-sf-mission.js` | `NP_SF_MISSION` | 9 | Potrero Hill, Bernal Heights, Twin Peaks | 5 |
+| Golden Gate Park, the Richmond & the Sunset | `sf-golden-gate-park` | `np-data-sf-golden-gate-park.js` | `NP_SF_GOLDEN_GATE_PARK` | 9 | Twin Peaks | 3 |
+
+**Downtown & Embarcadero** — the Embarcadero piers, the Ferry Building landing, the Transbay transit hub, a hospital
+campus on Cathedral Hill, a union hall off Market Street, the cable car barn on Nob Hill, a Financial District high-rise,
+the Bay Bridge crew yard, the Fisherman's Wharf kitchens. **Mission & SoMa** — the King Street rail yard, a Mission Bay
+construction site, a Mission school campus, the China Basin stadium district, a South of Market maker workshop, the
+Potrero Avenue hospital, the Potrero bus yard, the Dogpatch shipyard, the Islais Creek pump station. **Golden Gate Park**
+— the park's grounds crew yard and nursery, the Ocean Beach lifeguard station and streetcar terminal, the Parnassus
+hospital campus, the university on Lone Mountain, the Sunset Reservoir pump house, a Sunset school, a Richmond firehouse;
+the Dutch and Murphy windmills, Stow Lake, Spreckels Lake and Lake Merced.
+
+### SF connectors
+
+The ids and points agreed with GOLDEN-B (Marina & Presidio, Bayview & Hunters Point) are fixed; the far end ships
+`to.position: null` with the `lonlat` until that district is in the tree. Between GOLDEN-A's own districts each side lists
+the crossing under its own id at the same `lonlat`.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Van Ness Avenue north | road | sf-downtown ↔ sf-marina | -122.424, 37.795 | `sf-van-ness-north` |
+| The Embarcadero north | road | sf-downtown ↔ sf-marina | -122.415, 37.806 | `sf-embarcadero-north` |
+| Park Presidio Boulevard | road | sf-golden-gate-park ↔ sf-marina | -122.472, 37.782 | `sf-park-presidio` |
+| Third Street south | road | sf-mission ↔ sf-bayview | -122.389, 37.755 | `sf-third-street-south` |
+| The Bayshore Freeway south | road | sf-mission ↔ sf-bayview | -122.404, 37.735 | `sf-bayshore-south` |
+| The Bay Bridge to Bay World | world (GOLDEN-B) | sf-downtown → Bay World | -122.387, 37.790 | `sf-bay-bridge` |
+| Market Street | road | sf-downtown ↔ sf-mission | -122.419, 37.775 | `sf-dt-market-street`, `sf-mi-market-street` |
+| The Embarcadero at King Street | road | sf-downtown ↔ sf-mission | -122.391, 37.777 | `sf-dt-king-street`, `sf-mi-king-street` |
+| Geary Boulevard | road | sf-downtown ↔ sf-golden-gate-park | -122.446, 37.782 | `sf-dt-geary-boulevard`, `sf-gp-geary-boulevard` |
+| Oak Street at the Panhandle | road | sf-mission ↔ sf-golden-gate-park | -122.447, 37.772 | `sf-mi-oak-street`, `sf-gp-oak-street` |
+
+The Bay Bridge point sits on dry land at the anchorage in the Downtown map, so a learner can walk to GOLDEN-B's way out.
