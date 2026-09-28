@@ -244,6 +244,8 @@ function dvMountStage(g) {
   });
 }
 
+/** The landmarks that carry a K-12 course, so the per-frame approach check allocates nothing. */
+const DV_QM_LANDMARKS = new Set(qmK12GatedFor("underwater").map((g) => g.site));
 function dvQmItems() {
   const own = QM_WORLD_GAMES.underwater.map((g) => {
     const site = DV_SITES.find((s) => s.id === g.site);
@@ -592,7 +594,7 @@ function dvStep(dt) {
   dvApp.nearAsset = dvApp.mode === "swim" ? dvNearestPlace(dvApp.diver.x, dvApp.diver.z, CT_DV_ASSETS, 6) : null;
   dvApp.nearLandmark = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_LANDMARKS, 16);
   // A side game at a site, or a K-12 course at a landmark.
-  dvQmApproach(dvApp.nearSite ?? (dvApp.nearLandmark && dvQmItems().some((g) => g.site === dvApp.nearLandmark.id) ? dvApp.nearLandmark : null));
+  dvQmApproach(dvApp.nearSite ?? (dvApp.nearLandmark && DV_QM_LANDMARKS.has(dvApp.nearLandmark.id) ? dvApp.nearLandmark : null));
   dvApp.nearAscent = dvNearestAscentLine(dvApp.diver.x, dvApp.diver.z, DV_ASCENT, 10);
   dvApp.nearLesson = dvApp.mode === "swim" ? k2NearestKiosk(dvApp.diver.x, dvApp.diver.z, k2LessonsFor("deep")) : null;
   const prompt = $("hud-prompt");

@@ -37,10 +37,11 @@ export const QM_FIGURE_ANCHORS = {
 
 function qmDecalMesh(lib, slot, color) {
   const mat = new lib.MeshStandardMaterial({ color, roughness: 0.5, emissive: color, emissiveIntensity: 0.25 });
-  if (slot === "head") { const m = new lib.Mesh(new lib.CylinderGeometry(0.055, 0.055, 0.02, 12), mat); m.rotation.x = Math.PI / 2; return m; }
-  if (slot === "wrist") { const m = new lib.Mesh(new lib.TorusGeometry(0.05, 0.015, 6, 12), mat); m.rotation.z = Math.PI / 2; return m; }
-  if (slot === "fin") return new lib.Mesh(new lib.BoxGeometry(0.08, 0.03, 0.12), mat);
-  return new lib.Mesh(new lib.BoxGeometry(0.1, 0.08, 0.03), mat); // the shoulder patch
+  // Sized to read from the chase camera: a decal the width of the figure's hand, not a pixel.
+  if (slot === "head") { const m = new lib.Mesh(new lib.CylinderGeometry(0.075, 0.075, 0.025, 12), mat); m.rotation.x = Math.PI / 2; return m; }
+  if (slot === "wrist") { const m = new lib.Mesh(new lib.TorusGeometry(0.06, 0.022, 6, 12), mat); m.rotation.z = Math.PI / 2; return m; }
+  if (slot === "fin") return new lib.Mesh(new lib.BoxGeometry(0.1, 0.04, 0.14), mat);
+  return new lib.Mesh(new lib.BoxGeometry(0.14, 0.11, 0.04), mat); // the shoulder patch
 }
 
 /**

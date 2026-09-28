@@ -201,7 +201,7 @@ window.addEventListener("pageshow", (e) => { if (e.persisted) fwCheckGroundsRetu
 
 $("menu-play").addEventListener("click", fwStartRound);
 // The browser checkers' hook, as Bay World and the Deep expose theirs.
-window.__fairwayTest = { app, startRound: fwStartRound, approach: fwQmApproach };
+window.__fairwayTest = { app, startRound: fwStartRound, approach: fwQmApproach, holes: FAIRWAY_HOLES };
 $("menu-facility").addEventListener("click", () => { fwRenderFacilityMenu(); fwShow("scr-facility"); });
 $("menu-scores").addEventListener("click", () => { fwRenderScoresScreen(); fwShow("scr-scores"); });
 $("facility-back").addEventListener("click", () => fwShow("scr-menu"));
