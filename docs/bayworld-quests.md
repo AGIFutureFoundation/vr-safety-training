@@ -145,6 +145,19 @@ never require anything). `WebXR/bayworld/js/quests.js` exports
 `questGraphHasCycle()`; the checker asserts the graph is acyclic and that
 every `requires` target actually exists as a quest id.
 
+The engine (`WebXR/bayworld/js/quest-engine.js`) enforces the graph: a
+quest whose `requires` is not done is locked — no step of it progresses, no
+toast fires, `questState()` reports it `locked` and the HUD never shows it
+as the objective — so a capstone cannot move before its opener even when
+both open with a goto to the same site. The shift's start point is handed
+to `bwMarkSpawn()`; until the player has moved `BW_SPAWN_GRACE` metres off
+it no goto or drive step completes, because the player starts a few metres
+from a site and a goto there would otherwise "complete" on the first frame.
+`tools/check_bay_quests.mjs` spawns a fresh profile at every spawn point
+(the depot, beside every site and landmark) and asserts nothing completes,
+and plays every step of every quest that requires another and asserts it
+stays at step 0 while its prerequisite is open.
+
 ## 7. The map the quests resolve onto
 
 BAY1's `WebXR/shared/bayworld-data.js` is the ground truth the resolvers

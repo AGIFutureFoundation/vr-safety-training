@@ -18,7 +18,7 @@ import {
   bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress,
   bwIsVehicleUnlocked, bwIsFastTravelUnlocked, bwIsSiteVisited,
 } from "./career.js";
-import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn } from "./quest-engine.js";
+import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn, bwMarkSpawn } from "./quest-engine.js";
 import { BW_QUESTS, BW_GATED_QUESTS } from "./quests-select.js";
 // Skill-gated side quests (docs/skill-gates.md): board rows, map pins, the lock toast and the quest-log panel.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
@@ -324,7 +324,8 @@ function bwRenderQuizQuestion() {
 
 function bwRenderQuestHud() {
   const list = questState(bwStore);
-  const active = list.find((q) => !q.done) ?? list[0];
+  // A locked quest (its `requires` not yet done) is never the objective.
+  const active = list.find((q) => !q.done && !q.locked) ?? list[0];
   const el = $("hud-objective");
   if (!el) return;
   if (!active) { el.textContent = "No active job."; return; }
@@ -546,6 +547,7 @@ function bwNearLockedQuest() {
 function bwStart() {
   registerQuests(BW_QUESTS);
   registerQuests(BW_GATED_QUESTS);
+  bwMarkSpawn(bwApp.player); // no goto completes until the participant moves off the spawn
   bwSetup3D();
   bwWireTouch();
   tcMountQuality($("hud-stats"), (t) => tcApplyRenderer(bwApp.renderer, tcTier(t)));

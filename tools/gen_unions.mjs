@@ -9,7 +9,7 @@
  * generated ES module beside signage.js — the arrangement sims-meta.js already
  * uses. Each entry is carried through as written and gains two fields read
  * from tools/standards.json: the training body's `title` (the sign's
- * "Training partner" line) and its `scope` (the categories it trains for,
+ * "Trade reference" line) and its `scope` (the categories it trains for,
  * which is how a station in a programme that names several unions is given
  * the one whose training fund covers its category).
  *

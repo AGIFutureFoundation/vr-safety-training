@@ -13,8 +13,10 @@
  *      union, and every `file` is null
  *   3. the signs render headlessly inside their mesh counts and put the right
  *      words on their faces: every union's wordmark (abbrev, name, local,
- *      "Training partner"), every ANSI header with every pictogram, every
- *      jobsite board
+ *      "Trade reference"), every ANSI header with every pictogram, every
+ *      jobsite board — and no sign or text anywhere under WebXR/ (sources and
+ *      the built dist/ pages; Markdown excepted) says "training partner" or
+ *      "official partner", since the platform has no partnership with a union
  *   4. the stage stands a union sign beside every station's pad — the union
  *      unionForStation() names, from the station's programme — and a safety
  *      sign for the category's hazard wherever the budget allows, both inside
@@ -113,6 +115,30 @@ const registryById = Object.fromEntries(registry.standards.map((s) => [s.id, s])
   if (failures === before) ok(`no logo ships: assets/brand/ holds the manifest and README only, every manifest file null, licence note present`);
 }
 
+// ------------------------------------- 2b. no partnership claim in any text
+// The platform has no partnership with any union (or anyone it names on a
+// sign). Every text file under WebXR/ — sources and the built dist/ pages —
+// is read; Markdown is excepted so a note can quote the retired wording.
+{
+  const before = failures;
+  const walkAll = (d, out = []) => {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      if (e.isDirectory()) { if (!["node_modules", ".git"].includes(e.name)) walkAll(join(d, e.name), out); }
+      else if (/\.(m?js|html?|json|css|txt|svg)$/i.test(e.name)) out.push(join(d, e.name));
+    }
+    return out;
+  };
+  const CLAIM = /training[\s-]+partner|official[\s-]+partner/i;
+  let read = 0;
+  for (const f of walkAll(WEBXR)) {
+    const text = readFileSync(f, "utf8");
+    read += 1;
+    const m = text.match(CLAIM);
+    if (m) fail("claims", `${f.replace(ROOT + "/", "")} says "${m[0]}" — the platform has no partnership with any union; use "Trade reference"`);
+  }
+  if (failures === before) ok(`no "training partner" or "official partner" wording in ${read} WebXR text files (sources and dist)`);
+}
+
 // ----------------------------------------------------- 3. the signs render
 // A canvas stub that remembers what was written on each face, so the check
 // can read the sign back rather than only count its meshes.
@@ -171,7 +197,10 @@ recordingDom();
     if (n > S.SIGN_MESHES.union) fail("render", `unionSign(${u.id}) is ${n} meshes, over ${S.SIGN_MESHES.union}`);
     if (g.name !== "union-sign" || g.userData.unionId !== u.id) fail("render", `unionSign(${u.id}) is not named/tagged for the checker`);
     if (!drawn.includes(u.abbrev)) fail("render", `unionSign(${u.id}) did not set the abbreviation "${u.abbrev}"`);
-    if (!drawn.includes("TRAINING PARTNER")) fail("render", `unionSign(${u.id}) has no "Training partner" line`);
+    if (!drawn.includes("TRADE REFERENCE")) fail("render", `unionSign(${u.id}) has no "Trade reference" line`);
+    // The platform has no partnership with any union: a sign must never say so.
+    const claim = drawn.find((t) => /training partner|official partner/i.test(String(t)));
+    if (claim) fail("render", `unionSign(${u.id}) claims a partnership — "${claim}"`);
     if (u.name !== u.abbrev && !drawn.some((t) => t.startsWith(u.name.split(" ")[0]))) fail("render", `unionSign(${u.id}) did not set the full name`);
     if (u.local && !drawn.includes(u.local)) fail("render", `unionSign(${u.id}) did not set the local "${u.local}"`);
     if (!u.local && drawn.some((t) => /^Local \d+$/.test(t))) fail("render", `unionSign(${u.id}) shows a local the file does not name`);

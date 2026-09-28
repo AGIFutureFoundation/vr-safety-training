@@ -16189,7 +16189,7 @@ const DV_SIDE_DIVES = [
       {
         "type": "talk",
         "target": "dive-lead",
-        "text": "\"A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.\""
+        "text": "\"A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.\""
       }
     ],
     "reward": {
@@ -16525,7 +16525,7 @@ const DV_SIDE_DIVES = [
       {
         "type": "talk",
         "target": "dive-lead",
-        "text": "\"A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stations that follow that order, each with a different way to put oil or steel where it should not be.\""
+        "text": "\"A ship comes alongside, is secured, is fuelled, is worked and leaves. Its stations follow that order, each with a different way to put oil or steel where it should not be.\""
       }
     ],
     "reward": {
@@ -16777,7 +16777,7 @@ const DV_SIDE_DIVES = [
       {
         "type": "talk",
         "target": "dive-lead",
-        "text": "\"Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.\""
+        "text": "\"Stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.\""
       }
     ],
     "reward": {
@@ -21699,6 +21699,8 @@ const qmCss = `
 #qm-chip{height:32px;padding:0 12px;border-radius:16px;border:1px solid rgba(255,255,255,.35);background:rgba(10,20,30,.78);color:#fff;font:700 13px/1 system-ui,sans-serif;cursor:pointer}
 #qm-chip.qm-float{position:fixed;top:calc(48px + env(safe-area-inset-top,0px));left:10px;z-index:9985}
 #qm-chip:hover{background:rgba(79,209,255,.3)}
+#qm-chip .qm-lock{vertical-align:-2px;margin-right:5px}
+@media (max-width:520px){#qm-chip{width:32px;padding:0}#qm-chip .qm-chip-text{display:none}#qm-chip .qm-lock{margin:0}}
 #qm-panel{position:fixed;inset:0;z-index:10040;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);padding:12px}
 #qm-panel[hidden]{display:none}
 #qm-panel .qm-box{background:#0f1a24;color:#e9f1f7;border:1px solid rgba(160,210,235,.35);border-radius:14px;width:min(640px,100%);max-height:calc(100vh - 24px);overflow:auto;padding:16px 18px;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -21813,7 +21815,10 @@ function qmMountSideGames({ world, worldName = world, items, from = world, page 
   const chip = document.createElement("button");
   chip.id = "qm-chip";
   chip.type = "button";
-  chip.textContent = "Side games";
+  // Icon-only on a phone so the shared nav stays one line (check_ui overlap at 360 px).
+  chip.innerHTML = `${QM_LOCK_SVG}<span class="qm-chip-text">Side games</span>`;
+  chip.setAttribute("aria-label", "Side games");
+  chip.title = "Side games";
   chip.setAttribute("aria-haspopup", "dialog");
   const nav = document.getElementById("ctl-nav");
   if (nav) nav.appendChild(chip); else { chip.classList.add("qm-float"); document.body.appendChild(chip); }
