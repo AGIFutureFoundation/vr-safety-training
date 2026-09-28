@@ -1385,6 +1385,8 @@ export const CURRICULA = [
     accent: "#4fb88a",
     stations: [
       { app: "smartcity", id: "k12-water-cycle-and-filtration", why: "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink." },
+      { app: "smartcity", id: "k12-buoyancy-and-pressure-in-the-deep", why: "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated." },
+      { app: "smartcity", id: "k12-circuits-at-the-electrical-bench", why: "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches." },
     ],
   },
   {

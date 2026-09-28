@@ -299,7 +299,7 @@ export const BAY_SITES = [
   { id: "west-oakland-air-monitoring-post", name: "West Oakland Air Monitoring Post", zone: "west-oakland", position: [-304, 11],
     programmes: ["air-quality-monitoring"], stations: ["air-monitor", "mobile-air-lab", "opacity-reading"] },
   { id: "fruitvale-community-college", name: "Fruitvale Community College", zone: "fruitvale", position: [483, 260],
-    programmes: ["dental-hygiene-unspoken-smiles", "dental-careers-unspoken-smiles"], stations: ["phlebotomy", "dental-careers-pathway", "four-handed-dentistry"] },
+    programmes: ["dental-hygiene-unspoken-smiles", "dental-careers-unspoken-smiles", "k12-science"], stations: ["phlebotomy", "dental-careers-pathway", "four-handed-dentistry", "k12-circuits-at-the-electrical-bench"] },
   { id: "fruitvale-fire-station", name: "Fruitvale Fire Station", zone: "fruitvale", position: [420, 287],
     programmes: ["first-responders"], stations: ["triage-point", "structure-fire-sizeup"] },
   { id: "fruitvale-elementary-school", name: "Fruitvale Elementary School", zone: "fruitvale", position: [454, 212],

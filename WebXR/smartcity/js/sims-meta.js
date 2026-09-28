@@ -27748,5 +27748,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-buoyancy-and-pressure-in-the-deep",
+    "index": "807",
+    "domain": "Education",
+    "trade": "Science class at the Deep's viewing platform — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Buoyancy and Pressure in the Deep",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Buoyancy and Pressure in the Deep VR",
+    "tagline": "Float or sink is a push-up against a pull-down — and deeper water pushes harder",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "float-or-sink",
+      "name": "Float or Sink",
+      "note": "Predictions made, tested fairly and explained with the upward push of the water"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Buoyancy Board",
+      "currency": "BUBBLES",
+      "ranks": [
+        "Observer",
+        "Predictor",
+        "Tester",
+        "Explainer",
+        "Scientist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-circuits-at-the-electrical-bench",
+    "index": "808",
+    "domain": "Education",
+    "trade": "Science class at the school's electrical bench — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Circuits at the Electrical Bench",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Circuits at the Electrical Bench VR",
+    "tagline": "A circuit needs a complete loop — and in class, it is always a low-voltage kit",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "full-loop",
+      "name": "Full Loop",
+      "note": "A circuit built, tested, explained and packed away safely"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Circuit Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Builder",
+        "Connector",
+        "Tester",
+        "Explainer",
+        "Designer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

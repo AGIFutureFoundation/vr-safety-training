@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 654
+      "stations": 656
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,8 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-circuits-at-the-electrical-bench",
+        "k12-buoyancy-and-pressure-in-the-deep",
         "k12-reading-a-map-scale-in-bay-world",
         "k12-household-budget-and-first-paycheck",
         "k12-reading-instructions-and-safety-labels",
@@ -5602,16 +5604,26 @@
           "app": "smartcity",
           "id": "k12-measuring-and-scaling-the-court",
           "why": "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-household-budget-and-first-paycheck",
+          "why": "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-reading-a-map-scale-in-bay-world",
+          "why": "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 260,
-        "tasks": 20,
+        "lessons": 780,
+        "tasks": 60,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 5,
+        "stationsNeeded": 3,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -5631,16 +5643,26 @@
           "app": "smartcity",
           "id": "k12-water-cycle-and-filtration",
           "why": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-buoyancy-and-pressure-in-the-deep",
+          "why": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-circuits-at-the-electrical-bench",
+          "why": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 260,
-        "tasks": 20,
+        "lessons": 780,
+        "tasks": 60,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 5,
+        "stationsNeeded": 3,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9821,6 +9843,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-circuits-at-the-electrical-bench",
+      "name": "Circuits at the Electrical Bench",
+      "title": "SmartCiti.X~ Circuits at the Electrical Bench VR",
+      "tagline": "A circuit needs a complete loop — and in class, it is always a low-voltage kit",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the school's electrical bench — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "full-loop",
+        "name": "Full Loop",
+        "note": "A circuit built, tested, explained and packed away safely"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "808",
+      "flat": false,
+      "system": "Circuit Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Builder",
+        "Connector",
+        "Tester",
+        "Explainer",
+        "Designer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-circuits-at-the-electrical-bench"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-buoyancy-and-pressure-in-the-deep",
+      "name": "Buoyancy and Pressure in the Deep",
+      "title": "SmartCiti.X~ Buoyancy and Pressure in the Deep VR",
+      "tagline": "Float or sink is a push-up against a pull-down — and deeper water pushes harder",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the Deep's viewing platform — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "float-or-sink",
+        "name": "Float or Sink",
+        "note": "Predictions made, tested fairly and explained with the upward push of the water"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "807",
+      "flat": false,
+      "system": "Buoyancy Board",
+      "currency": "BUBBLES",
+      "ranks": [
+        "Observer",
+        "Predictor",
+        "Tester",
+        "Explainer",
+        "Scientist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep"
     },
     {
       "app": "smartcity",
@@ -32918,7 +33106,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -33578,7 +33766,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
