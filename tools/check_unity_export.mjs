@@ -80,6 +80,7 @@ for (const c of cur.CURRICULA) {
 }
 for (const w of ["bayworld", "fairway"]) if (!parsed.has(`worlds/${w}.json`)) fail(`worlds/${w}.json is missing`);
 if (existsSync(join(ROOT, "WebXR", "shared", "underwater-data.js")) && !parsed.has("worlds/underwater.json")) fail("underwater-data.js exists but worlds/underwater.json was not exported");
+if (existsSync(join(ROOT, "WebXR", "redwood", "js", "rw-data.js")) && !parsed.has("worlds/redwood.json")) fail("redwood/js/rw-data.js exists but worlds/redwood.json was not exported");
 const stationCount = [...parsed.keys()].filter((k) => k.startsWith("stations/")).length;
 const programmeCount = [...parsed.keys()].filter((k) => k.startsWith("programmes/")).length;
 const worldCount = [...parsed.keys()].filter((k) => k.startsWith("worlds/")).length;

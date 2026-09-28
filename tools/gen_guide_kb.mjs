@@ -30,8 +30,10 @@ const WEBXR = join(ROOT, "WebXR");
 const REPO = "https://github.com/AGIFutureFoundation/vr-safety-training";
 export const GD_KB_OUT = join(WEBXR, "shared", "guide-kb.js");
 // Raised from 600 KB when the K-12 programmes and their stations joined the
-// catalog (docs/consoles/SCHOLAR.md); the rows themselves are unchanged.
-export const GD_KB_CAP = 640 * 1024;
+// catalog (docs/consoles/SCHOLAR.md), and from 640 KB when Redwood Reach's
+// sites joined the worlds (docs/consoles/REDWOOD-2.md); the rows themselves
+// are unchanged. The file loads lazily, when the Guide panel first opens.
+export const GD_KB_CAP = 672 * 1024;
 
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href);
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
@@ -108,22 +110,26 @@ async function build() {
   const dw = await imp("WebXR/shared/underwater-data.js");
   const fw = await imp("WebXR/shared/fairway-data.js");
   const sw = await imp("WebXR/shared/summit-data.js");
+  const rw = await imp("WebXR/redwood/js/rw-data.js");
   const rg = await imp("WebXR/regatta/js/courses.js");
   const siteText = (site, world, zones) => {
-    const zone = zones.find((z) => z.id === site.zone)?.name ?? site.zone;
+    const zone = site.zone ? (zones.find((z) => z.id === site.zone)?.name ?? site.zone) : null;
     const st = (site.stations ?? []).map((id) => byStation.get(id)?.name ?? id);
     const pg = (site.programmes ?? []).map((id) => catalog.curricula.find((c) => c.id === id)).filter(Boolean).map((c) => shortProg(c.name));
-    return `${site.name} is a site in ${world}, in ${zone}.${st.length ? ` Its job board offers ${st.join(", ")}.` : ""}${pg.length ? ` Programmes: ${pg.join(", ")}.` : ""}`;
+    return `${site.name} is a site in ${world}${zone ? `, in ${zone}` : site.trade ? ` for ${site.trade.toLowerCase()}` : ""}.${st.length ? ` Its job board offers ${st.join(", ")}.` : ""}${pg.length ? ` Programmes: ${pg.join(", ")}.` : ""}`;
   };
   const worlds = [
     { key: "bayworld", name: "Bay World", page: "bayworld.html", zones: bw.BAY_ZONES, landmarks: bw.BAY_LANDMARKS, sites: bw.BAY_SITES, src: "WebXR/shared/bayworld-data.js" },
     { key: "underwater", name: "The Deep", page: "underwater.html", zones: dw.DEEP_ZONES, landmarks: dw.DEEP_LANDMARKS, sites: dw.DEEP_SITES, src: "WebXR/shared/underwater-data.js" },
     { key: "summit", name: "Sierra Summit", page: "summit.html", zones: sw.SM_ZONES, landmarks: sw.SM_LANDMARKS, sites: sw.SM_SITES, src: "WebXR/shared/summit-data.js" },
+    { key: "redwood", name: "Redwood Reach", page: "redwood.html", zones: [], landmarks: rw.RW_LANDMARKS, sites: rw.RW_SITES, src: "WebXR/redwood/js/rw-data.js",
+      blurb: `a ${Math.round(rw.RW_SIZE / 1000)} km coastal redwood and mixed forest with a river valley and estuary, fire roads, a fire lookout, a sawmill, a campground and trail network, a wildland fire station, a nursery and a rural substation. Walk or drive the fire roads; trunks and buildings block the way, the map has layers and fast travel to visited sites, and field tins hide lessons copied from real stations` },
   ];
   for (const w of worlds) {
+    const spread = w.zones.length ? `across ${w.zones.length} zones: ${w.zones.map((z) => z.name).join(", ")}` : `for ${[...new Set(w.sites.map((s) => s.trade).filter(Boolean))].join(", ")}`;
     add({ id: `world:${w.key}`, kind: "world", title: w.name, src: w.src,
-      text: `${w.name} is an open world with ${w.sites.length} job sites across ${w.zones.length} zones: ${w.zones.map((z) => z.name).join(", ")}. Walk up to a site's job board to launch its stations; a pass is paid once and marks the board done.`,
-      keys: "world open world explore", links: [{ label: `Open ${w.name}`, href: w.page }] });
+      text: `${w.name} is ${w.blurb ?? "an open world"} with ${w.sites.length} job sites ${spread}. Walk up to a site's job board to launch its stations; a pass is paid once and marks the board done.`,
+      keys: "world open world explore" + (w.key === "redwood" ? " forest redwood trees fire road lookout sawmill" : ""), links: [{ label: `Open ${w.name}`, href: w.page }] });
     for (const z of w.zones) {
       const sites = w.sites.filter((s) => s.zone === z.id);
       add({ id: `zone:${w.key}:${z.id}`, kind: "zone", title: `${z.name} (${w.name})`, src: w.src,

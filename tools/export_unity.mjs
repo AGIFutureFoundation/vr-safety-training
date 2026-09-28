@@ -217,6 +217,7 @@ export async function exportContent() {
   const worlds = { bayworld: await loadData("shared/bayworld-data.js", "unity-bay"), fairway: await loadData("shared/fairway-data.js", "unity-fairway") };
   if (existsSync(join(WEBXR, "shared", "underwater-data.js"))) worlds.underwater = await loadData("shared/underwater-data.js", "unity-underwater");
   if (existsSync(join(WEBXR, "shared", "summit-data.js"))) worlds.summit = await loadData("shared/summit-data.js", "unity-summit");
+  if (existsSync(join(WEBXR, "redwood", "js", "rw-data.js"))) worlds.redwood = await loadData("redwood/js/rw-data.js", "unity-redwood");
 
   for (const c of cur.CURRICULA) for (const s of c.stations ?? []) {
     const k = `${s.app}/${s.id}`;
@@ -259,7 +260,8 @@ export async function exportContent() {
     write(`Content/programmes/${c.id}.json`, stable(programme(c, catCur.get(c.id), compBy.get(c.id), anchorsFor(c.id))));
     programmeIds.push({ id: c.id, file: `programmes/${c.id}.json`, stations: c.stations.length });
   }
-  for (const [name, data] of Object.entries(worlds)) write(`Content/worlds/${name}.json`, stable({ schema: "smartcitix.world/1", id: name, source: `WebXR/shared/${name}-data.js`, ...data }));
+  const WORLD_SOURCES = { redwood: "WebXR/redwood/js/rw-data.js" };
+  for (const [name, data] of Object.entries(worlds)) write(`Content/worlds/${name}.json`, stable({ schema: "smartcitix.world/1", id: name, source: WORLD_SOURCES[name] ?? `WebXR/shared/${name}-data.js`, ...data }));
 
   write("Content/index.json", stable({
     schema: "smartcitix.index/1",
