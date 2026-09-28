@@ -86,7 +86,7 @@ for (const p of R.NP_PARISHES) {
     for (const id of s.stations) {
       const link = LK.lkStationLink(id, { runner: "../smartcity/index.html", from: "parishes", page: "/parishes/parishes.html", siteId: `${p.id}/${s.id}` });
       check(link.startsWith("../smartcity/index.html?sim=") || link.startsWith("../trades/index.html?room="), `${tag}/${s.id}/${id}: link opens the runner`);
-      check(link.includes("from=parishes") && link.includes(encodeURIComponent(`#site=${p.id}/${s.id}`)), `${tag}/${s.id}/${id}: link carries the way back`);
+      check(link.includes("from=parishes") && link.includes(encodeURIComponent(`#site=${encodeURIComponent(`${p.id}/${s.id}`)}`)), `${tag}/${s.id}/${id}: link carries the way back`);
     }
   }
   for (const r of p.roads) {
@@ -148,9 +148,15 @@ for (const p of R.NP_PARISHES) {
     const toLL = G.npToGeo(other, c.to.position);
     const gap = G.npGeoDistance(fromLL, toLL);
     const suggest = G.npGeoToXz(other, fromLL).map(Math.round);
-    check(gap <= 1000, `${tag}/${c.id}: both ends project within 1 km (${Math.round(gap)} m; a to.position of [${suggest}] in ${other.id} would close it)`);
     check(G.npInField(other, c.to.position), `${tag}/${c.id}: the far end lies inside ${other.id}'s field`);
-    if (other !== p) {
+    if (other === p) {
+      // A crossing within one parish (a ferry) joins two real banks: its ends are apart by design, over water, inside the field.
+      const d = Math.hypot(c.to.position[0] - c.from.position[0], c.to.position[1] - c.from.position[1]);
+      check(d > 50 && d < 1500, `${tag}/${c.id}: an in-parish crossing spans a real gap (${Math.round(d)} m)`);
+      const mid = [(c.from.position[0] + c.to.position[0]) / 2, (c.from.position[1] + c.to.position[1]) / 2];
+      check(c.kind !== "ferry" || !!E.npWaterAt(p, ...mid), `${tag}/${c.id}: a ferry crosses water`);
+    } else {
+      check(gap <= 1000, `${tag}/${c.id}: both ends project within 1 km (${Math.round(gap)} m; a to.position of [${suggest}] in ${other.id} would close it)`);
       const pair = (other.connectors ?? []).find((x) => x.id === c.id);
       check(!!pair, `${tag}/${c.id}: ${other.id} pairs the connector by id`);
       if (pair) check(G.npGeoDistance(G.npToGeo(other, pair.from.position), fromLL) <= 1000, `${tag}/${c.id}: the pair's own end is within 1 km too`);
@@ -165,8 +171,11 @@ check(R.NP_PARISHES.some((p) => p.id === "orleans" && p.sites.length >= 10), "Or
   check(o.roads.some((r) => r.kind === "bridge") && o.roads.some((r) => r.kind === "ferry") && o.roads.some((r) => r.kind === "interstate"), "orleans: a bridge, a ferry and an interstate");
   check(o.connectors.some((c) => c.to.parish === "jefferson") && o.connectors.some((c) => c.to.parish === "st-bernard"), "orleans: ways to Jefferson and St. Bernard");
   const src = readFileSync(join(WEBXR, "shared", "np-data-orleans.js"), "utf8");
-  check(!/\b(19|20)\d\d\b/.test(src.replace(/\/\/.*$/gm, "")), "orleans: no year in the data");
-  check(!/population|founded|built in|est\./i.test(src), "orleans: no history or statistics");
+  // Coordinates are four-digit numbers, so the facts rule is held by words, not by a year regex.
+  check(!/population|founded|built in|opened in|census|since \d|est\.|\bcirca\b/i.test(src), "orleans: no history or statistics");
+  const text = [...o.sites, ...o.landmarks, ...o.districts].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ");
+  // An ordinal in a public name (a numbered street or canal) is a name, not a figure.
+  check(!/\d/.test(text.replace(/\b\d+(st|nd|rd|th)\b/g, "")), "orleans: no figure in a site, landmark or district name or blurb");
 }
 
 // 3. the ledger

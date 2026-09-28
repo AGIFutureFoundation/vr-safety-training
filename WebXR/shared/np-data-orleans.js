@@ -417,7 +417,7 @@ export const NP_ORLEANS = {
    "pts": [
     [14, 1201],
     [127, 1525],
-    [212, 1818]
+    [268, 2045]
    ]
   },
   {
@@ -1348,7 +1348,7 @@ export const NP_ORLEANS = {
   {
    "id": "holy-cross-levee",
    "name": "the Holy Cross levee",
-   "position": [1342, 714],
+   "position": [1342, 633],
    "kind": "levee"
   },
   {
@@ -1360,7 +1360,7 @@ export const NP_ORLEANS = {
   {
    "id": "garden-district",
    "name": "the Garden District",
-   "position": [-918, 1525],
+   "position": [-862, 1217],
    "kind": "neighbourhood"
   },
   {
@@ -1372,7 +1372,7 @@ export const NP_ORLEANS = {
   {
    "id": "gentilly",
    "name": "Gentilly",
-   "position": [-212, -747],
+   "position": [-381, -714],
    "kind": "neighbourhood"
   },
   {
@@ -1417,12 +1417,12 @@ export const NP_ORLEANS = {
    "name": "the West Bank Expressway south of Algiers",
    "from": {
     "parish": "orleans",
-    "position": [212, 1818]
+    "position": [268, 2045]
    },
    "to": {
     "parish": "jefferson",
     "position": null,
-    "lonlat": [-90.045, 29.919]
+    "lonlat": [-90.043, 29.912]
    }
   },
   {
