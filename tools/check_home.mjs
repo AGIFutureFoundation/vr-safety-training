@@ -558,7 +558,7 @@ await check("a signed-in identity flows into Identity, is stored once, and signi
 
 // ------------------------------------------- 4. the front door (console MARQUEE)
 
-const HM_WORLDS = ["bayworld", "regatta", "underwater", "summit", "parishes", "fairway", "redwood", "atlas", "smartcity", "holodeck"];
+const HM_WORLDS = ["bayworld", "regatta", "underwater", "summit", "parishes", "sanfrancisco", "fairway", "redwood", "atlas", "smartcity", "holodeck"];
 
 await check("the hero carries a recorded loop, one headline and the two actions", () => {
   for (const [file, html, layout] of [["index.html", home, { go: "bayworld/index.html" }], ["home.html", flat, { go: "bayworld.html" }]]) {

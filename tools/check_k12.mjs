@@ -372,6 +372,38 @@ for (const world of ["bayworld", "underwater"]) {
   console.log(`  · ${list.length} parish field lessons across ${SLP.SL_PARISHES.length} parishes`);
 }
 
+// 8e — the San Francisco districts' field lessons (GOLDEN-B, WebXR/shared/sg-sf-play.js re-reading each
+// district's np-data-sf-*.js fieldLessons): the play layer's shape, ten or more, five or more in each GOLDEN-B
+// district, every one at a district site, tied to a classroom station and a trade station, no digit, no
+// fact-shaped claim about the place, reading level and sentence length inside the field-lesson bounds.
+{
+  const SGP = await import("../WebXR/shared/sg-sf-play.js");
+  const list = SGP.SG_FIELD_LESSONS;
+  if (!Array.isArray(list) || list.length < 10) fail("san-francisco", `${list?.length ?? 0} SF field lessons, fewer than ten`); else ok();
+  for (const d of SGP.SG_DISTRICTS) if (list.filter((l) => l.parish === d.id).length < 5) fail("san-francisco", `${d.name} has fewer than five field lessons`); else ok();
+  const seen = new Set();
+  for (const l of list) {
+    if (!/^sg-fl-/.test(l.id ?? "")) fail("san-francisco", `lesson id "${l.id}" lacks the sg-fl- prefix`); else ok();
+    if (seen.has(l.id)) fail("san-francisco", `duplicate lesson id ${l.id}`); seen.add(l.id);
+    if (!SGP.sgDistrict(l.parish)?.sites.some((s) => s.id === l.site)) fail(l.id, `site ${l.parish}/${l.site} is not a district site`); else ok();
+    if (!seenStations.has(l.k12)) fail(l.id, `k12 "${l.k12}" is not a classroom station`); else ok();
+    if (!ROOMS.has(l.station)) fail(l.id, `trade station "${l.station}" is not a station`); else ok();
+    if (!(l.minutes >= 2 && l.minutes <= 4)) fail(l.id, `minutes ${l.minutes} outside two to four`); else ok();
+    if (!Array.isArray(l.steps) || l.steps.length !== 3 || !l.steps.every((s) => typeof s === "string" && s.trim())) fail(l.id, "steps are not three sentences"); else ok();
+    const c = l.check;
+    if (!c?.q || !Array.isArray(c.options) || c.options.length < 2 || !Number.isInteger(c.answer) || c.answer < 0 || c.answer >= c.options.length || !c.why) fail(l.id, "check question malformed"); else ok();
+    const text = [l.title, l.tradeLine, ...(l.steps ?? []), c?.q ?? "", ...(c?.options ?? []), c?.why ?? ""].join(" ");
+    if (/\d/.test(text)) fail(l.id, "states a figure (a digit) — the Facts rule"); else ok();
+    if (/\b(built|opened|founded|established|dedicated|acres|feet|miles|tall|population|century|anniversary|named after)\b/i.test(text)) fail(l.id, "carries a fact-shaped claim about the place"); else ok();
+    const st = readingStats([`${l.title}.`, ...(l.steps ?? []), c?.q ?? ""].join(" "));
+    if (st.grade > RL_LESSON_MAX) fail(l.id, `reading level ${st.grade.toFixed(1)} over ${RL_LESSON_MAX}`); else ok();
+    if (st.wordsPerSentence < WPS_LESSON[0] || st.wordsPerSentence > WPS_LESSON[1]) fail(l.id, `${st.wordsPerSentence.toFixed(1)} words per sentence, outside ${WPS_LESSON.join("–")}`); else ok();
+    const href = lkStationLink(l.k12, { from: "parishes", page: "parishes.html", siteId: `${l.parish}/${l.site}` });
+    if (!href.includes(`sim=${l.k12}`) || !href.includes("from=parishes")) fail(l.id, `link "${href}" does not launch its classroom station`); else ok();
+  }
+  console.log(`  · ${list.length} San Francisco field lessons across ${SGP.SG_DISTRICTS.length} districts`);
+}
+
 // 6 — the finder, the doc
 const home = read("tools/gen_home.mjs");
 if (!/value="classroom">Classroom/.test(home) || !/data-aud="classroom"/.test(home)) fail("homepage", "the finder has no Classroom filter"); else ok();

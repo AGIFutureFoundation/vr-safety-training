@@ -54,8 +54,10 @@ export const NP_OPEN_WATER = ["lake", "gulf", "bay", "ocean"];
 export const NP_HILL = { minRadius: 80, maxRadius: 1500, maxHeight: 120, maxSlope: 0.35 };
 /** The district characters the massing knows (the brief's enum plus "downtown" for a central business district and "park" — trees, no buildings — for a city park, console GOLDEN-A). */
 export const NP_CHARACTERS = ["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "downtown", "park"];
-/** The connector kinds. */
-export const NP_CONNECTOR_KINDS = ["bridge", "causeway", "ferry", "road"];
+/** The connector kinds; a `world` connector's far end is another world's page (GOLDEN-B, shared/sg-ways.js). */
+export const NP_CONNECTOR_KINDS = ["bridge", "causeway", "ferry", "road", "world"];
+/** The worlds a `world` connector may lead to, and the page each opens with `?site=` (source layout, relative to WebXR/parishes/). */
+export const NP_WAY_WORLDS = { bayworld: "../bayworld/index.html" };
 
 /** Triangles per massing part, by kind (the builder's geometries). */
 export const NP_TRI = {
@@ -619,6 +621,14 @@ export function npValidate(parish, ctx = {}) {
     if (!str(c.name)) bad.push(`connector ${c.id}: no name`);
     if (c.from?.parish !== parish.id) bad.push(`connector ${c.id}: from.parish is not ${parish.id}`);
     if (!inField(c.from?.position)) bad.push(`connector ${c.id}: from.position outside the field`);
+    if (c.kind === "world") {
+      // A way out to another world: `to: { world, site, href }`, the href that world's page with `?site=`.
+      const page = NP_WAY_WORLDS[c.to?.world];
+      if (!page) bad.push(`connector ${c.id}: world ${c.to?.world} is not a known world`);
+      else if (!str(c.to?.site) || c.to?.href !== `${page}?site=${encodeURIComponent(c.to.site)}`) bad.push(`connector ${c.id}: href is not ${page}?site=<site>`);
+      if (ctx.worldSites?.[c.to?.world] && !ctx.worldSites[c.to.world].has(c.to?.site)) bad.push(`connector ${c.id}: ${c.to?.site} is not a ${c.to?.world} site`);
+      continue;
+    }
     if (!str(c.to?.parish)) bad.push(`connector ${c.id}: to.parish missing`);
     if (c.to?.position != null && !pt(c.to.position)) bad.push(`connector ${c.id}: to.position malformed`);
     if (c.to?.position == null && !pt(c.to?.lonlat)) bad.push(`connector ${c.id}: to needs a position or a lonlat`);

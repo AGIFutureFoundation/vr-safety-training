@@ -155,3 +155,40 @@ the crossing under its own id at the same `lonlat`.
 | Oak Street at the Panhandle | road | sf-mission ↔ sf-golden-gate-park | -122.447, 37.772 | `sf-mi-oak-street`, `sf-gp-oak-street` |
 
 The Bay Bridge point sits on dry land at the anchorage in the Downtown map, so a learner can walk to GOLDEN-B's way out.
+
+## San Francisco districts (region `san-francisco`)
+
+The parish engine also carries San Francisco as districts on the same schema, each with `region: "san-francisco"`
+and a `hills` array (`{ id, name, center, radius, height }` — gentle procedural mounds, names only). Console GOLDEN-A
+owns sf-downtown, sf-mission and sf-golden-gate-park; console GOLDEN-B (docs/consoles/GOLDEN-B.md) owns:
+
+**sf-marina — Marina & Presidio** (`np-data-sf-marina.js`, about two real metres per map metre) — the Marina yacht
+harbour, a rescue station at Crissy Field run the coast guard way, the Golden Gate Bridge maintenance yard, the
+Presidio's park crew yard and forestry crew, the Crissy Field marsh crew, the Fort Mason piers, the Marina seawall and
+storm drain crew, a Chestnut Street building site and a trolley bus yard. The Golden Gate Bridge is a bridge landmark,
+a bridge deck and a way out north with no map beyond it yet.
+
+**sf-bayview — Bayview & Hunters Point** (`np-data-sf-bayview.js`, about two real metres per map metre) — the port's
+southern terminals, the Islais Creek rail yard, the Third Street light-rail barn, the Hunters Point shipyard and the
+C.L.E.A.R. clean-up programme's sites (the soil excavation cell, the groundwater treatment yard, the shoreline and
+sediment crew — every station of `hunters-point-bay-restoration` is worked at one of them), the Heron's Head and
+Yosemite Slough wetland restoration sites, the Bayview recreation centre and the India Basin park crew.
+
+| Crossing | kind | joins | approx. lon, lat | id (both ends) |
+|---|---|---|---|---|
+| Van Ness Avenue | road | sf-marina ↔ sf-downtown | -122.424, 37.795 | `sf-van-ness-north` |
+| Bay Street to the Embarcadero | road | sf-marina ↔ sf-downtown | -122.415, 37.806 | `sf-embarcadero-north` |
+| Park Presidio Boulevard | road | sf-marina ↔ sf-golden-gate-park | -122.472, 37.782 | `sf-park-presidio` |
+| The Golden Gate Bridge | bridge | sf-marina → marin-headlands (no map yet) | -122.478, 37.829 | `sf-golden-gate-bridge` |
+| Third Street | road | sf-bayview ↔ sf-mission | -122.389, 37.755 | `sf-third-street-south` |
+| Bayshore Boulevard | road | sf-bayview ↔ sf-mission | -122.404, 37.735 | `sf-bayshore-south` |
+| The Bay Bridge | world | sf-downtown → Bay World (West Oakland) | -122.387, 37.790 | `sf-bay-bridge` |
+
+**A `world` connector** leaves a district for another world's page: `to: { world, site, name, href }` with
+`href` the other world's page and `?site=` in the source layout (`../bayworld/index.html?site=west-oakland-union-hall`,
+flattened by the bundler to `./bayworld.html?site=…`). World ways live in `shared/sg-ways.js` keyed by the district
+they leave; `npResolveConnectors` appends them and projects the `from` end through that district's fit, so a district's
+module is never edited to carry one. The parishes app draws a world way as a way out (a tall gold post and a map
+label) and crosses with `lkWorldLink` (`&from=parishes&return=<page>#site=<district>/<site>`, encoded); the passport
+lives in the origin's storage and crosses with the learner. Bay World's Atlas and its map carry the way back,
+`../parishes/parishes.html?parish=sf-downtown`.
