@@ -4,8 +4,12 @@ Read first: `tools/briefs/console-brief.md`, `docs/deploy-cloudflare.md`, `docs/
 `docs/consoles/EDGE.md`. Prefix `cf`. Nothing deploys from the machine you work on.
 
 ## Where EDGE left it (measured, commit c7b2a76 and after)
-- `node tools/check_deploy.mjs` → **321 checks**, 33 `_headers` rules, 42 redirects, 4 routes, 7 plan steps,
-  5 verify assertions, ~1.8 s. `check_parse` 876 modules, `check_imports` clean with the new files.
+- `node tools/check_deploy.mjs` → **329 checks**, 33 `_headers` rules, 42 redirects, 6 routes (3 own + the union
+  of TILL's payments and passes handlers' `ROUTES`, both stubbed here), 7 plan steps, 5 verify assertions, ~1.8 s.
+  `check_parse` 2272 modules, `check_imports` 876 clean with the new files. The full suite started at 19:09 under
+  load 6→24 (seven consoles) and had 68 ✓ of 80 at hand-back: ✗ `check_investor` (fixed, 817ee9a) and ✗ `check_guide`
+  (`guide-kb.js` stale because the new doc joined the Guide's sources — regenerated in the last commit); 10 heavy
+  browser checkers were still queued. Re-run `node tools/check_all.mjs` once on a quiet machine first.
 - The flat build: 1,119 files, 72 MB; the largest bundle `smartcity-x.html` 5.6 MB; 13 bundles between 1.0 and
   5.6 MB; 61 track pages. Nothing is hash-named.
 - The dry-run plan prints 7 steps, 19 commands/API calls, 15 checks; the log redactor replaces credential values

@@ -104,7 +104,7 @@ for (const r of redirects) {
 check(redirects.some((r) => r.from === "/smartcity/index.html" && r.to === "/smartcity-x.html") && redirects.some((r) => r.from === "/home.html"), "the repo-layout paths fold onto the flat names");
 
 // ------------------------------------------------------------------ no secrets anywhere
-const SCAN = ["wrangler.toml", "workers/edge/wrangler.toml", "workers/edge/router.mjs", "workers/payments/handler.mjs", "functions/api/[[path]].js",
+const SCAN = ["wrangler.toml", "workers/edge/wrangler.toml", "workers/edge/router.mjs", "workers/payments/handler.mjs", "workers/passes/handler.mjs", "functions/api/[[path]].js",
   "functions/auth-config.json.js", "tools/deploy_agent.mjs", "tools/deploy_cloudflare.sh", "tools/cf-config.mjs", "tools/check_deploy.mjs",
   ".github/workflows/deploy-cloudflare.yml", "docs/deploy-cloudflare.md", "docs/deploy/last-run.md", "WebXR/dist/_headers", "WebXR/dist/_redirects", "WebXR/dist/_routes.json"];
 for (const f of SCAN) {
@@ -120,13 +120,19 @@ for (const f of SCAN) {
 // ------------------------------------------------------------------ the router and the handler
 const router = await import(join(ROOT, "workers/edge/router.mjs"));
 const handler = await import(join(ROOT, "workers/payments/handler.mjs"));
+const passesMod = await import(join(ROOT, "workers/passes/handler.mjs"));
 check(typeof handler.default === "function" && Array.isArray(handler.ROUTES) && handler.ROUTES.length > 0, "workers/payments/handler.mjs exports default handle() and ROUTES");
-const want = handler.ROUTES.map(router.cfRoute);
-const have = router.CF_ROUTES.map((r) => `${r.method} ${r.path}`);
-for (const r of want) check(have.includes(`${r.method} ${r.path}`), `the router serves the handler's route ${r.method} ${r.path}`);
-for (const p of ["GET /api/health", "GET /api/auth-config", "GET /auth-config.json"]) check(have.includes(p), `the router serves ${p}`);
-check(new Set(have).size === have.length && have.every((h) => /^(GET|POST|PUT|DELETE|PATCH) \/[a-z0-9/_.-]*$/.test(h)), "every route is unique and well-formed", have.join(", "));
-check(want.every((r) => r.path.startsWith("/api/")), "the handler's routes are under /api/");
+check(typeof passesMod.default === "function" && Array.isArray(passesMod.ROUTES) && passesMod.ROUTES.length > 0, "workers/passes/handler.mjs exports default handle() and ROUTES");
+const want = [...handler.ROUTES, ...passesMod.ROUTES].map(router.cfRoute);
+const key = (r) => `${r.method} ${r.path}`;
+const have = router.CF_ROUTES.map(key);
+const own = ["GET /api/health", "GET /api/auth-config", "GET /auth-config.json"];
+for (const p of own) check(have.includes(p), `the router serves ${p}`);
+// The router's routes are exactly its own three plus the union of both handlers' ROUTES.
+check(JSON.stringify(have.filter((h) => !own.includes(h)).sort()) === JSON.stringify([...new Set(want.map(key))].sort()), "the router's routes equal the union of the payments and passes handlers' ROUTES", `router: ${have.join(", ")}`);
+check(passesMod.ROUTES.map(router.cfRoute).every((r) => r.path.startsWith("/api/passes")), "the passes handler's routes are under /api/passes");
+check(new Set(have).size === have.length && have.every((h) => /^(GET|POST|PUT|DELETE|PATCH) \/[a-z0-9/_.:*-]*$/.test(h)), "every route is unique and well-formed", have.join(", "));
+check(want.every((r) => r.path.startsWith("/api/")), "the handlers' routes are under /api/");
 check(typeof router.onRequest === "function" && typeof router.default?.fetch === "function", "the router exports the Pages and the Worker entry points");
 {
   const staticConfig = JSON.parse(read("WebXR/auth-config.json"));
@@ -155,8 +161,12 @@ check(typeof router.onRequest === "function" && typeof router.default?.fetch ===
   check(nf.status === 404, "an unknown /api path is a JSON 404");
   const wrong = await router.cfHandle(new Request("https://x.example/api/health", { method: "POST" }), {});
   check(wrong.status === 405 && wrong.headers.get("allow"), "a wrong method is a 405 with Allow");
-  const pay = await router.cfHandle(new Request(`https://x.example${want[0].path}`, { method: want[0].method, body: "{}" }), {});
-  check(pay instanceof Response && pay.status !== 404, "the payments route reaches the handler", String(pay.status));
+  const payRoute = router.cfRoute(handler.ROUTES[0]);
+  const pay = await router.cfHandle(new Request(`https://x.example${payRoute.path.replace(/:\w+/g, "x").replace(/\*$/, "x")}`, { method: payRoute.method, body: payRoute.method === "GET" ? undefined : "{}" }), {});
+  check(pay instanceof Response && pay.status !== 404 && pay.status !== 405, "the payments route reaches the payments handler", String(pay.status));
+  const passRoute = router.cfRoute(passesMod.ROUTES[0]);
+  const pass = await router.cfHandle(new Request(`https://x.example${passRoute.path.replace(/:\w+/g, "abc").replace(/\*$/, "abc")}`, { method: passRoute.method, body: passRoute.method === "GET" ? undefined : "{}" }), {});
+  check(pass instanceof Response && pass.status !== 404 && pass.status !== 405, "a passes route reaches the passes handler", String(pass.status));
   globalThis.fetch = origFetch;
 }
 

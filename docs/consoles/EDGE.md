@@ -65,3 +65,14 @@ tree at 01539ab. Prefix `cf`, port 8996, temp under `$SP/crescent/edge/`. Nothin
   data; one conflict, the tracked bundle_webxr pyc, resolved by recompiling; node --check clean on the three
   modules) · 4f20b8f is the fix for the enterprise default-language assertion that failed here · check_deploy after
   the merge: 324 checks pass · the suite (started 19:09) was at 67/80 checkers, all ✓ so far · next: suite end, HAND-BACK
+- 20:08 UTC · TILL's second handler routed: `workers/passes/handler.mjs` (stub, `/api/passes/*`) beside the payments
+  one through a `CF_HANDLERS` table; `:param`/`*` matching; check_deploy asserts router routes = own 3 + union of both
+  handlers' ROUTES · `check_deploy` failed once on a name clash (`passes` vs the pass counter) → `passesMod` ·
+  `node tools/check_deploy.mjs` → All deploy checks pass: 329 checks, 33 header rules, 42 redirects, 6 routes,
+  7 plan steps, 5 verify assertions · guide-kb.js regenerated (the new doc is a Guide source), full bundle rebuilt
+- 20:08 UTC · HAND-BACK · the single full `node tools/check_all.mjs` (started 19:09, load 6→24) did not finish by the
+  deadline: 68 ✓ of 80 (parse, imports, interop, standards … mobile, ui), ✗ check_investor (fixed 817ee9a), ✗ check_guide
+  (guide-kb.js stale → regenerated), 10 browser checkers queued · single checkers run: check_deploy 329 ✓,
+  check_parse ✓, check_imports ✓, check_proving 162 ✓, check_auth ✓, check_investor ✓ (after regen), check_enterprise
+  1 ✗ pre-merge (fixed upstream by 4f20b8f) · eval scores: n/a (no station content) · left: the suite on a quiet
+  machine; wrangler's dry run when npm is reachable; TILL's real handlers replace the two stubs

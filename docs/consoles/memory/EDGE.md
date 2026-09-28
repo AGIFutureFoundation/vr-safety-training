@@ -25,9 +25,11 @@ Short, durable lessons for the next team on the Cloudflare layer (docs/deploy-cl
 - **Ids in wrangler output are 32 hex too.** The log redactor replaces any such line whole; log verdicts, not ids.
 - **wrangler is not installed here** and `npm install` is blocked; the checker prints the skip note. In CI the
   workflow installs it (`npm install --no-save wrangler`).
-- **TILL's handler contract** (`workers/payments/handler.mjs`): default `handle(request, env)`, named `ROUTES`
-  (`{ method, path }` or `"METHOD /path"`; `cfRoute()` normalises both). The stub here is marked; on an add/add
-  conflict take TILL's file whole. The secret is `env.PAYMENTS_WEBHOOK_SECRET` (set by name by the agent).
+- **TILL's handler contract** (`workers/payments/handler.mjs`, `workers/passes/handler.mjs`): default
+  `handle(request, env)`, named `ROUTES` (`{ method, path }` or `"METHOD /path"`; `cfRoute()` normalises both;
+  `:param` and trailing `*` segments match). Both stubs here are marked; on an add/add conflict take TILL's file
+  whole. The router's `CF_HANDLERS` table is the one place to add a third module. The webhook secret is
+  `env.PAYMENTS_WEBHOOK_SECRET` (set by name by the agent).
 - **A failing checker may be upstream's, not yours.** `check_enterprise` failed one browser assertion here
   (`lang="es"` from the enterprise block) with no WebXR source changed in this worktree; it was already `ok: false`
   in the coordinator's `checkers-last.json`, and the coordinator's 4f20b8f ("the default language holds whichever of

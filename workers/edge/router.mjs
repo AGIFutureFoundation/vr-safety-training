@@ -14,10 +14,18 @@
  *                                   Only the enterprise block's own keys are taken from KV (docs/enterprise.md § 3);
  *                                   a token or a key stored there by mistake never reaches a browser.
  *   POST /api/payments/webhook    — TILL's workers/payments/handler.mjs (default `handle(request, env)`).
+ *   /api/passes/*                 — TILL's workers/passes/handler.mjs (Wallet pass routes), as its ROUTES declare.
  *
  * The router never logs a header, a body or an environment value. It reads `env` for bindings and names only.
  */
 import cfPaymentsHandle, { ROUTES as CF_PAYMENT_ROUTES } from "../payments/handler.mjs";
+import cfPassesHandle, { ROUTES as CF_PASS_ROUTES } from "../passes/handler.mjs";
+
+/** TILL's handler modules, each on the contract: default `handle(request, env)` → Response, named `ROUTES`. */
+export const CF_HANDLERS = [
+  { id: "payments", handle: cfPaymentsHandle, routes: Array.isArray(CF_PAYMENT_ROUTES) ? CF_PAYMENT_ROUTES : [] },
+  { id: "passes", handle: cfPassesHandle, routes: Array.isArray(CF_PASS_ROUTES) ? CF_PASS_ROUTES : [] },
+];
 
 /** The keys of auth-config.json's `enterprise` block a KV entry may set (docs/enterprise.md § 3). */
 export const CF_ENTERPRISE_KEYS = ["organisation", "signInMethods", "defaultLanguage", "worlds", "programmes", "dataRetention", "sso"];
@@ -37,8 +45,19 @@ export const CF_OWN_ROUTES = [
   { method: "GET", path: "/auth-config.json" },
 ];
 
-/** Every route this router answers: its own, then the payments handler's, as it declares them. */
-export const CF_ROUTES = [...CF_OWN_ROUTES, ...(Array.isArray(CF_PAYMENT_ROUTES) ? CF_PAYMENT_ROUTES.map(cfRoute) : [])];
+/** The handlers' routes, normalised and tagged with the handler that answers them. */
+export const CF_HANDLER_ROUTES = CF_HANDLERS.flatMap((h) => h.routes.map((r) => ({ ...cfRoute(r), handler: h.id })));
+
+/** Every route this router answers: its own, then each handler's, as it declares them. */
+export const CF_ROUTES = [...CF_OWN_ROUTES, ...CF_HANDLER_ROUTES.map(({ method, path }) => ({ method, path }))];
+
+/** Match a request path against a handler route: exact, or a trailing `*` / `:param` segment. */
+export function cfRouteMatches(routePath, path) {
+  if (routePath === path) return true;
+  if (routePath.endsWith("/*")) return path.startsWith(routePath.slice(0, -1)) || path === routePath.slice(0, -2);
+  const a = routePath.split("/"), b = path.split("/");
+  return a.length === b.length && a.every((seg, i) => seg.startsWith(":") || seg === b[i]);
+}
 
 const CF_JSON_HEADERS = {
   "content-type": "application/json; charset=utf-8",
@@ -110,10 +129,11 @@ export async function cfHandle(request, env = {}) {
   if (path === "/api/auth-config" || path === "/auth-config.json") {
     return method === "GET" || method === "HEAD" ? cfAuthConfig(request, env) : cfJson({ error: "method not allowed" }, 405, { allow: "GET, HEAD" });
   }
-  const payment = CF_ROUTES.find((r) => r.path === path && !CF_OWN_ROUTES.includes(r));
-  if (payment) {
-    if (payment.method !== method) return cfJson({ error: "method not allowed" }, 405, { allow: payment.method });
-    const res = await cfPaymentsHandle(request, env);
+  const hits = CF_HANDLER_ROUTES.filter((r) => cfRouteMatches(r.path, path));
+  if (hits.length) {
+    const hit = hits.find((r) => r.method === method);
+    if (!hit) return cfJson({ error: "method not allowed" }, 405, { allow: [...new Set(hits.map((r) => r.method))].join(", ") });
+    const res = await CF_HANDLERS.find((h) => h.id === hit.handler).handle(request, env);
     return res instanceof Response ? res : cfJson({ error: "handler returned no response" }, 502);
   }
   return cfJson({ error: "not found", path }, 404);
