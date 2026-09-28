@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 661
+      "stations": 662
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-energy-transfer-at-the-wind-farm",
         "k12-fractions-in-the-kitchen",
         "k12-first-aid-awareness-call-for-help",
         "k12-writing-a-clear-incident-report",
@@ -5619,16 +5620,21 @@
           "app": "smartcity",
           "id": "k12-reading-a-map-scale-in-bay-world",
           "why": "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-fractions-in-the-kitchen",
+          "why": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 780,
-        "tasks": 60,
+        "lessons": 1040,
+        "tasks": 80,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 3,
+        "stationsNeeded": 2,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9868,6 +9874,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-energy-transfer-at-the-wind-farm",
+      "name": "Energy Transfer at the Wind Farm",
+      "title": "SmartCiti.X~ Energy Transfer at the Wind Farm VR",
+      "tagline": "Energy is never made or lost — follow it from the wind to the wire",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the wind farm's visitor point — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4fb88a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "energy-followed",
+        "name": "Energy Followed",
+        "note": "Energy traced store to store with a model turbine, wasted energy named and nothing claimed that the test did not show"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "814",
+      "flat": false,
+      "system": "Energy Board",
+      "currency": "JOULES",
+      "ranks": [
+        "Observer",
+        "Tracer",
+        "Tester",
+        "Explainer",
+        "Engineer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-energy-transfer-at-the-wind-farm"
     },
     {
       "app": "smartcity",
@@ -33546,7 +33635,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 248,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -34206,7 +34295,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

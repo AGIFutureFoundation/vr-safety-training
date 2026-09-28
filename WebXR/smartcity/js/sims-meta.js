@@ -28042,5 +28042,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-energy-transfer-at-the-wind-farm",
+    "index": "814",
+    "domain": "Education",
+    "trade": "Science class at the wind farm's visitor point — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Energy Transfer at the Wind Farm",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Energy Transfer at the Wind Farm VR",
+    "tagline": "Energy is never made or lost — follow it from the wind to the wire",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "energy-followed",
+      "name": "Energy Followed",
+      "note": "Energy traced store to store with a model turbine, wasted energy named and nothing claimed that the test did not show"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Energy Board",
+      "currency": "JOULES",
+      "ranks": [
+        "Observer",
+        "Tracer",
+        "Tester",
+        "Explainer",
+        "Engineer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

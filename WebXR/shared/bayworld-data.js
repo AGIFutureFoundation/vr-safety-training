@@ -359,7 +359,7 @@ export const BAY_SITES = [
     programmes: ["port-operations", "ports-maritime-ecology", "marine-ecology-and-restoration", "commercial-diving-and-scientific-scuba"], stations: ["mooring-line", "pilot-transfer", "spill-boom-deploy", "vessel-gangway-and-hatch-cover-safety", "me-kelp-transect-survey-and-photo-quadrats", "me-oyster-reef-monitoring-and-settlement-tiles", "cd-underwater-wet-welding-and-cutting", "cd-rov-launch-recovery-and-tether-management", "cd-decompression-chamber-operations-and-post-dive", "cd-hydraulic-tools-and-suction-hazards-underwater"] },
   // Anchored here: the wind-and-data-infrastructure turbine and substation stations.
   { id: "ridge-wind-farm", name: "Ridge Wind Farm", zone: "upper-hills", position: [960, -520],
-    programmes: ["wind-and-data-infrastructure"], stations: ["ws-turbine-climb-and-rescue-kit-check", "ws-nacelle-lockout-and-yaw-brake-fault", "ws-blade-inspection-from-a-platform", "ws-substation-switching-under-a-permit"] },
+    programmes: ["wind-and-data-infrastructure", "k12-science"], stations: ["ws-turbine-climb-and-rescue-kit-check", "ws-nacelle-lockout-and-yaw-brake-fault", "ws-blade-inspection-from-a-platform", "ws-substation-switching-under-a-permit", "k12-energy-transfer-at-the-wind-farm"] },
   // Anchored here: the wind-and-data-infrastructure data-hall stations.
   { id: "emery-data-center-campus", name: "Emery Data Center Campus", zone: "emery-crossing", position: [-610, -330],
     programmes: ["wind-and-data-infrastructure"], stations: ["ws-data-hall-busway-install-and-torque-signoff", "ws-raised-floor-tile-lift-and-cable-tray-safety", "ws-crah-alarm-response-in-a-live-hall", "ws-ocean-pod-retrieval-and-hatch-opening"] },
