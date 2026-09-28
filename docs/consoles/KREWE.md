@@ -90,3 +90,6 @@ KREWE's quests hold `k12-by-how-a-levee-holds-water-back`, `k12-by-what-a-pump-s
   engine: worst Orleans 184 meshes / 99,349 triangles (21befd8).
 - 23:09 UTC · Side-quest board on the parish menu; parishes bundle rebuilt; browser smoke on 8992 for five parishes
   at 1280×720 and 360×640, no page error (a1f61bf).
+- 23:48 UTC · Full check_all (started 23:11, load 13) finished: 94 of 96 green; check_investor (regenerated, d266ee8) and
+  check_proving (baseline lacked check_krewe, c046ccf) fixed after, both green standalone. BAYOU's K-12 lesson ids
+  from the coordinator applied (68932ab). HAND-BACK.
