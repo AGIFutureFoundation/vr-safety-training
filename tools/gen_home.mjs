@@ -31,6 +31,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { tracksSection } from "./gen_tracks.mjs";
 import { CN_CSS, cnFile } from "../WebXR/shared/cinema.js";
+import { wfHeadFor } from "./gen_seo.mjs";
+import { wfSearchScript } from "./wf_search.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -301,6 +303,8 @@ const CSS = `
   :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
   .skip{position:absolute; inset-inline-start:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
   .skip:focus{inset-inline-start:var(--gutter); top:8px}
+  /* Readable copy on a phone (console WAYFINDER): card and section text at 16 px. */
+  @media (max-width:700px){ body:not(#wf) :is(.card-blurb, .prog-meta, .prog-union, .prog-tag, .sub, .hm-sub, .aside, .devices, .cont-line, .count, .tag, .card p, .catmeta, main p:not(.eyebrow)){font-size:16px} }
   .eyebrow{
     font-family:var(--cond); font-weight:600; text-transform:uppercase;
     letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0;
@@ -672,7 +676,7 @@ const SCRIPT = `
     const terms = q.value.toLowerCase().split(/\\s+/).filter(Boolean);
     let shown = 0;
     for (const c of cards) {
-      const on = terms.every((t) => c.hay.includes(t));
+      const on = terms.every((t) => (window.wfHit ? window.wfHit(c, t) : c.hay.includes(t)));
       c.el.hidden = !on;
       if (on) shown += 1;
     }
@@ -1148,7 +1152,7 @@ function hmScript(layout) {
     const terms = hmQ.value.toLowerCase().trim().split(/ +/).filter(Boolean);
     let matched = 0, shown = 0;
     for (const c of hmCards) {
-      const ok = terms.every((t) => c.hay.includes(t)) && (!hmSelU.value || c.u.includes(hmSelU.value))
+      const ok = terms.every((t) => (window.wfHit ? window.wfHit(c, t) : c.hay.includes(t))) && (!hmSelU.value || c.u.includes(hmSelU.value))
         && (!hmSelC.value || c.cat.includes(hmSelC.value)) && (!hmSelW.value || c.w.includes(hmSelW.value)) && (!hmSelA.value || c.a === hmSelA.value);
       if (ok) matched += 1;
       const show = ok && (hmAll || matched <= HM_FIRST);
@@ -1450,8 +1454,7 @@ ${cards}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Training Simulators — every station</title>
-<meta name="description" content="Every station in the training network on one page: ${stations.length} AR/VR simulators across ${categories.length} categories, with a deep link to each one.">
+${wfHeadFor("index.html", layoutName === "flat" ? "dist/index.html" : "index.html")}
 <meta name="generator" content="tools/gen_home.mjs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
@@ -1688,6 +1691,7 @@ ${docs}
   </div>
 </dialog>
 
+<script type="module">${wfSearchScript(catalog)}</script>
 <script type="module">${SCRIPT}</script>
 <script type="module">${hmScript(layout)}</script>
 <script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: "#top", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>

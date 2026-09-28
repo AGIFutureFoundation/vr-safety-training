@@ -323,6 +323,7 @@ function collectSelectables() {
 }
 
 function enterHub() {
+  if (state.room) wfRoomMeta(null); // leaving a room; a ?room= link keeps its name until the room opens
   clearRoom();
   state.session = null;
   state.room = null;
@@ -540,6 +541,7 @@ function enterRoom(id, { briefed = false } = {}) {
   worldRoot.add(root);
   state.roomRoot = root;
   state.room = room;
+  wfRoomMeta(room);
   state.api = room.build(root);
   state.hits = state.api.hits;
   tzPlantHost(root, THREE, `trades/${room.id}`); // off the interaction system, like the hard hats
@@ -1385,6 +1387,17 @@ function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
 // ?room=<id> opens straight into one trade, so a single bay can be linked or
 // embedded on its own without the learner walking the hub first.
 const deepLink = new URLSearchParams(location.search).get("room");
+// Each room names itself in the tab and the page description while it is open,
+// and a ?room= link carries that room's name from the first paint (console
+// WAYFINDER); the hub puts the page's own title back.
+// A function declaration, so enterHub() may call it before this line runs.
+function wfRoomMeta(room) {
+  const d = document.querySelector('meta[name="description"]');
+  wfRoomMeta.hub ??= { title: document.title, desc: d?.content ?? "" };
+  document.title = room ? `${room.title} — Trade Skills Simulator` : wfRoomMeta.hub.title;
+  if (d) d.content = room ? `${room.title}: ${room.tagline ?? ""}`.slice(0, 155) : wfRoomMeta.hub.desc;
+}
+if (deepLink && ROOM_BY_ID[deepLink]) wfRoomMeta(ROOM_BY_ID[deepLink]);
 // The round trip (docs/interop.md): a world's job board opens a room with
 // `?room=<id>&from=<world>&return=<the world's page>#site=<id>`; the results
 // card then offers "Back to <world>". Only a same-origin return is honoured

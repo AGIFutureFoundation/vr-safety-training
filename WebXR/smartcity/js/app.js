@@ -1432,7 +1432,7 @@ function renderLeaderboards() {
   }).join("");
   const html = `
     <div class="eyebrow">SmartCiti.X · suite standing</div>
-    <h1>Leaderboards</h1>
+    <h2 class="lb-h1">Leaderboards</h2>
     <p class="lead">Local to this device — every board here lives in this browser only.
       ${standing.simsPlayed}/${roster.length} districts played · ${standing.totalRuns} runs ·
       ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>

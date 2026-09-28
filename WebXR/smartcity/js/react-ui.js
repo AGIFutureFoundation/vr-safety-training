@@ -1099,7 +1099,7 @@ export function mountUI(store, actions) {
     return h("div", { className: "overlay", id: "editor", hidden: !ed.visible, role: "dialog", "aria-modal": "true", "aria-label": "Create a scenario" },
       h("div", { className: "card" },
         h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
-        h("h1", null, "Create a Scenario"),
+        h("h2", { className: "lb-h1" }, "Create a Scenario"),
         h("p", { className: "lead" }, "Build your own drill from a real station's real steps: pick a simulator, keep " +
           "the steps that matter for what you're teaching, order them how you want, and it runs on the " +
           "same procedure engine and rank ladder as the original — hazards included."),
