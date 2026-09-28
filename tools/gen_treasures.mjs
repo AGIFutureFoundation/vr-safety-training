@@ -431,6 +431,42 @@ RW_FIELD_LESSONS.forEach((l) => {
     place: { id: l.site, stations: [l.k12] } });
 });
 
+// ------------------------------------------------------------ the New Orleans parishes (SECONDLINE)
+//
+// The five parishes are streamed worlds whose site positions live in PARISH's and
+// DELTA's np-data-<parish>.js, built in parallel; nothing here carries a coordinate.
+// A parish treasure's trigger names the parish and the site and an offset
+// (`{ world: "parishes", parish, site, dx, dz, r }`), which treasures.js resolves
+// at watch time through slTreasureAt(parishData) (docs/parish-play.md). A Storm
+// Kit Cache sits off every site (its lesson: the site's own station why, or a why
+// from one of its programmes), and answering a parish field lesson's check
+// question is a quiet Field Scholar find, as on Summit and in Redwood.
+const SLP = await imp("WebXR/shared/sl-parish-play.js");
+const SL_SRC = rd("WebXR/shared/sl-parish-play.js");
+const SL_OFFSETS = [[9, -7], [-8, 8], [11, 6], [-10, -6], [7, 11], [-12, 3], [12, -3], [-6, -11], [10, 9], [-9, -9]];
+const SL_KIT_UNIONS = ["ila", "liuna", "iuoe", "atu", "smart-td", "seiu", "aft", "iatse", "unite-here", "uwua"];
+let slIndex = 0;
+for (const p of SLP.SL_PARISHES) {
+  p.sites.forEach((s, i) => {
+    const [dx, dz] = SL_OFFSETS[i % SL_OFFSETS.length];
+    let L;
+    try { L = siteLesson(s, /storm|levee|pump|flood|water|port|dock|crew|traffic|rail|ward|kitchen|marsh|ramp/i); }
+    catch (_) { L = unionLesson(SL_KIT_UNIONS[slIndex % SL_KIT_UNIONS.length]); }
+    slIndex += 1;
+    add({ id: `tz-parish-${p.id}-${s.id}`, name: `Storm Kit Cache: ${s.name}`, surface: "parishes", world: "The Parishes", area: p.name,
+      set: `storm-kits-${p.id}`, how: "proximity", trigger: { world: "parishes", parish: p.id, site: s.id, dx, dz, r: 7 },
+      hint: SLP.SL_TREASURE_HINT, reveal: "chest", lesson: L.lesson, source: L.source, place: L.place ?? null,
+      gate: i % 4 === 1 && L.own ? { stations: [L.station], note: `The ${s.name} crew keeps this cache for people who have done the job there.` } : null });
+  });
+}
+SLP.SL_FIELD_LESSONS.forEach((l) => {
+  if (!SL_SRC.includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim`);
+  add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "parishes", world: "The Parishes", area: "Field lessons",
+    set: "field-scholar", how: "lesson", trigger: { world: "parishes", lesson: l.id },
+    hint: "Take a field lesson at a parish site and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: "WebXR/shared/sl-parish-play.js", text: true, lesson: l.id },
+    place: { id: l.site, stations: [l.k12, l.station] } });
+});
+
 // ------------------------------------------------------------ sets
 
 const SETS = [
@@ -450,13 +486,14 @@ const SETS = [
   ["tower-tags", "Tower Tags", "Ridge Walker", "A tag at the foot of every transmission tower on the ridge."],
   ["logbook-pages", "Lookout Logbook", "Lookout", "Pages from the fire lookout's logbook, blown along Redwood Reach's fire roads."],
   ["trail-blazes", "Trail Blazes", "Trail Hand", "A blaze on every foot trail through Redwood Reach."],
-  ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit and in Redwood Reach."],
+  ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit, in Redwood Reach and across the parishes."],
+  ...SLP.SL_PARISHES.map((p) => [`storm-kits-${p.id}`, `${p.short} Storm Kits`, `${p.short} Storm Crew`, `A storm kit cache off every site in ${p.name}.`]),
 ].map(([id, name, badge, blurb]) => ({ id, name, badge, blurb, members: T.filter((t) => t.set === id).map((t) => t.id) }));
 
 const SURFACES = [
   ["home", "Homepage"], ["guide", "The Guide"], ["trades", "Trade Skills"], ["runner", "Station runner"], ["atlas", "The Atlas"],
   ["arcade", "Break Room Arcade"], ["race", "Night Highway Circuit"], ["bayworld", "Bay World"], ["deep", "The Deep"],
-  ["regatta", "The Regatta"], ["fairway", "Fairway Park"], ["summit", "Sierra Summit"], ["redwood", "Redwood Reach"],
+  ["regatta", "The Regatta"], ["fairway", "Fairway Park"], ["summit", "Sierra Summit"], ["redwood", "Redwood Reach"], ["parishes", "The Parishes"],
 ].map(([id, name]) => ({ id, name, count: T.filter((t) => t.surface === id).length }));
 
 // The earlier egg layers the Treasure Map shows read-only, each from its own
