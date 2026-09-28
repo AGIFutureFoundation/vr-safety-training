@@ -58,13 +58,238 @@ export const SIM_BB_LOSING_WELL_AND_FILM_REVIEW = {
     ],
   }),
 
-  hazards: {"replay-one-mistake-over-and-over":"You rewound one player's turnover again and again in front of the whole team. Replaying a single mistake turns film review into a public trial, and the Association for Applied Sport Psychology's guidance on feedback is that a player shown their error repeatedly in front of peers learns shame rather than the fix — show it once, name the fix, move on.","blame-the-officials":"You spent the review arguing that the officials lost the game for the team. Blaming the officials hands the loss to somebody the team cannot coach, and NFHS sportsmanship expectations ask players and coaches to talk about officials with respect; the review is for what the team controls.","skip-your-own-part":"You pointed out everyone else's mistakes and none of your own. A review where the loudest player owns nothing teaches everyone else to hide theirs, and the whole point of losing well is that each person names their part first — including the captain and the coach.","wave-off-the-knock":"You decided the teammate who took a knock last night was fine because they came to review. CDC Heads Up is clear that concussion signs can show up hours or a day later, so a knock from the game gets asked about and reported to the coach the next day, not assumed away."},
+  hazards: {
+    "replay-one-mistake-over-and-over": "You rewound one player's turnover again and again in front of the whole team. Replaying a single mistake turns film review into a public trial, and the Association for Applied Sport Psychology's guidance on feedback is that a player shown their error repeatedly in front of peers learns shame rather than the fix — show it once, name the fix, move on.",
+    "blame-the-officials": "You spent the review arguing that the officials lost the game for the team. Blaming the officials hands the loss to somebody the team cannot coach, and NFHS sportsmanship expectations ask players and coaches to talk about officials with respect; the review is for what the team controls.",
+    "skip-your-own-part": "You pointed out everyone else's mistakes and none of your own. A review where the loudest player owns nothing teaches everyone else to hide theirs, and the whole point of losing well is that each person names their part first — including the captain and the coach.",
+    "wave-off-the-knock": "You decided the teammate who took a knock last night was fine because they came to review. CDC Heads Up is clear that concussion signs can show up hours or a day later, so a knock from the game gets asked about and reported to the coach the next day, not assumed away."
+  },
 
-  lateNotes: {"lwf-practice-plan":"The plan is written once everybody has named their one fix — nothing to record yet.","lwf-crew-checkin":"The check-in comes at the very end, after the plan."},
+  lateNotes: {
+    "lwf-practice-plan": "The plan is written once everybody has named their one fix — nothing to record yet.",
+    "lwf-crew-checkin": "The check-in comes at the very end, after the plan."
+  },
 
-  steps: [{"id":"read-the-room-after-a-loss","kind":"find","noHint":true,"targets":["lwf-player-hood-up","lwf-player-phone-replay","lwf-player-rubbing-head"],"itemNames":{"lwf-player-hood-up":"a player with hood up, sitting apart","lwf-player-phone-replay":"a player replaying the last shot on their phone","lwf-player-rubbing-head":"the teammate who took a knock, rubbing their head"},"itemNotes":{"lwf-player-hood-up":"Hood up and sitting apart is somebody carrying the loss alone. They need a word before the film starts.","lwf-player-phone-replay":"Replaying the last shot alone is the spiral the review is meant to replace with one fix.","lwf-player-rubbing-head":"Rubbing their head the day after a knock is a sign to tell the coach now, before any film."},"decoyNotes":{"lwf-player-eating":"A player eating breakfast is just hungry. Look for who is hurting."},"title":"Read the room before the film starts","cue":"As the team comes in, look for who is carrying last night harder than the rest.","why":"A loss lands differently on every player, and the review goes better when the ones taking it hardest are noticed first. The player sitting apart with a hood up, the one replaying the last shot alone, and the teammate still rubbing their head after last night's knock each need something before the film — a word, a reframe, or the coach told now."},{"id":"post-the-ground-rules","kind":"select","target":"lwf-ground-rules","title":"Post the review's ground rules","cue":"Show any mistake once, name the fix, and nobody is put on trial.","why":"Ground rules said before the film starts are what make the room safe enough to be honest in. Show a mistake once, name the fix, move on: players who know they will not be replayed in front of their friends are the ones who will say what they were thinking on the play, and that is the thing the coach most needs to hear."},{"id":"build-the-review-in-order","kind":"sequence","targets":["lwf-order-own","lwf-order-fix","lwf-order-thank","lwf-order-plan"],"itemNames":{"lwf-order-own":"1 · each player owns one part","lwf-order-fix":"2 · each names one thing to fix","lwf-order-thank":"3 · each thanks a teammate","lwf-order-plan":"4 · the coach sets the plan"},"title":"Run the review in the order losing well needs","cue":"Own your part, name one fix, thank a teammate, then the coach sets the plan.","why":"Owning a part comes first because a fix without ownership is a fix for somebody else. The fix comes next so the ownership has somewhere to go, the thanks comes after so the review ends on the team rather than on mistakes, and the coach's plan comes last because it is built from what the players themselves just said.","outOfOrderNote":"Out of order. Each player owns their part before naming a fix — a fix without ownership is advice for somebody else."},{"id":"hold-while-they-speak","kind":"hold","target":"lwf-listen-marker","seconds":6,"title":"Hold still while a teammate owns their part","cue":"A teammate is naming their mistake — hold here and listen, no jokes, no correcting them.","why":"Owning a mistake out loud in front of teammates is hard, and the room's reaction decides whether anybody does it again. Holding still and listening — no joke to break the tension, no correction on top of what they said — tells the player that honesty is safe here, which is the whole culture a good review is building.","holdBreakNote":"You broke in before they finished. Let a teammate own their part all the way — the room's silence is the respect."},{"id":"turn-to-the-one-fix","kind":"turn","target":"lwf-fix-dial","turn":{"turns":0.5,"axis":"y","label":"FIX"},"title":"Turn the dial to the team's one fix","cue":"Turn the dial to the one thing the team will fix this week: boxing out on free throws.","why":"A loss usually has a dozen causes and a week has room for one fix done well. Turning the dial to a single thing — boxing out on free throws, say — gives the team a target they can actually hit by the next game, and turns the weight of a loss into a practice plan rather than a list of everything that went wrong."},{"id":"pace-the-film","kind":"gauge","target":"lwf-film-pace","gauge":{"label":"PACE","speed":0.6,"green":[0.4,0.58],"missNote":"Outside the band. Too fast and nothing is learned; too slow and every clip becomes a trial. Move at the pace of one fix per clip."},"title":"Run the film at the right pace","cue":"Commit when the film pace reads right — one clip, one fix, move on.","why":"Film run too fast is highlights with nothing learned; film run too slow, stopping on every mistake, becomes the public trial the ground rules promised against. The right pace is one clip, one fix and move on, which keeps the review about the team's week ahead rather than one player's worst minute."},{"id":"move-the-thanks-token","kind":"drag","target":"lwf-thanks-token","drag":{"to":"lwf-teammate-spot","radius":0.45,"missNote":"The thanks did not reach the teammate. Say who covered for you and why — all the way, out loud."},"title":"Thank the teammate who covered for you","cue":"Drag the thank-you token to the teammate who rotated when you were beaten.","why":"In every loss somebody covered for somebody else — rotated when a teammate was beaten, dove for a loose ball, took a charge they were in position for. Thanking them by name, out loud, in the review makes that invisible work visible, and it is the sentence that turns a room of individual disappointments back into a team."},{"id":"own-your-part-out-loud","kind":"select","target":"lwf-own-it-card","title":"Own your part out loud","cue":"Your turn: say one thing you did that cost the team, plainly and without excuses.","why":"The captain and the coach go first, because a leader who owns a part makes it safe for everyone else. One plain sentence — my part was three reaching fouls in the fourth quarter — with no excuse tacked on, is what losing well sounds like, and it is the model every other player will follow for the rest of the season."},{"id":"spot-the-spiral","kind":"find","noHint":true,"targets":["lwf-spiral-all-my-fault","lwf-spiral-quit-talk","lwf-spiral-laughing-it-off"],"itemNames":{"lwf-spiral-all-my-fault":"a player saying the whole loss was their fault","lwf-spiral-quit-talk":"a player saying they want to quit","lwf-spiral-laughing-it-off":"a player laughing everything off"},"itemNotes":{"lwf-spiral-all-my-fault":"\"All my fault\" is as untrue as \"none of it was\". Bring them back to one part and one fix.","lwf-spiral-quit-talk":"Talk of quitting after a loss needs a private word from the coach, not a debate in front of the team.","lwf-spiral-laughing-it-off":"Laughing everything off can be how a player hides it hurting. A quiet check-in, not a telling-off."},"decoyNotes":{"lwf-spiral-taking-notes":"A player writing down their fix is doing exactly the job."},"title":"Find where the loss is turning into a spiral","cue":"Listen to the room and mark each player whose response has gone past one part and one fix.","why":"Losing well sits between two spirals: the player who takes all the blame and the player who takes none of it by laughing it off, with talk of quitting as the sign it has gone further. Each needs a different response — a reframe, a private word from the coach, a quiet check-in — and none of them needs a debate in front of the team."},{"id":"hold-the-room-honest","kind":"track","target":"lwf-honesty-meter","seconds":8,"track":{"start":0.3,"green":[0.4,0.62],"rise":0.46,"fall":0.38,"drift":0.14,"label":"HONEST"},"title":"Keep the room honest and kind through the last clips","cue":"Hold the room in band — honest about the mistakes, kind about the people.","why":"A review drifts two ways: into politeness where nobody names anything, or into harshness where every clip becomes a verdict. Holding it in band — honest about what happened on the floor, kind about the people who did it — is the balance the Association for Applied Sport Psychology's feedback guidance describes, and it is the only one players learn from.","holdBreakNote":"The room left the band — gone quiet and polite, or turned harsh. Bring it back to honest about plays, kind about people."},{"id":"write-the-plan","kind":"select","target":"lwf-practice-plan","doneLine":"One fix, drills set","title":"Write the week's plan from the one fix","cue":"Put the one fix on the practice plan with the drills that train it.","why":"The plan is the review's result. Writing the one fix onto the week's practice with the drills that train it turns a loss into a direction, and it gives every player a place to put the disappointment that is not their own head. The plan also records the knock followed up, so the coach knows it was handled."},{"id":"share-the-next-win-forward","kind":"select","target":"lwf-share-board","doneLine":"Covering teammates named","title":"Name who the next win will belong to","cue":"Close the review: whatever happens next game, name the players whose work nobody sees.","why":"Ending a loss review by naming the teammates whose work nobody sees — the rotations, the screens, the boxing out — tells the team that the next win, when it comes, will belong to all of them. It is the same credit-sharing a captain gives after a win, offered forward, and it sends players out of the room looking at each other rather than at the floor."},{"id":"crew-check-in","kind":"select","target":"lwf-crew-checkin","doneLine":"Everybody checked in","title":"Check in with the team before they leave","cue":"At the door: how is everyone doing after last night, really?","why":"A loss can stay with a young player for days. Asking how they are, really, at the door — with no score and no lesson attached — and reminding them who they can talk to is exactly the check-in the guide offers after a hard run, and it is sometimes the only moment a player who is struggling will say so."}],
+  steps: [
+    {
+      id: "read-the-room-after-a-loss",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "lwf-player-hood-up",
+        "lwf-player-phone-replay",
+        "lwf-player-rubbing-head"
+      ],
+      itemNames: {
+        "lwf-player-hood-up": "a player with hood up, sitting apart",
+        "lwf-player-phone-replay": "a player replaying the last shot on their phone",
+        "lwf-player-rubbing-head": "the teammate who took a knock, rubbing their head"
+      },
+      itemNotes: {
+        "lwf-player-hood-up": "Hood up and sitting apart is somebody carrying the loss alone. They need a word before the film starts.",
+        "lwf-player-phone-replay": "Replaying the last shot alone is the spiral the review is meant to replace with one fix.",
+        "lwf-player-rubbing-head": "Rubbing their head the day after a knock is a sign to tell the coach now, before any film."
+      },
+      decoyNotes: {
+        "lwf-player-eating": "A player eating breakfast is just hungry. Look for who is hurting."
+      },
+      title: "Read the room before the film starts",
+      cue: "As the team comes in, look for who is carrying last night harder than the rest.",
+      why: "A loss lands differently on every player, and the review goes better when the ones taking it hardest are noticed first. The player sitting apart with a hood up, the one replaying the last shot alone, and the teammate still rubbing their head after last night's knock each need something before the film — a word, a reframe, or the coach told now."
+    },
+    {
+      id: "post-the-ground-rules",
+      kind: "select",
+      target: "lwf-ground-rules",
+      title: "Post the review's ground rules",
+      cue: "Show any mistake once, name the fix, and nobody is put on trial.",
+      why: "Ground rules said before the film starts are what make the room safe enough to be honest in. Show a mistake once, name the fix, move on: players who know they will not be replayed in front of their friends are the ones who will say what they were thinking on the play, and that is the thing the coach most needs to hear."
+    },
+    {
+      id: "build-the-review-in-order",
+      kind: "sequence",
+      targets: [
+        "lwf-order-own",
+        "lwf-order-fix",
+        "lwf-order-thank",
+        "lwf-order-plan"
+      ],
+      itemNames: {
+        "lwf-order-own": "1 · each player owns one part",
+        "lwf-order-fix": "2 · each names one thing to fix",
+        "lwf-order-thank": "3 · each thanks a teammate",
+        "lwf-order-plan": "4 · the coach sets the plan"
+      },
+      title: "Run the review in the order losing well needs",
+      cue: "Own your part, name one fix, thank a teammate, then the coach sets the plan.",
+      why: "Owning a part comes first because a fix without ownership is a fix for somebody else. The fix comes next so the ownership has somewhere to go, the thanks comes after so the review ends on the team rather than on mistakes, and the coach's plan comes last because it is built from what the players themselves just said.",
+      outOfOrderNote: "Out of order. Each player owns their part before naming a fix — a fix without ownership is advice for somebody else."
+    },
+    {
+      id: "hold-while-they-speak",
+      kind: "hold",
+      target: "lwf-listen-marker",
+      seconds: 6,
+      title: "Hold still while a teammate owns their part",
+      cue: "A teammate is naming their mistake — hold here and listen, no jokes, no correcting them.",
+      why: "Owning a mistake out loud in front of teammates is hard, and the room's reaction decides whether anybody does it again. Holding still and listening — no joke to break the tension, no correction on top of what they said — tells the player that honesty is safe here, which is the whole culture a good review is building.",
+      holdBreakNote: "You broke in before they finished. Let a teammate own their part all the way — the room's silence is the respect."
+    },
+    {
+      id: "turn-to-the-one-fix",
+      kind: "turn",
+      target: "lwf-fix-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "FIX"
+      },
+      title: "Turn the dial to the team's one fix",
+      cue: "Turn the dial to the one thing the team will fix this week: boxing out on free throws.",
+      why: "A loss usually has a dozen causes and a week has room for one fix done well. Turning the dial to a single thing — boxing out on free throws, say — gives the team a target they can actually hit by the next game, and turns the weight of a loss into a practice plan rather than a list of everything that went wrong."
+    },
+    {
+      id: "pace-the-film",
+      kind: "gauge",
+      target: "lwf-film-pace",
+      gauge: {
+        label: "PACE",
+        speed: 0.6,
+        green: [
+          0.4,
+          0.58
+        ],
+        missNote: "Outside the band. Too fast and nothing is learned; too slow and every clip becomes a trial. Move at the pace of one fix per clip."
+      },
+      title: "Run the film at the right pace",
+      cue: "Commit when the film pace reads right — one clip, one fix, move on.",
+      why: "Film run too fast is highlights with nothing learned; film run too slow, stopping on every mistake, becomes the public trial the ground rules promised against. The right pace is one clip, one fix and move on, which keeps the review about the team's week ahead rather than one player's worst minute."
+    },
+    {
+      id: "move-the-thanks-token",
+      kind: "drag",
+      target: "lwf-thanks-token",
+      drag: {
+        to: "lwf-teammate-spot",
+        radius: 0.45,
+        missNote: "The thanks did not reach the teammate. Say who covered for you and why — all the way, out loud."
+      },
+      title: "Thank the teammate who covered for you",
+      cue: "Drag the thank-you token to the teammate who rotated when you were beaten.",
+      why: "In every loss somebody covered for somebody else — rotated when a teammate was beaten, dove for a loose ball, took a charge they were in position for. Thanking them by name, out loud, in the review makes that invisible work visible, and it is the sentence that turns a room of individual disappointments back into a team."
+    },
+    {
+      id: "own-your-part-out-loud",
+      kind: "select",
+      target: "lwf-own-it-card",
+      title: "Own your part out loud",
+      cue: "Your turn: say one thing you did that cost the team, plainly and without excuses.",
+      why: "The captain and the coach go first, because a leader who owns a part makes it safe for everyone else. One plain sentence — my part was three reaching fouls in the fourth quarter — with no excuse tacked on, is what losing well sounds like, and it is the model every other player will follow for the rest of the season."
+    },
+    {
+      id: "spot-the-spiral",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "lwf-spiral-all-my-fault",
+        "lwf-spiral-quit-talk",
+        "lwf-spiral-laughing-it-off"
+      ],
+      itemNames: {
+        "lwf-spiral-all-my-fault": "a player saying the whole loss was their fault",
+        "lwf-spiral-quit-talk": "a player saying they want to quit",
+        "lwf-spiral-laughing-it-off": "a player laughing everything off"
+      },
+      itemNotes: {
+        "lwf-spiral-all-my-fault": "\"All my fault\" is as untrue as \"none of it was\". Bring them back to one part and one fix.",
+        "lwf-spiral-quit-talk": "Talk of quitting after a loss needs a private word from the coach, not a debate in front of the team.",
+        "lwf-spiral-laughing-it-off": "Laughing everything off can be how a player hides it hurting. A quiet check-in, not a telling-off."
+      },
+      decoyNotes: {
+        "lwf-spiral-taking-notes": "A player writing down their fix is doing exactly the job."
+      },
+      title: "Find where the loss is turning into a spiral",
+      cue: "Listen to the room and mark each player whose response has gone past one part and one fix.",
+      why: "Losing well sits between two spirals: the player who takes all the blame and the player who takes none of it by laughing it off, with talk of quitting as the sign it has gone further. Each needs a different response — a reframe, a private word from the coach, a quiet check-in — and none of them needs a debate in front of the team."
+    },
+    {
+      id: "hold-the-room-honest",
+      kind: "track",
+      target: "lwf-honesty-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
+          0.4,
+          0.62
+        ],
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "HONEST"
+      },
+      title: "Keep the room honest and kind through the last clips",
+      cue: "Hold the room in band — honest about the mistakes, kind about the people.",
+      why: "A review drifts two ways: into politeness where nobody names anything, or into harshness where every clip becomes a verdict. Holding it in band — honest about what happened on the floor, kind about the people who did it — is the balance the Association for Applied Sport Psychology's feedback guidance describes, and it is the only one players learn from.",
+      holdBreakNote: "The room left the band — gone quiet and polite, or turned harsh. Bring it back to honest about plays, kind about people."
+    },
+    {
+      id: "write-the-plan",
+      kind: "select",
+      target: "lwf-practice-plan",
+      doneLine: "One fix, drills set",
+      title: "Write the week's plan from the one fix",
+      cue: "Put the one fix on the practice plan with the drills that train it.",
+      why: "The plan is the review's result. Writing the one fix onto the week's practice with the drills that train it turns a loss into a direction, and it gives every player a place to put the disappointment that is not their own head. The plan also records the knock followed up, so the coach knows it was handled."
+    },
+    {
+      id: "share-the-next-win-forward",
+      kind: "select",
+      target: "lwf-share-board",
+      doneLine: "Covering teammates named",
+      title: "Name who the next win will belong to",
+      cue: "Close the review: whatever happens next game, name the players whose work nobody sees.",
+      why: "Ending a loss review by naming the teammates whose work nobody sees — the rotations, the screens, the boxing out — tells the team that the next win, when it comes, will belong to all of them. It is the same credit-sharing a captain gives after a win, offered forward, and it sends players out of the room looking at each other rather than at the floor."
+    },
+    {
+      id: "crew-check-in",
+      kind: "select",
+      target: "lwf-crew-checkin",
+      doneLine: "Everybody checked in",
+      title: "Check in with the team before they leave",
+      cue: "At the door: how is everyone doing after last night, really?",
+      why: "A loss can stay with a young player for days. Asking how they are, really, at the door — with no score and no lesson attached — and reminding them who they can talk to is exactly the check-in the guide offers after a hard run, and it is sometimes the only moment a player who is struggling will say so."
+    }
+  ],
 
-  interrupts: [{"id":"a-player-walks-out","kind":"Player leaves","after":"hold-while-they-speak","delay":3,"seconds":12,"target":"lwf-assistant-follows","alert":"A player gets up in the middle of a teammate owning their part and walks out of the room, upset.","cue":"Send the assistant coach after them calmly — you keep holding for the teammate who is speaking.","why":"A player walking out needs an adult with them, and the teammate mid-sentence needs the room to stay with them. The assistant follows, calmly and within sight of others as SafeSport guidance asks, and the speaker is not abandoned halfway through the hardest thing they will say all week.","missNote":"Nobody went after the player, who sat alone in the corridor for the rest of the review, and the teammate who was speaking stopped mid-sentence and did not finish.","wrongNote":"That does not reach the player who left. Send the assistant after them."},{"id":"the-knock-shows-up","kind":"Head injury sign","after":"hold-the-room-honest","delay":3,"seconds":12,"target":"lwf-report-knock","alert":"The teammate who took a knock last night says the screen is making them dizzy and their head hurts.","cue":"Pause the film, tell the coach and the athletic trainer now, and get the family called.","why":"Dizziness and a headache the day after a knock are exactly the delayed signs CDC Heads Up tells coaches to watch for. The review stops, the trainer and the family are told, and the player does not go back to the screen or the court until they have been evaluated.","missNote":"The film carried on, the player sat through the rest with a headache, and nobody called home until they mentioned it at the next practice.","wrongNote":"That does not get the player help. Pause, tell the coach and trainer, and call home."}],
+  interrupts: [
+    {
+      id: "a-player-walks-out",
+      kind: "Player leaves",
+      after: "hold-while-they-speak",
+      delay: 3,
+      seconds: 12,
+      target: "lwf-assistant-follows",
+      alert: "A player gets up in the middle of a teammate owning their part and walks out of the room, upset.",
+      cue: "Send the assistant coach after them calmly — you keep holding for the teammate who is speaking.",
+      why: "A player walking out needs an adult with them, and the teammate mid-sentence needs the room to stay with them. The assistant follows, calmly and within sight of others as SafeSport guidance asks, and the speaker is not abandoned halfway through the hardest thing they will say all week.",
+      missNote: "Nobody went after the player, who sat alone in the corridor for the rest of the review, and the teammate who was speaking stopped mid-sentence and did not finish.",
+      wrongNote: "That does not reach the player who left. Send the assistant after them."
+    },
+    {
+      id: "the-knock-shows-up",
+      kind: "Head injury sign",
+      after: "hold-the-room-honest",
+      delay: 3,
+      seconds: 12,
+      target: "lwf-report-knock",
+      alert: "The teammate who took a knock last night says the screen is making them dizzy and their head hurts.",
+      cue: "Pause the film, tell the coach and the athletic trainer now, and get the family called.",
+      why: "Dizziness and a headache the day after a knock are exactly the delayed signs CDC Heads Up tells coaches to watch for. The review stops, the trainer and the family are told, and the player does not go back to the screen or the court until they have been evaluated.",
+      missNote: "The film carried on, the player sat through the rest with a headache, and nobody called home until they mentioned it at the next practice.",
+      wrongNote: "That does not get the player help. Pause, tell the coach and trainer, and call home."
+    }
+  ],
 
   build(root) {
     const hits = {};

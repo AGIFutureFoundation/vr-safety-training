@@ -58,13 +58,238 @@ export const SIM_BB_TIMEOUT_HUDDLE_AND_ADJUSTMENT = {
     ],
   }),
 
-  hazards: {"name-who-lost-us-the-lead":"You opened the huddle by saying which player's turnovers had cost the lead. Naming a teammate as the reason the team is losing turns thirty seconds meant for a fix into a trial, and the Association for Applied Sport Psychology's guidance on composure is that blame spoken under pressure shrinks every player who hears it, not only the one it is aimed at.","give-five-instructions-at-once":"You gave five different changes in thirty seconds. Under pressure, players remember one thing clearly or nothing at all; a huddle that tries to fix everything leaves the team walking back onto the floor with a list nobody can recall, which is worse than one clear change.","skip-the-water":"You used the whole timeout talking and nobody drank. USA Basketball's guidelines and NFHS sports medicine guidance both treat water in a stoppage as part of the game plan, and a team running on empty in the second half makes the tired decisions that caused the run in the first place.","let-the-argument-run-on":"You let two players keep arguing about whose man it was while the clock ran. An argument left running in a huddle takes the thirty seconds with it and sends two players back out angry at each other; the captain's job is to stop it with one sentence and settle it later."},
+  hazards: {
+    "name-who-lost-us-the-lead": "You opened the huddle by saying which player's turnovers had cost the lead. Naming a teammate as the reason the team is losing turns thirty seconds meant for a fix into a trial, and the Association for Applied Sport Psychology's guidance on composure is that blame spoken under pressure shrinks every player who hears it, not only the one it is aimed at.",
+    "give-five-instructions-at-once": "You gave five different changes in thirty seconds. Under pressure, players remember one thing clearly or nothing at all; a huddle that tries to fix everything leaves the team walking back onto the floor with a list nobody can recall, which is worse than one clear change.",
+    "skip-the-water": "You used the whole timeout talking and nobody drank. USA Basketball's guidelines and NFHS sports medicine guidance both treat water in a stoppage as part of the game plan, and a team running on empty in the second half makes the tired decisions that caused the run in the first place.",
+    "let-the-argument-run-on": "You let two players keep arguing about whose man it was while the clock ran. An argument left running in a huddle takes the thirty seconds with it and sends two players back out angry at each other; the captain's job is to stop it with one sentence and settle it later."
+  },
 
-  lateNotes: {"tha-scorebook":"The note goes in the book after the team is back on the floor — nothing to record yet.","tha-crew-checkin":"The check-in with the coach comes after the game, at the very end."},
+  lateNotes: {
+    "tha-scorebook": "The note goes in the book after the team is back on the floor — nothing to record yet.",
+    "tha-crew-checkin": "The check-in with the coach comes after the game, at the very end."
+  },
 
-  steps: [{"id":"read-the-bench-coming-in","kind":"find","noHint":true,"targets":["tha-heads-down","tha-two-arguing","tha-quiet-teammate"],"itemNames":{"tha-heads-down":"players walking in with heads down","tha-two-arguing":"two teammates still arguing","tha-quiet-teammate":"a teammate unusually quiet after a knock"},"itemNotes":{"tha-heads-down":"Heads down means the team needs lifting before it can listen. The encouragement matters as much as the change.","tha-two-arguing":"An argument walking into the huddle will take it over unless it is stopped in the first sentence.","tha-quiet-teammate":"Quieter than usual after a knock is worth a word — and worth telling the coach about."},"decoyNotes":{"tha-teammate-drinking":"A teammate already drinking water is doing the right thing. Look for what needs you."},"title":"Read the team as it walks to the bench","cue":"In the seconds before the huddle forms, look at who is coming in and how.","why":"The huddle starts before anyone sits down. Heads down, two players still arguing and a teammate who has gone quiet since a knock are three different problems, and a captain who sees them walking in knows what the thirty seconds have to do: settle, fix one thing and lift, while the coach is told about the teammate who may need checking."},{"id":"post-the-huddle-format","kind":"select","target":"tha-format-card","title":"Hold to the huddle format","cue":"One fact, one change, one encouragement — nothing else fits in thirty seconds.","why":"The format is what makes thirty seconds enough. One fact says what is actually happening, one change says what the team will do differently, and one encouragement sends them out believing they can do it. Anything more is a lecture the clock will cut off halfway, and players walk back out with the first half of a sentence."},{"id":"build-the-huddle-in-order","kind":"sequence","targets":["tha-order-water","tha-order-fact","tha-order-change","tha-order-lift"],"itemNames":{"tha-order-water":"1 · water in hands","tha-order-fact":"2 · one fact, plainly","tha-order-change":"3 · one change","tha-order-lift":"4 · one encouragement"},"title":"Run the huddle in order","cue":"Water first, then the fact, then the change, then the encouragement.","why":"Water goes in hands first because it takes no words and a tired team listens better with something to drink. The fact comes before the change so the change makes sense, and the encouragement comes last because it is what players carry out onto the floor — the last thing said in a huddle is the thing remembered.","outOfOrderNote":"Out of order. Water goes in hands first, then the fact — a change given before anyone knows why it is needed does not stick."},{"id":"hold-a-calm-voice","kind":"hold","target":"tha-calm-voice","seconds":6,"title":"Hold a calm, low voice as the huddle forms","cue":"Drop your voice, slow down and hold it — the team matches the captain's tone.","why":"A captain who shouts in a huddle tells the team it is time to panic; one who drops their voice and slows down tells them the problem is manageable. The Association for Applied Sport Psychology's work on composure under pressure keeps returning to this: the leader's tone sets the room's, so the calm has to come first.","holdBreakNote":"Your voice climbed before the hold was up. The team will match whatever tone you use — bring it back down."},{"id":"turn-the-one-change","kind":"turn","target":"tha-change-dial","turn":{"turns":0.5,"axis":"y","label":"SWITCH D"},"title":"Turn the dial to the one change","cue":"Turn the dial to the single adjustment the team will make: switch every screen this possession.","why":"One change, stated as a single action everyone can do on the next play, is what a team under pressure can actually carry out. Turning the dial to it makes the change a thing all five players saw decided, not a suggestion one player half heard — and it gives the coach, who takes the second half of the timeout, a clear place to build from."},{"id":"time-the-huddle","kind":"gauge","target":"tha-huddle-clock","gauge":{"label":"30 SEC","speed":0.6,"green":[0.42,0.6],"missNote":"Outside the band. Too short and the change never landed; too long and the coach has no time. Finish your part inside your share of the clock."},"title":"Finish your part inside the clock","cue":"Commit when your part ends in the window — enough to land the change, leaving the coach their time.","why":"The captain has part of a short timeout, not all of it. Finishing inside that share leaves the coach time for their adjustment and still gets everyone back on the floor before the official's signal; running over means the coach is cut off, and stopping too soon means the change never actually landed with the team."},{"id":"hand-the-water-out","kind":"drag","target":"tha-water-token","drag":{"to":"tha-bench-spot","radius":0.45,"missNote":"The bottles did not reach the bench. Water in hands is the first thing the huddle does — carry them all the way."},"title":"Get water into every player's hand","cue":"Drag the bottles from the cooler to the bench — every player drinks while listening.","why":"A timeout is also a water break, and a captain who hands the bottles out is doing leadership nobody notices. USA Basketball's guidelines and NFHS sports medicine guidance both treat hydration in stoppages as part of keeping players safe, and a team that drinks while it listens loses none of the thirty seconds to it."},{"id":"stop-the-blame","kind":"select","target":"tha-no-blame-card","title":"Stop the blame with one sentence","cue":"Settle the argument: \"We fix it together, next play\" — and move on.","why":"Two players arguing about whose man it was are both partly right and neither is helped by winning. One sentence from the captain — we fix it together, next play — stops it without choosing a side, keeps the huddle's thirty seconds for the fix, and sends both players out as teammates instead of as a verdict."},{"id":"spot-who-needs-more","kind":"find","noHint":true,"targets":["tha-needs-knock","tha-needs-benched","tha-needs-fouled-out"],"itemNames":{"tha-needs-knock":"the teammate who took the knock, holding their head","tha-needs-benched":"a substitute who has not played and looks lost","tha-needs-fouled-out":"a player with four fouls, jaw clenched"},"itemNotes":{"tha-needs-knock":"Holding their head after a knock is a sign to tell the coach now. CDC Heads Up: when in doubt, sit them out.","tha-needs-benched":"A sub about to go in cold needs one clear job. Tell them their man and the change.","tha-needs-fouled-out":"Four fouls and a clenched jaw is a player one reach away from sitting down. A word about hands up, not reaching."},"decoyNotes":{"tha-needs-laughing":"A teammate laughing at a joke is loosening up — that is fine in a huddle."},"title":"Find who needs more than the huddle gave","cue":"As the team stands up, look again: who needs a word, and who needs the coach?","why":"The huddle speaks to the whole team, but some players need something more specific: a sub going in cold needs their job, a player on four fouls needs a reminder about hands, and a teammate holding their head after a knock needs the coach to know now. A captain who looks twice catches what a single speech cannot."},{"id":"hold-the-team-steady","kind":"track","target":"tha-steady-meter","seconds":8,"track":{"start":0.3,"green":[0.4,0.62],"rise":0.46,"fall":0.38,"drift":0.14,"label":"STEADY"},"title":"Keep the team steady walking back out","cue":"Hold steadiness in band as the team returns to the floor — not flat, not fired up past thinking.","why":"A huddle can send a team out flat, or so wound up that the first possession is a charge and a foul. Holding steadiness in band as they walk back — a hand on a shoulder, the change repeated once, a name called — is what gives the one change a chance to actually happen on the next play.","holdBreakNote":"Steadiness left the band — flat or over-pumped. Repeat the change once and bring the tone back."},{"id":"note-the-adjustment","kind":"select","target":"tha-scorebook","doneLine":"Change and knock noted","title":"Note the change and the knock for the coach","cue":"Write the adjustment made and the teammate who took the knock on the bench notes.","why":"The coach cannot see everything and a captain's note closes the gap: what change the team made, whether it worked, and which teammate took a knock and went quiet. The last line is the most important; a possible head injury that nobody wrote down is one nobody follows up on after the game."},{"id":"win-or-lose-share-it","kind":"select","target":"tha-share-board","doneLine":"Credit shared","title":"Share the result, whatever it is","cue":"At the whistle, name one teammate whose work turned the run — or who kept going when it did not.","why":"Whatever happened after the timeout, the captain's last job is to share it. Naming the teammate who made the change work, or who kept going when it did not, is how a team learns that a timeout was a thing they did together — and it is the part of leadership that costs nothing and is remembered longest."},{"id":"crew-check-in","kind":"select","target":"tha-crew-checkin","doneLine":"Captain checked in","title":"Check in with the coach about the huddle","cue":"After the game: how did it feel to lead, what landed, and what would you change?","why":"Leading a huddle while losing is hard, and captains rarely get asked how it felt. A short check-in with the coach — what landed, what did not, how are you — is how a young leader learns the job without carrying the weight of a loss alone, and it is exactly the kind of noticing the guide's check-in exists for."}],
+  steps: [
+    {
+      id: "read-the-bench-coming-in",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "tha-heads-down",
+        "tha-two-arguing",
+        "tha-quiet-teammate"
+      ],
+      itemNames: {
+        "tha-heads-down": "players walking in with heads down",
+        "tha-two-arguing": "two teammates still arguing",
+        "tha-quiet-teammate": "a teammate unusually quiet after a knock"
+      },
+      itemNotes: {
+        "tha-heads-down": "Heads down means the team needs lifting before it can listen. The encouragement matters as much as the change.",
+        "tha-two-arguing": "An argument walking into the huddle will take it over unless it is stopped in the first sentence.",
+        "tha-quiet-teammate": "Quieter than usual after a knock is worth a word — and worth telling the coach about."
+      },
+      decoyNotes: {
+        "tha-teammate-drinking": "A teammate already drinking water is doing the right thing. Look for what needs you."
+      },
+      title: "Read the team as it walks to the bench",
+      cue: "In the seconds before the huddle forms, look at who is coming in and how.",
+      why: "The huddle starts before anyone sits down. Heads down, two players still arguing and a teammate who has gone quiet since a knock are three different problems, and a captain who sees them walking in knows what the thirty seconds have to do: settle, fix one thing and lift, while the coach is told about the teammate who may need checking."
+    },
+    {
+      id: "post-the-huddle-format",
+      kind: "select",
+      target: "tha-format-card",
+      title: "Hold to the huddle format",
+      cue: "One fact, one change, one encouragement — nothing else fits in thirty seconds.",
+      why: "The format is what makes thirty seconds enough. One fact says what is actually happening, one change says what the team will do differently, and one encouragement sends them out believing they can do it. Anything more is a lecture the clock will cut off halfway, and players walk back out with the first half of a sentence."
+    },
+    {
+      id: "build-the-huddle-in-order",
+      kind: "sequence",
+      targets: [
+        "tha-order-water",
+        "tha-order-fact",
+        "tha-order-change",
+        "tha-order-lift"
+      ],
+      itemNames: {
+        "tha-order-water": "1 · water in hands",
+        "tha-order-fact": "2 · one fact, plainly",
+        "tha-order-change": "3 · one change",
+        "tha-order-lift": "4 · one encouragement"
+      },
+      title: "Run the huddle in order",
+      cue: "Water first, then the fact, then the change, then the encouragement.",
+      why: "Water goes in hands first because it takes no words and a tired team listens better with something to drink. The fact comes before the change so the change makes sense, and the encouragement comes last because it is what players carry out onto the floor — the last thing said in a huddle is the thing remembered.",
+      outOfOrderNote: "Out of order. Water goes in hands first, then the fact — a change given before anyone knows why it is needed does not stick."
+    },
+    {
+      id: "hold-a-calm-voice",
+      kind: "hold",
+      target: "tha-calm-voice",
+      seconds: 6,
+      title: "Hold a calm, low voice as the huddle forms",
+      cue: "Drop your voice, slow down and hold it — the team matches the captain's tone.",
+      why: "A captain who shouts in a huddle tells the team it is time to panic; one who drops their voice and slows down tells them the problem is manageable. The Association for Applied Sport Psychology's work on composure under pressure keeps returning to this: the leader's tone sets the room's, so the calm has to come first.",
+      holdBreakNote: "Your voice climbed before the hold was up. The team will match whatever tone you use — bring it back down."
+    },
+    {
+      id: "turn-the-one-change",
+      kind: "turn",
+      target: "tha-change-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "SWITCH D"
+      },
+      title: "Turn the dial to the one change",
+      cue: "Turn the dial to the single adjustment the team will make: switch every screen this possession.",
+      why: "One change, stated as a single action everyone can do on the next play, is what a team under pressure can actually carry out. Turning the dial to it makes the change a thing all five players saw decided, not a suggestion one player half heard — and it gives the coach, who takes the second half of the timeout, a clear place to build from."
+    },
+    {
+      id: "time-the-huddle",
+      kind: "gauge",
+      target: "tha-huddle-clock",
+      gauge: {
+        label: "30 SEC",
+        speed: 0.6,
+        green: [
+          0.42,
+          0.6
+        ],
+        missNote: "Outside the band. Too short and the change never landed; too long and the coach has no time. Finish your part inside your share of the clock."
+      },
+      title: "Finish your part inside the clock",
+      cue: "Commit when your part ends in the window — enough to land the change, leaving the coach their time.",
+      why: "The captain has part of a short timeout, not all of it. Finishing inside that share leaves the coach time for their adjustment and still gets everyone back on the floor before the official's signal; running over means the coach is cut off, and stopping too soon means the change never actually landed with the team."
+    },
+    {
+      id: "hand-the-water-out",
+      kind: "drag",
+      target: "tha-water-token",
+      drag: {
+        to: "tha-bench-spot",
+        radius: 0.45,
+        missNote: "The bottles did not reach the bench. Water in hands is the first thing the huddle does — carry them all the way."
+      },
+      title: "Get water into every player's hand",
+      cue: "Drag the bottles from the cooler to the bench — every player drinks while listening.",
+      why: "A timeout is also a water break, and a captain who hands the bottles out is doing leadership nobody notices. USA Basketball's guidelines and NFHS sports medicine guidance both treat hydration in stoppages as part of keeping players safe, and a team that drinks while it listens loses none of the thirty seconds to it."
+    },
+    {
+      id: "stop-the-blame",
+      kind: "select",
+      target: "tha-no-blame-card",
+      title: "Stop the blame with one sentence",
+      cue: "Settle the argument: \"We fix it together, next play\" — and move on.",
+      why: "Two players arguing about whose man it was are both partly right and neither is helped by winning. One sentence from the captain — we fix it together, next play — stops it without choosing a side, keeps the huddle's thirty seconds for the fix, and sends both players out as teammates instead of as a verdict."
+    },
+    {
+      id: "spot-who-needs-more",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "tha-needs-knock",
+        "tha-needs-benched",
+        "tha-needs-fouled-out"
+      ],
+      itemNames: {
+        "tha-needs-knock": "the teammate who took the knock, holding their head",
+        "tha-needs-benched": "a substitute who has not played and looks lost",
+        "tha-needs-fouled-out": "a player with four fouls, jaw clenched"
+      },
+      itemNotes: {
+        "tha-needs-knock": "Holding their head after a knock is a sign to tell the coach now. CDC Heads Up: when in doubt, sit them out.",
+        "tha-needs-benched": "A sub about to go in cold needs one clear job. Tell them their man and the change.",
+        "tha-needs-fouled-out": "Four fouls and a clenched jaw is a player one reach away from sitting down. A word about hands up, not reaching."
+      },
+      decoyNotes: {
+        "tha-needs-laughing": "A teammate laughing at a joke is loosening up — that is fine in a huddle."
+      },
+      title: "Find who needs more than the huddle gave",
+      cue: "As the team stands up, look again: who needs a word, and who needs the coach?",
+      why: "The huddle speaks to the whole team, but some players need something more specific: a sub going in cold needs their job, a player on four fouls needs a reminder about hands, and a teammate holding their head after a knock needs the coach to know now. A captain who looks twice catches what a single speech cannot."
+    },
+    {
+      id: "hold-the-team-steady",
+      kind: "track",
+      target: "tha-steady-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
+          0.4,
+          0.62
+        ],
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "STEADY"
+      },
+      title: "Keep the team steady walking back out",
+      cue: "Hold steadiness in band as the team returns to the floor — not flat, not fired up past thinking.",
+      why: "A huddle can send a team out flat, or so wound up that the first possession is a charge and a foul. Holding steadiness in band as they walk back — a hand on a shoulder, the change repeated once, a name called — is what gives the one change a chance to actually happen on the next play.",
+      holdBreakNote: "Steadiness left the band — flat or over-pumped. Repeat the change once and bring the tone back."
+    },
+    {
+      id: "note-the-adjustment",
+      kind: "select",
+      target: "tha-scorebook",
+      doneLine: "Change and knock noted",
+      title: "Note the change and the knock for the coach",
+      cue: "Write the adjustment made and the teammate who took the knock on the bench notes.",
+      why: "The coach cannot see everything and a captain's note closes the gap: what change the team made, whether it worked, and which teammate took a knock and went quiet. The last line is the most important; a possible head injury that nobody wrote down is one nobody follows up on after the game."
+    },
+    {
+      id: "win-or-lose-share-it",
+      kind: "select",
+      target: "tha-share-board",
+      doneLine: "Credit shared",
+      title: "Share the result, whatever it is",
+      cue: "At the whistle, name one teammate whose work turned the run — or who kept going when it did not.",
+      why: "Whatever happened after the timeout, the captain's last job is to share it. Naming the teammate who made the change work, or who kept going when it did not, is how a team learns that a timeout was a thing they did together — and it is the part of leadership that costs nothing and is remembered longest."
+    },
+    {
+      id: "crew-check-in",
+      kind: "select",
+      target: "tha-crew-checkin",
+      doneLine: "Captain checked in",
+      title: "Check in with the coach about the huddle",
+      cue: "After the game: how did it feel to lead, what landed, and what would you change?",
+      why: "Leading a huddle while losing is hard, and captains rarely get asked how it felt. A short check-in with the coach — what landed, what did not, how are you — is how a young leader learns the job without carrying the weight of a loss alone, and it is exactly the kind of noticing the guide's check-in exists for."
+    }
+  ],
 
-  interrupts: [{"id":"the-official-signals-early","kind":"Official's signal","after":"hold-a-calm-voice","delay":3,"seconds":12,"target":"tha-cut-to-change","alert":"The official signals that the timeout is nearly over — far sooner than the captain expected.","cue":"Cut straight to the one change and the encouragement — the voice stays calm.","why":"A huddle that runs out of time mid-sentence sends the team out with nothing. When the signal comes early the captain skips everything but the change and the lift, still in the same low voice, because those two things are what the team needs on the next possession.","missNote":"The captain kept talking through the signal, the team walked out with half an explanation and no change, and the next possession looked exactly like the run.","wrongNote":"That does not shorten the huddle. Cut to the one change and the encouragement."},{"id":"a-parent-shouts-at-a-player","kind":"Parent in the stands","after":"hold-the-team-steady","delay":3,"seconds":12,"target":"tha-assistant-to-stands","alert":"A parent in the front row shouts at their own child by name about the turnovers as the team walks back out.","cue":"Signal the assistant coach to go to the stands — you stay with the player and keep them facing the floor.","why":"A captain cannot manage an adult in the stands, and trying to would pull them away from the teammate who needs them. Signalling the assistant hands the parent to an adult whose job it is, while the captain keeps the player facing the game and repeats their one job.","missNote":"Nobody went to the stands, the parent kept shouting, and the player turned the ball over twice more looking up at the crowd.","wrongNote":"That does not reach the parent. Signal the assistant coach to go to the stands."}],
+  interrupts: [
+    {
+      id: "the-official-signals-early",
+      kind: "Official's signal",
+      after: "hold-a-calm-voice",
+      delay: 3,
+      seconds: 12,
+      target: "tha-cut-to-change",
+      alert: "The official signals that the timeout is nearly over — far sooner than the captain expected.",
+      cue: "Cut straight to the one change and the encouragement — the voice stays calm.",
+      why: "A huddle that runs out of time mid-sentence sends the team out with nothing. When the signal comes early the captain skips everything but the change and the lift, still in the same low voice, because those two things are what the team needs on the next possession.",
+      missNote: "The captain kept talking through the signal, the team walked out with half an explanation and no change, and the next possession looked exactly like the run.",
+      wrongNote: "That does not shorten the huddle. Cut to the one change and the encouragement."
+    },
+    {
+      id: "a-parent-shouts-at-a-player",
+      kind: "Parent in the stands",
+      after: "hold-the-team-steady",
+      delay: 3,
+      seconds: 12,
+      target: "tha-assistant-to-stands",
+      alert: "A parent in the front row shouts at their own child by name about the turnovers as the team walks back out.",
+      cue: "Signal the assistant coach to go to the stands — you stay with the player and keep them facing the floor.",
+      why: "A captain cannot manage an adult in the stands, and trying to would pull them away from the teammate who needs them. Signalling the assistant hands the parent to an adult whose job it is, while the captain keeps the player facing the game and repeats their one job.",
+      missNote: "Nobody went to the stands, the parent kept shouting, and the player turned the ball over twice more looking up at the crowd.",
+      wrongNote: "That does not reach the parent. Signal the assistant coach to go to the stands."
+    }
+  ],
 
   build(root) {
     const hits = {};

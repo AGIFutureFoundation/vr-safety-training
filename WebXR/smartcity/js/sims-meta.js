@@ -10301,7 +10301,7 @@ export const SIMS_META = [
       "name": "Principles Held",
       "note": "The eight principles, the framework and the law answered without an unsafe conclusion"
     },
-    "stepCount": 10,
+    "stepCount": 13,
     "interruptCount": 0,
     "flat": true,
     "dossier": [

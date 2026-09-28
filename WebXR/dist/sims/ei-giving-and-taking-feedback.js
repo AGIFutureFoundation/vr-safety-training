@@ -56,13 +56,238 @@ export const SIM_EI_GIVING_AND_TAKING_FEEDBACK = {
     ],
   }),
 
-  hazards: {"call-them-careless":"You told them they were careless. Naming the person instead of the behaviour gives them something to defend rather than something to fix, and SAMHSA's principles of safety and trustworthiness are about exactly this: a correction that feels like an attack teaches someone to hide the next mistake rather than stop making it.","correct-them-in-front-of-the-crew":"You corrected them loudly in front of the whole crew at the truck. Public correction adds embarrassment to the lesson and makes the whole crew less willing to admit their own slips; the employer's injury prevention programme depends on people reporting near misses, and nobody reports to someone who shames them.","defend-your-instructions":"When they said your instructions were unclear, you explained why they were not. Defending yourself turns their feedback into an argument and teaches them never to give it again; Labor Code §6310 protects a worker who raises a safety concern, and the least a senior colleague owes them is to listen first.","save-it-for-the-annual-review":"You decided to mention it at their annual review instead. Feedback about a safety behaviour that waits months is feedback about a habit that has been practised for months, and 8 CCR 3203 asks for an unsafe practice to be corrected when it is found, not stored up."},
+  hazards: {
+    "call-them-careless": "You told them they were careless. Naming the person instead of the behaviour gives them something to defend rather than something to fix, and SAMHSA's principles of safety and trustworthiness are about exactly this: a correction that feels like an attack teaches someone to hide the next mistake rather than stop making it.",
+    "correct-them-in-front-of-the-crew": "You corrected them loudly in front of the whole crew at the truck. Public correction adds embarrassment to the lesson and makes the whole crew less willing to admit their own slips; the employer's injury prevention programme depends on people reporting near misses, and nobody reports to someone who shames them.",
+    "defend-your-instructions": "When they said your instructions were unclear, you explained why they were not. Defending yourself turns their feedback into an argument and teaches them never to give it again; Labor Code §6310 protects a worker who raises a safety concern, and the least a senior colleague owes them is to listen first.",
+    "save-it-for-the-annual-review": "You decided to mention it at their annual review instead. Feedback about a safety behaviour that waits months is feedback about a habit that has been practised for months, and 8 CCR 3203 asks for an unsafe practice to be corrected when it is found, not stored up."
+  },
 
-  lateNotes: {"egf-training-log":"The training note is written after both halves of the conversation — nothing to record yet.","egf-crew-checkin":"The check-in comes at the very end of the day."},
+  lateNotes: {
+    "egf-training-log": "The training note is written after both halves of the conversation — nothing to record yet.",
+    "egf-crew-checkin": "The check-in comes at the very end of the day."
+  },
 
-  steps: [{"id":"see-what-needs-saying","kind":"find","noHint":true,"targets":["egf-chipper-left-running","egf-guard-open","egf-no-ear-protection"],"itemNames":{"egf-chipper-left-running":"the chipper left running unattended","egf-guard-open":"the feed guard left open","egf-no-ear-protection":"ear protection hanging on the mirror"},"itemNotes":{"egf-chipper-left-running":"A running chipper left alone is the behaviour to name — specific, observable, fixable.","egf-guard-open":"An open guard is a second observable fact. Feedback built on facts gives nothing to argue with.","egf-no-ear-protection":"Hearing protection on the mirror, not on the head. Name it as a thing seen, not a character flaw."},"decoyNotes":{"egf-coffee-cup":"A coffee cup on the dash is not a safety behaviour. Stick to what matters."},"title":"See exactly what needs saying","cue":"Look at the chipper and mark the specific things you actually saw — facts, not impressions.","why":"Good feedback starts with specifics you saw with your own eyes: the chipper left running, the guard open, the ear protection hanging on the mirror. Specific, observable facts give the other person something to fix; impressions like careless or sloppy give them something to defend, and the conversation goes wrong from the first sentence."},{"id":"choose-the-private-spot","kind":"select","target":"egf-private-spot","title":"Choose a private spot, soon","cue":"Ask for two minutes one to one, away from the truck, now — not at the end of the week.","why":"Soon and private are the two conditions that make feedback land. Soon, because the behaviour is fresh and has not become a habit; private, because a correction watched by the crew becomes about embarrassment rather than the chipper. Two minutes away from the truck, straight after, is usually all it takes."},{"id":"build-the-feedback-in-order","kind":"sequence","targets":["egf-order-saw","egf-order-why","egf-order-ask","egf-order-next"],"itemNames":{"egf-order-saw":"1 · what I saw","egf-order-why":"2 · why it matters","egf-order-ask":"3 · ask what happened","egf-order-next":"4 · agree what happens next"},"title":"Give the feedback in order","cue":"What I saw, why it matters, what happened from your side, what we do next.","why":"Starting with what you saw keeps it about the behaviour; saying why it matters gives the reason rather than a rule; asking what happened invites the other person's side before you decide anything; agreeing what happens next turns the conversation into a plan. Skipping the ask is the most common mistake, and it is where the second half of this station comes from.","outOfOrderNote":"Out of order. Say what you saw before why it matters — a reason given before the fact sounds like a verdict."},{"id":"hold-while-they-answer","kind":"hold","target":"egf-listen-spot","seconds":6,"title":"Hold still while they answer","cue":"They are telling you what happened from their side — hold, listen, do not rebut.","why":"Asking what happened only works if you then actually listen. Holding still while the other person answers — no rebuttal forming, no finishing their sentence — is where you learn whether the problem was carelessness, a rushed schedule or, as it turns out here, an instruction that was not as clear as you thought it was.","holdBreakNote":"You started rebutting before they finished. Listen all the way through — their side is the information you asked for."},{"id":"turn-to-receiving","kind":"turn","target":"egf-role-dial","turn":{"turns":0.5,"axis":"y","label":"RECEIVE"},"title":"Turn from giving to receiving","cue":"They say your instructions were unclear. Turn the dial from GIVING to RECEIVING.","why":"The hardest moment in feedback is when it comes back to you mid-conversation. Turning deliberately from giver to receiver — the same senior worker, now listening to criticism of their own instructions — is the skill this station is built around, because a crew where feedback only flows downward never hears about the unclear instruction until someone is hurt."},{"id":"pace-your-reaction","kind":"gauge","target":"egf-reaction-meter","gauge":{"label":"REACTION","speed":0.62,"green":[0.4,0.58],"missNote":"Outside the band. Too defensive and they stop talking; too apologetic and the safety point gets lost. Take it in, steady."},"title":"Take it in at a steady pace","cue":"Commit when your reaction reads steady — not defensive, not collapsing into apology.","why":"Two reactions stop feedback coming back: defending yourself, and apologising so much that the other person ends up comforting you. A steady reaction — a breath, a nod, \"say more about that\" — keeps the conversation about the instruction and the chipper, and shows the newer worker that telling a senior colleague something uncomfortable is safe here."},{"id":"move-the-instruction-fix","kind":"drag","target":"egf-instruction-token","drag":{"to":"egf-rewritten-spot","radius":0.45,"missNote":"The instruction has not been rewritten yet. Taking feedback means changing the thing — move it all the way."},"title":"Fix your own instruction","cue":"Drag your instruction to the rewritten spot: shutdown steps in order, written on the card at the chipper.","why":"Taking feedback means acting on it, not only hearing it. Rewriting the shutdown instruction step by step and fixing it to the chipper is the proof that the feedback landed, and it fixes the actual cause: a newer worker following an unclear verbal instruction was always going to leave the guard open sooner or later."},{"id":"thank-them-for-it","kind":"select","target":"egf-thank-you-card","title":"Thank them for telling you","cue":"\"Thank you for telling me. What else was unclear?\"","why":"Thanking someone for criticism, and asking for more, is the single sentence that decides whether they will ever give it again. It also often surfaces the next problem — a second unclear step, a tool nobody showed them how to use — which is information a senior worker cannot get any other way."},{"id":"spot-the-defences","kind":"find","noHint":true,"targets":["egf-defence-arms-crossed","egf-defence-yes-but","egf-defence-changing-subject"],"itemNames":{"egf-defence-arms-crossed":"your own arms crossed","egf-defence-yes-but":"a \"yes, but\" forming","egf-defence-changing-subject":"the urge to change the subject to their mistake"},"itemNotes":{"egf-defence-arms-crossed":"Crossed arms tell them you have stopped listening before you have said a word. Uncross them.","egf-defence-yes-but":"\"Yes, but\" deletes the yes. Stop at yes.","egf-defence-changing-subject":"Going back to their mistake while they talk about yours is defending by attack. Finish theirs later."},"decoyNotes":{"egf-defence-nodding":"Nodding while they speak is listening. Keep it."},"title":"Catch your own defences","cue":"Look at yourself in this conversation and mark each sign you are defending rather than listening.","why":"Defensiveness shows before it is spoken: arms crossing, a \"yes, but\" forming, the urge to steer back to the other person's mistake. Catching them in yourself is the emotional-intelligence skill underneath taking feedback, because the other person sees them long before you say anything, and stops talking when they do."},{"id":"hold-the-working-relationship","kind":"track","target":"egf-relationship-meter","seconds":8,"track":{"start":0.3,"green":[0.4,0.62],"rise":0.46,"fall":0.38,"drift":0.14,"label":"TRUST"},"title":"Hold the working relationship as you go back to work","cue":"Keep the relationship in band walking back to the chipper — not awkward, not pretending nothing happened.","why":"The walk back to work after a feedback conversation decides whether it strengthened the working relationship or strained it. Holding it in band — working the rewritten shutdown together, a normal word about the next job — tells both people the conversation was about the work, which is what makes the next one easier.","holdBreakNote":"The relationship left the band — gone awkward or falsely cheerful. Work the task together and let it settle."},{"id":"record-the-correction","kind":"select","target":"egf-training-log","doneLine":"Correction and rewrite recorded","title":"Record the correction and the rewritten instruction","cue":"Log the unsafe practice corrected and the instruction rewritten — both halves.","why":"8 CCR 3203 asks for unsafe practices found and corrected to be documented, and the honest record here has two halves: the chipper left running and the instruction that allowed it. Recording both keeps the log from blaming the newer worker alone and tells the next supervisor that the fix was to the instruction, not only to the person."},{"id":"share-the-rewrite","kind":"select","target":"egf-share-board","doneLine":"Rewrite shared, credit given","title":"Share the rewrite and credit where it came from","cue":"At the next tailboard, show the rewritten shutdown and say who pointed out the gap.","why":"Crediting the newer worker in front of the crew for pointing out the unclear instruction turns a private correction into a public example of the crew's safety culture working. It tells everyone that feedback upward is welcome, and it gives the person who took the risk of saying it the recognition that makes them do it again."},{"id":"crew-check-in","kind":"select","target":"egf-crew-checkin","doneLine":"Checked in","title":"Check in at the end of the day","cue":"At the truck: how did today's conversation sit with you both?","why":"Feedback conversations can sit uneasily for both people after the day is over. A short check-in — how did that sit with you, anything you did not get to say — keeps the working relationship honest, with the steward and the employee assistance line named for anyone who wants them, as the programme's guide asks."}],
+  steps: [
+    {
+      id: "see-what-needs-saying",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "egf-chipper-left-running",
+        "egf-guard-open",
+        "egf-no-ear-protection"
+      ],
+      itemNames: {
+        "egf-chipper-left-running": "the chipper left running unattended",
+        "egf-guard-open": "the feed guard left open",
+        "egf-no-ear-protection": "ear protection hanging on the mirror"
+      },
+      itemNotes: {
+        "egf-chipper-left-running": "A running chipper left alone is the behaviour to name — specific, observable, fixable.",
+        "egf-guard-open": "An open guard is a second observable fact. Feedback built on facts gives nothing to argue with.",
+        "egf-no-ear-protection": "Hearing protection on the mirror, not on the head. Name it as a thing seen, not a character flaw."
+      },
+      decoyNotes: {
+        "egf-coffee-cup": "A coffee cup on the dash is not a safety behaviour. Stick to what matters."
+      },
+      title: "See exactly what needs saying",
+      cue: "Look at the chipper and mark the specific things you actually saw — facts, not impressions.",
+      why: "Good feedback starts with specifics you saw with your own eyes: the chipper left running, the guard open, the ear protection hanging on the mirror. Specific, observable facts give the other person something to fix; impressions like careless or sloppy give them something to defend, and the conversation goes wrong from the first sentence."
+    },
+    {
+      id: "choose-the-private-spot",
+      kind: "select",
+      target: "egf-private-spot",
+      title: "Choose a private spot, soon",
+      cue: "Ask for two minutes one to one, away from the truck, now — not at the end of the week.",
+      why: "Soon and private are the two conditions that make feedback land. Soon, because the behaviour is fresh and has not become a habit; private, because a correction watched by the crew becomes about embarrassment rather than the chipper. Two minutes away from the truck, straight after, is usually all it takes."
+    },
+    {
+      id: "build-the-feedback-in-order",
+      kind: "sequence",
+      targets: [
+        "egf-order-saw",
+        "egf-order-why",
+        "egf-order-ask",
+        "egf-order-next"
+      ],
+      itemNames: {
+        "egf-order-saw": "1 · what I saw",
+        "egf-order-why": "2 · why it matters",
+        "egf-order-ask": "3 · ask what happened",
+        "egf-order-next": "4 · agree what happens next"
+      },
+      title: "Give the feedback in order",
+      cue: "What I saw, why it matters, what happened from your side, what we do next.",
+      why: "Starting with what you saw keeps it about the behaviour; saying why it matters gives the reason rather than a rule; asking what happened invites the other person's side before you decide anything; agreeing what happens next turns the conversation into a plan. Skipping the ask is the most common mistake, and it is where the second half of this station comes from.",
+      outOfOrderNote: "Out of order. Say what you saw before why it matters — a reason given before the fact sounds like a verdict."
+    },
+    {
+      id: "hold-while-they-answer",
+      kind: "hold",
+      target: "egf-listen-spot",
+      seconds: 6,
+      title: "Hold still while they answer",
+      cue: "They are telling you what happened from their side — hold, listen, do not rebut.",
+      why: "Asking what happened only works if you then actually listen. Holding still while the other person answers — no rebuttal forming, no finishing their sentence — is where you learn whether the problem was carelessness, a rushed schedule or, as it turns out here, an instruction that was not as clear as you thought it was.",
+      holdBreakNote: "You started rebutting before they finished. Listen all the way through — their side is the information you asked for."
+    },
+    {
+      id: "turn-to-receiving",
+      kind: "turn",
+      target: "egf-role-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "RECEIVE"
+      },
+      title: "Turn from giving to receiving",
+      cue: "They say your instructions were unclear. Turn the dial from GIVING to RECEIVING.",
+      why: "The hardest moment in feedback is when it comes back to you mid-conversation. Turning deliberately from giver to receiver — the same senior worker, now listening to criticism of their own instructions — is the skill this station is built around, because a crew where feedback only flows downward never hears about the unclear instruction until someone is hurt."
+    },
+    {
+      id: "pace-your-reaction",
+      kind: "gauge",
+      target: "egf-reaction-meter",
+      gauge: {
+        label: "REACTION",
+        speed: 0.62,
+        green: [
+          0.4,
+          0.58
+        ],
+        missNote: "Outside the band. Too defensive and they stop talking; too apologetic and the safety point gets lost. Take it in, steady."
+      },
+      title: "Take it in at a steady pace",
+      cue: "Commit when your reaction reads steady — not defensive, not collapsing into apology.",
+      why: "Two reactions stop feedback coming back: defending yourself, and apologising so much that the other person ends up comforting you. A steady reaction — a breath, a nod, \"say more about that\" — keeps the conversation about the instruction and the chipper, and shows the newer worker that telling a senior colleague something uncomfortable is safe here."
+    },
+    {
+      id: "move-the-instruction-fix",
+      kind: "drag",
+      target: "egf-instruction-token",
+      drag: {
+        to: "egf-rewritten-spot",
+        radius: 0.45,
+        missNote: "The instruction has not been rewritten yet. Taking feedback means changing the thing — move it all the way."
+      },
+      title: "Fix your own instruction",
+      cue: "Drag your instruction to the rewritten spot: shutdown steps in order, written on the card at the chipper.",
+      why: "Taking feedback means acting on it, not only hearing it. Rewriting the shutdown instruction step by step and fixing it to the chipper is the proof that the feedback landed, and it fixes the actual cause: a newer worker following an unclear verbal instruction was always going to leave the guard open sooner or later."
+    },
+    {
+      id: "thank-them-for-it",
+      kind: "select",
+      target: "egf-thank-you-card",
+      title: "Thank them for telling you",
+      cue: "\"Thank you for telling me. What else was unclear?\"",
+      why: "Thanking someone for criticism, and asking for more, is the single sentence that decides whether they will ever give it again. It also often surfaces the next problem — a second unclear step, a tool nobody showed them how to use — which is information a senior worker cannot get any other way."
+    },
+    {
+      id: "spot-the-defences",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "egf-defence-arms-crossed",
+        "egf-defence-yes-but",
+        "egf-defence-changing-subject"
+      ],
+      itemNames: {
+        "egf-defence-arms-crossed": "your own arms crossed",
+        "egf-defence-yes-but": "a \"yes, but\" forming",
+        "egf-defence-changing-subject": "the urge to change the subject to their mistake"
+      },
+      itemNotes: {
+        "egf-defence-arms-crossed": "Crossed arms tell them you have stopped listening before you have said a word. Uncross them.",
+        "egf-defence-yes-but": "\"Yes, but\" deletes the yes. Stop at yes.",
+        "egf-defence-changing-subject": "Going back to their mistake while they talk about yours is defending by attack. Finish theirs later."
+      },
+      decoyNotes: {
+        "egf-defence-nodding": "Nodding while they speak is listening. Keep it."
+      },
+      title: "Catch your own defences",
+      cue: "Look at yourself in this conversation and mark each sign you are defending rather than listening.",
+      why: "Defensiveness shows before it is spoken: arms crossing, a \"yes, but\" forming, the urge to steer back to the other person's mistake. Catching them in yourself is the emotional-intelligence skill underneath taking feedback, because the other person sees them long before you say anything, and stops talking when they do."
+    },
+    {
+      id: "hold-the-working-relationship",
+      kind: "track",
+      target: "egf-relationship-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
+          0.4,
+          0.62
+        ],
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "TRUST"
+      },
+      title: "Hold the working relationship as you go back to work",
+      cue: "Keep the relationship in band walking back to the chipper — not awkward, not pretending nothing happened.",
+      why: "The walk back to work after a feedback conversation decides whether it strengthened the working relationship or strained it. Holding it in band — working the rewritten shutdown together, a normal word about the next job — tells both people the conversation was about the work, which is what makes the next one easier.",
+      holdBreakNote: "The relationship left the band — gone awkward or falsely cheerful. Work the task together and let it settle."
+    },
+    {
+      id: "record-the-correction",
+      kind: "select",
+      target: "egf-training-log",
+      doneLine: "Correction and rewrite recorded",
+      title: "Record the correction and the rewritten instruction",
+      cue: "Log the unsafe practice corrected and the instruction rewritten — both halves.",
+      why: "8 CCR 3203 asks for unsafe practices found and corrected to be documented, and the honest record here has two halves: the chipper left running and the instruction that allowed it. Recording both keeps the log from blaming the newer worker alone and tells the next supervisor that the fix was to the instruction, not only to the person."
+    },
+    {
+      id: "share-the-rewrite",
+      kind: "select",
+      target: "egf-share-board",
+      doneLine: "Rewrite shared, credit given",
+      title: "Share the rewrite and credit where it came from",
+      cue: "At the next tailboard, show the rewritten shutdown and say who pointed out the gap.",
+      why: "Crediting the newer worker in front of the crew for pointing out the unclear instruction turns a private correction into a public example of the crew's safety culture working. It tells everyone that feedback upward is welcome, and it gives the person who took the risk of saying it the recognition that makes them do it again."
+    },
+    {
+      id: "crew-check-in",
+      kind: "select",
+      target: "egf-crew-checkin",
+      doneLine: "Checked in",
+      title: "Check in at the end of the day",
+      cue: "At the truck: how did today's conversation sit with you both?",
+      why: "Feedback conversations can sit uneasily for both people after the day is over. A short check-in — how did that sit with you, anything you did not get to say — keeps the working relationship honest, with the steward and the employee assistance line named for anyone who wants them, as the programme's guide asks."
+    }
+  ],
 
-  interrupts: [{"id":"the-chipper-starts-to-jam","kind":"Machine jam","after":"hold-while-they-answer","delay":3,"seconds":12,"target":"egf-emergency-stop","alert":"The chipper, still running, starts to jam and another crew member reaches toward the feed to clear it.","cue":"Hit the emergency stop and call them back — the conversation waits until the machine is safe.","why":"The feedback conversation was about exactly this machine, and a hand reaching into a jammed feed beats any conversation. The emergency stop comes first, the reach is called back, and the machine is locked out before anyone clears it; then the conversation resumes with a very clear example.","missNote":"Nobody hit the stop, and the crew member's glove was caught at the feed before the chipper was shut down.","wrongNote":"That does not stop the machine. Hit the emergency stop and call them back."},{"id":"the-supervisor-asks-who-was-at-fault","kind":"Supervisor question","after":"hold-the-working-relationship","delay":3,"seconds":12,"target":"egf-answer-with-fix","alert":"The supervisor walks up and asks, in front of the crew, who left the chipper running earlier.","cue":"Answer with the fix, not a name: \"We found a gap in the shutdown instruction and rewrote it.\"","why":"The supervisor's question invites a name, and giving one would undo everything the conversation just built. Answering with the fix — the gap found and the instruction rewritten — is honest, keeps the correction where it belongs, and tells the supervisor the thing they actually need to know.","missNote":"The newer worker was named in front of the crew, went quiet for the rest of the day, and did not report the next near miss.","wrongNote":"That does not answer the supervisor with the fix. Tell them the instruction was rewritten."}],
+  interrupts: [
+    {
+      id: "the-chipper-starts-to-jam",
+      kind: "Machine jam",
+      after: "hold-while-they-answer",
+      delay: 3,
+      seconds: 12,
+      target: "egf-emergency-stop",
+      alert: "The chipper, still running, starts to jam and another crew member reaches toward the feed to clear it.",
+      cue: "Hit the emergency stop and call them back — the conversation waits until the machine is safe.",
+      why: "The feedback conversation was about exactly this machine, and a hand reaching into a jammed feed beats any conversation. The emergency stop comes first, the reach is called back, and the machine is locked out before anyone clears it; then the conversation resumes with a very clear example.",
+      missNote: "Nobody hit the stop, and the crew member's glove was caught at the feed before the chipper was shut down.",
+      wrongNote: "That does not stop the machine. Hit the emergency stop and call them back."
+    },
+    {
+      id: "the-supervisor-asks-who-was-at-fault",
+      kind: "Supervisor question",
+      after: "hold-the-working-relationship",
+      delay: 3,
+      seconds: 12,
+      target: "egf-answer-with-fix",
+      alert: "The supervisor walks up and asks, in front of the crew, who left the chipper running earlier.",
+      cue: "Answer with the fix, not a name: \"We found a gap in the shutdown instruction and rewrote it.\"",
+      why: "The supervisor's question invites a name, and giving one would undo everything the conversation just built. Answering with the fix — the gap found and the instruction rewritten — is honest, keeps the correction where it belongs, and tells the supervisor the thing they actually need to know.",
+      missNote: "The newer worker was named in front of the crew, went quiet for the rest of the day, and did not report the next near miss.",
+      wrongNote: "That does not answer the supervisor with the fix. Tell them the instruction was rewritten."
+    }
+  ],
 
   build(root) {
     const hits = {};
@@ -232,10 +457,10 @@ export const SIM_EI_GIVING_AND_TAKING_FEEDBACK = {
     holoTag(g, "Senior worker", 3, 2.1, 0.7, { css: "#7fc4d8", w: 0.34 });
     crew["supervisor"] = standingFigure(g, -3, 0.7, { ry: 1.9, cloth: 0x2a5a8a, trousers: 0x2b2f35 });
     holoTag(g, "Supervisor", -3, 2.1, 0.7, { css: "#7fc4d8", w: 0.34 });
-    crew["newer"] = standingFigure(g, -2.9, -2.3, { ry: 0.9, cloth: 0x6a8a4a, trousers: 0x2b2f35 });
-    holoTag(g, "Newer worker", -2.9, 2.1, -2.3, { css: "#7fc4d8", w: 0.34 });
-    crew["steward"] = standingFigure(g, 2.9, -2.3, { ry: -0.9, cloth: 0x6a7a4a, trousers: 0x2b2f35 });
-    holoTag(g, "Union steward", 2.9, 2.1, -2.3, { css: "#7fc4d8", w: 0.34 });
+    crew["newer"] = standingFigure(g, -3, 1.8, { ry: 2.2, cloth: 0x6a8a4a, trousers: 0x2b2f35 });
+    holoTag(g, "Newer worker", -3, 2.1, 1.8, { css: "#7fc4d8", w: 0.34 });
+    crew["steward"] = standingFigure(g, 3, 1.8, { ry: -2.2, cloth: 0x6a7a4a, trousers: 0x2b2f35 });
+    holoTag(g, "Union steward", 3, 2.1, 1.8, { css: "#7fc4d8", w: 0.34 });
     // the two people each interruption brings into the scene, hidden until it fires
     const arrivals = {};
     arrivals["the-chipper-starts-to-jam"] = standingFigure(g, 1.5, -3, { ry: 3, cloth: 0x5a7a3a, atStation: true });

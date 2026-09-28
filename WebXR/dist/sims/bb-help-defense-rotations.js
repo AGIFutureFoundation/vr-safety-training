@@ -59,13 +59,238 @@ export const SIM_BB_HELP_DEFENSE_ROTATIONS = {
     ],
   }),
 
-  hazards: {"step-under-an-airborne-shooter":"You slid under a player who was already in the air to draw a charge. NFHS rules give a defender a legal position only when it is established before the shooter leaves the floor, and stepping under an airborne body is how a young player lands on someone's back or takes a head knock off the floor — CDC Heads Up is plain that a fall like that removes a player from play.","chase-the-ball-not-the-rotation":"You chased the ball after being beaten instead of recovering to the open man. When the beaten defender follows the drive, two defenders end up on one player and the pass out finds a teammate with nobody near them; the rotation only works if the beaten player trusts it and goes to whoever is left.","help-without-a-word":"You stepped over to help without saying so. The teammate behind you cannot rotate to your man if they do not know you left him, and the silent help turns one open driver into one open shooter; the help call is what turns a single player's reaction into a team's rotation.","blame-the-beaten-defender":"You told the defender who got beaten, loudly and during play, that it was their fault. Help defence exists because everyone gets beaten sometimes; the Association for Applied Sport Psychology's guidance on team trust is that shaming the first mistake makes the next player hesitate to help at all."},
+  hazards: {
+    "step-under-an-airborne-shooter": "You slid under a player who was already in the air to draw a charge. NFHS rules give a defender a legal position only when it is established before the shooter leaves the floor, and stepping under an airborne body is how a young player lands on someone's back or takes a head knock off the floor — CDC Heads Up is plain that a fall like that removes a player from play.",
+    "chase-the-ball-not-the-rotation": "You chased the ball after being beaten instead of recovering to the open man. When the beaten defender follows the drive, two defenders end up on one player and the pass out finds a teammate with nobody near them; the rotation only works if the beaten player trusts it and goes to whoever is left.",
+    "help-without-a-word": "You stepped over to help without saying so. The teammate behind you cannot rotate to your man if they do not know you left him, and the silent help turns one open driver into one open shooter; the help call is what turns a single player's reaction into a team's rotation.",
+    "blame-the-beaten-defender": "You told the defender who got beaten, loudly and during play, that it was their fault. Help defence exists because everyone gets beaten sometimes; the Association for Applied Sport Psychology's guidance on team trust is that shaming the first mistake makes the next player hesitate to help at all."
+  },
 
-  lateNotes: {"hdr-practice-log":"The log closes the shell drill once the rotation has held at speed — nothing to record yet.","hdr-crew-checkin":"The check-in comes after the log, at the very end."},
+  lateNotes: {
+    "hdr-practice-log": "The log closes the shell drill once the rotation has held at speed — nothing to record yet.",
+    "hdr-crew-checkin": "The check-in comes after the log, at the very end."
+  },
 
-  steps: [{"id":"read-the-drive","kind":"find","noHint":true,"targets":["hdr-driver-beating","hdr-helper-position","hdr-open-corner"],"itemNames":{"hdr-driver-beating":"the driver getting past their defender","hdr-helper-position":"the helper standing in the lane","hdr-open-corner":"the corner the helper will leave open"},"itemNotes":{"hdr-driver-beating":"The driver turning the corner is the moment the team has to move together. Everything starts from this.","hdr-helper-position":"The helper in the lane is already where the drive is going. Their first job is to say so.","hdr-open-corner":"Whoever the helper leaves is the next pass. The rotation behind exists for exactly that player."},"decoyNotes":{"hdr-ball-in-the-air":"A skip pass in the air is the next action, not this one. Read the drive first."},"title":"Read the drive before it reaches the rim","cue":"Watch the drive begin: who is beaten, who is in position to help, and who will be left open.","why":"Help defence is five players reacting to one moment. Seeing the driver turn the corner, the helper already standing in the lane and the corner shooter that help will leave open — all in one look — is what lets the team move before the ball arrives rather than after, and before is the only time rotation works without a collision."},{"id":"post-the-shell-words","kind":"select","target":"hdr-shell-card","title":"Agree the shell drill words","cue":"Post the four words: ball, help, rotate, recover — each player says theirs every rep.","why":"In the shell drill every defender has a word for where they are: on the ball, in help, rotating or recovering. Saying it every rep, even when nothing happens, is what makes it automatic when something does, and it gives the coach a way to hear which defender has lost their place before the drill turns into a scramble."},{"id":"build-the-rotation-order","kind":"sequence","targets":["hdr-order-help","hdr-order-rotate","hdr-order-recover","hdr-order-close"],"itemNames":{"hdr-order-help":"1 · helper steps in and calls it","hdr-order-rotate":"2 · next defender rotates to the helper's man","hdr-order-recover":"3 · beaten defender recovers to the open player","hdr-order-close":"4 · close out under control"},"title":"Run the rotation in the order it happens","cue":"Help, rotate, recover, close out — each move triggered by the one before it.","why":"Each move in a rotation is somebody answering the move before: the helper steps in, so the next defender rotates to the helper's man, so the beaten defender recovers to whoever is left, so somebody closes out on the shooter under control. Out of order, two players rotate to the same man and the rim is left empty.","outOfOrderNote":"Out of order. The rotation only starts once the help has been called — rotating first leaves the driver alone at the rim."},{"id":"helper-holds-position","kind":"hold","target":"hdr-legal-position","seconds":6,"title":"Establish the help position early and hold it","cue":"Get to the spot before the driver does, feet set, arms up — and hold.","why":"A helper who arrives early, feet set and arms vertical, has a legal guarding position under NFHS rules and gives the driver something to see and stop for. One who arrives late, moving sideways into a player already in the air, creates the collision the drill is meant to teach players to avoid — early is safe, late is dangerous.","holdBreakNote":"You left the spot before the hold was up. A helper who drifts into the driver is late help — set the feet and stay."},{"id":"turn-the-rotation-dial","kind":"turn","target":"hdr-rotation-dial","turn":{"turns":0.5,"axis":"y","label":"ROTATE"},"title":"Turn the dial to send the rotation","cue":"Turn the rotation dial so the next defender slides to the helper's man.","why":"The rotation is a promise the next defender makes to the helper: I have your man. Turning the dial shows that promise to the whole team — the back line moves as one piece, and the helper can commit to stopping the drive without looking over a shoulder to check whether anybody has their back."},{"id":"time-the-help-step","kind":"gauge","target":"hdr-help-timing","gauge":{"label":"HELP","speed":0.6,"green":[0.38,0.56],"missNote":"Outside the band. Too early leaves the corner open before the driver commits; too late meets a player in the air. Help as the driver turns the corner."},"title":"Time the help step as the driver turns the corner","cue":"Commit when the help arrives in the window — after the driver commits, before they leave the floor.","why":"Help has a window. Too early and the driver simply passes to the player the helper left; too late and the helper meets an airborne body, which is how young players get hurt under the basket. The right moment is when the driver has committed to the lane but is still on the floor — early enough to be legal, late enough to be honest."},{"id":"recover-to-the-open-player","kind":"drag","target":"hdr-recovery-token","drag":{"to":"hdr-open-player-spot","radius":0.45,"missNote":"Not there yet. The beaten defender goes all the way to the open player — stopping halfway leaves the shooter free and the rotation broken."},"title":"Recover to the open player, not the ball","cue":"Drag the beaten defender's token away from the ball and to the player the rotation left open.","why":"Getting beaten is not the mistake; chasing the ball afterwards is. The beaten defender who trusts the rotation goes to whoever is now unguarded, which is the only way the team ends the possession with every player covered. Recovering to the open man is also how a player makes up for the first step without anybody having to tell them to."},{"id":"call-from-the-weak-side","kind":"select","target":"hdr-weak-side-card","title":"Call the help from the weak side","cue":"Say it as you step in: \"I'm help\" — and the teammate behind answers \"I've got back.\"","why":"The weak-side defender sees the whole floor and is usually the helper. Saying \"I'm help\" as they step in, and hearing \"I've got back\" from the teammate behind, is the small exchange that turns five separate reactions into one rotation; without it, the defender who is beaten does not know help is coming and fouls trying to recover alone."},{"id":"spot-the-broken-rotations","kind":"find","noHint":true,"targets":["hdr-broken-two-on-one","hdr-broken-empty-rim","hdr-broken-late-closeout"],"itemNames":{"hdr-broken-two-on-one":"two defenders on the same player","hdr-broken-empty-rim":"nobody left protecting the rim","hdr-broken-late-closeout":"a closeout arriving flat-out and out of control"},"itemNotes":{"hdr-broken-two-on-one":"Two defenders on one player means somebody rotated to a man already covered. Somebody else is open.","hdr-broken-empty-rim":"An empty rim means the rotation went outward and nobody stayed home. The last defender stays inside.","hdr-broken-late-closeout":"A flat-out closeout runs into the shooter's landing space. Chop the feet and arrive under control."},"decoyNotes":{"hdr-good-stunt":"A defender faking at the driver and getting back is a good stunt, not a broken rotation."},"title":"Find where the rotation broke","cue":"Watch the rep and mark each place the rotation came apart.","why":"Rotations break in a few repeatable ways: two defenders on one player, an empty rim, a closeout arriving flat-out into a shooter's landing space. Seeing which one happened, rather than just that the shot went in, tells the team which word was missing and which player needs the rep again."},{"id":"hold-the-team-shape","kind":"track","target":"hdr-shape-meter","seconds":8,"track":{"start":0.3,"green":[0.4,0.62],"rise":0.46,"fall":0.38,"drift":0.15,"label":"SHAPE"},"title":"Hold the team's shape through a live possession","cue":"Keep the shape in band as the ball moves — not collapsed into the lane, not stretched out to the corners.","why":"A defence that collapses into the lane on every drive gives up open shots, and one stretched out to the corners gives up the rim. Holding the shape through a live possession — each player a step off their man toward the ball, the back line talking — is the balance that lets the rotation happen without anybody sprinting into anybody.","holdBreakNote":"The shape left the band — collapsed in or stretched out. Reset to a step off your man and talk."},{"id":"film-the-possession","kind":"select","target":"hdr-film-board","doneLine":"Every rotation called and run","title":"Watch the possession for the rotation, not the shot","cue":"Open the clip: was the help called, the rotation answered, the recovery run to the open player?","why":"The shot at the end of a possession is the least useful thing on film for a defence. Watching the rotation — who called help, who answered, who recovered where — shows the team the chain of trust behind a stop, and gives credit to the defender whose rotation nobody in the stands noticed."},{"id":"log-the-drill","kind":"select","target":"hdr-practice-log","doneLine":"Drill, falls and checks recorded","title":"Log the drill and any fall under the basket","cue":"Record what was practised, any fall or contact at the rim, and what the trainer checked.","why":"A fall under the basket is recorded even when the player gets straight back up, because a head knock can show itself later and the next session's coach needs to know who was checked. The log also records what the rotation looked like, so tomorrow starts from the broken link rather than from zero."},{"id":"crew-check-in","kind":"select","target":"hdr-crew-checkin","doneLine":"Everybody good to carry on","title":"Check in with the coach and the back line","cue":"At the bench: what worked, where the trust broke, and is everybody good?","why":"The players who rotated behind each other know whether they trusted the help or hesitated. A short check-in — did you hear the call, did you believe it, are you alright after that fall — keeps the back line willing to help next time, which is the only thing help defence runs on."}],
+  steps: [
+    {
+      id: "read-the-drive",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "hdr-driver-beating",
+        "hdr-helper-position",
+        "hdr-open-corner"
+      ],
+      itemNames: {
+        "hdr-driver-beating": "the driver getting past their defender",
+        "hdr-helper-position": "the helper standing in the lane",
+        "hdr-open-corner": "the corner the helper will leave open"
+      },
+      itemNotes: {
+        "hdr-driver-beating": "The driver turning the corner is the moment the team has to move together. Everything starts from this.",
+        "hdr-helper-position": "The helper in the lane is already where the drive is going. Their first job is to say so.",
+        "hdr-open-corner": "Whoever the helper leaves is the next pass. The rotation behind exists for exactly that player."
+      },
+      decoyNotes: {
+        "hdr-ball-in-the-air": "A skip pass in the air is the next action, not this one. Read the drive first."
+      },
+      title: "Read the drive before it reaches the rim",
+      cue: "Watch the drive begin: who is beaten, who is in position to help, and who will be left open.",
+      why: "Help defence is five players reacting to one moment. Seeing the driver turn the corner, the helper already standing in the lane and the corner shooter that help will leave open — all in one look — is what lets the team move before the ball arrives rather than after, and before is the only time rotation works without a collision."
+    },
+    {
+      id: "post-the-shell-words",
+      kind: "select",
+      target: "hdr-shell-card",
+      title: "Agree the shell drill words",
+      cue: "Post the four words: ball, help, rotate, recover — each player says theirs every rep.",
+      why: "In the shell drill every defender has a word for where they are: on the ball, in help, rotating or recovering. Saying it every rep, even when nothing happens, is what makes it automatic when something does, and it gives the coach a way to hear which defender has lost their place before the drill turns into a scramble."
+    },
+    {
+      id: "build-the-rotation-order",
+      kind: "sequence",
+      targets: [
+        "hdr-order-help",
+        "hdr-order-rotate",
+        "hdr-order-recover",
+        "hdr-order-close"
+      ],
+      itemNames: {
+        "hdr-order-help": "1 · helper steps in and calls it",
+        "hdr-order-rotate": "2 · next defender rotates to the helper's man",
+        "hdr-order-recover": "3 · beaten defender recovers to the open player",
+        "hdr-order-close": "4 · close out under control"
+      },
+      title: "Run the rotation in the order it happens",
+      cue: "Help, rotate, recover, close out — each move triggered by the one before it.",
+      why: "Each move in a rotation is somebody answering the move before: the helper steps in, so the next defender rotates to the helper's man, so the beaten defender recovers to whoever is left, so somebody closes out on the shooter under control. Out of order, two players rotate to the same man and the rim is left empty.",
+      outOfOrderNote: "Out of order. The rotation only starts once the help has been called — rotating first leaves the driver alone at the rim."
+    },
+    {
+      id: "helper-holds-position",
+      kind: "hold",
+      target: "hdr-legal-position",
+      seconds: 6,
+      title: "Establish the help position early and hold it",
+      cue: "Get to the spot before the driver does, feet set, arms up — and hold.",
+      why: "A helper who arrives early, feet set and arms vertical, has a legal guarding position under NFHS rules and gives the driver something to see and stop for. One who arrives late, moving sideways into a player already in the air, creates the collision the drill is meant to teach players to avoid — early is safe, late is dangerous.",
+      holdBreakNote: "You left the spot before the hold was up. A helper who drifts into the driver is late help — set the feet and stay."
+    },
+    {
+      id: "turn-the-rotation-dial",
+      kind: "turn",
+      target: "hdr-rotation-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "ROTATE"
+      },
+      title: "Turn the dial to send the rotation",
+      cue: "Turn the rotation dial so the next defender slides to the helper's man.",
+      why: "The rotation is a promise the next defender makes to the helper: I have your man. Turning the dial shows that promise to the whole team — the back line moves as one piece, and the helper can commit to stopping the drive without looking over a shoulder to check whether anybody has their back."
+    },
+    {
+      id: "time-the-help-step",
+      kind: "gauge",
+      target: "hdr-help-timing",
+      gauge: {
+        label: "HELP",
+        speed: 0.6,
+        green: [
+          0.38,
+          0.56
+        ],
+        missNote: "Outside the band. Too early leaves the corner open before the driver commits; too late meets a player in the air. Help as the driver turns the corner."
+      },
+      title: "Time the help step as the driver turns the corner",
+      cue: "Commit when the help arrives in the window — after the driver commits, before they leave the floor.",
+      why: "Help has a window. Too early and the driver simply passes to the player the helper left; too late and the helper meets an airborne body, which is how young players get hurt under the basket. The right moment is when the driver has committed to the lane but is still on the floor — early enough to be legal, late enough to be honest."
+    },
+    {
+      id: "recover-to-the-open-player",
+      kind: "drag",
+      target: "hdr-recovery-token",
+      drag: {
+        to: "hdr-open-player-spot",
+        radius: 0.45,
+        missNote: "Not there yet. The beaten defender goes all the way to the open player — stopping halfway leaves the shooter free and the rotation broken."
+      },
+      title: "Recover to the open player, not the ball",
+      cue: "Drag the beaten defender's token away from the ball and to the player the rotation left open.",
+      why: "Getting beaten is not the mistake; chasing the ball afterwards is. The beaten defender who trusts the rotation goes to whoever is now unguarded, which is the only way the team ends the possession with every player covered. Recovering to the open man is also how a player makes up for the first step without anybody having to tell them to."
+    },
+    {
+      id: "call-from-the-weak-side",
+      kind: "select",
+      target: "hdr-weak-side-card",
+      title: "Call the help from the weak side",
+      cue: "Say it as you step in: \"I'm help\" — and the teammate behind answers \"I've got back.\"",
+      why: "The weak-side defender sees the whole floor and is usually the helper. Saying \"I'm help\" as they step in, and hearing \"I've got back\" from the teammate behind, is the small exchange that turns five separate reactions into one rotation; without it, the defender who is beaten does not know help is coming and fouls trying to recover alone."
+    },
+    {
+      id: "spot-the-broken-rotations",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "hdr-broken-two-on-one",
+        "hdr-broken-empty-rim",
+        "hdr-broken-late-closeout"
+      ],
+      itemNames: {
+        "hdr-broken-two-on-one": "two defenders on the same player",
+        "hdr-broken-empty-rim": "nobody left protecting the rim",
+        "hdr-broken-late-closeout": "a closeout arriving flat-out and out of control"
+      },
+      itemNotes: {
+        "hdr-broken-two-on-one": "Two defenders on one player means somebody rotated to a man already covered. Somebody else is open.",
+        "hdr-broken-empty-rim": "An empty rim means the rotation went outward and nobody stayed home. The last defender stays inside.",
+        "hdr-broken-late-closeout": "A flat-out closeout runs into the shooter's landing space. Chop the feet and arrive under control."
+      },
+      decoyNotes: {
+        "hdr-good-stunt": "A defender faking at the driver and getting back is a good stunt, not a broken rotation."
+      },
+      title: "Find where the rotation broke",
+      cue: "Watch the rep and mark each place the rotation came apart.",
+      why: "Rotations break in a few repeatable ways: two defenders on one player, an empty rim, a closeout arriving flat-out into a shooter's landing space. Seeing which one happened, rather than just that the shot went in, tells the team which word was missing and which player needs the rep again."
+    },
+    {
+      id: "hold-the-team-shape",
+      kind: "track",
+      target: "hdr-shape-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
+          0.4,
+          0.62
+        ],
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.15,
+        label: "SHAPE"
+      },
+      title: "Hold the team's shape through a live possession",
+      cue: "Keep the shape in band as the ball moves — not collapsed into the lane, not stretched out to the corners.",
+      why: "A defence that collapses into the lane on every drive gives up open shots, and one stretched out to the corners gives up the rim. Holding the shape through a live possession — each player a step off their man toward the ball, the back line talking — is the balance that lets the rotation happen without anybody sprinting into anybody.",
+      holdBreakNote: "The shape left the band — collapsed in or stretched out. Reset to a step off your man and talk."
+    },
+    {
+      id: "film-the-possession",
+      kind: "select",
+      target: "hdr-film-board",
+      doneLine: "Every rotation called and run",
+      title: "Watch the possession for the rotation, not the shot",
+      cue: "Open the clip: was the help called, the rotation answered, the recovery run to the open player?",
+      why: "The shot at the end of a possession is the least useful thing on film for a defence. Watching the rotation — who called help, who answered, who recovered where — shows the team the chain of trust behind a stop, and gives credit to the defender whose rotation nobody in the stands noticed."
+    },
+    {
+      id: "log-the-drill",
+      kind: "select",
+      target: "hdr-practice-log",
+      doneLine: "Drill, falls and checks recorded",
+      title: "Log the drill and any fall under the basket",
+      cue: "Record what was practised, any fall or contact at the rim, and what the trainer checked.",
+      why: "A fall under the basket is recorded even when the player gets straight back up, because a head knock can show itself later and the next session's coach needs to know who was checked. The log also records what the rotation looked like, so tomorrow starts from the broken link rather than from zero."
+    },
+    {
+      id: "crew-check-in",
+      kind: "select",
+      target: "hdr-crew-checkin",
+      doneLine: "Everybody good to carry on",
+      title: "Check in with the coach and the back line",
+      cue: "At the bench: what worked, where the trust broke, and is everybody good?",
+      why: "The players who rotated behind each other know whether they trusted the help or hesitated. A short check-in — did you hear the call, did you believe it, are you alright after that fall — keeps the back line willing to help next time, which is the only thing help defence runs on."
+    }
+  ],
 
-  interrupts: [{"id":"the-skip-pass-flies","kind":"Skip pass","after":"helper-holds-position","delay":3,"seconds":12,"target":"hdr-skip-call","alert":"The driver throws a skip pass over the top to the far corner while the helper is still set in the lane.","cue":"Call \"skip\" from the back line so the nearest defender closes out — the helper keeps the lane.","why":"A skip pass moves the ball faster than any defender runs, and the only thing faster than the ball is a voice. The helper keeps the lane because the driver is still there; the back line calls the skip so the nearest defender starts the closeout before the catch.","missNote":"Nobody called the skip, the nearest defender closed out late and flat-out, and ran through the shooter's landing space.","wrongNote":"That does not warn anybody about the skip pass. Call it from the back line."},{"id":"a-player-falls-under-the-rim","kind":"Player down","after":"hold-the-team-shape","delay":3,"seconds":12,"target":"hdr-stop-play-call","alert":"A helper and a driver collide under the basket and the helper falls backwards, head striking the floor.","cue":"Call the stop, wave the athletic trainer in and keep everyone back.","why":"A head striking the floor stops the drill at once. The stop, the trainer and a cleared space are what CDC Heads Up asks of every adult at a youth practice: a possible head injury is removed from play and assessed, never shrugged off because the player says they are fine.","missNote":"Play carried on around the fallen helper for several seconds and a teammate had to hurdle them before the coach blew the whistle.","wrongNote":"That does not stop play. Call the stop and wave the trainer in."}],
+  interrupts: [
+    {
+      id: "the-skip-pass-flies",
+      kind: "Skip pass",
+      after: "helper-holds-position",
+      delay: 3,
+      seconds: 12,
+      target: "hdr-skip-call",
+      alert: "The driver throws a skip pass over the top to the far corner while the helper is still set in the lane.",
+      cue: "Call \"skip\" from the back line so the nearest defender closes out — the helper keeps the lane.",
+      why: "A skip pass moves the ball faster than any defender runs, and the only thing faster than the ball is a voice. The helper keeps the lane because the driver is still there; the back line calls the skip so the nearest defender starts the closeout before the catch.",
+      missNote: "Nobody called the skip, the nearest defender closed out late and flat-out, and ran through the shooter's landing space.",
+      wrongNote: "That does not warn anybody about the skip pass. Call it from the back line."
+    },
+    {
+      id: "a-player-falls-under-the-rim",
+      kind: "Player down",
+      after: "hold-the-team-shape",
+      delay: 3,
+      seconds: 12,
+      target: "hdr-stop-play-call",
+      alert: "A helper and a driver collide under the basket and the helper falls backwards, head striking the floor.",
+      cue: "Call the stop, wave the athletic trainer in and keep everyone back.",
+      why: "A head striking the floor stops the drill at once. The stop, the trainer and a cleared space are what CDC Heads Up asks of every adult at a youth practice: a possible head injury is removed from play and assessed, never shrugged off because the player says they are fine.",
+      missNote: "Play carried on around the fallen helper for several seconds and a teammate had to hurdle them before the coach blew the whistle.",
+      wrongNote: "That does not stop play. Call the stop and wave the trainer in."
+    }
+  ],
 
   build(root) {
     const hits = {};

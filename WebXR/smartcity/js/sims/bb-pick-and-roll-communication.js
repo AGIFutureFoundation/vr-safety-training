@@ -59,13 +59,238 @@ export const SIM_BB_PICK_AND_ROLL_COMMUNICATION = {
     ],
   }),
 
-  hazards: {"switch-silently-and-hope":"You switched onto the roller without saying a word, trusting your teammate would see it too. Two defenders who both switch, or both stay, leave the screener rolling free to the rim and usually send the two of you into each other — the silent switch is how a blind-side collision happens, which is exactly the knock to the head CDC Heads Up asks coaches to take out of play.","reach-around-the-screener":"You reached an arm around the screener to get back to the ball-handler instead of stepping over the top. Reaching through a set screen is a foul under NFHS rules and pulls the screener off balance, and the arm caught between two moving bodies is how a finger or shoulder gets jammed in a drill that should have been about the feet and the voice.","blame-the-teammate-out-loud":"You shouted at your teammate for missing the switch while play was still live. Blame shouted across the floor makes the next call less likely, not more, because a teammate who expects to be yelled at stops talking; the Association for Applied Sport Psychology's guidance on team communication is to say the next job, not the last mistake.","call-it-too-late":"You called \"screen\" as your body was already hitting it. A call made at contact tells your teammate nothing they can use — the whole value of the word is the half-second it buys, so a late call is the same as a silent one with a bruise added."},
+  hazards: {
+    "switch-silently-and-hope": "You switched onto the roller without saying a word, trusting your teammate would see it too. Two defenders who both switch, or both stay, leave the screener rolling free to the rim and usually send the two of you into each other — the silent switch is how a blind-side collision happens, which is exactly the knock to the head CDC Heads Up asks coaches to take out of play.",
+    "reach-around-the-screener": "You reached an arm around the screener to get back to the ball-handler instead of stepping over the top. Reaching through a set screen is a foul under NFHS rules and pulls the screener off balance, and the arm caught between two moving bodies is how a finger or shoulder gets jammed in a drill that should have been about the feet and the voice.",
+    "blame-the-teammate-out-loud": "You shouted at your teammate for missing the switch while play was still live. Blame shouted across the floor makes the next call less likely, not more, because a teammate who expects to be yelled at stops talking; the Association for Applied Sport Psychology's guidance on team communication is to say the next job, not the last mistake.",
+    "call-it-too-late": "You called \"screen\" as your body was already hitting it. A call made at contact tells your teammate nothing they can use — the whole value of the word is the half-second it buys, so a late call is the same as a silent one with a bruise added."
+  },
 
-  lateNotes: {"pnr-practice-log":"The log closes the drill after the talk has held at game speed — nothing to record yet.","pnr-crew-checkin":"The check-in with the coach and your partner comes at the very end."},
+  lateNotes: {
+    "pnr-practice-log": "The log closes the drill after the talk has held at game speed — nothing to record yet.",
+    "pnr-crew-checkin": "The check-in with the coach and your partner comes at the very end."
+  },
 
-  steps: [{"id":"read-the-screen-coming","kind":"find","noHint":true,"targets":["pnr-screener-setting","pnr-handler-waiting","pnr-roll-lane-open"],"itemNames":{"pnr-screener-setting":"the screener stepping up to set","pnr-handler-waiting":"the ball-handler waiting to use it","pnr-roll-lane-open":"the open lane the roller will dive into"},"itemNotes":{"pnr-screener-setting":"A screener walking up to your side is the first thing to see and the first thing to say. The word starts here.","pnr-handler-waiting":"A ball-handler who stops and waits is setting you up. That pause is your time to talk.","pnr-roll-lane-open":"The lane behind you is where the roller goes once the screen is set. Somebody has to own it out loud."},"decoyNotes":{"pnr-shooter-in-corner":"The corner shooter matters later, but it is not the screen. Find what is about to hit you first."},"title":"Read the screen before it arrives","cue":"Watch the floor for the screen coming: who is setting it, who will use it, and where the roller will go.","why":"The pick-and-roll is beaten or lost before contact. A defender who sees the screener stepping up, the ball-handler pausing to set it up and the empty lane behind has half a second to tell a teammate, and that half-second is the whole play. Reading the floor first is what makes the words that follow early rather than late."},{"id":"post-the-team-calls","kind":"select","target":"pnr-call-card","title":"Agree the four calls before the drill","cue":"Post the words the team uses — screen, switch, stay, help — so everybody means the same thing by each one.","why":"A call only works if both defenders hear the same instruction in it. Agreeing the team's words before the drill — one word for the screen, one for the switch, one for staying, one for help — stops the moment where one player shouts \"switch\" meaning a warning and the other hears an order, which is how two defenders end up on the same man."},{"id":"build-the-call-order","kind":"sequence","targets":["pnr-order-see","pnr-order-call","pnr-order-hear","pnr-order-move"],"itemNames":{"pnr-order-see":"1 · see the screen","pnr-order-call":"2 · call it by name","pnr-order-hear":"3 · hear it answered","pnr-order-move":"4 · then move"},"title":"Put the talk in the order it happens","cue":"See it, call it, hear it answered, then move — in that order.","why":"Each part needs the one before it: a call without a look is a guess, a move without an answer is a gamble on what your teammate decided, and the answer — a single \"got it\" or \"stay\" — is what turns one player's warning into a shared decision. The order is the lesson, and it is the same order in every rotation the team will ever run.","outOfOrderNote":"Out of order. You move only after the call has been answered — moving first is exactly the silent switch the drill exists to break."},{"id":"screener-holds-still","kind":"hold","target":"pnr-screen-set-spot","seconds":6,"title":"As the screener, hold the screen still","cue":"Set the screen in your own space and hold still — no lean, no hip out, feet planted.","why":"A legal screen under NFHS rules is set still, inside the screener's own space, with the defender given room to see it. Holding it still is also what makes the call possible: a defender can name a screen that is standing there, but a moving screen arrives from nowhere and turns a teaching drill into a collision nobody had time to warn about.","holdBreakNote":"The screen moved before the hold finished. A screen that drifts into the defender is a foul and a collision — plant and hold."},{"id":"turn-the-switch-dial","kind":"turn","target":"pnr-switch-dial","turn":{"turns":0.5,"axis":"y","label":"SWITCH"},"title":"Turn the dial to the call you agreed","cue":"Turn the dial from STAY to SWITCH — the call your partner answered — so the whole team sees what was decided.","why":"The dial stands for the one decision the two defenders make together: switch men or stay with your own. Turning it only after the answer has come back makes the decision visible to the three teammates behind the play, who each have to adjust where they stand the moment the switch happens rather than a beat later."},{"id":"time-the-call","kind":"gauge","target":"pnr-call-timing","gauge":{"label":"TIMING","speed":0.62,"green":[0.4,0.58],"missNote":"Outside the band. Too early and the screener changes angle after your call; too late and it lands at contact. Call it as the screener plants."},"title":"Time the call as the screener plants","cue":"Commit when the call lands in the window — after the screener commits, before the ball-handler moves.","why":"A call has a window. Shouted too early, the screener simply changes the angle and your teammate is warned about a screen that never comes; shouted at contact, it is noise. Landing the word as the screener plants their feet gives the defender being screened time to step over, and the partner time to show, which is the whole point of talking at all."},{"id":"announce-the-recovery","kind":"drag","target":"pnr-recovery-token","drag":{"to":"pnr-recovery-spot","radius":0.45,"missNote":"Still short. The recovery is announced and then run all the way back to your own man — leaving it halfway leaves two defenders on one player."},"title":"Announce the recovery and run it","cue":"Say \"back\" and drag the recovery token from the helper's spot back to your own man.","why":"A defender who showed on the ball-handler has left somebody open, and the recovery is when the team is thinnest. Saying \"back\" before leaving tells the teammate who was screened that the ball is theirs again; running the recovery all the way home, rather than drifting, is what stops the open shooter the show created from getting the easiest shot of the drill."},{"id":"eyes-up-name-the-man","kind":"select","target":"pnr-eyes-up-card","title":"Name your man with your eyes up","cue":"After the switch, say the name of the player you now have — eyes on the floor, not on the ball.","why":"The switch is only finished when both defenders have said who they now guard. Naming the man with your eyes up stops the gap where each defender assumes the other took the roller; it is a small habit, but it is the difference between a defence that talks in words and one that talks in hopes."},{"id":"spot-the-silent-spots","kind":"find","noHint":true,"targets":["pnr-silent-weak-side","pnr-silent-hands-down","pnr-silent-head-down"],"itemNames":{"pnr-silent-weak-side":"a weak-side defender who has said nothing","pnr-silent-hands-down":"a defender with hands down, not pointing","pnr-silent-head-down":"a player looking at the floor after a mistake"},"itemNotes":{"pnr-silent-weak-side":"The weak side sees the whole play and says nothing. That voice is the one that catches the roller.","pnr-silent-hands-down":"Pointing is talking without words. A defender with hands down is not telling anyone who they have.","pnr-silent-head-down":"Head down after a mistake means the next call will not come. One word to them brings the voice back."},"decoyNotes":{"pnr-talker-pointing":"A teammate pointing and calling is doing exactly the job. Look for who has gone quiet."},"title":"Find where the defence has gone quiet","cue":"Watch the five defenders during the rep and mark where the talk has stopped.","why":"A defence does not go quiet all at once; it goes quiet in places. The weak-side defender who can see everything and says nothing, the player with hands down, the teammate who looked at the floor after a mistake — each is a spot where the next screen will not be called, and a coach or captain who can see them can fix them with a single word."},{"id":"hold-the-talk-level","kind":"track","target":"pnr-talk-meter","seconds":8,"track":{"start":0.3,"green":[0.4,0.62],"rise":0.46,"fall":0.38,"drift":0.14,"label":"TALK"},"title":"Keep the team's talk steady through a live rep","cue":"Hold the talk level in the band through the rep — not silent, not five people shouting over each other.","why":"A silent defence is caught by every screen, and a defence where everyone shouts at once is just as lost, because nobody can pick out the one call that matters. Holding the talk steady — one clear voice for each screen, one answer, a name after each switch — is the level where information actually moves between five players at speed.","holdBreakNote":"The talk left the band — either gone quiet or turned into shouting. Bring it back to one call and one answer."},{"id":"film-the-rep","kind":"select","target":"pnr-film-board","doneLine":"Talk heard on every screen","title":"Watch the rep back for the words, not only the feet","cue":"Open the clip board and listen: was every screen called before contact, every switch answered?","why":"Film usually gets watched for footwork and the result. Listening to the rep instead — was the call early, was it answered, did anybody name their man — is how a team learns that communication is a skill with its own mistakes, and how a quiet player hears that their voice was the one that was missing."},{"id":"log-the-drill","kind":"select","target":"pnr-practice-log","doneLine":"Calls, collisions, checks recorded","title":"Log the drill and any collision","cue":"Record what was practised, any contact between defenders and what the trainer checked.","why":"A collision in a screening drill is recorded even when nobody seems hurt, because a head knock can show its signs later and the next coach needs to know. The log also carries what the team worked on, so tomorrow's practice starts from where the talk broke down rather than from the beginning."},{"id":"crew-check-in","kind":"select","target":"pnr-crew-checkin","doneLine":"Everybody good to carry on","title":"Check in with the coach and your defensive partner","cue":"At the bench: what worked, where the talk dropped, and is everybody good?","why":"The two defenders who guarded the screen together are the ones who know whether the calls worked. A short check-in — what did you hear, when did you stop talking, are you alright after that collision — keeps the pair trusting each other and gives the coach the one thing film cannot show: how the play felt from inside it."}],
+  steps: [
+    {
+      id: "read-the-screen-coming",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "pnr-screener-setting",
+        "pnr-handler-waiting",
+        "pnr-roll-lane-open"
+      ],
+      itemNames: {
+        "pnr-screener-setting": "the screener stepping up to set",
+        "pnr-handler-waiting": "the ball-handler waiting to use it",
+        "pnr-roll-lane-open": "the open lane the roller will dive into"
+      },
+      itemNotes: {
+        "pnr-screener-setting": "A screener walking up to your side is the first thing to see and the first thing to say. The word starts here.",
+        "pnr-handler-waiting": "A ball-handler who stops and waits is setting you up. That pause is your time to talk.",
+        "pnr-roll-lane-open": "The lane behind you is where the roller goes once the screen is set. Somebody has to own it out loud."
+      },
+      decoyNotes: {
+        "pnr-shooter-in-corner": "The corner shooter matters later, but it is not the screen. Find what is about to hit you first."
+      },
+      title: "Read the screen before it arrives",
+      cue: "Watch the floor for the screen coming: who is setting it, who will use it, and where the roller will go.",
+      why: "The pick-and-roll is beaten or lost before contact. A defender who sees the screener stepping up, the ball-handler pausing to set it up and the empty lane behind has half a second to tell a teammate, and that half-second is the whole play. Reading the floor first is what makes the words that follow early rather than late."
+    },
+    {
+      id: "post-the-team-calls",
+      kind: "select",
+      target: "pnr-call-card",
+      title: "Agree the four calls before the drill",
+      cue: "Post the words the team uses — screen, switch, stay, help — so everybody means the same thing by each one.",
+      why: "A call only works if both defenders hear the same instruction in it. Agreeing the team's words before the drill — one word for the screen, one for the switch, one for staying, one for help — stops the moment where one player shouts \"switch\" meaning a warning and the other hears an order, which is how two defenders end up on the same man."
+    },
+    {
+      id: "build-the-call-order",
+      kind: "sequence",
+      targets: [
+        "pnr-order-see",
+        "pnr-order-call",
+        "pnr-order-hear",
+        "pnr-order-move"
+      ],
+      itemNames: {
+        "pnr-order-see": "1 · see the screen",
+        "pnr-order-call": "2 · call it by name",
+        "pnr-order-hear": "3 · hear it answered",
+        "pnr-order-move": "4 · then move"
+      },
+      title: "Put the talk in the order it happens",
+      cue: "See it, call it, hear it answered, then move — in that order.",
+      why: "Each part needs the one before it: a call without a look is a guess, a move without an answer is a gamble on what your teammate decided, and the answer — a single \"got it\" or \"stay\" — is what turns one player's warning into a shared decision. The order is the lesson, and it is the same order in every rotation the team will ever run.",
+      outOfOrderNote: "Out of order. You move only after the call has been answered — moving first is exactly the silent switch the drill exists to break."
+    },
+    {
+      id: "screener-holds-still",
+      kind: "hold",
+      target: "pnr-screen-set-spot",
+      seconds: 6,
+      title: "As the screener, hold the screen still",
+      cue: "Set the screen in your own space and hold still — no lean, no hip out, feet planted.",
+      why: "A legal screen under NFHS rules is set still, inside the screener's own space, with the defender given room to see it. Holding it still is also what makes the call possible: a defender can name a screen that is standing there, but a moving screen arrives from nowhere and turns a teaching drill into a collision nobody had time to warn about.",
+      holdBreakNote: "The screen moved before the hold finished. A screen that drifts into the defender is a foul and a collision — plant and hold."
+    },
+    {
+      id: "turn-the-switch-dial",
+      kind: "turn",
+      target: "pnr-switch-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "SWITCH"
+      },
+      title: "Turn the dial to the call you agreed",
+      cue: "Turn the dial from STAY to SWITCH — the call your partner answered — so the whole team sees what was decided.",
+      why: "The dial stands for the one decision the two defenders make together: switch men or stay with your own. Turning it only after the answer has come back makes the decision visible to the three teammates behind the play, who each have to adjust where they stand the moment the switch happens rather than a beat later."
+    },
+    {
+      id: "time-the-call",
+      kind: "gauge",
+      target: "pnr-call-timing",
+      gauge: {
+        label: "TIMING",
+        speed: 0.62,
+        green: [
+          0.4,
+          0.58
+        ],
+        missNote: "Outside the band. Too early and the screener changes angle after your call; too late and it lands at contact. Call it as the screener plants."
+      },
+      title: "Time the call as the screener plants",
+      cue: "Commit when the call lands in the window — after the screener commits, before the ball-handler moves.",
+      why: "A call has a window. Shouted too early, the screener simply changes the angle and your teammate is warned about a screen that never comes; shouted at contact, it is noise. Landing the word as the screener plants their feet gives the defender being screened time to step over, and the partner time to show, which is the whole point of talking at all."
+    },
+    {
+      id: "announce-the-recovery",
+      kind: "drag",
+      target: "pnr-recovery-token",
+      drag: {
+        to: "pnr-recovery-spot",
+        radius: 0.45,
+        missNote: "Still short. The recovery is announced and then run all the way back to your own man — leaving it halfway leaves two defenders on one player."
+      },
+      title: "Announce the recovery and run it",
+      cue: "Say \"back\" and drag the recovery token from the helper's spot back to your own man.",
+      why: "A defender who showed on the ball-handler has left somebody open, and the recovery is when the team is thinnest. Saying \"back\" before leaving tells the teammate who was screened that the ball is theirs again; running the recovery all the way home, rather than drifting, is what stops the open shooter the show created from getting the easiest shot of the drill."
+    },
+    {
+      id: "eyes-up-name-the-man",
+      kind: "select",
+      target: "pnr-eyes-up-card",
+      title: "Name your man with your eyes up",
+      cue: "After the switch, say the name of the player you now have — eyes on the floor, not on the ball.",
+      why: "The switch is only finished when both defenders have said who they now guard. Naming the man with your eyes up stops the gap where each defender assumes the other took the roller; it is a small habit, but it is the difference between a defence that talks in words and one that talks in hopes."
+    },
+    {
+      id: "spot-the-silent-spots",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "pnr-silent-weak-side",
+        "pnr-silent-hands-down",
+        "pnr-silent-head-down"
+      ],
+      itemNames: {
+        "pnr-silent-weak-side": "a weak-side defender who has said nothing",
+        "pnr-silent-hands-down": "a defender with hands down, not pointing",
+        "pnr-silent-head-down": "a player looking at the floor after a mistake"
+      },
+      itemNotes: {
+        "pnr-silent-weak-side": "The weak side sees the whole play and says nothing. That voice is the one that catches the roller.",
+        "pnr-silent-hands-down": "Pointing is talking without words. A defender with hands down is not telling anyone who they have.",
+        "pnr-silent-head-down": "Head down after a mistake means the next call will not come. One word to them brings the voice back."
+      },
+      decoyNotes: {
+        "pnr-talker-pointing": "A teammate pointing and calling is doing exactly the job. Look for who has gone quiet."
+      },
+      title: "Find where the defence has gone quiet",
+      cue: "Watch the five defenders during the rep and mark where the talk has stopped.",
+      why: "A defence does not go quiet all at once; it goes quiet in places. The weak-side defender who can see everything and says nothing, the player with hands down, the teammate who looked at the floor after a mistake — each is a spot where the next screen will not be called, and a coach or captain who can see them can fix them with a single word."
+    },
+    {
+      id: "hold-the-talk-level",
+      kind: "track",
+      target: "pnr-talk-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
+          0.4,
+          0.62
+        ],
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.14,
+        label: "TALK"
+      },
+      title: "Keep the team's talk steady through a live rep",
+      cue: "Hold the talk level in the band through the rep — not silent, not five people shouting over each other.",
+      why: "A silent defence is caught by every screen, and a defence where everyone shouts at once is just as lost, because nobody can pick out the one call that matters. Holding the talk steady — one clear voice for each screen, one answer, a name after each switch — is the level where information actually moves between five players at speed.",
+      holdBreakNote: "The talk left the band — either gone quiet or turned into shouting. Bring it back to one call and one answer."
+    },
+    {
+      id: "film-the-rep",
+      kind: "select",
+      target: "pnr-film-board",
+      doneLine: "Talk heard on every screen",
+      title: "Watch the rep back for the words, not only the feet",
+      cue: "Open the clip board and listen: was every screen called before contact, every switch answered?",
+      why: "Film usually gets watched for footwork and the result. Listening to the rep instead — was the call early, was it answered, did anybody name their man — is how a team learns that communication is a skill with its own mistakes, and how a quiet player hears that their voice was the one that was missing."
+    },
+    {
+      id: "log-the-drill",
+      kind: "select",
+      target: "pnr-practice-log",
+      doneLine: "Calls, collisions, checks recorded",
+      title: "Log the drill and any collision",
+      cue: "Record what was practised, any contact between defenders and what the trainer checked.",
+      why: "A collision in a screening drill is recorded even when nobody seems hurt, because a head knock can show its signs later and the next coach needs to know. The log also carries what the team worked on, so tomorrow's practice starts from where the talk broke down rather than from the beginning."
+    },
+    {
+      id: "crew-check-in",
+      kind: "select",
+      target: "pnr-crew-checkin",
+      doneLine: "Everybody good to carry on",
+      title: "Check in with the coach and your defensive partner",
+      cue: "At the bench: what worked, where the talk dropped, and is everybody good?",
+      why: "The two defenders who guarded the screen together are the ones who know whether the calls worked. A short check-in — what did you hear, when did you stop talking, are you alright after that collision — keeps the pair trusting each other and gives the coach the one thing film cannot show: how the play felt from inside it."
+    }
+  ],
 
-  interrupts: [{"id":"a-second-screen-comes","kind":"Second screen","after":"screener-holds-still","delay":3,"seconds":12,"target":"pnr-second-screen-call","alert":"A second screener steps up on the other side while the first screen is still set — a double screen your partner cannot see.","cue":"Call the second screen out loud from the weak side — the screener keeps holding.","why":"The defender who can see a second screen is almost never the one it is coming for. Calling it from the weak side, while the first screen is still held, is the same habit at a harder moment: the player with the view speaks, the player being screened listens.","missNote":"Nobody called the second screen. The defender stepped over the first one and ran straight into the second at full speed, and the trainer had to come on to check a player who never saw it coming.","wrongNote":"That is not the call for the second screen. Say it from the weak side where you can see it."},{"id":"a-teammate-goes-down","kind":"Player down","after":"hold-the-talk-level","delay":3,"seconds":12,"target":"pnr-stop-play-call","alert":"Two defenders collide on a switch and one stays down on the floor, holding their head.","cue":"Call the stop, wave the athletic trainer in and keep everybody back — the talk meter can wait.","why":"A player down after a collision stops the drill before anything else. Calling the stop loudly, bringing the trainer and keeping teammates from crowding in is what CDC Heads Up asks of everyone at a youth practice: a possible head injury is removed from play and checked, never walked off.","missNote":"Play went on around the player on the floor for several more seconds, and a teammate nearly tripped over them before the coach saw it.","wrongNote":"That does not stop play. Call the stop and wave the trainer in."}],
+  interrupts: [
+    {
+      id: "a-second-screen-comes",
+      kind: "Second screen",
+      after: "screener-holds-still",
+      delay: 3,
+      seconds: 12,
+      target: "pnr-second-screen-call",
+      alert: "A second screener steps up on the other side while the first screen is still set — a double screen your partner cannot see.",
+      cue: "Call the second screen out loud from the weak side — the screener keeps holding.",
+      why: "The defender who can see a second screen is almost never the one it is coming for. Calling it from the weak side, while the first screen is still held, is the same habit at a harder moment: the player with the view speaks, the player being screened listens.",
+      missNote: "Nobody called the second screen. The defender stepped over the first one and ran straight into the second at full speed, and the trainer had to come on to check a player who never saw it coming.",
+      wrongNote: "That is not the call for the second screen. Say it from the weak side where you can see it."
+    },
+    {
+      id: "a-teammate-goes-down",
+      kind: "Player down",
+      after: "hold-the-talk-level",
+      delay: 3,
+      seconds: 12,
+      target: "pnr-stop-play-call",
+      alert: "Two defenders collide on a switch and one stays down on the floor, holding their head.",
+      cue: "Call the stop, wave the athletic trainer in and keep everybody back — the talk meter can wait.",
+      why: "A player down after a collision stops the drill before anything else. Calling the stop loudly, bringing the trainer and keeping teammates from crowding in is what CDC Heads Up asks of everyone at a youth practice: a possible head injury is removed from play and checked, never walked off.",
+      missNote: "Play went on around the player on the floor for several more seconds, and a teammate nearly tripped over them before the coach saw it.",
+      wrongNote: "That does not stop play. Call the stop and wave the trainer in."
+    }
+  ],
 
   build(root) {
     const hits = {};

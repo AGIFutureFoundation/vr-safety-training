@@ -58,13 +58,238 @@ export const SIM_BB_TRANSITION_SPACING_AND_ROLES = {
     ],
   }),
 
-  hazards: {"dribble-into-three-defenders":"You kept the ball and dribbled straight into three retreating defenders instead of passing ahead. A single player driving into a crowd at full speed is how a charge, a pile-up and a head knock all happen at once, and it throws away the lanes your teammates sprinted to fill; the pass ahead is faster than any dribble.","all-run-the-middle-lane":"Everybody sprinted down the middle of the floor after the ball. Three players in one lane means no passing angles and a traffic jam at the rim, and players running shoulder to shoulder at speed is how feet tangle; wide lanes are the spacing and the safety at the same time.","sprint-into-the-baseline-wall":"You finished the layup at full speed with no room to stop and ran toward the wall behind the baseline. NFHS sports medicine guidance and every gym safety walk look for a clear run-off area beyond the baseline, and a finishing drill has to be taught with a controlled stop inside it.","take-the-hero-shot":"You pulled up for a contested long shot with a teammate open under the basket. The hero shot tells the four players who ran the floor that their sprint did not matter, and the Association for Applied Sport Psychology's guidance on team goals is that the shared decision — the better shot for the team — is what builds trust worth running for."},
+  hazards: {
+    "dribble-into-three-defenders": "You kept the ball and dribbled straight into three retreating defenders instead of passing ahead. A single player driving into a crowd at full speed is how a charge, a pile-up and a head knock all happen at once, and it throws away the lanes your teammates sprinted to fill; the pass ahead is faster than any dribble.",
+    "all-run-the-middle-lane": "Everybody sprinted down the middle of the floor after the ball. Three players in one lane means no passing angles and a traffic jam at the rim, and players running shoulder to shoulder at speed is how feet tangle; wide lanes are the spacing and the safety at the same time.",
+    "sprint-into-the-baseline-wall": "You finished the layup at full speed with no room to stop and ran toward the wall behind the baseline. NFHS sports medicine guidance and every gym safety walk look for a clear run-off area beyond the baseline, and a finishing drill has to be taught with a controlled stop inside it.",
+    "take-the-hero-shot": "You pulled up for a contested long shot with a teammate open under the basket. The hero shot tells the four players who ran the floor that their sprint did not matter, and the Association for Applied Sport Psychology's guidance on team goals is that the shared decision — the better shot for the team — is what builds trust worth running for."
+  },
 
-  lateNotes: {"tsr-practice-log":"The log closes the break drill once the lanes have held at speed — nothing to record yet.","tsr-crew-checkin":"The check-in comes after the log, at the very end."},
+  lateNotes: {
+    "tsr-practice-log": "The log closes the break drill once the lanes have held at speed — nothing to record yet.",
+    "tsr-crew-checkin": "The check-in comes after the log, at the very end."
+  },
 
-  steps: [{"id":"read-the-break","kind":"find","noHint":true,"targets":["tsr-rebound-secured","tsr-wing-lane-empty","tsr-defence-retreating"],"itemNames":{"tsr-rebound-secured":"the rebound secured two-handed","tsr-wing-lane-empty":"an empty wing lane","tsr-defence-retreating":"the defence running back"},"itemNotes":{"tsr-rebound-secured":"A rebound held two-handed is the start of the break. Until then nobody leaves.","tsr-wing-lane-empty":"An empty wing is a lane somebody has to fill. Wide is where the passes live.","tsr-defence-retreating":"Defenders running back tell you how much time the break has. Count them before you choose."},"decoyNotes":{"tsr-crowd-cheering":"The crowd getting loud is not part of the read. Look at the floor."},"title":"Read the break before anyone runs","cue":"Look for the three things that start a break: the ball secured, the lanes open and the defence retreating.","why":"A fast break is a decision made in the first second after a rebound. Seeing the ball held two-handed, the wings empty and the defence already running back tells the team whether to push or pull the ball out — and a break started before the rebound is secure is the one that ends in a turnover and a sprint the wrong way."},{"id":"post-the-roles","kind":"select","target":"tsr-roles-card","title":"Name the roles in the break","cue":"Post who does what: outlet, two wings, middle and trailer.","why":"A break works because each player knows their job before the ball moves: the outlet catches wide, two wings sprint the sidelines, the middle takes the ball up and the trailer comes last as the safety valve. Naming the roles in practice is what stops five players all doing the same exciting thing at the same time."},{"id":"fill-the-lanes-in-order","kind":"sequence","targets":["tsr-order-outlet","tsr-order-wings","tsr-order-middle","tsr-order-trail"],"itemNames":{"tsr-order-outlet":"1 · outlet pass wide","tsr-order-wings":"2 · wings sprint the sidelines","tsr-order-middle":"3 · middle takes the ball up","tsr-order-trail":"4 · trailer follows"},"title":"Fill the lanes in the order the break needs","cue":"Outlet, wings, middle, trailer — each move opens the next.","why":"The outlet pass wide gets the ball out of the crowd under the rim; the wings sprinting the sidelines stretch the defence; the middle takes the ball up once there is space to use; the trailer follows as the release when the first look is gone. Out of order, the middle dribbles into a defence that has not been stretched yet.","outOfOrderNote":"Out of order. The ball goes wide on the outlet first — the middle cannot push into a defence nobody has stretched."},{"id":"wing-holds-the-sideline","kind":"hold","target":"tsr-wing-sideline","seconds":6,"title":"As a wing, hold your lane wide","cue":"Run your lane on the sideline and hold it — do not drift in toward the ball.","why":"A wing who drifts toward the ball closes the passing lane they were running to create. Holding the sideline stretches the defence wide, gives the middle a pass to make, and keeps players moving at speed apart from each other rather than converging on the same patch of floor where feet tangle.","holdBreakNote":"You drifted in toward the ball. A wing who leaves the sideline closes their own passing lane — stay wide."},{"id":"turn-the-push-or-pull-dial","kind":"turn","target":"tsr-push-dial","turn":{"turns":0.5,"axis":"y","label":"PUSH"},"title":"Turn the dial to push the break","cue":"The lanes are full and the defence is short: turn the dial from PULL OUT to PUSH.","why":"Every break asks one question: is there an advantage worth running at, or should the ball come out and set up? Turning the dial to push only when the lanes are filled and the defence is outnumbered makes that call visible, and it teaches young players that running is a choice made on what they see rather than a reflex."},{"id":"time-the-pass-ahead","kind":"gauge","target":"tsr-pass-timing","gauge":{"label":"PASS","speed":0.64,"green":[0.4,0.58],"missNote":"Outside the band. Too early and the wing has not turned to receive it; too late and the defender has recovered. Pass as the wing looks back."},"title":"Time the pass ahead to the wing","cue":"Commit when the pass leaves in the window — as the wing looks back, before the defender recovers.","why":"The pass ahead is the fastest thing on the floor, but only if it arrives when the receiver is ready. Thrown before the wing turns, it hits them in the back or sails out; thrown late, the defender is back. The window is when the wing looks back over their shoulder — the same moment the team is taught to call a name."},{"id":"make-the-extra-pass","kind":"drag","target":"tsr-ball-token","drag":{"to":"tsr-open-teammate-spot","radius":0.45,"missNote":"Short of the open teammate. The extra pass goes all the way to the player with the better shot — stopping short keeps the contested one."},"title":"Make the extra pass to the better shot","cue":"Drag the ball away from the contested pull-up and to the teammate open at the rim.","why":"A good shot and a great shot are often one pass apart. Giving up the contested pull-up for a teammate open at the rim is the moment a player shows the other four that the team's result matters more than their own, and it is the habit that makes teammates keep sprinting the lanes the next time."},{"id":"ask-the-extra-pass-question","kind":"select","target":"tsr-extra-pass-card","title":"Ask the extra-pass question out loud","cue":"Before the shot, the ball-handler asks: good shot, or great shot?","why":"Asking the question out loud makes an unselfish decision a habit rather than a mood. In practice the coach says it; by the end of the season players say it to each other, and a team that asks it together has built the kind of shared goal the Association for Applied Sport Psychology describes as the base of trust."},{"id":"spot-the-broken-spacing","kind":"find","noHint":true,"targets":["tsr-broken-same-lane","tsr-broken-no-trailer","tsr-broken-no-runoff"],"itemNames":{"tsr-broken-same-lane":"two runners in the same lane","tsr-broken-no-trailer":"no trailer back as the release","tsr-broken-no-runoff":"a bag and chairs in the run-off behind the baseline"},"itemNotes":{"tsr-broken-same-lane":"Two runners in one lane means one lane empty and a collision waiting. Spread them.","tsr-broken-no-trailer":"No trailer means no release if the first look is gone. Somebody comes last on purpose.","tsr-broken-no-runoff":"Anything behind the baseline is what a finishing player lands on. Clear it before the next rep."},"decoyNotes":{"tsr-good-wide-wing":"A wing on the sideline is spacing done right. Look for what is crowded."},"title":"Find where the break lost its shape","cue":"Watch the rep and mark each place the spacing or the run-off broke down.","why":"Breaks fall apart in a few ways worth naming: two runners in the same lane, no trailer as the release, and a run-off behind the baseline cluttered with bags and chairs a finishing player will land on. Each one is fixed by a single word or a single minute, and each one left alone becomes a turnover or a fall."},{"id":"hold-the-team-pace","kind":"track","target":"tsr-pace-meter","seconds":8,"track":{"start":0.3,"green":[0.4,0.62],"rise":0.46,"fall":0.38,"drift":0.15,"label":"PACE"},"title":"Hold the team's pace through three reps","cue":"Keep the pace in band — fast enough to be a break, controlled enough to stop inside the run-off.","why":"A break run too slowly lets the defence set; one run flat-out every rep leaves players unable to stop at the baseline and too tired to decide well by the third trip. Holding the pace in band, with water and rest built into full-court work as USA Basketball's guidelines ask, is what keeps the decisions good and the finishes safe.","holdBreakNote":"The pace left the band — either walking it up or flat-out with no stop. Bring it back to controlled speed."},{"id":"film-the-break","kind":"select","target":"tsr-film-board","doneLine":"Lanes filled, extra pass made","title":"Watch the break for the pass before the basket","cue":"Open the clip: were the lanes filled, the roles held and the extra pass made?","why":"The basket at the end of a break gets the cheer; the pass before it, the wing who ran wide and the trailer who came last get forgotten. Watching the break for those moments gives credit where the stands did not, which is how a team learns that every role in the break is worth running hard."},{"id":"log-the-drill","kind":"select","target":"tsr-practice-log","doneLine":"Drill, rest and falls recorded","title":"Log the drill, the rest breaks and any fall","cue":"Record what was practised, when water and rest were taken, and anything the trainer checked.","why":"Full-court work is recorded with its rest breaks because the next coach needs to know how hard the team ran, and any fall at the end of a sprint is recorded even when the player gets up smiling. The log turns one practice into a plan for the next rather than a guess about what the team can handle."},{"id":"crew-check-in","kind":"select","target":"tsr-crew-checkin","doneLine":"Everybody good to carry on","title":"Check in with the coach and the runners","cue":"At the bench: who ran the lanes, who felt left out, and is everybody good?","why":"The players who ran wide lanes and never touched the ball are the ones most likely to stop running them. A short check-in — did you feel part of it, did you get your breath back, are you alright after that fall — keeps every role on the break worth doing and every player willing to do it."}],
+  steps: [
+    {
+      id: "read-the-break",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "tsr-rebound-secured",
+        "tsr-wing-lane-empty",
+        "tsr-defence-retreating"
+      ],
+      itemNames: {
+        "tsr-rebound-secured": "the rebound secured two-handed",
+        "tsr-wing-lane-empty": "an empty wing lane",
+        "tsr-defence-retreating": "the defence running back"
+      },
+      itemNotes: {
+        "tsr-rebound-secured": "A rebound held two-handed is the start of the break. Until then nobody leaves.",
+        "tsr-wing-lane-empty": "An empty wing is a lane somebody has to fill. Wide is where the passes live.",
+        "tsr-defence-retreating": "Defenders running back tell you how much time the break has. Count them before you choose."
+      },
+      decoyNotes: {
+        "tsr-crowd-cheering": "The crowd getting loud is not part of the read. Look at the floor."
+      },
+      title: "Read the break before anyone runs",
+      cue: "Look for the three things that start a break: the ball secured, the lanes open and the defence retreating.",
+      why: "A fast break is a decision made in the first second after a rebound. Seeing the ball held two-handed, the wings empty and the defence already running back tells the team whether to push or pull the ball out — and a break started before the rebound is secure is the one that ends in a turnover and a sprint the wrong way."
+    },
+    {
+      id: "post-the-roles",
+      kind: "select",
+      target: "tsr-roles-card",
+      title: "Name the roles in the break",
+      cue: "Post who does what: outlet, two wings, middle and trailer.",
+      why: "A break works because each player knows their job before the ball moves: the outlet catches wide, two wings sprint the sidelines, the middle takes the ball up and the trailer comes last as the safety valve. Naming the roles in practice is what stops five players all doing the same exciting thing at the same time."
+    },
+    {
+      id: "fill-the-lanes-in-order",
+      kind: "sequence",
+      targets: [
+        "tsr-order-outlet",
+        "tsr-order-wings",
+        "tsr-order-middle",
+        "tsr-order-trail"
+      ],
+      itemNames: {
+        "tsr-order-outlet": "1 · outlet pass wide",
+        "tsr-order-wings": "2 · wings sprint the sidelines",
+        "tsr-order-middle": "3 · middle takes the ball up",
+        "tsr-order-trail": "4 · trailer follows"
+      },
+      title: "Fill the lanes in the order the break needs",
+      cue: "Outlet, wings, middle, trailer — each move opens the next.",
+      why: "The outlet pass wide gets the ball out of the crowd under the rim; the wings sprinting the sidelines stretch the defence; the middle takes the ball up once there is space to use; the trailer follows as the release when the first look is gone. Out of order, the middle dribbles into a defence that has not been stretched yet.",
+      outOfOrderNote: "Out of order. The ball goes wide on the outlet first — the middle cannot push into a defence nobody has stretched."
+    },
+    {
+      id: "wing-holds-the-sideline",
+      kind: "hold",
+      target: "tsr-wing-sideline",
+      seconds: 6,
+      title: "As a wing, hold your lane wide",
+      cue: "Run your lane on the sideline and hold it — do not drift in toward the ball.",
+      why: "A wing who drifts toward the ball closes the passing lane they were running to create. Holding the sideline stretches the defence wide, gives the middle a pass to make, and keeps players moving at speed apart from each other rather than converging on the same patch of floor where feet tangle.",
+      holdBreakNote: "You drifted in toward the ball. A wing who leaves the sideline closes their own passing lane — stay wide."
+    },
+    {
+      id: "turn-the-push-or-pull-dial",
+      kind: "turn",
+      target: "tsr-push-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "PUSH"
+      },
+      title: "Turn the dial to push the break",
+      cue: "The lanes are full and the defence is short: turn the dial from PULL OUT to PUSH.",
+      why: "Every break asks one question: is there an advantage worth running at, or should the ball come out and set up? Turning the dial to push only when the lanes are filled and the defence is outnumbered makes that call visible, and it teaches young players that running is a choice made on what they see rather than a reflex."
+    },
+    {
+      id: "time-the-pass-ahead",
+      kind: "gauge",
+      target: "tsr-pass-timing",
+      gauge: {
+        label: "PASS",
+        speed: 0.64,
+        green: [
+          0.4,
+          0.58
+        ],
+        missNote: "Outside the band. Too early and the wing has not turned to receive it; too late and the defender has recovered. Pass as the wing looks back."
+      },
+      title: "Time the pass ahead to the wing",
+      cue: "Commit when the pass leaves in the window — as the wing looks back, before the defender recovers.",
+      why: "The pass ahead is the fastest thing on the floor, but only if it arrives when the receiver is ready. Thrown before the wing turns, it hits them in the back or sails out; thrown late, the defender is back. The window is when the wing looks back over their shoulder — the same moment the team is taught to call a name."
+    },
+    {
+      id: "make-the-extra-pass",
+      kind: "drag",
+      target: "tsr-ball-token",
+      drag: {
+        to: "tsr-open-teammate-spot",
+        radius: 0.45,
+        missNote: "Short of the open teammate. The extra pass goes all the way to the player with the better shot — stopping short keeps the contested one."
+      },
+      title: "Make the extra pass to the better shot",
+      cue: "Drag the ball away from the contested pull-up and to the teammate open at the rim.",
+      why: "A good shot and a great shot are often one pass apart. Giving up the contested pull-up for a teammate open at the rim is the moment a player shows the other four that the team's result matters more than their own, and it is the habit that makes teammates keep sprinting the lanes the next time."
+    },
+    {
+      id: "ask-the-extra-pass-question",
+      kind: "select",
+      target: "tsr-extra-pass-card",
+      title: "Ask the extra-pass question out loud",
+      cue: "Before the shot, the ball-handler asks: good shot, or great shot?",
+      why: "Asking the question out loud makes an unselfish decision a habit rather than a mood. In practice the coach says it; by the end of the season players say it to each other, and a team that asks it together has built the kind of shared goal the Association for Applied Sport Psychology describes as the base of trust."
+    },
+    {
+      id: "spot-the-broken-spacing",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "tsr-broken-same-lane",
+        "tsr-broken-no-trailer",
+        "tsr-broken-no-runoff"
+      ],
+      itemNames: {
+        "tsr-broken-same-lane": "two runners in the same lane",
+        "tsr-broken-no-trailer": "no trailer back as the release",
+        "tsr-broken-no-runoff": "a bag and chairs in the run-off behind the baseline"
+      },
+      itemNotes: {
+        "tsr-broken-same-lane": "Two runners in one lane means one lane empty and a collision waiting. Spread them.",
+        "tsr-broken-no-trailer": "No trailer means no release if the first look is gone. Somebody comes last on purpose.",
+        "tsr-broken-no-runoff": "Anything behind the baseline is what a finishing player lands on. Clear it before the next rep."
+      },
+      decoyNotes: {
+        "tsr-good-wide-wing": "A wing on the sideline is spacing done right. Look for what is crowded."
+      },
+      title: "Find where the break lost its shape",
+      cue: "Watch the rep and mark each place the spacing or the run-off broke down.",
+      why: "Breaks fall apart in a few ways worth naming: two runners in the same lane, no trailer as the release, and a run-off behind the baseline cluttered with bags and chairs a finishing player will land on. Each one is fixed by a single word or a single minute, and each one left alone becomes a turnover or a fall."
+    },
+    {
+      id: "hold-the-team-pace",
+      kind: "track",
+      target: "tsr-pace-meter",
+      seconds: 8,
+      track: {
+        start: 0.3,
+        green: [
+          0.4,
+          0.62
+        ],
+        rise: 0.46,
+        fall: 0.38,
+        drift: 0.15,
+        label: "PACE"
+      },
+      title: "Hold the team's pace through three reps",
+      cue: "Keep the pace in band — fast enough to be a break, controlled enough to stop inside the run-off.",
+      why: "A break run too slowly lets the defence set; one run flat-out every rep leaves players unable to stop at the baseline and too tired to decide well by the third trip. Holding the pace in band, with water and rest built into full-court work as USA Basketball's guidelines ask, is what keeps the decisions good and the finishes safe.",
+      holdBreakNote: "The pace left the band — either walking it up or flat-out with no stop. Bring it back to controlled speed."
+    },
+    {
+      id: "film-the-break",
+      kind: "select",
+      target: "tsr-film-board",
+      doneLine: "Lanes filled, extra pass made",
+      title: "Watch the break for the pass before the basket",
+      cue: "Open the clip: were the lanes filled, the roles held and the extra pass made?",
+      why: "The basket at the end of a break gets the cheer; the pass before it, the wing who ran wide and the trailer who came last get forgotten. Watching the break for those moments gives credit where the stands did not, which is how a team learns that every role in the break is worth running hard."
+    },
+    {
+      id: "log-the-drill",
+      kind: "select",
+      target: "tsr-practice-log",
+      doneLine: "Drill, rest and falls recorded",
+      title: "Log the drill, the rest breaks and any fall",
+      cue: "Record what was practised, when water and rest were taken, and anything the trainer checked.",
+      why: "Full-court work is recorded with its rest breaks because the next coach needs to know how hard the team ran, and any fall at the end of a sprint is recorded even when the player gets up smiling. The log turns one practice into a plan for the next rather than a guess about what the team can handle."
+    },
+    {
+      id: "crew-check-in",
+      kind: "select",
+      target: "tsr-crew-checkin",
+      doneLine: "Everybody good to carry on",
+      title: "Check in with the coach and the runners",
+      cue: "At the bench: who ran the lanes, who felt left out, and is everybody good?",
+      why: "The players who ran wide lanes and never touched the ball are the ones most likely to stop running them. A short check-in — did you feel part of it, did you get your breath back, are you alright after that fall — keeps every role on the break worth doing and every player willing to do it."
+    }
+  ],
 
-  interrupts: [{"id":"a-defender-steps-into-the-lane","kind":"Defender in the lane","after":"wing-holds-the-sideline","delay":3,"seconds":12,"target":"tsr-pull-out-call","alert":"A retreating defender steps into the middle lane, setting up to take a charge on the ball-handler.","cue":"Call \"pull it out\" from the trailer so the ball-handler stops — the wing keeps the sideline.","why":"A defender set in the lane changes the answer from push to stop. The trailer, who sees the whole floor, calls it; the ball-handler pulls up and the wing stays wide, because a collision at the end of a sprint is exactly what the break was designed to avoid.","missNote":"Nobody called it, the ball-handler drove straight into the set defender at full speed and both went down in a heap under the basket.","wrongNote":"That does not stop the ball-handler. Call \"pull it out\" from the trailer."},{"id":"a-bag-slides-onto-the-baseline","kind":"Run-off blocked","after":"hold-the-team-pace","delay":3,"seconds":12,"target":"tsr-clear-runoff-call","alert":"A spectator's bag slides off the bleachers and onto the floor just behind the baseline, right where the finishers land.","cue":"Stop the rep and send the assistant to clear the run-off — the pace can wait.","why":"A clear run-off is the thing that lets a player finish at speed and stop safely. Something landing in it stops the rep until it is gone, because the next finisher will not be looking at the floor behind the line.","missNote":"The next finisher landed on the bag behind the baseline, rolled an ankle and went into the bleachers.","wrongNote":"That does not clear the run-off. Stop the rep and send the assistant to move it."}],
+  interrupts: [
+    {
+      id: "a-defender-steps-into-the-lane",
+      kind: "Defender in the lane",
+      after: "wing-holds-the-sideline",
+      delay: 3,
+      seconds: 12,
+      target: "tsr-pull-out-call",
+      alert: "A retreating defender steps into the middle lane, setting up to take a charge on the ball-handler.",
+      cue: "Call \"pull it out\" from the trailer so the ball-handler stops — the wing keeps the sideline.",
+      why: "A defender set in the lane changes the answer from push to stop. The trailer, who sees the whole floor, calls it; the ball-handler pulls up and the wing stays wide, because a collision at the end of a sprint is exactly what the break was designed to avoid.",
+      missNote: "Nobody called it, the ball-handler drove straight into the set defender at full speed and both went down in a heap under the basket.",
+      wrongNote: "That does not stop the ball-handler. Call \"pull it out\" from the trailer."
+    },
+    {
+      id: "a-bag-slides-onto-the-baseline",
+      kind: "Run-off blocked",
+      after: "hold-the-team-pace",
+      delay: 3,
+      seconds: 12,
+      target: "tsr-clear-runoff-call",
+      alert: "A spectator's bag slides off the bleachers and onto the floor just behind the baseline, right where the finishers land.",
+      cue: "Stop the rep and send the assistant to clear the run-off — the pace can wait.",
+      why: "A clear run-off is the thing that lets a player finish at speed and stop safely. Something landing in it stops the rep until it is gone, because the next finisher will not be looking at the floor behind the line.",
+      missNote: "The next finisher landed on the bag behind the baseline, rolled an ankle and went into the bleachers.",
+      wrongNote: "That does not clear the run-off. Stop the rep and send the assistant to move it."
+    }
+  ],
 
   build(root) {
     const hits = {};
