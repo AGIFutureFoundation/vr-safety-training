@@ -266,8 +266,10 @@ async function build() {
   const SG = await imp("WebXR/shared/side-games-data.js");
   const BQ = await imp("WebXR/bayworld/js/quests.js");
   const RW = await imp("WebXR/redwood/js/rw-data.js");
-  const gateWorld = { bayworld: ["Bay World"], underwater: ["The Deep"], regatta: ["The Regatta"], fairway: ["Fairway Park"], summit: ["Sierra Summit"], redwood: ["Redwood Reach"] };
-  const gated = [...BQ.GATED_QUESTS.map((q) => ({ ...q, world: "bayworld" })), ...SG.QM_SIDE_GAMES, ...sw.SM_GATED, ...RW.RW_GATED];
+  // The New Orleans parishes' games (SECONDLINE, docs/parish-play.md) sit in one chunk for the five parishes together.
+  const SLP = await imp("WebXR/shared/sl-parish-play.js");
+  const gateWorld = { bayworld: ["Bay World"], underwater: ["The Deep"], regatta: ["The Regatta"], fairway: ["Fairway Park"], summit: ["Sierra Summit"], redwood: ["Redwood Reach"], parishes: ["the New Orleans parishes"] };
+  const gated = [...BQ.GATED_QUESTS.map((q) => ({ ...q, world: "bayworld" })), ...SG.QM_SIDE_GAMES, ...sw.SM_GATED, ...RW.RW_GATED, ...SLP.SL_GATED];
   const needOf = (g) => [
     ...[...(g.gate.stations ?? []), ...(g.gate.k12 ?? [])].map((id) => (NM.QM_STATION_NAMES[id] ? shortProg(NM.QM_STATION_NAMES[id]) : id.replace(/-/g, " "))),
     ...(g.gate.programmes ?? []).map((pr) => `${shortProg(catalog.curricula.find((c) => c.id === pr.id)?.name ?? pr.id)}${pr.minStars ? " (some of its stars)" : ""}`),
