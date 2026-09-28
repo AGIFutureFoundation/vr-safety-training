@@ -345,6 +345,14 @@ const CSS = `
   .hm-cont-prog{display:block; padding:10px 12px; background:var(--raised); border:1px solid var(--edge); border-left:3px solid var(--tint,var(--accent)); border-radius:var(--r-sm); color:inherit; font-size:16px}
   .hm-cont-prog:hover{background:var(--raised-2); text-decoration:none}
   .hm-cont-prog .pp-chip{color:var(--tint,var(--accent)); font-size:14px}
+  /* the learner's cohorts (docs/enterprise.md): the same card, with the programme ladder as rungs */
+  .hm-cont-cohort b{display:block}
+  .hm-cont-cohort .hm-cohort-line{display:block; font-size:15px; color:var(--muted); margin:2px 0 6px}
+  .hm-cont-cohort .hm-ladder{display:flex; gap:4px; list-style:none; margin:0 0 8px; padding:0}
+  .hm-cont-cohort .hm-rung{width:22px; height:22px; border-radius:4px; border:1px solid var(--edge); font-size:13px; line-height:20px; text-align:center; color:var(--text)}
+  .hm-cont-cohort .hm-rung-passed{background:rgba(89,201,123,.22); border-color:var(--good)}
+  .hm-cont-cohort .hm-rung-tried{background:rgba(242,193,75,.18); border-color:var(--warn)}
+  .hm-cont-cohort a{font-size:15px; color:var(--tint,var(--accent))}
 
   /* ---- programme finder ---- */
   .finder{padding:18px 16px; background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-lg)}
@@ -1316,6 +1324,45 @@ function hmScript(layout) {
     }
     box.hidden = false;
   }).catch(() => { /* no module server (file://): the cards stay as they are */ });
+
+  // ---- "My cohorts" on the continue strip (shared/org.js, docs/enterprise.md):
+  // the cohorts the person on this device joined by invite code, each with its
+  // programme ladder computed from this device's own records. Shown to the
+  // learner only and never stored, so the sharing consent is not involved.
+  // (Inside a template literal: string concatenation, no backticks.)
+  function hmCohorts(org) {
+    const mine = org.enMyCohorts();
+    if (!mine.length) return;
+    const box = document.getElementById("hm-cont-cohorts");
+    for (const c of mine) {
+      const card = document.createElement("div");
+      card.className = "hm-cont-prog hm-cont-cohort";
+      if (c.org && c.org.colour) card.style.setProperty("--tint", c.org.colour);
+      const b = document.createElement("b");
+      b.textContent = c.cohort.name + (c.org ? " \\u00b7 " + c.org.name : "");
+      const line = document.createElement("span");
+      line.className = "hm-cohort-line";
+      line.textContent = c.programme.name + " \\u00b7 " + c.passed + " of " + c.total + " stations passed \\u00b7 " + (c.member.sharing ? "sharing progress with the coordinator" : "progress not shared");
+      const ladder = document.createElement("ol");
+      ladder.className = "hm-ladder";
+      ladder.setAttribute("aria-label", "Programme ladder for " + c.programme.name);
+      for (const st of c.ladder) {
+        const li = document.createElement("li");
+        li.className = "hm-rung hm-rung-" + st.state;
+        li.title = st.simId + ": " + (st.state === "passed" ? "passed, " + st.stars + " stars" : st.state === "tried" ? st.attempts + " attempt(s), not yet passed" : "not yet tried");
+        li.textContent = st.state === "passed" ? "\\u2605" : st.state === "tried" ? "\\u00b7" : "";
+        ladder.append(li);
+      }
+      const go = document.createElement("a");
+      go.href = HM_LINKS.smartcity + "?programme=" + encodeURIComponent(c.programme.id);
+      go.textContent = "Continue this programme";
+      card.append(b, line, ladder, go);
+      box.append(card);
+    }
+    box.hidden = false;
+    document.getElementById("continue").dataset.cohorts = String(mine.length);
+  }
+  import("./shared/org.js").then(hmCohorts).catch(() => { /* no module server (file://) */ });
 `;
 }
 
@@ -1567,6 +1614,7 @@ ${cards}
     </div>
     <p class="cont-due" id="continue-due" hidden></p>
     <div class="hm-cont-progs" id="hm-cont-progs" hidden></div>
+    <div class="hm-cont-progs" id="hm-cont-cohorts" hidden></div>
   </section>
 
   <section class="hm-sec" id="how" aria-labelledby="how-title">

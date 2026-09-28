@@ -25,6 +25,8 @@ import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile 
 // The treasure ledger rides with the chip: the dialog links the Treasure Map and every page arms its finders.
 import { tzArmPage, tzMapHref, tzFoundIds } from "./treasures.js";
 import { TZ_TREASURES } from "./treasures-data.js";
+// The organisation layer (docs/enterprise.md): a learner joins a cohort from here too.
+import { enJoin, enMyCohorts } from "./org.js";
 
 const gtHasDom = typeof document !== "undefined";
 const GT_WALLET_INSTALL = "https://metamask.io/download/";
@@ -49,6 +51,11 @@ const gtCss = `
 #gt-dialog .gt-row button{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
 #gt-dialog label.gt-check{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}
 #gt-dialog label.gt-check input{width:auto;min-height:0;margin:0}
+#gt-dialog .gt-join{border-top:1px solid #2a3c4e;padding-top:10px;margin-top:6px}
+#gt-dialog .gt-join[hidden]{display:none}
+#gt-dialog .gt-join button.gt-small{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
+#gt-dialog .gt-cohort{font-size:14px;color:#d4dee8;margin:0 0 6px}
+#gt-dialog .gt-cohort b{color:#fff}
 `;
 
 const gtState = { mounted: false, env: null, configUrl: null, ready: null, returnTo: null, googleStarted: false };
@@ -159,6 +166,39 @@ function gtSignInView(panel) {
   trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
 
+/**
+ * The learner's side of the organisation layer (docs/enterprise.md): the
+ * cohorts this device has joined, each with its programme and how many of its
+ * stations this device's records pass, and "Join a cohort" — an invite code,
+ * a display name and the progress-sharing consent, off until ticked. The join
+ * is written to this device's store and audited here; nothing is sent anywhere.
+ */
+function gtCohortView(panel) {
+  let mine = [];
+  try { mine = enMyCohorts(); } catch (_) { mine = []; }
+  const wrap = gtEl("div", { class: "gt-join", id: "gt-cohorts" });
+  for (const c of mine) {
+    wrap.append(gtEl("p", { class: "gt-cohort" }, "In cohort ", gtEl("b", { text: c.cohort.name }),
+      `${c.org ? ` (${c.org.name})` : ""} as ${c.member.role} · ${c.programme.name}: ${c.passed} of ${c.total} stations passed here · ${c.member.sharing ? "sharing progress with the coordinator" : "progress not shared"}.`));
+  }
+  const form = gtEl("div", { id: "gt-join-form", hidden: true });
+  const code = gtEl("input", { id: "gt-join-code", type: "text", autocomplete: "off", maxlength: "9", placeholder: "Invite code (XXXX-XXXX)", "aria-label": "Invite code" });
+  const name = gtEl("input", { id: "gt-join-name", type: "text", autocomplete: "nickname", maxlength: "40", placeholder: "Your display name (initials are fine)", "aria-label": "Your display name" });
+  const consent = gtEl("input", { id: "gt-join-consent", type: "checkbox" });
+  const check = gtEl("label", { class: "gt-check" }, consent, "Share my progress in this programme with the cohort's coordinator (off until you tick it)");
+  const join = gtEl("button", { type: "button", class: "gt-small", id: "gt-join", on: { click: () => {
+    const r = enJoin(code.value, { name: name.value, role: "learner", local: true, consent: consent.checked });
+    if (!r.ok) { gtMsg(r.reason); return; }
+    gtRender(); gtMsg(`${r.member.name} joined ${r.cohort.name}. Your progress stays on this device${r.member.consent.progress ? " and is shared with the coordinator's view here" : ""}.`);
+    try { globalThis.dispatchEvent?.(new Event("gt:profile")); } catch (_) { /* ignore */ }
+  } } }, "Join");
+  form.append(code, name, check, gtEl("div", { class: "gt-row" }, join));
+  const open = gtEl("button", { type: "button", class: "gt-small", id: "gt-join-open", "aria-expanded": "false", "aria-controls": "gt-join-form",
+    on: { click: () => { form.hidden = !form.hidden; open.setAttribute("aria-expanded", String(!form.hidden)); if (!form.hidden) code.focus(); } } }, mine.length ? "Join another cohort" : "Join a cohort");
+  wrap.append(gtEl("p", { class: "gt-line" }, "Training with an organisation? Its coordinator gives you an invite code. ", open), form);
+  panel.append(wrap);
+}
+
 function gtRender(view = null) {
   const panel = document.querySelector("#gt-dialog .gt-panel");
   if (!panel) return;
@@ -188,6 +228,8 @@ function gtRender(view = null) {
   // The Treasure Map (docs/treasures.md): counts only, never where an unfound one is.
   panel.append(gtEl("p", { class: "gt-line", id: "gt-treasures" }, `Treasures found: ${tzFoundIds().length} of ${TZ_TREASURES.length}. `,
     gtEl("a", { href: tzMapHref(), id: "gt-treasure-map", text: "Open the Treasure Map" })));
+  // Cohorts (docs/enterprise.md): the ones joined on this device, and the join form.
+  if (v !== "carry") gtCohortView(panel);
   // What is stored where (WebXR/privacy.html, docs/enterprise.md).
   panel.append(gtEl("p", { class: "gt-line", id: "gt-privacy-line" }, "Nothing about you leaves this device without your say. ",
     gtEl("a", { href: gtPrivacyHref(), id: "gt-privacy", text: "What is stored where" }), "."));

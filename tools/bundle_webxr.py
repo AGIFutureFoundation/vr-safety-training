@@ -797,6 +797,19 @@ for _tz_cfg in APPS.values():
         _tz_at = _tz_mods.index(SHARED / "profiles.js") + 1
         _tz_mods[_tz_at:_tz_at] = [SHARED / "treasures-data.js", SHARED / "treasures.js"]
 
+# The organisation layer (console ENTERPRISE, docs/enterprise.md): account.js
+# imports shared/org.js so a learner can join a cohort from the sign-in
+# dialog. org.js evaluates names from records.js and passport-programmes.js at
+# load, so it goes right after the last of its three dependencies, with any
+# missing one put in front of it there.
+for _en_cfg in APPS.values():
+    _en_mods = _en_cfg["modules"]
+    if SHARED / "account.js" in _en_mods and SHARED / "org.js" not in _en_mods:
+        _en_deps = [SHARED / "profiles.js", SHARED / "records.js", SHARED / "passport-programmes.js"]
+        _en_have = [_en_mods.index(d) for d in _en_deps if d in _en_mods]
+        _en_at = (max(_en_have) + 1) if _en_have else _en_mods.index(SHARED / "account.js")
+        _en_mods[_en_at:_en_at] = [d for d in _en_deps if d not in _en_mods] + [SHARED / "org.js"]
+
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a
     # source page's link into it keeps its text reference and loses the dead
@@ -998,6 +1011,9 @@ DIST_SHARED = [
     # The programme chips on the homepage rails (docs/interop.md) import the
     # passport lazily, with the modules it reads.
     "passport.js", "passport-programmes.js", "competency.js", "game.js",
+    # The organisation layer (docs/enterprise.md): account.js imports it, and the
+    # homepage's continue strip reads the learner's own cohorts through it.
+    "org.js",
     # The lazy-loaded SmartCiti.X sims and citykit.js import these by their
     # "../../../shared/" path, which from sims/ and the folder root lands on
     # this folder's shared/ — without them no station loads in the flat build
