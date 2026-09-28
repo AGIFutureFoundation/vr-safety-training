@@ -19,10 +19,10 @@ CF_SERVICE = "smartciti-x"
 CF_ENTERPRISE_KEY_PREFIX = "org:"
 
 # The organisation blocks the auth-config route injects at the edge (docs/enterprise.md § 3).
-# The namespace is created by the deploy agent's provision step under this title; its id is looked up
-# by title at deploy time, never written here. `id` is required by wrangler's schema, so it carries a
-# non-id placeholder that the checker recognises and `wrangler pages deploy` overrides from the dashboard
-# binding (Pages resolves bindings from the project, not from this file, once the project exists).
+# The namespace is created by the deploy agent's provision step under its title and looked up by title at
+# deploy time; its id is never committed. `id` is required by wrangler's schema, so it carries a placeholder
+# the agent swaps for the resolved id only for the duration of the `wrangler pages deploy` command, restoring
+# this file afterwards (tools/deploy_agent.mjs, cfWithResolvedConfig; tools/check_deploy.mjs proves it).
 [[kv_namespaces]]
 binding = "CF_ENTERPRISE"
 id = "resolved-by-deploy-agent"

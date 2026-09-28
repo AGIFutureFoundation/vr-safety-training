@@ -112,7 +112,7 @@ export function cfPlan(opts = cfParseArgs([])) {
     },
     deploy: {
       commands: [
-        cmd(["npx", "wrangler", "pages", "deploy", "WebXR/dist", "--project-name", project, "--branch", opts.branch, "--commit-dirty=true"], undefined, "assets plus functions/ (the /api router)"),
+        cmd(["npx", "wrangler", "pages", "deploy", "WebXR/dist", "--project-name", project, "--branch", opts.branch, "--commit-dirty=true"], undefined, "assets plus functions/ (the /api router); wrangler.toml carries the resolved KV id only for the duration of this command, then is restored"),
         cmd(["npx", "wrangler", "deploy", "--config", "workers/edge/wrangler.toml", "--route", "«CF_WORKER_ZONE»/api/*"], ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "CF_WORKER_ZONE"], `only when CF_WORKER_ZONE is set; publishes '${worker.name}'`),
         api("GET", `/accounts/${acct}/pages/projects/${project}/deployments`),
       ],
@@ -153,6 +153,22 @@ class CfLog {
   constructor(path) { this.path = path; mkdirSync(dirname(path), { recursive: true }); writeFileSync(path, `# Deploy run — ${new Date().toISOString()}\n\n`); }
   line(s) { const t = cfRedact(s); appendFileSync(this.path, t + "\n"); console.log(t); }
   step(id, status, detail = "") { this.line(`- ${new Date().toISOString()} · ${id} · ${status}${detail ? ` · ${detail}` : ""}`); }
+}
+
+/**
+ * wrangler reads bindings from wrangler.toml, and the repository's copy carries a placeholder where the KV
+ * namespace id goes (an id in the tree would fail tools/check_deploy.mjs). For the duration of one wrangler
+ * command the file is written with the resolved id and then restored byte for byte, whatever the outcome.
+ */
+export const CF_KV_PLACEHOLDER = "resolved-by-deploy-agent";
+export function cfWithResolvedConfig(configPath, kvId, fn) {
+  const original = readFileSync(configPath, "utf8");
+  try {
+    writeFileSync(configPath, original.split(CF_KV_PLACEHOLDER).join(kvId));
+    return fn();
+  } finally {
+    writeFileSync(configPath, original);
+  }
 }
 
 function cfExec(argv, { input, extraEnv = {} } = {}) {
@@ -242,11 +258,11 @@ export async function cfRun(opts) {
     // deploy
     const before = await cfApi("GET", `/accounts/${acct}/pages/projects/${P}/deployments?per_page=1`);
     previous = before.result?.[0]?.id ?? null;
-    const dep = cfExec(["npx", "wrangler", "pages", "deploy", "WebXR/dist", "--project-name", P, "--branch", opts.branch, "--commit-dirty=true"]);
+    const dep = cfWithResolvedConfig(join(ROOT, "wrangler.toml"), kvId, () => cfExec(["npx", "wrangler", "pages", "deploy", "WebXR/dist", "--project-name", P, "--branch", opts.branch, "--commit-dirty=true"]));
     log.step("deploy", dep.status ? "FAIL" : "ok", dep.out.trim().split("\n").filter(Boolean).pop());
     if (dep.status) return 1;
     if (process.env.CF_WORKER_ZONE) {
-      const w = cfExec(["npx", "wrangler", "deploy", "--config", "workers/edge/wrangler.toml", "--route", `${process.env.CF_WORKER_ZONE}/api/*`]);
+      const w = cfWithResolvedConfig(join(ROOT, "workers/edge/wrangler.toml"), kvId, () => cfExec(["npx", "wrangler", "deploy", "--config", "workers/edge/wrangler.toml", "--route", `${process.env.CF_WORKER_ZONE}/api/*`]));
       log.step("deploy", w.status ? "FAIL" : "ok", "standalone Worker");
       if (w.status) return 1;
     } else log.step("deploy", "skipped", "CF_WORKER_ZONE absent: the Pages Functions serve /api/*");

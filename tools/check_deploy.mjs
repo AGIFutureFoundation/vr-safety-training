@@ -17,7 +17,7 @@
  * - the shell front and the workflow refer to credentials by name only and the workflow is gated on them;
  * - `wrangler pages deploy --dry-run` / `wrangler deploy --dry-run` when wrangler is installed, else a note.
  */
-import { existsSync, readFileSync, readdirSync, statSync, mkdtempSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, mkdtempSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
@@ -170,6 +170,17 @@ check(JSON.stringify(agent.CF_VERIFY.map((v) => v.id)) === JSON.stringify(["home
   const verifyFn = src.slice(src.indexOf("async function cfVerify"), src.indexOf("export async function cfRun"));
   check(/\/smartcity-x\.html/.test(verifyFn) && /\/api\/health/.test(verifyFn) && /content-security-policy/.test(verifyFn) && /x-content-type-options/.test(verifyFn) && /referrer-policy/.test(verifyFn) && /sitemap\.xml/.test(verifyFn) && /<title>/.test(verifyFn) && /1024 \* 1024/.test(verifyFn), "cfVerify runs exactly those assertions");
   check(/deployments\/\$\{previous\}\/rollback/.test(src), "a failed verify rolls back to the previous deployment");
+  // The placeholder id is swapped for the resolved one only for the duration of a wrangler command, then restored.
+  const tomlText = read("wrangler.toml"), workerToml = read("workers/edge/wrangler.toml");
+  check(tomlText.includes(agent.CF_KV_PLACEHOLDER) && workerToml.includes(agent.CF_KV_PLACEHOLDER), "both wrangler.toml files carry the KV placeholder the agent resolves");
+  const tmpToml = join(mkdtempSync(join(tmpdir(), "cf-toml-")), "wrangler.toml");
+  writeFileSync(tmpToml, tomlText);
+  let seen = "";
+  const fakeId = "0123abcd".repeat(4);
+  agent.cfWithResolvedConfig(tmpToml, fakeId, () => { seen = readFileSync(tmpToml, "utf8"); });
+  check(seen.includes(`id = "${fakeId}"`) && !seen.includes(agent.CF_KV_PLACEHOLDER) && readFileSync(tmpToml, "utf8") === tomlText, "the resolved id is present only during the command and the file is restored after it");
+  try { agent.cfWithResolvedConfig(tmpToml, fakeId, () => { throw new Error("wrangler failed"); }); } catch { /* expected */ }
+  check(readFileSync(tmpToml, "utf8") === tomlText, "the file is restored even when the command throws");
   check(!/console\.log\(.*process\.env\.(CLOUDFLARE_API_TOKEN|PAYMENTS_WEBHOOK_SECRET)/.test(src), "the agent never prints a credential");
 }
 const plan = agent.cfPlan(agent.cfParseArgs(["--domain", "train.example.org"]));
