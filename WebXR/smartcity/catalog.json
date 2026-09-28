@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 652
+      "stations": 654
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,8 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-reading-a-map-scale-in-bay-world",
+        "k12-household-budget-and-first-paycheck",
         "k12-reading-instructions-and-safety-labels",
         "k12-primary-and-secondary-sources",
         "k12-water-cycle-and-filtration",
@@ -9819,6 +9821,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-reading-a-map-scale-in-bay-world",
+      "name": "Reading a Map Scale in Bay World",
+      "title": "SmartCiti.X~ Reading a Map Scale in Bay World VR",
+      "tagline": "Measure on the map, scale it up, then work out how long the journey takes",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the ferry landing map board — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "on-the-map",
+        "name": "On the Map",
+        "note": "A route measured, scaled and timed, with the answer checked against common sense"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "806",
+      "flat": false,
+      "system": "Route Board",
+      "currency": "LEGS",
+      "ranks": [
+        "Walker",
+        "Map Reader",
+        "Navigator",
+        "Planner",
+        "Pathfinder"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-household-budget-and-first-paycheck",
+      "name": "A Household Budget and a First Paycheck",
+      "title": "SmartCiti.X~ A Household Budget and a First Paycheck VR",
+      "tagline": "Read the slip, find the percentage, plan the month — and keep something back for the unexpected",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the community centre's money desk — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "month-planned",
+        "name": "Month Planned",
+        "note": "Pay slip read, percentages worked and a budget that balances with something saved"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "805",
+      "flat": false,
+      "system": "Budget Board",
+      "currency": "COINS",
+      "ranks": [
+        "Saver",
+        "Planner",
+        "Budgeter",
+        "Adviser",
+        "Treasurer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-household-budget-and-first-paycheck"
     },
     {
       "app": "smartcity",
@@ -32750,7 +32918,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",

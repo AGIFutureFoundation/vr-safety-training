@@ -27664,5 +27664,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-household-budget-and-first-paycheck",
+    "index": "805",
+    "domain": "Education",
+    "trade": "Maths class at the community centre's money desk — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Household Budget and a First Paycheck",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Household Budget and a First Paycheck VR",
+    "tagline": "Read the slip, find the percentage, plan the month — and keep something back for the unexpected",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "month-planned",
+      "name": "Month Planned",
+      "note": "Pay slip read, percentages worked and a budget that balances with something saved"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Budget Board",
+      "currency": "COINS",
+      "ranks": [
+        "Saver",
+        "Planner",
+        "Budgeter",
+        "Adviser",
+        "Treasurer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-reading-a-map-scale-in-bay-world",
+    "index": "806",
+    "domain": "Education",
+    "trade": "Maths class at the ferry landing map board — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Reading a Map Scale in Bay World",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reading a Map Scale in Bay World VR",
+    "tagline": "Measure on the map, scale it up, then work out how long the journey takes",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "on-the-map",
+      "name": "On the Map",
+      "note": "A route measured, scaled and timed, with the answer checked against common sense"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Board",
+      "currency": "LEGS",
+      "ranks": [
+        "Walker",
+        "Map Reader",
+        "Navigator",
+        "Planner",
+        "Pathfinder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
