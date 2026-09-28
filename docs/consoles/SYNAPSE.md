@@ -14,3 +14,5 @@
 - 23:40 UTC · failed: check_agent imported eval_dataset.mjs, whose main exits without a path; fixed by listing the engine's step kinds in the checker. Failed: milestone heading regex missed "## 6. Milestones"; fixed · — · next: commit and gate
 - 23:44 UTC · `docs/agent-roadmap.md` (Virtuals section from the adapter and public knowledge, marked unverified), `agents/foreman/agent.json` draft, `tools/check_agent.mjs` in check_all · 05351ab · next: gate
 - 23:46 UTC · default export: 294 episodes; lerobot 294 episodes / 36722 frames / 49 tasks; rlds 294 episodes / 36722 steps · — · next: check_all
+- 00:20 UTC · failed: first check_all run had check_investor stale (checker count now 62; fixed by running gen_investor, 748c249) and check_ui losing its browser under machine load (passes alone, 442 checks); rerun clean · 748c249 · next: hand-back
+- 00:40 UTC · HAND-BACK · "All 62 checkers pass." · exports: lerobot 294 episodes / 36722 frames / 49 tasks, rlds 294 episodes / 36722 steps (default run) · eval scores unchanged (formats reported, not scored); both layouts structurally valid
