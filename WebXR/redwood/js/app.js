@@ -17,6 +17,7 @@ import {
   rwScoreActivity, rwRecordActivity,
 } from "./rw-career.js";
 import { rwBuildWorld } from "./rw-world.js";
+import { tzWatchWorld } from "../../shared/treasures.js";
 
 // Redwood Reach — the app: the menu, the walk (and the fire-road vehicle),
 // the HUD, the job boards, the quest log with its skill gates, the field tins,
@@ -63,6 +64,10 @@ function rwInitScene() {
   });
   Object.assign(rwApp, { scene, camera, renderer, world, tierName });
   for (const id of rwApp.state.found) world.markFound(id);
+  // The treasure layer's logbook pages and trail blazes (docs/treasures.md):
+  // markers along the fire roads and foot trails, found by walking or driving
+  // up to them; the field tins stay the world's own. It raycasts for itself.
+  tzWatchWorld("redwood", { scene, THREE, pos: () => [rwApp.x, rwApp.z], camera: () => rwApp.camera, groundAt: rwHeightAt, size: 0.7, lift: 1.3 });
   rwPlaceCamera();
   world.stream(rwApp.x, rwApp.z, { all: true });
   // For the headless checkers and the still captures.

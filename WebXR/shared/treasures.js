@@ -9,10 +9,11 @@
 //   the ledger     one key, `vr-treasures-v1`, read and written through
 //                  profiles.js's gtStorage(), so it is private to the signed-in
 //                  learner, the device, or the demo tab (GT_PROFILE_KEYS lists it)
-//   the gates      the frontier brief's shared contract `gate: { stations, note }`,
-//                  answered from the learner's own training records (a station
-//                  counts at 1+ star). A locked treasure is never found: it shows
-//                  its note and a link to each station it needs.
+//   the gates      the frontier brief's shared contract `gate: { stations,
+//                  programmes, quests, k12, note }`, answered by the shared gate
+//                  engine (shared/skill-gates.js: qmIsOpen / qmMissing) from the
+//                  learner's own records. A locked treasure is never found: it
+//                  shows its note and a link to each station it needs.
 //   the reveal     a small card that scales in with a glint, the lesson and the
 //                  set progress; honours prefers-reduced-motion
 //   the finders    DOM pages (glints, the hero constellation, a key sequence, a
@@ -22,9 +23,13 @@
 //
 // Nothing here touches a station's steps, selectables or score: plants and world
 // markers raycast for themselves, exactly like shared/eggs.js's hard hats.
-// Every top-level name starts with `tz` (the bundler shares one scope).
+// Every top-level name starts with `tz` (the bundler shares one scope). The 3D
+// finders take the three.js library from the caller as `T3`: this module is
+// shared chrome and must never spell the library's global itself, or the
+// bundler would load three.js on every flat page that carries the account chip.
 
 import { gtStorage } from "./profiles.js";
+import { qmIsOpen, qmMissing, qmSnapshot, qmInvalidate } from "./skill-gates.js";
 import { TZ_TREASURES, TZ_SETS, TZ_SURFACES } from "./treasures-data.js";
 
 export const TZ_KEY = "vr-treasures-v1";
@@ -111,12 +116,32 @@ function tzRecords(records) {
 export function tzCompleted(records) {
   return new Set(tzRecords(records).filter((r) => (r?.stars | 0) >= 1 && r.simId).map((r) => String(r.simId)));
 }
+
+/**
+ * The gate engine's snapshot: the learner's own stores through qmSnapshot(),
+ * or — when a caller (the checker) hands in a records array — a snapshot
+ * built from those records alone, so a gate can be tested without storage.
+ */
+export function tzGateSnapshot(records) {
+  if (!Array.isArray(records)) { qmInvalidate(); return qmSnapshot(); }
+  const stars = new Map();
+  for (const r of records) if (r && r.simId) stars.set(String(r.simId), Math.max(stars.get(String(r.simId)) ?? 0, r.stars | 0));
+  return { stars, questsDone: new Set(records.filter((r) => r?.questId && r.done).map((r) => r.questId)) };
+}
+
+/**
+ * What still stands between the learner and a treasure's gate, as the engine's
+ * display-ready rows `[{ kind, id, label, detail }]` (stations, K-12 stations,
+ * programmes and quests alike). An empty list, or no gate, means open.
+ */
 export function tzGateMissing(gate, records) {
   if (!gate) return [];
-  const done = tzCompleted(records);
-  return (gate.stations ?? []).filter((s) => !done.has(s));
+  return qmMissing(gate, tzGateSnapshot(records));
 }
-export function tzGateOpen(gate, records) { return tzGateMissing(gate, records).length === 0; }
+export function tzGateOpen(gate, records) {
+  if (!gate) return true;
+  return qmIsOpen(gate, tzGateSnapshot(records));
+}
 
 // ------------------------------------------------------------------ links
 
@@ -220,7 +245,9 @@ export function tzReveal(t, r = {}) {
 export function tzLockNotice(t, records) {
   if (!tzHasDom || !document.body) return null;
   const missing = tzGateMissing(t.gate, records);
-  const links = missing.map((id) => tzEl("a", { href: tzStationHref(id), text: id.replace(/-/g, " ") }));
+  const links = missing.map((m) => (m.kind === "station" || m.kind === "k12")
+    ? tzEl("a", { href: tzStationHref(m.id), text: m.label ?? m.id.replace(/-/g, " ") })
+    : tzEl("span", { class: "tz-small", text: m.detail ? `${m.label} (${m.detail})` : m.label }));
   return tzCard([
     tzEl("p", { class: "tz-small tz-lock", text: "Locked treasure" }),
     tzEl("h2", { text: t.name }),
@@ -391,7 +418,7 @@ export function tzRaceFinish(trackId) {
 
 // ------------------------------------------------------------------ 3D finders
 
-/** Every live 3D marker on screen: { id, mesh, THREE, camera() }. */
+/** Every live 3D marker on screen: { id, mesh, T3 (the three.js library), camera() }. */
 const tzLive = [];
 
 if (tzHasDom && typeof window.addEventListener === "function") {
@@ -407,7 +434,7 @@ if (tzHasDom && typeof window.addEventListener === "function") {
       if (!m.mesh.visible) continue;
       const camera = m.camera?.();
       if (!camera) continue;
-      const T3 = m.THREE;
+      const T3 = m.T3;
       const ray = new T3.Raycaster();
       ray.setFromCamera(new T3.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1), camera);
       if (!ray.intersectObject(m.mesh, true).length) continue;
@@ -444,26 +471,27 @@ function tzSpin(mesh, y0) {
 
 function tzDefaultCamera() {
   if (!tzHasDom) return null;
-  return window.__smartcityTest?.camera?.() ?? window.__tradesTest?.camera?.() ?? window.__holodeckTest?.camera?.() ?? null;
+  return window.__smartcityTest?.camera?.() ?? window.__tradesTest?.camera?.() ?? window.__holodeckTest?.camera?.()
+    ?? window.__summitTest?.camera ?? window.__redwoodTest?.app?.camera ?? null;
 }
 
 /**
  * A station or room calls this once after it is built:
- *     tzPlantHost(root, THREE, `smartcity/${room.id}`);
+ *     tzPlantHost(root, T3, `smartcity/${room.id}`);   // T3: the caller's three.js library
  * Plants every treasure whose trigger.host matches (usually none, never more
  * than two), hidden if already found. Returns the number planted.
  */
-export function tzPlantHost(root, THREE, host, camera = tzDefaultCamera) {
-  if (!root || !THREE) return 0;
+export function tzPlantHost(root, T3, host, camera = tzDefaultCamera) {
+  if (!root || !T3) return 0;
   let n = 0;
   for (const t of TZ_TREASURES) {
     if (t.how !== "plant" || t.trigger.host !== host) continue;
-    const mesh = tzMarker(THREE, t, 0.07);
+    const mesh = tzMarker(T3, t, 0.07);
     const [x, y, z] = t.trigger.pos;
     mesh.position.set(x, y, z);
     mesh.visible = !tzIsFound(t.id);
     root.add(mesh);
-    tzLive.push({ id: t.id, mesh, THREE, camera });
+    tzLive.push({ id: t.id, mesh, T3, camera });
     tzSpin(mesh, y);
     n += 1;
   }
@@ -473,23 +501,24 @@ export function tzPlantHost(root, THREE, host, camera = tzDefaultCamera) {
 
 /**
  * An open world calls this once after its scene is built:
- *     tzWatchWorld("bayworld", { scene, THREE, pos: () => [x, z], camera: () => cam, groundAt: (x, z) => y });
+ *     tzWatchWorld("bayworld", { scene, THREE: T3, pos: () => [x, z], camera: () => cam, groundAt: (x, z) => y });
+ * (`THREE` is only the option's name; its value is the caller's three.js library.)
  * Plants a marker at each of the world's treasures and finds one when the
  * learner comes within its radius (or clicks it). A locked one shows its lock
  * once per visit. Returns the markers planted.
  */
-export function tzWatchWorld(world, { scene, THREE, pos, camera, groundAt = null, size = 0.6, lift = 1.4 } = {}) {
-  if (!scene || !THREE) return 0;
+export function tzWatchWorld(world, { scene, THREE: T3, pos, camera, groundAt = null, size = 0.6, lift = 1.4 } = {}) {
+  if (!scene || !T3) return 0;
   const mine = TZ_TREASURES.filter((t) => t.how === "proximity" && t.trigger.world === world);
   const markers = new Map();
   for (const t of mine) {
-    const mesh = tzMarker(THREE, t, size);
+    const mesh = tzMarker(T3, t, size);
     const y = (groundAt ? Number(groundAt(t.trigger.x, t.trigger.z)) || 0 : 0) + lift;
     mesh.position.set(t.trigger.x, y, t.trigger.z);
     mesh.visible = !tzIsFound(t.id);
     scene.add(mesh);
     markers.set(t.id, mesh);
-    tzLive.push({ id: t.id, mesh, THREE, camera });
+    tzLive.push({ id: t.id, mesh, T3, camera });
     tzSpin(mesh, y);
   }
   const warned = new Set();

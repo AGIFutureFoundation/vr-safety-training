@@ -15,7 +15,8 @@
 //   a station's own sim file          (the tool crib line)
 //
 // Places come from the worlds' own data (BAY_SITES, DEEP_SITES, RG_COURSES,
-// FAIRWAY_HOLES), so a treasure always sits at a real spot in a real world.
+// FAIRWAY_HOLES, SM_TRAILS / SM_TRANSMISSION, RW_ROADS / RW_TRAILS), so a
+// treasure always sits at a real spot in a real world.
 // Bay World's 24 easter-egg field notes (tools/gen_bay_quests.mjs) sit at the
 // 28 public landmarks and The Deep's lantern eggs sit two metres off its
 // landmarks; treasures sit at the training SITES instead, so the two layers
@@ -36,6 +37,10 @@ const { BAY_SITES, BAY_ZONES } = await imp("WebXR/shared/bayworld-data.js");
 const { DEEP_SITES, DEEP_ZONES } = await imp("WebXR/shared/underwater-data.js");
 const { RG_COURSES } = await imp("WebXR/regatta/js/courses.js");
 const { FAIRWAY_HOLES } = await imp("WebXR/shared/fairway-data.js");
+const { SM_SITES, SM_ZONES, SM_TRAILS, SM_TRANSMISSION, SM_EGGS, smInLake, smZoneAt } = await imp("WebXR/shared/summit-data.js");
+const { RW_SITES, RW_ROADS, RW_TRAILS, rwIsWater } = await imp("WebXR/redwood/js/rw-data.js");
+const { RW_EGGS } = await imp("WebXR/redwood/js/rw-lore-data.js");
+const { PP_PROGRAMMES } = await imp("WebXR/shared/passport-programmes.js");
 const UNIONS = JSON.parse(rd("tools/unions.json")).unions;
 const STANDARDS = JSON.parse(rd("tools/standards.json")).standards;
 const CURR_SRC = rd("WebXR/smartcity/js/curricula.js");
@@ -209,11 +214,17 @@ const WATER = new Set(["port", "estuary-waterfront", "island-harbour", "north-sh
 const BELL_UNIONS = ["ilwu", "ibu", "meba", "siu", "carpenters", "iuoe", "ironworkers"];
 const waterSites = BAY_SITES.filter((s) => WATER.has(s.zone));
 const landSites = BAY_SITES.filter((s) => !WATER.has(s.zone));
+// The seventh bell is the set's capstone: a programme gate (the frontier brief's
+// `programmes: [{ id, minStars }]`) on the port and terminal programme.
+if (!PP_PROGRAMMES["port-operations"]) throw new Error("passport-programmes.js has no port-operations programme");
+const BELL_CAPSTONE_GATE = { programmes: [{ id: "port-operations", minStars: Math.min(7, PP_PROGRAMMES["port-operations"].stations.length) }],
+  note: "The seventh bell rings for a learner who has earned stars across the port and terminal programme." };
 waterSites.slice(0, 7).forEach((s, i) => {
   const [x, z] = xz(s.position);
   add({ id: `tz-bay-bell-${i + 1}`, name: `Harbour Bell ${i + 1}`, surface: "bayworld", world: "Bay World", area: zoneName(BAY_ZONES, s.zone),
     set: "harbour-bells", how: "proximity", trigger: { world: "bayworld", x: round(x + 9), z: round(z - 7), r: 7 },
-    hint: "Seven bells hang along the waterfront. Walk up and ring each.", reveal: "bell", ...unionLesson(BELL_UNIONS[i]) });
+    hint: "Seven bells hang along the waterfront. Walk up and ring each.", reveal: "bell", ...unionLesson(BELL_UNIONS[i]),
+    gate: i === 6 ? BELL_CAPSTONE_GATE : null });
 });
 const baySpread = [];
 for (let i = 0; i < landSites.length && baySpread.length < 17; i += Math.max(1, Math.floor(landSites.length / 17))) baySpread.push(landSites[i]);
@@ -262,6 +273,91 @@ for (const h of FAIRWAY_HOLES) {
     hint: "Every hole has a lost ball in the rough off the tee. Hit near it, or click it.", reveal: "ball", lesson: L.lesson, source: L.source });
 }
 
+// ------------------------------------------------------------ Sierra Summit and Redwood Reach
+//
+// Both worlds already hide their own field notes / field tins at their
+// landmarks and sites (SM_EGGS, RW_EGGS — those stay theirs). Treasures sit
+// on the TRAILS, ROADS and the transmission line instead, offset off each
+// vertex, nudged until they are out of the water and at least 15 m from every
+// note or tin, and never inside a site's pad.
+
+const eggAt = (e) => e.at ?? e.position ?? [e.x, e.z];
+function place(pt, taken, { water, sites, min = 15 }) {
+  const offsets = [[12, 12], [-12, 12], [12, -12], [-12, -12], [20, 0], [0, 20], [-20, 0], [0, -20], [28, 10], [-28, -10]];
+  for (const [dx, dz] of offsets) {
+    const x = round(pt[0] + dx), z = round(pt[1] + dz);
+    if (water(x, z)) continue;
+    if (taken.some((p) => Math.hypot(p[0] - x, p[1] - z) < min)) continue;
+    if (sites.some((s) => Math.hypot(s[0] - x, s[1] - z) < s[2])) continue;
+    taken.push([x, z]);
+    return [x, z];
+  }
+  throw new Error(`no clear spot near ${pt}`);
+}
+const dedupe = (pts) => pts.filter((p, i) => pts.findIndex((q) => q[0] === p[0] && q[1] === p[1]) === i);
+function nearestSite(sites, x, z, at) {
+  return sites.map((s) => ({ s, d: Math.hypot(at(s)[0] - x, at(s)[1] - z) })).sort((a, b) => a.d - b.d)[0].s;
+}
+/** A lesson for a spot: the nearest site's first unused station why, else a themed why. */
+function siteLesson(site, re) {
+  const st = (site.stations ?? []).find((id) => WHY.has(id) && !used.has(`why:${id}`));
+  if (st) { used.add(`why:${st}`); return { ...whyLesson(st), station: st }; }
+  return pickWhy(re);
+}
+
+// Sierra Summit: a cairn at every trail vertex (the field notes sit at the
+// sites and landmarks) and a tag on every transmission tower.
+const smTaken = SM_EGGS.map(eggAt);
+const smPads = SM_SITES.map((s) => [s.at[0], s.at[1], (s.pad ?? 50) + 6]);
+const smWater = (x, z) => smInLake(x, z);
+const smZoneName = (x, z) => { const zn = smZoneAt(x, z); return zoneName(SM_ZONES, typeof zn === "string" ? zn : zn?.id); };
+const smTrailPts = dedupe(SM_TRAILS.flatMap((t) => t.pts.map((p) => [p[0], p[1], t])))
+  .filter(([x, z]) => !SM_SITES.some((s) => Math.hypot(s.at[0] - x, s.at[1] - z) < (s.pad ?? 50) + 30));
+smTrailPts.forEach(([px, pz, trail], i) => {
+  const [x, z] = place([px, pz], smTaken, { water: smWater, sites: smPads });
+  const site = nearestSite(SM_SITES, x, z, (s) => s.at);
+  const L = siteLesson(site, /mountain|grade|slope|fire|water|line|tower|rescue|weather|trail/i);
+  add({ id: `tz-summit-cairn-${i + 1}`, name: `Trail Cairn ${i + 1}: ${trail.name}`, surface: "summit", world: "Sierra Summit", area: smZoneName(x, z),
+    set: "trail-cairns", how: "proximity", trigger: { world: "summit", x, z, r: 9 },
+    hint: "Cairns stand a little off every trail on the mountain. Walk the trails.", reveal: "cairn", lesson: L.lesson, source: L.source,
+    gate: i === 3 ? { stations: [L.station], note: `The crews who walk ${trail.name} built this cairn for people who have done ${L.station.replace(/-/g, " ")}.` } : null });
+});
+const RIDGE_UNIONS = ["ibew", "uwua", "iuoe", "liuna", "ibew-local1245"];
+SM_TRANSMISSION.filter(([x, z]) => !SM_SITES.some((s) => Math.hypot(s.at[0] - x, s.at[1] - z) < (s.pad ?? 50) + 30)).forEach(([px, pz], i) => {
+  const [x, z] = place([px, pz], smTaken, { water: smWater, sites: smPads });
+  add({ id: `tz-summit-tower-${i + 1}`, name: `Tower Tag ${i + 1}`, surface: "summit", world: "Sierra Summit", area: smZoneName(x, z),
+    set: "tower-tags", how: "proximity", trigger: { world: "summit", x, z, r: 9 },
+    hint: "Every transmission tower on the ridge carries a tag at its foot.", reveal: "tag", ...unionLesson(RIDGE_UNIONS[i]) });
+});
+
+// Redwood Reach: logbook pages blown off the fire lookout along the fire roads
+// (the field tins sit at the landmarks) and blazes on the foot trails.
+const rwTaken = RW_EGGS.map(eggAt);
+const rwPads = RW_SITES.map((s) => [s.position[0], s.position[1], (s.pad ?? 50) + 6]);
+const rwWater = (x, z) => rwIsWater(x, z);
+const rwRoadPts = dedupe(RW_ROADS.flatMap((r) => r.points.map((p) => [p[0], p[1], r])))
+  .filter(([x, z]) => !RW_SITES.some((s) => Math.hypot(s.position[0] - x, s.position[1] - z) < (s.pad ?? 50) + 30));
+const FOREST_UNIONS = ["iaff", "carpenters", "usw", "iam", "ibew", "iuoe-local3", "liuna", "cwa", "uwua", "ibb", "afscme", "seiu"];
+rwRoadPts.slice(0, 12).forEach(([px, pz, road], i) => {
+  const [x, z] = place([px, pz], rwTaken, { water: rwWater, sites: rwPads });
+  const site = nearestSite(RW_SITES, x, z, (s) => s.position);
+  const L = i % 2 === 0 ? siteLesson(site, /fire|wildland|saw|tree|log|forest|trail|road|grade|culvert|line/i) : unionLesson(FOREST_UNIONS[i]);
+  add({ id: `tz-redwood-page-${i + 1}`, name: `Logbook Page ${i + 1}: ${road.name}`, surface: "redwood", world: "Redwood Reach", area: road.name,
+    set: "logbook-pages", how: "proximity", trigger: { world: "redwood", x, z, r: 9 },
+    hint: "Pages from the lookout's logbook blew down along the fire roads. Drive or walk them.", reveal: "page", lesson: L.lesson, source: L.source,
+    gate: i === 4 && L.station ? { stations: [L.station], note: `The ${site.name} crew keeps this page for people who have done ${L.station.replace(/-/g, " ")}.` } : null });
+});
+const rwTrailPts = dedupe(RW_TRAILS.flatMap((t) => t.points.slice(1, -1).map((p) => [p[0], p[1], t])))
+  .filter(([x, z]) => !RW_SITES.some((s) => Math.hypot(s.position[0] - x, s.position[1] - z) < (s.pad ?? 50) + 30));
+rwTrailPts.forEach(([px, pz, trail], i) => {
+  const [x, z] = place([px, pz], rwTaken, { water: rwWater, sites: rwPads });
+  const site = nearestSite(RW_SITES, x, z, (s) => s.position);
+  const L = siteLesson(site, /trail|tree|saw|chainsaw|brush|fire|forest|marsh|survey/i);
+  add({ id: `tz-redwood-blaze-${i + 1}`, name: `Trail Blaze ${i + 1}: ${trail.name}`, surface: "redwood", world: "Redwood Reach", area: trail.name,
+    set: "trail-blazes", how: "proximity", trigger: { world: "redwood", x, z, r: 9 },
+    hint: "Trail blazes mark the foot trails between the sites.", reveal: "blaze", lesson: L.lesson, source: L.source });
+});
+
 // ------------------------------------------------------------ sets
 
 const SETS = [
@@ -277,13 +373,23 @@ const SETS = [
   ["sea-glass", "Sea Glass", "Beachcomber", "Sea glass beside sixteen dive sites in The Deep."],
   ["pennants", "Regatta Pennants", "Mark Rounder", "A pennant off every rounding mark."],
   ["lost-balls", "Lost Balls", "Ranger", "A lost ball off every tee at Fairway Park."],
+  ["trail-cairns", "Trail Cairns", "Cairn Keeper", "A cairn off every trail vertex on Sierra Summit."],
+  ["tower-tags", "Tower Tags", "Ridge Walker", "A tag at the foot of every transmission tower on the ridge."],
+  ["logbook-pages", "Lookout Logbook", "Lookout", "Pages from the fire lookout's logbook, blown along Redwood Reach's fire roads."],
+  ["trail-blazes", "Trail Blazes", "Trail Hand", "A blaze on every foot trail through Redwood Reach."],
 ].map(([id, name, badge, blurb]) => ({ id, name, badge, blurb, members: T.filter((t) => t.set === id).map((t) => t.id) }));
 
 const SURFACES = [
   ["home", "Homepage"], ["guide", "The Guide"], ["trades", "Trade Skills"], ["runner", "Station runner"], ["atlas", "The Atlas"],
   ["arcade", "Break Room Arcade"], ["race", "Night Highway Circuit"], ["bayworld", "Bay World"], ["deep", "The Deep"],
-  ["regatta", "The Regatta"], ["fairway", "Fairway Park"],
+  ["regatta", "The Regatta"], ["fairway", "Fairway Park"], ["summit", "Sierra Summit"], ["redwood", "Redwood Reach"],
 ].map(([id, name]) => ({ id, name, count: T.filter((t) => t.surface === id).length }));
+
+// Every gated treasure, in the shape tools/check_gates.mjs discovers from any
+// `*-data.js` module that exports a `…GATED…` array. `world: "treasures"` keeps
+// them out of the four worlds' side-game counts: they share only the gate.
+const GATED = T.filter((t) => t.gate).map((t) => ({ id: t.id, kind: "treasure", title: t.name, world: "treasures", surface: t.surface, gate: t.gate }));
+for (const g of GATED) if (/\d/.test(g.gate.note)) throw new Error(`${g.id}'s lock note carries a digit`);
 
 const out = `// GENERATED by tools/gen_treasures.mjs — do not edit by hand (console TREASURE, docs/treasures.md).
 // ${T.length} hidden treasures and easter eggs across ${SURFACES.length} surfaces, ${SETS.length} themed sets.
@@ -297,6 +403,9 @@ export const TZ_SURFACES = ${JSON.stringify(SURFACES, null, 1)};
 export const TZ_SETS = ${JSON.stringify(SETS, null, 1)};
 
 export const TZ_TREASURES = ${JSON.stringify(T, null, 1)};
+
+/** The gated treasures, for tools/check_gates.mjs (it discovers any exported \`…GATED…\` array). */
+export const TZ_GATED = ${JSON.stringify(GATED, null, 1)};
 `;
 fs.writeFileSync(path.join(ROOT, "WebXR/shared/treasures-data.js"), out);
 console.log(`gen_treasures: ${T.length} treasures, ${SETS.length} sets, ${T.filter((t) => t.gate).length} gated → WebXR/shared/treasures-data.js`);

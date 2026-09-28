@@ -15,6 +15,7 @@ import {
   smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace,
 } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
+import { tzWatchWorld } from "../../shared/treasures.js";
 import {
   smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson,
   smActStart, smActStep, smActFinish,
@@ -62,6 +63,10 @@ sm.x = smStart.at[0]; sm.z = smStart.at[1] + 16;
 if (smStart.stations) smVisit(sm.state, smStart.id);
 
 const world = smBuildSummit(root, THREE, { tier: smTierName, start: [sm.x, sm.z] });
+// The treasure layer's cairns and tower tags (docs/treasures.md): markers on the
+// trails and the ridge line, found by walking up to them; the field notes stay
+// the world's own. It raycasts for itself and never touches the sites or quests.
+tzWatchWorld("summit", { scene, THREE, pos: () => [sm.x, sm.z], camera: () => camera, groundAt: smHeightAt, size: 0.7, lift: 1.3 });
 for (const id of sm.state.eggs) world.hideEgg(id);
 
 let sky = null, smRecipe = null;
