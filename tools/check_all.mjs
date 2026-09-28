@@ -33,6 +33,8 @@ const CHECKERS = [
   // One learner, one ledger, one set of records across every app (docs/interop.md).
   "check_interop.mjs",
   "check_ui.mjs",
+  // Every open-world link, in the repo layout and the flat build (tools/briefs/links-brief.md).
+  "check_links.mjs",
 ];
 
 let failed = 0;

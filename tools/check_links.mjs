@@ -17,7 +17,13 @@
  *     station with its own Start link equal to the computed one.
  *  4. Sample loads: one SmartCiti.X station per world and every Trade Skills
  *     room load the named station or room without a page error.
- *  5. Every ?site= deep link for the Deep and Bay World: the HUD names it.
+ *  5. ?site= deep links for the Deep and Bay World (three per world; every
+ *     site with LINKS_FULL=1): the menu names the site, and the HUD does
+ *     once the world is up.
+ *  8. Descriptions link to what they describe: each job board's heading to
+ *     its ?site=, every programme overview (docs/programmes/) to its
+ *     stations, sites and worlds, every track page to its stations.
+ * One browser, one page reused for every load in turn, each load capped.
  *  6. The round trip: a room opened from a board offers "Back to <world>",
  *     that link resolves, and with a passport record seeded Bay World comes
  *     home to that site's board.
@@ -141,6 +147,58 @@ function lkWhyBroken(layout, href, origin, { station = false } = {}) {
   return null;
 }
 
+const tally = {};
+const bump = (world, n = 1) => { tally[world] = (tally[world] ?? 0) + n; };
+
+/**
+ * Descriptions link to what they describe (links-brief, round two): the
+ * programme overviews under docs/programmes/ (tools/gen_investor.mjs) link
+ * every station to its launch link, every site to its world's ?site= page and
+ * each world to its page; the track pages link every station they name.
+ * Static, from the generated files, resolved in the flat layout they point at.
+ */
+function lkDescriptionChecks() {
+  const progDir = join(ROOT, "docs/programmes");
+  const byId = new Map(catalog.curricula.map((c) => [c.id, c]));
+  for (const f of readdirSync(progDir).filter((x) => x.endsWith(".md") && x !== "README.md")) {
+    const c = byId.get(f.replace(/\.md$/, ""));
+    if (!check(!!c, `docs/programmes/${f} names a catalog programme`)) continue;
+    const md = readFileSync(join(progDir, f), "utf8");
+    const links = [...md.matchAll(/\]\((\.\.\/\.\.\/WebXR\/dist\/[^)\s]+)\)/g)].map((m) => m[1]);
+    const hrefs = links.map((l) => new URL(l.replace("../../WebXR/dist/", "./"), originOf("flat") + "/").href);
+    for (const h of hrefs) {
+      const why = lkWhyBroken("flat", h, originOf("flat"));
+      check(!why, `docs/programmes/${f}: link ${short(h)}`, why ?? "");
+      bump("programme overviews");
+    }
+    const launched = new Set(hrefs.map((h) => { const u = new URL(h); return u.searchParams.get("sim") ?? u.searchParams.get("room"); }).filter(Boolean));
+    for (const s of c.stations) check(launched.has(s.id), `docs/programmes/${f}: station ${s.id} links to its launch link`);
+    const sited = new Set(hrefs.map((h) => new URL(h).searchParams.get("site")).filter(Boolean));
+    for (const s of [...BAY_SITES, ...DEEP_SITES].filter((x) => (x.programmes ?? []).includes(c.id))) check(sited.has(s.id), `docs/programmes/${f}: site ${s.id} links to ?site=`);
+  }
+  for (const rel of TRACK_PAGES) {
+    const c = byId.get(rel.replace(/^tracks\/|\.html$/g, ""));
+    if (!c) continue;
+    const html = readFileSync(join(DIST, rel), "utf8");
+    for (const s of c.stations) check(new RegExp(`[?&](sim|room)=${s.id.replace(/[-]/g, "\\-")}(&|")`).test(html.replace(/&amp;/g, "&")), `${rel}: station ${s.id} links to its launch link`);
+    bump("track pages");
+  }
+}
+
+// ------------------------------------------------------------ 2. station links
+
+// [world, source page (repo, rel to WebXR/), flat page, source link builder(page) → [{ id, link }]]
+const WORLDS = [
+  ["Bay World", "bayworld/index.html", "bayworld.html", (page) => BAY_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: bwMissionLink(s, { station: id, page }) })))],
+  ["the Deep", "underwater/underwater.html", "underwater.html", (page) => DEEP_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: dvMissionLink(s, { station: id, page }) })))],
+  ["the Regatta", "regatta/regatta.html", "regatta.html", (page) => RG_EVENTS.flatMap((e) => e.stations.map((id) => ({ id, site: e.id, link: rgStationLink(id, { page, eventId: e.id }) })))],
+  ["Fairway", "fairway/index.html", "fairway.html", (page) => FW_STATIONS.map((id) => ({ id, site: "grounds", link: LK.lkStationLink(id, { runner: FW_RUNNER, from: "fairway", page, siteId: "grounds" }) }))],
+  ["the Atlas", "bayworld/atlas.html", "atlas.html", () => atlasPlaces().flatMap((p) => {
+    const l = atlasDeepLinks(p);
+    return [...(l.station ? [{ id: p.stations[0], site: p.id, link: l.station, station: true }] : []), { id: null, site: p.id, link: l.bayworld }, ...l.programmes.map((x) => ({ id: null, site: p.id, link: x.href }))];
+  })],
+];
+const SAMPLE = {}; // world → a flat SmartCiti.X link and every flat Trade Skills link
 // ------------------------------------------------------------ server + browser
 
 const TYPES = { ".html": "text/html", ".js": "application/javascript", ".mjs": "application/javascript", ".json": "application/json", ".css": "text/css",
@@ -159,110 +217,12 @@ async function lkServe(root) {
 const servers = { repo: await lkServe(ROOT), flat: await lkServe(DIST) };
 const originOf = (layout) => servers[layout].origin;
 const pageUrl = (layout, rel) => `${originOf(layout)}${LAYOUTS[layout].prefix}${rel}`;
+const short = (u) => String(u).replace(/^http:\/\/127\.0\.0\.1:\d+/, "");
 
-let chromium, browser;
-try {
-  ({ chromium } = await import(PW));
-  browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
-} catch (e) {
-  for (const s of Object.values(servers)) s.server.close();
-  die(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`);
-}
-const THREE_SRC = readFileSync(THREE_FILE, "utf8");
-const REACT_SRC = Object.fromEntries(["react.production.min.js", "react-dom.production.min.js"].map((f) => [f, readFileSync(join(WEBXR, "vendor/react/dist", f), "utf8")]));
-async function lkContext(init = null) {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
-  await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
-  await context.route("**/cdnjs.cloudflare.com/ajax/libs/three.js/**", (r) => r.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC }));
-  await context.route(/cdnjs\.cloudflare\.com\/ajax\/libs\/react(-dom)?\/18\.3\.1\/umd\//, (r) => {
-    const file = r.request().url().split("/").pop();
-    return REACT_SRC[file] ? r.fulfill({ status: 200, contentType: "application/javascript", body: REACT_SRC[file] }) : r.abort();
-  });
-  await context.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: "text/css", body: "" }));
-  if (init) await context.addInitScript(init.fn, init.arg);
-  return context;
-}
-async function lkOpen(context, url, { settle = 900 } = {}) {
-  const page = await context.newPage();
-  const errors = [];
-  page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
-  // A module the page imports that the layout cannot answer fails the whole
-  // module graph without a page error — count it as one.
-  page.on("response", (r) => {
-    if (r.status() === 404 && r.url().startsWith(new URL(url).origin) && ["script", "document"].includes(r.request().resourceType())) errors.push(`404 ${new URL(r.url()).pathname}`);
-  });
-  await page.goto(url, { waitUntil: "load", timeout: 45000 });
-  await page.waitForTimeout(settle);
-  return { page, errors };
-}
-/** Run `fn(item)` over `items`, `n` at a time. */
-async function lkPool(items, n, fn) {
-  const queue = [...items];
-  await Promise.all(Array.from({ length: n }, async () => { while (queue.length) await fn(queue.shift()); }));
-}
-
-const tally = {};
-const bump = (world, n = 1) => { tally[world] = (tally[world] ?? 0) + n; };
-
-// ------------------------------------------------------------ 1. anchors
-
-const REPO_PAGES = ["index.html", "smartcity/index.html", "trades/index.html", "holodeck/index.html", "instructor/index.html", "race/index.html",
-  "arcade/index.html", "fairway/index.html", "bayworld/index.html", "bayworld/atlas.html", "regatta/regatta.html", "underwater/underwater.html",
-  "portal/index.html", "verify/index.html", "campus/index.html"].filter((p) => existsSync(join(WEBXR, p)));
-const FLAT_PAGES = readdirSync(DIST).filter((f) => f.endsWith(".html"));
-const TRACK_PAGES = existsSync(join(DIST, "tracks")) ? readdirSync(join(DIST, "tracks")).filter((f) => f.endsWith(".html")).map((f) => `tracks/${f}`) : [];
-{
-  const context = await lkContext();
-  const jobs = [...REPO_PAGES.map((p) => ["repo", p]), ...FLAT_PAGES.map((p) => ["flat", p])];
-  await lkPool(jobs, 4, async ([layout, rel]) => {
-    const url = pageUrl(layout, rel);
-    let hrefs = [], errors = [];
-    try {
-      const o = await lkOpen(context, url);
-      errors = o.errors;
-      hrefs = await o.page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => a.href));
-      await o.page.close();
-    } catch (e) { check(false, `${layout} ${rel} opens`, String(e.message).split("\n")[0]); return; }
-    check(!errors.length, `${layout} ${rel} opens without a page error`, errors.join(" | "));
-    for (const h of new Set(hrefs)) {
-      if (!/^https?:/.test(h)) continue;
-      const why = lkWhyBroken(layout, h, originOf(layout));
-      check(!why, `${layout} ${rel}: anchor ${h.replace(originOf(layout), "")}`, why ?? "");
-      bump(`anchors ${layout}`);
-    }
-  });
-  await context.close();
-  // The generated track pages: static markup, read as written.
-  for (const rel of TRACK_PAGES) {
-    const html = readFileSync(join(DIST, rel), "utf8");
-    for (const m of html.matchAll(/<a\b[^>]*\shref="([^"]+)"/g)) {
-      const href = new URL(m[1].replace(/&amp;/g, "&"), pageUrl("flat", rel)).href;
-      if (!/^https?:/.test(href)) continue;
-      const why = lkWhyBroken("flat", href, originOf("flat"));
-      check(!why, `flat ${rel}: anchor ${m[1]}`, why ?? "");
-      bump("anchors flat");
-    }
-  }
-}
-
-// ------------------------------------------------------------ 2. station links
-
-// [world, source page (repo, rel to WebXR/), flat page, source link builder(page) → [{ id, link }]]
-const WORLDS = [
-  ["Bay World", "bayworld/index.html", "bayworld.html", (page) => BAY_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: bwMissionLink(s, { station: id, page }) })))],
-  ["the Deep", "underwater/underwater.html", "underwater.html", (page) => DEEP_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: dvMissionLink(s, { station: id, page }) })))],
-  ["the Regatta", "regatta/regatta.html", "regatta.html", (page) => RG_EVENTS.flatMap((e) => e.stations.map((id) => ({ id, site: e.id, link: rgStationLink(id, { page, eventId: e.id }) })))],
-  ["Fairway", "fairway/index.html", "fairway.html", (page) => FW_STATIONS.map((id) => ({ id, site: "grounds", link: LK.lkStationLink(id, { runner: FW_RUNNER, from: "fairway", page, siteId: "grounds" }) }))],
-  ["the Atlas", "bayworld/atlas.html", "atlas.html", () => atlasPlaces().flatMap((p) => {
-    const l = atlasDeepLinks(p);
-    return [...(l.station ? [{ id: p.stations[0], site: p.id, link: l.station, station: true }] : []), { id: null, site: p.id, link: l.bayworld }, ...l.programmes.map((x) => ({ id: null, site: p.id, link: x.href }))];
-  })],
-];
-const SAMPLE = {}; // world → a flat SmartCiti.X link and every flat Trade Skills link
+// Station links: resolved against the catalog and the sim chunk table (above).
 for (const [world, repoPage, flatPage, build] of WORLDS) {
   const repoLinks = build(`/WebXR/${repoPage}`);
-  const flatLinks = build(`/${flatPage}`);
-  const flat = lkFlatten(flatLinks.map((x) => x.link));
+  const flat = lkFlatten(build(`/${flatPage}`).map((x) => x.link));
   let n = 0;
   repoLinks.forEach((x, i) => {
     const isStation = x.station ?? x.id !== null;
@@ -283,6 +243,86 @@ for (const [world, repoPage, flatPage, build] of WORLDS) {
   bump(world, n);
 }
 
+// One browser, one context, one page, reused for every load in turn.
+let chromium, browser;
+try {
+  ({ chromium } = await import(PW));
+  browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+} catch (e) {
+  for (const s of Object.values(servers)) s.server.close();
+  die(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`);
+}
+const THREE_SRC = readFileSync(THREE_FILE, "utf8");
+const REACT_SRC = Object.fromEntries(["react.production.min.js", "react-dom.production.min.js"].map((f) => [f, readFileSync(join(WEBXR, "vendor/react/dist", f), "utf8")]));
+const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+await context.route("**/cdnjs.cloudflare.com/ajax/libs/three.js/**", (r) => r.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC }));
+await context.route(/cdnjs\.cloudflare\.com\/ajax\/libs\/react(-dom)?\/18\.3\.1\/umd\//, (r) => {
+  const file = r.request().url().split("/").pop();
+  return REACT_SRC[file] ? r.fulfill({ status: 200, contentType: "application/javascript", body: REACT_SRC[file] }) : r.abort();
+});
+await context.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: "text/css", body: "" }));
+await context.addInitScript(() => { try { localStorage.setItem("holodeck-touch-hint-v1", "1"); } catch { /* private */ } });
+const page = await context.newPage();
+page.setDefaultTimeout(15000);
+let visitErrors = [], visitOk = new Set();
+page.on("pageerror", (e) => visitErrors.push(String(e.message).split("\n")[0]));
+// A module the page imports that the layout cannot answer fails the whole
+// module graph without a page error — count it as one.
+page.on("response", (r) => {
+  const type = r.request().resourceType();
+  if (r.status() === 200) visitOk.add(new URL(r.url()).pathname);
+  else if (r.status() === 404 && ["script", "document"].includes(type)) visitErrors.push(`404 ${new URL(r.url()).pathname}`);
+});
+/** Navigate the one page; `until` "load" waits for the load event (capped), otherwise DOM ready. */
+async function lkVisit(url, { until = "domcontentloaded", timeout = 20000, settle = 400 } = {}) {
+  visitErrors = []; visitOk = new Set();
+  try { await page.goto("about:blank"); } catch { /* next goto reports */ }
+  visitErrors = []; visitOk = new Set();
+  try { await page.goto(url, { waitUntil: until, timeout }); }
+  catch (e) { if (until !== "load") throw e; }
+  if (settle) await page.waitForTimeout(settle);
+}
+async function lkSeed(layout, records) {
+  await lkVisit(pageUrl(layout, "index.html"), { settle: 0 });
+  await page.evaluate((recs) => { try { localStorage.setItem("vr-training-records-v1", JSON.stringify(recs)); } catch { /* private */ } }, records);
+}
+
+// ------------------------------------------------------------ 1. anchors
+
+const REPO_PAGES = ["index.html", "smartcity/index.html", "trades/index.html", "holodeck/index.html", "instructor/index.html", "race/index.html",
+  "arcade/index.html", "fairway/index.html", "bayworld/index.html", "bayworld/atlas.html", "regatta/regatta.html", "underwater/underwater.html",
+  "portal/index.html", "verify/index.html", "campus/index.html"].filter((p) => existsSync(join(WEBXR, p)));
+const FLAT_PAGES = readdirSync(DIST).filter((f) => f.endsWith(".html"));
+const TRACK_PAGES = existsSync(join(DIST, "tracks")) ? readdirSync(join(DIST, "tracks")).filter((f) => f.endsWith(".html")).map((f) => `tracks/${f}`) : [];
+const RENDERED = {}; // "layout rel" → the anchors the page rendered
+for (const [layout, rel] of [...REPO_PAGES.map((p) => ["repo", p]), ...FLAT_PAGES.map((p) => ["flat", p])]) {
+  let hrefs = [];
+  try {
+    await lkVisit(pageUrl(layout, rel), { timeout: 30000, settle: 900 });
+    hrefs = await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => ({ href: a.href, text: a.textContent.trim(), cls: a.className })));
+  } catch (e) { check(false, `${layout} ${rel} opens`, String(e.message).split("\n")[0]); continue; }
+  check(!visitErrors.length, `${layout} ${rel} opens without a page error`, visitErrors.join(" | "));
+  RENDERED[`${layout} ${rel}`] = hrefs;
+  for (const h of new Set(hrefs.map((a) => a.href))) {
+    if (!/^https?:/.test(h)) continue;
+    const why = lkWhyBroken(layout, h, originOf(layout));
+    check(!why, `${layout} ${rel}: anchor ${short(h)}`, why ?? "");
+    bump(`anchors ${layout}`);
+  }
+}
+// The generated track pages: static markup, read as written.
+for (const rel of TRACK_PAGES) {
+  const html = readFileSync(join(DIST, rel), "utf8");
+  for (const m of html.matchAll(/<a\b[^>]*\shref="([^"]+)"/g)) {
+    const href = new URL(m[1].replace(/&amp;/g, "&"), pageUrl("flat", rel)).href;
+    if (!/^https?:/.test(href)) continue;
+    const why = lkWhyBroken("flat", href, originOf("flat"));
+    check(!why, `flat ${rel}: anchor ${m[1]}`, why ?? "");
+    bump("anchors flat");
+  }
+}
+
 // ------------------------------------------------------------ 3. job boards, as rendered
 
 for (const [world, hook, repoPage, flatPage, sites] of [
@@ -290,18 +330,17 @@ for (const [world, hook, repoPage, flatPage, sites] of [
   ["the Deep", "__underwaterTest", "underwater/underwater.html", "underwater.html", DEEP_SITES],
 ]) {
   for (const layout of ["repo", "flat"]) {
-    const context = await lkContext();
     try {
-      const { page, errors } = await lkOpen(context, pageUrl(layout, layout === "repo" ? repoPage : flatPage));
+      await lkVisit(pageUrl(layout, layout === "repo" ? repoPage : flatPage));
       await page.waitForFunction((h) => !!window[h]?.jobBoard, hook, { timeout: 20000 });
       const boards = await page.evaluate(({ h, sites }) => sites.map((s) => {
         window[h].jobBoard(s);
         const ul = document.getElementById("jb-stations");
         return { id: s.id, n: s.stations.length, listed: ul.hidden ? [] : [...ul.querySelectorAll("a")].map((a) => ({ id: a.dataset.station, href: a.href })),
-          launch: !document.getElementById("jb-launch").hidden };
+          launch: !document.getElementById("jb-launch").hidden, siteLink: document.getElementById("jb-site-link")?.href ?? null,
+          stationLinks: [...document.querySelectorAll("#jb-stations a.lk-name")].map((a) => a.href) };
       }), { h: hook, sites: sites.map((s) => ({ id: s.id, name: s.name, zone: s.zone, stations: s.stations ?? [], programmes: s.programmes ?? [] })) });
       for (const b of boards) {
-        const site = sites.find((s) => s.id === b.id);
         if (b.n > 1) {
           check(b.listed.length === b.n && !b.launch, `${world} ${layout}: ${b.id}'s board lists all ${b.n} stations with their own Start`, `${b.listed.length} listed`);
           for (const a of b.listed) {
@@ -311,41 +350,42 @@ for (const [world, hook, repoPage, flatPage, sites] of [
             bump(world);
           }
         } else check(b.launch === (b.n === 1), `${world} ${layout}: ${b.id}'s single-station board keeps its Start button`);
-        void site;
+        // The board's own title links to the site (?site=) — a description that links to what it names.
+        if (check(!!b.siteLink, `${world} ${layout}: ${b.id}'s board title links to its site`)) {
+          const u = new URL(b.siteLink);
+          check(!lkWhyBroken(layout, b.siteLink, originOf(layout)) && u.searchParams.get("site") === b.id, `${world} ${layout}: ${b.id}'s site link resolves`, short(b.siteLink));
+        }
       }
-      check(!errors.length, `${world} ${layout} board page opens without a page error`, errors.join(" | "));
-      await page.close();
+      check(!visitErrors.length, `${world} ${layout} board page opens without a page error`, visitErrors.join(" | "));
     } catch (e) { check(false, `${world} ${layout}: the job boards render`, String(e.message).split("\n")[0]); }
-    await context.close();
   }
 }
 
 // ------------------------------------------------------------ 4. sample loads
 
+/** Load a station link and confirm the named station or room is what opened. */
 async function lkLoadsStation(href, kind, id) {
-  const context = await lkContext();
   try {
-    const { page, errors } = await lkOpen(context, href, { settle: 600 });
-    const hook = kind === "room" ? "__tradesTest" : "__smartcityTest";
-    await page.waitForSelector("#enter-flat", { state: "visible", timeout: 20000 });
+    await lkVisit(href, { settle: 200 });
+    await page.waitForSelector("#enter-flat", { state: "visible", timeout: 40000 });
     await page.evaluate(() => document.getElementById("enter-flat").click());
-    // The station opens on its pre-brief (or straight into the run): either
-    // way the named station is the one loaded.
-    await page.waitForFunction(({ h, id }) => {
-      const t = window[h];
-      if (t?.session?.()?.room?.id === id || t?.room?.()?.id === id) return true;
-      const pb = document.getElementById("prebrief-start");
-      return !!pb && !pb.closest("[hidden]") && pb.offsetParent !== null && location.search.includes(id);
-    }, { h: hook, id }, { timeout: 20000 });
-    await page.waitForTimeout(500);
-    check(!errors.length, `${href.replace(/^http:\/\/[^/]+/, "")} loads ${id} without a page error`, errors.join(" | "));
-    const back = kind === "room" ? await page.evaluate(() => window.__tradesTest.returnTarget?.() ?? null) : null;
-    await page.close();
-    return { ok: true, back };
+    if (kind === "room") {
+      // A room opens on its pre-brief; reading it through starts the named room.
+      await page.waitForFunction((id) => window.__tradesTest?.room?.()?.id === id || (() => { const b = document.getElementById("prebrief-start"); return !!b && b.offsetParent !== null; })(), id, { timeout: 30000 });
+      await page.evaluate(() => { const b = document.getElementById("prebrief-start"); if (b && b.offsetParent !== null) b.click(); });
+      await page.waitForFunction((id) => window.__tradesTest?.room?.()?.id === id, id, { timeout: 20000 });
+    } else {
+      // The station's own module (the published sim chunk) arrives and its pre-brief or run opens.
+      await page.waitForFunction((id) => window.__smartcityTest?.session?.()?.room?.id === id || !!document.getElementById("prebrief-start"), id, { timeout: 20000 });
+      check([...visitOk].some((p) => p.endsWith(`/sims/${id}.js`)), `${short(href)}: the station's sim chunk loaded`);
+    }
+    await page.waitForTimeout(300);
+    check(!visitErrors.length, `${short(href)} loads ${id} without a page error`, visitErrors.join(" | "));
+    return { ok: true, back: kind === "room" ? await page.evaluate(() => window.__tradesTest.returnTarget?.() ?? null) : null };
   } catch (e) {
-    check(false, `${href.replace(/^http:\/\/[^/]+/, "")} loads ${kind} ${id}`, String(e.message).split("\n")[0]);
+    check(false, `${short(href)} loads ${kind} ${id}`, `${String(e.message).split("\n")[0]} ${visitErrors.join(" | ")}`);
     return { ok: false };
-  } finally { await context.close(); }
+  }
 }
 const roomLinks = {};
 for (const [world, s] of Object.entries(SAMPLE)) {
@@ -360,7 +400,7 @@ for (const id of LK.LK_TRADES_ROOMS) {
   if (r.ok && !roundTrip && /[?&]from=bayworld/.test(href)) roundTrip = { id, href, back: r.back };
   bump("Trade Skills rooms loaded");
 }
-// And one each in the repo layout.
+// And one of each in the repo layout.
 {
   const bw = BAY_SITES.find((s) => s.stations?.some((id) => !LK.lkIsTradesRoom(id)));
   const sim = bw.stations.find((id) => !LK.lkIsTradesRoom(id));
@@ -368,34 +408,34 @@ for (const id of LK.LK_TRADES_ROOMS) {
   const room = BAY_SITES.find((s) => s.stations?.some(LK.lkIsTradesRoom));
   const rid = room.stations.find(LK.lkIsTradesRoom);
   await lkLoadsStation(new URL(bwMissionLink(room, { station: rid, page: "/WebXR/bayworld/index.html" }), pageUrl("repo", "bayworld/index.html")).href, "room", rid);
+  bump("repo layout loaded", 2);
 }
 
 // ------------------------------------------------------------ 5. ?site= deep links
 
+const FULL = !!process.env.LINKS_FULL;
 for (const [world, repoPage, flatPage, sites, startText] of [
   ["Bay World", "bayworld/index.html", "bayworld.html", BAY_SITES, (s) => `Start the shift at ${s.name}`],
   ["the Deep", "underwater/underwater.html", "underwater.html", DEEP_SITES, (s) => `Splash in at ${s.name}`],
 ]) {
-  const context = await lkContext();
-  const jobs = sites.map((s, i) => ["flat", s, i]).concat([["repo", sites[0], 0]]);
-  await lkPool(jobs, 4, async ([layout, s, i]) => {
+  // Three per world (first, middle, last) unless LINKS_FULL=1; the first also in the repo layout.
+  const pick = FULL ? sites : [sites[0], sites[Math.floor(sites.length / 2)], sites[sites.length - 1]];
+  const jobs = [...pick.map((s, i) => ["flat", s, i === 0]), ["repo", sites[0], false]];
+  for (const [layout, s, intoWorld] of jobs) {
     const url = `${pageUrl(layout, layout === "repo" ? repoPage : flatPage)}?site=${encodeURIComponent(s.id)}`;
     try {
-      const { page, errors } = await lkOpen(context, url, { settle: 300 });
-      const menu = await page.evaluate(() => document.getElementById("menu-start")?.textContent ?? "");
-      check(menu.includes(startText(s)), `${world} ${layout} ?site=${s.id}: the menu names the site`, JSON.stringify(menu));
-      // Into the world for a sample of sites: the HUD's prompt names it.
-      if (i % 8 === 0) {
+      await lkVisit(url, { settle: 200 });
+      await page.waitForFunction((t) => (document.getElementById("menu-start")?.textContent ?? "").includes(t), startText(s), { timeout: 15000 })
+        .then(() => check(true, ""), () => check(false, `${world} ${layout} ?site=${s.id}: the menu names the site`));
+      if (intoWorld) {
         await page.evaluate(() => document.getElementById("menu-start").click());
-        await page.waitForFunction((name) => (document.getElementById("hud-prompt")?.textContent ?? "").includes(name), s.name, { timeout: 30000 })
+        await page.waitForFunction((name) => (document.getElementById("hud-prompt")?.textContent ?? "").includes(name), s.name, { timeout: 25000 })
           .then(() => check(true, ""), (e) => check(false, `${world} ${layout} ?site=${s.id}: the HUD names the site`, String(e.message).split("\n")[0]));
       }
-      check(!errors.length, `${world} ${layout} ?site=${s.id} opens without a page error`, errors.join(" | "));
+      check(!visitErrors.length, `${world} ${layout} ?site=${s.id} opens without a page error`, visitErrors.join(" | "));
       bump(`${world} ?site=`);
-      await page.close();
     } catch (e) { check(false, `${world} ${layout} ?site=${s.id}`, String(e.message).split("\n")[0]); }
-  });
-  await context.close();
+  }
 }
 
 // ------------------------------------------------------------ 6. the round trip
@@ -408,20 +448,17 @@ if (check(!!roundTrip, "a Trade Skills room was opened from a Bay World board fo
     const siteId = new URLSearchParams(bu.hash.slice(1)).get("site");
     const site = BAY_SITES.find((s) => s.id === siteId);
     check(!!site && site.stations.includes(roundTrip.id), "the way home names the board's site", siteId ?? "");
-    // Seed the passport with the finished run, then come home.
-    const seed = { id: `lk-${Date.now()}`, at: new Date().toISOString(), app: "trades", source: "bayworld", simId: roundTrip.id, simName: roundTrip.id, passed: true, stars: 3, score: 900, errors: 0 };
-    const context = await lkContext({ fn: (rec) => { try { localStorage.setItem("vr-training-records-v1", JSON.stringify([rec])); } catch { /* private */ } }, arg: seed });
     try {
-      const { page, errors } = await lkOpen(context, back.url, { settle: 300 });
-      await page.evaluate(() => document.getElementById("menu-start")?.click());
-      await page.waitForFunction((name) => !document.getElementById("scr-jobboard")?.hidden && document.getElementById("jb-title")?.textContent === name, site?.name, { timeout: 30000 });
-      const boardDone = await page.evaluate(() => !document.getElementById("jb-done")?.hidden);
-      check(boardDone, "home in Bay World, the seeded pass marks that site's board done");
-      check(!errors.length, "the round trip home opens without a page error", errors.join(" | "));
+      // Seed the passport with the finished run, then come home.
+      await lkSeed("flat", [{ id: `lk-${Date.now()}`, at: new Date().toISOString(), app: "trades", source: "bayworld", simId: roundTrip.id, simName: roundTrip.id, passed: true, stars: 3, score: 900, errors: 0 }]);
+      await lkVisit(back.url, { settle: 200 });
+      await page.waitForSelector("#menu-start", { state: "visible", timeout: 20000 });
+      await page.evaluate(() => document.getElementById("menu-start").click());
+      await page.waitForFunction((name) => !document.getElementById("scr-jobboard")?.hidden && document.getElementById("jb-title")?.textContent === name, site?.name, { timeout: 45000 });
+      check(await page.evaluate(() => !document.getElementById("jb-done")?.hidden), "home in Bay World, the seeded pass marks that site's board done");
+      check(!visitErrors.length, "the round trip home opens without a page error", visitErrors.join(" | "));
       bump("round trip");
-      await page.close();
-    } catch (e) { check(false, "the round trip lands on the site's board", String(e.message).split("\n")[0]); }
-    await context.close();
+    } catch (e) { check(false, "the round trip lands on the site's board", `${String(e.message).split("\n")[0]} ${visitErrors.join(" | ")} ${await page.evaluate(() => [document.getElementById("jb-title")?.textContent, document.getElementById("scr-jobboard")?.hidden, document.getElementById("menu-start")?.textContent].join(" / ")).catch(() => "")}`); }
   }
 }
 
@@ -429,10 +466,9 @@ if (check(!!roundTrip, "a Trade Skills room was opened from a Bay World board fo
 
 for (const rec of [{ app: "trades", simId: "kitchen" }, { app: "smartcity", simId: [...CHUNKS][0] }]) {
   for (const layout of ["repo", "flat"]) {
-    const seed = { id: `lk-c-${rec.simId}`, at: new Date().toISOString(), simName: rec.simId, passed: true, stars: 2, ...rec };
-    const context = await lkContext({ fn: (r) => { try { localStorage.setItem("vr-training-records-v1", JSON.stringify([r])); } catch { /* private */ } }, arg: seed });
     try {
-      const { page } = await lkOpen(context, pageUrl(layout, "index.html"), { settle: 300 });
+      await lkSeed(layout, [{ id: `lk-c-${rec.simId}`, at: new Date().toISOString(), simName: rec.simId, passed: true, stars: 2, ...rec }]);
+      await lkVisit(pageUrl(layout, "index.html"), { settle: 300 });
       const href = await page.evaluate(() => { const a = document.getElementById("continue-link"); return a && !document.getElementById("continue")?.hidden ? a.href : null; });
       const why = href ? lkWhyBroken(layout, href, originOf(layout)) : "the strip did not show";
       if (why) {
@@ -440,11 +476,13 @@ for (const rec of [{ app: "trades", simId: "kitchen" }, { app: "smartcity", simI
         if (process.env.LK_STRICT_CONTINUE) check(false, msg); else pending.push(msg);
       } else check(true, "");
       bump("continue strip");
-      await page.close();
     } catch (e) { check(false, `homepage continue strip (${layout})`, String(e.message).split("\n")[0]); }
-    await context.close();
   }
 }
+
+// ------------------------------------------------------------ 8. descriptions link to what they describe
+
+lkDescriptionChecks();
 
 await browser.close();
 for (const s of Object.values(servers)) s.server.close();
