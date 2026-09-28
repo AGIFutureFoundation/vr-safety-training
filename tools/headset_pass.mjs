@@ -32,7 +32,10 @@ const XR_STUB = `
   } });
   window.__pvXrStub = true;`;
 
-const PAGES = [...PV_PAGES, { id: "holodeck", name: "Holodeck", page: "holodeck.html", start: [], handle: "null", walk: false }];
+const PAGES_ALL = [...PV_PAGES, { id: "holodeck", name: "Holodeck", page: "holodeck.html", start: [], handle: "null", walk: false }];
+// HP_ONLY=trades,holodeck,smartcity runs the pages named (the three XR apps take
+// about a minute each under load; every page is nine loads).
+const PAGES = process.env.HP_ONLY ? PAGES_ALL.filter((p) => process.env.HP_ONLY.split(",").includes(p.id)) : PAGES_ALL;
 const OUT_JSON = join(PV_ROOT, "docs", "perf", "headset.json");
 const OUT_MD = join(PV_ROOT, "docs", "perf", "headset.md");
 

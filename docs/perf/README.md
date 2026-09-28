@@ -47,6 +47,8 @@ Measured 2026-09-28T08:34:12.790Z at commit 688afae, 20 s walk per row, 1280×72
 - **Tier low** is `?tier=low&quality=low`: pixel scale 0.75, shadows off, fog ×1.6, wildlife ×0.4, traffic ×0.5, 512 px painted textures — what a phone gets on its own. **Tier high** is `?tier=high&quality=high`: pixel scale 1, shadows on, full agents, 1024 px textures.
 - **meshes + instanced×(instances)** counts the live scene's `Mesh` objects, its `InstancedMesh` objects and the instances they carry. A world with many meshes and no instancing pays a draw call per mesh; the draw-call column shows it.
 - **triangles** and **draw calls** are `renderer.info.render` after the walk, i.e. the last frame drawn.
+- **SmartCiti.X's row measures its intro** (the React menu over an idle renderer: 0 triangles, 0 draw calls). The runner only draws once a station is chosen; measuring a loaded station (`?sim=<id>`) is on the next brief. Trade Skills' row is its hub, the room the learner starts in.
+- **The first run was taken at load 4–18** while other consoles built and tested; its ordering is trustworthy (the pairs low/high were taken minutes apart at similar load), its milliseconds are not. Re-measure at load ≤ 4 before quoting a ratio.
 
 ## Checker speed
 

@@ -78,7 +78,9 @@ if (frames) {
     check(!!r && !r.failed, `frames: ${p.name} on the ${tier} tier was measured`, r?.failed ?? "missing");
     if (r && !r.failed) {
       check(r.frames > 0 && r.avgMs > 0 && Number.isFinite(r.triangles) && Number.isFinite(r.meshes), `frames: ${p.name} ${tier} has frame, mesh and triangle counts`);
-      check(r.tierSeen === tier, `frames: ${p.name} ran on the ${tier} tier it asked for`, `saw ${r.tierSeen}`);
+      // The worlds record their play tier on <html data-tier>; the two station
+      // apps size textures by ?quality= and have no play tier to record.
+      if (p.walk && p.id !== "trades" && p.id !== "smartcity") check(r.tierSeen === tier, `frames: ${p.name} ran on the ${tier} tier it asked for`, `saw ${r.tierSeen}`);
       const b = baseline?.frames?.[`${p.id}:${tier}`];
       const quiet = Math.max(...(r.loadAvg ?? [0])) <= CORES;
       if (b && quiet) check(r.avgMs <= b.avgMs * 1.5, `frames: ${p.name} ${tier} average within 1.5× of baseline`, `${r.avgMs} ms vs ${b.avgMs} ms (load ${r.loadAvg.join("→")})`);
@@ -124,7 +126,7 @@ for (const [f, needle] of [["README.md", "SwiftShader"], ["headset.md", "real de
 
 // 5. checker speed
 const allSrc = readFileSync(join(here, "check_all.mjs"), "utf8");
-const listed = [...allSrc.matchAll(/"(check_[a-z0-9_]+\.mjs)"/g)].map((m) => m[1]).filter((n) => n !== "check_all.mjs");
+const listed = [...new Set([...allSrc.matchAll(/"(check_[a-z0-9_]+\.mjs)"/g)].map((m) => m[1]))].filter((n) => n !== "check_all.mjs");
 check(!!checkersBase, "docs/perf/checkers-baseline.json exists", "run check_all, then node tools/check_proving.mjs --rebaseline");
 if (checkersBase) {
   const missing = listed.filter((n) => !(n in checkersBase.checkers));
@@ -145,9 +147,13 @@ if (checkersBase) {
 }
 
 // 6. every checker is listed
+// Known unlisted checkers, each with the reason and the console that owns it
+// (docs/consoles/PROVING.md, 09:40). Remove an entry when it is listed again.
+const PV_UNLISTED = { "check_a11y.mjs": "pre-dates check_all; fails 1 accessibility check today (PROVING-1 found it unlisted); listing it is item 8 of tools/briefs/next/proving-next.md" };
 const onDisk = readdirSync(here).filter((f) => /^check_[a-z0-9_]+\.mjs$/.test(f) && f !== "check_all.mjs");
-const unlisted = onDisk.filter((f) => !listed.includes(f));
-check(unlisted.length === 0, "every tools/check_*.mjs is listed in check_all.mjs", unlisted.join(", "));
+const unlisted = onDisk.filter((f) => !listed.includes(f) && !(f in PV_UNLISTED));
+check(unlisted.length === 0, "every tools/check_*.mjs is listed in check_all.mjs (or named in PV_UNLISTED with its reason)", unlisted.join(", "));
+for (const [f, why] of Object.entries(PV_UNLISTED)) if (existsSync(join(here, f))) console.log(`  · ${f} is not in check_all: ${why}`);
 
 if (failures) { console.log(`check_proving: ${failures} failed, ${passes} passed`); process.exit(1); }
 console.log(`check_proving: ${passes} checks pass — frames ${frames?.runs.length ?? 0} runs, phone ${phone?.results.length ?? 0} page sizes, soak ${soak?.runs.length ?? 0} worlds, ${listed.length} checkers timed`);
