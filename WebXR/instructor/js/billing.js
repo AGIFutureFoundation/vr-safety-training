@@ -21,7 +21,7 @@ import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 import { enEnabledProgrammes } from "./cohort.js";
 
 const pmEl = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
-const pmState = { root: null, enterprise: null, payments: null, adapter: null, toast: null, quote: null, busy: false };
+const pmState = { root: null, enterprise: null, payments: null, adapter: null, toast: null, quote: null, busy: false, draft: null, readDraft: null };
 
 function pmSay(text) { try { pmState.toast?.(text); } catch (_) { /* no toast */ } }
 
@@ -189,7 +189,9 @@ function pmBudgetPanel() {
   const panel = pmEl("section", "panel"); panel.id = "pm-budget";
   panel.append(pmEl("h2", null, "Budget — the agent's policy and decisions"));
   panel.append(pmEl("p", "fine", "A coordinator sets the policy; the agent plans within it: it quotes and buys seats when a cohort fills, renews before a licence ends, releases unused seats at period end, provisions the cohort once the receipt lands, refuses anything over the ceiling and queues it for a human, and writes every decision with its reason to the audit log. On this device it runs against the mock; amounts are the configured plan's."));
-  const { policy, state } = pmAgentLoad();
+  const { policy: stored, state } = pmAgentLoad();
+  // A half-typed policy survives a re-render (the account chip re-renders the tab once its config arrives).
+  const policy = pmState.draft ? { ...stored, ...pmState.draft } : stored;
   const cfg = pmEffectiveConfig();
   const plans = pmState.adapter.describe().plans;
   // Policy form. Amounts are typed in the currency's minor unit, as the block stores them.
@@ -205,8 +207,11 @@ function pmBudgetPanel() {
   const releaseLabel = pmEl("label", "muted"); releaseLabel.setAttribute("for", "pm-release"); releaseLabel.append(release, " Release unused seats at period end");
   const form = pmEl("div", "row"); form.id = "pm-policy";
   form.append(pmField("Plan", plan), pmField("Ceiling per period", ceiling), pmField("Period (days)", period), pmField("Seat floor", floor), pmField("Seat cap", cap), pmField("Human approval above", threshold), renewLabel, releaseLabel);
+  const readForm = () => ({ planId: plan.value || null, ceilingMinor: ceiling.value === "" ? null : Number(ceiling.value), periodDays: Number(period.value), seatFloor: Number(floor.value), seatCap: Number(cap.value), autoRenew: renew.checked, releaseUnused: release.checked, approvalThresholdMinor: threshold.value === "" ? null : Number(threshold.value) });
+  pmState.readDraft = readForm;
   form.append(pmButton("Save policy", () => {
-    const p = pmAgentSetPolicy({ planId: plan.value || null, ceilingMinor: ceiling.value === "" ? null : Number(ceiling.value), periodDays: Number(period.value), seatFloor: Number(floor.value), seatCap: Number(cap.value), autoRenew: renew.checked, releaseUnused: release.checked, approvalThresholdMinor: threshold.value === "" ? null : Number(threshold.value) });
+    pmState.draft = null;
+    const p = pmAgentSetPolicy(readForm());
     pmSay(`Policy saved: ceiling ${p.ceilingMinor == null ? "not set" : pmMoney(p.ceilingMinor, cfg)} per ${p.periodDays} days.`); pmRender();
   }, "primary small"));
   panel.append(pmEl("h3", null, "Policy"), form);
@@ -259,6 +264,8 @@ function pmAuditPanel() {
 export function pmRender(root = pmState.root) {
   if (!root) return null;
   if (!pmState.adapter) pmState.adapter = pmCreateAdapter(pmEffectiveConfig());
+  // Keep what a coordinator has typed into the policy form across this rebuild.
+  if (typeof pmState.readDraft === "function") { try { pmState.draft = pmState.readDraft(); } catch (_) { pmState.draft = null; } }
   root.replaceChildren();
   root.append(pmProviderPanel(), pmSeatPanel(), pmInvoicePanel(), pmBudgetPanel(), pmAuditPanel());
   return root;
