@@ -674,7 +674,7 @@ await check("in a browser: no overlap, no sideways scroll, readable text, a live
             secs: secs.map(({ s, el }) => el ? { s, ...box(el) } : { s, missing: true }), act,
             actTargets: act.map((b) => b.h), small, imgsOk: imgs.length && imgs.every((i) => i.complete && i.naturalWidth > 0), imgs: imgs.length,
             heroInView: act.every((b) => b.y + b.h <= innerHeight + 1),
-            guideCorner: [...document.querySelectorAll("body *")].filter((el) => { const cs = getComputedStyle(el); if (cs.position !== "fixed" || el.closest("[hidden]") || cs.display === "none") return false; const r = el.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth - 84 && r.bottom > innerHeight - 84; }).map((el) => el.id || el.className),
+            guideCorner: [...document.querySelectorAll("body *")].filter((el) => { const cs = getComputedStyle(el); if (cs.position !== "fixed" || el.closest("[hidden]") || cs.display === "none") return false; if (el.closest("#gd-btn, #gd-panel")) return false; /* the corner is reserved for the Guide itself */ const r = el.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth - 84 && r.bottom > innerHeight - 84; }).map((el) => el.id || el.className),
           };
         });
         if (process.env.HM_SHOTS && motion === "no-preference") {

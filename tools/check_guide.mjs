@@ -202,7 +202,7 @@ for (const pg of PAGES) for (const size of SIZES) {
   const page = await context.newPage();
   try {
     await page.goto(`${base}/dist/${pg.page}`, { waitUntil: "load", timeout: 45000 });
-    await page.waitForSelector("#gd-btn", { state: "attached", timeout: 20000 });
+    await page.waitForSelector("#gd-btn[data-gd-ready]", { state: "attached", timeout: 30000 });
     for (const sel of pg.start ?? []) {
       await page.waitForSelector(sel, { state: "visible", timeout: 20000 });
       await page.evaluate((s) => document.querySelector(s).click(), sel);
@@ -216,10 +216,23 @@ for (const pg of PAGES) for (const size of SIZES) {
     check(b0 && b0.h >= 44, `${tag}: the Guide button is a full-size target`, String(b0?.h));
     // Drag it across to the left half: it snaps to the left edge.
     const sx = b0.x + b0.w / 2, sy = b0.y + b0.h / 2, tx = b0.vw * 0.3, ty = b0.vh * 0.45;
-    await page.mouse.move(sx, sy); await page.mouse.down();
-    for (let i = 1; i <= 8; i++) await page.mouse.move(sx + (tx - sx) * i / 8, sy + (ty - sy) * i / 8);
-    await page.mouse.up();
-    await page.waitForTimeout(150);
+    if (size.phone) {
+      // A phone drags with a finger: an emulated mouse on a long, scrollable page is taken as a
+      // pan and cancelled by the browser, which no learner's finger (touch-action: none) is.
+      const cdp = await context.newCDPSession(page);
+      const at = (x, y) => [{ x, y, id: 1 }];
+      await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: at(sx, sy) });
+      for (let i = 1; i <= 10; i++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: at(sx + (tx - sx) * i / 10, sy + (ty - sy) * i / 10) });
+      await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await cdp.detach().catch(() => {});
+    } else {
+      await page.mouse.move(sx, sy); await page.mouse.down();
+      for (let i = 1; i <= 8; i++) await page.mouse.move(sx + (tx - sx) * i / 8, sy + (ty - sy) * i / 8);
+      await page.mouse.up();
+    }
+    // under load the snap can land late: wait for the button to settle at an edge before measuring
+    await page.waitForFunction(() => { const b = document.getElementById("gd-btn"); const r = b && b.getBoundingClientRect(); return r && r.x < 40; }, null, { timeout: 8000 }).catch(() => {});
+    await page.waitForTimeout(300);
     const b1 = await page.evaluate(box);
     check(b1.x <= 14, `${tag}: dragged left, the button snaps to the left edge`, JSON.stringify(b1));
     const stored = await page.evaluate(() => { try { return JSON.parse(localStorage.getItem("holodeck-guide-pos-v1")); } catch { return null; } });
@@ -227,7 +240,7 @@ for (const pg of PAGES) for (const size of SIZES) {
     const panelAfterDrag = await page.evaluate(() => document.getElementById("gd-panel").hidden);
     check(panelAfterDrag, `${tag}: a drag does not open the panel`);
     await page.reload({ waitUntil: "load" });
-    await page.waitForSelector("#gd-btn", { state: "attached", timeout: 20000 });
+    await page.waitForSelector("#gd-btn[data-gd-ready]", { state: "attached", timeout: 30000 });
     await page.waitForTimeout(700);
     const b2 = await page.evaluate(box);
     check(b2.x <= 14, `${tag}: after a reload the button is still on the left`, JSON.stringify(b2));

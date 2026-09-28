@@ -23329,6 +23329,7 @@ function gdSave(p) { try { localStorage.setItem(gdPosKey, JSON.stringify({ side:
 
 function gdDraggable(btn) {
   let drag = null;
+  btn.dataset.gdReady = "1"; // the drag handlers below attach in this same tick; checkers wait for it
   btn.addEventListener("pointerdown", (e) => {
     if (e.button !== undefined && e.button !== 0) return;
     const r = btn.getBoundingClientRect();
