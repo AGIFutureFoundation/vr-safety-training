@@ -9,3 +9,4 @@
 - `smZoneAt(x, z)` returns a zone object, not an id; `zoneName()` needs the id.
 - The worktree guard refuses long compound shell commands and heredocs; put multi-file edits in a script under `$SP/holodeck/treasure-2/` and run it with one argument.
 - The worktree may start on the repo's initial commit; `git merge --ff-only claude/vr-ar-safety-training-wkwmve` first.
+- The earlier egg layers' stores: hard hats `vr-training-hardhats-v1` (array of ids, not a profile key), field notes `vr-training-egg-ledger-v1` (rows { id, programme }), Bay egg notes `bayworld-quests-v1` and Deep lanterns `underwater-dives-v1` (`{ byId: { id: { done } } }`), Summit `summit-v1` (`eggs: []`), Redwood `redwood-career-v1` (`found: []`). `TZ_EARLIER` in the generated data carries the shape; `tzEarlierEggs()` only counts.
