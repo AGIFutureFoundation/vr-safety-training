@@ -166,7 +166,11 @@ function smRibbon(THREE, pts, width, lift, colour, { skip = null, stepLen = 8, s
     if (surface) { l[1] = r[1] = surface(Math.min(d, total) / (total || 1)) + lift; }
     else { l[1] = smHeightAt(l[0], l[2]) + lift; r[1] = smHeightAt(r[0], r[2]) + lift; }
     if (prev && !off && !prev.off) {
-      verts.push(...prev.l, ...prev.r, ...l, ...prev.r, ...r, ...l);
+      // Wound so the face normal points up (+y): (l, l', r) then (r, l', r').
+      // The other order faces down and a front-side material culls the whole
+      // ribbon from above — the road then "shows" only as its flattened bench
+      // and the river only as a fold (SUMMIT-3, the river-visibility fix).
+      verts.push(...prev.l, ...l, ...prev.r, ...prev.r, ...l, ...r);
       for (let k = 0; k < 6; k++) cols.push(c.r, c.g, c.b);
     }
     prev = { l, r, off };
@@ -223,8 +227,9 @@ export function smBuildSummit(root, THREE, opts = {}) {
   fixed.add(water);
 
   // The river: a flat water ribbon on the channel's own descending surface, absent under the road's culvert.
-  const riverMat = new THREE.MeshLambertMaterial({ color: 0x3a7fa0, transparent: true, opacity: 0.86 });
-  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x3a7fa0,
+  // Brighter than the reservoir so it reads from the bank; a little emissive so it still reads at dusk.
+  const riverMat = new THREE.MeshLambertMaterial({ color: 0x5cb8e0, emissive: 0x143a4e, transparent: true, opacity: 0.92 });
+  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x5cb8e0,
     { stepLen: 10, surface: smRiverSurfaceAt, omit: (x, z) => smPolyDistance(x, z, SM_PASS_ROAD).d < 12 }), riverMat);
   river.name = "summit-river";
   fixed.add(river);

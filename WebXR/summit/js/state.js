@@ -11,7 +11,10 @@
 // headless checker, `done` may be a function id -> boolean instead of a
 // store: the snapshot is then built by probing every id the gate names.
 
-import { SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_SITES, SM_TRAILS, smPolyDistance } from "../../shared/summit-data.js";
+import {
+  SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_SITES, SM_TRAILS, SM_RIDES, SM_PASS_ROAD, SM_ROAD_LENGTH,
+  smPolyDistance, smPlace, smRoadGradeAt,
+} from "../../shared/summit-data.js";
 import { ppCompleted } from "../../shared/passport.js";
 import { gtStorage } from "../../shared/profiles.js";
 import { qmMissing, qmCachedSnapshot, qmNameQuests } from "../../shared/skill-gates.js";
@@ -21,14 +24,14 @@ qmNameQuests([...SM_MAIN_QUESTS, ...SM_SIDE_QUESTS]);
 
 export const SM_STORE_KEY = "summit-v1";
 
-export function smBlank() { return { visited: ["valley-base"], eggs: [], lessons: [], quests: [], acts: {} }; }
+export function smBlank() { return { visited: ["valley-base"], eggs: [], lessons: [], quests: [], rides: [], acts: {} }; }
 
 export function smLoad(store = gtStorage()) {
   try {
     const raw = JSON.parse(store?.getItem(SM_STORE_KEY) || "null");
     if (!raw || typeof raw !== "object") return smBlank();
     const b = smBlank();
-    for (const k of ["visited", "eggs", "lessons", "quests"]) if (Array.isArray(raw[k])) b[k] = [...new Set([...b[k], ...raw[k].filter((x) => typeof x === "string")])];
+    for (const k of ["visited", "eggs", "lessons", "quests", "rides"]) if (Array.isArray(raw[k])) b[k] = [...new Set([...b[k], ...raw[k].filter((x) => typeof x === "string")])];
     if (raw.acts && typeof raw.acts === "object") b.acts = raw.acts;
     return b;
   } catch { return smBlank(); }
@@ -75,6 +78,7 @@ export function smStepDone(step, state, done = null) {
   if (step.type === "goto") return state.visited.includes(step.target);
   if (step.type === "station") return (done ?? ppCompleted)(step.target);
   if (step.type === "find") return state.eggs.includes(step.target);
+  if (step.type === "ride") return (state.rides ?? []).includes(step.target);
   return false;
 }
 
@@ -158,6 +162,69 @@ export function smActStep(run, x, z, dt, { mapOpen = false, radioed = false } = 
   if (run.next >= targets.length && !run.pendingCheck) run.done = true;
   else if (run.next >= targets.length) run.done = true;
   return run;
+}
+
+// ------------------------------------------------------------------- rides
+
+/** Metres along the pass road of a site or landmark (the nearest point of the road to it). */
+export function smRoadMetresOf(placeId) {
+  const p = smPlace(placeId);
+  return p ? smPolyDistance(p.at[0], p.at[1], SM_PASS_ROAD).t * SM_ROAD_LENGTH : 0;
+}
+
+/** How long the pickup waits at the pull-out (seconds), the window for setting the engine brake there. */
+export const SM_RIDE_STOP_SECONDS = 6;
+
+/**
+ * A fresh ride: the pickup at the boarding site's road metres, facing the
+ * destination. Phases: climb → stopped (the pull-out) → descent → done.
+ */
+export function smRideStart(rideId) {
+  const r = SM_RIDES.find((x) => x.id === rideId);
+  if (!r) return null;
+  const d0 = smRoadMetresOf(r.from), d1 = smRoadMetresOf(r.to), stop = smRoadMetresOf(r.stopAt);
+  return { id: r.id, d: d0, from: d0, to: d1, stop, dir: d1 >= d0 ? 1 : -1, phase: "climb", brake: false, brakeAt: null, stopT: 0, t: 0, score: 0, grade: 0, log: [], done: false };
+}
+
+/**
+ * Step a ride by dt seconds; `brake` is true on the frame the learner sets the
+ * engine brake. Safe practice scores: the brake set at the pull-out is worth
+ * the most, set late on the grade less, never set costs more than arriving
+ * earns. Speed is never scored. Returns the run.
+ */
+export function smRideStep(run, dt, { brake = false } = {}) {
+  if (!run || run.done) return run;
+  const r = SM_RIDES.find((x) => x.id === run.id);
+  run.t += dt;
+  if (brake && !run.brake) {
+    run.brake = true; run.brakeAt = run.phase === "descent" ? "late" : "pullout";
+    run.score += run.brakeAt === "late" ? r.scoring.brakeLate : r.scoring.brakeAtPullout;
+    run.log.push(run.brakeAt === "late" ? "engine brake set on the grade" : "engine brake set at the pull-out");
+  }
+  if (run.phase === "climb") {
+    run.d += run.dir * r.speed * dt;
+    if ((run.dir > 0 && run.d >= run.stop) || (run.dir < 0 && run.d <= run.stop)) { run.d = run.stop; run.phase = "stopped"; run.log.push("pull-out"); }
+  } else if (run.phase === "stopped") {
+    run.stopT += dt;
+    if (run.stopT >= SM_RIDE_STOP_SECONDS) { run.phase = "descent"; run.log.push("down the grade"); }
+  } else if (run.phase === "descent") {
+    run.d += run.dir * r.speed * dt;
+    if ((run.dir > 0 && run.d >= run.to) || (run.dir < 0 && run.d <= run.to)) {
+      run.d = run.to; run.phase = "done"; run.done = true;
+      run.score += r.scoring.arrive;
+      if (!run.brake) { run.score += r.scoring.noBrake; run.log.push("arrived with no engine brake"); } else run.log.push("arrived");
+    }
+  }
+  run.grade = smRoadGradeAt(run.d / SM_ROAD_LENGTH) * run.dir;
+  return run;
+}
+
+/** Close a finished ride: the quest step is satisfied only when the engine brake went on at the pull-out (safe practice). Returns whether it passed. */
+export function smRideFinish(state, run) {
+  if (!run?.done) return false;
+  const passed = run.brakeAt === "pullout";
+  if (passed && !(state.rides ??= []).includes(run.id)) state.rides.push(run.id);
+  return passed;
 }
 
 /** Record a finished run's score as the best if it beats the old one. */

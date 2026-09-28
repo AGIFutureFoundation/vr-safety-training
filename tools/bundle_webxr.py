@@ -680,6 +680,8 @@ APPS = {
             SHARED / "bayworld-data.js",
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
+            # Sierra Summit's pure data (no three.js) for the Atlas's Summit section.
+            SHARED / "summit-data.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "identity.js",
             SHARED / "records.js",

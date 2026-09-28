@@ -13,13 +13,13 @@ import { lkStationLink, lkStationLabel } from "../../shared/links.js";
 import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
 import {
   SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES,
-  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL,
-  smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace,
+  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL, SM_RIDES, SM_ROAD_LENGTH,
+  smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace, smRoadPointAt,
 } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import {
   smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson,
-  smActStart, smActStep, smActFinish,
+  smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone,
 } from "./state.js";
 
 // Sierra Summit — the app: a first-person walker over the streamed mountain,
@@ -96,27 +96,54 @@ const smWild = [
 
 // The crew pickup: drives the pass road end to end and back (through the
 // tunnel, where the ridge hides it), so the road reads as a road. Distance
-// along the road is kept in metres; the road profile gives its height.
+// along the road is kept in metres (smRoadPointAt); the road profile gives
+// its height. During a ride (sm.ride, state.js) the pickup follows the ride
+// instead and the learner's camera sits in its cab.
 const smTruck = pickup(root, 0, 0, 0, { livery: { colour: 0xf2a53a, fleetName: "PASS ROAD CREW" } });
-const smRoadLens = [0];
-for (let i = 1; i < SM_PASS_ROAD.length; i++) smRoadLens.push(smRoadLens[i - 1] + Math.hypot(SM_PASS_ROAD[i][0] - SM_PASS_ROAD[i - 1][0], SM_PASS_ROAD[i][1] - SM_PASS_ROAD[i - 1][1]));
-const smRoadTotal = smRoadLens[smRoadLens.length - 1];
+const smRoadTotal = SM_ROAD_LENGTH;
 let smTruckD = smRoadTotal * 0.12, smTruckDir = 1;
-function smRoadAt(d) {
-  let i = 1; while (i < smRoadLens.length - 1 && smRoadLens[i] < d) i++;
-  const u = Math.max(0, Math.min(1, (d - smRoadLens[i - 1]) / ((smRoadLens[i] - smRoadLens[i - 1]) || 1)));
-  const [ax, az] = SM_PASS_ROAD[i - 1], [bx, bz] = SM_PASS_ROAD[i];
-  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, yaw: Math.atan2(bx - ax, bz - az) };
-}
 function smDriveTruck(dt) {
-  smTruckD += smTruckDir * 11 * dt;
-  if (smTruckD > smRoadTotal - 40) { smTruckD = smRoadTotal - 40; smTruckDir = -1; }
-  if (smTruckD < 40) { smTruckD = 40; smTruckDir = 1; }
-  const p = smRoadAt(smTruckD);
+  if (sm.ride) { smTruckD = sm.ride.d; smTruckDir = sm.ride.dir; }
+  else {
+    smTruckD += smTruckDir * 11 * dt;
+    if (smTruckD > smRoadTotal - 40) { smTruckD = smRoadTotal - 40; smTruckDir = -1; }
+    if (smTruckD < 40) { smTruckD = 40; smTruckDir = 1; }
+  }
+  const p = smRoadPointAt(smTruckD);
   smTruck.position.set(p.x, smHeightAt(p.x, p.z) + 0.35, p.z);
   smTruck.rotation.y = p.yaw + (smTruckDir > 0 ? 0 : Math.PI);
+  return p;
 }
 smDriveTruck(0);
+
+/** Board the crew pickup for a ride (the quest's `ride` step). */
+function smBoard(ride) {
+  sm.ride = smRideStart(ride.id);
+  sm.rideLook = 0;
+  smToast(`${ride.name}. ${ride.blurb}`, 9000);
+  smHud();
+}
+/** The engine brake (E while riding). */
+function smSetBrake() {
+  if (!sm.ride || sm.ride.brake) return;
+  smRideStep(sm.ride, 0, { brake: true });
+  smToast(sm.ride.brakeAt === "pullout" ? "Engine brake on at the pull-out — ready the moment you lift off the throttle." : "Engine brake on — late, on the grade. It counts, but the pull-out is where it belongs.", 5000);
+  smHud();
+}
+/** The ride's frame: the pickup moves, the camera rides in the cab, the learner's position follows. */
+function smRideFrame(dt) {
+  const run = sm.ride;
+  smRideStep(run, dt);
+  const p = smDriveTruck(0);
+  sm.x = p.x; sm.z = p.z;
+  sm.yaw = p.yaw + (run.dir > 0 ? Math.PI : 0) + (sm.rideLook ?? 0);
+  if (run.phase === "stopped" && !run.saidAdvice) { run.saidAdvice = true; smToast(`Pull-out. ${SM_RIDES.find((r) => r.id === run.id).advice.text}`, 9000); }
+  if (run.done) {
+    const passed = smRideFinish(sm.state, run);
+    smToast(passed ? `At the tunnel portal — ride done, score ${run.score}. The engine brake went on where it should.` : `At the tunnel portal — score ${run.score}. ${run.brake ? "The brake went on late; ride again and set it at the pull-out." : "No engine brake at all; ride again and set it at the pull-out."}`, 8000);
+    sm.ride = null; smSave(sm.state); smProgress();
+  }
+}
 
 addEventListener("resize", () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); smRenderer.setSize(innerWidth, innerHeight); });
 
@@ -143,7 +170,8 @@ let smDrag = null;
 smRenderer.domElement.addEventListener("pointerdown", (e) => { smDrag = { x: e.clientX, y: e.clientY, id: e.pointerId }; });
 addEventListener("pointermove", (e) => {
   if (!smDrag || e.pointerId !== smDrag.id) return;
-  sm.yaw -= (e.clientX - smDrag.x) * 0.004; sm.pitch = Math.max(-1.2, Math.min(1.0, sm.pitch - (e.clientY - smDrag.y) * 0.003));
+  if (sm.ride) sm.rideLook = Math.max(-1.3, Math.min(1.3, (sm.rideLook ?? 0) - (e.clientX - smDrag.x) * 0.004));
+  else sm.yaw -= (e.clientX - smDrag.x) * 0.004; sm.pitch = Math.max(-1.2, Math.min(1.0, sm.pitch - (e.clientY - smDrag.y) * 0.003));
   smDrag.x = e.clientX; smDrag.y = e.clientY;
 });
 addEventListener("pointerup", () => { smDrag = null; });
@@ -277,11 +305,14 @@ function smNearest() {
 }
 
 function smUse() {
+  if (sm.ride) { smSetBrake(); return; }
   const n = sm.near;
   if (!n) return;
   if (n.kind === "board") {
     const act = SM_ACTIVITIES.find((a) => a.start === n.site.id);
     if (act && !sm.run && confirm(`${act.name}\n\n${act.blurb}\n\nStart the activity now? (Cancel opens the job board.)`)) { sm.run = smActStart(act.id); smToast(`${act.name} started. R radios a check; M opens the map.`); return; }
+    const ride = SM_RIDES.find((r) => r.from === n.site.id);
+    if (ride && !sm.run && confirm(`${ride.name}\n\n${ride.blurb}\n\nBoard the pickup now? (Cancel opens the job board.)`)) { smBoard(ride); return; }
     smOpenBoard(n.site);
   } else if (n.kind === "egg") {
     const r = smFindEgg(sm.state, n.egg.id);
@@ -313,12 +344,18 @@ function smHud() {
   $("hud-eggs").textContent = sm.state.eggs.length;
   $("hud-lessons").textContent = `${sm.state.lessons.length}/${SM_FIELD_LESSONS.length}`;
   const cur = smCurrentMain(sm.state);
-  $("hud-quest-text").textContent = cur ? `${cur.title}: ${cur.steps.find((s) => !(s.type === "goto" ? sm.state.visited.includes(s.target) : s.type === "station" ? ppCompleted(s.target) : false))?.text ?? "report back"}` : "The mountain is yours — every site worked.";
+  $("hud-quest-text").textContent = cur ? `${cur.title}: ${cur.steps.find((s) => !smStepDone(s, sm.state))?.text ?? "report back"}` : "The mountain is yours — every site worked.";
   const p = $("hud-prompt");
-  if (sm.near) { p.hidden = false; p.textContent = sm.near.kind === "board" ? `E — ${sm.near.site.name} job board` : sm.near.kind === "egg" ? "E — look under the cairn" : `E — field lesson: ${sm.near.lesson.title}`; }
+  if (sm.ride) { p.hidden = false; p.textContent = sm.ride.brake ? "Engine brake on" : sm.ride.phase === "stopped" ? "E — set the engine brake at the pull-out" : "E — engine brake"; }
+  else if (sm.near) { p.hidden = false; p.textContent = sm.near.kind === "board" ? `E — ${sm.near.site.name} job board` : sm.near.kind === "egg" ? "E — look under the cairn" : `E — field lesson: ${sm.near.lesson.title}`; }
   else p.hidden = true;
   const ah = $("hud-act");
-  if (sm.run) { ah.hidden = false; const a = SM_ACTIVITIES.find((v) => v.id === sm.run.id); ah.innerHTML = `<b>${a.name}</b><br>Next ${sm.run.next + 1}/${(a.controls ?? a.points).length} · score ${sm.run.score}${sm.run.pendingCheck ? `<br>${a.kind === "orienteering" ? "Check the map (M)" : "Radio a buddy check (R)"}` : ""}`; }
+  if (sm.ride) {
+    const r = SM_RIDES.find((v) => v.id === sm.ride.id), g = Math.round(sm.ride.grade * 100);
+    const phase = { climb: "climbing the switchbacks", stopped: "at the pull-out", descent: "down the grade", done: "arrived" }[sm.ride.phase];
+    ah.hidden = false;
+    ah.innerHTML = `<b>${r.name}</b><br>${phase} · grade ${g > 0 ? "+" : ""}${g}% · engine brake ${sm.ride.brake ? "on" : "off"} · score ${sm.ride.score}${sm.ride.phase === "stopped" ? `<br><small>${r.advice.text}</small>` : ""}`;
+  } else if (sm.run) { ah.hidden = false; const a = SM_ACTIVITIES.find((v) => v.id === sm.run.id); ah.innerHTML = `<b>${a.name}</b><br>Next ${sm.run.next + 1}/${(a.controls ?? a.points).length} · score ${sm.run.score}${sm.run.pendingCheck ? `<br>${a.kind === "orienteering" ? "Check the map (M)" : "Radio a buddy check (R)"}` : ""}`; }
   else ah.hidden = true;
 }
 
@@ -327,7 +364,8 @@ function smHud() {
 let last = performance.now(), smHudT = 0, smVisitT = 0;
 function frame(now) {
   const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now;
-  if (sm.playing && !sm.modal) {
+  if (sm.playing && !sm.modal && sm.ride) smRideFrame(dt);
+  else if (sm.playing && !sm.modal) {
     let f = 0, s = 0, turn = 0;
     if (smKeys.has("KeyW") || smKeys.has("ArrowUp")) f += 1;
     if (smKeys.has("KeyS") || smKeys.has("ArrowDown")) f -= 1;
@@ -354,13 +392,14 @@ function frame(now) {
     }
   } else if (sm.run && sm.modal === "map") smActStep(sm.run, sm.x, sm.z, 0, { mapOpen: true });
   const gy = smHeightAt(sm.x, sm.z);
-  camera.position.set(sm.x, gy + SM_EYE + (sm.lift ?? 0), sm.z);
+  // In the cab the eye sits at the pickup's window height; the pickup itself is drawn 0.35 m over the road.
+  camera.position.set(sm.x, gy + (sm.ride ? 2.15 : SM_EYE) + (sm.lift ?? 0), sm.z);
   camera.rotation.set(sm.pitch, sm.yaw, 0, "YXZ");
   world.update(sm.x, sm.z, 2);
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of smWild) w.animate(now / 1000, dt);
-  smDriveTruck(dt);
+  if (!sm.ride) smDriveTruck(dt);
   smHudT += dt; smVisitT += dt;
   if (smVisitT > 0.5) {
     smVisitT = 0;
@@ -404,6 +443,7 @@ ctlMount({
     { label: "Quests", keys: ["Q"], pad: "—", touch: "Quests button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
     { label: "Radio check (activities)", keys: ["R"], pad: "—", touch: "—" },
+    { label: "Engine brake (riding the pickup)", keys: ["E"], pad: "A", touch: "Use button" },
   ],
 });
 
@@ -413,5 +453,6 @@ window.__summitTest = {
   teleport(x, z, yaw = sm.yaw, pitch = sm.pitch, lift = 0) { sm.x = x; sm.z = z; sm.yaw = yaw; sm.pitch = pitch; sm.lift = lift; world.update(x, z, 999); },
   begin: smBegin, stats: () => world.stats(), setTime(i) { sm.timeIdx = i; smApplySky(); }, setWeather(i) { sm.weatherIdx = i; smApplySky(); },
   wildlife: smWild, truck: smTruck, truckAt: () => ({ d: smTruckD, dir: smTruckDir }),
+  board(id = SM_RIDES[0].id) { smBoard(SM_RIDES.find((r) => r.id === id)); }, brake: smSetBrake, ride: () => sm.ride,
 };
 

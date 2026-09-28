@@ -13387,11 +13387,25 @@ function smPolyDistance(x, z, pts) {
 
 // ------------------------------------------------------------------ layout
 
-/** The pass road: from the valley gate over the pass, through the tunnel, down the far side. */
+/**
+ * The pass road: from the valley gate over the pass, through the tunnel, down
+ * the far side. Between the crew yard (0, 700) and the pass saddle (450, -150)
+ * the climb was 22 % on a straight line; six switchback vertices now carry it
+ * at 9 % over 2330 m, with the avalanche-chute sign (300, 300) kept on the
+ * road. The along-road fractions in SM_ROAD_PROFILE and SM_TUNNEL_SPAN were
+ * printed for this polyline (its length is SM_ROAD_LENGTH); move a vertex and
+ * re-derive them.
+ */
 const SM_PASS_ROAD = [
-  [-1950, 1850], [-1500, 1450], [-1100, 1150], [-500, 950], [0, 700], [300, 300], [450, -150], [600, -560],
-  [900, -900], [1400, -1300], [1950, -1850],
+  [-1950, 1850], [-1500, 1450], [-1100, 1150], [-500, 950], [0, 700],
+  [-240, 580], [280, 470], [-60, 360], [300, 300], [40, 150], [450, -150],
+  [600, -560], [900, -900], [1400, -1300], [1950, -1850],
 ];
+/** The switchback vertices' index range in SM_PASS_ROAD (first and last, inclusive). */
+const SM_SWITCHBACKS = [4, 10];
+/** The road's length in metres, and the cumulative length at each vertex. */
+const SM_ROAD_LENGTHS = SM_PASS_ROAD.reduce((L, p, i) => (i ? L.push(L[i - 1] + Math.hypot(p[0] - SM_PASS_ROAD[i - 1][0], p[1] - SM_PASS_ROAD[i - 1][1])) : 0, L), [0]);
+const SM_ROAD_LENGTH = SM_ROAD_LENGTHS[SM_ROAD_LENGTHS.length - 1];
 /** The service road from the pass road to the dam, the ranger station and the gondola shop. */
 const SM_SERVICE_ROAD = [[-1100, 1150], [-1050, 1050], [-760, 520], [-1230, 290], [-760, 520], [-260, -240]];
 /** The transmission line, substation to the far ridge. */
@@ -13405,7 +13419,7 @@ const SM_LAKE = { centre: [-700, -40], radius: 380 };
 /** The tailrace river: from the powerhouse down the valley to the south-west corner, under the pass road once (a culvert). */
 const SM_RIVER = [[-560, 790], [-646, 913], [-789, 957], [-753, 1103], [-766, 1252], [-844, 1380], [-952, 1484], [-1075, 1571], [-1225, 1573], [-1224, 1723], [-1195, 1870], [-1278, 1995], [-1250, 2048]];
 /** The river channel: half-width in metres where the bed is cut, its depth below the banks, and the corridor the banks blend over. */
-const SM_RIVER_CHANNEL = { width: 14, depth: 2.6, corridor: 70 };
+const SM_RIVER_CHANNEL = { width: 22, depth: 4, corridor: 70 };
 /** Hiking trails (the orienteering course follows the first). */
 const SM_TRAILS = [
   { id: "lookout-trail", name: "West Ridge Lookout Trail", pts: [[-1230, 290], [-1300, 100], [-1380, -150], [-1450, -400], [-1510, -690]] },
@@ -13472,22 +13486,48 @@ const SM_LANDMARKS = [
 
 // ----------------------------------------------------------------- terrain
 
-/** The pass road's height profile: [along-road fraction, metres]; the tunnel runs between the two portals. */
-const SM_ROAD_PROFILE = [[0, 150], [0.28, 190], [0.45, 330], [0.62, 560], [0.7, 600], [0.8, 600], [0.9, 520], [1, 430]];
+/**
+ * The pass road's height profile: [along-road fraction, metres], one anchor
+ * per place the road passes (the gate, the service-road junction, the crew
+ * yard, the pass saddle, the tunnel portal, the two tunnel ends, the far gate,
+ * the end), interpolated linearly so every section has one grade. The tunnel
+ * runs between the two portals. Fractions come from the switchback script
+ * for the polyline above; the steepest section is held under SM_ROAD_MAX_GRADE
+ * by tools/check_summit.mjs.
+ */
+const SM_ROAD_PROFILE = [[0, 150], [0.159, 190], [0.3309, 300], [0.667, 510], [0.73, 560], [0.7589, 560], [0.8387, 560], [0.8878, 520], [1, 430]];
 /** Along-road fractions of the tunnel (no road bed is cut between them). */
-const SM_TUNNEL_SPAN = [0.7, 0.8];
+const SM_TUNNEL_SPAN = [0.7589, 0.8387];
+/** The steepest grade (rise over run) the road bed may show anywhere outside the tunnel. */
+const SM_ROAD_MAX_GRADE = 0.125;
 
 function smRoadHeight(t) {
   const P = SM_ROAD_PROFILE;
   for (let i = 1; i < P.length; i++) if (t <= P[i][0]) {
     const u = (t - P[i - 1][0]) / (P[i][0] - P[i - 1][0]);
-    return P[i - 1][1] + (P[i][1] - P[i - 1][1]) * u * u * (3 - 2 * u);
+    return P[i - 1][1] + (P[i][1] - P[i - 1][1]) * u;
   }
   return P[P.length - 1][1];
 }
 
 /** The road bed's height at an along-road fraction. */
 function smRoadHeightAt(t) { return smRoadHeight(t); }
+
+/** The road's grade at an along-road fraction, signed in the direction of travel toward the far gate (rise over run). */
+function smRoadGradeAt(t) {
+  const P = SM_ROAD_PROFILE;
+  for (let i = 1; i < P.length; i++) if (t <= P[i][0]) return (P[i][1] - P[i - 1][1]) / ((P[i][0] - P[i - 1][0]) * SM_ROAD_LENGTH);
+  return 0;
+}
+
+/** The point on the road at a distance in metres from the valley gate: { x, z, t, yaw } (yaw faces the direction of travel). */
+function smRoadPointAt(d) {
+  const L = SM_ROAD_LENGTHS;
+  let i = 1; while (i < L.length - 1 && L[i] < d) i++;
+  const u = smClamp((d - L[i - 1]) / ((L[i] - L[i - 1]) || 1), 0, 1);
+  const [ax, az] = SM_PASS_ROAD[i - 1], [bx, bz] = SM_PASS_ROAD[i];
+  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, t: smClamp(d / SM_ROAD_LENGTH, 0, 1), yaw: Math.atan2(bx - ax, bz - az) };
+}
 
 function smNatural(x, z) {
   const t = smClamp((1400 - z) / 3000, 0, 1);
@@ -13521,9 +13561,11 @@ function smRawHeight(x, z) {
   const rv = smPolyDistance(x, z, SM_RIVER);
   if (rv.d < SM_RIVER_CHANNEL.corridor) {
     const open = smSmooth(12, 40, r.d);
-    const prof = smRiverProfile(rv.t);
+    const prof = smRiverProfile(rv.t), W = SM_RIVER_CHANNEL.width;
     if (prof < h) h += (prof - h) * (1 - smSmooth(6, SM_RIVER_CHANNEL.corridor, rv.d)) * open;
-    if (rv.d < SM_RIVER_CHANNEL.width) h -= SM_RIVER_CHANNEL.depth * (1 - smSmooth(3, SM_RIVER_CHANNEL.width, rv.d)) * open;
+    // Low ground beside the channel is lifted to the bank top (the profile), so both banks stand above the water.
+    else if (rv.d < W * 2) h += (prof - h) * (1 - smSmooth(W * 1.4, W * 2, rv.d)) * open;
+    if (rv.d < W) h -= SM_RIVER_CHANNEL.depth * (1 - smSmooth(3, W, rv.d)) * open;
   }
   return h;
 }
@@ -13553,8 +13595,11 @@ function smRiverProfile(t) {
   const f = smClamp(t, 0, 1) * (SM_RIVER_PROFILE.length - 1), i = Math.min(SM_RIVER_PROFILE.length - 2, Math.floor(f)), u = f - i;
   return SM_RIVER_PROFILE[i] + (SM_RIVER_PROFILE[i + 1] - SM_RIVER_PROFILE[i]) * u;
 }
-/** The river's surface height at an along-river fraction (the bed plus most of the channel's depth). */
-function smRiverSurfaceAt(t) { return smRiverProfile(t) - SM_RIVER_CHANNEL.depth + 0.9; }
+/** The river bed's height at an along-river fraction (the channel's centre line). */
+function smRiverBedAt(t) { return smRiverProfile(t) - SM_RIVER_CHANNEL.depth; }
+/** The river's surface height at an along-river fraction: SM_RIVER_SURFACE metres of water over the bed, the banks the rest of the depth above it. */
+const SM_RIVER_SURFACE = 1.6;
+function smRiverSurfaceAt(t) { return smRiverBedAt(t) + SM_RIVER_SURFACE; }
 
 /** The reservoir's water level (metres), fixed from the terrain at load. */
 const SM_WATER_LEVEL = Math.round(smRawHeight(SM_LAKE.centre[0], SM_LAKE.centre[1]) + 6);
@@ -13867,7 +13912,7 @@ const SM_MAIN_QUESTS = [
   { id: "sm-main-03-ranger", title: "The Trail Register", giver: "the duty ranger", site: "ranger-station", kind: "main", tier: 2, requires: "sm-main-02-dam",
     steps: [{ type: "goto", target: "ranger-station", text: "Sign the trail register at the ranger station." }, { type: "goto", target: "west-lookout", text: "Hike to the West Ridge Lookout." }], reward: { xp: 80, badge: "Lookout" } },
   { id: "sm-main-04-road", title: "Keep the Pass Open", giver: "the road crew foreman", site: "pass-road", kind: "main", tier: 3, requires: "sm-main-03-ranger",
-    steps: [{ type: "goto", target: "pass-road", text: "Report to the pass road crew yard." }, { type: "station", target: "drive-mountain-grade-and-engine-brake", text: "Take the mountain grade the way the sign says." }], reward: { xp: 100, badge: "Pass Crew" } },
+    steps: [{ type: "goto", target: "pass-road", text: "Report to the pass road crew yard." }, { type: "ride", target: "sm-ride-pass-descent", text: "Ride the switchbacks with the crew and set the engine brake at the pull-out." }, { type: "station", target: "drive-mountain-grade-and-engine-brake", text: "Take the mountain grade the way the sign says." }], reward: { xp: 100, badge: "Pass Crew" } },
   { id: "sm-main-05-tunnel", title: "Under the Ridge", giver: "the portal's heading boss", site: "tunnel-portal", kind: "main", tier: 3, requires: "sm-main-04-road",
     steps: [{ type: "goto", target: "tunnel-portal", text: "Drive or walk up to the tunnel portal." }, { type: "station", target: "cm-shotcrete-nozzle-and-rebound", text: "Clear the crew and shoot the portal face." }], reward: { xp: 100, badge: "Portal Crew" } },
   { id: "sm-main-06-lines", title: "Power Off the Ridge", giver: "the substation's switching operator", site: "substation", kind: "main", tier: 4, requires: "sm-main-05-tunnel",
@@ -13922,6 +13967,23 @@ const SM_ACTIVITIES = [
     avoid: [{ at: [480, -1600], r: 90, note: "Marked avalanche terrain — the route plan keeps you out" }, { at: [800, -1420], r: 80, note: "Cornice edge — stay back per the plan" }],
     scoring: { point: 15, zoneEntryPenalty: 25, buddyCheck: 5 },
     blurb: "A snowcat-free survey on foot from the gondola top: log six survey points in order and radio a buddy check at each; stepping into a marked avalanche zone costs more than any point is worth." },
+];
+
+// -------------------------------------------------------------------- rides
+//
+// A ride is a quest step driven, not walked: the learner boards the crew
+// pickup at one site and it follows the pass road to another while the HUD
+// shows the grade and the station's own advice. Scored on safe practice only
+// (the engine brake set at the pull-out before the descent, never speed).
+// `advice` quotes the first sentence of a real step's `why` verbatim, like the
+// field notes; tools/check_summit.mjs verifies the quote.
+
+const SM_RIDES = [
+  { id: "sm-ride-pass-descent", name: "Ride the Pass With the Crew", from: "pass-road", to: "tunnel-portal", stopAt: "pass-summit", speed: 11,
+    advice: { stationId: "drive-mountain-grade-and-engine-brake", stepId: "drm-pullout",
+      text: "The pull-out before a long grade is where the brakes are checked, while it is still easy to stop: the air pressure built and holding, the engine brake switched on so it is ready the moment you lift off the throttle, and the mirrors set to show the trailer tandems, because smoke from a hot brake shows there before you smell it." },
+    scoring: { brakeAtPullout: 30, brakeLate: 10, noBrake: -25, arrive: 10 },
+    blurb: "Board the crew pickup at the yard. It climbs the switchbacks and stops at the pass saddle's pull-out: set the engine brake there (E) before it starts down to the tunnel portal. Setting it on the grade scores less; not setting it at all costs more than the arrival is worth." },
 ];
 
 /** Every gated item in this world, for tools/check_gates.mjs (QUESTMASTER). */
@@ -14096,7 +14158,11 @@ function smRibbon(THREE, pts, width, lift, colour, { skip = null, stepLen = 8, s
     if (surface) { l[1] = r[1] = surface(Math.min(d, total) / (total || 1)) + lift; }
     else { l[1] = smHeightAt(l[0], l[2]) + lift; r[1] = smHeightAt(r[0], r[2]) + lift; }
     if (prev && !off && !prev.off) {
-      verts.push(...prev.l, ...prev.r, ...l, ...prev.r, ...r, ...l);
+      // Wound so the face normal points up (+y): (l, l', r) then (r, l', r').
+      // The other order faces down and a front-side material culls the whole
+      // ribbon from above — the road then "shows" only as its flattened bench
+      // and the river only as a fold (SUMMIT-3, the river-visibility fix).
+      verts.push(...prev.l, ...l, ...prev.r, ...prev.r, ...l, ...r);
       for (let k = 0; k < 6; k++) cols.push(c.r, c.g, c.b);
     }
     prev = { l, r, off };
@@ -14153,8 +14219,9 @@ function smBuildSummit(root, THREE, opts = {}) {
   fixed.add(water);
 
   // The river: a flat water ribbon on the channel's own descending surface, absent under the road's culvert.
-  const riverMat = new THREE.MeshLambertMaterial({ color: 0x3a7fa0, transparent: true, opacity: 0.86 });
-  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x3a7fa0,
+  // Brighter than the reservoir so it reads from the bank; a little emissive so it still reads at dusk.
+  const riverMat = new THREE.MeshLambertMaterial({ color: 0x5cb8e0, emissive: 0x143a4e, transparent: true, opacity: 0.92 });
+  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x5cb8e0,
     { stepLen: 10, surface: smRiverSurfaceAt, omit: (x, z) => smPolyDistance(x, z, SM_PASS_ROAD).d < 12 }), riverMat);
   river.name = "summit-river";
   fixed.add(river);
@@ -18480,14 +18547,14 @@ qmNameQuests([...SM_MAIN_QUESTS, ...SM_SIDE_QUESTS]);
 
 const SM_STORE_KEY = "summit-v1";
 
-function smBlank() { return { visited: ["valley-base"], eggs: [], lessons: [], quests: [], acts: {} }; }
+function smBlank() { return { visited: ["valley-base"], eggs: [], lessons: [], quests: [], rides: [], acts: {} }; }
 
 function smLoad(store = gtStorage()) {
   try {
     const raw = JSON.parse(store?.getItem(SM_STORE_KEY) || "null");
     if (!raw || typeof raw !== "object") return smBlank();
     const b = smBlank();
-    for (const k of ["visited", "eggs", "lessons", "quests"]) if (Array.isArray(raw[k])) b[k] = [...new Set([...b[k], ...raw[k].filter((x) => typeof x === "string")])];
+    for (const k of ["visited", "eggs", "lessons", "quests", "rides"]) if (Array.isArray(raw[k])) b[k] = [...new Set([...b[k], ...raw[k].filter((x) => typeof x === "string")])];
     if (raw.acts && typeof raw.acts === "object") b.acts = raw.acts;
     return b;
   } catch { return smBlank(); }
@@ -18534,6 +18601,7 @@ function smStepDone(step, state, done = null) {
   if (step.type === "goto") return state.visited.includes(step.target);
   if (step.type === "station") return (done ?? ppCompleted)(step.target);
   if (step.type === "find") return state.eggs.includes(step.target);
+  if (step.type === "ride") return (state.rides ?? []).includes(step.target);
   return false;
 }
 
@@ -18617,6 +18685,69 @@ function smActStep(run, x, z, dt, { mapOpen = false, radioed = false } = {}) {
   if (run.next >= targets.length && !run.pendingCheck) run.done = true;
   else if (run.next >= targets.length) run.done = true;
   return run;
+}
+
+// ------------------------------------------------------------------- rides
+
+/** Metres along the pass road of a site or landmark (the nearest point of the road to it). */
+function smRoadMetresOf(placeId) {
+  const p = smPlace(placeId);
+  return p ? smPolyDistance(p.at[0], p.at[1], SM_PASS_ROAD).t * SM_ROAD_LENGTH : 0;
+}
+
+/** How long the pickup waits at the pull-out (seconds), the window for setting the engine brake there. */
+const SM_RIDE_STOP_SECONDS = 6;
+
+/**
+ * A fresh ride: the pickup at the boarding site's road metres, facing the
+ * destination. Phases: climb → stopped (the pull-out) → descent → done.
+ */
+function smRideStart(rideId) {
+  const r = SM_RIDES.find((x) => x.id === rideId);
+  if (!r) return null;
+  const d0 = smRoadMetresOf(r.from), d1 = smRoadMetresOf(r.to), stop = smRoadMetresOf(r.stopAt);
+  return { id: r.id, d: d0, from: d0, to: d1, stop, dir: d1 >= d0 ? 1 : -1, phase: "climb", brake: false, brakeAt: null, stopT: 0, t: 0, score: 0, grade: 0, log: [], done: false };
+}
+
+/**
+ * Step a ride by dt seconds; `brake` is true on the frame the learner sets the
+ * engine brake. Safe practice scores: the brake set at the pull-out is worth
+ * the most, set late on the grade less, never set costs more than arriving
+ * earns. Speed is never scored. Returns the run.
+ */
+function smRideStep(run, dt, { brake = false } = {}) {
+  if (!run || run.done) return run;
+  const r = SM_RIDES.find((x) => x.id === run.id);
+  run.t += dt;
+  if (brake && !run.brake) {
+    run.brake = true; run.brakeAt = run.phase === "descent" ? "late" : "pullout";
+    run.score += run.brakeAt === "late" ? r.scoring.brakeLate : r.scoring.brakeAtPullout;
+    run.log.push(run.brakeAt === "late" ? "engine brake set on the grade" : "engine brake set at the pull-out");
+  }
+  if (run.phase === "climb") {
+    run.d += run.dir * r.speed * dt;
+    if ((run.dir > 0 && run.d >= run.stop) || (run.dir < 0 && run.d <= run.stop)) { run.d = run.stop; run.phase = "stopped"; run.log.push("pull-out"); }
+  } else if (run.phase === "stopped") {
+    run.stopT += dt;
+    if (run.stopT >= SM_RIDE_STOP_SECONDS) { run.phase = "descent"; run.log.push("down the grade"); }
+  } else if (run.phase === "descent") {
+    run.d += run.dir * r.speed * dt;
+    if ((run.dir > 0 && run.d >= run.to) || (run.dir < 0 && run.d <= run.to)) {
+      run.d = run.to; run.phase = "done"; run.done = true;
+      run.score += r.scoring.arrive;
+      if (!run.brake) { run.score += r.scoring.noBrake; run.log.push("arrived with no engine brake"); } else run.log.push("arrived");
+    }
+  }
+  run.grade = smRoadGradeAt(run.d / SM_ROAD_LENGTH) * run.dir;
+  return run;
+}
+
+/** Close a finished ride: the quest step is satisfied only when the engine brake went on at the pull-out (safe practice). Returns whether it passed. */
+function smRideFinish(state, run) {
+  if (!run?.done) return false;
+  const passed = run.brakeAt === "pullout";
+  if (passed && !(state.rides ??= []).includes(run.id)) state.rides.push(run.id);
+  return passed;
 }
 
 /** Record a finished run's score as the best if it beats the old one. */
@@ -20589,27 +20720,54 @@ const smWild = [
 
 // The crew pickup: drives the pass road end to end and back (through the
 // tunnel, where the ridge hides it), so the road reads as a road. Distance
-// along the road is kept in metres; the road profile gives its height.
+// along the road is kept in metres (smRoadPointAt); the road profile gives
+// its height. During a ride (sm.ride, state.js) the pickup follows the ride
+// instead and the learner's camera sits in its cab.
 const smTruck = pickup(root, 0, 0, 0, { livery: { colour: 0xf2a53a, fleetName: "PASS ROAD CREW" } });
-const smRoadLens = [0];
-for (let i = 1; i < SM_PASS_ROAD.length; i++) smRoadLens.push(smRoadLens[i - 1] + Math.hypot(SM_PASS_ROAD[i][0] - SM_PASS_ROAD[i - 1][0], SM_PASS_ROAD[i][1] - SM_PASS_ROAD[i - 1][1]));
-const smRoadTotal = smRoadLens[smRoadLens.length - 1];
+const smRoadTotal = SM_ROAD_LENGTH;
 let smTruckD = smRoadTotal * 0.12, smTruckDir = 1;
-function smRoadAt(d) {
-  let i = 1; while (i < smRoadLens.length - 1 && smRoadLens[i] < d) i++;
-  const u = Math.max(0, Math.min(1, (d - smRoadLens[i - 1]) / ((smRoadLens[i] - smRoadLens[i - 1]) || 1)));
-  const [ax, az] = SM_PASS_ROAD[i - 1], [bx, bz] = SM_PASS_ROAD[i];
-  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, yaw: Math.atan2(bx - ax, bz - az) };
-}
 function smDriveTruck(dt) {
-  smTruckD += smTruckDir * 11 * dt;
-  if (smTruckD > smRoadTotal - 40) { smTruckD = smRoadTotal - 40; smTruckDir = -1; }
-  if (smTruckD < 40) { smTruckD = 40; smTruckDir = 1; }
-  const p = smRoadAt(smTruckD);
+  if (sm.ride) { smTruckD = sm.ride.d; smTruckDir = sm.ride.dir; }
+  else {
+    smTruckD += smTruckDir * 11 * dt;
+    if (smTruckD > smRoadTotal - 40) { smTruckD = smRoadTotal - 40; smTruckDir = -1; }
+    if (smTruckD < 40) { smTruckD = 40; smTruckDir = 1; }
+  }
+  const p = smRoadPointAt(smTruckD);
   smTruck.position.set(p.x, smHeightAt(p.x, p.z) + 0.35, p.z);
   smTruck.rotation.y = p.yaw + (smTruckDir > 0 ? 0 : Math.PI);
+  return p;
 }
 smDriveTruck(0);
+
+/** Board the crew pickup for a ride (the quest's `ride` step). */
+function smBoard(ride) {
+  sm.ride = smRideStart(ride.id);
+  sm.rideLook = 0;
+  smToast(`${ride.name}. ${ride.blurb}`, 9000);
+  smHud();
+}
+/** The engine brake (E while riding). */
+function smSetBrake() {
+  if (!sm.ride || sm.ride.brake) return;
+  smRideStep(sm.ride, 0, { brake: true });
+  smToast(sm.ride.brakeAt === "pullout" ? "Engine brake on at the pull-out — ready the moment you lift off the throttle." : "Engine brake on — late, on the grade. It counts, but the pull-out is where it belongs.", 5000);
+  smHud();
+}
+/** The ride's frame: the pickup moves, the camera rides in the cab, the learner's position follows. */
+function smRideFrame(dt) {
+  const run = sm.ride;
+  smRideStep(run, dt);
+  const p = smDriveTruck(0);
+  sm.x = p.x; sm.z = p.z;
+  sm.yaw = p.yaw + (run.dir > 0 ? Math.PI : 0) + (sm.rideLook ?? 0);
+  if (run.phase === "stopped" && !run.saidAdvice) { run.saidAdvice = true; smToast(`Pull-out. ${SM_RIDES.find((r) => r.id === run.id).advice.text}`, 9000); }
+  if (run.done) {
+    const passed = smRideFinish(sm.state, run);
+    smToast(passed ? `At the tunnel portal — ride done, score ${run.score}. The engine brake went on where it should.` : `At the tunnel portal — score ${run.score}. ${run.brake ? "The brake went on late; ride again and set it at the pull-out." : "No engine brake at all; ride again and set it at the pull-out."}`, 8000);
+    sm.ride = null; smSave(sm.state); smProgress();
+  }
+}
 
 addEventListener("resize", () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); smRenderer.setSize(innerWidth, innerHeight); });
 
@@ -20636,7 +20794,8 @@ let smDrag = null;
 smRenderer.domElement.addEventListener("pointerdown", (e) => { smDrag = { x: e.clientX, y: e.clientY, id: e.pointerId }; });
 addEventListener("pointermove", (e) => {
   if (!smDrag || e.pointerId !== smDrag.id) return;
-  sm.yaw -= (e.clientX - smDrag.x) * 0.004; sm.pitch = Math.max(-1.2, Math.min(1.0, sm.pitch - (e.clientY - smDrag.y) * 0.003));
+  if (sm.ride) sm.rideLook = Math.max(-1.3, Math.min(1.3, (sm.rideLook ?? 0) - (e.clientX - smDrag.x) * 0.004));
+  else sm.yaw -= (e.clientX - smDrag.x) * 0.004; sm.pitch = Math.max(-1.2, Math.min(1.0, sm.pitch - (e.clientY - smDrag.y) * 0.003));
   smDrag.x = e.clientX; smDrag.y = e.clientY;
 });
 addEventListener("pointerup", () => { smDrag = null; });
@@ -20770,11 +20929,14 @@ function smNearest() {
 }
 
 function smUse() {
+  if (sm.ride) { smSetBrake(); return; }
   const n = sm.near;
   if (!n) return;
   if (n.kind === "board") {
     const act = SM_ACTIVITIES.find((a) => a.start === n.site.id);
     if (act && !sm.run && confirm(`${act.name}\n\n${act.blurb}\n\nStart the activity now? (Cancel opens the job board.)`)) { sm.run = smActStart(act.id); smToast(`${act.name} started. R radios a check; M opens the map.`); return; }
+    const ride = SM_RIDES.find((r) => r.from === n.site.id);
+    if (ride && !sm.run && confirm(`${ride.name}\n\n${ride.blurb}\n\nBoard the pickup now? (Cancel opens the job board.)`)) { smBoard(ride); return; }
     smOpenBoard(n.site);
   } else if (n.kind === "egg") {
     const r = smFindEgg(sm.state, n.egg.id);
@@ -20806,12 +20968,18 @@ function smHud() {
   $("hud-eggs").textContent = sm.state.eggs.length;
   $("hud-lessons").textContent = `${sm.state.lessons.length}/${SM_FIELD_LESSONS.length}`;
   const cur = smCurrentMain(sm.state);
-  $("hud-quest-text").textContent = cur ? `${cur.title}: ${cur.steps.find((s) => !(s.type === "goto" ? sm.state.visited.includes(s.target) : s.type === "station" ? ppCompleted(s.target) : false))?.text ?? "report back"}` : "The mountain is yours — every site worked.";
+  $("hud-quest-text").textContent = cur ? `${cur.title}: ${cur.steps.find((s) => !smStepDone(s, sm.state))?.text ?? "report back"}` : "The mountain is yours — every site worked.";
   const p = $("hud-prompt");
-  if (sm.near) { p.hidden = false; p.textContent = sm.near.kind === "board" ? `E — ${sm.near.site.name} job board` : sm.near.kind === "egg" ? "E — look under the cairn" : `E — field lesson: ${sm.near.lesson.title}`; }
+  if (sm.ride) { p.hidden = false; p.textContent = sm.ride.brake ? "Engine brake on" : sm.ride.phase === "stopped" ? "E — set the engine brake at the pull-out" : "E — engine brake"; }
+  else if (sm.near) { p.hidden = false; p.textContent = sm.near.kind === "board" ? `E — ${sm.near.site.name} job board` : sm.near.kind === "egg" ? "E — look under the cairn" : `E — field lesson: ${sm.near.lesson.title}`; }
   else p.hidden = true;
   const ah = $("hud-act");
-  if (sm.run) { ah.hidden = false; const a = SM_ACTIVITIES.find((v) => v.id === sm.run.id); ah.innerHTML = `<b>${a.name}</b><br>Next ${sm.run.next + 1}/${(a.controls ?? a.points).length} · score ${sm.run.score}${sm.run.pendingCheck ? `<br>${a.kind === "orienteering" ? "Check the map (M)" : "Radio a buddy check (R)"}` : ""}`; }
+  if (sm.ride) {
+    const r = SM_RIDES.find((v) => v.id === sm.ride.id), g = Math.round(sm.ride.grade * 100);
+    const phase = { climb: "climbing the switchbacks", stopped: "at the pull-out", descent: "down the grade", done: "arrived" }[sm.ride.phase];
+    ah.hidden = false;
+    ah.innerHTML = `<b>${r.name}</b><br>${phase} · grade ${g > 0 ? "+" : ""}${g}% · engine brake ${sm.ride.brake ? "on" : "off"} · score ${sm.ride.score}${sm.ride.phase === "stopped" ? `<br><small>${r.advice.text}</small>` : ""}`;
+  } else if (sm.run) { ah.hidden = false; const a = SM_ACTIVITIES.find((v) => v.id === sm.run.id); ah.innerHTML = `<b>${a.name}</b><br>Next ${sm.run.next + 1}/${(a.controls ?? a.points).length} · score ${sm.run.score}${sm.run.pendingCheck ? `<br>${a.kind === "orienteering" ? "Check the map (M)" : "Radio a buddy check (R)"}` : ""}`; }
   else ah.hidden = true;
 }
 
@@ -20820,7 +20988,8 @@ function smHud() {
 let last = performance.now(), smHudT = 0, smVisitT = 0;
 function frame(now) {
   const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now;
-  if (sm.playing && !sm.modal) {
+  if (sm.playing && !sm.modal && sm.ride) smRideFrame(dt);
+  else if (sm.playing && !sm.modal) {
     let f = 0, s = 0, turn = 0;
     if (smKeys.has("KeyW") || smKeys.has("ArrowUp")) f += 1;
     if (smKeys.has("KeyS") || smKeys.has("ArrowDown")) f -= 1;
@@ -20847,13 +21016,14 @@ function frame(now) {
     }
   } else if (sm.run && sm.modal === "map") smActStep(sm.run, sm.x, sm.z, 0, { mapOpen: true });
   const gy = smHeightAt(sm.x, sm.z);
-  camera.position.set(sm.x, gy + SM_EYE + (sm.lift ?? 0), sm.z);
+  // In the cab the eye sits at the pickup's window height; the pickup itself is drawn 0.35 m over the road.
+  camera.position.set(sm.x, gy + (sm.ride ? 2.15 : SM_EYE) + (sm.lift ?? 0), sm.z);
   camera.rotation.set(sm.pitch, sm.yaw, 0, "YXZ");
   world.update(sm.x, sm.z, 2);
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of smWild) w.animate(now / 1000, dt);
-  smDriveTruck(dt);
+  if (!sm.ride) smDriveTruck(dt);
   smHudT += dt; smVisitT += dt;
   if (smVisitT > 0.5) {
     smVisitT = 0;
@@ -20897,6 +21067,7 @@ ctlMount({
     { label: "Quests", keys: ["Q"], pad: "—", touch: "Quests button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
     { label: "Radio check (activities)", keys: ["R"], pad: "—", touch: "—" },
+    { label: "Engine brake (riding the pickup)", keys: ["E"], pad: "A", touch: "Use button" },
   ],
 });
 
@@ -20906,6 +21077,7 @@ window.__summitTest = {
   teleport(x, z, yaw = sm.yaw, pitch = sm.pitch, lift = 0) { sm.x = x; sm.z = z; sm.yaw = yaw; sm.pitch = pitch; sm.lift = lift; world.update(x, z, 999); },
   begin: smBegin, stats: () => world.stats(), setTime(i) { sm.timeIdx = i; smApplySky(); }, setWeather(i) { sm.weatherIdx = i; smApplySky(); },
   wildlife: smWild, truck: smTruck, truckAt: () => ({ d: smTruckD, dir: smTruckDir }),
+  board(id = SM_RIDES[0].id) { smBoard(SM_RIDES.find((r) => r.id === id)); }, brake: smSetBrake, ride: () => sm.ride,
 };
 
 </script>
