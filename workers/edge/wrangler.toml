@@ -1,0 +1,21 @@
+# The edge router as a standalone Worker (console EDGE). Optional: the Pages project already serves the same
+# router as Functions. A deployment that wants /api/* on its own Worker (a zone route, its own limits, its own
+# logs) publishes this with `wrangler deploy --config workers/edge/wrangler.toml`; the deploy agent does so
+# only when CF_WORKER_ZONE names the zone. No ids or tokens here — the KV namespace is bound by title at
+# deploy time and the route pattern is filled from the environment.
+
+name = "smartciti-x-api"
+main = "router.mjs"
+compatibility_date = "2025-09-01"
+workers_dev = false
+
+[vars]
+CF_SERVICE = "smartciti-x-api"
+CF_ENTERPRISE_KEY_PREFIX = "org:"
+# Where the static auth-config.json is read from when the Worker runs without the Pages ASSETS binding.
+# The deploy agent sets it to https://<custom domain>/ ; empty means "the request's own origin".
+CF_ORIGIN = ""
+
+[[kv_namespaces]]
+binding = "CF_ENTERPRISE"
+id = "resolved-by-deploy-agent"

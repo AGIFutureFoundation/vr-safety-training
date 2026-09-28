@@ -1,0 +1,29 @@
+# Cloudflare Pages project for the platform's flat build (console EDGE, docs/deploy-cloudflare.md).
+#
+# What deploys is WebXR/dist/ exactly as tools/bundle_webxr.py writes it: the homepage, every app bundle,
+# the track pages, the shared modules, the lazily loaded sims, and the edge files the same script emits
+# (_headers, _redirects, _routes.json). The /api/* routes are Pages Functions (functions/) that re-export
+# the router in workers/edge/router.mjs; _routes.json keeps every other request a plain static hit.
+#
+# No account id, zone id, token or KV namespace id lives in this file — the deploy agent
+# (tools/deploy_agent.mjs) reads them from the environment and resolves the namespace by its title.
+# tools/check_deploy.mjs fails the build if anything shaped like one appears here.
+
+name = "smartciti-x"
+pages_build_output_dir = "WebXR/dist"
+compatibility_date = "2025-09-01"
+
+[vars]
+# Read by the router: shown in /api/health and used as the default KV key prefix.
+CF_SERVICE = "smartciti-x"
+CF_ENTERPRISE_KEY_PREFIX = "org:"
+
+# The organisation blocks the auth-config route injects at the edge (docs/enterprise.md § 3).
+# The namespace is created by the deploy agent's provision step under this title; its id is looked up
+# by title at deploy time, never written here. `id` is required by wrangler's schema, so it carries a
+# non-id placeholder that the checker recognises and `wrangler pages deploy` overrides from the dashboard
+# binding (Pages resolves bindings from the project, not from this file, once the project exists).
+[[kv_namespaces]]
+binding = "CF_ENTERPRISE"
+id = "resolved-by-deploy-agent"
+preview_id = "resolved-by-deploy-agent"
