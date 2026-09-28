@@ -520,6 +520,26 @@ function ctDeepRing(p, i, r) {
   return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
 }
 
+
+/**
+ * Nudge an asset's spot out along a spiral until it is more than 15 m from
+ * every site (a site's job board answers E within 14 m, so an asset closer
+ * than that could never be used) and more than 7 m from every asset already
+ * placed (the asset prompt answers within 6 m).
+ */
+function ctDeepClear(p, taken) {
+  const ok = (q) => DEEP_SITES.every((s) => Math.hypot(s.position[0] - q[0], s.position[1] - q[1]) > 15)
+    && taken.every((a) => Math.hypot(a.position[0] - q[0], a.position[1] - q[1]) > 7);
+  p = [Math.min(DEEP_BOUNDS.maxX - 5, Math.max(DEEP_BOUNDS.minX + 5, p[0])), Math.min(DEEP_BOUNDS.maxZ - 5, Math.max(DEEP_BOUNDS.minZ + 5, p[1]))];
+  if (ok(p)) return p;
+  for (let k = 1; k < 200; k += 1) {
+    const a = k * 0.9, r = 4 + k * 1.5;
+    const q = [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+    if (ok(q)) return q;
+  }
+  return p;
+}
+
 function ctBuildDeepAssets() {
   const out = [];
   const rota = ["dive-slate", "survey-marker", "tool-basket"];
@@ -540,6 +560,8 @@ function ctBuildDeepAssets() {
       name: `${CT_DEEP_ASSET_KINDS.buoy.label} · ${line.name}`, position: ctDeepRing(p, i, 4), programmes: best.programmes ?? [], stations: best.stations ?? [],
       link: { type: "site", id: best.id } });
   });
+  const placed = [];
+  for (const a of out) { a.position = ctDeepClear(a.position, placed); placed.push(a); }
   return out;
 }
 

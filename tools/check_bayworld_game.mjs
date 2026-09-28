@@ -155,6 +155,8 @@ await check("the real city loads behind a three.js stub, at both detail levels a
     "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js", "shared/weather.js",
     // The sky dome and the wildlife (docs/consoles/SKY.md): world.js builds both.
     "shared/sky.js", "shared/wildlife.js",
+    // The avatar style space (console CARTOGRAPHER): world.js dresses the player and the crowd from it.
+    "shared/crew.js",
     "smartcity/js/citykit.js",
     "shared/bayworld-data.js", "shared/bayworld.js",
     // The satellite-ground hook (docs/mapbox.md): world.js imports these two;

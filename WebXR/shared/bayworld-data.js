@@ -691,6 +691,26 @@ function ctRing(p, i, r) {
   return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
 }
 
+
+/**
+ * Nudge an asset's spot out along a spiral until it is more than 15 m from
+ * every site (a site's job board answers E within 14 m, so an asset closer
+ * than that could never be used) and more than 7 m from every asset already
+ * placed (the asset prompt answers within 6 m).
+ */
+function ctBayClear(p, taken) {
+  const ok = (q) => BAY_SITES.every((s) => Math.hypot(s.position[0] - q[0], s.position[1] - q[1]) > 15)
+    && taken.every((a) => Math.hypot(a.position[0] - q[0], a.position[1] - q[1]) > 7);
+  p = [Math.min(BAY_BOUNDS.maxX - 5, Math.max(BAY_BOUNDS.minX + 5, p[0])), Math.min(BAY_BOUNDS.maxZ - 5, Math.max(BAY_BOUNDS.minZ + 5, p[1]))];
+  if (ok(p)) return p;
+  for (let k = 1; k < 200; k += 1) {
+    const a = k * 0.9, r = 4 + k * 1.5;
+    const q = [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+    if (ok(q)) return q;
+  }
+  return p;
+}
+
 function ctBuildBayAssets() {
   const out = [];
   BAY_SITES.forEach((s, i) => {
@@ -725,6 +745,8 @@ function ctBuildBayAssets() {
     out.push({ id: `ct-dock-box-${s.id}`, kind: "dock-box", zone: s.zone, near: s.id, name: `${CT_BAY_ASSET_KINDS["dock-box"].label} · ${s.name}`,
       position: ctRing(s.position, 11, 9), programmes: ["yacht-and-charter-crew"], stations: [], link: { type: "page", href: "../regatta/regatta.html" } });
   }
+  const placed = [];
+  for (const a of out) { a.position = ctBayClear(a.position, placed); placed.push(a); }
   return out;
 }
 

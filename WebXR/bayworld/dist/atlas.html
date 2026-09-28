@@ -130,8 +130,6 @@
 </main>
 
 <script type="module">
-import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-
 /* ===== shared/profiles.js ===== */
 // A private experience per person on one device, and a free demo that keeps
 // nothing (console GATE, tools/briefs/signin-brief.md, docs/sign-in.md).
@@ -1064,6 +1062,26 @@ function ctRing(p, i, r) {
   return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
 }
 
+
+/**
+ * Nudge an asset's spot out along a spiral until it is more than 15 m from
+ * every site (a site's job board answers E within 14 m, so an asset closer
+ * than that could never be used) and more than 7 m from every asset already
+ * placed (the asset prompt answers within 6 m).
+ */
+function ctBayClear(p, taken) {
+  const ok = (q) => BAY_SITES.every((s) => Math.hypot(s.position[0] - q[0], s.position[1] - q[1]) > 15)
+    && taken.every((a) => Math.hypot(a.position[0] - q[0], a.position[1] - q[1]) > 7);
+  p = [Math.min(BAY_BOUNDS.maxX - 5, Math.max(BAY_BOUNDS.minX + 5, p[0])), Math.min(BAY_BOUNDS.maxZ - 5, Math.max(BAY_BOUNDS.minZ + 5, p[1]))];
+  if (ok(p)) return p;
+  for (let k = 1; k < 200; k += 1) {
+    const a = k * 0.9, r = 4 + k * 1.5;
+    const q = [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+    if (ok(q)) return q;
+  }
+  return p;
+}
+
 function ctBuildBayAssets() {
   const out = [];
   BAY_SITES.forEach((s, i) => {
@@ -1098,6 +1116,8 @@ function ctBuildBayAssets() {
     out.push({ id: `ct-dock-box-${s.id}`, kind: "dock-box", zone: s.zone, near: s.id, name: `${CT_BAY_ASSET_KINDS["dock-box"].label} · ${s.name}`,
       position: ctRing(s.position, 11, 9), programmes: ["yacht-and-charter-crew"], stations: [], link: { type: "page", href: "../../regatta/regatta.html" } });
   }
+  const placed = [];
+  for (const a of out) { a.position = ctBayClear(a.position, placed); placed.push(a); }
   return out;
 }
 
@@ -3140,7 +3160,8 @@ function describeSplit(station, split = splitByRole(station)) {
 // a style on the account chip (shared/account.js); it is stored per profile
 // through shared/profiles.js (key CT_AVATAR_KEY in GT_PROFILE_KEYS).
 // Every top-level name is prefixed `ct`/`CT_` because the bundler
-// concatenates every module into one scope. No imports: THREE is passed in.
+// concatenates every module into one scope. No imports: the three.js module is passed in (as `three`), so a bundle
+// that never draws a figure (the Atlas) never loads three.js for it.
 
 /** The profile-private store key the learner's own style lives under. */
 const CT_AVATAR_KEY = "vr-avatar-style-v1";
@@ -3196,15 +3217,15 @@ const CT_AVATAR_STYLES = {
   // Trade PPE by category. Hard hat colours follow the site's own colour
   // code; nothing here says what a colour means.
   ppe: [
-    { id: "none", label: "Everyday clothes", body: 0x3a6ea5 },
-    { id: "hard-hat-hivis", label: "Hard hat and hi-vis", body: 0xd8ff3a, helmet: true, vest: true },
-    { id: "electrical", label: "Arc-rated coveralls and hard hat", body: 0x2a3f6a, helmet: true },
-    { id: "dive", label: "Dive gear", body: 0x1f3a4a, tank: true, mask: true },
-    { id: "chef", label: "Chef whites", body: 0xf4f4f0, toque: true },
-    { id: "scrubs", label: "Scrubs", body: 0x3a8a8a },
-    { id: "flight-crew", label: "Flight crew uniform", body: 0x1f2f5a, trim: 0xf2c14b },
-    { id: "marine", label: "Life vest and deck gear", body: 0x2b3542, vest: true, vestColour: 0xf07a1f },
-    { id: "grounds", label: "Grounds crew hi-vis and ear defenders", body: 0x3d6b3a, vest: true, ears: true },
+    { id: "none", label: "Everyday clothes", outfit: 0x3a6ea5 },
+    { id: "hard-hat-hivis", label: "Hard hat and hi-vis", outfit: 0xd8ff3a, helmet: true, vest: true },
+    { id: "electrical", label: "Arc-rated coveralls and hard hat", outfit: 0x2a3f6a, helmet: true },
+    { id: "dive", label: "Dive gear", outfit: 0x1f3a4a, tank: true, mask: true },
+    { id: "chef", label: "Chef whites", outfit: 0xf4f4f0, toque: true },
+    { id: "scrubs", label: "Scrubs", outfit: 0x3a8a8a },
+    { id: "flight-crew", label: "Flight crew uniform", outfit: 0x1f2f5a, trim: 0xf2c14b },
+    { id: "marine", label: "Life vest and deck gear", outfit: 0x2b3542, vest: true, vestColour: 0xf07a1f },
+    { id: "grounds", label: "Grounds crew hi-vis and ear defenders", outfit: 0x3d6b3a, vest: true, ears: true },
   ],
   hardHat: [
     { id: "white", label: "White", hex: 0xf4f4f0 }, { id: "yellow", label: "Yellow", hex: 0xf2c14b },
@@ -3248,72 +3269,76 @@ function ctAvatarSave(style, storage) {
 }
 
 /**
- * The i-th figure of a crowd: every axis stepped by its own stride, co-prime
- * with that axis's length, so every option on every axis turns up and each
- * PPE category is worn across several skin tones, bodies and hair styles —
+ * The i-th figure of a crowd: the trade cycles fastest and every other axis
+ * steps once per round, so every option on every axis turns up and each PPE
+ * category is worn across every body, skin tone and hair style —
  * no trade clothing travels with one skin tone or body type
  * (tools/check_worlds_detail.mjs counts it).
  */
 function ctAvatarVariety(i, { ppe = null } = {}) {
-  const ctStep = (axis, stride) => CT_AVATAR_STYLES[axis][(i * stride + stride) % CT_AVATAR_STYLES[axis].length].id;
-  return ctAvatarNormalize({ body: ctStep("body", 5), skin: ctStep("skin", 7), hair: ctStep("hair", 3), hairColour: ctStep("hairColour", 3), ppe: ppe ?? ctStep("ppe", 2), hardHat: ctStep("hardHat", 5) });
+  const S = CT_AVATAR_STYLES, n = Math.max(0, Math.floor(i));
+  // The trade cycles fastest; every other axis steps with the round, so each
+  // trade meets every body, skin tone and hair style as the crowd grows.
+  const k = n % S.ppe.length, q = Math.floor(n / S.ppe.length);
+  const at = (axis, v) => S[axis][((v % S[axis].length) + S[axis].length) % S[axis].length].id;
+  return ctAvatarNormalize({ body: at("body", q + k), skin: at("skin", q * 5 + k), hair: at("hair", q * 3 + k), hairColour: at("hairColour", q * 7 + k), ppe: ppe ?? at("ppe", k), hardHat: at("hardHat", q + 2 * k) });
 }
 
 /**
  * Build a standing figure for `style` (about 1.7 m at the "average" body)
- * into a new THREE.Group, feet at y = 0, facing +z. At most
+ * into a new three.Group, feet at y = 0, facing +z. At most
  * CT_AVATAR_BUDGET meshes; `userData.parts` names head, torso, legs,
  * headwear and any PPE part so a world can recolour or hide it.
  */
-function ctAvatarFigure(THREE, style = {}) {
+function ctAvatarFigure(three, style = {}) {
   const s = ctAvatarNormalize(style);
   const body = ctAvatarOption("body", s.body), skin = ctAvatarOption("skin", s.skin).hex;
   const hair = ctAvatarOption("hair", s.hair), hairHex = ctAvatarOption("hairColour", s.hairColour).hex;
   const ppe = ctAvatarOption("ppe", s.ppe), hat = ctAvatarOption("hardHat", s.hardHat).hex;
-  const mat = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: o.rough ?? 0.8, metalness: o.metal ?? 0, emissive: o.emissive ?? 0x000000 });
-  const g = new THREE.Group();
+  const mat = (color, o = {}) => new three.MeshStandardMaterial({ color, roughness: o.rough ?? 0.8, metalness: o.metal ?? 0, emissive: o.emissive ?? 0x000000 });
+  const g = new three.Group();
   const parts = {};
-  const add = (name, geo, m, x, y, z) => { const mesh = new THREE.Mesh(geo, m); mesh.position.set(x, y, z); mesh.castShadow = true; g.add(mesh); parts[name] = mesh; return mesh; };
+  const add = (name, geo, m, x, y, z) => { const mesh = new three.Mesh(geo, m); mesh.position.set(x, y, z); mesh.castShadow = true; g.add(mesh); parts[name] = mesh; return mesh; };
   const H = body.h, W = body.w;
-  add("legs", new THREE.CylinderGeometry(0.17 * W, 0.14 * W, 0.78 * H, 8), mat(ppe.id === "chef" || ppe.id === "scrubs" ? ppe.body : 0x2a2f36, { rough: 0.9 }), 0, 0.39 * H, 0);
-  add("torso", new THREE.CapsuleGeometry(0.23 * W, 0.56 * H, 4, 8), mat(ppe.body), 0, 1.06 * H, 0);
+  add("legs", new three.CylinderGeometry(0.17 * W, 0.14 * W, 0.78 * H, 8), mat(ppe.id === "chef" || ppe.id === "scrubs" ? ppe.outfit : 0x2a2f36, { rough: 0.9 }), 0, 0.39 * H, 0);
+  add("torso", new three.CapsuleGeometry(0.23 * W, 0.56 * H, 4, 8), mat(ppe.outfit), 0, 1.06 * H, 0);
   const headY = 1.58 * H;
-  add("head", new THREE.SphereGeometry(0.14, 12, 10), mat(skin, { rough: 0.7 }), 0, headY, 0);
+  add("head", new three.SphereGeometry(0.14, 12, 10), mat(skin, { rough: 0.7 }), 0, headY, 0);
   // What sits on the head: hair, or a covering, drawn in the chosen colour.
   const hm = mat(hairHex, { rough: 0.85 });
   const sh = hair.shape;
-  if (sh === "cap-low") add("headwear", new THREE.SphereGeometry(0.145, 12, 6, 0, Math.PI * 2, 0, Math.PI * 0.38), hm, 0, headY + 0.005, 0);
-  else if (sh === "cap") add("headwear", new THREE.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
-  else if (sh === "puff") add("headwear", new THREE.SphereGeometry(0.19, 12, 10), hm, 0, headY + 0.05, -0.02);
-  else if (sh === "puff-high") add("headwear", new THREE.SphereGeometry(0.21, 12, 10), hm, 0, headY + 0.09, -0.02);
+  if (sh === "cap-low") add("headwear", new three.SphereGeometry(0.145, 12, 6, 0, Math.PI * 2, 0, Math.PI * 0.38), hm, 0, headY + 0.005, 0);
+  else if (sh === "cap") add("headwear", new three.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+  else if (sh === "puff") add("headwear", new three.SphereGeometry(0.19, 12, 10), hm, 0, headY + 0.05, -0.02);
+  else if (sh === "puff-high") add("headwear", new three.SphereGeometry(0.21, 12, 10), hm, 0, headY + 0.09, -0.02);
   else if (sh === "long" || sh === "long-narrow") {
-    add("headwear", new THREE.SphereGeometry(0.155, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.55), hm, 0, headY + 0.01, 0);
-    add("hairBack", new THREE.BoxGeometry(sh === "long" ? 0.28 : 0.2, 0.34, 0.08), hm, 0, headY - 0.14, -0.1);
+    add("headwear", new three.SphereGeometry(0.155, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.55), hm, 0, headY + 0.01, 0);
+    add("hairBack", new three.BoxGeometry(sh === "long" ? 0.28 : 0.2, 0.34, 0.08), hm, 0, headY - 0.14, -0.1);
   } else if (sh === "bun") {
-    add("headwear", new THREE.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
-    add("bun", new THREE.SphereGeometry(0.07, 10, 8), hm, 0, headY + 0.1, -0.12);
+    add("headwear", new three.SphereGeometry(0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+    add("bun", new three.SphereGeometry(0.07, 10, 8), hm, 0, headY + 0.1, -0.12);
   } else if (sh === "wrap-full") {
     // A hijab: the head and neck wrapped, the face open.
-    add("headwear", new THREE.SphereGeometry(0.165, 14, 10, Math.PI * 0.2, Math.PI * 1.6), hm, 0, headY, 0);
-    add("drape", new THREE.CylinderGeometry(0.15, 0.24 * W, 0.22, 12), hm, 0, headY - 0.2, 0);
-  } else if (sh === "wrap-high") add("headwear", new THREE.CylinderGeometry(0.15, 0.165, 0.16, 14), hm, 0, headY + 0.08, -0.01);
-  else if (sh === "wrap-low") add("headwear", new THREE.CylinderGeometry(0.15, 0.155, 0.09, 14), hm, 0, headY + 0.06, 0);
-  else if (sh === "disc") add("headwear", new THREE.CylinderGeometry(0.08, 0.08, 0.015, 12), hm, 0, headY + 0.135, -0.02);
+    add("headwear", new three.SphereGeometry(0.165, 14, 10, Math.PI * 0.2, Math.PI * 1.6), hm, 0, headY, 0);
+    add("drape", new three.CylinderGeometry(0.15, 0.24 * W, 0.22, 12), hm, 0, headY - 0.2, 0);
+  } else if (sh === "wrap-high") add("headwear", new three.CylinderGeometry(0.15, 0.165, 0.16, 14), hm, 0, headY + 0.08, -0.01);
+  else if (sh === "wrap-low") add("headwear", new three.CylinderGeometry(0.15, 0.155, 0.09, 14), hm, 0, headY + 0.06, 0);
+  else if (sh === "disc") add("headwear", new three.CylinderGeometry(0.08, 0.08, 0.015, 12), hm, 0, headY + 0.135, -0.02);
   else if (sh === "brim") {
-    add("headwear", new THREE.SphereGeometry(0.152, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
-    add("brim", new THREE.BoxGeometry(0.2, 0.015, 0.12), hm, 0, headY + 0.03, 0.15);
+    add("headwear", new three.SphereGeometry(0.152, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, headY + 0.01, 0);
+    add("brim", new three.BoxGeometry(0.2, 0.015, 0.12), hm, 0, headY + 0.03, 0.15);
   }
   // PPE by category: a hard hat rides over any hair or covering.
   if (ppe.helmet) {
-    add("hardHat", new THREE.SphereGeometry(0.175, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0);
-    add("hardHatBrim", new THREE.CylinderGeometry(0.2, 0.2, 0.015, 14), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0.02);
+    add("hardHat", new three.SphereGeometry(0.175, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0);
+    add("hardHatBrim", new three.CylinderGeometry(0.2, 0.2, 0.015, 14), mat(hat, { rough: 0.4 }), 0, headY + 0.05, 0.02);
   }
-  if (ppe.vest) add("vest", new THREE.CylinderGeometry(0.25 * W, 0.25 * W, 0.42 * H, 10, 1, true), mat(ppe.vestColour ?? 0xd8ff3a, { emissive: 0x202000 }), 0, 1.12 * H, 0);
-  if (ppe.tank) add("tank", new THREE.CylinderGeometry(0.09, 0.09, 0.56, 8), mat(0xd9d9d0, { rough: 0.5, metal: 0.4 }), 0, 1.1 * H, -0.27 * W);
-  if (ppe.mask) add("mask", new THREE.BoxGeometry(0.2, 0.09, 0.06), mat(0x4fd1ff, { emissive: 0x1a5a70 }), 0, headY + 0.02, 0.13);
-  if (ppe.toque) add("toque", new THREE.CylinderGeometry(0.15, 0.13, 0.2, 12), mat(0xffffff), 0, headY + 0.17, 0);
-  if (ppe.trim) add("trim", new THREE.BoxGeometry(0.3 * W, 0.04, 0.02), mat(ppe.trim, { rough: 0.4 }), 0, 1.22 * H, 0.235 * W);
-  if (ppe.ears) add("ears", new THREE.TorusGeometry(0.15, 0.025, 6, 12, Math.PI), mat(0xd8322c), 0, headY + 0.02, 0);
+  if (ppe.vest) add("vest", new three.CylinderGeometry(0.25 * W, 0.25 * W, 0.42 * H, 10, 1, true), mat(ppe.vestColour ?? 0xd8ff3a, { emissive: 0x202000 }), 0, 1.12 * H, 0);
+  if (ppe.tank) add("tank", new three.CylinderGeometry(0.09, 0.09, 0.56, 8), mat(0xd9d9d0, { rough: 0.5, metal: 0.4 }), 0, 1.1 * H, -0.27 * W);
+  if (ppe.mask) add("mask", new three.BoxGeometry(0.2, 0.09, 0.06), mat(0x4fd1ff, { emissive: 0x1a5a70 }), 0, headY + 0.02, 0.13);
+  if (ppe.toque) add("toque", new three.CylinderGeometry(0.15, 0.13, 0.2, 12), mat(0xffffff), 0, headY + 0.17, 0);
+  if (ppe.trim) add("trim", new three.BoxGeometry(0.3 * W, 0.04, 0.02), mat(ppe.trim, { rough: 0.4 }), 0, 1.22 * H, 0.235 * W);
+  if (ppe.ears) add("ears", new three.TorusGeometry(0.15, 0.025, 6, 12, Math.PI), mat(0xd8322c), 0, headY + 0.02, 0);
   g.userData.parts = parts;
   g.userData.ctAvatar = s;
   return g;
