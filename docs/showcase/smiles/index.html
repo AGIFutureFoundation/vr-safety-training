@@ -1,0 +1,697 @@
+<title>Unspoken Smiles Programmes</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap");
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --sunk:#e9edf3; --ink:#1b2231; --muted:#586174; --line:#d6dce6;
+  --nitrile:#4453c9; --nitrile-soft:#e3e6fb; --gum:#b8435f; --gum-soft:#f8e3e8; --both:#7b46a0; --both-soft:#efe4f6;
+  --ok:#2f7d5b; --focus:#4453c9;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#11141b; --surface:#191e28; --sunk:#222834; --ink:#e7eaf1; --muted:#9aa3b5; --line:#2f3645;
+  --nitrile:#9aa4f5; --nitrile-soft:#262c52; --gum:#f08fa6; --gum-soft:#4a2230; --both:#cf9ce8; --both-soft:#3a2548;
+  --ok:#7fd0a8; --focus:#9aa4f5;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#11141b; --surface:#191e28; --sunk:#222834; --ink:#e7eaf1; --muted:#9aa3b5; --line:#2f3645;
+  --nitrile:#9aa4f5; --nitrile-soft:#262c52; --gum:#f08fa6; --gum-soft:#4a2230; --both:#cf9ce8; --both-soft:#3a2548;
+  --ok:#7fd0a8; --focus:#9aa4f5;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:var(--nitrile);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+code{font:13px/1.4 var(--mono)}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(24px,3.2vw,32px);font-weight:700}
+h3{font-size:19px;font-weight:700}
+p{margin:0;max-width:68ch}
+.muted{color:var(--muted)} .small{font-size:15px}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+section{display:grid;gap:18px;padding-block:44px 0}
+section>header{display:grid;gap:8px}
+/* header */
+.top{display:grid;gap:18px;padding-block:40px 8px}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.proto{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;border-radius:999px;border:1.5px dashed var(--muted);color:var(--ink)}
+.for{font-size:15px;color:var(--muted)}
+.top h1{font-size:clamp(36px,6vw,62px);font-weight:700;letter-spacing:-.01em}
+.top h1 .c{color:var(--nitrile)} .top h1 .h{color:var(--gum)}
+.lede{font-size:clamp(18px,2.2vw,21px);max-width:60ch}
+/* video */
+.video{background:#0d1017;border-radius:14px;overflow:hidden;aspect-ratio:16/9;max-width:100%}
+.video video{width:100%;height:100%;display:block;background:#0d1017}
+.vmeta{font-size:14px;color:var(--muted)}
+/* overlap */
+.overlap{display:grid;grid-template-columns:minmax(0,18fr) minmax(64px,1.6fr) minmax(0,18fr);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.overlap div{padding:12px 14px;display:grid;gap:2px}
+.overlap b{font:700 28px/1 var(--display);font-variant-numeric:tabular-nums}
+.overlap span{font-size:14px}
+.ov-c{background:var(--nitrile-soft)} .ov-c b{color:var(--nitrile)}
+.ov-s{background:var(--both-soft);text-align:center} .ov-s b{color:var(--both)}
+.ov-h{background:var(--gum-soft);text-align:right} .ov-h b{color:var(--gum)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.cols ul{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:15px}
+.cols li{display:flex;gap:8px;align-items:baseline}
+.pp{font:600 11px/1 var(--mono);padding:4px 6px;border-radius:5px;white-space:nowrap;flex:none;font-variant-numeric:tabular-nums}
+.pp.c{background:var(--nitrile-soft);color:var(--nitrile)} .pp.h{background:var(--gum-soft);color:var(--gum)} .pp.b{background:var(--both-soft);color:var(--both)}
+.col-h{display:flex;align-items:baseline;gap:8px;border-bottom:2px solid currentColor;padding-bottom:6px;margin-bottom:8px}
+.col-c .col-h{color:var(--nitrile)} .col-s .col-h{color:var(--both)} .col-h3 .col-h{color:var(--gum)}
+.col-h h3{color:var(--ink)}
+/* programme cards */
+.progs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.prog{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:12px;align-content:start;border-top:4px solid var(--k)}
+.prog.c{--k:var(--nitrile)} .prog.h{--k:var(--gum)}
+.prog h3{font-size:22px}
+dl{margin:0;display:grid;gap:10px}
+dl div{display:grid;gap:2px}
+dt{font:600 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+dd{margin:0;font-size:15px}
+.figs{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:15px}
+.figs b{font-variant-numeric:tabular-nums}
+/* grading */
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.grade>div{padding:16px;border-radius:10px;background:var(--sunk);display:grid;gap:6px;align-content:start}
+.stars{font:700 17px/1 var(--body);letter-spacing:.06em;color:var(--both)}
+/* table */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font:600 14px var(--body);padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunk);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+.stations{min-width:980px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.pos{white-space:nowrap} td.pos .pp{margin-right:4px}
+td.st{min-width:210px} td.st a{font-weight:700;display:block} td.st code{display:block;color:var(--muted);font-size:11.5px;word-break:break-all}
+td.st .trade{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+td.tl{min-width:280px;max-width:420px}
+td.kinds{min-width:150px} td.kinds span{display:inline-block;font:11px/1 var(--mono);padding:3px 5px;margin:0 3px 3px 0;border-radius:4px;background:var(--sunk)}
+td.ev{font-weight:700}
+tr[data-track="shared"] td:first-child{box-shadow:inset 4px 0 0 var(--both)}
+tr[data-track="careers"] td:first-child{box-shadow:inset 4px 0 0 var(--nitrile)}
+tr[data-track="hygiene"] td:first-child{box-shadow:inset 4px 0 0 var(--gum)}
+/* worlds */
+.world{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.world>div{display:grid;gap:10px;align-content:start}
+.world ul{margin:0;padding-left:18px;display:grid;gap:8px;font-size:15px}
+.flow{font:13px/1.9 var(--mono);background:var(--sunk);border-radius:10px;padding:12px 14px;overflow-x:auto}
+/* shots */
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+figure{margin:0;display:grid;gap:8px}
+figure img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:var(--sunk)}
+figcaption{font-size:14px;color:var(--muted)}
+/* build */
+.build{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.build ul{margin:0;padding-left:18px;font-size:15px;display:grid;gap:4px}
+.chk{display:flex;flex-wrap:wrap;gap:6px} .chk code{background:var(--sunk);padding:3px 6px;border-radius:4px;font-size:12px}
+.commits{min-width:640px}
+.next{display:grid;gap:12px;counter-reset:n;padding:0;margin:0;list-style:none}
+.next li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:16px}
+.note{font-size:14px;color:var(--muted);max-width:80ch}
+footer{padding-block:40px 0;font-size:13px;color:var(--muted)}
+@media (max-width:520px){ .overlap b{font-size:22px} .ov-s span{display:none} }
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+<div class="wrap">
+
+<header class="top">
+  <div class="marks"><span class="eyebrow">SmartCiti.X ~ Holodeck</span><span class="proto">Working prototype</span></div>
+  <h1><span class="c">Dental Careers</span> &amp; <span class="h">Dental Hygiene</span> — Unspoken Smiles</h1>
+  <p class="lede">Two 19-station training programmes that turn the roles of a dental clinic into scored procedures a learner runs in a browser or a headset. Every run is scored and recorded, and the steps cite the guidance they stand on.</p>
+  <p class="for">Prepared for the Unspoken Smiles team. This page describes only the programmes as they stand in the SmartCiti.X repository at commit <a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/ce62330"><code>ce62330</code></a> (2026-09-28).</p>
+</header>
+
+<section id="demo" aria-labelledby="demo-h">
+  <header><span class="eyebrow">Video demo</span><h2 id="demo-h">About 99 seconds through both programmes</h2></header>
+  <div class="video"><video controls playsinline preload="metadata" poster="assets/poster.jpg" src="demo.mp4"></video></div>
+  <p class="vmeta">The homepage, the two track pages, 7 stations recorded from real runs on the prototype, and the programmes' site in Bay World. Narration is synthetic.</p>
+</section>
+
+<section id="overview" aria-labelledby="ov-h">
+  <header><span class="eyebrow">Overview</span><h2 id="ov-h">Two programmes, one clinic, 37 distinct stations</h2></header>
+  <p>Each programme has 19 stations. They share one: <b>Patient Intake Screening</b>, the history and vitals that every dental role starts from. The other 18 in each are unique to that programme.</p>
+  <div class="overlap" role="img" aria-label="18 careers-only stations, 1 shared, 18 hygiene-only">
+    <div class="ov-c"><b>18</b><span>Careers only</span></div>
+    <div class="ov-s"><b>1</b><span>Shared</span></div>
+    <div class="ov-h"><b>18</b><span>Hygiene only</span></div>
+  </div>
+  <div class="cols">
+    <div class="col-c"><div class="col-h"><h3>Dental Careers only</h3></div><ul><li class="c"><span class="pp c">C2</span>Dental Careers Pathway</li><li class="c"><span class="pp c">C3</span>Four-Handed Dentistry</li><li class="c"><span class="pp c">C4</span>Full-Mouth Radiographic Series</li><li class="c"><span class="pp c">C5</span>Sterilisation Centre</li><li class="c"><span class="pp c">C6</span>Dental Laboratory Bench</li><li class="c"><span class="pp c">C7</span>Orthodontic Assisting</li><li class="c"><span class="pp c">C8</span>Oral Surgery Assisting</li><li class="c"><span class="pp c">C9</span>Front Office &amp; Treatment Coordination</li><li class="c"><span class="pp c">C10</span>Infection Control Audit</li><li class="c"><span class="pp c">C11</span>School Screening Outreach</li><li class="c"><span class="pp c">C12</span>Implant Surgery Assisting</li><li class="c"><span class="pp c">C13</span>Endodontic Assisting</li><li class="c"><span class="pp c">C14</span>Denture Delivery &amp; Adjustment</li><li class="c"><span class="pp c">C15</span>Special Needs &amp; Geriatric Dentistry</li><li class="c"><span class="pp c">C16</span>Teledentistry &amp; Triage</li><li class="c"><span class="pp c">C17</span>Digital Intraoral Scanning &amp; CAD/CAM</li><li class="c"><span class="pp c">C18</span>Dental Trauma &amp; Avulsed Tooth Response</li><li class="c"><span class="pp c">C19</span>Dental Coding, Billing &amp; Pre-authorisation</li></ul></div>
+    <div class="col-s"><div class="col-h"><h3>In both</h3></div><ul><li class="sh"><span class="pp b">C1 · H5</span>Patient Intake Screening</li></ul><p class="note" style="margin-top:10px">C and H numbers are each station's place in the programme's own order. Patient Intake Screening opens Dental Careers and is fifth in Dental Hygiene, after the sharps and infection-control chain.</p></div>
+    <div class="col-h3"><div class="col-h"><h3>Dental Hygiene only</h3></div><ul><li class="h"><span class="pp h">H1</span>Draw Station</li><li class="h"><span class="pp h">H2</span>Operatory Turnover</li><li class="h"><span class="pp h">H3</span>Instrument Reprocessing</li><li class="h"><span class="pp h">H4</span>Sharps Exposure Response</li><li class="h"><span class="pp h">H6</span>Radiograph Safety</li><li class="h"><span class="pp h">H7</span>Periodontal Charting</li><li class="h"><span class="pp h">H8</span>Ultrasonic Scaling</li><li class="h"><span class="pp h">H9</span>Aerosol Management</li><li class="h"><span class="pp h">H10</span>Fluoride and Sealants</li><li class="h"><span class="pp h">H11</span>Nitrous Oxide Monitoring</li><li class="h"><span class="pp h">H12</span>Chairside Emergency</li><li class="h"><span class="pp h">H13</span>Amalgam Waste Handling</li><li class="h"><span class="pp h">H14</span>Mobile Dental Outreach</li><li class="h"><span class="pp h">H15</span>Pediatric Visit</li><li class="h"><span class="pp h">H16</span>Oral Cancer Screening</li><li class="h"><span class="pp h">H17</span>Medical History &amp; Medication Review</li><li class="h"><span class="pp h">H18</span>Oral Hygiene Instruction &amp; Motivational Interviewing</li><li class="h"><span class="pp h">H19</span>Public Health Dentistry &amp; Fluoridation Advocacy</li></ul></div>
+  </div>
+
+  <div class="progs">
+  <article class="prog c">
+    <span class="eyebrow"><code>dental-careers-unspoken-smiles</code></span>
+    <h3>Dental Careers — Unspoken Smiles</h3>
+    <p class="small">The careers a student can step into from the Unspoken Smiles clinic: dental assisting at the chair, sterilisation and instrument processing, radiography, the laboratory bench, orthodontic and surgical assisting, the front office and treatment coordination, and community outreach — with the ladder from assistant to hygienist to dentist laid out as a station of its own.</p>
+    <div class="figs"><span><b>19</b> stations</span><span><b>272</b> steps</span><span><b>76</b> registered hazards</span><span><b>38</b> interruptions</span></div>
+    <dl>
+      <div><dt>Unions and professional bodies (as the catalog names them)</dt><dd>SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions' bodies, DANB as the assisting credential</dd></div>
+      <div><dt>Frameworks its steps cite (catalog certification line)</dt><dd>The state dental practice act and its allowable duties for assistants and hygienists, DANB's CDA components (radiation health and safety, infection control, general chairside), CODA-accredited programme standards, the CDC's dental infection-control guidelines, OSHA 29 CFR 1910.1030 and 1910.1200, HIPAA's privacy and security rules, and the ADA's radiographic guidance</dd></div>
+      <div><dt>Programme competency</dt><dd>Work a dental clinic's assisting, radiography, sterilisation, laboratory and front-office roles under the practice act — shown by a mastery run on 6 of its 19 stations.</dd></div>
+      <div><dt>Completion rule</dt><dd>Every station has a passing attempt (stars &gt;= 2, no unsafe action).</dd></div>
+      <div><dt>Ladder</dt><dd>20 levels, 1,632 lessons, 114 tasks; 20 of 20 levels reach the bar of 75 lessons.</dd></div>
+    </dl>
+  </article>
+<article class="prog h">
+    <span class="eyebrow"><code>dental-hygiene-unspoken-smiles</code></span>
+    <h3>Dental Hygiene — Unspoken Smiles</h3>
+    <p class="small">Eighteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on. <span class="muted">(The catalog summary counts the 18 Dental &amp; Oral Health stations; the nineteenth is the Trade Skills Draw Station.)</span></p>
+    <div class="figs"><span><b>19</b> stations</span><span><b>254</b> steps</span><span><b>76</b> registered hazards</span><span><b>38</b> interruptions</span></div>
+    <dl>
+      <div><dt>Unions and professional bodies (as the catalog names them)</dt><dd>SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body</dd></div>
+      <div><dt>Frameworks its steps cite (catalog certification line)</dt><dd>The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance</dd></div>
+      <div><dt>Programme competency</dt><dd>Deliver chairside hygiene under dental infection-control practice — shown by a mastery run on 6 of its 19 stations.</dd></div>
+      <div><dt>Completion rule</dt><dd>Every station has a passing attempt (stars &gt;= 2, no unsafe action).</dd></div>
+      <div><dt>Ladder</dt><dd>20 levels, 1,648 lessons, 122 tasks; 20 of 20 levels reach the bar of 75 lessons.</dd></div>
+    </dl>
+  </article>
+  </div>
+  <p class="note">The bodies above are named only as the catalog names them. The prototype is not accredited, endorsed or reviewed by any of them. Infection-control, radiography and sedation settings stay "per the clinic protocol" or "per the manufacturer's instructions", exactly as the stations say.</p>
+
+  <h3>What a learner does</h3>
+  <p>A learner opens a station, is briefed, and works the procedure step by step in a 3D clinic room: selecting the right instrument or control, putting a sequence in order, holding a gauge in its band, dragging an item to where it belongs, or finding every item on a checklist. The interaction kinds across the 37 stations are <code>select</code>, <code>find</code>, <code>turn</code>, <code>drag</code>, <code>gauge</code>, <code>sequence</code>, <code>hold</code>, <code>track</code>. Registered hazards sit in the room, and interruptions fire mid-procedure (a parent walks in, a spore test comes back positive, a waterline runs dry) and must be answered.</p>
+  <h3>How a run is graded</h3>
+  <div class="grade">
+    <div><span class="stars">★★★ ★★ ★</span><p class="small">3 stars: no corrections at all and finished inside par. 2 stars: at most one correction and finished inside 1.5x par. 1 star: anything else. Stars, not score, decide whether a run counts.</p></div>
+    <div><b>Unsafe actions</b><p class="small">Touching a registered hazard is recorded as an unsafe action. A wrong or unanswered interruption counts as one too. A run with any unsafe action does not count, whatever it scored.</p></div>
+    <div><b>Mastery</b><p class="small">A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station's par time. One mastery run on enough of a competency's stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p></div>
+  </div>
+  <h3>The ladder</h3>
+  <p>Each programme is also a twenty-level ladder. A lesson is one station step run under one condition (daylight, dusk, hazard mode, a named interruption, or the no-hints assessment variant), and each level holds at least 75 lessons. Level 1 is Orientation with the easiest procedures as authored and coached; level 20 is a capstone with no coaching.</p>
+</section>
+
+<section id="details" aria-labelledby="dt-h">
+  <header><span class="eyebrow">Details</span><h2 id="dt-h">Every station</h2>
+  <p class="small muted">37 stations. Steps, kinds, hazards and interruptions come from <code>docs/investor/stations.csv</code>; Eval is the repository's own content-evaluation score (0–100) in <code>tools/eval-content.json</code>. Station names link to their source file.</p></header>
+  <div class="filters" role="group" aria-label="Filter stations">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All 37</button>
+    <button type="button" id="f-car" data-f="careers" aria-pressed="false">Dental Careers 19</button>
+    <button type="button" id="f-hyg" data-f="hygiene" aria-pressed="false">Dental Hygiene 19</button>
+    <button type="button" id="f-sh" data-f="shared" aria-pressed="false">Shared 1</button>
+  </div>
+  <div class="tablebox">
+  <table class="stations">
+    <thead><tr><th>Place</th><th>Station</th><th>What it trains</th><th class="num">Steps</th><th>Interaction kinds</th><th class="num">Hazards</th><th class="num">Interr.</th><th class="num">Eval</th></tr></thead>
+    <tbody id="st-body">
+<tr data-track="shared">
+<td class="pos"><span class="pp c">C1</span><span class="pp h">H5</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/patient-intake-screening.js">Patient Intake Screening</a><code>patient-intake-screening</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">History reviewed and flagged, vitals read against the deferral threshold, a systematic exam, findings charted, and today's consent explained and signed</td>
+<td class="num">13</td>
+<td class="kinds"><span>select</span><span>find</span><span>turn</span><span>drag</span><span>gauge</span><span>sequence</span><span>hold</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C2</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dental-careers-pathway.js">Dental Careers Pathway</a><code>dental-careers-pathway</code><span class="trade">Dental careers — assistant to hygienist to dentist</span></td>
+<td class="tl">A careers evening in the staff room: the ladder from assistant to hygienist to dentist, the credential behind each rung, where the pay-and-hours facts actually come from, and how to apply this month</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>sequence</span><span>hold</span><span>find</span><span>turn</span><span>drag</span><span>gauge</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">96</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C3</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/four-handed-dentistry.js">Four-Handed Dentistry</a><code>four-handed-dentistry</code><span class="trade">Dental assistant — chairside (DANB CDA)</span></td>
+<td class="tl">Chairside assisting as a trade: clock zones, stool heights, a tray in order of use, transfers below the chin, evacuation on hard tissue and retraction that holds a field without blanching it</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>sequence</span><span>turn</span><span>gauge</span><span>hold</span><span>drag</span><span>track</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C4</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dental-radiography-fmx.js">Full-Mouth Radiographic Series</a><code>dental-radiography-fmx</code><span class="trade">Dental assistant — radiographer (DANB RHS)</span></td>
+<td class="tl">A complete series on a paralleling instrument: holder assembled, sensor sheathed and seated, factors set for this patient, tubehead square to the ring, region order worked, retakes decided by rule</td>
+<td class="num">15</td>
+<td class="kinds"><span>sequence</span><span>select</span><span>drag</span><span>gauge</span><span>turn</span><span>hold</span><span>track</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">92</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C5</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/sterilisation-technician-cycle.js">Sterilisation Centre</a><code>sterilisation-technician-cycle</code><span class="trade">Sterile processing technician — dental instruments</span></td>
+<td class="tl">The processing room as a career: one-way zones, mechanical cleaning, indicators and load numbers, a cycle chosen for the chamber, a chart read before release, a spore test with its control and a recall that can name every pack</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>sequence</span><span>drag</span><span>hold</span><span>gauge</span><span>find</span><span>turn</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">93</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C6</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dental-lab-bench.js">Dental Laboratory Bench</a><code>dental-lab-bench</code><span class="trade">Dental laboratory technician (CDT)</span></td>
+<td class="tl">The lab bench as a trade: impressions disinfected to time, stone mixed by ratio under vacuum, models poured and trimmed wet, a lathe behind its shield, pumice changed per case and a tray made to the written prescription</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>hold</span><span>gauge</span><span>track</span><span>turn</span><span>drag</span><span>sequence</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">93</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C7</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/orthodontic-assisting.js">Orthodontic Assisting</a><code>orthodontic-assisting</code><span class="trade">Orthodontic dental assistant</span></td>
+<td class="tl">Bracket tray, retraction and isolation, an etch held to the label's window, bracket height on the gauge, archwire and module change with the distal ends tucked</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>sequence</span><span>drag</span><span>find</span><span>track</span><span>hold</span><span>gauge</span><span>turn</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C8</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/oral-surgery-assisting.js">Oral Surgery Assisting</a><code>oral-surgery-assisting</code><span class="trade">Oral and maxillofacial surgery assistant</span></td>
+<td class="tl">Time-out, surgical asepsis and draping, suction and retraction, a sedation readback, specimen and sharps handling, and post-op instructions that survive the sedation</td>
+<td class="num">14</td>
+<td class="kinds"><span>find</span><span>hold</span><span>sequence</span><span>gauge</span><span>track</span><span>drag</span><span>turn</span><span>select</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C9</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/front-office-treatment-coordination.js">Front Office &amp; Treatment Coordination</a><code>front-office-treatment-coordination</code><span class="trade">Dental front office treatment coordinator</span></td>
+<td class="tl">Privacy at an open counter and on the phone, a pre-authorisation built on a real code, a plan presented behind a door, payment options without pressure, and a records request answered right</td>
+<td class="num">14</td>
+<td class="kinds"><span>find</span><span>turn</span><span>select</span><span>hold</span><span>drag</span><span>sequence</span><span>gauge</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C10</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/infection-control-audit.js">Infection Control Audit</a><code>infection-control-audit</code><span class="trade">Dental infection prevention coordinator</span></td>
+<td class="tl">The CDC checklist walked through a whole clinic: hand hygiene, PPE, barriers, waterlines sampled and shocked, sharps, sterilisation logs, spore records and a corrective action per finding</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>turn</span><span>drag</span><span>track</span><span>hold</span><span>gauge</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">94</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C11</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/school-screening-outreach.js">School Screening Outreach</a><code>school-screening-outreach</code><span class="trade">Community dental health worker</span></td>
+<td class="tl">A school screening day: consent sorted first, stations laid out private, a basic screening by light and mirror, varnish under standing order, referrals triaged and a sealant day booked</td>
+<td class="num">14</td>
+<td class="kinds"><span>find</span><span>drag</span><span>turn</span><span>sequence</span><span>track</span><span>gauge</span><span>select</span><span>hold</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C12</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/implant-surgery-assisting.js">Implant Surgery Assisting</a><code>implant-surgery-assisting</code><span class="trade">Dental assistant — surgical assisting (DANB Certified Oral and Maxillofacial Surgery Assistant), SEIU and UFCW clinic and dental staff</span></td>
+<td class="tl">A single-fixture implant placement from the assistant's side: sterile field, kit sequence, chilled irrigation, a torque you can read, graft handled once, and a patient who leaves knowing what failure looks like</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>gauge</span><span>hold</span><span>turn</span><span>track</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C13</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/endodontic-assisting.js">Endodontic Assisting</a><code>endodontic-assisting</code><span class="trade">Dental assistant — endodontic assisting (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff</span></td>
+<td class="tl">A root canal from the assistant's side: the dam on before anything opens, a working length read off the locator, files counted both ways, hypochlorite treated as caustic, and the fill proved on a radiograph</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>sequence</span><span>find</span><span>gauge</span><span>hold</span><span>turn</span><span>track</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C14</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/denture-delivery-and-adjustment.js">Denture Delivery &amp; Adjustment</a><code>denture-delivery-and-adjustment</code><span class="trade">Dental assistant and dental laboratory technician — removable prosthodontics (DANB Certified Dental Assistant), SEIU and UFCW clinic, dental and laboratory staff</span></td>
+<td class="tl">A finished denture handed over properly: case checked against the prescription, fit proved with paste, the spot cut under a guard and under extraction, bite checked, appliance marked, and home care an older patient can follow</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>find</span><span>hold</span><span>sequence</span><span>gauge</span><span>track</span><span>turn</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C15</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/special-needs-and-geriatric-dentistry.js">Special Needs &amp; Geriatric Dentistry</a><code>special-needs-and-geriatric-dentistry</code><span class="trade">Dental assistant and hygienist — special care and geriatric dentistry (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff</span></td>
+<td class="tl">A supported appointment: the bay reachable, the transfer done with equipment, consent taken from the patient, a swallow-safe position, a pace that stops when they say stop, and a dry mouth treated seriously</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>gauge</span><span>turn</span><span>hold</span><span>track</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C16</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/teledentistry-and-triage.js">Teledentistry &amp; Triage</a><code>teledentistry-and-triage</code><span class="trade">Dental assistant — teledentistry facilitator and triage (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff</span></td>
+<td class="tl">A virtual triage session run properly: compliant platform, private room, images worth reading, emergency criteria checked, the right level of care, and the limits of a camera said out loud</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>gauge</span><span>hold</span><span>track</span><span>turn</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C17</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dn-digital-intraoral-scanning-and-cad-cam.js">Digital Intraoral Scanning &amp; CAD/CAM</a><code>dn-digital-intraoral-scanning-and-cad-cam</code><span class="trade">Dental assistant — digital scanning and chairside CAD/CAM (expanded-function assistant where the state allows it)</span></td>
+<td class="tl">A crown made in one visit, done properly: a reprocessed tip, a scanner proved ready, one steady scan path, a margin checked before anybody designs to it, a block milled behind a closed door and a file that never leaves the record</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>find</span><span>gauge</span><span>track</span><span>sequence</span><span>drag</span><span>turn</span><span>hold</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C18</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dn-dental-trauma-and-avulsed-tooth-response.js">Dental Trauma &amp; Avulsed Tooth Response</a><code>dn-dental-trauma-and-avulsed-tooth-response</code><span class="trade">Dental assistant — emergency and trauma chairside (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff</span></td>
+<td class="tl">A knocked-out front tooth and an hour on the clock: head injury ruled out first, the root rinsed and never scrubbed, the tooth carried by its crown into a medium that keeps it alive, and the dentist at the chair to replant it</td>
+<td class="num">14</td>
+<td class="kinds"><span>sequence</span><span>select</span><span>find</span><span>gauge</span><span>turn</span><span>drag</span><span>hold</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="careers">
+<td class="pos"><span class="pp c">C19</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dn-dental-coding-billing-and-preauthorisation.js">Dental Coding, Billing &amp; Pre-authorisation</a><code>dn-dental-coding-billing-and-preauthorisation</code><span class="trade">Dental billing and insurance coordinator — coding, claims and pre-authorisation, SEIU and UFCW clinic and front-office staff</span></td>
+<td class="tl">A crown and two dental plans turned into an honest claim: eligibility first, the note read for what it supports, a gap sent back to the dentist, the current CDT, payers in order, a portal rather than a fax, and an appeal made on the facts</td>
+<td class="num">14</td>
+<td class="kinds"><span>sequence</span><span>find</span><span>select</span><span>gauge</span><span>drag</span><span>hold</span><span>track</span><span>turn</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H1</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/trades/js/rooms/phlebotomy.js">Draw Station</a><code>phlebotomy</code><span class="trade">Phlebotomy technician</span></td>
+<td class="tl">Two-identifier check, venipuncture technique and the order of draw</td>
+<td class="num">10</td>
+<td class="kinds"><span>find</span><span>select</span><span>drag</span><span>gauge</span><span>sequence</span><span>hold</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">99</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H2</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/operatory-turnover.js">Operatory Turnover</a><code>operatory-turnover</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Dirty-to-clean turnover: sharps and instruments contained at point of use, surfaces held to full contact time, barriers changed, lines flushed, the next setup laid out sterile</td>
+<td class="num">13</td>
+<td class="kinds"><span>sequence</span><span>find</span><span>select</span><span>track</span><span>hold</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H3</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/instrument-reprocessing.js">Instrument Reprocessing</a><code>instrument-reprocessing</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Sterilization centre: mechanical cleaning, inspection, chemical-indicator packaging, an autoclave cycle read from its own printout, and the weekly spore test that proves it worked</td>
+<td class="num">14</td>
+<td class="kinds"><span>select</span><span>hold</span><span>find</span><span>sequence</span><span>drag</span><span>gauge</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">95</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H4</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/sharps-exposure-response.js">Sharps Exposure Response</a><code>sharps-exposure-response</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">A needlestick mid-scaling: stopped safely, washed not squeezed, reported at once, the source pursued with consent, evaluation inside the hours that matter, and the stick logged and reviewed</td>
+<td class="num">11</td>
+<td class="kinds"><span>select</span><span>track</span><span>hold</span><span>sequence</span><span>gauge</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H6</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/radiograph-safety.js">Radiograph Safety</a><code>radiograph-safety</code><span class="trade">Dental hygienist — radiographer</span></td>
+<td class="tl">A bitewing series under ALARA: selection criteria, shielding, positioning, the operator behind the barrier, exposure only with the room clear, and every image logged</td>
+<td class="num">13</td>
+<td class="kinds"><span>select</span><span>drag</span><span>sequence</span><span>turn</span><span>gauge</span><span>hold</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">95</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H7</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/periodontal-charting.js">Periodontal Charting</a><code>periodontal-charting</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Six sites a tooth probed and walked, depths charted, bleeding and suppuration recorded, recession and attachment loss calculated, and the case staged and graded to the 2017 classification</td>
+<td class="num">13</td>
+<td class="kinds"><span>turn</span><span>select</span><span>drag</span><span>track</span><span>sequence</span><span>gauge</span><span>hold</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H8</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/ultrasonic-scaling.js">Ultrasonic Scaling</a><code>ultrasonic-scaling</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">A scaling and root planing appointment: the waterline verified and flushed, PPE and loupes on, the insert matched to the deposit, the evacuator held on the aerosol, the tip adapted and kept moving, and the operator's own wrist and shoulders held neutral through the whole appointment</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>find</span><span>hold</span><span>sequence</span><span>gauge</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">96</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H9</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/aerosol-management.js">Aerosol Management</a><code>aerosol-management</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Turning an operatory over for an aerosol-generating procedure: the room's own air changes and a portable HEPA unit sized to them, HVE and pre-procedural rinse, an N95 seal-checked every time it goes on, the dam where it fits, and the room left to settle its own fallow time before the next patient sits down</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>find</span><span>gauge</span><span>sequence</span><span>hold</span><span>drag</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">96</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H10</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/fluoride-and-sealants.js">Fluoride and Sealants</a><code>fluoride-and-sealants</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Preventive care on a child: a caries risk assessment, varnish dosed to the age and painted after isolation, then sealants cleaned, etched to the label's time, rinsed to the frosted look, placed and cured behind eye protection, checked for a high spot and recorded for the recall</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>gauge</span><span>sequence</span><span>track</span><span>hold</span><span>find</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H11</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/nitrous-oxide-monitoring.js">Nitrous Oxide Monitoring</a><code>nitrous-oxide-monitoring</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Permit, patient screening, fail-safe and scavenging checks, titration and monitored recovery on a nitrous oxide-oxygen sedation</td>
+<td class="num">13</td>
+<td class="kinds"><span>select</span><span>find</span><span>sequence</span><span>drag</span><span>gauge</span><span>hold</span><span>turn</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H12</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/chairside-emergency.js">Chairside Emergency</a><code>chairside-emergency</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Syncope, escalating to anaphylaxis and a pulseless patient — the office emergency kit, BLS and the AED</td>
+<td class="num">12</td>
+<td class="kinds"><span>find</span><span>sequence</span><span>hold</span><span>turn</span><span>select</span><span>track</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H13</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/amalgam-waste-handling.js">Amalgam Waste Handling</a><code>amalgam-waste-handling</code><span class="trade">Dental hygienist</span></td>
+<td class="tl">Separator certification and canister change, scrap routed to the amalgam waste stream, the recycler's manifest and a mercury spill kit</td>
+<td class="num">15</td>
+<td class="kinds"><span>turn</span><span>track</span><span>select</span><span>gauge</span><span>sequence</span><span>drag</span><span>find</span><span>hold</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">96</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H14</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/mobile-dental-outreach.js">Mobile Dental Outreach</a><code>mobile-dental-outreach</code><span class="trade">Registered dental hygienist in alternative practice (RDHAP)</span></td>
+<td class="tl">A school screening and sealant day run off the van: site, water and sterile stock proven before the first child sits down</td>
+<td class="num">15</td>
+<td class="kinds"><span>select</span><span>drag</span><span>gauge</span><span>sequence</span><span>find</span><span>hold</span><span>turn</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">97</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H15</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/pediatric-visit.js">Pediatric Visit</a><code>pediatric-visit</code><span class="trade">Registered dental hygienist — pediatric practice</span></td>
+<td class="tl">A five-year-old's first dental visit: knee-to-knee, tell-show-do, and a plan that bends to the child in front of you</td>
+<td class="num">13</td>
+<td class="kinds"><span>select</span><span>drag</span><span>sequence</span><span>find</span><span>gauge</span><span>track</span><span>hold</span><span>turn</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H16</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/oral-cancer-screening.js">Oral Cancer Screening</a><code>oral-cancer-screening</code><span class="trade">Registered dental hygienist</span></td>
+<td class="tl">The screening every adult recall should include: extraoral and intraoral in a fixed order, a finding described in terms a surgeon can act on, and the two-week rule</td>
+<td class="num">13</td>
+<td class="kinds"><span>select</span><span>turn</span><span>sequence</span><span>hold</span><span>track</span><span>find</span><span>gauge</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H17</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dn-medical-history-and-medication-review.js">Medical History &amp; Medication Review</a><code>dn-medical-history-and-medication-review</code><span class="trade">Dental hygienist or assistant — medical history and medication review (RDH, DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff</span></td>
+<td class="tl">A history reviewed before anybody picks up an instrument: the door closed, the bottles checked against the form, a blood thinner and a bone medicine flagged, the allergies read, and the consult decision recorded — per the dentist</td>
+<td class="num">13</td>
+<td class="kinds"><span>turn</span><span>sequence</span><span>find</span><span>select</span><span>hold</span><span>track</span><span>drag</span><span>gauge</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H18</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dn-oral-hygiene-instruction-and-motivational-interviewing.js">Oral Hygiene Instruction &amp; Motivational Interviewing</a><code>dn-oral-hygiene-instruction-and-motivational-interviewing</code><span class="trade">Dental hygienist — patient education and motivational interviewing (RDH), SEIU and UFCW clinic and dental staff, AFSCME public-health hygienists</span></td>
+<td class="tl">The flossing talk that finally works: at eye level, permission first, his story heard to the end, his own reasons noticed, technique shown on a model, and one small goal he chose — in his words</td>
+<td class="num">14</td>
+<td class="kinds"><span>turn</span><span>sequence</span><span>hold</span><span>find</span><span>gauge</span><span>select</span><span>drag</span><span>track</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+<tr data-track="hygiene">
+<td class="pos"><span class="pp h">H19</span></td>
+<td class="st"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/dn-public-health-dentistry-and-fluoridation-advocacy.js">Public Health Dentistry &amp; Fluoridation Advocacy</a><code>dn-public-health-dentistry-and-fluoridation-advocacy</code><span class="trade">Public-health dental hygienist — community oral health and advocacy (RDH with the state's public-health permit where it has one), AFSCME public-health staff, SEIU and UFCW clinic staff</span></td>
+<td class="tl">Community water fluoridation at a public meeting, argued honestly: data with no child in it, your own slides checked for overclaims, a worried resident heard, three minutes at the podium and every question answered in writing</td>
+<td class="num">14</td>
+<td class="kinds"><span>find</span><span>sequence</span><span>gauge</span><span>select</span><span>hold</span><span>turn</span><span>track</span><span>drag</span></td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num ev">98</td>
+</tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="margin-top:12px">Where the programmes live in the open worlds</h3>
+  <div class="world">
+    <div>
+      <p><b>Bay World</b> · <b>Fruitvale Community College</b> (<code>fruitvale-community-college</code>) in the Fruitvale zone anchors both programmes. Its job board offers Draw Station, Dental Careers Pathway, Four-Handed Dentistry, alongside the k12-science programme.</p>
+      <p><b>SmartCiti.X</b> · every dental station is an indoor <code>clinic</code> room rather than a street district.</p>
+      <p><b>The Deep</b> · no underwater site anchors either programme.</p>
+    </div>
+    <div>
+      <p><b>Bay World quests</b> · 4 side quests, an opener and a capstone for each programme:</p>
+      <ul><li><b>Dental Hygiene — Unspoken Smiles — First Shift</b> <span class="muted">(opener, given by the programme's training lead)</span><br><span class="small">Stations: Draw Station, Operatory Turnover, Instrument Reprocessing · reward 100 XP and a badge</span></li><li><b>Dental Hygiene — Unspoken Smiles — Capstone</b> <span class="muted">(capstone, given by the programme's certifying evaluator)</span><br><span class="small">Stations: Medical History &amp; Medication Review, Oral Hygiene Instruction &amp; Motivational Interviewing, Public Health Dentistry &amp; Fluoridation Advocacy · reward 250 XP and a badge</span></li><li><b>Dental Careers — Unspoken Smiles — First Shift</b> <span class="muted">(opener, given by the programme's training lead)</span><br><span class="small">Stations: Patient Intake Screening, Dental Careers Pathway, Four-Handed Dentistry · reward 100 XP and a badge</span></li><li><b>Dental Careers — Unspoken Smiles — Capstone</b> <span class="muted">(capstone, given by the programme's certifying evaluator)</span><br><span class="small">Stations: Digital Intraoral Scanning &amp; CAD/CAM, Dental Trauma &amp; Avulsed Tooth Response, Dental Coding, Billing &amp; Pre-authorisation · reward 250 XP and a badge</span></li></ul>
+    </div>
+  </div>
+  <div class="world">
+    <div>
+      <p><b>FlowHub</b> · <code>dental-careers-orientation</code>, “Dental Careers — Orientation (Unspoken Smiles)”. The programme is the orientation; the branch after it is the point. A three-star intake sends the student on to the chairside and radiography work an assistant does; anything less sends them back through the shared first ten minutes before they choose a direction.</p>
+      <div class="flow">Dental Careers — Unspoken Smiles → Patient intake and screening<br>Patient intake and screening → Radiography — safety and technique [3★ pass]<br>Patient intake and screening → Sterilisation and instrument processing [2★ pass]<br>Radiography — safety and technique → Which chair do you want? [passed]<br>Radiography — safety and technique → Sterilisation and instrument processing<br>Sterilisation and instrument processing → Which chair do you want? [passed]</div>
+    </div>
+    <div>
+      <p><b>The Guide</b> · a help button on every page answers typed or spoken questions from a knowledge base generated from the repository. It holds 39 entries for these programmes and their stations, plus one for Fruitvale Community College with a “take me there” link into Bay World.</p>
+      <p><b>Devices</b> · the stations are WebXR pages. They run <b>flat</b> in any browser on a laptop or phone (mouse, touch or voice), in <b>immersive VR</b> in a headset browser, and in <b>immersive AR</b> where the browser supports it. The page detects the device and names how it will run. No headset performance pass has been recorded yet.</p>
+    </div>
+  </div>
+</section>
+
+<section id="screens" aria-labelledby="sc-h">
+  <header><span class="eyebrow">Screens</span><h2 id="sc-h">From the prototype</h2></header>
+  <div class="shots">
+<figure><img src="assets/home-dental.jpg" alt="The homepage trade finder: a search for dental returns both Unspoken Smiles programmes, 19 stations each." loading="lazy"><figcaption>The homepage trade finder: a search for dental returns both Unspoken Smiles programmes, 19 stations each.</figcaption></figure>
+<figure><img src="assets/track-careers.jpg" alt="The Dental Careers track page: unions and bodies as the catalog names them, the frameworks it cites, and its 20-level ladder." loading="lazy"><figcaption>The Dental Careers track page: unions and bodies as the catalog names them, the frameworks it cites, and its 20-level ladder.</figcaption></figure>
+<figure><img src="assets/track-hygiene.jpg" alt="The Dental Hygiene track page, with the same ladder summary for its own 19 stations." loading="lazy"><figcaption>The Dental Hygiene track page, with the same ladder summary for its own 19 stations.</figcaption></figure>
+<figure><img src="assets/station-four-handed.jpg" alt="Four-Handed Dentistry mid-run: step 3 of 14, raising the assistant's stool above the operator's." loading="lazy"><figcaption>Four-Handed Dentistry mid-run: step 3 of 14, raising the assistant's stool above the operator's.</figcaption></figure>
+<figure><img src="assets/station-operatory.jpg" alt="Operatory Turnover mid-run: containing sharps and instruments at the point of use." loading="lazy"><figcaption>Operatory Turnover mid-run: containing sharps and instruments at the point of use.</figcaption></figure>
+<figure><img src="assets/bayworld-board.jpg" alt="Bay World: the job board at Fruitvale Community College, where both programmes are anchored." loading="lazy"><figcaption>Bay World: the job board at Fruitvale Community College, where both programmes are anchored.</figcaption></figure>
+  </div>
+</section>
+
+<section id="build" aria-labelledby="bi-h">
+  <header><span class="eyebrow">Build info</span><h2 id="bi-h">How it is built and checked</h2></header>
+  <div class="build">
+    <div>
+      <h3>Content evaluation</h3>
+      <p class="small">Dental Careers: mean <b>96.7</b>, lowest <b>92</b> across 19 stations.<br>Dental Hygiene: mean <b>97.1</b>, lowest <b>95</b> across 19 stations.</p>
+      <p class="note">The score is the repository's own automated review of each station's text and structure. It is not a learner outcome.</p>
+    </div>
+    <div>
+      <h3>Checkers that guard it</h3>
+      <p class="small">All 66 checkers in <code>tools/check_all.mjs</code> run before a push. These name the dental content directly:</p>
+      <div class="chk"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_smartcity.mjs"><code>check_smartcity.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_robot.mjs"><code>check_robot.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_flowhub.mjs"><code>check_flowhub.mjs</code></a></div>
+      <p class="small">These run over every programme, these two included:</p>
+      <div class="chk"><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_competency.mjs"><code>check_competency.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_tracks.mjs"><code>check_tracks.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_ladders.mjs"><code>check_ladders.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_standards.mjs"><code>check_standards.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_bay_quests.mjs"><code>check_bay_quests.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_bayworld.mjs"><code>check_bayworld.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_eggs.mjs"><code>check_eggs.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_investor.mjs"><code>check_investor.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_guide.mjs"><code>check_guide.mjs</code></a><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_links.mjs"><code>check_links.mjs</code></a></div>
+    </div>
+    <div>
+      <h3>Standards cited</h3>
+      <p class="small">14 registry entries, the same list for both programmes:</p>
+      <ul><li><b>AAPD</b> — AAPD Reference Manual guidance on behaviour guidance and preventive care for paediatric patients</li><li><b>ADA</b> — The ADA's Code on Dental Procedures and Nomenclature (CDT), the procedure-code set dental claims and pre-authorisations are written in; cited as the body and the code set, never by a code number</li><li><b>ADA</b> — American Dental Association and FDA guidance on prescribing dental radiographs</li><li><b>ADHA</b> — ADHA Standards for Clinical Dental Hygiene Practice</li><li><b>union</b> — AFSCME member education and safety training for public-service and air-district members</li><li><b>CDC</b> — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li><b>EPA</b> — 40 CFR Part 441 — Dental office point source category (the amalgam separator rule)</li><li><b>HHS</b> — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li><b>ISO</b> — ISO 23908 — Sharps injury protection: requirements and test methods</li><li><b>OSHA</b> — 29 CFR 1910.1030 — Bloodborne pathogens</li><li><b>OSHA</b> — 29 CFR 1910.1200 — Hazard communication</li><li><b>union</b> — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li><b>state dental board</b> — The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists</li><li><b>union</b> — UFCW member training for retail food, clinic and dental support work</li></ul>
+    </div>
+  </div>
+  <h3>Commits</h3>
+  <p class="small muted">21 commits whose subject names the dental work and which touched a station, programme file or flow, newest first.</p>
+  <div class="tablebox"><table class="commits"><thead><tr><th>Commit</th><th class="num">Date</th><th>Subject</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/91718bf"><code>91718bf</code></a></td><td class="num">2026-09-25</td><td>Regenerate after the dental careers merge: six Unspoken Smiles career stations</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/32df7ee"><code>32df7ee</code></a></td><td class="num">2026-09-24</td><td>Stand the dental crew figures clear of the furniture</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/1613fe4"><code>1613fe4</code></a></td><td class="num">2026-09-24</td><td>Append the six new stations to the Unspoken Smiles dental programmes and regenerate ladders, competencies and catalog</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/899da40"><code>899da40</code></a></td><td class="num">2026-09-24</td><td>Add dental coding, billing and pre-authorisation station</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/4d8c79a"><code>4d8c79a</code></a></td><td class="num">2026-09-24</td><td>Add oral hygiene instruction and motivational interviewing dental station</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/501db03"><code>501db03</code></a></td><td class="num">2026-09-24</td><td>Add medical history and medication review dental station</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/06d4540"><code>06d4540</code></a></td><td class="num">2026-09-24</td><td>Add dental trauma and avulsed tooth response station</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/76ec84b"><code>76ec84b</code></a></td><td class="num">2026-09-24</td><td>Add digital intraoral scanning and CAD/CAM dental station; register CDT, state dental board and programme entries</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/9f44164"><code>9f44164</code></a></td><td class="num">2026-09-23</td><td>Add five advanced dental trades stations: implant surgery assisting, endodontic assisting, denture delivery, special-needs and geriatric dentistry, teledentistry and triage</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/dcdae3b"><code>dcdae3b</code></a></td><td class="num">2026-09-23</td><td>Add five dental careers stations: orthodontic assisting, oral surgery assisting, front office and treatment coordination, infection-control audit, school screening outreach</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/0d91ef2"><code>0d91ef2</code></a></td><td class="num">2026-09-23</td><td>Add five dental careers stations: career pathway briefing, four-handed dentistry, full-mouth radiography, sterilisation technician cycle, dental lab bench</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/cef08f5"><code>cef08f5</code></a></td><td class="num">2026-09-22</td><td>Raise the fifteen dental hygiene stations to a full standards score with real step kinds, find steps and support lines</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/b77ac1f"><code>b77ac1f</code></a></td><td class="num">2026-09-22</td><td>Make the dental block a robot training simulator: embodiment layer, patient keep-out zones, force classes, off-limits steps, embodied datasets and a calibration card</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/1a56115"><code>1a56115</code></a></td><td class="num">2026-09-22</td><td>Open a third slot in the Dental Careers programme</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/a403e03"><code>a403e03</code></a></td><td class="num">2026-09-22</td><td>Open the Dental Careers programme for the Unspoken Smiles expansion</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/cb2203c"><code>cb2203c</code></a></td><td class="num">2026-09-22</td><td>Add mobile dental outreach, paediatric visit and oral cancer screening stations</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/abf9396"><code>abf9396</code></a></td><td class="num">2026-09-22</td><td>Add patient intake screening, radiograph safety and periodontal charting stations</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/2c113a7"><code>2c113a7</code></a></td><td class="num">2026-09-22</td><td>Add ultrasonic scaling, aerosol management and fluoride and sealant stations</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/1642afe"><code>1642afe</code></a></td><td class="num">2026-09-22</td><td>Add knife skills, slicer lockout and bakery mixer; hospitality and dental horizons</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/3c8c931"><code>3c8c931</code></a></td><td class="num">2026-09-22</td><td>Add operatory turnover, instrument reprocessing and sharps exposure stations</td></tr>
+<tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/8c0910f"><code>8c0910f</code></a></td><td class="num">2026-09-22</td><td>Add five stations: ballast water, spartina, nitrous, chairside emergency, amalgam</td></tr>
+  </tbody></table></div>
+  <h3>Links</h3>
+  <ul class="small">
+    <li>Repository branch: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/tree/claude/vr-ar-safety-training-wkwmve">github.com/AGIFutureFoundation/vr-safety-training/tree/claude/vr-ar-safety-training-wkwmve</a></li>
+    <li>Programme overviews: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/dental-careers-unspoken-smiles.md">dental-careers-unspoken-smiles.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/dental-hygiene-unspoken-smiles.md">dental-hygiene-unspoken-smiles.md</a></li>
+    <li>Track pages: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/home/tracks/dental-careers-unspoken-smiles.html">careers</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/home/tracks/dental-hygiene-unspoken-smiles.html">hygiene</a></li>
+    <li>Data: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/catalog.json">catalog.json</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/curricula.js">curricula.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/competency.js">competency.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/investor/stations.csv">stations.csv</a></li>
+    <li>Worlds: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/bayworld-data.js">bayworld-data.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/bayworld/js/quests-data.js">quests-data.js</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/flows/dental-careers-orientation.json">dental-careers-orientation.json</a></li>
+    <li>Docs: <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/ladders.md">ladders.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/proof-of-training.md">proof-of-training.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/devices.md">devices.md</a> · <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/robot-training.md">robot-training.md</a></li>
+  </ul>
+</section>
+
+<section id="next" aria-labelledby="nx-h">
+  <header><span class="eyebrow">Next steps for a pilot</span><h2 id="nx-h">Questions for the Unspoken Smiles team</h2></header>
+  <ol class="next">
+    <li>Would your clinicians and instructors review all 37 stations, step by step, and mark anything that does not match how your clinic works?</li>
+    <li>Which station should we correct first? Steps, references and interruptions are plain data in each station file, so a correction from your team goes straight into the station.</li>
+    <li>Would a small cohort try one programme, or the shared intake station plus a few from each, on phones, laptops or a headset you already have?</li>
+    <li>Is the Dental Careers orientation flow (intake, then radiography or reprocessing depending on stars) the right first path for your students, or should it branch differently?</li>
+    <li>What records would you want from a pilot, and where should they go? Records stay in the browser unless an LRS is configured.</li>
+  </ol>
+</section>
+
+<footer>SmartCiti.X ~ Holodeck is a working prototype. Every figure on this page is computed from the repository by <code>smiles_build.mjs</code> at build time (2026-09-28). No outcome, accreditation or endorsement is claimed.</footer>
+</div>
+<script>
+(function(){
+  var btns=[].slice.call(document.querySelectorAll(".filters button"));
+  var rows=[].slice.call(document.querySelectorAll("#st-body tr"));
+  function apply(f){
+    btns.forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.f===f));});
+    rows.forEach(function(r){var t=r.dataset.track;r.hidden=!(f==="all"||t===f||(t==="shared"&&f!=="shared"&&f!=="all")||(f==="shared"&&t==="shared"));});
+  }
+  btns.forEach(function(b){b.addEventListener("click",function(){apply(b.dataset.f);});});
+})();
+</script>
