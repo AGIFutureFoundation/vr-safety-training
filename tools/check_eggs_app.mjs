@@ -606,7 +606,7 @@ await check("Field notes: a qualifying station-enter shows the badge, toasts onc
   withCapturedInterval(() => mountSmartCityEggs(fx));
   const btn = fx.doc.body.children.find((c) => c.id === "field-notes-btn");
   assert(btn, "no Field Notes button was mounted");
-  eq(btn.textContent, "\u{1F5D2} Field notes (0/6)", "the button should start with nothing found");
+  eq(btn.textContent, "Field notes (0/6)", "the button should start with nothing found");
   capturedInterval(); // first poll: room "test-station" is entered, Clean Sweep qualifies
   assert(btn.textContent.includes("(1/6)"), `Clean Sweep never showed as found: ${btn.textContent}`);
   assert(fx.eggFinds.some((f) => f.id === "clean-sweep" && f.programme === "Energy & Power"), "no ledger call was made for Clean Sweep");

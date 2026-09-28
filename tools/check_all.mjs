@@ -54,6 +54,9 @@ const CHECKERS = [
   "check_i18n.mjs",
   // Titles, descriptions, canonical, Open Graph, JSON-LD, the sitemap and phone usability on every page (docs/consoles/WAYFINDER.md).
   "check_seo.mjs",
+  // One design system: the shared stylesheet on every page, self-hosted fonts,
+  // credited vendored packs, no emoji icons in the chrome, AA token pairs (docs/design-system/README.md).
+  "check_design.mjs",
 ];
 
 let failed = 0;

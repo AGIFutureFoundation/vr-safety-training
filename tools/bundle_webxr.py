@@ -820,7 +820,16 @@ def dist_fixup(html: str) -> str:
     # WebXR/<app>/); in a dist folder it is the copy written next to the bundle.
     for q in LINK_QUOTES:
         html = html.replace(f'{q}../{AUTH_CONFIG}{q}', f'{q}./{AUTH_CONFIG}{q}')
+    # The shared design stylesheet (console ATELIER, docs/design-system/): one
+    # directory up from the source page, two from WebXR/<app>/dist/.
+    html = html.replace(f'"../{DESIGN_CSS}"', f'"../../{DESIGN_CSS}"')
     return html
+
+
+# The one stylesheet every app page links (tools/gen_design.mjs), and the
+# vendored fonts and icons it points at; the flat folder carries copies.
+DESIGN_CSS = "shared/design.css"
+DESIGN_VENDOR = ["fonts", "icons"]
 
 
 IMPORT_RE = re.compile(r"^import\s+[\s\S]*?from\s+[\"'][^\"']+[\"'];\s*$", re.MULTILINE)
@@ -1032,6 +1041,8 @@ def combined_fixup(html: str) -> str:
         # underwater.html) is linked by that name from its siblings.
             html = html.replace(f'{q}../../{app}/{index}', f'{q}./{page}')
             html = html.replace(f'{q}../../{app}/dist/{page}', f'{q}./{page}')
+    # The design stylesheet is this folder's own shared/design.css.
+    html = html.replace(f'"../../{DESIGN_CSS}"', f'"./{DESIGN_CSS}"')
     for q in LINK_QUOTES:
         # The track pages are this folder's own tracks/.
         html = html.replace(f'{q}../../dist/tracks/', f'{q}./tracks/')
@@ -1094,6 +1105,19 @@ def build_combined() -> int:
         (DIST / "shared").mkdir(parents=True, exist_ok=True)
         (DIST / "shared" / name).write_bytes((SHARED / name).read_bytes())
         copied += 1
+    # The design system: its stylesheet, the fonts and icons it names, and the
+    # template gallery (WebXR/design/index.html links ../shared/design.css).
+    (DIST / DESIGN_CSS).write_bytes((WEBXR / DESIGN_CSS).read_bytes())
+    copied += 1
+    for sub in DESIGN_VENDOR:
+        for f in sorted((WEBXR / "vendor" / sub).iterdir()):
+            if f.is_file():
+                (DIST / "vendor" / sub).mkdir(parents=True, exist_ok=True)
+                (DIST / "vendor" / sub / f.name).write_bytes(f.read_bytes())
+                copied += 1
+    (DIST / "design").mkdir(parents=True, exist_ok=True)
+    (DIST / "design" / "index.html").write_bytes((WEBXR / "design" / "index.html").read_bytes())
+    copied += 1
     for source_path, rel_dest in APPS["smartcity"]["copy_files"].items():
         dest = DIST / rel_dest
         dest.parent.mkdir(parents=True, exist_ok=True)

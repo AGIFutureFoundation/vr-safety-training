@@ -363,7 +363,7 @@ function rcRenderGarage() {
     c.style.setProperty("--pc", rcCss(RC_PLAYER_COLOURS[i]));
     const ks = n === 1 ? [RC_KEYSETS[0], RC_KEYSETS[1]] : [RC_KEYSETS[i]];
     c.innerHTML = `<div class="who">Player ${i + 1}</div>
-      <div class="veh"><button class="btn arrow" data-d="-1" aria-label="Previous vehicle">◀</button><b></b><button class="btn arrow" data-d="1" aria-label="Next vehicle">▶</button></div>
+      <div class="veh"><button class="btn arrow" data-d="-1" aria-label="Previous vehicle"><span class="at-i at-i--chevron-left" aria-hidden="true"></span></button><b></b><button class="btn arrow" data-d="1" aria-label="Next vehicle"><span class="at-i at-i--chevron-right" aria-hidden="true"></span></button></div>
       <div class="desc" style="font-size:12.5px;color:var(--muted);min-height:34px"></div>
       ${["speed", "handling", "weight"].map((k) => `<div class="stat"><span>${k}</span><div class="bar"><i style="width:${v.stats[k] * 20}%"></i></div></div>`).join("")}
       <div class="keys"></div>`;
@@ -487,7 +487,7 @@ function rcMakeViews(followIds, playerIdx) {
     const n = followIds.length;
     el.className = `hud${n > 1 ? " small" : ""}${n >= 3 ? (k % 2 ? " col-r" : " col-l") : ""}`;
     el.innerHTML = `<div class="pos"></div><div class="tag-p"></div><div class="lap"></div><div class="delta"></div><div class="item empty"></div><div class="item-name"></div>
-      <div class="speed"></div><div class="msg"></div><div class="sig l">◀</div><div class="sig r">▶</div><div class="rear" hidden>Mirrors · rear view</div>`;
+      <div class="speed"></div><div class="msg"></div><div class="sig l"><span class="at-i at-i--chevron-left" aria-hidden="true"></span></div><div class="sig r"><span class="at-i at-i--chevron-right" aria-hidden="true"></span></div><div class="rear" hidden>Mirrors · rear view</div>`;
     huds.append(el);
     const pi = playerIdx?.[k] ?? k;
     el.querySelector(".tag-p").textContent = app.demo ? `AI · CAM ${k + 1}` : `Player ${pi + 1}`;

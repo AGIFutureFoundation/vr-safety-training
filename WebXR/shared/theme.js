@@ -51,6 +51,67 @@ export const TH_SCALE = Object.freeze({
   "dur-fast": "120ms", "dur": "200ms", "dur-slow": "360ms",
 });
 
+// ---------------------------------------------------------------------------
+// The full design-system token set (console ATELIER, docs/design-system/).
+// tools/gen_design.mjs writes these into WebXR/shared/design.css as `--at-…`
+// custom properties, beside the component templates every page links; the
+// colour roles map onto the TH_TOKENS palette above, so the HUD adoption
+// rules and the templates can never drift apart. New names carry the `at`
+// prefix (the bundler concatenates every module into one scope).
+
+/** Colour roles, per scheme: what a colour is for, not what it looks like. */
+export const AT_ROLES = Object.freeze(Object.fromEntries(["dark", "light"].map((scheme) => {
+  const t = TH_TOKENS[scheme];
+  return [scheme, Object.freeze({
+    "bg": t.void, "surface": t.panel, "surface-2": t["panel-2"], "raised": t.raised, "raised-2": t["raised-2"],
+    "on-surface": t.text, "on-surface-muted": t.muted, "on-surface-dim": t.dim,
+    "primary": t.accent, "primary-strong": t["accent-2"], "on-primary": t["accent-ink"],
+    "secondary": t.violet, "success": t.good, "warning": t.warn, "danger": t.danger,
+    "border": t.edge, "border-strong": t["edge-strong"],
+    "scrim": scheme === "dark" ? "rgba(2,6,10,.72)" : "rgba(10,24,34,.45)",
+    "focus": scheme === "dark" ? "#ffd166" : "#7a4a00",
+    "illo-sky": scheme === "dark" ? "#12263a" : "#dcecf5",
+    "illo-ground": scheme === "dark" ? "#1c3a52" : "#b9d6e6",
+    "illo-line": scheme === "dark" ? "#7ee6ff" : "#005a78",
+    "illo-fill": scheme === "dark" ? "#4fd1ff" : "#0a86b0",
+    "illo-warm": scheme === "dark" ? "#f2c14b" : "#c98a00",
+    "illo-accent": scheme === "dark" ? "#a079ff" : "#6a44d6",
+  })];
+})));
+
+/** Type scale (a 1.2 ratio from 16px), families and weights. */
+export const AT_TYPE = Object.freeze({
+  "font-body": TH_SCALE.font, "font-display": TH_SCALE["font-cond"], "font-mono": 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace',
+  "fs-2xs": "11px", "fs-xs": "12px", "fs-sm": "14px", "fs-md": "16px", "fs-lg": "19px", "fs-xl": "23px", "fs-2xl": "28px", "fs-3xl": "34px", "fs-4xl": "clamp(34px, 5.2vw, 56px)",
+  "lh-tight": "1.15", "lh-snug": "1.3", "lh-body": "1.55",
+  "fw-regular": "400", "fw-medium": "500", "fw-semibold": "600", "fw-bold": "700",
+  "tracking-caps": ".08em",
+});
+
+/** Spacing on a 4px grid. */
+export const AT_SPACE = Object.freeze({ "sp-0": "0", "sp-1": "4px", "sp-2": "8px", "sp-3": "12px", "sp-4": "16px", "sp-5": "20px", "sp-6": "24px", "sp-8": "32px", "sp-10": "40px", "sp-12": "48px", "sp-16": "64px" });
+
+/** Radii, elevation and motion (the TH_SCALE values, named by role). */
+export const AT_SHAPE = Object.freeze({
+  "r-xs": "4px", "r-sm": TH_SCALE["r-sm"], "r-md": TH_SCALE["r-md"], "r-lg": TH_SCALE["r-lg"], "r-xl": "20px", "r-pill": TH_SCALE["r-pill"],
+  "elev-0": "none", "elev-1": TH_SCALE["shadow-1"], "elev-2": "0 12px 32px rgba(0,0,0,.4)", "elev-3": TH_SCALE["shadow-2"],
+  "dur-fast": TH_SCALE["dur-fast"], "dur": TH_SCALE.dur, "dur-slow": TH_SCALE["dur-slow"],
+  "ease-out": "cubic-bezier(.2,.7,.2,1)", "ease-in-out": "cubic-bezier(.6,0,.3,1)",
+  "tap": "48px", "measure": "68ch", "container": "1200px",
+});
+
+/**
+ * Text/background role pairs every scheme must hold at WCAG AA (4.5:1 for
+ * body text, 3:1 for large text and UI marks), checked by tools/check_design.mjs.
+ */
+export const AT_CONTRAST_PAIRS = Object.freeze([
+  ["on-surface", "surface", 4.5], ["on-surface", "bg", 4.5], ["on-surface", "raised", 4.5], ["on-surface", "raised-2", 4.5],
+  ["on-surface-muted", "surface", 4.5], ["on-surface-muted", "raised", 4.5], ["on-surface-dim", "surface", 4.5],
+  ["on-primary", "primary", 4.5], ["primary", "surface", 4.5], ["primary", "bg", 4.5],
+  ["success", "surface", 4.5], ["warning", "surface", 4.5], ["danger", "surface", 4.5], ["secondary", "surface", 4.5],
+  ["focus", "surface", 3], ["illo-line", "illo-sky", 3],
+]);
+
 /** WCAG contrast ratio of two #rrggbb colours. */
 export function thContrast(fg, bg) {
   const lum = (hex) => {
@@ -72,8 +133,11 @@ const thVars = (o) => Object.entries(o).map(([k, v]) => `--th-${k}:${v}`).join("
  */
 export const TH_ADOPT = Object.freeze({
   panels: ["#hud .panel", ".hud .item", "#minimap", "#hud-buttons button", "#hud-clubs button", "#touch-pad button"],
-  dialogs: ["#scr-jobboard .card", "#scr-menu .card", ".menu-card", "#gt-dialog .gt-panel", "#ctl-help .ctl-panel", "#gd-panel"],
+  dialogs: ["#scr-jobboard .card", "#scr-menu .card", ".menu-card", "#results .card", "#leaderboard .card", "#gt-dialog .gt-panel", "#ctl-help .ctl-panel", "#gd-panel"],
   chips: [".home-chip", "#ctl-help-btn", "#gt-account", "#gd-btn"],
+  // The design-system button shape (console ATELIER): a pill, on the runner's
+  // results and leaderboard, every overlay card's button row and the sign-in dialog.
+  buttons: ["#results .btnrow button", "#results .btnrow .btn", "#leaderboard .btnrow button", ".overlay .card .btnrow button", "#gt-dialog .gt-panel button"],
 });
 
 /** The whole stylesheet thMount injects. */
@@ -90,6 +154,7 @@ ${c}{background-color:var(--th-glass);border-color:var(--th-edge-strong);color:v
 ${TH_ADOPT.chips.map((s) => `${s}:hover`).join(",")}{background-color:var(--th-raised-2);border-color:var(--th-accent)}
 ${TH_ADOPT.chips.map((s) => `${s}:focus-visible`).join(",")}{outline:3px solid var(--th-focus);outline-offset:2px}
 #ctl-help .ctl-panel kbd{border-radius:var(--th-r-sm)}
+${TH_ADOPT.buttons.join(",")}{border-radius:var(--th-r-pill)}
 .home-chip.ctl-home{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1px solid var(--th-edge-strong);border-radius:16px;font:600 14px/1 var(--th-font);text-decoration:none;white-space:nowrap}
 .th-panel{background:var(--th-glass);color:var(--th-text);border:1px solid var(--th-edge-strong);border-radius:var(--th-r-md);box-shadow:var(--th-shadow-1)}
 .th-btn{background:var(--th-raised);color:var(--th-text);border:1px solid var(--th-edge-strong);border-radius:var(--th-r-sm);font-family:var(--th-font-cond);font-weight:600;letter-spacing:.06em;cursor:pointer}

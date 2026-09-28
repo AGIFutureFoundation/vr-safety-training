@@ -275,10 +275,10 @@ export function mountUI(store, actions) {
           onClick: () => actions.driveCheck(c.id), title: `${c.label} (${c.key})`,
         }, h("b", null, c.key), " ", c.label.replace(/^Check the /, "")))),
       d.touch ? h("div", { id: "drive-touch", "aria-label": "On-screen driving controls" },
-        h("button", { type: "button", className: "steer", ...hold({ steer: -1 }) }, "◀"),
+        h("button", { type: "button", className: "steer", "aria-label": "Steer left", ...hold({ steer: -1 }) }, h("span", { className: "at-i at-i--chevron-left", "aria-hidden": "true" })),
         h("button", { type: "button", className: "brake", ...hold({ brake: true }) }, "Brake"),
         h("button", { type: "button", className: "go", ...hold({ throttle: true }) }, d.reverse ? "Back" : "Go"),
-        h("button", { type: "button", className: "steer", ...hold({ steer: 1 }) }, "▶")) : null);
+        h("button", { type: "button", className: "steer", "aria-label": "Steer right", ...hold({ steer: 1 }) }, h("span", { className: "at-i at-i--chevron-right", "aria-hidden": "true" }))) : null);
   }
 
   function HudCourt() {
@@ -1145,7 +1145,7 @@ export function mountUI(store, actions) {
         className: voice.listening ? "listening" : "",
         onClick: actions.toggleVoice,
         title: 'Voice — say a station name, "hub," "reset," "hint," "brief," "status," or "help"',
-      }, voice.listening ? "■ Listening…" : "🎙 Voice"),
+      }, voice.listening ? "■ Listening…" : h(Fragment, null, h("span", { className: "at-i at-i--mic", "aria-hidden": "true" }), " Voice")),
       (voice.heard || voice.error) && h("div", { id: "voice-heard", className: voice.error ? "error" : "" },
         voice.error || `Heard: “${voice.heard}”`));
   }
@@ -1303,7 +1303,7 @@ export function mountUI(store, actions) {
       onClick: actions.openControls,
       title: "Controls — keyboard, gamepad and voice (? or F1)",
       "aria-label": trT("run.controlsAria"),
-    }, "⌨");
+    }, h("span", { className: "at-i at-i--keyboard", "aria-hidden": "true" }));
   }
 
   // Beside the controls button: switches between the first-person view and a
@@ -1320,7 +1320,7 @@ export function mountUI(store, actions) {
       title: third ? "Switch to first-person (V)" : "Switch to third-person (V)",
       "aria-label": third ? "Switch to first-person view" : "Switch to third-person view",
       "aria-pressed": third ? "true" : "false",
-    }, third ? "🚶 3rd" : "👁 1st");
+    }, third ? h(Fragment, null, h("span", { className: "at-i at-i--footprints", "aria-hidden": "true" }), " 3rd") : h(Fragment, null, h("span", { className: "at-i at-i--eye", "aria-hidden": "true" }), " 1st"));
   }
 
   function SpeakButton() {
@@ -1330,7 +1330,7 @@ export function mountUI(store, actions) {
       onClick: actions.speakHint,
       title: trT("run.speak"),
       "aria-label": trT("run.speak"),
-    }, "🔊");
+    }, h("span", { className: "at-i at-i--volume-2", "aria-hidden": "true" }));
   }
 
   function App() {

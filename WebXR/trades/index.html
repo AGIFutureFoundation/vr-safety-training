@@ -25,10 +25,8 @@
 <meta name="twitter:image" content="../dist/og/trades.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Trade Skills Simulator — Hands-On Trade Rooms","description":"9 trade rooms — electrical, salon, kitchen, phlebotomy, welding, plumbing and more — each a scored procedure on a flat screen or in a VR headset.","url":"../dist/trade-skills-simulator.html","isPartOf":{"@type":"WebSite","name":"SmartCiti.X","url":"../dist/index.html"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"../dist/index.html"},{"@type":"ListItem","position":2,"name":"Trade Skills Simulator","item":"../dist/trade-skills-simulator.html"}]}}</script>
 <!-- /wf-seo -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../shared/design.css">
 <style>
   :root{
     --void:#071018; --panel:#101c27; --glass:rgba(16,28,39,.88); --raised:#172735;
@@ -271,7 +269,7 @@
 </style>
 </head>
 <body>
-<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">Home</a>
 <style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
 
 <div id="stage"></div>
@@ -313,8 +311,8 @@
 
 <div id="gesture-tip"></div>
 
-<button id="voice-btn" hidden title="Voice — say a room name, &quot;hub,&quot; &quot;reset,&quot; &quot;hint,&quot; &quot;brief,&quot; &quot;status,&quot; or &quot;help&quot;">🎙 Voice</button>
-<button id="speak-btn" hidden title="Read the current step aloud" aria-label="Read the current step aloud">🔊</button>
+<button id="voice-btn" hidden title="Voice — say a room name, &quot;hub,&quot; &quot;reset,&quot; &quot;hint,&quot; &quot;brief,&quot; &quot;status,&quot; or &quot;help&quot;"><span class="at-i at-i--mic" aria-hidden="true"></span> Voice</button>
+<button id="speak-btn" hidden title="Read the current step aloud" aria-label="Read the current step aloud"><span class="at-i at-i--volume-2" aria-hidden="true"></span></button>
 <div id="voice-heard" hidden></div>
 
 <div class="overlay" id="intro" role="dialog" aria-modal="true" aria-label="Trade Skills Simulator">

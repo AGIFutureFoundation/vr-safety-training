@@ -8,8 +8,8 @@
  *      bundles; each ?sim= / ?room= to a station that exists in that app,
  *      under a condition shared/ladder.js parses and the station can run;
  *      each ?programme=&level= to a programme and a level 1–20 that exist
- *   3. nothing loads from another host: the only absolute URLs are the
- *      Google Fonts preconnect and stylesheet, no script has a src, and no
+ *   3. nothing loads from another host: no absolute URL at all (the fonts are
+ *      self-hosted through shared/design.css), no script has a src, and no
  *      CSS url() leaves the page
  *   4. each page carries every level (with its lesson count), a deep link
  *      for every task on its ladder, a card for every station, the standards
@@ -119,14 +119,12 @@ await check("every link resolves to a file, a station under a valid condition, o
 });
 
 // ---------------------------------------------------------- 3. no other host
-await check("nothing loads from another host but Google Fonts", () => {
+await check("nothing loads from another host (the fonts are self-hosted: shared/design.css)", () => {
   const found = [];
   for (const [pid, html] of pages) {
     for (const a of attributes(html)) {
       if (!/^(https?:)?\/\//.test(a.value)) continue;
-      const host = new URL(a.value.startsWith("//") ? `https:${a.value}` : a.value).host;
-      const fonts = a.tag === "link" && (host === "fonts.googleapis.com");
-      if (!fonts) found.push(`${pid}: <${a.tag} ${a.name}="${a.value}">`);
+      found.push(`${pid}: <${a.tag} ${a.name}="${a.value}">`);
     }
     if (/<script[^>]*\ssrc=/.test(html)) found.push(`${pid}: a script with a src`);
     for (const m of html.matchAll(/url\(([^)]*)\)/g)) if (/(https?:)?\/\//.test(m[1])) found.push(`${pid}: CSS url(${m[1]})`);

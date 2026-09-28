@@ -33,6 +33,7 @@ import { tracksSection } from "./gen_tracks.mjs";
 import { CN_CSS, cnFile } from "../WebXR/shared/cinema.js";
 import { wfHeadFor } from "./gen_seo.mjs";
 import { wfSearchScript } from "./wf_search.mjs";
+import { atIllustration } from "../WebXR/shared/illustrations.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -269,14 +270,14 @@ function stationHref(layout, station) {
 
 const CSS = `
   :root{
-    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
-    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
-    --accent:#4fd1ff; --accent-2:#7ee6ff; --accent-ink:#03202b; --violet:#a079ff;
-    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
-    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
-    --r-sm:6px; --r-md:10px; --r-lg:14px;
-    --shadow-1:0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-    --shadow-2:0 24px 60px rgba(0,0,0,.55);
+    --void:var(--at-bg, #050a10); --panel:var(--at-surface, #0b141d); --panel-2:var(--at-surface-2, #101b27); --raised:var(--at-raised, #142130); --raised-2:var(--at-raised-2, #192a3b);
+    --text:var(--at-on-surface, #edf6fb); --muted:var(--at-on-surface-muted, #93b2c3); --dim:var(--at-on-surface-dim, #6f8ea2);
+    --accent:var(--at-primary, #4fd1ff); --accent-2:var(--at-primary-strong, #7ee6ff); --accent-ink:var(--at-on-primary, #03202b); --violet:var(--at-secondary, #a079ff);
+    --warn:var(--at-warning, #f2c14b); --danger:var(--at-danger, #f0645b); --good:var(--at-success, #59c97b);
+    --edge:var(--at-border, rgba(126,170,200,.16)); --edge-strong:var(--at-border-strong, rgba(126,170,200,.32));
+    --r-sm:var(--at-r-sm, 6px); --r-md:var(--at-r-md, 10px); --r-lg:var(--at-r-lg, 14px);
+    --shadow-1:var(--at-elev-1, 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04));
+    --shadow-2:var(--at-elev-3, 0 24px 60px rgba(0,0,0,.55));
     --ring:0 0 0 3px rgba(79,209,255,.22);
     --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
     --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
@@ -338,7 +339,7 @@ const CSS = `
   button{font:inherit; color:inherit}
   .btn{
     background:var(--raised); color:var(--text); border:1px solid var(--edge-strong);
-    border-radius:var(--r-sm); padding:8px 14px; cursor:pointer;
+    border-radius:var(--at-r-pill, 6px); padding:8px 14px; cursor:pointer;
     font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px;
   }
   .btn:hover{background:var(--raised-2)}
@@ -1303,6 +1304,7 @@ function hmProgrammeCard(layout, c, { catIndex, unionTokens, tradesOf, catNames 
   const worlds = hmWorldsOf(c);
   const catLine = cats.slice(0, 2).map((i) => catNames[i]).join(", ");
   return `      <article class="prog" style="--tint:${tint(c.accent)}" data-cat="${cats.join(" ")}" data-u="${us.join(" ")}" data-w="${worlds.join(" ")}"${c.audience === "classroom" ? ` data-aud="classroom"` : ""}>
+        <span class="at-card__art">${atIllustration(id)}</span>
         <h3 data-tr="prog.${id}.t">${esc(c.name)}</h3>
         <p class="prog-tag" data-tr="prog.${id}.g">${esc(HM_TAGLINES[`prog.${id}.g`] ?? "")}</p>
         <p class="prog-union">${esc(c.union ?? "")}</p>
@@ -1456,8 +1458,7 @@ ${cards}
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 ${wfHeadFor("index.html", layoutName === "flat" ? "dist/index.html" : "index.html")}
 <meta name="generator" content="tools/gen_home.mjs">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="./shared/design.css">
 <style>${CSS}${CN_CSS}</style>
 </head>
 <body>
@@ -1547,7 +1548,7 @@ ${moreApps}
     <div class="hm-progs" id="hm-progs">
 ${progCards}
     </div>
-    <p class="nohits" id="hm-find-none" hidden>No programme matches all of that. <button type="button" class="linkbtn" id="hm-find-reset" data-tr="home.showEvery">Show every programme</button></p>
+    <p class="nohits at-empty" id="hm-find-none" hidden>${atIllustration("safety")}No programme matches all of that. <button type="button" class="linkbtn" id="hm-find-reset" data-tr="home.showEvery">Show every programme</button></p>
     <button type="button" class="btn hm-more" id="hm-find-more" data-tr="home.showMatching" hidden>Show all matching programmes</button>
   </section>
 
