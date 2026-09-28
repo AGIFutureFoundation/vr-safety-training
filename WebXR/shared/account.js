@@ -243,9 +243,7 @@ function gtRender(view = null) {
   if (!panel) return;
   panel.textContent = "";
   const v = view ?? (Auth.session ? "account" : "signin");
-  panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? trT("acct.signin") : trT("acct.account") }));
-  if (v === "signin") {
-  panel.append(gtEl("h2", { id: "gt-title", text: v === "avatar" ? "Your avatar" : v === "signin" ? "Sign in" : "Your account" }));
+  panel.append(gtEl("h2", { id: "gt-title", text: v === "avatar" ? "Your avatar" : v === "signin" ? trT("acct.signin") : trT("acct.account") }));
   if (v === "avatar") ctAvatarView(panel);
   else if (v === "signin") {
     panel.append(gtEl("p", { text: gtIsDemo()
