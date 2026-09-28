@@ -694,6 +694,14 @@ for _tr_cfg in APPS.values():
     if any(SHARED / n in _tr_mods for n in ("controls.js", "account.js", "guide.js")) and SHARED / "i18n.js" not in _tr_mods:
         _tr_mods[0:0] = [SHARED / "i18n-strings.js", SHARED / "i18n.js"]
 
+# The video-background layer (console CINEMA, shared/cinema.js) imports
+# nothing, so every app with a module that imports it gets it first.
+for _cn_cfg in APPS.values():
+    _cn_mods = _cn_cfg["modules"]
+    if SHARED / "cinema.js" not in _cn_mods and any(
+            p.exists() and re.search(r'from\s+"[./]*(?:shared/)?cinema\.js"', p.read_text()) for p in _cn_mods):
+        _cn_mods.insert(0, SHARED / "cinema.js")
+
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a
     # source page's link into it keeps its text reference and loses the dead
@@ -895,6 +903,10 @@ DIST_SHARED = [
     # this folder's shared/ — without them no station loads in the flat build
     # (tools/check_links.mjs loads one per world). Their own imports included.
     "kit.js", "textures.js", "eggs.js", "ei-guide.js", "equipment.js", "fleet.js", "props.js", "toolkit.js", "perf.js",
+    # The video-background layer (console CINEMA, docs/home-backgrounds.md):
+    # the homepage and the track pages import it; account.js imports it for
+    # the sign-in backdrop.
+    "cinema.js",
 ]
 
 
@@ -953,6 +965,16 @@ def build_combined() -> int:
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes(page.read_bytes())
             copied += 1
+    # The recorded background loops, their posters and backgrounds.json
+    # (console CINEMA, docs/home-backgrounds.md) — media/ beside the homepage,
+    # where shared/cinema.js looks first.
+    media = WEBXR / "home" / "media"
+    if media.is_dir():
+        for f in sorted(media.iterdir()):
+            if f.is_file() and f.suffix in (".mp4", ".webm", ".jpg", ".json"):
+                (DIST / "media").mkdir(parents=True, exist_ok=True)
+                (DIST / "media" / f.name).write_bytes(f.read_bytes())
+                copied += 1
     for app, page in DIST_PAGES.items():
         src = WEBXR / APPS[app].get("dir", app) / "dist" / page
         if not src.exists():

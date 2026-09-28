@@ -16,6 +16,7 @@
 import { BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES } from "../../shared/bayworld-data.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
+import { cnMount } from "../../shared/cinema.js";
 import { bayToGeo } from "../../shared/bay-geo.js";
 import { lkStationLink } from "../../shared/links.js";
 import {
@@ -303,3 +304,8 @@ ctlMount({
   world: "the Atlas",
   except: { move: "Drag or arrow keys pan the map.", look: "Scroll or pinch to zoom.", interact: "Enter on a site opens it.", map: "This page is the map.", view: "—", quality: "—" },
 });
+
+// The header band plays a recorded loop of Bay World behind the title
+// (console CINEMA, shared/cinema.js): poster only under reduced motion or
+// Save-Data, and only while the header is on screen.
+cnMount(document.querySelector("header.top"), "atlas-header", { scrim: "linear-gradient(180deg,rgba(5,10,16,.62),rgba(5,10,16,.84))" });

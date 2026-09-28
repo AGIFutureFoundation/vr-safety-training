@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor, driveInputFrom, DRIVE_KEYS, driveActionForKey } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
@@ -551,3 +552,8 @@ ctlMount({
     { label: "Drive: throttle, brake, steer", keys: ["W", "S", "A", "D"], pad: "Right stick", touch: "Stick; Brake button" },
   ],
 });
+
+// The start screen plays a recorded loop of this world behind the menu card
+// (console CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only
+// while the menu is on screen, poster only under reduced motion or Save-Data.
+cnMount($("scr-menu"), "start-bayworld", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
