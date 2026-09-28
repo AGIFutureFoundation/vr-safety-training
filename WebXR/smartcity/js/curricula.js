@@ -1414,6 +1414,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-primary-and-secondary-sources", why: "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled." },
       { app: "smartcity", id: "k12-building-a-timeline-from-documents", why: "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes." },
       { app: "smartcity", id: "k12-how-a-local-council-meeting-works", why: "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided." },
+      { app: "smartcity", id: "k12-oral-history-interview-skills", why: "Oral history as method: consent before recording, open questions and patient pauses, the interviewee's wellbeing first, and a memory weighed as a source like any other." },
+      { app: "smartcity", id: "k12-guilds-and-the-history-of-work", why: "The history of work told only as widely established general facts about guilds, with everything else turned into research questions and every claim traced to a source." },
+      { app: "smartcity", id: "k12-map-literacy-across-eras", why: "Fictional maps from different eras read for key, scale and orientation, their makers' purposes asked and the changes between them explained rather than dismissed." },
     ],
   },
   {

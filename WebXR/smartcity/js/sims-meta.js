@@ -28420,5 +28420,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-oral-history-interview-skills",
+    "index": "823",
+    "domain": "Education",
+    "trade": "History class in the union hall's meeting room — learner and oral history volunteer",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Oral History Interview Skills",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Oral History Interview Skills VR",
+    "tagline": "Ask consent, ask open questions, then listen — a memory is a source, not a verdict",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "careful-listener",
+      "name": "Careful Listener",
+      "note": "An interview recorded with consent, open questions and follow-ups, and the memory weighed as a source"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Archive Board",
+      "currency": "STORIES",
+      "ranks": [
+        "Listener",
+        "Interviewer",
+        "Recorder",
+        "Archivist",
+        "Historian"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-guilds-and-the-history-of-work",
+    "index": "824",
+    "domain": "Education",
+    "trade": "History class in the union hall's library corner — learner and hall librarian",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Guilds and the History of Work",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Guilds and the History of Work VR",
+    "tagline": "Say only what is widely established, turn the rest into questions — and cite where you found it",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "research-prompt",
+      "name": "Research Prompt",
+      "note": "General facts about guilds kept apart from open questions, each claim traced to a source and a research question written"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Research Board",
+      "currency": "SOURCES",
+      "ranks": [
+        "Reader",
+        "Note-taker",
+        "Researcher",
+        "Writer",
+        "Historian"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-map-literacy-across-eras",
+    "index": "825",
+    "domain": "Education",
+    "trade": "History class in the civic centre's archive room — learner and archivist",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Map Literacy Across Eras",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Map Literacy Across Eras VR",
+    "tagline": "Every map was made by someone, for a reason — find the key, the scale and the north first",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "map-reader",
+      "name": "Map Reader",
+      "note": "Maps from different eras read for key, scale and orientation, their makers' purposes asked and changes compared"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Map Board",
+      "currency": "MAPS",
+      "ranks": [
+        "Browser",
+        "Reader",
+        "Comparer",
+        "Map Historian",
+        "Archivist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 670
+      "stations": 673
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,9 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-map-literacy-across-eras",
+        "k12-guilds-and-the-history-of-work",
+        "k12-oral-history-interview-skills",
         "k12-a-controlled-experiment",
         "k12-simple-machines-at-a-crane",
         "k12-weather-and-the-sky",
@@ -5697,16 +5700,36 @@
           "app": "smartcity",
           "id": "k12-energy-transfer-at-the-wind-farm",
           "why": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-ecosystems-at-the-kelp-transect",
+          "why": "Producers, consumers and decomposers found on a live transect from the tender's deck, a food web built only from what the camera showed, arrows following the energy."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-weather-and-the-sky",
+          "why": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-simple-machines-at-a-crane",
+          "why": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-a-controlled-experiment",
+          "why": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1040,
-        "tasks": 80,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1560,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9907,6 +9930,255 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-map-literacy-across-eras",
+      "name": "Map Literacy Across Eras",
+      "title": "SmartCiti.X~ Map Literacy Across Eras VR",
+      "tagline": "Every map was made by someone, for a reason — find the key, the scale and the north first",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the civic centre's archive room — learner and archivist",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "map-reader",
+        "name": "Map Reader",
+        "note": "Maps from different eras read for key, scale and orientation, their makers' purposes asked and changes compared"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "825",
+      "flat": false,
+      "system": "Map Board",
+      "currency": "MAPS",
+      "ranks": [
+        "Browser",
+        "Reader",
+        "Comparer",
+        "Map Historian",
+        "Archivist"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-map-literacy-across-eras"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-guilds-and-the-history-of-work",
+      "name": "Guilds and the History of Work",
+      "title": "SmartCiti.X~ Guilds and the History of Work VR",
+      "tagline": "Say only what is widely established, turn the rest into questions — and cite where you found it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the union hall's library corner — learner and hall librarian",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "research-prompt",
+        "name": "Research Prompt",
+        "note": "General facts about guilds kept apart from open questions, each claim traced to a source and a research question written"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "824",
+      "flat": false,
+      "system": "Research Board",
+      "currency": "SOURCES",
+      "ranks": [
+        "Reader",
+        "Note-taker",
+        "Researcher",
+        "Writer",
+        "Historian"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-guilds-and-the-history-of-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-oral-history-interview-skills",
+      "name": "Oral History Interview Skills",
+      "title": "SmartCiti.X~ Oral History Interview Skills VR",
+      "tagline": "Ask consent, ask open questions, then listen — a memory is a source, not a verdict",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "History class in the union hall's meeting room — learner and oral history volunteer",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c08a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "careful-listener",
+        "name": "Careful Listener",
+        "note": "An interview recorded with consent, open questions and follow-ups, and the memory weighed as a source"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "823",
+      "flat": false,
+      "system": "Archive Board",
+      "currency": "STORIES",
+      "ranks": [
+        "Listener",
+        "Interviewer",
+        "Recorder",
+        "Archivist",
+        "Historian"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-oral-history-interview-skills"
     },
     {
       "app": "smartcity",
@@ -34332,7 +34604,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -34992,7 +35264,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -1,0 +1,125 @@
+{
+  "id": "k12-public-speaking-at-the-hall",
+  "index": "826",
+  "prefix": "kpk",
+  "accent": "#9a6ad0",
+  "floor": ["#6e6670", "#625a64"],
+  "wall": ["#e6dcea", "#d8ccde"],
+  "trade": "Literacy class on the theatre's rehearsal stage — learner and stage manager",
+  "header": "Upper-primary and lower-secondary literacy on a theatre's rehearsal stage: planning a short talk with one clear message, a beginning, middle and end, speaking clearly to the back row, handling nerves and questions, with the stage's own safety rules kept.",
+  "name": "Public Speaking at the Hall",
+  "tagline": "One clear message, told so the back row hears it — and mind the stage edge",
+  "badge": {"id": "back-row", "name": "Back Row", "note": "A short talk planned around one message, spoken clearly to the back row and questions answered calmly"},
+  "board": {"name": "Stage Board", "currency": "CUES", "ranks": ["Listener", "Rehearser", "Speaker", "Presenter", "Orator"]},
+  "hazards": [
+    {"id": "read-the-script-word-for-word", "label": "Read the whole talk word for word from the page?", "face": "READ IT\nALL", "text": "You read every word from the page with your head down. The audience loses your face and your voice goes flat; short prompt cards with key words let you look up, speak naturally and still keep your place."},
+    {"id": "cram-in-every-point", "label": "Squeeze in every point you can think of?", "face": "EVERY\nPOINT", "text": "You tried to squeeze in every point you could think of. Listeners remember a few things, not many; a talk with one clear message and a few supporting points is remembered, while a crowded one is forgotten by the time you sit down."},
+    {"id": "step-back-to-the-edge", "label": "Step backwards towards the stage edge?", "face": "STAGE\nEDGE", "text": "You stepped backwards towards the edge of the stage. Stage edges are marked for a reason and the drop is real; speakers stay on the marked area, and the stage manager keeps the edge lit and taped."},
+    {"id": "nerves-mean-you-are-bad", "label": "Decide the nerves mean you cannot speak?", "face": "TOO\nNERVOUS", "text": "You decided your nerves meant you could not do it. Nearly every speaker feels nervous; slow breathing, a planned first line and a friendly face in the audience help, and the nerves usually ease once you start."}
+  ],
+  "find1": {
+    "title": "Find what a good talk needs",
+    "cue": "Mark the three things you need before you step up to speak.",
+    "why": "A talk that works has one clear message you want the audience to remember, a shape with a beginning, middle and end, and prompt cards with key words rather than a full script. With those three ready, you can concentrate on speaking to people instead of reading at them.",
+    "items": [["message", "your one clear message", "The single thing you want them to remember."], ["shape", "a beginning, middle and end", "Tell them what, tell them, tell them again."], ["prompt-cards", "prompt cards with key words", "Enough to keep your place, not a script."]],
+    "decoy": ["costume-rail", "the costume rail in the wings", "Fun to look at, but not what makes a talk work."]
+  },
+  "select1": {
+    "title": "Learn the stage safety marks",
+    "cue": "Read the stage manager's card: stay inside the taped area, keep clear of the edge.",
+    "why": "A stage has a real drop at its edge, cables, and lights that can dazzle. Knowing where the taped speaking area is before you start means you can move naturally without thinking about where your feet are, which is exactly why actors walk the stage before a show.",
+    "key": "stage-card", "label": "Stay inside the tape", "face": "INSIDE\nTHE TAPE"
+  },
+  "seq": {
+    "title": "Put the talk plan in order",
+    "cue": "Choose the message, plan the opening, build the middle, then plan the ending.",
+    "why": "Choosing your message first makes every other choice easier: the opening introduces it, the middle supports it and the ending repeats it. Planning in that order gives a talk a clear line from start to finish, which is what audiences follow and remember.",
+    "oon": "Out of order. Choose your one message before anything else.",
+    "items": [["ord-message", "choose one clear message"], ["ord-opening", "plan an opening that grabs attention"], ["ord-middle", "build a middle with a few points"], ["ord-ending", "plan an ending that repeats the message"]]
+  },
+  "hold": {
+    "title": "Hold a slow breath before you begin",
+    "cue": "Stand still and hold a slow, steady breath before your first line.",
+    "why": "A slow breath before speaking calms your heartbeat and steadies your voice. Standing still for that moment also signals to the audience that you are about to begin, and it gives you time to find your first line instead of rushing into it.",
+    "brk": "You rushed in before the breath was finished. Stand still and take it again.",
+    "key": "breath-hold", "label": "Slow breath first"
+  },
+  "turn": {
+    "title": "Turn to face the whole audience",
+    "cue": "Turn so you face the middle of the audience, not the teacher or the wall.",
+    "why": "Facing the middle of the audience lets your voice carry to everyone and lets them see your face. Turning to one person or the screen shuts out the rest of the room, and it is one of the simplest habits that makes a speaker easy to follow.",
+    "key": "face-dial", "label": "Face the audience", "dial": "FACE"
+  },
+  "gauge": {
+    "title": "Pitch your voice to the back row",
+    "cue": "Commit when the voice meter shows you would be heard at the back.",
+    "why": "Speaking to the back row, not the front, makes sure everyone hears without you shouting. It is about projecting from your chest and speaking clearly, and stage managers check it with a friend at the back before every show.",
+    "key": "voice-meter", "label": "Voice to the back row", "meter": "VOICE",
+    "miss": "The back row would not hear that. Speak from your chest, clearly and a little slower."
+  },
+  "drag": {
+    "title": "Put the prompt card in your hand",
+    "cue": "Drag the key-word prompt card to your hand, leaving the full script on the table.",
+    "why": "A prompt card with a few key words keeps your place while letting you look up. Leaving the full script behind stops the temptation to read, and it is what experienced speakers do so that they talk to people rather than to paper.",
+    "key": "card-token", "label": "Key-word prompt card", "spot": "hand-spot", "spotLabel": "In your hand",
+    "miss": "Not in your hand yet. Take the key-word card, not the full script."
+  },
+  "select2": {
+    "title": "Say why one message beats many",
+    "cue": "Say why a talk with one clear message is remembered better than one with many.",
+    "why": "Listeners cannot flip back a page, so they remember what is clear and repeated. One message, supported and repeated, gives them something to take home; many messages compete and are lost. Saying why is understanding how talks work.",
+    "key": "compare-card", "label": "One or many?", "face": "ONE CLEAR\nMESSAGE"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's talk plan",
+    "cue": "Look at the draft talk plan and mark each problem.",
+    "why": "Talk plans go wrong in familiar ways: no clear message, a full script to read and an ending that stops without repeating the point. Spotting them in someone else's plan helps you build a stronger one of your own.",
+    "items": [["tp-no-message", "no clear message", "Choose one thing to remember."], ["tp-script", "a full script to read", "Use key-word cards instead."], ["tp-ending", "an ending that just stops", "End by repeating the message."]],
+    "decoy": ["tp-opening", "a question to open the talk", "A question is a good opening. Keep it."]
+  },
+  "track": {
+    "title": "Keep your pace steady through the talk",
+    "cue": "Keep your speaking pace in the band, not rushing as nerves build.",
+    "why": "Nerves speed speakers up, and a rushed talk is hard to follow. Keeping a steady pace, with small pauses between points, gives the audience time to take in each idea, and it makes you sound calmer than you might feel.",
+    "brk": "You sped up. Pause, breathe and bring your pace back down.",
+    "key": "track-meter", "label": "Steady pace", "meter": "PACE"
+  },
+  "record": {
+    "title": "Record feedback on your talk",
+    "cue": "Write one thing that went well and one thing to try next time.",
+    "why": "Writing one strength and one next step turns a talk into practice for the next one. It keeps the focus on getting better rather than on being perfect, and it gives you something clear to work on.",
+    "key": "talk-log", "label": "Talk feedback", "done": "Feedback recorded"
+  },
+  "share": {
+    "title": "Thank the audience and invite questions",
+    "cue": "Thank the audience and invite questions, listening fully before you answer.",
+    "why": "Thanking the audience and inviting questions ends a talk warmly and shows respect. Listening to the whole question before answering, and saying if you do not know, is what makes questions a conversation rather than a test.",
+    "key": "share-board", "label": "Thanks and questions", "done": "Questions answered"
+  },
+  "checkin": {
+    "title": "Check in at the end of the rehearsal",
+    "cue": "How did it feel to speak? What would help you next time?",
+    "why": "A check-in lets each speaker say how it felt, which matters as much as how it sounded, and lets the teacher support anyone who found it hard. It is not marked, and anyone who felt anxious can talk to the teacher or a trusted adult.",
+    "label": "End-of-rehearsal check-in"
+  },
+  "interrupts": [
+    {"id": "a-stage-light-flickers-out", "kind": "Stage fault", "key": "stand-still", "label": "Stand still and wait for the stage manager",
+     "alert": "A stage light flickers and goes out, leaving part of the stage dim.",
+     "cue": "Stand still where you are and wait for the stage manager's instruction.",
+     "why": "In sudden dimness, moving is how people step off an edge or trip on a cable. Standing still and waiting for the stage manager keeps you safe while they fix the light or bring up the working lights.",
+     "miss": "You walked towards the wings in the dark and caught a cable, nearly falling.",
+     "wrong": "That moves you in the dark. Stand still and wait. Choose the response that deals with it now.",
+     "done": "Working lights up, stage safe. The rehearsal carries on."},
+    {"id": "the-stage-manager-asks-your-message", "kind": "Stage manager question", "key": "say-message", "label": "Say your one message",
+     "alert": "The stage manager asks what the one thing is that you want the audience to remember.",
+     "cue": "Say your one clear message in a single sentence.",
+     "why": "If you can say your message in one sentence, the audience can remember it. The stage manager is checking that the talk has a clear centre before you step out.",
+     "miss": "You listed several ideas, and the stage manager asked you to choose one.",
+     "wrong": "That is more than one message. Choose the response that deals with it now.",
+     "done": "Message said in one sentence. You are ready."}
+  ],
+  "crew": ["English teacher", "Classmate", "Stage manager", "Lighting technician"],
+  "guide": {"start": "One message, to the back row.", "after": "One message is remembered.", "hazard": "Stop. Is there one message? Are you clear of the edge?"},
+  "lateRecord": "The feedback is written once the talk is given — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the rehearsal."
+}
