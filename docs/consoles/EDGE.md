@@ -61,3 +61,7 @@ tree at 01539ab. Prefix `cf`, port 8996, temp under `$SP/crescent/edge/`. Nothin
   6.5 — pre-existing (`ok: false` in checkers-last.json before EDGE; no WebXR source changed in this worktree) ·
   check_auth passes · single full `node tools/check_all.mjs` started 19:09 (log under $SP/crescent/edge/) ·
   next: wait, hand-back
+- 19:20 UTC · coordinator's batch merged: d018379 (origin 4f20b8f — i18n.js, controls.js, gen_home.mjs, investor
+  data; one conflict, the tracked bundle_webxr pyc, resolved by recompiling; node --check clean on the three
+  modules) · 4f20b8f is the fix for the enterprise default-language assertion that failed here · check_deploy after
+  the merge: 324 checks pass · the suite (started 19:09) was at 67/80 checkers, all ✓ so far · next: suite end, HAND-BACK
