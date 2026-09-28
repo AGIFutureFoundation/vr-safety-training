@@ -1317,6 +1317,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "cd-dive-records-and-incident-review", why: "The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver." },
     ],
   },
+  {
+    id: "aerospace-defense-and-robotics",
+    name: "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+    union: "IAM (International Association of Machinists and Aerospace Workers) aerospace and depot training, with UAW skilled-trades training for the robotics floor",
+    certification: "IAM aerospace and depot maintenance training and UAW skilled-trades training as bodies, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.132, 1910.1200 and 1910.95, FAA 14 CFR 43 and 145 as the civil maintenance frame, ASME B30.2 and B30.16 for overhead cranes, NFPA 77 for static electricity, ANSI Z358.1 for eyewash, and ANSI R15.06 and ISO 10218 for industrial and collaborative robots, across eight civilian-style workplace-safety jobs",
+    guides: ["iam-winpisinger-center", "uaw-training", "osha-1910-147", "osha-1910-212", "osha-1910-132", "osha-1910-1200", "faa-14-cfr-43", "faa-14-cfr-145", "asme-b30-2", "nfpa-77", "ansi-r15-06", "iso-10218"],
+    summary: "Eight civilian-style workplace-safety jobs in a generic aerospace depot and a robotics factory and training centre: a cleanroom entered in the posted gowning order with the strap test proven, a payload moved by overhead crane on a briefed lift plan, a hazardous fluid serviced from its safety data sheet with a buddy in place, a depot bay released only on a complete tool count and a FOD walk, a test stand's exclusion zone swept and held, a robot cell locked out and re-entered with a personal lock, an AMR floor worked on its traffic plan with an e-stop drill, and a cobot bench released only when every control on its risk assessment was tested with a body. Every station also runs with a declared fault (`?fault=`) that changes one step's right answer. Civilian-style workplace safety only; no real site, programme or vehicle is named.",
+    accent: "#6fd3e8",
+    stations: [
+      { app: "smartcity", id: "ad-cleanroom-gowning-and-esd-discipline", why: "A cleanroom entry only reaches the bench once the gowning order is followed and the wrist strap and heel straps pass at the tester, and the part never leaves its shielding except over the grounded mat." },
+      { app: "smartcity", id: "ad-payload-crane-lift-with-a-lift-plan", why: "A sensitive payload only leaves its stand after the lift plan is briefed, the rigging inspected, one signal person named and a trial lift made a hand's width off the support." },
+      { app: "smartcity", id: "ad-hazardous-fluid-servicing-with-a-buddy", why: "A servicing transfer only starts once the safety data sheet is read, the PPE it names is buddy-checked and the eyewash is proven, and a weeping fitting is answered at the shut-off." },
+      { app: "smartcity", id: "ad-depot-tool-control-and-fod-walk", why: "An aircraft only leaves the depot bay once the kit counts back complete against its shadows and a shoulder-to-shoulder FOD walk has found what nobody meant to leave." },
+      { app: "smartcity", id: "ad-test-stand-exclusion-zone-and-holds", why: "A test countdown only runs once the zone has been swept on foot, chained and matched to the roster, and anyone on the net can call the hold that stops it." },
+      { app: "smartcity", id: "ad-robot-cell-lockout-and-safe-reentry", why: "A robot cell is only entered once it is stopped, isolated under a personal lock, tried and proven at zero energy, with any jog made in reduced speed." },
+      { app: "smartcity", id: "ad-amr-fleet-traffic-and-estop-drill", why: "An AMR floor is crossed only at the marked points, the e-stop drill proves every unit stops, and a faulted robot is taken out of the fleet before anyone touches it." },
+      { app: "smartcity", id: "ad-cobot-risk-assessment-and-speed-separation", why: "A cobot bench is only released once its risk assessment is walked against the bench as built and the scanner zones are proven by a person walking into them." },
+    ],
+  },
 ];
 
 /**

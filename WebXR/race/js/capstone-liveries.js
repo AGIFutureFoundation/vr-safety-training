@@ -275,5 +275,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "commercial-diving-and-scientific-scuba",
     "name": "Commercial Diving & Scientific Scuba",
     "accent": "#1f6f8b"
+  },
+  {
+    "programme": "aerospace-defense-and-robotics",
+    "name": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+    "accent": "#6fd3e8"
   }
 ];

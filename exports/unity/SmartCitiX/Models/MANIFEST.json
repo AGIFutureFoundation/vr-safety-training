@@ -1,5 +1,5 @@
 {
-  "bytes": 7037324,
+  "bytes": 7258740,
   "entries": [
     {
       "build": "aerialBoomLift",
@@ -168,6 +168,53 @@
         "controlPanel",
         "wheels",
         "wheelsF"
+      ]
+    },
+    {
+      "build": "cleanRoomBay",
+      "bytes": 27532,
+      "file": "equipment--cleanRoomBay.glb",
+      "footprint": [
+        5,
+        3.03,
+        4
+      ],
+      "key": "cleanRoomBay",
+      "kit": "equipment",
+      "materials": 11,
+      "meshes": 11,
+      "meshesDeclared": 11,
+      "note": "cleanroom bay: gowning bench, air-shower door, ESD tester, grounded bench, filter grid",
+      "parts": [
+        "airShowerDoor",
+        "esdTester",
+        "esdLamp",
+        "workBench",
+        "filterGrid"
+      ]
+    },
+    {
+      "build": "cobotBench",
+      "bytes": 19760,
+      "file": "equipment--cobotBench.glb",
+      "footprint": [
+        3,
+        1.53,
+        2.2
+      ],
+      "key": "cobotBench",
+      "kit": "equipment",
+      "materials": 10,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "collaborative robot bench with area scanner and painted separation zones",
+      "parts": [
+        "arm",
+        "elbow",
+        "gripper",
+        "scanner",
+        "zoneWarn",
+        "zoneStop"
       ]
     },
     {
@@ -346,6 +393,30 @@
         "boomBase",
         "boomArm",
         "basket"
+      ]
+    },
+    {
+      "build": "depotHangarBay",
+      "bytes": 101888,
+      "file": "equipment--depotHangarBay.glb",
+      "footprint": [
+        8,
+        4,
+        7
+      ],
+      "key": "depotHangarBay",
+      "kit": "equipment",
+      "materials": 25,
+      "meshes": 37,
+      "meshesDeclared": 37,
+      "note": "depot hangar bay around the shared regionalJet, with tool crib, work stand and fluid-servicing cart",
+      "parts": [
+        "jet",
+        "toolCrib",
+        "workStand",
+        "servicingCart",
+        "spillKit",
+        "dripPan"
       ]
     },
     {
@@ -756,6 +827,32 @@
       ]
     },
     {
+      "build": "robotCell",
+      "bytes": 36120,
+      "file": "equipment--robotCell.glb",
+      "footprint": [
+        4,
+        2.02,
+        4
+      ],
+      "key": "robotCell",
+      "kit": "equipment",
+      "materials": 14,
+      "meshes": 16,
+      "meshesDeclared": 16,
+      "note": "fenced six-axis robot cell with light curtain, interlocked gate, stack light and lockable disconnect",
+      "parts": [
+        "base",
+        "upperArm",
+        "foreArm",
+        "wrist",
+        "gate",
+        "lightCurtain",
+        "stackLight",
+        "disconnect"
+      ]
+    },
+    {
       "build": "roboticPalletizer",
       "bytes": 30184,
       "file": "equipment--roboticPalletizer.glb",
@@ -897,6 +994,29 @@
         "wheels",
         "door",
         "lights"
+      ]
+    },
+    {
+      "build": "testStand",
+      "bytes": 25368,
+      "file": "equipment--testStand.glb",
+      "footprint": [
+        4.4,
+        2.88,
+        4.4
+      ],
+      "key": "testStand",
+      "kit": "equipment",
+      "materials": 9,
+      "meshes": 10,
+      "meshesDeclared": 10,
+      "note": "generic propulsion test stand pad with deflector, bunkered window, hold beacon and exclusion gate",
+      "parts": [
+        "frame",
+        "deflector",
+        "beacon",
+        "gate",
+        "controlWindow"
       ]
     },
     {
@@ -2089,6 +2209,27 @@
       ]
     },
     {
+      "build": "teachPendant",
+      "bytes": 10748,
+      "file": "toolkit--teachPendant.glb",
+      "footprint": [
+        0.31,
+        0.07,
+        0.22
+      ],
+      "key": "teachPendant",
+      "kit": "toolkit",
+      "materials": 4,
+      "meshes": 4,
+      "meshesDeclared": 4,
+      "note": "robot teach pendant with live screen, e-stop and enabling switch",
+      "parts": [
+        "screen",
+        "estop",
+        "enable"
+      ]
+    },
+    {
       "build": "tieDownStrap",
       "bytes": 11156,
       "file": "toolkit--tieDownStrap.glb",
@@ -2166,10 +2307,10 @@
       ]
     }
   ],
-  "exported": 90,
+  "exported": 96,
   "generator": "three GLTFExporter r160 via tools/export_unity.mjs --models",
   "licence": "CC0-1.0 — the platform's own procedural builders (WebXR/shared/fleet.js, equipment.js, toolkit.js). No third-party model, no avatar, no track GLB.",
   "schema": "smartcitix.models/1",
-  "total": 90,
+  "total": 96,
   "units": "metres, +Z forward, +X driver's side, y = 0 ground; Unity flips X on import (glTF is right-handed)"
 }

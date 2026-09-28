@@ -928,6 +928,17 @@ export const PROGRAMME_COMPETENCIES = [
     ],
     require: 4,
   },
+  {
+    id: "aerospace-defense-and-robotics",
+    title: "Gown, lift, service, count, hold, isolate and prove eight civilian-style aerospace depot and robotics jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-212", "osha-1910-1200", "faa-14-cfr-43", "ansi-r15-06", "iso-10218"],
+    stations: [
+      "ad-cleanroom-gowning-and-esd-discipline", "ad-payload-crane-lift-with-a-lift-plan", "ad-hazardous-fluid-servicing-with-a-buddy", "ad-depot-tool-control-and-fod-walk",
+      "ad-test-stand-exclusion-zone-and-holds", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill", "ad-cobot-risk-assessment-and-speed-separation"
+    ],
+    require: 4,
+  },
 ];
 
 /**

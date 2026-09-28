@@ -631,6 +631,111 @@ function garmentLoft(g, x, z, ry = 0) {
 // with the ordinary kit calls and hands back ONE mesh; what is left is
 // merged per material by the stage's mergeStatic() at the end of the build.
 
+// ------------------------------------------ ORBIT: robotics and aerospace depot
+// Three indoor-industrial scenic districts: the ground is a sealed-concrete
+// hall floor wide enough for the whole roam circle, the walls and the work
+// cells stand out in the ring past the station, and nothing is named after
+// any real plant, agency site or programme.
+
+/** A sealed-concrete hall floor, a slab whose top face is y = 0. */
+function orbHallFloor(g, w, d, tone = 0x8d949a) {
+  const m = box(g, w, 0.2, d, 0, -0.1, 0, 0xffffff, { rough: 0.8, cast: false });
+  m.material = texturedMat(surfaceTexture((cx, cw, ch) => pavingFace(cx, cw, ch, { base: tone }), { repeat: 10, px: 512 }), { rough: 0.8, metal: 0.05, color: 0xffffff });
+  m.receiveShadow = true;
+  return m;
+}
+/** A hall's back and side walls in painted steel, with a column line. */
+function orbHallWalls(g, w, d, h, tone) {
+  const wm = texturedMat(surfaceTexture((cx, cw, ch) => paintedSteelFace(cx, cw, ch, { base: tone }), { repeat: 4, px: 256 }), { rough: 0.7, metal: 0.25, color: 0xffffff });
+  const back = box(g, w, h, 0.3, 0, h / 2, -d / 2, 0xffffff, { rough: 0.7 }); back.material = wm;
+  for (const sx of [-1, 1]) { const s = box(g, 0.3, h, d, sx * w / 2, h / 2, 0, 0xffffff, { rough: 0.7 }); s.material = wm; }
+  for (let i = 0; i < 4; i++) box(g, 0.4, h, 0.4, -w / 2 + 3 + i * (w - 6) / 3, h / 2, -d / 2 + 0.6, 0x3b4148, { rough: 0.6, metal: 0.4 });
+}
+/** A fenced robot cell silhouette: mesh fence, an arm, a light curtain. */
+function orbCellSilhouette(g, x, z, ry = 0, arm = 0xe4622a) {
+  const c = group(g, x, 0, z, ry);
+  for (const [w, d, px, pz] of [[3.2, 0.06, 0, -1.6], [0.06, 3.2, -1.6, 0], [0.06, 3.2, 1.6, 0]]) {
+    box(c, w, 1.8, d, px, 0.9, pz, 0x2b2f34, { rough: 0.6, metal: 0.4, opacity: 0.5, transparent: true });
+  }
+  cyl(c, 0.35, 0.4, 0.5, 0, 0.25, -0.4, 0x53585e, { rough: 0.5, metal: 0.4, seg: 14 });
+  const up = group(c, 0, 0.5, -0.4);
+  box(up, 0.2, 0.9, 0.2, 0, 0.45, 0, arm, { rough: 0.45 });
+  box(up, 0.16, 0.16, 0.8, 0, 0.9, 0.35, arm, { rough: 0.45 });
+  for (const sx of [-1, 1]) box(c, 0.06, 1.5, 0.06, sx * 1.4, 0.75, 1.6, 0xf0b323, { rough: 0.5 });
+  box(c, 2.74, 1.2, 0.01, 0, 0.8, 1.6, 0xff3a2e, { emissive: 0xff2a1e, ei: 0.5, opacity: 0.15, transparent: true, cast: false });
+  return up;
+}
+/** A painted AMR lane along X with low AMR bodies on it; returns the bodies. */
+function orbAmrLane(g, z, x0, x1, n = 3) {
+  box(g, x1 - x0, 0.004, 1.3, (x0 + x1) / 2, 0.003, z, 0x2f6fe0, { rough: 0.7, opacity: 0.45, transparent: true, cast: false });
+  for (const dz of [-0.7, 0.7]) box(g, x1 - x0, 0.006, 0.08, (x0 + x1) / 2, 0.004, z + dz, 0xf0b323, { rough: 0.6, cast: false });
+  const bots = [];
+  for (let i = 0; i < n; i++) {
+    const b = group(g, x0 + (i + 0.5) * (x1 - x0) / n, 0, z);
+    box(b, 0.86, 0.22, 0.62, 0, 0.15, 0, 0xe4622a, { rough: 0.5 });
+    box(b, 0.92, 0.05, 0.68, 0, 0.05, 0, 0xf0b323, { rough: 0.6 });
+    ball(b, 0.06, 0.4, 0.3, 0, 0x4fd1ff, { emissive: 0x2f8fdb, ei: 1.1, seg: 8 });
+    bots.push(b);
+  }
+  return bots;
+}
+function orbRobotFactory(g) {
+  flood(g, 0, 16, -14, 0xe9f1f7, 1.1);
+  orbHallFloor(g, 44, 40);
+  orbHallWalls(g, 44, 40, 9, 0x4a5561);
+  const arms = [orbCellSilhouette(g, -10, -11, 0.2), orbCellSilhouette(g, 0, -13), orbCellSilhouette(g, 10, -11, -0.2, 0xf0b323)];
+  const bots = orbAmrLane(g, -6.5, -18, 18, 3);
+  // The cobot bench and the teach-pendant station off to the sides.
+  box(g, 1.8, 0.9, 0.9, -12, 0.45, 2, 0x9aa2a8, { rough: 0.4, metal: 0.5 });
+  box(g, 0.09, 0.5, 0.09, -12.3, 1.15, 2, 0xeef1f3, { rough: 0.4 });
+  box(g, 3, 0.004, 2.2, -12, 0.004, 2, 0xf0b323, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
+  box(g, 0.6, 1.2, 0.4, 12, 0.6, 2, 0x2b3a4a, { rough: 0.6 });
+  box(g, 0.3, 0.2, 0.05, 12, 1.3, 2.2, 0x9aa2a8, { rough: 0.6 });
+  return (t) => {
+    arms.forEach((a, i) => { a.rotation.y = Math.sin(t * 0.6 + i) * 0.8; });
+    bots.forEach((b, i) => { b.position.x = -18 + ((t * 1.1 + i * 12) % 36); });
+  };
+}
+function orbTrainingCentre(g) {
+  flood(g, 0, 14, -12, 0xfff4e2, 1.0);
+  orbHallFloor(g, 36, 34, 0x9aa0a4);
+  orbHallWalls(g, 36, 34, 7, 0x5a6470);
+  // The classroom cell: rows of desks facing a demonstrator arm.
+  const demo = orbCellSilhouette(g, -8, -10, 0.3, 0x3a78c9);
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) box(g, 1.2, 0.75, 0.6, -12 + c * 1.6, 0.375, -4 - r * 1.3, 0xc8b89a, { rough: 0.7 });
+  // The maintenance bay: an arm down on a service stand, a lockout board, a parts rack.
+  const bay = orbCellSilhouette(g, 8, -10, -0.3);
+  box(g, 1.2, 1.6, 0.1, 13, 0.8, -3, 0xd8322c, { rough: 0.6 });
+  box(g, 2.4, 1.8, 0.6, 13, 0.9, 3, 0x53585e, { rough: 0.6, metal: 0.4 });
+  const bots = orbAmrLane(g, 11, -14, 14, 2);
+  return (t) => {
+    demo.rotation.y = Math.sin(t * 0.5) * 0.6;
+    bay.rotation.y = 0.4;
+    bots.forEach((b, i) => { b.position.x = -14 + ((t * 0.8 + i * 14) % 28); });
+  };
+}
+function orbAerospaceDepot(g) {
+  flood(g, 0, 18, -16, 0xeef4ff, 1.1);
+  orbHallFloor(g, 48, 42, 0x969ea3);
+  orbHallWalls(g, 48, 42, 11, 0x5d6772);
+  // A cleanroom module against the back wall, white, with a filter-lit ceiling.
+  box(g, 10, 4, 6, -12, 2, -16, 0xeef1f3, { rough: 0.5 });
+  box(g, 8, 0.06, 0.1, -12, 3.2, -12.95, 0xe8f0ff, { emissive: 0xe8f0ff, ei: 0.6 });
+  // A test-stand frame out past a chained exclusion line on the right.
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) box(g, 0.3, 5, 0.3, 13 + sx * 1.4, 2.5, -14 + sz * 1.2, 0x53585e, { rough: 0.5, metal: 0.5 });
+  box(g, 3.2, 0.3, 2.8, 13, 5, -14, 0x53585e, { rough: 0.5, metal: 0.5 });
+  for (let i = 0; i < 6; i++) box(g, 0.08, 0.9, 0.08, 7 + i * 2, 0.45, -8, 0xf0b323, { rough: 0.5 });
+  box(g, 10, 0.04, 0.04, 12, 0.8, -8, 0xd8322c, { rough: 0.5 });
+  const beacon = ball(g, 0.25, 15, 5.6, -14, 0xffab2e, { emissive: 0xff8a00, ei: 1.0, seg: 10 });
+  // An overhead crane rail across the hall.
+  for (const sx of [-1, 1]) box(g, 0.4, 0.5, 38, sx * 20, 8.5, -2, 0x3b4148, { rough: 0.6, metal: 0.4 });
+  const bridge = box(g, 40, 0.8, 0.8, 0, 8.3, -10, 0xf0b323, { rough: 0.5 });
+  return (t) => {
+    beacon.visible = Math.sin(t * 3) > 0;
+    bridge.position.z = -10 + Math.sin(t * 0.15) * 4;
+  };
+}
+
 export const SCENIC_BUDGET = 120;
 
 /** Position of `o` in the frame of `stop` (its own little tree's root),
@@ -1910,6 +2015,69 @@ export const DISTRICTS = {
       const world = buildBayWorld(g, { detail: "low", time: env.time, weather: env.weather });
       return (t) => world.animate?.(t);
     },
+  },
+  "robotics-factory": {
+    // A robotics factory floor (ORBIT): fenced robot cells with light
+    // curtains, a cobot bench, AMRs running a marked lane and a teach-pendant
+    // station, all under one hall roof — the hall floor is the ground, so no
+    // plaza, masts, marquee, apron or skyline. Indoors, so its own
+    // conditions whatever the URL asks; the hour still tints the light.
+    plaza: false,
+    dressing: null,
+    sky: 0x1a1f26, fog: 0x1a1f26, mast: 0xe9f1f7,
+    skyByTime: { night: { sky: 0x151a20, fog: 0x151a20 }, dusk: { sky: 0x1a1f26, fog: 0x1a1f26 }, day: { sky: 0x222a33, fog: 0x222a33 } },
+    hemi: [0xdfe8f0, 0x2a3038],
+    key: 0xe9f1f7,
+    fogRange: [30, 80],
+    far: 90,
+    skyline: false,
+    forceWeather: true, weather: "clear",
+    weatherKind: "clear", weatherLabel: "Indoor factory",
+    weatherNote: "Climate-controlled robot hall. The cell guarding, the light curtains and the marked lanes are the conditions that matter here, and every speed, separation and stopping figure is the risk assessment's and the manufacturer's manual's, not this scene's.",
+    spawn: { x: 0, z: 7.5, ry: 0 },
+    roam: 10,
+    build(g) { return orbRobotFactory(g); },
+  },
+  "robotics-training-centre": {
+    // The robotics training centre (ORBIT): a classroom cell with a
+    // demonstrator arm and a maintenance bay with a lockout board, joined by
+    // an AMR lane. Indoor, its own conditions, no skyline.
+    plaza: false,
+    dressing: null,
+    sky: 0x1c1d22, fog: 0x1c1d22, mast: 0xfff4e2,
+    skyByTime: { night: { sky: 0x17181c, fog: 0x17181c }, dusk: { sky: 0x1c1d22, fog: 0x1c1d22 }, day: { sky: 0x24262c, fog: 0x24262c } },
+    hemi: [0xfff4e2, 0x2e2a26],
+    key: 0xfff4e2,
+    fogRange: [26, 70],
+    far: 80,
+    skyline: false,
+    forceWeather: true, weather: "clear",
+    weatherKind: "clear", weatherLabel: "Indoor training centre",
+    weatherNote: "Indoor classroom and maintenance bay. Energy isolation, reduced-speed teaching and the instructor's go-ahead set the pace here; every figure is the manufacturer's manual's and the centre's written procedure's.",
+    spawn: { x: 0, z: 6.5, ry: 0 },
+    roam: 9,
+    build(g) { return orbTrainingCentre(g); },
+  },
+  "aerospace-depot": {
+    // An aerospace depot hall (ORBIT): a cleanroom module on the back wall,
+    // a generic test-stand frame behind a chained exclusion line and an
+    // overhead crane bridge across the hall. Civilian-style workplace
+    // safety only; no real site, programme or vehicle. Indoor, no skyline.
+    plaza: false,
+    dressing: null,
+    sky: 0x181c22, fog: 0x181c22, mast: 0xeef4ff,
+    skyByTime: { night: { sky: 0x14171c, fog: 0x14171c }, dusk: { sky: 0x181c22, fog: 0x181c22 }, day: { sky: 0x20262e, fog: 0x20262e } },
+    hemi: [0xe6eef8, 0x262a30],
+    key: 0xeef4ff,
+    fogRange: [34, 90],
+    far: 100,
+    skyline: false,
+    forceWeather: true, weather: "clear",
+    weatherKind: "clear", weatherLabel: "Indoor depot hall",
+    weatherNote: "Indoor depot hall. The work order, the lift plan, the test procedure and the manufacturer's manual set every load, distance and limit; nothing in this scene states one.",
+    spawn: { x: 0, z: 8, ry: 0 },
+    roam: 11,
+    build(g) { return orbAerospaceDepot(g); },
   },
   "the-deep": {
     // The bottom of the bay as an open world — a shallow shelf, an eelgrass

@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "own-lock-own-life",
+    "name": "Own Lock, Own Life",
+    "note": "Locked the cell out with a personal lock, proved zero energy and never crossed the curtain with the arm live"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 industrial robot safety; the manufacturer's manual and the site's written lockout procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "robotics-factory",
+  "domain": "Robotics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proved-zero",
+        "name": "Proved Zero",
+        "note": "Tried the start after isolating, before anyone went in"
+      },
+      {
+        "id": "curtain-respected",
+        "name": "Curtain Respected",
+        "note": "Never crossed the light curtain with the arm live"
+      },
+      {
+        "id": "slow-and-steady",
+        "name": "Slow and Steady",
+        "note": "Held the jog in reduced speed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-lock",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-entry",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "LOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Operator",
+      "Authorised Employee",
+      "Cell Technician",
+      "Robot Lead",
+      "Own Lock Certified"
+    ],
+    "system": "Own Lock, Own Life"
+  },
+  "hazards": {
+    "borrowed-lock-hazard": "That hangs a coworker's lock on the disconnect for you. A lock only protects the person who holds its key; if somebody else can take it off, it is protecting them, not you.",
+    "gate-bypass-hazard": "That jumpers the gate interlock so the cell keeps running with the gate open. An interlock defeated for convenience is a guard that is not there, and it is the one piece of the cell designed for the day somebody forgets.",
+    "gravity-axis-hazard": "That walks under the raised arm without blocking it. An axis held up by its brake can drop when the brake is released or fails, and the arm does not need power to move downward.",
+    "reach-through-hazard": "That reaches over the light curtain to clear the part with the arm in automatic. A curtain stops the arm when it sees a body break the beam; a hand reaching over the top may never break it at all."
+  },
+  "id": "ad-robot-cell-lockout-and-safe-reentry",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "jog-reduced",
+      "alert": "The arm has started creeping on its own while the pendant is in your hand.",
+      "cue": "Let go of the enabling switch and hit the cell stop now.",
+      "delay": 4,
+      "id": "arm-creeps",
+      "kind": "Unexpected motion",
+      "missNote": "The arm kept creeping with a person inside the cell. Unexpected motion is answered with a stop, not watched to see where it goes.",
+      "seconds": 11,
+      "target": "cell-stop",
+      "why": "Motion nobody commanded is the robot telling you its program or its brake is not doing what you believe, and the only safe answer is to take its energy away at once — the enabling switch released and the stop pressed — before trying to work out why.",
+      "wrongNote": "Not that — unexpected motion is answered with the stop, first."
+    },
+    {
+      "after": "bleed-air",
+      "alert": "The incoming shift's operator is reaching for the disconnect to restart the cell, not knowing you are still inside.",
+      "cue": "Point to your personal lock on the disconnect and stop the restart.",
+      "delay": 4,
+      "id": "shift-change-unlock",
+      "kind": "Lockout challenge",
+      "missNote": "Nobody stopped the restart while you were still in the cell. A lock no one pointed to is a lock the next person may try to work around.",
+      "seconds": 11,
+      "target": "disconnect-lock",
+      "why": "A shift change is exactly when a lockout gets misread, and a personal lock only protects you if the person reaching past it understands it is yours and that you are still in the cell — pointing it out is how that becomes certain rather than hoped.",
+      "wrongNote": "That's not it — the restart at the disconnect is what needs stopping."
+    }
+  ],
+  "lateNotes": {
+    "disconnect-lock": "Your own lock goes on the disconnect before anyone crosses the curtain, every entry.",
+    "try-start-button": "The start is tried after isolation and before entry, so zero energy is proven, not assumed."
+  },
+  "name": "Robot Cell Lockout & Safe Re-entry",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "robotCell",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "teachPendant",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "air-dump",
+      "arm-rest",
+      "axis-block",
+      "bleed-valve",
+      "borrowed-lock-hazard",
+      "cell-stop",
+      "clean-hose",
+      "cut-gloves-rc",
+      "cycle-stop",
+      "disconnect-lock",
+      "disconnect-open",
+      "energy-meter",
+      "floor-clear",
+      "frayed-cable",
+      "gate-bypass-hazard",
+      "gravity-axis-hazard",
+      "head-count",
+      "jog-speed",
+      "latched-panel",
+      "loto-log",
+      "loto-procedure",
+      "pendant-mode",
+      "reach-through-hazard",
+      "safety-glasses-rc",
+      "safety-shoes-rc",
+      "try-start-button",
+      "unlatched-gate"
+    ],
+    "meshes": 193
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, safety shoes and cut-resistant gloves before the gate.",
+      "id": "ppe",
+      "itemNames": {
+        "cut-gloves-rc": "cut-resistant gloves",
+        "safety-glasses-rc": "safety glasses",
+        "safety-shoes-rc": "safety shoes"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, safety shoes and cut-resistant gloves before the gate.",
+      "targets": [
+        "safety-glasses-rc",
+        "safety-shoes-rc",
+        "cut-gloves-rc"
+      ],
+      "title": "Suit up for the cell",
+      "why": "The inside of a robot cell is full of fixtures, sheet edges and parts at hand height, and the gloves and glasses are there for the ordinary cuts and flying clips of clearing a jam, not for the arm, which only isolation protects you from."
+    },
+    {
+      "cue": "Confirm every energy source the cell's written procedure lists before touching anything.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm every energy source the cell's written procedure lists before touching anything.",
+      "target": "loto-procedure",
+      "title": "Read the lockout procedure",
+      "why": "A robot cell usually carries more than one energy source — electrical, pneumatic, sometimes a gravity-loaded axis — and the written procedure is what lists them all, so none is missed because it was not the one you were thinking about."
+    },
+    {
+      "cue": "Use the cycle stop to end the program at a safe point.",
+      "id": "stop-cell",
+      "kind": "select",
+      "prompt": "Use the cycle stop to end the program at a safe point.",
+      "target": "cycle-stop",
+      "title": "Bring the cell to a normal stop",
+      "why": "A normal cycle stop parks the arm at the end of its motion instead of freezing it mid-path with a part in the gripper, which is what makes the isolation that follows a controlled one rather than a scramble."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Open the disconnect, hang your own lock and tag, then dump the air.",
+      "id": "isolate",
+      "itemNames": {
+        "air-dump": "air supply dumped",
+        "disconnect-lock": "personal lock and tag on",
+        "disconnect-open": "disconnect opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the disconnect opens first, then your own lock and tag go on it, then the air is dumped.",
+      "prompt": "Open the disconnect, hang your own lock and tag, then dump the air.",
+      "targets": [
+        "disconnect-open",
+        "disconnect-lock",
+        "air-dump"
+      ],
+      "title": "Isolate and lock out",
+      "why": "Opening the disconnect removes the power, your own lock makes sure only you can restore it, and dumping the air removes the second source that could still close a gripper or push a slide — in that order, so no step relies on one that has not happened yet."
+    },
+    {
+      "cue": "Press the cell start to prove it will not run.",
+      "id": "try-start",
+      "kind": "select",
+      "prompt": "Press the cell start to prove it will not run.",
+      "target": "try-start-button",
+      "title": "Try the start",
+      "why": "The try-start is the test that turns 'I opened the disconnect' into 'this cell cannot move' — a wrong breaker, a second feed or a bypassed circuit shows up here, harmlessly, instead of when someone is inside."
+    },
+    {
+      "cue": "Read the cell's energy check and commit only once it reads zero.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "ZERO ENERGY",
+        "missNote": "Not zero — recheck the isolation before anyone crosses the curtain.",
+        "speed": 0.6
+      },
+      "id": "zero-energy",
+      "kind": "gauge",
+      "prompt": "Read the cell's energy check and commit only once it reads zero.",
+      "target": "energy-meter",
+      "title": "Verify zero energy",
+      "why": "Stored energy outlives the switch — a capacitor bank, trapped air in a line, a spring-loaded clamp — and the meter reading is what shows that the energy the procedure listed is actually gone rather than merely disconnected."
+    },
+    {
+      "cue": "Carry the block to the arm's rest point and seat it under the raised axis.",
+      "drag": {
+        "missNote": "Not seated — set the block under the raised axis before anyone works beneath it.",
+        "radius": 0.4,
+        "to": "arm-rest"
+      },
+      "id": "block-axis",
+      "kind": "drag",
+      "prompt": "Carry the block to the arm's rest point and seat it under the raised axis.",
+      "target": "axis-block",
+      "title": "Block the raised axis",
+      "why": "An axis held up only by its brake can drop without any power at all, and a mechanical block under it is what makes working beneath the arm safe even if that brake is released or fails."
+    },
+    {
+      "cue": "With the pendant in reduced speed, keep the jog inside the band while the arm moves clear.",
+      "holdBreakNote": "The jog left the reduced-speed band. Bring it back before the arm moves any further.",
+      "id": "jog-reduced",
+      "kind": "track",
+      "prompt": "With the pendant in reduced speed, keep the jog inside the band while the arm moves clear.",
+      "seconds": 8,
+      "target": "jog-speed",
+      "title": "Jog in reduced speed",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "REDUCED SPEED",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Teaching or jogging inside the cell is done in the reduced-speed mode the manufacturer's manual sets, with the enabling switch held, so that a person close to the arm always has time to react and a single release stops it."
+    },
+    {
+      "cue": "Look along the shelf for what caused the jam.",
+      "decoyNotes": {
+        "clean-hose": "A clean air hose, properly clipped. Nothing to flag there."
+      },
+      "id": "find-damage",
+      "itemNames": {
+        "frayed-cable": "frayed dress-pack cable"
+      },
+      "itemNotes": {
+        "frayed-cable": "A frayed dress-pack cable is the jam's cause and a shock hazard; it is logged for replacement before restart."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the shelf for what caused the jam.",
+      "targets": [
+        "frayed-cable"
+      ],
+      "title": "Find the cause",
+      "why": "Clearing a jam without finding its cause means the cell will jam again, probably on the next shift, and the frayed cable found now is also a live electrical hazard the moment power comes back."
+    },
+    {
+      "cue": "Hold the bleed valve open until the line gauge falls to nothing.",
+      "holdBreakNote": "Released the bleed early. Hold it until the line reads empty.",
+      "id": "bleed-air",
+      "kind": "hold",
+      "prompt": "Hold the bleed valve open until the line gauge falls to nothing.",
+      "seconds": 5,
+      "target": "bleed-valve",
+      "title": "Bleed the trapped air",
+      "why": "The dump valve empties the supply, but air trapped between a closed valve and a cylinder can still move a clamp when a fitting is loosened, and holding the bleed open is how that last pocket is let out on purpose."
+    },
+    {
+      "cue": "Take the axis block out once the work under the arm is done.",
+      "id": "remove-block",
+      "kind": "select",
+      "prompt": "Take the axis block out once the work under the arm is done.",
+      "target": "axis-block",
+      "title": "Remove the block",
+      "why": "The block comes out before restart because an arm driven into its own block can damage itself or throw the block, and every tool and block brought into the cell has to come back out with the person who brought it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Count everyone out and check the floor for tools before the lock comes off.",
+      "id": "clear-cell",
+      "itemNames": {
+        "floor-clear": "floor clear of tools",
+        "head-count": "head count done"
+      },
+      "kind": "sequence",
+      "prompt": "Count everyone out and check the floor for tools before the lock comes off.",
+      "targets": [
+        "head-count",
+        "floor-clear"
+      ],
+      "title": "Clear the cell",
+      "why": "Restoring energy is only safe once every person is outside the fence and nothing is left inside for the arm to hit, and the head count is the one check that makes the first of those a fact."
+    },
+    {
+      "cue": "Before restart, find the guard that is not doing its job.",
+      "decoyNotes": {
+        "latched-panel": "A fence panel bolted and latched. Nothing to flag there."
+      },
+      "id": "find-open-gate",
+      "itemNames": {
+        "unlatched-gate": "gate interlock not made"
+      },
+      "itemNotes": {
+        "unlatched-gate": "The gate is closed but the interlock is not made; the cell will refuse to start, and it should."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before restart, find the guard that is not doing its job.",
+      "targets": [
+        "unlatched-gate"
+      ],
+      "title": "Check the guarding",
+      "why": "Guards and interlocks are checked before restart, not assumed, because a gate that looks shut but has not made its interlock is a gate that will not stop the arm the next time somebody opens it."
+    },
+    {
+      "cue": "Remove your own lock, restore energy per the procedure and log the entry.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Remove your own lock, restore energy per the procedure and log the entry.",
+      "target": "loto-log",
+      "title": "Remove your lock and log it",
+      "why": "The lock comes off only by the hand that put it on, after the head count and the guard check, and the log is what tells the next shift what was done inside their cell and what still needs parts."
+    }
+  ],
+  "supportLine": "your UAW or IAM local's member assistance programme, or the site's employee assistance line if a close call inside a cell is what stayed with you",
+  "tagline": "A fenced robot cell entered the only way that keeps a person out of the arm's reach: stopped, isolated at the disconnect with your own lock, stored energy proven gone, the pendant in reduced speed if anything must move, and the cell restored only after a head count and a clear floor",
+  "title": "SmartCiti.X~ Robot Cell Lockout & Safe Re-entry VR",
+  "trade": "Robot technician, cell lockout and re-entry — UAW/IAM",
+  "underwater": null,
+  "weather": "overcast"
+}
