@@ -20,5 +20,10 @@ Short, durable lessons for the next team at this console. Read before touching `
   editor and pass config as a JSON file argument.
 - `tcMountQuality` grows the stats panel; the minimap must sit below it (top 128 px on desktop).
 
+- A still or spawn outside a site's pad lands inside a trunk: the pad (plus 6 m) is the only guaranteed clearing. Arrivals use
+  `rwArrival(site)` (0.75 × pad south of centre, facing north). Movement checks `world.blocked(x, z)`.
+- `check_mobile`/`check_ui` read `WebXR/dist/redwood.html` (the flat build), so a per-app bundle is not enough — run the full bundler.
+- The shared `#ctl-nav` chip row (Home, ?, Sign in, language) spans the top-left ~260 px; keep HUD panels below or right of it.
+
 ## Budgets (measured, high tier, headless SwiftShader)
 - 49 chunks (radius 3) · ~8.3k tree instances · ~100k ground triangles at the fire station.

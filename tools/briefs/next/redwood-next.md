@@ -9,9 +9,8 @@ Read first: `docs/consoles/memory/REDWOOD.md`, `docs/consoles/REDWOOD.md`, `tool
   3 activities. `node tools/check_redwood.mjs`: 395 checks pass.
 
 ## Do next, in order
-1. **Mobile and UI gates.** Add Redwood Reach to `tools/check_mobile.mjs` and `tools/check_ui.mjs` (start `#menu-start`; panels
-   `#hud-site`, `#hud-objective`, `#hud-stats`, `#hud-minimap`, `#hud-buttons`) and fix any overlap at 360×640 and 640×360. Measure
-   frame time on the low tier; if the ring costs too much, drop low to radius 1 with a denser horizon mesh.
+1. **Frame budget on a real phone.** The `check_mobile`/`check_ui` rows pass; now measure frame time on the low tier on a device.
+   If the ring costs too much, drop low to radius 1 with a denser horizon mesh. Add site-building colliders (only trunks collide).
 2. **Links, Guide, Atlas, Unity.** Rows in `tools/check_links.mjs` (every board link in the repo and flat layouts), Guide knowledge in
    `tools/gen_guide_kb.mjs` (sites, trades, controls), an Atlas-style entry, and a Unity export entry in `tools/export_unity.mjs`
    if the other worlds keep theirs.

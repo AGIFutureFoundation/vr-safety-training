@@ -31,14 +31,20 @@ Next brief: `tools/briefs/next/redwood-next.md`. Stills: `docs/img/redwood/`.
   call at each point; no number is ever stated as a limit.
 - **Map**: a shaded relief map with seven toggleable layers (sites, roads, trails, water, lessons, quests & locks, found tins), a
   minimap, and fast travel to every visited site. `?site=<id>` and `#site=<id>` deep links land at a site (and reopen its board).
+- **Walking**: trunk collision (every tree's trunk radius plus clearance, read from the same seeded layout the chunk draws; the
+  walker slides along a trunk), no walking into the channel or the sea; spawn, fast-travel and deep-link arrivals land in a site's
+  cleared yard facing its buildings. Understory: sword-fern clumps and fallen logs under the redwoods (instanced per chunk).
+- **Phone HUD**: rows in `check_mobile` (360×640, 640×360) and `check_ui` (1280×720, 360×640) pass; on phones the Map / Drive /
+  Log actions are touch buttons and the desktop button row is hidden.
 - **Wiring**: bundler entry and flat page; homepage card (`tools/gen_home.mjs`, thumbnail `WebXR/home/img/redwood.jpg`, now eight
   world cards); `redwood-career-v1` is profile-private; `redwood` is a passport source ("Back to Redwood Reach");
   `tools/check_redwood.mjs` in `check_all` (395 checks).
 
 ## Not done yet (see the next brief)
-Atlas entry, Guide knowledge (gen_guide_kb), Unity export entry, `check_mobile` / `check_ui` / `check_links` rows for the new page,
+Atlas entry, Guide knowledge (gen_guide_kb), Unity export entry, `check_links` rows for the new page,
 new stations for the sawmill and the trail crew, a vehicle mesh and road-following physics, `check_gates.mjs` integration once
 QUESTMASTER lands `shared/skill-gates.js`.
 
 ## Status log
 - 05:57 — first walkable increment committed (3ecf940), checker + home card + four stills (6f6e654); check_redwood 395/395; full check_all running on a loaded machine.
+- 06:06 — coordinator review addressed: trunk collision, yard arrivals, understory, fire-station and lookout stills re-shot from the yards; check_mobile and check_ui rows added and passing.

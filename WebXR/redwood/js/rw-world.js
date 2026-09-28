@@ -69,6 +69,9 @@ function rwTreeGeometries() {
   };
 }
 
+/** A trunk's collision radius at the ground (matches the drawn cylinder's base). */
+export function rwTrunkRadius(t) { return t.s * (t.kind === "redwood" ? 0.04 : t.kind === "fir" ? 0.035 : 0.06); }
+
 /** The deterministic tree layout for one chunk: [{ kind, x, z, s, r }]. Pure except for rwHeightAt. */
 export function rwChunkTrees(cx, cz, cap) {
   const x0 = RW_BOUNDS.minX + cx * RW_CHUNK, z0 = RW_BOUNDS.minZ + cz * RW_CHUNK;
@@ -120,6 +123,13 @@ export function rwBuildWorld(scene, opts = {}) {
   const groundMat = new THREE.MeshLambertMaterial({ vertexColors: true });
   const treeMat = new THREE.MeshLambertMaterial({ vertexColors: true });
   const trees = rwTreeGeometries();
+  // Understory geometry: a fern clump (a flattened, splayed cone) and a fallen log.
+  const fernGeo = new THREE.ConeGeometry(0.9, 0.9, 6, 1, true); fernGeo.translate(0, 0.35, 0);
+  const fernMat = new THREE.MeshLambertMaterial({ color: 0x3f6a2a, side: THREE.DoubleSide });
+  const logGeo = new THREE.CylinderGeometry(0.6, 0.7, 14, 7); logGeo.rotateZ(Math.PI / 2);
+  const logMat = new THREE.MeshLambertMaterial({ color: 0x5a3a26 });
+  const blockedRoads = (x, z) => RW_ROADS.some((r) => rwPolylineDistance(r.points, x, z) < 6) || RW_TRAILS.some((t) => rwPolylineDistance(t.points, x, z) < 2.5)
+    || RW_SITES.some((st) => Math.hypot(x - st.position[0], z - st.position[1]) < st.pad);
 
   // --------------------------------------------------------- horizon mesh
   // The whole field at a coarse grid, a few metres low, so the land beyond
@@ -362,7 +372,7 @@ export function rwBuildWorld(scene, opts = {}) {
     ground.name = `rw-chunk-${cx}-${cz}`;
     const group = new THREE.Group();
     group.add(ground);
-    const layout = rwChunkTrees(cx, cz, budget.trees);
+    const layout = layoutFor(cx, cz);
     const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), v = new THREE.Vector3(), sc = new THREE.Vector3();
     let instances = 0;
     for (const kind of ["redwood", "fir", "oak"]) {
@@ -374,13 +384,54 @@ export function rwBuildWorld(scene, opts = {}) {
       group.add(im);
       instances += list.length;
     }
-    group.userData = { cx, cz, instances };
+    // The understory: sword-fern clumps under the redwoods and the odd
+    // fallen log, one instanced mesh each, from the same seeded noise.
+    const ferns = [], logs = [];
+    const fstep = budget.segments >= 32 ? 9 : 14;
+    for (let gz = 0; gz < RW_CHUNK / fstep; gz += 1) for (let gx = 0; gx < RW_CHUNK / fstep; gx += 1) {
+      const fx = x0 + (gx + rwNoise(cx * 31 + gx * 1.9, cz * 29 + gz * 2.3)) * fstep, fz = z0 + (gz + rwNoise(cx * 17 + gx * 2.9 + 3, cz * 13 + gz * 1.1)) * fstep;
+      const fh = rwHeightAt(fx, fz);
+      if (rwBiomeAt(fx, fz, fh) !== "redwood" || blockedRoads(fx, fz)) continue;
+      const n = rwNoise(fx / 5, fz / 5);
+      if (n > 0.62 && logs.length < 6 && rwNoise(fx / 3 + 9, fz / 3) > 0.7) logs.push([fx, fh, fz, n]);
+      else if (n > 0.3) ferns.push([fx, fh, fz, n]);
+    }
+    for (const [list, geo, mat] of [[ferns, fernGeo, fernMat], [logs, logGeo, logMat]]) {
+      if (!list.length) continue;
+      const im = new THREE.InstancedMesh(geo, mat, list.length);
+      list.forEach(([fx, fh, fz, n], i) => {
+        q.setFromAxisAngle(up, n * 20); v.set(fx, fh + (geo === logGeo ? 0.6 : 0), fz);
+        const k = geo === logGeo ? 1 : 0.8 + n; sc.set(k, k, k); m4.compose(v, q, sc); im.setMatrixAt(i, m4);
+      });
+      im.computeBoundingSphere();
+      group.add(im);
+    }
+    group.userData = { cx, cz, instances, understory: ferns.length + logs.length };
     root.add(group);
     return group;
   }
   function disposeChunk(group) {
     root.remove(group);
     for (const c of group.children) { if (c.isInstancedMesh) c.dispose?.(); else c.geometry?.dispose?.(); }
+  }
+  // Trunk colliders: every tree's trunk radius plus a walker's clearance,
+  // read from the same deterministic layout the chunk was drawn from.
+  const layouts = new Map();
+  function layoutFor(cx, cz) {
+    const k = `${cx},${cz}`;
+    if (!layouts.has(k)) { layouts.set(k, rwChunkTrees(cx, cz, budget.trees)); if (layouts.size > 80) layouts.delete(layouts.keys().next().value); }
+    return layouts.get(k);
+  }
+  function blocked(x, z, clearance = 0.7) {
+    const ccx = Math.floor((x - RW_BOUNDS.minX) / RW_CHUNK), ccz = Math.floor((z - RW_BOUNDS.minZ) / RW_CHUNK);
+    for (let dz = -1; dz <= 1; dz += 1) for (let dx = -1; dx <= 1; dx += 1) {
+      const cx = ccx + dx, cz = ccz + dz;
+      if (cx < 0 || cz < 0 || cx >= RW_CHUNKS || cz >= RW_CHUNKS) continue;
+      const x0 = RW_BOUNDS.minX + cx * RW_CHUNK, z0 = RW_BOUNDS.minZ + cz * RW_CHUNK;
+      if (x < x0 - 8 || x > x0 + RW_CHUNK + 8 || z < z0 - 8 || z > z0 + RW_CHUNK + 8) continue;
+      for (const t of layoutFor(cx, cz)) if (Math.hypot(x - t.x, z - t.z) < rwTrunkRadius(t) + clearance) return true;
+    }
+    return false;
   }
   let lastKey = "";
   function stream(px, pz, { all = false } = {}) {
@@ -441,7 +492,7 @@ export function rwBuildWorld(scene, opts = {}) {
 
   return {
     root, sky, update, stream, setHour, get hour() { return hour; }, get band() { return band; }, set band(b) { band = b; },
-    chunks, siteGroups, tinMeshes, budget,
+    chunks, siteGroups, tinMeshes, budget, blocked,
     markFound(id) { const m = tinMeshes.get(id); if (m) { m.userData.found = true; m.visible = false; } },
     stats() { let inst = 0, tris = 0; for (const g of chunks.values()) { inst += g.userData.instances; tris += g.children[0].geometry.index.count / 3; } return { chunks: chunks.size, instances: inst, groundTriangles: tris }; },
   };

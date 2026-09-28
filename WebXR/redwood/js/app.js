@@ -29,7 +29,7 @@ const RW_RUNNER = "../smartcity/index.html";
 const RW_EYE = 1.65;
 const rwApp = {
   screen: "menu", scene: null, camera: null, renderer: null, world: null,
-  x: 320, z: 600, yaw: 0, pitch: -0.02, driving: false, started: false,
+  x: 320, z: 612, yaw: 0, pitch: 0.04, driving: false, started: false,
   state: rwLoad(gtStorage()), near: null, activity: null, layers: new Set(RW_MAP_LAYERS.map((l) => l.id)),
 };
 const rwDone = (id) => ppCompleted(id);
@@ -77,6 +77,8 @@ function rwPlaceCamera() {
   c.rotation.order = "YXZ";
   c.rotation.set(rwApp.pitch, rwApp.yaw, 0);
 }
+/** Where a traveller lands at a site: in its cleared yard, south of the buildings, facing them. */
+function rwArrival(s) { return [s.position[0], s.position[1] + s.pad * 0.75, 0]; }
 function rwTeleport(x, z, yaw = rwApp.yaw) {
   rwApp.x = Math.max(RW_BOUNDS.minX + 5, Math.min(RW_BOUNDS.maxX - 5, x));
   rwApp.z = Math.max(RW_BOUNDS.minZ + 5, Math.min(RW_BOUNDS.maxZ - 5, z));
@@ -140,6 +142,7 @@ function rwStart() {
         { id: "tc-use", label: "Use", aria: "Use", onDown: () => rwEdge.add("KeyE") },
         { id: "tc-map", label: "Map", aria: "Map", onDown: () => rwEdge.add("KeyM") },
         { id: "tc-drive", label: "Drive", aria: "Fire-road vehicle", onDown: () => rwEdge.add("KeyR") },
+        { id: "tc-log", label: "Log", aria: "Quest log", onDown: () => rwEdge.add("KeyJ") },
       ],
     });
     rwStick = rwTouch.stick;
@@ -448,7 +451,7 @@ function rwOpenMap() {
     const ok = rwApp.state.visited.includes(s.id);
     b.disabled = !ok;
     b.title = ok ? `Travel to ${s.name}` : "Walk or drive there once to unlock fast travel";
-    b.addEventListener("click", () => { if (!rwApp.started) rwStart(); rwTeleport(s.position[0], s.position[1] + s.pad * 0.2, Math.PI); rwShow(null); rwToast(`At ${s.name}.`); });
+    b.addEventListener("click", () => { if (!rwApp.started) rwStart(); rwTeleport(...rwArrival(s)); rwShow(null); rwToast(`At ${s.name}.`); });
     tv.appendChild(b);
   }
   rwDrawMap($("map-canvas"));
@@ -494,7 +497,11 @@ function rwTick(dt) {
     const k = (speed * dt) / Math.max(1, Math.hypot(fwd, strafe));
     const nx = rwApp.x + (-sx * fwd + cz * strafe) * k, nz = rwApp.z + (-cz * fwd - sx * strafe) * k;
     // Walkers and the vehicle stay out of the channel and the sea.
-    if (!rwIsWater(nx, nz) && nx > RW_BOUNDS.minX + 4 && nx < RW_BOUNDS.maxX - 4 && nz > RW_BOUNDS.minZ + 4 && nz < RW_BOUNDS.maxZ - 4) { rwApp.x = nx; rwApp.z = nz; }
+    const hit = (x, z) => rwApp.world.blocked(x, z, rwApp.driving ? 1.4 : 0.7);
+    // Slide along a trunk rather than stopping dead: try the full step, then each axis.
+    let tx = nx, tz = nz;
+    if (hit(tx, tz)) { if (!hit(nx, rwApp.z)) tz = rwApp.z; else if (!hit(rwApp.x, nz)) tx = rwApp.x; else { tx = rwApp.x; tz = rwApp.z; } }
+    if (!rwIsWater(tx, tz) && (tx !== rwApp.x || tz !== rwApp.z) && nx > RW_BOUNDS.minX + 4 && nx < RW_BOUNDS.maxX - 4 && nz > RW_BOUNDS.minZ + 4 && nz < RW_BOUNDS.maxZ - 4) { rwApp.x = tx; rwApp.z = tz; }
   }
   rwPlaceCamera();
 
@@ -549,7 +556,7 @@ requestAnimationFrame(rwFrame);
   const back = ppReturnSite(location.hash, location.search);
   const want = q.get("site") || back;
   const s = want ? rwSite(want) : null;
-  if (s) { rwStart(); rwTeleport(s.position[0], s.position[1] + s.pad * 0.2, Math.PI); if (!q.get("site")) rwOpenBoard(s); }
+  if (s) { rwStart(); rwTeleport(...rwArrival(s)); if (!q.get("site")) rwOpenBoard(s); }
   else rwShow("scr-menu");
 }
 
