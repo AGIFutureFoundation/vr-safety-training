@@ -53,10 +53,14 @@
   <h2>What you have found</h2>
   <div class="found" id="tz-found"><p class="empty">Nothing yet. Try knocking on things.</p></div>
 
+  <h2>Earlier eggs</h2>
+  <p class="note">The older egg layers keep their own ledgers; this map only counts them: the golden hard hats and field notes in the stations, Bay World's egg field notes, the Deep's lanterns, Sierra Summit's field notes and Redwood Reach's field tins.</p>
+  <div class="grid" id="tz-earlier"></div>
+
   <p class="note">Your treasures are saved to your own profile: signed in, this device, or the demo tab (the demo keeps nothing once the tab closes). Some treasures stay locked until you have passed a station; when you find a locked one, it tells you which station to pass. <button id="tz-account" type="button">Sign in or switch profile</button> <button id="tz-reset" type="button">Clear my treasures</button></p>
 </main>
 <script type="module">
-import { tzMapModel, tzClear } from "./shared/treasures.js";
+import { tzMapModel, tzClear, tzEarlierEggs } from "./shared/treasures.js";
 import { gtProfile } from "./shared/profiles.js";
 
 const $ = (id) => document.getElementById(id);
@@ -91,6 +95,13 @@ function render() {
     if (t.tool) a.append(el("p", null, `Tool: ${t.tool}.`));
     a.append(el("p", null, t.lesson));
     f.append(a);
+  }
+  const er = $("tz-earlier"); er.textContent = "";
+  for (const e of tzEarlierEggs()) {
+    const c = el("section", "card");
+    const h = el("h3", null, e.name); h.append(el("span", null, `${e.found} / ${e.total}`)); c.append(h);
+    c.append(el("div", null, e.where));
+    er.append(c);
   }
 }
 $("tz-account").addEventListener("click", () => document.getElementById("gt-account")?.click());

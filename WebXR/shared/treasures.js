@@ -30,7 +30,7 @@
 
 import { gtStorage } from "./profiles.js";
 import { qmIsOpen, qmMissing, qmSnapshot, qmInvalidate } from "./skill-gates.js";
-import { TZ_TREASURES, TZ_SETS, TZ_SURFACES } from "./treasures-data.js";
+import { TZ_TREASURES, TZ_SETS, TZ_SURFACES, TZ_EARLIER } from "./treasures-data.js";
 
 export const TZ_KEY = "vr-treasures-v1";
 const TZ_RECORDS_KEY = "vr-training-records-v1";
@@ -103,6 +103,29 @@ export function tzMapModel(storage) {
   const found = TZ_TREASURES.filter((t) => led.found[t.id]).map((t) => ({ id: t.id, name: t.name, surface: t.surface, world: t.world,
     area: t.area, lesson: t.lesson, tool: t.tool ?? null, at: led.found[t.id] }));
   return { total: TZ_TREASURES.length, count: found.length, surfaces, sets, found };
+}
+
+/**
+ * The earlier egg layers (the hard hats, the field notes, Bay World's egg
+ * field notes, the Deep's lanterns, Summit's notes, Redwood's tins), counted
+ * read-only from each layer's own store through the same profile storage.
+ * Counts only — `[{ id, name, where, total, found }]` — nothing is copied into
+ * the treasure ledger and no unfound egg is named.
+ */
+export function tzEarlierEggs(storage) {
+  const store = tzStore(storage);
+  return TZ_EARLIER.map((e) => {
+    let found = 0;
+    try {
+      const raw = JSON.parse(store?.getItem(e.key) || "null");
+      const ids = e.ids ? new Set(e.ids) : null;
+      if (e.shape === "list" && Array.isArray(raw)) found = new Set(raw.filter((x) => typeof x === "string" && (!ids || ids.has(x)))).size;
+      else if (e.shape === "ledger" && Array.isArray(raw)) found = new Set(raw.map((r) => r?.id).filter((x) => typeof x === "string" && ids.has(x))).size;
+      else if (e.shape === "byId" && raw?.byId) found = Object.entries(raw.byId).filter(([id, v]) => ids.has(id) && v?.done).length;
+      else if (e.shape === "state" && Array.isArray(raw?.[e.field])) found = new Set(raw[e.field].filter((x) => ids.has(x))).size;
+    } catch (_) { found = 0; }
+    return { id: e.id, name: e.name, where: e.where, total: e.total, found: Math.min(found, e.total) };
+  });
 }
 
 // ------------------------------------------------------------------ gates

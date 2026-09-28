@@ -41,6 +41,13 @@ const { SM_SITES, SM_ZONES, SM_TRAILS, SM_TRANSMISSION, SM_EGGS, smInLake, smZon
 const { RW_SITES, RW_ROADS, RW_TRAILS, rwIsWater } = await imp("WebXR/redwood/js/rw-data.js");
 const { RW_EGGS } = await imp("WebXR/redwood/js/rw-lore-data.js");
 const { PP_PROGRAMMES } = await imp("WebXR/shared/passport-programmes.js");
+// The older egg layers, read here only for their ids and counts (the Treasure
+// Map's read-only "Earlier eggs" section); their stores stay their own.
+globalThis.localStorage ??= { getItem: () => null, setItem() {}, removeItem() {} };
+globalThis.sessionStorage ??= globalThis.localStorage;
+const { HARD_HAT_TOTAL, IN_APP_EGGS } = await imp("WebXR/shared/eggs.js");
+const { EGG_QUESTS, FIELD_GUIDE_EGGS } = await imp("WebXR/bayworld/js/quests.js");
+const { DV_EGG_DIVES } = await imp("WebXR/underwater/js/dives.js");
 const UNIONS = JSON.parse(rd("tools/unions.json")).unions;
 const STANDARDS = JSON.parse(rd("tools/standards.json")).standards;
 const CURR_SRC = rd("WebXR/smartcity/js/curricula.js");
@@ -385,6 +392,23 @@ const SURFACES = [
   ["regatta", "The Regatta"], ["fairway", "Fairway Park"], ["summit", "Sierra Summit"], ["redwood", "Redwood Reach"],
 ].map(([id, name]) => ({ id, name, count: T.filter((t) => t.surface === id).length }));
 
+// The earlier egg layers the Treasure Map shows read-only, each from its own
+// store: which key, how a find is stored there, and the ids that count. Nothing
+// is copied into the treasure ledger.
+//   list    the store is an array of found ids
+//   ledger  the store is an array of { id, programme } rows (an id per programme)
+//   byId    the store is { byId: { [id]: { done } } } (the quest and dive engines)
+//   state   the store is a state object whose `field` is an array of found ids
+const EARLIER = [
+  { id: "hard-hats", name: "Golden hard hats", where: "Stations", key: "vr-training-hardhats-v1", shape: "list", total: HARD_HAT_TOTAL, ids: null },
+  { id: "field-notes", name: "Field notes", where: "Stations", key: "vr-training-egg-ledger-v1", shape: "ledger", total: IN_APP_EGGS.length, ids: IN_APP_EGGS.map((e) => e.id) },
+  { id: "bay-eggs", name: "Egg field notes", where: "Bay World", key: "bayworld-quests-v1", shape: "byId", total: EGG_QUESTS.length + FIELD_GUIDE_EGGS.length, ids: [...EGG_QUESTS, ...FIELD_GUIDE_EGGS].map((q) => q.id) },
+  { id: "deep-lanterns", name: "Lanterns", where: "The Deep", key: "underwater-dives-v1", shape: "byId", total: DV_EGG_DIVES.length, ids: DV_EGG_DIVES.map((d) => d.id) },
+  { id: "summit-notes", name: "Field notes", where: "Sierra Summit", key: "summit-v1", shape: "state", field: "eggs", total: SM_EGGS.length, ids: SM_EGGS.map((e) => e.id) },
+  { id: "redwood-tins", name: "Field tins", where: "Redwood Reach", key: "redwood-career-v1", shape: "state", field: "found", total: RW_EGGS.length, ids: RW_EGGS.map((e) => e.id) },
+];
+for (const e of EARLIER) if (e.ids && new Set(e.ids).size !== e.total) throw new Error(`${e.id}: ${e.total} eggs but ${new Set(e.ids).size} ids`);
+
 // Every gated treasure, in the shape tools/check_gates.mjs discovers from any
 // `*-data.js` module that exports a `…GATED…` array. `world: "treasures"` keeps
 // them out of the four worlds' side-game counts: they share only the gate.
@@ -406,6 +430,9 @@ export const TZ_TREASURES = ${JSON.stringify(T, null, 1)};
 
 /** The gated treasures, for tools/check_gates.mjs (it discovers any exported \`…GATED…\` array). */
 export const TZ_GATED = ${JSON.stringify(GATED, null, 1)};
+
+/** The earlier egg layers the Treasure Map counts read-only from their own stores (never copied into the ledger). */
+export const TZ_EARLIER = ${JSON.stringify(EARLIER, null, 1)};
 `;
 fs.writeFileSync(path.join(ROOT, "WebXR/shared/treasures-data.js"), out);
 console.log(`gen_treasures: ${T.length} treasures, ${SETS.length} sets, ${T.filter((t) => t.gate).length} gated → WebXR/shared/treasures-data.js`);

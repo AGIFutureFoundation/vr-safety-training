@@ -5401,6 +5401,203 @@ const TZ_GATED = [
  }
 ];
 
+/** The earlier egg layers the Treasure Map counts read-only from their own stores (never copied into the ledger). */
+const TZ_EARLIER = [
+ {
+  "id": "hard-hats",
+  "name": "Golden hard hats",
+  "where": "Stations",
+  "key": "vr-training-hardhats-v1",
+  "shape": "list",
+  "total": 14,
+  "ids": null
+ },
+ {
+  "id": "field-notes",
+  "name": "Field notes",
+  "where": "Stations",
+  "key": "vr-training-egg-ledger-v1",
+  "shape": "ledger",
+  "total": 6,
+  "ids": [
+   "clean-sweep",
+   "radio-check",
+   "no-reset",
+   "hot-streak",
+   "first-pass",
+   "cross-trained"
+  ]
+ },
+ {
+  "id": "bay-eggs",
+  "name": "Egg field notes",
+  "where": "Bay World",
+  "key": "bayworld-quests-v1",
+  "shape": "byId",
+  "total": 34,
+  "ids": [
+   "bw-egg-pretrip-report",
+   "bw-egg-airbrake-chock",
+   "bw-egg-hazmat-bung",
+   "bw-egg-cargo-winch",
+   "bw-egg-forklift-belt",
+   "bw-egg-grade-snub",
+   "bw-egg-orientation-tieoff",
+   "bw-egg-hall-signbook",
+   "bw-egg-credit-freereports",
+   "bw-egg-debt-sortbyrate",
+   "bw-egg-sleep-naptimer",
+   "bw-egg-substance-staywith",
+   "bw-egg-decon-berm",
+   "bw-egg-stormwater-ice",
+   "bw-egg-dredge-curtain",
+   "bw-egg-oyster-quadrat",
+   "bw-egg-tidegate-float",
+   "bw-egg-mooring-eye",
+   "bw-egg-dockcrane-wind",
+   "bw-egg-craneyard-level",
+   "bw-egg-scaffold-tie",
+   "bw-egg-rescue-refuse",
+   "bw-egg-boiler-lockall",
+   "bw-egg-hood-pathclear",
+   "bw-egg-cleat-hitch",
+   "bw-egg-tender-light",
+   "bw-egg-fg-gulls-port",
+   "bw-egg-fg-gulls-pier",
+   "bw-egg-fg-pelicans-channel",
+   "bw-egg-fg-shorebirds-beach",
+   "bw-egg-fg-seals-float",
+   "bw-egg-fg-fish-school",
+   "bw-egg-fg-ray-channel",
+   "bw-egg-fg-crab-breakwater"
+  ]
+ },
+ {
+  "id": "deep-lanterns",
+  "name": "Lanterns",
+  "where": "The Deep",
+  "key": "underwater-dives-v1",
+  "shape": "byId",
+  "total": 24,
+  "ids": [
+   "dv-egg-ladder-lead",
+   "dv-egg-pile-zones",
+   "dv-egg-gauge-riddle",
+   "dv-egg-quadrat-stake",
+   "dv-egg-slack-water",
+   "dv-egg-hull-overhead",
+   "dv-egg-upcurrent-anchor",
+   "dv-egg-turbidity-proof",
+   "dv-egg-bank-buddy",
+   "dv-egg-slow-baseline",
+   "dv-egg-holdfast-upcurrent",
+   "dv-egg-follow-line",
+   "dv-egg-straight-core",
+   "dv-egg-cap-first",
+   "dv-egg-screw-locked",
+   "dv-egg-steady-pace",
+   "dv-egg-ground-first",
+   "dv-egg-pin-then-wire",
+   "dv-egg-bight",
+   "dv-egg-chamber-plan",
+   "dv-egg-benchmark",
+   "dv-egg-pfd-gasp",
+   "dv-egg-prove-zero",
+   "dv-egg-plan-is-the-dive"
+  ]
+ },
+ {
+  "id": "summit-notes",
+  "name": "Field notes",
+  "where": "Sierra Summit",
+  "key": "summit-v1",
+  "shape": "state",
+  "field": "eggs",
+  "total": 32,
+  "ids": [
+   "sm-egg-glove-test",
+   "sm-egg-sleeve-check",
+   "sm-egg-row-weather",
+   "sm-egg-rf-survey",
+   "sm-egg-harness",
+   "sm-egg-tether-tools",
+   "sm-egg-fall-plan",
+   "sm-egg-order-changed",
+   "sm-egg-readback",
+   "sm-egg-breaker",
+   "sm-egg-combustibles",
+   "sm-egg-meter-alarms",
+   "sm-egg-isolate",
+   "sm-egg-zero-energy",
+   "sm-egg-hydro-ramp",
+   "sm-egg-damage-read",
+   "sm-egg-grade-sign",
+   "sm-egg-crest-gear",
+   "sm-egg-descent",
+   "sm-egg-taper",
+   "sm-egg-arrow-board",
+   "sm-egg-shotcrete-clear",
+   "sm-egg-locate-marks",
+   "sm-egg-sills",
+   "sm-egg-own-lock",
+   "sm-egg-verify-zero",
+   "sm-egg-spot-weather",
+   "sm-egg-honest-answer",
+   "sm-egg-scba",
+   "sm-egg-vent-first",
+   "sm-egg-lift-plan",
+   "sm-egg-walkaround"
+  ]
+ },
+ {
+  "id": "redwood-tins",
+  "name": "Field tins",
+  "where": "Redwood Reach",
+  "key": "redwood-career-v1",
+  "shape": "state",
+  "field": "found",
+  "total": 36,
+  "ids": [
+   "rw-egg-cathedral-ring",
+   "rw-egg-fallen-giant",
+   "rw-egg-grove-bench",
+   "rw-egg-engine-bay",
+   "rw-egg-hose-tower",
+   "rw-egg-helispot",
+   "rw-egg-lookout-cab",
+   "rw-egg-firefinder-rock",
+   "rw-egg-switchback-bend",
+   "rw-egg-log-deck",
+   "rw-egg-debarker",
+   "rw-egg-planer-shed",
+   "rw-egg-log-jam",
+   "rw-egg-old-culvert",
+   "rw-egg-willow-stakes",
+   "rw-egg-trailhead-kiosk",
+   "rw-egg-amphitheatre",
+   "rw-egg-host-site",
+   "rw-egg-seed-vault",
+   "rw-egg-shade-house",
+   "rw-egg-potting-shed",
+   "rw-egg-switchyard-gate",
+   "rw-egg-corridor-tower",
+   "rw-egg-danger-tree",
+   "rw-egg-boardwalk-end",
+   "rw-egg-seine-beach",
+   "rw-egg-tide-stake",
+   "rw-egg-river-mouth",
+   "rw-egg-dozer-line",
+   "rw-egg-road-gate",
+   "rw-egg-water-tank",
+   "rw-egg-tool-cache",
+   "rw-egg-blowdown",
+   "rw-egg-waterbar",
+   "rw-egg-fuel-break-west",
+   "rw-egg-fuel-break-east"
+  ]
+ }
+];
+
 
 /* ===== shared/treasures.js ===== */
 // Hidden treasures and easter eggs through the whole platform (console
@@ -5507,6 +5704,29 @@ function tzMapModel(storage) {
   const found = TZ_TREASURES.filter((t) => led.found[t.id]).map((t) => ({ id: t.id, name: t.name, surface: t.surface, world: t.world,
     area: t.area, lesson: t.lesson, tool: t.tool ?? null, at: led.found[t.id] }));
   return { total: TZ_TREASURES.length, count: found.length, surfaces, sets, found };
+}
+
+/**
+ * The earlier egg layers (the hard hats, the field notes, Bay World's egg
+ * field notes, the Deep's lanterns, Summit's notes, Redwood's tins), counted
+ * read-only from each layer's own store through the same profile storage.
+ * Counts only — `[{ id, name, where, total, found }]` — nothing is copied into
+ * the treasure ledger and no unfound egg is named.
+ */
+function tzEarlierEggs(storage) {
+  const store = tzStore(storage);
+  return TZ_EARLIER.map((e) => {
+    let found = 0;
+    try {
+      const raw = JSON.parse(store?.getItem(e.key) || "null");
+      const ids = e.ids ? new Set(e.ids) : null;
+      if (e.shape === "list" && Array.isArray(raw)) found = new Set(raw.filter((x) => typeof x === "string" && (!ids || ids.has(x)))).size;
+      else if (e.shape === "ledger" && Array.isArray(raw)) found = new Set(raw.map((r) => r?.id).filter((x) => typeof x === "string" && ids.has(x))).size;
+      else if (e.shape === "byId" && raw?.byId) found = Object.entries(raw.byId).filter(([id, v]) => ids.has(id) && v?.done).length;
+      else if (e.shape === "state" && Array.isArray(raw?.[e.field])) found = new Set(raw[e.field].filter((x) => ids.has(x))).size;
+    } catch (_) { found = 0; }
+    return { id: e.id, name: e.name, where: e.where, total: e.total, found: Math.min(found, e.total) };
+  });
 }
 
 // ------------------------------------------------------------------ gates

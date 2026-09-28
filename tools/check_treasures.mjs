@@ -177,7 +177,7 @@ await check("gates: the shared engine answers; every id resolves; fresh profile 
   assert(Z.tzStationHref("valve-vault", "./") === "./smartcity-x.html?sim=valve-vault", "flat-layout station link is wrong");
 });
 
-await check("the Treasure Map model never leaks an unfound treasure", () => {
+await check("the Treasure Map model never leaks an unfound treasure; the earlier eggs are counted read-only", async () => {
   const st = fakeStorage();
   const foundOne = T.find((t) => !t.gate);
   Z.tzRecord(foundOne.id, st);
@@ -191,8 +191,30 @@ await check("the Treasure Map model never leaks an unfound treasure", () => {
     assert(!json.includes(t.hint), `the map model shows ${t.id}'s hint`);
   }
   assert(!/"trigger"|"x":|"pos":|"hint"/.test(json), "the map model carries a trigger, position or hint");
+  // The earlier egg layers are counted read-only from their own stores: the
+  // totals match their registries, a find in a store counts, nothing is
+  // copied into the treasure ledger and no egg id leaves the counts.
+  const { HARD_HAT_TOTAL, IN_APP_EGGS } = await import(join(WEBXR, "shared/eggs.js"));
+  const { EGG_QUESTS, FIELD_GUIDE_EGGS } = await import(join(WEBXR, "bayworld/js/quests.js"));
+  const { DV_EGG_DIVES } = await import(join(WEBXR, "underwater/js/dives.js"));
+  const totals = { "hard-hats": HARD_HAT_TOTAL, "field-notes": IN_APP_EGGS.length, "bay-eggs": EGG_QUESTS.length + FIELD_GUIDE_EGGS.length, "deep-lanterns": DV_EGG_DIVES.length, "summit-notes": SM_EGGS.length, "redwood-tins": RW_EGGS.length };
+  const es = fakeStorage();
+  const fresh = Z.tzEarlierEggs(es);
+  for (const [id, n] of Object.entries(totals)) assert(fresh.find((e) => e.id === id)?.total === n && fresh.find((e) => e.id === id).found === 0, `earlier eggs: ${id} total ${n} expected on a fresh profile`);
+  es.setItem("vr-training-hardhats-v1", JSON.stringify(["a", "b", "b"]));
+  es.setItem("vr-training-egg-ledger-v1", JSON.stringify([{ id: IN_APP_EGGS[0].id, programme: "x" }, { id: IN_APP_EGGS[0].id, programme: "y" }, { id: "nope", programme: "x" }]));
+  es.setItem("bayworld-quests-v1", JSON.stringify({ byId: { [EGG_QUESTS[0].id]: { done: true }, [EGG_QUESTS[1].id]: { done: false }, "bw-main-1": { done: true } } }));
+  es.setItem("underwater-dives-v1", JSON.stringify({ byId: { [DV_EGG_DIVES[0].id]: { done: true }, [DV_EGG_DIVES[1].id]: { done: true } } }));
+  es.setItem("summit-v1", JSON.stringify({ eggs: [SM_EGGS[0].id, "not-an-egg"] }));
+  es.setItem("redwood-career-v1", JSON.stringify({ v: 1, found: [RW_EGGS[0].id, RW_EGGS[1].id, RW_EGGS[2].id] }));
+  const seeded = Object.fromEntries(Z.tzEarlierEggs(es).map((e) => [e.id, e.found]));
+  assert(seeded["hard-hats"] === 2 && seeded["field-notes"] === 1 && seeded["bay-eggs"] === 1 && seeded["deep-lanterns"] === 2 && seeded["summit-notes"] === 1 && seeded["redwood-tins"] === 3,
+    `earlier eggs miscounted: ${JSON.stringify(seeded)}`);
+  assert(!es.getItem(Z.TZ_KEY), "counting the earlier eggs wrote the treasure ledger");
+  const ej = JSON.stringify(Z.tzEarlierEggs(es));
+  for (const id of [...EGG_QUESTS, ...DV_EGG_DIVES, ...SM_EGGS, ...RW_EGGS, ...IN_APP_EGGS].map((e) => e.id)) assert(!ej.includes(`"${id}"`), `earlier eggs name ${id}`);
   const page = readFileSync(join(WEBXR, "treasures.html"), "utf8");
-  assert(page.includes("tzMapModel") && !/TZ_TREASURES|treasures-data/.test(page), "treasures.html reads more than the map model");
+  assert(page.includes("tzMapModel") && page.includes("tzEarlierEggs()") && page.includes('id="tz-earlier"') && !/TZ_TREASURES|treasures-data/.test(page), "treasures.html reads more than the map model and the earlier-egg counts");
   assert(page.includes('class="home-chip') || page.includes("ctlMount("), "treasures.html has no Home chip");
   assert(page.includes("gdMount("), "treasures.html has no Guide");
   const acct = rd("WebXR/shared/account.js");

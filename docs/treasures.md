@@ -15,6 +15,11 @@ the field notes, the Foreman's Radio, the racer and the arcade), Bay World's egg
 - **Reveal.** A small card scales in with a gold glint and shows the treasure's name, the lesson, where
   the line comes from and the set progress. It also names a badge when the find completes a set.
   With reduced motion on, the card appears without the animation.
+- **Earlier eggs.** The map's last section counts the older egg layers read-only from their own
+  stores — the golden hard hats and field notes in the stations, Bay World's egg field notes, the
+  Deep's lanterns, Sierra Summit's field notes and Redwood Reach's field tins. `tzEarlierEggs()`
+  reads each layer's key through the same profile storage and returns counts only; nothing is copied
+  into `vr-treasures-v1`, and the checker proves no egg id leaves the counts.
 - **Locked treasures.** A few treasures use the frontier gate contract
   (`gate: { stations, programmes, quests, k12, note }`), answered by the shared gate engine
   (`WebXR/shared/skill-gates.js`, `docs/skill-gates.md`) — the same engine the side quests and games
