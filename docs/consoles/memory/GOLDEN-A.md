@@ -33,3 +33,6 @@ Short, durable lessons for the next team at this console (the Bayou brief's GOLD
   fulfils the cdnjs three.js import with `WebXR/vendor/three/dist/three.module.min.js`. Register the abort route
   **first** — Playwright tries the most recently added route first, so the fulfil must be added after the catch-all.
   `TP=x:z:yaw` teleports through `window.__parishTest` for a second shot.
+- **Adding a map changes the home card.** `gen_home.mjs` reads `NP_PARISHES` for the Parishes card count (now by region
+  via `npRegionGroups`); after a new map run `node tools/gen_home.mjs` and copy `WebXR/home.html` to
+  `WebXR/dist/index.html`, or `check_home` fails "stale".

@@ -67,3 +67,6 @@ Base: `a643c66` on `claude/vr-ar-safety-training-wkwmve` (the worktree started a
 - **Scale 2.2 m per map metre** for every SF map, set by `check_parish_data`'s 8 km field floor; boxes overlap.
 - **Internal connector ids carry the side** (`sf-dt-…`, `sf-mi-…`, `sf-gp-…`) and pair by kind and lonlat, the DELTA rule.
 - **Not rebuilt:** `WebXR/parishes/dist/parishes.html` (the gate regenerates output; a bundle also restamps the page head).
+- 23:50 the suite caught one of mine: `check_home` — the homepage card counts `NP_PARISHES` ("8 parishes"). `gen_home.mjs`
+  now counts by region ("5 parishes · 3 districts · 88 job sites"); `WebXR/index.html`, `home.html` regenerated and
+  `WebXR/dist/index.html` synced (it is a copy of `home.html`). `check_home` green.
