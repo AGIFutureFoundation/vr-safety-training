@@ -483,6 +483,7 @@ APPS = {
             WEBXR / "bayworld/js/career.js",
             SHARED / "links.js",
             WEBXR / "bayworld/js/sim.js",
+            SHARED / "field-lessons.js",
             WEBXR / "bayworld/js/map.js",
             # Real ground under the city (docs/mapbox.md): bay-geo's fit and
             # shared/mapbox.js's bayGroundTexture(), which world.js applies
@@ -543,6 +544,7 @@ APPS = {
             WEBXR / "underwater/js/dive-career.js",
             SHARED / "links.js",
             WEBXR / "underwater/js/dive-sim.js",
+            SHARED / "field-lessons.js",
             WEBXR / "underwater/js/dive-map.js",
             WEBXR / "underwater/js/activities.js",
             WEBXR / "underwater/js/world.js",

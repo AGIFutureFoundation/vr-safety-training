@@ -713,9 +713,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
-      "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help"
+      "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help", "k12-public-speaking-at-the-hall",
+      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "bay-restoration-maritime-underwater",

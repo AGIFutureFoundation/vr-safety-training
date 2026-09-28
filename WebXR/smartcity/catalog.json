@@ -5816,16 +5816,31 @@
           "app": "smartcity",
           "id": "k12-first-aid-awareness-call-for-help",
           "why": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-public-speaking-at-the-hall",
+          "why": "A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and nerves handled, with the stage edge respected."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-digital-citizenship-and-online-safety",
+          "why": "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-teamwork-and-feedback",
+          "why": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 780,
-        "tasks": 60,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 3,
+        "lessons": 1560,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -34871,7 +34886,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -35531,7 +35546,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

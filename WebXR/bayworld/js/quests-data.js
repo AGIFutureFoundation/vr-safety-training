@@ -5070,18 +5070,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-household-budget-and-first-paycheck",
-        "text": "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back."
+        "target": "k12-graphing-tide-readings-at-the-pier",
+        "text": "A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for their pattern without guessing past the data."
       },
       {
         "type": "station",
-        "target": "k12-reading-a-map-scale-in-bay-world",
-        "text": "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check."
+        "target": "k12-probability-with-a-fair-spinner",
+        "text": "Chance as a fraction of equal parts, a prediction written before the spins and a long tally compared with it, with a spinner that has no memory and stickers as the only prize."
       },
       {
         "type": "station",
-        "target": "k12-fractions-in-the-kitchen",
-        "text": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
+        "target": "k12-geometry-of-a-turbine-blade-sweep",
+        "text": "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model."
       },
       {
         "type": "talk",
@@ -5154,18 +5154,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-buoyancy-and-pressure-in-the-deep",
-        "text": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+        "target": "k12-weather-and-the-sky",
+        "text": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
       },
       {
         "type": "station",
-        "target": "k12-circuits-at-the-electrical-bench",
-        "text": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+        "target": "k12-simple-machines-at-a-crane",
+        "text": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
       },
       {
         "type": "station",
-        "target": "k12-energy-transfer-at-the-wind-farm",
-        "text": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+        "target": "k12-a-controlled-experiment",
+        "text": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
       },
       {
         "type": "talk",
@@ -5238,18 +5238,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-primary-and-secondary-sources",
-        "text": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
+        "target": "k12-oral-history-interview-skills",
+        "text": "Oral history as method: consent before recording, open questions and patient pauses, the interviewee's wellbeing first, and a memory weighed as a source like any other."
       },
       {
         "type": "station",
-        "target": "k12-building-a-timeline-from-documents",
-        "text": "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes."
+        "target": "k12-guilds-and-the-history-of-work",
+        "text": "The history of work told only as widely established general facts about guilds, with everything else turned into research questions and every claim traced to a source."
       },
       {
         "type": "station",
-        "target": "k12-how-a-local-council-meeting-works",
-        "text": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
+        "target": "k12-map-literacy-across-eras",
+        "text": "Fictional maps from different eras read for key, scale and orientation, their makers' purposes asked and the changes between them explained rather than dismissed."
       },
       {
         "type": "talk",
@@ -5322,18 +5322,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-reading-instructions-and-safety-labels",
-        "text": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
+        "target": "k12-public-speaking-at-the-hall",
+        "text": "A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and nerves handled, with the stage edge respected."
       },
       {
         "type": "station",
-        "target": "k12-writing-a-clear-incident-report",
-        "text": "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it."
+        "target": "k12-digital-citizenship-and-online-safety",
+        "text": "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told."
       },
       {
         "type": "station",
-        "target": "k12-first-aid-awareness-call-for-help",
-        "text": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
+        "target": "k12-teamwork-and-feedback",
+        "text": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
       },
       {
         "type": "talk",

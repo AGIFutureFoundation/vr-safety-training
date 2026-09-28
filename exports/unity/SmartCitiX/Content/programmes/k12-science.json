@@ -2,6 +2,23 @@
   "accent": "#4fb88a",
   "anchors": [
     {
+      "id": "emery-lab-campus",
+      "name": "Emery Lab Campus",
+      "position": [
+        -720,
+        -350
+      ],
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-hazardous-drug-spill-kit-response",
+        "who-surveillance-and-case-definition",
+        "k12-a-controlled-experiment"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "emery-crossing"
+    },
+    {
       "id": "fruitvale-community-college",
       "name": "Fruitvale Community College",
       "position": [
@@ -12,11 +29,53 @@
         "phlebotomy",
         "dental-careers-pathway",
         "four-handed-dentistry",
-        "k12-circuits-at-the-electrical-bench"
+        "k12-circuits-at-the-electrical-bench",
+        "k12-digital-citizenship-and-online-safety"
       ],
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "fruitvale"
+    },
+    {
+      "id": "north-shoreline-field-lab",
+      "name": "North Shoreline Field Lab",
+      "position": [
+        -735,
+        -590
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "port-container-terminal",
+      "name": "Port Container Terminal",
+      "position": [
+        -340,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane",
+        "k12-simple-machines-at-a-crane"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
     },
     {
       "id": "ridge-wind-farm",
@@ -30,7 +89,8 @@
         "ws-nacelle-lockout-and-yaw-brake-fault",
         "ws-blade-inspection-from-a-platform",
         "ws-substation-switching-under-a-permit",
-        "k12-energy-transfer-at-the-wind-farm"
+        "k12-energy-transfer-at-the-wind-farm",
+        "k12-geometry-of-a-turbine-blade-sweep"
       ],
       "table": "BAY_SITES",
       "world": "bayworld",
@@ -55,6 +115,23 @@
       "zone": "south-shoreline"
     },
     {
+      "id": "kelp-transect-start",
+      "name": "Kelp Transect Start",
+      "position": [
+        -480,
+        -200
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "k12-ecosystems-at-the-kelp-transect"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
       "id": "shelf-checkout-site",
       "name": "Shelf Checkout Site",
       "position": [
@@ -77,7 +154,7 @@
   "competency": {
     "id": "k12-science",
     "kind": "programme",
-    "require": 2,
+    "require": 4,
     "standards": [
       "un-sdg-4-quality-education",
       "unesco-education-guidance",
@@ -87,7 +164,11 @@
       "k12-water-cycle-and-filtration",
       "k12-buoyancy-and-pressure-in-the-deep",
       "k12-circuits-at-the-electrical-bench",
-      "k12-energy-transfer-at-the-wind-farm"
+      "k12-energy-transfer-at-the-wind-farm",
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-weather-and-the-sky",
+      "k12-simple-machines-at-a-crane",
+      "k12-a-controlled-experiment"
     ],
     "title": "Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe"
   },
@@ -101,14 +182,14 @@
   ],
   "id": "k12-science",
   "ladder": {
-    "atBar": 0,
+    "atBar": 20,
     "lessonBar": 75,
-    "lessons": 1040,
+    "lessons": 1560,
     "levels": 20,
     "note": "a lesson is one station step under one condition; see docs/ladders.md",
-    "partial": 20,
-    "stationsNeeded": 2,
-    "tasks": 80
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
   },
   "name": "K-12 Science",
   "schema": "smartcitix.programme/1",
@@ -132,6 +213,26 @@
       "app": "smartcity",
       "id": "k12-energy-transfer-at-the-wind-farm",
       "why": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-ecosystems-at-the-kelp-transect",
+      "why": "Producers, consumers and decomposers found on a live transect from the tender's deck, a food web built only from what the camera showed, arrows following the energy."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-weather-and-the-sky",
+      "why": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-simple-machines-at-a-crane",
+      "why": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-a-controlled-experiment",
+      "why": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
     }
   ],
   "summary": "Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.",

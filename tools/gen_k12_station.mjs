@@ -33,7 +33,9 @@ function gen(d) {
   const S = {};
   for (const key of ["find1", "select1", "seq", "hold", "turn", "gauge", "drag", "select2", "find2", "track", "record", "share"]) S[key] = { ...d[key], id: d[key].id ?? slug(d[key].title) };
   const ind = (s, n) => s.split("\n").map((l, i) => (i ? " ".repeat(n) + l : l)).join("\n");
-  const obj = (o, n) => ind(JSON.stringify(o, null, 2), n);
+  // Unquoted identifier keys, as the hand-written stations use: gen_ladder_milestones
+  // reads `why:` unquoted and skips a station whose keys are JSON-quoted.
+  const obj = (o, n) => ind(JSON.stringify(o, null, 2).replace(/^(\s*)"([A-Za-z_$][\w$]*)":/gm, "$1$2:"), n);
   const findStep = (f) => ({
     id: f.id, kind: "find", noHint: true,
     targets: f.items.map((i) => k(i[0])),

@@ -11,7 +11,8 @@
       "stations": [
         "bb-warmup-injury-prevention-and-hydration",
         "bb-stance-and-ball-handling",
-        "k12-measuring-and-scaling-the-court"
+        "k12-measuring-and-scaling-the-court",
+        "k12-teamwork-and-feedback"
       ],
       "table": "BAY_SITES",
       "world": "bayworld",
@@ -28,7 +29,8 @@
         "public-comment-prep",
         "public-meeting-chair",
         "k12-household-budget-and-first-paycheck",
-        "k12-how-a-local-council-meeting-works"
+        "k12-how-a-local-council-meeting-works",
+        "k12-map-literacy-across-eras"
       ],
       "table": "BAY_SITES",
       "world": "bayworld",
@@ -56,6 +58,23 @@
       "zone": "fruitvale"
     },
     {
+      "id": "island-airfield-park",
+      "name": "Island Airfield Park",
+      "position": [
+        190,
+        690
+      ],
+      "stations": [
+        "av-marshalling-and-wingwalker-signals",
+        "av-ground-power-and-static-bonding-before-fuel",
+        "gk-sports-field-line-marking-and-goal-anchoring",
+        "k12-probability-with-a-fair-spinner"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
       "id": "island-ferry-landing",
       "name": "Island Ferry Landing",
       "position": [
@@ -71,13 +90,65 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "island-harbour"
+    },
+    {
+      "id": "north-marina-pier",
+      "name": "North Marina Pier",
+      "position": [
+        -800,
+        -640
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy",
+        "k12-graphing-tide-readings-at-the-pier"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ridge-wind-farm",
+      "name": "Ridge Wind Farm",
+      "position": [
+        960,
+        -520
+      ],
+      "stations": [
+        "ws-turbine-climb-and-rescue-kit-check",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
+        "ws-blade-inspection-from-a-platform",
+        "ws-substation-switching-under-a-permit",
+        "k12-energy-transfer-at-the-wind-farm",
+        "k12-geometry-of-a-turbine-blade-sweep"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "uptown-construction-site",
+      "name": "Uptown Construction Site",
+      "position": [
+        -9,
+        -230
+      ],
+      "stations": [
+        "concrete-pour",
+        "cm-slab-screed-bull-float-and-trowel",
+        "k12-slope-and-angles-on-a-ramp"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "uptown"
     }
   ],
   "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
   "competency": {
     "id": "k12-practical-math",
     "kind": "programme",
-    "require": 2,
+    "require": 4,
     "standards": [
       "un-sdg-4-quality-education",
       "unesco-education-guidance",
@@ -87,7 +158,11 @@
       "k12-measuring-and-scaling-the-court",
       "k12-household-budget-and-first-paycheck",
       "k12-reading-a-map-scale-in-bay-world",
-      "k12-fractions-in-the-kitchen"
+      "k12-fractions-in-the-kitchen",
+      "k12-slope-and-angles-on-a-ramp",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-probability-with-a-fair-spinner",
+      "k12-geometry-of-a-turbine-blade-sweep"
     ],
     "title": "Use measurement, proportion, data and chance to reason about real places, with every unit written and every answer checked"
   },
@@ -101,14 +176,14 @@
   ],
   "id": "k12-practical-math",
   "ladder": {
-    "atBar": 0,
+    "atBar": 20,
     "lessonBar": 75,
-    "lessons": 1040,
+    "lessons": 1560,
     "levels": 20,
     "note": "a lesson is one station step under one condition; see docs/ladders.md",
-    "partial": 20,
-    "stationsNeeded": 2,
-    "tasks": 80
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
   },
   "name": "K-12 Practical Maths",
   "schema": "smartcitix.programme/1",
@@ -132,6 +207,26 @@
       "app": "smartcity",
       "id": "k12-fractions-in-the-kitchen",
       "why": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-slope-and-angles-on-a-ramp",
+      "why": "Slope as rise over run on an access ramp at a working site, matched units, the run measured flat and the answer checked against the plan's own limit."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-graphing-tide-readings-at-the-pier",
+      "why": "A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for their pattern without guessing past the data."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-probability-with-a-fair-spinner",
+      "why": "Chance as a fraction of equal parts, a prediction written before the spins and a long tally compared with it, with a spinner that has no memory and stickers as the only prize."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-geometry-of-a-turbine-blade-sweep",
+      "why": "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model."
     }
   ],
   "summary": "Maths done where it is used: a court measured and drawn to scale, a first paycheck budgeted, a map scale read, fractions in a kitchen, a ramp's slope, tide readings graphed, a fair spinner and a turbine's sweep. Every number the learner works with is one the scene shows.",

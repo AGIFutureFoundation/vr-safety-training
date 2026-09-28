@@ -832,18 +832,18 @@ export const DV_SIDE_DIVES = [
       },
       {
         "type": "station",
-        "target": "k12-buoyancy-and-pressure-in-the-deep",
-        "text": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+        "target": "k12-weather-and-the-sky",
+        "text": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
       },
       {
         "type": "station",
-        "target": "k12-circuits-at-the-electrical-bench",
-        "text": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+        "target": "k12-simple-machines-at-a-crane",
+        "text": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
       },
       {
         "type": "station",
-        "target": "k12-energy-transfer-at-the-wind-farm",
-        "text": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+        "target": "k12-a-controlled-experiment",
+        "text": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
       },
       {
         "type": "talk",
