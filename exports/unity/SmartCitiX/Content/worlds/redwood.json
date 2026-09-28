@@ -234,6 +234,138 @@
       -900
     ]
   ],
+  "RW_GATED": [
+    {
+      "gate": {
+        "note": "Fireline and lookout first — you log smoke only once you know LCES.",
+        "stations": [
+          "or-wildland-fireline-construction-and-lookout"
+        ]
+      },
+      "id": "rw-side-night-lookout",
+      "kind": "quest",
+      "site": "lookout",
+      "title": "Night Watch at the Lookout",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Right-of-way patrol first — a line is treated as energised from the first look.",
+        "stations": [
+          "or-transmission-line-right-of-way-patrol"
+        ]
+      },
+      "id": "rw-side-danger-tree",
+      "kind": "quest",
+      "site": "substation",
+      "title": "The Danger Tree Survey",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Jam clearing and lockout first — nobody restarts a line they did not lock out.",
+        "stations": [
+          "tw-conveyor-jam-clearing-and-loto"
+        ]
+      },
+      "id": "rw-side-mill-restart",
+      "kind": "quest",
+      "site": "sawmill",
+      "title": "Safe Restart at the Mill",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Chainsaw start and limbing first — the saw is started braced on the ground.",
+        "stations": [
+          "gk-chainsaw-start-and-limbing-on-the-ground"
+        ]
+      },
+      "id": "rw-side-blowdown",
+      "kind": "quest",
+      "site": "trail-camp",
+      "title": "Clear the Blowdown",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Grader fine grade first — a crown is only as good as its stringline.",
+        "stations": [
+          "op-grader-fine-grade-and-crown"
+        ]
+      },
+      "id": "rw-side-grade-the-spur",
+      "kind": "quest",
+      "site": "equipment-yard",
+      "title": "Grade the Spur Road",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Nursery chemical storage first — the path to the eyewash stays clear.",
+        "stations": [
+          "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+        ]
+      },
+      "id": "rw-side-seed-run",
+      "kind": "quest",
+      "site": "nursery",
+      "title": "The Seed Run",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Beach seine survey first — the net is hauled as one crew.",
+        "stations": [
+          "br-beach-seine-fish-survey-and-handling"
+        ]
+      },
+      "id": "rw-side-seine-day",
+      "kind": "quest",
+      "site": "estuary",
+      "title": "Seine Day at the Mouth",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Wildland-urban interface first — prep against embers before the wind turns.",
+        "stations": [
+          "wildland-urban-interface"
+        ]
+      },
+      "id": "rw-side-ember-ready",
+      "kind": "quest",
+      "site": "campground",
+      "title": "Ember-Ready Campground",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Native planting and erosion mats first — the mat goes down before the plants.",
+        "stations": [
+          "br-native-planting-and-erosion-mats"
+        ]
+      },
+      "id": "rw-side-planting-crew",
+      "kind": "quest",
+      "site": "restoration",
+      "title": "Plant the Bank",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Firefighter rehab sector first — the crew is the patient in rehab.",
+        "stations": [
+          "firefighter-rehab-sector"
+        ]
+      },
+      "id": "rw-side-rehab-drill",
+      "kind": "quest",
+      "site": "fire-station",
+      "title": "Rehab Drill",
+      "world": "redwood"
+    }
+  ],
   "RW_LANDMARKS": [
     {
       "id": "cathedral-ring",
