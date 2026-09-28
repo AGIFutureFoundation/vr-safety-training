@@ -2,9 +2,12 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
-import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { qmIsOpen, qmSnapshot, qmLedger } from "../../shared/skill-gates.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { cnMount } from "../../shared/cinema.js";
+import { qmStageMount } from "../../shared/side-game-stage.js";
+import { qmDressFromLedger } from "../../shared/side-game-cosmetics.js";
+import { qmK12GatedFor } from "../../shared/k12-gates-data.js";
 import { gdMount } from "../../shared/guide.js";
 // Hidden treasures (shared/treasures.js, docs/treasures.md).
 import { tzWatchWorld } from "../../shared/treasures.js";
@@ -222,15 +225,33 @@ function dvQmApproach(site) {
   if (!site) { dvQmNear = null; return; }
   if (dvQmNear === site.id) return;
   dvQmNear = site.id;
-  const locked = QM_WORLD_GAMES.underwater.find((g) => g.site === site.id && !qmIsOpen(g.gate, qmSnapshot()));
-  if (locked) qmLockToast({ ...locked, siteName: site.name }, { from: "underwater", page: ppHerePage() });
+  const here = dvQmItems().filter((g) => g.site === site.id);
+  const locked = here.find((g) => !qmIsOpen(g.gate, qmSnapshot()));
+  if (locked) { qmLockToast(locked, { from: "underwater", page: ppHerePage() }); return; }
+  const open = here.find((g) => g.practices && !qmLedger().done[g.id]?.clean);
+  if (open) dvMountStage(open);
+}
+/** An open side game plays in the world: the board is built at the site — the night line's knots as lights along the line — and the moves sit in the HUD strip; the score is the panel's score (shared/side-game-stage.js). */
+function dvMountStage(g) {
+  const place = DV_PLACES.find((s) => s.id === g.site);
+  if (!dvApp.scene || !place) return;
+  const [x, , z] = place.position;
+  const y = (place.position.length === 3 ? place.position[1] : dvFloorY(x, z)) + 0.4;
+  const heading = Math.atan2(dvApp.diver.x - x, dvApp.diver.z - z);
+  qmStageMount({
+    lib: THREE, root: dvApp.scene, item: g, at: [x, y, z], heading,
+    onDone: (item, res) => { qmDressFromLedger(THREE, dvApp.world.diver, "diver"); dvToast(res.clean ? `${item.title}: every call safe — ${res.cosmetic} earned.` : `${item.title}: a practice run. Swim up again for the reward.`); },
+  });
 }
 
 function dvQmItems() {
-  return QM_WORLD_GAMES.underwater.map((g) => {
+  const own = QM_WORLD_GAMES.underwater.map((g) => {
     const site = DV_SITES.find((s) => s.id === g.site);
     return { ...g, siteName: site?.name ?? g.site, pos: site ? [site.position[0], site.position[2]] : null };
   });
+  // The K-12 courses at their landmarks (shared/k12-gates-data.js): opened by the field lesson's full station.
+  const k12 = qmK12GatedFor("underwater").map((g) => ({ ...g, siteName: DV_PLACES.find((s) => s.id === g.site)?.name ?? g.site.replace(/-/g, " "), pos: g.anchor }));
+  return [...own, ...k12];
 }
 
 function dvOpenJobBoard(site) {
@@ -515,9 +536,12 @@ function dvSetup3D() {
   scene.add(root);
   const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale, avatar: ctAvatarLoad(gtStorage()) });
   // The avatar picked on the account chip, live: a save or a profile change re-dresses the diver.
-  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => world.dvSetAvatar(ctAvatarLoad(gtStorage())));
+  // The side-game cosmetics are decals on the diver, so a re-dress puts them back on.
+  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => { world.dvSetAvatar(ctAvatarLoad(gtStorage())); qmDressFromLedger(THREE, world.diver, "diver"); });
   dvApp.scene = scene; dvApp.camera = camera; dvApp.renderer = renderer; dvApp.world = world;
   dvApp.kiosks = k2BuildKiosks(root, THREE, k2LessonsFor("deep"), { ground: (x, z) => dvFloorY(x, z) + 0.1 });
+  // Cosmetics earned in the side games, as decals on the diver (shared/side-game-cosmetics.js).
+  qmDressFromLedger(THREE, world.diver, "diver");
   tzWatchWorld("underwater", { scene, THREE, pos: () => (dvApp.diver ? [dvApp.diver.x, dvApp.diver.z] : null), camera: () => dvApp.camera, groundAt: dvFloorY, size: 0.35, lift: 0.8 });
   // One lantern per egg dive, at the egg's own anchor, hidden once found.
   const done = new Set(dvDiveState(dvStore).filter((q) => q.done).map((q) => q.id));
@@ -566,8 +590,9 @@ function dvStep(dt) {
 
   dvApp.nearSite = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_SITES, 14);
   dvApp.nearAsset = dvApp.mode === "swim" ? dvNearestPlace(dvApp.diver.x, dvApp.diver.z, CT_DV_ASSETS, 6) : null;
-  dvQmApproach(dvApp.nearSite);
   dvApp.nearLandmark = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_LANDMARKS, 16);
+  // A side game at a site, or a K-12 course at a landmark.
+  dvQmApproach(dvApp.nearSite ?? (dvApp.nearLandmark && dvQmItems().some((g) => g.site === dvApp.nearLandmark.id) ? dvApp.nearLandmark : null));
   dvApp.nearAscent = dvNearestAscentLine(dvApp.diver.x, dvApp.diver.z, DV_ASCENT, 10);
   dvApp.nearLesson = dvApp.mode === "swim" ? k2NearestKiosk(dvApp.diver.x, dvApp.diver.z, k2LessonsFor("deep")) : null;
   const prompt = $("hud-prompt");

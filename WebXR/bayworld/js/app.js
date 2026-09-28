@@ -26,7 +26,10 @@ import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, 
 import { BW_QUESTS, BW_GATED_QUESTS } from "./quests-select.js";
 // Skill-gated side quests (docs/skill-gates.md): board rows, map pins, the lock toast and the quest-log panel.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
-import { qmIsOpen, qmSnapshot, qmNameQuests } from "../../shared/skill-gates.js";
+import { qmIsOpen, qmSnapshot, qmNameQuests, qmLedger } from "../../shared/skill-gates.js";
+import { qmStageMount } from "../../shared/side-game-stage.js";
+import { qmDressFromLedger } from "../../shared/side-game-cosmetics.js";
+import { qmK12GatedFor } from "../../shared/k12-gates-data.js";
 import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap, bwMapFieldLessons, ctBwLayerState, ctBwSetLayer, ctBwMapLayers } from "./map.js";
 import { bwBuildWorld } from "./world.js";
 // The Motor Pool (console MOTORPOOL, shared/drivables-data.js): fifty road, site and rail drivables and twenty watercraft behind the gate contract.
@@ -579,9 +582,12 @@ function bwSetup3D() {
   scene.add(root);
   const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale, avatar: ctAvatarLoad(gtStorage()) });
   // The avatar picked on the account chip, live: a save or a profile change re-dresses the figure.
-  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => world.bwSetAvatar(ctAvatarLoad(gtStorage())));
+  // The side-game cosmetics are decals on the figure, so a re-dress puts them back on.
+  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => { world.bwSetAvatar(ctAvatarLoad(gtStorage())); qmDressFromLedger(THREE, world.player, "person"); });
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
   bwApp.kiosks = k2BuildKiosks(root, THREE, k2LessonsFor("bayworld"));
+  // Cosmetics earned in the side games, as decals on the player figure (shared/side-game-cosmetics.js).
+  qmDressFromLedger(THREE, world.player, "person");
   tzWatchWorld("bayworld", { scene, THREE, pos: () => (bwApp.screen === "game" ? [bwApp.player.x, bwApp.player.z] : null), camera: () => bwApp.camera });
   // The characters at the sites (docs/consoles/GRIOT.md): the ground here is y = 0, the way the learner's figure stands.
   bwApp.npc = grMount("bayworld", {
@@ -708,7 +714,17 @@ function bwNearLockedQuest() {
   if (bwQmNear === q.id) return;
   bwQmNear = q.id;
   if (!qmIsOpen(q.gate, qmSnapshot())) qmLockToast(q, { from: "bayworld", page: ppHerePage() });
-  else bwToast(`${q.title} is open here — see Side games.`);
+  else if (qmLedger().done[q.id]?.clean) bwToast(`${q.title} — done. Its ${q.reward?.cosmetic ?? "reward"} is on your jacket.`);
+  else bwMountStage(q);
+}
+/** An open side game plays in the world: its board is built at the site (the lift sequencer's loads and crew over the rigging quay) and the moves sit in the HUD strip; the score is the panel's score (shared/side-game-stage.js). */
+function bwMountStage(q) {
+  if (!bwApp.scene || !q.anchor) return;
+  const heading = Math.atan2(bwApp.player.x - q.anchor[0], bwApp.player.z - q.anchor[1]);
+  qmStageMount({
+    lib: THREE, root: bwApp.scene, item: q, at: [q.anchor[0], 0, q.anchor[1]], heading,
+    onDone: (item, res) => { qmDressFromLedger(THREE, bwApp.world.player, "person"); bwToast(res.clean ? `${item.title}: every call safe — ${res.cosmetic} earned.` : `${item.title}: a practice run. Walk up again for the reward.`, 4200); },
+  });
 }
 
 function bwStart() {
@@ -747,7 +763,11 @@ window.__bayworldTest = {
 
 // The gated items with their site's display name, for the panel and the board rows.
 qmNameQuests(BW_QUESTS);
-const bwQmItems = BW_GATED_QUESTS.map((q) => ({ ...q, siteName: BW_SITES.find((s) => s.id === q.site)?.name ?? q.site, summary: q.steps[0]?.text }));
+const bwQmItems = [
+  ...BW_GATED_QUESTS.map((q) => ({ ...q, siteName: BW_SITES.find((s) => s.id === q.site)?.name ?? q.site, summary: q.steps[0]?.text })),
+  // The K-12 courses at their landmarks (shared/k12-gates-data.js): opened by the field lesson's full station.
+  ...qmK12GatedFor("bayworld").map((q) => ({ ...q, siteName: PLACES.find((s) => s.id === q.site)?.name ?? q.site.replace(/-/g, " ") })),
+];
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
 // The Guide (shared/guide.js): the floating help button and its question panel.
