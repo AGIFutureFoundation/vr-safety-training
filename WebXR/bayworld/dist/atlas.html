@@ -4638,7 +4638,7 @@ ctlMount({
 // The header band plays a recorded loop of Bay World behind the title
 // (console CINEMA, shared/cinema.js): poster only under reduced motion or
 // Save-Data, and only while the header is on screen.
-cnMount(document.querySelector("header.top"), "atlas-header", { scrim: "linear-gradient(180deg,rgba(5,10,16,.62),rgba(5,10,16,.84))" });
+if (typeof document !== "undefined" && typeof document.querySelector === "function") cnMount(document.querySelector("header.top"), "atlas-header", { scrim: "linear-gradient(180deg,rgba(5,10,16,.62),rgba(5,10,16,.84))" });
 
 </script>
 </body>
