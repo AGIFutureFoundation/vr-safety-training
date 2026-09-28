@@ -28000,5 +28000,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-fractions-in-the-kitchen",
+    "index": "813",
+    "domain": "Education",
+    "trade": "Maths class in the teaching kitchen — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Fractions in the Kitchen",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Fractions in the Kitchen VR",
+    "tagline": "Scale every ingredient by the same fraction — and wash your hands before you touch any of it",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "same-fraction",
+      "name": "Same Fraction",
+      "note": "A recipe scaled by one fraction throughout, measured with the right spoon and checked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Recipe Board",
+      "currency": "PORTIONS",
+      "ranks": [
+        "Helper",
+        "Measurer",
+        "Scaler",
+        "Cook",
+        "Chef"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

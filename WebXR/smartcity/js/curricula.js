@@ -1370,6 +1370,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-measuring-and-scaling-the-court", why: "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio." },
       { app: "smartcity", id: "k12-household-budget-and-first-paycheck", why: "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back." },
       { app: "smartcity", id: "k12-reading-a-map-scale-in-bay-world", why: "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check." },
+      { app: "smartcity", id: "k12-fractions-in-the-kitchen", why: "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept." },
     ],
   },
   {

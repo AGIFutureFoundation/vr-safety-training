@@ -303,7 +303,7 @@ export const BAY_SITES = [
   { id: "fruitvale-fire-station", name: "Fruitvale Fire Station", zone: "fruitvale", position: [420, 287],
     programmes: ["first-responders", "k12-literacy-and-life-skills"], stations: ["triage-point", "structure-fire-sizeup", "k12-first-aid-awareness-call-for-help"] },
   { id: "fruitvale-elementary-school", name: "Fruitvale Elementary School", zone: "fruitvale", position: [454, 212],
-    programmes: ["education-support-staff", "k12-history-and-civics", "k12-literacy-and-life-skills"], stations: ["ed-custodial-chemical-dilution-and-floor-machine", "ed-playground-equipment-inspection", "ed-bus-pretrip-and-loading-zone", "k12-primary-and-secondary-sources", "k12-reading-instructions-and-safety-labels", "k12-building-a-timeline-from-documents", "k12-writing-a-clear-incident-report"] },
+    programmes: ["education-support-staff", "k12-history-and-civics", "k12-literacy-and-life-skills", "k12-practical-math"], stations: ["ed-custodial-chemical-dilution-and-floor-machine", "ed-playground-equipment-inspection", "ed-bus-pretrip-and-loading-zone", "k12-primary-and-secondary-sources", "k12-reading-instructions-and-safety-labels", "k12-building-a-timeline-from-documents", "k12-writing-a-clear-incident-report", "k12-fractions-in-the-kitchen"] },
   { id: "coliseum-stadium", name: "Coliseum Stadium", zone: "coliseum", position: [635, 370],
     programmes: ["live-events"], stations: ["stage-power", "fly-system", "rigging-loft"] },
   { id: "coliseum-arena", name: "Coliseum Arena", zone: "coliseum", position: [568, 399],

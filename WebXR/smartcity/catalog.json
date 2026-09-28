@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 660
+      "stations": 661
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-fractions-in-the-kitchen",
         "k12-first-aid-awareness-call-for-help",
         "k12-writing-a-clear-incident-report",
         "k12-how-a-local-council-meeting-works",
@@ -5725,16 +5726,26 @@
           "app": "smartcity",
           "id": "k12-reading-instructions-and-safety-labels",
           "why": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-writing-a-clear-incident-report",
+          "why": "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-first-aid-awareness-call-for-help",
+          "why": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 260,
-        "tasks": 20,
+        "lessons": 780,
+        "tasks": 60,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 5,
+        "stationsNeeded": 3,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9857,6 +9868,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-fractions-in-the-kitchen",
+      "name": "Fractions in the Kitchen",
+      "title": "SmartCiti.X~ Fractions in the Kitchen VR",
+      "tagline": "Scale every ingredient by the same fraction — and wash your hands before you touch any of it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class in the teaching kitchen — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "same-fraction",
+        "name": "Same Fraction",
+        "note": "A recipe scaled by one fraction throughout, measured with the right spoon and checked"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "813",
+      "flat": false,
+      "system": "Recipe Board",
+      "currency": "PORTIONS",
+      "ranks": [
+        "Helper",
+        "Measurer",
+        "Scaler",
+        "Cook",
+        "Chef"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-fractions-in-the-kitchen"
     },
     {
       "app": "smartcity",
@@ -33452,7 +33546,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 244,
+      "meshes": 248,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -34112,7 +34206,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",
