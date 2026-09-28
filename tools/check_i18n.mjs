@@ -6,10 +6,14 @@
  * fallback marker), {placeholders} match English, the generated
  * shared/i18n-strings.js is current, Arabic and Urdu are right-to-left, and
  * every bundle and page that mounts the shared chrome carries the picker.
+ * Coverage is reported per language, and the check fails if any of the 21
+ * tables carries its own text for fewer than 100% of en.json's keys.
  *
  * Headless (WebXR/dist, 1280x720 and 360x640): switching to Spanish and to
  * Arabic changes the visible chrome text, sets <html lang dir>, the header
- * stays clear of the Guide button, and no raw key renders.
+ * stays clear of the Guide button, and no raw key renders. The homepage at
+ * 360x640 in Arabic, Urdu, Chinese, Hindi and Amharic does not scroll
+ * sideways and shows programme titles in the language.
  *
  *     node tools/check_i18n.mjs
  */
@@ -32,6 +36,12 @@ check(readFileSync(I18N_OUT, "utf8") === i18nRender(data), "shared/i18n-strings.
 const { trStrings, trLangs } = await import(new URL(`file://${I18N_OUT}`).href);
 check(trLangs.filter((l) => l.dir === "rtl").map((l) => l.code).sort().join() === I18N_RTL.slice().sort().join(), "Arabic and Urdu, and only they, are right-to-left");
 for (const l of trLangs) check(Object.keys(trStrings[l.code] ?? {}).length >= 26, `${l.code} carries at least the chrome`, String(Object.keys(trStrings[l.code] ?? {}).length));
+// Coverage: the share of en.json's keys each table carries in its own words
+// (not the "@en" fallback marker). Every one of the 21 must stay at 100%.
+const MIN_COVERAGE = 1;
+const coverage = I18N_LANGS.map(([c]) => [c, data.keys.filter((k) => typeof data.tables[c][k] === "string" && data.tables[c][k] && data.tables[c][k] !== "@en").length]);
+console.log(`coverage: ${coverage.map(([c, n]) => `${c} ${n}/${data.keys.length}`).join(" · ")}`);
+for (const [c, n] of coverage) check(n / data.keys.length >= MIN_COVERAGE, `${c}.json covers ${Math.round(MIN_COVERAGE * 100)}% of en.json's keys`, `${n}/${data.keys.length} (${(100 * n / data.keys.length).toFixed(1)}%)`);
 for (const k of ["lang.review", "step.english", "nav.home", "help.title", "acct.signin"]) for (const l of trLangs) check(!!trStrings[l.code]?.[k] || !!trStrings.en[k], `${l.code}: ${k} resolves`);
 const progKeys = data.keys.filter((k) => k.startsWith("prog."));
 check(progKeys.length === 112, "every programme has a title and a tagline key", String(progKeys.length));
@@ -115,8 +125,36 @@ for (const page of PAGES) for (const s of SIZES) {
   }
   await ctx.close();
 }
+// The homepage on a phone (360x640) in the two right-to-left languages and in
+// three scripts whose words run long or tall: nothing scrolls sideways, and the
+// programme cards carry the language's own titles.
+const PHONE_LANGS = ["ar", "ur", "zh", "hi", "am"];
+for (const lang of PHONE_LANGS) {
+  const tag = `index.html 360x640 ?lang=${lang}`;
+  const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true, deviceScaleFactor: 1 });
+  await ctx.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+  const pg = await ctx.newPage();
+  try {
+    await pg.goto(`${base}/dist/index.html?lang=${lang}`, { waitUntil: "load", timeout: 45000 });
+    await pg.waitForSelector("#tr-lang-btn", { state: "attached", timeout: 20000 });
+    await pg.waitForTimeout(300);
+    const m = await pg.evaluate(() => {
+      const t = document.querySelector('[data-tr="prog.electrical-first-period.t"]');
+      return { lang: document.documentElement.lang, dir: document.documentElement.dir, sideways: document.documentElement.scrollWidth - innerWidth, prog: t?.textContent ?? null,
+        raw: [...document.querySelectorAll("[data-tr]")].filter((el) => el.textContent.trim() === el.getAttribute("data-tr")).length };
+    });
+    const dir = I18N_RTL.includes(lang) ? "rtl" : "ltr";
+    check(m.lang === lang && m.dir === dir, `${tag}: <html lang="${lang}" dir="${dir}">`, `${m.lang} ${m.dir}`);
+    check(m.sideways <= 1, `${tag}: the homepage does not scroll sideways`, `${m.sideways}px`);
+    check(!!m.prog && m.prog === trStrings[lang]["prog.electrical-first-period.t"], `${tag}: programme titles are in the language`, String(m.prog));
+    check(m.raw === 0, `${tag}: no raw key renders`, String(m.raw));
+  } catch (e) {
+    check(false, `${tag}: the page ran`, String(e.message).split("\n")[0]);
+  }
+  await ctx.close();
+}
 await browser.close();
 server.close();
 const own = I18N_LANGS.map(([c]) => Object.keys(trStrings[c]).length);
 if (failures) { console.log(`check_i18n: ${failures} failed, ${passes} passed`); process.exit(1); }
-console.log(`check_i18n: ${passes} checks pass — ${data.keys.length} keys × ${I18N_LANGS.length} languages (${Math.min(...own)}–${Math.max(...own)} with their own text), ${PAGES.length} pages at 1280x720 and 360x640`);
+console.log(`check_i18n: ${passes} checks pass — ${data.keys.length} keys × ${I18N_LANGS.length} languages (${Math.min(...own)}–${Math.max(...own)} with their own text, every language at ≥${Math.round(MIN_COVERAGE * 100)}%), ${PAGES.length} pages at 1280x720 and 360x640, the homepage on a phone in ${PHONE_LANGS.join("/")}`);
