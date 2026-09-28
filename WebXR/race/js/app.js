@@ -15,6 +15,8 @@ import { rcOpenLink } from "./net.js";
 import { rcCreateBattle, rcBattleStep, rcBattleStandings, rcBuildBattleWorld } from "./battle.js";
 import { liveryList } from "./liveries.js";
 import { hardHatsFound } from "../../shared/eggs.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzRaceFinish } from "../../shared/treasures.js";
 import { TrainingRecords } from "../../shared/records.js";
 
 // Night Highway Circuit — the app: menus, input, split-screen cameras, HUD,
@@ -1003,6 +1005,7 @@ function rcShowResults() {
   }
   rcAudio.stopEngines();
   rcShow("results");
+  if (app.raceMode !== "demo") tzRaceFinish(race.track.id); // a finish on each course is a treasure
   window.__race.results = (window.__race.results ?? 0) + 1;
 }
 

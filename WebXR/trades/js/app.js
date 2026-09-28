@@ -1,4 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzPlantHost } from "../../shared/treasures.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
 import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
@@ -540,6 +542,7 @@ function enterRoom(id, { briefed = false } = {}) {
   state.room = room;
   state.api = room.build(root);
   state.hits = state.api.hits;
+  tzPlantHost(root, THREE, `trades/${room.id}`); // off the interaction system, like the hard hats
   Perf.reset();
   collectSelectables();
 

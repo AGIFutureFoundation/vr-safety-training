@@ -28,6 +28,8 @@
 
 import { speak, stopSpeaking, speechSupported } from "./voice-assist.js";
 import { trT, trLang, trApply } from "./i18n.js";
+// Secret questions answered with registry lore (shared/treasures.js, docs/treasures.md).
+import { tzGuideLore } from "./treasures.js";
 
 const gdHasDom = typeof document !== "undefined";
 const gdPosKey = "holodeck-guide-pos-v1";
@@ -203,6 +205,8 @@ async function gdLoadConfig() {
 
 /** Ask: on-device, or the hosted endpoint when one is configured (with the retrieved chunks). */
 export async function gdAsk(question) {
+  const lore = tzGuideLore(question);
+  if (lore) return lore;
   const index = await gdLoadKb();
   if (!index) return { text: trT("guide.noKb"), links: [{ ...gdFinderLink, label: trT("guide.finder", null, gdFinderLink.label) }], chunks: [], matched: false };
   const local = gdAnswer(index, question);

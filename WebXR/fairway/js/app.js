@@ -1,6 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzWatchWorld } from "../../shared/treasures.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -9,7 +11,7 @@ import { TrainingRecords } from "../../shared/records.js";
 import { ppRecordStation, ppProgressChip, ppCompleteReturns, ppCompleted, ppBoardDone, ppHerePage } from "../../shared/passport.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 import { lkStationLink } from "../../shared/links.js";
-import { FAIRWAY_HOLES } from "./course.js";
+import { FAIRWAY_HOLES, fairwayHeight } from "./course.js";
 import {
   GOLF_CLUBS, CARE_HABITS,
   glCreateRound, glCurrentHole, glSetClub, glAdjustAim, glAimYaw, glDistanceToPin, glCanPutt,
@@ -123,6 +125,7 @@ function fwInitScene() {
   });
 
   app.scene = scene; app.camera = camera; app.renderer = renderer; app.world = world;
+  tzWatchWorld("fairway", { scene, THREE, pos: () => (app.round?.ball ? [app.round.ball.x, app.round.ball.z] : null), camera: () => app.camera, groundAt: fairwayHeight, size: 0.25, lift: 0.6 });
 }
 
 // -------------------------------------------------------------------- menu

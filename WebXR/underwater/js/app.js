@@ -1,13 +1,15 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzWatchWorld } from "../../shared/treasures.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
 import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
-import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt } from "./seabed.js";
+import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt, dvFloorY } from "./seabed.js";
 import {
   dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine,
   dvAdvanceClock, dvMissionLink, dvNearestPlace, dvDepthFraction, DV_SURFACE_Y,
@@ -380,6 +382,7 @@ function dvSetup3D() {
   scene.add(root);
   const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale });
   dvApp.scene = scene; dvApp.camera = camera; dvApp.renderer = renderer; dvApp.world = world;
+  tzWatchWorld("underwater", { scene, THREE, pos: () => (dvApp.diver ? [dvApp.diver.x, dvApp.diver.z] : null), camera: () => dvApp.camera, groundAt: dvFloorY, size: 0.35, lift: 0.8 });
   // One lantern per egg dive, at the egg's own anchor, hidden once found.
   const done = new Set(dvDiveState(dvStore).filter((q) => q.done).map((q) => q.id));
   for (const q of DV_DIVES) if (q.kind === "egg" && Array.isArray(q.anchor)) world.dvPlaceLantern(q.id, q.anchor[0] + 2, q.anchor[1] + 2).visible = !done.has(q.id);

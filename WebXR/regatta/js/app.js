@@ -1,6 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 import { gdMount } from "../../shared/guide.js";
+// Hidden treasures (shared/treasures.js, docs/treasures.md).
+import { tzWatchWorld } from "../../shared/treasures.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -279,6 +281,7 @@ function rgSetup3D() {
   const root = new THREE.Group(); scene.add(root);
   rgApp.world = rgBuildWorld(root, THREE, { detail: "high", scene });
   rgApp.scene = scene; rgApp.camera = camera; rgApp.renderer = renderer;
+  tzWatchWorld("regatta", { scene, THREE, pos: () => { const me = rgApp.race ? rgLearner(rgApp.race) : null; return me ? [me.x, me.z] : null; }, camera: () => rgApp.camera, size: 1.2, lift: 3 });
   rgApp.world.rgApplyLighting(scene, rgApp.hours);
 }
 
