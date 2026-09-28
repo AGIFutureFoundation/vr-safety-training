@@ -265,7 +265,7 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
       alert: "A classmate knocks over a beaker and water spreads across the floor near the sink.",
       cue: "Tell the lab technician and keep people away from the spill.",
       why: "A wet lab floor is a slip hazard, and the technician knows what was in the beaker and how to clean it. Telling them straight away and keeping others clear stops a small spill becoming a fall.",
-      missNote: "Nobody told the technician, and a classmate slipped on the wet floor.",
+      missNote: "Nobody told the technician, and a classmate slipped and fell on the wet floor by the sink.",
       wrongNote: "That leaves the spill for someone to slip on. Tell the technician. Choose the response that deals with it now."
     },
     {

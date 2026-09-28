@@ -265,7 +265,7 @@ export const SIM_K12_PROBABILITY_WITH_A_FAIR_SPINNER = {
       alert: "A small child who is not in your class is standing alone and crying at the tent entrance.",
       cue: "Tell the stall volunteer straight away; stay where you are with your group.",
       why: "A lost child at a fair is found fastest when an adult who knows the fair's plan takes charge. Telling the volunteer at once, and staying with your own group, gets the child help without anyone else going missing.",
-      missNote: "Nobody told an adult, and the child wandered off before anyone could help.",
+      missNote: "Nobody told an adult, and the child wandered off into the crowd before anyone could help.",
       wrongNote: "That does not get an adult involved. Tell the volunteer. Choose the response that deals with it now."
     },
     {

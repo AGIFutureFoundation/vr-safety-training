@@ -3,98 +3,213 @@
   "index": "822",
   "prefix": "kce",
   "accent": "#4fb88a",
-  "floor": ["#767a80", "#6a6e74"],
-  "wall": ["#e6e8ea", "#d6d8dc"],
+  "floor": [
+    "#767a80",
+    "#6a6e74"
+  ],
+  "wall": [
+    "#e6e8ea",
+    "#d6d8dc"
+  ],
   "trade": "Science class at the lab campus's teaching lab — learner and lab technician",
   "header": "Lower-secondary science at a lab campus's teaching lab: the scientific method as a controlled experiment on how much light seedlings get, one variable changed, everything else kept the same, repeats and a fair conclusion, with goggles and the lab's rules kept throughout.",
   "name": "A Controlled Experiment",
   "tagline": "Change one thing, keep the rest the same — and goggles on before anything is poured",
-  "badge": {"id": "fair-test", "name": "Fair Test", "note": "A question turned into a fair test, one variable changed, the rest controlled, repeated and concluded only as far as the evidence goes"},
-  "board": {"name": "Lab Board", "currency": "TRIALS", "ranks": ["Assistant", "Observer", "Tester", "Investigator", "Scientist"]},
+  "badge": {
+    "id": "fair-test",
+    "name": "Fair Test",
+    "note": "A question turned into a fair test, one variable changed, the rest controlled, repeated and concluded only as far as the evidence goes"
+  },
+  "board": {
+    "name": "Lab Board",
+    "currency": "TRIALS",
+    "ranks": [
+      "Assistant",
+      "Observer",
+      "Tester",
+      "Investigator",
+      "Scientist"
+    ]
+  },
   "hazards": [
-    {"id": "change-two-things-at-once", "label": "Give one tray more light and more water?", "face": "TWO\nCHANGES", "text": "You gave one tray more light and more water at the same time. If two things change, you cannot tell which one caused the difference. A fair test changes only the thing you are testing and keeps everything else the same."},
-    {"id": "one-trial-is-enough", "label": "Draw a conclusion from a single tray?", "face": "ONE\nTRAY", "text": "You drew a conclusion from a single tray of seedlings. One seedling can grow oddly for reasons nobody controls; repeats show whether the result is real or a fluke, and a conclusion from one trial is a guess."},
-    {"id": "goggles-off-for-a-closer-look", "label": "Lift your goggles to see the label better?", "face": "GOGGLES\nUP", "text": "You lifted your goggles to read the label. In the lab, goggles stay on while anything is being poured or mixed, even plain plant food; the technician can read the label to you, and your eyes stay protected."},
-    {"id": "prove-it-for-all-plants", "label": "Say the result proves it for every plant?", "face": "EVERY\nPLANT", "text": "You said the result proves the same for every plant everywhere. Your experiment tested these seedlings in this lab; a fair conclusion says what the evidence shows and no more, and suggests testing other plants next."}
+    {
+      "id": "change-two-things-at-once",
+      "label": "Give one tray more light and more water?",
+      "face": "TWO\nCHANGES",
+      "text": "You gave one tray more light and more water at the same time. If two things change, you cannot tell which one caused the difference. A fair test changes only the thing you are testing and keeps everything else the same."
+    },
+    {
+      "id": "one-trial-is-enough",
+      "label": "Draw a conclusion from a single tray?",
+      "face": "ONE\nTRAY",
+      "text": "You drew a conclusion from a single tray of seedlings. One seedling can grow oddly for reasons nobody controls; repeats show whether the result is real or a fluke, and a conclusion from one trial is a guess."
+    },
+    {
+      "id": "goggles-off-for-a-closer-look",
+      "label": "Lift your goggles to see the label better?",
+      "face": "GOGGLES\nUP",
+      "text": "You lifted your goggles to read the label. In the lab, goggles stay on while anything is being poured or mixed, even plain plant food; the technician can read the label to you, and your eyes stay protected."
+    },
+    {
+      "id": "prove-it-for-all-plants",
+      "label": "Say the result proves it for every plant?",
+      "face": "EVERY\nPLANT",
+      "text": "You said the result proves the same for every plant everywhere. Your experiment tested these seedlings in this lab; a fair conclusion says what the evidence shows and no more, and suggests testing other plants next."
+    }
   ],
   "find1": {
     "title": "Find the three kinds of variable",
     "cue": "Mark the variable you change, the one you measure and one you keep the same.",
     "why": "A controlled experiment has three kinds of variable. The one you change on purpose is the independent variable, here the amount of light; the one you measure is the dependent variable, the seedlings' growth; and everything you keep the same, like water and soil, are the controls. Naming all three before starting is what makes the test fair.",
-    "items": [["independent", "the light each tray gets", "The one thing you change on purpose."], ["dependent", "the seedlings' growth", "What you measure to see the effect."], ["controlled", "the water each tray gets", "Kept the same, so it cannot cause the difference."]],
-    "decoy": ["tray-colour", "the colour of the trays", "The trays are all the same colour. Keep it that way, but it is not what you are testing."]
+    "items": [
+      [
+        "independent",
+        "the light each tray gets",
+        "The one thing you change on purpose."
+      ],
+      [
+        "dependent",
+        "the seedlings' growth",
+        "What you measure to see the effect."
+      ],
+      [
+        "controlled",
+        "the water each tray gets",
+        "Kept the same, so it cannot cause the difference."
+      ]
+    ],
+    "decoy": [
+      "tray-colour",
+      "the colour of the trays",
+      "The trays are all the same colour. Keep it that way, but it is not what you are testing."
+    ]
   },
   "select1": {
     "title": "Put your goggles on",
     "cue": "Put your goggles on and tie back long hair before the technician hands out anything.",
     "why": "Goggles protect your eyes from splashes, even from liquids that seem harmless, and tying back hair keeps it clear of equipment. Doing both before anything is handed out is the lab's first rule, and it is the same one working scientists follow every day.",
-    "key": "goggles-card", "label": "Goggles on, hair tied", "face": "GOGGLES\nON"
+    "key": "goggles-card",
+    "label": "Goggles on, hair tied",
+    "face": "GOGGLES\nON"
   },
   "seq": {
     "title": "Put the method in order",
     "cue": "Ask a question, predict, run a fair test with repeats, then conclude.",
     "why": "A clear question tells you what to change and what to measure. A prediction written before the test stops the result from shaping what you say you expected. Running a fair test with repeats, and concluding only what the evidence shows, is the scientific method in miniature.",
     "oon": "Out of order. Write the prediction before the test runs.",
-    "items": [["ord-question", "ask a testable question"], ["ord-predict", "write a prediction"], ["ord-test", "run a fair test with repeats"], ["ord-conclude", "conclude from the evidence"]]
+    "items": [
+      [
+        "ord-question",
+        "ask a testable question"
+      ],
+      [
+        "ord-predict",
+        "write a prediction"
+      ],
+      [
+        "ord-test",
+        "run a fair test with repeats"
+      ],
+      [
+        "ord-conclude",
+        "conclude from the evidence"
+      ]
+    ]
   },
   "hold": {
     "title": "Hold the ruler still against the seedling",
     "cue": "Hold the ruler upright beside the seedling, zero at the soil, until you read it.",
     "why": "A measurement is only fair if every seedling is measured the same way: ruler upright, zero at the soil surface, read at the tip. Holding it still until you have read it means your numbers can be compared across trays and repeats.",
     "brk": "The ruler tipped off the soil line. Set zero at the soil and hold it again.",
-    "key": "ruler-hold", "label": "Ruler at the soil line"
+    "key": "ruler-hold",
+    "label": "Ruler at the soil line"
   },
   "turn": {
     "title": "Turn the lamp dimmer for one tray only",
     "cue": "Turn the dimmer on one tray's lamp and leave the other lamps alone.",
     "why": "Changing the light on one tray only, and leaving everything else as it was, is the heart of a fair test. If the growth differs later, the light is the only thing that could explain it, because it is the only thing that was different.",
-    "key": "lamp-dial", "label": "One tray's lamp", "dial": "LIGHT"
+    "key": "lamp-dial",
+    "label": "One tray's lamp",
+    "dial": "LIGHT"
   },
   "gauge": {
     "title": "Measure the same amount of water for every tray",
     "cue": "Commit when the measuring cylinder shows the same amount as the other trays got.",
     "why": "Water is a control, so every tray must get the same amount. Measuring it carefully each time, at eye level, keeps it from becoming a second variable that could spoil the whole comparison without anyone noticing.",
-    "key": "water-meter", "label": "Water measured", "meter": "WATER",
+    "key": "water-meter",
+    "label": "Water measured",
+    "meter": "WATER",
     "miss": "Not the same amount. Match the other trays before pouring."
   },
   "drag": {
     "title": "Place the repeat tray beside the first",
     "cue": "Drag the repeat tray to sit under the same lamp as the first tray.",
     "why": "A repeat is the same test run again under the same conditions. Placing the repeat tray under the same lamp lets you see whether the result happens again, and a result that repeats is one you can start to trust.",
-    "key": "repeat-token", "label": "Repeat tray", "spot": "repeat-spot", "spotLabel": "Under the same lamp",
+    "key": "repeat-token",
+    "label": "Repeat tray",
+    "spot": "repeat-spot",
+    "spotLabel": "Under the same lamp",
     "miss": "Not under the same lamp yet. Repeats need the same conditions."
   },
   "select2": {
     "title": "Say why only one thing may change",
     "cue": "Say why the test changes only the light and keeps the water the same.",
     "why": "If light and water both changed, a difference in growth could be caused by either, and you would not know which. Keeping everything else the same means any difference points to the one thing you changed, which is what makes the result mean something.",
-    "key": "compare-card", "label": "Why one change?", "face": "ONLY THE\nLIGHT?"
+    "key": "compare-card",
+    "label": "Why one change?",
+    "face": "ONLY THE\nLIGHT?"
   },
   "find2": {
     "title": "Spot the problems in a classmate's plan",
     "cue": "Look at the draft experiment plan and mark each problem.",
     "why": "Experiment plans go wrong in familiar ways: two variables changed at once, no repeats and a conclusion that claims more than the test can show. Spotting them in someone else's plan is how you learn to design a fair test of your own.",
-    "items": [["pl-two", "two variables changed at once", "Change only one thing."], ["pl-no-repeat", "no repeat trays", "Repeats show whether a result is real."], ["pl-too-much", "a conclusion for every plant", "Conclude only what the evidence shows."]],
-    "decoy": ["pl-safety", "a safety note at the top", "A safety note is good practice. Keep it."]
+    "items": [
+      [
+        "pl-two",
+        "two variables changed at once",
+        "Change only one thing."
+      ],
+      [
+        "pl-no-repeat",
+        "no repeat trays",
+        "Repeats show whether a result is real."
+      ],
+      [
+        "pl-too-much",
+        "a conclusion for every plant",
+        "Conclude only what the evidence shows."
+      ]
+    ],
+    "decoy": [
+      "pl-safety",
+      "a safety note at the top",
+      "A safety note is good practice. Keep it."
+    ]
   },
   "track": {
     "title": "Keep the lamps at the same height",
     "cue": "Keep the other trays' lamps steady at their set height as the day goes on.",
     "why": "Controls can drift during an experiment: a lamp slips, a window lets in sunlight. Watching and correcting them keeps the test fair from start to finish, which is part of every real experiment, not just the setting up.",
     "brk": "A lamp slipped from its height. Put it back before it changes the test.",
-    "key": "track-meter", "label": "Controls kept steady", "meter": "CONTROLS"
+    "key": "track-meter",
+    "label": "Controls kept steady",
+    "meter": "CONTROLS"
   },
   "record": {
     "title": "Record the results in a table",
     "cue": "Write each tray's light setting and each seedling's growth, with repeats.",
     "why": "A results table puts the independent and dependent variables side by side for every trial. Recording repeats separately, rather than only an average, shows how much the results varied, and that is what tells you how confident to be.",
-    "key": "lab-log", "label": "Results table", "done": "Results recorded"
+    "key": "lab-log",
+    "label": "Results table",
+    "done": "Results recorded"
   },
   "share": {
     "title": "Write a fair conclusion",
     "cue": "Say what the evidence shows, how sure you are and what you would test next.",
     "why": "A fair conclusion answers the question, says how strong the evidence is and names what could be tested next. It never claims more than the experiment showed, and that honesty is what makes science trustworthy.",
-    "key": "share-board", "label": "Fair conclusion", "done": "Conclusion written"
+    "key": "share-board",
+    "label": "Fair conclusion",
+    "done": "Conclusion written"
   },
   "checkin": {
     "title": "Check in at the end of the lab",
@@ -103,23 +218,42 @@
     "label": "End-of-lab check-in"
   },
   "interrupts": [
-    {"id": "water-is-spilled-on-the-floor", "kind": "Spill", "key": "tell-technician", "label": "Tell the technician and keep people away",
-     "alert": "A classmate knocks over a beaker and water spreads across the floor near the sink.",
-     "cue": "Tell the lab technician and keep people away from the spill.",
-     "why": "A wet lab floor is a slip hazard, and the technician knows what was in the beaker and how to clean it. Telling them straight away and keeping others clear stops a small spill becoming a fall.",
-     "miss": "Nobody told the technician, and a classmate slipped on the wet floor.",
-     "wrong": "That leaves the spill for someone to slip on. Tell the technician. Choose the response that deals with it now.",
-     "done": "Technician told, spill cleaned. The lesson carries on."},
-    {"id": "the-technician-asks-what-changed", "kind": "Technician question", "key": "say-variable", "label": "Say the one thing you changed",
-     "alert": "The lab technician asks what you changed between the trays and what you kept the same.",
-     "cue": "Say that only the light changed and name what you kept the same.",
-     "why": "The technician is checking the test is fair. Naming the one variable you changed and the controls you kept shows your result can be trusted, which is what anyone reading your report needs to know.",
-     "miss": "You listed several changes, and the technician said the test could not show which one mattered.",
-     "wrong": "That names more than one change. Choose the response that deals with it now.",
-     "done": "One change named, controls listed. The technician signs it off."}
+    {
+      "id": "water-is-spilled-on-the-floor",
+      "kind": "Spill",
+      "key": "tell-technician",
+      "label": "Tell the technician and keep people away",
+      "alert": "A classmate knocks over a beaker and water spreads across the floor near the sink.",
+      "cue": "Tell the lab technician and keep people away from the spill.",
+      "why": "A wet lab floor is a slip hazard, and the technician knows what was in the beaker and how to clean it. Telling them straight away and keeping others clear stops a small spill becoming a fall.",
+      "miss": "Nobody told the technician, and a classmate slipped and fell on the wet floor by the sink.",
+      "wrong": "That leaves the spill for someone to slip on. Tell the technician. Choose the response that deals with it now.",
+      "done": "Technician told, spill cleaned. The lesson carries on."
+    },
+    {
+      "id": "the-technician-asks-what-changed",
+      "kind": "Technician question",
+      "key": "say-variable",
+      "label": "Say the one thing you changed",
+      "alert": "The lab technician asks what you changed between the trays and what you kept the same.",
+      "cue": "Say that only the light changed and name what you kept the same.",
+      "why": "The technician is checking the test is fair. Naming the one variable you changed and the controls you kept shows your result can be trusted, which is what anyone reading your report needs to know.",
+      "miss": "You listed several changes, and the technician said the test could not show which one mattered.",
+      "wrong": "That names more than one change. Choose the response that deals with it now.",
+      "done": "One change named, controls listed. The technician signs it off."
+    }
   ],
-  "crew": ["Science teacher", "Classmate", "Lab technician", "Teaching assistant"],
-  "guide": {"start": "Change one thing only.", "after": "One change, so one cause.", "hazard": "Stop. Did only one thing change? Are the goggles on?"},
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Lab technician",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "Change one thing only.",
+    "after": "One change, so one cause.",
+    "hazard": "Stop. Did only one thing change? Are the goggles on?"
+  },
   "lateRecord": "The results table is written once the trials are done — nothing to record yet.",
   "lateCheckin": "The check-in comes at the very end of the lab."
 }

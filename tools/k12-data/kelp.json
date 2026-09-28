@@ -3,98 +3,213 @@
   "index": "819",
   "prefix": "kek",
   "accent": "#4fb88a",
-  "floor": ["#5f7470", "#546864"],
-  "wall": ["#d6e4e0", "#c6d6d2"],
+  "floor": [
+    "#5f7470",
+    "#546864"
+  ],
+  "wall": [
+    "#d6e4e0",
+    "#c6d6d2"
+  ],
   "trade": "Science class on the survey tender, watching the kelp transect — learner and marine scientist",
   "header": "Upper-primary and lower-secondary science aboard a survey tender above the kelp forest: producers, consumers and decomposers along a transect line watched on the dive team's live camera, a food web built from what the camera shows, and why a survey counts rather than guesses. Learners stay on deck; the divers do the diving.",
   "name": "Ecosystems at the Kelp Transect",
   "tagline": "Every living thing on the line eats or is eaten — and learners watch from the deck, never the water",
-  "badge": {"id": "web-of-life", "name": "Web of Life", "note": "A kelp food web built from what the transect camera showed, with producers, consumers and decomposers named and the count kept honest"},
-  "board": {"name": "Transect Board", "currency": "SIGHTINGS", "ranks": ["Spotter", "Counter", "Recorder", "Ecologist", "Marine Scientist"]},
+  "badge": {
+    "id": "web-of-life",
+    "name": "Web of Life",
+    "note": "A kelp food web built from what the transect camera showed, with producers, consumers and decomposers named and the count kept honest"
+  },
+  "board": {
+    "name": "Transect Board",
+    "currency": "SIGHTINGS",
+    "ranks": [
+      "Spotter",
+      "Counter",
+      "Recorder",
+      "Ecologist",
+      "Marine Scientist"
+    ]
+  },
   "hazards": [
-    {"id": "arrows-point-to-the-eater", "label": "Draw the arrow from the eater to what it eats?", "face": "ARROW\nBACKWARDS", "text": "You drew the food-web arrow from the animal to its food. By agreement the arrow shows where the energy goes, so it points from the food to the eater: kelp to urchin, urchin to its predator. Backwards arrows make the web say the opposite of what happens."},
-    {"id": "remove-one-changes-nothing", "label": "Say removing one animal changes nothing?", "face": "NOTHING\nCHANGES", "text": "You said taking one kind of animal out of the kelp forest would change nothing. In a food web, everything that ate it loses food and everything it ate loses a predator; one change spreads through the whole web, which is why ecologists watch every link."},
-    {"id": "lean-over-the-gunwale", "label": "Lean over the side to see the divers' bubbles?", "face": "LEAN\nOVER", "text": "You leaned over the side of the tender to look for the divers. Learners stay inside the rail on deck, wearing their lifejackets, and the camera screen shows everything the divers see; the side is the dive team's working area."},
-    {"id": "count-what-you-expect", "label": "Add animals you expect to be there but did not see?", "face": "EXPECTED\nNOT SEEN", "text": "You added animals to the count that you expected but did not see on the camera. A survey records what was observed along the line, nothing more; a count padded with guesses cannot show whether the forest is changing."}
+    {
+      "id": "arrows-point-to-the-eater",
+      "label": "Draw the arrow from the eater to what it eats?",
+      "face": "ARROW\nBACKWARDS",
+      "text": "You drew the food-web arrow from the animal to its food. By agreement the arrow shows where the energy goes, so it points from the food to the eater: kelp to urchin, urchin to its predator. Backwards arrows make the web say the opposite of what happens."
+    },
+    {
+      "id": "remove-one-changes-nothing",
+      "label": "Say removing one animal changes nothing?",
+      "face": "NOTHING\nCHANGES",
+      "text": "You said taking one kind of animal out of the kelp forest would change nothing. In a food web, everything that ate it loses food and everything it ate loses a predator; one change spreads through the whole web, which is why ecologists watch every link."
+    },
+    {
+      "id": "lean-over-the-gunwale",
+      "label": "Lean over the side to see the divers' bubbles?",
+      "face": "LEAN\nOVER",
+      "text": "You leaned over the side of the tender to look for the divers. Learners stay inside the rail on deck, wearing their lifejackets, and the camera screen shows everything the divers see; the side is the dive team's working area."
+    },
+    {
+      "id": "count-what-you-expect",
+      "label": "Add animals you expect to be there but did not see?",
+      "face": "EXPECTED\nNOT SEEN",
+      "text": "You added animals to the count that you expected but did not see on the camera. A survey records what was observed along the line, nothing more; a count padded with guesses cannot show whether the forest is changing."
+    }
   ],
   "find1": {
     "title": "Find the three roles on the transect",
     "cue": "Mark one producer, one consumer and one decomposer on the camera feed.",
     "why": "Every ecosystem runs on three jobs. Producers, like the kelp, make food from sunlight; consumers, like urchins and fish, eat other living things; decomposers break down what dies and return it to the water. Finding one of each on the real transect shows that the diagram in the textbook is happening right below the boat.",
-    "items": [["producer", "the kelp fronds reaching for the light", "A producer: it makes food from sunlight."], ["consumer", "an urchin grazing on the holdfast", "A consumer: it eats the kelp."], ["decomposer", "a crab picking over drift on the seabed", "Part of the clean-up crew that breaks down what dies."]],
-    "decoy": ["tape-line", "the yellow transect tape", "The tape marks where the survey runs. It is not part of the ecosystem."]
+    "items": [
+      [
+        "producer",
+        "the kelp fronds reaching for the light",
+        "A producer: it makes food from sunlight."
+      ],
+      [
+        "consumer",
+        "an urchin grazing on the holdfast",
+        "A consumer: it eats the kelp."
+      ],
+      [
+        "decomposer",
+        "a crab picking over drift on the seabed",
+        "Part of the clean-up crew that breaks down what dies."
+      ]
+    ],
+    "decoy": [
+      "tape-line",
+      "the yellow transect tape",
+      "The tape marks where the survey runs. It is not part of the ecosystem."
+    ]
   },
   "select1": {
     "title": "Check your lifejacket and stay inside the rail",
     "cue": "Check your lifejacket is fastened and take your place inside the rail by the screen.",
     "why": "On a boat above a dive, the deck crew's first rule for visitors is a fastened lifejacket and a place inside the rail. The divers depend on the tender crew's full attention, and a learner who stays put lets them give it, which is part of keeping the dive safe.",
-    "key": "lifejacket-card", "label": "Lifejacket on, inside the rail", "face": "LIFEJACKET\nON"
+    "key": "lifejacket-card",
+    "label": "Lifejacket on, inside the rail",
+    "face": "LIFEJACKET\nON"
   },
   "seq": {
     "title": "Put the survey method in order",
     "cue": "Follow the line, identify each living thing, record it, then build the web.",
     "why": "A transect survey follows a fixed line so the same place can be surveyed again and compared. Identifying each living thing as the camera passes, recording it straight away, and only then building the food web from the record keeps the web based on evidence rather than on what you expected to find.",
     "oon": "Out of order. Record what the camera shows before you build the web.",
-    "items": [["ord-follow", "follow the transect line"], ["ord-identify", "identify each living thing"], ["ord-record", "record it straight away"], ["ord-web", "build the food web from the record"]]
+    "items": [
+      [
+        "ord-follow",
+        "follow the transect line"
+      ],
+      [
+        "ord-identify",
+        "identify each living thing"
+      ],
+      [
+        "ord-record",
+        "record it straight away"
+      ],
+      [
+        "ord-web",
+        "build the food web from the record"
+      ]
+    ]
   },
   "hold": {
     "title": "Hold the screen view steady on the line",
     "cue": "Hold the camera control steady on the tape while the diver moves along it.",
     "why": "A survey only counts what is along the line, so the camera has to stay on the tape. Holding the view steady while the diver swims keeps the survey fair: the same strip is watched from start to end, and nothing is counted twice or missed because the camera wandered.",
     "brk": "The view drifted off the tape. Bring it back to the line and hold it.",
-    "key": "hold-view", "label": "Camera held on the line"
+    "key": "hold-view",
+    "label": "Camera held on the line"
   },
   "turn": {
     "title": "Turn the web card to add a link",
     "cue": "Turn the arrow on the web card so it points from the kelp to the urchin.",
     "why": "The arrow in a food web shows where the energy goes, so it points from the food to the animal that eats it. Turning it the right way for one link, kelp to urchin, sets the pattern for every other link you draw.",
-    "key": "arrow-dial", "label": "Food-web arrow", "dial": "ENERGY"
+    "key": "arrow-dial",
+    "label": "Food-web arrow",
+    "dial": "ENERGY"
   },
   "gauge": {
     "title": "Judge the visibility before counting",
     "cue": "Commit when the visibility bar shows the water is clear enough to count.",
     "why": "If the water is too murky, animals are missed and the count comes out low for the wrong reason. Surveyors note the visibility before they count and write it in the record, so that a low count on a murky day is not mistaken for a real decline in the forest.",
-    "key": "vis-meter", "label": "Visibility", "meter": "VISIBILITY",
+    "key": "vis-meter",
+    "label": "Visibility",
+    "meter": "VISIBILITY",
     "miss": "Not clear enough to call. Wait for a steady reading before counting."
   },
   "drag": {
     "title": "Place the sea star in the web",
     "cue": "Drag the sea star card to where it belongs: an eater of urchins.",
     "why": "A predator that eats urchins keeps their numbers in check, and fewer urchins means more kelp survives. Placing it above the urchin in the web shows that chain, and it is the kind of link marine scientists watch when they ask why a kelp forest is thriving or thinning.",
-    "key": "star-token", "label": "Sea star card", "spot": "star-spot", "spotLabel": "Eats the urchin",
+    "key": "star-token",
+    "label": "Sea star card",
+    "spot": "star-spot",
+    "spotLabel": "Eats the urchin",
     "miss": "Not in its place yet. Put it where the arrow comes from the urchin."
   },
   "select2": {
     "title": "Say what happens if the urchin's predator goes",
     "cue": "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
     "why": "With no predator, urchins can grow in number and graze the kelp faster than it regrows. Explaining that chain, predator to urchin to kelp, is understanding the web as a system rather than a list, which is what ecology is about.",
-    "key": "compare-card", "label": "Follow the chain", "face": "NO\nPREDATOR?"
+    "key": "compare-card",
+    "label": "Follow the chain",
+    "face": "NO\nPREDATOR?"
   },
   "find2": {
     "title": "Spot the problems in a classmate's food web",
     "cue": "Look at the draft food web and mark each problem.",
     "why": "Food webs go wrong in a few ways: an arrow pointing the wrong way, an animal the camera never showed and a missing producer at the base. Spotting them in someone else's web helps you check that your own tells the truth about the transect.",
-    "items": [["fw-backwards", "an arrow pointing from eater to food", "Arrows follow the energy, food to eater."], ["fw-unseen", "an animal the camera never showed", "Only what was observed goes in."], ["fw-no-base", "no producer at the base", "Every web starts with a producer."]],
-    "decoy": ["fw-key", "a key explaining the arrows", "A key helps anyone read the web. Keep it."]
+    "items": [
+      [
+        "fw-backwards",
+        "an arrow pointing from eater to food",
+        "Arrows follow the energy, food to eater."
+      ],
+      [
+        "fw-unseen",
+        "an animal the camera never showed",
+        "Only what was observed goes in."
+      ],
+      [
+        "fw-no-base",
+        "no producer at the base",
+        "Every web starts with a producer."
+      ]
+    ],
+    "decoy": [
+      "fw-key",
+      "a key explaining the arrows",
+      "A key helps anyone read the web. Keep it."
+    ]
   },
   "track": {
     "title": "Follow the diver along the line",
     "cue": "Keep the survey marker on the diver as they move along the transect.",
     "why": "The diver moves steadily along the tape, and the count keeps pace with them. Following at their speed, not racing ahead to the interesting bits, is what makes every stretch of the line get the same attention.",
     "brk": "The marker lost the diver. Find them again on the screen and keep pace.",
-    "key": "track-meter", "label": "Diver followed", "meter": "PACE"
+    "key": "track-meter",
+    "label": "Diver followed",
+    "meter": "PACE"
   },
   "record": {
     "title": "Record the count and the web",
     "cue": "Write each kind seen, how many, the visibility and your food web.",
     "why": "A written survey can be compared with next season's, and only then can anyone say whether the forest is changing. Recording visibility with the count, and the web with its evidence, lets another scientist trust and reuse your work.",
-    "key": "survey-log", "label": "Survey record", "done": "Count and web recorded"
+    "key": "survey-log",
+    "label": "Survey record",
+    "done": "Count and web recorded"
   },
   "share": {
     "title": "Hand the record to the scientist",
     "cue": "Give your record to the marine scientist for the season's log.",
     "why": "A class record that joins the scientist's own adds another pair of eyes to the survey. Handing it over, complete and labelled, is how citizen science works: careful observation by many people building a picture no one person could.",
-    "key": "share-board", "label": "Hand to the scientist", "done": "Record handed over"
+    "key": "share-board",
+    "label": "Hand to the scientist",
+    "done": "Record handed over"
   },
   "checkin": {
     "title": "Check in at the end of the trip",
@@ -103,23 +218,42 @@
     "label": "End-of-trip check-in"
   },
   "interrupts": [
-    {"id": "the-dive-flag-goes-up", "kind": "Dive signal", "key": "stay-seated", "label": "Sit down and keep clear of the side",
-     "alert": "The tender crew raises a hand and calls that the divers are coming up.",
-     "cue": "Sit down in your place and keep clear of the side while the divers surface.",
-     "why": "When divers surface, the crew needs the side clear to help them aboard. Sitting down and keeping out of the way lets the crew do that quickly and safely; crowding to watch is how a busy deck becomes a dangerous one.",
-     "miss": "Learners crowded the side, and the crew had to stop and move everyone back.",
-     "wrong": "That keeps you in the crew's way. Sit down and keep clear. Choose the response that deals with it now.",
-     "done": "Learners seated, side clear, divers aboard. The lesson carries on."},
-    {"id": "the-scientist-asks-which-way", "kind": "Scientist question", "key": "say-arrow", "label": "Say which way the arrow points",
-     "alert": "The marine scientist points at your web and asks which way the arrow between kelp and urchin should go.",
-     "cue": "Say it points from the kelp to the urchin, because energy goes to the eater.",
-     "why": "The scientist is checking you understand what the arrow means. Saying it follows the energy, food to eater, shows you can read and draw any food web, not just this one.",
-     "miss": "You said from the urchin to the kelp, and the scientist had to explain the arrow again.",
-     "wrong": "That points the wrong way. Choose the response that deals with it now.",
-     "done": "Arrow direction explained. The scientist adds a tick to your web."}
+    {
+      "id": "the-dive-flag-goes-up",
+      "kind": "Dive signal",
+      "key": "stay-seated",
+      "label": "Sit down and keep clear of the side",
+      "alert": "The tender crew raises a hand and calls that the divers are coming up.",
+      "cue": "Sit down in your place and keep clear of the side while the divers surface.",
+      "why": "When divers surface, the crew needs the side clear to help them aboard. Sitting down and keeping out of the way lets the crew do that quickly and safely; crowding to watch is how a busy deck becomes a dangerous one.",
+      "miss": "Learners crowded the side, and the crew had to stop and move everyone back before helping the divers.",
+      "wrong": "That keeps you in the crew's way. Sit down and keep clear. Choose the response that deals with it now.",
+      "done": "Learners seated, side clear, divers aboard. The lesson carries on."
+    },
+    {
+      "id": "the-scientist-asks-which-way",
+      "kind": "Scientist question",
+      "key": "say-arrow",
+      "label": "Say which way the arrow points",
+      "alert": "The marine scientist points at your web and asks which way the arrow between kelp and urchin should go.",
+      "cue": "Say it points from the kelp to the urchin, because energy goes to the eater.",
+      "why": "The scientist is checking you understand what the arrow means. Saying it follows the energy, food to eater, shows you can read and draw any food web, not just this one.",
+      "miss": "You said from the urchin to the kelp, and the scientist had to explain the arrow again.",
+      "wrong": "That points the wrong way. Choose the response that deals with it now.",
+      "done": "Arrow direction explained. The scientist adds a tick to your web."
+    }
   ],
-  "crew": ["Science teacher", "Classmate", "Marine scientist", "Tender crew"],
-  "guide": {"start": "Energy flows from food to eater.", "after": "Lose the predator, lose the kelp.", "hazard": "Stop. Is it what the camera showed, arrows food to eater?"},
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Marine scientist",
+    "Tender crew"
+  ],
+  "guide": {
+    "start": "Energy flows from food to eater.",
+    "after": "Lose the predator, lose the kelp.",
+    "hazard": "Stop. Is it what the camera showed, arrows food to eater?"
+  },
   "lateRecord": "The survey record is written once the line is finished — nothing to record yet.",
   "lateCheckin": "The check-in comes at the very end of the trip."
 }

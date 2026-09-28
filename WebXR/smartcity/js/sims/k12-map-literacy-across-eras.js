@@ -265,7 +265,7 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       alert: "A visitor sets an open drink down on the archive table beside an old map.",
       cue: "Politely ask for the drink to be taken outside and tell the archivist.",
       why: "One spill can ruin an old map for ever, which is why archives ban drinks at the table. Asking politely and telling the archivist protects the sources without anyone needing to feel told off.",
-      missNote: "The drink stayed, was knocked over, and an old map was stained.",
+      missNote: "The drink stayed on the table, was knocked over, and an old map was stained for good.",
       wrongNote: "That leaves the drink by the maps. Choose the response that deals with it now."
     },
     {

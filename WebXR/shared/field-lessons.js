@@ -270,9 +270,9 @@ export const K2_FIELD_LESSONS = [
 export function k2LessonsFor(world) { return K2_FIELD_LESSONS.filter((l) => l.world === world); }
 
 /** The launch link for a lesson's full station, with the way back to its world. */
-export function k2LessonLink(lesson, lkStationLink) {
+export function k2LessonLink(lesson, linkFor) {
   const page = K2_WORLD_PAGES[lesson.world]?.split("/").pop() ?? null;
-  return lkStationLink(lesson.station, { from: lesson.world, page });
+  return linkFor(lesson.station, { from: lesson.world, page });
 }
 
 /**
@@ -310,7 +310,7 @@ export function k2MapFieldLessons(world, toMap, size = 512) {
  * under the site list, one row per lesson with its trade line and a link to
  * the full station. Kept here so each world's app.js calls it in one line.
  */
-export function k2DrawFieldLayer(ctx, placed, listEl, lkStationLink) {
+export function k2DrawFieldLayer(ctx, placed, listEl, linkFor) {
   for (const l of placed) {
     ctx.fillStyle = "#6ad0c8"; ctx.fillRect(l.x - 4, l.y - 4, 8, 8);
     ctx.strokeStyle = "#0a1420"; ctx.lineWidth = 1; ctx.strokeRect(l.x - 4, l.y - 4, 8, 8);
@@ -326,7 +326,7 @@ export function k2DrawFieldLayer(ctx, placed, listEl, lkStationLink) {
     row.innerHTML = "<b></b><span></span><a class=\"btn\">Full lesson</a>";
     row.querySelector("b").textContent = `${l.title} · ${l.minutes} min`;
     row.querySelector("span").textContent = l.tradeLine;
-    row.querySelector("a").href = k2LessonLink(l, lkStationLink);
+    row.querySelector("a").href = k2LessonLink(l, linkFor);
     listEl.appendChild(row);
   }
 }

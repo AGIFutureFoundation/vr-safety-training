@@ -9,4 +9,5 @@
 - A new shared module imported by a world must be added to that world's module list in `tools/bundle_webxr.py`, before the module that imports it, or the bundle refuses.
 - The eval's explanation score is full at a median why of about 250 characters; the K-12 stations that sat at 92–94 all had medians near 200. Lengthen with a real consequence sentence, not padding.
 - Field lessons: `WebXR/shared/field-lessons.js` (schema + validator exported). Fairway anchors are top-level `FAIRWAY_FACILITY` keys or `hole-<number>`; nested keys (fuelCabinet) are not anchors.
+- check_interrupts wants every interruption `miss` (missNote) at 80+ characters; check_imports flags a parameter named like another module's export (name it `linkFor`, not `lkStationLink`).
 - Full-corpus eval scores differ slightly from `--station` runs (originality is relative to the corpus); report the full-corpus row.
