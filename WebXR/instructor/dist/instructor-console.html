@@ -539,6 +539,7 @@ const GT_PROFILE_KEYS = [
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
   "bayworld-career-v1", "underwater-career-v1",
   "bayworld-quests-v1", "underwater-dives-v1", "underwater-activities-v1",
+  "redwood-career-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -8063,11 +8064,11 @@ const PP_NATIVE_HOST = { regatta: "bayworld" };
 /** Read for the Fairway rounds count; it keeps no currency of its own. */
 const PP_FAIRWAY_KEY = "fairway-park-v1";
 /** The worlds (and rooms) that pay into the one ledger, in display order. */
-const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "holodeck", "smartcity"];
+const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "holodeck", "smartcity", "redwood"];
 /** A world's display name — the "Back to <world>" label and the export's platform. */
 const PP_APP_NAMES = {
   bayworld: "Bay World", underwater: "the Deep", regatta: "the Bay Regatta", fairway: "Fairway Park",
-  trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas",
+  trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas", redwood: "Redwood Reach",
 };
 const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 

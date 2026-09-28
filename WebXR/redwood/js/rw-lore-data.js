@@ -315,8 +315,8 @@ export const RW_EGGS = [
     "landmark": "old-culvert",
     "site": "restoration",
     "position": [
-      451,
-      29
+      391,
+      49
     ],
     "method": "tin",
     "set": "restoration",
@@ -637,8 +637,8 @@ export const RW_EGGS = [
     "landmark": "river-mouth",
     "site": "estuary",
     "position": [
-      -997,
-      1859
+      -1147,
+      1749
     ],
     "method": "tin",
     "set": "estuary",

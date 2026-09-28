@@ -37,6 +37,7 @@ const WEBXR = join(ROOT, "WebXR");
 // data, so the finder's "World" filter can never claim a board that is not there.
 const { BAY_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "bayworld-data.js")).href);
 const { DEEP_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "underwater-data.js")).href);
+const { RW_SITES } = await import(pathToFileURL(join(WEBXR, "redwood", "js", "rw-data.js")).href);
 // The Hard Hat Hunt counter's total (docs/easter-egg.md) — imported rather
 // than retyped, so a station added to or removed from the hunt can never
 // leave this page's footer counting against a stale number.
@@ -174,7 +175,7 @@ const LAYOUTS = {
     out: "index.html",
     // The Guide's links point into the published folder (console COMPASS).
     guideRoot: "./dist/",
-    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html" },
+    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html", redwood: "redwood/redwood.html" },
     aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
@@ -185,7 +186,7 @@ const LAYOUTS = {
   flat: {
     out: "home.html",
     guideRoot: "./",
-    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", regatta: "regatta.html", underwater: "underwater.html" },
+    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", regatta: "regatta.html", underwater: "underwater.html", redwood: "redwood.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
@@ -1368,7 +1369,7 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
   const ordinals = new Map();
   for (const s of stations) if (s.app === "trades") ordinals.set(s.id, (roomOrdinal += 1));
 
-  // The seven worlds, each with its real in-game capture, Bay World first
+  // The eight worlds, each with its real in-game capture, Bay World first
   // (it is where "Start playing" goes); then the two tools that are not worlds.
   const worlds = [
     appCard(layout, {
@@ -1390,6 +1391,11 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes", shot: "fairway",
       name: "Fairway Park", go: "Play Fairway Park",
       blurb: "An original nine-hole course and an outdoor sports facility, played for real strokes and real scores — with a groundskeeper's log that scores course care right alongside them.",
+    }),
+    appCard(layout, {
+      href: layout.app.redwood, tint: "#e0a040", count: `${RW_SITES.length} work sites`, shot: "redwood",
+      name: "Redwood Reach", go: "Walk in",
+      blurb: "A four-kilometre forest world: coastal redwoods, a river valley down to an estuary, fire roads, a fire lookout, a sawmill, a restoration reach and a rural substation — every job board opens a real station, and side quests unlock as your skills do.",
     }),
     appCard(layout, {
       href: layout.aside.atlas, tint: "#f2c14b", count: "Map", shot: "atlas",

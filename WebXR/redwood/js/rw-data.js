@@ -252,7 +252,7 @@ export const RW_LANDMARKS = [
   { id: "debarker", name: "Debarker Line", position: [-150, 1250], site: "sawmill" },
   { id: "planer-shed", name: "Planer Shed", position: [-170, 1130], site: "sawmill" },
   { id: "log-jam", name: "Engineered Log Jam", position: [560, -80], site: "restoration" },
-  { id: "old-culvert", name: "Old Culvert Crossing", position: [460, 20], site: "restoration" },
+  { id: "old-culvert", name: "Old Culvert Crossing", position: [400, 40], site: "restoration" },
   { id: "willow-stakes", name: "Willow Stake Bank", position: [600, 10], site: "restoration" },
   { id: "trailhead-kiosk", name: "Trailhead Kiosk", position: [-820, 200], site: "campground" },
   { id: "amphitheatre", name: "Campfire Amphitheatre", position: [-900, 120], site: "campground" },
@@ -274,7 +274,7 @@ export const RW_LANDMARKS = [
   { id: "waterbar", name: "Stone Waterbar", position: [-760, -200], site: "trail-camp" },
   { id: "fuel-break-west", name: "Fuel Break West Post", position: [-200, -700], site: "equipment-yard" },
   { id: "fuel-break-east", name: "Fuel Break East Post", position: [1400, -900], site: "lookout" },
-  { id: "river-mouth", name: "River Mouth Bar", position: [-1000, 1880], site: "estuary" },
+  { id: "river-mouth", name: "River Mouth Bar", position: [-1150, 1770], site: "estuary" },
 ];
 const RW_LANDMARK_BY_ID = Object.fromEntries(RW_LANDMARKS.map((l) => [l.id, l]));
 export function rwLandmark(id) { return RW_LANDMARK_BY_ID[id] ?? null; }
@@ -394,7 +394,7 @@ export const RW_ACTIVITIES = [
     waypoints: [
       { at: [680, 40], q: "Where do you walk to count the log structures?", options: ["On the bank, outside the flagged work zone", "Wading down the channel"], answer: 0 },
       { at: [560, -80], q: "The log jam's anchors are exposed. What do you record?", options: ["Photo and note for the engineer, no touching", "Pull the loose one free"], answer: 0 },
-      { at: [460, 20], q: "The culvert crossing has a fish-exclusion net up. What do you do?", options: ["Stay clear and note it on the sheet", "Step over it to count faster"], answer: 0 },
+      { at: [400, 40], q: "The culvert crossing has a fish-exclusion net up. What do you do?", options: ["Stay clear and note it on the sheet", "Step over it to count faster"], answer: 0 },
       { at: [600, 10], q: "Fresh willow stakes on the bank: how do you count them?", options: ["From the edge, without stepping on the mat", "Walk the mat to count up close"], answer: 0 },
     ] },
 ];
