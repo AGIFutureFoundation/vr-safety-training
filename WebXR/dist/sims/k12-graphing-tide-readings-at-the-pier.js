@@ -265,7 +265,7 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       alert: "A boat's wake sends a wave over the lower deck and the boards near the rail are wet.",
       cue: "Move back to the dry part of the deck and tell the technician the boards are wet.",
       why: "Wet boards are slippery, and near a rail a slip is serious. Moving back and telling the technician lets them mark or dry the area; carrying on at the rail because the lesson is going well is how a small hazard becomes a fall.",
-      missNote: "Nobody moved back, and a classmate slipped on the wet boards by the rail.",
+      missNote: "Nobody moved back, and a classmate slipped on the wet boards right beside the rail.",
       wrongNote: "That leaves you on the wet boards. Move back and tell the technician. Choose the response that deals with it now."
     },
     {
@@ -278,7 +278,7 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
       alert: "The harbour technician asks you to read out the staff as it is now.",
       cue: "Give the reading with its time and its unit.",
       why: "A reading without its time or unit cannot go in anyone's record. Saying all three together is the habit that makes your data usable by the technician, and it is exactly how readings are passed on at a working harbour.",
-      missNote: "You gave a bare number, and the technician could not write it down.",
+      missNote: "You gave a bare number with no time or unit, and the technician could not write it in the record.",
       wrongNote: "That misses the time or the unit. Give all three. Choose the response that deals with it now."
     }
   ],

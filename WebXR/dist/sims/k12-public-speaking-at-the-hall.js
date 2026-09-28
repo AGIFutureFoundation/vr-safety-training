@@ -265,7 +265,7 @@ export const SIM_K12_PUBLIC_SPEAKING_AT_THE_HALL = {
       alert: "A stage light flickers and goes out, leaving part of the stage dim.",
       cue: "Stand still where you are and wait for the stage manager's instruction.",
       why: "In sudden dimness, moving is how people step off an edge or trip on a cable. Standing still and waiting for the stage manager keeps you safe while they fix the light or bring up the working lights.",
-      missNote: "You walked towards the wings in the dark and caught a cable, nearly falling.",
+      missNote: "You walked towards the wings in the dark and caught a cable, nearly falling off the stage.",
       wrongNote: "That moves you in the dark. Stand still and wait. Choose the response that deals with it now."
     },
     {
@@ -278,7 +278,7 @@ export const SIM_K12_PUBLIC_SPEAKING_AT_THE_HALL = {
       alert: "The stage manager asks what the one thing is that you want the audience to remember.",
       cue: "Say your one clear message in a single sentence.",
       why: "If you can say your message in one sentence, the audience can remember it. The stage manager is checking that the talk has a clear centre before you step out.",
-      missNote: "You listed several ideas, and the stage manager asked you to choose one.",
+      missNote: "You listed several ideas, and the stage manager asked you to choose one before you went on.",
       wrongNote: "That is more than one message. Choose the response that deals with it now."
     }
   ],

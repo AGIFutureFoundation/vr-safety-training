@@ -265,7 +265,7 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       alert: "One teammate has gone quiet and moved to the edge of the group while others talk over them.",
       cue: "Invite them back in and ask for their idea.",
       why: "Being left out is painful and it loses the team a voice. Inviting them back and asking for their idea shows the team values everyone, and it is often exactly the idea the group needed.",
-      missNote: "Nobody noticed, and the teammate sat out the rest of the session.",
+      missNote: "Nobody noticed, and the teammate sat out the rest of the session feeling unwanted by the group.",
       wrongNote: "That leaves them out. Invite them in. Choose the response that deals with it now."
     },
     {
@@ -278,7 +278,7 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       alert: "The team coach asks you to give feedback to a teammate on the drill they just led.",
       cue: "Say something specific they did well and one thing to try next.",
       why: "The coach is checking you can put the feedback steps into practice on the spot. Being specific and kind shows you can help a teammate improve without knocking their confidence.",
-      missNote: "You said it was fine, and your teammate had nothing to work on.",
+      missNote: "You said it was fine, and your teammate had nothing specific to work on in the next drill.",
       wrongNote: "That is too vague to help. Choose the response that deals with it now."
     }
   ],

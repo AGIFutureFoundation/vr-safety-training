@@ -265,7 +265,7 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
       alert: "The tender crew raises a hand and calls that the divers are coming up.",
       cue: "Sit down in your place and keep clear of the side while the divers surface.",
       why: "When divers surface, the crew needs the side clear to help them aboard. Sitting down and keeping out of the way lets the crew do that quickly and safely; crowding to watch is how a busy deck becomes a dangerous one.",
-      missNote: "Learners crowded the side, and the crew had to stop and move everyone back.",
+      missNote: "Learners crowded the side, and the crew had to stop and move everyone back before helping the divers.",
       wrongNote: "That keeps you in the crew's way. Sit down and keep clear. Choose the response that deals with it now."
     },
     {
