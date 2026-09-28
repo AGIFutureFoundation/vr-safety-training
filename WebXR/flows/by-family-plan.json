@@ -1,0 +1,101 @@
+{
+  "id": "by-family-plan",
+  "title": "Parish Lesson — A Family Readiness Plan",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at the Parish School Campus, upper primary.",
+    "why": "One idea taught at a real parish site, checked with one question, then used straight away in a two-minute game in the parish.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the parishes app or a GRIOT character (by-flow-agent.js) runs the step and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "bayou": {
+      "lesson": "by-lesson-family-plan",
+      "parish": "st-bernard",
+      "site": "sb-school-campus",
+      "band": "upper primary",
+      "guide": "gr-np-campus-teacher"
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-by-a-family-readiness-plan",
+      "title": "Pre-brief — A Family Readiness Plan",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-by-a-family-readiness-plan",
+      "title": "A Family Readiness Plan",
+      "why": "The K-12 station itself, launched from its parish site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — A Family Readiness Plan",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "Where should a family keep its plan?",
+          "options": [
+            "Where everyone can see it",
+            "In one grown-up's head"
+          ],
+          "answer": 0,
+          "why": "A written plan in a shared place works even when someone is away."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "by-apply-go-bag-check",
+      "title": "Apply it in the parish — Go-Bag Check",
+      "why": "A two-minute game at the parish site that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "parish": "st-bernard",
+        "site": "sb-school-campus",
+        "minutes": 2,
+        "fallback": null
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}

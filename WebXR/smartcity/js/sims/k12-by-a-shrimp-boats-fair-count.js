@@ -114,7 +114,7 @@ export const SIM_K12_BY_A_SHRIMP_BOATS_FAIR_COUNT = {
       kind: "select",
       target: "byk-glove-card",
       title: "Put on gloves and stand at the sorting table",
-      cue: "Put on the deck gloves and stand at the sorting table before the bin is opened.",
+      cue: "Put on the deck gloves and stand at the sorting table before the bin lid comes off.",
       why: "Shrimp have small sharp points, and the deck can be wet and cold. Gloves protect your hands, and the sorting table keeps you in one safe spot away from ropes and the winch. Deckhands suit up the same way at the start of every sort, so the work can be quick and calm."
     },
     {

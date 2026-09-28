@@ -46,3 +46,9 @@ so every lesson has a playable apply step on its own. KREWE side quests can chai
 - 22:48 UTC · Worktree at 589f0d8; reset to a643c66 as instructed. Read the brief, k12 and station briefs, docs/k12.md,
   two flows, check_k12, check_flowhub, gen_k12_station, sl-parish-play.js, the five np-data site lists, eval_content.
 - 23:02 UTC · Plan and ids above written · next: the twelve station JSONs.
+- 23:47 UTC · Twelve stations generated, registered and wired into k12-science (5), k12-practical-math (6) and
+  k12-literacy-and-life-skills (1) — a fifth programme would have reached a dozen registries, so the parish stations join
+  the existing ones and check_k12 counts core and parish stations apart; `by-parish-lessons.js`; catalog regenerated · d469825.
+- 00:01 UTC · Twelve flows (`tools/gen_by_flows.mjs` → `WebXR/flows/by-*.json`, index and docs/flowhub.md updated),
+  `by-flow-agent.js`, check_k12 section 9. Singles: check_k12 all pass (2,281 checks), check_flowhub all pass,
+  check_parish_play all pass; eval 95–96 on all twelve. Full suite not run (time). Next brief written.

@@ -87,7 +87,7 @@ export const SIM_K12_BY_A_FAMILY_READINESS_PLAN = {
       },
       title: "Find the four parts of a readiness plan",
       cue: "Mark three of the plan's parts on the planning wall: who helps, what to pack and where to meet.",
-      why: "A good readiness plan answers a few clear questions. Who can help us, and whom do we help? What goes in the go-bag? Where do we meet if we are apart? Seeing those parts on the wall shows that a plan is not one big scary thing, it is a set of small answers a family works out together."
+      why: "A good readiness plan answers a few clear questions. Who can help us, and whom do we help? What goes in the go-bag? Where do we meet if we are apart? Seeing those parts on the wall shows that a plan is not one huge job, it is a set of small answers a family works out together."
     },
     {
       id: "sit-with-your-planning-group",
