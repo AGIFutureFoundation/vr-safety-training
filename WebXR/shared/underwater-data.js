@@ -243,7 +243,7 @@ export const DEEP_SITES = [
   // ---- the shallow shelf
   // Anchored here: cd-scientific-scuba-buddy-check-and-lost-buddy-drill.
   { id: "shelf-checkout-site", name: "Shelf Checkout Site", zone: "shallow-shelf", position: [-360, -540],
-    programmes: ["bay-restoration-maritime-underwater", "situational-awareness", "commercial-diving-and-scientific-scuba"], stations: ["br-dive-site-hazard-assessment-and-jsa", "br-cold-water-immersion-and-mob-recovery", "trench-box", "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"] },
+    programmes: ["bay-restoration-maritime-underwater", "situational-awareness", "commercial-diving-and-scientific-scuba", "k12-science"], stations: ["br-dive-site-hazard-assessment-and-jsa", "br-cold-water-immersion-and-mob-recovery", "trench-box", "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", "k12-buoyancy-and-pressure-in-the-deep"] },
   { id: "shelf-debris-sweep", name: "Shelf Debris Sweep", zone: "shallow-shelf", position: [-320, -580],
     programmes: ["bay-restoration-maritime-underwater"], stations: ["br-underwater-debris-survey-and-mapping", "br-derelict-gear-recovery-dive", "br-shoreline-cleanup-sharps-and-hazardous-debris"] },
   { id: "shelf-lift-bag-site", name: "Shelf Lift Bag Site", zone: "shallow-shelf", position: [-400, -580],
