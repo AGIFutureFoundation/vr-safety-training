@@ -35,5 +35,11 @@ Short, durable lessons for the next team at this console (enterprise seat billin
 - **`check_enterprise` check 8 (headless Chromium, the flat build's homepage language) failed on the coordinator's tree
   before TILL touched anything** — it reads `WebXR/dist/index.html`, which TILL never rebuilt. Re-run it alone after a
   full bundle before blaming a change.
+- **The permission classifier refuses config writes that add wallet merchant / membership price placeholders**
+  ("real-world transactions"), even with every value null. Write the cleaner so a missing key means "not configured",
+  put the shapes in the docs, and leave the JSON edit to a person.
+- **No import cycle between payments.js and pm-membership.js**: the webhook completes a membership through a hook
+  (`pmOnMembership`) that pm-membership.js registers at load; bundle order payments.js → pm-membership.js.
+- **check 10 scans `git ls-files`**, so an untracked module passes until it is staged; stage, then re-run.
 - **Bundler order for the instructor app**: org.js → cohort.js → payments.js → pm-agent.js → billing.js → auth.js →
   account.js → controls.js → app.js. `python3 tools/bundle_webxr.py instructor` rebuilds only that dist.

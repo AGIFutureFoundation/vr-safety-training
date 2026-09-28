@@ -26,6 +26,28 @@ is null; the Worker handler answers 503 / 401 / 200 / duplicate / 404 as documen
 6. **Numbers a coordinator types.** The Budget form takes minor units; offer major-unit entry using `currencyExponent`
    (display only — storage stays minor, integer), and validate against `PM_MAX_SEATS` inline.
 
+## The membership and wallet phase (scope added at 19:34; what is green and what is not)
+Green (`check_payments` 13/13): `pm-membership.js` (levels as configuration, entitlements, the private-profile level,
+`pmHas`, a membership quote the webhook completes), Payment Request gating in `payments.js` (never constructed without
+a configured merchant, a secure context and the API; both method identifiers only from the block), `workers/passes/`
+(Apple pass.json + manifest, Google class/object + Save JWT, signed only from environment paths, `/api/passes/*` in the
+router contract), `docs/payments.md` §7–9. Not done:
+7. **The `payments` block's `levels`, `applePay`, `googlePay` and `wallet` keys.** The write to `auth-config.json`
+   was refused by the session's permission classifier (real-world transactions); the cleaner treats a block without
+   them as no levels / no merchant, so nothing breaks. A person must add the placeholders (all null / empty lists) —
+   the shapes are in `docs/payments.md` §7–8 — then check 12's "shipped block" assertions cover them.
+8. **The Upgrade view.** A `WebXR/membership.html` page (like `privacy.html`: copied into `dist/`, `ctlMount`ed) that
+   lists `pmLevels` with `pmEntitlementLines`, the current level, an "Upgrade (mock)" button through
+   `pmMembershipAdapter` + `mockComplete`, wallet buttons shown only when `pmPaymentMethods` is non-empty, and an "Add to
+   Wallet" row shown only when `walletPasses.apple/google` is true (posting to `/api/passes/*`); a `gtMembershipHref`
+   link in the account dialog beside the privacy link (check_auth forbids `fetch(`/`<svg` in account.js — a link is
+   fine); `pm-membership.js` and `payments.js` added to the bundler's `DIST_SHARED` list for the flat build.
+9. **`.pkpass` packaging.** Zip pass.json, manifest.json, signature and icons (a small stored-zip writer, no deps);
+   `signApplePass` already returns the DER signature base64.
+10. **Entitlement hooks** where they belong: the certificate button (`certificates`), the Guide's voice toggle
+    (`guideVoice`), the cohort form's seat default (`cohortSeats`), world cards (`worlds`) — each a one-line `pmHas`.
+11. **EDGE's router**: import `workers/passes/handler.mjs` beside the payments handler and merge both `ROUTES`.
+
 ## Keep
 No learner surface imports `payments.js` / `pm-agent.js` / `billing.js` (check 10 enforces it); no amount in code;
 `fetch(` never spelled in the browser modules; the release-only-at-period-end rule (the oscillation is in TILL's memory).
