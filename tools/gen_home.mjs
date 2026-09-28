@@ -1501,7 +1501,7 @@ ${cards}
     <p class="eyebrow" id="continue-title" data-tr="home.continue">Continue where you left off</p>
     <p class="cont-line" id="continue-line">Nothing here yet — this is your first visit on this device. Finish any station and it waits for you here, with your programmes beside it.</p>
     <div class="cont-row">
-      <a class="btn primary" id="continue-link" href="${layout.app.bayworld}" data-tr="home.startBay">Start in Bay World</a>
+      <a class="btn primary" id="continue-link" href="${layout.app.bayworld}">Start in Bay World</a>
       <a class="btn" id="hm-cont-world" href="${layout.app.bayworld}" hidden></a>
     </div>
     <p class="cont-due" id="continue-due" hidden></p>
