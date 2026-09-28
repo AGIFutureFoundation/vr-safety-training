@@ -51,10 +51,10 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
   }),
 
   hazards: {
-    "order-by-the-story": "You put the documents in the order the story you expected would need. A timeline is built from the evidence on the documents, not from a story in your head; when the evidence and the story disagree, the evidence wins and the story changes.",
-    "confuse-made-and-described": "You placed a memoir at the date it was written as if the events happened then. A document has two dates that matter: when it was made and when the things it describes happened. Mixing them puts events in the wrong place on the timeline.",
-    "invent-a-missing-date": "You gave the undated letter a date because it fitted. A document with no date is placed as undated, or given a range with the reason stated; inventing a date turns a guess into a false fact.",
-    "say-the-archive-is-real": "You told the class the documents were real history. These are the lesson's own fictional archive, labelled as such, made so the method can be practised without any real claim; saying otherwise is exactly the kind of false claim this lesson teaches you to avoid."
+    "order-by-the-story": "You shuffled the sleeves into the order the tale in your head wanted. A line at the archive table is pinned by the postmarks, letterheads and pencilled years on the sheets, not by a plot; when the tells and the tale disagree, the tells win and the tale is rewritten.",
+    "confuse-made-and-described": "You pinned the memoir to the year it was typed as though the happenings it recalls took place then. Every sheet has two years that matter: when it was made and when the things it recalls happened. Muddling them drops a sleeve decades from where it belongs on the line.",
+    "invent-a-missing-date": "You pencilled a year onto the undated letter because it suited the line. A sheet with no year stays sleeved as undated, or is given a span with the reasoning pencilled beside it; inventing a year turns a hunch into a false fact that the next reader will trust.",
+    "say-the-archive-is-real": "You told the table these sheets were genuine history. The folder is the lesson's own fictional archive, and its sleeve says so; it was made so the sorting could be practised without any real claim, and calling it genuine is exactly the kind of false claim this table teaches you to avoid."
   },
 
   lateNotes: {
@@ -86,8 +86,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         "ktl-decorative-border": "A border is decoration, not evidence. Look for dating clues."
       },
       title: "Find the dating evidence",
-      cue: "Mark the three kinds of dating evidence on the documents in the lesson's fictional archive.",
-      why: "Documents carry dating evidence in different ways: a date written on the document, a reference to another event whose date you know, and clues such as the kind of paper or the name of a shop that opened later. Finding every kind before ordering anything is what makes the timeline rest on evidence. These documents are the lesson's own fictional archive, labelled as such."
+      cue: "Tap the three kinds of dating clue on the papers in the folder: a year penned on the sheet, a mention of a known happening, and a physical tell such as a postmark or a letterhead.",
+      why: "Papers in an archive folder tell their age three ways. Some carry a year in ink; some mention a happening whose year the ledger already gives; some betray it by a postmark, a letterhead or a shop that did not yet exist. Gathering every tell before sorting a single sheet is what lets the finished line rest on the papers rather than on a hunch. The folder is the lesson's own fictional archive, labelled as such."
     },
     {
       id: "put-the-method-in-order",
@@ -105,17 +105,17 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         "ktl-ord-uncertain": "4 · mark what is uncertain"
       },
       title: "Put the method in order",
-      cue: "Find the evidence, date each document, sort, then mark what is uncertain.",
-      why: "Dating each document from its own evidence before sorting stops the order being bent to fit a story. Marking the uncertain ones last, openly, means the timeline shows where the evidence is strong and where it is weak, which is exactly what the next researcher needs to know.",
-      outOfOrderNote: "Out of order. Date each document from its evidence before you sort."
+      cue: "Gather the tells, pencil a year on each sheet's sleeve, sort the sleeves, then flag the doubtful ones.",
+      why: "Pencilling a year onto each sleeve from that sheet's own tells, before sorting, stops the line being bent to suit a tale already in mind. Flagging the doubtful sleeves last and in plain sight leaves the finished line showing where the papers speak firmly and where they only murmur, which is precisely what the next reader at this table needs.",
+      outOfOrderNote: "Not that way round. Pencil each sheet's year from its own tells before you sort the sleeves."
     },
     {
       id: "read-the-archive-s-label-first",
       kind: "select",
       target: "ktl-label-card",
       title: "Read the archive's label first",
-      cue: "Read the label: these are the lesson's own fictional documents.",
-      why: "Knowing what a source is, before using it, is the first step of historical method. These documents were made for the lesson and are labelled as such, so the method can be practised honestly; a historian always states what their sources are and where they come from."
+      cue: "Turn the folder's label to the light and read it: these sheets were made for the lesson.",
+      why: "Knowing what sits in the folder, before a glove touches it, is the archivist's opening habit. These sheets were written for the lesson and their sleeve says so, which lets the sorting be practised honestly; an archivist always states where a folder came from and what is known of it before anyone builds on it."
     },
     {
       id: "turn-from-when-it-was-made",
@@ -127,8 +127,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         label: "DESCRIBED"
       },
       title: "Turn from when it was made to when it describes",
-      cue: "Turn the dial from the memoir's writing date to the date of the events it describes.",
-      why: "Separating the date a document was made from the date of what it describes is the key skill of this lesson. A memoir written long after is still evidence about the earlier events, but it is placed on the timeline where the events happened, with a note of when it was written."
+      cue: "Turn the dial from the year the memoir was typed to the year of the happenings it recalls.",
+      why: "Telling apart the year a sheet was made from the year it recalls is the skill this table teaches. A memoir typed decades on is still testimony about the earlier happenings, and it goes on the line where those happenings sit, with a pencilled note on its sleeve of when it was typed."
     },
     {
       id: "judge-how-confident-each-date-is",
@@ -141,11 +141,11 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too sure and a guess becomes a fact; too doubtful and good evidence is wasted. Weigh it again."
+        missNote: "Outside the band. Too sure and a hunch hardens into a fact; too doubtful and a good postmark is thrown away. Weigh the tells again."
       },
       title: "Judge how confident each date is",
-      cue: "Commit when your confidence matches the evidence for the undated letter's range.",
-      why: "Some dates are certain, some are ranges, and some are guesses. Matching your confidence to the evidence, and saying so on the timeline, is what makes a timeline honest rather than tidy. A gap left open invites the next researcher to fill it with evidence rather than a guess."
+      cue: "Commit when your confidence matches what the undated letter's tells will actually bear.",
+      why: "Some sleeves carry a firm year, some a span, some no more than a hunch. Matching how sure you feel to what the paper itself will bear, and pencilling that onto the sleeve, is what makes the finished line honest rather than neat. A span left open invites the next reader to close it with a paper, not a guess."
     },
     {
       id: "read-the-memoir-right-through",
@@ -153,9 +153,9 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       target: "ktl-read-memoir",
       seconds: 6,
       title: "Read the memoir right through",
-      cue: "Hold your place and read the whole memoir before placing it.",
-      why: "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source. Checking which date is which takes a moment and saves the whole timeline from sliding out of order.",
-      holdBreakNote: "You stopped reading and placed it too soon. Read the whole memoir first."
+      cue: "Keep your finger on the memoir's line and read the whole typescript to its last page before it goes on the line.",
+      why: "A memoir usually admits near its final page when it was typed, while the happenings it recalls sit in the middle chapters. Reading it right through before it is sleeved avoids pinning it to the wrong year, the commonest slip with a memoir. A moment spent finding which year is which saves the whole line from sliding.",
+      holdBreakNote: "You broke off and sleeved it too soon. Read the typescript through to its last page first."
     },
     {
       id: "place-the-undated-letter-as-a",
@@ -164,11 +164,11 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       drag: {
         to: "ktl-range-spot",
         radius: 0.45,
-        missNote: "Not in place yet. Take it all the way to on the timeline as a range."
+        missNote: "Not in place yet. Carry it all the way onto the line as a span."
       },
       title: "Place the undated letter as a range",
-      cue: "Drag the undated letter onto the timeline as a range between the two documents it mentions.",
-      why: "An undated letter that mentions two dated events can be placed between them as a range. Placing it that way, rather than at a single invented date, uses exactly what the evidence supports and no more. A range like between these two documents is a perfectly good answer when that is all the evidence allows."
+      cue: "Drag the undated letter onto the line as a span between the two sheets it mentions.",
+      why: "An undated letter that names two happenings the ledger already dates can be sleeved between them as a span. Placing it as a span, rather than at one invented year, uses exactly what its tells will bear and nothing more. A span between those two sheets is a perfectly good answer when that is all the paper allows."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -193,16 +193,16 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         "ktl-tl-labelled": "Saying what the sources are is right. Keep it."
       },
       title: "Spot the problems in a classmate's timeline",
-      cue: "Look at the draft timeline and mark each problem.",
-      why: "Timelines go wrong in predictable ways: a document placed at its writing date instead of its event date, an undated item given an exact date and the order bent to fit a story. Spotting these in a draft teaches you to check your own."
+      cue: "Look over the draft line a classmate left in the tray and tap each slip before the archivist collects it.",
+      why: "Draft lines go astray in a few predictable ways: a memoir pinned to the year it was typed, an undated letter given one exact year, and sleeves shuffled to suit the tale someone wanted. Catching those on a classmate's draft trains the eye to catch them on your own before the folder goes back on the shelf."
     },
     {
       id: "mark-the-gaps-on-the-timeline",
       kind: "select",
       target: "ktl-gap-card",
       title: "Mark the gaps on the timeline",
-      cue: "Where no document covers a stretch of time, mark it as a gap.",
-      why: "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page. It tells the reader exactly where more research is needed."
+      cue: "Where no sheet in the folder covers a stretch of years, flag it as a blank on the line.",
+      why: "A blank stretch on the line is itself a finding: it tells the next reader which shelf to search. Flagging blanks openly, rather than papering over them with a plausible tale, is honest work at the archive table and often the most useful pencil mark on the page."
     },
     {
       id: "keep-the-timeline-led-by-the",
@@ -221,9 +221,9 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         label: "EVIDENCE"
       },
       title: "Keep the timeline led by the evidence",
-      cue: "Hold the timeline in band with the evidence as you add the last documents.",
-      why: "As a timeline fills up, it starts to suggest a story, and the last documents are tempting to force into it. Keeping every placement tied to its own evidence is the discipline that stops a timeline becoming a work of fiction. Every entry should be traceable to the document it came from.",
-      holdBreakNote: "The timeline drifted towards the story. Check the last placements against their evidence."
+      cue: "Keep the line answering to the sleeves' tells as the last sheets from the folder go on.",
+      why: "As a line fills, a tale starts to suggest itself, and the last sheets out of the folder are tempting to force into it. Keeping every sleeve pinned by its own postmark, letterhead or pencilled year is the discipline that stops a line at the archive table turning into fiction. Every pin should lead back to a sheet.",
+      holdBreakNote: "The line has drifted towards the tale. Hold the last sleeves against their own tells again."
     },
     {
       id: "record-the-timeline-and-its-evidence",
@@ -231,8 +231,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       target: "ktl-timeline-log",
       doneLine: "Timeline and evidence recorded",
       title: "Record the timeline and its evidence",
-      cue: "Write each document's placement and the evidence that put it there.",
-      why: "Recording the evidence behind each placement lets anyone check the timeline and change it if new evidence appears. That is how historical timelines are built and improved over time. A timeline is never finished; each new document can confirm an entry or move it."
+      cue: "Pencil each sheet's place on the line and the tell that put it there into the reading-room ledger.",
+      why: "Pencilling the tell behind every pin into the ledger lets anyone at this table retrace the line and shift a sleeve when a new sheet turns up. That is how lines at an archive are built and mended over years. A line is never finished; each sheet found later can firm up a pin or move it."
     },
     {
       id: "show-the-class-how-you-placed",
@@ -240,8 +240,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       target: "ktl-share-board",
       doneLine: "Method shared",
       title: "Show the class how you placed the memoir",
-      cue: "Explain how you separated when the memoir was written from when its events happened.",
-      why: "Explaining the memoir's two dates to the class teaches the skill most people miss. Sharing the method, not just the finished timeline, lets classmates check their own and fix the same mistake. Explaining why each document sits where it does is the part that shows real understanding."
+      cue: "Explain to the table how you kept the memoir's typing year apart from the year it recalls.",
+      why: "Walking the table through the memoir's two years teaches the skill most readers miss. Handing over the method rather than only the finished line lets classmates re-sleeve their own drafts and mend the same slip. Saying why each sheet sits where it does is the part that shows the line was built the right way round."
     },
     {
       id: "crew-check-in",
@@ -249,8 +249,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       target: "ktl-checkin",
       doneLine: "Checked in",
       title: "Check in at the end of the lesson",
-      cue: "How did the timeline go? What question do you still have?",
-      why: "A short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more."
+      cue: "Before the folder goes back on the shelf: how did the sorting go, and which sheet still puzzles you?",
+      why: "A short round at the table before the folder is boxed lets the teacher hear which tells made sense and which did not, and gives every learner a moment to name the one sheet still puzzling them. Nobody is graded at the table, and the teacher or a trusted adult is there for anyone who wants to talk more afterwards."
     }
   ],
 
@@ -262,11 +262,11 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       delay: 3,
       seconds: 12,
       target: "ktl-stop-and-gather",
-      alert: "A stack of the archive's fragile documents slides towards the edge of the table.",
-      cue: "Stop, steady the stack and lay the papers flat, then call the archivist.",
-      why: "Fragile papers damaged in a fall cannot be undamaged. Stopping, steadying them and laying them flat protects the archive, and calling the archivist means anything creased is handled by someone who knows how.",
-      missNote: "Nobody stopped, the stack fell and two documents creased across their dates. Next time, stop the lesson and deal with it first.",
-      wrongNote: "That does not protect the papers. Stop and lay them flat. Choose the response that deals with it now."
+      alert: "A tray of the folder's brittle sheets tips towards the edge of the reading-room table.",
+      cue: "Stop, steady the tray, lay the sheets flat in their sleeves, then call the archivist over.",
+      why: "Brittle paper creased in a fall stays creased. Stopping, steadying the tray and laying the sheets flat protects the folder, and calling the archivist means anything torn is handled by someone with the gloves and the training for it.",
+      missNote: "Nobody stopped; the tray tipped and two sheets creased straight across their postmarks. Next time, stop the sorting and deal with it first.",
+      wrongNote: "That does not save the sheets. Stop and lay them flat. Choose the response that deals with it now."
     },
     {
       id: "the-teacher-asks-why-there",
@@ -275,11 +275,11 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       delay: 3,
       seconds: 12,
       target: "ktl-give-the-evidence",
-      alert: "The teacher points at a document on your timeline and asks why it is there.",
-      cue: "Name the evidence on the document that placed it, or say that it is a range and why.",
-      why: "Why is it there is the historian's check on every timeline. Answering with the evidence, not with how it fits the story, shows the timeline was built the right way round.",
-      missNote: "You said it fitted there, with no evidence, and the placement stayed unchecked. Next time, stop the lesson and deal with it first.",
-      wrongNote: "That is the story, not the evidence. Name what on the document placed it."
+      alert: "The teacher taps a sleeve on your line and asks what put it there.",
+      cue: "Name the tell on that sheet that pinned it, or say it is a span and what its two ends are.",
+      why: "What put it there is the archivist's question for every pin on a line. Answering with the sheet's own postmark, letterhead or pencilled year, rather than with how it suits the tale, shows the line was built from the folder outwards.",
+      missNote: "You said it suited the line, named no tell, and the pin went unchecked. Next time, stop the sorting and deal with it first.",
+      wrongNote: "That is the tale, not the tell. Name what on the sheet pinned it."
     }
   ],
 
@@ -427,7 +427,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
     // ------------------------------------------------------------ the guide
     const guide = group(g, 0, 2.15, -3.2);
     box(guide, 0.94, 0.44, 0.02, 0, 0, -0.012, 0x7fc4d8, { rough: 0.5, emissive: 0x7fc4d8, ei: 0.25 });
-    const guideFace = decal(guide, 0.9, 0.4, 0, 0, 0, (cx, w, h) => text(cx, w, h, "THE GUIDE", ["Made when? About when?"], "#7fc4d8"), { px: 512, glow: true, ei: 0.9 });
+    const guideFace = decal(guide, 0.9, 0.4, 0, 0, 0, (cx, w, h) => text(cx, w, h, "THE GUIDE", ["Typed when? Recalls when? Two years, two pencil marks."], "#7fc4d8"), { px: 512, glow: true, ei: 0.9 });
     const paintGuide = (msg) => repaint(guideFace, (cx, w, h) => {
       cx.fillStyle = "rgba(10,20,28,0.94)"; cx.fillRect(0, 0, w, h);
       cx.fillStyle = "#7fc4d8"; cx.fillRect(0, 0, w, 5);
@@ -472,11 +472,11 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         if (step.id === "record-the-timeline-and-its-evidence") repaint(boards["ktl-timeline-log"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Timeline and evidence recorded"], "#59c97b"));
         if (step.id === "show-the-class-how-you-placed") repaint(boards["ktl-share-board"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Method shared"], "#59c97b"));
         if (step.id === "crew-check-in") repaint(boards["ktl-checkin"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Checked in"], "#59c97b"));
-        if (step.id === "mark-the-gaps-on-the-timeline") paintGuide("Evidence first, then the order.");
+        if (step.id === "mark-the-gaps-on-the-timeline") paintGuide("Tells first, sleeves second, tale last.");
       },
 
       onHazard() {
-        paintGuide("Stop. Is that the date it was made, or the date it describes?");
+        paintGuide("Stop. Is that the year it was typed, or the year it recalls?");
       },
 
       onInterrupt(it) {
@@ -488,8 +488,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         alarmLamp.material = lampOn;
         const who = arrivals[it.id];
         if (it.resolved !== "answered") { if (who) who.rotation.y += 0.6; paintGuide("That one went unanswered. Next time, stop and deal with it first."); return; }
-        if (it.id === "documents-slide-off-the-table") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Gathered flat and the archivist called. Nothing was lost."); }
-        if (it.id === "the-teacher-asks-why-there") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Evidence given. The placement can be checked by anyone."); }
+        if (it.id === "documents-slide-off-the-table") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Sheets gathered flat and the archivist called over. Nothing in the folder was lost."); }
+        if (it.id === "the-teacher-asks-why-there") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Tell named. Anyone at the table can now retrace the pin."); }
       },
 
       animate(tm, dt, session) {
