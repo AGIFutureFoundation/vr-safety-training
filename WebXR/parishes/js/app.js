@@ -8,7 +8,7 @@ import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
-import { lkStationLink, lkStationLabel } from "../../shared/links.js";
+import { lkStationLink, lkStationLabel, lkWorldLink } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
 import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
@@ -205,7 +205,7 @@ function npRenderMap() {
   if (NP_LAYERS.landmarks) for (const l of parish.landmarks) dot(l.position[0], l.position[1], "#8fd6a8", 2.5, l.name, true);
   if (NP_LAYERS.sites) for (const s of parish.sites) dot(s.position[0], s.position[1], npVisited(np.state, parish.id, s.id) ? "#ffb020" : "#e8eef4", 5, s.name);
   if (NP_LAYERS.lessons) for (const s of world.lessonSigns) { const [px, pz] = npMapXY(s.x, s.z, W); o.fillStyle = np.state.lessons.includes(s.lesson.id) ? "#8be28b" : "#6ad0c8"; o.fillRect(px - 4, pz - 4, 8, 8); }
-  if (NP_LAYERS.connectors) for (const c of connectors) { const [px, pz] = npMapXY(c.from.position[0], c.from.position[1], W); o.fillStyle = "#fff"; o.beginPath(); o.arc(px, pz, 5, 0, Math.PI * 2); o.fill(); o.font = "bold 11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; const t = `→ ${c.to.parish === parish.id ? c.name : `${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " (not built yet)"}`}`; o.strokeText(t, Math.min(px + 8, W - 150), pz - 6); o.fillText(t, Math.min(px + 8, W - 150), pz - 6); }
+  if (NP_LAYERS.connectors) for (const c of connectors) { const [px, pz] = npMapXY(c.from.position[0], c.from.position[1], W); o.fillStyle = "#fff"; o.beginPath(); o.arc(px, pz, 5, 0, Math.PI * 2); o.fill(); o.font = "bold 11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; const t = `→ ${c.world ? c.to.name : c.to.parish === parish.id ? c.name : `${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " (not built yet)"}`}`; o.strokeText(t, Math.min(px + 8, W - 150), pz - 6); o.fillText(t, Math.min(px + 8, W - 150), pz - 6); }
   if (NP_LAYERS.you) { const [px, pz] = npMapXY(np.x, np.z, W); o.fillStyle = "#ff3b3b"; o.beginPath(); o.moveTo(px - Math.sin(np.yaw) * 9, pz - Math.cos(np.yaw) * 9); o.lineTo(px + 5, pz + 5); o.lineTo(px - 5, pz + 5); o.fill(); }
   const lay = $("map-layers");
   if (!lay.childElementCount) for (const k of Object.keys(NP_LAYERS)) {
@@ -232,7 +232,7 @@ function npRenderParishes() {
     const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id;
     box.appendChild(a);
   }
-  const ways = connectors.map((c) => `<div class="quest"><b>${c.name}</b><small>${c.kind} · ${c.to.parish === parish.id ? "within this parish" : `to ${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " — not built yet"}`}</small></div>`).join("");
+  const ways = connectors.map((c) => `<div class="quest"><b>${c.name}</b><small>${c.kind} · ${c.world ? `a way out to ${c.to.name}` : c.to.parish === parish.id ? "within this parish" : `to ${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " — not built yet"}`}</small></div>`).join("");
   $("parish-ways").innerHTML = ways || "<p class='note'>No connectors listed.</p>";
 }
 
@@ -263,11 +263,25 @@ function npUse() {
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
   else if (n.kind === "connector") {
     const c = n.conn;
+    if (c.world) { npCrossWorld(c); return; }
     if (c.to.parish === parish.id && c.to.position) { np.x = c.to.position[0]; np.z = c.to.position[1] + 8; world.update(np.x, np.z, 999); npToast(`${c.name}: across to the other bank.`); }
     else if (c.resolved) location.href = `?parish=${encodeURIComponent(c.to.parish)}&site=`;
     else npToast(`${c.name} leads to ${npParish(c.to.parish)?.name ?? c.to.parish}, which is not built yet.`);
   }
   npHud();
+}
+
+/** Cross a `world` way (the Bay Bridge to Bay World): the other world's page, with the way home to the nearest site here (GOLDEN-B). */
+function npCrossWorld(c) {
+  let near = parish.sites[0], nd = Infinity;
+  for (const s of parish.sites) { const d = Math.hypot(c.from.position[0] - s.position[0], c.from.position[1] - s.position[1]); if (d < nd) { nd = d; near = s; } }
+  npSave(np.state); npToast(`${c.name}: crossing to ${c.to.name} with your passport.`);
+  location.href = lkWorldLink(c.to.href, { from: "parishes", page: ppHerePage(), siteId: `${parish.id}/${near.id}` });
+}
+// A world way has no parish sign of its own (np-world.js signs the parish's connectors): a tall post marks it.
+for (const c of connectors.filter((x) => x.world)) {
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 14, 8), new THREE.MeshLambertMaterial({ color: 0xf2c14b }));
+  post.position.set(c.from.position[0], npHeightAt(parish, c.from.position[0], c.from.position[1]) + 7, c.from.position[1]); post.name = `world-way-${c.id}`; root.add(post);
 }
 
 // -------------------------------------------------------------------- HUD

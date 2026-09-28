@@ -38,6 +38,19 @@ export function lkStationLink(id, { runner = "../smartcity/index.html", trades =
   return `${base}?${room ? "room" : "sim"}=${encodeURIComponent(id)}${from ? `&from=${encodeURIComponent(from)}` : ""}${back}${extra}`;
 }
 
+/**
+ * A way out into another world (a parish `world` connector, shared/sg-ways.js):
+ * the other world's page (`href`, already carrying `?site=`) with the way home
+ * on it, `&from=<app>&return=<page>#site=<siteId>` — the passport itself lives
+ * in this origin's storage, so the learner's record crosses with them.
+ */
+export function lkWorldLink(href, { from = null, page = null, siteId = null } = {}) {
+  if (!href) throw new Error("lkWorldLink needs an href");
+  const ret = page ? `${page}${siteId ? `#site=${encodeURIComponent(siteId)}` : ""}` : null;
+  const sep = href.includes("?") ? "&" : "?";
+  return `${href}${from ? `${sep}from=${encodeURIComponent(from)}` : ""}${ret ? `${from ? "&" : sep}return=${encodeURIComponent(ret)}` : ""}`;
+}
+
 /** A world's `?site=` deep link to one of its sites, relative to the world's own page. */
 export function lkSiteLink(siteId, page = "") { return `${page}?site=${encodeURIComponent(siteId)}`; }
 

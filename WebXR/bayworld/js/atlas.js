@@ -36,7 +36,12 @@ export const ATLAS_LINKS = {
   tracks: "../dist/tracks/",
   // Sierra Summit opens at a site or landmark with ?site=<id> (its app resolves both).
   summit: "../summit/index.html",
+  // The San Francisco districts on the parish engine (GOLDEN-B): the Bay Bridge's way back lands in Downtown.
+  parishes: "../parishes/parishes.html",
 };
+
+/** The way back across the Bay Bridge (shared/sg-ways.js SG_WAY_BACK; atlas.html and Bay World's map carry the same link). */
+export const ATLAS_WAY_BACK = { label: "The Bay Bridge back to San Francisco", href: `${ATLAS_LINKS.parishes}?parish=sf-downtown`, connector: "sf-bay-bridge" };
 
 /** The SVG map's drawing size; the viewBox, not the on-screen size. */
 export const ATLAS_SVG_SIZE = { width: 800, height: 550 };

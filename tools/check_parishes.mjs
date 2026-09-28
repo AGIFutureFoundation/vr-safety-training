@@ -55,9 +55,20 @@ check(new Set(R.npParishIds()).size === R.NP_PARISHES.length, "parish ids are un
 check(R.npParish("orleans")?.name === "Orleans Parish", "Orleans Parish is registered");
 check(!R.npParish("nowhere"), "an unknown parish is null");
 const parishes = new Map(R.NP_PARISHES.map((p) => [p.id, p]));
+// The worlds a `world` connector may reach, and their sites (GOLDEN-B's Bay Bridge to Bay World).
+const { BAY_SITES } = await imp("shared/bayworld-data.js");
+const WORLD_SITES = { bayworld: new Set(BAY_SITES.map((s) => s.id)) };
+// The flat link for a source link: the bundler's own two rewrites, run in Python (as tools/check_links.mjs does).
+const { spawnSync } = await import("node:child_process");
+function lkFlatten(links) {
+  const code = "import sys,json; sys.path.insert(0,'tools'); import bundle_webxr as b; " +
+    "print(json.dumps([b.combined_fixup(b.dist_fixup('\"'+l))[1:] for l in json.load(sys.stdin)]))";
+  const r = spawnSync("python3", ["-c", code], { cwd: ROOT, input: JSON.stringify(links), encoding: "utf8" });
+  return r.status === 0 ? JSON.parse(r.stdout) : links.map(() => `(bundler rewrite failed: ${r.stderr.split("\n").slice(-2).join(" ")})`);
+}
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "sf-marina", "sf-bayview"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -149,6 +160,12 @@ for (const p of R.NP_PARISHES) {
   // connectors: paired by id or by the agreed crossing (same kind and lonlat); road and ferry ends within 2 km, a bridge or
   // causeway listed at its mid-crossing within 40 km, when the other parish is in the tree
   for (const c of R.npResolveConnectors(p)) {
+    if (c.kind === "world") {
+      // A way out to another world (shared/sg-ways.js): its far end is a page, checked in the San Francisco section below.
+      check(c.resolved && G.npInField(p, c.from.position), `${tag}/${c.id}: the world way stands inside the field`);
+      check(E.npValidate({ ...p, connectors: [c] }, { worldSites: WORLD_SITES }).filter((m) => m.startsWith(`connector ${c.id}`)).length === 0, `${tag}/${c.id}: the world way validates`);
+      continue;
+    }
     const other = parishes.get(c.to.parish);
     const fromLL = G.npToGeo(p, c.from.position);
     check(Math.abs(c.from.position[0]) > 1900 || Math.abs(c.from.position[1]) > 1900 || c.kind === "ferry" || c.to.parish === p.id || Array.isArray(c.lonlat), `${tag}/${c.id}: a way out sits at the parish's edge, is a ferry or marks an agreed crossing`);
@@ -185,6 +202,66 @@ check(R.NP_PARISHES.some((p) => p.id === "orleans" && p.sites.length >= 10), "Or
   const text = [...o.sites, ...o.landmarks, ...o.districts].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ");
   // An ordinal in a public name (a numbered street or canal) is a name, not a figure.
   check(!/\d/.test(text.replace(/\b\d+(st|nd|rd|th)\b/g, "")), "orleans: no figure in a site, landmark or district name or blurb");
+}
+
+// San Francisco (GOLDEN-B): Marina & Presidio and Bayview & Hunters Point on the region schema, and the Bay Bridge to Bay World.
+{
+  const SG = await imp("shared/sg-ways.js");
+  const ATLAS = await imp("bayworld/js/atlas.js");
+  const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
+  const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
+  for (const id of ["sf-marina", "sf-bayview"]) {
+    const p = R.npParish(id);
+    if (!check(!!p, `${id} is registered`)) continue;
+    check(p.region === "san-francisco", `${id}: region is san-francisco`);
+    check(Array.isArray(p.hills) && p.hills.length >= 1 && p.hills.every((h) => typeof h.id === "string" && typeof h.name === "string" && Array.isArray(h.center) && h.center.length === 2 && G.npInField(p, h.center) && h.radius > 0 && h.height > 0), `${id}: hills on the brief's shape ({ id, name, center, radius, height })`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${id}/${s.id}: the pad sits clear of ${h.name}, so it stays flat once hills rise`);
+    check(p.sites.length >= 8, `${id}: eight or more sites (${p.sites.length})`);
+    check((p.fieldLessons ?? []).length >= 5 && p.fieldLessons.every((l) => /^sg-fl-/.test(l.id) && ctx.stations.has(l.station)), `${id}: five or more sg-fl- field lessons, each with a trade station`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
+    check(!/population|founded|built in|opened in|census|since \d|est\.|\bcirca\b/i.test(src), `${id}: no history or statistics`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ");
+    check(!/\d/.test(text), `${id}: no figure in a site, landmark, district or hill name or blurb`);
+  }
+  const m = R.npParish("sf-marina"), b = R.npParish("sf-bayview");
+  if (m) {
+    for (const kind of ["marina", "park", "rescue-station", "bridge"]) check(m.sites.some((s) => s.kind === kind), `sf-marina: a ${kind} site`);
+    check(m.landmarks.some((l) => l.id === "golden-gate-bridge" && l.kind === "bridge") && m.roads.some((r) => r.id === "golden-gate-bridge" && r.kind === "bridge"), "sf-marina: the Golden Gate Bridge is a bridge landmark and a bridge deck");
+    const gg = m.connectors.find((c) => c.id === "sf-golden-gate-bridge");
+    check(!!gg && gg.kind === "bridge" && !parishes.has(gg.to.parish) && gg.to.lonlat[1] > G.npBounds(m).maxLat - 0.01, "sf-marina: the Golden Gate Bridge is a way out north with no map beyond it yet");
+    for (const [cid, to] of [["sf-van-ness-north", "sf-downtown"], ["sf-embarcadero-north", "sf-downtown"], ["sf-park-presidio", "sf-golden-gate-park"]]) check(m.connectors.some((c) => c.id === cid && c.to.parish === to && c.kind === "road"), `sf-marina: ${cid} to ${to} (the contract with GOLDEN-A)`);
+  }
+  if (b) {
+    for (const kind of ["shipyard", "remediation", "rail", "recreation", "wetland", "port"]) check(b.sites.some((s) => s.kind === kind), `sf-bayview: a ${kind} site`);
+    const hp = catalog.curricula.find((c) => c.id === "hunters-point-bay-restoration").stations.map((s) => s.id);
+    const clear = b.sites.filter((s) => s.programmes.includes("hunters-point-bay-restoration"));
+    check(clear.length >= 4 && hp.every((id) => b.sites.some((s) => s.stations.includes(id))), `sf-bayview: every station of the C.L.E.A.R. clean-up programme is worked at its sites (${clear.length} sites; missing ${hp.filter((id) => !b.sites.some((s) => s.stations.includes(id))).join(", ")})`);
+    for (const cid of ["sf-third-street-south", "sf-bayshore-south"]) check(b.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission" && c.kind === "road"), `sf-bayview: ${cid} to sf-mission (the contract with GOLDEN-A)`);
+  }
+  // The Bay Bridge: a world connector from Downtown to a West Oakland site in Bay World, and the way back.
+  const bb = SG.SG_WAYS.find((w) => w.id === "sf-bay-bridge");
+  check(!!bb && bb.kind === "world" && bb.from.parish === "sf-downtown" && bb.lonlat[0] === -122.387 && bb.lonlat[1] === 37.79, "the Bay Bridge leaves sf-downtown at the agreed crossing");
+  const bwSite = BAY_SITES.find((s) => s.id === bb?.to.site);
+  check(!!bwSite && bwSite.zone === "west-oakland", `the Bay Bridge lands at a West Oakland site in Bay World (${bb?.to.site})`);
+  check(bb?.to.href === `../bayworld/index.html?site=${bb?.to.site}`, "the Bay Bridge opens Bay World's page with ?site=");
+  const flat = lkFlatten([bb?.to.href ?? "", SG.SG_WAY_BACK.href]);
+  check(flat[0] === `./bayworld.html?site=${bb?.to.site}`, `the bundler flattens it to bayworld.html?site= (${flat[0]})`);
+  check(flat[1] === "./parishes.html?parish=sf-downtown", `and the way back to parishes.html?parish=sf-downtown (${flat[1]})`);
+  const cross = LK.lkWorldLink(bb.to.href, { from: "parishes", page: "/parishes/parishes.html", siteId: "sf-downtown/ferry-building" });
+  check(cross.startsWith(bb.to.href + "&from=parishes&return=") && !cross.includes("#"), "the crossing carries from=parishes and an encoded return (no bare hash for Bay World to misread)");
+  // Resolved against a stand-in Downtown (the real one is GOLDEN-A's): drawn inside the field and always resolved.
+  const stub = { id: "sf-downtown", size: 4096, connectors: [], anchors: [[-600, 0, -122.410, 37.790], [600, 0, -122.396, 37.790], [0, -600, -122.403, 37.798], [0, 600, -122.403, 37.782], [-500, -500, -122.409, 37.797], [500, 500, -122.397, 37.783]].map(([x, z, lon, lat]) => ({ xz: [x, z], lonlat: [lon, lat], approximate: true, name: "stand-in" })) };
+  const way = R.npResolveConnectors(stub).find((c) => c.id === "sf-bay-bridge");
+  check(!!way && way.resolved && way.world === "bayworld" && G.npInField(stub, way.from.position), "a Downtown map draws the Bay Bridge as a way out inside its field");
+  check(!!way && E.npValidate({ ...stub, connectors: [way] }, { worldSites: WORLD_SITES }).filter((x) => x.startsWith("connector")).length === 0, "the Bay Bridge validates as a world connector");
+  if (parishes.has("sf-downtown")) note("sf-downtown is in the tree: the Bay Bridge is checked on the real Downtown above");
+  else note("sf-bay-bridge: pending on the real sf-downtown (GOLDEN-A's module) — checked here on a stand-in");
+  check(!!way && E.npValidate({ ...stub, connectors: [{ ...way, to: { ...way.to, site: "nowhere", href: "../bayworld/index.html?site=nowhere" } }] }, { worldSites: WORLD_SITES }).some((x) => /is not a bayworld site/.test(x)), "a world way to an unknown Bay World site is refused");
+  check(ATLAS.ATLAS_WAY_BACK.href === SG.SG_WAY_BACK.href, "the Atlas's way back is the Bay Bridge's");
+  check(readFileSync(join(WEBXR, "bayworld", "atlas.html"), "utf8").includes(`href="${SG.SG_WAY_BACK.href}"`), "the Atlas page links the way back to San Francisco");
+  check(readFileSync(join(WEBXR, "bayworld", "index.html"), "utf8").includes(`id="map-way-sf" data-way="sf-bay-bridge" href="${SG.SG_WAY_BACK.href}"`), "Bay World's map links the way back to San Francisco");
+  check(/c\.world\) \{ npCrossWorld\(c\)/.test(app) && /lkWorldLink\(c\.to\.href, \{ from: "parishes"/.test(app), "the parishes app crosses a world way with lkWorldLink");
+  check(bundler.includes('SHARED / "sg-ways.js"'), "sg-ways.js is in the parishes bundle");
 }
 
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
