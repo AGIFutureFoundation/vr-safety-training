@@ -642,6 +642,8 @@ APPS = {
             SHARED / "competency.js",
             SHARED / "identity.js",
             SHARED / "passport.js",
+            SHARED / "field-lessons.js",  # the K-12 list call
+            SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
             SHARED / "auth.js",
             SHARED / "account.js",
             SHARED / "controls.js",
@@ -682,6 +684,8 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "field-lessons.js",  # the K-12 list call
+            SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
             SHARED / "links.js",
             # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
             SHARED / "crew.js",
@@ -689,7 +693,6 @@ APPS = {
             SHARED / "npc.js",
             SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
-            SHARED / "field-lessons.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",

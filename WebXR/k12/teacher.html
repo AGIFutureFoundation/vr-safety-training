@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-12 field lessons — teacher view and lesson cards</title>
+<meta name="description" content="Every K-12 field lesson in the SmartCiti.X worlds, by programme and band, with a printable card per lesson. Field Notes counts read this browser's passport only.">
+<style>
+  :root { color-scheme: light dark; --ink: #1c1a24; --paper: #fbf8f2; --teal: #2a7f78; --line: #cfc9bf; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #eaf0f2; --paper: #14181c; --teal: #6ad0c8; --line: #3a4046; } }
+  body { margin: 0; font: 16px/1.45 system-ui, sans-serif; color: var(--ink); background: var(--paper); }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; } h2 { font-size: 1.3rem; margin: 32px 0 8px; } h3 { font-size: 1.1rem; margin: 20px 0 6px; }
+  h3 small { font-weight: normal; opacity: .75; font-size: .85rem; }
+  .note, .eyebrow, .links { font-size: .9rem; opacity: .8; }
+  .notes { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 16px; padding: 0; list-style: none; }
+  .notes li { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; } th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--teal); font-weight: 600; }
+  a { color: var(--teal); }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+  button, select { font: inherit; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: inherit; }
+  button.primary { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; margin: 12px 0; background: var(--paper); }
+  .card .trade { font-style: italic; } .card ol { padding-left: 22px; } .card .options { list-style: none; padding: 0; }
+  .card .options li { padding: 2px 0 2px 26px; position: relative; } .card .options li::before { content: "○"; position: absolute; left: 4px; }
+  .card .options li.answer::before { content: "●"; color: var(--teal); } .card .options li.answer span { opacity: .7; font-size: .85rem; }
+  .card .why { font-size: .92rem; border-left: 3px solid var(--teal); padding-left: 10px; }
+  [hidden] { display: none !important; }
+  @media print {
+    body { background: #fff; color: #000; } main { max-width: none; padding: 0; }
+    .no-print, .teacher-view, h1, .lead, .notes { display: none !important; }
+    .card { border: 1px solid #000; border-radius: 0; break-inside: avoid; page-break-inside: avoid; margin: 0 0 14mm; }
+    .card a { color: #000; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>K-12 field lessons — teacher view</h1>
+  <p class="lead">Every field lesson in the SmartCiti.X worlds (62 lessons across 6 worlds), by classroom programme and band, and a printable card for each. The lessons are the ones a learner plays at a kiosk, a course card or a job board; the card carries the same three steps and the same check, with the answer marked for the teacher.</p>
+  <p class="note">Nothing leaves this device. The Field Notes counts below read the passport stored in this browser only: how many of each world's lessons this learner has answered right, and whether the world's Field Notes badge is earned. On a shared class device they show the device's passport, not any one pupil's.</p>
+  <h2>Field Notes on this device</h2>
+  <ul class="notes"><li><b>Bay World</b>: <span data-k2-notes="bayworld">—</span></li><li><b>The Deep</b>: <span data-k2-notes="deep">—</span></li><li><b>The Regatta</b>: <span data-k2-notes="regatta">—</span></li><li><b>Fairway Park</b>: <span data-k2-notes="fairway">—</span></li><li><b>Sierra Summit</b>: <span data-k2-notes="summit">—</span></li><li><b>Redwood Reach</b>: <span data-k2-notes="redwood">—</span></li></ul>
+  <div class="tools no-print">
+    <label>World <select id="world-filter"><option value="">all worlds</option><option value="bayworld">Bay World</option><option value="deep">The Deep</option><option value="regatta">The Regatta</option><option value="fairway">Fairway Park</option><option value="summit">Sierra Summit</option><option value="redwood">Redwood Reach</option></select></label>
+    <button class="primary" id="print-cards" type="button">Print the lesson cards</button>
+    <span class="note">Printing hides this view and prints one card per lesson in the chosen world.</span>
+  </div>
+  <section class="teacher-view">
+    <h2>Lessons by programme and band</h2>
+<section class="programme" id="prog-k12-practical-math"><h3>K-12 Practical Maths <small>upper primary to lower secondary · 14 field lessons</small></h3><table><thead><tr><th>Lesson</th><th>World</th><th>Band</th><th>Min</th><th>Trade</th><th>Station</th><th></th></tr></thead><tbody>
+<tr data-world="fairway"><td>A coin toss has no memory</td><td>Fairway Park</td><td>upper primary</td><td>2</td><td>Match officials</td><td><a href="../smartcity/index.html?sim=k12-probability-with-a-fair-spinner&amp;from=fairway&amp;return=index.html">k12 probability with a fair spinner</a></td><td><a href="#card-fw-fl-probability-on-the-tee">Card</a></td></tr>
+<tr data-world="bayworld"><td>Area and perimeter of a court</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Floor layers and groundskeepers</td><td><a href="../smartcity/index.html?sim=k12-measuring-and-scaling-the-court&amp;from=bayworld&amp;return=index.html">k12 measuring and scaling the court</a></td><td><a href="#card-bw-fl-court-area">Card</a></td></tr>
+<tr data-world="regatta"><td>Distance to the next mark</td><td>The Regatta</td><td>upper primary</td><td>3</td><td>Navigators</td><td><a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=regatta&amp;return=regatta.html">k12 reading a map scale in bay world</a></td><td><a href="#card-rg-fl-course-map-scale">Card</a></td></tr>
+<tr data-world="bayworld"><td>Map scale at the ferry landing</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Ferry deckhands</td><td><a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=bayworld&amp;return=index.html">k12 reading a map scale in bay world</a></td><td><a href="#card-bw-fl-ferry-map-scale">Card</a></td></tr>
+<tr data-world="fairway"><td>Perimeter on the running track</td><td>Fairway Park</td><td>upper primary</td><td>3</td><td>Groundskeepers</td><td><a href="../smartcity/index.html?sim=k12-measuring-and-scaling-the-court&amp;from=fairway&amp;return=index.html">k12 measuring and scaling the court</a></td><td><a href="#card-fw-fl-track-perimeter">Card</a></td></tr>
+<tr data-world="deep"><td>Reading a tide gauge level</td><td>The Deep</td><td>upper primary</td><td>2</td><td>Hydrographic surveyors</td><td><a href="../smartcity/index.html?sim=k12-graphing-tide-readings-at-the-pier&amp;from=deep&amp;return=underwater.html">k12 graphing tide readings at the pier</a></td><td><a href="#card-dp-fl-tide-gauge-reading">Card</a></td></tr>
+<tr data-world="bayworld"><td>Scaling a recipe by one fraction</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Cooks and chefs</td><td><a href="../smartcity/index.html?sim=k12-fractions-in-the-kitchen&amp;from=bayworld&amp;return=index.html">k12 fractions in the kitchen</a></td><td><a href="#card-bw-fl-kitchen-fractions">Card</a></td></tr>
+<tr data-world="bayworld"><td>Rise over run on a site ramp</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Carpenters and cement masons</td><td><a href="../smartcity/index.html?sim=k12-slope-and-angles-on-a-ramp&amp;from=bayworld&amp;return=index.html">k12 slope and angles on a ramp</a></td><td><a href="#card-bw-fl-slope-of-the-access-ramp">Card</a></td></tr>
+<tr data-world="fairway"><td>Slope on a putting green</td><td>Fairway Park</td><td>lower secondary</td><td>2</td><td>Greenskeepers and course builders</td><td><a href="../smartcity/index.html?sim=k12-slope-and-angles-on-a-ramp&amp;from=fairway&amp;return=index.html">k12 slope and angles on a ramp</a></td><td><a href="#card-fw-fl-slope-on-the-green">Card</a></td></tr>
+<tr data-world="regatta"><td>Speed, distance and time on a leg</td><td>The Regatta</td><td>lower secondary</td><td>3</td><td>Ferry and charter skippers</td><td><a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=regatta&amp;return=regatta.html">k12 reading a map scale in bay world</a></td><td><a href="#card-rg-fl-speed-distance-time">Card</a></td></tr>
+<tr data-world="bayworld"><td>Spending and saving from one wage</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Market traders</td><td><a href="../smartcity/index.html?sim=k12-household-budget-and-first-paycheck&amp;from=bayworld&amp;return=index.html">k12 household budget and first paycheck</a></td><td><a href="#card-bw-fl-budget-at-the-market">Card</a></td></tr>
+<tr data-world="bayworld"><td>The blade is the radius</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Wind technicians</td><td><a href="../smartcity/index.html?sim=k12-geometry-of-a-turbine-blade-sweep&amp;from=bayworld&amp;return=index.html">k12 geometry of a turbine blade sweep</a></td><td><a href="#card-bw-fl-blade-sweep-circle">Card</a></td></tr>
+<tr data-world="redwood"><td>Pacing a Plot</td><td>Redwood Reach</td><td></td><td>3</td><td>Fuel-break survey crew</td><td><a href="../smartcity/index.html?sim=k12-measuring-and-scaling-the-court&amp;from=redwood&amp;return=redwood.html">k12 measuring and scaling the court</a></td><td><a href="#card-rw-fl-measure">Card</a></td></tr>
+<tr data-world="redwood"><td>Reading the Trail Map's Scale</td><td>Redwood Reach</td><td></td><td>3</td><td>Trail crew</td><td><a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=redwood&amp;return=redwood.html">k12 reading a map scale in bay world</a></td><td><a href="#card-rw-fl-map-scale">Card</a></td></tr>
+</tbody></table></section>
+<section class="programme" id="prog-k12-science"><h3>K-12 Science <small>upper primary to lower secondary · 18 field lessons</small></h3><table><thead><tr><th>Lesson</th><th>World</th><th>Band</th><th>Min</th><th>Trade</th><th>Station</th><th></th></tr></thead><tbody>
+<tr data-world="regatta"><td>A forecast is a likelihood</td><td>The Regatta</td><td>upper primary</td><td>2</td><td>Race officers</td><td><a href="../smartcity/index.html?sim=k12-weather-and-the-sky&amp;from=regatta&amp;return=regatta.html">k12 weather and the sky</a></td><td><a href="#card-rg-fl-probability-of-a-wind-shift">Card</a></td></tr>
+<tr data-world="deep"><td>Arrows follow the energy</td><td>The Deep</td><td>upper primary</td><td>3</td><td>Marine scientists and survey divers</td><td><a href="../smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect&amp;from=deep&amp;return=underwater.html">k12 ecosystems at the kelp transect</a></td><td><a href="#card-dp-fl-kelp-food-web">Card</a></td></tr>
+<tr data-world="deep"><td>Count only what you see</td><td>The Deep</td><td>upper primary</td><td>2</td><td>Reef monitoring divers</td><td><a href="../smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect&amp;from=deep&amp;return=underwater.html">k12 ecosystems at the kelp transect</a></td><td><a href="#card-dp-fl-reef-ball-count">Card</a></td></tr>
+<tr data-world="bayworld"><td>Energy from moving air</td><td>Bay World</td><td>upper primary</td><td>3</td><td>Wind technicians</td><td><a href="../smartcity/index.html?sim=k12-energy-transfer-at-the-wind-farm&amp;from=bayworld&amp;return=index.html">k12 energy transfer at the wind farm</a></td><td><a href="#card-bw-fl-wind-energy-chain">Card</a></td></tr>
+<tr data-world="fairway"><td>Reading the weather mast</td><td>Fairway Park</td><td>upper primary</td><td>2</td><td>Groundskeepers</td><td><a href="../smartcity/index.html?sim=k12-weather-and-the-sky&amp;from=fairway&amp;return=index.html">k12 weather and the sky</a></td><td><a href="#card-fw-fl-weather-mast">Card</a></td></tr>
+<tr data-world="deep"><td>Treated water rejoins the cycle</td><td>The Deep</td><td>upper primary</td><td>2</td><td>Outfall inspection divers</td><td><a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=deep&amp;return=underwater.html">k12 water cycle and filtration</a></td><td><a href="#card-dp-fl-outfall-water-cycle">Card</a></td></tr>
+<tr data-world="bayworld"><td>Where the water goes next</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Water treatment operators</td><td><a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=bayworld&amp;return=index.html">k12 water cycle and filtration</a></td><td><a href="#card-bw-fl-water-cycle-at-the-plant">Card</a></td></tr>
+<tr data-world="regatta"><td>Why a heavy hull floats</td><td>The Regatta</td><td>upper primary</td><td>2</td><td>Boatbuilders</td><td><a href="../smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep&amp;from=regatta&amp;return=regatta.html">k12 buoyancy and pressure in the deep</a></td><td><a href="#card-rg-fl-buoyancy-of-a-hull">Card</a></td></tr>
+<tr data-world="deep"><td>Why the anchor sinks</td><td>The Deep</td><td>upper primary</td><td>3</td><td>Salvage divers</td><td><a href="../smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep&amp;from=deep&amp;return=underwater.html">k12 buoyancy and pressure in the deep</a></td><td><a href="#card-dp-fl-buoyancy-at-the-anchor">Card</a></td></tr>
+<tr data-world="regatta"><td>Winds are named from where they come</td><td>The Regatta</td><td>upper primary</td><td>2</td><td>Sailing coaches and skippers</td><td><a href="../smartcity/index.html?sim=k12-weather-and-the-sky&amp;from=regatta&amp;return=regatta.html">k12 weather and the sky</a></td><td><a href="#card-rg-fl-wind-direction-at-the-start">Card</a></td></tr>
+<tr data-world="fairway"><td>A fair test on two turf plots</td><td>Fairway Park</td><td>lower secondary</td><td>3</td><td>Turf scientists</td><td><a href="../smartcity/index.html?sim=k12-a-controlled-experiment&amp;from=fairway&amp;return=index.html">k12 a controlled experiment</a></td><td><a href="#card-fw-fl-controlled-test-on-turf">Card</a></td></tr>
+<tr data-world="deep"><td>Keep everything else the same</td><td>The Deep</td><td>lower secondary</td><td>3</td><td>Water-quality scientists</td><td><a href="../smartcity/index.html?sim=k12-a-controlled-experiment&amp;from=deep&amp;return=underwater.html">k12 a controlled experiment</a></td><td><a href="#card-dp-fl-sonde-controlled-test">Card</a></td></tr>
+<tr data-world="deep"><td>One change spreads through a web</td><td>The Deep</td><td>lower secondary</td><td>3</td><td>Restoration ecologists</td><td><a href="../smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect&amp;from=deep&amp;return=underwater.html">k12 ecosystems at the kelp transect</a></td><td><a href="#card-dp-fl-holdfast-ecosystem">Card</a></td></tr>
+<tr data-world="deep"><td>Pressure grows with depth</td><td>The Deep</td><td>lower secondary</td><td>2</td><td>Commercial divers and ROV pilots</td><td><a href="../smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep&amp;from=deep&amp;return=underwater.html">k12 buoyancy and pressure in the deep</a></td><td><a href="#card-dp-fl-pressure-at-the-trench">Card</a></td></tr>
+<tr data-world="bayworld"><td>The load chart is a ratio table</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Crane operators</td><td><a href="../smartcity/index.html?sim=k12-simple-machines-at-a-crane&amp;from=bayworld&amp;return=index.html">k12 simple machines at a crane</a></td><td><a href="#card-bw-fl-crane-load-chart-ratio">Card</a></td></tr>
+<tr data-world="redwood"><td>Energy on the Line</td><td>Redwood Reach</td><td></td><td>3</td><td>Lineman</td><td><a href="../smartcity/index.html?sim=k12-energy-transfer-at-the-wind-farm&amp;from=redwood&amp;return=redwood.html">k12 energy transfer at the wind farm</a></td><td><a href="#card-rw-fl-energy">Card</a></td></tr>
+<tr data-world="redwood"><td>Fog, Rain and the River</td><td>Redwood Reach</td><td></td><td>3</td><td>Watershed restoration</td><td><a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=redwood&amp;return=redwood.html">k12 water cycle and filtration</a></td><td><a href="#card-rw-fl-water-cycle">Card</a></td></tr>
+<tr data-world="redwood"><td>The Estuary as a Filter</td><td>Redwood Reach</td><td></td><td>2</td><td>Watershed restoration</td><td><a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=redwood&amp;return=redwood.html">k12 water cycle and filtration</a></td><td><a href="#card-rw-fl-filtration">Card</a></td></tr>
+</tbody></table></section>
+<section class="programme" id="prog-k12-history-and-civics"><h3>K-12 History and Civics <small>lower to upper secondary · 8 field lessons</small></h3><table><thead><tr><th>Lesson</th><th>World</th><th>Band</th><th>Min</th><th>Trade</th><th>Station</th><th></th></tr></thead><tbody>
+<tr data-world="deep"><td>Charts and their orientation</td><td>The Deep</td><td>upper primary</td><td>2</td><td>Buoy tender crews</td><td><a href="../smartcity/index.html?sim=k12-map-literacy-across-eras&amp;from=deep&amp;return=underwater.html">k12 map literacy across eras</a></td><td><a href="#card-dp-fl-channel-marker-map">Card</a></td></tr>
+<tr data-world="bayworld"><td>Apprentices then and now</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Apprentices in the building trades</td><td><a href="../smartcity/index.html?sim=k12-guilds-and-the-history-of-work&amp;from=bayworld&amp;return=index.html">k12 guilds and the history of work</a></td><td><a href="#card-bw-fl-guild-apprentices">Card</a></td></tr>
+<tr data-world="bayworld"><td>Consent before a recording</td><td>Bay World</td><td>lower secondary</td><td>2</td><td>Union historians and archivists</td><td><a href="../smartcity/index.html?sim=k12-oral-history-interview-skills&amp;from=bayworld&amp;return=index.html">k12 oral history interview skills</a></td><td><a href="#card-bw-fl-union-hall-oral-history">Card</a></td></tr>
+<tr data-world="bayworld"><td>How an agenda runs a meeting</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Civic staff and organisers</td><td><a href="../smartcity/index.html?sim=k12-how-a-local-council-meeting-works&amp;from=bayworld&amp;return=index.html">k12 how a local council meeting works</a></td><td><a href="#card-bw-fl-council-agenda">Card</a></td></tr>
+<tr data-world="bayworld"><td>Made date and described date</td><td>Bay World</td><td>lower secondary</td><td>3</td><td>Archivists</td><td><a href="../smartcity/index.html?sim=k12-building-a-timeline-from-documents&amp;from=bayworld&amp;return=index.html">k12 building a timeline from documents</a></td><td><a href="#card-bw-fl-timeline-in-the-tower">Card</a></td></tr>
+<tr data-world="deep"><td>The wreck as a primary source</td><td>The Deep</td><td>lower secondary</td><td>3</td><td>Maritime archaeologists</td><td><a href="../smartcity/index.html?sim=k12-primary-and-secondary-sources&amp;from=deep&amp;return=underwater.html">k12 primary and secondary sources</a></td><td><a href="#card-dp-fl-wreck-primary-source">Card</a></td></tr>
+<tr data-world="redwood"><td>Primary and Secondary at the Mill</td><td>Redwood Reach</td><td></td><td>2</td><td>Sawmill operator</td><td><a href="../smartcity/index.html?sim=k12-primary-and-secondary-sources&amp;from=redwood&amp;return=redwood.html">k12 primary and secondary sources</a></td><td><a href="#card-rw-fl-sources">Card</a></td></tr>
+<tr data-world="redwood"><td>The Lookout's Logbook as a Timeline</td><td>Redwood Reach</td><td></td><td>2</td><td>Fire lookout</td><td><a href="../smartcity/index.html?sim=k12-building-a-timeline-from-documents&amp;from=redwood&amp;return=redwood.html">k12 building a timeline from documents</a></td><td><a href="#card-rw-fl-timeline">Card</a></td></tr>
+</tbody></table></section>
+<section class="programme" id="prog-k12-literacy-and-life-skills"><h3>K-12 Literacy and Life Skills <small>early primary to upper secondary · 12 field lessons</small></h3><table><thead><tr><th>Lesson</th><th>World</th><th>Band</th><th>Min</th><th>Trade</th><th>Station</th><th></th></tr></thead><tbody>
+<tr data-world="bayworld"><td>Calling for help clearly</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Firefighters and dispatchers</td><td><a href="../smartcity/index.html?sim=k12-first-aid-awareness-call-for-help&amp;from=bayworld&amp;return=index.html">k12 first aid awareness call for help</a></td><td><a href="#card-bw-fl-first-aid-call">Card</a></td></tr>
+<tr data-world="regatta"><td>Clear roles on a crew</td><td>The Regatta</td><td>upper primary</td><td>2</td><td>Deckhands and yacht crews</td><td><a href="../smartcity/index.html?sim=k12-teamwork-and-feedback&amp;from=regatta&amp;return=regatta.html">k12 teamwork and feedback</a></td><td><a href="#card-rg-fl-teamwork-on-deck">Card</a></td></tr>
+<tr data-world="bayworld"><td>Feedback on the work, not the person</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Crew leads</td><td><a href="../smartcity/index.html?sim=k12-teamwork-and-feedback&amp;from=bayworld&amp;return=index.html">k12 teamwork and feedback</a></td><td><a href="#card-bw-fl-teamwork-at-the-stadium">Card</a></td></tr>
+<tr data-world="regatta"><td>One clear message in a briefing</td><td>The Regatta</td><td>upper primary</td><td>2</td><td>Race officers</td><td><a href="../smartcity/index.html?sim=k12-public-speaking-at-the-hall&amp;from=regatta&amp;return=regatta.html">k12 public speaking at the hall</a></td><td><a href="#card-rg-fl-public-speaking-briefing">Card</a></td></tr>
+<tr data-world="bayworld"><td>Pause before you click</td><td>Bay World</td><td>upper primary</td><td>2</td><td>IT support technicians</td><td><a href="../smartcity/index.html?sim=k12-digital-citizenship-and-online-safety&amp;from=bayworld&amp;return=index.html">k12 digital citizenship and online safety</a></td><td><a href="#card-bw-fl-digital-at-the-college">Card</a></td></tr>
+<tr data-world="fairway"><td>Reading a label before use</td><td>Fairway Park</td><td>upper primary</td><td>2</td><td>Greenskeepers</td><td><a href="../smartcity/index.html?sim=k12-reading-instructions-and-safety-labels&amp;from=fairway&amp;return=index.html">k12 reading instructions and safety labels</a></td><td><a href="#card-fw-fl-fuel-cabinet-label">Card</a></td></tr>
+<tr data-world="fairway"><td>Receiving feedback well</td><td>Fairway Park</td><td>upper primary</td><td>2</td><td>Coaches</td><td><a href="../smartcity/index.html?sim=k12-teamwork-and-feedback&amp;from=fairway&amp;return=index.html">k12 teamwork and feedback</a></td><td><a href="#card-fw-fl-teamwork-at-the-court">Card</a></td></tr>
+<tr data-world="bayworld"><td>Signal words on a safety sign</td><td>Bay World</td><td>upper primary</td><td>2</td><td>Hazmat technicians</td><td><a href="../smartcity/index.html?sim=k12-reading-instructions-and-safety-labels&amp;from=bayworld&amp;return=index.html">k12 reading instructions and safety labels</a></td><td><a href="#card-bw-fl-reading-a-safety-sign">Card</a></td></tr>
+<tr data-world="regatta"><td>Facts first in a report</td><td>The Regatta</td><td>lower secondary</td><td>3</td><td>Harbour masters</td><td><a href="../smartcity/index.html?sim=k12-writing-a-clear-incident-report&amp;from=regatta&amp;return=regatta.html">k12 writing a clear incident report</a></td><td><a href="#card-rg-fl-incident-report-afloat">Card</a></td></tr>
+<tr data-world="redwood"><td>A Clear Location When You Call</td><td>Redwood Reach</td><td></td><td>2</td><td>Fire lookout</td><td><a href="../smartcity/index.html?sim=k12-first-aid-awareness-call-for-help&amp;from=redwood&amp;return=redwood.html">k12 first aid awareness call for help</a></td><td><a href="#card-rw-fl-call-for-help">Card</a></td></tr>
+<tr data-world="redwood"><td>Read the Label First</td><td>Redwood Reach</td><td></td><td>3</td><td>Nursery worker</td><td><a href="../smartcity/index.html?sim=k12-reading-instructions-and-safety-labels&amp;from=redwood&amp;return=redwood.html">k12 reading instructions and safety labels</a></td><td><a href="#card-rw-fl-safety-labels">Card</a></td></tr>
+<tr data-world="redwood"><td>Writing What Happened</td><td>Redwood Reach</td><td></td><td>3</td><td>Wildland firefighter</td><td><a href="../smartcity/index.html?sim=k12-writing-a-clear-incident-report&amp;from=redwood&amp;return=redwood.html">k12 writing a clear incident report</a></td><td><a href="#card-rw-fl-incident-report">Card</a></td></tr>
+</tbody></table></section>
+<p class="note">10 lesson(s) point at a station outside the four classroom programmes.</p>
+  </section>
+  <section class="cards">
+    <h2 class="no-print">Lesson cards</h2>
+<article class="card" id="card-bw-fl-crane-load-chart-ratio" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark port-cranes · 3 min · lower secondary</p>
+  <h3>The load chart is a ratio table</h3>
+  <p class="trade">The crane operator's load chart is a ratio table: further out, less load, read before every lift.</p>
+  <ol><li>Look up at the gantry cranes on the quay.</li><li>The further out a load hangs, the bigger its turning effect.</li><li>So the chart lets the crane lift less at long reach.</li></ol>
+  <p class="q"><b>A load moves further out along the boom. What does the chart allow?</b></p>
+  <ul class="options"><li>More load</li><li class="answer">Less load <span>(answer)</span></li><li>The same load</li></ul>
+  <p class="why">A load further out turns the crane harder, so the chart allows less.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-simple-machines-at-a-crane&amp;from=bayworld&amp;return=index.html">k12 simple machines at a crane</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-bw-fl-slope-of-the-access-ramp" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site uptown-construction-site · 3 min · lower secondary</p>
+  <h3>Rise over run on a site ramp</h3>
+  <p class="trade">A carpenter setting out an access ramp works the slope as rise over run, and checks it against the plan.</p>
+  <ol><li>Find the ramp the crew is building from the visitor bay.</li><li>Slope is how far up for every step along.</li><li>Both lengths must be in the same unit before you divide.</li></ol>
+  <p class="q"><b>Two ramps climb the same height. One is longer. Which is gentler?</b></p>
+  <ul class="options"><li class="answer">The longer one <span>(answer)</span></li><li>The shorter one</li><li>They are the same</li></ul>
+  <p class="why">Same rise over a longer run means less climb for each step along.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-slope-and-angles-on-a-ramp&amp;from=bayworld&amp;return=index.html">k12 slope and angles on a ramp</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-bw-fl-reading-a-safety-sign" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site port-hazmat-response-yard · 2 min · upper primary</p>
+  <h3>Signal words on a safety sign</h3>
+  <p class="trade">A hazmat technician reads the signal word and the pictogram before touching any container.</p>
+  <ol><li>Find a sign on the yard fence.</li><li>The signal word at the top tells you how serious the hazard is.</li><li>The picture and the words underneath say what to do.</li></ol>
+  <p class="q"><b>Where do you look first on a safety sign?</b></p>
+  <ul class="options"><li>The small print</li><li class="answer">The signal word at the top <span>(answer)</span></li><li>The colour of the post</li></ul>
+  <p class="why">The signal word tells you how serious it is before anything else.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-instructions-and-safety-labels&amp;from=bayworld&amp;return=index.html">k12 reading instructions and safety labels</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-bw-fl-kitchen-fractions" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site uptown-restaurant-row · 2 min · upper primary</p>
+  <h3>Scaling a recipe by one fraction</h3>
+  <p class="trade">A cook scaling a recipe for fewer guests multiplies every quantity by the same fraction.</p>
+  <ol><li>Look through the kitchen window on restaurant row.</li><li>Halving a recipe means halving every ingredient.</li><li>Keep the unit beside each number as you scale it.</li></ol>
+  <p class="q"><b>You halve the flour. What happens to the milk?</b></p>
+  <ul class="options"><li>Leave it</li><li class="answer">Halve it too <span>(answer)</span></li><li>Double it</li></ul>
+  <p class="why">Every quantity gets the same fraction, or the proportions change.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-fractions-in-the-kitchen&amp;from=bayworld&amp;return=index.html">k12 fractions in the kitchen</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-bw-fl-budget-at-the-market" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark market-street-stalls · 3 min · lower secondary</p>
+  <h3>Spending and saving from one wage</h3>
+  <p class="trade">A market trader keeps takings, costs and savings in separate columns, the same way a first wage is planned.</p>
+  <ol><li>Walk past the stalls and read the price boards.</li><li>A budget lists what comes in and what goes out.</li><li>Keeping something back each time is saving, not spending less by chance.</li></ol>
+  <p class="q"><b>What goes on a budget first?</b></p>
+  <ul class="options"><li>What you want to buy</li><li class="answer">What comes in <span>(answer)</span></li><li>What friends spend</li></ul>
+  <p class="why">You plan spending from what actually comes in.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-household-budget-and-first-paycheck&amp;from=bayworld&amp;return=index.html">k12 household budget and first paycheck</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-bw-fl-ferry-map-scale" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark island-ferry-landing-clock · 2 min · upper primary</p>
+  <h3>Map scale at the ferry landing</h3>
+  <p class="trade">A ferry crew reads distances off a chart using its scale, the same as you read a map.</p>
+  <ol><li>Find the route map beside the ferry clock.</li><li>The scale bar links a gap on the map to a real distance.</li><li>Measure along the route, not in a straight line across the water.</li></ol>
+  <p class="q"><b>What does a map's scale bar tell you?</b></p>
+  <ul class="options"><li>The map's age</li><li class="answer">How map distance compares with real distance <span>(answer)</span></li><li>Which way is north</li></ul>
+  <p class="why">The scale bar links distance on paper to distance on the ground.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=bayworld&amp;return=index.html">k12 reading a map scale in bay world</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-bw-fl-court-area" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark bayside-arena · 2 min · upper primary</p>
+  <h3>Area and perimeter of a court</h3>
+  <p class="trade">A floor layer orders material by area and edging by perimeter; mixing them up costs a job.</p>
+  <ol><li>Picture the court inside the arena.</li><li>Perimeter is the distance round the edge.</li><li>Area is the space inside, in square units.</li></ol>
+  <p class="q"><b>You need paint for the whole court floor. Which do you work out?</b></p>
+  <ul class="options"><li>Perimeter</li><li class="answer">Area <span>(answer)</span></li><li>Height</li></ul>
+  <p class="why">Covering a floor needs its area.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-measuring-and-scaling-the-court&amp;from=bayworld&amp;return=index.html">k12 measuring and scaling the court</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-bw-fl-council-agenda" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site downtown-civic-center · 3 min · lower secondary</p>
+  <h3>How an agenda runs a meeting</h3>
+  <p class="trade">A union organiser reads the agenda before a public meeting so they speak when their item comes up.</p>
+  <ol><li>Stand outside the civic centre doors.</li><li>An agenda lists what the meeting will discuss, in order.</li><li>Public comment happens at its own point, and speakers keep to the item.</li></ol>
+  <p class="q"><b>Why read the agenda before a meeting?</b></p>
+  <ul class="options"><li class="answer">To know when your issue comes up <span>(answer)</span></li><li>To skip the meeting</li><li>To choose a seat</li></ul>
+  <p class="why">The agenda tells you when and how you can speak.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-how-a-local-council-meeting-works&amp;from=bayworld&amp;return=index.html">k12 how a local council meeting works</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-bw-fl-timeline-in-the-tower" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark downtown-tower · 3 min · lower secondary</p>
+  <h3>Made date and described date</h3>
+  <p class="trade">An archivist records when a document was made apart from when the events it describes happened.</p>
+  <ol><li>Look up at the tower and imagine the papers filed inside.</li><li>A letter written later can describe something much earlier.</li><li>A timeline orders events, so check which date is which.</li></ol>
+  <p class="q"><b>A diary written later describes an old event. Which date goes on the timeline?</b></p>
+  <ul class="options"><li>The date the diary was written</li><li class="answer">The date of the event it describes <span>(answer)</span></li><li>Today's date</li></ul>
+  <p class="why">The timeline places the event; the writing date tells you about the source.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-building-a-timeline-from-documents&amp;from=bayworld&amp;return=index.html">k12 building a timeline from documents</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-bw-fl-union-hall-oral-history" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark union-hall · 2 min · lower secondary</p>
+  <h3>Consent before a recording</h3>
+  <p class="trade">A union archive records a retired member's story only after they agree how it will be kept and shared.</p>
+  <ol><li>Stand by the union hall entrance.</li><li>An oral history belongs to the person telling it.</li><li>Ask permission, explain who will hear it, and respect the answer.</li></ol>
+  <p class="q"><b>What comes before pressing record?</b></p>
+  <ul class="options"><li>The first question</li><li class="answer">Asking for consent <span>(answer)</span></li><li>Checking the battery only</li></ul>
+  <p class="why">Consent always comes first, and it can be withdrawn.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-oral-history-interview-skills&amp;from=bayworld&amp;return=index.html">k12 oral history interview skills</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-bw-fl-guild-apprentices" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site west-oakland-union-hall · 3 min · lower secondary</p>
+  <h3>Apprentices then and now</h3>
+  <p class="trade">Building-trades apprentices learn from experienced workers on the job, a practice with a long history worth researching.</p>
+  <ol><li>Find the apprenticeship board inside the hall.</li><li>Craft guilds trained newcomers as apprentices; that much is widely established.</li><li>The details for any place or trade are questions to research, with sources.</li></ol>
+  <p class="q"><b>You do not know when a guild started. What do you write?</b></p>
+  <ul class="options"><li>A date that sounds right</li><li class="answer">A research question <span>(answer)</span></li><li>Nothing</li></ul>
+  <p class="why">Unknowns become questions to research, never invented facts.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-guilds-and-the-history-of-work&amp;from=bayworld&amp;return=index.html">k12 guilds and the history of work</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-bw-fl-wind-energy-chain" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site ridge-wind-farm · 3 min · upper primary</p>
+  <h3>Energy from moving air</h3>
+  <p class="trade">A wind technician follows the energy from air to blades to generator when finding a fault.</p>
+  <ol><li>Watch the turbines turn from outside the fence.</li><li>Moving air pushes the blades, and the turning shaft drives a generator.</li><li>Some energy is always lost as heat and sound.</li></ol>
+  <p class="q"><b>Where does a turbine's energy come from?</b></p>
+  <ul class="options"><li>The tower</li><li class="answer">Moving air <span>(answer)</span></li><li>The fence</li></ul>
+  <p class="why">The wind's movement is transferred to the blades.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-energy-transfer-at-the-wind-farm&amp;from=bayworld&amp;return=index.html">k12 energy transfer at the wind farm</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-bw-fl-blade-sweep-circle" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark ridge-trail-summit · 3 min · lower secondary</p>
+  <h3>The blade is the radius</h3>
+  <p class="trade">Wind engineers work a rotor's swept area from its blade length, the radius of the circle.</p>
+  <ol><li>From the summit, look across at a turning rotor.</li><li>Each blade reaches from the hub to the edge of a circle.</li><li>So the blade is the radius, and area grows with it multiplied by itself.</li></ol>
+  <p class="q"><b>The blade doubles in length. What happens to the swept area?</b></p>
+  <ul class="options"><li>It doubles</li><li class="answer">It is four times as big <span>(answer)</span></li><li>It stays the same</li></ul>
+  <p class="why">Area depends on the radius times itself.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-geometry-of-a-turbine-blade-sweep&amp;from=bayworld&amp;return=index.html">k12 geometry of a turbine blade sweep</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-bw-fl-water-cycle-at-the-plant" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · site south-treatment-plant · 2 min · upper primary</p>
+  <h3>Where the water goes next</h3>
+  <p class="trade">A treatment operator knows the water they clean has been round the cycle many times before.</p>
+  <ol><li>Look at the settling channels from the walkway.</li><li>Water evaporates, condenses into clouds and falls as rain.</li><li>Clearer water is not the same as safe to drink.</li></ol>
+  <p class="q"><b>Water looks clear after a filter. Is it safe to drink?</b></p>
+  <ul class="options"><li>Yes, always</li><li class="answer">Not necessarily <span>(answer)</span></li><li>Only if cold</li></ul>
+  <p class="why">Germs and dissolved substances can remain in clear water.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=bayworld&amp;return=index.html">k12 water cycle and filtration</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-bw-fl-first-aid-call" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark fire-station · 2 min · upper primary</p>
+  <h3>Calling for help clearly</h3>
+  <p class="trade">A dispatcher can only send help fast when the caller gives a clear location.</p>
+  <ol><li>Stand outside the fire station.</li><li>Check for danger before going closer to anyone hurt.</li><li>Fetch an adult, call for help and say exactly where you are.</li></ol>
+  <p class="q"><b>What does the call-taker need most from you?</b></p>
+  <ul class="options"><li>Your favourite colour</li><li class="answer">Where you are <span>(answer)</span></li><li>What time it is</li></ul>
+  <p class="why">A clear location lets help find you.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-first-aid-awareness-call-for-help&amp;from=bayworld&amp;return=index.html">k12 first aid awareness call for help</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-bw-fl-digital-at-the-college" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark bay-city-college · 2 min · upper primary</p>
+  <h3>Pause before you click</h3>
+  <p class="trade">An IT technician trains staff to pause and check a message's sender before clicking any link.</p>
+  <ol><li>Find the computer lab windows at the college.</li><li>Scam messages rush you, come from odd senders and ask for passwords.</li><li>Pause, check and tell a trusted adult if unsure.</li></ol>
+  <p class="q"><b>A message says act now or lose your account. What do you do?</b></p>
+  <ul class="options"><li>Click quickly</li><li class="answer">Pause and check <span>(answer)</span></li><li>Reply with your password</li></ul>
+  <p class="why">Rushing you is a warning sign; pause first.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-digital-citizenship-and-online-safety&amp;from=bayworld&amp;return=index.html">k12 digital citizenship and online safety</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-bw-fl-teamwork-at-the-stadium" data-world="bayworld">
+  <p class="eyebrow">K-12 field lesson · Bay World · landmark civic-stadium · 2 min · upper primary</p>
+  <h3>Feedback on the work, not the person</h3>
+  <p class="trade">A crew lead gives feedback about the task, specific and kind, so the crew improves without losing trust.</p>
+  <ol><li>Picture a team talk in the stadium tunnel.</li><li>Name something specific that went well.</li><li>Suggest one next step, then listen.</li></ol>
+  <p class="q"><b>Which is useful feedback?</b></p>
+  <ul class="options"><li>You are bad at this</li><li class="answer">Your pass was on time; try looking up sooner <span>(answer)</span></li><li>Fine</li></ul>
+  <p class="why">Specific and kind, about the work, gives a clear next step.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-teamwork-and-feedback&amp;from=bayworld&amp;return=index.html">k12 teamwork and feedback</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-dp-fl-kelp-food-web" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark kelp-cathedral · 3 min · upper primary</p>
+  <h3>Arrows follow the energy</h3>
+  <p class="trade">A survey diver's count feeds a food web in which each arrow points from food to eater.</p>
+  <ol><li>Look up through the kelp fronds towards the light.</li><li>Kelp is a producer; urchins graze on it.</li><li>In a food web, the arrow points from kelp to urchin.</li></ol>
+  <p class="q"><b>Which way does the arrow go between kelp and urchin?</b></p>
+  <ul class="options"><li>Urchin to kelp</li><li class="answer">Kelp to urchin <span>(answer)</span></li><li>No arrow</li></ul>
+  <p class="why">Energy goes from the food to the eater.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect&amp;from=deep&amp;return=underwater.html">k12 ecosystems at the kelp transect</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-holdfast-ecosystem" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark holdfast-ledge · 3 min · lower secondary</p>
+  <h3>One change spreads through a web</h3>
+  <p class="trade">A restoration ecologist watches urchin predators because losing them can strip a kelp forest.</p>
+  <ol><li>Find the holdfasts gripping the ledge.</li><li>Predators keep urchin numbers in check.</li><li>Remove the predator and the kelp can be grazed away.</li></ol>
+  <p class="q"><b>The urchins' predator disappears. What may happen to the kelp?</b></p>
+  <ul class="options"><li>It grows more</li><li class="answer">It may be grazed away <span>(answer)</span></li><li>Nothing</li></ul>
+  <p class="why">More urchins graze the kelp faster than it regrows.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect&amp;from=deep&amp;return=underwater.html">k12 ecosystems at the kelp transect</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-buoyancy-at-the-anchor" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark old-anchor · 3 min · upper primary</p>
+  <h3>Why the anchor sinks</h3>
+  <p class="trade">A salvage diver uses lift bags because water pushes up harder on a large air-filled bag than on a solid anchor.</p>
+  <ol><li>Look at the old anchor on the seabed.</li><li>Water pushes up on everything in it.</li><li>Heavy for its size sinks; light for its size floats.</li></ol>
+  <p class="q"><b>Why does a lift bag raise a heavy object?</b></p>
+  <ul class="options"><li>It is magic</li><li class="answer">Water pushes up on the big bag of air <span>(answer)</span></li><li>The object gets lighter</li></ul>
+  <p class="why">The large volume of air gets a big upward push from the water.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep&amp;from=deep&amp;return=underwater.html">k12 buoyancy and pressure in the deep</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-pressure-at-the-trench" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark trench-lip · 2 min · lower secondary</p>
+  <h3>Pressure grows with depth</h3>
+  <p class="trade">An ROV pilot knows pressure grows the deeper the vehicle goes, which is why its housing is built so strong.</p>
+  <ol><li>Look over the lip into the trench.</li><li>The deeper you go, the more water presses from above.</li><li>That is why deep equipment has thick, strong housings.</li></ol>
+  <p class="q"><b>What happens to water pressure as you go deeper?</b></p>
+  <ul class="options"><li>It falls</li><li class="answer">It grows <span>(answer)</span></li><li>It stays the same</li></ul>
+  <p class="why">More water above means more pressure.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep&amp;from=deep&amp;return=underwater.html">k12 buoyancy and pressure in the deep</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-tide-gauge-reading" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark tide-gauge-post · 2 min · upper primary</p>
+  <h3>Reading a tide gauge level</h3>
+  <p class="trade">A hydrographic surveyor records each gauge reading with its time, ready to plot.</p>
+  <ol><li>Find the tide gauge post.</li><li>A reading is where the water surface meets the scale.</li><li>Write the time and the unit beside every reading.</li></ol>
+  <p class="q"><b>What must go beside every tide reading?</b></p>
+  <ul class="options"><li class="answer">Its time and unit <span>(answer)</span></li><li>A guess of the next one</li><li>Nothing</li></ul>
+  <p class="why">Without its time and unit a reading cannot be plotted.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-graphing-tide-readings-at-the-pier&amp;from=deep&amp;return=underwater.html">k12 graphing tide readings at the pier</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-dp-fl-sonde-controlled-test" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark sonde-mooring · 3 min · lower secondary</p>
+  <h3>Keep everything else the same</h3>
+  <p class="trade">A water-quality scientist compares sonde readings fairly by keeping the depth and time of day the same.</p>
+  <ol><li>Find the sonde on its mooring.</li><li>To compare two places fairly, change only the place.</li><li>Keep the depth, the time and the instrument the same.</li></ol>
+  <p class="q"><b>You compare water at two sites. What should stay the same?</b></p>
+  <ul class="options"><li>Nothing</li><li class="answer">Depth, time and instrument <span>(answer)</span></li><li>Only the colour of the float</li></ul>
+  <p class="why">Only the thing you test may change.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-a-controlled-experiment&amp;from=deep&amp;return=underwater.html">k12 a controlled experiment</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-wreck-primary-source" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark wreck-bow · 3 min · lower secondary</p>
+  <h3>The wreck as a primary source</h3>
+  <p class="trade">A maritime archaeologist treats the wreck itself as a primary source and a later article about it as secondary.</p>
+  <ol><li>Look at the wreck's bow from the survey line.</li><li>The wreck itself is a primary source: it was there.</li><li>A book about it later is a secondary source; check what it is based on.</li></ol>
+  <p class="q"><b>Which is a primary source?</b></p>
+  <ul class="options"><li>A later magazine article</li><li class="answer">The wreck itself <span>(answer)</span></li><li>A film about the wreck</li></ul>
+  <p class="why">The wreck comes from the time itself.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-primary-and-secondary-sources&amp;from=deep&amp;return=underwater.html">k12 primary and secondary sources</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-dp-fl-reef-ball-count" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark reef-ball-rows · 2 min · upper primary</p>
+  <h3>Count only what you see</h3>
+  <p class="trade">A monitoring diver records only what is observed along the line, so next season's count can be compared fairly.</p>
+  <ol><li>Look along the rows of reef balls.</li><li>A survey counts what is seen, nothing added.</li><li>Note the visibility so a murky day is not mistaken for a decline.</li></ol>
+  <p class="q"><b>You expected crabs but saw none. What do you record?</b></p>
+  <ul class="options"><li>Some crabs anyway</li><li class="answer">None seen <span>(answer)</span></li><li>Skip the entry</li></ul>
+  <p class="why">A survey records observations, not expectations.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-ecosystems-at-the-kelp-transect&amp;from=deep&amp;return=underwater.html">k12 ecosystems at the kelp transect</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-outfall-water-cycle" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark outfall-diffuser · 2 min · upper primary</p>
+  <h3>Treated water rejoins the cycle</h3>
+  <p class="trade">An outfall inspection diver checks the diffuser where treated water returns to the bay and the cycle.</p>
+  <ol><li>Find the diffuser on the seabed.</li><li>Treated water from the plant returns to the bay here.</li><li>From the bay it can evaporate and fall as rain again.</li></ol>
+  <p class="q"><b>Where does treated water go after the outfall?</b></p>
+  <ul class="options"><li>It disappears</li><li class="answer">Back into the bay and the water cycle <span>(answer)</span></li><li>Into space</li></ul>
+  <p class="why">Water is never used up; it moves round the cycle.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=deep&amp;return=underwater.html">k12 water cycle and filtration</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-dp-fl-channel-marker-map" data-world="deep">
+  <p class="eyebrow">K-12 field lesson · The Deep · landmark channel-marker-chain · 2 min · upper primary</p>
+  <h3>Charts and their orientation</h3>
+  <p class="trade">A buoy tender crew reads the chart's own orientation and key before placing a marker.</p>
+  <ol><li>Follow the marker chain up towards the surface.</li><li>Every chart has a key, a scale and an orientation mark.</li><li>Read those three before reading any route.</li></ol>
+  <p class="q"><b>What do you find first on any chart?</b></p>
+  <ul class="options"><li>The prettiest part</li><li class="answer">Key, scale and orientation <span>(answer)</span></li><li>The oldest date</li></ul>
+  <p class="why">Those three tell you how to read everything else.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-map-literacy-across-eras&amp;from=deep&amp;return=underwater.html">k12 map literacy across eras</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-rg-fl-wind-direction-at-the-start" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-estuary-sprint · 2 min · upper primary</p>
+  <h3>Winds are named from where they come</h3>
+  <p class="trade">A skipper names the wind by where it comes from before choosing a course to the first mark.</p>
+  <ol><li>Look at the flag on the start boat.</li><li>The flag streams away from where the wind comes from.</li><li>A wind from the sea is a sea wind, even as it blows inland.</li></ol>
+  <p class="q"><b>The flag streams towards the shore. Where is the wind from?</b></p>
+  <ul class="options"><li>The shore</li><li class="answer">The sea <span>(answer)</span></li><li>Nowhere</li></ul>
+  <p class="why">Winds are named by where they come from.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-weather-and-the-sky&amp;from=regatta&amp;return=regatta.html">k12 weather and the sky</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-rg-fl-course-map-scale" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-outer-bay-loop · 3 min · upper primary</p>
+  <h3>Distance to the next mark</h3>
+  <p class="trade">A navigator measures the leg to the next mark on the chart and scales it up to real distance.</p>
+  <ol><li>Open the course card at the start line.</li><li>Measure the leg to the first mark along the chart.</li><li>Use the scale bar to turn it into a real distance.</li></ol>
+  <p class="q"><b>What turns a chart measurement into a real distance?</b></p>
+  <ul class="options"><li class="answer">The scale bar <span>(answer)</span></li><li>The colour key</li><li>The date</li></ul>
+  <p class="why">The scale links chart distance to real distance.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=regatta&amp;return=regatta.html">k12 reading a map scale in bay world</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-rg-fl-speed-distance-time" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-north-channel-passage · 3 min · lower secondary</p>
+  <h3>Speed, distance and time on a leg</h3>
+  <p class="trade">A charter skipper estimates arrival time from distance and speed, then checks it makes sense.</p>
+  <ol><li>Read the long leg down the channel on the course card.</li><li>Time is distance divided by speed.</li><li>Check the answer makes sense before you rely on it.</li></ol>
+  <p class="q"><b>The boat goes faster over the same leg. What happens to the time?</b></p>
+  <ul class="options"><li>It grows</li><li class="answer">It shrinks <span>(answer)</span></li><li>It stays the same</li></ul>
+  <p class="why">Faster over the same distance takes less time.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=regatta&amp;return=regatta.html">k12 reading a map scale in bay world</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-rg-fl-buoyancy-of-a-hull" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-estuary-sprint · 2 min · upper primary</p>
+  <h3>Why a heavy hull floats</h3>
+  <p class="trade">A boatbuilder shapes a hull to push aside enough water to float its weight.</p>
+  <ol><li>Round the first mark and look at the hulls around you.</li><li>A hull pushes water aside, and the water pushes back up.</li><li>A wide hull of air and wood is light for its size.</li></ol>
+  <p class="q"><b>Why does a heavy boat float?</b></p>
+  <ul class="options"><li class="answer">It is light for its size <span>(answer)</span></li><li>Water pushes nothing</li><li>Paint</li></ul>
+  <p class="why">Its shape holds air, making it light for its size.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep&amp;from=regatta&amp;return=regatta.html">k12 buoyancy and pressure in the deep</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-rg-fl-probability-of-a-wind-shift" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-outer-bay-loop · 2 min · upper primary</p>
+  <h3>A forecast is a likelihood</h3>
+  <p class="trade">A race officer treats a forecast wind shift as a likelihood and watches the water before deciding.</p>
+  <ol><li>At the windward mark, look for darker patches on the water.</li><li>Darker patches can mean a gust is coming.</li><li>A forecast says what is likely, not what is certain.</li></ol>
+  <p class="q"><b>A forecast says a shift is likely. What does that mean?</b></p>
+  <ul class="options"><li>It will happen for sure</li><li class="answer">It may happen <span>(answer)</span></li><li>It will not happen</li></ul>
+  <p class="why">Likely is a chance, not a promise.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-weather-and-the-sky&amp;from=regatta&amp;return=regatta.html">k12 weather and the sky</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-rg-fl-teamwork-on-deck" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-north-channel-passage · 2 min · upper primary</p>
+  <h3>Clear roles on a crew</h3>
+  <p class="trade">A yacht crew agrees roles before the start so every manoeuvre has one person on each job.</p>
+  <ol><li>Before the next mark, picture who does what on deck.</li><li>Each person has a clear role.</li><li>Call the plan, listen and check before you act.</li></ol>
+  <p class="q"><b>Why agree roles before a manoeuvre?</b></p>
+  <ul class="options"><li>To look busy</li><li class="answer">So every job has one person <span>(answer)</span></li><li>To go slower</li></ul>
+  <p class="why">Clear roles stop jobs being missed or doubled.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-teamwork-and-feedback&amp;from=regatta&amp;return=regatta.html">k12 teamwork and feedback</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-rg-fl-incident-report-afloat" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-outer-bay-loop · 3 min · lower secondary</p>
+  <h3>Facts first in a report</h3>
+  <p class="trade">A harbour master's report keeps what was seen apart from what someone guesses happened.</p>
+  <ol><li>After rounding the far mark, imagine reporting a near miss.</li><li>Write what happened, where and when you saw it.</li><li>Keep facts apart from guesses, and leave out blame.</li></ol>
+  <p class="q"><b>What belongs in an incident report?</b></p>
+  <ul class="options"><li>Who you think is to blame</li><li class="answer">What you saw, where and when <span>(answer)</span></li><li>A guess of the cause as fact</li></ul>
+  <p class="why">Facts first, guesses labelled, no blame.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-writing-a-clear-incident-report&amp;from=regatta&amp;return=regatta.html">k12 writing a clear incident report</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-rg-fl-public-speaking-briefing" data-world="regatta">
+  <p class="eyebrow">K-12 field lesson · The Regatta · course rg-estuary-sprint · 2 min · upper primary</p>
+  <h3>One clear message in a briefing</h3>
+  <p class="trade">A race officer's skipper briefing has one clear message about safety, said so the back row hears.</p>
+  <ol><li>Picture the skippers' briefing before the start.</li><li>One clear message is remembered.</li><li>Speak to the back row, slowly and clearly.</li></ol>
+  <p class="q"><b>What makes a briefing remembered?</b></p>
+  <ul class="options"><li>Many messages</li><li class="answer">One clear message <span>(answer)</span></li><li>Speaking quickly</li></ul>
+  <p class="why">Listeners remember one clear, repeated message.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-public-speaking-at-the-hall&amp;from=regatta&amp;return=regatta.html">k12 public speaking at the hall</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-fw-fl-track-perimeter" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · facility track · 3 min · upper primary</p>
+  <h3>Perimeter on the running track</h3>
+  <p class="trade">A groundskeeper marking the track measures along each lane's edge, the perimeter of a curved shape.</p>
+  <ol><li>Stand at the edge of the running track.</li><li>Perimeter is the distance all the way round.</li><li>An outer lane goes further round than an inner one.</li></ol>
+  <p class="q"><b>Why do outer lanes start further ahead?</b></p>
+  <ul class="options"><li>For fun</li><li class="answer">Their perimeter is longer <span>(answer)</span></li><li>They are wider</li></ul>
+  <p class="why">Outer lanes go further round, so starts are staggered.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-measuring-and-scaling-the-court&amp;from=fairway&amp;return=index.html">k12 measuring and scaling the court</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-fw-fl-weather-mast" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · facility weatherMast · 2 min · upper primary</p>
+  <h3>Reading the weather mast</h3>
+  <p class="trade">A groundskeeper checks the weather mast before irrigating or cutting, and heads in when thunder is heard.</p>
+  <ol><li>Find the weather mast by the maintenance yard.</li><li>Read the wind and the rain gauge at eye level.</li><li>If you hear thunder, go indoors.</li></ol>
+  <p class="q"><b>You hear thunder on the course. What do you do?</b></p>
+  <ul class="options"><li>Keep playing</li><li class="answer">Go indoors <span>(answer)</span></li><li>Stand under a tree</li></ul>
+  <p class="why">If you can hear thunder, lightning can reach you.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-weather-and-the-sky&amp;from=fairway&amp;return=index.html">k12 weather and the sky</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-fw-fl-fuel-cabinet-label" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · facility maintenanceYard · 2 min · upper primary</p>
+  <h3>Reading a label before use</h3>
+  <p class="trade">A greenskeeper reads the label on every container in the cabinet before using it.</p>
+  <ol><li>Look at the fuel cabinet in the yard from the path.</li><li>Labels tell you what is inside and how to use it safely.</li><li>Read the whole label before anything is opened.</li></ol>
+  <p class="q"><b>When do you read a label?</b></p>
+  <ul class="options"><li>After using it</li><li class="answer">Before using it <span>(answer)</span></li><li>Never</li></ul>
+  <p class="why">The label says how to use it safely, so read it first.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-instructions-and-safety-labels&amp;from=fairway&amp;return=index.html">k12 reading instructions and safety labels</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-fw-fl-slope-on-the-green" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · hole hole-3 · 2 min · lower secondary</p>
+  <h3>Slope on a putting green</h3>
+  <p class="trade">A course builder shapes a green's slope so water drains but a ball can still stop.</p>
+  <ol><li>Stand beside the third green.</li><li>A green slopes gently so rain can run off.</li><li>Slope is rise over run, the same as a ramp.</li></ol>
+  <p class="q"><b>Slope is worked out as…</b></p>
+  <ul class="options"><li>Run over rise</li><li class="answer">Rise over run <span>(answer)</span></li><li>Rise plus run</li></ul>
+  <p class="why">How far up for every step along.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-slope-and-angles-on-a-ramp&amp;from=fairway&amp;return=index.html">k12 slope and angles on a ramp</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-fw-fl-controlled-test-on-turf" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · hole hole-6 · 3 min · lower secondary</p>
+  <h3>A fair test on two turf plots</h3>
+  <p class="trade">A turf scientist tests a new mowing height on one plot and keeps everything else the same as the next plot.</p>
+  <ol><li>Look at the trial plots beside the sixth tee.</li><li>Change only one thing between the plots.</li><li>Repeat the test before trusting the result.</li></ol>
+  <p class="q"><b>You change the mowing and the watering. What is wrong?</b></p>
+  <ul class="options"><li>Nothing</li><li class="answer">Two things changed at once <span>(answer)</span></li><li>Too few mowers</li></ul>
+  <p class="why">With two changes you cannot tell which caused the difference.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-a-controlled-experiment&amp;from=fairway&amp;return=index.html">k12 a controlled experiment</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-fw-fl-teamwork-at-the-court" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · facility basketballCourt · 2 min · upper primary</p>
+  <h3>Receiving feedback well</h3>
+  <p class="trade">A coach teaches players to listen, ask and thank when they get feedback, then decide what to use.</p>
+  <ol><li>Stand at the side of the basketball court.</li><li>When a teammate gives feedback, listen to the end.</li><li>Ask a question to understand, then thank them.</li></ol>
+  <p class="q"><b>A teammate gives you feedback. What do you do first?</b></p>
+  <ul class="options"><li>Argue back</li><li class="answer">Listen to the end <span>(answer)</span></li><li>Walk away</li></ul>
+  <p class="why">Listening first gets the most from feedback.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-teamwork-and-feedback&amp;from=fairway&amp;return=index.html">k12 teamwork and feedback</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-fw-fl-probability-on-the-tee" data-world="fairway">
+  <p class="eyebrow">K-12 field lesson · Fairway Park · hole hole-9 · 2 min · upper primary</p>
+  <h3>A coin toss has no memory</h3>
+  <p class="trade">A match official's coin toss is fair because each toss has the same chance, whatever came before.</p>
+  <ol><li>At the ninth tee, imagine tossing for who goes first.</li><li>Heads and tails each have an equal chance.</li><li>The coin does not remember the last toss.</li></ol>
+  <p class="q"><b>Heads came up three times running. What is the chance of tails now?</b></p>
+  <ul class="options"><li>Higher than before</li><li class="answer">The same as always <span>(answer)</span></li><li>Zero</li></ul>
+  <p class="why">A fair coin has no memory.</p>
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-probability-with-a-fair-spinner&amp;from=fairway&amp;return=index.html">k12 probability with a fair spinner</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-sm-fl-contours" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at ranger-station · 3 min · </p>
+  <h3>Reading contour lines</h3>
+  <p class="trade">Trail crews and rangers read contours to plan a route that avoids the steepest ground.</p>
+  <ol><li>A contour line joins points on the map that are at the same height.</li><li>Where contour lines crowd close together the ground is steep; where they spread apart it is gentle.</li><li>Open the map (M) and find the lookout trail: it climbs where the lines are spread, not straight up where they crowd.</li></ol>
+  <p class="q"><b>Contour lines packed close together mean the ground is…</b></p>
+  <ul class="options"><li class="answer">Steep <span>(answer)</span></li><li>Flat</li><li>Under water</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=or-wildland-fireline-construction-and-lookout&amp;from=summit&amp;return=index.html">or wildland fireline construction and lookout</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-scale" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at valley-base · 2 min · </p>
+  <h3>Map scale and distance</h3>
+  <p class="trade">A road crew measures a work zone off the plan sheet with its scale bar.</p>
+  <ol><li>A map's scale says how many metres on the ground one unit on the map stands for.</li><li>This world's map is square and the world is 4096 m across, so half the map's width is 2048 m of walking.</li><li>Estimate the walk to the water plant on the map, then walk it and compare with the distance on the HUD.</li></ol>
+  <p class="q"><b>If the map is 4096 m across, a quarter of its width is…</b></p>
+  <ul class="options"><li class="answer">1024 m <span>(answer)</span></li><li>2048 m</li><li>512 m</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=gk-storm-cleanup-chipper-and-traffic-control&amp;from=summit&amp;return=index.html">gk storm cleanup chipper and traffic control</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-falling-water" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at powerhouse · 3 min · </p>
+  <h3>Falling water as stored energy</h3>
+  <p class="trade">Plant operators at a powerhouse watch water's stored energy become electrical energy.</p>
+  <ol><li>Water held high behind a dam has stored (potential) energy because of its height.</li><li>As it falls through the penstock that energy becomes motion (kinetic energy).</li><li>The moving water spins a turbine, and the turbine turns a generator that makes electrical energy — the same chain of transfers the wind-farm lesson follows with moving air.</li></ol>
+  <p class="q"><b>Water behind a dam stores energy mainly because of its…</b></p>
+  <ul class="options"><li class="answer">Height <span>(answer)</span></li><li>Colour</li><li>Temperature</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=ib-hydrostatic-test-and-inspector-witness&amp;from=summit&amp;return=index.html">ib hydrostatic test and inspector witness</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-pressure-depth" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at dam · 3 min · </p>
+  <h3>Pressure grows with depth</h3>
+  <p class="trade">A diver clearing a dam intake and the engineer who designed the wall both plan for pressure that grows with depth.</p>
+  <ol><li>Water pushes on everything in it, and the deeper you go the more water sits above you.</li><li>That is why a dam wall is built thicker at the bottom than at the top.</li><li>Look at the dam's face: it widens toward its base, where the push of the water is greatest.</li></ol>
+  <p class="q"><b>Why is a dam thicker at the bottom?</b></p>
+  <ul class="options"><li class="answer">Water pressure is greatest at the bottom <span>(answer)</span></li><li>To save concrete at the top only</li><li>Snow collects at the bottom</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=uw-intake-screen-cleaning-with-lockout&amp;from=summit&amp;return=index.html">uw intake screen cleaning with lockout</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-water-cycle" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at water-plant · 3 min · </p>
+  <h3>From snowpack to tap</h3>
+  <p class="trade">Water treatment operators treat the reservoir water that the mountain's snow and rain supply.</p>
+  <ol><li>Water evaporates, condenses into clouds and falls as rain or snow on the mountain.</li><li>Snowmelt and rain run downhill into streams and the reservoir.</li><li>At the treatment plant the water is filtered and disinfected before it goes to homes — the plant is one stop on the water cycle, not its end.</li></ol>
+  <p class="q"><b>Snow on the summit reaches the reservoir mainly by…</b></p>
+  <ul class="options"><li class="answer">Melting and running downhill <span>(answer)</span></li><li>Being carried by trucks</li><li>Blowing uphill</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=chlorine-room&amp;from=summit&amp;return=index.html">chlorine room</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-circuit" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at substation · 3 min · </p>
+  <h3>A complete circuit</h3>
+  <p class="trade">Substation electricians open a breaker to break a circuit before anyone works on it.</p>
+  <ol><li>Current only flows around a complete loop — a closed circuit.</li><li>Opening a switch or a breaker breaks the loop, so current stops.</li><li>That is why the switching order opens the circuit first, and then the crew proves it is dead before they touch it.</li></ol>
+  <p class="q"><b>What happens to current when a breaker opens the circuit?</b></p>
+  <ul class="options"><li class="answer">It stops flowing in that circuit <span>(answer)</span></li><li>It doubles</li><li>It flows faster</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=substation-switching&amp;from=summit&amp;return=index.html">substation switching</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-labels" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at water-plant · 2 min · </p>
+  <h3>Reading a hazard label</h3>
+  <p class="trade">Water plant operators read a chemical's label and data sheet before a delivery is unloaded.</p>
+  <ol><li>A hazard label names the chemical, shows pictograms and a signal word, and says how to protect yourself.</li><li>The label and the safety data sheet — not memory — say what protective equipment the job needs.</li><li>Before any delivery, the crew reads the label on the load and matches it to the paperwork.</li></ol>
+  <p class="q"><b>Where does the crew find the protection a chemical needs?</b></p>
+  <ul class="options"><li class="answer">On its label and data sheet <span>(answer)</span></li><li>By guessing from the colour</li><li>From the truck's paint</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=ut-water-treatment-chemical-delivery-unloading&amp;from=summit&amp;return=index.html">ut water treatment chemical delivery unloading</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-grade" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at pass-summit · 3 min · </p>
+  <h3>Grade as a ratio</h3>
+  <p class="trade">Drivers and road crews read a grade as rise over run, and the pass road's signs state it.</p>
+  <ol><li>A road's grade is how much it rises for each unit it runs forward, written as a percentage.</li><li>Rising 6 m over 100 m of road is a 6% grade; the same rise over 50 m is twice as steep.</li><li>The HUD shows the slope under your feet: compare the switchbacks with the straight climb beside them.</li></ol>
+  <p class="q"><b>A road that rises 5 m over 100 m has a grade of…</b></p>
+  <ul class="options"><li class="answer">5% <span>(answer)</span></li><li>50%</li><li>20%</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=drive-mountain-grade-and-engine-brake&amp;from=summit&amp;return=index.html">drive mountain grade and engine brake</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-incident-report" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at west-lookout · 3 min · </p>
+  <h3>Writing a clear trail report</h3>
+  <p class="trade">Rangers and patrollers write what they saw, where and when — facts first, no guesses.</p>
+  <ol><li>A clear report says what happened, where, when and who was involved.</li><li>It sticks to what the writer saw, and says plainly what they do not know yet.</li><li>From the lookout, write a one-line report of something you can see: the place, the time on the HUD clock, and what it is.</li></ol>
+  <p class="q"><b>A good report sticks to…</b></p>
+  <ul class="options"><li class="answer">What the writer actually saw <span>(answer)</span></li><li>What might have happened</li><li>Opinions about who is to blame</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=or-transmission-line-right-of-way-patrol&amp;from=summit&amp;return=index.html">or transmission line right of way patrol</a> · programme: —</p>
+</article>
+<article class="card" id="card-sm-fl-call-for-help" data-world="summit">
+  <p class="eyebrow">K-12 field lesson · Sierra Summit · at gondola-top · 2 min · </p>
+  <h3>Calling for help on the mountain</h3>
+  <p class="trade">Rangers and lift crews give a clear location first when they call for help.</p>
+  <ol><li>When someone is hurt, make sure you are safe, then call for help.</li><li>Say where you are first — a named place like 'the gondola top station' — so help can find you.</li><li>Stay on the line and do what the call-taker asks.</li></ol>
+  <p class="q"><b>What should you say first when calling for help?</b></p>
+  <ul class="options"><li class="answer">Where you are <span>(answer)</span></li><li>Your favourite colour</li><li>Nothing, just hang up</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=ew-elevator-entrapment-and-rescue-with-fire-service&amp;from=summit&amp;return=index.html">ew elevator entrapment and rescue with fire service</a> · programme: —</p>
+</article>
+<article class="card" id="card-rw-fl-map-scale" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · campground, trailhead-kiosk · 3 min · </p>
+  <h3>Reading the Trail Map's Scale</h3>
+  <p class="trade">A trail crew lead plans the day's walk-in from the map's scale bar before anyone shoulders a tool.</p>
+  <ol><li>A map shrinks the land by the same amount everywhere; the scale bar shows how much.</li><li>Lay a string along the trail on the map, then hold it against the scale bar.</li><li>The crew lead uses that length to plan the walk-in time and the turnaround time.</li></ol>
+  <p class="q"><b>Why does the crew lead measure the trail against the scale bar?</b></p>
+  <ul class="options"><li class="answer">To plan the walk-in and turnaround <span>(answer)</span></li><li>To decide the trail's colour</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world&amp;from=redwood&amp;return=redwood.html">k12 reading a map scale in bay world</a> · programme: K-12 Practical Maths</p>
+</article>
+<article class="card" id="card-rw-fl-water-cycle" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · old-growth, cathedral-ring · 3 min · </p>
+  <h3>Fog, Rain and the River</h3>
+  <p class="trade">Restoration crews plant and grade so the water that falls here soaks in and reaches the river slowly.</p>
+  <ol><li>Water evaporates from the sea, cools into cloud and fog, and falls back as rain or drip.</li><li>Roots and soil hold that water and let it seep into the river slowly.</li><li>Bare, compacted ground sends it off fast, carrying soil with it.</li></ol>
+  <p class="q"><b>What slows water down on its way to the river?</b></p>
+  <ul class="options"><li class="answer">Roots and loose soil <span>(answer)</span></li><li>Bare, packed ground</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=redwood&amp;return=redwood.html">k12 water cycle and filtration</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-rw-fl-filtration" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · estuary, boardwalk-end · 2 min · </p>
+  <h3>The Estuary as a Filter</h3>
+  <p class="trade">The estuary crew walks fixed lines through the marsh because the marsh plants are part of how the water is cleaned.</p>
+  <ol><li>Marsh plants slow the water where the river meets the sea.</li><li>Slow water drops the fine soil it was carrying.</li><li>That is filtration: separating what the water carries from the water.</li></ol>
+  <p class="q"><b>What does slowing the water do?</b></p>
+  <ul class="options"><li class="answer">Lets the fine soil settle out <span>(answer)</span></li><li>Makes the water saltier</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-water-cycle-and-filtration&amp;from=redwood&amp;return=redwood.html">k12 water cycle and filtration</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-rw-fl-safety-labels" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · nursery, potting-shed · 3 min · </p>
+  <h3>Read the Label First</h3>
+  <p class="trade">A nursery worker reads the label and the safety data sheet before a container is opened, every time.</p>
+  <ol><li>A label tells you what is inside, how to use it and how to protect yourself.</li><li>The signal word and the pictures come first — read them before anything else.</li><li>The amount to use is always the label's amount: per the label, never a guess.</li></ol>
+  <p class="q"><b>Where does the amount to mix come from?</b></p>
+  <ul class="options"><li class="answer">The label <span>(answer)</span></li><li>Whatever looks right</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-reading-instructions-and-safety-labels&amp;from=redwood&amp;return=redwood.html">k12 reading instructions and safety labels</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-rw-fl-call-for-help" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · lookout, lookout-cab · 2 min · </p>
+  <h3>A Clear Location When You Call</h3>
+  <p class="trade">A lookout reports a smoke with a clear location a crew can find, then keeps the line open.</p>
+  <ol><li>When you call for help, the first thing they need is where you are.</li><li>Name something they can find: a trail name, a road gate, a landmark.</li><li>Stay on the line until they tell you to hang up.</li></ol>
+  <p class="q"><b>What does a helper need first when you call?</b></p>
+  <ul class="options"><li class="answer">Where you are <span>(answer)</span></li><li>What you had for lunch</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-first-aid-awareness-call-for-help&amp;from=redwood&amp;return=redwood.html">k12 first aid awareness call for help</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-rw-fl-incident-report" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · fire-station, engine-bay · 3 min · </p>
+  <h3>Writing What Happened</h3>
+  <p class="trade">After every training day the crew writes up what went right and what nearly went wrong, plainly.</p>
+  <ol><li>A good report says what happened, in the order it happened.</li><li>It sticks to what you saw, not what you guess.</li><li>It says what was done next, so the next crew can learn from it.</li></ol>
+  <p class="q"><b>What belongs in an incident report?</b></p>
+  <ul class="options"><li class="answer">What you saw, in order <span>(answer)</span></li><li>What you guess might have happened</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-writing-a-clear-incident-report&amp;from=redwood&amp;return=redwood.html">k12 writing a clear incident report</a> · programme: K-12 Literacy and Life Skills</p>
+</article>
+<article class="card" id="card-rw-fl-energy" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · substation, switchyard-gate · 3 min · </p>
+  <h3>Energy on the Line</h3>
+  <p class="trade">Linemen treat every line as energised because the energy moving through it can move through a person too.</p>
+  <ol><li>Energy moves from where it is made, along the lines, to the homes that use it.</li><li>The substation changes it so it can travel far and then be used safely nearby.</li><li>A tree touching a line can give that energy a new path — that is why the corridor is kept clear.</li></ol>
+  <p class="q"><b>Why is the line corridor kept clear of trees?</b></p>
+  <ul class="options"><li class="answer">So the energy has no new path through them <span>(answer)</span></li><li>So the view is nicer</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-energy-transfer-at-the-wind-farm&amp;from=redwood&amp;return=redwood.html">k12 energy transfer at the wind farm</a> · programme: K-12 Science</p>
+</article>
+<article class="card" id="card-rw-fl-timeline" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · lookout, firefinder-rock · 2 min · </p>
+  <h3>The Lookout's Logbook as a Timeline</h3>
+  <p class="trade">A lookout's log is read later as a timeline: when each smoke was seen and what was done.</p>
+  <ol><li>A log records events with the time each one happened.</li><li>Put the entries in time order and you have a timeline.</li><li>A timeline shows what came first and what followed from it.</li></ol>
+  <p class="q"><b>What turns log entries into a timeline?</b></p>
+  <ul class="options"><li class="answer">Putting them in time order <span>(answer)</span></li><li>Counting the pages</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-building-a-timeline-from-documents&amp;from=redwood&amp;return=redwood.html">k12 building a timeline from documents</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-rw-fl-sources" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · sawmill, planer-shed · 2 min · </p>
+  <h3>Primary and Secondary at the Mill</h3>
+  <p class="trade">The millwright trusts the machine's own lockout tag and log over a story about it.</p>
+  <ol><li>A primary source was made at the time by someone who was there: a tag, a log entry, a photo.</li><li>A secondary source retells it later.</li><li>When they disagree, go back to the primary source.</li></ol>
+  <p class="q"><b>Which is a primary source?</b></p>
+  <ul class="options"><li class="answer">The lockout tag on the machine <span>(answer)</span></li><li>A friend's retelling</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-primary-and-secondary-sources&amp;from=redwood&amp;return=redwood.html">k12 primary and secondary sources</a> · programme: K-12 History and Civics</p>
+</article>
+<article class="card" id="card-rw-fl-measure" data-world="redwood">
+  <p class="eyebrow">K-12 field lesson · Redwood Reach · equipment-yard, fuel-break-west · 3 min · </p>
+  <h3>Pacing a Plot</h3>
+  <p class="trade">Survey crews lay out the same size plot at every post so the sheets can be compared.</p>
+  <ol><li>A survey plot is measured out the same way at every post.</li><li>Using the same size means one plot can be compared with the next.</li><li>Scale the plot on paper the same way, so the sheet matches the ground.</li></ol>
+  <p class="q"><b>Why is every plot laid out the same way?</b></p>
+  <ul class="options"><li class="answer">So plots can be compared <span>(answer)</span></li><li>So it looks tidy</li></ul>
+  
+  <p class="links">Full station: <a href="../smartcity/index.html?sim=k12-measuring-and-scaling-the-court&amp;from=redwood&amp;return=redwood.html">k12 measuring and scaling the court</a> · programme: K-12 Practical Maths</p>
+</article>
+  </section>
+</main>
+<script type="module">
+  // Field Notes per world from this browser's passport; no network, no storage written.
+  const fill = (w, text) => { const el = document.querySelector(`[data-k2-notes="${w}"]`); if (el) el.textContent = text; };
+  try {
+    const { k2FieldNotes, k2AdaptLesson } = await import("../shared/field-kiosk.js");
+    const { SM_FIELD_LESSONS } = await import("../shared/summit-data.js");
+    const { RW_FIELD_LESSONS } = await import("../redwood/js/rw-lore-data.js");
+    const own = { summit: SM_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "summit")), redwood: RW_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "redwood")) };
+    for (const w of ["bayworld","deep","regatta","fairway","summit","redwood"]) {
+      const n = own[w] ? k2FieldNotes(w, own[w]) : k2FieldNotes(w);
+      fill(w, `${n.done} of ${n.total} answered${n.earned ? " — Field Notes badge earned" : ` (badge at ${n.need})`}`);
+    }
+  } catch (e) { for (const w of ["bayworld","deep","regatta","fairway","summit","redwood"]) fill(w, "passport not readable here"); }
+  const sel = document.getElementById("world-filter");
+  sel.addEventListener("change", () => { for (const el of document.querySelectorAll("[data-world]")) el.hidden = !!sel.value && el.dataset.world !== sel.value; });
+  document.getElementById("print-cards").addEventListener("click", () => window.print());
+</script>
+</body>
+</html>

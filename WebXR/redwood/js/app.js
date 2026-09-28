@@ -12,6 +12,8 @@ import { lkStationLink, lkRenderStations, lkSiteHeading, lkStationLabel } from "
 // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { k2RenderLessonList } from "../../shared/field-lessons.js";
+import { k2AdaptLesson, k2RecordLesson, k2FieldNotes, K2_FIELD_NOTES_BADGE } from "../../shared/field-kiosk.js";
 import {
   RW_BOUNDS, RW_SITES, RW_ROADS, RW_TRAILS, RW_RIVER, RW_MAIN_ARC, RW_SIDE_QUESTS, RW_ACTIVITIES, RW_MAP_LAYERS, RW_FUEL_BREAK, RW_GATED,
   rwHeightAt, rwIsWater, rwSite, rwCoastZ,
@@ -368,6 +370,9 @@ function rwWaypoint(act, w) {
 }
 
 // ------------------------------------------------------------- lessons
+// Redwood's lessons in the shared K-12 shape: one passport award kind and one
+// Field Notes badge across every world (WebXR/shared/field-kiosk.js).
+const RW_K2 = RW_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "redwood"));
 function rwRunLesson(fl) {
   let i = 0;
   const next = () => {
@@ -381,7 +386,9 @@ function rwRunLesson(fl) {
         if (k === fl.check.answer) {
           if (!rwApp.state.lessons.includes(fl.id)) { rwApp.state.lessons.push(fl.id); rwApp.state.xp += 30; rwPersist(); }
           tzLessonAnswered(fl.id); // a quiet treasure (docs/treasures.md)
-          rwToast("Right. Lesson logged — it ties to the K-12 station " + lkStationLabel(fl.k12) + ".");
+          const k2 = k2RecordLesson(RW_K2.find((x) => x.id === fl.id), RW_K2);
+          rwToast(k2.badge ? `Right. ${K2_FIELD_NOTES_BADGE.name} badge earned: ${k2.notes.done} lessons answered in the Reach.`
+            : "Right. Lesson logged" + (k2.first ? " on your passport" : "") + " — it ties to the K-12 station " + lkStationLabel(fl.k12) + ".");
           rwShow(null);
         } else { rwToast("Not quite — read the steps again."); i = 0; next(); }
       },
@@ -501,6 +508,15 @@ function rwOpenMap() {
     tv.appendChild(b);
   }
   rwDrawMap($("map-canvas"));
+  const ll = $("map-lessons");
+  if (ll) {
+    ll.textContent = "";
+    k2RenderLessonList(ll, RW_K2, lkStationLink);
+    const notes = k2FieldNotes("redwood", RW_K2);
+    const p = document.createElement("p"); p.className = "note";
+    p.textContent = `Field Notes: ${notes.done} of ${notes.total} lessons on your passport${notes.earned ? " — badge earned" : ` (badge at ${notes.need})`}.`;
+    ll.appendChild(p);
+  }
   rwShow("scr-map");
 }
 

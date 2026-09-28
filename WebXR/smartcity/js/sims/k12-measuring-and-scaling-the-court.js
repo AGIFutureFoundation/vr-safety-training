@@ -51,10 +51,10 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
   }),
 
   hazards: {
-    "mix-metres-and-steps": "You added a paced-out length to a taped one. Paces are a fine estimate, but they are not the same unit as the tape, and mixing them gives a number that looks precise and means nothing. Every measurement in a calculation has to be in one unit, written beside the number, or the drawing will not match the court.",
-    "add-area-like-perimeter": "You added the side lengths and called it the area. Adding sides gives the distance around the court, which is the perimeter; area is how much surface the court covers and comes from multiplying length by width. Confusing the two is the most common mistake in this topic, and it is why every answer gets its unit written: a length in metres, an area in square metres.",
-    "scale-one-side-only": "You shrank the length to fit the paper and left the width as it was. A scale drawing only works when every length is divided by the same scale factor; scale one side and the drawing is a different shape from the court, so any angle or ratio you read from it is wrong.",
-    "run-across-during-play": "You walked out with the tape while players were still running. A measuring lesson on a working court waits for the court to be clear, and the caretaker says when it is: a tape across a playing surface is a trip line, and a learner bent over it is in the path of someone who is watching the ball, not the floor."
+    "mix-metres-and-steps": "You added a paced length to a taped one. Paces in sneakers are a fair guess, but a stride is not a metre, and a sum that mixes them looks precise while meaning nothing. Every length on the clipboard has to be in one unit, written beside the number, or the drawing will not match the hardwood.",
+    "add-area-like-perimeter": "You added the sideline and the baseline and called the total the area. Adding the sides walks the perimeter, the distance a player runs around the floor; area is the hardwood itself, sideline times baseline. Mixing them is the commonest slip on a court sheet, which is why every answer carries its unit: metres around, square metres of floor.",
+    "scale-one-side-only": "You shrank the sideline to fit the sheet and left the baseline as it was. A scale drawing holds only when every length is divided by the same factor; scale one side alone and the drawing is a different rectangle from the floor, so every angle and ratio taken from it is false.",
+    "run-across-during-play": "You walked onto the hardwood with the tape while sneakers were still squeaking. Geometry on a live court waits for the caretaker's nod: a tape across the paint is a trip line, and a player chasing a pass is watching the ball, not the floor."
   },
 
   lateNotes: {
@@ -86,16 +86,16 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         "kmc-logo-centre": "The logo is interesting, but it does not change the area or the perimeter. Stick to what the question needs."
       },
       title: "Find what you need to measure",
-      cue: "Mark the three things on the court you must measure before you can find its area and perimeter.",
-      why: "Before any calculation, a mathematician decides what actually needs measuring. For a rectangular court that is the length of a side line, the length of an end line and a check that the corners are square; everything else, from the centre circle to the key, can wait. Choosing the measurements first stops you taping the whole floor and still missing the one you need."
+      cue: "Tap the sideline, the baseline and a corner: the three lengths an arena crew needs before the floor's area and perimeter can be worked out.",
+      why: "Nobody tapes a whole basketball floor. The arena crew takes the sideline, the baseline and a corner to prove the rectangle is square; the key, the arc and the centre circle wait. Deciding which lengths matter is the first move in geometry, and it saves the sneakers, the tape and the afternoon."
     },
     {
       id: "ask-the-caretaker-for-the-all",
       kind: "select",
       target: "kmc-wait-for-clear",
       title: "Ask the caretaker for the all-clear",
-      cue: "Ask whether the court is clear before you take the tape onto it.",
-      why: "A court is a working space before it is a maths lesson. The caretaker knows when play has stopped and the floor is dry, and asking first means the tape is never a trip line across a game. It is also the first habit of any fieldwork: the site's own rules come before the measurement, whatever the measurement is for."
+      cue: "Catch the caretaker's eye and ask for the floor before the tape touches the hardwood.",
+      why: "Hardwood is a playing surface first and a geometry lesson second. The caretaker knows when the buzzer has sounded, the players have gone to the bleachers and the mop has dried the varnish. Asking for the floor is the arena's own rule, and it comes before any tape is unrolled."
     },
     {
       id: "put-the-method-in-order",
@@ -113,9 +113,9 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         "kmc-ord-calc": "4 · calculate from the record"
       },
       title: "Put the method in order",
-      cue: "Estimate, measure, record with the unit, then calculate.",
-      why: "Estimating first gives you a number to check the tape against, so a misread tape shows up at once. Measuring and recording with the unit keeps every number honest. Calculating last, from the written record rather than memory, means someone else can follow your working and find your mistake, which is how mathematics is checked in the real world.",
-      outOfOrderNote: "Out of order. Estimate before you measure, so the estimate can catch a misread tape."
+      cue: "Pace it in sneakers, tape it, log it with its unit, then work the arithmetic.",
+      why: "Pacing the sideline in sneakers gives a rough length to hold the tape against, so a misread tape jumps out at once. Taping and logging with the unit keeps the numbers honest. The arithmetic waits until the clipboard is filled in, because a court worked from memory is a court worked twice.",
+      outOfOrderNote: "Not that way round. Pace the sideline first, so the paces can catch a misread tape."
     },
     {
       id: "hold-the-tape-taut-along-the",
@@ -123,17 +123,17 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       target: "kmc-tape-held",
       seconds: 6,
       title: "Hold the tape taut along the line",
-      cue: "Your classmate holds the zero end at the corner. Hold the tape taut and straight along the side line.",
-      why: "A tape that sags or wanders off the line reads long, because a curve between two points is always longer than the straight line. Holding it taut and on the line for the whole reading is what makes the number the true length of the side, and it is the same care a surveyor takes on any real site.",
-      holdBreakNote: "The tape went slack. A sagging tape reads long — pull it taut along the line and read again."
+      cue: "Your classmate pins the zero at the corner. Keep the tape taut along the painted sideline until the reading settles.",
+      why: "A tape that sags between two corners bows like a skipping rope, and a bow is longer than the painted line beneath it. Keeping it taut and on the paint for the whole reading is the difference between the sideline's true length and a number that is always a little too big.",
+      holdBreakNote: "The tape bowed. A bowed tape reads long; pull it flat along the paint and read again."
     },
     {
       id: "write-the-length-to-width-ratio",
       kind: "select",
       target: "kmc-ratio-card",
       title: "Write the length-to-width ratio",
-      cue: "Write length to width as a ratio, then check it is the same on the drawing as on the court.",
-      why: "A ratio compares two quantities of the same kind, and a true scale drawing keeps every ratio the court has. Checking that length to width is the same on paper as on the floor is the quickest proof that the drawing is right, and it is how a designer knows a model will look like the thing it models."
+      cue: "Write sideline to baseline as a ratio, then prove the same ratio holds on the drawing.",
+      why: "A ratio compares two lengths of the same kind, and a faithful scale drawing keeps every ratio the floor has. If sideline to baseline matches on the sheet and on the hardwood, the drawing is in proportion; if it does not, one side was scaled and the other was not."
     },
     {
       id: "catch-the-mistakes-in-a-classmate",
@@ -158,8 +158,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         "kmc-ok-estimate": "Writing an estimate first is good practice. Leave it in."
       },
       title: "Catch the mistakes in a classmate's working",
-      cue: "Look at the worked sheet on the bench and mark each mistake before it is handed in.",
-      why: "Checking someone else's working is a skill of its own: you have to follow their reasoning, not just compare answers. The usual slips are a missing unit, a perimeter labelled as an area, and one side scaled while the other was not. Finding them in someone else's work is how you learn to find them in your own before a teacher does."
+      cue: "Look over the worked sheet a classmate left on the bleachers and tap each slip before the coach collects it.",
+      why: "Reading someone else's arithmetic means following their reasoning, not only comparing answers. On a court sheet the slips are always the same three: a missing unit, a perimeter labelled as an area, and a sideline scaled while the baseline was left alone. Spotting them on a classmate's page trains the eye for your own."
     },
     {
       id: "switch-from-length-to-area-units",
@@ -171,8 +171,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         label: "SQ M"
       },
       title: "Switch from length to area units",
-      cue: "You have both lengths. Turn the unit dial from metres to square metres before you multiply.",
-      why: "Area is measured in square units because it counts how many unit squares fit on the surface. Turning the unit from metres to square metres before you multiply is a reminder that the answer is a different kind of quantity from either side: a length times a length is an area, and writing the right unit is how you prove you know which one you found."
+      cue: "Both lengths are on the clipboard. Turn the unit dial from metres to square metres before the multiplication.",
+      why: "Area counts how many unit squares would tile the hardwood, so its unit is a square unit. Turning the dial before multiplying is a reminder that a length times a length is a new kind of quantity, and that the floor's area and its sideline can never share a unit."
     },
     {
       id: "choose-a-scale-that-fits-the",
@@ -185,11 +185,11 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too large and it will not fit; too small and nobody can read it. Try again."
+        missNote: "Outside the band. Too big and the floor runs off the sheet; too small and the key vanishes. Try again."
       },
       title: "Choose a scale that fits the page",
-      cue: "Commit when the scale factor lets the whole court fit on the paper with a margin, not too small to read.",
-      why: "Choosing a scale is a trade: too large and the court runs off the page, too small and the key and circles become too tiny to draw. A good scale fits the whole shape with a margin and is easy to work with, which is why mapmakers and architects choose round, simple scale factors rather than awkward ones."
+      cue: "Commit when the scale factor lets the whole floor sit on the sheet with a border, and the key is still big enough to draw.",
+      why: "A scale factor is a bargain. Too generous and the baseline runs off the paper; too mean and the key and the centre circle shrink to dots. Arena architects and the people who paint the lines pick round, simple factors so every helper on the crew can work the same drawing without a calculator."
     },
     {
       id: "place-the-scaled-length-on-the",
@@ -198,11 +198,11 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       drag: {
         to: "kmc-drawing-spot",
         radius: 0.45,
-        missNote: "It is not on the drawing yet. Take it all the way to the paper."
+        missNote: "Not on the sheet yet. Carry the scaled length all the way to the paper."
       },
       title: "Place the scaled length on the drawing",
-      cue: "Drag the scaled side length onto the scale drawing, then do the same division for the width.",
-      why: "A scale drawing is made by dividing every real length by the same scale factor and drawing the results. Placing the scaled length on the drawing, then the scaled width, gives a shape exactly the same as the court but smaller, which means any angle you measure on the drawing is the same angle on the floor."
+      cue: "Drag the scaled sideline onto the sheet, then divide the baseline by the same factor and draw it too.",
+      why: "Every real length divided by one scale factor gives a shape the same as the hardwood but small enough for a clipboard. Once the scaled sideline and baseline are down, any angle at a corner of the drawing is the angle at the corner of the floor, which is why a coach can plan a drill on paper."
     },
     {
       id: "keep-the-answer-close-to-the",
@@ -221,9 +221,9 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         label: "AGREE"
       },
       title: "Keep the answer close to the estimate",
-      cue: "Hold the calculated answer in band with your paced estimate while you recheck the arithmetic.",
-      why: "An estimate is your safety net: if the calculated area is wildly different from what pacing suggested, something went wrong, usually a slipped decimal or a unit mixed in. Holding the two in agreement while you recheck is what careful people do with any number that matters, from a recipe to a bridge.",
-      holdBreakNote: "The answer and the estimate drifted apart. Recheck the arithmetic and the units before you go on."
+      cue: "Keep the calculated area in band with the paced guess while you rework the multiplication.",
+      why: "The paced guess is the safety net. If the calculated area is far from what the sneakers suggested, a decimal has slipped or a unit has crept in. Keeping the two in agreement while the multiplication is reworked is how an arena crew orders the right amount of varnish for the floor.",
+      holdBreakNote: "The area and the paced guess have drifted apart. Rework the multiplication and the units before you go on."
     },
     {
       id: "record-the-measurements-and-the-drawing",
@@ -231,8 +231,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       target: "kmc-class-record",
       doneLine: "Measurements and drawing recorded",
       title: "Record the measurements and the drawing",
-      cue: "Write the lengths, the units, the scale factor and the ratio on the class record.",
-      why: "A result nobody can check is not finished. Recording the measured lengths with their units, the scale factor you chose and the ratio you checked means your teacher, or anyone else, can repeat the work and get the same answer. It is the difference between a guess that happened to be right and a measurement."
+      cue: "Log the sideline, the baseline, their unit, the scale factor and the ratio on the clipboard.",
+      why: "A floor nobody can re-measure from the clipboard is not finished. Logging both lengths with their unit, the scale factor and the ratio lets the coach, the caretaker or the next class reproduce the drawing and land on the same numbers. That is the line between a lucky guess and a measurement."
     },
     {
       id: "show-the-class-how-you-checked",
@@ -240,8 +240,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       target: "kmc-share-board",
       doneLine: "Method shared with the class",
       title: "Show the class how you checked",
-      cue: "Explain to the class how the estimate and the ratio proved your drawing was right.",
-      why: "Explaining a method out loud is the strongest test of whether you understand it. Showing the class how the estimate caught errors and how the ratio proved the drawing matched the court helps classmates who got stuck and fixes the idea in your own memory far better than a mark on a page."
+      cue: "Tell the class how the paced guess and the ratio proved the drawing true to the floor.",
+      why: "Saying a method aloud in front of the bleachers is the sternest test of understanding it. Showing how the paced guess caught a slipped decimal and how the ratio proved the drawing in proportion helps the classmates who stalled and fixes the idea far better than a tick on a page."
     },
     {
       id: "crew-check-in",
@@ -249,8 +249,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       target: "kmc-checkin",
       doneLine: "Checked in",
       title: "Check in at the end of the lesson",
-      cue: "How did that go? What was hard, and what would you do differently next time?",
-      why: "A short check-in at the end of a lesson tells the teacher who is confident and who needs another go, and it gives every learner a moment to notice what they learned. Nobody is graded here; the question is simply how it went and what to try next, with the teacher or a trusted adult there for anyone who wants to talk more."
+      cue: "Before the buzzer for the next class: what went well on the floor, what was awkward, and what would you do differently?",
+      why: "A short huddle at the end of the session tells the coach who can tape a floor unaided and who wants another go. Nobody is graded in the huddle; the question is simply how it went and what to try next, with the coach or a trusted adult there for anyone who wants to talk more afterwards."
     }
   ],
 
@@ -262,11 +262,11 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       delay: 3,
       seconds: 12,
       target: "kmc-stop-and-clear",
-      alert: "A ball from the next court rolls across the tape line and a younger pupil runs after it.",
-      cue: "Stop measuring, call out, and let the caretaker clear the court before anyone steps back on.",
-      why: "A tape across a court is a trip line the moment anyone runs, and a younger pupil chasing a ball is watching the ball. Stopping, calling out and letting the caretaker clear the court comes before any measurement; the reading can be taken again, a fall cannot be taken back.",
-      missNote: "Nobody stopped. The pupil caught a foot on the tape and fell, and the reading was lost anyway.",
-      wrongNote: "That does not stop anyone. Call out and pause the measuring."
+      alert: "A ball from the practice court bounces across the tape and a younger pupil sprints after it.",
+      cue: "Stop the reading, shout a warning, and let the caretaker clear the floor before anyone steps back on the paint.",
+      why: "The moment anyone sprints, a tape across the hardwood becomes a trip line, and a younger pupil chasing a ball sees only the ball. Shouting, stopping and letting the caretaker clear the floor comes before any length; the sideline can be taped again, a fall on the hardwood cannot be undone.",
+      missNote: "Nobody shouted. The pupil caught a foot on the tape and went down, and the reading was lost anyway.",
+      wrongNote: "That stops nobody. Shout the warning and pause the tape."
     },
     {
       id: "the-teacher-asks-for-your-estimate",
@@ -275,11 +275,11 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
       delay: 3,
       seconds: 12,
       target: "kmc-say-the-estimate",
-      alert: "The teacher stops by and asks what you expect the area to be before you have finished calculating.",
-      cue: "Give your paced estimate with its unit and say how you got it.",
-      why: "A teacher asking for an estimate mid-task is checking your reasoning, not your arithmetic. Saying the estimate with its unit, and how pacing gave it to you, shows you know roughly what the answer should be, which is the skill that catches mistakes long after the tape is put away.",
-      missNote: "You had no estimate to give, so the error in your calculation went unnoticed until it was marked.",
-      wrongNote: "That is not an estimate with a unit. Say the number and how you got it."
+      alert: "The coach wanders over from the bleachers and asks what the floor's area will roughly be, before the multiplication is done.",
+      cue: "Give the paced guess with its unit and say how the sneakers gave it to you.",
+      why: "A coach asking for a rough figure mid-drill is testing the reasoning, not the arithmetic. Giving the paced guess with its unit, and saying how pacing produced it, shows you know roughly what the floor should come to, which is the sense that catches a slipped decimal long after the tape is rolled up.",
+      missNote: "You had no rough figure to give, so the slip in the multiplication went unseen until it was marked.",
+      wrongNote: "That is not a rough figure with a unit. Give the number and say how pacing gave it."
     }
   ],
 
@@ -418,7 +418,7 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
     // ------------------------------------------------------------ the guide
     const guide = group(g, 0, 2.15, -3.2);
     box(guide, 0.94, 0.44, 0.02, 0, 0, -0.012, 0x7fc4d8, { rough: 0.5, emissive: 0x7fc4d8, ei: 0.25 });
-    const guideFace = decal(guide, 0.9, 0.4, 0, 0, 0, (cx, w, h) => text(cx, w, h, "THE GUIDE", ["Measure twice. Write the unit."], "#7fc4d8"), { px: 512, glow: true, ei: 0.9 });
+    const guideFace = decal(guide, 0.9, 0.4, 0, 0, 0, (cx, w, h) => text(cx, w, h, "THE GUIDE", ["Pace it, tape it, write the unit."], "#7fc4d8"), { px: 512, glow: true, ei: 0.9 });
     const paintGuide = (msg) => repaint(guideFace, (cx, w, h) => {
       cx.fillStyle = "rgba(10,20,28,0.94)"; cx.fillRect(0, 0, w, h);
       cx.fillStyle = "#7fc4d8"; cx.fillRect(0, 0, w, 5);
@@ -463,11 +463,11 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         if (step.id === "record-the-measurements-and-the-drawing") repaint(boards["kmc-class-record"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Measurements and drawing recorded"], "#59c97b"));
         if (step.id === "show-the-class-how-you-checked") repaint(boards["kmc-share-board"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Method shared with the class"], "#59c97b"));
         if (step.id === "crew-check-in") repaint(boards["kmc-checkin"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Checked in"], "#59c97b"));
-        if (step.id === "write-the-length-to-width-ratio") paintGuide("Area covers, perimeter goes around, ratio compares.");
+        if (step.id === "write-the-length-to-width-ratio") paintGuide("Area is the floor, perimeter is the run round it, ratio keeps the shape.");
       },
 
       onHazard() {
-        paintGuide("Stop. Check the unit and the method before you go on.");
+        paintGuide("Stop. Is the unit written, and the method in order?");
       },
 
       onInterrupt(it) {
@@ -479,8 +479,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         alarmLamp.material = lampOn;
         const who = arrivals[it.id];
         if (it.resolved !== "answered") { if (who) who.rotation.y += 0.6; paintGuide("That one went unanswered. Next time, stop and deal with it first."); return; }
-        if (it.id === "a-ball-rolls-onto-the-court") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Stopped and cleared. Take the reading again from the corner."); }
-        if (it.id === "the-teacher-asks-for-your-estimate") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Estimate given with its unit. The calculation now has something to be checked against."); }
+        if (it.id === "a-ball-rolls-onto-the-court") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Floor cleared, tape lifted. Take the sideline again from the corner."); }
+        if (it.id === "the-teacher-asks-for-your-estimate") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Rough figure given with its unit. The multiplication now has something to be held against."); }
       },
 
       animate(tm, dt, session) {
