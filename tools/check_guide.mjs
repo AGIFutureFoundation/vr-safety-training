@@ -2,7 +2,7 @@
  * The Guide (console COMPASS, tools/briefs/homepage-guide-brief.md).
  *
  * Without a browser: WebXR/shared/guide-kb.js is fresh (tools/gen_guide_kb.mjs
- * is re-run in memory and diffed) and under 600 KB; every link in it resolves
+ * is re-run in memory and diffed) and under the cap in gen_guide_kb.mjs (640 KB); every link in it resolves
  * to a real page in WebXR/dist/, a real station, a real world site or a real
  * doc; the only text about wojrc.org is the sourced quotation from
  * tools/briefs/wojrc-brief.md; twenty scripted questions each get an answer

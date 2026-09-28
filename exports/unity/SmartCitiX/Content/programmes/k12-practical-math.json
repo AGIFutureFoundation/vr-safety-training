@@ -1,0 +1,139 @@
+{
+  "accent": "#5a9fd8",
+  "anchors": [
+    {
+      "id": "coliseum-arena",
+      "name": "Coliseum Arena",
+      "position": [
+        568,
+        399
+      ],
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-stance-and-ball-handling",
+        "k12-measuring-and-scaling-the-court"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "coliseum"
+    },
+    {
+      "id": "downtown-civic-center",
+      "name": "Downtown Civic Center",
+      "position": [
+        -36,
+        33
+      ],
+      "stations": [
+        "public-comment-prep",
+        "public-meeting-chair",
+        "k12-household-budget-and-first-paycheck",
+        "k12-how-a-local-council-meeting-works"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "downtown"
+    },
+    {
+      "id": "fruitvale-elementary-school",
+      "name": "Fruitvale Elementary School",
+      "position": [
+        454,
+        212
+      ],
+      "stations": [
+        "ed-custodial-chemical-dilution-and-floor-machine",
+        "ed-playground-equipment-inspection",
+        "ed-bus-pretrip-and-loading-zone",
+        "k12-primary-and-secondary-sources",
+        "k12-reading-instructions-and-safety-labels",
+        "k12-building-a-timeline-from-documents",
+        "k12-writing-a-clear-incident-report",
+        "k12-fractions-in-the-kitchen"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "island-ferry-landing",
+      "name": "Island Ferry Landing",
+      "position": [
+        165,
+        595
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock",
+        "k12-reading-a-map-scale-in-bay-world"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    }
+  ],
+  "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+  "competency": {
+    "id": "k12-practical-math",
+    "kind": "programme",
+    "require": 2,
+    "standards": [
+      "un-sdg-4-quality-education",
+      "unesco-education-guidance",
+      "national-curriculum-framework"
+    ],
+    "stations": [
+      "k12-measuring-and-scaling-the-court",
+      "k12-household-budget-and-first-paycheck",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-fractions-in-the-kitchen"
+    ],
+    "title": "Use measurement, proportion, data and chance to reason about real places, with every unit written and every answer checked"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "un-sdg-4-quality-education",
+    "unesco-education-guidance",
+    "inee-minimum-standards",
+    "national-curriculum-framework",
+    "aft-training"
+  ],
+  "id": "k12-practical-math",
+  "ladder": {
+    "atBar": 0,
+    "lessonBar": 75,
+    "lessons": 1040,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 20,
+    "stationsNeeded": 2,
+    "tasks": 80
+  },
+  "name": "K-12 Practical Maths",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "k12-measuring-and-scaling-the-court",
+      "why": "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-household-budget-and-first-paycheck",
+      "why": "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-reading-a-map-scale-in-bay-world",
+      "why": "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-fractions-in-the-kitchen",
+      "why": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
+    }
+  ],
+  "summary": "Maths done where it is used: a court measured and drawn to scale, a first paycheck budgeted, a map scale read, fractions in a kitchen, a ramp's slope, tide readings graphed, a fair spinner and a turbine's sweep. Every number the learner works with is one the scene shows.",
+  "union": "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship"
+}

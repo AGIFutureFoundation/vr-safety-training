@@ -1,10 +1,10 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-28: 657 procedures, 250 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-28: 671 procedures, 250 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
-Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 65 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
+Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 66 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
 
 ## By standard
 
@@ -1362,6 +1362,48 @@ Every station names the union and the certification a worker in that role holds,
 | CRAH Alarm Response in a Live Hall | IBEW critical-facilities technician | 29 CFR 1910.147, 29 CFR 1910.22, 29 CFR 1910.333, 29 CFR 1910.38, NFPA 70E |
 | Ocean Pod Retrieval & Hatch Opening | IBEW / IUOE marine data-centre crew | 29 CFR 1910.132, 29 CFR 1910.147, 29 CFR 1910.28, 29 CFR 1910.333, NFPA 70E |
 
+### K-12 Practical Maths
+
+**Certification frame:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Measuring and Scaling the Court | Maths class on the arena court — learner and teacher | — |
+| A Household Budget and a First Paycheck | Maths class at the community centre's money desk — learner and teacher | — |
+| Reading a Map Scale in Bay World | Maths class at the ferry landing map board — learner and teacher | — |
+| Fractions in the Kitchen | Maths class in the teaching kitchen — learner and teacher | — |
+
+### K-12 Science
+
+**Certification frame:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| The Water Cycle and Filtration | Science class at the treatment plant's visitor bench — learner and plant educator | — |
+| Buoyancy and Pressure in the Deep | Science class at the Deep's viewing platform — learner and teacher | — |
+| Circuits at the Electrical Bench | Science class at the school's electrical bench — learner and teacher | — |
+| Energy Transfer at the Wind Farm | Science class at the wind farm's visitor point — learner and teacher | — |
+
+### K-12 History and Civics
+
+**Certification frame:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Primary and Secondary Sources | History class in the community archive room — learner and archivist | — |
+| Building a Timeline from Documents | History class at the school archive table — learner and teacher | — |
+| How a Local Council Meeting Works | Civics class at the civic centre's meeting chamber — learner and teacher | — |
+
+### K-12 Literacy and Life Skills
+
+**Certification frame:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Reading Instructions and Safety Labels | Literacy class in the school workshop — learner and teacher | — |
+| Writing a Clear Incident Report | Literacy class in the school hall after a practice incident — learner and teacher | — |
+| First Aid Awareness: Call for Help | Life skills class at the fire station's open day — learner and firefighter | — |
+
 ## Stations citing fewer than two standards
 
 - Flight Deck (smartcity): 14 CFR 107
@@ -1373,6 +1415,20 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Energy Transfer at the Wind Farm (smartcity): none
+- Fractions in the Kitchen (smartcity): none
+- First Aid Awareness: Call for Help (smartcity): none
+- Writing a Clear Incident Report (smartcity): none
+- How a Local Council Meeting Works (smartcity): none
+- Building a Timeline from Documents (smartcity): none
+- Circuits at the Electrical Bench (smartcity): none
+- Buoyancy and Pressure in the Deep (smartcity): none
+- Reading a Map Scale in Bay World (smartcity): none
+- A Household Budget and a First Paycheck (smartcity): none
+- Reading Instructions and Safety Labels (smartcity): none
+- Primary and Secondary Sources (smartcity): none
+- The Water Cycle and Filtration (smartcity): none
+- Measuring and Scaling the Court (smartcity): none
 - Losing Well and Film Review (smartcity): none
 - Timeout Huddle and Adjustment (smartcity): none
 - Transition Spacing and Roles (smartcity): none

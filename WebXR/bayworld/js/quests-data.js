@@ -5032,6 +5032,16 @@ export const SIDE_QUESTS = [
         "text": "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio."
       },
       {
+        "type": "station",
+        "target": "k12-household-budget-and-first-paycheck",
+        "text": "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back."
+      },
+      {
+        "type": "station",
+        "target": "k12-reading-a-map-scale-in-bay-world",
+        "text": "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check."
+      },
+      {
         "type": "talk",
         "target": "training-lead",
         "text": "\"Maths done where it is used: a court measured and drawn to scale, a first paycheck budgeted, a map scale read, fractions in a kitchen, a ramp's slope, tide readings graphed, a fair spinner and a turbine's sweep. Every number the learner works with is one the scene shows.\""
@@ -5060,8 +5070,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-measuring-and-scaling-the-court",
-        "text": "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio."
+        "target": "k12-household-budget-and-first-paycheck",
+        "text": "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back."
+      },
+      {
+        "type": "station",
+        "target": "k12-reading-a-map-scale-in-bay-world",
+        "text": "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check."
+      },
+      {
+        "type": "station",
+        "target": "k12-fractions-in-the-kitchen",
+        "text": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
       },
       {
         "type": "talk",
@@ -5096,6 +5116,16 @@ export const SIDE_QUESTS = [
         "text": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
       },
       {
+        "type": "station",
+        "target": "k12-buoyancy-and-pressure-in-the-deep",
+        "text": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+      },
+      {
+        "type": "station",
+        "target": "k12-circuits-at-the-electrical-bench",
+        "text": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+      },
+      {
         "type": "talk",
         "target": "training-lead",
         "text": "\"Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.\""
@@ -5124,8 +5154,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-water-cycle-and-filtration",
-        "text": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
+        "target": "k12-buoyancy-and-pressure-in-the-deep",
+        "text": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+      },
+      {
+        "type": "station",
+        "target": "k12-circuits-at-the-electrical-bench",
+        "text": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+      },
+      {
+        "type": "station",
+        "target": "k12-energy-transfer-at-the-wind-farm",
+        "text": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
       },
       {
         "type": "talk",
@@ -5160,6 +5200,16 @@ export const SIDE_QUESTS = [
         "text": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
       },
       {
+        "type": "station",
+        "target": "k12-building-a-timeline-from-documents",
+        "text": "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes."
+      },
+      {
+        "type": "station",
+        "target": "k12-how-a-local-council-meeting-works",
+        "text": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
+      },
+      {
         "type": "talk",
         "target": "training-lead",
         "text": "\"History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.\""
@@ -5190,6 +5240,16 @@ export const SIDE_QUESTS = [
         "type": "station",
         "target": "k12-primary-and-secondary-sources",
         "text": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
+      },
+      {
+        "type": "station",
+        "target": "k12-building-a-timeline-from-documents",
+        "text": "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes."
+      },
+      {
+        "type": "station",
+        "target": "k12-how-a-local-council-meeting-works",
+        "text": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
       },
       {
         "type": "talk",
@@ -5224,6 +5284,16 @@ export const SIDE_QUESTS = [
         "text": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
       },
       {
+        "type": "station",
+        "target": "k12-writing-a-clear-incident-report",
+        "text": "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it."
+      },
+      {
+        "type": "station",
+        "target": "k12-first-aid-awareness-call-for-help",
+        "text": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
+      },
+      {
         "type": "talk",
         "target": "training-lead",
         "text": "\"Reading and speaking for life: instructions and safety labels, a clear incident report, public speaking, digital citizenship, first aid awareness that always ends in calling for help, and teamwork and feedback alongside the emotional intelligence stations.\""
@@ -5254,6 +5324,16 @@ export const SIDE_QUESTS = [
         "type": "station",
         "target": "k12-reading-instructions-and-safety-labels",
         "text": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
+      },
+      {
+        "type": "station",
+        "target": "k12-writing-a-clear-incident-report",
+        "text": "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it."
+      },
+      {
+        "type": "station",
+        "target": "k12-first-aid-awareness-call-for-help",
+        "text": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
       },
       {
         "type": "talk",

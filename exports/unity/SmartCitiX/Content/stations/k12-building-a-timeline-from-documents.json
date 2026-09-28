@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "in-order",
+    "name": "In Order",
+    "note": "A timeline built from the documents' own evidence, with uncertain dates marked as uncertain"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "DATES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sorter",
+      "Reader",
+      "Chronicler",
+      "Historian",
+      "Archivist"
+    ],
+    "system": "Timeline Board"
+  },
+  "hazards": {
+    "confuse-made-and-described": "You placed a memoir at the date it was written as if the events happened then. A document has two dates that matter: when it was made and when the things it describes happened. Mixing them puts events in the wrong place on the timeline.",
+    "invent-a-missing-date": "You gave the undated letter a date because it fitted. A document with no date is placed as undated, or given a range with the reason stated; inventing a date turns a guess into a false fact.",
+    "order-by-the-story": "You put the documents in the order the story you expected would need. A timeline is built from the evidence on the documents, not from a story in your head; when the evidence and the story disagree, the evidence wins and the story changes.",
+    "say-the-archive-is-real": "You told the class the documents were real history. These are the lesson's own fictional archive, labelled as such, made so the method can be practised without any real claim; saying otherwise is exactly the kind of false claim this lesson teaches you to avoid."
+  },
+  "id": "k12-building-a-timeline-from-documents",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "read-the-memoir-right-through",
+      "alert": "A stack of the archive's fragile documents slides towards the edge of the table.",
+      "cue": "Stop, steady the stack and lay the papers flat, then call the archivist.",
+      "delay": 3,
+      "id": "documents-slide-off-the-table",
+      "kind": "Falling documents",
+      "missNote": "Nobody stopped, the stack fell and two documents creased across their dates. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "ktl-stop-and-gather",
+      "why": "Fragile papers damaged in a fall cannot be undamaged. Stopping, steadying them and laying them flat protects the archive, and calling the archivist means anything creased is handled by someone who knows how.",
+      "wrongNote": "That does not protect the papers. Stop and lay them flat. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-timeline-led-by-the",
+      "alert": "The teacher points at a document on your timeline and asks why it is there.",
+      "cue": "Name the evidence on the document that placed it, or say that it is a range and why.",
+      "delay": 3,
+      "id": "the-teacher-asks-why-there",
+      "kind": "Teacher question",
+      "missNote": "You said it fitted there, with no evidence, and the placement stayed unchecked. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "ktl-give-the-evidence",
+      "why": "Why is it there is the historian's check on every timeline. Answering with the evidence, not with how it fits the story, shows the timeline was built the right way round.",
+      "wrongNote": "That is the story, not the evidence. Name what on the document placed it."
+    }
+  ],
+  "lateNotes": {
+    "ktl-checkin": "The check-in comes at the very end of the lesson.",
+    "ktl-timeline-log": "The timeline record is written once every document is placed — nothing to record yet."
+  },
+  "name": "Building a Timeline from Documents",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-history-and-civics"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "confuse-made-and-described",
+      "invent-a-missing-date",
+      "ktl-checkin",
+      "ktl-confidence-meter",
+      "ktl-context-clue",
+      "ktl-cross-reference",
+      "ktl-date-dial",
+      "ktl-decorative-border",
+      "ktl-gap-card",
+      "ktl-give-the-evidence",
+      "ktl-label-card",
+      "ktl-letter-token",
+      "ktl-ord-date",
+      "ktl-ord-evidence",
+      "ktl-ord-sort",
+      "ktl-ord-uncertain",
+      "ktl-range-spot",
+      "ktl-read-memoir",
+      "ktl-share-board",
+      "ktl-stop-and-gather",
+      "ktl-timeline-log",
+      "ktl-tl-invented",
+      "ktl-tl-labelled",
+      "ktl-tl-memoir",
+      "ktl-tl-story",
+      "ktl-track-meter",
+      "ktl-written-date",
+      "order-by-the-story",
+      "say-the-archive-is-real"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three kinds of dating evidence on the documents in the lesson's fictional archive.",
+      "decoyNotes": {
+        "ktl-decorative-border": "A border is decoration, not evidence. Look for dating clues."
+      },
+      "id": "find-the-dating-evidence",
+      "itemNames": {
+        "ktl-context-clue": "a clue in the content",
+        "ktl-cross-reference": "a reference to another dated document",
+        "ktl-written-date": "a date written on the page"
+      },
+      "itemNotes": {
+        "ktl-context-clue": "A mention of something that came later gives an earliest possible date.",
+        "ktl-cross-reference": "Places this document before or after that one.",
+        "ktl-written-date": "The strongest evidence, but check whether it is when it was made or what it describes."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three kinds of dating evidence on the documents in the lesson's fictional archive.",
+      "targets": [
+        "ktl-written-date",
+        "ktl-cross-reference",
+        "ktl-context-clue"
+      ],
+      "title": "Find the dating evidence",
+      "why": "Documents carry dating evidence in different ways: a date written on the document, a reference to another event whose date you know, and clues such as the kind of paper or the name of a shop that opened later. Finding every kind before ordering anything is what makes the timeline rest on evidence. These documents are the lesson's own fictional archive, labelled as such."
+    },
+    {
+      "cue": "Read the label: these are the lesson's own fictional documents.",
+      "id": "read-the-archive-s-label-first",
+      "kind": "select",
+      "prompt": "Read the label: these are the lesson's own fictional documents.",
+      "target": "ktl-label-card",
+      "title": "Read the archive's label first",
+      "why": "Knowing what a source is, before using it, is the first step of historical method. These documents were made for the lesson and are labelled as such, so the method can be practised honestly; a historian always states what their sources are and where they come from."
+    },
+    {
+      "cue": "Find the evidence, date each document, sort, then mark what is uncertain.",
+      "id": "put-the-method-in-order",
+      "itemNames": {
+        "ktl-ord-date": "2 · date each document",
+        "ktl-ord-evidence": "1 · find the evidence",
+        "ktl-ord-sort": "3 · sort them",
+        "ktl-ord-uncertain": "4 · mark what is uncertain"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Date each document from its evidence before you sort.",
+      "prompt": "Find the evidence, date each document, sort, then mark what is uncertain.",
+      "targets": [
+        "ktl-ord-evidence",
+        "ktl-ord-date",
+        "ktl-ord-sort",
+        "ktl-ord-uncertain"
+      ],
+      "title": "Put the method in order",
+      "why": "Dating each document from its own evidence before sorting stops the order being bent to fit a story. Marking the uncertain ones last, openly, means the timeline shows where the evidence is strong and where it is weak, which is exactly what the next researcher needs to know."
+    },
+    {
+      "cue": "Hold your place and read the whole memoir before placing it.",
+      "holdBreakNote": "You stopped reading and placed it too soon. Read the whole memoir first.",
+      "id": "read-the-memoir-right-through",
+      "kind": "hold",
+      "prompt": "Hold your place and read the whole memoir before placing it.",
+      "seconds": 6,
+      "target": "ktl-read-memoir",
+      "title": "Read the memoir right through",
+      "why": "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source."
+    },
+    {
+      "cue": "Turn the dial from the memoir's writing date to the date of the events it describes.",
+      "id": "turn-from-when-it-was-made",
+      "kind": "turn",
+      "prompt": "Turn the dial from the memoir's writing date to the date of the events it describes.",
+      "target": "ktl-date-dial",
+      "title": "Turn from when it was made to when it describes",
+      "turn": {
+        "axis": "y",
+        "label": "DESCRIBED",
+        "turns": 0.5
+      },
+      "why": "Separating the date a document was made from the date of what it describes is the key skill of this lesson. A memoir written long after is still evidence about the earlier events, but it is placed on the timeline where the events happened, with a note of when it was written."
+    },
+    {
+      "cue": "Commit when your confidence matches the evidence for the undated letter's range.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CONFIDENCE",
+        "missNote": "Outside the band. Too sure and a guess becomes a fact; too doubtful and good evidence is wasted. Weigh it again.",
+        "speed": 0.6
+      },
+      "id": "judge-how-confident-each-date-is",
+      "kind": "gauge",
+      "prompt": "Commit when your confidence matches the evidence for the undated letter's range.",
+      "target": "ktl-confidence-meter",
+      "title": "Judge how confident each date is",
+      "why": "Some dates are certain, some are ranges, and some are guesses. Matching your confidence to the evidence, and saying so on the timeline, is what makes a timeline honest rather than tidy."
+    },
+    {
+      "cue": "Drag the undated letter onto the timeline as a range between the two documents it mentions.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to on the timeline as a range.",
+        "radius": 0.45,
+        "to": "ktl-range-spot"
+      },
+      "id": "place-the-undated-letter-as-a",
+      "kind": "drag",
+      "prompt": "Drag the undated letter onto the timeline as a range between the two documents it mentions.",
+      "target": "ktl-letter-token",
+      "title": "Place the undated letter as a range",
+      "why": "An undated letter that mentions two dated events can be placed between them as a range. Placing it that way, rather than at a single invented date, uses exactly what the evidence supports and no more."
+    },
+    {
+      "cue": "Where no document covers a stretch of time, mark it as a gap.",
+      "id": "mark-the-gaps-on-the-timeline",
+      "kind": "select",
+      "prompt": "Where no document covers a stretch of time, mark it as a gap.",
+      "target": "ktl-gap-card",
+      "title": "Mark the gaps on the timeline",
+      "why": "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page."
+    },
+    {
+      "cue": "Look at the draft timeline and mark each problem.",
+      "decoyNotes": {
+        "ktl-tl-labelled": "Saying what the sources are is right. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "ktl-tl-invented": "an undated item with an exact date",
+        "ktl-tl-memoir": "a memoir placed at its writing date",
+        "ktl-tl-story": "the order bent to fit a story"
+      },
+      "itemNotes": {
+        "ktl-tl-invented": "Use a range and give the reason, or mark it undated.",
+        "ktl-tl-memoir": "Place it where the events happened, noting when it was written.",
+        "ktl-tl-story": "The evidence decides the order."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft timeline and mark each problem.",
+      "targets": [
+        "ktl-tl-memoir",
+        "ktl-tl-invented",
+        "ktl-tl-story"
+      ],
+      "title": "Spot the problems in a classmate's timeline",
+      "why": "Timelines go wrong in predictable ways: a document placed at its writing date instead of its event date, an undated item given an exact date and the order bent to fit a story. Spotting these in a draft teaches you to check your own."
+    },
+    {
+      "cue": "Hold the timeline in band with the evidence as you add the last documents.",
+      "holdBreakNote": "The timeline drifted towards the story. Check the last placements against their evidence.",
+      "id": "keep-the-timeline-led-by-the",
+      "kind": "track",
+      "prompt": "Hold the timeline in band with the evidence as you add the last documents.",
+      "seconds": 8,
+      "target": "ktl-track-meter",
+      "title": "Keep the timeline led by the evidence",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "EVIDENCE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "As a timeline fills up, it starts to suggest a story, and the last documents are tempting to force into it. Keeping every placement tied to its own evidence is the discipline that stops a timeline becoming a work of fiction."
+    },
+    {
+      "cue": "Write each document's placement and the evidence that put it there.",
+      "id": "record-the-timeline-and-its-evidence",
+      "kind": "select",
+      "prompt": "Write each document's placement and the evidence that put it there.",
+      "target": "ktl-timeline-log",
+      "title": "Record the timeline and its evidence",
+      "why": "Recording the evidence behind each placement lets anyone check the timeline and change it if new evidence appears. That is how historical timelines are built and improved over time."
+    },
+    {
+      "cue": "Explain how you separated when the memoir was written from when its events happened.",
+      "id": "show-the-class-how-you-placed",
+      "kind": "select",
+      "prompt": "Explain how you separated when the memoir was written from when its events happened.",
+      "target": "ktl-share-board",
+      "title": "Show the class how you placed the memoir",
+      "why": "Explaining the memoir's two dates to the class teaches the skill most people miss. Sharing the method, not just the finished timeline, lets classmates check their own and fix the same mistake."
+    },
+    {
+      "cue": "How did the timeline go? What question do you still have?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the timeline go? What question do you still have?",
+      "target": "ktl-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Order the documents by the evidence, not by the story you expect",
+  "title": "SmartCiti.X~ Building a Timeline from Documents VR",
+  "trade": "History class at the school archive table — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

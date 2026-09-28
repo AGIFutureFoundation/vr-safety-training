@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "just-the-facts",
+    "name": "Just the Facts",
+    "note": "A report written in order, facts kept apart from guesses and read back for clarity"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LINES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Noticer",
+      "Note-taker",
+      "Reporter",
+      "Editor",
+      "Writer"
+    ],
+    "system": "Report Board"
+  },
+  "hazards": {
+    "blame-in-the-report": "You wrote who was to blame. An incident report describes what happened so it can be put right; deciding blame is someone else's job, and a report that blames gets argued with instead of acted on.",
+    "name-people-carelessly": "You put classmates' details into a report that others would read. Reports go to the people who need them and include only the details they need; care with other people's information is part of writing responsibly.",
+    "wait-until-tomorrow": "You decided to write the report tomorrow. Memory fades and changes quickly, and a report written the same day is far more accurate; writing it while it is fresh is part of doing it properly.",
+    "write-a-guess-as-fact": "You wrote why the pupil tripped as if you had seen it. A report states what you saw; anything you think but did not see is labelled as what you think, or left out. Guesses written as facts can blame the wrong person and hide the real cause."
+  },
+  "id": "k12-writing-a-clear-incident-report",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "recall-exactly-what-you-saw",
+      "alert": "While you write, the pupil who fell says they feel sick and looks pale.",
+      "cue": "Stop writing and call the supervisor straight away; the report can wait.",
+      "delay": 3,
+      "id": "the-pupil-looks-pale",
+      "kind": "Pupil unwell",
+      "missNote": "Nobody called the supervisor, and the pupil was left alone while the reports were finished.",
+      "seconds": 12,
+      "target": "kir-call-the-supervisor",
+      "why": "A report is never more important than a person. When someone looks unwell, the right thing is to stop and get an adult at once; the report can be finished afterwards.",
+      "wrongNote": "That does not get help. Call the supervisor. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-report-factual-to-the",
+      "alert": "The supervisor asks whether you saw the pupil trip on the strap.",
+      "cue": "Say exactly what you saw, and say plainly what you did not see.",
+      "delay": 3,
+      "id": "the-supervisor-asks-did-you-see-it",
+      "kind": "Supervisor question",
+      "missNote": "You said yes to be helpful, though you only saw the fall, and the report now states it as fact.",
+      "seconds": 12,
+      "target": "kir-say-what-you-saw",
+      "why": "Saying what you did not see is as important as what you did. It stops a guess becoming the official version, and it is what makes your report trustworthy to the supervisor.",
+      "wrongNote": "That goes beyond what you saw. Say what you saw and what you did not."
+    }
+  ],
+  "lateNotes": {
+    "kir-checkin": "The check-in comes at the very end of the lesson.",
+    "kir-report-log": "The report is filed once it is written and read back — nothing to file yet."
+  },
+  "name": "Writing a Clear Incident Report",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blame-in-the-report",
+      "kir-call-the-supervisor",
+      "kir-called",
+      "kir-checkin",
+      "kir-clarity-meter",
+      "kir-fact-dial",
+      "kir-fall",
+      "kir-fresh-card",
+      "kir-ir-blame",
+      "kir-ir-guess",
+      "kir-ir-no-response",
+      "kir-ir-time",
+      "kir-ord-done",
+      "kir-ord-what",
+      "kir-ord-when",
+      "kir-ord-who",
+      "kir-poster",
+      "kir-readback-card",
+      "kir-recall-hold",
+      "kir-report-log",
+      "kir-report-token",
+      "kir-say-what-you-saw",
+      "kir-share-board",
+      "kir-strap",
+      "kir-supervisor-spot",
+      "kir-track-meter",
+      "name-people-carelessly",
+      "wait-until-tomorrow",
+      "write-a-guess-as-fact"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things you saw that belong in the report.",
+      "decoyNotes": {
+        "kir-poster": "Not part of what happened. Stick to what matters."
+      },
+      "id": "find-what-the-report-needs",
+      "itemNames": {
+        "kir-called": "the supervisor being called",
+        "kir-fall": "the pupil falling and holding their wrist",
+        "kir-strap": "the bag strap across the walkway"
+      },
+      "itemNotes": {
+        "kir-called": "What was done. Reports include the response.",
+        "kir-fall": "What happened, as seen. No guesses about why.",
+        "kir-strap": "Something you saw. It may explain the fall — write it as what you saw."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things you saw that belong in the report.",
+      "targets": [
+        "kir-strap",
+        "kir-fall",
+        "kir-called"
+      ],
+      "title": "Find what the report needs",
+      "why": "A good report starts with what you actually observed. Here that is the bag strap across the walkway, the pupil falling and holding their wrist, and the supervisor being called. Picking out the facts you saw, before writing a word, keeps the report accurate and useful."
+    },
+    {
+      "cue": "Start the report now, while you remember clearly.",
+      "id": "write-the-report-while-it-is",
+      "kind": "select",
+      "prompt": "Start the report now, while you remember clearly.",
+      "target": "kir-fresh-card",
+      "title": "Write the report while it is fresh",
+      "why": "Memory is most accurate straight after something happens and changes quickly afterwards. Writing the report the same day, while details are fresh, is what makes it trustworthy, and it is what any workplace or school will ask for."
+    },
+    {
+      "cue": "What happened, when and where, who was involved, what was done.",
+      "id": "put-the-report-in-order",
+      "itemNames": {
+        "kir-ord-done": "4 · what was done",
+        "kir-ord-what": "1 · what happened",
+        "kir-ord-when": "2 · when and where",
+        "kir-ord-who": "3 · who was involved"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start with what happened, so the reader knows the point.",
+      "prompt": "What happened, when and where, who was involved, what was done.",
+      "targets": [
+        "kir-ord-what",
+        "kir-ord-when",
+        "kir-ord-who",
+        "kir-ord-done"
+      ],
+      "title": "Put the report in order",
+      "why": "A report in a fixed order is easy to read and hard to misunderstand. Saying what happened first gives the reader the point; when and where set the scene; who was involved says who to ask; what was done shows the response. Readers find what they need without searching."
+    },
+    {
+      "cue": "Hold still and picture the moment before you write.",
+      "holdBreakNote": "You rushed into writing and mixed in a guess. Stop and picture what you actually saw.",
+      "id": "recall-exactly-what-you-saw",
+      "kind": "hold",
+      "prompt": "Hold still and picture the moment before you write.",
+      "seconds": 6,
+      "target": "kir-recall-hold",
+      "title": "Recall exactly what you saw",
+      "why": "Taking a moment to picture exactly what you saw, before writing, separates memory from assumption. It is often in that pause that you notice you did not actually see the pupil's foot catch, only the fall."
+    },
+    {
+      "cue": "Turn the dial from 'they weren't looking' to what you actually saw.",
+      "id": "turn-a-guess-into-a-statement",
+      "kind": "turn",
+      "prompt": "Turn the dial from 'they weren't looking' to what you actually saw.",
+      "target": "kir-fact-dial",
+      "title": "Turn a guess into a statement of what you saw",
+      "turn": {
+        "axis": "y",
+        "label": "FACT",
+        "turns": 0.5
+      },
+      "why": "Rewriting a guess as an observation is the core skill of report writing. 'They weren't looking' becomes 'I saw them fall near the strap'. The second can be checked; the first cannot, and could be unfair."
+    },
+    {
+      "cue": "Commit when your sentences are short enough to read at a glance but still complete.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CLEAR",
+        "missNote": "Outside the band. Too long and the facts get lost; too clipped and they stop making sense. Try again.",
+        "speed": 0.6
+      },
+      "id": "keep-sentences-clear-and-short",
+      "kind": "gauge",
+      "prompt": "Commit when your sentences are short enough to read at a glance but still complete.",
+      "target": "kir-clarity-meter",
+      "title": "Keep sentences clear and short",
+      "why": "Long sentences hide facts and short fragments lose them. Clear, complete sentences of moderate length are what make a report readable by someone in a hurry, which is who usually reads them."
+    },
+    {
+      "cue": "Drag your report to the hall supervisor, who needs it.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to with the hall supervisor.",
+        "radius": 0.45,
+        "to": "kir-supervisor-spot"
+      },
+      "id": "hand-the-report-to-the-right",
+      "kind": "drag",
+      "prompt": "Drag your report to the hall supervisor, who needs it.",
+      "target": "kir-report-token",
+      "title": "Hand the report to the right person",
+      "why": "A report only helps once it reaches the person who can act on it. Handing it to the supervisor, rather than leaving it on a desk or sharing it around, means it gets acted on and other people's details stay private."
+    },
+    {
+      "cue": "Read your report back as if you were someone who was not there.",
+      "id": "read-the-report-back-before-handing",
+      "kind": "select",
+      "prompt": "Read your report back as if you were someone who was not there.",
+      "target": "kir-readback-card",
+      "title": "Read the report back before handing it in",
+      "why": "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught."
+    },
+    {
+      "cue": "Look at the draft report and mark each problem.",
+      "decoyNotes": {
+        "kir-ir-time": "When and where are exactly right. Keep them."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kir-ir-blame": "blame instead of description",
+        "kir-ir-guess": "a guess written as fact",
+        "kir-ir-no-response": "nothing on what was done"
+      },
+      "itemNotes": {
+        "kir-ir-blame": "Describe what happened; blame is not the report's job.",
+        "kir-ir-guess": "Did they see it? Label it or leave it out.",
+        "kir-ir-no-response": "The response belongs in every report."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft report and mark each problem.",
+      "targets": [
+        "kir-ir-guess",
+        "kir-ir-blame",
+        "kir-ir-no-response"
+      ],
+      "title": "Spot the problems in a classmate's report",
+      "why": "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own."
+    },
+    {
+      "cue": "Hold the report in band with what you saw as you finish the last lines.",
+      "holdBreakNote": "The report drifted into opinion. Bring the last lines back to what you saw.",
+      "id": "keep-the-report-factual-to-the",
+      "kind": "track",
+      "prompt": "Hold the report in band with what you saw as you finish the last lines.",
+      "seconds": 8,
+      "target": "kir-track-meter",
+      "title": "Keep the report factual to the end",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FACTUAL",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The end of a report is where opinions creep in: a summary, a judgement, a suggestion of fault. Keeping the last lines as factual as the first is what makes the whole report trustworthy."
+    },
+    {
+      "cue": "File the finished report where the school keeps them.",
+      "id": "file-the-report",
+      "kind": "select",
+      "prompt": "File the finished report where the school keeps them.",
+      "target": "kir-report-log",
+      "title": "File the report",
+      "why": "Filing the report means it can be found later if the incident needs following up, and it helps the school spot patterns, like a walkway where bags are always left. A filed report does more good than a remembered one."
+    },
+    {
+      "cue": "Tell the class one thing that made your report clearer.",
+      "id": "share-one-report-writing-tip",
+      "kind": "select",
+      "prompt": "Tell the class one thing that made your report clearer.",
+      "target": "kir-share-board",
+      "title": "Share one report-writing tip",
+      "why": "Sharing a tip helps classmates and fixes it in your own memory. The best tips are simple: write it today, facts first, read it back."
+    },
+    {
+      "cue": "How did the report go? Which part was hardest?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the report go? Which part was hardest?",
+      "target": "kir-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and gives each learner a moment to notice what they can now do. Nobody is marked here, and a teacher or trusted adult is there for anyone who wants to talk more."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "What happened, when, where, who, what was done — facts first, guesses labelled",
+  "title": "SmartCiti.X~ Writing a Clear Incident Report VR",
+  "trade": "Literacy class in the school hall after a practice incident — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

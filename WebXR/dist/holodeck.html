@@ -13399,6 +13399,10 @@ const STANDARDS = Object.fromEntries([
   S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
   S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
   S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("un-sdg-4-quality-education", "UN", "Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("unesco-education-guidance", "UNESCO", "Education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("inee-minimum-standards", "INEE", "Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing", ["Community Environmental Justice"], "unverified"),
+  S("national-curriculum-framework", "national curriculum authority", "The national curriculum framework the school follows, as a category; no grade-level code is cited", ["Community Environmental Justice"], "unverified"),
   S("ansi-r15-06", "ANSI/ASSP", "R15.06 Safety requirements for industrial robots and robot systems", ["Manufacturing"]),
   S("iso-10218", "ISO", "10218 Robots and robotic devices — safety requirements for industrial robots", ["Manufacturing"]),
   S("ashrae-15", "ASHRAE", "15 Safety Standard for Refrigeration Systems", ["Manufacturing", "Building Systems"]),
@@ -13847,6 +13851,46 @@ const PROGRAMME_COMPETENCIES = [
       "bb-transition-spacing-and-roles", "bb-timeout-huddle-and-adjustment", "bb-losing-well-and-film-review"
     ],
     require: 6,
+  },
+  {
+    id: "k12-practical-math",
+    title: "Use measurement, proportion, data and chance to reason about real places, with every unit written and every answer checked",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen"
+    ],
+    require: 2,
+  },
+  {
+    id: "k12-science",
+    title: "Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm"
+    ],
+    require: 2,
+  },
+  {
+    id: "k12-history-and-civics",
+    title: "Question sources, trace claims to evidence and say where the evidence runs out",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-primary-and-secondary-sources", "k12-building-a-timeline-from-documents", "k12-how-a-local-council-meeting-works"
+    ],
+    require: 2,
+  },
+  {
+    id: "k12-literacy-and-life-skills",
+    title: "Read, write and speak clearly enough to act safely and work well with others",
+    kind: "programme",
+    standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
+    stations: [
+      "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help"
+    ],
+    require: 2,
   },
   {
     id: "bay-restoration-maritime-underwater",
@@ -46134,6 +46178,594 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-measuring-and-scaling-the-court",
+    "index": "801",
+    "domain": "Education",
+    "trade": "Maths class on the arena court — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Measuring and Scaling the Court",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Measuring and Scaling the Court VR",
+    "tagline": "Measure it twice, write the unit, then scale it — a court drawn to scale is a court you can reason about",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "true-to-scale",
+      "name": "True to Scale",
+      "note": "Court measured, units kept and a scale drawing that matches"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scale Board",
+      "currency": "UNITS",
+      "ranks": [
+        "Counter",
+        "Measurer",
+        "Surveyor",
+        "Scaler",
+        "Designer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-water-cycle-and-filtration",
+    "index": "802",
+    "domain": "Education",
+    "trade": "Science class at the treatment plant's visitor bench — learner and plant educator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Water Cycle and Filtration",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Water Cycle and Filtration VR",
+    "tagline": "Follow the water round the cycle, then watch a filter work — and never drink from the bench",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "full-circle",
+      "name": "Full Circle",
+      "note": "The water cycle told in order and a filter set up, observed and explained"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cycle Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Observer",
+        "Sampler",
+        "Tester",
+        "Explainer",
+        "Scientist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-primary-and-secondary-sources",
+    "index": "803",
+    "domain": "Education",
+    "trade": "History class in the community archive room — learner and archivist",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Primary and Secondary Sources",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Primary and Secondary Sources VR",
+    "tagline": "Ask who made it, when, why and for whom — then check the story against the evidence",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "source-checked",
+      "name": "Source Checked",
+      "note": "A primary and a secondary source read against each other, with every claim traced to evidence"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Archive Board",
+      "currency": "SOURCES",
+      "ranks": [
+        "Reader",
+        "Questioner",
+        "Researcher",
+        "Historian",
+        "Archivist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-reading-instructions-and-safety-labels",
+    "index": "804",
+    "domain": "Education",
+    "trade": "Literacy class in the school workshop — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Reading Instructions and Safety Labels",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reading Instructions and Safety Labels VR",
+    "tagline": "Read it all before you start, and read the label before you open anything",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "read-first",
+      "name": "Read First",
+      "note": "Instructions read right through and every label read before use"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reading Board",
+      "currency": "PAGES",
+      "ranks": [
+        "Reader",
+        "Checker",
+        "Follower",
+        "Explainer",
+        "Guide"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-household-budget-and-first-paycheck",
+    "index": "805",
+    "domain": "Education",
+    "trade": "Maths class at the community centre's money desk — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Household Budget and a First Paycheck",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Household Budget and a First Paycheck VR",
+    "tagline": "Read the slip, find the percentage, plan the month — and keep something back for the unexpected",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "month-planned",
+      "name": "Month Planned",
+      "note": "Pay slip read, percentages worked and a budget that balances with something saved"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Budget Board",
+      "currency": "COINS",
+      "ranks": [
+        "Saver",
+        "Planner",
+        "Budgeter",
+        "Adviser",
+        "Treasurer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-reading-a-map-scale-in-bay-world",
+    "index": "806",
+    "domain": "Education",
+    "trade": "Maths class at the ferry landing map board — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Reading a Map Scale in Bay World",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reading a Map Scale in Bay World VR",
+    "tagline": "Measure on the map, scale it up, then work out how long the journey takes",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "on-the-map",
+      "name": "On the Map",
+      "note": "A route measured, scaled and timed, with the answer checked against common sense"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Board",
+      "currency": "LEGS",
+      "ranks": [
+        "Walker",
+        "Map Reader",
+        "Navigator",
+        "Planner",
+        "Pathfinder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-buoyancy-and-pressure-in-the-deep",
+    "index": "807",
+    "domain": "Education",
+    "trade": "Science class at the Deep's viewing platform — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Buoyancy and Pressure in the Deep",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Buoyancy and Pressure in the Deep VR",
+    "tagline": "Float or sink is a push-up against a pull-down — and deeper water pushes harder",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "float-or-sink",
+      "name": "Float or Sink",
+      "note": "Predictions made, tested fairly and explained with the upward push of the water"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Buoyancy Board",
+      "currency": "BUBBLES",
+      "ranks": [
+        "Observer",
+        "Predictor",
+        "Tester",
+        "Explainer",
+        "Scientist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-circuits-at-the-electrical-bench",
+    "index": "808",
+    "domain": "Education",
+    "trade": "Science class at the school's electrical bench — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Circuits at the Electrical Bench",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Circuits at the Electrical Bench VR",
+    "tagline": "A circuit needs a complete loop — and in class, it is always a low-voltage kit",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "full-loop",
+      "name": "Full Loop",
+      "note": "A circuit built, tested, explained and packed away safely"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Circuit Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Builder",
+        "Connector",
+        "Tester",
+        "Explainer",
+        "Designer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-building-a-timeline-from-documents",
+    "index": "809",
+    "domain": "Education",
+    "trade": "History class at the school archive table — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Building a Timeline from Documents",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Building a Timeline from Documents VR",
+    "tagline": "Order the documents by the evidence, not by the story you expect",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "in-order",
+      "name": "In Order",
+      "note": "A timeline built from the documents' own evidence, with uncertain dates marked as uncertain"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Timeline Board",
+      "currency": "DATES",
+      "ranks": [
+        "Sorter",
+        "Reader",
+        "Chronicler",
+        "Historian",
+        "Archivist"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-how-a-local-council-meeting-works",
+    "index": "810",
+    "domain": "Education",
+    "trade": "Civics class at the civic centre's meeting chamber — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "How a Local Council Meeting Works",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ How a Local Council Meeting Works VR",
+    "tagline": "Read the agenda, sign up to speak, keep to your point, and check what the minutes record",
+    "accent": 12618314,
+    "accentCss": "#c08a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "heard-in-public",
+      "name": "Heard in Public",
+      "note": "An agenda read, a clear public comment given and the decision checked in the minutes"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chamber Board",
+      "currency": "VOICES",
+      "ranks": [
+        "Observer",
+        "Resident",
+        "Speaker",
+        "Organiser",
+        "Civic Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-writing-a-clear-incident-report",
+    "index": "811",
+    "domain": "Education",
+    "trade": "Literacy class in the school hall after a practice incident — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Writing a Clear Incident Report",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Writing a Clear Incident Report VR",
+    "tagline": "What happened, when, where, who, what was done — facts first, guesses labelled",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "just-the-facts",
+      "name": "Just the Facts",
+      "note": "A report written in order, facts kept apart from guesses and read back for clarity"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Report Board",
+      "currency": "LINES",
+      "ranks": [
+        "Noticer",
+        "Note-taker",
+        "Reporter",
+        "Editor",
+        "Writer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-first-aid-awareness-call-for-help",
+    "index": "812",
+    "domain": "Education",
+    "trade": "Life skills class at the fire station's open day — learner and firefighter",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "First Aid Awareness: Call for Help",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ First Aid Awareness: Call for Help VR",
+    "tagline": "Stay safe, get an adult, call for help, say clearly where you are",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "help-called",
+      "name": "Help Called",
+      "note": "Danger checked, an adult fetched, help called and the location given clearly"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Help Board",
+      "currency": "CALLS",
+      "ranks": [
+        "Noticer",
+        "Helper",
+        "Caller",
+        "Guide",
+        "Responder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-fractions-in-the-kitchen",
+    "index": "813",
+    "domain": "Education",
+    "trade": "Maths class in the teaching kitchen — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Fractions in the Kitchen",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Fractions in the Kitchen VR",
+    "tagline": "Scale every ingredient by the same fraction — and wash your hands before you touch any of it",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "same-fraction",
+      "name": "Same Fraction",
+      "note": "A recipe scaled by one fraction throughout, measured with the right spoon and checked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Recipe Board",
+      "currency": "PORTIONS",
+      "ranks": [
+        "Helper",
+        "Measurer",
+        "Scaler",
+        "Cook",
+        "Chef"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-energy-transfer-at-the-wind-farm",
+    "index": "814",
+    "domain": "Education",
+    "trade": "Science class at the wind farm's visitor point — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Energy Transfer at the Wind Farm",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Energy Transfer at the Wind Farm VR",
+    "tagline": "Energy is never made or lost — follow it from the wind to the wire",
+    "accent": 5224586,
+    "accentCss": "#4fb88a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "energy-followed",
+      "name": "Energy Followed",
+      "note": "Energy traced store to store with a model turbine, wasted energy named and nothing claimed that the test did not show"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Energy Board",
+      "currency": "JOULES",
+      "ranks": [
+        "Observer",
+        "Tracer",
+        "Tester",
+        "Explainer",
+        "Engineer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -47970,6 +48602,10 @@ const PP_PROGRAMMES = {
   "commercial-diving-and-scientific-scuba": { name: "Commercial Diving & Scientific Scuba", stations: ["cd-underwater-wet-welding-and-cutting","cd-pier-piling-inspection-and-wrap-repair","cd-rov-launch-recovery-and-tether-management","cd-decompression-chamber-operations-and-post-dive","cd-scientific-scuba-buddy-check-and-lost-buddy-drill","cd-low-visibility-and-night-dive-line-work","cd-hydraulic-tools-and-suction-hazards-underwater","cd-dive-records-and-incident-review"] },
   "aerospace-defense-and-robotics": { name: "Aerospace Depot and Robotics — IAM and UAW Skilled Trades", stations: ["ad-cleanroom-gowning-and-esd-discipline","ad-payload-crane-lift-with-a-lift-plan","ad-hazardous-fluid-servicing-with-a-buddy","ad-depot-tool-control-and-fod-walk","ad-test-stand-exclusion-zone-and-holds","ad-robot-cell-lockout-and-safe-reentry","ad-amr-fleet-traffic-and-estop-drill","ad-cobot-risk-assessment-and-speed-separation"] },
   "wind-and-data-infrastructure": { name: "Wind & Data Infrastructure", stations: ["ws-turbine-climb-and-rescue-kit-check","ws-nacelle-lockout-and-yaw-brake-fault","ws-blade-inspection-from-a-platform","ws-substation-switching-under-a-permit","ws-data-hall-busway-install-and-torque-signoff","ws-raised-floor-tile-lift-and-cable-tray-safety","ws-crah-alarm-response-in-a-live-hall","ws-ocean-pod-retrieval-and-hatch-opening"] },
+  "k12-practical-math": { name: "K-12 Practical Maths", stations: ["k12-measuring-and-scaling-the-court","k12-household-budget-and-first-paycheck","k12-reading-a-map-scale-in-bay-world","k12-fractions-in-the-kitchen"] },
+  "k12-science": { name: "K-12 Science", stations: ["k12-water-cycle-and-filtration","k12-buoyancy-and-pressure-in-the-deep","k12-circuits-at-the-electrical-bench","k12-energy-transfer-at-the-wind-farm"] },
+  "k12-history-and-civics": { name: "K-12 History and Civics", stations: ["k12-primary-and-secondary-sources","k12-building-a-timeline-from-documents","k12-how-a-local-council-meeting-works"] },
+  "k12-literacy-and-life-skills": { name: "K-12 Literacy and Life Skills", stations: ["k12-reading-instructions-and-safety-labels","k12-writing-a-clear-incident-report","k12-first-aid-awareness-call-for-help"] },
 };
 
 

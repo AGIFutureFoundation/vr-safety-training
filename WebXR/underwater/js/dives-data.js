@@ -773,6 +773,90 @@ export const DV_SIDE_DIVES = [
     }
   },
   {
+    "id": "dv-side-k12-science-opener",
+    "title": "K-12 Science — First Dive",
+    "giver": "the programme's dive lead",
+    "site": "Shelf Checkout Site",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "k12-science",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Shelf Checkout Site",
+        "text": "The dive lead meets you at Shelf Checkout Site and walks you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "k12-water-cycle-and-filtration",
+        "text": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
+      },
+      {
+        "type": "station",
+        "target": "k12-buoyancy-and-pressure-in-the-deep",
+        "text": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+      },
+      {
+        "type": "station",
+        "target": "k12-circuits-at-the-electrical-bench",
+        "text": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+      },
+      {
+        "type": "talk",
+        "target": "dive-lead",
+        "text": "\"Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "K-12 Science — Opener"
+    }
+  },
+  {
+    "id": "dv-side-k12-science-capstone",
+    "title": "K-12 Science — Capstone Dive",
+    "giver": "the programme's certifying evaluator",
+    "site": "Shelf Checkout Site",
+    "kind": "side",
+    "tier": 2,
+    "requires": "dv-side-k12-science-opener",
+    "programmeId": "k12-science",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Shelf Checkout Site",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "k12-buoyancy-and-pressure-in-the-deep",
+        "text": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+      },
+      {
+        "type": "station",
+        "target": "k12-circuits-at-the-electrical-bench",
+        "text": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+      },
+      {
+        "type": "station",
+        "target": "k12-energy-transfer-at-the-wind-farm",
+        "text": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "K-12 Science — Capstone"
+    }
+  },
+  {
     "id": "dv-side-rigging-lifting-opener",
     "title": "Rigging and Lifting — First Dive",
     "giver": "the programme's dive lead",

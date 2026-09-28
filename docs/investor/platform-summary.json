@@ -3,12 +3,12 @@
   "facts": [
     {
       "key": "procedures",
-      "value": 657,
+      "value": 671,
       "source": "WebXR/smartcity/catalog.json stations.length"
     },
     {
       "key": "smartcityStations",
-      "value": 648,
+      "value": 662,
       "source": "WebXR/smartcity/catalog.json stations where app = smartcity"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "key": "programmes",
-      "value": 56,
+      "value": 60,
       "source": "WebXR/smartcity/js/curricula.js CURRICULA.length"
     },
     {
@@ -38,17 +38,17 @@
     },
     {
       "key": "standards",
-      "value": 509,
+      "value": 513,
       "source": "tools/standards.json standards.length"
     },
     {
       "key": "competencies",
-      "value": 66,
+      "value": 70,
       "source": "WebXR/shared/competency.js COMPETENCIES.length"
     },
     {
       "key": "programmeCompetencies",
-      "value": 56,
+      "value": 60,
       "source": "WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "key": "programmeLadderLevels",
-      "value": 1120,
+      "value": 1200,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.levels"
     },
     {
@@ -73,7 +73,7 @@
     },
     {
       "key": "checkers",
-      "value": 65,
+      "value": 66,
       "source": "tools/check_all.mjs CHECKERS array"
     },
     {
@@ -128,7 +128,7 @@
     },
     {
       "key": "bayWorldSideQuests",
-      "value": 112,
+      "value": 120,
       "source": "WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length"
     },
     {
@@ -173,7 +173,7 @@
     },
     {
       "key": "deepSideDives",
-      "value": 36,
+      "value": 38,
       "source": "WebXR/underwater/js/dives-data.js DV_SIDE_DIVES.length"
     },
     {
@@ -243,7 +243,7 @@
     },
     {
       "key": "uiPages",
-      "value": 68,
+      "value": 72,
       "source": "ls WebXR/dist/*.html WebXR/dist/tracks/*.html"
     }
   ]

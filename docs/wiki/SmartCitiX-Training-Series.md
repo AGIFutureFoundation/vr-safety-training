@@ -1,8 +1,8 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-28. 648 SmartCiti.X stations across 19 categories and 56 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-28. 662 SmartCiti.X stations across 19 categories and 60 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
-Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 65 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
+Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 66 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
 ## Contents
 
@@ -62,6 +62,10 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Commercial Diving & Scientific Scuba](#commercial-diving-and-scientific-scuba)
 - [Aerospace Depot and Robotics — IAM and UAW Skilled Trades](#aerospace-defense-and-robotics)
 - [Wind & Data Infrastructure](#wind-and-data-infrastructure)
+- [K-12 Practical Maths](#k12-practical-math)
+- [K-12 Science](#k12-science)
+- [K-12 History and Civics](#k12-history-and-civics)
+- [K-12 Literacy and Life Skills](#k12-literacy-and-life-skills)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1678,6 +1682,68 @@ Eight jobs across a ridge wind farm, a data hall under construction and an ocean
 | ws-07 | [CRAH Alarm Response in a Live Hall](../../WebXR/smartcity/index.html?sim=ws-crah-alarm-response-in-a-live-hall) | IBEW critical-facilities technician | overcast, data-center-build | 12 | 2 | — | An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead. |
 | ws-08 | [Ocean Pod Retrieval & Hatch Opening](../../WebXR/smartcity/index.html?sim=ws-ocean-pod-retrieval-and-hatch-opening) | IBEW / IUOE marine data-centre crew | wind, ocean-data-center | 13 | 2 | — | A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns. |
 
+<a id="k12-practical-math"></a>
+## K-12 Practical Maths
+
+**Union:** AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship
+
+**Certifications and standards:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+Maths done where it is used: a court measured and drawn to scale, a first paycheck budgeted, a map scale read, fractions in a kitchen, a ramp's slope, tide readings graphed, a fair spinner and a turbine's sweep. Every number the learner works with is one the scene shows.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 801 | [Measuring and Scaling the Court](../../WebXR/smartcity/index.html?sim=k12-measuring-and-scaling-the-court) | Maths class on the arena court — learner and teacher | clear | 13 | 2 | — | Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio. |
+| 805 | [A Household Budget and a First Paycheck](../../WebXR/smartcity/index.html?sim=k12-household-budget-and-first-paycheck) | Maths class at the community centre's money desk — learner and teacher | clear | 13 | 2 | — | Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back. |
+| 806 | [Reading a Map Scale in Bay World](../../WebXR/smartcity/index.html?sim=k12-reading-a-map-scale-in-bay-world) | Maths class at the ferry landing map board — learner and teacher | clear | 13 | 2 | — | A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check. |
+| 813 | [Fractions in the Kitchen](../../WebXR/smartcity/index.html?sim=k12-fractions-in-the-kitchen) | Maths class in the teaching kitchen — learner and teacher | clear | 13 | 2 | — | Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept. |
+
+<a id="k12-science"></a>
+## K-12 Science
+
+**Union:** AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship
+
+**Certifications and standards:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 802 | [The Water Cycle and Filtration](../../WebXR/smartcity/index.html?sim=k12-water-cycle-and-filtration) | Science class at the treatment plant's visitor bench — learner and plant educator | clear | 13 | 2 | — | The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink. |
+| 807 | [Buoyancy and Pressure in the Deep](../../WebXR/smartcity/index.html?sim=k12-buoyancy-and-pressure-in-the-deep) | Science class at the Deep's viewing platform — learner and teacher | clear | 13 | 2 | — | Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated. |
+| 808 | [Circuits at the Electrical Bench](../../WebXR/smartcity/index.html?sim=k12-circuits-at-the-electrical-bench) | Science class at the school's electrical bench — learner and teacher | clear | 13 | 2 | — | A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches. |
+| 814 | [Energy Transfer at the Wind Farm](../../WebXR/smartcity/index.html?sim=k12-energy-transfer-at-the-wind-farm) | Science class at the wind farm's visitor point — learner and teacher | clear | 13 | 2 | — | Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed. |
+
+<a id="k12-history-and-civics"></a>
+## K-12 History and Civics
+
+**Union:** AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship
+
+**Certifications and standards:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 803 | [Primary and Secondary Sources](../../WebXR/smartcity/index.html?sim=k12-primary-and-secondary-sources) | History class in the community archive room — learner and archivist | clear | 13 | 2 | — | The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled. |
+| 809 | [Building a Timeline from Documents](../../WebXR/smartcity/index.html?sim=k12-building-a-timeline-from-documents) | History class at the school archive table — learner and teacher | clear | 13 | 2 | — | Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes. |
+| 810 | [How a Local Council Meeting Works](../../WebXR/smartcity/index.html?sim=k12-how-a-local-council-meeting-works) | Civics class at the civic centre's meeting chamber — learner and teacher | clear | 13 | 2 | — | A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided. |
+
+<a id="k12-literacy-and-life-skills"></a>
+## K-12 Literacy and Life Skills
+
+**Union:** AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship
+
+**Certifications and standards:** No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed
+
+Reading and speaking for life: instructions and safety labels, a clear incident report, public speaking, digital citizenship, first aid awareness that always ends in calling for help, and teamwork and feedback alongside the emotional intelligence stations.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 804 | [Reading Instructions and Safety Labels](../../WebXR/smartcity/index.html?sim=k12-reading-instructions-and-safety-labels) | Literacy class in the school workshop — learner and teacher | clear | 13 | 2 | — | Instructions read right through and a label read before use, the reading habit every later station in the block leans on. |
+| 811 | [Writing a Clear Incident Report](../../WebXR/smartcity/index.html?sim=k12-writing-a-clear-incident-report) | Literacy class in the school hall after a practice incident — learner and teacher | clear | 13 | 2 | — | Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it. |
+| 812 | [First Aid Awareness: Call for Help](../../WebXR/smartcity/index.html?sim=k12-first-aid-awareness-call-for-help) | Life skills class at the fire station's open day — learner and firefighter | clear | 13 | 2 | — | First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open. |
+
 ## Real-world environments
 
 A station can stand inside a licensed real-world model instead of the generated district: a scanned street, a modelled terminal, a surveyed shoreline. The station declares `environment: { url, scale, position, rotationY }` or a reviewer previews any file with `?env=<url>` before it is committed; the loader hides the procedural skyline and district while the model is shown. Only CC0, CC-BY or marketplace-licensed models with an attribution line go under `WebXR/assets/env/` — game rips are not accepted. The hand-built sample street below is the placeholder every real model is judged against.
@@ -1686,7 +1752,7 @@ A station can stand inside a licensed real-world model instead of the generated 
 
 ## How a station is verified
 
-1. `node tools/check_all.mjs` — 65 checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.
+1. `node tools/check_all.mjs` — 66 checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.
 2. `python3 tools/bundle_webxr.py` — the single-file bundle the headset loads.
 3. A headless Chromium drive of every step, with both interruptions answered, and a screenshot from the spawn point that someone actually looks at.
 4. `node tools/eval_content.mjs` — the graded content review, used as the heartbeat between waves of stations rather than as a gate.

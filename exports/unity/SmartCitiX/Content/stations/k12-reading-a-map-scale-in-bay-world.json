@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "on-the-map",
+    "name": "On the Map",
+    "note": "A route measured, scaled and timed, with the answer checked against common sense"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LEGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walker",
+      "Map Reader",
+      "Navigator",
+      "Planner",
+      "Pathfinder"
+    ],
+    "system": "Route Board"
+  },
+  "hazards": {
+    "forget-the-scale": "You used the ruler reading on the map as if it were the real distance. A map is a scale drawing, so every length on it has to be multiplied by the scale to give the real distance; without that step the journey is impossibly short.",
+    "measure-as-the-crow-flies": "You measured straight across the water for a route that has to go round by the path. A journey's distance is the length of the route actually travelled, not the straight line between the ends; measuring the wrong one makes the time wrong too.",
+    "mix-minutes-and-hours": "You mixed minutes and hours in one calculation. Speed, distance and time only fit together when the units match, so a speed per hour needs a time in hours; mixing them gives an answer that is wildly out.",
+    "step-over-the-landing-rope": "You stepped past the rope at the ferry landing to read the map. The rope keeps people back from the edge while the ferry comes in, and the map board is placed so it can be read from the safe side; the lesson waits on the right side of the rope."
+  },
+  "id": "k12-reading-a-map-scale-in-bay-world",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "trace-the-route-with-the-string",
+      "alert": "The ferry horn sounds and a classmate walks towards the edge to watch it dock.",
+      "cue": "Call them back behind the rope and keep the group together until the attendant says it is clear.",
+      "delay": 3,
+      "id": "the-ferry-comes-in",
+      "kind": "Ferry arriving",
+      "missNote": "Nobody called them back, and the attendant had to stop the docking while they were moved.",
+      "seconds": 12,
+      "target": "kms-step-back-from-edge",
+      "why": "A docking ferry is exactly when the landing's rope matters most. Calling a classmate back and keeping the group together until the attendant gives the all-clear comes before the lesson, every time.",
+      "wrongNote": "That does not bring them back. Call them behind the rope. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-class-on-pace-along",
+      "alert": "The teacher asks how far the route really is, not how long it is on the map.",
+      "cue": "Give the real distance with its unit and say how the scale gave it.",
+      "delay": 3,
+      "id": "the-teacher-asks-for-the-real-distance",
+      "kind": "Teacher question",
+      "missNote": "You gave the map length, and the time worked from it was far too short. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kms-say-real-distance",
+      "why": "The teacher is checking that you used the scale. Saying the real distance with its unit, and how the scale turned the map length into it, shows you understand what a map is: a drawing to scale.",
+      "wrongNote": "That is the map length. Give the real distance and its unit."
+    }
+  ],
+  "lateNotes": {
+    "kms-checkin": "The check-in comes at the very end of the lesson.",
+    "kms-route-log": "The route record is written once the time is checked — nothing to record yet."
+  },
+  "name": "Reading a Map Scale in Bay World",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "forget-the-scale",
+      "kms-behind-rope",
+      "kms-checkin",
+      "kms-compass-rose",
+      "kms-ord-measure",
+      "kms-ord-scale",
+      "kms-ord-speed",
+      "kms-ord-time",
+      "kms-plan-mixed-units",
+      "kms-plan-no-scale",
+      "kms-plan-straight",
+      "kms-plan-units-written",
+      "kms-route",
+      "kms-route-log",
+      "kms-say-real-distance",
+      "kms-scale-bar",
+      "kms-sense-card",
+      "kms-share-board",
+      "kms-speed-meter",
+      "kms-start-end",
+      "kms-step-back-from-edge",
+      "kms-time-token",
+      "kms-timetable-spot",
+      "kms-trace-route",
+      "kms-track-meter",
+      "kms-unit-dial",
+      "measure-as-the-crow-flies",
+      "mix-minutes-and-hours",
+      "step-over-the-landing-rope"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the map board you need to work out the journey.",
+      "decoyNotes": {
+        "kms-compass-rose": "Useful for direction, but it does not give distance. Stick to what the question needs."
+      },
+      "id": "find-what-the-map-gives-you",
+      "itemNames": {
+        "kms-route": "the marked route",
+        "kms-scale-bar": "the scale bar",
+        "kms-start-end": "the start and the destination"
+      },
+      "itemNotes": {
+        "kms-route": "The path actually travelled, which is not always the straight line.",
+        "kms-scale-bar": "The link between a length on the map and a real distance. Everything depends on it.",
+        "kms-start-end": "Where the journey begins and ends, marked on the map."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the map board you need to work out the journey.",
+      "targets": [
+        "kms-scale-bar",
+        "kms-start-end",
+        "kms-route"
+      ],
+      "title": "Find what the map gives you",
+      "why": "Before measuring anything, find what the map provides: the scale bar that links map length to real distance, the start and the destination, and the route between them. With these three a map becomes a calculation, and without any one of them it is only a picture."
+    },
+    {
+      "cue": "Stand behind the landing rope where the board is meant to be read.",
+      "id": "read-the-map-from-behind-the",
+      "kind": "select",
+      "prompt": "Stand behind the landing rope where the board is meant to be read.",
+      "target": "kms-behind-rope",
+      "title": "Read the map from behind the rope",
+      "why": "At a ferry landing, the rope marks where people wait safely while the boat comes in. The map board is placed to be read from that side; staying behind the rope is the landing's own rule, and following a site's rules comes before any lesson held there."
+    },
+    {
+      "cue": "Measure on the map, scale it up, choose the speed, then work out the time.",
+      "id": "put-the-method-in-order",
+      "itemNames": {
+        "kms-ord-measure": "1 · measure the route on the map",
+        "kms-ord-scale": "2 · scale it up to real distance",
+        "kms-ord-speed": "3 · choose the speed",
+        "kms-ord-time": "4 · work out the time"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Measure on the map before you scale — there is nothing to scale yet.",
+      "prompt": "Measure on the map, scale it up, choose the speed, then work out the time.",
+      "targets": [
+        "kms-ord-measure",
+        "kms-ord-scale",
+        "kms-ord-speed",
+        "kms-ord-time"
+      ],
+      "title": "Put the method in order",
+      "why": "The order follows the reasoning: you cannot scale a length you have not measured, and you cannot find a time until you know the real distance and the speed. Working in this order, and writing each result with its unit, means anyone can follow the working and find a slip."
+    },
+    {
+      "cue": "Hold the string along the winding route from start to end.",
+      "holdBreakNote": "The string slipped off the route. Lay it back along the path from the last point you are sure of.",
+      "id": "trace-the-route-with-the-string",
+      "kind": "hold",
+      "prompt": "Hold the string along the winding route from start to end.",
+      "seconds": 6,
+      "target": "kms-trace-route",
+      "title": "Trace the route with the string",
+      "why": "A winding route cannot be measured with a straight ruler, so the string follows every bend and is then straightened against the ruler. Holding it carefully along the route gives the true path length, the same trick map readers have always used."
+    },
+    {
+      "cue": "The speed is per hour. Turn the dial so the time is worked in hours too.",
+      "id": "convert-the-time-into-matching-units",
+      "kind": "turn",
+      "prompt": "The speed is per hour. Turn the dial so the time is worked in hours too.",
+      "target": "kms-unit-dial",
+      "title": "Convert the time into matching units",
+      "turn": {
+        "axis": "y",
+        "label": "HOURS",
+        "turns": 0.5
+      },
+      "why": "Speed, distance and time only fit together when the units match. Converting before calculating, rather than after, avoids the commonest error in this topic, and writing the unit at each step shows you checked."
+    },
+    {
+      "cue": "Commit when the speed is a sensible walking pace for a class — not a run, not a crawl.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SPEED",
+        "missNote": "Outside the band. That speed is not how a class walks. Choose again.",
+        "speed": 0.6
+      },
+      "id": "choose-a-sensible-walking-speed",
+      "kind": "gauge",
+      "prompt": "Commit when the speed is a sensible walking pace for a class — not a run, not a crawl.",
+      "target": "kms-speed-meter",
+      "title": "Choose a sensible walking speed",
+      "why": "A calculation is only as good as the numbers put into it. Choosing a sensible speed for the way the class will actually travel makes the time realistic, and questioning whether an input makes sense is a skill every good problem-solver uses."
+    },
+    {
+      "cue": "Drag the journey time onto the class timetable to see when you arrive.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to on the day's timetable.",
+        "radius": 0.45,
+        "to": "kms-timetable-spot"
+      },
+      "id": "put-the-journey-time-on-the",
+      "kind": "drag",
+      "prompt": "Drag the journey time onto the class timetable to see when you arrive.",
+      "target": "kms-time-token",
+      "title": "Put the journey time on the timetable",
+      "why": "Placing the journey time on the day's timetable turns a calculation into a plan: it shows when the class arrives and whether it fits before the ferry leaves. This is why people work out journey times at all."
+    },
+    {
+      "cue": "Ask whether the journey time is believable for that walk.",
+      "id": "check-the-answer-against-common-sense",
+      "kind": "select",
+      "prompt": "Ask whether the journey time is believable for that walk.",
+      "target": "kms-sense-card",
+      "title": "Check the answer against common sense",
+      "why": "A quick sense check catches the big errors: a walk across a small park should not take a day, and a long route should not take moments. If the answer looks wrong it probably is, and the usual culprit is a missed scale or mixed units."
+    },
+    {
+      "cue": "Look at the draft route plan and mark each problem.",
+      "decoyNotes": {
+        "kms-plan-units-written": "Units at every step make checking easy. Keep them."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kms-plan-mixed-units": "minutes and hours mixed",
+        "kms-plan-no-scale": "a map length used as real distance",
+        "kms-plan-straight": "a straight line across the water"
+      },
+      "itemNotes": {
+        "kms-plan-mixed-units": "Match the units before calculating.",
+        "kms-plan-no-scale": "Multiply by the scale first.",
+        "kms-plan-straight": "The class walks the path, not across the water. Measure the route."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft route plan and mark each problem.",
+      "targets": [
+        "kms-plan-straight",
+        "kms-plan-no-scale",
+        "kms-plan-mixed-units"
+      ],
+      "title": "Spot the problems in a classmate's route plan",
+      "why": "Route plans go wrong in predictable ways: a straight line measured where the path winds, a map length used without the scale, and units mixed in the time. Spotting them in someone else's plan teaches you to check your own before the class sets off."
+    },
+    {
+      "cue": "Hold the pace in band as the class walks the route.",
+      "holdBreakNote": "The pace drifted. Adjust and bring it back, or update the arrival time.",
+      "id": "keep-the-class-on-pace-along",
+      "kind": "track",
+      "prompt": "Hold the pace in band as the class walks the route.",
+      "seconds": 8,
+      "target": "kms-track-meter",
+      "title": "Keep the class on pace along the route",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ON TIME",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "A journey time assumes a steady pace. Keeping the class near that pace, not racing ahead or falling behind, is how the plan holds, and noticing when it slips is how you know to adjust the arrival time."
+    },
+    {
+      "cue": "Write down the map length, the scale, the real distance, the speed and the time.",
+      "id": "record-the-route-and-the-working",
+      "kind": "select",
+      "prompt": "Write down the map length, the scale, the real distance, the speed and the time.",
+      "target": "kms-route-log",
+      "title": "Record the route and the working",
+      "why": "Recording each step with its unit means the plan can be checked and reused. It also shows exactly where a mistake happened if the class arrives at a different time than expected."
+    },
+    {
+      "cue": "Explain how you checked the time made sense.",
+      "id": "show-the-class-your-sense-check",
+      "kind": "select",
+      "prompt": "Explain how you checked the time made sense.",
+      "target": "kms-share-board",
+      "title": "Show the class your sense check",
+      "why": "Explaining a sense check out loud helps classmates who trusted a strange answer, and it fixes the habit in your own mind. Checking whether an answer is believable is one of the most useful things mathematics teaches."
+    },
+    {
+      "cue": "How did the route go? What was hard, and what would you try next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the route go? What was hard, and what would you try next time?",
+      "target": "kms-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and it gives every learner a moment to notice what they learned. Nobody is graded here, and the teacher or a trusted adult is there for anyone who found the lesson hard and wants to talk it through."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Measure on the map, scale it up, then work out how long the journey takes",
+  "title": "SmartCiti.X~ Reading a Map Scale in Bay World VR",
+  "trade": "Maths class at the ferry landing map board — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

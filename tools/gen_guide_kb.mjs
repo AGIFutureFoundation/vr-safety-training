@@ -29,7 +29,9 @@ const ROOT = join(here, "..");
 const WEBXR = join(ROOT, "WebXR");
 const REPO = "https://github.com/AGIFutureFoundation/vr-safety-training";
 export const GD_KB_OUT = join(WEBXR, "shared", "guide-kb.js");
-export const GD_KB_CAP = 600 * 1024;
+// Raised from 600 KB when the K-12 programmes and their stations joined the
+// catalog (docs/consoles/SCHOLAR.md); the rows themselves are unchanged.
+export const GD_KB_CAP = 640 * 1024;
 
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href);
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();

@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "full-circle",
+    "name": "Full Circle",
+    "note": "The water cycle told in order and a filter set up, observed and explained"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "DROPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Sampler",
+      "Tester",
+      "Explainer",
+      "Scientist"
+    ],
+    "system": "Cycle Board"
+  },
+  "hazards": {
+    "lean-over-the-channel": "You leaned over the rail of the settling channel. Visitors stay behind the rail and on the marked walkway at a treatment plant because the channels are deep and the edges can be wet; the educator brings samples to the bench so nobody needs to lean over anything.",
+    "say-water-disappears": "You said the water in the drying puddle was used up. It was not: it evaporated and became water vapour in the air, which is the first stage of the cycle. Water changes state and moves, but it is not destroyed, and saying it disappears hides the whole idea the lesson is about.",
+    "skip-the-control-jar": "You set the unfiltered jar aside. Without a jar of the same muddy water left unfiltered, you cannot say the filter made any difference, because the mud might simply have settled on its own. The comparison jar is what turns a nice-looking result into evidence.",
+    "taste-the-filtered-water": "You tasted the water that came out of the bench filter. A classroom filter removes what you can see, but germs and dissolved substances pass straight through it; only the plant's full treatment, tested by its own staff, makes water safe to drink. Clear is not the same as clean, and nothing on a science bench is ever tasted."
+  },
+  "id": "k12-water-cycle-and-filtration",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-the-jar-settle-without-shaking",
+      "alert": "A classmate unlatches the rail gate to get closer to the settling channel.",
+      "cue": "Call them back to the walkway and tell the educator straight away.",
+      "delay": 3,
+      "id": "a-classmate-reaches-for-the-rail-gate",
+      "kind": "Rail gate",
+      "missNote": "Nobody called them back, and they slipped on the wet edge before the educator saw them.",
+      "seconds": 12,
+      "target": "kwf-call-them-back",
+      "why": "The rail is the line between the visitors' walkway and a deep channel with wet edges. Calling a classmate back, and telling the educator at once so the gate can be closed, comes before any part of the lesson; the samples are brought to the bench precisely so nobody needs to be past that rail.",
+      "wrongNote": "That does not bring them back. Call them back and tell the educator."
+    },
+    {
+      "after": "keep-your-observation-honest-as-the",
+      "alert": "The plant operator asks your group whether your filtered water would be safe to drink.",
+      "cue": "Say what your test showed and what it cannot show: clearer, but not tested safe.",
+      "delay": 3,
+      "id": "the-operator-asks-what-you-concluded",
+      "kind": "Operator question",
+      "missNote": "Your group said yes, it is safe — a claim your test could never support. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kwf-state-the-limit",
+      "why": "An operator asking whether the water is safe is testing whether you understood the limits of your own experiment. Saying the filter made the water clearer, and that only disinfection and testing could show it is safe, is the scientifically honest answer and the one the plant's own staff give every day.",
+      "wrongNote": "That overstates the result. Say what it showed and what it cannot show."
+    }
+  ],
+  "lateNotes": {
+    "kwf-checkin": "The check-in comes at the very end of the visit.",
+    "kwf-lab-log": "The lab record is written once both jars have been compared — nothing to record yet."
+  },
+  "name": "The Water Cycle and Filtration",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "kwf-behind-rail",
+      "kwf-call-them-back",
+      "kwf-checkin",
+      "kwf-clarity-meter",
+      "kwf-cold-pipe",
+      "kwf-compare-spot",
+      "kwf-lab-log",
+      "kwf-layer-dial",
+      "kwf-not-safe-card",
+      "kwf-ord-collect",
+      "kwf-ord-cond",
+      "kwf-ord-evap",
+      "kwf-ord-precip",
+      "kwf-painted-sign",
+      "kwf-pour-meter",
+      "kwf-puddle",
+      "kwf-rain-channel",
+      "kwf-rep-labelled",
+      "kwf-rep-missing-step",
+      "kwf-rep-no-control",
+      "kwf-rep-safe-claim",
+      "kwf-sample-token",
+      "kwf-share-board",
+      "kwf-state-the-limit",
+      "kwf-watch-settle",
+      "lean-over-the-channel",
+      "say-water-disappears",
+      "skip-the-control-jar",
+      "taste-the-filtered-water"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark three places in the scene where water is changing state or moving.",
+      "decoyNotes": {
+        "kwf-painted-sign": "The sign is part of the building, not the cycle. Look for water changing state or moving."
+      },
+      "id": "find-the-water-cycle-in-the",
+      "itemNames": {
+        "kwf-cold-pipe": "droplets on a cold pipe",
+        "kwf-puddle": "a puddle drying in the sun",
+        "kwf-rain-channel": "rain running into the channel"
+      },
+      "itemNotes": {
+        "kwf-cold-pipe": "Condensation: vapour in the air cooling back into liquid on a cold surface.",
+        "kwf-puddle": "Evaporation: liquid water becoming vapour in warm air.",
+        "kwf-rain-channel": "Collection: precipitation gathering into a body of water, ready to go round again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark three places in the scene where water is changing state or moving.",
+      "targets": [
+        "kwf-puddle",
+        "kwf-cold-pipe",
+        "kwf-rain-channel"
+      ],
+      "title": "Find the water cycle in the scene",
+      "why": "The water cycle is not only a diagram: it is happening around the plant right now. A puddle drying in the sun is evaporation, droplets forming on a cold pipe are condensation, and rain gathering into the channel is collection. Finding the stages in a real place is what makes the diagram mean something, and it is how a scientist starts: by looking."
+    },
+    {
+      "cue": "Stand on the marked walkway behind the rail before the educator brings the samples.",
+      "id": "take-your-place-behind-the-rail",
+      "kind": "select",
+      "prompt": "Stand on the marked walkway behind the rail before the educator brings the samples.",
+      "target": "kwf-behind-rail",
+      "title": "Take your place behind the rail",
+      "why": "At any working plant the visitors' walkway and rail are the first rule, and the educator brings the water to the bench so that nobody has to go near a channel edge. Starting every visit behind the rail is the same habit a real operator keeps: the site's safety line comes before the curiosity, however interesting the channel is."
+    },
+    {
+      "cue": "Evaporation, condensation, precipitation, collection.",
+      "id": "put-the-cycle-in-order",
+      "itemNames": {
+        "kwf-ord-collect": "4 · collection",
+        "kwf-ord-cond": "2 · condensation",
+        "kwf-ord-evap": "1 · evaporation",
+        "kwf-ord-precip": "3 · precipitation"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Water has to evaporate before it can condense — follow the cause from one stage to the next.",
+      "prompt": "Evaporation, condensation, precipitation, collection.",
+      "targets": [
+        "kwf-ord-evap",
+        "kwf-ord-cond",
+        "kwf-ord-precip",
+        "kwf-ord-collect"
+      ],
+      "title": "Put the cycle in order",
+      "why": "The stages follow from each other: warm water evaporates, the vapour cools and condenses into clouds, the droplets grow heavy and fall as precipitation, and the water collects in seas, lakes and channels until it is warmed again. Putting them in order shows the cause linking each stage to the next, which matters more than remembering the names."
+    },
+    {
+      "cue": "Keep still and watch the muddy jar as the heavier bits sink.",
+      "holdBreakNote": "The jar was shaken and the mud came back up. Keep it still and let the heavy bits sink.",
+      "id": "watch-the-jar-settle-without-shaking",
+      "kind": "hold",
+      "prompt": "Keep still and watch the muddy jar as the heavier bits sink.",
+      "seconds": 6,
+      "target": "kwf-watch-settle",
+      "title": "Watch the jar settle without shaking it",
+      "why": "Settling is the first thing a treatment plant does, and it works only if the water is left still: heavy particles sink under their own weight and the water above them clears. Watching without shaking the jar lets you see sedimentation happen, and it shows why the plant's settling channels are long and calm."
+    },
+    {
+      "cue": "Turn the selector to the finer layer that goes under the gravel: sand.",
+      "id": "choose-the-next-filter-layer",
+      "kind": "turn",
+      "prompt": "Turn the selector to the finer layer that goes under the gravel: sand.",
+      "target": "kwf-layer-dial",
+      "title": "Choose the next filter layer",
+      "turn": {
+        "axis": "y",
+        "label": "SAND",
+        "turns": 0.5
+      },
+      "why": "A filter works in layers from coarse to fine: gravel stops the bigger bits and protects the sand below, and the sand traps the finer particles the gravel lets through. Choosing the layers in order is the same reasoning the plant uses in its own filters, where each layer protects the one beneath it from clogging."
+    },
+    {
+      "cue": "Commit when the pour rate is slow enough that the water does not dig into the sand.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "POUR",
+        "missNote": "Outside the band. Too fast and the water digs a channel straight through the sand. Pour gently.",
+        "speed": 0.6
+      },
+      "id": "pour-at-a-steady-gentle-rate",
+      "kind": "gauge",
+      "prompt": "Commit when the pour rate is slow enough that the water does not dig into the sand.",
+      "target": "kwf-pour-meter",
+      "title": "Pour at a steady, gentle rate",
+      "why": "Pouring too fast stirs up the top layer and pushes mud straight through, so the filter looks like it failed when really the test was spoiled. A slow, even pour lets every layer do its work, and it is why a real filter is fed gently and evenly rather than all at once."
+    },
+    {
+      "cue": "Drag the filtered sample next to the unfiltered jar so the two can be compared fairly.",
+      "drag": {
+        "missNote": "The two jars are not side by side yet. Put them together so the comparison is fair.",
+        "radius": 0.45,
+        "to": "kwf-compare-spot"
+      },
+      "id": "set-the-filtered-sample-beside-the",
+      "kind": "drag",
+      "prompt": "Drag the filtered sample next to the unfiltered jar so the two can be compared fairly.",
+      "target": "kwf-sample-token",
+      "title": "Set the filtered sample beside the control",
+      "why": "A result means something only when it is compared with a control. Standing the filtered sample next to a jar of the same muddy water left unfiltered, under the same light, is what lets you say the filter made the difference, rather than time or settling alone."
+    },
+    {
+      "cue": "The filtered water looks clear. Say why it is still not safe to drink.",
+      "id": "say-why-the-clear-water-is",
+      "kind": "select",
+      "prompt": "The filtered water looks clear. Say why it is still not safe to drink.",
+      "target": "kwf-not-safe-card",
+      "title": "Say why the clear water is still not drinkable",
+      "why": "A sand filter removes particles you can see, but germs and dissolved substances are far too small for it to catch. That is why a real plant disinfects the water after filtering and its operators test it before it leaves; being able to say why clear water is not yet safe is the most important idea in the lesson."
+    },
+    {
+      "cue": "Look at the draft lab report and mark each weakness before it is handed in.",
+      "decoyNotes": {
+        "kwf-rep-labelled": "A labelled diagram helps the reader. Keep it."
+      },
+      "id": "spot-the-weak-points-in-a",
+      "itemNames": {
+        "kwf-rep-missing-step": "a method with the pour rate missing",
+        "kwf-rep-no-control": "a result with no control jar",
+        "kwf-rep-safe-claim": "a claim that the water is safe to drink"
+      },
+      "itemNotes": {
+        "kwf-rep-missing-step": "Someone repeating the test needs every step, including how fast the water was poured.",
+        "kwf-rep-no-control": "Without the control, nobody can tell whether the filter or the settling did the work.",
+        "kwf-rep-safe-claim": "The bench filter cannot show that. Only the plant's treatment and testing can."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft lab report and mark each weakness before it is handed in.",
+      "targets": [
+        "kwf-rep-no-control",
+        "kwf-rep-safe-claim",
+        "kwf-rep-missing-step"
+      ],
+      "title": "Spot the weak points in a classmate's report",
+      "why": "A good science report says what was done, what was seen and what it means, and it separates observation from opinion. The usual weak points are a result with no comparison, a claim the evidence cannot support, and a step missing from the method. Finding them in a draft is how scientists review each other's work before anyone relies on it."
+    },
+    {
+      "cue": "Hold your recorded observation in band with what the sample actually shows as it sits.",
+      "holdBreakNote": "Your record drifted away from what the jar shows. Look again and write what you see, not what you hoped.",
+      "id": "keep-your-observation-honest-as-the",
+      "kind": "track",
+      "prompt": "Hold your recorded observation in band with what the sample actually shows as it sits.",
+      "seconds": 8,
+      "target": "kwf-clarity-meter",
+      "title": "Keep your observation honest as the sample settles",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CLARITY",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Observations drift when we expect a result: it is easy to write clearer than the water really is because you wanted the filter to work. Keeping what you record matched to what you can actually see is the honesty science depends on, and it is the habit that makes a surprising result believable."
+    },
+    {
+      "cue": "Write the layers, the pour, what you saw in both jars and what you can and cannot conclude.",
+      "id": "record-the-method-observations-and-comparison",
+      "kind": "select",
+      "prompt": "Write the layers, the pour, what you saw in both jars and what you can and cannot conclude.",
+      "target": "kwf-lab-log",
+      "title": "Record the method, observations and comparison",
+      "why": "A lab record written at the time, with the method, the observations and the limits of the conclusion, lets anyone repeat the test and check your claim. Writing what you cannot conclude, that the water is not shown to be safe, is as important as what you can, and it is exactly what a plant's own records do."
+    },
+    {
+      "cue": "Tell the class what the filter did, what the control showed and why the water is still not drinkable.",
+      "id": "share-the-result-and-its-limits",
+      "kind": "select",
+      "prompt": "Tell the class what the filter did, what the control showed and why the water is still not drinkable.",
+      "target": "kwf-share-board",
+      "title": "Share the result and its limits",
+      "why": "Sharing a result with its limits teaches the whole class the difference between clearer and safe, and it lets others compare their own filters with yours. Scientists share results so they can be checked and repeated; a class that compares filters learns far more than one learner alone."
+    },
+    {
+      "cue": "How did the visit go? What surprised you, and what would you test next?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the visit go? What surprised you, and what would you test next?",
+      "target": "kwf-checkin",
+      "title": "Check in at the end of the visit",
+      "why": "Ending with a short check-in lets the teacher and the plant educator hear what made sense and what did not, and it gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the visit hard can talk to the teacher or a trusted adult afterwards."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Follow the water round the cycle, then watch a filter work — and never drink from the bench",
+  "title": "SmartCiti.X~ The Water Cycle and Filtration VR",
+  "trade": "Science class at the treatment plant's visitor bench — learner and plant educator",
+  "underwater": null,
+  "weather": "clear"
+}

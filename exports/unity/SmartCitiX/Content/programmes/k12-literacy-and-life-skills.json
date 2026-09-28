@@ -1,0 +1,99 @@
+{
+  "accent": "#9a6ad0",
+  "anchors": [
+    {
+      "id": "fruitvale-elementary-school",
+      "name": "Fruitvale Elementary School",
+      "position": [
+        454,
+        212
+      ],
+      "stations": [
+        "ed-custodial-chemical-dilution-and-floor-machine",
+        "ed-playground-equipment-inspection",
+        "ed-bus-pretrip-and-loading-zone",
+        "k12-primary-and-secondary-sources",
+        "k12-reading-instructions-and-safety-labels",
+        "k12-building-a-timeline-from-documents",
+        "k12-writing-a-clear-incident-report",
+        "k12-fractions-in-the-kitchen"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "fruitvale-fire-station",
+      "name": "Fruitvale Fire Station",
+      "position": [
+        420,
+        287
+      ],
+      "stations": [
+        "triage-point",
+        "structure-fire-sizeup",
+        "k12-first-aid-awareness-call-for-help"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    }
+  ],
+  "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+  "competency": {
+    "id": "k12-literacy-and-life-skills",
+    "kind": "programme",
+    "require": 2,
+    "standards": [
+      "un-sdg-4-quality-education",
+      "unesco-education-guidance",
+      "national-curriculum-framework"
+    ],
+    "stations": [
+      "k12-reading-instructions-and-safety-labels",
+      "k12-writing-a-clear-incident-report",
+      "k12-first-aid-awareness-call-for-help"
+    ],
+    "title": "Read, write and speak clearly enough to act safely and work well with others"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "un-sdg-4-quality-education",
+    "unesco-education-guidance",
+    "inee-minimum-standards",
+    "national-curriculum-framework",
+    "aft-training"
+  ],
+  "id": "k12-literacy-and-life-skills",
+  "ladder": {
+    "atBar": 0,
+    "lessonBar": 75,
+    "lessons": 780,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 20,
+    "stationsNeeded": 3,
+    "tasks": 60
+  },
+  "name": "K-12 Literacy and Life Skills",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "k12-reading-instructions-and-safety-labels",
+      "why": "Instructions read right through and a label read before use, the reading habit every later station in the block leans on."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-writing-a-clear-incident-report",
+      "why": "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-first-aid-awareness-call-for-help",
+      "why": "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open."
+    }
+  ],
+  "summary": "Reading and speaking for life: instructions and safety labels, a clear incident report, public speaking, digital citizenship, first aid awareness that always ends in calling for help, and teamwork and feedback alongside the emotional intelligence stations.",
+  "union": "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship"
+}

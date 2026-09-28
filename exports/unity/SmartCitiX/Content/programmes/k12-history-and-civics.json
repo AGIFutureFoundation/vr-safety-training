@@ -1,0 +1,100 @@
+{
+  "accent": "#c08a4a",
+  "anchors": [
+    {
+      "id": "downtown-civic-center",
+      "name": "Downtown Civic Center",
+      "position": [
+        -36,
+        33
+      ],
+      "stations": [
+        "public-comment-prep",
+        "public-meeting-chair",
+        "k12-household-budget-and-first-paycheck",
+        "k12-how-a-local-council-meeting-works"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "downtown"
+    },
+    {
+      "id": "fruitvale-elementary-school",
+      "name": "Fruitvale Elementary School",
+      "position": [
+        454,
+        212
+      ],
+      "stations": [
+        "ed-custodial-chemical-dilution-and-floor-machine",
+        "ed-playground-equipment-inspection",
+        "ed-bus-pretrip-and-loading-zone",
+        "k12-primary-and-secondary-sources",
+        "k12-reading-instructions-and-safety-labels",
+        "k12-building-a-timeline-from-documents",
+        "k12-writing-a-clear-incident-report",
+        "k12-fractions-in-the-kitchen"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    }
+  ],
+  "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+  "competency": {
+    "id": "k12-history-and-civics",
+    "kind": "programme",
+    "require": 2,
+    "standards": [
+      "un-sdg-4-quality-education",
+      "unesco-education-guidance",
+      "national-curriculum-framework"
+    ],
+    "stations": [
+      "k12-primary-and-secondary-sources",
+      "k12-building-a-timeline-from-documents",
+      "k12-how-a-local-council-meeting-works"
+    ],
+    "title": "Question sources, trace claims to evidence and say where the evidence runs out"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "un-sdg-4-quality-education",
+    "unesco-education-guidance",
+    "inee-minimum-standards",
+    "national-curriculum-framework",
+    "aft-training"
+  ],
+  "id": "k12-history-and-civics",
+  "ladder": {
+    "atBar": 0,
+    "lessonBar": 75,
+    "lessons": 780,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 20,
+    "stationsNeeded": 3,
+    "tasks": 60
+  },
+  "name": "K-12 History and Civics",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "k12-primary-and-secondary-sources",
+      "why": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-building-a-timeline-from-documents",
+      "why": "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-how-a-local-council-meeting-works",
+      "why": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
+    }
+  ],
+  "summary": "History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.",
+  "union": "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship"
+}

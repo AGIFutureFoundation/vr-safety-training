@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "energy-followed",
+    "name": "Energy Followed",
+    "note": "Energy traced store to store with a model turbine, wasted energy named and nothing claimed that the test did not show"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "JOULES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Tracer",
+      "Tester",
+      "Explainer",
+      "Engineer"
+    ],
+    "system": "Energy Board"
+  },
+  "hazards": {
+    "change-fan-and-blades-together": "You changed the fan speed and the blades in the same test. A fair test changes one thing at a time, so you know which change made the difference to the model's output.",
+    "cross-the-visitor-barrier": "You walked past the visitor barrier towards the tower. The barrier keeps visitors clear of the working area around a turbine, and the model turbine is brought to the visitor point for the lesson; the lesson stays behind the barrier.",
+    "ignore-the-wasted-energy": "You said all of the wind's energy becomes electricity. Every real transfer wastes some energy, here as heat in the moving parts and as sound; naming the wasted energy is what makes the energy story complete and honest.",
+    "say-the-turbine-makes-energy": "You said the turbine makes energy. Energy is never made or destroyed; the turbine transfers the energy of moving air into electrical energy, with some wasted as heat and sound. Saying where the energy came from is the whole point of the lesson."
+  },
+  "id": "k12-energy-transfer-at-the-wind-farm",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-the-lamp-as-the-blades",
+      "alert": "A gust of wind tips the model turbine towards the edge of the table.",
+      "cue": "Step back from the spinning blades and tell the guide; do not grab them.",
+      "delay": 3,
+      "id": "a-gust-knocks-the-model",
+      "kind": "Gust",
+      "missNote": "Nobody told the guide, and a classmate grabbed the blades and caught a finger. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kew-steady-and-tell",
+      "why": "Grabbing spinning blades, even small ones, is how fingers get hurt. Stepping back and telling the guide, who can stop the fan and steady the model, is the safe response, and the test can be run again.",
+      "wrongNote": "That does not make it safe. Step back and tell the guide. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-your-notes-matched-to-the",
+      "alert": "The visitor point guide asks where the lamp's energy came from.",
+      "cue": "Trace it back through the generator and blades to the moving air.",
+      "delay": 3,
+      "id": "the-guide-asks-where-the-energy-comes-from",
+      "kind": "Guide question",
+      "missNote": "You said the turbine made it, which misses where the energy came from. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kew-trace-to-the-wind",
+      "why": "The guide is checking that you understand energy is transferred, not made. Tracing the lamp's energy back through each link to the moving air shows the whole chain and the idea underneath it.",
+      "wrongNote": "That says the turbine made it. Trace it back to the moving air."
+    }
+  ],
+  "lateNotes": {
+    "kew-checkin": "The check-in comes at the very end of the lesson.",
+    "kew-lab-log": "The lab record is written once the tests are done — nothing to record yet."
+  },
+  "name": "Energy Transfer at the Wind Farm",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-fan-and-blades-together",
+      "cross-the-visitor-barrier",
+      "ignore-the-wasted-energy",
+      "kew-angle-meter",
+      "kew-barrier-card",
+      "kew-checkin",
+      "kew-es-chain",
+      "kew-es-made",
+      "kew-es-no-waste",
+      "kew-es-unfair",
+      "kew-fan-dial",
+      "kew-lab-log",
+      "kew-lamp-circuit",
+      "kew-moving-air",
+      "kew-ord-air",
+      "kew-ord-blades",
+      "kew-ord-circuit",
+      "kew-ord-generator",
+      "kew-result-token",
+      "kew-results-spot",
+      "kew-share-board",
+      "kew-steady-and-tell",
+      "kew-tower-paint",
+      "kew-trace-to-the-wind",
+      "kew-track-meter",
+      "kew-turning-blades",
+      "kew-waste-card",
+      "kew-watch-lamp",
+      "say-the-turbine-makes-energy"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three places on the model where energy is stored or transferred.",
+      "decoyNotes": {
+        "kew-tower-paint": "The paint does not store or transfer the energy we are following."
+      },
+      "id": "find-the-energy-stores-and-transfers",
+      "itemNames": {
+        "kew-lamp-circuit": "the lamp in the circuit",
+        "kew-moving-air": "the moving air from the fan",
+        "kew-turning-blades": "the turning blades and shaft"
+      },
+      "itemNotes": {
+        "kew-lamp-circuit": "Electrical energy, transferred to light — and some heat.",
+        "kew-moving-air": "The energy starts here, in moving air.",
+        "kew-turning-blades": "The moving air's energy is transferred to the turning parts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three places on the model where energy is stored or transferred.",
+      "targets": [
+        "kew-moving-air",
+        "kew-turning-blades",
+        "kew-lamp-circuit"
+      ],
+      "title": "Find the energy stores and transfers",
+      "why": "Following energy starts with finding where it is: in the moving air from the fan, in the turning blades and shaft, and in the electrical circuit that lights the small lamp. Naming each store and transfer before testing anything is what lets you tell the full energy story afterwards."
+    },
+    {
+      "cue": "Stand at the visitor point; the guide brings the model turbine to you.",
+      "id": "take-your-place-behind-the-barrier",
+      "kind": "select",
+      "prompt": "Stand at the visitor point; the guide brings the model turbine to you.",
+      "target": "kew-barrier-card",
+      "title": "Take your place behind the barrier",
+      "why": "The visitor barrier keeps people clear of the working area around real turbines, and the model is brought to the visitor point for exactly that reason. Starting behind the barrier is the site's rule, and a lesson at a working site always keeps the site's rules first."
+    },
+    {
+      "cue": "Moving air, turning blades, generator, electricity in the circuit.",
+      "id": "put-the-energy-chain-in-order",
+      "itemNames": {
+        "kew-ord-air": "1 · moving air",
+        "kew-ord-blades": "2 · turning blades",
+        "kew-ord-circuit": "4 · electricity in the circuit",
+        "kew-ord-generator": "3 · the generator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The energy starts in the moving air — follow it from there.",
+      "prompt": "Moving air, turning blades, generator, electricity in the circuit.",
+      "targets": [
+        "kew-ord-air",
+        "kew-ord-blades",
+        "kew-ord-generator",
+        "kew-ord-circuit"
+      ],
+      "title": "Put the energy chain in order",
+      "why": "Each link in the chain passes energy to the next: moving air pushes the blades, the turning shaft drives the generator, and the generator transfers energy into the circuit. Putting the links in order shows how the energy travels, which matters far more than memorising the words."
+    },
+    {
+      "cue": "Keep still and watch the lamp brighten as the model's blades speed up.",
+      "holdBreakNote": "You nudged the model and spoiled the observation. Let it run on its own again.",
+      "id": "watch-the-lamp-as-the-blades",
+      "kind": "hold",
+      "prompt": "Keep still and watch the lamp brighten as the model's blades speed up.",
+      "seconds": 6,
+      "target": "kew-watch-lamp",
+      "title": "Watch the lamp as the blades turn",
+      "why": "Watching the lamp while the blades turn links something you can see to the energy transfer you cannot. Keeping still and watching carefully, without nudging the model, lets you see the lamp respond to the moving air, which is the evidence for the whole chain."
+    },
+    {
+      "cue": "Turn only the fan setting up, keeping the blades the same.",
+      "id": "turn-the-fan-to-a-faster",
+      "kind": "turn",
+      "prompt": "Turn only the fan setting up, keeping the blades the same.",
+      "target": "kew-fan-dial",
+      "title": "Turn the fan to a faster setting",
+      "turn": {
+        "axis": "y",
+        "label": "FASTER",
+        "turns": 0.5
+      },
+      "why": "Changing only the fan setting, with the same blades, is the fair test that shows more moving air means more energy transferred. Keeping everything else the same is what lets you say the fan speed made the difference."
+    },
+    {
+      "cue": "Commit when the blade angle catches the moving air well — not flat to it, not edge on.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "ANGLE",
+        "missNote": "Outside the band. Flat or edge on, the blades barely turn. Try again.",
+        "speed": 0.6
+      },
+      "id": "set-the-blade-angle-to-catch",
+      "kind": "gauge",
+      "prompt": "Commit when the blade angle catches the moving air well — not flat to it, not edge on.",
+      "target": "kew-angle-meter",
+      "title": "Set the blade angle to catch the wind",
+      "why": "Blades flat to the wind are pushed but do not turn well; blades edge on let the air slip past. An angle in between turns the push of the air into rotation best, which is why real turbines can change their blade angle."
+    },
+    {
+      "cue": "Drag your result card onto the class results board beside everyone else's.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to on the class results board.",
+        "radius": 0.45,
+        "to": "kew-results-spot"
+      },
+      "id": "put-your-result-on-the-class",
+      "kind": "drag",
+      "prompt": "Drag your result card onto the class results board beside everyone else's.",
+      "target": "kew-result-token",
+      "title": "Put your result on the class board",
+      "why": "One group's result could be a fluke; the whole class's results together show whether the pattern is real. Putting yours on the board is how science builds confidence in a finding, and it lets the class spot any result worth repeating."
+    },
+    {
+      "cue": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
+      "id": "name-where-energy-is-wasted",
+      "kind": "select",
+      "prompt": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
+      "target": "kew-waste-card",
+      "title": "Name where energy is wasted",
+      "why": "The hum and the warm shaft are energy transferred to places we did not want: sound and heat. Naming the wasted energy completes the story and explains why no machine turns all of its input into useful output."
+    },
+    {
+      "cue": "Look at the classmate's energy story and mark each problem.",
+      "decoyNotes": {
+        "kew-es-chain": "The chain in order is right. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kew-es-made": "energy described as made",
+        "kew-es-no-waste": "no wasted energy mentioned",
+        "kew-es-unfair": "a conclusion from an unfair test"
+      },
+      "itemNotes": {
+        "kew-es-made": "Energy is transferred, not made. Where did it come from?",
+        "kew-es-no-waste": "Some always goes to heat and sound.",
+        "kew-es-unfair": "Two things changed at once. Which made the difference?"
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the classmate's energy story and mark each problem.",
+      "targets": [
+        "kew-es-made",
+        "kew-es-no-waste",
+        "kew-es-unfair"
+      ],
+      "title": "Spot the problems in a classmate's energy story",
+      "why": "Energy stories go wrong in predictable ways: saying energy is made, forgetting wasted energy and drawing a conclusion from an unfair test. Spotting them in someone else's story makes your own explanation more careful and more complete."
+    },
+    {
+      "cue": "Hold your notes in band with what the lamp actually does as you change settings.",
+      "holdBreakNote": "Your notes drifted from what the model shows. Look again and write what you see.",
+      "id": "keep-your-notes-matched-to-the",
+      "kind": "track",
+      "prompt": "Hold your notes in band with what the lamp actually does as you change settings.",
+      "seconds": 8,
+      "target": "kew-track-meter",
+      "title": "Keep your notes matched to the model",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HONEST",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "It is easy to write the result you expected. Keeping notes matched to what the lamp actually does, including a result that surprised you, is the honesty that makes a science finding worth trusting and repeating."
+    },
+    {
+      "cue": "Write the energy chain, the fair tests and where energy was wasted.",
+      "id": "record-the-energy-story-and-the",
+      "kind": "select",
+      "prompt": "Write the energy chain, the fair tests and where energy was wasted.",
+      "target": "kew-lab-log",
+      "title": "Record the energy story and the tests",
+      "why": "Recording the chain, the tests and the wasted energy gives a complete, checkable energy story. Anyone can repeat the tests from your record, and the record shows how your explanation was built from evidence."
+    },
+    {
+      "cue": "Tell the class where the energy came from, where it went, and where some was wasted.",
+      "id": "tell-the-energy-story-to-the",
+      "kind": "select",
+      "prompt": "Tell the class where the energy came from, where it went, and where some was wasted.",
+      "target": "kew-share-board",
+      "title": "Tell the energy story to the class",
+      "why": "Telling the energy story aloud, from moving air to light and the heat and sound along the way, is the best test of whether it makes sense. Classmates who said the turbine makes energy learn most from hearing where it really comes from."
+    },
+    {
+      "cue": "How did the energy lesson go? What surprised you, and what would you test next?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the energy lesson go? What surprised you, and what would you test next?",
+      "target": "kew-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "Ending with a short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the lesson hard can talk to the teacher or a trusted adult afterwards."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Energy is never made or lost — follow it from the wind to the wire",
+  "title": "SmartCiti.X~ Energy Transfer at the Wind Farm VR",
+  "trade": "Science class at the wind farm's visitor point — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

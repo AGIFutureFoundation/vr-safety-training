@@ -5664,16 +5664,21 @@
           "app": "smartcity",
           "id": "k12-circuits-at-the-electrical-bench",
           "why": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-energy-transfer-at-the-wind-farm",
+          "why": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 780,
-        "tasks": 60,
+        "lessons": 1040,
+        "tasks": 80,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 3,
+        "stationsNeeded": 2,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -33635,7 +33640,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -34295,7 +34300,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

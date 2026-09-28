@@ -1,0 +1,139 @@
+{
+  "accent": "#4fb88a",
+  "anchors": [
+    {
+      "id": "fruitvale-community-college",
+      "name": "Fruitvale Community College",
+      "position": [
+        483,
+        260
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry",
+        "k12-circuits-at-the-electrical-bench"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ridge-wind-farm",
+      "name": "Ridge Wind Farm",
+      "position": [
+        960,
+        -520
+      ],
+      "stations": [
+        "ws-turbine-climb-and-rescue-kit-check",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
+        "ws-blade-inspection-from-a-platform",
+        "ws-substation-switching-under-a-permit",
+        "k12-energy-transfer-at-the-wind-farm"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "south-treatment-plant",
+      "name": "South Treatment Plant",
+      "position": [
+        715,
+        585
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties",
+        "k12-water-cycle-and-filtration"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "shelf-checkout-site",
+      "name": "Shelf Checkout Site",
+      "position": [
+        -360,
+        -540
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "k12-buoyancy-and-pressure-in-the-deep"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    }
+  ],
+  "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+  "competency": {
+    "id": "k12-science",
+    "kind": "programme",
+    "require": 2,
+    "standards": [
+      "un-sdg-4-quality-education",
+      "unesco-education-guidance",
+      "national-curriculum-framework"
+    ],
+    "stations": [
+      "k12-water-cycle-and-filtration",
+      "k12-buoyancy-and-pressure-in-the-deep",
+      "k12-circuits-at-the-electrical-bench",
+      "k12-energy-transfer-at-the-wind-farm"
+    ],
+    "title": "Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "un-sdg-4-quality-education",
+    "unesco-education-guidance",
+    "inee-minimum-standards",
+    "national-curriculum-framework",
+    "aft-training"
+  ],
+  "id": "k12-science",
+  "ladder": {
+    "atBar": 0,
+    "lessonBar": 75,
+    "lessons": 1040,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 20,
+    "stationsNeeded": 2,
+    "tasks": 80
+  },
+  "name": "K-12 Science",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "k12-water-cycle-and-filtration",
+      "why": "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-buoyancy-and-pressure-in-the-deep",
+      "why": "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-circuits-at-the-electrical-bench",
+      "why": "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-energy-transfer-at-the-wind-farm",
+      "why": "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed."
+    }
+  ],
+  "summary": "Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.",
+  "union": "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship"
+}

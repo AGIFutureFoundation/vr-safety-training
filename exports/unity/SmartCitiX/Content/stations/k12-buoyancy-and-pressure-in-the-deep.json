@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "float-or-sink",
+    "name": "Float or Sink",
+    "note": "Predictions made, tested fairly and explained with the upward push of the water"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "BUBBLES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Predictor",
+      "Tester",
+      "Explainer",
+      "Scientist"
+    ],
+    "system": "Buoyancy Board"
+  },
+  "hazards": {
+    "change-two-things-at-once": "You changed the shape and the material in the same test. When two things change at once, you cannot tell which one made the difference; a fair test changes one thing and keeps the rest the same.",
+    "heavy-things-always-sink": "You said heavy things always sink. Whether something floats depends on how much water it pushes aside compared with its own weight, which is why a large ship floats and a small stone sinks. Heavy on its own does not decide it; the shape and the space it takes up matter too.",
+    "lean-over-the-viewing-rail": "You leaned over the viewing rail. The rail is there because the edge is a drop into water, and the guide brings the test tank to the bench so nobody needs to lean; the lesson happens on the safe side of the rail.",
+    "say-pressure-is-the-same-everywhere": "You said the water pushes the same at every depth. The deeper you go, the more water is above, and the harder it pushes from every side; that is why the holes lower down on the test bottle squirt furthest, and why deep-water equipment is built so strongly."
+  },
+  "id": "k12-buoyancy-and-pressure-in-the-deep",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-the-boat-settle-without-touching",
+      "alert": "The test tank starts to overflow onto the platform floor near the rail.",
+      "cue": "Stop adding water, step back from the wet patch and tell the guide.",
+      "delay": 3,
+      "id": "the-tank-starts-to-overflow",
+      "kind": "Overflow",
+      "missNote": "Nobody told the guide, and a classmate slipped on the wet floor by the rail. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kbd-stop-and-tell-guide",
+      "why": "Water on a platform floor beside a rail is a slip hazard in exactly the wrong place. Stopping, stepping back and telling the guide, who can mop and mark it, comes before the experiment.",
+      "wrongNote": "That does not deal with the spill. Stop and tell the guide. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-your-observations-matched-to-what",
+      "alert": "The platform guide asks how a huge metal ship can float when a small metal nut sinks.",
+      "cue": "Explain using shape and the water's upward push, not weight alone.",
+      "delay": 3,
+      "id": "the-guide-asks-why-ships-float",
+      "kind": "Guide question",
+      "missNote": "You said the ship was lighter than it looks, which is not why it floats. Next time, stop the lesson and deal with it first.",
+      "seconds": 12,
+      "target": "kbd-explain-push",
+      "why": "The guide is checking whether the boat-and-block result transfers to something new. Explaining that the ship's hollow shape pushes aside a great deal of water, so the upward push balances its weight, shows real understanding.",
+      "wrongNote": "That explains by weight alone. Use the shape and the water's push."
+    }
+  ],
+  "lateNotes": {
+    "kbd-checkin": "The check-in comes at the very end of the lesson.",
+    "kbd-lab-log": "The lab record is written once the tests are done — nothing to record yet."
+  },
+  "name": "Buoyancy and Pressure in the Deep",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-two-things-at-once",
+      "heavy-things-always-sink",
+      "kbd-block",
+      "kbd-boat",
+      "kbd-bottle",
+      "kbd-checkin",
+      "kbd-con-ignored",
+      "kbd-con-prediction",
+      "kbd-con-unfair",
+      "kbd-con-weight",
+      "kbd-depth-card",
+      "kbd-explain-push",
+      "kbd-lab-log",
+      "kbd-load-meter",
+      "kbd-ord-change",
+      "kbd-ord-explain",
+      "kbd-ord-observe",
+      "kbd-ord-predict",
+      "kbd-platform-sign",
+      "kbd-rail-card",
+      "kbd-result-token",
+      "kbd-results-spot",
+      "kbd-shape-dial",
+      "kbd-share-board",
+      "kbd-stop-and-tell-guide",
+      "kbd-track-meter",
+      "kbd-watch-boat",
+      "lean-over-the-viewing-rail",
+      "say-pressure-is-the-same-everywhere"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three objects on the bench you will predict and test.",
+      "decoyNotes": {
+        "kbd-platform-sign": "Part of the platform, not the test. Choose the objects on the bench."
+      },
+      "id": "find-what-you-will-test",
+      "itemNames": {
+        "kbd-block": "the solid block",
+        "kbd-boat": "the same material shaped as a boat",
+        "kbd-bottle": "the sealed bottle of air"
+      },
+      "itemNotes": {
+        "kbd-block": "A solid lump of material. Predict: float or sink?",
+        "kbd-boat": "The same material, a different shape. This is the interesting one.",
+        "kbd-bottle": "Mostly air inside. Predict what happens and why."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three objects on the bench you will predict and test.",
+      "targets": [
+        "kbd-block",
+        "kbd-boat",
+        "kbd-bottle"
+      ],
+      "title": "Find what you will test",
+      "why": "A good test starts with a clear set of things to try. Here that is a solid block, the same material shaped into a hollow boat, and a sealed bottle with air inside. Picking objects that differ in one useful way each is what lets the results teach something rather than just entertain."
+    },
+    {
+      "cue": "Stand behind the rail; the guide brings the test tank to the bench.",
+      "id": "take-your-place-behind-the-viewing",
+      "kind": "select",
+      "prompt": "Stand behind the rail; the guide brings the test tank to the bench.",
+      "target": "kbd-rail-card",
+      "title": "Take your place behind the viewing rail",
+      "why": "The viewing rail marks the edge of a drop into water, and every visit starts behind it. The guide brings the test tank to the bench precisely so that curiosity never needs to lean over anything; following the platform's rule comes before the experiment."
+    },
+    {
+      "cue": "Predict, test one change, observe, explain.",
+      "id": "put-the-test-in-order",
+      "itemNames": {
+        "kbd-ord-change": "2 · change one thing",
+        "kbd-ord-explain": "4 · explain",
+        "kbd-ord-observe": "3 · observe",
+        "kbd-ord-predict": "1 · predict"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Predict before you test, or the result cannot surprise you.",
+      "prompt": "Predict, test one change, observe, explain.",
+      "targets": [
+        "kbd-ord-predict",
+        "kbd-ord-change",
+        "kbd-ord-observe",
+        "kbd-ord-explain"
+      ],
+      "title": "Put the test in order",
+      "why": "Writing a prediction before testing means the result can surprise you, which is where learning happens. Changing one thing at a time keeps the test fair, observing carefully keeps it honest, and explaining in terms of the water's upward push turns a result into understanding."
+    },
+    {
+      "cue": "Keep still and watch where the boat settles in the water.",
+      "holdBreakNote": "You nudged the boat and spoiled the observation. Let it settle again on its own.",
+      "id": "watch-the-boat-settle-without-touching",
+      "kind": "hold",
+      "prompt": "Keep still and watch where the boat settles in the water.",
+      "seconds": 6,
+      "target": "kbd-watch-boat",
+      "title": "Watch the boat settle without touching it",
+      "why": "Watching an object settle, without nudging it, shows how low it sits once the water's upward push balances its weight. Touching it spoils the observation; patient watching is what lets you see the balance the whole topic is about."
+    },
+    {
+      "cue": "Turn the dial from the solid block to the same material shaped as a boat.",
+      "id": "turn-the-block-into-a-boat",
+      "kind": "turn",
+      "prompt": "Turn the dial from the solid block to the same material shaped as a boat.",
+      "target": "kbd-shape-dial",
+      "title": "Turn the block into a boat",
+      "turn": {
+        "axis": "y",
+        "label": "BOAT",
+        "turns": 0.5
+      },
+      "why": "Changing only the shape, and keeping the same material and amount, is the fair test that shows shape matters. A hollow shape pushes aside more water, so the water pushes up harder, and the same material that sank can float."
+    },
+    {
+      "cue": "Commit when the boat is loaded low in the water but still floating.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CARGO",
+        "missNote": "Outside the band. Too little and nothing is learned; too much and it sinks. Load it again.",
+        "speed": 0.6
+      },
+      "id": "load-the-boat-until-it-sits",
+      "kind": "gauge",
+      "prompt": "Commit when the boat is loaded low in the water but still floating.",
+      "target": "kbd-load-meter",
+      "title": "Load the boat until it sits low but still floats",
+      "why": "Adding cargo makes the boat sit lower as it pushes aside more water to balance the extra weight. Stopping while it still floats shows that balance at its limit, and it is the idea behind the load lines painted on real ships' hulls."
+    },
+    {
+      "cue": "Drag your result card onto the class results board beside everyone else's.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to on the class results board.",
+        "radius": 0.45,
+        "to": "kbd-results-spot"
+      },
+      "id": "put-your-result-on-the-class",
+      "kind": "drag",
+      "prompt": "Drag your result card onto the class results board beside everyone else's.",
+      "target": "kbd-result-token",
+      "title": "Put your result on the class board",
+      "why": "One result can be a fluke; many results from the class together show a pattern. Putting yours beside everyone else's is how science builds confidence in a finding, and it lets the class spot any result that needs repeating."
+    },
+    {
+      "cue": "Water squirts furthest from the lowest hole. Say why.",
+      "id": "explain-the-squirting-bottle",
+      "kind": "select",
+      "prompt": "Water squirts furthest from the lowest hole. Say why.",
+      "target": "kbd-depth-card",
+      "title": "Explain the squirting bottle",
+      "why": "The lowest hole has the most water above it, so the water there pushes hardest and squirts furthest. Explaining that with the idea of water pressing from above is the qualitative understanding of pressure this lesson aims at, without needing any figures."
+    },
+    {
+      "cue": "Look at the draft conclusion and mark each problem.",
+      "decoyNotes": {
+        "kbd-con-prediction": "Writing the prediction first is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kbd-con-ignored": "a result that did not fit, left out",
+        "kbd-con-unfair": "a conclusion from an unfair test",
+        "kbd-con-weight": "floating explained by weight alone"
+      },
+      "itemNotes": {
+        "kbd-con-ignored": "Odd results are kept and discussed, not hidden.",
+        "kbd-con-unfair": "Two things changed at once. Which one made the difference?",
+        "kbd-con-weight": "Weight is only half of it. Where is the water's upward push?"
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft conclusion and mark each problem.",
+      "targets": [
+        "kbd-con-weight",
+        "kbd-con-unfair",
+        "kbd-con-ignored"
+      ],
+      "title": "Spot the problems in a classmate's conclusion",
+      "why": "A conclusion should follow from the evidence and use the right idea to explain it. The usual problems are explaining floating by weight alone, drawing a conclusion from an unfair test and ignoring a result that did not fit. Spotting them makes your own conclusions stronger."
+    },
+    {
+      "cue": "Hold your notes in band with what the tank actually shows as objects settle.",
+      "holdBreakNote": "Your notes drifted from what the tank shows. Look again and write what you see.",
+      "id": "keep-your-observations-matched-to-what",
+      "kind": "track",
+      "prompt": "Hold your notes in band with what the tank actually shows as objects settle.",
+      "seconds": 8,
+      "target": "kbd-track-meter",
+      "title": "Keep your observations matched to what you see",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HONEST",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "It is easy to write what you expected rather than what happened. Keeping notes matched to the tank, including surprises, is the honesty that makes a science result worth trusting."
+    },
+    {
+      "cue": "Write each prediction, what happened, and the explanation using the water's push.",
+      "id": "record-predictions-results-and-explanations",
+      "kind": "select",
+      "prompt": "Write each prediction, what happened, and the explanation using the water's push.",
+      "target": "kbd-lab-log",
+      "title": "Record predictions, results and explanations",
+      "why": "Recording predictions alongside results shows where your thinking changed, which is the real evidence of learning. Anyone can repeat the test from your record and check your explanation."
+    },
+    {
+      "cue": "Explain why the boat floats when the block of the same material sinks.",
+      "id": "explain-the-boat-to-the-class",
+      "kind": "select",
+      "prompt": "Explain why the boat floats when the block of the same material sinks.",
+      "target": "kbd-share-board",
+      "title": "Explain the boat to the class",
+      "why": "Explaining the boat and the block to the class, using the push of the water, is the clearest test of whether the idea has landed. Classmates who predicted wrongly learn most from an explanation that uses the same objects they saw."
+    },
+    {
+      "cue": "How did the experiment go? What surprised you, and what would you test next?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the experiment go? What surprised you, and what would you test next?",
+      "target": "kbd-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "Ending with a short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the lesson hard can talk to the teacher or a trusted adult afterwards."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Float or sink is a push-up against a pull-down — and deeper water pushes harder",
+  "title": "SmartCiti.X~ Buoyancy and Pressure in the Deep VR",
+  "trade": "Science class at the Deep's viewing platform — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

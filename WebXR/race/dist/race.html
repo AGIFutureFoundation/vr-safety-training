@@ -9780,7 +9780,7 @@ const UNIONS = [
   {"id":"nuhw","abbrev":"NUHW","name":"National Union of Healthcare Workers","aliases":["NUHW"],"local":null,"colors":null,"trainingBody":"nuhw-training","trainingTitle":"NUHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"Healthcare workers, primarily in California, formed after a split from SEIU-UHW."},
   {"id":"urw","abbrev":"URW","name":"United Union of Roofers, Waterproofers and Allied Workers","aliases":["Roofers Local 40","Roofers","URW"],"local":"Local 40","colors":null,"trainingBody":"roofers-local-40-training","trainingTitle":"Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training","scope":["Construction & Structural Trades"],"note":"Roofing and waterproofing craft workers. Local 40 is the one Roofers local the repository names (the Roofers and Waterproofers programme)."},
   {"id":"uwua","abbrev":"UWUA","name":"Utility Workers Union of America","aliases":["UWUA"],"local":null,"colors":null,"trainingBody":"uwua-training","trainingTitle":"UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews","scope":["Water & Environmental","Energy & Power"],"note":"Water, gas and electric utility crews. The programme also names IBEW gas locals; no single local of either is carried."},
-  {"id":"aft","abbrev":"AFT","name":"American Federation of Teachers","aliases":["AFT"],"local":null,"colors":null,"trainingBody":"aft-training","trainingTitle":"AFT — American Federation of Teachers training for paraprofessionals and school-related personnel","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Represents paraprofessionals and school-related personnel in many districts, alongside classroom teachers."},
+  {"id":"aft","abbrev":"AFT","name":"American Federation of Teachers","aliases":["AFT"],"local":null,"colors":null,"trainingBody":"aft-training","trainingTitle":"AFT — American Federation of Teachers training for paraprofessionals and school-related personnel","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality","Community Environmental Justice"],"note":"Represents paraprofessionals and school-related personnel in many districts, alongside classroom teachers."},
   {"id":"csea","abbrev":"CSEA","name":"California School Employees Association","aliases":["CSEA"],"local":null,"colors":null,"trainingBody":"csea-training","trainingTitle":"CSEA — California School Employees Association training for classified school employees","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Classified school employees: custodial, food service, transportation and instructional support staff."},
   {"id":"nalc","abbrev":"NALC","name":"National Association of Letter Carriers","aliases":["NALC"],"local":null,"colors":null,"trainingBody":"nalc-training","trainingTitle":"NALC apprenticeship and training, as a training body","scope":["Mobility & Transit"],"note":"City letter carriers who deliver the mail on foot and by vehicle route."},
   {"id":"apwu","abbrev":"APWU","name":"American Postal Workers Union","aliases":["APWU"],"local":null,"colors":null,"trainingBody":"apwu-training","trainingTitle":"APWU apprenticeship and training, as a training body","scope":["Mobility & Transit","Manufacturing & Automation","Culinary & Hospitality"],"note":"Postal clerks, maintenance and motor-vehicle employees who process and move the mail."},
@@ -9800,7 +9800,7 @@ const UNIONS = [
   {"id":"tcu","abbrev":"TCU/IAM","name":"Transportation Communications Union/IAM","aliases":["TCU/IAM"],"local":null,"colors":null,"trainingBody":"tcu-training","trainingTitle":"TCU/IAM apprenticeship and training, as a training body","scope":["Mobility & Transit"],"note":"Railroad car inspectors, repairers and clerical employees, organized within the Machinists union."},
   {"id":"iue-cwa","abbrev":"IUE-CWA","name":"IUE-CWA, the Industrial Division of the Communications Workers of America","aliases":["IUE-CWA"],"local":null,"colors":null,"trainingBody":"iue-cwa-training","trainingTitle":"IUE-CWA apprenticeship and training, as a training body","scope":["Manufacturing & Automation","Connectivity & Telecom"],"note":"Electrical, electronics and machine manufacturing workers organized within the Communications Workers of America."},
   {"id":"rwdsu","abbrev":"RWDSU","name":"Retail, Wholesale and Department Store Union","aliases":["RWDSU"],"local":null,"colors":null,"trainingBody":"rwdsu-training","trainingTitle":"RWDSU apprenticeship and training, as a training body","scope":["Culinary & Hospitality","Manufacturing & Automation"],"note":"Retail and wholesale distribution workers, organized within the food and commercial workers' union."},
-  {"id":"nea","abbrev":"NEA","name":"National Education Association","aliases":["NEA"],"local":null,"colors":null,"trainingBody":"nea-training","trainingTitle":"NEA apprenticeship and training, as a training body","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Teachers and education support professionals in public schools."},
+  {"id":"nea","abbrev":"NEA","name":"National Education Association","aliases":["NEA"],"local":null,"colors":null,"trainingBody":"nea-training","trainingTitle":"NEA apprenticeship and training, as a training body","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality","Community Environmental Justice"],"note":"Teachers and education support professionals in public schools."},
   {"id":"afsa","abbrev":"AFSA","name":"American Federation of School Administrators","aliases":["AFSA"],"local":null,"colors":null,"trainingBody":"afsa-training","trainingTitle":"AFSA apprenticeship and training, as a training body","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"School principals and other public-school administrators."},
   {"id":"upte-cwa","abbrev":"UPTE-CWA","name":"University Professional and Technical Employees, CWA Local 9119","aliases":["UPTE-CWA"],"local":"Local 9119","colors":null,"trainingBody":"upte-cwa-training","trainingTitle":"UPTE-CWA apprenticeship and training, as a training body","scope":["Environmental Monitoring","Healthcare Support","Building Systems & Facilities"],"note":"Professional, technical and research staff at the University of California, organized within the Communications Workers of America."},
   {"id":"aaup","abbrev":"AAUP","name":"American Association of University Professors","aliases":["AAUP"],"local":null,"colors":null,"trainingBody":"aaup-training","trainingTitle":"AAUP apprenticeship and training, as a training body","scope":["Building Systems & Facilities","Culinary & Hospitality"],"note":"College and university faculty, some of whose chapters bargain collectively over pay and working conditions."},
@@ -11206,6 +11206,76 @@ const CURRICULA = [
       { app: "smartcity", id: "ws-ocean-pod-retrieval-and-hatch-opening", why: "A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns." },
     ],
   },
+  {
+    id: "k12-practical-math",
+    name: "K-12 Practical Maths",
+    audience: "classroom",
+    band: "upper primary to lower secondary",
+    union: "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship",
+    certification: "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+    guides: ["un-sdg-4-quality-education","unesco-education-guidance","inee-minimum-standards","national-curriculum-framework","aft-training"],
+    summary: "Maths done where it is used: a court measured and drawn to scale, a first paycheck budgeted, a map scale read, fractions in a kitchen, a ramp's slope, tide readings graphed, a fair spinner and a turbine's sweep. Every number the learner works with is one the scene shows.",
+    teacherNote: "Running it in a low-connectivity setting: once the page has loaded the app works offline, so load it on the school's connection before the lesson; on phones choose low quality in the settings; one device per small group works, with the others reading the cue aloud and checking the why. The records stay on each device.",
+    accent: "#5a9fd8",
+    stations: [
+      { app: "smartcity", id: "k12-measuring-and-scaling-the-court", why: "Area, perimeter and ratio on a real surface, with the unit written beside every number and a scale drawing checked by its ratio." },
+      { app: "smartcity", id: "k12-household-budget-and-first-paycheck", why: "Percentages where they first matter to a young earner: gross, deductions and net read off a practice slip, and a month planned with something kept back." },
+      { app: "smartcity", id: "k12-reading-a-map-scale-in-bay-world", why: "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check." },
+      { app: "smartcity", id: "k12-fractions-in-the-kitchen", why: "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept." },
+    ],
+  },
+  {
+    id: "k12-science",
+    name: "K-12 Science",
+    audience: "classroom",
+    band: "upper primary to lower secondary",
+    union: "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship",
+    certification: "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+    guides: ["un-sdg-4-quality-education","unesco-education-guidance","inee-minimum-standards","national-curriculum-framework","aft-training"],
+    summary: "Science by observation and fair test in the worlds: the water cycle and a filter at a treatment plant, buoyancy in the Deep, energy at the wind farm, low-voltage circuits, a kelp ecosystem, the sky, simple machines and a controlled experiment. Clearer is never mistaken for safe.",
+    teacherNote: "Running it in a low-connectivity setting: once the page has loaded the app works offline, so load it on the school's connection before the lesson; on phones choose low quality in the settings; one device per small group works, with the others reading the cue aloud and checking the why. The records stay on each device.",
+    accent: "#4fb88a",
+    stations: [
+      { app: "smartcity", id: "k12-water-cycle-and-filtration", why: "The cycle found in a real place and a layered filter tested against a control jar, with clearer never mistaken for safe to drink." },
+      { app: "smartcity", id: "k12-buoyancy-and-pressure-in-the-deep", why: "Float or sink explained by the water's upward push, and pressure that grows with depth, tested fairly from the Deep's viewing platform with no depth figure stated." },
+      { app: "smartcity", id: "k12-circuits-at-the-electrical-bench", why: "A complete loop, a switch, series and parallel on a checked low-voltage kit, with the mains named as the one thing a classroom circuit never touches." },
+      { app: "smartcity", id: "k12-energy-transfer-at-the-wind-farm", why: "Energy followed from moving air to turning blades to light in a model's circuit, with the wasted heat and sound named and no output figure claimed." },
+    ],
+  },
+  {
+    id: "k12-history-and-civics",
+    name: "K-12 History and Civics",
+    audience: "classroom",
+    band: "lower to upper secondary",
+    union: "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship",
+    certification: "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+    guides: ["un-sdg-4-quality-education","unesco-education-guidance","inee-minimum-standards","national-curriculum-framework","aft-training"],
+    summary: "History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.",
+    teacherNote: "Running it in a low-connectivity setting: once the page has loaded the app works offline, so load it on the school's connection before the lesson; on phones choose low quality in the settings; one device per small group works, with the others reading the cue aloud and checking the why. The records stay on each device.",
+    accent: "#c08a4a",
+    stations: [
+      { app: "smartcity", id: "k12-primary-and-secondary-sources", why: "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled." },
+      { app: "smartcity", id: "k12-building-a-timeline-from-documents", why: "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes." },
+      { app: "smartcity", id: "k12-how-a-local-council-meeting-works", why: "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided." },
+    ],
+  },
+  {
+    id: "k12-literacy-and-life-skills",
+    name: "K-12 Literacy and Life Skills",
+    audience: "classroom",
+    band: "early primary to upper secondary",
+    union: "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship",
+    certification: "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+    guides: ["un-sdg-4-quality-education","unesco-education-guidance","inee-minimum-standards","national-curriculum-framework","aft-training"],
+    summary: "Reading and speaking for life: instructions and safety labels, a clear incident report, public speaking, digital citizenship, first aid awareness that always ends in calling for help, and teamwork and feedback alongside the emotional intelligence stations.",
+    teacherNote: "Running it in a low-connectivity setting: once the page has loaded the app works offline, so load it on the school's connection before the lesson; on phones choose low quality in the settings; one device per small group works, with the others reading the cue aloud and checking the why. The records stay on each device.",
+    accent: "#9a6ad0",
+    stations: [
+      { app: "smartcity", id: "k12-reading-instructions-and-safety-labels", why: "Instructions read right through and a label read before use, the reading habit every later station in the block leans on." },
+      { app: "smartcity", id: "k12-writing-a-clear-incident-report", why: "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it." },
+      { app: "smartcity", id: "k12-first-aid-awareness-call-for-help", why: "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open." },
+    ],
+  },
 ];
 
 /**
@@ -11237,6 +11307,7 @@ function curriculumProgress(curriculum, records = []) {
     attention,
     id: curriculum.id, name: curriculum.name, union: curriculum.union,
     certification: curriculum.certification, summary: curriculum.summary, accent: curriculum.accent,
+    audience: curriculum.audience ?? null, teacherNote: curriculum.teacherNote ?? null,
     stations, done, total: stations.length,
     pct: stations.length ? Math.round((done / stations.length) * 100) : 0,
     complete: done === stations.length && stations.length > 0,
@@ -12700,6 +12771,26 @@ const CAPSTONE_LIVERIES = [
     "programme": "wind-and-data-infrastructure",
     "name": "Wind & Data Infrastructure",
     "accent": "#3fa7d6"
+  },
+  {
+    "programme": "k12-practical-math",
+    "name": "K-12 Practical Maths",
+    "accent": "#5a9fd8"
+  },
+  {
+    "programme": "k12-science",
+    "name": "K-12 Science",
+    "accent": "#4fb88a"
+  },
+  {
+    "programme": "k12-history-and-civics",
+    "name": "K-12 History and Civics",
+    "accent": "#c08a4a"
+  },
+  {
+    "programme": "k12-literacy-and-life-skills",
+    "name": "K-12 Literacy and Life Skills",
+    "accent": "#9a6ad0"
   }
 ];
 
