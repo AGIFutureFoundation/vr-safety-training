@@ -46,6 +46,7 @@ globalThis.sessionStorage = new MemStore();
 const imp = (p) => import(pathToFileURL(join(WEBXR, p)));
 const G = await imp("shared/skill-gates.js");
 const SG = await imp("shared/side-games-data.js");
+const MX = await imp("shared/side-game-mechanics.js");
 const { CURRICULA } = await imp("smartcity/js/curricula.js");
 const { PP_PROGRAMMES } = await imp("shared/passport-programmes.js");
 const BQ = await imp("bayworld/js/quests.js");
@@ -165,6 +166,45 @@ for (const it of items) {
   const text = [it.title, it.summary, it.gate.note, it.reward?.cosmetic, ...(it.steps ?? []).map((s) => s.text)].filter(Boolean).join(" ");
   if (BANNED.test(text)) fail("tone", `${where}: banned wording "${text.match(BANNED)[0]}"`); else ok();
 }
+// ------------------------------------------------------------ mechanics
+// Twelve playable mechanics (shared/side-game-mechanics.js): every item
+// resolves to one, every mechanic is used, each step has exactly one safe
+// move, a run is deterministic, and the text follows the facts and tone rules.
+{
+  if (MX.QM_MECHANIC_KEYS.length < 12) fail("mechanics", `${MX.QM_MECHANIC_KEYS.length} mechanics (need 12)`); else ok();
+  const used = new Map();
+  const games = items; // every gated item resolves to a mechanic; quests from a world engine keep theirs for that world to play
+  for (const it of games) {
+    const key = MX.qmMechanicFor(it);
+    used.set(key, (used.get(key) ?? 0) + 1);
+    const steps = MX.qmMechanicSteps(it);
+    if (steps.length < 3) fail("mechanics", `${it.id}: ${key} has fewer than three steps`); else ok();
+    for (const s of steps) {
+      if (!Array.isArray(s.board) || s.board.length < 2 || !s.prompt) fail("mechanics", `${it.id}: a ${key} step has no board or prompt`); else ok();
+      if (s.options.length !== 2 || s.options.filter((o) => o.safe).length !== 1) fail("mechanics", `${it.id}: a ${key} step without exactly one safe move`); else ok();
+      const text = [s.prompt, ...s.board, ...s.options.map((o) => o.text)].join(" ");
+      if (/\d/.test(text.replace(/K-12/g, ""))) fail("facts", `${it.id}: a ${key} step carries a digit`); else ok();
+      if (BANNED.test(text)) fail("tone", `${it.id}: a ${key} step carries banned wording "${text.match(BANNED)[0]}"`); else ok();
+    }
+    const again = MX.qmMechanicSteps(it);
+    if (JSON.stringify(again) !== JSON.stringify(steps)) fail("mechanics", `${it.id}: ${key} is not deterministic`); else ok();
+    const run = MX.qmPlaySteps(it, SG.qmRounds(it));
+    if (run.length !== steps.length + (it.practices ?? []).length) fail("mechanics", `${it.id}: the run does not carry the mechanic steps plus the practice calls`); else ok();
+    if (!it.practices) continue; // a gated quest is not scored here
+    // a run with every safe move is clean; one unsafe move is a practice run
+    globalThis.localStorage.clear(); G.qmInvalidate();
+    const safeCount = run.filter((s) => s.options.some((o) => o.safe)).length;
+    if (!G.qmFinishGame(it, { score: safeCount, of: run.length }).clean) fail("mechanics", `${it.id}: an all-safe run is not clean`); else ok();
+    globalThis.localStorage.clear(); G.qmInvalidate();
+    if (G.qmFinishGame(it, { score: run.length - 1, of: run.length }).clean) fail("mechanics", `${it.id}: a run with one unsafe move counted as clean`); else ok();
+  }
+  for (const key of MX.QM_MECHANIC_KEYS) { if (!used.get(key)) fail("mechanics", `mechanic ${key} is used by no item`); else ok(); }
+  for (const [key, m] of Object.entries(MX.QM_MECHANICS)) {
+    if (!m.name || !m.blurb || !(m.match instanceof RegExp) || typeof m.build !== "function") fail("mechanics", `${key} lacks name, blurb, match or build`); else ok();
+    if (/\d/.test(`${m.name} ${m.blurb}`) || BANNED.test(`${m.name} ${m.blurb}`)) fail("facts", `${key}: name or blurb carries a digit or banned wording`); else ok();
+  }
+  console.log(`  mechanics: ${[...used.entries()].map(([k, n]) => `${k} ${n}`).join(", ")}`);
+}
 for (const [k, p] of Object.entries(SG.QM_SAFE_PRACTICES)) {
   for (const f of ["prompt", "safe", "unsafe"]) if (!p[f] || /\d/.test(p[f]) || BANNED.test(p[f])) fail("facts", `practice ${k}.${f} missing, carries a digit or banned wording`); else ok();
 }
@@ -218,7 +258,7 @@ for (const w of fourWorlds) {
   const app = readFileSync(join(WEBXR, w, "js/app.js"), "utf8");
   if (!/qmMountSideGames\(/.test(app)) fail("wiring", `${w}/js/app.js does not mount the side-games panel`); else ok();
   const block = bundle.slice(bundle.indexOf(`"${w}": {`), bundle.indexOf(`WEBXR / "${w}/js/app.js"`));
-  for (const m of ["skill-gates.js", "side-games-data.js", "skill-gates-ui.js", "links.js", "passport-programmes.js"]) {
+  for (const m of ["skill-gates.js", "side-games-data.js", "side-game-mechanics.js", "skill-gates-ui.js", "links.js", "passport-programmes.js"]) {
     if (!block.includes(`"${m}"`)) fail("bundle", `the ${w} bundle lacks ${m}`); else ok();
   }
 }

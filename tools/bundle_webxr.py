@@ -384,6 +384,7 @@ APPS = {
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.
             SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
+            SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             WEBXR / "fairway/js/app.js",
         ],
@@ -507,6 +508,7 @@ APPS = {
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.
             SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
+            SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             WEBXR / "bayworld/js/app.js",
         ],
@@ -568,6 +570,7 @@ APPS = {
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.
             SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
+            SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             WEBXR / "underwater/js/app.js",
         ],
@@ -718,6 +721,7 @@ APPS = {
             # Skill gates (docs/skill-gates.md): the engine, the side games, the lock UI.
             SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
+            SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             WEBXR / "regatta/js/app.js",
         ],

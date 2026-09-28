@@ -1,0 +1,10 @@
+# QUESTMASTER-2 memory — read first
+
+Read `docs/consoles/memory/QUESTMASTER.md` first; every lesson there still holds. These are the additions.
+
+- **Start from the integration tip.** A fresh worktree branch can sit at the repo's first commit with no `WebXR/` at all. `git reset --hard claude/vr-ar-safety-training-wkwmve` (the local branch, which carries the merged consoles) before reading anything.
+- **Mechanics live in `WebXR/shared/side-game-mechanics.js`.** Twelve pure step generators (`QM_MECHANICS`), each `build(item)` → steps of `{ board, prompt, options }` with exactly one safe move. `qmMechanicFor(item)` picks by `item.mechanic`, else the first `match` regex that fits the title or id, else the inspection grid. Order in `QM_MECHANICS` is the match priority. `qmPlaySteps(item, qmRounds(item))` is the whole run the panel plays: mechanic steps, then the safe-practice calls, one score.
+- **Facts rule reaches the boards.** The checker tests every step's prompt, board lines and moves for digits (after stripping "K-12") and banned words. Quantities are words ("three loads" is fine only as words; write "the pallet", not "pallet 2"). A site's display name is kept as written; only an id-like site is de-hyphenated (a naive `replace(/-/g, " ")` turned "K-12" into "K 12").
+- **Coverage rule.** `check_gates` asserts every mechanic is used by at least one gated item, counted over every item (Summit and Redwood quests count; their lookout quests are what keeps `lookout-watch` in use). Before you narrow a `match`, print the title → mechanic table (a one-line `node -e` over `GATED_QUESTS` and `QM_SIDE_GAMES`).
+- **Rows without practices.** `qmRowHtml` shows a Play button only for items with `practices`; a gated quest from a world engine (Summit, Redwood) shows "Open — play it in the world at <site>" instead.
+- **Worktree guard.** `sed -i` with several `-e` expressions, `node -e` with an inline module import, and Python patch scripts written to `$SP/holodeck/qm/` all pass; heredocs and `git -C` do not.
