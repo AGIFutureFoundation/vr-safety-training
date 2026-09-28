@@ -97,6 +97,8 @@ function rwPlaceCamera() {
   c.position.set(rwApp.x, rwGround(rwApp.x, rwApp.z) + eye, rwApp.z);
   c.rotation.order = "YXZ";
   c.rotation.set(rwApp.pitch, rwApp.yaw, 0);
+  // The UTV sits under the driver: its centre a metre ahead of the eye so the hood and the light bar read in the view.
+  rwApp.world?.vehicle?.place(rwApp.x - Math.sin(rwApp.yaw) * 1.1, rwApp.z - Math.cos(rwApp.yaw) * 1.1, rwApp.yaw, rwApp.driving, c.position.y - eye);
 }
 /** Where a traveller lands at a site: in its cleared yard, south of the buildings, facing them. */
 function rwArrival(s) { return [s.position[0], s.position[1] + s.pad * 0.75, 0]; }
@@ -187,6 +189,7 @@ $("btn-drive").addEventListener("click", () => rwToggleDrive());
 function rwToggleDrive() {
   rwApp.driving = !rwApp.driving;
   $("btn-drive").textContent = rwApp.driving ? "Walk" : "Drive";
+  if (rwApp.camera) rwPlaceCamera();
   rwToast(rwApp.driving ? "Fire-road vehicle: seatbelt on, lights on, stay on the graded road." : "On foot.");
 }
 
