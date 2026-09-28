@@ -11,8 +11,8 @@ import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js"
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
 import {
   SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES,
-  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_WATER_LEVEL, SM_SNOWLINE,
-  smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace,
+  SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_RIVER, SM_WATER_LEVEL,
+  smHeightAt, smSlopeAt, smZoneAt, smInLake, smInRiver, smPlace,
 } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import {
@@ -179,10 +179,10 @@ function smRenderMap() {
     const ctx = base.getContext("2d"), img = ctx.createImageData(W, W), c = [0, 0, 0];
     for (let j = 0; j < W; j++) for (let i = 0; i < W; i++) {
       const x = SM_BOUNDS.minX + (i + 0.5) / W * SM_SIZE, z = SM_BOUNDS.minZ + (j + 0.5) / W * SM_SIZE;
-      const h = smHeightAt(x, z), hx = smHeightAt(x + 8, z) - h, hz = smHeightAt(x, z + 8) - h;
-      smGroundColour(x, z, h, Math.hypot(hx, hz) / 8, c);
+      const h = smHeightAt(x, z), hx = smHeightAt(x + 8, z) - h, hz = smHeightAt(x, z + 8) - h, sl = Math.hypot(hx, hz) / 8;
+      smGroundColour(x, z, h, sl, c, sl > 0.02 ? -(hz / 8) / sl : 0);
       let shade = 1 - (hx * 0.6 + hz * 0.4) * 0.05; shade = Math.max(0.55, Math.min(1.3, shade));
-      if (smInLake(x, z)) { c[0] = 0.18; c[1] = 0.42; c[2] = 0.56; shade = 1; }
+      if (smInLake(x, z) || smInRiver(x, z)) { c[0] = 0.18; c[1] = 0.42; c[2] = 0.56; shade = 1; }
       const contour = Math.abs((h % 100) - 50) > 48.5 ? 0.82 : 1;
       const k = (j * W + i) * 4;
       img.data[k] = Math.min(255, c[0] * 255 * shade * contour); img.data[k + 1] = Math.min(255, c[1] * 255 * shade * contour); img.data[k + 2] = Math.min(255, c[2] * 255 * shade * contour); img.data[k + 3] = 255;
@@ -192,7 +192,7 @@ function smRenderMap() {
   const over = $("map-over"), o = over.getContext("2d");
   o.clearRect(0, 0, W, W);
   const line = (pts, col, w, dash = []) => { o.strokeStyle = col; o.lineWidth = w; o.setLineDash(dash); o.beginPath(); pts.forEach(([x, z], i) => { const [px, pz] = smMapXY(x, z, W); if (i) o.lineTo(px, pz); else o.moveTo(px, pz); }); o.stroke(); o.setLineDash([]); };
-  if (SM_LAYERS.roads) { line(SM_PASS_ROAD, "#222", 3); line(SM_SERVICE_ROAD, "#5b4b3a", 2); line(SM_TRANSMISSION, "#ffd24a", 1.5, [4, 3]); line(SM_GONDOLA, "#e8492f", 2, [2, 2]); }
+  if (SM_LAYERS.roads) { line(SM_RIVER, "#4aa3cf", 2); line(SM_PASS_ROAD, "#222", 3); line(SM_SERVICE_ROAD, "#5b4b3a", 2); line(SM_TRANSMISSION, "#ffd24a", 1.5, [4, 3]); line(SM_GONDOLA, "#e8492f", 2, [2, 2]); }
   if (SM_LAYERS.trails) for (const t of SM_TRAILS) line(t.pts, "#fff3c4", 1.5, [3, 3]);
   const dot = (x, z, col, r, label) => { const [px, pz] = smMapXY(x, z, W); o.fillStyle = col; o.beginPath(); o.arc(px, pz, r, 0, Math.PI * 2); o.fill(); if (label) { o.font = "11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText(label, px + r + 2, pz + 4); o.fillText(label, px + r + 2, pz + 4); } };
   if (SM_LAYERS.sites) for (const s of SM_SITES) dot(s.at[0], s.at[1], sm.state.visited.includes(s.id) ? "#ffb020" : "#b0b8c0", 5, s.name);
@@ -309,6 +309,7 @@ function frame(now) {
     let nx = sm.x + (fx * f - fz * s) * speed * dt, nz = sm.z + (fz * f + fx * s) * speed * dt;
     nx = Math.max(SM_BOUNDS.minX + 5, Math.min(SM_BOUNDS.maxX - 5, nx)); nz = Math.max(SM_BOUNDS.minZ + 5, Math.min(SM_BOUNDS.maxZ - 5, nz));
     if (!smInLake(nx, nz)) { sm.x = nx; sm.z = nz; }
+    // Fording the river is allowed, just slow: the speed factor above already eases on steep banks.
     if (sm.run) {
       smActStep(sm.run, sm.x, sm.z, dt, { mapOpen: false, radioed: !!sm.radioed }); sm.radioed = false;
       if (sm.run.done && !sm.run.pendingCheck) { const best = smActFinish(sm.state, sm.run); smToast(`Activity finished: score ${sm.run.score}${best ? " — a new best" : ""}.`, 6000); sm.run = null; smSave(sm.state); }
@@ -373,4 +374,4 @@ window.__summitTest = {
   teleport(x, z, yaw = sm.yaw, pitch = sm.pitch, lift = 0) { sm.x = x; sm.z = z; sm.yaw = yaw; sm.pitch = pitch; sm.lift = lift; world.update(x, z, 999); },
   begin: smBegin, stats: () => world.stats(), setTime(i) { sm.timeIdx = i; smApplySky(); }, setWeather(i) { sm.weatherIdx = i; smApplySky(); },
 };
-void SM_SNOWLINE;
+

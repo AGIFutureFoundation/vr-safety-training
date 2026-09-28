@@ -40,6 +40,55 @@ check(hi > D.SM_SNOWLINE && lo < D.SM_TREELINE, "the field spans valley forest t
 const trees = D.smTreesForChunk(3, 12);
 check(trees.length > 20 && trees.every((t) => t.y < D.SM_TREELINE), "a valley chunk carries conifers, all below the treeline");
 
+// 1b. frame budget (tools/briefs/next/summit-next.md, phase 1): the pure
+// estimate of one streamed view per tier stays inside SM_BUDGET.triangles,
+// ring 2 carries at most half of ring 0's trees and draws impostors, and the
+// player's chunk is held to 32 segments or fewer.
+for (const tier of Object.keys(D.SM_STREAM_RADIUS)) {
+  const est = D.smTriangleEstimate(tier);
+  check(est <= D.SM_BUDGET.triangles, `${tier}: worst-case streamed view ${est} triangles within the ${D.SM_BUDGET.triangles} budget`);
+}
+check(D.smTriangleEstimate("low") < D.smTriangleEstimate("high"), "the low tier streams fewer triangles than high");
+check(D.SM_TREE_RING_FACTOR[2] <= 0.3 && D.SM_IMPOSTOR_RING <= 2, "ring 2 carries at most three tenths of the trees and draws billboard impostors");
+check(D.SM_LOD_SEGMENTS[0] <= 32 && D.SM_LOD_SEGMENTS.every((v, i, a) => i === 0 || v <= a[i - 1]), "LOD ring 0 is 32 segments or fewer and the rings coarsen outward");
+check(D.SM_TRI.impostor < D.SM_TRI.conifer / 4, "an impostor costs under a quarter of a conifer");
+
+// 1c. terrain character (phase 2): the snowline varies with aspect, the
+// river descends from the powerhouse and stays out of the reservoir and off
+// every pad, and it yields to the pass road at one culvert.
+check(D.smSnowlineAt(-1) < D.SM_SNOWLINE && D.smSnowlineAt(1) > D.SM_SNOWLINE, "the snowline is lower on north-facing ground and higher on south-facing");
+check(Math.abs(D.smGradAt(250, -1600).aspect + 1) < 0.3 && Math.abs(D.smGradAt(250, -1100).aspect - 1) < 0.3, "the main peak's north face reads north and its south face south");
+{
+  const R = D.SM_RIVER, ph = D.smPlace("powerhouse");
+  check(Math.hypot(R[0][0] - ph.at[0], R[0][1] - ph.at[1]) < 60, "the river rises at the powerhouse");
+  check(Math.abs(R[R.length - 1][0]) >= 2000 || Math.abs(R[R.length - 1][1]) >= 2000, "the river leaves the field");
+  const lens = [0]; for (let i = 1; i < R.length; i++) lens.push(lens[i - 1] + Math.hypot(R[i][0] - R[i - 1][0], R[i][1] - R[i - 1][1]));
+  const total = lens[lens.length - 1];
+  let prev = null, rises = 0, culverts = 0, wet = 0;
+  for (let k = 0; k <= 200; k++) {
+    const d = total * k / 200; let i = 1; while (i < lens.length - 1 && lens[i] < d) i++;
+    const u = (d - lens[i - 1]) / (lens[i] - lens[i - 1]);
+    const x = R[i - 1][0] + (R[i][0] - R[i - 1][0]) * u, z = R[i - 1][1] + (R[i][1] - R[i - 1][1]) * u;
+    const nearRoad = D.smPolyDistance(x, z, D.SM_PASS_ROAD).d < 40;
+    const h = D.smHeightAt(x, z);
+    if (prev !== null && h > prev + 0.6 && !nearRoad) rises++;
+    if (nearRoad) culverts++;
+    if (D.smInRiver(x, z) && !nearRoad) wet++;
+    prev = h;
+    check(!D.smInLake(x, z), "the river is not in the reservoir");
+    check(D.SM_SITES.every((st) => Math.hypot(x - st.at[0], z - st.at[1]) > st.pad * 1.8), "the river keeps off every site pad");
+  }
+  check(rises === 0, `the river bed never rises downstream away from the culvert (${rises} rises)`);
+  check(culverts > 0 && culverts < 12, `the river crosses the pass road once, under a culvert (${culverts} samples near the road)`);
+  check(wet > 180, `the channel reads as water along its length (${wet} of 200 samples)`);
+  check(D.smRiverSurfaceAt(0) > D.smRiverSurfaceAt(1), "the river's surface descends from source to exit");
+  check(D.smTreesForChunk(4, 12).every((t) => D.smPolyDistance(t.x, t.z, R).d > D.SM_RIVER_CHANNEL.width), "no conifer stands in the river channel");
+}
+const builderSrc = readFileSync(join(WEBXR, "shared", "summit.js"), "utf8");
+check(/smImpostorGeometry/.test(builderSrc) && /SM_IMPOSTOR_RING/.test(builderSrc), "the builder draws impostors from the impostor ring");
+check(/smSnowlineAt\(aspect\)/.test(builderSrc) && /smBandNoise/.test(builderSrc), "the ground colour uses the aspect snowline and banded strata");
+check(/summit-river/.test(builderSrc) && /smRiverSurfaceAt/.test(builderSrc), "the builder lays the river on its own descending surface");
+
 // 2. sites and stations
 const work = D.SM_SITES.filter((s) => s.stations.length);
 check(work.length >= 8, "at least eight work sites with job boards");

@@ -28,19 +28,44 @@ export const SM_SIZE = 4096;
 export const SM_CHUNK = 256;
 export const SM_CHUNKS_PER_SIDE = SM_SIZE / SM_CHUNK;
 /** Grid segments per chunk at each LOD ring (0 = the player's chunk and its neighbours). */
-export const SM_LOD_SEGMENTS = [48, 24, 12, 8];
+export const SM_LOD_SEGMENTS = [32, 24, 12, 8];
 /** Chunks kept loaded around the player, per quality tier (Chebyshev radius). */
 export const SM_STREAM_RADIUS = { low: 2, balanced: 3, high: 3 };
 /** Chunk rings that carry instanced conifers, per tier. */
 export const SM_TREE_RADIUS = { low: 1, balanced: 2, high: 2 };
 /** Conifers per full forested chunk at ring 0 (fewer further out). */
 export const SM_TREES_PER_CHUNK = 200;
+/** Share of SM_TREES_PER_CHUNK each tree ring carries; ring 2 is half of what it was and draws billboard impostors. */
+export const SM_TREE_RING_FACTOR = [1, 0.8, 0.28];
+/** The ring from which conifers are two-quad impostors instead of the three-part mesh. */
+export const SM_IMPOSTOR_RING = 2;
+/** Triangles per tree, by representation (the builder's geometries: cylinder(4) + cone(6) + cone(5); two crossed quads). */
+export const SM_TRI = { conifer: 38, impostor: 4, backdrop: 96 * 96 * 2 };
 /** Heights (metres) where the land changes character. */
 export const SM_TREELINE = 760;
 export const SM_SNOWLINE = 900;
 export const SM_SCREE = 640;
 /** Mesh and triangle budget the builder is held to (tools/check_summit.mjs). */
 export const SM_BUDGET = { drawCalls: 180, triangles: 420000, chunksLoaded: 49 };
+
+/**
+ * A pure, worst-case triangle estimate for one streamed view on a tier:
+ * every chunk in the square at its ring's LOD, every tree ring fully
+ * forested, plus the backdrop. The builder's stats() measures the real
+ * count; tools/check_summit.mjs holds this estimate to SM_BUDGET.triangles.
+ */
+export function smTriangleEstimate(tier = "high") {
+  const r = SM_STREAM_RADIUS[tier] ?? 3, tr = SM_TREE_RADIUS[tier] ?? 2;
+  let tri = SM_TRI.backdrop;
+  for (const c of smChunksAround(0, 0, r)) {
+    tri += SM_LOD_SEGMENTS[c.lod] ** 2 * 2;
+    if (c.ring <= tr) {
+      const n = Math.round(SM_TREES_PER_CHUNK * (SM_TREE_RING_FACTOR[c.ring] ?? SM_TREE_RING_FACTOR.at(-1)) * (tier === "low" ? 0.5 : 1));
+      tri += n * (c.ring >= SM_IMPOSTOR_RING ? SM_TRI.impostor : SM_TRI.conifer);
+    }
+  }
+  return tri;
+}
 
 // ------------------------------------------------------------------ noise
 
@@ -119,6 +144,10 @@ export const SM_GONDOLA = [[-240, -300], [160, -1150]];
 export const SM_PENSTOCK = [[-640, 360], [-560, 760]];
 /** The reservoir behind the dam. */
 export const SM_LAKE = { centre: [-700, -40], radius: 380 };
+/** The tailrace river: from the powerhouse down the valley to the south-west corner, under the pass road once (a culvert). */
+export const SM_RIVER = [[-560, 790], [-646, 913], [-789, 957], [-753, 1103], [-766, 1252], [-844, 1380], [-952, 1484], [-1075, 1571], [-1225, 1573], [-1224, 1723], [-1195, 1870], [-1278, 1995], [-1250, 2048]];
+/** The river channel: half-width in metres where the bed is cut, its depth below the banks, and the corridor the banks blend over. */
+export const SM_RIVER_CHANNEL = { width: 14, depth: 2.6, corridor: 70 };
 /** Hiking trails (the orienteering course follows the first). */
 export const SM_TRAILS = [
   { id: "lookout-trail", name: "West Ridge Lookout Trail", pts: [[-1230, 290], [-1300, 100], [-1380, -150], [-1450, -400], [-1510, -690]] },
@@ -226,8 +255,48 @@ function smRawHeight(x, z) {
     const w = 1 - smSmooth(14, 160, r.d);
     h += (smRoadHeight(r.t) - h) * w;
   }
+  // The river: its bed is held to a profile that only ever descends (the
+  // running minimum of the natural ground along it), the banks blend to it
+  // over the corridor, and a shallow channel is cut in the middle. Both
+  // yield within the road corridor, where a culvert carries the river under
+  // the road bed.
+  const rv = smPolyDistance(x, z, SM_RIVER);
+  if (rv.d < SM_RIVER_CHANNEL.corridor) {
+    const open = smSmooth(12, 40, r.d);
+    const prof = smRiverProfile(rv.t);
+    if (prof < h) h += (prof - h) * (1 - smSmooth(6, SM_RIVER_CHANNEL.corridor, rv.d)) * open;
+    if (rv.d < SM_RIVER_CHANNEL.width) h -= SM_RIVER_CHANNEL.depth * (1 - smSmooth(3, SM_RIVER_CHANNEL.width, rv.d)) * open;
+  }
   return h;
 }
+
+/**
+ * The river's bed profile: the natural ground sampled every SM_RIVER_STEP
+ * metres along the polyline, held to its running minimum so the bed never
+ * rises downstream. Sampled once at load; smRiverProfile(t) interpolates.
+ */
+const SM_RIVER_STEP = 16;
+const SM_RIVER_TOTAL = SM_RIVER.slice(1).reduce((s, q, k) => s + Math.hypot(q[0] - SM_RIVER[k][0], q[1] - SM_RIVER[k][1]), 0);
+const SM_RIVER_PROFILE = (() => {
+  const n = Math.ceil(SM_RIVER_TOTAL / SM_RIVER_STEP), out = [];
+  let run = 0, i = 1, floor = Infinity;
+  for (let k = 0; k <= n; k++) {
+    const d = Math.min(SM_RIVER_TOTAL, k * SM_RIVER_STEP);
+    while (i < SM_RIVER.length - 1 && run + Math.hypot(SM_RIVER[i][0] - SM_RIVER[i - 1][0], SM_RIVER[i][1] - SM_RIVER[i - 1][1]) < d) { run += Math.hypot(SM_RIVER[i][0] - SM_RIVER[i - 1][0], SM_RIVER[i][1] - SM_RIVER[i - 1][1]); i++; }
+    const L = Math.hypot(SM_RIVER[i][0] - SM_RIVER[i - 1][0], SM_RIVER[i][1] - SM_RIVER[i - 1][1]) || 1;
+    const u = smClamp((d - run) / L, 0, 1);
+    const x = SM_RIVER[i - 1][0] + (SM_RIVER[i][0] - SM_RIVER[i - 1][0]) * u, z = SM_RIVER[i - 1][1] + (SM_RIVER[i][1] - SM_RIVER[i - 1][1]) * u;
+    floor = Math.min(floor, smNatural(x, z) - 1);
+    out.push(floor);
+  }
+  return out;
+})();
+function smRiverProfile(t) {
+  const f = smClamp(t, 0, 1) * (SM_RIVER_PROFILE.length - 1), i = Math.min(SM_RIVER_PROFILE.length - 2, Math.floor(f)), u = f - i;
+  return SM_RIVER_PROFILE[i] + (SM_RIVER_PROFILE[i + 1] - SM_RIVER_PROFILE[i]) * u;
+}
+/** The river's surface height at an along-river fraction (the bed plus most of the channel's depth). */
+export function smRiverSurfaceAt(t) { return smRiverProfile(t) - SM_RIVER_CHANNEL.depth + 0.9; }
 
 /** The reservoir's water level (metres), fixed from the terrain at load. */
 export const SM_WATER_LEVEL = Math.round(smRawHeight(SM_LAKE.centre[0], SM_LAKE.centre[1]) + 6);
@@ -264,11 +333,30 @@ export function smSlopeAt(x, z, e = 4) {
   return Math.hypot(dx, dz) / (2 * e);
 }
 
+/**
+ * The height gradient at (x, z) by central differences: { dx, dz, slope, aspect }.
+ * `aspect` is -1 for a slope facing north (uphill toward +z, since north is
+ * -z), +1 facing south, 0 for east/west or flat ground.
+ */
+export function smGradAt(x, z, e = 4) {
+  const dx = (smHeightAt(x + e, z) - smHeightAt(x - e, z)) / (2 * e);
+  const dz = (smHeightAt(x, z + e) - smHeightAt(x, z - e)) / (2 * e);
+  const slope = Math.hypot(dx, dz);
+  return { dx, dz, slope, aspect: slope > 0.02 ? -dz / slope : 0 };
+}
+
+/** The snowline at a point: lower on north-facing ground, higher on south-facing, by SM_SNOW_ASPECT metres. */
+export const SM_SNOW_ASPECT = 80;
+export function smSnowlineAt(aspect) { return SM_SNOWLINE + aspect * SM_SNOW_ASPECT; }
+
+/** True within the river channel's water. */
+export function smInRiver(x, z) { return smPolyDistance(x, z, SM_RIVER).d < SM_RIVER_CHANNEL.width * 0.45 && smPolyDistance(x, z, SM_PASS_ROAD).d > 12; }
+
 /** Ground cover at (x, z): "water" | "snow" | "scree" | "rock" | "meadow" | "forest" | "road". */
 export function smCoverAt(x, z, h = smHeightAt(x, z), slope = smSlopeAt(x, z)) {
-  if (smInLake(x, z)) return "water";
+  if (smInLake(x, z) || smInRiver(x, z)) return "water";
   if (smPolyDistance(x, z, SM_PASS_ROAD).d < 7) return "road";
-  if (h > SM_SNOWLINE && slope < 0.9) return "snow";
+  if (h > smSnowlineAt(smGradAt(x, z).aspect) && slope < 0.9) return "snow";
   if (slope > 1.0) return "rock";
   if (h > SM_SCREE) return "scree";
   return smFbm(x / 180 + 40, z / 180, 3) > -0.05 ? "forest" : "meadow";
@@ -315,6 +403,7 @@ export function smTreesForChunk(cx, cz, count = SM_TREES_PER_CHUNK) {
     if (smCoverAt(x, z, h, s) !== "forest") continue;
     if (SM_SITES.some((st) => Math.hypot(x - st.at[0], z - st.at[1]) < st.pad + 10)) continue;
     if (smPolyDistance(x, z, SM_SERVICE_ROAD).d < 8) continue;
+    if (smPolyDistance(x, z, SM_RIVER).d < SM_RIVER_CHANNEL.width + 4) continue;
     if (SM_TRAILS.some((t) => smPolyDistance(x, z, t.pts).d < 3)) continue;
     out.push({ x, z, y: h, s: 0.7 + rng() * 0.8, r: rng() * Math.PI * 2 });
   }
