@@ -624,7 +624,10 @@ const SIDE_ACTIVITIES = [
 const ALL_STATION_IDS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 const K12_STATION_IDS = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));
 
-function gatedQuest({ slug, title, programmeId, giver, gate, practices, cosmetic, go, talk, find, drive = null }) {
+// `requires` (the quest engine's chain, FIXER's field) is set only where the
+// chain is real: the programme's First Shift quest before its side game, and
+// the apprenticeship before the mentor round. `gate` stays for skills.
+function gatedQuest({ slug, title, programmeId, giver, gate, practices, cosmetic, go, talk, find, drive = null, requires = null }) {
   const prog = programme(programmeId);
   for (const id of gate.stations ?? []) if (!ALL_STATION_IDS.has(id)) throw new Error(`gen_bay_quests: gated quest "${slug}" names unknown station "${id}"`);
   for (const id of gate.k12 ?? []) if (!K12_STATION_IDS.has(id)) throw new Error(`gen_bay_quests: gated quest "${slug}" names unknown K-12 station "${id}"`);
@@ -636,13 +639,13 @@ function gatedQuest({ slug, title, programmeId, giver, gate, practices, cosmetic
   if (drive) steps.push({ type: "drive", target: prog.name, text: drive });
   steps.push({ type: "find", target: prog.name, text: find });
   return {
-    id: `bw-gated-${slug}`, title, giver, site: prog.name, kind: "gated", tier: 2, requires: null,
+    id: `bw-gated-${slug}`, title, giver, site: prog.name, kind: "gated", tier: 2, requires,
     programmeId, gate, practices, steps, reward: { ...tierReward(2, null), cosmetic },
   };
 }
 
 const GATED_QUESTS = [
-  gatedQuest({ slug: "night-shift-crane-puzzle", title: "Night-Shift Crane Puzzle", programmeId: "rigging-lifting", giver: "the night-shift lift supervisor",
+  gatedQuest({ slug: "night-shift-crane-puzzle", requires: "bw-side-rigging-lifting-opener", title: "Night-Shift Crane Puzzle", programmeId: "rigging-lifting", giver: "the night-shift lift supervisor",
     gate: { stations: ["crane-yard", "dock-crane"], note: "Crane yard and dock crane stations before you take a night-shift lift." },
     practices: ["lift", "comms", "fatigue"], cosmetic: "night-shift crane crew hard-hat sticker",
     go: "The night shift is short a signalperson. Head to the terminal's crane lane.", talk: "\"Three lifts, one order that works. Sequence them so nobody stands under a load.\"", find: "Walk the lift area and confirm it is clear before you call the first pick." }),
@@ -650,23 +653,23 @@ const GATED_QUESTS = [
     gate: { stations: ["tdl-pretrip-inspection", "tdl-air-brake-test"], quests: ["bw-main-02-yard"], note: "Pre-trip, air-brake test and Yard Qualified before you take a delivery run." },
     practices: ["inspect", "traffic", "fatigue"], cosmetic: "delivery-run dispatcher's cab pennant",
     go: "The dispatcher has a load waiting at the training yard.", talk: "\"The clock is on the board, but the score is the checks. A fast run with a skipped check does not count.\"", drive: "Drive the route at a steady, legal pace.", find: "Walk around the rig at the dock before you sign the delivery off." }),
-  gatedQuest({ slug: "grid-restoration-puzzle", title: "Grid Restoration Puzzle", programmeId: "electrical-first-period", giver: "the storm-response foreman",
+  gatedQuest({ slug: "grid-restoration-puzzle", requires: "bw-side-electrical-first-period-opener", title: "Grid Restoration Puzzle", programmeId: "electrical-first-period", giver: "the storm-response foreman",
     gate: { stations: ["line-truck", "substation-switching"], note: "Line truck and substation switching stations before you restore the grid." },
     practices: ["lockout", "plan", "comms"], cosmetic: "lineman's storm-crew glove tag",
     go: "A storm took down a feeder. Report to the substation yard.", talk: "\"Restore the circuits in an order that never back-feeds a crew. Every switch gets a read-back.\"", find: "Check the switching order posted at the yard gate before anything is closed." }),
-  gatedQuest({ slug: "kitchen-rush", title: "Kitchen Rush", programmeId: "culinary-kitchen", giver: "the sous chef",
+  gatedQuest({ slug: "kitchen-rush", requires: "bw-side-culinary-kitchen-opener", title: "Kitchen Rush", programmeId: "culinary-kitchen", giver: "the sous chef",
     gate: { stations: ["kitchen", "knife-skills", "allergen-control"], note: "Kitchen, knife skills and allergen control stations before the dinner rush." },
     practices: ["allergen", "spill", "fatigue"], cosmetic: "line cook's embroidered apron patch",
     go: "Restaurant Row is slammed. The sous chef needs a hand on the line.", talk: "\"Tickets come fast. Clean calls, clean boards, and every allergy flag stops the line.\"", find: "Find the allergen board by the pass and read tonight's flags." }),
-  gatedQuest({ slug: "lashing-relay", title: "Container Lashing Relay", programmeId: "port-operations", giver: "the lashing gang boss",
+  gatedQuest({ slug: "lashing-relay", requires: "bw-side-port-operations-opener", title: "Container Lashing Relay", programmeId: "port-operations", giver: "the lashing gang boss",
     gate: { stations: ["container-lashing", "po-lashing-gear-inspection-and-tagging"], note: "Container lashing and lashing-gear inspection before the lashing relay." },
     practices: ["inspect", "zone", "comms"], cosmetic: "lashing gang's twistlock key-ring",
     go: "A vessel is working late at the container terminal.", talk: "\"The relay is about gear, not speed: every rod and turnbuckle gets looked at before it goes up.\"", find: "Find the tagged-out gear bin and check nothing in it went back into use." }),
-  gatedQuest({ slug: "confined-space-standby", title: "Confined Space Standby", programmeId: "confined-space", giver: "the entry supervisor",
+  gatedQuest({ slug: "confined-space-standby", requires: "bw-side-confined-space-opener", title: "Confined Space Standby", programmeId: "confined-space", giver: "the entry supervisor",
     gate: { stations: ["confined-rescue", "cs-permit-entry-and-attendant-duties"], note: "Confined-space rescue and attendant duties before you stand by on an entry." },
     practices: ["plan", "comms", "stopwork"], cosmetic: "entry attendant's clipboard pin",
     go: "A vault entry is scheduled at the utility yard.", talk: "\"You are the attendant. You never go in, and you stop the job the moment anything on the permit changes.\"", find: "Find the posted entry permit and check it covers today's work." }),
-  gatedQuest({ slug: "rooftop-solar-sweep", title: "Rooftop Solar Sweep", programmeId: "energy-transition", giver: "the solar crew lead",
+  gatedQuest({ slug: "rooftop-solar-sweep", requires: "bw-side-energy-transition-opener", title: "Rooftop Solar Sweep", programmeId: "energy-transition", giver: "the solar crew lead",
     gate: { stations: ["solar-deck", "leading-edge-and-horizontal-lifeline"], note: "Solar deck and leading-edge lifeline stations before the rooftop sweep." },
     practices: ["ppe", "inspect", "weather"], cosmetic: "solar crew's sun-and-anchor patch",
     go: "A rooftop array needs an inspection sweep near the transmission corridor.", talk: "\"Tie off before the edge, check the anchors, and if the wind picks up we come down.\"", find: "Find the roof anchor points and check each one before you clip in." }),
@@ -674,19 +677,19 @@ const GATED_QUESTS = [
     gate: { stations: ["ut-water-main-break-emergency-shutdown-and-excavation", "ut-night-storm-response-crew-and-portable-generator"], note: "Water-main shutdown and night storm response before you take a night call." },
     practices: ["traffic", "plan", "fatigue"], cosmetic: "night-call crew's reflective helmet band",
     go: "A main has broken on a dark street. Meet the crew at the utility yard.", talk: "\"Traffic control first, then the valves, then the dig. Nobody works tired on a night call.\"", find: "Find the valve map at the truck and confirm the shutdown order." }),
-  gatedQuest({ slug: "air-sensor-network", title: "Air Sensor Network Hunt", programmeId: "hunters-point-can-we-live", giver: "the community science lead",
+  gatedQuest({ slug: "air-sensor-network", requires: "bw-side-hunters-point-can-we-live-opener", title: "Air Sensor Network Hunt", programmeId: "hunters-point-can-we-live", giver: "the community science lead",
     gate: { stations: ["air-sensor-install", "sensor-colocation-check"], note: "Air sensor install and co-location check before you service the network." },
     practices: ["plan", "inspect", "zone"], cosmetic: "community scientist's sensor badge",
     go: "The neighbourhood sensor network has three units reporting oddly.", talk: "\"Find them, check the mounts and the co-location notes, and log what you see — not what you expect.\"", find: "Find the sensor mount by the trailhead and check its log card." }),
-  gatedQuest({ slug: "bus-yard-brake-rally", title: "Bus Yard Brake Rally", programmeId: "transit-ramp", giver: "the depot lead mechanic",
+  gatedQuest({ slug: "bus-yard-brake-rally", requires: "bw-side-transit-ramp-opener", title: "Bus Yard Brake Rally", programmeId: "transit-ramp", giver: "the depot lead mechanic",
     gate: { stations: ["bus-yard-fuelling-and-brake-check"], note: "The bus yard fuelling and brake check station before the brake rally." },
     practices: ["inspect", "spill", "zone"], cosmetic: "depot mechanic's brake-shoe pin",
     go: "The morning pull-out is coming. The depot needs its brake checks done.", talk: "\"Every bus gets the same check in the same order. A bus that fails stays in the yard.\"", find: "Find the defect board and make sure yesterday's failed bus is still tagged." }),
-  gatedQuest({ slug: "stage-load-in", title: "Stage Load-In Puzzle", programmeId: "live-events", giver: "the head rigger",
+  gatedQuest({ slug: "stage-load-in", requires: "bw-side-live-events-opener", title: "Stage Load-In Puzzle", programmeId: "live-events", giver: "the head rigger",
     gate: { stations: ["stage-load-in-and-truss-rigging", "chain-hoist"], note: "Stage load-in and chain hoist stations before you rig the show." },
     practices: ["lift", "zone", "comms"], cosmetic: "show rigger's truss-clamp pin",
     go: "A show loads in at the stadium tonight.", talk: "\"Fly the truss in an order where nobody is ever under a moving load, and call every move.\"", find: "Find the rigging plot at the stage door and check it against the hoists." }),
-  gatedQuest({ slug: "banquet-room-flip", title: "Banquet Room Flip", programmeId: "hotel-workers", giver: "the banquet captain",
+  gatedQuest({ slug: "banquet-room-flip", requires: "bw-side-hotel-workers-opener", title: "Banquet Room Flip", programmeId: "hotel-workers", giver: "the banquet captain",
     gate: { stations: ["hw-banquet-room-flip-and-staging"], programmes: [{ id: "hotel-workers", minStars: 4 }], note: "The banquet room flip station and some hotel-worker stars before a room flip." },
     practices: ["plan", "fatigue", "spill"], cosmetic: "banquet captain's lapel pin",
     go: "A ballroom has to turn from lunch to a gala at Hotel Row.", talk: "\"Carts, tables, risers: we lift as a team and we flip by the plan, not by the clock.\"", find: "Find the floor plan for tonight and check the exits stay clear." }),

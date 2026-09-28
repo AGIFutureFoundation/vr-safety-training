@@ -6673,7 +6673,7 @@ export const GATED_QUESTS = [
     "site": "Rigging and Lifting",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-rigging-lifting-opener",
     "programmeId": "rigging-lifting",
     "gate": {
       "stations": [
@@ -6769,7 +6769,7 @@ export const GATED_QUESTS = [
     "site": "Inside Wireman — First Period",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-electrical-first-period-opener",
     "programmeId": "electrical-first-period",
     "gate": {
       "stations": [
@@ -6813,7 +6813,7 @@ export const GATED_QUESTS = [
     "site": "Culinary — The Working Kitchen",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-culinary-kitchen-opener",
     "programmeId": "culinary-kitchen",
     "gate": {
       "stations": [
@@ -6858,7 +6858,7 @@ export const GATED_QUESTS = [
     "site": "Port and Terminal Operations",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-port-operations-opener",
     "programmeId": "port-operations",
     "gate": {
       "stations": [
@@ -6902,7 +6902,7 @@ export const GATED_QUESTS = [
     "site": "Confined Space — Entry and Rescue",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-confined-space-opener",
     "programmeId": "confined-space",
     "gate": {
       "stations": [
@@ -6946,7 +6946,7 @@ export const GATED_QUESTS = [
     "site": "Energy Transition Systems",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-energy-transition-opener",
     "programmeId": "energy-transition",
     "gate": {
       "stations": [
@@ -7034,7 +7034,7 @@ export const GATED_QUESTS = [
     "site": "Hunters Point Edition — Can We Live?",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-hunters-point-can-we-live-opener",
     "programmeId": "hunters-point-can-we-live",
     "gate": {
       "stations": [
@@ -7078,7 +7078,7 @@ export const GATED_QUESTS = [
     "site": "Transit and Ramp Operations",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-transit-ramp-opener",
     "programmeId": "transit-ramp",
     "gate": {
       "stations": [
@@ -7121,7 +7121,7 @@ export const GATED_QUESTS = [
     "site": "Live Events Production",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-live-events-opener",
     "programmeId": "live-events",
     "gate": {
       "stations": [
@@ -7165,7 +7165,7 @@ export const GATED_QUESTS = [
     "site": "Hotel Workers — Back of House",
     "kind": "gated",
     "tier": 2,
-    "requires": null,
+    "requires": "bw-side-hotel-workers-opener",
     "programmeId": "hotel-workers",
     "gate": {
       "stations": [

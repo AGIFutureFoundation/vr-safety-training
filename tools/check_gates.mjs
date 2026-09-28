@@ -128,6 +128,8 @@ for (const it of items) {
   }
   for (const id of it.gate.quests ?? []) { if (!QUEST_IDS.has(id)) fail("resolve", `${where}: unknown quest "${id}"`); else ok(); }
   if (/\d/.test(it.gate.note.replace(/K-12/g, ""))) fail("facts", `${where}: the lock note carries a digit`); else ok();
+  // a quest chain (`requires`) names a quest that exists and is not the same thing as the gate
+  for (const r of it.requires ? [].concat(it.requires) : []) { if (!QUEST_IDS.has(r)) fail("requires", `${where}: requires unknown quest "${r}"`); else if ((it.gate.quests ?? []).includes(r)) fail("requires", `${where}: "${r}" is both the chain and the gate`); else ok(); }
   // links: every required station routes to a page that exists
   const req = G.qmGateStations(it.gate);
   if (!req.length && !(it.gate.programmes ?? []).length && !(it.gate.quests ?? []).length) fail("links", `${where}: nothing to link to`);

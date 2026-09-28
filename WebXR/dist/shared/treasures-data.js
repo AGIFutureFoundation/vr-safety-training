@@ -3341,3 +3341,6 @@ export const TZ_TREASURES = [
   }
  }
 ];
+
+/** The treasures behind a skill gate, in the shape tools/check_gates.mjs discovers (docs/skill-gates.md). A treasure stays hidden, so this carries its gate and name, never its place. */
+export const TZ_GATED = TZ_TREASURES.filter((t) => t.gate).map((t) => ({ id: t.id, kind: "treasure", world: t.surface === "deep" ? "underwater" : t.surface, title: t.name, gate: t.gate }));

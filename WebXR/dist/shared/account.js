@@ -21,7 +21,7 @@
 
 import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
 import { trT } from "./i18n.js";
-import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile } from "./profiles.js";
+import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile, gtStorage } from "./profiles.js";
 // The treasure ledger rides with the chip: the dialog links the Treasure Map and every page arms its finders.
 import { tzArmPage, tzMapHref, tzFoundIds } from "./treasures.js";
 import { TZ_TREASURES } from "./treasures-data.js";
@@ -178,6 +178,12 @@ function gtRender(view = null) {
   // The Treasure Map (docs/treasures.md): counts only, never where an unfound one is.
   panel.append(gtEl("p", { class: "gt-line", id: "gt-treasures" }, `Treasures found: ${tzFoundIds().length} of ${TZ_TREASURES.length}. `,
     gtEl("a", { href: tzMapHref(), id: "gt-treasure-map", text: "Open the Treasure Map" })));
+  // Cosmetics earned in the skill-gated side games (docs/skill-gates.md): the per-profile ledger's ids, read without the gate engine.
+  try {
+    const led = JSON.parse(gtStorage().getItem("qm-side-games-v1") || "{}");
+    const cos = Array.isArray(led.cosmetics) ? led.cosmetics : [];
+    if (cos.length) panel.append(gtEl("p", { class: "gt-line", id: "gt-cosmetics" }, `Cosmetics earned in side games: ${cos.length} — ${cos.join(" · ")}`));
+  } catch (_) { /* no ledger yet */ }
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }

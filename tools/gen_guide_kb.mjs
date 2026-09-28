@@ -31,7 +31,8 @@ const REPO = "https://github.com/AGIFutureFoundation/vr-safety-training";
 export const GD_KB_OUT = join(WEBXR, "shared", "guide-kb.js");
 // Raised from 600 KB when the K-12 programmes and their stations joined the
 // catalog (docs/consoles/SCHOLAR.md); the rows themselves are unchanged.
-export const GD_KB_CAP = 640 * 1024;
+// Raised from 640 KB by QUESTMASTER-2 for the six per-world skill-gate chunks (Summit and Redwood were not in the KB); the file loads lazily when the Guide opens.
+export const GD_KB_CAP = 656 * 1024;
 
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href);
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
@@ -251,6 +252,27 @@ async function build() {
       "docs/virtuals/strategy.md", []],
   ];
   for (const [id, q, keys, a, src, links] of faq) add({ id: `faq:${id}`, kind: "faq", title: q, keys, text: a, src, links });
+
+  // Skill-gated side games and quests (docs/skill-gates.md): one chunk per world naming every gated item and the
+  // stations that open it, with the catalog's names. One per world, not per item: the knowledge base sits at its cap.
+  const NM = await imp("WebXR/shared/gate-names-data.js");
+  const SG = await imp("WebXR/shared/side-games-data.js");
+  const BQ = await imp("WebXR/bayworld/js/quests.js");
+  const RW = await imp("WebXR/redwood/js/rw-data.js");
+  const gateWorld = { bayworld: ["Bay World"], underwater: ["The Deep"], regatta: ["The Regatta"], fairway: ["Fairway Park"], summit: ["Sierra Summit"], redwood: ["Redwood Reach"] };
+  const gated = [...BQ.GATED_QUESTS.map((q) => ({ ...q, world: "bayworld" })), ...SG.QM_SIDE_GAMES, ...sw.SM_GATED, ...RW.RW_GATED];
+  const needOf = (g) => [
+    ...[...(g.gate.stations ?? []), ...(g.gate.k12 ?? [])].map((id) => (NM.QM_STATION_NAMES[id] ? shortProg(NM.QM_STATION_NAMES[id]) : id.replace(/-/g, " "))),
+    ...(g.gate.programmes ?? []).map((pr) => `${shortProg(catalog.curricula.find((c) => c.id === pr.id)?.name ?? pr.id)}${pr.minStars ? " (some of its stars)" : ""}`),
+    ...(g.gate.quests ?? []).map((id) => BQ.ALL_QUESTS.find((q) => q.id === id)?.title ?? id),
+  ].join(", ");
+  for (const [key, [wname]] of Object.entries(gateWorld)) {
+    const here = gated.filter((g) => g.world === key);
+    if (!here.length) continue;
+    add({ id: `gate:${key}`, kind: "sidegame", title: `Skill-gated side games in ${wname}`, src: "docs/skill-gates.md",
+      text: `Skill-gated in ${wname}; a padlock until the named stations are done at one star or more. ${here.map((g) => `${g.title}: ${needOf(g)}`).join(". ")}.`,
+      keys: "unlock locked side game skill gate padlock how do I", links: [] });
+  }
 
   return chunks;
 }

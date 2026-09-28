@@ -53,7 +53,8 @@ function qmEnsureCss() {
 }
 
 /** The link list for a missing requirement: stations open the runner, a quest or programme names itself. */
-function qmMissingHtml(missing, { from = null, page = null } = {}) {
+function qmMissingHtml(missing, opts = {}) {
+  const { from = null, page = null } = opts;
   return missing.map((m) => {
     if (m.kind === "station" || m.kind === "k12") {
       const href = lkStationLink(m.id, { from, page, ...(opts.link ?? {}) });
