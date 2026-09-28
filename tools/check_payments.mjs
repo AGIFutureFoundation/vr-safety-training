@@ -431,7 +431,8 @@ await check("the Worker handler: ROUTES and default handle(); 503 with no secret
 // ------------------------------------------------------ 10. learner surfaces
 await check("no learner surface imports the billing modules; no network call in them; the checker is in check_all", () => {
   const files = execFileSync("git", ["ls-files", "WebXR"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter((f) => /\.(js|html)$/.test(f) && !f.includes("/dist/") && existsSync(join(ROOT, f)));
-  const allowed = new Set(["WebXR/shared/pm-agent.js", "WebXR/instructor/js/billing.js", "WebXR/instructor/js/app.js"]);
+  // pm-membership.js is the one learner-side module: a person's own upgrade (docs/payments.md §7); worlds and games never import it (check 11).
+  const allowed = new Set(["WebXR/shared/pm-agent.js", "WebXR/shared/pm-membership.js", "WebXR/instructor/js/billing.js", "WebXR/instructor/js/app.js"]);
   const importRe = /import[^;]*?from\s+["'][^"']*(?:payments|pm-agent|billing)\.js["']/;
   for (const f of files) if (importRe.test(readFileSync(join(ROOT, f), "utf8"))) assert(allowed.has(f), `${f} imports the billing modules — a learner surface must not`);
   for (const f of ["WebXR/shared/payments.js", "WebXR/shared/pm-agent.js", "WebXR/instructor/js/billing.js"]) {
@@ -443,6 +444,119 @@ await check("no learner surface imports the billing modules; no network call in 
   const docs = read("docs/payments.md");
   assert(/never buys|no learner/i.test(docs) && /workers\/payments\/handler\.mjs/.test(docs) && /ROUTES/.test(docs), "docs/payments.md misses the learner rule or the Worker contract");
   eq(net.length, 0, `requests made: ${net.join(", ")}`);
+});
+
+// ---------------------------------------------------- 11. membership levels
+await check("membership levels validate and gate; the level lives in the private profile; a paid membership receipt sets it; no in-game item is for sale", async () => {
+  const ms = await import("../WebXR/shared/pm-membership.js");
+  assert(GT_PROFILE_KEYS.includes(ms.PM_MEMBER_KEY), "the membership key is not a private profile key");
+  // Levels are configuration; the fixture names entitlements and, for the test only, an amount in XTS.
+  const raw = { ...file.payments, provider: "mock", currency: "XTS", levels: [
+    { id: "member", name: "Member", period: "once", amountMinor: null, entitlements: { worlds: null, programmes: null, certificates: false, cohortSeats: 0, guideVoice: false } },
+    { id: "member-plus", name: "Member Plus", period: "year", periodDays: 365, amountMinor: 500, entitlements: { worlds: ["bayworld", "Summit"], programmes: null, certificates: true, cohortSeats: 5, guideVoice: true } },
+    { id: "Bad Id", name: "x", amountMinor: 1 }, { id: "member", name: "dup" }, { id: "seat-annual", name: "clashes with a plan" },
+  ] };
+  const cfg = auth.cleanPayments(raw);
+  eq(cfg.levels.map((l) => l.id).join(","), "member,member-plus", "bad, duplicate and plan-clashing level ids dropped");
+  eq(cfg.levels[0].amountMinor, null, "the base level has no amount"); eq(cfg.levels[1].amountMinor, 500, "a configured amount kept");
+  eq(JSON.stringify(cfg.levels[1].entitlements), JSON.stringify({ worlds: ["bayworld", "summit"], programmes: null, certificates: true, cohortSeats: 5, guideVoice: true }), "entitlements cleaned");
+  eq(auth.cleanPayments({}).levels.length, 0, "no levels without a block"); eq(auth.cleanPayments({ levels: [{ id: "x", amountMinor: 12.5 }] }).levels[0].amountMinor, null, "a fractional amount is not an amount");
+  // Gating: with no levels everything is granted; with levels, the base level applies until an upgrade.
+  localStore.clear(); sessionStore.clear();
+  assert(ms.pmHas("worlds", shipped, "summit") && ms.pmHas("certificates", shipped), "the public build gates something behind a membership");
+  eq(ms.pmMyLevel(cfg).id, "member", "the base level by default");
+  eq(ms.pmHas("worlds", cfg, "summit"), true, "the base level opens every world"); eq(ms.pmHas("certificates", cfg), false, "no certificates at the base level"); eq(ms.pmHas("cohortSeats", cfg, 1), false, "no seats at the base level");
+  assert(ms.pmSetLevel("member-plus"), "set level");
+  eq(ms.pmMyLevel(cfg).id, "member-plus", "the stored level"); eq(ms.pmHas("worlds", cfg, "summit"), true, "a listed world"); eq(ms.pmHas("worlds", cfg, "redwood"), false, "an unlisted world"); eq(ms.pmHas("certificates", cfg), true, "certificates"); eq(ms.pmHas("cohortSeats", cfg, 5), true, "five seats"); eq(ms.pmHas("cohortSeats", cfg, 6), false, "not six"); eq(ms.pmHas("guideVoice", cfg), true, "voice"); eq(ms.pmHas("nonsense", cfg), false, "an unknown entitlement");
+  eq(ms.pmMyLevel({ ...cfg, levels: [cfg.levels[0]] }).id, "member", "a level no longer configured falls back to the base level");
+  ms.pmClearLevel(); eq(ms.pmMyLevel(cfg).id, "member", "cleared");
+  // The one purchase: a membership quote through the adapter, a mock checkout, the webhook completing the membership.
+  const ad = ms.pmMembershipAdapter(cfg);
+  const q = ms.pmMembershipQuote(ad, "member-plus");
+  eq(q.kind, "membership", "kind"); eq(q.seats, 1, "one membership"); eq(q.totalMinor, 500, "the configured amount"); eq(q.levelId, "member-plus", "level");
+  eq(ms.pmMembershipQuote(ad, "member").display.total, "not configured", "the base level quotes 'not configured'"); eq(ms.pmMembershipQuote(ad, "nope"), null, "an unknown level");
+  const co = await ad.checkout(q); assert(co?.ok, "membership checkout");
+  const w = ad.mockComplete(co.session.id);
+  assert(w.ok && w.receipt.kind === "membership" && w.receipt.levelId === "member-plus", `membership receipt: ${JSON.stringify(w.receipt)}`);
+  eq(ms.pmMyLevel(cfg).id, "member-plus", "the paid receipt set the level"); eq(ms.pmMemberLoad().receiptId, w.receipt.id, "the receipt is remembered");
+  eq(pm.pmLoad().licences.length, 0, "a membership wrote a seat licence");
+  eq(ad.mockComplete(co.session.id).duplicate, true, "replay");
+  assert(ms.pmEntitlementLines(cfg.levels[1]).join(" ").includes("Certificates: yes") && ms.pmLevelLine(cfg.levels[1], cfg) === "Member Plus — 5.00 XTS per year", "the view lines");
+  // Nothing in a world, a game, a treasure or a reward carries a price or a buy path.
+  const worlds = execFileSync("git", ["ls-files", "WebXR"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter((f) => /\.(js)$/.test(f) && !f.includes("/dist/") && /(bayworld|summit|redwood|underwater|regatta|fairway|treasures|side-game|eggs|quest)/.test(f) && existsSync(join(ROOT, f)));
+  assert(worlds.length > 10, "world modules to scan");
+  for (const f of worlds) { const t = readFileSync(join(ROOT, f), "utf8"); assert(!/pm-membership|payments\.js|amountMinor|PaymentRequest|checkout\(/.test(t), `${f} reaches for a purchase`); }
+});
+
+// -------------------------------------------- 12. wallets: Payment Request
+await check("Payment Request: never constructed without a configured merchant, a secure context and the API; both wallet methods offered only from the block; the mock path stays", async () => {
+  let constructed = 0;
+  class FakePR { constructor(methods, details) { constructed += 1; this.methods = methods; this.details = details; } async canMakePayment() { return true; } async show() { return { methodName: this.methods[0].supportedMethods, details: { token: "opaque" }, complete: async () => {} }; } }
+  const secure = { isSecureContext: true, PaymentRequest: FakePR };
+  const q = pm.pmCreateAdapter(FIXTURE).quote("seat-annual", 3);
+  eq(pm.pmPaymentMethods(shipped, secure).length, 0, "the shipped block offers a wallet method");
+  eq(await pm.pmRequestPayment(shipped, q, secure), null, "a request was built without a merchant");
+  eq(pm.pmPaymentMethods(FIXTURE, secure).length, 0, "a fixture with no merchant offers a method");
+  const withApple = { ...FIXTURE, applePay: { merchantIdentifier: "merchant.example.placeholder", countryCode: "US", supportedNetworks: ["visa"] } };
+  const withBoth = { ...withApple, googlePay: { merchantId: "PLACEHOLDER-merchant", merchantName: "Example Hall", gateway: "example", gatewayMerchantId: "PLACEHOLDER-gateway", environment: "TEST", allowedCardNetworks: ["VISA"] } };
+  eq(pm.pmPaymentMethods(withApple, secure).map((m) => m.supportedMethods).join(","), pm.PM_APPLE_PAY, "Apple Pay from the block");
+  eq(pm.pmPaymentMethods(withBoth, secure).map((m) => m.supportedMethods).join(","), `${pm.PM_APPLE_PAY},${pm.PM_GOOGLE_PAY}`, "both wallets from the block");
+  eq(pm.pmPaymentMethods(withBoth, { isSecureContext: false, PaymentRequest: FakePR }).length, 0, "an insecure context offers a wallet");
+  eq(pm.pmPaymentMethods(withBoth, { isSecureContext: true }).length, 0, "a browser without PaymentRequest offers a wallet");
+  eq(pm.pmPaymentMethods(withBoth, { isSecureContext: true, PaymentRequest: FakePR }).find((m) => m.supportedMethods === pm.PM_GOOGLE_PAY).data.merchantInfo.merchantId, "PLACEHOLDER-merchant", "the merchant id comes from the block");
+  eq(constructed, 0, "a PaymentRequest was constructed before any request");
+  eq(await pm.pmRequestPayment(withBoth, pm.pmCreateAdapter(shipped).quote("seat-annual", 3), secure), null, "an unpriced quote reached the wallet sheet");
+  eq(constructed, 0, "constructed for an unpriced quote");
+  const r = await pm.pmRequestPayment(withBoth, q, secure);
+  assert(r?.ok && r.methodName === pm.PM_APPLE_PAY && r.details.token === "opaque", `wallet response: ${JSON.stringify(r)}`);
+  eq(constructed, 1, "one request for one priced quote");
+  eq(pm.pmCreateAdapter(withBoth).paymentMethods(secure).length, 2, "the adapter reports its methods");
+  eq(net.length, 0, `requests made: ${net.join(", ")}`);
+  // Nothing merchant-like in the shipped block or the tree.
+  for (const k of ["applePay", "googlePay"]) if (file.payments[k]) for (const [kk, v] of Object.entries(file.payments[k])) if (kk !== "environment") assert(v === null || (Array.isArray(v) && v.length === 0), `payments.${k}.${kk} is set in the public build`);
+  const tracked = execFileSync("git", ["ls-files"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter((f) => /\.(js|mjs|json|html|md|toml|ya?ml)$/.test(f) && !f.includes("/dist/") && existsSync(join(ROOT, f)));
+  for (const f of tracked) { const t = readFileSync(join(ROOT, f), "utf8"); assert(!/merchant\.[a-z0-9-]+\.[a-z0-9.-]+\.[a-z]{2,}/i.test(t.replace(/merchant\.example\.placeholder/g, "")) || f.endsWith("check_payments.mjs"), `${f} carries a merchant identifier`); assert(!/-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(t), `${f} carries a private key`); assert(!/"private_key_id"\s*:/.test(t), `${f} carries a service-account key`); }
+});
+
+// ------------------------------------------------------- 13. wallet passes
+await check("wallet passes: the unsigned Apple bundle and the Google class/object validate, sign only with environment paths, the routes match, no issuer id anywhere", async () => {
+  const ap = await import("../workers/passes/apple-pass.mjs");
+  const gp = await import("../workers/passes/google-pass.mjs");
+  const ph = await import("../workers/passes/handler.mjs");
+  const who = { level: { id: "member-plus", name: "Member Plus" }, memberName: "A. Member", membershipId: "m-0123456789ab" };
+  const a = await ap.buildApplePass({ ...who, now: NOW });
+  assert(a.ok && a.signed === false && /unsigned/.test(a.note) && a.placeholders, "the unsigned bundle");
+  eq(ap.validateApplePass(a.pass).length, 0, `pass.json: ${ap.validateApplePass(a.pass)}`);
+  eq(a.pass.generic.primaryFields[0].value, "Member Plus", "the level"); eq(a.pass.serialNumber, who.membershipId, "the membership id");
+  assert(/^[0-9a-f]{40}$/.test(a.manifest["pass.json"]), "the manifest's SHA-1");
+  assert(!("barcode" in a.pass) && !JSON.stringify(a.pass).includes("@"), "no barcode, no address");
+  eq((await ap.signApplePass(a, { APPLE_PASS_CERT_PATH: "/nonexistent/cert.pem", APPLE_PASS_KEY_PATH: "/nonexistent/key.pem", APPLE_WWDR_CERT_PATH: "/nonexistent/wwdr.pem" })).signed, false, "signed without the files");
+  assert(ap.validateApplePass({ ...a.pass, barcode: {} }).length === 1 && ap.validateApplePass(null).length === 1, "the validator");
+  const g = gp.buildGooglePass({ ...who, now: NOW });
+  assert(g.ok && g.jwt === null && g.placeholders && /no Save/.test(g.note), "the unsigned Google bundle");
+  eq(gp.validateGooglePass(g.genericObject).length, 0, `generic object: ${gp.validateGooglePass(g.genericObject)}`);
+  eq(g.genericObject.header.defaultValue.value, "Member Plus", "the level"); assert(g.genericObject.id.startsWith("PLACEHOLDER_ISSUER."), "a placeholder issuer");
+  eq((await gp.buildGoogleSaveJwt(g, { GOOGLE_WALLET_SA_KEY_PATH: "/nonexistent/sa.json" })).jwt, null, "a JWT without the key file");
+  // A JWT is signed when a key file exists: a throwaway RSA key generated here, never stored.
+  const { generateKeyPairSync } = await import("node:crypto");
+  const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs8", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
+  const fakeFs = { existsSync: (p) => p === "/virtual/sa.json", readFileSync: () => JSON.stringify({ client_email: "issuer@example.invalid", private_key: privateKey }) };
+  const signed = await gp.buildGoogleSaveJwt(gp.buildGooglePass({ ...who, env: { GOOGLE_WALLET_ISSUER_ID: "1234567890" } }), { GOOGLE_WALLET_SA_KEY_PATH: "/virtual/sa.json" }, { fs: fakeFs });
+  assert(signed.jwt && signed.jwt.split(".").length === 3 && signed.saveUrl.startsWith("https://pay.google.com/gp/v/save/"), "the Save JWT");
+  const payload = JSON.parse(Buffer.from(signed.jwt.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"), "base64").toString());
+  eq(payload.typ, "savetowallet", "typ"); eq(payload.aud, "google", "aud"); eq(payload.payload.genericObjects[0].id, "1234567890.m-0123456789ab", "the object id under the issuer");
+  // The routes, in the same contract as the payments handler.
+  assert(Array.isArray(ph.ROUTES) && ph.ROUTES.every((r) => r.startsWith("/api/passes/")) && typeof ph.default === "function", "the passes handler's exports");
+  eq((await ph.default(new Request("https://edge.example/api/passes/apple", { method: "POST", body: JSON.stringify({ ...who, membershipId: "someone@example.org" }) }), {})).status, 422, "an e-mail as the membership id is refused");
+  const res = await ph.default(new Request("https://edge.example/api/passes/apple", { method: "POST", body: JSON.stringify(who) }), {});
+  const j = await res.json(); eq(res.status, 200, "apple route"); eq(j.signed, false, "unsigned from the route"); assert(j.files["pass.json"] && j.files["manifest.json"] && j.files.signature === null, "the files");
+  const gres = await (await ph.default(new Request("https://edge.example/api/passes/google", { method: "POST", body: JSON.stringify(who) }), {})).json();
+  assert(gres.ok && gres.jwt === null && gres.genericObject, "google route");
+  const h = await (await ph.default(new Request("https://edge.example/api/passes/health"), {})).json();
+  eq(JSON.stringify(h.issuers), JSON.stringify({ apple: false, google: false }), "no issuer configured");
+  for (const f of ["workers/passes/apple-pass.mjs", "workers/passes/google-pass.mjs", "workers/passes/handler.mjs"]) { const t = read(f); assert(!/from\s+["'][^"']*WebXR/.test(t) && !t.includes("fetch("), `${f} imports a browser module or reaches for the network`); assert(!/\b\d{15,}\b/.test(t), `${f} carries a number shaped like an issuer id`); }
+  const docs = read("docs/payments.md");
+  for (const k of ["Payment Request", "apple.com/apple-pay", "google.com/pay", "pm-membership.js", "pmHas(", "/api/passes/", "APPLE_PASS_CERT_PATH", "GOOGLE_WALLET_SA_KEY_PATH", "Apple developer account", "Google Wallet"]) assert(docs.includes(k), `docs/payments.md does not document ${k}`);
 });
 
 console.log(failures ? `\n${failures} seat-billing check(s) failed.` : "\nAll seat-billing checks pass.");

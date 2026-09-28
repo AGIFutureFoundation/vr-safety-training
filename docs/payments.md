@@ -112,7 +112,63 @@ export default { fetch: (request, env) => handle(request, env) };
 - `GET /api/payments/status?receipt=r-…` (or `?session=cs-…`) returns what the store holds; `/api/payments/health` says
   whether the secret and a store are bound. `validateEvent` is kept in step with `pmValidateEvent`.
 
-## 6. Checker — `tools/check_payments.mjs`
+## 7. Membership levels — `WebXR/shared/pm-membership.js`
+
+The one purchase a person may make on this platform is an upgrade of **their own membership**. In-game items, rewards,
+treasures and badges are never for sale (check 11 scans every world, game, quest and treasure module for a buy path).
+Levels are configuration, the `levels` list of the `payments` block:
+
+```jsonc
+"levels": [
+  { "id": "member",      "name": "Member",      "period": "once", "amountMinor": null,
+    "entitlements": { "worlds": null, "programmes": null, "certificates": false, "cohortSeats": 0, "guideVoice": false } },
+  { "id": "member-plus", "name": "Member Plus", "period": "year", "periodDays": 365, "amountMinor": null,
+    "entitlements": { "worlds": null, "programmes": null, "certificates": true, "cohortSeats": 0, "guideVoice": true } }
+]
+```
+
+The first level is the one every profile has. `worlds` / `programmes` null means all; `certificates` and `guideVoice`
+are booleans; `cohortSeats` a number. A level's amount is whatever the block says — null in the repository, so no amount
+is ever written in code or shown when the block has none (`pmLevelLine` reads "not configured"). The person's current
+level lives in their private profile (`vr-membership-v1`, a `GT_PROFILE_KEYS` entry). `pmMyLevel(config)`,
+`pmSetLevel(id)`, `pmHas(entitlement, config, value?)` — with no levels configured everything is granted, so the public
+platform gates nothing. `pmMembershipQuote(adapter, levelId)` is a quote of one membership for its period; a paid
+receipt whose quote is `kind: "membership"` sets the level through the hook `pmOnMembership` (no seat licence is
+written). The public build ships no `levels`, so the platform stays free until a deployment configures them; the
+"Upgrade" view reached from the account chip is the next phase (`tools/briefs/next/till-next.md`).
+
+## 8. Wallet checkout — the W3C Payment Request API
+
+`pmPaymentMethods(config, env)` offers **Apple Pay** (method identifier `https://apple.com/apple-pay`) and **Google Pay**
+(`https://google.com/pay`) only when the block's `applePay` (`merchantIdentifier`, `countryCode`, `supportedNetworks`)
+or `googlePay` (`merchantId`, `merchantName`, `gateway`, `gatewayMerchantId`, `allowedCardNetworks`, `environment`)
+is filled in, the page is a secure context and the browser has `PaymentRequest`. Merchant identifiers, gateway names and
+keys come from the block alone and are null in the repository; the checker (check 12) proves a `PaymentRequest` is never
+constructed without a configured merchant, with an insecure context, without the API, or for an unpriced quote — the
+wallet buttons stay hidden and the mock (or hosted) path stays. `pmRequestPayment(config, quote, env)` builds one
+request for one priced quote and returns the wallet's own response (an opaque token for the deployment's relay to
+verify with its processor — never parsed here) and `complete()`. What a deployment needs, in the vendors' own terms: an
+Apple Pay merchant identifier and payment-processing certificate from an Apple developer account, and a Google Pay
+merchant id with a supported gateway from the Google Pay & Wallet Console; the token then goes to that gateway, and its
+webhook completes the receipt through `workers/payments/handler.mjs`.
+
+## 9. Wallet passes as the membership card — `workers/passes/`
+
+- `apple-pass.mjs` — `buildApplePass({ level, memberName, membershipId, env })` builds the `pass.json` (a *generic*
+  pass: level, member name, membership id; no photo, no barcode, no location) and `manifest.json` (SHA-1 per file);
+  `signApplePass` signs the manifest through `openssl smime` only when `APPLE_PASS_CERT_PATH`, `APPLE_PASS_KEY_PATH`
+  and `APPLE_WWDR_CERT_PATH` exist in the environment — a Pass Type ID certificate from an Apple developer account and
+  Apple's WWDR certificate — else the unsigned bundle comes back with `signed: false` and a note that says so. The pass
+  type identifier and team identifier come from `APPLE_PASS_TYPE_ID` / `APPLE_TEAM_ID`, placeholders until set. The
+  `.pkpass` zip (pass.json, manifest.json, signature, icons) is the deployment's packaging step.
+- `google-pass.mjs` — `buildGooglePass(...)` builds the Generic pass class and object under `GOOGLE_WALLET_ISSUER_ID`
+  (a placeholder until set); `buildGoogleSaveJwt` signs the "Save to Google Wallet" JWT (RS256, `typ: savetowallet`)
+  only when `GOOGLE_WALLET_SA_KEY_PATH` names a Google Wallet issuer's service-account key file; else `jwt: null`.
+- `handler.mjs` — the same contract as the payments handler (`export default handle(request, env)`, `ROUTES =
+  ["/api/passes/apple", "/api/passes/google", "/api/passes/health"]`); the membership id must be the local handle
+  (an e-mail or wallet address is refused). No identifier, certificate or key lives in the repository (check 13).
+
+## 10. Checker — `tools/check_payments.mjs`
 
 In `check_all`. Headless (Map storage, a DOM stub, no browser): nothing committed (every shipped value and amount null,
 no secret by shape in the tree, the handler's secret from the environment, the block from the file only); quote maths on

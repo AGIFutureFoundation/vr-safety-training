@@ -92,8 +92,65 @@ export function pmMoney(amountMinor, config = {}) {
   return config?.currency ? `${major} ${config.currency}` : `${major} (currency not configured)`;
 }
 
-/** The plan with this id from a cleaned `payments` block, or null. */
-export function pmPlan(config, planId) { return (config?.plans ?? []).find((p) => p.id === planId) ?? null; }
+/** The plan (a seat plan, or a membership level — pm-membership.js) with this id from a cleaned `payments` block, or null. */
+export function pmPlan(config, planId) { return (config?.plans ?? []).find((p) => p.id === planId) ?? (config?.levels ?? []).find((l) => l.id === planId) ?? null; }
+
+// ------------------------------------------------- Payment Request (wallets)
+
+export const PM_APPLE_PAY = "https://apple.com/apple-pay";
+export const PM_GOOGLE_PAY = "https://google.com/pay";
+
+/**
+ * The W3C Payment Request methods this page can offer: Apple Pay and Google
+ * Pay, each only when the deployment's block carries its merchant details,
+ * the page is a secure context and the browser has PaymentRequest. Merchant
+ * identifiers, gateway names and keys come from the block alone. An empty
+ * list means "hide the wallet buttons; the mock or hosted path stays".
+ */
+export function pmPaymentMethods(config, env = globalThis) {
+  if (!env?.isSecureContext || typeof env?.PaymentRequest !== "function") return [];
+  const out = [];
+  const ap = config?.applePay ?? {};
+  if (ap.merchantIdentifier && ap.countryCode && ap.supportedNetworks?.length) {
+    out.push({ supportedMethods: PM_APPLE_PAY, data: { version: 3, merchantIdentifier: ap.merchantIdentifier, merchantCapabilities: ["supports3DS"], supportedNetworks: [...ap.supportedNetworks], countryCode: ap.countryCode } });
+  }
+  const gp = config?.googlePay ?? {};
+  if (gp.merchantId && gp.merchantName && gp.gateway && gp.gatewayMerchantId && gp.allowedCardNetworks?.length) {
+    out.push({ supportedMethods: PM_GOOGLE_PAY, data: {
+      environment: gp.environment === "PRODUCTION" ? "PRODUCTION" : "TEST", apiVersion: 2, apiVersionMinor: 0,
+      merchantInfo: { merchantId: gp.merchantId, merchantName: gp.merchantName },
+      allowedPaymentMethods: [{ type: "CARD", parameters: { allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"], allowedCardNetworks: [...gp.allowedCardNetworks] }, tokenizationSpecification: { type: "PAYMENT_GATEWAY", parameters: { gateway: gp.gateway, gatewayMerchantId: gp.gatewayMerchantId } } }],
+    } });
+  }
+  return out;
+}
+
+/**
+ * Ask the browser's wallet sheet for a priced quote. Returns null — and
+ * constructs nothing — when no method is available or the quote has no
+ * configured amount. What comes back is the wallet's own response (a token
+ * for the deployment's relay to verify; never parsed here), with `complete`
+ * to close the sheet.
+ */
+export async function pmRequestPayment(config, quote, env = globalThis) {
+  const methods = pmPaymentMethods(config, env);
+  if (!methods.length || !quote?.priced || !quote.currency) return null;
+  const value = (quote.totalMinor / 10 ** quote.currencyExponent).toFixed(quote.currencyExponent);
+  let request = null;
+  try { request = new env.PaymentRequest(methods, { id: quote.id, total: { label: quote.plan?.name ?? quote.planId, amount: { currency: quote.currency, value } } }); }
+  catch (err) { return { ok: false, reason: err?.message ?? "the browser refused the request" }; }
+  try {
+    if (typeof request.canMakePayment === "function" && (await request.canMakePayment()) === false) return { ok: false, reason: "no wallet on this device can pay with the configured methods" };
+    const response = await request.show();
+    return { ok: true, methodName: response.methodName, details: response.details ?? null, payerName: response.payerName ?? null, complete: (result = "success") => response.complete(result) };
+  } catch (err) { return { ok: false, reason: err?.name === "AbortError" ? "cancelled" : err?.message ?? "the wallet sheet failed" }; }
+}
+
+// ----------------------------------------------------------- membership hook
+
+const pmMembershipHooks = [];
+/** pm-membership.js registers how a paid membership receipt sets the person's level (no import cycle). */
+export function pmOnMembership(fn) { if (typeof fn === "function") pmMembershipHooks.push(fn); }
 
 /** Whole seats between 1 and PM_MAX_SEATS, or null. */
 export function pmSeatCount(v) {
@@ -203,6 +260,8 @@ export function pmCreateAdapter(config = {}, { fetchImpl = null, now = null, ran
     provider: config?.provider ?? null, publishableKey: config?.publishableKey ?? null, checkoutEndpoint: config?.checkoutEndpoint ?? null,
     currency: config?.currency ?? null, currencyExponent: Number.isInteger(config?.currencyExponent) ? config.currencyExponent : 2,
     plans: (config?.plans ?? []).map((p) => ({ ...p })),
+    levels: (config?.levels ?? []).map((l) => ({ ...l })),
+    applePay: config?.applePay ? { ...config.applePay } : null, googlePay: config?.googlePay ? { ...config.googlePay } : null,
   };
   const clock = () => (typeof now === "function" ? now() : new Date().toISOString());
   const isMock = () => cfg.provider === PM_MOCK;
@@ -228,12 +287,14 @@ export function pmCreateAdapter(config = {}, { fetchImpl = null, now = null, ran
       const receipt = {
         id: `r-${ev.id.slice(4)}`, eventId: ev.id, sessionId: session.id, quoteId: q.id, provider: cfg.provider,
         orgId: q.orgId, cohortId: q.cohortId, planId: plan?.id ?? q.planId, seats,
+        kind: q.kind === "membership" ? "membership" : "seats", levelId: q.kind === "membership" ? q.levelId ?? q.planId : null,
         amountMinor: Number.isInteger(ev.amountMinor) ? ev.amountMinor : q.totalMinor, currency: ev.currency ?? q.currency,
         state: "paid", at: ev.at, periodStart: start, periodEnd: end, number: `PM-${String(ev.at).slice(0, 4)}-${String(state.receipts.length + 1).padStart(4, "0")}`,
       };
       state.receipts.push(receipt);
       session.state = "completed"; session.receiptId = receipt.id;
-      if (receipt.cohortId) state.licences.push({ id: `lic-${receipt.id.slice(2)}`, receiptId: receipt.id, cohortId: receipt.cohortId, planId: receipt.planId, seats, state: "active", periodStart: start, periodEnd: end });
+      if (receipt.kind === "membership") for (const fn of pmMembershipHooks) { try { fn(receipt); } catch (_) { /* a hook must not break the receipt */ } }
+      if (receipt.cohortId && receipt.kind !== "membership") state.licences.push({ id: `lic-${receipt.id.slice(2)}`, receiptId: receipt.id, cohortId: receipt.cohortId, planId: receipt.planId, seats, state: "active", periodStart: start, periodEnd: end });
       return { ok: true, receipt, session };
     }
     if (ev.type === "checkout.failed") {
@@ -271,7 +332,10 @@ export function pmCreateAdapter(config = {}, { fetchImpl = null, now = null, ran
     },
 
     /** A quote for `seats` on `planId` (pure; nothing stored, nothing sent). */
-    quote(planId, seats, ctx = {}) { return pmQuote(cfg, planId, seats, { ...ctx, now: clock(), random }); },
+    quote(planId, seats, ctx = {}) { const q = pmQuote(cfg, planId, seats, { ...ctx, now: clock(), random }); return q && ctx.kind === "membership" ? { ...q, kind: "membership", levelId: planId } : q; },
+
+    /** The wallet methods this page could offer for the block (empty until a merchant is configured). */
+    paymentMethods(env = globalThis) { return pmPaymentMethods(cfg, env); },
 
     /**
      * Start a checkout for a quote. No provider → null, and nothing was
