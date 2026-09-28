@@ -46,9 +46,11 @@ numbers that justify it, so the next run opens with its tickets already written 
 
 ## Surfaces
 - **The repository** carries the work: branches, worktrees, logs, memory, briefs, the report pages.
-- **GitHub Issues** carry the run's tracking outside the repository: one issue per run with a per-console checklist
-  the coordinator updates at each heartbeat, decisions mirrored as comments. This is the surface the coordinator can
-  reach from its session today.
+- **The run page and the report** carry the run's tracking for people: `docs/consoles/<RUN>-RUN.md` holds the
+  per-console checklist the coordinator updates at each heartbeat; the published report page carries the same state
+  with a video. GitHub Issues are disabled on this repository (the API answers 410), so an issue cannot be the surface;
+  a pull request for the branch could be, when the owner asks for one — its description would hold the checklist and
+  its comments the decisions.
 - **Slack, Linear and similar tools** are configuration points, not implementations: a deployment that wants the
   heartbeat and hand-back posted to a channel or a project points an adapter at them (the shape of
   `WebXR/shared/agent-protocols.js`: `describe`, `offer`, `deliver`, `status`). No such adapter is wired here and no
