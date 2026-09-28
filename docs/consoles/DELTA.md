@@ -64,3 +64,15 @@ station id an existing catalog station (no new stations); no secrets, no network
   the nine sites regenerated on their banks — two of them first landed on the *wrong* bank (the ferry landing on the
   Algiers side), fixed by checking the side, not the distance. 1,964 checks pass, 0 fail; the four modules parse.
   tools/briefs/next/delta-next.md written · next: commit; suite exit → merge origin's batch.
+- 20:08 UTC · Coordinator: deadline; the gate re-runs the suite on the merged tree. My full run (started 19:14, load
+  average 21→35 on four cores) reached 72 of 82 checkers before I stopped my own task: three failed — check_investor
+  (docs/investor counts the checkers named in check_all: regenerated with gen_investor), check_guide (guide-kb.js indexes
+  every docs/*.md, so docs/parishes.md made it stale: regenerated with gen_guide_kb), check_ui (Trade Skills 1280×720
+  waitForSelector 20 s timeout under load, the same timeout CARTOGRAPHER recorded; not a page this work touches).
+  The origin merge (4f20b8f) was not done — the suite held the tree until the deadline; the gate merges.
+- HAND-BACK · Full check_all did not finish (stopped at 72/82 at the coordinator's call). Single checkers green on this
+  tree: check_parish_data (1,964 checks), check_parse (2,276 modules), check_imports (880), check_proving (162),
+  check_console, check_gates (66 gated items, 2,387 checks), check_k12, check_unity_export, check_treasures,
+  check_interop, check_investor (after regeneration); inside the suite also green: check_summit, check_mobile and 60
+  others. No eval scores apply (no station changed). Counts: 4 parishes, 47 sites, 186 station references resolved,
+  34 landmarks, 12 connectors, 41 anchors, 12 field lessons, 8 gated items.
