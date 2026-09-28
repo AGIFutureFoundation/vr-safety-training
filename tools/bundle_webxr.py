@@ -858,6 +858,12 @@ for _ct_cfg in APPS.values():
     if _CT_CREW in _ct_mods:
         _ct_mods.remove(_CT_CREW)
     _ct_mods.insert(_ct_mods.index(_CT_ACCOUNT), _CT_CREW)
+    # treasures.js answers its gates through the shared gate engine
+    # (shared/skill-gates.js, which reads passport-programmes.js): an app that
+    # carries the treasure layer but not the engine gets both, right before it.
+    if SHARED / "treasures.js" in _tz_mods and SHARED / "skill-gates.js" not in _tz_mods:
+        _tz_at = _tz_mods.index(SHARED / "treasures-data.js")
+        _tz_mods[_tz_at:_tz_at] = ([] if SHARED / "passport-programmes.js" in _tz_mods else [SHARED / "passport-programmes.js"]) + [SHARED / "skill-gates.js"]
 
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a
@@ -1057,8 +1063,9 @@ DIST_SHARED = [
     "guide.js", "voice-assist.js", "guide-kb.js",
     "controls.js", "account.js", "profiles.js",
     # The treasure ledger account.js and guide.js import, and the Treasure Map
-    # page (WebXR/treasures.html, copied beside the homepage) that reads it.
-    "treasures.js", "treasures-data.js",
+    # page (WebXR/treasures.html, copied beside the homepage) that reads it;
+    # the gate engine treasures.js answers its locks through.
+    "treasures.js", "treasures-data.js", "skill-gates.js",
     # The language layer controls.js, account.js and guide.js import (docs/i18n.md).
     "i18n.js", "i18n-strings.js",
     # The avatar style space account.js imports for its picker (console CARTOGRAPHER).

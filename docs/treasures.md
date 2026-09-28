@@ -15,10 +15,19 @@ the field notes, the Foreman's Radio, the racer and the arcade), Bay World's egg
 - **Reveal.** A small card scales in with a gold glint and shows the treasure's name, the lesson, where
   the line comes from and the set progress. It also names a badge when the find completes a set.
   With reduced motion on, the card appears without the animation.
-- **Locked treasures.** A few treasures use the frontier gate contract (`gate: { stations, note }`).
-  A locked treasure shows as a grey marker. Reaching or clicking it shows its note and a link to
-  each station it needs, and the find is not recorded. Most treasures have no gate and are there
-  to be found by exploring.
+- **Earlier eggs.** The map's last section counts the older egg layers read-only from their own
+  stores — the golden hard hats and field notes in the stations, Bay World's egg field notes, the
+  Deep's lanterns, Sierra Summit's field notes and Redwood Reach's field tins. `tzEarlierEggs()`
+  reads each layer's key through the same profile storage and returns counts only; nothing is copied
+  into `vr-treasures-v1`, and the checker proves no egg id leaves the counts.
+- **Locked treasures.** A few treasures use the frontier gate contract
+  (`gate: { stations, programmes, quests, k12, note }`), answered by the shared gate engine
+  (`WebXR/shared/skill-gates.js`, `docs/skill-gates.md`) — the same engine the side quests and games
+  use. A locked treasure shows as a grey marker. Reaching or clicking it shows its note and a link to
+  each station it needs (a programme requirement reads as "n of m stars"), and the find is not
+  recorded. The seventh harbour bell is the one programme-gated capstone. Most treasures have no gate
+  and are there to be found by exploring. The gated treasures are exported as `TZ_GATED`, so
+  `tools/check_gates.mjs` verifies them with every other gate on the platform.
 
 ## Where they are (counts only — the places are the fun)
 
@@ -35,8 +44,10 @@ the field notes, the Foreman's Radio, the racer and the arcade), Bay World's egg
 | The Deep | 16 | sea glass beside dive sites, away from the lanterns |
 | The Regatta | 13 | a pennant off every rounding mark |
 | Fairway Park | 9 | a lost ball off every tee |
+| Sierra Summit | 15 | a cairn off every trail vertex and a tag at the foot of the ridge's transmission towers; the field notes at the sites and landmarks stay the world's own |
+| Redwood Reach | 19 | logbook pages blown from the fire lookout along the fire roads, and a blaze on every foot trail; the field tins at the landmarks stay the world's own |
 
-There are 125 treasures in 12 themed sets. Completing a set earns a badge, for example Bell Ringer for all seven harbour bells.
+There are 159 treasures in 16 themed sets. Completing a set earns a badge, for example Bell Ringer for all seven harbour bells.
 
 ## Nothing invented
 
@@ -51,9 +62,12 @@ that source:
 - a cabinet's "what this teaches" line in `WebXR/arcade/js/games/`
 - one line from a station's own sim file
 
-Places come from the worlds' own data (`BAY_SITES`, `DEEP_SITES`, `RG_COURSES`, `FAIRWAY_HOLES`).
+Places come from the worlds' own data (`BAY_SITES`, `DEEP_SITES`, `RG_COURSES`, `FAIRWAY_HOLES`,
+`SM_TRAILS` and `SM_TRANSMISSION`, `RW_ROADS` and `RW_TRAILS`).
 Bay World treasures sit at training sites because the egg field notes already use the landmarks.
-Deep treasures sit six metres from dive sites, away from the lanterns.
+Deep treasures sit six metres from dive sites, away from the lanterns. Summit and Redwood treasures
+sit off trail, road and tower vertices, at least fifteen metres from every field note or tin, out of
+the water and outside every site's pad; the checker measures all three.
 
 ## How it is built
 
@@ -64,9 +78,16 @@ Deep treasures sit six metres from dive sites, away from the lanterns.
   reveal and fires `tz:found`.
 - The account chip (`account.js`) arms each page's DOM finders on every page. The Guide's `gdAsk()`
   checks for a secret question first. SmartCiti.X and Trade Skills call
-  `tzPlantHost(root, THREE, host)` after a station or room is built. Bay World, the Deep, the Regatta
-  and Fairway call `tzWatchWorld(world, …)` once their scene exists. The arcade and the racer call
+  `tzPlantHost(root, T3, host)` after a station or room is built, handing in their three.js library
+  as `T3`. Bay World, the Deep, the Regatta, Fairway, Sierra Summit and Redwood Reach call
+  `tzWatchWorld(world, …)` once their scene exists. The arcade and the racer call
   `tzArcadeRound()` and `tzRaceFinish()`.
+- `treasures.js` is shared chrome and never spells the three.js global itself: the bundler loads
+  three.js into any page whose modules do, and the account chip rides on every flat page. The
+  library always comes from the caller.
+- Gates: `tzGateOpen(gate)` and `tzGateMissing(gate)` call the shared engine's `qmIsOpen` and
+  `qmMissing`. The bundler adds `skill-gates.js` (and `passport-programmes.js`) to every app that
+  carries the treasure layer, and copies them into `dist/shared/` for the flat Treasure Map page.
 - Plants and world markers do their own raycasting, the same way the hard hats do. They never join a
   station's selectables, so a treasure can never affect a step or a score.
 - The bundler adds `treasures-data.js` and `treasures.js` after `profiles.js` in every app that
@@ -80,9 +101,9 @@ Deep treasures sit six metres from dive sites, away from the lanterns.
 - every lesson, re-read word for word from its source
 - the sets and badges
 - the ledger: repeat finds do nothing, finds persist, and each profile keeps its own (device and demo included)
-- the gates: every station id resolves, a fresh profile sees locked, a passed station opens it
+- the gates: answered through the shared engine; every station and programme id resolves, a fresh profile sees locked, one completion short stays locked, the completions open it
 - the map model, which must not leak anything unfound
-- the finders: the Guide's answers, the DOM anchors on their pages, plants within reach, world markers inside the world's bounds
+- the finders: the Guide's answers, the DOM anchors on their pages, plants within reach, world markers inside the world's bounds, Summit and Redwood markers clear of the field notes and tins and out of the water
 - that every app is wired and bundled
 
 ```

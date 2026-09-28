@@ -17,6 +17,7 @@ import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, SM_MAIN_QUESTS, SM_SIDE_QUESTS, SM_ACTIVITIES, SM_GATED, SM_LAKE, SM_PASS_ROAD, SM_SERVICE_ROAD, SM_TRANSMISSION, SM_GONDOLA, SM_TRAILS, SM_WATER_LEVEL, SM_SNOWLINE, smHeightAt, smSlopeAt, smZoneAt, smInLake, smPlace } from "../../shared/summit-data.js";
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import { smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson, smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone } from "./state.js";
+import { tzWatchWorld } from "../../shared/treasures.js";
 
 // Sierra Summit — the app: a first-person walker over the streamed mountain,
 // the HUD, job boards, field notes, field lessons, the map with layers and
@@ -60,6 +61,10 @@ sm.x = smStart.at[0]; sm.z = smStart.at[1] + 16;
 if (smStart.stations) smVisit(sm.state, smStart.id);
 
 const world = smBuildSummit(root, THREE, { tier: smTierName, start: [sm.x, sm.z] });
+// The treasure layer's cairns and tower tags (docs/treasures.md): markers on the
+// trails and the ridge line, found by walking up to them; the field notes stay
+// the world's own. It raycasts for itself and never touches the sites or quests.
+tzWatchWorld("summit", { scene, THREE, pos: () => [sm.x, sm.z], camera: () => camera, groundAt: smHeightAt, size: 0.7, lift: 1.3 });
 for (const id of sm.state.eggs) world.hideEgg(id);
 
 let sky = null, smRecipe = null;
