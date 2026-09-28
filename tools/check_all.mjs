@@ -41,6 +41,8 @@ const CHECKERS = [
   "check_links.mjs",
   // The account chip, the free demo and one private profile per person (docs/sign-in.md).
   "check_auth.mjs",
+  // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).
+  "check_i18n.mjs",
 ];
 
 let failed = 0;
