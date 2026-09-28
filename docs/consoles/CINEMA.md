@@ -11,3 +11,4 @@
 - 05:37 UTC · Failed: a prototype patch on WebGLRenderer.render never ran (three r160 defines render per instance). Fixed by hooking the scene's onBeforeRender and copying the scripted camera's matrices into the game camera · next: record.
 - 05:40 UTC · Fairway Park: a far camera showed an empty frame; moved the crane next to the first tee, where the course draws · next: encode.
 - 05:52 UTC · Helper WebXR/shared/cinema.js (cnMount, cnEnhanceAll, CN_CSS), manifest WebXR/home/media/backgrounds.json, homepage hero and world cards, world start screens, Bay Atlas header, Holodeck landing, sign-in backdrop, track-page header bands · next: encode the loops, checker, docs.
+- 05:55 UTC · Loops encoded: graded, 1.2 s tail-into-head crossfade, 8.8 s at 24 fps, H.264 faststart without audio, first-frame posters. Found the test Chromium has no H.264 decoder, so every slot also ships a VP9 WebM listed first · next: regenerate, bundle, check.

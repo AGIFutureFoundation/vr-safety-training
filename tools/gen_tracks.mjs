@@ -35,6 +35,9 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
 import { conditionLabel, conditionParams, parseCondition, LADDER_LEVELS, LESSON_BAR } from "../WebXR/shared/ladder.js";
+import { CN_CSS, cnFile } from "../WebXR/shared/cinema.js";
+import { BAY_SITES } from "../WebXR/shared/bayworld-data.js";
+import { DEEP_SITES } from "../WebXR/shared/underwater-data.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -42,6 +45,31 @@ export const TRACK_DIR = join(WEBXR, "home", "tracks");
 export const THUMB_DIR = join(TRACK_DIR, "img");
 export const DIST_TRACK_DIR = join(WEBXR, "dist", "tracks");
 const SHOTS = join(ROOT, "docs", "screenshots");
+
+// ------------------------------------------------------ header band loop
+
+/**
+ * The world a programme is anchored in, for the header band's loop (console
+ * CINEMA, docs/home-backgrounds.md): Bay World when one of its job boards
+ * carries the programme, else the Deep when one of its sites does, else the
+ * network's own hero loop. Read from the worlds' data, never written here.
+ */
+export function trackWorld(programmeId) {
+  const on = (sites) => sites.some((s) => (s.programmes ?? []).includes(programmeId));
+  return on(BAY_SITES) ? "bayworld" : on(DEEP_SITES) ? "underwater" : "default";
+}
+
+/** The band's loop markup for a programme, or nothing when the slot or a file is missing. */
+export function trackVideo(programmeId) {
+  const file = join(WEBXR, "home", "media", "backgrounds.json");
+  if (!existsSync(file)) return "";
+  const slot = `track-${trackWorld(programmeId)}`;
+  const e = (JSON.parse(readFileSync(file, "utf8")).slots ?? []).find((x) => x.slot === slot);
+  const ok = (n) => cnFile(n) && existsSync(join(WEBXR, "home", "media", n));
+  if (!e || !ok(e.src) || !ok(e.poster)) return "";
+  const credit = e.kind === "licensed" && e.credit ? `<span class="cn-credit">${esc(e.credit)}</span>` : "";
+  return `<div class="cn-bg" aria-hidden="true" style="background-image:url('../media/${e.poster}')"><video data-cn-slot="${slot}" muted loop playsinline preload="metadata" poster="../media/${e.poster}" aria-hidden="true" tabindex="-1">${ok(e.webm) ? `<source src="../media/${e.webm}" type="video/webm">` : ""}<source src="../media/${e.src}" type="video/mp4"></video></div>${credit}`;
+}
 
 // ------------------------------------------------------------------ escaping
 
@@ -355,7 +383,8 @@ ${ladder.levels.filter((lv) => lv.n >= a && lv.n <= b).map((lv) => levelRow(prog
 <meta name="generator" content="tools/gen_tracks.mjs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
-<style>${CSS}</style>
+<style>${CSS}${CN_CSS}
+  .cn-band{position:relative; isolation:isolate; overflow:hidden; border-radius:14px; padding:18px 16px; --cn-scrim:rgba(5,10,16,.8)}</style>
 </head>
 <body style="--prog:${accent}">
 <a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
@@ -369,7 +398,8 @@ ${ladder.levels.filter((lv) => lv.n >= a && lv.n <= b).map((lv) => levelRow(prog
   </div>
 </header>
 <main class="wrap">
-  <section class="hero">
+  <section class="hero cn-band">
+    ${trackVideo(prog.id)}
     <p class="eyebrow">Training track · ${stations.length} stations · ${LADDER_LEVELS} levels · ${ladder.lessons} lessons</p>
     <h1>${esc(prog.name)}</h1>
     <p class="union">${esc(prog.union)}</p>
@@ -433,6 +463,7 @@ ${stdRows}
     <p><a href="${TRACK_LINKS.home}">Back to every station</a> · ${esc(network)}</p>
   </div>
 </footer>
+<script type="module">import { cnEnhanceAll } from "../shared/cinema.js"; cnEnhanceAll();</script>
 <script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
 <script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>

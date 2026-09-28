@@ -30,6 +30,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { tracksSection } from "./gen_tracks.mjs";
+import { CN_CSS, cnFile } from "../WebXR/shared/cinema.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -85,6 +86,59 @@ export function hmThumb(id) {
   const buf = readFileSync(file);
   if (buf.length > HM_THUMB_MAX) throw new Error(`${file} is ${buf.length} bytes — over the ${HM_THUMB_MAX}-byte cap; re-run tools/capture_home_thumbs.mjs`);
   return `data:image/jpeg;base64,${buf.toString("base64")}`;
+}
+
+// ------------------------------------------------------ background loops
+
+/** The recorded loops (console CINEMA, docs/home-backgrounds.md). */
+export const HM_MEDIA_DIR = join(WEBXR, "home", "media");
+export const HM_MEDIA_BUDGET = { hero: 2.5 * 1024 * 1024, card: 1.2 * 1024 * 1024 };
+
+/** WebXR/home/media/backgrounds.json, or an empty list before one exists. */
+export function hmBackgrounds() {
+  const file = join(HM_MEDIA_DIR, "backgrounds.json");
+  if (!existsSync(file)) return [];
+  return JSON.parse(readFileSync(file, "utf8")).slots ?? [];
+}
+
+/**
+ * One slot's files for a layout, or null when the slot is not listed or a
+ * file is missing. File names are refused unless they are plain names in the
+ * media folder; the credit line is text only.
+ */
+export function hmMedia(layout, slot) {
+  const e = hmBackgrounds().find((s) => s.slot === slot);
+  if (!e) return null;
+  const plain = (n) => (cnFile(n) && existsSync(join(HM_MEDIA_DIR, n)) ? n : null);
+  const src = plain(e.src), poster = plain(e.poster);
+  if (!src || !poster) return null;
+  const at = layout.media;
+  return { src: at + src, poster: at + poster, webm: plain(e.webm) ? at + e.webm : null, kind: e.kind, credit: e.kind === "licensed" ? String(e.credit ?? "") : "" };
+}
+
+function hmVideoTag(m, slot, { autoplay }) {
+  return `<video data-cn-slot="${slug(slot, "slot")}"${autoplay ? " autoplay" : ""} muted loop playsinline preload="metadata" poster="${m.poster}" aria-hidden="true" tabindex="-1">`
+    + (m.webm ? `<source src="${m.webm}" type="video/webm">` : "")
+    + `<source src="${m.src}" type="video/mp4"></video>`;
+}
+
+/** The hero's loop and its pause button (WCAG 2.2.2), or nothing. */
+function hmHeroVideo(layout) {
+  const m = hmMedia(layout, "hero");
+  if (!m) return "";
+  return `  <div class="cn-bg" aria-hidden="true" style="background-image:url('${m.poster}')">${hmVideoTag(m, "hero", { autoplay: true })}</div>
+  <button class="cn-toggle" type="button" data-cn-toggle="hero" aria-pressed="false">Pause background</button>`
+    + (m.credit ? `\n  <span class="cn-credit">${esc(m.credit)}</span>` : "");
+}
+
+/** A world card's loop over its capture, or nothing. The cards carry no
+ *  autoplay attribute: autoplay would fetch every loop on first paint, so
+ *  shared/cinema.js starts each one when it scrolls into view. */
+function hmCardVideo(layout, slot) {
+  const m = hmMedia(layout, slot);
+  if (!m) return "";
+  return `<span class="cn-bg" aria-hidden="true" style="background-image:url('${m.poster}')">${hmVideoTag(m, slot, { autoplay: false })}</span>`
+    + (m.credit ? `<span class="cn-credit">${esc(m.credit)}</span>` : "");
 }
 
 // ------------------------------------------------------------ programme finder
@@ -172,6 +226,7 @@ export function deviceLine(devicesMd) {
 const LAYOUTS = {
   repo: {
     out: "index.html",
+    media: "home/media/",
     // The Guide's links point into the published folder (console COMPASS).
     guideRoot: "./dist/",
     app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html" },
@@ -184,6 +239,7 @@ const LAYOUTS = {
   },
   flat: {
     out: "home.html",
+    media: "media/",
     guideRoot: "./",
     app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", regatta: "regatta.html", underwater: "underwater.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
@@ -287,7 +343,10 @@ const CSS = `
   /* ---- hero: a live dusk scene behind one headline and two actions ---- */
   .hero{position:relative; overflow:hidden; isolation:isolate; min-height:min(88vh,640px); display:flex; align-items:flex-end;
     background:linear-gradient(180deg,#1a1440 0%,#5b2a6e 38%,#e0725a 58%,#0d2a3c 62%,#06121c 100%)}
-  #hm-hero-canvas{position:absolute; inset:0; width:100%; height:100%; z-index:-2; display:block}
+  /* The recorded loop (console CINEMA): shared/cinema.js's layer, under the hero's own scrim. */
+  .hero .cn-bg{z-index:-2; --cn-scrim:none}
+  .hero .cn-toggle{top:14px; right:var(--gutter)}
+  .app.world .shot .cn-bg{z-index:1; --cn-scrim:linear-gradient(180deg,rgba(5,10,16,0) 55%,rgba(5,10,16,.35) 100%)}
   .hero::after{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
     background:linear-gradient(180deg,rgba(5,10,16,.10) 0%,rgba(5,10,16,.0) 30%,rgba(5,10,16,.55) 62%,rgba(5,10,16,.92) 100%)}
   .hero-in{width:100%; max-width:1120px; margin:0 auto; padding:88px var(--gutter) 28px}
@@ -1044,117 +1103,26 @@ function hmScript(layout) {
   const HM_WORLD_NAMES = ${JSON.stringify(names)};
   const hmReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
 
-  // ---- the hero: Bay World's skyline at dusk, a yacht crossing, a diver's
-  // light below the surface. A 2D canvas, drawn from a seeded layout, about
-  // 30 frames a second while it is on screen and the tab is visible; under
-  // prefers-reduced-motion it draws one still frame and never animates.
+  // ---- the hero: a recorded loop of Bay World at dusk (console CINEMA,
+  // docs/home-backgrounds.md), behind the page's own scrim. shared/cinema.js
+  // plays it only on screen and in a visible tab, gives it a pause button, and
+  // under prefers-reduced-motion or Save-Data leaves the poster only (the
+  // stylesheet hides the video before any script runs).
   (function hmHero() {
-    const cv = document.getElementById("hm-hero-canvas");
-    const hero = document.getElementById("hero");
-    const ctx = cv && cv.getContext ? cv.getContext("2d") : null;
-    if (!ctx) return;
-    let W = 1, H = 1, raf = 0, onScreen = true, last = 0;
-    let far = [], near = [], stars = [];
-    function hmRng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
-    function hmLayout() {
-      const r = hero.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
-      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const rnd = hmRng(20260927), hz = H * 0.5;
-      far = []; near = []; stars = [];
-      for (let x = -10; x < W + 10;) { const w = 16 + rnd() * 40; far.push({ x, w, h: 14 + rnd() * H * 0.14 }); x += w + 1; }
-      for (let x = -10; x < W + 10;) {
-        const tower = x > W * 0.62 && x < W * 0.7 && !near.some((b) => b.tower);
-        const w = tower ? 30 : 22 + rnd() * 52, h = tower ? H * 0.36 : 24 + rnd() * H * 0.2;
-        const b = { x, w, h, tower, win: [] };
-        for (let wy = hz - h + 8; wy < hz - 5; wy += 8) for (let wx = x + 4; wx < x + w - 5; wx += 7) if (rnd() < 0.4) b.win.push([wx, wy, rnd()]);
-        near.push(b); x += w + 3 + rnd() * 12;
-      }
-      for (let i = 0; i < 80; i++) stars.push([rnd() * W, rnd() * hz * 0.6, rnd()]);
-    }
-    function hmDraw(t) {
-      const hz = H * 0.5, sea = H * 0.76, sunX = W * 0.28;
-      let g = ctx.createLinearGradient(0, 0, 0, hz);
-      g.addColorStop(0, "#120d33"); g.addColorStop(0.4, "#3a1d5c"); g.addColorStop(0.75, "#8c3a6a"); g.addColorStop(1, "#f28a5b");
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, hz);
-      g = ctx.createRadialGradient(sunX, hz, 0, sunX, hz, H * 0.42);
-      g.addColorStop(0, "rgba(255,196,120,.85)"); g.addColorStop(0.25, "rgba(255,140,90,.35)"); g.addColorStop(1, "rgba(255,120,90,0)");
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, hz);
-      for (const [x, y, s] of stars) { ctx.fillStyle = "rgba(255,255,255," + (0.25 + 0.3 * Math.sin(t * 0.7 + s * 40)).toFixed(3) + ")"; ctx.fillRect(x, y, 1.4, 1.4); }
-      ctx.fillStyle = "#35245a";
-      for (const b of far) ctx.fillRect(b.x, hz - b.h, b.w, b.h);
-      for (const b of near) {
-        ctx.fillStyle = "#140e28"; ctx.fillRect(b.x, hz - b.h, b.w, b.h);
-        for (const [wx, wy, s] of b.win) {
-          if (Math.sin(t * 0.25 + s * 60) <= -0.85) continue;
-          ctx.fillStyle = s < 0.2 ? "rgba(126,230,255,.8)" : "rgba(255,206,122," + (0.55 + s * 0.4).toFixed(2) + ")";
-          ctx.fillRect(wx, wy, 3, 4);
-        }
-        if (b.tower) {
-          ctx.fillStyle = "#140e28"; ctx.fillRect(b.x + b.w / 2 - 1.5, hz - b.h - 26, 3, 26);
-          const a = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 2.1));
-          ctx.fillStyle = "rgba(255,80,80," + a.toFixed(2) + ")"; ctx.beginPath(); ctx.arc(b.x + b.w / 2, hz - b.h - 27, 3, 0, 7); ctx.fill();
-        }
-      }
-      g = ctx.createLinearGradient(0, hz, 0, sea);
-      g.addColorStop(0, "#5a2f63"); g.addColorStop(0.5, "#23284e"); g.addColorStop(1, "#0c2c40");
-      ctx.fillStyle = g; ctx.fillRect(0, hz, W, sea - hz);
-      for (let i = 0; i < 26; i++) {
-        const y = hz + 3 + i * (sea - hz) / 26, w = (60 - i * 1.6) * (0.7 + 0.3 * Math.sin(t * 1.3 + i));
-        ctx.fillStyle = "rgba(255,170,110," + (0.5 - i * 0.017).toFixed(3) + ")";
-        ctx.fillRect(sunX - w / 2 + Math.sin(t * 0.9 + i * 1.7) * 6, y, w, 1.6);
-      }
-      for (let i = 0; i < 40; i++) {
-        const b = near[(i * 7) % near.length]; if (!b || !b.win.length) continue;
-        const y = hz + 4 + ((i * 37) % Math.max(1, (sea - hz) * 0.6));
-        ctx.fillStyle = "rgba(255,206,122,.22)"; ctx.fillRect(b.x + (i % 5) * 5 + Math.sin(t * 1.6 + i) * 2, y, 6, 1.4);
-      }
-      // The yacht, left to right, with its wake.
-      const span = W + 260, yx = ((t * 26) % span) - 130, yy = hz + (sea - hz) * 0.42;
-      ctx.strokeStyle = "rgba(230,245,255,.35)"; ctx.lineWidth = 1.2;
-      for (let k = 1; k <= 5; k++) { ctx.beginPath(); ctx.moveTo(yx - 8, yy + 5); ctx.lineTo(yx - 8 - k * 26, yy + 5 + k * 2.2); ctx.stroke(); }
-      ctx.fillStyle = "#f4f7fb"; ctx.beginPath(); ctx.moveTo(yx - 34, yy); ctx.lineTo(yx + 40, yy); ctx.lineTo(yx + 30, yy + 8); ctx.lineTo(yx - 30, yy + 8); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "#d9e3ee"; ctx.fillRect(yx - 18, yy - 9, 34, 9);
-      ctx.fillStyle = "#1c2a3c"; ctx.fillRect(yx - 14, yy - 7, 26, 3);
-      ctx.fillStyle = "rgba(126,230,255,.95)"; ctx.fillRect(yx + 36, yy + 1, 3, 2);
-      // Below the surface: the Deep, a diver's lamp and rising bubbles.
-      g = ctx.createLinearGradient(0, sea, 0, H);
-      g.addColorStop(0, "#0b4454"); g.addColorStop(1, "#02101a");
-      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, sea);
-      for (let x = 0; x <= W; x += 12) ctx.lineTo(x, sea + Math.sin(x * 0.03 + t * 1.2) * 2.2);
-      ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath(); ctx.fill();
-      const dx = W * 0.76 + Math.sin(t * 0.18) * W * 0.08, dy = sea + (H - sea) * 0.55 + Math.sin(t * 0.5) * 4;
-      const beam = ctx.createRadialGradient(dx, dy, 0, dx, dy, Math.min(W, H) * 0.5);
-      beam.addColorStop(0, "rgba(220,255,245,.55)"); beam.addColorStop(1, "rgba(120,230,220,0)");
-      ctx.fillStyle = beam; ctx.beginPath(); ctx.moveTo(dx, dy);
-      ctx.lineTo(dx - W * 0.28, dy + H * 0.3); ctx.lineTo(dx - W * 0.05, dy + H * 0.34); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "#081820"; ctx.beginPath(); ctx.ellipse(dx + 12, dy, 16, 5, 0.1, 0, 7); ctx.fill();
-      ctx.fillStyle = "rgba(240,255,250,.95)"; ctx.beginPath(); ctx.arc(dx - 2, dy + 1, 2.6, 0, 7); ctx.fill();
-      ctx.strokeStyle = "rgba(200,245,255,.45)"; ctx.lineWidth = 1;
-      for (let i = 0; i < 7; i++) {
-        const rise = (t * 18 + i * 17) % Math.max(1, dy - sea);
-        ctx.beginPath(); ctx.arc(dx + 14 + Math.sin(t * 2 + i) * 3, dy - 4 - rise, 1.5 + (i % 3), 0, 7); ctx.stroke();
-      }
-    }
-    function hmStill() { return !!(hmReduce && hmReduce.matches); }
-    function hmFrame(now) {
-      raf = 0;
-      if (hmStill() || !onScreen || document.hidden) return;
-      if (now - last > 32) { last = now; hmDraw(now / 1000); }
-      raf = requestAnimationFrame(hmFrame);
-    }
-    function hmKick() {
-      document.documentElement.dataset.hmHero = hmStill() ? "still" : "live";
-      if (hmStill()) { cancelAnimationFrame(raf); raf = 0; hmDraw(14); return; }
-      if (!raf) raf = requestAnimationFrame(hmFrame);
-    }
-    hmLayout(); hmDraw(14); hmKick();
-    window.addEventListener("resize", () => { hmLayout(); hmDraw(hmStill() ? 14 : performance.now() / 1000); });
-    document.addEventListener("visibilitychange", hmKick);
+    function hmStill() { return !!(hmReduce && hmReduce.matches) || !!(navigator.connection && navigator.connection.saveData); }
+    function hmKick() { document.documentElement.dataset.hmHero = hmStill() ? "still" : "live"; }
+    hmKick();
     if (hmReduce && hmReduce.addEventListener) hmReduce.addEventListener("change", hmKick);
-    if ("IntersectionObserver" in window) new IntersectionObserver((es) => { onScreen = es[0].isIntersecting; hmKick(); }).observe(hero);
+    import("./shared/cinema.js").then((cn) => cn.cnEnhanceAll()).catch(() => {
+      // No module server (file://): the hero keeps its autoplaying loop, the
+      // toggle still pauses it, and the cards keep their posters.
+      const v = document.querySelector('video[data-cn-slot="hero"]');
+      const t = document.querySelector('[data-cn-toggle="hero"]');
+      if (!v || !t) return;
+      if (hmStill()) { v.pause(); t.hidden = true; return; }
+      t.addEventListener("click", () => { const p = !v.paused; if (p) v.pause(); else v.play().catch(() => {}); t.setAttribute("aria-pressed", String(p)); t.textContent = p ? "Play background" : "Pause background"; });
+    });
+    document.addEventListener("visibilitychange", () => { if (document.hidden) for (const v of document.querySelectorAll("video[data-cn-slot]")) v.pause(); });
   })();
 
   // ---- the programme finder: text, union, category and world, nine cards at
@@ -1296,7 +1264,7 @@ function appCard(layout, { href, tint: t, count, name, blurb, go, shot }) {
       ? `<img src="${src}" alt="In-game view of ${esc(name)}" width="480" height="270" decoding="async">`
       : "";
     return `      <a class="app world" style="--tint:${t}" href="${href}">
-        <span class="shot">${img}</span>
+        <span class="shot">${img}${hmCardVideo(layout, shot)}</span>
         <span class="body">
           <span class="count">${esc(count)}</span>
           <h2>${esc(name)}</h2>
@@ -1475,7 +1443,7 @@ ${cards}
 <meta name="generator" content="tools/gen_home.mjs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
-<style>${CSS}</style>
+<style>${CSS}${CN_CSS}</style>
 </head>
 <body>
 <!-- Generated by tools/gen_home.mjs from WebXR/smartcity/catalog.json — edit the generator, not this file. -->
@@ -1498,7 +1466,7 @@ ${cards}
 </header>
 
 <section class="hero" id="hero" aria-labelledby="hero-title">
-  <canvas id="hm-hero-canvas" aria-hidden="true"></canvas>
+${hmHeroVideo(layout)}
   <div class="hero-in">
     <p class="eyebrow">${stations.length} stations · ${categories.length} categories · ${curricula.length} programmes</p>
     <h1 id="hero-title">Pick the job.<br><em>Train the procedure.</em></h1>
