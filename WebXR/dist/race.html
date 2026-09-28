@@ -11330,7 +11330,7 @@ function allProgress(records = []) {
 // them (tools/briefs/assets-brief.md, "Union signage"; docs/signage.md). What
 // a sign carries instead is a wordmark typeset here from tools/unions.json —
 // the abbreviation large, the full name small, the local where the
-// repository names one with certainty, and a "Training partner" line naming
+// repository names one with certainty, and a "Trade reference" line naming
 // the training fund the registry knows — in the platform's own palette unless
 // the union's colour scheme is public and certain, which so far none is. A
 // licensed deployment that holds permission to show a real logo lists the
@@ -11603,8 +11603,8 @@ function unionSign(parent, x, y, z, unionId, opts = {}) {
     c.textAlign = "left"; c.textBaseline = "middle";
     try { c.letterSpacing = "0.18em"; } catch { /* older canvas */ }
     c.fillStyle = pal.accent;
-    signFit(c, "TRAINING PARTNER", 700, SIGN_FONT_C, Math.round(ch * 0.075), cw * 0.88);
-    c.fillText("TRAINING PARTNER", cw * 0.06, ch * 0.815);
+    signFit(c, "TRADE REFERENCE", 700, SIGN_FONT_C, Math.round(ch * 0.075), cw * 0.88);
+    c.fillText("TRADE REFERENCE", cw * 0.06, ch * 0.815);
     try { c.letterSpacing = "0em"; } catch { /* older canvas */ }
     c.fillStyle = pal.muted;
     const line = signTrainingLine(u);
