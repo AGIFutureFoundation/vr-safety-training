@@ -268,7 +268,7 @@ export const DEEP_SITES = [
   // ---- the kelp forest
   // Anchored here: me-kelp-transect-survey-and-photo-quadrats.
   { id: "kelp-transect-start", name: "Kelp Transect Start", zone: "kelp-forest", position: [-480, -200],
-    programmes: ["bay-restoration-maritime-underwater", "marine-ecology-and-restoration"], stations: ["br-underwater-debris-survey-and-mapping", "br-restoration-data-qa-and-public-reporting", "me-kelp-transect-survey-and-photo-quadrats"] },
+    programmes: ["bay-restoration-maritime-underwater", "marine-ecology-and-restoration", "k12-science"], stations: ["br-underwater-debris-survey-and-mapping", "br-restoration-data-qa-and-public-reporting", "me-kelp-transect-survey-and-photo-quadrats", "k12-ecosystems-at-the-kelp-transect"] },
   // Anchored here: cd-low-visibility-and-night-dive-line-work.
   { id: "kelp-night-line-site", name: "Kelp Night Line Site", zone: "kelp-forest", position: [-530, -260],
     programmes: ["bay-area-union-edition", "commercial-diving-and-scientific-scuba"], stations: ["mw-diver-emergency-and-recovery", "mw-dive-supervisor-and-dive-plan", "cd-low-visibility-and-night-dive-line-work"] },

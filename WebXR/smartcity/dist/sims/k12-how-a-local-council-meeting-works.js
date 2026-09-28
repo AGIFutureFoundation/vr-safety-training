@@ -138,7 +138,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       },
       title: "Turn from observer to speaker",
       cue: "Your name is called. Turn from listening to speaking.",
-      why: "Moving from observer to speaker is the step most residents never take. Doing it calmly, when your name is called and not before, is what the procedure is for: it gives every resident the same fair turn."
+      why: "Moving from observer to speaker is the step most residents never take. Doing it calmly, when your name is called and not before, is what the procedure is for: it gives every resident the same fair turn. Signing up in advance also lets the chair plan the time so that nobody who came to speak is left out."
     },
     {
       id: "speak-at-a-clear-steady-pace",
@@ -155,7 +155,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       },
       title: "Speak at a clear, steady pace",
       cue: "Commit when your pace is clear enough to follow — not rushed, not dragging.",
-      why: "Public comment is usually short, which tempts people to rush. A clear, steady pace makes sure the council and the clerk actually catch your point; a rushed one loses it."
+      why: "Public comment is usually short, which tempts people to rush. A clear, steady pace makes sure the council and the clerk actually catch your point; a rushed one loses it. Practising the comment aloud beforehand is the easiest way to find the pace that fits the time allowed."
     },
     {
       id: "hand-your-written-comment-to-the",
@@ -168,7 +168,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       },
       title: "Hand your written comment to the clerk",
       cue: "Drag your written comment to the clerk so it can be entered in the record.",
-      why: "Handing a written version to the clerk means your point is recorded accurately, even if the minutes summarise the spoken comments. It is a simple step that makes a public comment last beyond the meeting."
+      why: "Handing a written version to the clerk means your point is recorded accurately, even if the minutes summarise the spoken comments. It is a simple step that makes a public comment last beyond the meeting. A written copy also helps the clerk record your point accurately in the minutes."
     },
     {
       id: "keep-it-about-the-issue",
@@ -176,7 +176,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       target: "kcm-respect-card",
       title: "Keep it about the issue",
       cue: "Make your point about the issue and what should be done, not about a person.",
-      why: "Comments about the issue are heard; comments about a person are resisted. Keeping to the issue and what you want done is both more respectful and more effective, and it is what most meetings' conduct rules ask for."
+      why: "Comments about the issue are heard; comments about a person are resisted. Keeping to the issue and what you want done is both more respectful and more effective, and it is what most meetings' conduct rules ask for. Speaking to the chair keeps the exchange about the issue rather than about the people in the room."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -202,7 +202,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       },
       title: "Spot the problems in a classmate's comment",
       cue: "Look at the draft public comment and mark each problem.",
-      why: "Public comments go wrong in predictable ways: no clear ask, a personal attack and a claim with no source. Spotting them in a draft is how you learn to write a comment that gets heard."
+      why: "Public comments go wrong in predictable ways: no clear ask, a personal attack and a claim with no source. Spotting them in a draft is how you learn to write a comment that gets heard. The usual problems are the same every time: wandering off the item, running long and leaving out the ask."
     },
     {
       id: "stay-calm-while-others-disagree",
@@ -222,7 +222,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       },
       title: "Stay calm while others disagree",
       cue: "Hold your composure in band as another resident speaks against your point.",
-      why: "Hearing someone disagree in public is uncomfortable. Staying calm, listening and not interrupting is what lets the meeting work for everyone, including you, the next time you speak.",
+      why: "Hearing someone disagree in public is uncomfortable. Staying calm, listening and not interrupting is what lets the meeting work for everyone, including you, the next time you speak. Meetings run on everyone following the same rules, and a resident who does is listened to more readily.",
       holdBreakNote: "You lost your composure. Breathe, listen and let them finish."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       doneLine: "Decision checked in the minutes",
       title: "Check the decision in the minutes",
       cue: "When the minutes are published, check what was recorded as decided.",
-      why: "The minutes are the official record. Checking them confirms what was actually decided and whether your comment was noted, and it is how residents follow up and hold a council to its decisions."
+      why: "The minutes are the official record. Checking them confirms what was actually decided and whether your comment was noted, and it is how residents follow up and hold a council to its decisions. Without checking the minutes, a resident can leave believing something was agreed that never actually was."
     },
     {
       id: "explain-the-process-to-the-class",
@@ -241,7 +241,7 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       doneLine: "Process shared",
       title: "Explain the process to the class",
       cue: "Explain how a resident gets heard, from the agenda to the minutes.",
-      why: "Explaining the process from agenda to minutes turns a single visit into something the whole class can use. Many adults never learn it; knowing it is a real civic skill."
+      why: "Explaining the process from agenda to minutes turns a single visit into something the whole class can use. Many adults never learn it; knowing it is a real civic skill. Knowing how the meeting works means you can take part in decisions about your own street, school or park."
     },
     {
       id: "crew-check-in",

@@ -1,0 +1,259 @@
+{
+  "id": "k12-guilds-and-the-history-of-work",
+  "index": "824",
+  "prefix": "kgu",
+  "accent": "#c08a4a",
+  "floor": [
+    "#7a7064",
+    "#6c6358"
+  ],
+  "wall": [
+    "#e8dccb",
+    "#d8ccba"
+  ],
+  "trade": "History class in the union hall's library corner — learner and hall librarian",
+  "header": "Lower-secondary history at a union hall's library corner: trade guilds and the history of work told only through widely established general facts (craft guilds organised people of one trade, trained apprentices and set standards) and framed as research prompts for everything else, with every claim traced to a source the learner finds.",
+  "name": "Guilds and the History of Work",
+  "tagline": "Say only what is widely established, turn the rest into questions — and cite where you found it",
+  "badge": {
+    "id": "research-prompt",
+    "name": "Research Prompt",
+    "note": "General facts about guilds kept apart from open questions, each claim traced to a source and a research question written"
+  },
+  "board": {
+    "name": "Research Board",
+    "currency": "SOURCES",
+    "ranks": [
+      "Reader",
+      "Note-taker",
+      "Researcher",
+      "Writer",
+      "Historian"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "guild-equals-union",
+      "label": "Say a guild was the same thing as a modern union?",
+      "face": "GUILD =\nUNION",
+      "text": "You said a medieval guild was the same as a modern union. Guilds often included the masters who ran workshops, while unions organise workers; there are links and differences worth researching, and treating them as the same skips the history."
+    },
+    {
+      "id": "invent-a-date",
+      "label": "Fill the gap with a date that sounds right?",
+      "face": "SOUNDS\nRIGHT",
+      "text": "You filled a gap with a date that sounded right. A historian never invents evidence; if you do not know when something happened, you write it as a question to research and find a source, not a guess dressed as a fact."
+    },
+    {
+      "id": "one-website-is-enough",
+      "label": "Trust the first website you find?",
+      "face": "FIRST\nRESULT",
+      "text": "You trusted the first website you found. Check who wrote a source, what it is based on and whether other reliable sources agree; the librarian can help you find books and archives that say where their information comes from."
+    },
+    {
+      "id": "everyone-was-the-same",
+      "label": "Say everyone in the past worked the same way?",
+      "face": "ALL THE\nSAME",
+      "text": "You said everyone in the past worked the same way. Work varied hugely by place, trade and time, and many workers were never in any guild; general statements need care, and the differences are often the most interesting research questions."
+    }
+  ],
+  "find1": {
+    "title": "Find the three kinds of card on the table",
+    "cue": "Mark a general fact card, a research question card and a source card.",
+    "why": "This lesson keeps three things apart. A general fact card holds something widely established, like craft guilds training apprentices; a research question card holds something to find out; and a source card records where information came from. Keeping them separate is the historian's habit that stops guesses becoming facts.",
+    "items": [
+      [
+        "fact-card",
+        "a general fact card",
+        "Something widely established, stated generally."
+      ],
+      [
+        "question-card",
+        "a research question card",
+        "Something to find out, not to guess."
+      ],
+      [
+        "source-card",
+        "a source card",
+        "Where the information came from."
+      ]
+    ],
+    "decoy": [
+      "poster",
+      "a poster on the library wall",
+      "Interesting to look at, but check what it is based on before using it."
+    ]
+  },
+  "select1": {
+    "title": "Read the library's handling rules",
+    "cue": "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
+    "why": "Old documents and books are fragile and often irreplaceable. Clean dry hands, pencils instead of pens, and asking before copying keep them safe for the next reader, and they are the rules every archive and library follows. A torn page or an ink mark cannot be undone, so the rules protect evidence nobody can replace.",
+    "key": "handling-card",
+    "label": "Library handling rules",
+    "face": "PENCILS\nONLY"
+  },
+  "seq": {
+    "title": "Put the research method in order",
+    "cue": "Ask a question, find sources, check them, then write what they show.",
+    "why": "A clear question tells you what to look for. Finding sources, checking who made them and whether they agree, and only then writing what they show keeps your account honest and lets a reader follow your trail back to the evidence. Skipping the checking step is how a confident but unsupported claim slips into a finished piece of work.",
+    "oon": "Out of order. Check your sources before you write what they show.",
+    "items": [
+      [
+        "ord-question",
+        "ask a research question"
+      ],
+      [
+        "ord-find",
+        "find sources"
+      ],
+      [
+        "ord-check",
+        "check who made them and if they agree"
+      ],
+      [
+        "ord-write",
+        "write what the sources show"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Hold the old book open gently",
+    "cue": "Support the old book's cover gently on the rest while you read.",
+    "why": "Forcing an old book flat can crack its spine. Supporting the cover gently on a rest, and holding it still while you read, protects it; the care you take with a source is part of respecting the evidence. Handling a source with care is also a way of respecting the people whose work and lives it records.",
+    "brk": "The book slipped and pressed flat. Support the cover again gently.",
+    "key": "book-hold",
+    "label": "Book held on the rest"
+  },
+  "turn": {
+    "title": "Turn the card from fact to question",
+    "cue": "Turn the card over: this claim is not widely established, so make it a question.",
+    "why": "When a claim is not widely established, the honest move is to turn it into a question to research. Doing it physically with the card builds the habit of asking whether you really know something before you write it as fact. A question written down is still progress: it tells the next reader exactly what is not yet known.",
+    "key": "flip-dial",
+    "label": "Fact or question card",
+    "dial": "QUESTION"
+  },
+  "gauge": {
+    "title": "Judge how reliable the source is",
+    "cue": "Commit when the reliability bar sits where the source's evidence puts it.",
+    "why": "Sources vary in reliability: a book that cites its evidence is stronger than an unsigned post that cites nothing. Judging each one, rather than trusting or rejecting everything, is how historians build an account that stands up. A weak source is not useless; it may point you to a stronger one that it failed to cite.",
+    "key": "reliability-meter",
+    "label": "Source reliability",
+    "meter": "RELIABILITY",
+    "miss": "Not where the evidence puts it. Check who made the source and what it cites."
+  },
+  "drag": {
+    "title": "Place the apprentice card in the sequence",
+    "cue": "Drag the apprentice card to the start of the craft training sequence.",
+    "why": "It is widely established that craft guilds trained newcomers as apprentices, who learned from experienced workers before working more independently. Placing the apprentice at the start of the sequence reflects that general fact; the details for any one place or trade are research questions.",
+    "key": "apprentice-token",
+    "label": "Apprentice card",
+    "spot": "sequence-spot",
+    "spotLabel": "Start of training",
+    "miss": "Not at the start yet. Apprentices come first in the training sequence."
+  },
+  "select2": {
+    "title": "Say how a guild and a union differ",
+    "cue": "Say one way guilds and modern unions differ, as a question to research further.",
+    "why": "Guilds often included workshop owners, while unions organise workers; that general difference opens questions worth researching. Saying it carefully, and turning the rest into questions, is how you handle a topic where easy comparisons mislead. Keeping the comparison careful stops you from reading today's world back into the past.",
+    "key": "compare-card",
+    "label": "Guild or union?",
+    "face": "SAME OR\nDIFFERENT?"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's notes",
+    "cue": "Look at the draft research notes and mark each problem.",
+    "why": "Research notes go wrong in familiar ways: an invented date, a claim with no source and a statement that everyone worked the same way. Spotting them in someone else's notes trains you to keep your own honest.",
+    "items": [
+      [
+        "nt-date",
+        "a date with no source",
+        "Find a source or make it a question."
+      ],
+      [
+        "nt-no-source",
+        "a claim with no source card",
+        "Every claim needs its source."
+      ],
+      [
+        "nt-all-same",
+        "a claim that everyone worked the same way",
+        "Work varied by place, trade and time."
+      ]
+    ],
+    "decoy": [
+      "nt-question",
+      "a clear research question at the top",
+      "A clear question is good practice. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Follow the source trail through the notes",
+    "cue": "Keep the marker on the trail from each claim back to its source.",
+    "why": "Every claim in a good account can be traced back to a source. Following the trail through your notes, claim by claim, is how you find the ones that have lost their source before anyone else does.",
+    "brk": "The trail broke at a claim with no source. Find its source or turn it into a question.",
+    "key": "track-meter",
+    "label": "Source trail followed",
+    "meter": "TRAIL"
+  },
+  "record": {
+    "title": "Record the facts, questions and sources",
+    "cue": "Write the general facts, the research questions and the source for each.",
+    "why": "A record that keeps facts, questions and sources apart shows exactly what you know, what you do not and where your information came from. It is what lets a teacher, or you next week, pick up the research where it stopped. It also shows your teacher the thinking behind the research, not only the finished answer.",
+    "key": "research-log",
+    "label": "Research record",
+    "done": "Facts, questions and sources recorded"
+  },
+  "share": {
+    "title": "Ask the librarian for a further source",
+    "cue": "Show the librarian a research question and ask where to look next.",
+    "why": "Librarians know which books, archives and collections hold reliable information. Asking for help with a specific question is what skilled researchers do, and it leads to sources you would not find alone.",
+    "key": "share-board",
+    "label": "Ask the librarian",
+    "done": "Further source found"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "Which research question would you most like to answer? What was tricky?",
+    "why": "A check-in lets learners name the question that caught their curiosity, which is where the next piece of research begins. It is not marked, and the teacher or a trusted adult is there for anyone who wants to talk.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-page-starts-to-tear",
+      "kind": "Fragile source",
+      "key": "stop-tell",
+      "label": "Stop and tell the librarian",
+      "alert": "A page in the old book begins to tear at the edge as a classmate turns it.",
+      "cue": "Stop turning and tell the librarian at once; do not try to fix it.",
+      "why": "A torn page can be repaired properly by someone trained, but tape or pulling can ruin it. Stopping and telling the librarian straight away protects the source for everyone who reads it after you.",
+      "miss": "The page was pressed back with tape, and the librarian said the repair would now be much harder.",
+      "wrong": "That tries to fix it yourself. Stop and tell the librarian. Choose the response that deals with it now.",
+      "done": "Librarian told, book set aside for repair. The lesson carries on."
+    },
+    {
+      "id": "the-librarian-asks-where-from",
+      "kind": "Librarian question",
+      "key": "say-source",
+      "label": "Say where the claim came from",
+      "alert": "The hall librarian points at one of your claims and asks where it came from.",
+      "cue": "Name the source, or say it is a question you have not answered yet.",
+      "why": "The librarian is checking your claim has evidence behind it. Naming the source, or honestly calling it an open question, is exactly the discipline history depends on.",
+      "miss": "You said you just knew it, and the librarian asked you to find a source before keeping it.",
+      "wrong": "That gives no source. Choose the response that deals with it now.",
+      "done": "Source named. The librarian adds it to the class list."
+    }
+  ],
+  "crew": [
+    "History teacher",
+    "Classmate",
+    "Hall librarian",
+    "Union hall volunteer"
+  ],
+  "guide": {
+    "start": "Facts, questions, sources.",
+    "after": "Unsure? Make it a question.",
+    "hazard": "Stop. Is that widely established, and where did it come from?"
+  },
+  "lateRecord": "The research record is written once the sources are checked — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson."
+}

@@ -8,7 +8,8 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
-import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
+import { lkRenderStations, lkSiteHeading, lkStationLink } from "../../shared/links.js";
+import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt, dvFloorY } from "./seabed.js";
 import {
   dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine,
@@ -21,7 +22,7 @@ import { dvRegisterDives, dvDiveState, dvOnDiveStep, dvOnDiveDone, dvAdvanceDive
 import { DV_DIVES } from "./dives-select.js";
 import { DV_ACTIVITIES } from "./dives.js";
 import { dvStartActivity, dvStepActivity, dvRecordActivityScore, dvBestActivityScore } from "./activities.js";
-import { dvMapLines, dvMapZones, dvMapLandmarks, dvMapSites, dvWorldToMap } from "./dive-map.js";
+import { dvMapLines, dvMapZones, dvMapLandmarks, dvMapSites, dvWorldToMap, dvMapFieldLessons } from "./dive-map.js";
 import { dvBuildWorld } from "./world.js";
 
 // The Deep — the app: the menu, the dive slate HUD (a reserve bar and a
@@ -359,6 +360,7 @@ function dvDrawFullMap() {
     dvToggleMap(false);
     dvToast(`Down the ascent line at ${site.name}.`);
   }));
+  k2DrawFieldLayer(ctx, dvMapFieldLessons(size), listEl, lkStationLink); // the K-12 layer
   const p = dvWorldToMap(dvApp.diver.x, dvApp.diver.z, size);
   ctx.fillStyle = "#4fd1ff"; ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, Math.PI * 2); ctx.fill();
 }

@@ -1,0 +1,259 @@
+{
+  "id": "k12-teamwork-and-feedback",
+  "index": "828",
+  "prefix": "ktf",
+  "accent": "#9a6ad0",
+  "floor": [
+    "#7a6e62",
+    "#6c6256"
+  ],
+  "wall": [
+    "#ece0d4",
+    "#ded2c4"
+  ],
+  "trade": "Life-skills class at the arena's team room — learner and team coach",
+  "header": "Upper-primary and lower-secondary life skills at an arena's team room: roles on a team, listening, giving feedback that is specific, kind and useful, receiving it without getting defensive, and settling a disagreement fairly, linked to the platform's emotional intelligence stations.",
+  "name": "Teamwork and Feedback",
+  "tagline": "Specific, kind and useful — give feedback on the work, never the person",
+  "badge": {
+    "id": "team-player",
+    "name": "Team Player",
+    "note": "Roles agreed, feedback given specific and kind, received without defending and a disagreement settled fairly"
+  },
+  "board": {
+    "name": "Team Board",
+    "currency": "ASSISTS",
+    "ranks": [
+      "Newcomer",
+      "Teammate",
+      "Supporter",
+      "Captain",
+      "Coach"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "feedback-about-the-person",
+      "label": "Say they are just bad at it?",
+      "face": "YOU'RE\nBAD",
+      "text": "You said your teammate was just bad at it. Feedback about the person hurts and gives them nothing to work on; feedback about the work, what they did and what might help, is specific, kind and useful."
+    },
+    {
+      "id": "defend-every-point",
+      "label": "Argue back against every piece of feedback?",
+      "face": "ARGUE\nBACK",
+      "text": "You argued back against every point of feedback. Listening first, asking a question to understand and thanking the person, even if you disagree, gets you far more from feedback than defending yourself does."
+    },
+    {
+      "id": "one-voice-decides",
+      "label": "Let the loudest teammate decide for everyone?",
+      "face": "LOUDEST\nWINS",
+      "text": "You let the loudest voice decide for the whole team. Good teams hear from everyone, especially the quiet members, before deciding; the loudest idea is not always the best one."
+    },
+    {
+      "id": "wet-floor-sprint",
+      "label": "Run across the wet court to join the huddle?",
+      "face": "WET\nCOURT",
+      "text": "You ran across a wet patch of court to reach the huddle. Wet sports floors are slippery; you walk round the cone, and the coach has the floor dried before anyone plays on it."
+    }
+  ],
+  "find1": {
+    "title": "Find what makes a team work",
+    "cue": "Mark the three things on the team board that help a team work together.",
+    "why": "Teams work well when everyone knows the shared goal, each person has a clear role, and there are agreed ways to talk, like taking turns and listening. Finding those three on the team board shows that good teamwork is built on purpose, not left to luck.",
+    "items": [
+      [
+        "goal",
+        "the shared goal",
+        "Everyone pulling towards the same thing."
+      ],
+      [
+        "roles",
+        "the list of roles",
+        "Each person knows their part."
+      ],
+      [
+        "agreements",
+        "the team's talking agreements",
+        "Take turns, listen, respect ideas."
+      ]
+    ],
+    "decoy": [
+      "trophy",
+      "a trophy on the shelf",
+      "A reminder of past success, but it does not make this team work."
+    ]
+  },
+  "select1": {
+    "title": "Walk round the wet patch",
+    "cue": "Read the coach's card: walk round the cone, never across a wet court.",
+    "why": "A wet patch on a sports floor is as slippery as ice. Walking round the cone and letting the coach dry it is the rule every team follows, because an injured teammate helps nobody, and looking after each other is where teamwork starts. A wet patch is also a test of the team: the one who stops to warn others is doing the team's work.",
+    "key": "wet-card",
+    "label": "Walk round the cone",
+    "face": "WALK\nROUND"
+  },
+  "seq": {
+    "title": "Put the feedback steps in order",
+    "cue": "Ask if they want feedback, name something specific, suggest one next step, then listen.",
+    "why": "Asking first makes feedback something offered, not forced. Naming something specific that went well, suggesting one clear next step and then listening to their reply keeps feedback useful and kind, and it is the pattern good coaches use every day. Skipping the listening step turns feedback into a lecture, and people stop hearing lectures quickly.",
+    "oon": "Out of order. Ask if they want feedback before you give it.",
+    "items": [
+      [
+        "ord-ask",
+        "ask if they want feedback"
+      ],
+      [
+        "ord-specific",
+        "name something specific that went well"
+      ],
+      [
+        "ord-next",
+        "suggest one next step"
+      ],
+      [
+        "ord-listen",
+        "listen to their reply"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Hold your reply while a teammate speaks",
+    "cue": "Stay quiet and listen fully until your teammate has finished.",
+    "why": "Waiting until someone has finished, instead of planning your answer while they talk, is what listening really means. It shows respect, it means you hear the whole idea, and it often changes what you were going to say. People can tell when they are really being listened to, and it makes them more willing to listen back.",
+    "brk": "You jumped in before they finished. Let them finish, then reply.",
+    "key": "listen-hold",
+    "label": "Listen until they finish"
+  },
+  "turn": {
+    "title": "Turn the role wheel to share the jobs",
+    "cue": "Turn the role wheel so each teammate gets a different job this round.",
+    "why": "Rotating roles lets everyone try leading, recording and checking, and stops the same people always doing the same jobs. It builds skills across the team and shows everyone what each role takes.",
+    "key": "role-dial",
+    "label": "Role wheel",
+    "dial": "ROLES"
+  },
+  "gauge": {
+    "title": "Judge the tone of your feedback",
+    "cue": "Commit when the tone meter shows your feedback is specific and kind.",
+    "why": "Feedback that is too vague helps nobody, and feedback that is harsh makes people stop listening. Aiming for specific and kind, the middle of the band, gives your teammate something clear to work on and the confidence to try it. The same words can land as help or as criticism depending on how they are said, so tone matters.",
+    "key": "tone-meter",
+    "label": "Feedback tone",
+    "meter": "TONE",
+    "miss": "Not in the band. Make it more specific, or kinder."
+  },
+  "drag": {
+    "title": "Choose a helpful feedback card",
+    "cue": "Drag the specific, kind feedback card to your teammate's spot.",
+    "why": "A card that says what went well and one thing to try next gives your teammate a clear way forward. Choosing it over a vague or harsh card is practising exactly the words that make feedback land well.",
+    "key": "feedback-token",
+    "label": "Specific, kind feedback",
+    "spot": "teammate-spot",
+    "spotLabel": "Teammate's spot",
+    "miss": "Not given yet. Take the specific, kind card to your teammate."
+  },
+  "select2": {
+    "title": "Say how to receive feedback well",
+    "cue": "Say what you do when someone gives you feedback, even if you disagree.",
+    "why": "Receiving feedback well means listening, asking a question to understand and thanking the person, then deciding what to use. Saying that aloud builds the habit, and it is one of the most valuable skills in school, sport and work. Nobody has to agree with every piece of feedback, but hearing it fully before deciding is fair to both people.",
+    "key": "compare-card",
+    "label": "Receiving feedback",
+    "face": "LISTEN,\nASK, THANK"
+  },
+  "find2": {
+    "title": "Spot the problems in a practice team talk",
+    "cue": "Look at the practice team talk and mark each problem.",
+    "why": "Team talks go wrong in familiar ways: feedback aimed at the person, a quiet teammate never asked and a decision made by the loudest voice. Spotting them in a practice talk helps you notice and fix them in real ones.",
+    "items": [
+      [
+        "tt-person",
+        "feedback about the person, not the work",
+        "Talk about what they did."
+      ],
+      [
+        "tt-quiet",
+        "a quiet teammate never asked",
+        "Hear from everyone."
+      ],
+      [
+        "tt-loudest",
+        "the loudest voice deciding",
+        "Decide together."
+      ]
+    ],
+    "decoy": [
+      "tt-thanks",
+      "a teammate thanked for their idea",
+      "Thanking teammates is good practice. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep a disagreement calm",
+    "cue": "Keep the discussion's temperature in the calm band as teammates disagree.",
+    "why": "Disagreements are normal and can make a team's ideas better, as long as they stay calm and about the ideas. Keeping your voice steady, naming what you agree on and looking for a fair way to decide keeps the team together. When a discussion stays calm, the team can use the disagreement to find a better plan than either side started with.",
+    "brk": "The discussion got heated. Slow down, name what you agree on, and bring it back.",
+    "key": "track-meter",
+    "label": "Disagreement kept calm",
+    "meter": "CALM"
+  },
+  "record": {
+    "title": "Record the team's review",
+    "cue": "Write what the team did well, one thing to improve and who will do what.",
+    "why": "A short team review turns one session into learning for the next. Writing a strength, one improvement and clear actions means everyone leaves knowing what comes next.",
+    "key": "team-log",
+    "label": "Team review",
+    "done": "Team review recorded"
+  },
+  "share": {
+    "title": "Thank a teammate for something specific",
+    "cue": "Thank one teammate for a specific thing they did today.",
+    "why": "Specific thanks tells someone exactly what they did that helped, which makes them more likely to do it again. It ends a session warmly and builds the trust that good teams rely on.",
+    "key": "share-board",
+    "label": "Thank a teammate",
+    "done": "Teammate thanked"
+  },
+  "checkin": {
+    "title": "Check in at the end of the session",
+    "cue": "How did working as a team feel today? What would you do differently?",
+    "why": "A check-in lets every learner say how teamwork felt for them, which may be different for quiet and loud members, and helps the coach and teacher support everyone. It is not marked, and a trusted adult is always there to talk to. Some people find group work easy and others find it tiring, and both are normal things to say out loud.",
+    "label": "End-of-session check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-teammate-is-left-out",
+      "kind": "Left out",
+      "key": "invite-in",
+      "label": "Invite them in and ask their idea",
+      "alert": "One teammate has gone quiet and moved to the edge of the group while others talk over them.",
+      "cue": "Invite them back in and ask for their idea.",
+      "why": "Being left out is painful and it loses the team a voice. Inviting them back and asking for their idea shows the team values everyone, and it is often exactly the idea the group needed.",
+      "miss": "Nobody noticed, and the teammate sat out the rest of the session feeling unwanted by the group.",
+      "wrong": "That leaves them out. Invite them in. Choose the response that deals with it now.",
+      "done": "Teammate invited back, idea heard. The session carries on."
+    },
+    {
+      "id": "the-coach-asks-for-feedback",
+      "kind": "Coach question",
+      "key": "say-feedback",
+      "label": "Give specific, kind feedback",
+      "alert": "The team coach asks you to give feedback to a teammate on the drill they just led.",
+      "cue": "Say something specific they did well and one thing to try next.",
+      "why": "The coach is checking you can put the feedback steps into practice on the spot. Being specific and kind shows you can help a teammate improve without knocking their confidence.",
+      "miss": "You said it was fine, and your teammate had nothing specific to work on in the next drill.",
+      "wrong": "That is too vague to help. Choose the response that deals with it now.",
+      "done": "Specific, kind feedback given. The coach nods."
+    }
+  ],
+  "crew": [
+    "Class teacher",
+    "Classmate",
+    "Team coach",
+    "Team captain"
+  ],
+  "guide": {
+    "start": "Specific, kind, useful.",
+    "after": "Listen, ask, thank.",
+    "hazard": "Stop. Is it about the work, not the person? Has everyone been heard?"
+  },
+  "lateRecord": "The team review is written once the session is done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the session."
+}

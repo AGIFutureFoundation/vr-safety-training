@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "full-sweep",
+    "name": "Full Sweep",
+    "note": "A rotor's swept circle worked from its blade length, circumference and area kept apart and the answer checked by estimate"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SWEEPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Measurer",
+      "Drafter",
+      "Calculator",
+      "Engineer"
+    ],
+    "system": "Rotor Board"
+  },
+  "hazards": {
+    "area-and-circumference-mixed": "You used the circumference formula when the question asked for the area. Circumference is the distance round the edge, measured in a length unit; area is the space inside, measured in a square unit. Checking the unit of the answer catches the mix-up.",
+    "blade-is-the-diameter": "You used the blade length as the diameter. Each blade reaches from the hub to the edge of the circle, so the blade is the radius; the diameter is twice as long. Mixing them up changes the area by a factor of four, not two.",
+    "double-radius-double-area": "You said doubling the blade length doubles the swept area. Area grows with the radius multiplied by itself, so doubling the blade gives four times the area; it is why longer blades matter so much in turbine design.",
+    "walk-to-the-turbine-base": "You walked towards the turbine to measure a real blade. Visitors stay outside the fenced area the site team sets round each turbine; the scale model in the visitor centre is there so the maths can be done safely."
+  },
+  "id": "k12-geometry-of-a-turbine-blade-sweep",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-tape-along-one-blade",
+      "alert": "A strong gust rattles the visitor centre door and the technician asks everyone to stay inside.",
+      "cue": "Stay inside with your group and listen for the technician's instruction.",
+      "delay": 3,
+      "id": "a-gust-rattles-the-door",
+      "kind": "Weather warning",
+      "missNote": "Two learners stepped outside to feel the wind, and the technician had to fetch them back.",
+      "seconds": 12,
+      "target": "kbs-stay-inside",
+      "why": "On a windy ridge, the site team decides when it is safe to be outside, and a sudden gust is their call to make. Staying with your group and listening means nobody is caught outdoors in weather the site has not cleared.",
+      "wrongNote": "That takes you outside. Stay in and listen. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-tip-round-the-circle",
+      "alert": "The site technician points at the model and asks which length is the radius of the swept circle.",
+      "cue": "Say that the blade, from hub centre to tip, is the radius.",
+      "delay": 3,
+      "id": "the-technician-asks-which-is-radius",
+      "kind": "Technician question",
+      "missNote": "You said the whole rotor width, and the technician showed you that was the diameter.",
+      "seconds": 12,
+      "target": "kbs-say-radius",
+      "why": "The technician is checking the step every later calculation depends on. Naming the blade as the radius, measured from the hub's centre, shows you will not double or halve the circle by accident.",
+      "wrongNote": "That is the diameter, not the radius. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kbs-checkin": "The check-in comes at the very end of the visit.",
+    "kbs-rotor-log": "The working record is written once the answer is checked — nothing to record yet."
+  },
+  "name": "Geometry of a Turbine's Blade Sweep",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "area-and-circumference-mixed",
+      "blade-is-the-diameter",
+      "double-radius-double-area",
+      "kbs-blade-length",
+      "kbs-checkin",
+      "kbs-compare-card",
+      "kbs-estimate-meter",
+      "kbs-fence-card",
+      "kbs-length-unit",
+      "kbs-model-scale",
+      "kbs-ord-calc",
+      "kbs-ord-estimate",
+      "kbs-ord-formula",
+      "kbs-ord-radius",
+      "kbs-radius-spot",
+      "kbs-radius-token",
+      "kbs-rotor-dial",
+      "kbs-rotor-log",
+      "kbs-say-radius",
+      "kbs-share-board",
+      "kbs-stay-inside",
+      "kbs-tape",
+      "kbs-tower-colour",
+      "kbs-track-meter",
+      "kbs-wk-diameter",
+      "kbs-wk-drawing",
+      "kbs-wk-formula",
+      "kbs-wk-unit",
+      "walk-to-the-turbine-base"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the scale model you need before any calculation.",
+      "decoyNotes": {
+        "kbs-tower-colour": "It helps pilots see the tower, but it has nothing to do with the circle."
+      },
+      "id": "find-what-the-model-gives-you",
+      "itemNames": {
+        "kbs-blade-length": "the blade length from hub to tip",
+        "kbs-length-unit": "the unit the length is marked in",
+        "kbs-model-scale": "the scale printed on the model's base"
+      },
+      "itemNotes": {
+        "kbs-blade-length": "This is the radius of the swept circle.",
+        "kbs-length-unit": "Area will come out in this unit squared.",
+        "kbs-model-scale": "It links the model to a full-size turbine."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the scale model you need before any calculation.",
+      "targets": [
+        "kbs-blade-length",
+        "kbs-model-scale",
+        "kbs-length-unit"
+      ],
+      "title": "Find what the model gives you",
+      "why": "A swept circle is set by one length, but only if you know where it is measured and in what unit. The blade length from hub centre to tip is the radius, the model's scale tells you how it relates to a real turbine, and the unit keeps the answer honest. Find those three before you calculate anything."
+    },
+    {
+      "cue": "Read the site rule on the card before the lesson starts.",
+      "id": "stay-outside-the-turbine-fence",
+      "kind": "select",
+      "prompt": "Read the site rule on the card before the lesson starts.",
+      "target": "kbs-fence-card",
+      "title": "Stay outside the turbine fence",
+      "why": "A working turbine has moving blades high above the ground and heavy parts inside, and the site team keeps visitors outside its fenced area for good reason. The whole lesson uses the scale model, so nobody needs to go near a turbine to learn how its circle works."
+    },
+    {
+      "cue": "Identify the radius, choose the formula, calculate, then check with an estimate.",
+      "id": "put-the-calculation-in-order",
+      "itemNames": {
+        "kbs-ord-calc": "3 · calculate with the unit",
+        "kbs-ord-estimate": "4 · check against an estimate",
+        "kbs-ord-formula": "2 · choose the formula the question needs",
+        "kbs-ord-radius": "1 · identify the radius"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Decide which length is the radius before you choose a formula.",
+      "prompt": "Identify the radius, choose the formula, calculate, then check with an estimate.",
+      "targets": [
+        "kbs-ord-radius",
+        "kbs-ord-formula",
+        "kbs-ord-calc",
+        "kbs-ord-estimate"
+      ],
+      "title": "Put the calculation in order",
+      "why": "Deciding which length is the radius comes first, because every later step depends on it. Choosing the formula to match the question, circumference for distance round or area for space inside, then calculating and checking against a rough estimate, catches the two commonest slips before anyone relies on the number."
+    },
+    {
+      "cue": "Hold the tape straight from the hub centre to the blade tip until the reading steadies.",
+      "holdBreakNote": "The tape slipped off the hub centre. Set it back at the centre and hold it again.",
+      "id": "hold-the-tape-along-one-blade",
+      "kind": "hold",
+      "prompt": "Hold the tape straight from the hub centre to the blade tip until the reading steadies.",
+      "seconds": 6,
+      "target": "kbs-tape",
+      "title": "Hold the tape along one blade",
+      "why": "The radius runs from the centre of the hub, not from its edge, to the very tip of the blade. Holding the tape straight along that line until the reading steadies gives the true radius; starting at the hub's edge quietly shortens every answer that follows."
+    },
+    {
+      "cue": "Turn the model rotor slowly so one tip traces the whole circle.",
+      "id": "turn-the-rotor-through-a-full",
+      "kind": "turn",
+      "prompt": "Turn the model rotor slowly so one tip traces the whole circle.",
+      "target": "kbs-rotor-dial",
+      "title": "Turn the rotor through a full sweep",
+      "turn": {
+        "axis": "y",
+        "label": "SWEEP",
+        "turns": 0.5
+      },
+      "why": "Turning the model and watching one tip makes the circle visible: the tip travels the circumference and the blades pass over the whole area inside it. Seeing it move is what turns a formula into a picture you can reason with."
+    },
+    {
+      "cue": "Commit when the estimate bar sits where your calculated area should fall.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "ESTIMATE",
+        "missNote": "Too far from the estimate. Check the radius and the formula before you trust it.",
+        "speed": 0.6
+      },
+      "id": "check-your-answer-against-an-estimate",
+      "kind": "gauge",
+      "prompt": "Commit when the estimate bar sits where your calculated area should fall.",
+      "target": "kbs-estimate-meter",
+      "title": "Check your answer against an estimate",
+      "why": "A circle's area is a little over three times the radius multiplied by itself, so a quick estimate tells you roughly what size answer to expect. If the calculated area lands far from the estimate, a length or formula has slipped, and it is far cheaper to find that now than later."
+    },
+    {
+      "cue": "Drag the radius marker so it runs from the centre of the circle to its edge.",
+      "drag": {
+        "missNote": "Not centre to edge yet. Start the radius at the middle of the circle.",
+        "radius": 0.45,
+        "to": "kbs-radius-spot"
+      },
+      "id": "place-the-radius-on-the-drawing",
+      "kind": "drag",
+      "prompt": "Drag the radius marker so it runs from the centre of the circle to its edge.",
+      "target": "kbs-radius-token",
+      "title": "Place the radius on the drawing",
+      "why": "Drawing the radius in the right place, centre to edge, is the step that stops the blade-as-diameter mistake. A labelled drawing also shows anyone checking your work exactly which length you used, before they look at a single number."
+    },
+    {
+      "cue": "Say how the swept area changes if the blade is twice as long, and why.",
+      "id": "say-what-happens-when-the-blade",
+      "kind": "select",
+      "prompt": "Say how the swept area changes if the blade is twice as long, and why.",
+      "target": "kbs-compare-card",
+      "title": "Say what happens when the blade doubles",
+      "why": "Doubling the radius makes the area four times larger, because area depends on the radius multiplied by itself. Saying why, not just the answer, is the understanding engineers use when they explain why longer blades catch so much more of the wind."
+    },
+    {
+      "cue": "Look at the draft calculation and mark each problem.",
+      "decoyNotes": {
+        "kbs-wk-drawing": "A labelled drawing is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kbs-wk-diameter": "the blade used as the diameter",
+        "kbs-wk-formula": "the circumference formula used for area",
+        "kbs-wk-unit": "an area with a plain length unit"
+      },
+      "itemNotes": {
+        "kbs-wk-diameter": "The blade is the radius.",
+        "kbs-wk-formula": "Match the formula to the question.",
+        "kbs-wk-unit": "Area needs a square unit."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft calculation and mark each problem.",
+      "targets": [
+        "kbs-wk-diameter",
+        "kbs-wk-unit",
+        "kbs-wk-formula"
+      ],
+      "title": "Spot the problems in a classmate's working",
+      "why": "Circle calculations go wrong in the same few ways: the blade used as the diameter, an area given in a plain length unit, and the circumference formula used for area. Spotting them on another page trains you to check your own before you hand it in."
+    },
+    {
+      "cue": "Keep the pointer on the blade tip as the model rotor turns.",
+      "holdBreakNote": "The pointer lost the tip. Find it again and follow it round.",
+      "id": "follow-the-tip-round-the-circle",
+      "kind": "track",
+      "prompt": "Keep the pointer on the blade tip as the model rotor turns.",
+      "seconds": 8,
+      "target": "kbs-track-meter",
+      "title": "Follow the tip round the circle",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TIP",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The tip of the blade moves fastest of any point on the rotor, because it covers the whole circumference in the same time the hub makes one turn. Following it makes clear why the tip travels so far on each turn compared with points nearer the hub."
+    },
+    {
+      "cue": "Write the radius, the formula, the answer with its unit and your estimate.",
+      "id": "record-the-working-and-the-answer",
+      "kind": "select",
+      "prompt": "Write the radius, the formula, the answer with its unit and your estimate.",
+      "target": "kbs-rotor-log",
+      "title": "Record the working and the answer",
+      "why": "Writing each step, not just the answer, means a slip can be found in one line instead of redoing everything. Keeping the estimate beside the answer shows the check was done, which is what makes a calculation trustworthy to someone else."
+    },
+    {
+      "cue": "Tell the technician what the blade's circle is and how you worked it out.",
+      "id": "explain-the-sweep-to-the-technician",
+      "kind": "select",
+      "prompt": "Tell the technician what the blade's circle is and how you worked it out.",
+      "target": "kbs-share-board",
+      "title": "Explain the sweep to the technician",
+      "why": "Explaining your method to someone who works with turbines every day tests whether you really understand it. They will hear straight away whether the radius and the formula were chosen for the right reasons, and they can tell you how the idea is used on site."
+    },
+    {
+      "cue": "What made sense about circles today, and what still feels tricky?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What made sense about circles today, and what still feels tricky?",
+      "target": "kbs-checkin",
+      "title": "Check in at the end of the visit",
+      "why": "A check-in at the end gives every learner a chance to say what clicked and what did not, so the teacher knows where to start next time. Nobody is marked on it, and the teacher or a trusted adult is there for anyone who found the lesson hard."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "The blade is the radius, the tip draws the circle — and visitors stay outside the fence",
+  "title": "SmartCiti.X~ Geometry of a Turbine's Blade Sweep VR",
+  "trade": "Maths class at the wind farm's visitor centre — learner and site technician",
+  "underwater": null,
+  "weather": "clear"
+}

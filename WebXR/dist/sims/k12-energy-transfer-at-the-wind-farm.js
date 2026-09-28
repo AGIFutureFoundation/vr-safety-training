@@ -138,7 +138,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       },
       title: "Turn the fan to a faster setting",
       cue: "Turn only the fan setting up, keeping the blades the same.",
-      why: "Changing only the fan setting, with the same blades, is the fair test that shows more moving air means more energy transferred. Keeping everything else the same is what lets you say the fan speed made the difference."
+      why: "Changing only the fan setting, with the same blades, is the fair test that shows more moving air means more energy transferred. Keeping everything else the same is what lets you say the fan speed made the difference. If the blade angle had changed too, you could not tell which one caused it."
     },
     {
       id: "set-the-blade-angle-to-catch",
@@ -155,7 +155,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       },
       title: "Set the blade angle to catch the wind",
       cue: "Commit when the blade angle catches the moving air well — not flat to it, not edge on.",
-      why: "Blades flat to the wind are pushed but do not turn well; blades edge on let the air slip past. An angle in between turns the push of the air into rotation best, which is why real turbines can change their blade angle."
+      why: "Blades flat to the wind are pushed but do not turn well; blades edge on let the air slip past. An angle in between turns the push of the air into rotation best, which is why real turbines can change their blade angle. Turning the blades lets a turbine catch more of a gentle wind and spill some of a strong one."
     },
     {
       id: "put-your-result-on-the-class",
@@ -168,7 +168,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       },
       title: "Put your result on the class board",
       cue: "Drag your result card onto the class results board beside everyone else's.",
-      why: "One group's result could be a fluke; the whole class's results together show whether the pattern is real. Putting yours on the board is how science builds confidence in a finding, and it lets the class spot any result worth repeating."
+      why: "One group's result could be a fluke; the whole class's results together show whether the pattern is real. Putting yours on the board is how science builds confidence in a finding, and it lets the class spot any result worth repeating. Comparing results across groups shows which patterns hold up and which were chance."
     },
     {
       id: "name-where-energy-is-wasted",
@@ -176,7 +176,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       target: "kew-waste-card",
       title: "Name where energy is wasted",
       cue: "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
-      why: "The hum and the warm shaft are energy transferred to places we did not want: sound and heat. Naming the wasted energy completes the story and explains why no machine turns all of its input into useful output."
+      why: "The hum and the warm shaft are energy transferred to places we did not want: sound and heat. Naming the wasted energy completes the story and explains why no machine turns all of its input into useful output. Engineers work to reduce that waste, but they can never remove it completely."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -202,7 +202,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       },
       title: "Spot the problems in a classmate's energy story",
       cue: "Look at the classmate's energy story and mark each problem.",
-      why: "Energy stories go wrong in predictable ways: saying energy is made, forgetting wasted energy and drawing a conclusion from an unfair test. Spotting them in someone else's story makes your own explanation more careful and more complete."
+      why: "Energy stories go wrong in predictable ways: saying energy is made, forgetting wasted energy and drawing a conclusion from an unfair test. Spotting them in someone else's story makes your own explanation more careful and more complete. Finding a missing step in someone else's chain often reveals the same gap in your own."
     },
     {
       id: "keep-your-notes-matched-to-the",
@@ -222,7 +222,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       },
       title: "Keep your notes matched to the model",
       cue: "Hold your notes in band with what the lamp actually does as you change settings.",
-      why: "It is easy to write the result you expected. Keeping notes matched to what the lamp actually does, including a result that surprised you, is the honesty that makes a science finding worth trusting and repeating.",
+      why: "It is easy to write the result you expected. Keeping notes matched to what the lamp actually does, including a result that surprised you, is the honesty that makes a science finding worth trusting and repeating. An unexpected result is a reason to test again, not a reason to change the numbers.",
       holdBreakNote: "Your notes drifted from what the model shows. Look again and write what you see."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       doneLine: "Energy story recorded",
       title: "Record the energy story and the tests",
       cue: "Write the energy chain, the fair tests and where energy was wasted.",
-      why: "Recording the chain, the tests and the wasted energy gives a complete, checkable energy story. Anyone can repeat the tests from your record, and the record shows how your explanation was built from evidence."
+      why: "Recording the chain, the tests and the wasted energy gives a complete, checkable energy story. Anyone can repeat the tests from your record, and the record shows how your explanation was built from evidence. It also lets another group repeat your test and see if they find the same."
     },
     {
       id: "tell-the-energy-story-to-the",
@@ -241,7 +241,7 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
       doneLine: "Energy story shared",
       title: "Tell the energy story to the class",
       cue: "Tell the class where the energy came from, where it went, and where some was wasted.",
-      why: "Telling the energy story aloud, from moving air to light and the heat and sound along the way, is the best test of whether it makes sense. Classmates who said the turbine makes energy learn most from hearing where it really comes from."
+      why: "Telling the energy story aloud, from moving air to light and the heat and sound along the way, is the best test of whether it makes sense. Classmates who said the turbine makes energy learn most from hearing where it really comes from. Saying it in your own words is the best check that you understand it yourself."
     },
     {
       id: "crew-check-in",

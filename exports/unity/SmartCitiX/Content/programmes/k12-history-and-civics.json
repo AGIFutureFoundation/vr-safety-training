@@ -12,7 +12,8 @@
         "public-comment-prep",
         "public-meeting-chair",
         "k12-household-budget-and-first-paycheck",
-        "k12-how-a-local-council-meeting-works"
+        "k12-how-a-local-council-meeting-works",
+        "k12-map-literacy-across-eras"
       ],
       "table": "BAY_SITES",
       "world": "bayworld",
@@ -38,13 +39,30 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "fruitvale"
+    },
+    {
+      "id": "west-oakland-union-hall",
+      "name": "West Oakland Union Hall",
+      "position": [
+        -395,
+        32
+      ],
+      "stations": [
+        "press-brake",
+        "sm-shop-layout-and-shear",
+        "k12-oral-history-interview-skills",
+        "k12-guilds-and-the-history-of-work"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "west-oakland"
     }
   ],
   "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
   "competency": {
     "id": "k12-history-and-civics",
     "kind": "programme",
-    "require": 2,
+    "require": 3,
     "standards": [
       "un-sdg-4-quality-education",
       "unesco-education-guidance",
@@ -53,7 +71,10 @@
     "stations": [
       "k12-primary-and-secondary-sources",
       "k12-building-a-timeline-from-documents",
-      "k12-how-a-local-council-meeting-works"
+      "k12-how-a-local-council-meeting-works",
+      "k12-oral-history-interview-skills",
+      "k12-guilds-and-the-history-of-work",
+      "k12-map-literacy-across-eras"
     ],
     "title": "Question sources, trace claims to evidence and say where the evidence runs out"
   },
@@ -67,14 +88,14 @@
   ],
   "id": "k12-history-and-civics",
   "ladder": {
-    "atBar": 0,
+    "atBar": 20,
     "lessonBar": 75,
-    "lessons": 780,
+    "lessons": 1560,
     "levels": 20,
     "note": "a lesson is one station step under one condition; see docs/ladders.md",
-    "partial": 20,
-    "stationsNeeded": 3,
-    "tasks": 60
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
   },
   "name": "K-12 History and Civics",
   "schema": "smartcitix.programme/1",
@@ -93,6 +114,21 @@
       "app": "smartcity",
       "id": "k12-how-a-local-council-meeting-works",
       "why": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-oral-history-interview-skills",
+      "why": "Oral history as method: consent before recording, open questions and patient pauses, the interviewee's wellbeing first, and a memory weighed as a source like any other."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-guilds-and-the-history-of-work",
+      "why": "The history of work told only as widely established general facts about guilds, with everything else turned into research questions and every claim traced to a source."
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-map-literacy-across-eras",
+      "why": "Fictional maps from different eras read for key, scale and orientation, their makers' purposes asked and the changes between them explained rather than dismissed."
     }
   ],
   "summary": "History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.",

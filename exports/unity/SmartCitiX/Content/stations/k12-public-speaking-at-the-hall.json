@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "back-row",
+    "name": "Back Row",
+    "note": "A short talk planned around one message, spoken clearly to the back row and questions answered calmly"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CUES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Listener",
+      "Rehearser",
+      "Speaker",
+      "Presenter",
+      "Orator"
+    ],
+    "system": "Stage Board"
+  },
+  "hazards": {
+    "cram-in-every-point": "You tried to squeeze in every point you could think of. Listeners remember a few things, not many; a talk with one clear message and a few supporting points is remembered, while a crowded one is forgotten by the time you sit down.",
+    "nerves-mean-you-are-bad": "You decided your nerves meant you could not do it. Nearly every speaker feels nervous; slow breathing, a planned first line and a friendly face in the audience help, and the nerves usually ease once you start.",
+    "read-the-script-word-for-word": "You read every word from the page with your head down. The audience loses your face and your voice goes flat; short prompt cards with key words let you look up, speak naturally and still keep your place.",
+    "step-back-to-the-edge": "You stepped backwards towards the edge of the stage. Stage edges are marked for a reason and the drop is real; speakers stay on the marked area, and the stage manager keeps the edge lit and taped."
+  },
+  "id": "k12-public-speaking-at-the-hall",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-a-slow-breath-before-you",
+      "alert": "A stage light flickers and goes out, leaving part of the stage dim.",
+      "cue": "Stand still where you are and wait for the stage manager's instruction.",
+      "delay": 3,
+      "id": "a-stage-light-flickers-out",
+      "kind": "Stage fault",
+      "missNote": "You walked towards the wings in the dark and caught a cable, nearly falling.",
+      "seconds": 12,
+      "target": "kpk-stand-still",
+      "why": "In sudden dimness, moving is how people step off an edge or trip on a cable. Standing still and waiting for the stage manager keeps you safe while they fix the light or bring up the working lights.",
+      "wrongNote": "That moves you in the dark. Stand still and wait. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-your-pace-steady-through-the",
+      "alert": "The stage manager asks what the one thing is that you want the audience to remember.",
+      "cue": "Say your one clear message in a single sentence.",
+      "delay": 3,
+      "id": "the-stage-manager-asks-your-message",
+      "kind": "Stage manager question",
+      "missNote": "You listed several ideas, and the stage manager asked you to choose one.",
+      "seconds": 12,
+      "target": "kpk-say-message",
+      "why": "If you can say your message in one sentence, the audience can remember it. The stage manager is checking that the talk has a clear centre before you step out.",
+      "wrongNote": "That is more than one message. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kpk-checkin": "The check-in comes at the very end of the rehearsal.",
+    "kpk-talk-log": "The feedback is written once the talk is given — nothing to record yet."
+  },
+  "name": "Public Speaking at the Hall",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "cram-in-every-point",
+      "kpk-breath-hold",
+      "kpk-card-token",
+      "kpk-checkin",
+      "kpk-compare-card",
+      "kpk-costume-rail",
+      "kpk-face-dial",
+      "kpk-hand-spot",
+      "kpk-message",
+      "kpk-ord-ending",
+      "kpk-ord-message",
+      "kpk-ord-middle",
+      "kpk-ord-opening",
+      "kpk-prompt-cards",
+      "kpk-say-message",
+      "kpk-shape",
+      "kpk-share-board",
+      "kpk-stage-card",
+      "kpk-stand-still",
+      "kpk-talk-log",
+      "kpk-tp-ending",
+      "kpk-tp-no-message",
+      "kpk-tp-opening",
+      "kpk-tp-script",
+      "kpk-track-meter",
+      "kpk-voice-meter",
+      "nerves-mean-you-are-bad",
+      "read-the-script-word-for-word",
+      "step-back-to-the-edge"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things you need before you step up to speak.",
+      "decoyNotes": {
+        "kpk-costume-rail": "Fun to look at, but not what makes a talk work."
+      },
+      "id": "find-what-a-good-talk-needs",
+      "itemNames": {
+        "kpk-message": "your one clear message",
+        "kpk-prompt-cards": "prompt cards with key words",
+        "kpk-shape": "a beginning, middle and end"
+      },
+      "itemNotes": {
+        "kpk-message": "The single thing you want them to remember.",
+        "kpk-prompt-cards": "Enough to keep your place, not a script.",
+        "kpk-shape": "Tell them what, tell them, tell them again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things you need before you step up to speak.",
+      "targets": [
+        "kpk-message",
+        "kpk-shape",
+        "kpk-prompt-cards"
+      ],
+      "title": "Find what a good talk needs",
+      "why": "A talk that works has one clear message you want the audience to remember, a shape with a beginning, middle and end, and prompt cards with key words rather than a full script. With those three ready, you can concentrate on speaking to people instead of reading at them."
+    },
+    {
+      "cue": "Read the stage manager's card: stay inside the taped area, keep clear of the edge.",
+      "id": "learn-the-stage-safety-marks",
+      "kind": "select",
+      "prompt": "Read the stage manager's card: stay inside the taped area, keep clear of the edge.",
+      "target": "kpk-stage-card",
+      "title": "Learn the stage safety marks",
+      "why": "A stage has a real drop at its edge, cables, and lights that can dazzle. Knowing where the taped speaking area is before you start means you can move naturally without thinking about where your feet are, which is exactly why actors walk the stage before a show."
+    },
+    {
+      "cue": "Choose the message, plan the opening, build the middle, then plan the ending.",
+      "id": "put-the-talk-plan-in-order",
+      "itemNames": {
+        "kpk-ord-ending": "4 · plan an ending that repeats the message",
+        "kpk-ord-message": "1 · choose one clear message",
+        "kpk-ord-middle": "3 · build a middle with a few points",
+        "kpk-ord-opening": "2 · plan an opening that grabs attention"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Choose your one message before anything else.",
+      "prompt": "Choose the message, plan the opening, build the middle, then plan the ending.",
+      "targets": [
+        "kpk-ord-message",
+        "kpk-ord-opening",
+        "kpk-ord-middle",
+        "kpk-ord-ending"
+      ],
+      "title": "Put the talk plan in order",
+      "why": "Choosing your message first makes every other choice easier: the opening introduces it, the middle supports it and the ending repeats it. Planning in that order gives a talk a clear line from start to finish, which is what audiences follow and remember."
+    },
+    {
+      "cue": "Stand still and hold a slow, steady breath before your first line.",
+      "holdBreakNote": "You rushed in before the breath was finished. Stand still and take it again.",
+      "id": "hold-a-slow-breath-before-you",
+      "kind": "hold",
+      "prompt": "Stand still and hold a slow, steady breath before your first line.",
+      "seconds": 6,
+      "target": "kpk-breath-hold",
+      "title": "Hold a slow breath before you begin",
+      "why": "A slow breath before speaking calms your heartbeat and steadies your voice. Standing still for that moment also signals to the audience that you are about to begin, and it gives you time to find your first line instead of rushing into it."
+    },
+    {
+      "cue": "Turn so you face the middle of the audience, not the teacher or the wall.",
+      "id": "turn-to-face-the-whole-audience",
+      "kind": "turn",
+      "prompt": "Turn so you face the middle of the audience, not the teacher or the wall.",
+      "target": "kpk-face-dial",
+      "title": "Turn to face the whole audience",
+      "turn": {
+        "axis": "y",
+        "label": "FACE",
+        "turns": 0.5
+      },
+      "why": "Facing the middle of the audience lets your voice carry to everyone and lets them see your face. Turning to one person or the screen shuts out the rest of the room, and it is one of the simplest habits that makes a speaker easy to follow."
+    },
+    {
+      "cue": "Commit when the voice meter shows you would be heard at the back.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "VOICE",
+        "missNote": "The back row would not hear that. Speak from your chest, clearly and a little slower.",
+        "speed": 0.6
+      },
+      "id": "pitch-your-voice-to-the-back",
+      "kind": "gauge",
+      "prompt": "Commit when the voice meter shows you would be heard at the back.",
+      "target": "kpk-voice-meter",
+      "title": "Pitch your voice to the back row",
+      "why": "Speaking to the back row, not the front, makes sure everyone hears without you shouting. It is about projecting from your chest and speaking clearly, and stage managers check it with a friend at the back before every show."
+    },
+    {
+      "cue": "Drag the key-word prompt card to your hand, leaving the full script on the table.",
+      "drag": {
+        "missNote": "Not in your hand yet. Take the key-word card, not the full script.",
+        "radius": 0.45,
+        "to": "kpk-hand-spot"
+      },
+      "id": "put-the-prompt-card-in-your",
+      "kind": "drag",
+      "prompt": "Drag the key-word prompt card to your hand, leaving the full script on the table.",
+      "target": "kpk-card-token",
+      "title": "Put the prompt card in your hand",
+      "why": "A prompt card with a few key words keeps your place while letting you look up. Leaving the full script behind stops the temptation to read, and it is what experienced speakers do so that they talk to people rather than to paper."
+    },
+    {
+      "cue": "Say why a talk with one clear message is remembered better than one with many.",
+      "id": "say-why-one-message-beats-many",
+      "kind": "select",
+      "prompt": "Say why a talk with one clear message is remembered better than one with many.",
+      "target": "kpk-compare-card",
+      "title": "Say why one message beats many",
+      "why": "Listeners cannot flip back a page, so they remember what is clear and repeated. One message, supported and repeated, gives them something to take home; many messages compete and are lost. Saying why is understanding how talks work."
+    },
+    {
+      "cue": "Look at the draft talk plan and mark each problem.",
+      "decoyNotes": {
+        "kpk-tp-opening": "A question is a good opening. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kpk-tp-ending": "an ending that just stops",
+        "kpk-tp-no-message": "no clear message",
+        "kpk-tp-script": "a full script to read"
+      },
+      "itemNotes": {
+        "kpk-tp-ending": "End by repeating the message.",
+        "kpk-tp-no-message": "Choose one thing to remember.",
+        "kpk-tp-script": "Use key-word cards instead."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft talk plan and mark each problem.",
+      "targets": [
+        "kpk-tp-no-message",
+        "kpk-tp-script",
+        "kpk-tp-ending"
+      ],
+      "title": "Spot the problems in a classmate's talk plan",
+      "why": "Talk plans go wrong in familiar ways: no clear message, a full script to read and an ending that stops without repeating the point. Spotting them in someone else's plan helps you build a stronger one of your own."
+    },
+    {
+      "cue": "Keep your speaking pace in the band, not rushing as nerves build.",
+      "holdBreakNote": "You sped up. Pause, breathe and bring your pace back down.",
+      "id": "keep-your-pace-steady-through-the",
+      "kind": "track",
+      "prompt": "Keep your speaking pace in the band, not rushing as nerves build.",
+      "seconds": 8,
+      "target": "kpk-track-meter",
+      "title": "Keep your pace steady through the talk",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PACE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Nerves speed speakers up, and a rushed talk is hard to follow. Keeping a steady pace, with small pauses between points, gives the audience time to take in each idea, and it makes you sound calmer than you might feel."
+    },
+    {
+      "cue": "Write one thing that went well and one thing to try next time.",
+      "id": "record-feedback-on-your-talk",
+      "kind": "select",
+      "prompt": "Write one thing that went well and one thing to try next time.",
+      "target": "kpk-talk-log",
+      "title": "Record feedback on your talk",
+      "why": "Writing one strength and one next step turns a talk into practice for the next one. It keeps the focus on getting better rather than on being perfect, and it gives you something clear to work on."
+    },
+    {
+      "cue": "Thank the audience and invite questions, listening fully before you answer.",
+      "id": "thank-the-audience-and-invite-questions",
+      "kind": "select",
+      "prompt": "Thank the audience and invite questions, listening fully before you answer.",
+      "target": "kpk-share-board",
+      "title": "Thank the audience and invite questions",
+      "why": "Thanking the audience and inviting questions ends a talk warmly and shows respect. Listening to the whole question before answering, and saying if you do not know, is what makes questions a conversation rather than a test."
+    },
+    {
+      "cue": "How did it feel to speak? What would help you next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did it feel to speak? What would help you next time?",
+      "target": "kpk-checkin",
+      "title": "Check in at the end of the rehearsal",
+      "why": "A check-in lets each speaker say how it felt, which matters as much as how it sounded, and lets the teacher support anyone who found it hard. It is not marked, and anyone who felt anxious can talk to the teacher or a trusted adult."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "One clear message, told so the back row hears it — and mind the stage edge",
+  "title": "SmartCiti.X~ Public Speaking at the Hall VR",
+  "trade": "Literacy class on the theatre's rehearsal stage — learner and stage manager",
+  "underwater": null,
+  "weather": "clear"
+}

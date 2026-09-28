@@ -3,6 +3,10 @@
 // rule are checkable with no DOM. Mirrors bayworld/js/map.js over DEEP_BOUNDS.
 import { DEEP_BOUNDS, DV_LINES, DV_ZONES, DV_LANDMARKS, DV_SITES } from "./seabed.js";
 import { dvIsSiteVisited, dvIsAscentUnlocked } from "./dive-career.js";
+import { k2MapFieldLessons } from "../../shared/field-lessons.js";
+
+/** The K-12 layer: every Deep field lesson, positioned (shared/field-lessons.js). */
+export function dvMapFieldLessons(size = 512) { return k2MapFieldLessons("deep", dvWorldToMap, size); }
 
 /** The one uniform scale that fits all of DEEP_BOUNDS inside a `size`-pixel
  *  square canvas with `pad` pixels of margin (letterboxing, never stretching). */

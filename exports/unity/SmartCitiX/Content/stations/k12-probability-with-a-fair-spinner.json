@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fair-and-square",
+    "name": "Fair and Square",
+    "note": "A spinner checked for fairness, outcomes predicted from equal parts and a tally compared honestly with the prediction"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SPINS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Spinner",
+      "Counter",
+      "Tallier",
+      "Predictor",
+      "Statistician"
+    ],
+    "system": "Spinner Board"
+  },
+  "hazards": {
+    "count-colours-not-areas": "You counted how many colours there are and ignored how big each part is. Chance depends on the share of the spinner each outcome takes up, so a spinner with one big part and two small ones is not an equal three-way chance.",
+    "due-for-a-win": "You said red is due because it has not come up for a while. A fair spinner has no memory: each spin has the same chance as the last, whatever came before. Believing an outcome is due is the gambler's mistake, and it is why games of chance are not a way to win anything back.",
+    "few-spins-prove-it": "You decided the spinner was unfair after a handful of spins. Short runs wobble a lot by chance alone; only many spins show whether the results settle near what equal parts predict, and even then you check the spinner itself.",
+    "spin-near-the-guy-ropes": "You stepped back across the tent's guy ropes to get a better view. Guy ropes are a trip hazard at every fair; you watch from inside the tent, and the volunteer keeps the ropes flagged so nobody walks into them."
+  },
+  "id": "k12-probability-with-a-fair-spinner",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-board-level-while-it",
+      "alert": "A small child who is not in your class is standing alone and crying at the tent entrance.",
+      "cue": "Tell the stall volunteer straight away; stay where you are with your group.",
+      "delay": 3,
+      "id": "a-small-child-is-lost",
+      "kind": "Lost child",
+      "missNote": "Nobody told an adult, and the child wandered off before anyone could help.",
+      "seconds": 12,
+      "target": "kfs-tell-volunteer",
+      "why": "A lost child at a fair is found fastest when an adult who knows the fair's plan takes charge. Telling the volunteer at once, and staying with your own group, gets the child help without anyone else going missing.",
+      "wrongNote": "That does not get an adult involved. Tell the volunteer. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-tally-going-through-a",
+      "alert": "The stall volunteer asks your group whether their spinner is fair and how you would know.",
+      "cue": "Say what you checked about the spinner and what the long run shows.",
+      "delay": 3,
+      "id": "the-volunteer-asks-if-it-is-fair",
+      "kind": "Volunteer question",
+      "missNote": "You said it was fair because you won, and the volunteer pointed out that proves nothing.",
+      "seconds": 12,
+      "target": "kfs-say-fair",
+      "why": "The volunteer is checking you know fairness comes from the spinner, not from a lucky run. Naming equal parts, a free pointer and a level board, and then the long-run tally, is exactly the reasoning a fair test needs.",
+      "wrongNote": "That relies on one lucky result. Say what you checked. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kfs-checkin": "The check-in comes at the very end of the lesson.",
+    "kfs-spin-log": "The experiment record is written once the tally is done — nothing to record yet."
+  },
+  "name": "Probability with a Fair Spinner",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "count-colours-not-areas",
+      "due-for-a-win",
+      "few-spins-prove-it",
+      "kfs-bright-colours",
+      "kfs-checkin",
+      "kfs-compare-card",
+      "kfs-equal-parts",
+      "kfs-free-pointer",
+      "kfs-hold-board",
+      "kfs-level-board",
+      "kfs-ord-check",
+      "kfs-ord-compare",
+      "kfs-ord-predict",
+      "kfs-ord-tally",
+      "kfs-prize-card",
+      "kfs-read-meter",
+      "kfs-rp-due",
+      "kfs-rp-few",
+      "kfs-rp-late",
+      "kfs-rp-table",
+      "kfs-say-fair",
+      "kfs-share-board",
+      "kfs-spin-dial",
+      "kfs-spin-log",
+      "kfs-tally-spot",
+      "kfs-tally-token",
+      "kfs-tell-volunteer",
+      "kfs-track-meter",
+      "spin-near-the-guy-ropes"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things you check before trusting a spinner.",
+      "decoyNotes": {
+        "kfs-bright-colours": "Colour makes it easy to read, but it does not change the chances."
+      },
+      "id": "find-what-makes-the-spinner-fair",
+      "itemNames": {
+        "kfs-equal-parts": "parts that are all the same size",
+        "kfs-free-pointer": "a pointer that turns freely",
+        "kfs-level-board": "a board that sits level"
+      },
+      "itemNotes": {
+        "kfs-equal-parts": "Equal parts give each outcome the same chance.",
+        "kfs-free-pointer": "A sticking pointer favours where it sticks.",
+        "kfs-level-board": "A tilted board can pull the pointer downhill."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things you check before trusting a spinner.",
+      "targets": [
+        "kfs-equal-parts",
+        "kfs-free-pointer",
+        "kfs-level-board"
+      ],
+      "title": "Find what makes the spinner fair",
+      "why": "A spinner is fair when every part is the same size, the pointer turns freely and nothing makes it stop in one place more than another. Checking those three before predicting anything means the maths describes the real spinner, not a spinner you are imagining."
+    },
+    {
+      "cue": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
+      "id": "agree-what-the-prizes-are",
+      "kind": "select",
+      "prompt": "Read the stall card: stickers only, nothing to pay, nothing to lose.",
+      "target": "kfs-prize-card",
+      "title": "Agree what the prizes are",
+      "why": "This lesson is about how chance works, so the stall uses stickers and nobody pays or loses anything. Being clear about that from the start matters, because the same maths explains why games where money is at stake are built so that, over time, the players lose."
+    },
+    {
+      "cue": "Check the spinner, predict, spin and tally, then compare.",
+      "id": "put-the-experiment-in-order",
+      "itemNames": {
+        "kfs-ord-check": "1 · check the spinner is fair",
+        "kfs-ord-compare": "4 · compare the tally with the prediction",
+        "kfs-ord-predict": "2 · write a prediction from equal parts",
+        "kfs-ord-tally": "3 · spin many times and tally"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Write the prediction before you spin, so the results cannot change it.",
+      "prompt": "Check the spinner, predict, spin and tally, then compare.",
+      "targets": [
+        "kfs-ord-check",
+        "kfs-ord-predict",
+        "kfs-ord-tally",
+        "kfs-ord-compare"
+      ],
+      "title": "Put the experiment in order",
+      "why": "Checking the spinner first and writing a prediction before spinning keeps the experiment honest, because you cannot change the prediction to match the result. Spinning and tallying many times, and only then comparing, is how any probability experiment is run, from a classroom to a lab."
+    },
+    {
+      "cue": "Hold the spinner board steady and level while the pointer turns.",
+      "holdBreakNote": "The board tipped while the pointer turned. Set it level and hold it again.",
+      "id": "hold-the-board-level-while-it",
+      "kind": "hold",
+      "prompt": "Hold the spinner board steady and level while the pointer turns.",
+      "seconds": 6,
+      "target": "kfs-hold-board",
+      "title": "Hold the board level while it spins",
+      "why": "If the board tilts, the pointer tends to settle at the lowest point, and the spinner stops being fair even if its parts are equal. Holding it level while it turns is part of running a fair test, the same as keeping any other condition the same between trials."
+    },
+    {
+      "cue": "Turn the pointer firmly so it goes round more than once before it stops.",
+      "id": "give-the-pointer-a-full-spin",
+      "kind": "turn",
+      "prompt": "Turn the pointer firmly so it goes round more than once before it stops.",
+      "target": "kfs-spin-dial",
+      "title": "Give the pointer a full spin",
+      "turn": {
+        "axis": "y",
+        "label": "SPIN",
+        "turns": 0.5
+      },
+      "why": "A gentle nudge that barely moves the pointer lets the starting position decide the result. Spinning firmly, so the pointer goes round several times, is what makes each outcome depend on chance alone and not on where you started."
+    },
+    {
+      "cue": "Commit when you can see clearly which part the pointer's tip is in.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "RESULT",
+        "missNote": "Not clear yet. Wait until the pointer has stopped and read its tip.",
+        "speed": 0.6
+      },
+      "id": "read-which-part-the-pointer-stopped",
+      "kind": "gauge",
+      "prompt": "Commit when you can see clearly which part the pointer's tip is in.",
+      "target": "kfs-read-meter",
+      "title": "Read which part the pointer stopped on",
+      "why": "A result only counts once you can see which part the pointer's tip sits in. If it lands on a line, the stall's rule is to spin again, decided before the game starts, so that nobody chooses the result they would prefer."
+    },
+    {
+      "cue": "Drag the tally mark to the row for the part the pointer stopped on.",
+      "drag": {
+        "missNote": "Not in its row yet. Put the mark beside the part the pointer landed on.",
+        "radius": 0.45,
+        "to": "kfs-tally-spot"
+      },
+      "id": "add-the-result-to-the-tally",
+      "kind": "drag",
+      "prompt": "Drag the tally mark to the row for the part the pointer stopped on.",
+      "target": "kfs-tally-token",
+      "title": "Add the result to the tally",
+      "why": "A tally is a running record, one mark per spin in the row it belongs to. Putting each mark in the right row as it happens, rather than trying to remember a string of results, is what makes the final count something you can trust."
+    },
+    {
+      "cue": "The spinner has equal parts. Say the chance of one of them as a fraction.",
+      "id": "say-the-chance-of-landing-on",
+      "kind": "select",
+      "prompt": "The spinner has equal parts. Say the chance of one of them as a fraction.",
+      "target": "kfs-compare-card",
+      "title": "Say the chance of landing on one part",
+      "why": "With equal parts, the chance of one part is one out of the number of parts, written as a fraction. Saying it as a fraction, and why, links probability to the fractions you already know and gives a prediction you can test."
+    },
+    {
+      "cue": "Look at the draft experiment report and mark each problem.",
+      "decoyNotes": {
+        "kfs-rp-table": "A clear tally table is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kfs-rp-due": "a colour called due to come up",
+        "kfs-rp-few": "a verdict from only a few spins",
+        "kfs-rp-late": "a prediction written after the spins"
+      },
+      "itemNotes": {
+        "kfs-rp-due": "The spinner has no memory.",
+        "kfs-rp-few": "Short runs wobble by chance.",
+        "kfs-rp-late": "Predict first, then spin."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft experiment report and mark each problem.",
+      "targets": [
+        "kfs-rp-late",
+        "kfs-rp-few",
+        "kfs-rp-due"
+      ],
+      "title": "Spot the problems in a classmate's report",
+      "why": "Probability reports go wrong in a few familiar ways: a prediction written after the spins, a conclusion drawn from too few trials and an outcome called due. Spotting them in another report is how you learn to write a conclusion that the evidence actually supports."
+    },
+    {
+      "cue": "Keep up with the spins, marking each one as it lands.",
+      "holdBreakNote": "The tally fell behind the spins. Catch up before the next one.",
+      "id": "keep-the-tally-going-through-a",
+      "kind": "track",
+      "prompt": "Keep up with the spins, marking each one as it lands.",
+      "seconds": 8,
+      "target": "kfs-track-meter",
+      "title": "Keep the tally going through a long run",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TALLY",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The point of many spins is that short-run wobbles even out, but only if every spin is counted. Keeping up through a long run, without skipping or double-counting, is where concentration matters more than arithmetic."
+    },
+    {
+      "cue": "Write the prediction, the tally totals and how they compare.",
+      "id": "record-the-prediction-and-the-results",
+      "kind": "select",
+      "prompt": "Write the prediction, the tally totals and how they compare.",
+      "target": "kfs-spin-log",
+      "title": "Record the prediction and the results",
+      "why": "Writing the prediction beside the results shows how close chance came to what equal parts predicted. The record is what lets someone else repeat your experiment and see whether they get a similar pattern."
+    },
+    {
+      "cue": "Add your tally to the class total on the board.",
+      "id": "pool-your-results-with-the-class",
+      "kind": "select",
+      "prompt": "Add your tally to the class total on the board.",
+      "target": "kfs-share-board",
+      "title": "Pool your results with the class",
+      "why": "Pooling everyone's spins gives a much longer run than any one group could manage, and the class total usually sits closer to the prediction than any single group's. Seeing that happen is the clearest evidence that more trials give a better picture."
+    },
+    {
+      "cue": "What surprised you about the spins? What would you test next?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What surprised you about the spins? What would you test next?",
+      "target": "kfs-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A check-in lets each learner say what surprised them and what still feels strange about chance, which is often the most useful thing for a teacher to hear. It is not marked, and anyone who wants to talk more can go to the teacher or a trusted adult."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Equal parts make a fair spinner — and one lucky run proves nothing",
+  "title": "SmartCiti.X~ Probability with a Fair Spinner VR",
+  "trade": "Maths class at the community fair's games tent — learner and stall volunteer",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-28: 671 procedures, 250 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-28: 685 procedures, 250 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -1372,6 +1372,10 @@ Every station names the union and the certification a worker in that role holds,
 | A Household Budget and a First Paycheck | Maths class at the community centre's money desk — learner and teacher | — |
 | Reading a Map Scale in Bay World | Maths class at the ferry landing map board — learner and teacher | — |
 | Fractions in the Kitchen | Maths class in the teaching kitchen — learner and teacher | — |
+| Slope and Angles on a Ramp | Maths class at the construction site's visitor bay — learner and site engineer | — |
+| Graphing Tide Readings at the Pier | Maths class on the pier's viewing deck — learner and harbour technician | — |
+| Probability with a Fair Spinner | Maths class at the community fair's games tent — learner and stall volunteer | — |
+| Geometry of a Turbine's Blade Sweep | Maths class at the wind farm's visitor centre — learner and site technician | — |
 
 ### K-12 Science
 
@@ -1383,6 +1387,10 @@ Every station names the union and the certification a worker in that role holds,
 | Buoyancy and Pressure in the Deep | Science class at the Deep's viewing platform — learner and teacher | — |
 | Circuits at the Electrical Bench | Science class at the school's electrical bench — learner and teacher | — |
 | Energy Transfer at the Wind Farm | Science class at the wind farm's visitor point — learner and teacher | — |
+| Ecosystems at the Kelp Transect | Science class on the survey tender, watching the kelp transect — learner and marine scientist | — |
+| Weather and the Sky | Science class at the shoreline field lab's weather station — learner and field technician | — |
+| Simple Machines at a Crane | Science class at the container terminal's training room — learner and crane operator | — |
+| A Controlled Experiment | Science class at the lab campus's teaching lab — learner and lab technician | — |
 
 ### K-12 History and Civics
 
@@ -1393,6 +1401,9 @@ Every station names the union and the certification a worker in that role holds,
 | Primary and Secondary Sources | History class in the community archive room — learner and archivist | — |
 | Building a Timeline from Documents | History class at the school archive table — learner and teacher | — |
 | How a Local Council Meeting Works | Civics class at the civic centre's meeting chamber — learner and teacher | — |
+| Oral History Interview Skills | History class in the union hall's meeting room — learner and oral history volunteer | — |
+| Guilds and the History of Work | History class in the union hall's library corner — learner and hall librarian | — |
+| Map Literacy Across Eras | History class in the civic centre's archive room — learner and archivist | — |
 
 ### K-12 Literacy and Life Skills
 
@@ -1403,6 +1414,9 @@ Every station names the union and the certification a worker in that role holds,
 | Reading Instructions and Safety Labels | Literacy class in the school workshop — learner and teacher | — |
 | Writing a Clear Incident Report | Literacy class in the school hall after a practice incident — learner and teacher | — |
 | First Aid Awareness: Call for Help | Life skills class at the fire station's open day — learner and firefighter | — |
+| Public Speaking at the Hall | Literacy class on the theatre's rehearsal stage — learner and stage manager | — |
+| Digital Citizenship and Online Safety | Life-skills class in the community college's computer lab — learner and digital skills tutor | — |
+| Teamwork and Feedback | Life-skills class at the arena's team room — learner and team coach | — |
 
 ## Stations citing fewer than two standards
 
@@ -1415,6 +1429,20 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Teamwork and Feedback (smartcity): none
+- Digital Citizenship and Online Safety (smartcity): none
+- Public Speaking at the Hall (smartcity): none
+- Map Literacy Across Eras (smartcity): none
+- Guilds and the History of Work (smartcity): none
+- Oral History Interview Skills (smartcity): none
+- A Controlled Experiment (smartcity): none
+- Simple Machines at a Crane (smartcity): none
+- Weather and the Sky (smartcity): none
+- Ecosystems at the Kelp Transect (smartcity): none
+- Geometry of a Turbine's Blade Sweep (smartcity): none
+- Probability with a Fair Spinner (smartcity): none
+- Graphing Tide Readings at the Pier (smartcity): none
+- Slope and Angles on a Ramp (smartcity): none
 - Energy Transfer at the Wind Farm (smartcity): none
 - Fractions in the Kitchen (smartcity): none
 - First Aid Awareness: Call for Help (smartcity): none

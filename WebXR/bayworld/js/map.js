@@ -3,6 +3,10 @@
 // transform and "every site, once" rule are checkable with no DOM.
 import { BAY_BOUNDS, BAY_ROADS, BW_ZONES, BW_LANDMARKS, BW_SITES } from "./city.js";
 import { bwIsSiteVisited, bwIsFastTravelUnlocked } from "./career.js";
+import { k2MapFieldLessons } from "../../shared/field-lessons.js";
+
+/** The K-12 layer: every Bay World field lesson, positioned (shared/field-lessons.js). */
+export function bwMapFieldLessons(size = 512) { return k2MapFieldLessons("bayworld", bwWorldToMap, size); }
 
 /** Metres per pixel's inverse — the one uniform scale that fits the whole of
  *  BAY_BOUNDS (whatever its size and aspect) inside a `size`-pixel square

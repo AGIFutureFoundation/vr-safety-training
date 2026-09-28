@@ -24,12 +24,20 @@
  *      board that also lists its programme, with a link lkStationLink builds;
  *   6. the school view: a band named generically, a teacher note on running
  *      it offline and at low quality, a "Classroom" entry in the homepage
- *      finder, and docs/k12.md labelled as the SmartCiti.X side only.
+ *      finder, and docs/k12.md labelled as the SmartCiti.X side only;
+ *   7. the station count the brief names (eight, eight, six, six) and reading
+ *      level bounds on every station's cues and whys;
+ *   8. field lessons (WebXR/shared/field-lessons.js): at least forty across
+ *      Bay World, the Deep, the Regatta and Fairway Park, each anchored at a
+ *      real site, landmark, course, facility or hole, tied to a K-12 station
+ *      and a trade, linked through lkStationLink, within reading bounds, and
+ *      drawn as a K-12 layer on the Bay World and Deep maps.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadSmartCity } from "./lib/headless.mjs";
+import { readingStats } from "./lib/reading-level.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
@@ -168,6 +176,66 @@ for (const c of K12) {
   }
 }
 
+// 7 — the station count (k12-brief: 8 + 8 + 6 + 6), and reading level bounds
+const WANT_STATIONS = { "k12-practical-math": 8, "k12-science": 8, "k12-history-and-civics": 6, "k12-literacy-and-life-skills": 6 };
+for (const c of K12) {
+  const want = WANT_STATIONS[c.id];
+  if (want && c.stations.length !== want) fail(c.id, `${c.stations.length} stations, the brief names ${want}`); else ok();
+}
+if (seenStations.size !== 28) fail("stations", `${seenStations.size} K-12 stations, expected twenty-eight`); else ok();
+// Station prose (cues and whys) sits between upper-primary and upper-secondary
+// reading; a field lesson reads on the spot, so it sits lower and in short
+// sentences. Flesch–Kincaid grade as a rough yardstick (tools/lib/reading-level.mjs).
+const RL_STATION = [4, 11], RL_LESSON_MAX = 7, WPS_STATION = 24, WPS_LESSON = [4, 16];
+for (const id of seenStations) {
+  const r = ROOMS.get(id);
+  if (!r) continue;
+  const st = readingStats((r.steps ?? []).map((s) => `${s.cue} ${s.why}`).join(" "));
+  if (st.grade < RL_STATION[0] || st.grade > RL_STATION[1]) fail(id, `reading level ${st.grade.toFixed(1)} outside ${RL_STATION.join("–")}`); else ok();
+  if (st.wordsPerSentence > WPS_STATION) fail(id, `${st.wordsPerSentence.toFixed(1)} words per sentence, over ${WPS_STATION}`); else ok();
+}
+
+// 8 — field lessons (WebXR/shared/field-lessons.js): at least forty, in all four
+// worlds, each anchored at a real site or landmark, tied to a K-12 station and a
+// trade, linked, and within the reading bounds.
+const FL = await import("../WebXR/shared/field-lessons.js");
+const { FAIRWAY_FACILITY, FAIRWAY_HOLES } = await import("../WebXR/shared/fairway-data.js");
+const { RG_COURSES } = await import("../WebXR/regatta/js/courses.js");
+const { BAY_LANDMARKS } = await import("../WebXR/shared/bayworld-data.js");
+const { DEEP_LANDMARKS } = await import("../WebXR/shared/underwater-data.js");
+const ANCHORS = {
+  bayworld: new Set([...BAY_SITES.map((s) => `site:${s.id}`), ...BAY_LANDMARKS.map((l) => `landmark:${l.id}`)]),
+  deep: new Set([...DEEP_SITES.map((s) => `site:${s.id}`), ...DEEP_LANDMARKS.map((l) => `landmark:${l.id}`)]),
+  regatta: new Set(RG_COURSES.map((c) => `course:${c.id}`)),
+  fairway: new Set([...Object.keys(FAIRWAY_FACILITY).map((k) => `facility:${k}`), ...FAIRWAY_HOLES.map((h) => `hole:hole-${h.number}`)]),
+};
+const lessons = FL.K2_FIELD_LESSONS;
+if (lessons.length < 40) fail("field lessons", `${lessons.length} field lessons, fewer than forty`); else ok();
+const ids = new Set();
+for (const l of lessons) {
+  if (ids.has(l.id)) fail(l.id, "duplicate field lesson id"); ids.add(l.id);
+  for (const p of FL.k2ValidateFieldLesson(l, { stations: seenStations, anchors: ANCHORS[l.world] ?? new Set() })) fail(l.id, p);
+  if (!FL.K2_WORLD_PAGES[l.world]) fail(l.id, `world ${l.world} has no page`);
+  const href = FL.k2LessonLink(l, lkStationLink);
+  if (!href.includes(`sim=${l.station}`) || !href.includes(`from=${l.world}`)) fail(l.id, `link "${href}" does not launch its station`); else ok();
+  const st = readingStats([`${l.title}.`, ...l.steps, l.check.question, l.check.why].join(" "));
+  if (st.grade > RL_LESSON_MAX) fail(l.id, `reading level ${st.grade.toFixed(1)} over ${RL_LESSON_MAX}`); else ok();
+  if (st.wordsPerSentence < WPS_LESSON[0] || st.wordsPerSentence > WPS_LESSON[1]) fail(l.id, `${st.wordsPerSentence.toFixed(1)} words per sentence, outside ${WPS_LESSON.join("–")}`); else ok();
+}
+for (const w of ["bayworld", "deep", "regatta", "fairway"]) {
+  const n = FL.k2LessonsFor(w).length;
+  if (n < 5) fail("field lessons", `${w} has ${n} field lessons, fewer than five`); else ok();
+}
+// every K-12 programme is reached by at least one field lesson
+for (const c of K12) if (!lessons.some((l) => c.stations.some((s) => s.id === l.station))) fail(c.id, "no field lesson points at this programme"); else ok();
+// the in-game maps carry the K-12 layer
+for (const [file, fn] of [["WebXR/bayworld/js/map.js", "bwMapFieldLessons"], ["WebXR/underwater/js/dive-map.js", "dvMapFieldLessons"]]) {
+  if (!read(file).includes(`export function ${fn}`)) fail("map layer", `${file} does not export ${fn}`); else ok();
+}
+for (const file of ["WebXR/bayworld/js/app.js", "WebXR/underwater/js/app.js"]) {
+  if (!/k2DrawFieldLayer\(/.test(read(file))) fail("map layer", `${file} does not draw the K-12 layer`); else ok();
+}
+
 // 6 — the finder, the doc
 const home = read("tools/gen_home.mjs");
 if (!/value="classroom">Classroom/.test(home) || !/data-aud="classroom"/.test(home)) fail("homepage", "the finder has no Classroom filter"); else ok();
@@ -182,6 +250,6 @@ else {
   for (const c of K12) if (!doc.includes(c.id)) fail("docs", `docs/k12.md does not describe ${c.id}`); else ok();
 }
 
-console.log(`\n  ${K12.length} classroom programmes · ${seenStations.size} stations · ${passed} checks`);
+console.log(`\n  ${K12.length} classroom programmes · ${seenStations.size} stations · ${lessons.length} field lessons · ${passed} checks`);
 console.log(failed ? `\n${failed} K-12 check(s) failed.` : `\nAll K-12 checks pass.`);
 process.exit(failed ? 1 : 0);

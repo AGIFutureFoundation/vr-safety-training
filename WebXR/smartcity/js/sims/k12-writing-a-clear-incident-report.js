@@ -124,7 +124,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       seconds: 6,
       title: "Recall exactly what you saw",
       cue: "Hold still and picture the moment before you write.",
-      why: "Taking a moment to picture exactly what you saw, before writing, separates memory from assumption. It is often in that pause that you notice you did not actually see the pupil's foot catch, only the fall.",
+      why: "Taking a moment to picture exactly what you saw, before writing, separates memory from assumption. It is often in that pause that you notice you did not actually see the pupil's foot catch, only the fall. Being honest about what you did not see is as important as reporting what you did.",
       holdBreakNote: "You rushed into writing and mixed in a guess. Stop and picture what you actually saw."
     },
     {
@@ -138,7 +138,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       },
       title: "Turn a guess into a statement of what you saw",
       cue: "Turn the dial from 'they weren't looking' to what you actually saw.",
-      why: "Rewriting a guess as an observation is the core skill of report writing. 'They weren't looking' becomes 'I saw them fall near the strap'. The second can be checked; the first cannot, and could be unfair."
+      why: "Rewriting a guess as an observation is the core skill of report writing. 'They weren't looking' becomes 'I saw them fall near the strap'. The second can be checked; the first cannot, and could be unfair. Keeping to what you saw also protects the people involved from being judged on a guess."
     },
     {
       id: "keep-sentences-clear-and-short",
@@ -155,7 +155,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       },
       title: "Keep sentences clear and short",
       cue: "Commit when your sentences are short enough to read at a glance but still complete.",
-      why: "Long sentences hide facts and short fragments lose them. Clear, complete sentences of moderate length are what make a report readable by someone in a hurry, which is who usually reads them."
+      why: "Long sentences hide facts and short fragments lose them. Clear, complete sentences of moderate length are what make a report readable by someone in a hurry, which is who usually reads them. The same fixed order also makes it easy to spot a part that has been left out before the report is handed in."
     },
     {
       id: "hand-the-report-to-the-right",
@@ -168,7 +168,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       },
       title: "Hand the report to the right person",
       cue: "Drag your report to the hall supervisor, who needs it.",
-      why: "A report only helps once it reaches the person who can act on it. Handing it to the supervisor, rather than leaving it on a desk or sharing it around, means it gets acted on and other people's details stay private."
+      why: "A report only helps once it reaches the person who can act on it. Handing it to the supervisor, rather than leaving it on a desk or sharing it around, means it gets acted on and other people's details stay private. A report left in a bag or shared around the class helps nobody and can hurt the people named in it."
     },
     {
       id: "read-the-report-back-before-handing",
@@ -176,7 +176,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       target: "kir-readback-card",
       title: "Read the report back before handing it in",
       cue: "Read your report back as if you were someone who was not there.",
-      why: "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught."
+      why: "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught. Reading aloud slows you down enough to hear a missing word, a muddled order or a guess that crept in."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -202,7 +202,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       },
       title: "Spot the problems in a classmate's report",
       cue: "Look at the draft report and mark each problem.",
-      why: "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own."
+      why: "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own. Reading someone else's draft with fresh eyes is easier than reading your own, which is why checking in pairs works so well."
     },
     {
       id: "keep-the-report-factual-to-the",
@@ -222,7 +222,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       },
       title: "Keep the report factual to the end",
       cue: "Hold the report in band with what you saw as you finish the last lines.",
-      why: "The end of a report is where opinions creep in: a summary, a judgement, a suggestion of fault. Keeping the last lines as factual as the first is what makes the whole report trustworthy.",
+      why: "The end of a report is where opinions creep in: a summary, a judgement, a suggestion of fault. Keeping the last lines as factual as the first is what makes the whole report trustworthy. A single guess stated as fact can make a reader doubt every other line, even the lines that are true.",
       holdBreakNote: "The report drifted into opinion. Bring the last lines back to what you saw."
     },
     {
@@ -241,7 +241,7 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       doneLine: "Tips shared",
       title: "Share one report-writing tip",
       cue: "Tell the class one thing that made your report clearer.",
-      why: "Sharing a tip helps classmates and fixes it in your own memory. The best tips are simple: write it today, facts first, read it back."
+      why: "Sharing a tip helps classmates and fixes it in your own memory. The best tips are simple: write it today, facts first, read it back. Sharing them with classmates means a whole class knows how to report clearly, which helps the school when something does go wrong."
     },
     {
       id: "crew-check-in",

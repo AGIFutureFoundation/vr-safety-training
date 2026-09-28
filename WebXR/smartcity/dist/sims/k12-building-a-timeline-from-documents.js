@@ -124,7 +124,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       seconds: 6,
       title: "Read the memoir right through",
       cue: "Hold your place and read the whole memoir before placing it.",
-      why: "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source.",
+      why: "A memoir often tells you when it was written near the end, and when the events happened somewhere in the middle. Reading it all before placing it avoids putting it at the wrong date, the commonest error with this kind of source. Checking which date is which takes a moment and saves the whole timeline from sliding out of order.",
       holdBreakNote: "You stopped reading and placed it too soon. Read the whole memoir first."
     },
     {
@@ -155,7 +155,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       },
       title: "Judge how confident each date is",
       cue: "Commit when your confidence matches the evidence for the undated letter's range.",
-      why: "Some dates are certain, some are ranges, and some are guesses. Matching your confidence to the evidence, and saying so on the timeline, is what makes a timeline honest rather than tidy."
+      why: "Some dates are certain, some are ranges, and some are guesses. Matching your confidence to the evidence, and saying so on the timeline, is what makes a timeline honest rather than tidy. A gap left open invites the next researcher to fill it with evidence rather than a guess."
     },
     {
       id: "place-the-undated-letter-as-a",
@@ -168,7 +168,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       },
       title: "Place the undated letter as a range",
       cue: "Drag the undated letter onto the timeline as a range between the two documents it mentions.",
-      why: "An undated letter that mentions two dated events can be placed between them as a range. Placing it that way, rather than at a single invented date, uses exactly what the evidence supports and no more."
+      why: "An undated letter that mentions two dated events can be placed between them as a range. Placing it that way, rather than at a single invented date, uses exactly what the evidence supports and no more. A range like between these two documents is a perfectly good answer when that is all the evidence allows."
     },
     {
       id: "mark-the-gaps-on-the-timeline",
@@ -176,7 +176,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       target: "ktl-gap-card",
       title: "Mark the gaps on the timeline",
       cue: "Where no document covers a stretch of time, mark it as a gap.",
-      why: "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page."
+      why: "A gap on a timeline is information: it tells the next researcher where to look. Marking gaps openly, rather than smoothing them over with a likely story, is honest history and often the most useful thing on the page. It tells the reader exactly where more research is needed."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -222,7 +222,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       },
       title: "Keep the timeline led by the evidence",
       cue: "Hold the timeline in band with the evidence as you add the last documents.",
-      why: "As a timeline fills up, it starts to suggest a story, and the last documents are tempting to force into it. Keeping every placement tied to its own evidence is the discipline that stops a timeline becoming a work of fiction.",
+      why: "As a timeline fills up, it starts to suggest a story, and the last documents are tempting to force into it. Keeping every placement tied to its own evidence is the discipline that stops a timeline becoming a work of fiction. Every entry should be traceable to the document it came from.",
       holdBreakNote: "The timeline drifted towards the story. Check the last placements against their evidence."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       doneLine: "Timeline and evidence recorded",
       title: "Record the timeline and its evidence",
       cue: "Write each document's placement and the evidence that put it there.",
-      why: "Recording the evidence behind each placement lets anyone check the timeline and change it if new evidence appears. That is how historical timelines are built and improved over time."
+      why: "Recording the evidence behind each placement lets anyone check the timeline and change it if new evidence appears. That is how historical timelines are built and improved over time. A timeline is never finished; each new document can confirm an entry or move it."
     },
     {
       id: "show-the-class-how-you-placed",
@@ -241,7 +241,7 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
       doneLine: "Method shared",
       title: "Show the class how you placed the memoir",
       cue: "Explain how you separated when the memoir was written from when its events happened.",
-      why: "Explaining the memoir's two dates to the class teaches the skill most people miss. Sharing the method, not just the finished timeline, lets classmates check their own and fix the same mistake."
+      why: "Explaining the memoir's two dates to the class teaches the skill most people miss. Sharing the method, not just the finished timeline, lets classmates check their own and fix the same mistake. Explaining why each document sits where it does is the part that shows real understanding."
     },
     {
       id: "crew-check-in",
