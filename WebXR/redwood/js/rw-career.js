@@ -5,6 +5,7 @@
 
 import { RW_MAIN_ARC, RW_SIDE_QUESTS, RW_ACTIVITIES } from "./rw-data.js";
 import { RW_EGGS } from "./rw-lore-data.js";
+import { qmMissing } from "../../shared/skill-gates.js";
 
 export const RW_CAREER_KEY = "redwood-career-v1";
 
@@ -17,15 +18,20 @@ export function rwLoad(store) {
 }
 export function rwSave(store, state) { try { store?.setItem(RW_CAREER_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ } return state; }
 
-/** The gate contract: open when every listed station is complete. `done(id)` answers per station. */
-export function rwGateOpen(gate, done) {
-  if (!gate) return true;
-  return (gate.stations ?? []).every((id) => done(id)) && (gate.k12 ?? []).every((id) => done(id));
-}
+/**
+ * The shared gate contract (shared/skill-gates.js). Station and K-12
+ * requirements are answered by `done(id)` — the app passes the shared
+ * engine's predicate, the headless checker a plain function — and any
+ * programme or quest requirement is answered by the engine itself from the
+ * learner's profile.
+ */
 export function rwGateMissing(gate, done) {
   if (!gate) return [];
-  return [...(gate.stations ?? []), ...(gate.k12 ?? [])].filter((id) => !done(id));
+  const out = [...(gate.stations ?? []), ...(gate.k12 ?? [])].filter((id) => !done(id));
+  if (gate.programmes?.length || gate.quests?.length) for (const m of qmMissing({ programmes: gate.programmes ?? [], quests: gate.quests ?? [] })) out.push(m.id);
+  return out;
 }
+export function rwGateOpen(gate, done) { return rwGateMissing(gate, done).length === 0; }
 
 const rwAll = () => [...RW_MAIN_ARC, ...RW_SIDE_QUESTS];
 export function rwQuest(id) { return rwAll().find((q) => q.id === id) ?? null; }

@@ -64,7 +64,9 @@ check(catalog.stations.every((s) => chunks.some((k) => k.id === `station:${s.id}
 const bw = await imp("WebXR/shared/bayworld-data.js");
 const dw = await imp("WebXR/shared/underwater-data.js");
 const sw = await imp("WebXR/shared/summit-data.js");
-const sites = { "bayworld.html": new Set(bw.BAY_SITES.map((s) => s.id)), "underwater.html": new Set(dw.DEEP_SITES.map((s) => s.id)), "summit.html": new Set(sw.SM_SITES.map((s) => s.id)) };
+const rw = await imp("WebXR/redwood/js/rw-data.js");
+const sites = { "bayworld.html": new Set(bw.BAY_SITES.map((s) => s.id)), "underwater.html": new Set(dw.DEEP_SITES.map((s) => s.id)), "summit.html": new Set(sw.SM_SITES.map((s) => s.id)), "redwood.html": new Set(rw.RW_SITES.map((s) => s.id)) };
+for (const s of rw.RW_SITES) check(chunks.some((k) => k.id === `site:redwood:${s.id}`), `Redwood Reach site ${s.id} is in the knowledge base`);
 const REPO = GD_KB.repo;
 
 /** Does a knowledge-base link resolve to something real? Returns null when it does, else why not. */

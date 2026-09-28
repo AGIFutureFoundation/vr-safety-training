@@ -1,0 +1,1627 @@
+{
+  "RW_ACTIVITIES": [
+    {
+      "blurb": "Walk the crew's route from the grove to the spike camp, stopping at each work point to call the safe move before the tool comes out.",
+      "id": "trail-crew-route",
+      "name": "Trail-Crew Route",
+      "site": "old-growth",
+      "waypoints": [
+        {
+          "answer": 0,
+          "at": [
+            -240,
+            260
+          ],
+          "options": [
+            "The route and the check-in time, told to someone at camp",
+            "Nothing — the trail is marked"
+          ],
+          "q": "Before the crew walks off the boardwalk, what is set first?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            -760,
+            -200
+          ],
+          "options": [
+            "Tool from the uphill side, footing checked first",
+            "Kick it clear from below"
+          ],
+          "q": "A waterbar is clogged with debris. How do you clear it?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            -700,
+            -560
+          ],
+          "options": [
+            "Size up the tension and the escape route",
+            "Start cutting where it is easiest to reach"
+          ],
+          "q": "A tree is down across the trail. What comes before the saw?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            -560,
+            -980
+          ],
+          "options": [
+            "Chain brake on, cooled, stored in its cache",
+            "Left on the stump for tomorrow"
+          ],
+          "q": "Back at camp, the saw is put away. What is checked?"
+        }
+      ]
+    },
+    {
+      "blurb": "Walk the ridge fuel break post to post and record what each plot shows, the way the survey sheet asks.",
+      "id": "fuel-break-survey",
+      "name": "Fuel-Break Survey",
+      "site": "equipment-yard",
+      "waypoints": [
+        {
+          "answer": 0,
+          "at": [
+            -200,
+            -700
+          ],
+          "options": [
+            "Ladder fuels present — flag for treatment per the plan",
+            "Nothing unusual"
+          ],
+          "q": "Branches reach from the grass up into the crowns here. What do you record?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            200,
+            -760
+          ],
+          "options": [
+            "Location of the pile for the plan's disposal method",
+            "Burn it now"
+          ],
+          "q": "Brush is piled beside the road. What goes on the sheet?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            600,
+            -820
+          ],
+          "options": [
+            "Plot maintained, photo taken from the post",
+            "Skip the plot"
+          ],
+          "q": "The break is clear and mowed here. What do you record?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            1000,
+            -860
+          ],
+          "options": [
+            "Tag it out and report it to the operator",
+            "Note it for next season"
+          ],
+          "q": "A spark arrester is missing on a parked machine. What next?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            1400,
+            -900
+          ],
+          "options": [
+            "To the lead, checked and signed, the same day",
+            "In the truck for later"
+          ],
+          "q": "The survey is done. Where does the sheet go?"
+        }
+      ]
+    },
+    {
+      "blurb": "Walk the reach and count the restoration features at each marker; accuracy and staying out of the channel are the score.",
+      "id": "river-count",
+      "name": "River-Restoration Count",
+      "site": "restoration",
+      "waypoints": [
+        {
+          "answer": 0,
+          "at": [
+            680,
+            40
+          ],
+          "options": [
+            "On the bank, outside the flagged work zone",
+            "Wading down the channel"
+          ],
+          "q": "Where do you walk to count the log structures?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            560,
+            -80
+          ],
+          "options": [
+            "Photo and note for the engineer, no touching",
+            "Pull the loose one free"
+          ],
+          "q": "The log jam's anchors are exposed. What do you record?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            400,
+            40
+          ],
+          "options": [
+            "Stay clear and note it on the sheet",
+            "Step over it to count faster"
+          ],
+          "q": "The culvert crossing has a fish-exclusion net up. What do you do?"
+        },
+        {
+          "answer": 0,
+          "at": [
+            600,
+            10
+          ],
+          "options": [
+            "From the edge, without stepping on the mat",
+            "Walk the mat to count up close"
+          ],
+          "q": "Fresh willow stakes on the bank: how do you count them?"
+        }
+      ]
+    }
+  ],
+  "RW_BOUNDS": {
+    "maxX": 2048,
+    "maxZ": 2048,
+    "minX": -2048,
+    "minZ": -2048
+  },
+  "RW_BUDGET": {
+    "balanced": {
+      "fog": 620,
+      "horizon": 64,
+      "radius": 2,
+      "segments": 24,
+      "trees": 120
+    },
+    "high": {
+      "fog": 860,
+      "horizon": 96,
+      "radius": 3,
+      "segments": 32,
+      "trees": 170
+    },
+    "low": {
+      "fog": 520,
+      "horizon": 48,
+      "radius": 2,
+      "segments": 16,
+      "trees": 70
+    }
+  },
+  "RW_CHUNK": 256,
+  "RW_CHUNKS": 16,
+  "RW_FUEL_BREAK": [
+    [
+      -200,
+      -700
+    ],
+    [
+      200,
+      -760
+    ],
+    [
+      600,
+      -820
+    ],
+    [
+      1000,
+      -860
+    ],
+    [
+      1400,
+      -900
+    ]
+  ],
+  "RW_GATED": [
+    {
+      "gate": {
+        "note": "Fireline and lookout first — you log smoke only once you know LCES.",
+        "stations": [
+          "or-wildland-fireline-construction-and-lookout"
+        ]
+      },
+      "id": "rw-side-night-lookout",
+      "kind": "quest",
+      "site": "lookout",
+      "title": "Night Watch at the Lookout",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Right-of-way patrol first — a line is treated as energised from the first look.",
+        "stations": [
+          "or-transmission-line-right-of-way-patrol"
+        ]
+      },
+      "id": "rw-side-danger-tree",
+      "kind": "quest",
+      "site": "substation",
+      "title": "The Danger Tree Survey",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Jam clearing and lockout first — nobody restarts a line they did not lock out.",
+        "stations": [
+          "tw-conveyor-jam-clearing-and-loto"
+        ]
+      },
+      "id": "rw-side-mill-restart",
+      "kind": "quest",
+      "site": "sawmill",
+      "title": "Safe Restart at the Mill",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Chainsaw start and limbing first — the saw is started braced on the ground.",
+        "stations": [
+          "gk-chainsaw-start-and-limbing-on-the-ground"
+        ]
+      },
+      "id": "rw-side-blowdown",
+      "kind": "quest",
+      "site": "trail-camp",
+      "title": "Clear the Blowdown",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Grader fine grade first — a crown is only as good as its stringline.",
+        "stations": [
+          "op-grader-fine-grade-and-crown"
+        ]
+      },
+      "id": "rw-side-grade-the-spur",
+      "kind": "quest",
+      "site": "equipment-yard",
+      "title": "Grade the Spur Road",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Nursery chemical storage first — the path to the eyewash stays clear.",
+        "stations": [
+          "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+        ]
+      },
+      "id": "rw-side-seed-run",
+      "kind": "quest",
+      "site": "nursery",
+      "title": "The Seed Run",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Beach seine survey first — the net is hauled as one crew.",
+        "stations": [
+          "br-beach-seine-fish-survey-and-handling"
+        ]
+      },
+      "id": "rw-side-seine-day",
+      "kind": "quest",
+      "site": "estuary",
+      "title": "Seine Day at the Mouth",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Wildland-urban interface first — prep against embers before the wind turns.",
+        "stations": [
+          "wildland-urban-interface"
+        ]
+      },
+      "id": "rw-side-ember-ready",
+      "kind": "quest",
+      "site": "campground",
+      "title": "Ember-Ready Campground",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Native planting and erosion mats first — the mat goes down before the plants.",
+        "stations": [
+          "br-native-planting-and-erosion-mats"
+        ]
+      },
+      "id": "rw-side-planting-crew",
+      "kind": "quest",
+      "site": "restoration",
+      "title": "Plant the Bank",
+      "world": "redwood"
+    },
+    {
+      "gate": {
+        "note": "Firefighter rehab sector first — the crew is the patient in rehab.",
+        "stations": [
+          "firefighter-rehab-sector"
+        ]
+      },
+      "id": "rw-side-rehab-drill",
+      "kind": "quest",
+      "site": "fire-station",
+      "title": "Rehab Drill",
+      "world": "redwood"
+    }
+  ],
+  "RW_LANDMARKS": [
+    {
+      "id": "cathedral-ring",
+      "name": "Cathedral Ring",
+      "position": [
+        -300,
+        300
+      ],
+      "site": "old-growth"
+    },
+    {
+      "id": "fallen-giant",
+      "name": "The Fallen Giant",
+      "position": [
+        -380,
+        230
+      ],
+      "site": "old-growth"
+    },
+    {
+      "id": "grove-bench",
+      "name": "Grove Bench",
+      "position": [
+        -190,
+        320
+      ],
+      "site": "old-growth"
+    },
+    {
+      "id": "engine-bay",
+      "name": "Engine Bay Ready Board",
+      "position": [
+        350,
+        540
+      ],
+      "site": "fire-station"
+    },
+    {
+      "id": "hose-tower",
+      "name": "Hose Drying Tower",
+      "position": [
+        280,
+        600
+      ],
+      "site": "fire-station"
+    },
+    {
+      "id": "helispot",
+      "name": "Valley Helispot",
+      "position": [
+        420,
+        660
+      ],
+      "site": "fire-station"
+    },
+    {
+      "id": "lookout-cab",
+      "name": "Lookout Cab",
+      "position": [
+        1250,
+        -990
+      ],
+      "site": "lookout"
+    },
+    {
+      "id": "firefinder-rock",
+      "name": "Firefinder Rock",
+      "position": [
+        1190,
+        -940
+      ],
+      "site": "lookout"
+    },
+    {
+      "id": "switchback-bend",
+      "name": "Switchback Bend",
+      "position": [
+        1120,
+        -1180
+      ],
+      "site": "lookout"
+    },
+    {
+      "id": "log-deck",
+      "name": "Cold Log Deck",
+      "position": [
+        -300,
+        1150
+      ],
+      "site": "sawmill"
+    },
+    {
+      "id": "debarker",
+      "name": "Debarker Line",
+      "position": [
+        -150,
+        1250
+      ],
+      "site": "sawmill"
+    },
+    {
+      "id": "planer-shed",
+      "name": "Planer Shed",
+      "position": [
+        -170,
+        1130
+      ],
+      "site": "sawmill"
+    },
+    {
+      "id": "log-jam",
+      "name": "Engineered Log Jam",
+      "position": [
+        560,
+        -80
+      ],
+      "site": "restoration"
+    },
+    {
+      "id": "old-culvert",
+      "name": "Old Culvert Crossing",
+      "position": [
+        400,
+        40
+      ],
+      "site": "restoration"
+    },
+    {
+      "id": "willow-stakes",
+      "name": "Willow Stake Bank",
+      "position": [
+        600,
+        10
+      ],
+      "site": "restoration"
+    },
+    {
+      "id": "trailhead-kiosk",
+      "name": "Trailhead Kiosk",
+      "position": [
+        -820,
+        200
+      ],
+      "site": "campground"
+    },
+    {
+      "id": "amphitheatre",
+      "name": "Campfire Amphitheatre",
+      "position": [
+        -900,
+        120
+      ],
+      "site": "campground"
+    },
+    {
+      "id": "host-site",
+      "name": "Camp Host Site",
+      "position": [
+        -930,
+        240
+      ],
+      "site": "campground"
+    },
+    {
+      "id": "seed-vault",
+      "name": "Cold Seed Vault",
+      "position": [
+        -1370,
+        720
+      ],
+      "site": "nursery"
+    },
+    {
+      "id": "shade-house",
+      "name": "Shade House",
+      "position": [
+        -1300,
+        800
+      ],
+      "site": "nursery"
+    },
+    {
+      "id": "potting-shed",
+      "name": "Potting Shed",
+      "position": [
+        -1390,
+        800
+      ],
+      "site": "nursery"
+    },
+    {
+      "id": "switchyard-gate",
+      "name": "Switchyard Gate",
+      "position": [
+        1140,
+        720
+      ],
+      "site": "substation"
+    },
+    {
+      "id": "corridor-tower",
+      "name": "Corridor Tower",
+      "position": [
+        1600,
+        480
+      ],
+      "site": "substation"
+    },
+    {
+      "id": "danger-tree",
+      "name": "Marked Danger Tree",
+      "position": [
+        920,
+        860
+      ],
+      "site": "substation"
+    },
+    {
+      "id": "boardwalk-end",
+      "name": "Boardwalk End",
+      "position": [
+        -1300,
+        1650
+      ],
+      "site": "estuary"
+    },
+    {
+      "id": "seine-beach",
+      "name": "Seine Beach",
+      "position": [
+        -1180,
+        1700
+      ],
+      "site": "estuary"
+    },
+    {
+      "id": "tide-stake",
+      "name": "Tide Stake",
+      "position": [
+        -1220,
+        1560
+      ],
+      "site": "estuary"
+    },
+    {
+      "id": "dozer-line",
+      "name": "Dozer Line Overlook",
+      "position": [
+        420,
+        -1200
+      ],
+      "site": "equipment-yard"
+    },
+    {
+      "id": "road-gate",
+      "name": "Fire Road Gate",
+      "position": [
+        300,
+        -1120
+      ],
+      "site": "equipment-yard"
+    },
+    {
+      "id": "water-tank",
+      "name": "Fire Road Water Tank",
+      "position": [
+        440,
+        -1100
+      ],
+      "site": "equipment-yard"
+    },
+    {
+      "id": "tool-cache",
+      "name": "Tool Cache",
+      "position": [
+        -540,
+        -1000
+      ],
+      "site": "trail-camp"
+    },
+    {
+      "id": "blowdown",
+      "name": "Blowdown Across the Trail",
+      "position": [
+        -700,
+        -560
+      ],
+      "site": "trail-camp"
+    },
+    {
+      "id": "waterbar",
+      "name": "Stone Waterbar",
+      "position": [
+        -760,
+        -200
+      ],
+      "site": "trail-camp"
+    },
+    {
+      "id": "fuel-break-west",
+      "name": "Fuel Break West Post",
+      "position": [
+        -200,
+        -700
+      ],
+      "site": "equipment-yard"
+    },
+    {
+      "id": "fuel-break-east",
+      "name": "Fuel Break East Post",
+      "position": [
+        1400,
+        -900
+      ],
+      "site": "lookout"
+    },
+    {
+      "id": "river-mouth",
+      "name": "River Mouth Bar",
+      "position": [
+        -1150,
+        1770
+      ],
+      "site": "estuary"
+    }
+  ],
+  "RW_MAIN_ARC": [
+    {
+      "giver": "the station captain",
+      "id": "rw-main-1-arrive",
+      "kind": "main",
+      "reward": {
+        "badge": "Reach Newcomer",
+        "xp": 100
+      },
+      "steps": [
+        {
+          "site": "fire-station",
+          "text": "Report to the Wildland Fire Station and read the ready board.",
+          "type": "goto"
+        },
+        {
+          "site": "old-growth",
+          "text": "Walk the Grove Boardwalk Loop with the crew — feet on the boards, off the roots.",
+          "type": "goto"
+        }
+      ],
+      "title": "Into the Reach"
+    },
+    {
+      "giver": "the lookout",
+      "id": "rw-main-2-lookout",
+      "kind": "main",
+      "requires": "rw-main-1-arrive",
+      "reward": {
+        "badge": "Ridge Watch",
+        "xp": 250
+      },
+      "steps": [
+        {
+          "site": "equipment-yard",
+          "text": "Take the Ridge Fire Road to the equipment yard and sign past the gate.",
+          "type": "goto"
+        },
+        {
+          "site": "lookout",
+          "text": "Climb to the Ridge Fire Lookout and learn how a smoke report is logged.",
+          "type": "goto"
+        },
+        {
+          "site": "lookout",
+          "station": "or-wildland-fireline-construction-and-lookout",
+          "text": "Run the fireline and lookout station: LCES named before a tool moves.",
+          "type": "station"
+        }
+      ],
+      "title": "Eyes on the Ridge"
+    },
+    {
+      "giver": "the equipment operator",
+      "id": "rw-main-3-roads",
+      "kind": "main",
+      "requires": "rw-main-2-lookout",
+      "reward": {
+        "badge": "Road Keeper",
+        "xp": 400
+      },
+      "steps": [
+        {
+          "site": "equipment-yard",
+          "station": "op-equipment-daily-walkaround-and-fluids",
+          "text": "Walk the machine around before it moves: the operator's daily check.",
+          "type": "station"
+        },
+        {
+          "activity": "fuel-break-survey",
+          "text": "Walk the fuel break with the survey sheet.",
+          "type": "activity"
+        }
+      ],
+      "title": "Keep the Roads Open"
+    },
+    {
+      "giver": "the restoration lead",
+      "id": "rw-main-4-river",
+      "kind": "main",
+      "requires": "rw-main-3-roads",
+      "reward": {
+        "badge": "Reach Restorer",
+        "xp": 550
+      },
+      "steps": [
+        {
+          "site": "restoration",
+          "text": "Meet the restoration crew at the reach.",
+          "type": "goto"
+        },
+        {
+          "activity": "river-count",
+          "text": "Count the restoration features along the reach.",
+          "type": "activity"
+        },
+        {
+          "site": "restoration",
+          "station": "br-culvert-retrofit-for-fish-passage",
+          "text": "Open the old culvert for fish — dry, fish-excluded channel first.",
+          "type": "station"
+        }
+      ],
+      "title": "Put the River Back"
+    },
+    {
+      "giver": "the mill millwright",
+      "id": "rw-main-5-mill",
+      "kind": "main",
+      "requires": "rw-main-4-river",
+      "reward": {
+        "badge": "Millwright's Mark",
+        "xp": 700
+      },
+      "steps": [
+        {
+          "site": "sawmill",
+          "text": "Follow Mill Road down the valley to the sawmill.",
+          "type": "goto"
+        },
+        {
+          "site": "sawmill",
+          "station": "conveyor-guard",
+          "text": "Guard the conveyor before anyone reaches in.",
+          "type": "station"
+        }
+      ],
+      "title": "Down at the Mill"
+    },
+    {
+      "giver": "the estuary field lead",
+      "id": "rw-main-6-estuary",
+      "kind": "main",
+      "requires": "rw-main-5-mill",
+      "reward": {
+        "badge": "Redwood Reach Steward",
+        "xp": 850
+      },
+      "steps": [
+        {
+          "site": "estuary",
+          "text": "Walk the boardwalk to the Estuary Field Station.",
+          "type": "goto"
+        },
+        {
+          "site": "estuary",
+          "station": "marsh-transect-survey",
+          "text": "Walk the marsh on a fixed line with the survey crew.",
+          "type": "station"
+        },
+        {
+          "activity": "trail-crew-route",
+          "text": "Close out the season with the trail-crew route.",
+          "type": "activity"
+        }
+      ],
+      "title": "Where the River Meets the Sea"
+    }
+  ],
+  "RW_MAP_LAYERS": [
+    {
+      "id": "sites",
+      "label": "Work sites"
+    },
+    {
+      "id": "roads",
+      "label": "Fire roads"
+    },
+    {
+      "id": "trails",
+      "label": "Trails"
+    },
+    {
+      "id": "water",
+      "label": "River & estuary"
+    },
+    {
+      "id": "lessons",
+      "label": "K-12 field lessons"
+    },
+    {
+      "id": "quests",
+      "label": "Quests & locks"
+    },
+    {
+      "id": "found",
+      "label": "Found treasures"
+    }
+  ],
+  "RW_POWER_LINE": [
+    [
+      2040,
+      200
+    ],
+    [
+      1600,
+      480
+    ],
+    [
+      1180,
+      760
+    ],
+    [
+      700,
+      900
+    ],
+    [
+      240,
+      980
+    ],
+    [
+      -200,
+      1020
+    ]
+  ],
+  "RW_RIVER": [
+    [
+      1780,
+      -1900
+    ],
+    [
+      1560,
+      -1560
+    ],
+    [
+      1380,
+      -1260
+    ],
+    [
+      1080,
+      -1020
+    ],
+    [
+      820,
+      -760
+    ],
+    [
+      640,
+      -420
+    ],
+    [
+      560,
+      -120
+    ],
+    [
+      380,
+      160
+    ],
+    [
+      120,
+      380
+    ],
+    [
+      -120,
+      560
+    ],
+    [
+      -300,
+      820
+    ],
+    [
+      -420,
+      1080
+    ],
+    [
+      -640,
+      1320
+    ],
+    [
+      -860,
+      1540
+    ],
+    [
+      -980,
+      1760
+    ],
+    [
+      -1040,
+      2000
+    ]
+  ],
+  "RW_ROADS": [
+    {
+      "id": "valley-road",
+      "kind": "fire-road",
+      "name": "Valley Fire Road",
+      "points": [
+        [
+          -1340,
+          760
+        ],
+        [
+          -1100,
+          640
+        ],
+        [
+          -860,
+          180
+        ],
+        [
+          -560,
+          300
+        ],
+        [
+          -240,
+          260
+        ],
+        [
+          320,
+          560
+        ],
+        [
+          520,
+          520
+        ],
+        [
+          900,
+          640
+        ],
+        [
+          1180,
+          760
+        ]
+      ]
+    },
+    {
+      "id": "mill-road",
+      "kind": "fire-road",
+      "name": "Mill Road",
+      "points": [
+        [
+          320,
+          560
+        ],
+        [
+          160,
+          800
+        ],
+        [
+          -60,
+          1000
+        ],
+        [
+          -220,
+          1200
+        ],
+        [
+          -900,
+          1400
+        ],
+        [
+          -1260,
+          1600
+        ]
+      ]
+    },
+    {
+      "id": "ridge-road",
+      "kind": "fire-road",
+      "name": "Ridge Fire Road",
+      "points": [
+        [
+          320,
+          560
+        ],
+        [
+          300,
+          100
+        ],
+        [
+          680,
+          40
+        ],
+        [
+          460,
+          -520
+        ],
+        [
+          360,
+          -1160
+        ],
+        [
+          760,
+          -1120
+        ],
+        [
+          1040,
+          -1060
+        ],
+        [
+          1240,
+          -980
+        ]
+      ]
+    },
+    {
+      "id": "spur-road",
+      "kind": "fire-road",
+      "name": "Spike Camp Spur",
+      "points": [
+        [
+          360,
+          -1160
+        ],
+        [
+          60,
+          -1120
+        ],
+        [
+          -260,
+          -1060
+        ],
+        [
+          -560,
+          -980
+        ]
+      ]
+    }
+  ],
+  "RW_SIDE_QUESTS": [
+    {
+      "gate": {
+        "note": "Fireline and lookout first — you log smoke only once you know LCES.",
+        "stations": [
+          "or-wildland-fireline-construction-and-lookout"
+        ]
+      },
+      "id": "rw-side-night-lookout",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Lookout's wool cap",
+        "xp": 150
+      },
+      "site": "lookout",
+      "steps": [
+        {
+          "site": "lookout",
+          "text": "Take the dusk-to-dark watch and log each light on the ridge the way the lookout showed you.",
+          "type": "goto"
+        }
+      ],
+      "title": "Night Watch at the Lookout"
+    },
+    {
+      "gate": {
+        "note": "Right-of-way patrol first — a line is treated as energised from the first look.",
+        "stations": [
+          "or-transmission-line-right-of-way-patrol"
+        ]
+      },
+      "id": "rw-side-danger-tree",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Corridor flagging vest",
+        "xp": 150
+      },
+      "site": "substation",
+      "steps": [
+        {
+          "site": "substation",
+          "text": "Walk the corridor with the patrol and flag the marked danger tree for the line clearance crew.",
+          "type": "goto"
+        }
+      ],
+      "title": "The Danger Tree Survey"
+    },
+    {
+      "gate": {
+        "note": "Jam clearing and lockout first — nobody restarts a line they did not lock out.",
+        "stations": [
+          "tw-conveyor-jam-clearing-and-loto"
+        ]
+      },
+      "id": "rw-side-mill-restart",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Millwright's tape measure",
+        "xp": 150
+      },
+      "site": "sawmill",
+      "steps": [
+        {
+          "site": "sawmill",
+          "text": "Walk the restart checklist with the millwright: headcount, guards on, lock off last.",
+          "type": "goto"
+        }
+      ],
+      "title": "Safe Restart at the Mill"
+    },
+    {
+      "gate": {
+        "note": "Chainsaw start and limbing first — the saw is started braced on the ground.",
+        "stations": [
+          "gk-chainsaw-start-and-limbing-on-the-ground"
+        ]
+      },
+      "id": "rw-side-blowdown",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Trail crew hard hat sticker",
+        "xp": 150
+      },
+      "site": "trail-camp",
+      "steps": [
+        {
+          "site": "trail-camp",
+          "text": "Size up the blowdown across the Hollow Creek Trail with the sawyer and plan the cuts.",
+          "type": "goto"
+        }
+      ],
+      "title": "Clear the Blowdown"
+    },
+    {
+      "gate": {
+        "note": "Grader fine grade first — a crown is only as good as its stringline.",
+        "stations": [
+          "op-grader-fine-grade-and-crown"
+        ]
+      },
+      "id": "rw-side-grade-the-spur",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Operator's gloves",
+        "xp": 150
+      },
+      "site": "equipment-yard",
+      "steps": [
+        {
+          "site": "equipment-yard",
+          "text": "Ride along while the spur road is crowned and the waterbars reset.",
+          "type": "goto"
+        }
+      ],
+      "title": "Grade the Spur Road"
+    },
+    {
+      "gate": {
+        "note": "Nursery chemical storage first — the path to the eyewash stays clear.",
+        "stations": [
+          "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+        ]
+      },
+      "id": "rw-side-seed-run",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Seed-bank apron",
+        "xp": 150
+      },
+      "site": "nursery",
+      "steps": [
+        {
+          "site": "nursery",
+          "text": "Carry the labelled seed lots from the vault to the potting shed in the order on the sheet.",
+          "type": "goto"
+        }
+      ],
+      "title": "The Seed Run"
+    },
+    {
+      "gate": {
+        "note": "Beach seine survey first — the net is hauled as one crew.",
+        "stations": [
+          "br-beach-seine-fish-survey-and-handling"
+        ]
+      },
+      "id": "rw-side-seine-day",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Waders patch",
+        "xp": 150
+      },
+      "site": "estuary",
+      "steps": [
+        {
+          "site": "estuary",
+          "text": "Help haul the seine at Seine Beach and read each count back to the recorder.",
+          "type": "goto"
+        }
+      ],
+      "title": "Seine Day at the Mouth"
+    },
+    {
+      "gate": {
+        "note": "Wildland-urban interface first — prep against embers before the wind turns.",
+        "stations": [
+          "wildland-urban-interface"
+        ]
+      },
+      "id": "rw-side-ember-ready",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Camp host lanyard",
+        "xp": 150
+      },
+      "site": "campground",
+      "steps": [
+        {
+          "site": "campground",
+          "text": "Walk the campground with the camp host and clear the fire rings' surroundings per the posted plan.",
+          "type": "goto"
+        }
+      ],
+      "title": "Ember-Ready Campground"
+    },
+    {
+      "gate": {
+        "note": "Native planting and erosion mats first — the mat goes down before the plants.",
+        "stations": [
+          "br-native-planting-and-erosion-mats"
+        ]
+      },
+      "id": "rw-side-planting-crew",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Planting bar charm",
+        "xp": 150
+      },
+      "site": "restoration",
+      "steps": [
+        {
+          "site": "restoration",
+          "text": "Lay out the planting grid on the graded bank with the crew lead.",
+          "type": "goto"
+        }
+      ],
+      "title": "Plant the Bank"
+    },
+    {
+      "gate": {
+        "note": "Firefighter rehab sector first — the crew is the patient in rehab.",
+        "stations": [
+          "firefighter-rehab-sector"
+        ]
+      },
+      "id": "rw-side-rehab-drill",
+      "kind": "side",
+      "reward": {
+        "cosmetic": "Station T-shirt",
+        "xp": 150
+      },
+      "site": "fire-station",
+      "steps": [
+        {
+          "site": "fire-station",
+          "text": "Set up the shade, water and rest point for a training day, the way the rehab station taught it.",
+          "type": "goto"
+        }
+      ],
+      "title": "Rehab Drill"
+    }
+  ],
+  "RW_SITES": [
+    {
+      "blurb": "The engine bay, the hose racks and the ready board: where the crew stages, briefs and checks every tool before the season's first call.",
+      "id": "fire-station",
+      "kind": "fire-station",
+      "name": "Wildland Fire Station",
+      "pad": 70,
+      "padY": 118.49811459101886,
+      "position": [
+        320,
+        560
+      ],
+      "stations": [
+        "or-wildland-fireline-construction-and-lookout",
+        "wildland-urban-interface",
+        "firefighter-rehab-sector"
+      ],
+      "trade": "Wildland fire"
+    },
+    {
+      "blurb": "A glass cab on steel legs at the top of the ridge, with a view down the whole valley and a logbook for every smoke report.",
+      "id": "lookout",
+      "kind": "lookout",
+      "name": "Ridge Fire Lookout",
+      "pad": 36,
+      "padY": 396.7344070808257,
+      "position": [
+        1240,
+        -980
+      ],
+      "stations": [
+        "or-wildland-fireline-construction-and-lookout",
+        "br-drone-shoreline-survey"
+      ],
+      "trade": "Wildland fire"
+    },
+    {
+      "blurb": "Log decks, a debarker line, the main mill shed and a loader working the yard — every guard and every lockout point marked.",
+      "id": "sawmill",
+      "kind": "sawmill",
+      "name": "Valley Sawmill & Log Yard",
+      "pad": 100,
+      "padY": 84.87156952349513,
+      "position": [
+        -220,
+        1200
+      ],
+      "stations": [
+        "conveyor-guard",
+        "tw-conveyor-jam-clearing-and-loto",
+        "op-loader-truck-loading-and-blind-spots",
+        "forklift-dock"
+      ],
+      "trade": "Sawmill millwrights and operators"
+    },
+    {
+      "blurb": "A reach of river being put back together: log structures keyed into the bank, a culvert being opened for fish, and fresh planting on the slope.",
+      "id": "restoration",
+      "kind": "restoration",
+      "name": "Watershed Restoration Reach",
+      "pad": 40,
+      "padY": 112.38568047256922,
+      "position": [
+        680,
+        40
+      ],
+      "stations": [
+        "br-culvert-retrofit-for-fish-passage",
+        "br-native-planting-and-erosion-mats",
+        "br-fish-screen-maintenance",
+        "br-bird-nesting-buffer-and-work-window"
+      ],
+      "trade": "Watershed restoration"
+    },
+    {
+      "blurb": "Tent pads under the big trees, a trailhead kiosk with the trail map, and the camp host's board for the day's closures.",
+      "id": "campground",
+      "kind": "campground",
+      "name": "Fern Hollow Campground & Trailhead",
+      "pad": 80,
+      "padY": 134.15802721417575,
+      "position": [
+        -860,
+        180
+      ],
+      "stations": [
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+        "ed-playground-equipment-inspection",
+        "br-volunteer-cleanup-day-safety-lead",
+        "k12-first-aid-awareness-call-for-help"
+      ],
+      "trade": "Forestry and trail crews"
+    },
+    {
+      "blurb": "Greenhouses of seedlings, a cold seed store and a potting shed, supplying the planting crews across the whole reach.",
+      "id": "nursery",
+      "kind": "nursery",
+      "name": "Forest Nursery & Seed Bank",
+      "pad": 80,
+      "padY": 82.40370030640642,
+      "position": [
+        -1340,
+        760
+      ],
+      "stations": [
+        "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+        "me-eelgrass-seed-collection-and-nursery",
+        "gk-pesticide-and-fertilizer-application-per-the-label",
+        "gk-irrigation-controller-valve-box-and-backflow-check"
+      ],
+      "trade": "Forestry nursery"
+    },
+    {
+      "blurb": "A fenced yard of transformers and switches where the transmission line comes over the ridge, with a cleared corridor the crews keep open.",
+      "id": "substation",
+      "kind": "substation",
+      "name": "Rural Substation & Line Corridor",
+      "pad": 60,
+      "padY": 130.16443065157262,
+      "position": [
+        1180,
+        760
+      ],
+      "stations": [
+        "substation-switching",
+        "or-transmission-line-right-of-way-patrol",
+        "line-truck",
+        "transformer-vault"
+      ],
+      "trade": "Linemen and substation electricians"
+    },
+    {
+      "blurb": "A boardwalk over the marsh where the river meets the sea, with a field lab, survey stakes and a seine beach.",
+      "id": "estuary",
+      "kind": "estuary",
+      "name": "Estuary Field Station",
+      "pad": 44,
+      "padY": 30.458919943134728,
+      "position": [
+        -1260,
+        1600
+      ],
+      "stations": [
+        "marsh-transect-survey",
+        "me-tidal-marsh-channel-restoration-day",
+        "spartina-removal",
+        "br-beach-seine-fish-survey-and-handling"
+      ],
+      "trade": "Watershed restoration"
+    },
+    {
+      "blurb": "The dozer, the grader and the loader that keep the fire roads open and the fuel breaks cut, parked on a gravel pad by the road gate.",
+      "id": "equipment-yard",
+      "kind": "equipment-yard",
+      "name": "Fire Road Equipment Yard",
+      "pad": 70,
+      "padY": 145.16541792430183,
+      "position": [
+        360,
+        -1160
+      ],
+      "stations": [
+        "op-equipment-daily-walkaround-and-fluids",
+        "op-grader-fine-grade-and-crown",
+        "op-dozer-slope-work-and-rollover-protection",
+        "or-ranch-road-grading-and-culvert"
+      ],
+      "trade": "Heavy equipment on fire roads"
+    },
+    {
+      "blurb": "A tool cache, a crew tent and the trail work for the week pinned to a board: brushing, limbing and clearing the blowdown.",
+      "id": "trail-camp",
+      "kind": "trail-camp",
+      "name": "Trail Crew Spike Camp",
+      "pad": 40,
+      "padY": 182.00539977175455,
+      "position": [
+        -560,
+        -980
+      ],
+      "stations": [
+        "gk-chainsaw-start-and-limbing-on-the-ground",
+        "gk-tree-work-pole-saw-and-drop-zone",
+        "gk-storm-cleanup-chipper-and-traffic-control"
+      ],
+      "trade": "Forestry and trail crews"
+    },
+    {
+      "blurb": "The tallest trees in the reach, on a boardwalk loop that keeps feet off the roots — the start of the trail-crew route.",
+      "id": "old-growth",
+      "kind": "grove",
+      "name": "Old-Growth Grove",
+      "pad": 26,
+      "padY": 106.02653368905546,
+      "position": [
+        -240,
+        260
+      ],
+      "stations": [
+        "gk-tree-work-pole-saw-and-drop-zone",
+        "marsh-transect-survey"
+      ],
+      "trade": "Forestry and trail crews"
+    }
+  ],
+  "RW_SIZE": 4096,
+  "RW_TRAILS": [
+    {
+      "id": "grove-loop",
+      "name": "Grove Boardwalk Loop",
+      "points": [
+        [
+          -240,
+          260
+        ],
+        [
+          -320,
+          200
+        ],
+        [
+          -380,
+          280
+        ],
+        [
+          -320,
+          360
+        ],
+        [
+          -240,
+          260
+        ]
+      ]
+    },
+    {
+      "id": "hollow-trail",
+      "name": "Hollow Creek Trail",
+      "points": [
+        [
+          -860,
+          180
+        ],
+        [
+          -760,
+          -200
+        ],
+        [
+          -700,
+          -560
+        ],
+        [
+          -560,
+          -980
+        ]
+      ]
+    },
+    {
+      "id": "lookout-trail",
+      "name": "Lookout Switchbacks",
+      "points": [
+        [
+          1040,
+          -1060
+        ],
+        [
+          1120,
+          -1180
+        ],
+        [
+          1200,
+          -1100
+        ],
+        [
+          1240,
+          -980
+        ]
+      ]
+    }
+  ],
+  "id": "redwood",
+  "schema": "smartcitix.world/1",
+  "source": "WebXR/redwood/js/rw-data.js"
+}

@@ -401,13 +401,15 @@ export const RW_ACTIVITIES = [
 
 /** Every gated item in this world, for tools/check_gates.mjs and the lock UI. */
 export function rwGatedItems() {
-  return RW_SIDE_QUESTS.filter((q) => q.gate).map((q) => ({ id: q.id, kind: "quest", world: "redwood", site: q.site, gate: q.gate }));
+  return RW_SIDE_QUESTS.filter((q) => q.gate).map((q) => ({ id: q.id, kind: "quest", world: "redwood", site: q.site, title: q.title, gate: q.gate }));
 }
 /** The same items with their titles, site names and first steps, in the shape the shared lock UI shows (discovered by check_gates through the `GATED` name). */
 export const RW_GATED = RW_SIDE_QUESTS.filter((q) => q.gate).map((q) => ({
   id: q.id, kind: "quest", world: "redwood", title: q.title, site: q.site, siteName: rwSite(q.site)?.name ?? q.site,
   gate: q.gate, summary: q.steps?.[0]?.text ?? "", reward: q.reward,
 }));
+/** The same list as a constant, which tools/check_gates.mjs discovers by name (`…GATED…` in a `-data.js` module). */
+export const RW_GATED = rwGatedItems();
 
 /** The in-game map's layers. */
 export const RW_MAP_LAYERS = Object.freeze([

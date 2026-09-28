@@ -5,7 +5,8 @@ import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { gtStorage } from "../../shared/profiles.js";
-import { ppCompleted, ppCompleteReturns, ppHerePage, ppReturnSite } from "../../shared/passport.js";
+import { ppCompleteReturns, ppHerePage, ppReturnSite } from "../../shared/passport.js";
+import { qmMissing, qmCachedSnapshot, qmInvalidate } from "../../shared/skill-gates.js";
 import { lkStationLink, lkRenderStations, lkSiteHeading, lkStationLabel } from "../../shared/links.js";
 // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
@@ -36,7 +37,9 @@ const rwApp = {
   x: 320, z: 612, yaw: 0, pitch: 0.04, driving: false, started: false,
   state: rwLoad(gtStorage()), near: null, activity: null, layers: new Set(RW_MAP_LAYERS.map((l) => l.id)),
 };
-const rwDone = (id) => ppCompleted(id);
+// A station counts as complete the way every world's gates count it: one or
+// more stars in the learner's records (the shared engine's snapshot).
+const rwDone = (id) => !qmMissing({ stations: [id] }, qmCachedSnapshot(gtStorage())).length;
 function rwPersist() { rwSave(gtStorage(), rwApp.state); }
 
 // ---------------------------------------------------------------- toast
@@ -375,6 +378,7 @@ function rwQuestDone(q) {
   rwToast(`Quest complete: ${q.title}${q.reward?.badge ? ` — badge "${q.reward.badge}"` : ""}${q.reward?.cosmetic ? ` — ${q.reward.cosmetic}` : ""}.`, 5200);
 }
 function rwCheckReturns() {
+  qmInvalidate();
   const paid = ppCompleteReturns("redwood", RW_SITES, {
     pay: (r) => (r.passed ? { reputation: 5 + 3 * (r.stars | 0), credits: 20 + 10 * (r.stars | 0) } : { reputation: 1, credits: 5 }),
     advance: (r) => { if (r.passed) rwAdvance(rwApp.state, { type: "station", station: r.simId }, rwDone).forEach(rwQuestDone); },

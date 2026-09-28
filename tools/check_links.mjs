@@ -88,6 +88,7 @@ check(LK.LK_TRADES_ROOMS.length === CAT_ROOMS.size && LK.LK_TRADES_ROOMS.every((
 const { BAY_SITES, BAY_LANDMARKS } = await imp("shared/bayworld-data.js");
 const { DEEP_SITES } = await imp("shared/underwater-data.js");
 const { SM_SITES } = await imp("shared/summit-data.js");
+const { RW_SITES } = await imp("redwood/js/rw-data.js");
 const { bwMissionLink } = await imp("bayworld/js/sim.js");
 const { dvMissionLink } = await imp("underwater/js/dive-sim.js");
 const { RG_EVENTS, rgStationLink } = await imp("regatta/js/events.js");
@@ -200,6 +201,7 @@ const WORLDS = [
   ["the Deep", "underwater/underwater.html", "underwater.html", (page) => DEEP_SITES.flatMap((s) => (s.stations ?? []).map((id) => ({ id, site: s.id, link: dvMissionLink(s, { station: id, page }) })))],
   ["the Regatta", "regatta/regatta.html", "regatta.html", (page) => RG_EVENTS.flatMap((e) => e.stations.map((id) => ({ id, site: e.id, link: rgStationLink(id, { page, eventId: e.id }) })))],
   ["Sierra Summit", "summit/index.html", "summit.html", (page) => SM_SITES.flatMap((s) => s.stations.map((id) => ({ id, site: s.id, link: LK.lkStationLink(id, { runner: "../smartcity/index.html", from: "summit", page, siteId: s.id }) })))],
+  ["Redwood Reach", "redwood/redwood.html", "redwood.html", (page) => RW_SITES.flatMap((s) => s.stations.map((id) => ({ id, site: s.id, link: LK.lkStationLink(id, { runner: "../smartcity/index.html", from: "redwood", page, siteId: s.id }) })))],
   ["Fairway", "fairway/index.html", "fairway.html", (page) => FW_STATIONS.map((id) => ({ id, site: "grounds", link: LK.lkStationLink(id, { runner: FW_RUNNER, from: "fairway", page, siteId: "grounds" }) }))],
   ["the Atlas", "bayworld/atlas.html", "atlas.html", () => atlasPlaces().flatMap((p) => {
     const l = atlasDeepLinks(p);
@@ -375,7 +377,7 @@ async function lkRendersEnvironment(href) {
 // ------------------------------------------------------------ 1. anchors
 
 const REPO_PAGES = ["index.html", "smartcity/index.html", "trades/index.html", "holodeck/index.html", "instructor/index.html", "race/index.html",
-  "arcade/index.html", "fairway/index.html", "bayworld/index.html", "bayworld/atlas.html", "regatta/regatta.html", "underwater/underwater.html", "summit/index.html",
+  "arcade/index.html", "fairway/index.html", "bayworld/index.html", "bayworld/atlas.html", "regatta/regatta.html", "underwater/underwater.html", "summit/index.html", "redwood/redwood.html",
   "portal/index.html", "verify/index.html", "campus/index.html"].filter((p) => existsSync(join(WEBXR, p)));
 const FLAT_PAGES = readdirSync(DIST).filter((f) => f.endsWith(".html"));
 const TRACK_PAGES = existsSync(join(DIST, "tracks")) ? readdirSync(join(DIST, "tracks")).filter((f) => f.endsWith(".html")).map((f) => `tracks/${f}`) : [];
