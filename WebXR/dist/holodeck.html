@@ -9726,6 +9726,176 @@ function continuousMinerFront(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.continuousMinerFront.footprint });
 }
 
+// ------------------------------------------------ aerospace depot and robotics
+
+/**
+ * A cleanroom bay module: a white wall-and-ceiling shell with a ceiling
+ * filter grid, a gowning bench across the entry, an air-shower door frame,
+ * an ESD wrist-strap and footwear tester on a post, and a grounded work
+ * bench with a dissipative mat. Generic; the gowning order, the particle
+ * class and the ESD limits are the site's own procedure. Parts: airShowerDoor,
+ * esdTester, esdLamp, workBench, filterGrid.
+ */
+function cleanRoomBay(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xeef1f3;
+  const rig = flRig(parent, x, y, z, opts, "cleanRoomBay");
+  const S = rig.shell;
+  box(S, 5.0, 3.0, 0.1, 0, 1.5, -1.95, colour, { rough: 0.5, finish: "painted" });
+  for (const sx of [-1, 1]) box(S, 0.1, 3.0, 4.0, sx * 2.45, 1.5, 0, colour, { rough: 0.5, finish: "painted" });
+  box(S, 5.0, 0.06, 4.0, 0, 3.0, 0, colour, { rough: 0.5, finish: "painted" });
+  box(S, 1.6, 0.45, 0.4, -1.4, 0.23, 1.6, 0x9aa2a8, { rough: 0.4, metal: 0.5, finish: "brushed" });
+  box(S, 0.14, 2.3, 0.14, 0.2, 1.15, 1.8, 0xc8ced4, { rough: 0.35, metal: 0.45, finish: "brushed" });
+  box(S, 0.14, 2.3, 0.14, 1.3, 1.15, 1.8, 0xc8ced4, { rough: 0.35, metal: 0.45, finish: "brushed" });
+  box(S, 1.24, 0.14, 0.14, 0.75, 2.3, 1.8, 0xc8ced4, { rough: 0.35, metal: 0.45, finish: "brushed" });
+  const grid = rig.part("filterGrid", 0, 2.96, -0.4);
+  for (let i = 0; i < 3; i++) box(grid, 1.1, 0.03, 0.9, -1.3 + i * 1.3, 0, 0, 0xf7f8f2, { emissive: 0xe8f0ff, ei: 0.35, rough: 0.3 });
+  const door = rig.part("airShowerDoor", 0.75, 1.1, 1.8);
+  box(door, 1.0, 2.1, 0.04, 0, 0, 0, 0x9fc3d8, { rough: 0.15, metal: 0.1, opacity: 0.5, transparent: true });
+  const tester = rig.part("esdTester", 1.9, 0, 1.4);
+  box(tester, 0.08, 1.1, 0.08, 0, 0.55, 0, 0x53585e, { rough: 0.5, metal: 0.4 });
+  box(tester, 0.3, 0.22, 0.1, 0, 1.2, 0, 0x2b2f34, { rough: 0.5 });
+  box(tester, 0.5, 0.03, 0.4, 0, 0.015, 0.1, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+  const lamp = rig.part("esdLamp", 1.9, 1.36, 1.4);
+  ball(lamp, 0.04, 0, 0, 0, 0x3fc26a, { emissive: 0x16b04a, ei: 1.0, seg: 10 });
+  const bench = rig.part("workBench", 0.4, 0, -1.3);
+  box(bench, 2.2, 0.06, 0.8, 0, 0.9, 0, 0x2f6f5e, { rough: 0.7, finish: "rubber" });
+  for (const sx of [-1, 1]) box(bench, 0.06, 0.9, 0.7, sx * 1.02, 0.45, 0, 0x9aa2a8, { rough: 0.4, metal: 0.5 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.cleanRoomBay.footprint });
+}
+
+/**
+ * A generic propulsion test stand seen from its own pad: a steel frame
+ * with a thrust-take-out beam, a blast deflector, a bunkered control
+ * window, a hold beacon and a chained exclusion-zone gate. No engine,
+ * fuel, figure or limit belongs to any real stand; the zone distance and
+ * the countdown are the site's written test procedure. Parts: frame,
+ * deflector, beacon, gate, controlWindow.
+ */
+function testStand(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "testStand");
+  const S = rig.shell;
+  box(S, 4.4, 0.2, 4.4, 0, 0.1, 0, 0x9aa2a8, { rough: 0.85, finish: "concrete" });
+  const frame = rig.part("frame", 0, 0.2, -0.6);
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) box(frame, 0.16, 2.6, 0.16, sx * 0.8, 1.3, sz * 0.7, 0x53585e, { rough: 0.5, metal: 0.5, finish: "painted" });
+  box(frame, 1.8, 0.16, 1.6, 0, 2.6, 0, 0x53585e, { rough: 0.5, metal: 0.5, finish: "painted" });
+  box(frame, 0.3, 0.3, 1.6, 0, 1.6, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  const deflector = rig.part("deflector", 0, 0.2, 1.3);
+  const d = box(deflector, 1.8, 0.1, 1.2, 0, 0.4, 0, 0x6f7a83, { rough: 0.6, metal: 0.5 });
+  d.rotation.x = -0.5;
+  const win = rig.part("controlWindow", -1.8, 0.2, 1.6);
+  box(win, 0.7, 1.4, 0.6, 0, 0.7, 0, 0x8b8f93, { rough: 0.85, finish: "concrete" });
+  box(win, 0.5, 0.2, 0.02, 0, 1.1, 0.31, 0x161d24, { rough: 0.15 });
+  const beacon = rig.part("beacon", 1.9, 0.2, -1.9);
+  box(beacon, 0.06, 1.8, 0.06, 0, 0.9, 0, 0x53585e, { rough: 0.5, metal: 0.4 });
+  ball(beacon, 0.09, 0, 1.9, 0, 0xffab2e, { emissive: 0xff8a00, ei: 0.9, seg: 12 });
+  const gate = rig.part("gate", 1.2, 0.2, 2.1);
+  box(gate, 0.06, 0.9, 0.06, -0.45, 0.45, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  box(gate, 0.06, 0.9, 0.06, 0.45, 0.45, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  box(gate, 0.9, 0.04, 0.04, 0, 0.8, 0, 0xd8322c, { rough: 0.5 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.testStand.footprint });
+}
+
+/**
+ * A depot hangar bay around the shared regionalJet: a painted floor with
+ * FOD-walk lanes, a rear hangar wall, a shadow-board tool crib, a work
+ * stand, drip pans and a fluid-servicing cart with a spill kit. Parts:
+ * jet (the regionalJet group, with its own parts), toolCrib, workStand,
+ * servicingCart, spillKit, dripPan.
+ */
+function depotHangarBay(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "depotHangarBay");
+  const S = rig.shell;
+  box(S, 8.0, 0.04, 7.0, 0, 0.02, 0, 0x8e969b, { rough: 0.7, finish: "concrete" });
+  for (const sx of [-1, 1]) box(S, 0.1, 0.005, 6.4, sx * 3.2, 0.045, 0, 0xf0b323, { rough: 0.6, finish: "painted", cast: false });
+  box(S, 8.0, 4.0, 0.2, 0, 2.0, -3.4, 0x6a7178, { rough: 0.7, metal: 0.3, finish: "corrugated" });
+  const jet = rig.part("jet", 0, 0, -0.4);
+  regionalJet(jet, 0, 0, 0, { livery: opts.livery });
+  const crib = rig.part("toolCrib", -3.2, 0, -2.8);
+  box(crib, 1.4, 1.8, 0.1, 0, 0.9, 0, 0x2b3a4a, { rough: 0.6, finish: "painted" });
+  box(crib, 1.4, 0.9, 0.5, 0, 0.45, 0.25, 0xb8402f, { rough: 0.5, finish: "painted" });
+  const stand = rig.part("workStand", 2.6, 0, 1.6);
+  box(stand, 0.9, 1.2, 0.8, 0, 0.6, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  box(stand, 0.9, 0.05, 0.8, 0, 1.22, 0, 0x6f7a83, { rough: 0.6, metal: 0.4, finish: "grating" });
+  const cart = rig.part("servicingCart", -2.6, 0, 2.2);
+  box(cart, 0.7, 0.8, 1.0, 0, 0.5, 0, 0x2f6fe0, { rough: 0.5, finish: "painted" });
+  cyl(cart, 0.2, 0.2, 0.5, 0, 1.1, 0.2, 0xc8ced4, { rough: 0.35, metal: 0.5, seg: 14 });
+  const kit = rig.part("spillKit", -3.5, 0, 1.2);
+  cyl(kit, 0.25, 0.25, 0.7, 0, 0.35, 0, 0xf0b323, { rough: 0.6, seg: 14 });
+  const pan = rig.part("dripPan", -1.2, 0.05, 0.4);
+  box(pan, 0.8, 0.05, 0.6, 0, 0, 0, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.depotHangarBay.footprint });
+}
+
+/**
+ * A fenced industrial robot cell: a six-axis arm on a plinth, a fixture
+ * table, perimeter guard fencing on three sides, a light curtain across
+ * the open side (two posts and a beam band), an interlocked access gate,
+ * a lockout point on the cell's disconnect and a status stack light.
+ * Parts: base, upperArm, foreArm, wrist, gate, lightCurtain, stackLight,
+ * disconnect.
+ */
+function robotCell(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xe4622a;
+  const rig = flRig(parent, x, y, z, opts, "robotCell");
+  const S = rig.shell;
+  box(S, 4.0, 0.04, 4.0, 0, 0.02, 0, 0x59636b, { rough: 0.8, finish: "concrete" });
+  box(S, 0.1, 1.8, 4.0, -1.95, 0.9, 0, 0x2b2f34, { rough: 0.6, metal: 0.4, finish: "grating", opacity: 0.55, transparent: true });
+  box(S, 0.1, 1.8, 4.0, 1.95, 0.9, 0, 0x2b2f34, { rough: 0.6, metal: 0.4, finish: "grating", opacity: 0.55, transparent: true });
+  box(S, 4.0, 1.8, 0.1, 0, 0.9, -1.95, 0x2b2f34, { rough: 0.6, metal: 0.4, finish: "grating", opacity: 0.55, transparent: true });
+  box(S, 1.2, 0.8, 0.8, 0.9, 0.4, -0.9, 0x6f7a83, { rough: 0.5, metal: 0.4 });
+  cyl(S, 0.4, 0.45, 0.5, -0.4, 0.25, -0.5, 0x53585e, { rough: 0.5, metal: 0.4, seg: 16 });
+  const base = rig.part("base", -0.4, 0.5, -0.5);
+  cyl(base, 0.3, 0.3, 0.3, 0, 0.15, 0, colour, { rough: 0.45, finish: "painted", seg: 16 });
+  const upper = rig.part("upperArm", 0, 0.3, 0, base);
+  box(upper, 0.22, 0.9, 0.22, 0, 0.45, 0, colour, { rough: 0.45, finish: "painted" });
+  const fore = rig.part("foreArm", 0, 0.9, 0, upper);
+  box(fore, 0.18, 0.18, 0.8, 0, 0, 0.4, colour, { rough: 0.45, finish: "painted" });
+  const wrist = rig.part("wrist", 0, 0, 0.8, fore);
+  box(wrist, 0.14, 0.14, 0.14, 0, -0.07, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+  const gate = rig.part("gate", 1.2, 0, 1.95);
+  box(gate, 1.0, 1.8, 0.06, 0, 0.9, 0, 0xf0b323, { rough: 0.5, finish: "painted", opacity: 0.8, transparent: true });
+  const curtain = rig.part("lightCurtain", -0.6, 0, 1.95);
+  for (const sx of [-1, 1]) box(curtain, 0.06, 1.5, 0.06, sx * 0.8, 0.75, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  box(curtain, 1.54, 1.3, 0.01, 0, 0.8, 0, 0xff3a2e, { emissive: 0xff2a1e, ei: 0.5, opacity: 0.18, transparent: true, cast: false });
+  const stack = rig.part("stackLight", 1.85, 1.8, 1.85);
+  for (let i = 0; i < 3; i++) cyl(stack, 0.05, 0.05, 0.08, 0, i * 0.09, 0, [0x3fc26a, 0xffab2e, 0xd8322c][i], { emissive: [0x16b04a, 0x000000, 0x000000][i], ei: 0.9, seg: 12 });
+  const disc = rig.part("disconnect", 1.85, 1.2, 1.0);
+  box(disc, 0.1, 0.4, 0.3, 0, 0, 0, 0x9aa2a8, { rough: 0.5, metal: 0.4 });
+  box(disc, 0.06, 0.1, 0.1, 0.07, 0, 0, 0xd8322c, { rough: 0.5 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.robotCell.footprint });
+}
+
+/**
+ * A collaborative robot bench: a steel bench with a small four-axis cobot
+ * arm, a parts tray, an area scanner on the bench front and a floor zone
+ * painted in two bands (the warning and the protective separation the risk
+ * assessment names; no distance here is anybody's figure). Parts: arm,
+ * elbow, gripper, scanner, zoneWarn, zoneStop.
+ */
+function cobotBench(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0x3a78c9;
+  const rig = flRig(parent, x, y, z, opts, "cobotBench");
+  const S = rig.shell;
+  box(S, 1.8, 0.06, 0.9, 0, 0.9, 0, 0x9aa2a8, { rough: 0.4, metal: 0.5, finish: "brushed" });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) box(S, 0.05, 0.9, 0.05, sx * 0.85, 0.45, sz * 0.4, 0x53585e, { rough: 0.5, metal: 0.4 });
+  box(S, 0.5, 0.05, 0.35, 0.55, 0.955, 0.1, 0x2f6f5e, { rough: 0.7 });
+  const zw = rig.part("zoneWarn", 0, 0.004, 0);
+  box(zw, 3.0, 0.004, 2.2, 0, 0, 0, 0xf0b323, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
+  const zs = rig.part("zoneStop", 0, 0.008, 0);
+  box(zs, 2.2, 0.004, 1.4, 0, 0, 0, 0xd8322c, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
+  const arm = rig.part("arm", -0.3, 0.93, -0.1);
+  cyl(arm, 0.09, 0.1, 0.12, 0, 0.06, 0, 0xeef1f3, { rough: 0.4, seg: 14 });
+  box(arm, 0.09, 0.45, 0.09, 0, 0.34, 0, 0xeef1f3, { rough: 0.4 });
+  const elbow = rig.part("elbow", 0, 0.56, 0, arm);
+  box(elbow, 0.08, 0.08, 0.4, 0, 0, 0.2, colour, { rough: 0.4, finish: "painted" });
+  const grip = rig.part("gripper", 0, 0, 0.42, elbow);
+  box(grip, 0.1, 0.1, 0.06, 0, -0.05, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+  const scanner = rig.part("scanner", 0, 0.2, 0.46);
+  box(scanner, 0.14, 0.12, 0.1, 0, 0, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  box(scanner, 0.1, 0.03, 0.01, 0, 0, 0.055, 0x161d24, { rough: 0.2 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.cobotBench.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
@@ -9759,6 +9929,11 @@ const EQUIPMENT_BUDGET = {
   "serviceCart:potable": { build: "serviceCart", opts: { kind: "potable" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "potable water service truck" },
   fuelTruck: { build: "fuelTruck", meshes: 14, footprint: [3.08, 2.8, 9.88], parts: ["cabDoor", "wheelsF", "wheelsM", "wheelsR", "hoseReel", "nozzleMount", "dispensePanel"], note: "ramp fuel truck with a rear hose reel" },
   cabinInterior: { build: "cabinInterior", meshes: 23, footprint: [3.24, 2.13, 4.13], parts: ["overheadBinL", "overheadBinR", "oxygenPanel", "galley", "galleyCart", "door"], note: "single-aisle cabin section: two 3+3 seat rows, overhead bins, a galley and cart, and the forward door" },
+  cleanRoomBay: { build: "cleanRoomBay", meshes: 11, footprint: [5, 3.03, 4], parts: ["airShowerDoor", "esdTester", "esdLamp", "workBench", "filterGrid"], note: "cleanroom bay: gowning bench, air-shower door, ESD tester, grounded bench, filter grid" },
+  testStand: { build: "testStand", meshes: 10, footprint: [4.4, 2.88, 4.4], parts: ["frame", "deflector", "beacon", "gate", "controlWindow"], note: "generic propulsion test stand pad with deflector, bunkered window, hold beacon and exclusion gate" },
+  depotHangarBay: { build: "depotHangarBay", meshes: 37, footprint: [8, 4, 7], parts: ["jet", "toolCrib", "workStand", "servicingCart", "spillKit", "dripPan"], note: "depot hangar bay around the shared regionalJet, with tool crib, work stand and fluid-servicing cart" },
+  robotCell: { build: "robotCell", meshes: 16, footprint: [4, 2.02, 4], parts: ["base", "upperArm", "foreArm", "wrist", "gate", "lightCurtain", "stackLight", "disconnect"], note: "fenced six-axis robot cell with light curtain, interlocked gate, stack light and lockable disconnect" },
+  cobotBench: { build: "cobotBench", meshes: 10, footprint: [3, 1.53, 2.2], parts: ["arm", "elbow", "gripper", "scanner", "zoneWarn", "zoneStop"], note: "collaborative robot bench with area scanner and painted separation zones" },
   amrRobot: { build: "amrRobot", meshes: 7, footprint: [0.68, 0.41, 0.92], parts: ["liftPlate", "statusRing", "lidar"], note: "autonomous mobile robot (AMR/AGV), low chassis on caster feet" },
   conveyorSection: { build: "conveyorSection", meshes: 5, footprint: [0.6, 0.79, 1.2], parts: ["guard", "estopCord", "rollers"], note: "roller-conveyor bed section with nip-point guard and pull-cord E-stop" },
   dockLevelerBay: { build: "dockLevelerBay", meshes: 10, footprint: [2.3, 2.49, 2.1], parts: ["leverPlate", "lip", "restraintArm", "dockLightRed", "dockLightGreen", "restraintLightRed", "restraintLightGreen"], note: "dock leveler, lip, dock bumpers and ICC bar vehicle restraint" },
@@ -9774,7 +9949,7 @@ const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig, regionalJet,
   pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck, cabinInterior, amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer,
-  batteryChargingStation, rollingMillStand, ladleCrane, continuousMinerFront,
+  batteryChargingStation, rollingMillStand, ladleCrane, continuousMinerFront, cleanRoomBay, testStand, depotHangarBay, robotCell, cobotBench,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -10204,6 +10379,26 @@ function glassVacuumLifter(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: TOOLKIT_BUDGET.glassVacuumLifter.footprint });
 }
 
+/** Robot teach pendant lying face up: a grey housing with hand grips, a
+ *  live screen (`userData.show(text)`, the mode and speed the controller
+ *  reports), a red mushroom emergency stop and a three-position enabling
+ *  switch on the grip. Jog speed and mode are whatever the controller and
+ *  the site's procedure set; this pendant states no figure. Parts: screen,
+ *  estop, enable. */
+function teachPendant(parent, x, y, z, opts = {}) {
+  const lv = tkBody(opts, 0x9aa2a8);
+  const rig = tkRig(parent, x, y, z, opts, "teachPendant");
+  const S = rig.shell;
+  tkSlab(S, 0.3, 0.05, 0.22, 0, 0, 0, lv.colour, { rough: 0.6, finish: "painted", radius: 0.02 });
+  tkScreen(rig, "screen", rig.base, 0.18, 0.13, -0.02, 0.051, 0, tkLcd("PENDANT", ["T1 REDUCED", "JOG --"], { screenFrac: 0.6 }));
+  rig.parts.screen.rotation.x = -Math.PI / 2;
+  const es = rig.part("estop", 0.11, 0.05, -0.07);
+  flRod(es, 0.022, 0.025, 0, 0.012, 0, "y", 0xd8322c, { rough: 0.45, seg: 14 });
+  const en = rig.part("enable", 0.15, 0.025, 0.06);
+  box(en, 0.012, 0.03, 0.06, 0, 0, 0, 0xf0b323, { rough: 0.5 });
+  return flDone(rig, { footprint: TOOLKIT_BUDGET.teachPendant.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count (≤ 4), footprint [width X, height Y, length Z] and parts per tool; see FLEET_BUDGET. */
@@ -10229,13 +10424,14 @@ const TOOLKIT_BUDGET = {
   creeper: { build: "creeper", meshes: 3, footprint: [0.44, 0.13, 0.98], parts: ["casters"], note: "mechanic's creeper" },
   hoseReel: { build: "hoseReel", meshes: 4, footprint: [0.28, 0.37, 0.39], parts: ["drum", "nozzle"], note: "air hose reel" },
   glassVacuumLifter: { build: "glassVacuumLifter", meshes: 4, footprint: [0.55, 0.24, 0.06], parts: ["gauge"], note: "two-cup manual glass vacuum lifter, live vacuum gauge" },
+  teachPendant: { build: "teachPendant", meshes: 4, footprint: [0.31, 0.07, 0.22], parts: ["screen", "estop", "enable"], note: "robot teach pendant with live screen, e-stop and enabling switch" },
 };
 
 /** The builders by the name TOOLKIT_BUDGET's `build` field uses. */
 const TOOLKIT_BUILDERS = {
   drill, angleGrinder, impactWrench, torqueWrench, multimeter, fourGasMeter, radio, flashlight, tapeMeasure,
   level, hammer, wrenchSet, hardHatLamp, chock, tagLine, tieDownStrap, gladHandGauge, tireGauge, creeper, hoseReel,
-  glassVacuumLifter,
+  glassVacuumLifter, teachPendant,
 };
 void cyl; void gradientFill;
 
@@ -13458,6 +13654,17 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "cd-underwater-wet-welding-and-cutting", "cd-pier-piling-inspection-and-wrap-repair", "cd-rov-launch-recovery-and-tether-management", "cd-decompression-chamber-operations-and-post-dive",
       "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", "cd-low-visibility-and-night-dive-line-work", "cd-hydraulic-tools-and-suction-hazards-underwater", "cd-dive-records-and-incident-review"
+    ],
+    require: 4,
+  },
+  {
+    id: "aerospace-defense-and-robotics",
+    title: "Gown, lift, service, count, hold, isolate and prove eight civilian-style aerospace depot and robotics jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-212", "osha-1910-1200", "faa-14-cfr-43", "ansi-r15-06", "iso-10218"],
+    stations: [
+      "ad-cleanroom-gowning-and-esd-discipline", "ad-payload-crane-lift-with-a-lift-plan", "ad-hazardous-fluid-servicing-with-a-buddy", "ad-depot-tool-control-and-fod-walk",
+      "ad-test-stand-exclusion-zone-and-holds", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill", "ad-cobot-risk-assessment-and-speed-separation"
     ],
     require: 4,
   },
@@ -44453,6 +44660,342 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ad-cleanroom-gowning-and-esd-discipline",
+    "index": "ad-1",
+    "domain": "Aerospace",
+    "trade": "Aerospace assembly technician, cleanroom and ESD control — IAM/UAW",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM and UAW aerospace assembly training as bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.133 eye and face protection; NFPA 77 static electricity; the site's written ESD control programme and gowning procedure",
+    "name": "Cleanroom Gowning & ESD Discipline",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Cleanroom Gowning & ESD Discipline VR",
+    "tagline": "A cleanroom entry run the way contamination and static control actually work: gown in the posted order, prove the wrist strap and heel straps at the tester before touching anything, keep the part on the grounded mat, and stop the job the moment the tester says the path to ground is gone",
+    "accent": 7328744,
+    "accentCss": "#6fd3e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "clean-and-grounded",
+      "name": "Clean and Grounded",
+      "note": "Gowned in order, proved the path to ground at the tester and never handled the part off the grounded mat"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean and Grounded",
+      "currency": "GOWN",
+      "ranks": [
+        "Visitor",
+        "Gowning Qualified",
+        "ESD Qualified",
+        "Cleanroom Lead",
+        "Clean and Grounded Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-robot-cell-lockout-and-safe-reentry",
+    "index": "ad-2",
+    "domain": "Robotics",
+    "trade": "Robot technician, cell lockout and re-entry — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 industrial robot safety; the manufacturer's manual and the site's written lockout procedure",
+    "name": "Robot Cell Lockout & Safe Re-entry",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ Robot Cell Lockout & Safe Re-entry VR",
+    "tagline": "A fenced robot cell entered the only way that keeps a person out of the arm's reach: stopped, isolated at the disconnect with your own lock, stored energy proven gone, the pendant in reduced speed if anything must move, and the cell restored only after a head count and a clear floor",
+    "accent": 16747069,
+    "accentCss": "#ff8a3d",
+    "parSeconds": 320,
+    "badge": {
+      "id": "own-lock-own-life",
+      "name": "Own Lock, Own Life",
+      "note": "Locked the cell out with a personal lock, proved zero energy and never crossed the curtain with the arm live"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Own Lock, Own Life",
+      "currency": "LOCK",
+      "ranks": [
+        "Operator",
+        "Authorised Employee",
+        "Cell Technician",
+        "Robot Lead",
+        "Own Lock Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-amr-fleet-traffic-and-estop-drill",
+    "index": "ad-3",
+    "domain": "Robotics",
+    "trade": "Automation technician, AMR fleet traffic and e-stop — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.178 powered industrial trucks where lift trucks share the aisle; ANSI R15.06 and ISO 10218 as the robot-safety frame; the fleet manufacturer's manual and the site's traffic plan",
+    "name": "AMR Fleet Traffic & E-stop Drill",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ AMR Fleet Traffic & E-stop Drill VR",
+    "tagline": "A floor shared with autonomous mobile robots worked the way the traffic plan intends: people on the walkways and robots on the marked lanes, crossings made only at the marked points, an e-stop drill that proves every robot actually stops, and a fault robot recovered only after it is taken out of the fleet",
+    "accent": 5231103,
+    "accentCss": "#4fd1ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "lane-discipline",
+      "name": "Lane Discipline",
+      "note": "Crossed only at marked points, proved the e-stops and recovered the faulted robot out of the fleet"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lane Discipline",
+      "currency": "LANE",
+      "ranks": [
+        "Floor Walker",
+        "Lane Aware",
+        "Fleet Technician",
+        "Fleet Lead",
+        "Lane Discipline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-depot-tool-control-and-fod-walk",
+    "index": "ad-4",
+    "domain": "Aerospace",
+    "trade": "Depot aircraft maintainer, tool control and FOD prevention — IAM",
+    "category": "Mobility & Transit",
+    "certification": "IAM depot and aircraft maintenance training as a body; FAA 14 CFR 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR 145 repair stations as the civil frame; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.22 walking-working surfaces; the depot's written tool-control and foreign-object-damage prevention programme",
+    "name": "Depot Tool Control & FOD Walk",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Depot Tool Control & FOD Walk VR",
+    "tagline": "A depot maintenance task closed out the way tool control and FOD prevention actually work: the crib kit signed out and counted, every loose item tethered or pocketed at the aircraft, a shoulder-to-shoulder FOD walk of the bay, and the aircraft released only when the kit counts back complete",
+    "accent": 16762967,
+    "accentCss": "#ffc857",
+    "parSeconds": 320,
+    "badge": {
+      "id": "nothing-on-the-floor",
+      "name": "Nothing on the Floor",
+      "note": "Counted the kit out and back, walked the bay shoulder to shoulder and released the aircraft with nothing missing"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nothing on the Floor",
+      "currency": "FOD",
+      "ranks": [
+        "Helper",
+        "Tool Control Qualified",
+        "Maintainer",
+        "Crew Chief",
+        "Nothing on the Floor Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-hazardous-fluid-servicing-with-a-buddy",
+    "index": "ad-5",
+    "domain": "Aerospace",
+    "trade": "Depot servicing technician, hazardous fluid servicing — IAM",
+    "category": "Mobility & Transit",
+    "certification": "IAM depot maintenance training as a body; FAA 14 CFR 43 maintenance as the civil frame; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.134 respiratory protection and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the fluid named on the work order",
+    "name": "Hazardous Fluid Servicing with a Buddy",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Hazardous Fluid Servicing with a Buddy VR",
+    "tagline": "A servicing task on a fluid the work order names, run the way hazard communication intends: the safety data sheet read first, the PPE it calls for donned and checked by a buddy, the eyewash proven, the transfer made over a drip pan with the buddy watching, and a leak answered by stopping, not by finishing faster",
+    "accent": 10215773,
+    "accentCss": "#9be15d",
+    "parSeconds": 320,
+    "badge": {
+      "id": "two-person-rule",
+      "name": "Two-Person Rule",
+      "note": "Read the SDS, had the PPE checked by a buddy, proved the eyewash and stopped on the first sign of a leak"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Two-Person Rule",
+      "currency": "SDS",
+      "ranks": [
+        "Helper",
+        "HazCom Trained",
+        "Servicing Technician",
+        "Servicing Lead",
+        "Two-Person Rule Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-test-stand-exclusion-zone-and-holds",
+    "index": "ad-6",
+    "domain": "Aerospace",
+    "trade": "Test stand technician, exclusion zone and countdown holds — IAM/UAW",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM and UAW test and assembly training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.38 emergency action plans and 29 CFR 1910.132 personal protective equipment; ANSI Z535.4 safety signs; the site's written test procedure and the manufacturer's manual",
+    "name": "Test Stand Exclusion Zone & Holds",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Test Stand Exclusion Zone & Holds VR",
+    "tagline": "A generic propulsion test run the way a test procedure keeps people alive: the exclusion zone swept and chained, a head count against the roster, the countdown run from the bunker with every station polled, and a hold called by anyone who sees a reason — then the stand made safe before anyone walks back out",
+    "accent": 16739166,
+    "accentCss": "#ff6b5e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "anyone-can-hold",
+      "name": "Anyone Can Hold",
+      "note": "Swept and chained the zone, matched the head count and called the hold the moment a reason appeared"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Anyone Can Hold",
+      "currency": "HOLD",
+      "ranks": [
+        "Observer",
+        "Zone Sweeper",
+        "Test Technician",
+        "Test Conductor",
+        "Anyone Can Hold Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-payload-crane-lift-with-a-lift-plan",
+    "index": "ad-7",
+    "domain": "Aerospace",
+    "trade": "Rigger and crane operator, payload lift in a cleanroom — IAM/UAW",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM and UAW rigging and assembly training as bodies; ASME B30.2 overhead and gantry cranes and ASME B30.16 overhead underhung and monorail hoists; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.147 the control of hazardous energy; the site's written lift plan and the manufacturer's manual",
+    "name": "Payload Crane Lift with a Lift Plan",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Payload Crane Lift with a Lift Plan VR",
+    "tagline": "A sensitive payload moved by overhead crane the way a lift plan intends: the plan read and briefed, the crane and rigging inspected, one designated signal person, a trial lift a hand's width off the stand, tag lines and a clear path, and a stop called by anyone the moment something looks wrong",
+    "accent": 11832575,
+    "accentCss": "#b48cff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "one-voice",
+      "name": "One Voice",
+      "note": "Briefed the lift plan, inspected the rigging, made the trial lift and moved only on the designated signal"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "One Voice",
+      "currency": "LIFT",
+      "ranks": [
+        "Tag-line Hand",
+        "Rigger",
+        "Signal Person",
+        "Lift Director",
+        "One Voice Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-cobot-risk-assessment-and-speed-separation",
+    "index": "ad-8",
+    "domain": "Robotics",
+    "trade": "Automation technician, collaborative robot application — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, including collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the application's written risk assessment and the manufacturer's manual",
+    "name": "Cobot Risk Assessment & Speed-and-Separation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Cobot Risk Assessment & Speed-and-Separation VR",
+    "tagline": "A collaborative robot bench brought into service the way a risk assessment demands: the application walked task by task, the area scanner's warning and protective zones proven with a body, speed-and-separation shown to slow and stop the arm, and the bench released only when every hazard on the sheet has a control that was actually tested",
+    "accent": 6217904,
+    "accentCss": "#5ee0b0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tested-not-trusted",
+      "name": "Tested, Not Trusted",
+      "note": "Walked the risk assessment, proved the scanner zones with a body and saw the arm slow and stop before releasing the bench"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tested, Not Trusted",
+      "currency": "COBOT",
+      "ranks": [
+        "Operator",
+        "Application Aware",
+        "Cobot Technician",
+        "Integration Lead",
+        "Tested, Not Trusted Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -46287,6 +46830,7 @@ const PP_PROGRAMMES = {
   "yacht-and-charter-crew": { name: "Yacht & Charter Crew", stations: ["yc-pre-departure-safety-briefing-and-guest-count","yc-line-handling-and-docking-in-crosswind","yc-fuel-dock-transfer-and-spill-kit","yc-engine-room-pre-start-and-bilge-check","yc-man-overboard-recovery-drill","yc-galley-fire-and-fixed-system","yc-tender-launch-and-guest-transfer","yc-shore-power-connection-and-in-water-electrical-safety"] },
   "marine-ecology-and-restoration": { name: "Marine Ecology & Restoration — Survey and Restoration Crews", stations: ["me-kelp-transect-survey-and-photo-quadrats","me-oyster-reef-monitoring-and-settlement-tiles","me-eelgrass-seed-collection-and-nursery","me-water-column-sampling-from-a-small-boat","me-tidal-marsh-channel-restoration-day","me-fish-visual-census-and-data-sheet","me-shoreline-debris-and-microplastics-survey","me-invasive-species-identification-and-reporting"] },
   "commercial-diving-and-scientific-scuba": { name: "Commercial Diving & Scientific Scuba", stations: ["cd-underwater-wet-welding-and-cutting","cd-pier-piling-inspection-and-wrap-repair","cd-rov-launch-recovery-and-tether-management","cd-decompression-chamber-operations-and-post-dive","cd-scientific-scuba-buddy-check-and-lost-buddy-drill","cd-low-visibility-and-night-dive-line-work","cd-hydraulic-tools-and-suction-hazards-underwater","cd-dive-records-and-incident-review"] },
+  "aerospace-defense-and-robotics": { name: "Aerospace Depot and Robotics — IAM and UAW Skilled Trades", stations: ["ad-cleanroom-gowning-and-esd-discipline","ad-payload-crane-lift-with-a-lift-plan","ad-hazardous-fluid-servicing-with-a-buddy","ad-depot-tool-control-and-fod-walk","ad-test-stand-exclusion-zone-and-holds","ad-robot-cell-lockout-and-safe-reentry","ad-amr-fleet-traffic-and-estop-drill","ad-cobot-risk-assessment-and-speed-separation"] },
 };
 
 

@@ -4841,6 +4841,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Commercial Diving & Scientific Scuba — Capstone"
     }
+  },
+  {
+    "id": "bw-side-aerospace-defense-and-robotics-opener",
+    "title": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "aerospace-defense-and-robotics",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+        "text": "The training lead meets you at Aerospace Depot and Robotics — IAM and UAW Skilled Trades and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "ad-cleanroom-gowning-and-esd-discipline",
+        "text": "A cleanroom entry only reaches the bench once the gowning order is followed and the wrist strap and heel straps pass at the tester, and the part never leaves its shielding except over the grounded mat."
+      },
+      {
+        "type": "station",
+        "target": "ad-payload-crane-lift-with-a-lift-plan",
+        "text": "A sensitive payload only leaves its stand after the lift plan is briefed, the rigging inspected, one signal person named and a trial lift made a hand's width off the support."
+      },
+      {
+        "type": "station",
+        "target": "ad-hazardous-fluid-servicing-with-a-buddy",
+        "text": "A servicing transfer only starts once the safety data sheet is read, the PPE it names is buddy-checked and the eyewash is proven, and a weeping fitting is answered at the shut-off."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Eight civilian-style workplace-safety jobs in a generic aerospace depot and a robotics factory and training centre: a cleanroom entered in the posted gowning order with the strap test proven, a payload moved by overhead crane on a briefed lift plan, a hazardous fluid serviced from its safety data sheet with a buddy in place, a depot bay released only on a complete tool count and a FOD walk, a test stand's exclusion zone swept and held, a robot cell locked out and re-entered with a personal lock, an AMR floor worked on its traffic plan with an e-stop drill, and a cobot bench released only when every control on its risk assessment was tested with a body. Every station also runs with a declared fault (`?fault=`) that changes one step's right answer. Civilian-style workplace safety only; no real site, programme or vehicle is named.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades — Opener"
+    }
+  },
+  {
+    "id": "bw-side-aerospace-defense-and-robotics-capstone",
+    "title": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-aerospace-defense-and-robotics-opener",
+    "programmeId": "aerospace-defense-and-robotics",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "ad-robot-cell-lockout-and-safe-reentry",
+        "text": "A robot cell is only entered once it is stopped, isolated under a personal lock, tried and proven at zero energy, with any jog made in reduced speed."
+      },
+      {
+        "type": "station",
+        "target": "ad-amr-fleet-traffic-and-estop-drill",
+        "text": "An AMR floor is crossed only at the marked points, the e-stop drill proves every unit stops, and a faulted robot is taken out of the fleet before anyone touches it."
+      },
+      {
+        "type": "station",
+        "target": "ad-cobot-risk-assessment-and-speed-separation",
+        "text": "A cobot bench is only released once its risk assessment is walked against the bench as built and the scanner zones are proven by a person walking into them."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: IAM aerospace and depot maintenance training and UAW skilled-trades training as bodies, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.132, 1910.1200 and 1910.95, FAA 14 CFR 43 and 145 as the civil maintenance frame, ASME B30.2 and B30.16 for overhead cranes, NFPA 77 for static electricity, ANSI Z358.1 for eyewash, and ANSI R15.06 and ISO 10218 for industrial and collaborative robots, across eight civilian-style workplace-safety jobs\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades — Capstone"
+    }
   }
 ];
 

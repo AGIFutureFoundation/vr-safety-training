@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "anyone-can-hold",
+    "name": "Anyone Can Hold",
+    "note": "Swept and chained the zone, matched the head count and called the hold the moment a reason appeared"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "IAM and UAW test and assembly training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.38 emergency action plans and 29 CFR 1910.132 personal protective equipment; ANSI Z535.4 safety signs; the site's written test procedure and the manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z535.4",
+        "id": "ansi-z535-4",
+        "title": "ANSI Z535.4 — Product safety signs and labels"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Aerospace",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "count-matched",
+        "name": "Count Matched",
+        "note": "Matched the head count to the roster before the countdown"
+      },
+      {
+        "id": "zone-kept",
+        "name": "Zone Kept",
+        "note": "Never let the countdown run with the zone open"
+      },
+      {
+        "id": "steady-poll",
+        "name": "Steady Poll",
+        "note": "Held the countdown poll near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-safe",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-test",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "HOLD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Zone Sweeper",
+      "Test Technician",
+      "Test Conductor",
+      "Anyone Can Hold Certified"
+    ],
+    "system": "Anyone Can Hold"
+  },
+  "hazards": {
+    "count-close-enough-hazard": "That starts the countdown with the head count one short because someone probably left early. An unmatched count means a person may be inside the zone, and the countdown waits until the count is a fact.",
+    "shortcut-sweep-hazard": "That signs the sweep off from the bunker window without walking the zone. Somebody kneeling behind a cabinet or a vehicle parked in the lee of the deflector cannot be seen from the window.",
+    "unhook-chain-hazard": "That unhooks the zone chain to let a vehicle through during the countdown. The chain is the zone; a gap in it is an invitation to the next person to walk through too.",
+    "walk-out-early-hazard": "That walks out to the stand before it has been made safe. The run ending is not the same as the stand holding no energy, and the procedure's safing steps are what make the walk out survivable."
+  },
+  "id": "ad-test-stand-exclusion-zone-and-holds",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "countdown-poll",
+      "alert": "The zone camera shows a person walking in past the chain during the countdown.",
+      "cue": "Call a hold now.",
+      "delay": 4,
+      "id": "person-in-zone",
+      "kind": "Zone breach",
+      "missNote": "The countdown kept running with a person inside the zone. A hold costs minutes; not calling it can cost a life.",
+      "seconds": 11,
+      "target": "hold-button",
+      "why": "A person inside the zone during a countdown is exactly the situation the hold exists for, and anyone on the net can and must call it — the countdown can always restart, the person cannot be un-hurt.",
+      "wrongNote": "Not that — a person in the zone is answered with a hold, first."
+    },
+    {
+      "after": "safing-hold",
+      "alert": "A driver has unhooked the zone chain to bring a cart in before the stand is safed.",
+      "cue": "Get the zone chain back up before anyone else walks through.",
+      "delay": 4,
+      "id": "gate-left-open",
+      "kind": "Zone challenge",
+      "missNote": "The chain stayed down before the stand was safed. The zone was open to anyone who walked past.",
+      "seconds": 11,
+      "target": "zone-chain",
+      "why": "The stand is not safe until the procedure says so, and the chain is the only thing telling everybody outside that; putting it back up is what keeps the next person from following the driver in.",
+      "wrongNote": "That isn't it — the open chain is what needs fixing first."
+    }
+  ],
+  "lateNotes": {
+    "sweep-lee": "The lee of the deflector is swept on foot, because the window cannot see into it.",
+    "zone-chain": "The zone is chained and posted before the countdown starts."
+  },
+  "name": "Test Stand Exclusion Zone & Holds",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "testStand",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "all-clear",
+      "blast-shutter",
+      "chain-down",
+      "count-close-enough-hazard",
+      "count-meter",
+      "countdown-meter",
+      "faded-sign",
+      "fresh-sign",
+      "go-button",
+      "hearing-protection-ts",
+      "hi-vis-ts",
+      "hold-button",
+      "safety-glasses-ts",
+      "safing-switch",
+      "secured-conduit",
+      "shortcut-sweep-hazard",
+      "stand-lock",
+      "sweep-lee",
+      "sweep-north",
+      "sweep-south",
+      "test-log",
+      "test-procedure",
+      "unhook-chain-hazard",
+      "unsecured-cable",
+      "walk-out-early-hazard",
+      "window-dock",
+      "zone-chain"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hearing protection, safety glasses and hi-vis before the sweep.",
+      "id": "ppe",
+      "itemNames": {
+        "hearing-protection-ts": "hearing protection",
+        "hi-vis-ts": "hi-vis vest",
+        "safety-glasses-ts": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Hearing protection, safety glasses and hi-vis before the sweep.",
+      "targets": [
+        "hearing-protection-ts",
+        "safety-glasses-ts",
+        "hi-vis-ts"
+      ],
+      "title": "Suit up for the test area",
+      "why": "A test area is loud even between runs and full of vehicles and cables, and the hi-vis is what lets the conductor pick out every person on the zone camera during the sweep, which is the whole point of sweeping."
+    },
+    {
+      "cue": "Confirm the zone distance, the stations on the net and the hold rules.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the zone distance, the stations on the net and the hold rules.",
+      "target": "test-procedure",
+      "title": "Read the test procedure",
+      "why": "The test procedure sets the exclusion zone, lists every station that must give a go and states who may call a hold, and a crew that has not read it is running somebody else's memory of a different test."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Walk every sector of the zone, including the lee of the deflector.",
+      "id": "sweep",
+      "itemNames": {
+        "sweep-lee": "deflector lee swept",
+        "sweep-north": "north sector swept",
+        "sweep-south": "south sector swept"
+      },
+      "kind": "sequence",
+      "prompt": "Walk every sector of the zone, including the lee of the deflector.",
+      "targets": [
+        "sweep-north",
+        "sweep-south",
+        "sweep-lee"
+      ],
+      "title": "Sweep the zone on foot",
+      "why": "The sweep is done on foot because the places a person is most likely to be missed — behind cabinets, under vehicles, in the lee of the deflector — are exactly the places a window or a camera cannot see into."
+    },
+    {
+      "cue": "Chain the zone entry and hang the DANGER sign.",
+      "id": "chain-zone",
+      "kind": "select",
+      "prompt": "Chain the zone entry and hang the DANGER sign.",
+      "target": "zone-chain",
+      "title": "Chain and post the zone",
+      "why": "The chain and the sign turn the swept zone into a closed one, so that nobody arriving after the sweep walks in unaware, and the sign states the hazard in the standard format every worker is trained to read."
+    },
+    {
+      "cue": "Read the head count against the roster and commit only when it matches.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "HEAD COUNT",
+        "missNote": "The count does not match — find the missing person before the countdown starts.",
+        "speed": 0.6
+      },
+      "id": "head-count",
+      "kind": "gauge",
+      "prompt": "Read the head count against the roster and commit only when it matches.",
+      "target": "count-meter",
+      "title": "Match the head count",
+      "why": "A head count that matches the roster is the only evidence that everybody who came into the test area is now in the bunker, and a count that is one short is a reason to stop, not a rounding error."
+    },
+    {
+      "cue": "With your station ready, give your go on the net.",
+      "id": "go-poll",
+      "kind": "select",
+      "prompt": "With your station ready, give your go on the net.",
+      "target": "go-button",
+      "title": "Give your station's go",
+      "why": "Each station's go is a statement that its part of the test is ready and safe, and giving it only when that is true is what makes the poll mean something rather than being a round of habit."
+    },
+    {
+      "cue": "Carry the shutter to the bunker window and close it.",
+      "drag": {
+        "missNote": "Not closed — set the shutter over the bunker window before the countdown.",
+        "radius": 0.4,
+        "to": "window-dock"
+      },
+      "id": "place-shield",
+      "kind": "drag",
+      "prompt": "Carry the shutter to the bunker window and close it.",
+      "target": "blast-shutter",
+      "title": "Close the bunker shutter",
+      "why": "The shutter protects the people behind the window from anything the stand might throw if the run goes wrong, and it goes on before the countdown because nobody will have time to fit it during one."
+    },
+    {
+      "cue": "Keep the countdown poll inside the band as each station reports.",
+      "holdBreakNote": "The poll left the band. Steady it before the next station reports.",
+      "id": "countdown-poll",
+      "kind": "track",
+      "prompt": "Keep the countdown poll inside the band as each station reports.",
+      "seconds": 8,
+      "target": "countdown-meter",
+      "title": "Run the countdown poll",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "COUNTDOWN POLL",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A countdown poll that races skips stations and one that drags invites people to wander, and keeping it in the band means every station is heard and the net stays focused on the one thing that matters: whether to hold."
+    },
+    {
+      "cue": "On the camera, find what should not be loose in the zone.",
+      "decoyNotes": {
+        "secured-conduit": "A conduit clamped to the pad. Nothing to flag there."
+      },
+      "id": "find-issue",
+      "itemNames": {
+        "unsecured-cable": "unsecured cable across the zone"
+      },
+      "itemNotes": {
+        "unsecured-cable": "An unsecured cable across the zone is a trip for the recovery crew and can be thrown by the run; it is logged and secured."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the camera, find what should not be loose in the zone.",
+      "targets": [
+        "unsecured-cable"
+      ],
+      "title": "Find the zone issue",
+      "why": "Anything loose in the zone can move during a run, and a cable left across the path is also what trips the first person walking back out, so it is found on the camera now rather than after."
+    },
+    {
+      "cue": "Hold the safing switch through the procedure's safing sequence.",
+      "holdBreakNote": "Released safing early. Hold it through the full sequence.",
+      "id": "safing-hold",
+      "kind": "hold",
+      "prompt": "Hold the safing switch through the procedure's safing sequence.",
+      "seconds": 5,
+      "target": "safing-switch",
+      "title": "Safe the stand",
+      "why": "The end of a run is not the end of the hazard; stored energy, hot surfaces and trapped pressure remain until the safing sequence has run, and holding the switch through the whole sequence is what lets the stand reach a state people can approach."
+    },
+    {
+      "cue": "Apply the lockout to the stand's control before the zone opens.",
+      "id": "lock-stand",
+      "kind": "select",
+      "prompt": "Apply the lockout to the stand's control before the zone opens.",
+      "target": "stand-lock",
+      "title": "Lock out the stand",
+      "why": "The lockout keeps the stand from being started while people are on the pad, turning the safing into a state nobody can undo by accident from the bunker."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Call the all clear on the net, then lower the chain.",
+      "id": "open-zone",
+      "itemNames": {
+        "all-clear": "all clear called",
+        "chain-down": "chain lowered"
+      },
+      "kind": "sequence",
+      "prompt": "Call the all clear on the net, then lower the chain.",
+      "targets": [
+        "all-clear",
+        "chain-down"
+      ],
+      "title": "Open the zone",
+      "why": "The all clear on the net is what tells every station the zone is open, and lowering the chain only after it means the physical barrier and the spoken one always agree."
+    },
+    {
+      "cue": "Before you leave, find the sign that no longer does its job.",
+      "decoyNotes": {
+        "fresh-sign": "A DANGER sign in good order. Nothing to flag there."
+      },
+      "id": "find-sign",
+      "itemNames": {
+        "faded-sign": "faded DANGER sign"
+      },
+      "itemNotes": {
+        "faded-sign": "A faded DANGER sign is replaced; a sign nobody can read warns nobody."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you leave, find the sign that no longer does its job.",
+      "targets": [
+        "faded-sign"
+      ],
+      "title": "Check the signage",
+      "why": "Zone signs weather in the sun and the exhaust, and a faded one is replaced now because the next crew will rely on it the same way this one did."
+    },
+    {
+      "cue": "Log the sweep, the count, any holds and the zone issues.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Log the sweep, the count, any holds and the zone issues.",
+      "target": "test-log",
+      "title": "Close the test log",
+      "why": "The test log is the record the next test and any investigation reads, and a hold that is logged with its reason teaches the whole site something, while one that is not is just a delay nobody remembers."
+    }
+  ],
+  "supportLine": "your IAM or UAW local's member assistance programme, or the site's employee assistance line if a near miss at the stand is what stayed with you",
+  "tagline": "A generic propulsion test run the way a test procedure keeps people alive: the exclusion zone swept and chained, a head count against the roster, the countdown run from the bunker with every station polled, and a hold called by anyone who sees a reason — then the stand made safe before anyone walks back out",
+  "title": "SmartCiti.X~ Test Stand Exclusion Zone & Holds VR",
+  "trade": "Test stand technician, exclusion zone and countdown holds — IAM/UAW",
+  "underwater": null,
+  "weather": "overcast"
+}

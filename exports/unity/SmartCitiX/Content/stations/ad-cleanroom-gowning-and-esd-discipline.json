@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-and-grounded",
+    "name": "Clean and Grounded",
+    "note": "Gowned in order, proved the path to ground at the tester and never handled the part off the grounded mat"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "IAM and UAW aerospace assembly training as bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.133 eye and face protection; NFPA 77 static electricity; the site's written ESD control programme and gowning procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 77",
+        "id": "nfpa-77",
+        "title": "NFPA 77 — Recommended Practice on Static Electricity"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Aerospace",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tested-first",
+        "name": "Tested First",
+        "note": "Proved the wrist strap and heel straps before touching the part"
+      },
+      {
+        "id": "no-bare-touch",
+        "name": "No Bare Touch",
+        "note": "Never handled the part off the grounded mat"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Held the part level on the mat through the whole transfer"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-gown",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-entry",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "GOWN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Gowning Qualified",
+      "ESD Qualified",
+      "Cleanroom Lead",
+      "Clean and Grounded Certified"
+    ],
+    "system": "Clean and Grounded"
+  },
+  "hazards": {
+    "bare-bench-hazard": "That sets the part down on the bare steel of the bench beside the mat. An unprotected part on an ungrounded or insulating surface can take a static discharge it never recovers from, and the damage may not show until the part fails in service.",
+    "gown-out-of-order-hazard": "That pulls the coverall on over street shoes before the booties. Gowning out of order drags the floor's particles up onto the outside of the garment, which is exactly the surface the cleanroom exists to keep clean.",
+    "open-tote-hazard": "That carries the part out of its shielded tote across the room. Outside the tote and away from the mat, the part is exposed to every charged surface and every particle between the door and the bench.",
+    "skip-tester-hazard": "That walks to the bench without testing the wrist strap and heel straps. A strap that looks fine can have a broken conductor inside it, and a person charged up by walking across the floor discharges into the first part they touch without ever feeling it."
+  },
+  "id": "ad-cleanroom-gowning-and-esd-discipline",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "transfer-part",
+      "alert": "The wrist strap's coiled cord has popped off the bench ground snap mid-transfer — the continuity monitor is chirping.",
+      "cue": "Stop the transfer now, before the part moves any further with no path to ground.",
+      "delay": 4,
+      "id": "ground-snap-pops",
+      "kind": "Path to ground lost",
+      "missNote": "The transfer carried on with the strap off the snap. A part handled by an ungrounded technician can take a discharge that leaves no mark and fails it later.",
+      "seconds": 11,
+      "target": "bench-stop",
+      "why": "The continuity monitor chirps because the one thing bleeding charge off this technician's body has just come loose, and every second the transfer carries on is a second the part is being handled by someone who is charging up again with every movement.",
+      "wrongNote": "Not that — the lost ground is what stops this transfer, nothing else first."
+    },
+    {
+      "after": "ionizer-hold",
+      "alert": "A visitor in street clothes has opened the air-shower door and is stepping into the bay.",
+      "cue": "Call the lead so the visitor is stopped and gowned before coming further in.",
+      "delay": 4,
+      "id": "visitor-at-the-door",
+      "kind": "Entry challenge",
+      "missNote": "Nobody stopped the ungowned visitor. Every step they took into the bay undid the gowning everyone else had done.",
+      "seconds": 11,
+      "target": "lead-call",
+      "why": "A single ungowned person walking into the bay carries in more particles and more charge than the whole shift's work generates, and the lead is the one who stops the entry and walks them back through the gowning order.",
+      "wrongNote": "That isn't it — the ungowned visitor at the door is what needs stopping first."
+    }
+  ],
+  "lateNotes": {
+    "tester-plate": "The strap test happens before the bench, every entry, not once a shift.",
+    "wrist-strap": "The wrist strap sits snug on skin, not over a sleeve, before the tester is even tried."
+  },
+  "name": "Cleanroom Gowning & ESD Discipline",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cleanRoomBay",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "air-shower",
+      "bare-bench-hazard",
+      "bench-mat",
+      "bench-stop",
+      "bootie-bin",
+      "coverall-rack",
+      "cut-strap-cord",
+      "entry-card",
+      "entry-log",
+      "foam-cup",
+      "gown-out-of-order-hazard",
+      "ground-snap",
+      "heel-straps",
+      "hood-rack",
+      "ionizer-switch",
+      "lead-call",
+      "mat-meter",
+      "open-tote-hazard",
+      "part-tote",
+      "shield-lid",
+      "skip-tester-hazard",
+      "spare-strap",
+      "static-shield-bag",
+      "tester-plate",
+      "tote-label",
+      "transfer-meter",
+      "traveller-card",
+      "wrist-strap"
+    ],
+    "meshes": 194
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": false,
+      "cue": "Booties at the bench line, then hood and mask, then the coverall.",
+      "id": "gown",
+      "itemNames": {
+        "bootie-bin": "booties over shoes",
+        "coverall-rack": "coverall zipped",
+        "hood-rack": "hood and mask"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — gowning runs top-down on the posted card for a reason: booties at the bench line first here, then hood, then the coverall, so nothing from the floor rides up the outside.",
+      "prompt": "Booties at the bench line, then hood and mask, then the coverall.",
+      "targets": [
+        "bootie-bin",
+        "hood-rack",
+        "coverall-rack"
+      ],
+      "title": "Gown in the posted order",
+      "why": "The gowning order exists so that each layer goes on without dragging the dirt of the last one onto its clean outside surface — booties at the bench line keep street shoes from ever touching the clean side, and the hood goes under the coverall collar so hair and skin stay sealed in."
+    },
+    {
+      "cue": "Confirm the part, the bench and the ESD rules posted for today's job.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the part, the bench and the ESD rules posted for today's job.",
+      "target": "entry-card",
+      "title": "Read the entry card",
+      "why": "The entry card is what says which part is in work, which bench it belongs on and whether today's job needs anything beyond the standing rules — walking in without it means handling a sensitive part on assumptions nobody signed off."
+    },
+    {
+      "cue": "Stand through the full air-shower cycle before the inner door opens.",
+      "id": "air-shower-pass",
+      "kind": "select",
+      "prompt": "Stand through the full air-shower cycle before the inner door opens.",
+      "target": "air-shower",
+      "title": "Pass through the air shower",
+      "why": "The air shower strips the loose particles the gowning room could not, and cutting the cycle short carries them straight onto the benches — the inner door waits on the cycle so the cleanest room in the building is never the one a hurry lets the dust into."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Wrist strap snug on skin, heel straps on both shoes, then stand on the tester plate.",
+      "id": "strap-test",
+      "itemNames": {
+        "heel-straps": "heel straps on",
+        "tester-plate": "stand on the tester plate",
+        "wrist-strap": "wrist strap on skin"
+      },
+      "kind": "sequence",
+      "prompt": "Wrist strap snug on skin, heel straps on both shoes, then stand on the tester plate.",
+      "targets": [
+        "wrist-strap",
+        "heel-straps",
+        "tester-plate"
+      ],
+      "title": "Test strap and heel straps",
+      "why": "A wrist strap that is loose on a sleeve, or a heel strap tucked under a bootie, reads as protection and delivers none — the tester is the only thing in the room that proves the path from this person to ground is actually complete today."
+    },
+    {
+      "cue": "With a PASS at the tester, go to the grounded mat on the bench.",
+      "id": "strap-verdict",
+      "kind": "select",
+      "prompt": "With a PASS at the tester, go to the grounded mat on the bench.",
+      "target": "bench-mat",
+      "title": "Go to the grounded mat",
+      "why": "Only a PASS earns the bench; a FAIL means the strap or the heel straps are not doing their job and the right move is to fix that first, because the damage a charged hand does to a sensitive part is invisible and often shows up only once the part is in service."
+    },
+    {
+      "cue": "Read the mat's ground check and commit only in the green band the site's procedure sets.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "MAT TO GROUND",
+        "missNote": "Not in the green — recheck the mat's ground cord before any part comes out of its tote.",
+        "speed": 0.6
+      },
+      "id": "mat-check",
+      "kind": "gauge",
+      "prompt": "Read the mat's ground check and commit only in the green band the site's procedure sets.",
+      "target": "mat-meter",
+      "title": "Check the mat to ground",
+      "why": "A dissipative mat with a lifted ground cord is just an insulating sheet with a nice colour, and the meter reading is what shows that this particular mat is still bleeding charge away rather than letting it build under the part."
+    },
+    {
+      "cue": "Carry the shielded tote to the bench and set it beside the mat before it opens.",
+      "drag": {
+        "missNote": "Not at the bench — set the shielded tote down beside the grounded mat before opening it.",
+        "radius": 0.4,
+        "to": "ground-snap"
+      },
+      "id": "carry-tote",
+      "kind": "drag",
+      "prompt": "Carry the shielded tote to the bench and set it beside the mat before it opens.",
+      "target": "part-tote",
+      "title": "Bring the part in its tote",
+      "why": "The shielded tote is the part's protection everywhere outside the grounded mat, and it only opens once it is sitting on the bench beside the mat — the part never travels across the room naked, however short the walk looks."
+    },
+    {
+      "cue": "Keep the part level and low over the mat as it comes out of the tote.",
+      "holdBreakNote": "The part drifted off level over the mat. Bring it back low and steady before setting it down.",
+      "id": "transfer-part",
+      "kind": "track",
+      "prompt": "Keep the part level and low over the mat as it comes out of the tote.",
+      "seconds": 8,
+      "target": "transfer-meter",
+      "title": "Transfer the part to the mat",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "LEVEL OVER MAT",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A part lifted high or swung across the bench is a part passing through charged air and past charged sleeves; keeping it level and low over the mat keeps it inside the one zone this room has made safe for it."
+    },
+    {
+      "cue": "Look along the shelf for the thing that has no business near a sensitive part.",
+      "decoyNotes": {
+        "static-shield-bag": "A static-shielding bag, where it belongs. Nothing to flag there."
+      },
+      "id": "find-charge-source",
+      "itemNames": {
+        "foam-cup": "foam cup on the bench"
+      },
+      "itemNotes": {
+        "foam-cup": "A foam cup is one of the most chargeable things a person can carry into a bay; it comes off the bench and out of the room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the shelf for the thing that has no business near a sensitive part.",
+      "targets": [
+        "foam-cup"
+      ],
+      "title": "Find the charge source",
+      "why": "Insulating plastics hold charge that no wrist strap can bleed off, because they are not connected to anything — a foam cup or a plain plastic bag near the mat can charge a part by induction without ever touching it."
+    },
+    {
+      "cue": "Hold the ionizer on while the insulating fixture is neutralised.",
+      "holdBreakNote": "Released the ionizer early. Hold it through the full cycle the procedure sets before the fixture goes near the part.",
+      "id": "ionizer-hold",
+      "kind": "hold",
+      "prompt": "Hold the ionizer on while the insulating fixture is neutralised.",
+      "seconds": 5,
+      "target": "ionizer-switch",
+      "title": "Run the bench ionizer",
+      "why": "Some things on the bench cannot be grounded because they insulate, and the ionizer is how their charge is neutralised — held through its full cycle, not waved at the fixture for a second on the way to the next task."
+    },
+    {
+      "cue": "Record the strap test, the mat check and the handling on the part's traveller.",
+      "id": "sign-traveller",
+      "kind": "select",
+      "prompt": "Record the strap test, the mat check and the handling on the part's traveller.",
+      "target": "traveller-card",
+      "title": "Sign the traveller",
+      "why": "The traveller is what the next station and the quality inspector read, and a handling step that is not written down is a handling step nobody can prove was done under control if the part fails later."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Close the shielded lid and label the tote before it leaves the mat.",
+      "id": "repack",
+      "itemNames": {
+        "shield-lid": "shielded lid closed",
+        "tote-label": "tote labelled"
+      },
+      "kind": "sequence",
+      "prompt": "Close the shielded lid and label the tote before it leaves the mat.",
+      "targets": [
+        "shield-lid",
+        "tote-label"
+      ],
+      "title": "Repack the part",
+      "why": "The part leaves the mat the same way it arrived, inside closed shielding — an open tote carried to the next station undoes all the control this bench just exercised, one charged sleeve at a time."
+    },
+    {
+      "cue": "Before you leave, find the strap cord that should not go back on the rack.",
+      "decoyNotes": {
+        "spare-strap": "A spare strap, sealed and ready. Nothing to flag there."
+      },
+      "id": "find-lost-strap",
+      "itemNames": {
+        "cut-strap-cord": "nicked strap cord"
+      },
+      "itemNotes": {
+        "cut-strap-cord": "A nicked coil cord is the kind of failure that passes one day and fails the next; it is tagged out and replaced, not taped."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you leave, find the strap cord that should not go back on the rack.",
+      "targets": [
+        "cut-strap-cord"
+      ],
+      "title": "Check the strap cord",
+      "why": "A damaged cord hung back on the rack becomes somebody else's failed test tomorrow — or worse, a test that passes intermittently — and taking it out of service now is how the next entry starts with a strap that works."
+    },
+    {
+      "cue": "Log the test result, the handling and the tagged cord before you degown.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Log the test result, the handling and the tagged cord before you degown.",
+      "target": "entry-log",
+      "title": "Close the entry log",
+      "why": "The entry log ties this person's strap test to this part's handling at this time, which is exactly the record anyone investigating a failed part will ask for, and it closes before degowning while the details are still in front of you."
+    }
+  ],
+  "supportLine": "your IAM or UAW local's member assistance programme, or the site's employee assistance line if a near miss in the bay is what stayed with you",
+  "tagline": "A cleanroom entry run the way contamination and static control actually work: gown in the posted order, prove the wrist strap and heel straps at the tester before touching anything, keep the part on the grounded mat, and stop the job the moment the tester says the path to ground is gone",
+  "title": "SmartCiti.X~ Cleanroom Gowning & ESD Discipline VR",
+  "trade": "Aerospace assembly technician, cleanroom and ESD control — IAM/UAW",
+  "underwater": null,
+  "weather": "overcast"
+}

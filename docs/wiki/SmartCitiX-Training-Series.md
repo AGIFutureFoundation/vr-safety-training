@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 624 SmartCiti.X stations across 19 categories and 54 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 632 SmartCiti.X stations across 19 categories and 55 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 61 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -60,6 +60,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Yacht & Charter Crew](#yacht-and-charter-crew)
 - [Marine Ecology & Restoration — Survey and Restoration Crews](#marine-ecology-and-restoration)
 - [Commercial Diving & Scientific Scuba](#commercial-diving-and-scientific-scuba)
+- [Aerospace Depot and Robotics — IAM and UAW Skilled Trades](#aerospace-defense-and-robotics)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1627,6 +1628,26 @@ Eight jobs of the commercial dive crew and the scientific scuba pair, weighted t
 | 721 | [Low-Visibility & Night Dive Line Work](../../WebXR/smartcity/index.html?sim=cd-low-visibility-and-night-dive-line-work) | Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above | clear, bay-underwater | 13 | 2 | 95 | In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote. |
 | 722 | [Hydraulic Tools & Suction Hazards Underwater](../../WebXR/smartcity/index.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater) | Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back | overcast, Maritime & Ports | 13 | 2 | 95 | Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water. |
 | 723 | [Dive Records & Incident Review](../../WebXR/smartcity/index.html?sim=cd-dive-records-and-incident-review) | Pile Drivers of the Carpenters diver-tender completing the dive record and the daily log and running an incident debrief with the dive supervisor, the diver, the standby diver and a client representative | clear, Maritime & Ports | 13 | 2 | 96 | The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver. |
+
+<a id="aerospace-defense-and-robotics"></a>
+## Aerospace Depot and Robotics — IAM and UAW Skilled Trades
+
+**Union:** IAM (International Association of Machinists and Aerospace Workers) aerospace and depot training, with UAW skilled-trades training for the robotics floor
+
+**Certifications and standards:** IAM aerospace and depot maintenance training and UAW skilled-trades training as bodies, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.132, 1910.1200 and 1910.95, FAA 14 CFR 43 and 145 as the civil maintenance frame, ASME B30.2 and B30.16 for overhead cranes, NFPA 77 for static electricity, ANSI Z358.1 for eyewash, and ANSI R15.06 and ISO 10218 for industrial and collaborative robots, across eight civilian-style workplace-safety jobs
+
+Eight civilian-style workplace-safety jobs in a generic aerospace depot and a robotics factory and training centre: a cleanroom entered in the posted gowning order with the strap test proven, a payload moved by overhead crane on a briefed lift plan, a hazardous fluid serviced from its safety data sheet with a buddy in place, a depot bay released only on a complete tool count and a FOD walk, a test stand's exclusion zone swept and held, a robot cell locked out and re-entered with a personal lock, an AMR floor worked on its traffic plan with an e-stop drill, and a cobot bench released only when every control on its risk assessment was tested with a body. Every station also runs with a declared fault (`?fault=`) that changes one step's right answer. Civilian-style workplace safety only; no real site, programme or vehicle is named.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| ad-1 | [Cleanroom Gowning & ESD Discipline](../../WebXR/smartcity/index.html?sim=ad-cleanroom-gowning-and-esd-discipline) | Aerospace assembly technician, cleanroom and ESD control — IAM/UAW | overcast, aerospace-depot | 14 | 2 | 97 | A cleanroom entry only reaches the bench once the gowning order is followed and the wrist strap and heel straps pass at the tester, and the part never leaves its shielding except over the grounded mat. |
+| ad-7 | [Payload Crane Lift with a Lift Plan](../../WebXR/smartcity/index.html?sim=ad-payload-crane-lift-with-a-lift-plan) | Rigger and crane operator, payload lift in a cleanroom — IAM/UAW | overcast, aerospace-depot | 14 | 2 | 94 | A sensitive payload only leaves its stand after the lift plan is briefed, the rigging inspected, one signal person named and a trial lift made a hand's width off the support. |
+| ad-5 | [Hazardous Fluid Servicing with a Buddy](../../WebXR/smartcity/index.html?sim=ad-hazardous-fluid-servicing-with-a-buddy) | Depot servicing technician, hazardous fluid servicing — IAM | overcast, aerospace-depot | 14 | 2 | 94 | A servicing transfer only starts once the safety data sheet is read, the PPE it names is buddy-checked and the eyewash is proven, and a weeping fitting is answered at the shut-off. |
+| ad-4 | [Depot Tool Control & FOD Walk](../../WebXR/smartcity/index.html?sim=ad-depot-tool-control-and-fod-walk) | Depot aircraft maintainer, tool control and FOD prevention — IAM | overcast, aerospace-depot | 13 | 2 | 94 | An aircraft only leaves the depot bay once the kit counts back complete against its shadows and a shoulder-to-shoulder FOD walk has found what nobody meant to leave. |
+| ad-6 | [Test Stand Exclusion Zone & Holds](../../WebXR/smartcity/index.html?sim=ad-test-stand-exclusion-zone-and-holds) | Test stand technician, exclusion zone and countdown holds — IAM/UAW | overcast, aerospace-depot | 14 | 2 | 95 | A test countdown only runs once the zone has been swept on foot, chained and matched to the roster, and anyone on the net can call the hold that stops it. |
+| ad-2 | [Robot Cell Lockout & Safe Re-entry](../../WebXR/smartcity/index.html?sim=ad-robot-cell-lockout-and-safe-reentry) | Robot technician, cell lockout and re-entry — UAW/IAM | overcast, robotics-factory | 14 | 2 | 95 | A robot cell is only entered once it is stopped, isolated under a personal lock, tried and proven at zero energy, with any jog made in reduced speed. |
+| ad-3 | [AMR Fleet Traffic & E-stop Drill](../../WebXR/smartcity/index.html?sim=ad-amr-fleet-traffic-and-estop-drill) | Automation technician, AMR fleet traffic and e-stop — UAW/IAM | overcast, robotics-factory | 14 | 2 | 95 | An AMR floor is crossed only at the marked points, the e-stop drill proves every unit stops, and a faulted robot is taken out of the fleet before anyone touches it. |
+| ad-8 | [Cobot Risk Assessment & Speed-and-Separation](../../WebXR/smartcity/index.html?sim=ad-cobot-risk-assessment-and-speed-separation) | Automation technician, collaborative robot application — UAW/IAM | overcast, robotics-training-centre | 14 | 2 | 96 | A cobot bench is only released once its risk assessment is walked against the bench as built and the scanner zones are proven by a person walking into them. |
 
 ## Real-world environments
 

@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-on-the-floor",
+    "name": "Nothing on the Floor",
+    "note": "Counted the kit out and back, walked the bay shoulder to shoulder and released the aircraft with nothing missing"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM depot and aircraft maintenance training as a body; FAA 14 CFR 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR 145 repair stations as the civil frame; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.22 walking-working surfaces; the depot's written tool-control and foreign-object-damage prevention programme",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 145",
+        "id": "faa-14-cfr-145",
+        "title": "14 CFR Part 145 — Repair stations"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 43",
+        "id": "faa-14-cfr-43",
+        "title": "14 CFR Part 43 — Maintenance, preventive maintenance, rebuilding and alteration"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Aerospace",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "kit-counted",
+        "name": "Kit Counted",
+        "note": "Counted the kit out against its shadows before the task"
+      },
+      {
+        "id": "no-loose-items",
+        "name": "No Loose Items",
+        "note": "Never carried an untethered item to the aircraft"
+      },
+      {
+        "id": "even-line",
+        "name": "Even Line",
+        "note": "Held the FOD walk line near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-walk",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-release",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "FOD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Tool Control Qualified",
+      "Maintainer",
+      "Crew Chief",
+      "Nothing on the Floor Certified"
+    ],
+    "system": "Nothing on the Floor"
+  },
+  "hazards": {
+    "borrow-tool-hazard": "That borrows a tool from the next crew's kit. A tool that is not in your kit is a tool your count will never catch if it goes missing, and it leaves a hole in theirs.",
+    "loose-pen-hazard": "That walks to the aircraft with a pen and a torch loose in the chest pocket. Anything that can fall out when you lean into a bay can end up where it jams a control or gets drawn into an engine.",
+    "sign-anyway-hazard": "That signs the aircraft off with an empty shadow in the kit. A tool unaccounted for may be inside an access panel or an intake, and the only honest answer to an empty shadow is to find it.",
+    "skip-walk-hazard": "That skips the FOD walk because the bay looks clean. Small hardware, rivet tails and safety-wire clippings are exactly the debris that is invisible from standing height."
+  },
+  "id": "ad-depot-tool-control-and-fod-walk",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fod-walk",
+      "alert": "A coworker is about to close the access panel you were working in before the kit has been counted back.",
+      "cue": "Call stop work before the panel is closed.",
+      "delay": 4,
+      "id": "panel-closing",
+      "kind": "Panel closing",
+      "missNote": "The panel was closed before the kit was counted back. Whatever was left behind it is now sealed inside the aircraft.",
+      "seconds": 11,
+      "target": "stop-work",
+      "why": "An access panel closed before the count is a panel that may have a tool behind it, and opening it again later costs more than a few seconds of stop work now, so the call is made before the fasteners go in.",
+      "wrongNote": "Not that — the panel closing before the count is what needs stopping."
+    },
+    {
+      "after": "hold-count",
+      "alert": "The crib attendant is about to book the kit back in without looking at the shadows.",
+      "cue": "Call the crib attendant back to count the kit against its shadows.",
+      "delay": 4,
+      "id": "crib-mixup",
+      "kind": "Crib challenge",
+      "missNote": "The kit was booked back in without a look. The crib's record now says complete whether or not it is.",
+      "seconds": 11,
+      "target": "crib-attendant",
+      "why": "The crib's own count is the second check on yours, and a kit booked in unseen turns two counts into one — the attendant is asked to count it against the shadows so the depot's record matches what is actually in the drawer.",
+      "wrongNote": "That isn't it — the kit being booked in unseen is what needs correcting."
+    }
+  ],
+  "lateNotes": {
+    "kit-shadow-1": "The kit is counted against its shadows at sign-out, before the aircraft is touched.",
+    "rivet-tail": "Debris found on the walk is picked up and bagged, not kicked aside."
+  },
+  "name": "Depot Tool Control & FOD Walk",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "depotHangarBay",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bay-log",
+      "borrow-tool-hazard",
+      "broken-tether",
+      "count-hold",
+      "crib-attendant",
+      "crib-sign",
+      "floor-seam",
+      "good-tether",
+      "hearing-protection-dt",
+      "kit-return",
+      "kit-shadow-1",
+      "kit-shadow-2",
+      "kit-shadow-3",
+      "kit-tray",
+      "loose-pen-hazard",
+      "release-button",
+      "rivet-tail",
+      "safety-glasses-dt",
+      "safety-shoes-dt",
+      "sign-anyway-hazard",
+      "skip-walk-hazard",
+      "stand-dock",
+      "stop-work",
+      "tether-point",
+      "torque-meter",
+      "walk-line",
+      "work-order-dt"
+    ],
+    "meshes": 217
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses, hearing protection and safety shoes before the crib window.",
+      "id": "ppe",
+      "itemNames": {
+        "hearing-protection-dt": "hearing protection",
+        "safety-glasses-dt": "safety glasses",
+        "safety-shoes-dt": "safety shoes"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses, hearing protection and safety shoes before the crib window.",
+      "targets": [
+        "safety-glasses-dt",
+        "hearing-protection-dt",
+        "safety-shoes-dt"
+      ],
+      "title": "Suit up for the bay",
+      "why": "The depot bay runs rivet guns, air tools and ground equipment around every aircraft in it, and the protection is for the hangar's hazards as much as for this one task, because noise and flying debris do not respect whose job it is."
+    },
+    {
+      "cue": "Confirm the task, the access panels and the kit the task calls for.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the task, the access panels and the kit the task calls for.",
+      "target": "work-order-dt",
+      "title": "Read the work order",
+      "why": "The work order is what says which panels will be open and which kit is needed, and it is also what the count at the end is measured against — a task started without it has no defined finish line."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check every tool against its shadow before the kit leaves the crib.",
+      "id": "kit-out",
+      "itemNames": {
+        "kit-shadow-1": "ratchet in its shadow",
+        "kit-shadow-2": "torque driver in its shadow",
+        "kit-shadow-3": "inspection mirror in its shadow"
+      },
+      "kind": "sequence",
+      "prompt": "Check every tool against its shadow before the kit leaves the crib.",
+      "targets": [
+        "kit-shadow-1",
+        "kit-shadow-2",
+        "kit-shadow-3"
+      ],
+      "title": "Sign out and count the kit",
+      "why": "The count at sign-out is the baseline the count at release is measured against; without it a missing tool at the end cannot be told apart from a tool that was never in the kit, and the lost-tool search starts from a guess."
+    },
+    {
+      "cue": "Tether the torch and zip away the pen before you go to the aircraft.",
+      "id": "tether",
+      "kind": "select",
+      "prompt": "Tether the torch and zip away the pen before you go to the aircraft.",
+      "target": "tether-point",
+      "title": "Tether and pocket loose items",
+      "why": "Pens, torches, badges and earplug cases are the classic foreign objects because nobody counts them as tools, and tethering or zipping them away is how they stay on the person instead of inside a wheel well."
+    },
+    {
+      "cue": "Read the torque driver's calibration check and commit only in the green band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CAL CHECK",
+        "missNote": "Not in the green — return the driver to the crib and draw a calibrated one.",
+        "speed": 0.6
+      },
+      "id": "torque-check",
+      "kind": "gauge",
+      "prompt": "Read the torque driver's calibration check and commit only in the green band.",
+      "target": "torque-meter",
+      "title": "Check the torque driver",
+      "why": "A driver out of its calibration date or reading outside its check band will torque every fastener wrong without any sign, and the check is what proves the tool this task depends on is telling the truth today."
+    },
+    {
+      "cue": "Carry the kit tray to the work stand and set it there.",
+      "drag": {
+        "missNote": "Not staged — set the kit tray on the work stand, not on the wing or the floor.",
+        "radius": 0.4,
+        "to": "stand-dock"
+      },
+      "id": "stage-kit",
+      "kind": "drag",
+      "prompt": "Carry the kit tray to the work stand and set it there.",
+      "target": "kit-tray",
+      "title": "Stage the kit on the stand",
+      "why": "A kit staged on the work stand is a kit in one known place; tools set down on a wing, a tyre or the floor are tools that get walked away from and found later by the aircraft's first flight."
+    },
+    {
+      "cue": "Keep the FOD walk line even inside the band as the crew moves across the bay.",
+      "holdBreakNote": "The line drifted out of step. Even it up before the walk moves on.",
+      "id": "fod-walk",
+      "kind": "track",
+      "prompt": "Keep the FOD walk line even inside the band as the crew moves across the bay.",
+      "seconds": 8,
+      "target": "walk-line",
+      "title": "Walk the bay shoulder to shoulder",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WALK LINE",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A FOD walk works because the line is even and slow, each person's strip overlapping the next, and a line that bunches or races leaves gaps where the one rivet tail that matters sits unnoticed."
+    },
+    {
+      "cue": "Look along the shelf and the floor for what should not be in the bay.",
+      "decoyNotes": {
+        "floor-seam": "A floor expansion joint, as built. Nothing to flag there."
+      },
+      "id": "find-debris",
+      "itemNames": {
+        "rivet-tail": "rivet tail on the floor"
+      },
+      "itemNotes": {
+        "rivet-tail": "A rivet tail is exactly the size of debris an intake pulls in; it is bagged and logged."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the shelf and the floor for what should not be in the bay.",
+      "targets": [
+        "rivet-tail"
+      ],
+      "title": "Find the debris",
+      "why": "The walk exists to find the item nobody meant to leave, and bagging what is found also tells the crew where it came from, so the task that shed it can be done more tidily next time."
+    },
+    {
+      "cue": "Hold the release hold while the kit is counted back against its shadows.",
+      "holdBreakNote": "Released the hold before the count finished. Keep it until every shadow is checked.",
+      "id": "hold-count",
+      "kind": "hold",
+      "prompt": "Hold the release hold while the kit is counted back against its shadows.",
+      "seconds": 5,
+      "target": "count-hold",
+      "title": "Hold the release while the kit is counted",
+      "why": "The release hold keeps the aircraft from being signed off while the count is happening, so there is never a moment where the paperwork says done and the kit is still being looked at."
+    },
+    {
+      "cue": "With the kit counted back complete, release the aircraft on the work order.",
+      "id": "release-select",
+      "kind": "select",
+      "prompt": "With the kit counted back complete, release the aircraft on the work order.",
+      "target": "release-button",
+      "title": "Release the aircraft",
+      "why": "The aircraft is released only on a complete count, because a release is a promise that nothing from this task is left inside it, and that promise is only as good as the count behind it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Return the kit to the crib and sign it back in.",
+      "id": "return-kit",
+      "itemNames": {
+        "crib-sign": "crib sign-in",
+        "kit-return": "kit returned"
+      },
+      "kind": "sequence",
+      "prompt": "Return the kit to the crib and sign it back in.",
+      "targets": [
+        "kit-return",
+        "crib-sign"
+      ],
+      "title": "Return the kit",
+      "why": "The crib's sign-in closes the loop the sign-out opened, and a kit that is not signed back in shows as out on the depot's board, which is the first thing checked when a tool turns up where it should not."
+    },
+    {
+      "cue": "Find the tether that should not go back on the rack.",
+      "decoyNotes": {
+        "good-tether": "A tether with its clip intact. Nothing to flag there."
+      },
+      "id": "find-tag",
+      "itemNames": {
+        "broken-tether": "frayed tool tether"
+      },
+      "itemNotes": {
+        "broken-tether": "A frayed tether is a dropped tool waiting to happen; it is tagged and replaced."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the tether that should not go back on the rack.",
+      "targets": [
+        "broken-tether"
+      ],
+      "title": "Check the tethers",
+      "why": "A tether that fails is worse than none because the crew trusts it, and taking a frayed one out of service now is how the next task starts with tethers that actually hold."
+    },
+    {
+      "cue": "Log the counts, the debris found and the tagged tether.",
+      "id": "closeout",
+      "kind": "select",
+      "prompt": "Log the counts, the debris found and the tagged tether.",
+      "target": "bay-log",
+      "title": "Log the task",
+      "why": "The bay log is how the depot sees where debris keeps coming from and which kits keep coming back short, and it is written before the crew moves on while the details are still in front of them."
+    }
+  ],
+  "supportLine": "your IAM local's member assistance programme, or the depot's employee assistance line if a close call on the ramp or in the bay is what stayed with you",
+  "tagline": "A depot maintenance task closed out the way tool control and FOD prevention actually work: the crib kit signed out and counted, every loose item tethered or pocketed at the aircraft, a shoulder-to-shoulder FOD walk of the bay, and the aircraft released only when the kit counts back complete",
+  "title": "SmartCiti.X~ Depot Tool Control & FOD Walk VR",
+  "trade": "Depot aircraft maintainer, tool control and FOD prevention — IAM",
+  "underwater": null,
+  "weather": "overcast"
+}

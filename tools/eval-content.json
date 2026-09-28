@@ -3866,6 +3866,162 @@
     },
     {
       "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan",
+      "name": "Payload Crane Lift with a Lift Plan",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.72,
+          "medianWhy": 194,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 197,
+          "materials": 81,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.6677419354838711,
+          "nearest": "bs-tandem-lift-girder-set",
+          "similarity": 0.2064516129032258
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy",
+      "name": "Hazardous Fluid Servicing with a Buddy",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.76,
+          "medianWhy": 202,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 208,
+          "materials": 89,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5157894736842107,
+          "nearest": "av-lavatory-and-potable-water-separation",
+          "similarity": 0.23684210526315788
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk",
+      "name": "Depot Tool Control & FOD Walk",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.71,
+          "medianWhy": 192,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 217,
+          "materials": 92,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.625925925925926,
+          "nearest": "av-borescope-and-tool-control-inventory",
+          "similarity": 0.21481481481481482
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wp-first-paycheck-coaching",
       "name": "First-Paycheck Coaching",
       "category": "Community Environmental Justice",
@@ -6721,6 +6877,162 @@
           "score": 0.5364779874213838,
           "nearest": "pl-fire-sprinkler-riser-and-flow-test",
           "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds",
+      "name": "Test Stand Exclusion Zone & Holds",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.7550000000000001,
+          "medianWhy": 201,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 187,
+          "materials": 76,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.7000000000000001,
+          "nearest": "ra-roadway-worker-protection-and-job-briefing",
+          "similarity": 0.2
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill",
+      "name": "AMR Fleet Traffic & E-stop Drill",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.7849999999999999,
+          "medianWhy": 207,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 211,
+          "materials": 78,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5745019920318726,
+          "nearest": "ad-cobot-risk-assessment-and-speed-separation",
+          "similarity": 0.2250996015936255
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry",
+      "name": "Robot Cell Lockout & Safe Re-entry",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8150000000000002,
+          "medianWhy": 213,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 193,
+          "materials": 84,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.4873462214411249,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.24253075571177504
         }
       }
     },
@@ -12030,6 +12342,58 @@
     },
     {
       "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation",
+      "name": "Cobot Risk Assessment & Speed-and-Separation",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 83,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.5745019920318726,
+          "nearest": "ad-amr-fleet-traffic-and-estop-drill",
+          "similarity": 0.2250996015936255
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "ml-retail-counter-deescalation",
       "name": "Retail Counter De-escalation",
       "category": "Mobility & Transit",
@@ -15189,7 +15553,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 261,
+          "meshes": 247,
           "materials": 92,
           "interactables": 29
         },
@@ -20137,6 +20501,58 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline",
+      "name": "Cleanroom Gowning & ESD Discipline",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.885,
+          "medianWhy": 227,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 194,
+          "materials": 79,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.648306595365419,
+          "nearest": "ad-hazardous-fluid-servicing-with-a-buddy",
+          "similarity": 0.2103386809269162
         }
       }
     },

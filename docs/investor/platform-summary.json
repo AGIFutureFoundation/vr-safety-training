@@ -3,12 +3,12 @@
   "facts": [
     {
       "key": "procedures",
-      "value": 633,
+      "value": 641,
       "source": "WebXR/smartcity/catalog.json stations.length"
     },
     {
       "key": "smartcityStations",
-      "value": 624,
+      "value": 632,
       "source": "WebXR/smartcity/catalog.json stations where app = smartcity"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "key": "programmes",
-      "value": 54,
+      "value": 55,
       "source": "WebXR/smartcity/js/curricula.js CURRICULA.length"
     },
     {
@@ -43,12 +43,12 @@
     },
     {
       "key": "competencies",
-      "value": 64,
+      "value": 65,
       "source": "WebXR/shared/competency.js COMPETENCIES.length"
     },
     {
       "key": "programmeCompetencies",
-      "value": 54,
+      "value": 55,
       "source": "WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length"
     },
     {
@@ -63,12 +63,12 @@
     },
     {
       "key": "programmeLadderLevels",
-      "value": 1080,
+      "value": 1100,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.levels"
     },
     {
       "key": "programmeLadderLevelsFull",
-      "value": 1079,
+      "value": 1099,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar"
     },
     {
@@ -78,22 +78,22 @@
     },
     {
       "key": "evalProceduresScored",
-      "value": 633,
+      "value": 641,
       "source": "tools/eval-content.json results.length"
     },
     {
       "key": "evalCorpusMean",
-      "value": 95.8,
+      "value": 95.7,
       "source": "tools/eval-content.json mean of results[].score"
     },
     {
       "key": "evalBand95plus",
-      "value": 513,
+      "value": 518,
       "source": "tools/eval-content.json results with score >= 95"
     },
     {
       "key": "evalBand90to94",
-      "value": 115,
+      "value": 118,
       "source": "tools/eval-content.json results with score 90-94"
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "key": "bayWorldSites",
-      "value": 50,
+      "value": 51,
       "source": "WebXR/shared/bayworld-data.js BAY_SITES.length"
     },
     {
@@ -128,7 +128,7 @@
     },
     {
       "key": "bayWorldSideQuests",
-      "value": 106,
+      "value": 108,
       "source": "WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length"
     },
     {
@@ -208,22 +208,22 @@
     },
     {
       "key": "scenicDistricts",
-      "value": 7,
+      "value": 10,
       "source": "WebXR/smartcity/js/districts.js DISTRICTS entries with plaza: false"
     },
     {
       "key": "assetBuilders",
-      "value": 131,
+      "value": 137,
       "source": "tools/gen_investor.mjs: entries of EQUIPMENT_BUDGET, FLEET_BUDGET, PROPS_BUDGET, TOOLKIT_BUDGET, WILDLIFE_BUDGET (kinds), SKY_BUDGET (one dome)"
     },
     {
       "key": "unityModels",
-      "value": 90,
+      "value": 96,
       "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries.length"
     },
     {
       "key": "unityModels.equipment",
-      "value": 37,
+      "value": 42,
       "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = equipment"
     },
     {
@@ -233,17 +233,17 @@
     },
     {
       "key": "unityModels.toolkit",
-      "value": 21,
+      "value": 22,
       "source": "exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = toolkit"
     },
     {
       "key": "unityExportBytes",
-      "value": 7037324,
+      "value": 7258740,
       "source": "exports/unity/SmartCitiX/Models/MANIFEST.json bytes"
     },
     {
       "key": "uiPages",
-      "value": 66,
+      "value": 67,
       "source": "ls WebXR/dist/*.html WebXR/dist/tracks/*.html"
     }
   ]
