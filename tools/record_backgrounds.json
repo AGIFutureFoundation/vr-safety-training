@@ -1,0 +1,35 @@
+{
+  "about": "Camera paths for tools/record_backgrounds.mjs, one per clip in WebXR/home/media. page is under WebXR/dist; start lists the buttons clicked to leave the menu; path is a dolly (from/to poses) or an orbit round a centre; hooks name the world hooks in the tool (dusk clock, streaming follow, sunbeams, fleet centre); grade names an ffmpeg colour balance. Poses are world metres: p is the camera, t the point it looks at.",
+  "shots": {
+    "hero": {
+      "page": "bayworld.html?weather=clear", "start": ["#menu-start"], "settle": 4000, "size": [1280, 720], "seconds": 10, "grade": "dusk", "crf": 25, "hooks": ["bay-dusk"],
+      "path": { "type": "dolly", "from": { "p": [-230, 26, 440], "t": [-60, 38, -40] }, "to": { "p": [-20, 34, 400], "t": [20, 38, -50] }, "fov": 42 }
+    },
+    "bayworld": {
+      "page": "bayworld.html?weather=clear", "start": ["#menu-start"], "settle": 4000, "size": [960, 540], "seconds": 10, "grade": "dusk", "crf": 25, "hooks": ["bay-dusk"],
+      "path": { "type": "dolly", "from": { "p": [-268, 34, 288], "t": [-345, 8, 360] }, "to": { "p": [-292, 26, 312], "t": [-345, 8, 360] }, "fov": 50 }
+    },
+    "underwater": {
+      "page": "underwater.html", "start": ["#menu-start"], "settle": 4000, "size": [960, 540], "seconds": 10, "grade": "sea", "crf": 25, "hooks": ["deep-sunbeams"],
+      "path": { "type": "orbit", "centre": [-716, -7.4, -526], "radius": [6, 5], "angle": [0.6, 1.5], "height": [-5.4, -5.0], "lookY": -7.0, "fov": 55 },
+      "probe": [0, 0.99]
+    },
+    "regatta": {
+      "page": "regatta.html?weather=clear", "start": ["#menu-enter", "#menu-race"], "settle": 5000, "size": [960, 540], "seconds": 10, "grade": "warm", "crf": 25, "hooks": ["regatta-fleet"],
+      "path": { "type": "dolly", "from": { "p": [0, 5, 0], "t": [0, 0, -10] }, "to": { "p": [0, 5, 0], "t": [0, 0, -10] }, "fov": 46 }
+    },
+    "fairway": {
+      "page": "fairway.html?weather=clear", "start": ["#menu-play"], "settle": 4000, "size": [960, 540], "seconds": 10, "grade": "warm", "crf": 24, "hooks": [],
+      "path": { "type": "dolly", "from": { "p": [-152, 2.0, -54], "t": [-134, 2.4, 40] }, "to": { "p": [-144, 3.0, -46], "t": [-131, 1.8, 70] }, "fov": 58 },
+      "probe": [{ "p": [-160, 3, -20], "t": [-225, 3, 55], "fov": 55 }, { "p": [-150, 2.2, -10], "t": [-215, 4, 100], "fov": 60 }, { "p": [-140, 2.0, -34], "t": [-235, 2, 30], "fov": 62 }, { "p": [-170, 4, 0], "t": [-250, 2, 90], "fov": 58 }]
+    },
+    "summit": {
+      "page": "summit.html", "start": ["#menu-start"], "settle": 5000, "size": [960, 540], "seconds": 10, "grade": "alpine", "crf": 25, "hooks": ["summit-follow"],
+      "path": { "type": "dolly", "from": { "p": [-1000, 386, 250], "t": [-240, 600, -450] }, "to": { "p": [-990, 387, 240], "t": [-232, 600, -455] }, "fov": 46 }
+    },
+    "redwood": {
+      "page": "redwood.html", "start": ["#menu-start"], "settle": 5000, "size": [960, 540], "seconds": 10, "grade": "forest", "crf": 25, "hooks": ["redwood-follow"],
+      "path": { "type": "dolly", "from": { "p": [-240, 108.6, 325], "t": [-240, 122, 170] }, "to": { "p": [-236, 108.9, 315], "t": [-238, 123, 168] }, "fov": 58 }
+    }
+  }
+}
