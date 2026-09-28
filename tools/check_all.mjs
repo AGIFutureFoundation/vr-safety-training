@@ -61,6 +61,8 @@ const CHECKERS = [
   // Redwood Reach, the forest world (docs/consoles/REDWOOD.md).
   "check_redwood.mjs",
   "check_summit.mjs",
+  // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
+  "check_parish_data.mjs",
   "check_investor.mjs",
   "check_mobile.mjs",
   // One learner, one ledger, one set of records across every app (docs/interop.md).

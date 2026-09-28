@@ -44,3 +44,8 @@ station id an existing catalog station (no new stations); no secrets, no network
 - 19:08 UTC · `tools/check_parish_data.mjs` written; first run caught Venice marina inside the Breton Sound polygon
   (moved the polygon's edge) and no docs/parishes.md yet (written). Second run: 1,788 checks pass, 0 fail.
   check_parse (2,276 modules) and check_imports (880) green · next: commit, then the single checkers that walk shared/.
+- 19:12 UTC · First increment committed · 0cd8711 · next: the checkers that see new files.
+- 19:17 UTC · check_proving failed: every tools/check_*.mjs must be in check_all (or PV_UNLISTED) and named in
+  docs/perf/checkers-baseline.json — added `check_parish_data.mjs` after check_summit with a 400 ms baseline (it runs in
+  0.2 s). check_proving 162, check_console, check_gates (66 gated items, mine not discovered twice by design), check_k12,
+  check_unity_export, check_treasures, check_interop all green · next: commit, start the full suite, next brief.
