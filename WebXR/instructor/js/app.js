@@ -17,6 +17,8 @@ import { STATION_HAZARDS } from "../../shared/bingo-hazards-data.js";
 // The organisation layer's Cohorts view (shared/org.js, docs/enterprise.md)
 // and the deployment's enterprise block it and the programme picker honour.
 import { enMountCohortView, enSetEnterprise, enEnabledProgrammes } from "./cohort.js";
+// Enterprise seat billing (docs/payments.md): the Billing tab, on the same blocks.
+import { pmMountBillingView, pmSetConfig } from "./billing.js";
 import { Auth } from "../../shared/auth.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
@@ -564,7 +566,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -579,6 +581,7 @@ $("tab-live").addEventListener("click", () => setView("live"));
 $("tab-roster").addEventListener("click", () => setView("roster"));
 $("tab-log").addEventListener("click", () => setView("log"));
 $("tab-cohort").addEventListener("click", () => setView("cohort"));
+$("tab-billing").addEventListener("click", () => setView("billing"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
@@ -649,9 +652,12 @@ mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS }
 // the account chip has read auth-config.json (controls.js mounts it below);
 // until then the view runs with no deployment restrictions.
 enMountCohortView($("en-root"), { toast });
+// The Billing tab (docs/payments.md) reads the same config: the enterprise block and the payments block.
+pmMountBillingView($("pm-root"), { toast });
 function enApplyDeployment() {
   const e = Auth.config?.enterprise ?? null;
   enSetEnterprise(e);
+  pmSetConfig({ enterprise: e, payments: Auth.config?.payments ?? null });
   const line = $("en-deployment");
   if (e?.organisation) {
     line.hidden = false;

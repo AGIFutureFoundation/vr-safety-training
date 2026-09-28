@@ -141,6 +141,7 @@
     <button id="tab-roster" role="tab" aria-selected="false" aria-controls="view-roster">Roster</button>
     <button id="tab-log" role="tab" aria-selected="false" aria-controls="view-log">Session log</button>
     <button id="tab-cohort" role="tab" aria-selected="false" aria-controls="view-cohort">Cohorts</button>
+    <button id="tab-billing" role="tab" aria-selected="false" aria-controls="view-billing">Billing</button>
   </div>
   <p class="fine" id="en-deployment" hidden></p>
 
@@ -277,6 +278,13 @@
       <p class="fine">The organisation layer (<a href="../../docs/enterprise.md">docs/enterprise.md</a>): organisations, cohorts joined by invite code, a progress grid per learner per station from each learner's own shared snapshot, a needs-attention list, CSV and xAPI per cohort, a cohort file to carry to another device, a printable certificate per learner (prototype — not a credential), and this device's audit log of coordinator actions. Everything here is kept with the signed-in profile on this device; nothing about a person leaves it without their opt-in. <a href="../privacy.html">What is stored where</a>.</p>
     </section>
     <div id="en-root"></div>
+  </section>
+
+  <section id="view-billing" role="tabpanel" aria-labelledby="tab-billing" hidden>
+    <section class="panel">
+      <p class="fine">Enterprise seat billing (<a href="../../docs/payments.md">docs/payments.md</a>): an organisation licenses seats for its cohorts — a learner never buys anything. Plans and amounts are the deployment's configuration (auth-config.json, payments block) and are shown exactly as configured; with no provider configured the on-device mock stands in and nothing is charged. Seats used against seats licensed per cohort, a quote and a checkout, receipts with a printable invoice (prototype — not an invoice), the budget agent's policy, spend, decisions and approval queue, and the payment lines of this device's audit log. Nothing here leaves the device without a configured provider.</p>
+    </section>
+    <div id="pm-root"></div>
   </section>
 
   <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <a href="../../docs/instructor-console.md">docs/instructor-console.md</a>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../portal/index.html">Back to the network portal</a>.</p>

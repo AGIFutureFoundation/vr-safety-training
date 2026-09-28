@@ -22,5 +22,17 @@
     "sso": {
       "note": "Single sign-on is a configuration point, not a feature of these static pages: the host page that embeds them verifies the credential and passes the learner through the existing launch context (?learner=, ?learner_id=, ?learner_home=) or the smartcitix:identity message. Fill in signInMethods to hide the methods the organisation does not use."
     }
+  },
+  "payments": {
+    "_read_me": "Enterprise seat billing on the organisation layer (docs/payments.md). A learner never buys anything here; an organisation licenses seats for its cohorts. provider null means no provider: checkout returns null and nothing is requested. 'mock' is the on-device stub used for the console's demo and the checker; any other name is a hosted-checkout provider the deployment operates, wired per that provider's own current documentation. publishableKey is a *publishable* key or null — never a secret; the webhook secret lives only in the Worker's environment (workers/payments/handler.mjs). Amounts are configuration, not code: every amountMinor below is null in the public build and a quote shows 'not configured' until the deployment writes its own amounts, in the currency's minor unit (currencyExponent digits).",
+    "provider": null,
+    "publishableKey": null,
+    "checkoutEndpoint": null,
+    "currency": null,
+    "currencyExponent": 2,
+    "plans": [
+      { "id": "seat-monthly", "name": "Seat, monthly", "period": "month", "periodDays": 30, "amountMinor": null },
+      { "id": "seat-annual", "name": "Seat, annual", "period": "year", "periodDays": 365, "amountMinor": null }
+    ]
   }
 }

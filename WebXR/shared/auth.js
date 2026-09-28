@@ -148,6 +148,77 @@ export function cleanEnterprise(raw) {
   };
 }
 
+/** The seat-billing plan periods payments.js knows (docs/payments.md). */
+const PAYMENT_PERIODS = ["month", "quarter", "year", "once"];
+
+/**
+ * The `payments` block of auth-config.json (docs/payments.md): enterprise
+ * seat billing on the organisation layer. Only ever read from the file — a
+ * launch URL can neither name a provider nor set a price. `publishableKey`
+ * is kept as text only when it does not look like a secret; a secret never
+ * belongs in this file at all. An amount is an integer in the currency's
+ * minor unit or null ("not configured"); nothing here invents one.
+ */
+export function cleanPayments(raw) {
+  const p = raw && typeof raw === "object" ? raw : {};
+  const provider = authText(p.provider, 40).toLowerCase();
+  const key = authText(p.publishableKey, 200);
+  const currency = authText(p.currency, 3).toUpperCase();
+  const exp = Number(p.currencyExponent);
+  const amount = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  const plans = [];
+  for (const pl of Array.isArray(p.plans) ? p.plans : []) {
+    const id = authText(pl?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(pl?.period, 10).toLowerCase();
+    const days = Number(pl?.periodDays);
+    plans.push({
+      id, name: authText(pl?.name, 80) || id,
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(pl?.amountMinor),
+    });
+  }
+  // Membership levels (docs/payments.md §7): entitlements plus an amount that is null until configured.
+  const levels = [];
+  const idList = (v) => (Array.isArray(v) ? [...new Set(v.map((x) => authText(x, 40).toLowerCase()).filter((x) => /^[a-z0-9-]{1,40}$/.test(x)))] : null);
+  for (const lv of Array.isArray(p.levels) ? p.levels : []) {
+    const id = authText(lv?.id, 40).toLowerCase();
+    if (!/^[a-z0-9-]{1,40}$/.test(id) || levels.some((x) => x.id === id) || plans.some((x) => x.id === id)) continue;
+    const period = authText(lv?.period, 10).toLowerCase();
+    const days = Number(lv?.periodDays);
+    const en = lv?.entitlements && typeof lv.entitlements === "object" ? lv.entitlements : {};
+    levels.push({
+      id, name: authText(lv?.name, 80) || id, kind: "membership",
+      period: PAYMENT_PERIODS.includes(period) ? period : "once",
+      periodDays: Number.isInteger(days) && days > 0 && days <= 3660 ? days : null,
+      amountMinor: amount(lv?.amountMinor),
+      entitlements: {
+        worlds: idList(en.worlds), programmes: idList(en.programmes),
+        certificates: en.certificates === true, cohortSeats: Number.isInteger(en.cohortSeats) && en.cohortSeats >= 0 ? Math.min(1000, en.cohortSeats) : 0, guideVoice: en.guideVoice === true,
+      },
+    });
+  }
+  // Wallet checkout through the Payment Request API: merchant details only from this block, null until a deployment fills them.
+  const ap = p.applePay && typeof p.applePay === "object" ? p.applePay : {};
+  const gp = p.googlePay && typeof p.googlePay === "object" ? p.googlePay : {};
+  const netList = (v) => (Array.isArray(v) ? v.map((x) => authText(x, 20)).filter((x) => /^[A-Za-z]{2,20}$/.test(x)) : []);
+  const applePay = { merchantIdentifier: authText(ap.merchantIdentifier, 120) || null, countryCode: /^[A-Z]{2}$/.test(authText(ap.countryCode, 2).toUpperCase()) ? authText(ap.countryCode, 2).toUpperCase() : null, supportedNetworks: netList(ap.supportedNetworks) };
+  const googlePay = { merchantId: authText(gp.merchantId, 60) || null, merchantName: authText(gp.merchantName, 80) || null, gateway: authText(gp.gateway, 40) || null, gatewayMerchantId: authText(gp.gatewayMerchantId, 120) || null, environment: authText(gp.environment, 10).toUpperCase() === "PRODUCTION" ? "PRODUCTION" : "TEST", allowedCardNetworks: netList(gp.allowedCardNetworks).map((x) => x.toUpperCase()) };
+  const wallet = p.wallet && typeof p.wallet === "object" ? p.wallet : {};
+  const walletPasses = { apple: wallet.apple === true, google: wallet.google === true };
+  return {
+    provider: /^[a-z][a-z0-9-]{0,39}$/.test(provider) ? provider : null,
+    publishableKey: key && !/^(sk|rk|whsec)_/i.test(key) ? key : null,
+    levels, applePay, googlePay, walletPasses,
+    // A hosted provider's checkout endpoint the deployment operates (https only); the mock needs none.
+    checkoutEndpoint: cleanHttpsUrl(p.checkoutEndpoint),
+    currency: /^[A-Z]{3}$/.test(currency) ? currency : null,
+    currencyExponent: Number.isInteger(exp) && exp >= 0 && exp <= 4 ? exp : 2,
+    plans,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -174,6 +245,8 @@ export function parseAuthConfig(file = null, search = "") {
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
     // The organisation layer's block, from the file only (docs/enterprise.md).
     enterprise: cleanEnterprise(file?.enterprise),
+    // Seat billing (docs/payments.md), from the file only as well.
+    payments: cleanPayments(file?.payments),
   };
 }
 
