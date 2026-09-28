@@ -28,3 +28,8 @@ Short, durable lessons for the next team at this console (the Bayou brief's GOLD
   map because the coastline there is drawn out to −122.3855 at the anchorage; `check_parishes` asserts it.
 - **Checkers:** `node tools/check_parish_data.mjs` (< 1 s) and `node tools/check_parishes.mjs` (~15 s for eight maps; the
   headless three.js build is the cost).
+- **A browser smoke without the network.** `$SP/bayou/golden-a/smoke.mjs` serves `WebXR/` on 8993, launches
+  `/opt/pw-browsers/chromium` through `/opt/node22/lib/node_modules/playwright`, aborts every non-local request and
+  fulfils the cdnjs three.js import with `WebXR/vendor/three/dist/three.module.min.js`. Register the abort route
+  **first** — Playwright tries the most recently added route first, so the fulfil must be added after the catch-all.
+  `TP=x:z:yaw` teleports through `window.__parishTest` for a second shot.
