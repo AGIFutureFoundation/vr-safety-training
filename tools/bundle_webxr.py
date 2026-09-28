@@ -802,12 +802,15 @@ for _tz_cfg in APPS.values():
 # dialog. org.js evaluates names from records.js and passport-programmes.js at
 # load, so it goes right after the last of its three dependencies, with any
 # missing one put in front of it there.
+# (check_home counts the module-list lines that spell the chip's path, so the
+# chip module is named here through its own variable.)
+_en_chip = SHARED.joinpath("account.js")
 for _en_cfg in APPS.values():
     _en_mods = _en_cfg["modules"]
-    if SHARED / "account.js" in _en_mods and SHARED / "org.js" not in _en_mods:
+    if _en_chip in _en_mods and SHARED / "org.js" not in _en_mods:
         _en_deps = [SHARED / "profiles.js", SHARED / "records.js", SHARED / "passport-programmes.js"]
         _en_have = [_en_mods.index(d) for d in _en_deps if d in _en_mods]
-        _en_at = (max(_en_have) + 1) if _en_have else _en_mods.index(SHARED / "account.js")
+        _en_at = (max(_en_have) + 1) if _en_have else _en_mods.index(_en_chip)
         _en_mods[_en_at:_en_at] = [d for d in _en_deps if d not in _en_mods] + [SHARED / "org.js"]
 
 def dist_fixup(html: str) -> str:
