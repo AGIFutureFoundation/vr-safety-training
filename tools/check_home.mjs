@@ -889,7 +889,7 @@ await check("in a browser: the hero loop plays and its button pauses it, cards w
           };
         });
         if (m.sideways > 1) problems.push(`${tag}: the page scrolls sideways by ${m.sideways}px`);
-        if (m.posters !== m.layers || m.layers !== 5) problems.push(`${tag}: ${m.posters} of ${m.layers} background layers show a poster`);
+        if (m.posters !== m.layers || m.layers !== 7) problems.push(`${tag}: ${m.posters} of ${m.layers} background layers show a poster`);
         if (motion === "reduce") {
           if (m.heroShown || m.cardsShown) problems.push(`${tag}: a loop is visible under reduced motion`);
           if (m.heroPlaying) problems.push(`${tag}: the hero plays under reduced motion`);
