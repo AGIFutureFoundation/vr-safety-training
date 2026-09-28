@@ -97,7 +97,7 @@ export const SIM_WS_OCEAN_POD_RETRIEVAL_AND_HATCH_OPENING = {
       cue: "Stop the hoist at the crane's stop control until the boat settles.",
       target: "crane-stop",
       why: "A load swinging at the rail as the boat rolls is the most dangerous moment of a recovery; stopping the hoist holds the pod below the rail, clear of the deck and the crew, until the roll has passed and the tag lines have it again.",
-      missNote: "The hoist kept coming up through the roll with the pod swinging at the rail.",
+      missNote: "The hoist kept coming up through the roll with the pod swinging at the rail, where a roll puts it into the rail and the crew.",
       wrongNote: "It is the crane's stop. The hoist control is what brought the pod up into the roll.",
     },
     {
@@ -108,7 +108,7 @@ export const SIM_WS_OCEAN_POD_RETRIEVAL_AND_HATCH_OPENING = {
       cue: "Answer the bridge on the radio and agree whether the lift lands now or holds.",
       target: "bridge-radio",
       why: "The skipper sees the weather coming and the lift supervisor sees the load; a squall on a boat with a pod on the hook is a decision for both of them together, made on the radio before the wind arrives rather than shouted across the deck after.",
-      missNote: "The skipper's call went unanswered with the pod still on the hook.",
+      missNote: "The skipper's call went unanswered with the pod still on the hook, so the squall arrived before anyone had decided to land or hold.",
       wrongNote: "It is the bridge radio. The tag lines hold the pod; the call decides what happens next.",
     },
   ],

@@ -94,7 +94,7 @@ export const SIM_WS_RAISED_FLOOR_TILE_LIFT_AND_CABLE_TRAY_SAFETY = {
       cue: "Hold up the stop paddle and stop the cart before the barricade.",
       target: "aisle-stop-paddle",
       why: "A barricade marks the opening but a person steering a heavy cart and reading rack labels may not see it until a wheel is at the edge; the stop paddle held up in their line of sight stops the cart where the barricade alone might not.",
-      missNote: "The cart kept coming toward the opening with nobody stopping it.",
+      missNote: "The cart kept coming toward the opening with nobody stopping it, and a loaded wheel at the edge of an open tile drops into the plenum.",
       wrongNote: "It is the stop paddle. The tile is already up; the cart is the new hazard.",
     },
     {
@@ -105,7 +105,7 @@ export const SIM_WS_RAISED_FLOOR_TILE_LIFT_AND_CABLE_TRAY_SAFETY = {
       cue: "Call the hall operator on the phone and tell them what is open and where.",
       target: "hall-operator-phone",
       why: "An open tile changes the plenum's pressure and can starve the racks beside it of cold air; the hall operator watches the whole hall's cooling and may need the tile back in sooner, so they hear about the alarm from the person standing at the opening.",
-      missNote: "The alarm went unreported while the rack inlet heated.",
+      missNote: "The alarm went unreported while the rack inlet heated, and the hall operator had no idea an open tile was the reason.",
       wrongNote: "It is the phone to the hall operator. The airflow watch tells you, not them.",
     },
   ],

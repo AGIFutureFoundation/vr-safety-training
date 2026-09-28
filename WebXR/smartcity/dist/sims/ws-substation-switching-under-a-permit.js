@@ -93,7 +93,7 @@ export const SIM_WS_SUBSTATION_SWITCHING_UNDER_A_PERMIT = {
       cue: "Stop them at the gate — close and chain it.",
       target: "substation-gate",
       why: "A substation is a place where an untrained person can walk inside an approach distance without knowing it exists; the gate and the chain are what keep the yard to the people who are qualified and on the permit.",
-      missNote: "The visitor walked into the yard with the gate open behind them.",
+      missNote: "The visitor walked into the yard with the gate open behind them, an untrained person heading toward approach distances they cannot see.",
       wrongNote: "It is the gate. The grounds are on; the visitor is the new hazard.",
     },
     {
@@ -104,7 +104,7 @@ export const SIM_WS_SUBSTATION_SWITCHING_UNDER_A_PERMIT = {
       cue: "Call the switching authority on the radio before anyone does anything else.",
       target: "switching-radio",
       why: "An alarm on an adjacent bay may mean the system around the work zone has changed, and only the switching authority can see the whole system. The call goes first; nobody resets or investigates an alarm next to a permit area on their own.",
-      missNote: "The alarm went unreported while the crew carried on.",
+      missNote: "The alarm went unreported while the crew carried on, next to a permit area whose surrounding system may just have changed.",
       wrongNote: "It is the radio to the switching authority. The work-zone watch does not tell anyone about the alarm.",
     },
   ],

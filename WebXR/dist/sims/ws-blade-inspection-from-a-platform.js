@@ -94,7 +94,7 @@ export const SIM_WS_BLADE_INSPECTION_FROM_A_PLATFORM = {
       cue: "Sound the air horn to clear the drop zone.",
       target: "drop-zone-horn",
       why: "The drop zone under a raised platform is empty for a reason: anything that leaves the platform lands there. A horn blast is the site's agreed signal to clear it now, faster than a shout into the wind.",
-      missNote: "The ground hand stayed under the platform with nobody clearing them out.",
+      missNote: "The ground hand stayed under the platform with nobody clearing them out, standing exactly where a dropped tool would land.",
       wrongNote: "It is the air horn. The platform raise is finished; the person underneath needs clearing.",
     },
     {
@@ -105,7 +105,7 @@ export const SIM_WS_BLADE_INSPECTION_FROM_A_PLATFORM = {
       cue: "Bring the platform down with the platform-down control.",
       target: "platform-down-button",
       why: "A turbine is the tallest thing on the ridge and the platform hangs off it on steel ropes; the site's lightning procedure takes the crew down and away from the tower when the detector alarms, without waiting to see whether the next strike is closer.",
-      missNote: "The platform stayed up on the tower with the lightning detector alarming.",
+      missNote: "The platform stayed up on the tower with the lightning detector alarming, the crew hanging on steel ropes off the tallest thing on the ridge.",
       wrongNote: "It is the platform-down control. Holding the platform off the blade does not take the crew out of a lightning risk.",
     },
   ],

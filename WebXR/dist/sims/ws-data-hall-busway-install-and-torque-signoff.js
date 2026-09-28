@@ -94,7 +94,7 @@ export const SIM_WS_DATA_HALL_BUSWAY_INSTALL_AND_TORQUE_SIGNOFF = {
       cue: "Sound the lift horn and stop them before they are under you.",
       target: "lift-horn",
       why: "Everything used on a raised platform can fall from it, and a person under the lift is also in the path of the platform if it comes down; the horn is the fastest way to stop someone who has not looked up.",
-      missNote: "The pallet jack went under the lift with nobody stopping it.",
+      missNote: "The pallet jack went under the lift with nobody stopping it, putting a person right where anything dropped from the platform lands.",
       wrongNote: "It is the lift horn. The raise is done; the person underneath is the new hazard.",
     },
     {
@@ -105,7 +105,7 @@ export const SIM_WS_DATA_HALL_BUSWAY_INSTALL_AND_TORQUE_SIGNOFF = {
       cue: "Answer on the site radio and confirm where your crew and your lockout are.",
       target: "site-radio",
       why: "Energising the run next to yours changes what is live within reach of the lift, and it is the kind of change that has to be agreed between the crews before it happens; a call answered now confirms your lock is on the right breaker and your crew is clear.",
-      missNote: "The call went unanswered while the next run was energised beside the crew.",
+      missNote: "The call went unanswered while the next run was energised beside the crew, with nobody confirming whose lock was on which breaker.",
       wrongNote: "It is the site radio. The insulation test is on your run; the call is about the one next to it.",
     },
   ],

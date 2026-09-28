@@ -14,10 +14,10 @@ profileLevels,33,WebXR/smartcity/catalog.json profile.levels
 programmeLadderLevels,1100,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
 programmeLadderLevelsFull,1099,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
 checkers,61,tools/check_all.mjs CHECKERS array
-evalProceduresScored,633,tools/eval-content.json results.length
+evalProceduresScored,641,tools/eval-content.json results.length
 evalCorpusMean,95.8,tools/eval-content.json mean of results[].score
-evalBand95plus,513,tools/eval-content.json results with score >= 95
-evalBand90to94,115,tools/eval-content.json results with score 90-94
+evalBand95plus,519,tools/eval-content.json results with score >= 95
+evalBand90to94,117,tools/eval-content.json results with score 90-94
 evalBandBelow90,5,tools/eval-content.json results with score < 90
 bayWorldZones,16,WebXR/shared/bayworld-data.js BAY_ZONES.length
 bayWorldSites,52,WebXR/shared/bayworld-data.js BAY_SITES.length
@@ -42,9 +42,9 @@ regattaCourses,3,WebXR/regatta/js/courses.js RG_COURSES.length
 regattaEvents,5,WebXR/regatta/js/events.js RG_EVENTS.length
 scenicDistricts,10,WebXR/smartcity/js/districts.js DISTRICTS entries with plaza: false
 assetBuilders,134,"tools/gen_investor.mjs: entries of EQUIPMENT_BUDGET, FLEET_BUDGET, PROPS_BUDGET, TOOLKIT_BUDGET, WILDLIFE_BUDGET (kinds), SKY_BUDGET (one dome)"
-unityModels,90,exports/unity/SmartCitiX/Models/MANIFEST.json entries.length
-unityModels.equipment,37,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = equipment
+unityModels,93,exports/unity/SmartCitiX/Models/MANIFEST.json entries.length
+unityModels.equipment,40,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = equipment
 unityModels.fleet,32,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = fleet
 unityModels.toolkit,21,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = toolkit
-unityExportBytes,7037324,exports/unity/SmartCitiX/Models/MANIFEST.json bytes
+unityExportBytes,7223928,exports/unity/SmartCitiX/Models/MANIFEST.json bytes
 uiPages,67,ls WebXR/dist/*.html WebXR/dist/tracks/*.html

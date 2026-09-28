@@ -92,7 +92,7 @@ export const SIM_WS_CRAH_ALARM_RESPONSE_IN_A_LIVE_HALL = {
       cue: "Go to the suppression panel and read the zone and the state.",
       target: "suppression-panel",
       why: "A pre-alarm is the system telling the people in the hall that a detector has seen something; reading the panel gives the zone and state that decide whether the emergency action plan's next step is investigate or leave, and nobody decides that from across the hall.",
-      missNote: "The pre-alarm went unread while the work went on.",
+      missNote: "The pre-alarm went unread while the work went on, so nobody in the hall knew which zone had tripped or what the plan said to do next.",
       wrongNote: "It is the suppression panel. The recovery watch tells you about cooling, not a detector.",
     },
     {
@@ -103,7 +103,7 @@ export const SIM_WS_CRAH_ALARM_RESPONSE_IN_A_LIVE_HALL = {
       cue: "Get the spill kit down across the water's path.",
       target: "spill-kit",
       why: "Water heading for a power connection is two hazards at once — a slip and an electrical one — and a spill kit's sock laid across its path stops it where it is while the source is dealt with.",
-      missNote: "The water reached the power whip with nothing in its way.",
+      missNote: "The water reached the power whip with nothing in its way, putting a slip and an electrical hazard in the same spot.",
       wrongNote: "It is the spill kit. The tester has told you the unit is dead; the water is somewhere else.",
     },
   ],

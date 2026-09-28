@@ -1,5 +1,5 @@
 {
-  "bytes": 7037324,
+  "bytes": 7223928,
   "entries": [
     {
       "build": "aerialBoomLift",
@@ -321,6 +321,35 @@
         "boomSections",
         "hook",
         "lights"
+      ]
+    },
+    {
+      "build": "dataHall",
+      "bytes": 42872,
+      "file": "equipment--dataHall.glb",
+      "footprint": [
+        7.2,
+        3.9,
+        6.4
+      ],
+      "key": "dataHall",
+      "kit": "equipment",
+      "materials": 16,
+      "meshes": 19,
+      "meshesDeclared": 19,
+      "note": "data-hall module: raised floor with a lifting tile, hot and cold aisles, racks, busway, CRAH and suppression panel",
+      "parts": [
+        "floor",
+        "liftTile",
+        "tileVoid",
+        "racksA",
+        "racksB",
+        "busway",
+        "tapBox",
+        "crah",
+        "crahAlarm",
+        "suppressionPanel",
+        "abortSwitch"
       ]
     },
     {
@@ -651,6 +680,32 @@
       ]
     },
     {
+      "build": "oceanDataPod",
+      "bytes": 85460,
+      "file": "equipment--oceanDataPod.glb",
+      "footprint": [
+        2.24,
+        4.43,
+        6.15
+      ],
+      "key": "oceanDataPod",
+      "kit": "equipment",
+      "materials": 11,
+      "meshes": 12,
+      "meshesDeclared": 12,
+      "note": "sealed ocean data pod on a seabed skid with a service hatch, cable, bridle and leak lamp",
+      "parts": [
+        "pod",
+        "frame",
+        "hatch",
+        "hatchBolts",
+        "cable",
+        "bridle",
+        "masterLink",
+        "leakLamp"
+      ]
+    },
+    {
       "build": "pileDrivingRig",
       "bytes": 83480,
       "file": "equipment--pileDrivingRig.glb",
@@ -920,6 +975,34 @@
         "wheels",
         "door",
         "lights"
+      ]
+    },
+    {
+      "build": "windTurbine",
+      "bytes": 58272,
+      "file": "equipment--windTurbine.glb",
+      "footprint": [
+        16.36,
+        32.65,
+        6.3
+      ],
+      "key": "windTurbine",
+      "kit": "equipment",
+      "materials": 16,
+      "meshes": 20,
+      "meshesDeclared": 20,
+      "note": "utility wind turbine at a stylised scale: tower door, ladder with fall-arrest rail, nacelle hatch and service crane, three blades",
+      "parts": [
+        "tower",
+        "towerDoor",
+        "ladder",
+        "fallArrestRail",
+        "nacelle",
+        "hatch",
+        "serviceCrane",
+        "yawDeck",
+        "hub",
+        "blades"
       ]
     },
     {
@@ -2166,10 +2249,10 @@
       ]
     }
   ],
-  "exported": 90,
+  "exported": 93,
   "generator": "three GLTFExporter r160 via tools/export_unity.mjs --models",
   "licence": "CC0-1.0 — the platform's own procedural builders (WebXR/shared/fleet.js, equipment.js, toolkit.js). No third-party model, no avatar, no track GLB.",
   "schema": "smartcitix.models/1",
-  "total": 90,
+  "total": 93,
   "units": "metres, +Z forward, +X driver's side, y = 0 ground; Unity flips X on import (glTF is right-handed)"
 }
