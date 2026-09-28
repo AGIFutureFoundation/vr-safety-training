@@ -216,6 +216,7 @@ export async function exportContent() {
   const comp = await buildSuite(["shared/game.js", "shared/competency.js"], "export { PROGRAMME_COMPETENCIES };", "unity-competency");
   const worlds = { bayworld: await loadData("shared/bayworld-data.js", "unity-bay"), fairway: await loadData("shared/fairway-data.js", "unity-fairway") };
   if (existsSync(join(WEBXR, "shared", "underwater-data.js"))) worlds.underwater = await loadData("shared/underwater-data.js", "unity-underwater");
+  if (existsSync(join(WEBXR, "shared", "summit-data.js"))) worlds.summit = await loadData("shared/summit-data.js", "unity-summit");
 
   for (const c of cur.CURRICULA) for (const s of c.stations ?? []) {
     const k = `${s.app}/${s.id}`;

@@ -558,7 +558,7 @@ await check("a signed-in identity flows into Identity, is stored once, and signi
 
 // ------------------------------------------- 4. the front door (console MARQUEE)
 
-const HM_WORLDS = ["bayworld", "regatta", "underwater", "fairway", "atlas", "smartcity", "holodeck"];
+const HM_WORLDS = ["bayworld", "regatta", "underwater", "summit", "fairway", "atlas", "smartcity", "holodeck"];
 
 await check("the hero carries a canvas scene, one headline and the two actions", () => {
   for (const [file, html, layout] of [["index.html", home, { go: "bayworld/index.html" }], ["home.html", flat, { go: "bayworld.html" }]]) {
@@ -581,7 +581,7 @@ await check("reduced motion gets one still frame, and the scene pauses off-scree
   assert(/@media \(prefers-reduced-motion:reduce\)/.test(src), "the stylesheet has no reduced-motion rule");
 });
 
-await check("seven world cards, each with a real capture inlined at no more than 60 KB", () => {
+await check("eight world cards, each with a real capture inlined at no more than 60 KB", () => {
   for (const [file, html] of [["index.html", home], ["home.html", flat]]) {
     const grid = /<div class="worlds" id="worlds">([\s\S]*?)\n {4}<\/div>/.exec(html);
     assert(grid, `${file}: no world grid`);

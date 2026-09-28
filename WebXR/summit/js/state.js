@@ -111,7 +111,11 @@ export function smActStart(actId) {
  * trail or entering a marked zone costs points. Returns the run.
  */
 export function smActStep(run, x, z, dt, { mapOpen = false, radioed = false } = {}) {
-  if (!run || run.done) return run;
+  if (!run) return run;
+  if (run.done) {
+    if (run.pendingCheck && (mapOpen || radioed)) { const a0 = SM_ACTIVITIES.find((v) => v.id === run.id); run.score += a0.kind === "orienteering" ? a0.scoring.mapCheck : a0.scoring.buddyCheck; if (a0.kind === "orienteering") run.mapChecks++; else run.buddy++; run.pendingCheck = false; }
+    return run;
+  }
   const a = SM_ACTIVITIES.find((v) => v.id === run.id);
   run.t += dt;
   const targets = a.kind === "orienteering" ? a.controls : a.points;
@@ -132,7 +136,8 @@ export function smActStep(run, x, z, dt, { mapOpen = false, radioed = false } = 
     if (tx !== undefined && Math.hypot(x - tx, z - tz) < 14) { run.score += a.scoring.point; run.log.push(`point ${run.next + 1}`); run.next++; run.pendingCheck = true; }
     if (run.pendingCheck && radioed) { run.score += a.scoring.buddyCheck; run.buddy++; run.pendingCheck = false; }
   }
-  if (run.next >= targets.length) run.done = true;
+  if (run.next >= targets.length && !run.pendingCheck) run.done = true;
+  else if (run.next >= targets.length) run.done = true;
   return run;
 }
 

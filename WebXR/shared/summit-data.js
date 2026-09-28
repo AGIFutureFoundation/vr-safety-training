@@ -149,7 +149,7 @@ export const SM_SITES = [
   { id: "tunnel-portal", name: "Pass Tunnel Portal", zone: "pass", at: [600, -560], pad: 55,
     trade: "Tunnel and heavy civil crews", stations: ["cm-shotcrete-nozzle-and-rebound", "op-excavator-trench-and-utility-locate", "scaffold-erection"],
     blurb: "The portal where the pass road goes under the ridge: shotcrete on the portal face, a utility trench and the scaffold at the headwall." },
-  { id: "gondola-shop", name: "Gondola Maintenance Shop", zone: "summit", at: [-240, -300], pad: 55,
+  { id: "gondola-shop", name: "Gondola Maintenance Shop", zone: "pass", at: [-240, -300], pad: 55,
     trade: "Lift mechanics and riggers", stations: ["ew-machine-room-lockout-and-brake-test", "ew-elevator-entrapment-and-rescue-with-fire-service", "rl-critical-lift-plan-and-signalperson"],
     blurb: "The bottom station's shop: the drive room, the haul-rope brakes and the cabin-rescue drill, run the way the lift's own plan sets out." },
   { id: "substation", name: "Ridge Substation", zone: "ridge", at: [1050, 420], pad: 60,
@@ -164,7 +164,7 @@ export const SM_SITES = [
 export const SM_ZONES = [
   { id: "valley", name: "The Valley Floor", centre: [-1300, 1300], blurb: "Meadow and pine at the foot of the pass, the treatment plant and the valley base." },
   { id: "reservoir", name: "The Reservoir", centre: [-900, 200], blurb: "The lake behind the dam, its shoreline trail and the ranger station." },
-  { id: "pass", name: "The Pass", centre: [300, 200], blurb: "The pass road's switchbacks, the crew yard and the tunnel under the ridge." },
+  { id: "pass", name: "The Pass", centre: [350, -50], blurb: "The pass road's switchbacks, the crew yard and the tunnel under the ridge." },
   { id: "summit", name: "The High Summit", centre: [100, -1100], blurb: "Scree and snowfields above the treeline, the gondola and the summit lookout." },
   { id: "ridge", name: "The Transmission Ridge", centre: [1400, -300], blurb: "The long eastern ridge the transmission line follows down to the substation." },
 ];
@@ -500,7 +500,7 @@ export const SM_SIDE_QUESTS = [
     gate: { stations: ["op-excavator-trench-and-utility-locate"], note: "Verify the locate marks before any digging at the portal." },
     steps: [{ type: "station", target: "scaffold-erection", text: "Build the headwall scaffold on proper sills." }], reward: { xp: 90, badge: "Portal Trench", cosmetic: "hardhat-decal-portal" } },
   { id: "sm-side-arc-labels", title: "Every Door Has a Label", giver: "the substation's switching operator", site: "substation", kind: "side", tier: 3, requires: null,
-    gate: { stations: ["substation-switching"], programmes: [{ id: "ibew-inside-wireman", minStars: 1 }], note: "Switching first; the label study builds on it." },
+    gate: { stations: ["substation-switching"], programmes: [{ id: "electrical-first-period", minStars: 1 }], note: "Switching first; the label study builds on it." },
     steps: [{ type: "station", target: "arc-flash-label-study", text: "Walk the line-up and study every arc-flash label." }], reward: { xp: 90, badge: "Label Reader", cosmetic: "arc-hood-trim" } },
   { id: "sm-side-plant-delivery", title: "The Morning Delivery", giver: "the plant's lead operator", site: "water-plant", kind: "side", tier: 2, requires: "sm-main-01-water",
     gate: { stations: ["chlorine-room"], k12: ["k12-reading-instructions-and-safety-labels"], note: "The chlorine room and the safety-labels lesson before a chemical delivery." },

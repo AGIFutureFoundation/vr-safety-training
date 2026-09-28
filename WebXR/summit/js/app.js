@@ -31,7 +31,7 @@ const SM_TIMES = ["dawn", "day", "dusk", "night"];
 const SM_WEATHERS = ["clear", "overcast", "fog", "wind", "storm"];
 
 const sm = {
-  state: smLoad(), playing: false, yaw: Math.PI, pitch: -0.05, x: -1500, z: 1440,
+  state: smLoad(), playing: false, yaw: -0.25, pitch: 0.04, x: -1500, z: 1440,
   timeIdx: 1, weatherIdx: 0, run: null, near: null, modal: null, touchMove: [0, 0],
 };
 
@@ -215,7 +215,7 @@ function smRenderMap() {
     tr.appendChild(b);
   }
 }
-function smTravel(s) { sm.x = s.at[0]; sm.z = s.at[1] + 16; sm.yaw = Math.PI; world.update(sm.x, sm.z, 999); smToast(`Fast travel: ${s.name}.`); }
+function smTravel(s) { sm.x = s.at[0]; sm.z = s.at[1] + 16; sm.yaw = 0; world.update(sm.x, sm.z, 999); smToast(`Fast travel: ${s.name}.`); }
 
 // ------------------------------------------------------------------ quests
 
@@ -311,7 +311,7 @@ function frame(now) {
     if (!smInLake(nx, nz)) { sm.x = nx; sm.z = nz; }
     if (sm.run) {
       smActStep(sm.run, sm.x, sm.z, dt, { mapOpen: false, radioed: !!sm.radioed }); sm.radioed = false;
-      if (sm.run.done) { const best = smActFinish(sm.state, sm.run); smToast(`Activity finished: score ${sm.run.score}${best ? " — a new best" : ""}.`, 6000); sm.run = null; smSave(sm.state); }
+      if (sm.run.done && !sm.run.pendingCheck) { const best = smActFinish(sm.state, sm.run); smToast(`Activity finished: score ${sm.run.score}${best ? " — a new best" : ""}.`, 6000); sm.run = null; smSave(sm.state); }
     }
   } else if (sm.run && sm.modal === "map") smActStep(sm.run, sm.x, sm.z, 0, { mapOpen: true });
   const gy = smHeightAt(sm.x, sm.z);
