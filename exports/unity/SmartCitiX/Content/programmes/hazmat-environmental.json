@@ -2,6 +2,38 @@
   "accent": "#78c8a0",
   "anchors": [
     {
+      "id": "ct-bench-port-cranes",
+      "name": "Bench · Harbor Gantry Cranes",
+      "position": [
+        -371.1,
+        374.2
+      ],
+      "stations": [
+        "hunters-point",
+        "abatement-chamber",
+        "decon-line"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
+      "id": "ct-tool-crib-port-hazmat-response-yard",
+      "name": "Tool crib · Port Hazmat Response Yard",
+      "position": [
+        -343.8,
+        396.9
+      ],
+      "stations": [
+        "hunters-point",
+        "abatement-chamber",
+        "decon-line"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
       "id": "port-hazmat-response-yard",
       "name": "Port Hazmat Response Yard",
       "position": [
@@ -16,6 +48,21 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "port"
+    },
+    {
+      "id": "ct-tool-basket-outfall-diffuser-inspection",
+      "name": "Tool basket · Outfall Diffuser Inspection",
+      "position": [
+        392,
+        -259.3
+      ],
+      "stations": [
+        "stormwater-outfall",
+        "ut-cathodic-protection-test-station-reading"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
     },
     {
       "id": "outfall-diffuser-inspection",

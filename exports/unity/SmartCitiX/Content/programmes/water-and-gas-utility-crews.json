@@ -2,6 +2,54 @@
   "accent": "#2f9ed1",
   "anchors": [
     {
+      "id": "ct-notice-board-ridge-reservoir-yard",
+      "name": "Union hall notice board · Ridge Reservoir Yard",
+      "position": [
+        895.8,
+        -514.6
+      ],
+      "stations": [
+        "ut-cathodic-protection-test-station-reading",
+        "or-solar-farm-tracker-row-maintenance",
+        "op-equipment-daily-walkaround-and-fluids"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-notice-board-south-treatment-plant",
+      "name": "Union hall notice board · South Treatment Plant",
+      "position": [
+        734.1,
+        579.1
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-tool-crib-west-oakland-utility-yard",
+      "name": "Tool crib · West Oakland Utility Yard",
+      "position": [
+        -369.8,
+        56.9
+      ],
+      "stations": [
+        "valve-vault",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
       "id": "ridge-reservoir-yard",
       "name": "Ridge Reservoir Yard",
       "position": [
@@ -48,6 +96,21 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "west-oakland"
+    },
+    {
+      "id": "ct-tool-basket-outfall-diffuser-inspection",
+      "name": "Tool basket · Outfall Diffuser Inspection",
+      "position": [
+        392,
+        -259.3
+      ],
+      "stations": [
+        "stormwater-outfall",
+        "ut-cathodic-protection-test-station-reading"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
     },
     {
       "id": "outfall-diffuser-inspection",

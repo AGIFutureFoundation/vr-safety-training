@@ -25,6 +25,126 @@
       "zone": "outer-bay"
     },
     {
+      "id": "ct-bench-south-shoreline-park",
+      "name": "Bench · South Shoreline Park",
+      "position": [
+        695.9,
+        693.7
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-bus-stop-channel-marker",
+      "name": "Bus stop · Channel Marker",
+      "position": [
+        -961.6,
+        523.1
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-kiosk-south-shoreline-marina",
+      "name": "Information kiosk · South Shoreline Marina",
+      "position": [
+        771.9,
+        681.4
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-notice-board-channel-buoy-tender-pier",
+      "name": "Union hall notice board · Channel Buoy Tender Pier",
+      "position": [
+        -673.7,
+        496.6
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-notice-board-island-yacht-harbor",
+      "name": "Union hall notice board · Island Yacht Harbor",
+      "position": [
+        85.1,
+        638.2
+      ],
+      "stations": [
+        "mooring-line",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
+        "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-notice-board-port-container-terminal",
+      "name": "Union hall notice board · Port Container Terminal",
+      "position": [
+        -320,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
       "id": "island-yacht-harbor",
       "name": "Island Yacht Harbor",
       "position": [
@@ -95,6 +215,68 @@
         "spill-boom-deploy"
       ],
       "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "ct-buoy-approach-anchor-line",
+      "name": "Line buoy · Approach Anchor Line",
+      "position": [
+        -746.9,
+        2.6
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "The western approach to the shipping channel, a buoy chain overhead and traffic that a dive supervisor never lets a diver forget.",
+        "centre": [
+          -750,
+          0
+        ],
+        "id": "channel-approach",
+        "name": "Channel Approach",
+        "palette": {
+          "accent": 14164778,
+          "seabed": 4868682,
+          "water": 1326664
+        },
+        "radius": 220
+      }
+    },
+    {
+      "id": "ct-survey-marker-reef-ball-placement-site",
+      "name": "Survey marker · Reef Ball Placement Site",
+      "position": [
+        312.9,
+        34.5
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-derelict-vessel-salvage-rigging",
+        "container-lashing"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "ct-tool-basket-approach-buoy-tender-station",
+      "name": "Tool basket · Approach Buoy Tender Station",
+      "position": [
+        -751.5,
+        -33.8
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy"
+      ],
+      "table": "CT_DEEP_ASSETS",
       "world": "underwater",
       "zone": "channel-approach"
     },

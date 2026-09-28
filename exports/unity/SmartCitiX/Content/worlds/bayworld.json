@@ -1834,6 +1834,2296 @@
       "radius": 240
     }
   ],
+  "CT_BAY_ASSETS": [
+    {
+      "id": "ct-notice-board-port-container-terminal",
+      "kind": "notice-board",
+      "link": {
+        "id": "wojrc-pathway-edition",
+        "site": "port-container-terminal",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Port Container Terminal",
+      "near": "port-container-terminal",
+      "position": [
+        -320,
+        350
+      ],
+      "programmes": [
+        "wojrc-pathway-edition",
+        "port-operations",
+        "rigging-lifting"
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane"
+      ],
+      "zone": "port"
+    },
+    {
+      "id": "ct-tool-crib-port-rail-yard",
+      "kind": "tool-crib",
+      "link": {
+        "id": "ra-roadway-worker-protection-and-job-briefing",
+        "site": "port-rail-yard",
+        "type": "station"
+      },
+      "name": "Tool crib · Port Rail Yard",
+      "near": "port-rail-yard",
+      "position": [
+        -430.7,
+        396.5
+      ],
+      "programmes": [
+        "railroad-crafts"
+      ],
+      "stations": [
+        "ra-roadway-worker-protection-and-job-briefing",
+        "ra-tie-and-rail-replacement-with-track-machines"
+      ],
+      "zone": "port"
+    },
+    {
+      "id": "ct-notice-board-port-maintenance-shop",
+      "kind": "notice-board",
+      "link": {
+        "id": "mill-and-mine",
+        "site": "port-maintenance-shop",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Port Maintenance Shop",
+      "near": "port-maintenance-shop",
+      "position": [
+        -373.3,
+        273.1
+      ],
+      "programmes": [
+        "mill-and-mine",
+        "plumbers-and-pipefitters",
+        "insulators-and-boilermakers"
+      ],
+      "stations": [
+        "pl-medical-gas-brazing-and-purge",
+        "ib-mechanical-insulation-pipe-and-jacketing"
+      ],
+      "zone": "port"
+    },
+    {
+      "id": "ct-tool-crib-port-hazmat-response-yard",
+      "kind": "tool-crib",
+      "link": {
+        "id": "hunters-point",
+        "site": "port-hazmat-response-yard",
+        "type": "station"
+      },
+      "name": "Tool crib · Port Hazmat Response Yard",
+      "near": "port-hazmat-response-yard",
+      "position": [
+        -343.8,
+        396.9
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [
+        "hunters-point",
+        "abatement-chamber",
+        "decon-line"
+      ],
+      "zone": "port"
+    },
+    {
+      "id": "ct-kiosk-estuary-shoreline-park-trailhead",
+      "kind": "kiosk",
+      "link": {
+        "id": "hunters-point-bay-restoration",
+        "site": "estuary-shoreline-park-trailhead",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Shoreline Park Trailhead",
+      "near": "estuary-shoreline-park-trailhead",
+      "position": [
+        115.3,
+        296.5
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "hunters-point-can-we-live"
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-notice-board-estuary-research-dock",
+      "kind": "notice-board",
+      "link": {
+        "id": "ports-maritime-ecology",
+        "site": "estuary-research-dock",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Estuary Research Dock",
+      "near": "estuary-research-dock",
+      "position": [
+        84.9,
+        318.3
+      ],
+      "programmes": [
+        "ports-maritime-ecology",
+        "marine-ecology-and-restoration",
+        "commercial-diving-and-scientific-scuba"
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-tool-crib-estuary-marina-boatyard",
+      "kind": "tool-crib",
+      "link": {
+        "id": "br-dive-site-hazard-assessment-and-jsa",
+        "site": "estuary-marina-boatyard",
+        "type": "station"
+      },
+      "name": "Tool crib · Marina Boatyard",
+      "near": "estuary-marina-boatyard",
+      "position": [
+        98.8,
+        268.3
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "yacht-and-charter-crew"
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-surface-supplied-dive-station-setup",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-notice-board-downtown-tower-site",
+      "kind": "notice-board",
+      "link": {
+        "id": "fall-protection",
+        "site": "downtown-tower-site",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Downtown Tower Site",
+      "near": "downtown-tower-site",
+      "position": [
+        30.8,
+        -17.7
+      ],
+      "programmes": [
+        "fall-protection",
+        "glaziers-and-architectural-metal",
+        "elevator-constructors"
+      ],
+      "stations": [
+        "steel-erector",
+        "gl-curtain-wall-unit-setting-from-the-floor",
+        "ew-hoistway-false-car-and-rail-setting"
+      ],
+      "zone": "downtown"
+    },
+    {
+      "id": "ct-tool-crib-downtown-civic-center",
+      "kind": "tool-crib",
+      "link": {
+        "id": "public-comment-prep",
+        "site": "downtown-civic-center",
+        "type": "station"
+      },
+      "name": "Tool crib · Downtown Civic Center",
+      "near": "downtown-civic-center",
+      "position": [
+        -17.2,
+        39.9
+      ],
+      "programmes": [
+        "civic-leadership-and-ei"
+      ],
+      "stations": [
+        "public-comment-prep",
+        "public-meeting-chair"
+      ],
+      "zone": "downtown"
+    },
+    {
+      "id": "ct-tool-crib-downtown-central-plant",
+      "kind": "tool-crib",
+      "link": {
+        "id": "boiler-room",
+        "site": "downtown-central-plant",
+        "type": "station"
+      },
+      "name": "Tool crib · Downtown Central Plant",
+      "near": "downtown-central-plant",
+      "position": [
+        -13.5,
+        -49.4
+      ],
+      "programmes": [
+        "stationary-engineer"
+      ],
+      "stations": [
+        "boiler-room",
+        "chiller-plant",
+        "cooling-tower"
+      ],
+      "zone": "downtown"
+    },
+    {
+      "id": "ct-kiosk-downtown-housing-block",
+      "kind": "kiosk",
+      "link": {
+        "id": "property-management",
+        "site": "downtown-housing-block",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Downtown Housing Block",
+      "near": "downtown-housing-block",
+      "position": [
+        35.9,
+        17.2
+      ],
+      "programmes": [
+        "property-management",
+        "roofers-and-waterproofers"
+      ],
+      "stations": [
+        "pm-lobby-and-front-desk",
+        "rf-torch-applied-membrane-and-fire-watch"
+      ],
+      "zone": "downtown"
+    },
+    {
+      "id": "ct-tool-crib-uptown-construction-site",
+      "kind": "tool-crib",
+      "link": {
+        "id": "concrete-pour",
+        "site": "uptown-construction-site",
+        "type": "station"
+      },
+      "name": "Tool crib · Uptown Construction Site",
+      "near": "uptown-construction-site",
+      "position": [
+        -3,
+        -210.9
+      ],
+      "programmes": [
+        "builders-trades",
+        "cement-masons-and-plasterers"
+      ],
+      "stations": [
+        "concrete-pour",
+        "cm-slab-screed-bull-float-and-trowel"
+      ],
+      "zone": "uptown"
+    },
+    {
+      "id": "ct-kiosk-uptown-theatre-district",
+      "kind": "kiosk",
+      "link": {
+        "id": "screen-and-media-crafts",
+        "site": "uptown-theatre-district",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Uptown Theatre District",
+      "near": "uptown-theatre-district",
+      "position": [
+        -85.3,
+        -214
+      ],
+      "programmes": [
+        "screen-and-media-crafts",
+        "bartending-course"
+      ],
+      "stations": [
+        "bar-well-setup",
+        "id-check-underage"
+      ],
+      "zone": "uptown"
+    },
+    {
+      "id": "ct-kiosk-uptown-restaurant-row",
+      "kind": "kiosk",
+      "link": {
+        "id": "grocery-and-meatpacking",
+        "site": "uptown-restaurant-row",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Uptown Restaurant Row",
+      "near": "uptown-restaurant-row",
+      "position": [
+        -16.5,
+        -279.3
+      ],
+      "programmes": [
+        "grocery-and-meatpacking",
+        "culinary-kitchen"
+      ],
+      "stations": [
+        "kitchen",
+        "knife-skills",
+        "slicer-lockout"
+      ],
+      "zone": "uptown"
+    },
+    {
+      "id": "ct-kiosk-uptown-hotel-row",
+      "kind": "kiosk",
+      "link": {
+        "id": "hotel-workers",
+        "site": "uptown-hotel-row",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Uptown Hotel Row",
+      "near": "uptown-hotel-row",
+      "position": [
+        -32.5,
+        -189.6
+      ],
+      "programmes": [
+        "hotel-workers"
+      ],
+      "stations": [
+        "banquet-hot-hold",
+        "housekeeping-room-turn",
+        "laundry-plant-chemicals"
+      ],
+      "zone": "uptown"
+    },
+    {
+      "id": "ct-kiosk-lake-loop-boathouse",
+      "kind": "kiosk",
+      "link": {
+        "id": "situational-awareness",
+        "site": "lake-loop-boathouse",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Lake Loop Boathouse",
+      "near": "lake-loop-boathouse",
+      "position": [
+        286.4,
+        -79.8
+      ],
+      "programmes": [
+        "situational-awareness"
+      ],
+      "stations": [
+        "electrical",
+        "welding",
+        "trench-box"
+      ],
+      "zone": "lake"
+    },
+    {
+      "id": "ct-kiosk-lake-necklace-lighting-shed",
+      "kind": "bench",
+      "link": {
+        "id": "lake-necklace-lighting-shed",
+        "type": "site"
+      },
+      "name": "Bench · Lake Necklace Lighting Shed",
+      "near": "lake-necklace-lighting-shed",
+      "position": [
+        249.3,
+        -23.1
+      ],
+      "programmes": [],
+      "stations": [],
+      "zone": "lake"
+    },
+    {
+      "id": "ct-tool-crib-west-oakland-substation-yard",
+      "kind": "tool-crib",
+      "link": {
+        "id": "electrical",
+        "site": "west-oakland-substation-yard",
+        "type": "station"
+      },
+      "name": "Tool crib · West Oakland Substation Yard",
+      "near": "west-oakland-substation-yard",
+      "position": [
+        -333,
+        40.8
+      ],
+      "programmes": [
+        "electrical-first-period"
+      ],
+      "stations": [
+        "electrical",
+        "charge-point",
+        "substation-switching"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-tool-crib-west-oakland-utility-yard",
+      "kind": "tool-crib",
+      "link": {
+        "id": "valve-vault",
+        "site": "west-oakland-utility-yard",
+        "type": "station"
+      },
+      "name": "Tool crib · West Oakland Utility Yard",
+      "near": "west-oakland-utility-yard",
+      "position": [
+        -369.8,
+        56.9
+      ],
+      "programmes": [
+        "confined-space",
+        "water-and-gas-utility-crews"
+      ],
+      "stations": [
+        "valve-vault",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-notice-board-west-oakland-truck-yard",
+      "kind": "notice-board",
+      "link": {
+        "id": "postal-and-mail-processing",
+        "site": "west-oakland-truck-yard",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · West Oakland Truck Yard",
+      "near": "west-oakland-truck-yard",
+      "position": [
+        -345.9,
+        6
+      ],
+      "programmes": [
+        "postal-and-mail-processing",
+        "airline-cabin-and-flight-crew",
+        "job-readiness-edition"
+      ],
+      "stations": [
+        "drive-city-route-and-turns",
+        "drive-backing-serpentine-and-alley-dock",
+        "forklift-dock"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-west-oakland-warehouse-district",
+      "kind": "kiosk",
+      "link": {
+        "id": "sewing-garment-trades",
+        "site": "west-oakland-warehouse-district",
+        "type": "programme"
+      },
+      "name": "Information kiosk · West Oakland Warehouse District",
+      "near": "west-oakland-warehouse-district",
+      "position": [
+        -339.8,
+        54.6
+      ],
+      "programmes": [
+        "sewing-garment-trades",
+        "warehouse-and-logistics-automation"
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-tool-crib-west-oakland-robotics-centre",
+      "kind": "tool-crib",
+      "link": {
+        "id": "ad-robot-cell-lockout-and-safe-reentry",
+        "site": "west-oakland-robotics-centre",
+        "type": "station"
+      },
+      "name": "Tool crib · West Oakland Robotics and Depot Training Centre",
+      "near": "west-oakland-robotics-centre",
+      "position": [
+        -332.2,
+        98.7
+      ],
+      "programmes": [
+        "aerospace-defense-and-robotics"
+      ],
+      "stations": [
+        "ad-robot-cell-lockout-and-safe-reentry",
+        "ad-cobot-risk-assessment-and-speed-separation",
+        "ad-depot-tool-control-and-fod-walk"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-notice-board-west-oakland-union-hall",
+      "kind": "notice-board",
+      "link": {
+        "id": "bay-area-union-edition",
+        "site": "west-oakland-union-hall",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · West Oakland Union Hall",
+      "near": "west-oakland-union-hall",
+      "position": [
+        -411.4,
+        43.4
+      ],
+      "programmes": [
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "press-brake",
+        "sm-shop-layout-and-shear"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-west-oakland-air-monitoring-post",
+      "kind": "kiosk",
+      "link": {
+        "id": "air-quality-monitoring",
+        "site": "west-oakland-air-monitoring-post",
+        "type": "programme"
+      },
+      "name": "Information kiosk · West Oakland Air Monitoring Post",
+      "near": "west-oakland-air-monitoring-post",
+      "position": [
+        -299.6,
+        -8.5
+      ],
+      "programmes": [
+        "air-quality-monitoring"
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-fruitvale-community-college",
+      "kind": "kiosk",
+      "link": {
+        "id": "dental-hygiene-unspoken-smiles",
+        "site": "fruitvale-community-college",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Fruitvale Community College",
+      "near": "fruitvale-community-college",
+      "position": [
+        492.9,
+        277.4
+      ],
+      "programmes": [
+        "dental-hygiene-unspoken-smiles",
+        "dental-careers-unspoken-smiles"
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry"
+      ],
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-kiosk-fruitvale-fire-station",
+      "kind": "kiosk",
+      "link": {
+        "id": "first-responders",
+        "site": "fruitvale-fire-station",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Fruitvale Fire Station",
+      "near": "fruitvale-fire-station",
+      "position": [
+        400.9,
+        280.9
+      ],
+      "programmes": [
+        "first-responders"
+      ],
+      "stations": [
+        "triage-point",
+        "structure-fire-sizeup"
+      ],
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-kiosk-fruitvale-elementary-school",
+      "kind": "kiosk",
+      "link": {
+        "id": "education-support-staff",
+        "site": "fruitvale-elementary-school",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Fruitvale Elementary School",
+      "near": "fruitvale-elementary-school",
+      "position": [
+        472.2,
+        203.6
+      ],
+      "programmes": [
+        "education-support-staff"
+      ],
+      "stations": [
+        "ed-custodial-chemical-dilution-and-floor-machine",
+        "ed-playground-equipment-inspection",
+        "ed-bus-pretrip-and-loading-zone"
+      ],
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-kiosk-coliseum-stadium",
+      "kind": "kiosk",
+      "link": {
+        "id": "live-events",
+        "site": "coliseum-stadium",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Coliseum Stadium",
+      "near": "coliseum-stadium",
+      "position": [
+        641.8,
+        388.6
+      ],
+      "programmes": [
+        "live-events"
+      ],
+      "stations": [
+        "stage-power",
+        "fly-system",
+        "rigging-loft"
+      ],
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-kiosk-coliseum-arena",
+      "kind": "kiosk",
+      "link": {
+        "id": "basketball-fundamentals",
+        "site": "coliseum-arena",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Coliseum Arena",
+      "near": "coliseum-arena",
+      "position": [
+        561.2,
+        380.2
+      ],
+      "programmes": [
+        "basketball-fundamentals"
+      ],
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-stance-and-ball-handling"
+      ],
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-kiosk-coliseum-elevated-transit-station",
+      "kind": "kiosk",
+      "link": {
+        "id": "transit-ramp",
+        "site": "coliseum-elevated-transit-station",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Coliseum Elevated Transit Station",
+      "near": "coliseum-elevated-transit-station",
+      "position": [
+        621.7,
+        328.3
+      ],
+      "programmes": [
+        "transit-ramp"
+      ],
+      "stations": [
+        "track-access",
+        "signal-cabinet",
+        "bus-depot-lift"
+      ],
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-kiosk-coliseum-area-hospital",
+      "kind": "kiosk",
+      "link": {
+        "id": "outbreak-response-who",
+        "site": "coliseum-area-hospital",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Coliseum Area Hospital",
+      "near": "coliseum-area-hospital",
+      "position": [
+        601.7,
+        403.1
+      ],
+      "programmes": [
+        "outbreak-response-who",
+        "healthcare-support"
+      ],
+      "stations": [
+        "who-ppe-donning-and-doffing",
+        "hc-patient-transport-and-safe-handling"
+      ],
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-kiosk-coliseum-airfield-apron",
+      "kind": "kiosk",
+      "link": {
+        "id": "aviation-maintenance-and-ground",
+        "site": "coliseum-airfield-apron",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Coliseum Airfield Apron",
+      "near": "coliseum-airfield-apron",
+      "position": [
+        567.8,
+        345.2
+      ],
+      "programmes": [
+        "aviation-maintenance-and-ground"
+      ],
+      "stations": [
+        "av-marshalling-and-wingwalker-signals",
+        "av-pushback-tug-and-towbar-connection"
+      ],
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-kiosk-hills-transmission-corridor",
+      "kind": "kiosk",
+      "link": {
+        "id": "energy-transition",
+        "site": "hills-transmission-corridor",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Hills Transmission Corridor",
+      "near": "hills-transmission-corridor",
+      "position": [
+        684.4,
+        -230.3
+      ],
+      "programmes": [
+        "energy-transition"
+      ],
+      "stations": [
+        "solar-deck",
+        "battery-yard",
+        "or-transmission-line-right-of-way-patrol"
+      ],
+      "zone": "hills"
+    },
+    {
+      "id": "ct-tool-crib-hills-redwood-park-grounds-shop",
+      "kind": "tool-crib",
+      "link": {
+        "id": "gk-ride-on-mower-pre-start-and-slope-work",
+        "site": "hills-redwood-park-grounds-shop",
+        "type": "station"
+      },
+      "name": "Tool crib · Redwood Park Grounds Shop",
+      "near": "hills-redwood-park-grounds-shop",
+      "position": [
+        606.2,
+        -236.2
+      ],
+      "programmes": [
+        "grounds-and-landscaping"
+      ],
+      "stations": [
+        "gk-ride-on-mower-pre-start-and-slope-work",
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+      ],
+      "zone": "hills"
+    },
+    {
+      "id": "ct-tool-crib-hills-grading-site",
+      "kind": "tool-crib",
+      "link": {
+        "id": "op-excavator-trench-and-utility-locate",
+        "site": "hills-grading-site",
+        "type": "station"
+      },
+      "name": "Tool crib · Hills Grading Site",
+      "near": "hills-grading-site",
+      "position": [
+        673.9,
+        -296.7
+      ],
+      "programmes": [
+        "heavy-equipment-operators"
+      ],
+      "stations": [
+        "op-excavator-trench-and-utility-locate",
+        "op-dozer-slope-work-and-rollover-protection"
+      ],
+      "zone": "hills"
+    },
+    {
+      "id": "ct-kiosk-hills-lookout-fire-watch",
+      "kind": "bench",
+      "link": {
+        "id": "hills-lookout-fire-watch",
+        "type": "site"
+      },
+      "name": "Bench · Hills Lookout Fire Watch",
+      "near": "hills-lookout-fire-watch",
+      "position": [
+        655.4,
+        -211.3
+      ],
+      "programmes": [],
+      "stations": [],
+      "zone": "hills"
+    },
+    {
+      "id": "ct-kiosk-bridge-approach-toll-plaza",
+      "kind": "kiosk",
+      "link": {
+        "id": "bridge-and-structural",
+        "site": "bridge-approach-toll-plaza",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Bridge Approach Toll Plaza",
+      "near": "bridge-approach-toll-plaza",
+      "position": [
+        -598.9,
+        -180
+      ],
+      "programmes": [
+        "bridge-and-structural"
+      ],
+      "stations": [
+        "steel-erector",
+        "bridge-cable-inspection",
+        "bridge-lead-containment"
+      ],
+      "zone": "bridge-approach"
+    },
+    {
+      "id": "ct-tool-crib-bridge-approach-maintenance-yard",
+      "kind": "bench",
+      "link": {
+        "id": "bridge-approach-maintenance-yard",
+        "type": "site"
+      },
+      "name": "Bench · Bridge Approach Maintenance Yard",
+      "near": "bridge-approach-maintenance-yard",
+      "position": [
+        -644.6,
+        -119.2
+      ],
+      "programmes": [],
+      "stations": [],
+      "zone": "bridge-approach"
+    },
+    {
+      "id": "ct-notice-board-island-yacht-harbor",
+      "kind": "notice-board",
+      "link": {
+        "id": "bay-area-union-edition",
+        "site": "island-yacht-harbor",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Island Yacht Harbor",
+      "near": "island-yacht-harbor",
+      "position": [
+        85.1,
+        638.2
+      ],
+      "programmes": [
+        "bay-area-union-edition",
+        "port-operations",
+        "yacht-and-charter-crew"
+      ],
+      "stations": [
+        "mooring-line",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
+        "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-kiosk-island-ferry-landing",
+      "kind": "kiosk",
+      "link": {
+        "id": "transit-ramp",
+        "site": "island-ferry-landing",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Island Ferry Landing",
+      "near": "island-ferry-landing",
+      "position": [
+        180.9,
+        582.9
+      ],
+      "programmes": [
+        "transit-ramp",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock"
+      ],
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-tool-crib-island-boatyard",
+      "kind": "tool-crib",
+      "link": {
+        "id": "br-derelict-vessel-salvage-rigging",
+        "site": "island-boatyard",
+        "type": "station"
+      },
+      "name": "Tool crib · Island Boatyard",
+      "near": "island-boatyard",
+      "position": [
+        116.4,
+        719.7
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-kiosk-island-airfield-park",
+      "kind": "kiosk",
+      "link": {
+        "id": "aviation-maintenance-and-ground",
+        "site": "island-airfield-park",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Island Airfield Park",
+      "near": "island-airfield-park",
+      "position": [
+        179.3,
+        673.1
+      ],
+      "programmes": [
+        "aviation-maintenance-and-ground",
+        "grounds-and-landscaping"
+      ],
+      "stations": [
+        "av-marshalling-and-wingwalker-signals",
+        "av-ground-power-and-static-bonding-before-fuel",
+        "gk-sports-field-line-marking-and-goal-anchoring"
+      ],
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-kiosk-north-marina-pier",
+      "kind": "kiosk",
+      "link": {
+        "id": "bay-restoration-maritime-underwater",
+        "site": "north-marina-pier",
+        "type": "programme"
+      },
+      "name": "Information kiosk · North Marina Pier",
+      "near": "north-marina-pier",
+      "position": [
+        -780.7,
+        -634.7
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "ports-maritime-ecology"
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy"
+      ],
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "kind": "notice-board",
+      "link": {
+        "id": "air-quality-monitoring",
+        "site": "north-shoreline-field-lab",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "near": "north-shoreline-field-lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "programmes": [
+        "air-quality-monitoring",
+        "hunters-point-bay-restoration",
+        "bay-restoration-maritime-underwater",
+        "marine-ecology-and-restoration",
+        "commercial-diving-and-scientific-scuba"
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair"
+      ],
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-tool-crib-emery-distribution-center",
+      "kind": "tool-crib",
+      "link": {
+        "id": "tw-conveyor-jam-clearing-and-loto",
+        "site": "emery-distribution-center",
+        "type": "station"
+      },
+      "name": "Tool crib · Emery Distribution Center",
+      "near": "emery-distribution-center",
+      "position": [
+        -633,
+        -418.8
+      ],
+      "programmes": [
+        "warehouse-and-logistics-automation",
+        "job-readiness-edition"
+      ],
+      "stations": [
+        "tw-conveyor-jam-clearing-and-loto",
+        "tw-dock-leveler-and-trailer-restraint-check",
+        "tdl-trailer-loading-and-dock-plate"
+      ],
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "ct-tool-crib-emery-lab-campus",
+      "kind": "tool-crib",
+      "link": {
+        "id": "hc-sterile-processing-decontamination-and-assembly",
+        "site": "emery-lab-campus",
+        "type": "station"
+      },
+      "name": "Tool crib · Emery Lab Campus",
+      "near": "emery-lab-campus",
+      "position": [
+        -712.5,
+        -331.5
+      ],
+      "programmes": [
+        "healthcare-support",
+        "outbreak-response-who"
+      ],
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-hazardous-drug-spill-kit-response",
+        "who-surveillance-and-case-definition"
+      ],
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "ct-kiosk-south-shoreline-marina",
+      "kind": "kiosk",
+      "link": {
+        "id": "bay-restoration-maritime-underwater",
+        "site": "south-shoreline-marina",
+        "type": "programme"
+      },
+      "name": "Information kiosk · South Shoreline Marina",
+      "near": "south-shoreline-marina",
+      "position": [
+        771.9,
+        681.4
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "port-operations"
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-notice-board-south-treatment-plant",
+      "kind": "notice-board",
+      "link": {
+        "id": "water-and-gas-utility-crews",
+        "site": "south-treatment-plant",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · South Treatment Plant",
+      "near": "south-treatment-plant",
+      "position": [
+        734.1,
+        579.1
+      ],
+      "programmes": [
+        "water-and-gas-utility-crews",
+        "confined-space",
+        "stationary-engineer"
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-kiosk-ridge-fire-lookout",
+      "kind": "kiosk",
+      "link": {
+        "id": "first-responders",
+        "site": "ridge-fire-lookout",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Ridge Fire Lookout",
+      "near": "ridge-fire-lookout",
+      "position": [
+        974.9,
+        -567.7
+      ],
+      "programmes": [
+        "first-responders"
+      ],
+      "stations": [
+        "wildland-urban-interface",
+        "or-wildland-fireline-construction-and-lookout",
+        "damage-assessment-team"
+      ],
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-notice-board-ridge-reservoir-yard",
+      "kind": "notice-board",
+      "link": {
+        "id": "water-and-gas-utility-crews",
+        "site": "ridge-reservoir-yard",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Ridge Reservoir Yard",
+      "near": "ridge-reservoir-yard",
+      "position": [
+        895.8,
+        -514.6
+      ],
+      "programmes": [
+        "water-and-gas-utility-crews",
+        "energy-transition",
+        "heavy-equipment-operators"
+      ],
+      "stations": [
+        "ut-cathodic-protection-test-station-reading",
+        "or-solar-farm-tracker-row-maintenance",
+        "op-equipment-daily-walkaround-and-fluids"
+      ],
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-notice-board-channel-buoy-tender-pier",
+      "kind": "notice-board",
+      "link": {
+        "id": "port-operations",
+        "site": "channel-buoy-tender-pier",
+        "type": "programme"
+      },
+      "name": "Union hall notice board · Channel Buoy Tender Pier",
+      "near": "channel-buoy-tender-pier",
+      "position": [
+        -673.7,
+        496.6
+      ],
+      "programmes": [
+        "port-operations",
+        "ports-maritime-ecology",
+        "marine-ecology-and-restoration",
+        "commercial-diving-and-scientific-scuba"
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-kiosk-ridge-wind-farm",
+      "kind": "kiosk",
+      "link": {
+        "id": "wind-and-data-infrastructure",
+        "site": "ridge-wind-farm",
+        "type": "programme"
+      },
+      "name": "Information kiosk · Ridge Wind Farm",
+      "near": "ridge-wind-farm",
+      "position": [
+        940.2,
+        -517.5
+      ],
+      "programmes": [
+        "wind-and-data-infrastructure"
+      ],
+      "stations": [
+        "ws-turbine-climb-and-rescue-kit-check",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
+        "ws-blade-inspection-from-a-platform",
+        "ws-substation-switching-under-a-permit"
+      ],
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-tool-crib-emery-data-center-campus",
+      "kind": "tool-crib",
+      "link": {
+        "id": "ws-data-hall-busway-install-and-torque-signoff",
+        "site": "emery-data-center-campus",
+        "type": "station"
+      },
+      "name": "Tool crib · Emery Data Center Campus",
+      "near": "emery-data-center-campus",
+      "position": [
+        -597,
+        -345.2
+      ],
+      "programmes": [
+        "wind-and-data-infrastructure"
+      ],
+      "stations": [
+        "ws-data-hall-busway-install-and-torque-signoff",
+        "ws-raised-floor-tile-lift-and-cable-tray-safety",
+        "ws-crah-alarm-response-in-a-live-hall",
+        "ws-ocean-pod-retrieval-and-hatch-opening"
+      ],
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "ct-bench-lake-necklace",
+      "kind": "bench",
+      "link": {
+        "id": "electrical",
+        "site": "lake-loop-boathouse",
+        "type": "station"
+      },
+      "name": "Bench · Lakeside Promenade",
+      "near": "lake-loop-boathouse",
+      "position": [
+        282.3,
+        -37.5
+      ],
+      "programmes": [
+        "situational-awareness"
+      ],
+      "stations": [
+        "electrical",
+        "welding",
+        "trench-box"
+      ],
+      "tip": "Before any task, walk the ground once and name the hazards out loud.",
+      "zone": "lake"
+    },
+    {
+      "id": "ct-bench-downtown-tower",
+      "kind": "bench",
+      "link": {
+        "id": "pm-lobby-and-front-desk",
+        "site": "downtown-housing-block",
+        "type": "station"
+      },
+      "name": "Bench · Skyline Tower",
+      "near": "downtown-housing-block",
+      "position": [
+        9.2,
+        14.9
+      ],
+      "programmes": [
+        "property-management",
+        "roofers-and-waterproofers"
+      ],
+      "stations": [
+        "pm-lobby-and-front-desk",
+        "rf-torch-applied-membrane-and-fire-watch"
+      ],
+      "tip": "If the plan changes, stop and re-brief everyone before the work restarts.",
+      "zone": "downtown"
+    },
+    {
+      "id": "ct-bench-historic-theatre",
+      "kind": "bench",
+      "link": {
+        "id": "banquet-hot-hold",
+        "site": "uptown-hotel-row",
+        "type": "station"
+      },
+      "name": "Bench · The Regal Theatre",
+      "near": "uptown-hotel-row",
+      "position": [
+        -32.1,
+        -232.8
+      ],
+      "programmes": [
+        "hotel-workers"
+      ],
+      "stations": [
+        "banquet-hot-hold",
+        "housekeeping-room-turn",
+        "laundry-plant-chemicals"
+      ],
+      "tip": "Check your PPE before you need it, not when you need it.",
+      "zone": "uptown"
+    },
+    {
+      "id": "ct-bench-port-cranes",
+      "kind": "bench",
+      "link": {
+        "id": "hunters-point",
+        "site": "port-hazmat-response-yard",
+        "type": "station"
+      },
+      "name": "Bench · Harbor Gantry Cranes",
+      "near": "port-hazmat-response-yard",
+      "position": [
+        -371.1,
+        374.2
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [
+        "hunters-point",
+        "abatement-chamber",
+        "decon-line"
+      ],
+      "tip": "A near miss is a free lesson: report it the same shift.",
+      "zone": "port"
+    },
+    {
+      "id": "ct-bus-stop-waterfront-square",
+      "kind": "bus-stop",
+      "link": {
+        "id": "estuary-shoreline-park-trailhead",
+        "type": "site"
+      },
+      "name": "Bus stop · Waterfront Square",
+      "near": "estuary-shoreline-park-trailhead",
+      "position": [
+        112.5,
+        304.4
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "hunters-point-can-we-live"
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "tip": "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-bridge-approach-plaza",
+      "kind": "bus-stop",
+      "link": {
+        "id": "bridge-approach-toll-plaza",
+        "type": "site"
+      },
+      "name": "Bus stop · Bridge Approach Plaza",
+      "near": "bridge-approach-toll-plaza",
+      "position": [
+        -602.7,
+        -142.9
+      ],
+      "programmes": [
+        "bridge-and-structural"
+      ],
+      "stations": [
+        "steel-erector",
+        "bridge-cable-inspection",
+        "bridge-lead-containment"
+      ],
+      "tip": "Keep three points of contact on every ladder and every vessel boarding.",
+      "zone": "bridge-approach"
+    },
+    {
+      "id": "ct-bench-civic-stadium",
+      "kind": "bench",
+      "link": {
+        "id": "who-ppe-donning-and-doffing",
+        "site": "coliseum-area-hospital",
+        "type": "station"
+      },
+      "name": "Bench · Civic Stadium",
+      "near": "coliseum-area-hospital",
+      "position": [
+        606.9,
+        389.6
+      ],
+      "programmes": [
+        "outbreak-response-who",
+        "healthcare-support"
+      ],
+      "stations": [
+        "who-ppe-donning-and-doffing",
+        "hc-patient-transport-and-safe-handling"
+      ],
+      "tip": "Before any task, walk the ground once and name the hazards out loud.",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-bench-bayside-arena",
+      "kind": "bench",
+      "link": {
+        "id": "av-marshalling-and-wingwalker-signals",
+        "site": "coliseum-airfield-apron",
+        "type": "station"
+      },
+      "name": "Bench · Bayside Arena",
+      "near": "coliseum-airfield-apron",
+      "position": [
+        575.1,
+        360.1
+      ],
+      "programmes": [
+        "aviation-maintenance-and-ground"
+      ],
+      "stations": [
+        "av-marshalling-and-wingwalker-signals",
+        "av-pushback-tug-and-towbar-connection"
+      ],
+      "tip": "If the plan changes, stop and re-brief everyone before the work restarts.",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-bus-stop-elevated-transit-station",
+      "kind": "bus-stop",
+      "link": {
+        "id": "coliseum-stadium",
+        "type": "site"
+      },
+      "name": "Bus stop · Overtown Elevated Station",
+      "near": "coliseum-stadium",
+      "position": [
+        629.6,
+        355.4
+      ],
+      "programmes": [
+        "live-events"
+      ],
+      "stations": [
+        "stage-power",
+        "fly-system",
+        "rigging-loft"
+      ],
+      "tip": "Check your PPE before you need it, not when you need it.",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-bus-stop-market-street-stalls",
+      "kind": "bus-stop",
+      "link": {
+        "id": "fruitvale-community-college",
+        "type": "site"
+      },
+      "name": "Bus stop · Market Street Stalls",
+      "near": "fruitvale-community-college",
+      "position": [
+        456.6,
+        268
+      ],
+      "programmes": [
+        "dental-hygiene-unspoken-smiles",
+        "dental-careers-unspoken-smiles"
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry"
+      ],
+      "tip": "A near miss is a free lesson: report it the same shift.",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-bench-overlook-point",
+      "kind": "bench",
+      "link": {
+        "id": "solar-deck",
+        "site": "hills-transmission-corridor",
+        "type": "station"
+      },
+      "name": "Bench · Overlook Point",
+      "near": "hills-transmission-corridor",
+      "position": [
+        692.2,
+        -239.4
+      ],
+      "programmes": [
+        "energy-transition"
+      ],
+      "stations": [
+        "solar-deck",
+        "battery-yard",
+        "or-transmission-line-right-of-way-patrol"
+      ],
+      "tip": "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+      "zone": "hills"
+    },
+    {
+      "id": "ct-bench-redwood-grove-entrance",
+      "kind": "bench",
+      "link": {
+        "id": "gk-ride-on-mower-pre-start-and-slope-work",
+        "site": "hills-redwood-park-grounds-shop",
+        "type": "station"
+      },
+      "name": "Bench · Redwood Grove Entrance",
+      "near": "hills-redwood-park-grounds-shop",
+      "position": [
+        616.1,
+        -239.2
+      ],
+      "programmes": [
+        "grounds-and-landscaping"
+      ],
+      "stations": [
+        "gk-ride-on-mower-pre-start-and-slope-work",
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+      ],
+      "tip": "Keep three points of contact on every ladder and every vessel boarding.",
+      "zone": "hills"
+    },
+    {
+      "id": "ct-bench-tidewater-shoreline-park",
+      "kind": "bench",
+      "link": {
+        "id": "dock-crane",
+        "site": "estuary-research-dock",
+        "type": "station"
+      },
+      "name": "Bench · Tidewater Shoreline Park",
+      "near": "estuary-research-dock",
+      "position": [
+        68.5,
+        289.1
+      ],
+      "programmes": [
+        "ports-maritime-ecology",
+        "marine-ecology-and-restoration",
+        "commercial-diving-and-scientific-scuba"
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "tip": "Before any task, walk the ground once and name the hazards out loud.",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-rail-depot",
+      "kind": "bus-stop",
+      "link": {
+        "id": "west-oakland-warehouse-district",
+        "type": "site"
+      },
+      "name": "Bus stop · Rail Depot",
+      "near": "west-oakland-warehouse-district",
+      "position": [
+        -323.2,
+        52.5
+      ],
+      "programmes": [
+        "sewing-garment-trades",
+        "warehouse-and-logistics-automation"
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "tip": "If the plan changes, stop and re-brief everyone before the work restarts.",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-bus-stop-fire-station",
+      "kind": "bus-stop",
+      "link": {
+        "id": "fruitvale-fire-station",
+        "type": "site"
+      },
+      "name": "Bus stop · Fire Station",
+      "near": "fruitvale-fire-station",
+      "position": [
+        410,
+        261.5
+      ],
+      "programmes": [
+        "first-responders"
+      ],
+      "stations": [
+        "triage-point",
+        "structure-fire-sizeup"
+      ],
+      "tip": "Check your PPE before you need it, not when you need it.",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-bus-stop-union-hall",
+      "kind": "bus-stop",
+      "link": {
+        "id": "west-oakland-union-hall",
+        "type": "site"
+      },
+      "name": "Bus stop · Union Hall",
+      "near": "west-oakland-union-hall",
+      "position": [
+        -373.5,
+        32.5
+      ],
+      "programmes": [
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "press-brake",
+        "sm-shop-layout-and-shear"
+      ],
+      "tip": "A near miss is a free lesson: report it the same shift.",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-bench-bay-city-college",
+      "kind": "bench",
+      "link": {
+        "id": "phlebotomy",
+        "site": "fruitvale-community-college",
+        "type": "station"
+      },
+      "name": "Bench · Bay City College",
+      "near": "fruitvale-community-college",
+      "position": [
+        473.4,
+        248
+      ],
+      "programmes": [
+        "dental-hygiene-unspoken-smiles",
+        "dental-careers-unspoken-smiles"
+      ],
+      "stations": [
+        "phlebotomy",
+        "dental-careers-pathway",
+        "four-handed-dentistry"
+      ],
+      "tip": "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-bench-bay-general-hospital",
+      "kind": "bench",
+      "link": {
+        "id": "who-ppe-donning-and-doffing",
+        "site": "coliseum-area-hospital",
+        "type": "station"
+      },
+      "name": "Bench · Bay General Hospital",
+      "near": "coliseum-area-hospital",
+      "position": [
+        591.3,
+        384.8
+      ],
+      "programmes": [
+        "outbreak-response-who",
+        "healthcare-support"
+      ],
+      "stations": [
+        "who-ppe-donning-and-doffing",
+        "hc-patient-transport-and-safe-handling"
+      ],
+      "tip": "Keep three points of contact on every ladder and every vessel boarding.",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-bench-warehouse-district",
+      "kind": "bench",
+      "link": {
+        "id": "air-monitor",
+        "site": "west-oakland-air-monitoring-post",
+        "type": "station"
+      },
+      "name": "Bench · Warehouse District",
+      "near": "west-oakland-air-monitoring-post",
+      "position": [
+        -317.8,
+        17.2
+      ],
+      "programmes": [
+        "air-quality-monitoring"
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "tip": "Before any task, walk the ground once and name the hazards out loud.",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-bench-truck-yard",
+      "kind": "bench",
+      "link": {
+        "id": "salon",
+        "site": "west-oakland-warehouse-district",
+        "type": "station"
+      },
+      "name": "Bench · Truck Yard",
+      "near": "west-oakland-warehouse-district",
+      "position": [
+        -360.9,
+        71.9
+      ],
+      "programmes": [
+        "sewing-garment-trades",
+        "warehouse-and-logistics-automation"
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "tip": "If the plan changes, stop and re-brief everyone before the work restarts.",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-bench-estuary-marina",
+      "kind": "bench",
+      "link": {
+        "id": "rad-survey",
+        "site": "estuary-shoreline-park-trailhead",
+        "type": "station"
+      },
+      "name": "Bench · Estuary Marina",
+      "near": "estuary-shoreline-park-trailhead",
+      "position": [
+        128.6,
+        262.3
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "hunters-point-can-we-live"
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "tip": "Check your PPE before you need it, not when you need it.",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-island-ferry-landing-clock",
+      "kind": "bus-stop",
+      "link": {
+        "id": "island-ferry-landing",
+        "type": "site"
+      },
+      "name": "Bus stop · Ferry Landing Clock",
+      "near": "island-ferry-landing",
+      "position": [
+        172,
+        576
+      ],
+      "programmes": [
+        "transit-ramp",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock"
+      ],
+      "tip": "A near miss is a free lesson: report it the same shift.",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-bench-island-beach-esplanade",
+      "kind": "bench",
+      "link": {
+        "id": "br-derelict-vessel-salvage-rigging",
+        "site": "island-boatyard",
+        "type": "station"
+      },
+      "name": "Bench · Island Beach Esplanade",
+      "near": "island-boatyard",
+      "position": [
+        68.6,
+        686.4
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "tip": "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-bench-north-pier",
+      "kind": "bench",
+      "link": {
+        "id": "br-workboat-crane-lift-from-water",
+        "site": "north-marina-pier",
+        "type": "station"
+      },
+      "name": "Bench · North Pier",
+      "near": "north-marina-pier",
+      "position": [
+        -849.1,
+        -705
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "ports-maritime-ecology"
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy"
+      ],
+      "tip": "Keep three points of contact on every ladder and every vessel boarding.",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-bus-stop-emery-public-market",
+      "kind": "bus-stop",
+      "link": {
+        "id": "emery-lab-campus",
+        "type": "site"
+      },
+      "name": "Bus stop · Emery Public Market",
+      "near": "emery-lab-campus",
+      "position": [
+        -694.6,
+        -318.9
+      ],
+      "programmes": [
+        "healthcare-support",
+        "outbreak-response-who"
+      ],
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-hazardous-drug-spill-kit-response",
+        "who-surveillance-and-case-definition"
+      ],
+      "tip": "Before any task, walk the ground once and name the hazards out loud.",
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "ct-bench-south-shoreline-park",
+      "kind": "bench",
+      "link": {
+        "id": "br-cold-water-immersion-and-mob-recovery",
+        "site": "south-shoreline-marina",
+        "type": "station"
+      },
+      "name": "Bench · South Shoreline Park",
+      "near": "south-shoreline-marina",
+      "position": [
+        695.9,
+        693.7
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "port-operations"
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "tip": "If the plan changes, stop and re-brief everyone before the work restarts.",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-bench-ridge-trail-summit",
+      "kind": "bench",
+      "link": {
+        "id": "wildland-urban-interface",
+        "site": "ridge-fire-lookout",
+        "type": "station"
+      },
+      "name": "Bench · Ridge Trail Summit",
+      "near": "ridge-fire-lookout",
+      "position": [
+        1010.6,
+        -644.4
+      ],
+      "programmes": [
+        "first-responders"
+      ],
+      "stations": [
+        "wildland-urban-interface",
+        "or-wildland-fireline-construction-and-lookout",
+        "damage-assessment-team"
+      ],
+      "tip": "Check your PPE before you need it, not when you need it.",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-bus-stop-channel-marker",
+      "kind": "bus-stop",
+      "link": {
+        "id": "channel-buoy-tender-pier",
+        "type": "site"
+      },
+      "name": "Bus stop · Channel Marker",
+      "near": "channel-buoy-tender-pier",
+      "position": [
+        -961.6,
+        523.1
+      ],
+      "programmes": [
+        "port-operations",
+        "ports-maritime-ecology",
+        "marine-ecology-and-restoration",
+        "commercial-diving-and-scientific-scuba"
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "tip": "A near miss is a free lesson: report it the same shift.",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-dock-box-island-yacht-harbor",
+      "kind": "dock-box",
+      "link": {
+        "href": "../regatta/regatta.html",
+        "type": "page"
+      },
+      "name": "Dock box · Island Yacht Harbor",
+      "near": "island-yacht-harbor",
+      "position": [
+        106.1,
+        655.4
+      ],
+      "programmes": [
+        "yacht-and-charter-crew"
+      ],
+      "stations": [],
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-dock-box-estuary-marina-boatyard",
+      "kind": "dock-box",
+      "link": {
+        "href": "../regatta/regatta.html",
+        "type": "page"
+      },
+      "name": "Dock box · Marina Boatyard",
+      "near": "estuary-marina-boatyard",
+      "position": [
+        105.1,
+        264.4
+      ],
+      "programmes": [
+        "yacht-and-charter-crew"
+      ],
+      "stations": [],
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-dock-box-north-marina-pier",
+      "kind": "dock-box",
+      "link": {
+        "href": "../regatta/regatta.html",
+        "type": "page"
+      },
+      "name": "Dock box · North Marina Pier",
+      "near": "north-marina-pier",
+      "position": [
+        -798.9,
+        -624.6
+      ],
+      "programmes": [
+        "yacht-and-charter-crew"
+      ],
+      "stations": [],
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-dock-box-south-shoreline-marina",
+      "kind": "dock-box",
+      "link": {
+        "href": "../regatta/regatta.html",
+        "type": "page"
+      },
+      "name": "Dock box · South Shoreline Marina",
+      "near": "south-shoreline-marina",
+      "position": [
+        791.1,
+        705.4
+      ],
+      "programmes": [
+        "yacht-and-charter-crew"
+      ],
+      "stations": [],
+      "zone": "south-shoreline"
+    }
+  ],
+  "CT_BAY_ASSET_KINDS": {
+    "bench": {
+      "colour": 10119738,
+      "does": "Sit down: the camera settles and the Guide offers a tip.",
+      "label": "Bench",
+      "link": "station"
+    },
+    "bus-stop": {
+      "colour": 3898303,
+      "does": "Fast-travels to a site already visited.",
+      "label": "Bus stop",
+      "link": "site"
+    },
+    "dock-box": {
+      "colour": 15262420,
+      "does": "Holds the yacht briefing and opens the Bay Regatta.",
+      "label": "Dock box",
+      "link": "page"
+    },
+    "kiosk": {
+      "colour": 5231103,
+      "does": "Opens the nearest station's programme overview.",
+      "label": "Information kiosk",
+      "link": "programme"
+    },
+    "notice-board": {
+      "colour": 14164778,
+      "does": "Lists the programmes anchored nearby.",
+      "label": "Union hall notice board",
+      "link": "programme"
+    },
+    "tool-crib": {
+      "colour": 15909195,
+      "does": "Shows the tools the nearest station hands out, then opens that station.",
+      "label": "Tool crib",
+      "link": "station"
+    }
+  },
+  "CT_BAY_LAYERS": [
+    {
+      "colour": 9085620,
+      "id": "roads",
+      "label": "Roads and transit",
+      "on": true,
+      "source": "BAY_ROADS and the transit landmarks"
+    },
+    {
+      "colour": 15909195,
+      "id": "jobs",
+      "label": "Job sites by programme",
+      "on": true,
+      "source": "BAY_SITES, coloured by first programme"
+    },
+    {
+      "colour": 10516991,
+      "id": "landmarks",
+      "label": "Landmarks",
+      "on": true,
+      "source": "BAY_LANDMARKS"
+    },
+    {
+      "colour": 9240410,
+      "id": "activities",
+      "label": "Activities and eggs found",
+      "on": false,
+      "source": "the quest layer, done or open"
+    },
+    {
+      "colour": 5231103,
+      "id": "assets",
+      "label": "Interactive assets",
+      "on": false,
+      "source": "CT_BAY_ASSETS"
+    },
+    {
+      "colour": 5884361,
+      "id": "wildlife",
+      "label": "Wildlife sightings",
+      "on": false,
+      "source": "CT_BAY_WILDLIFE"
+    }
+  ],
+  "CT_BAY_WILDLIFE": [
+    {
+      "area": {
+        "d": 180,
+        "w": 260,
+        "x": -300,
+        "y": -0.4,
+        "z": 450
+      },
+      "kind": "gulls",
+      "zone": "port"
+    },
+    {
+      "area": {
+        "d": 200,
+        "w": 300,
+        "x": -1000,
+        "y": -0.4,
+        "z": 380
+      },
+      "kind": "pelicans",
+      "zone": "outer-bay"
+    },
+    {
+      "area": {
+        "d": 80,
+        "w": 120,
+        "x": -1000,
+        "y": -0.4,
+        "z": 300
+      },
+      "kind": "fish",
+      "zone": "outer-bay"
+    },
+    {
+      "area": {
+        "d": 60,
+        "w": 100,
+        "x": -1060,
+        "y": -0.4,
+        "z": 520
+      },
+      "kind": "ray",
+      "zone": "outer-bay"
+    },
+    {
+      "area": {
+        "d": 6,
+        "w": 80,
+        "x": 80,
+        "y": 0,
+        "z": 722
+      },
+      "kind": "shorebirds",
+      "zone": "island-harbour"
+    },
+    {
+      "area": {
+        "d": 20,
+        "w": 20,
+        "x": -960,
+        "y": -0.4,
+        "z": -690
+      },
+      "kind": "seals",
+      "zone": "north-shoreline"
+    },
+    {
+      "area": {
+        "d": 4,
+        "w": 4,
+        "x": -928,
+        "y": -0.2,
+        "z": -646
+      },
+      "kind": "crab",
+      "zone": "north-shoreline"
+    }
+  ],
+  "CT_BENCH_TIPS": [
+    "Before any task, walk the ground once and name the hazards out loud.",
+    "If the plan changes, stop and re-brief everyone before the work restarts.",
+    "Check your PPE before you need it, not when you need it.",
+    "A near miss is a free lesson: report it the same shift.",
+    "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+    "Keep three points of contact on every ladder and every vessel boarding."
+  ],
+  "CT_PROGRAMME_PALETTE": [
+    15909195,
+    5231103,
+    15759903,
+    5884283,
+    14183376,
+    14834780,
+    3898303,
+    13213802,
+    9240410,
+    10516991,
+    5884361,
+    16777215
+  ],
   "TX_BAY_QUAYS": [
     [
       -385,

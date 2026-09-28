@@ -90,10 +90,10 @@ await section("1. map layers are declared, carry features and are rendered in bo
   }
   check(bw.jobs.length === BAY.BAY_SITES.length && dv.jobs.length === DEEP.DEEP_SITES.length, "every site is on its world's jobs layer once");
   check(bw.assets.length === BAY.CT_BAY_ASSETS.length && dv.assets.length === DEEP.CT_DEEP_ASSETS.length, "every asset is on its world's assets layer once");
-  // Toggle memory: a layer turned off stays off for that viewer.
+  // Toggle memory: a layer turned off stays off for the session (never written to storage).
   const st = ctStub();
-  check(MAP.ctBwSetLayer("assets", true, st).assets === true && MAP.ctBwLayerState(st).assets === true && MAP.ctBwSetLayer("roads", false, st).roads === false, "Bay World: a toggled layer is remembered");
-  check(DMAP.ctDvSetLayer("wildlife", true, st).wildlife === true && DMAP.ctDvLayerState(st).wildlife === true, "the Deep: a toggled layer is remembered");
+  check(MAP.ctBwSetLayer("assets", true, st).assets === true && MAP.ctBwLayerState(st).assets === true && MAP.ctBwSetLayer("roads", false, st).roads === false, "Bay World: a toggled layer stays toggled for the session");
+  check(DMAP.ctDvSetLayer("wildlife", true, st).wildlife === true && DMAP.ctDvLayerState(st).wildlife === true, "the Deep: a toggled layer stays toggled for the session");
   // The in-game maps render every layer through the toggles.
   for (const [world, app, html, draw, toggles, cfg] of [
     ["Bay World", "WebXR/bayworld/js/app.js", "WebXR/bayworld/index.html", "ctDrawLayers(ctx, size)", "ctRenderLayerToggles()", "CT_BAY_LAYERS"],
@@ -186,7 +186,7 @@ await section("3. service liveries cover the traffic and harbour fleets with gen
   const brands = /\b(ups|fedex|dhl|usps|amazon|bart|muni|ac transit|pg&e|caltrans|maersk|matson|uber|lyft)\b/i;
   check(Object.values(suite.CT_SERVICE_LIVERIES).every((l) => !brands.test(l.fleetName)), "no livery carries a real operator or brand");
   check(read("tools/check_fleet.mjs").includes("livery coverage"), "check_fleet.mjs gates livery coverage");
-  check(/ctBuildLiveried\(root, entry/.test(read("WebXR/bayworld/js/world.js")) && /ctServiceLivery\(CT_ZONE_SERVICE/.test(read("WebXR/shared/bayworld.js")), "Bay World's traffic and parked work vehicles wear their service liveries");
+  check(/ctBuildLiveried\(root, entry/.test(read("WebXR/bayworld/js/world.js")) && /ctBuildLiveried\(root, h/.test(read("WebXR/bayworld/js/world.js")), "Bay World's traffic and harbour boats wear their service liveries");
   counts.liveries = Object.keys(suite.CT_SERVICE_LIVERIES).length;
   void FLEET_SRC;
 });

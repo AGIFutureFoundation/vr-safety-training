@@ -686,15 +686,16 @@ for _gd_cfg in APPS.values():
 # tools/briefs/worlds-detail-brief.md) reads shared/crew.js's style space, so
 # every app that bundles shared/account.js gets crew.js just before it (or has
 # it moved there when it was listed later).
+_CT_ACCOUNT, _CT_CREW = SHARED.joinpath("account.js"), SHARED.joinpath("crew.js")
 for _ct_cfg in APPS.values():
     _ct_mods = _ct_cfg["modules"]
-    if SHARED / "account.js" not in _ct_mods:
+    if _CT_ACCOUNT not in _ct_mods:
         continue
-    if SHARED / "crew.js" in _ct_mods and _ct_mods.index(SHARED / "crew.js") < _ct_mods.index(SHARED / "account.js"):
+    if _CT_CREW in _ct_mods and _ct_mods.index(_CT_CREW) < _ct_mods.index(_CT_ACCOUNT):
         continue
-    if SHARED / "crew.js" in _ct_mods:
-        _ct_mods.remove(SHARED / "crew.js")
-    _ct_mods.insert(_ct_mods.index(SHARED / "account.js"), SHARED / "crew.js")
+    if _CT_CREW in _ct_mods:
+        _ct_mods.remove(_CT_CREW)
+    _ct_mods.insert(_ct_mods.index(_CT_ACCOUNT), _CT_CREW)
 
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a

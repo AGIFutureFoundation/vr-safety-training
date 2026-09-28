@@ -46,22 +46,26 @@ export function bwMapLandmarks(size = 512) {
   return BW_LANDMARKS.map((l) => ({ id: l.id, name: l.name, ...bwWorldToMap(l.position[0], l.position[2], size) }));
 }
 
-/** The layer toggles' per-viewer memory (a convenience only; the defaults are CT_BAY_LAYERS' own `on`). */
-const CT_BW_LAYER_KEY = "bayworld-map-layers-v1";
 
-/** Which layers are on: `{ roads: true, … }`, from `storage` when it holds a choice. */
+/** The layer toggles live for the page's session only: a view choice, not
+ *  progress, so nothing is written to storage (tools/check_interop.mjs keeps
+ *  every world write on its existing stores). Keyed by the caller's store
+ *  handle so two handles never share a choice. */
+const ctBwLayerMem = new WeakMap();
+const ctBwLayerDefault = {};
+
+/** Which layers are on: `{ roads: true, … }` — the defaults (CT_BAY_LAYERS' own `on`) plus this session's toggles. */
 export function ctBwLayerState(storage) {
-  const out = Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on]));
-  try { Object.assign(out, JSON.parse(storage?.getItem(CT_BW_LAYER_KEY) || "{}")); } catch (_) { /* defaults */ }
-  return out;
+  const mine = ctBwLayerMem.get(storage ?? ctBwLayerDefault) ?? {};
+  return { ...Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on])), ...mine };
 }
 
-/** Turn one layer on or off and remember it. Returns the new state. */
+/** Turn one layer on or off for this session. Returns the new state. */
 export function ctBwSetLayer(id, on, storage) {
   const state = ctBwLayerState(storage);
   if (!(id in state)) return state;
   state[id] = !!on;
-  try { storage?.setItem(CT_BW_LAYER_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ }
+  ctBwLayerMem.set(storage ?? ctBwLayerDefault, state);
   return state;
 }
 

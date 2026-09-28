@@ -16667,21 +16667,12 @@ function dressHillTrees(parent, zone, count, rng) {
 }
 
 const BW_FLEET_BUILDERS = [sedan, pickup, cargoVan];
-/** The service a zone's parked work vehicles are painted for (fleet.js's
- *  CT_SERVICE_LIVERIES); sedans stay private cars in every zone. */
-const CT_ZONE_SERVICE = {
-  downtown: "transit", uptown: "construction", lake: "utility", "estuary-waterfront": "port", port: "port",
-  "west-oakland": "delivery", fruitvale: "utility", coliseum: "emergency", hills: "utility", "bridge-approach": "construction",
-  "island-harbour": "port", "north-shoreline": "utility", "emery-crossing": "delivery", "south-shoreline": "utility",
-  "upper-hills": "construction", "outer-bay": "port",
-};
 function dressParkedFleet(parent, zone, count, rng) {
   const [cx, cz] = zone.centre;
   for (let i = 0; i < count; i++) {
     const fn = BW_FLEET_BUILDERS[Math.floor(rng() * BW_FLEET_BUILDERS.length)];
     const a = rng() * Math.PI * 2, r = zone.radius * (0.2 + rng() * 0.6);
-    const livery = fn === sedan ? undefined : ctServiceLivery(CT_ZONE_SERVICE[zone.id], i + 1);
-    fn(parent, cx + Math.cos(a) * r, 0, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2, ...(livery ? { livery } : {}) });
+    fn(parent, cx + Math.cos(a) * r, 0, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2 });
   }
 }
 
@@ -24436,22 +24427,26 @@ function bwMapLandmarks(size = 512) {
   return BW_LANDMARKS.map((l) => ({ id: l.id, name: l.name, ...bwWorldToMap(l.position[0], l.position[2], size) }));
 }
 
-/** The layer toggles' per-viewer memory (a convenience only; the defaults are CT_BAY_LAYERS' own `on`). */
-const CT_BW_LAYER_KEY = "bayworld-map-layers-v1";
 
-/** Which layers are on: `{ roads: true, … }`, from `storage` when it holds a choice. */
+/** The layer toggles live for the page's session only: a view choice, not
+ *  progress, so nothing is written to storage (tools/check_interop.mjs keeps
+ *  every world write on its existing stores). Keyed by the caller's store
+ *  handle so two handles never share a choice. */
+const ctBwLayerMem = new WeakMap();
+const ctBwLayerDefault = {};
+
+/** Which layers are on: `{ roads: true, … }` — the defaults (CT_BAY_LAYERS' own `on`) plus this session's toggles. */
 function ctBwLayerState(storage) {
-  const out = Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on]));
-  try { Object.assign(out, JSON.parse(storage?.getItem(CT_BW_LAYER_KEY) || "{}")); } catch (_) { /* defaults */ }
-  return out;
+  const mine = ctBwLayerMem.get(storage ?? ctBwLayerDefault) ?? {};
+  return { ...Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on])), ...mine };
 }
 
-/** Turn one layer on or off and remember it. Returns the new state. */
+/** Turn one layer on or off for this session. Returns the new state. */
 function ctBwSetLayer(id, on, storage) {
   const state = ctBwLayerState(storage);
   if (!(id in state)) return state;
   state[id] = !!on;
-  try { storage?.setItem(CT_BW_LAYER_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ }
+  ctBwLayerMem.set(storage ?? ctBwLayerDefault, state);
   return state;
 }
 

@@ -2,6 +2,68 @@
   "accent": "#f0645b",
   "anchors": [
     {
+      "id": "ct-bench-ridge-trail-summit",
+      "name": "Bench · Ridge Trail Summit",
+      "position": [
+        1010.6,
+        -644.4
+      ],
+      "stations": [
+        "wildland-urban-interface",
+        "or-wildland-fireline-construction-and-lookout",
+        "damage-assessment-team"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-bus-stop-fire-station",
+      "name": "Bus stop · Fire Station",
+      "position": [
+        410,
+        261.5
+      ],
+      "stations": [
+        "triage-point",
+        "structure-fire-sizeup"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-kiosk-fruitvale-fire-station",
+      "name": "Information kiosk · Fruitvale Fire Station",
+      "position": [
+        400.9,
+        280.9
+      ],
+      "stations": [
+        "triage-point",
+        "structure-fire-sizeup"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ct-kiosk-ridge-fire-lookout",
+      "name": "Information kiosk · Ridge Fire Lookout",
+      "position": [
+        974.9,
+        -567.7
+      ],
+      "stations": [
+        "wildland-urban-interface",
+        "or-wildland-fireline-construction-and-lookout",
+        "damage-assessment-team"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
       "id": "fruitvale-fire-station",
       "name": "Fruitvale Fire Station",
       "position": [
@@ -31,6 +93,85 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "upper-hills"
+    },
+    {
+      "id": "ct-buoy-seamount-ascent-line",
+      "name": "Line buoy · Seamount Ascent Line",
+      "position": [
+        603.9,
+        499.1
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+        "centre": [
+          650,
+          450
+        ],
+        "id": "seamount",
+        "name": "The Seamount",
+        "palette": {
+          "accent": 16747098,
+          "seabed": 4866104,
+          "water": 997956
+        },
+        "radius": 260
+      }
+    },
+    {
+      "id": "ct-buoy-seamount-transect",
+      "name": "Line buoy · Seamount Transect",
+      "position": [
+        643.9,
+        440.3
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+        "centre": [
+          650,
+          450
+        ],
+        "id": "seamount",
+        "name": "The Seamount",
+        "palette": {
+          "accent": 16747098,
+          "seabed": 4866104,
+          "water": 997956
+        },
+        "radius": 260
+      }
+    },
+    {
+      "id": "ct-survey-marker-seamount-capstone-survey",
+      "name": "Survey marker · Seamount Capstone Survey",
+      "position": [
+        649.7,
+        444.9
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "seamount"
     },
     {
       "id": "seamount-capstone-survey",

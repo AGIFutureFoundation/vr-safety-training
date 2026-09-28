@@ -19038,9 +19038,6 @@ function dvDepthFraction(y, range) { return dvClamp(-y / range[1], 0, 1); }
 
 
 
-/** The layer toggles' per-viewer memory (a convenience only; defaults are CT_DEEP_LAYERS' own `on`). */
-const CT_DV_LAYER_KEY = "underwater-map-layers-v1";
-
 /** A programme id's map colour — the same rule as Bay World's ctProgrammeColour, kept here so this bundle needs no Bay World data. */
 const CT_DV_PALETTE = [0xf2c14b, 0x4fd1ff, 0xf07a1f, 0x59c97b, 0xd86bd0, 0xe25c5c, 0x3b7bbf, 0xc9a06a, 0x8cff5a, 0xa079ff, 0x59c9c9, 0xffffff];
 function ctDvProgrammeColour(id) {
@@ -19050,19 +19047,25 @@ function ctDvProgrammeColour(id) {
   return CT_DV_PALETTE[h % CT_DV_PALETTE.length];
 }
 
-/** Which layers are on: `{ roads: true, … }`, from `storage` when it holds a choice. */
+/** The layer toggles live for the page's session only: a view choice, not
+ *  progress, so nothing is written to storage (tools/check_interop.mjs keeps
+ *  every world write on its existing stores). Keyed by the caller's store
+ *  handle so two handles never share a choice. */
+const ctDvLayerMem = new WeakMap();
+const ctDvLayerDefault = {};
+
+/** Which layers are on: `{ roads: true, … }` — the defaults (CT_DEEP_LAYERS' own `on`) plus this session's toggles. */
 function ctDvLayerState(storage) {
-  const out = Object.fromEntries(CT_DEEP_LAYERS.map((l) => [l.id, l.on]));
-  try { Object.assign(out, JSON.parse(storage?.getItem(CT_DV_LAYER_KEY) || "{}")); } catch (_) { /* defaults */ }
-  return out;
+  const mine = ctDvLayerMem.get(storage ?? ctDvLayerDefault) ?? {};
+  return { ...Object.fromEntries(CT_DEEP_LAYERS.map((l) => [l.id, l.on])), ...mine };
 }
 
-/** Turn one layer on or off and remember it. Returns the new state. */
+/** Turn one layer on or off for this session. Returns the new state. */
 function ctDvSetLayer(id, on, storage) {
   const state = ctDvLayerState(storage);
   if (!(id in state)) return state;
   state[id] = !!on;
-  try { storage?.setItem(CT_DV_LAYER_KEY, JSON.stringify(state)); } catch (_) { /* private mode */ }
+  ctDvLayerMem.set(storage ?? ctDvLayerDefault, state);
   return state;
 }
 

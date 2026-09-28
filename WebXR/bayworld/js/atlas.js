@@ -217,10 +217,8 @@ export function atlasMount(doc = globalThis.document, opts = {}) {
   const say = (el, text) => { if (el) el.textContent = text; };
   const storage = { search: opts.search, session: opts.session, local: opts.local };
 
-  const layerKey = "atlas-map-layers-v1";
-  let layers = {};
-  try { layers = JSON.parse(opts.local?.getItem?.(layerKey) ?? globalThis.localStorage?.getItem(layerKey) ?? "{}") ?? {}; } catch (_) { layers = {}; }
-  state.layers = { ...Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on])), ...layers };
+  // The layer toggles are a view choice for this visit only; nothing is stored.
+  state.layers = Object.fromEntries(CT_BAY_LAYERS.map((l) => [l.id, l.on]));
   const drawSvg = () => {
     if (mapEl) { mapEl.innerHTML = atlasSvg({ layers: state.layers }); mapEl.classList?.remove?.("atlas-map-live"); }
     state.mode = "svg"; state.map = null;
@@ -255,7 +253,6 @@ export function atlasMount(doc = globalThis.document, opts = {}) {
       cb.setAttribute?.("data-layer", l.id);
       cb.addEventListener?.("change", () => {
         state.layers[l.id] = !!cb.checked;
-        try { (opts.local ?? globalThis.localStorage)?.setItem(layerKey, JSON.stringify(state.layers)); } catch (_) { /* private mode */ }
         if (state.mode === "svg") drawSvg();
       });
       const sw = doc.createElement("span");
