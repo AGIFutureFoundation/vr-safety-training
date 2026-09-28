@@ -1419,6 +1419,8 @@ export const CURRICULA = [
     accent: "#9a6ad0",
     stations: [
       { app: "smartcity", id: "k12-reading-instructions-and-safety-labels", why: "Instructions read right through and a label read before use, the reading habit every later station in the block leans on." },
+      { app: "smartcity", id: "k12-writing-a-clear-incident-report", why: "Writing for life: a same-day report in a fixed order, facts kept apart from guesses and blame left out, read back and handed to the person who can act on it." },
+      { app: "smartcity", id: "k12-first-aid-awareness-call-for-help", why: "First aid awareness that is never a clinical step: danger checked, an adult fetched, help called with a clear location and the line kept open." },
     ],
   },
 ];

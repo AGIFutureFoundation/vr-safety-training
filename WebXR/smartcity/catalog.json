@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 658
+      "stations": 660
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,8 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-first-aid-awareness-call-for-help",
+        "k12-writing-a-clear-incident-report",
         "k12-how-a-local-council-meeting-works",
         "k12-building-a-timeline-from-documents",
         "k12-circuits-at-the-electrical-bench",
@@ -5684,16 +5686,26 @@
           "app": "smartcity",
           "id": "k12-primary-and-secondary-sources",
           "why": "The core method: who made a source, when, why and for whom, a claim traced to its evidence and the gap named rather than filled."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-building-a-timeline-from-documents",
+          "why": "Dated documents from the lesson's own fictional archive put in order by their evidence, with the date a document was made kept apart from the date it describes."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-how-a-local-council-meeting-works",
+          "why": "A generic public meeting from agenda to minutes: a resident signs up, keeps to the issue, is heard, and checks what was actually decided."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 260,
-        "tasks": 20,
+        "lessons": 780,
+        "tasks": 60,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 5,
+        "stationsNeeded": 3,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9845,6 +9857,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-first-aid-awareness-call-for-help",
+      "name": "First Aid Awareness: Call for Help",
+      "title": "SmartCiti.X~ First Aid Awareness: Call for Help VR",
+      "tagline": "Stay safe, get an adult, call for help, say clearly where you are",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Life skills class at the fire station's open day — learner and firefighter",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a6ad0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "help-called",
+        "name": "Help Called",
+        "note": "Danger checked, an adult fetched, help called and the location given clearly"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "812",
+      "flat": false,
+      "system": "Help Board",
+      "currency": "CALLS",
+      "ranks": [
+        "Noticer",
+        "Helper",
+        "Caller",
+        "Guide",
+        "Responder"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-first-aid-awareness-call-for-help"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-writing-a-clear-incident-report",
+      "name": "Writing a Clear Incident Report",
+      "title": "SmartCiti.X~ Writing a Clear Incident Report VR",
+      "tagline": "What happened, when, where, who, what was done — facts first, guesses labelled",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Literacy class in the school hall after a practice incident — learner and teacher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a6ad0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "just-the-facts",
+        "name": "Just the Facts",
+        "note": "A report written in order, facts kept apart from guesses and read back for clarity"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "811",
+      "flat": false,
+      "system": "Report Board",
+      "currency": "LINES",
+      "ranks": [
+        "Noticer",
+        "Note-taker",
+        "Reporter",
+        "Editor",
+        "Writer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-writing-a-clear-incident-report"
     },
     {
       "app": "smartcity",
@@ -33274,7 +33452,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 244,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -33934,7 +34112,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -27916,5 +27916,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-writing-a-clear-incident-report",
+    "index": "811",
+    "domain": "Education",
+    "trade": "Literacy class in the school hall after a practice incident — learner and teacher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Writing a Clear Incident Report",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Writing a Clear Incident Report VR",
+    "tagline": "What happened, when, where, who, what was done — facts first, guesses labelled",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "just-the-facts",
+      "name": "Just the Facts",
+      "note": "A report written in order, facts kept apart from guesses and read back for clarity"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Report Board",
+      "currency": "LINES",
+      "ranks": [
+        "Noticer",
+        "Note-taker",
+        "Reporter",
+        "Editor",
+        "Writer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-first-aid-awareness-call-for-help",
+    "index": "812",
+    "domain": "Education",
+    "trade": "Life skills class at the fire station's open day — learner and firefighter",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "First Aid Awareness: Call for Help",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ First Aid Awareness: Call for Help VR",
+    "tagline": "Stay safe, get an adult, call for help, say clearly where you are",
+    "accent": 10119888,
+    "accentCss": "#9a6ad0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "help-called",
+      "name": "Help Called",
+      "note": "Danger checked, an adult fetched, help called and the location given clearly"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Help Board",
+      "currency": "CALLS",
+      "ranks": [
+        "Noticer",
+        "Helper",
+        "Caller",
+        "Guide",
+        "Responder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
