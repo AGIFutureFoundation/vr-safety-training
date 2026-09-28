@@ -22,7 +22,7 @@ import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, 
 import { BW_QUESTS, BW_GATED_QUESTS } from "./quests-select.js";
 // Skill-gated side quests (docs/skill-gates.md): board rows, map pins, the lock toast and the quest-log panel.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
-import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { qmIsOpen, qmSnapshot, qmNameQuests } from "../../shared/skill-gates.js";
 import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap } from "./map.js";
 import { bwBuildWorld } from "./world.js";
 
@@ -575,6 +575,7 @@ window.__bayworldTest = {
 };
 
 // The gated items with their site's display name, for the panel and the board rows.
+qmNameQuests(BW_QUESTS);
 const bwQmItems = BW_GATED_QUESTS.map((q) => ({ ...q, siteName: BW_SITES.find((s) => s.id === q.site)?.name ?? q.site, summary: q.steps[0]?.text }));
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).

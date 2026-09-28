@@ -1,7 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
-import { qmMountSideGames } from "../../shared/skill-gates-ui.js";
+import { qmMountSideGames, qmBoardRows, qmDrawPin } from "../../shared/skill-gates-ui.js";
+import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
@@ -182,6 +183,25 @@ function dvTryAscend() {
 
 // ------------------------------------------------------------- job board
 
+/** The skill-gated side games sited here, as board rows (locked with reason and links, or open). */
+function dvBoardGates(site) {
+  document.getElementById("jb-qm")?.remove();
+  const here = dvQmItems().filter((g) => g.site === site.id);
+  const list = $("jb-stations");
+  if (!here.length || !list?.parentNode) return;
+  const box = document.createElement("div");
+  box.id = "jb-qm";
+  list.parentNode.insertBefore(box, list.nextSibling);
+  qmBoardRows(box, here, { from: "underwater", page: ppHerePage() });
+}
+/** The Deep's gated games with their site's display name and map position. */
+function dvQmItems() {
+  return QM_WORLD_GAMES.underwater.map((g) => {
+    const site = DV_SITES.find((s) => s.id === g.site);
+    return { ...g, siteName: site?.name ?? g.site, pos: site ? [site.position[0], site.position[2]] : null };
+  });
+}
+
 function dvOpenJobBoard(site) {
   dvApp.lastSite = site;
   lkSiteHeading($("jb-title"), site);
@@ -198,6 +218,7 @@ function dvOpenJobBoard(site) {
   // one routed by shared/links.js); "Start the station" stays for a board of one.
   const lkCount = lkRenderStations($("jb-stations"), site.stations, (id) => dvMissionLink(site, { station: id, page: ppHerePage() }), { done: ppCompleted });
   $("jb-launch")?.toggleAttribute("hidden", lkCount !== 1);
+  dvBoardGates(site);
   dvOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {
@@ -340,6 +361,13 @@ function dvDrawFullMap() {
   ctx.strokeStyle = "#5a7a88"; ctx.lineWidth = 2;
   for (const l of dvMapLines(size)) { ctx.beginPath(); l.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke(); }
   for (const l of dvMapLandmarks(size)) { ctx.fillStyle = "#f0c07a"; ctx.beginPath(); ctx.arc(l.x, l.y, 4, 0, Math.PI * 2); ctx.fill(); }
+  // Skill-gated side games: a padlock pin while locked, a star once open (never hidden).
+  const qmSnap = qmSnapshot();
+  for (const g of dvQmItems()) {
+    if (!g.pos) continue;
+    const p = dvWorldToMap(g.pos[0], g.pos[1], size);
+    qmDrawPin(ctx, p.x + 9, p.y - 9, qmIsOpen(g.gate, qmSnap));
+  }
   const listEl = $("map-sites");
   listEl.innerHTML = "";
   for (const s of dvMapSites(size, dvStore)) {
@@ -510,4 +538,4 @@ ctlMount({
 });
 
 // The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
-qmMountSideGames({ world: "underwater", worldName: "the Deep", items: QM_WORLD_GAMES.underwater.map((g) => ({ ...g, siteName: DV_SITES.find((s) => s.id === g.site)?.name ?? g.site })), from: "underwater", page: ppHerePage() });
+qmMountSideGames({ world: "underwater", worldName: "the Deep", items: dvQmItems(), from: "underwater", page: ppHerePage() });

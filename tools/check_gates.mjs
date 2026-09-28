@@ -164,6 +164,17 @@ for (const [k, p] of Object.entries(SG.QM_SAFE_PRACTICES)) {
   for (const f of ["prompt", "safe", "unsafe"]) if (!p[f] || /\d/.test(p[f]) || BANNED.test(p[f])) fail("facts", `practice ${k}.${f} missing, carries a digit or banned wording`); else ok();
 }
 
+// ------------------------------------------------------------ places
+{
+  const SB = await imp("underwater/js/seabed.js");
+  for (const g of SG.QM_WORLD_GAMES.underwater) {
+    if (!SB.DV_SITES.some((s) => s.id === g.site)) fail("place", `${g.id}: site "${g.site}" is not a Deep site (no board row, no map pin)`); else ok();
+  }
+  const BS = await imp("bayworld/js/quests-select.js");
+  for (const q of BS.BW_GATED_QUESTS) { if (!Array.isArray(q.anchor)) fail("place", `${q.id}: no Bay World site anchor (no board row, no map pin)`); else ok(); }
+  for (const g of SG.QM_WORLD_GAMES.fairway) { if (!Array.isArray(g.pin)) fail("place", `${g.id}: no map position`); else ok(); }
+}
+
 // ------------------------------------------------------------ ledger
 globalThis.localStorage.clear(); G.qmInvalidate();
 {

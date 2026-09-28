@@ -135,7 +135,7 @@ export function qmMissing(gate, snap = qmSnapshot()) {
     out.push({ kind: "programme", id: p.id, label: name,
       detail: p.minStars ? `${st.stars} of ${p.minStars} stars` : `${st.passed} of ${st.total} stations` });
   }
-  for (const id of gate.quests ?? []) if (!snap.questsDone.has(id)) out.push({ kind: "quest", id, label: qmLabel(id.replace(/^(bw|dv|qm)-/, "")) });
+  for (const id of gate.quests ?? []) if (!snap.questsDone.has(id)) out.push({ kind: "quest", id, label: qmQuestTitles.get(id) ?? qmLabel(id.replace(/^(bw|dv|qm)-/, "")) });
   return out;
 }
 
@@ -149,6 +149,10 @@ export function qmIsOpen(gate, snap) {
 export function qmGateStations(gate) {
   return [...(gate?.stations ?? []), ...(gate?.k12 ?? [])];
 }
+
+const qmQuestTitles = new Map();
+/** Teach the lock UI a world's quest titles, so a quest requirement reads "Yard Qualified", not its id. */
+export function qmNameQuests(list) { for (const q of list ?? []) if (q?.id && q.title) qmQuestTitles.set(q.id, q.title); }
 
 /** A station id read aloud: "crane-yard" -> "crane yard". */
 export function qmLabel(id) { return String(id ?? "").replace(/-/g, " "); }
