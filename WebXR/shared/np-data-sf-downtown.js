@@ -1,0 +1,109 @@
+// Downtown & Embarcadero — a San Francisco district on the parish schema (console GOLDEN-A,
+// docs/consoles/GOLDEN-A.md, docs/parishes.md). A stylised 4096 m map, not a
+// survey: real places appear only by their public names as places; every
+// coordinate is approximate (three decimals, `approximate: true`) and exists
+// only to place the map. One north-up uniform scale (about 2.2 real metres per
+// map metre, x east, +z south); the bay and ocean shores are one shared
+// coastline clipped to this field, so the San Francisco districts agree on the
+// shore. `hills` are gentle procedural mounds carrying public names only; a
+// hill's `height` is a map number, not a measurement. Pure data, no imports.
+export const NP_SF_DOWNTOWN = {
+  id: "sf-downtown",
+  name: "Downtown & Embarcadero",
+  region: "san-francisco",
+  size: 4096,
+  blurb: "The city's front door on the bay: the Embarcadero's piers and the Ferry Building, the towers of the Financial District, Chinatown and North Beach under Nob Hill, Russian Hill and Telegraph Hill, the cable car barn, and the Bay Bridge climbing away to the east.",
+  start: "ferry-building-landing",
+  anchors: [
+    {"xz":[400,-302],"lonlat":[-122.394,37.796],"approximate":true,"name":"the Ferry Building"},
+    {"xz":[-80,-603],"lonlat":[-122.406,37.802],"approximate":true,"name":"Coit Tower"},
+    {"xz":[-160,101],"lonlat":[-122.408,37.788],"approximate":true,"name":"Union Square"},
+    {"xz":[-560,553],"lonlat":[-122.418,37.779],"approximate":true,"name":"Civic Center"},
+    {"xz":[-520,-905],"lonlat":[-122.417,37.808],"approximate":true,"name":"Fisherman's Wharf"},
+    {"xz":[-1759,-603],"lonlat":[-122.448,37.802],"approximate":true,"name":"the Palace of Fine Arts"},
+    {"xz":[-920,1307],"lonlat":[-122.427,37.764],"approximate":true,"name":"Mission Dolores"},
+    {"xz":[-1200,704],"lonlat":[-122.434,37.776],"approximate":true,"name":"Alamo Square"},
+  ],
+  hills: [
+    {"id":"nob-hill","name":"Nob Hill","center":[-380,-126],"radius":255,"height":30},
+    {"id":"russian-hill","name":"Russian Hill","center":[-580,-528],"radius":227,"height":28},
+    {"id":"telegraph-hill","name":"Telegraph Hill","center":[-72,-618],"radius":173,"height":24},
+    {"id":"twin-peaks","name":"Twin Peaks","center":[-1739,1885],"radius":523,"height":58},
+  ],
+  water: [
+    {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[-2048,-2048],[-2048,-828],[-2039,-829],[-1719,-880],[-1440,-880],[-1160,-930],[-960,-980],[-760,-930],[-560,-980],[-360,-1030],[-160,-980],[40,-829],[200,-679],[360,-503],[460,-327],[560,-176],[740,-126],[740,176],[640,327],[660,553],[700,679],[720,955],[740,1257],[880,1483],[880,1809],[804,2048],[2048,2048],[2048,-2048]]},
+    {"id":"mission-creek","name":"Mission Creek","kind":"canal","width":26,"poly":[[720,663],[500,829],[320,955],[220,1030]]},
+    {"id":"palace-lagoon","name":"the Palace of Fine Arts lagoon","kind":"lake","poly":[[-1731,-638],[-1736,-651],[-1751,-660],[-1771,-663],[-1792,-660],[-1807,-651],[-1812,-638],[-1807,-626],[-1792,-617],[-1771,-613],[-1751,-617],[-1736,-626]]},
+  ],
+  levees: [
+    {"id":"embarcadero-seawall","name":"the Embarcadero seawall","height":2.5,"pts":[[-180,-960],[20,-809],[180,-658],[340,-483],[440,-307],[540,-156]]},
+    {"id":"rincon-seawall","name":"the Rincon and South Beach seawall","height":2.5,"pts":[[716,-75],[716,176],[616,327],[636,553]]},
+    {"id":"aquatic-park-seawall","name":"the Aquatic Park and Marina seawall","height":2.2,"pts":[[-1719,-857],[-1440,-857],[-1160,-907],[-760,-907],[-560,-957]]},
+  ],
+  roads: [
+    {"id":"market-street","name":"Market Street","kind":"avenue","pts":[[360,-241],[160,-25],[-80,201],[-340,477],[-600,754],[-920,1030],[-1240,1307],[-1520,1558]]},
+    {"id":"the-embarcadero","name":"the Embarcadero","kind":"avenue","pts":[[-440,-880],[-180,-880],[-20,-754],[120,-603],[260,-452],[368,-276],[460,-126],[540,25],[540,201],[560,327],[580,528],[540,628]]},
+    {"id":"van-ness-avenue","name":"Van Ness Avenue","kind":"avenue","pts":[[-740,-754],[-700,-251],[-640,251],[-608,754],[-540,1257],[-500,1759]]},
+    {"id":"geary-boulevard","name":"Geary Boulevard","kind":"avenue","pts":[[-20,126],[-640,226],[-1240,312],[-1679,402],[-2048,438]]},
+    {"id":"california-street","name":"California Street","kind":"street","pts":[[260,-176],[-380,-75],[-1040,25],[-2039,176]]},
+    {"id":"columbus-avenue","name":"Columbus Avenue","kind":"street","pts":[[0,-302],[-240,-553],[-480,-804]]},
+    {"id":"lombard-street","name":"Lombard Street","kind":"street","pts":[[-40,-653],[-640,-553],[-1240,-477],[-1759,-452]]},
+    {"id":"bay-bridge-approach","name":"the Bay Bridge approach","kind":"interstate","pts":[[-40,854],[200,553],[400,251],[580,75]]},
+    {"id":"bay-bridge","name":"the Bay Bridge","kind":"bridge","pts":[[580,75],[1040,-402],[1500,-880]]},
+    {"id":"east-bay-ferry-lane","name":"the ferry lane to the East Bay","kind":"ferry","pts":[[520,-312],[1160,-377],[1879,-452]]},
+    {"id":"mission-street","name":"Mission Street","kind":"avenue","pts":[[360,-50],[-240,553],[-600,1005],[-620,1508],[-640,2010],[-648,2048]]},
+    {"id":"third-street","name":"Third Street","kind":"avenue","pts":[[120,201],[460,553],[592,905],[608,1508],[600,1759],[577,2048]]},
+    {"id":"king-street","name":"King Street","kind":"street","pts":[[540,603],[420,694],[260,814],[120,915]]},
+    {"id":"oak-street","name":"Oak Street","kind":"street","pts":[[-640,729],[-1120,804],[-1719,895],[-2048,941]]},
+  ],
+  districts: [
+    {"id":"financial-district","name":"Financial District","character":"downtown","poly":[[-100,-427],[320,-427],[500,-151],[360,101],[20,101]]},
+    {"id":"south-of-market","name":"South of Market","character":"industrial","poly":[[20,126],[360,101],[560,503],[160,905],[-440,754],[-240,452]]},
+    {"id":"chinatown-nob-hill","name":"Chinatown and Nob Hill","character":"quarter","poly":[[-560,-452],[-100,-427],[20,101],[-560,201]]},
+    {"id":"north-beach","name":"North Beach and Telegraph Hill","character":"quarter","poly":[[-440,-804],[-80,-814],[100,-563],[-100,-427],[-560,-452]]},
+    {"id":"russian-hill-marina","name":"Russian Hill and the Marina","character":"garden","poly":[[-1679,-704],[-640,-829],[-560,-452],[-560,201],[-1679,101]]},
+    {"id":"western-addition","name":"Civic Center and the Western Addition","character":"garden","poly":[[-1679,101],[-560,201],[-440,754],[-1599,1005]]},
+    {"id":"embarcadero-waterfront","name":"the Embarcadero waterfront","character":"port","poly":[[-320,-945],[40,-864],[340,-477],[520,-126],[488,553],[640,553],[712,-101],[460,-452],[140,-864],[-240,-1030]]},
+    {"id":"mission-dolores","name":"the Mission and Dolores","character":"suburb","poly":[[-1599,1005],[-440,754],[-240,1709],[-1440,1910]]},
+  ],
+  sites: [
+    {"id":"embarcadero-piers","name":"Embarcadero Piers Cargo and Cruise Terminal","kind":"port","position":[160,-643],"trades":["ila","ilwu","iuoe","teamsters"],"programmes":["port-operations","rigging-lifting","bay-area-union-edition"],"stations":["dock-crane","container-lashing","mooring-line","vessel-gangway-and-hatch-cover-safety","pt-dock-fender-and-bollard-inspection"],"blurb":"The northern piers on the Embarcadero: line handlers, gangway crews and the crane gang working a ship alongside."},
+    {"id":"ferry-building-landing","name":"Ferry Building Landing","kind":"ferry","position":[412,-241],"trades":["ibu","siu","mmp"],"programmes":["port-operations","yacht-and-charter-crew","bay-area-union-edition"],"stations":["mw-ferry-deckhand-and-passenger-safety","yc-man-overboard-recovery-drill","vessel-gangway-and-hatch-cover-safety","mooring-line"],"blurb":"The ferry berths behind the Ferry Building: deckhands, the gangway and the lines, and the passengers crossing to the East Bay."},
+    {"id":"transbay-transit-hub","name":"Transbay Transit Hub","kind":"transit","position":[288,35],"trades":["atu","twu","ibew","iam"],"programmes":["transit-ramp","railroad-crafts"],"stations":["bus-depot-lift","signal-cabinet","track-access","tr-wheelchair-lift-and-securement-on-a-bus","bus-yard-fuelling-and-brake-check"],"blurb":"The downtown bus and rail hub: mechanics on the lifts, signal maintainers, and operators securing every rider who uses the ramp."},
+    {"id":"cathedral-hill-hospital","name":"Cathedral Hill Hospital Campus","kind":"hospital","position":[-768,101],"trades":["nnu","seiu","afscme","ua","ibew"],"programmes":["healthcare-support","first-responders","plumbers-and-pipefitters"],"stations":["hc-patient-transport-and-safe-handling","hc-code-response-support-and-crash-cart-check","hc-environmental-services-isolation-room-turnover","pl-medical-gas-brazing-and-purge","triage-point"],"blurb":"A hospital campus on Van Ness: nurses and patient transport, environmental services, and the pipefitters who keep the medical gas lines sound."},
+    {"id":"market-street-union-hall","name":"Market Street Union Hall","kind":"union-hall","position":[-260,392],"trades":["carpenters","ibew","liuna","unite-here"],"programmes":["job-readiness-edition","civic-leadership-and-ei"],"stations":["union-hall-and-dispatch","jobsite-orientation-and-osha-10","apprenticeship-application-and-test","public-meeting-chair","k12-public-speaking-at-the-hall"],"blurb":"A union hall off Market Street: the dispatch window, the apprenticeship table, and the meeting room where members speak and vote."},
+    {"id":"cable-car-barn","name":"Cable Car Barn","kind":"streetcar","position":[-300,-231],"trades":["atu","iam","ibew"],"programmes":["transit-ramp","railroad-crafts","electrical-first-period"],"stations":["track-access","signal-cabinet","ra-hand-brake-and-securement-on-a-grade","motor-control-center"],"blurb":"The barn on the slope of Nob Hill where the cables are driven and the cars are kept: gripmen, mechanics and the winding room's electricians."},
+    {"id":"financial-district-high-rise","name":"Financial District High-Rise Site","kind":"construction","position":[112,-141],"trades":["ironworkers","iuec","iupat","carpenters"],"programmes":["fall-protection","glaziers-and-architectural-metal","elevator-constructors"],"stations":["steel-erector","leading-edge-and-horizontal-lifeline","gl-curtain-wall-unit-setting-from-the-floor","gl-swing-stage-glazing-and-sealant","ew-hoistway-false-car-and-rail-setting"],"blurb":"A tower going up among the towers: ironworkers at the leading edge, glaziers setting the curtain wall, and elevator constructors in the hoistway."},
+    {"id":"bay-bridge-crew-yard","name":"Bay Bridge Crew Yard","kind":"bridge","position":[512,141],"trades":["ironworkers","iupat","iuoe"],"programmes":["bridge-and-structural","bay-area-union-edition"],"stations":["bridge-cable-inspection","deck-joint-replacement","bridge-lead-containment","gg-fog-and-wind-work-stop"],"blurb":"The yard under the bridge approach on Rincon Hill: the cable inspectors, the deck joint crew and the painters' containment."},
+    {"id":"fishermans-wharf-kitchens","name":"Fisherman's Wharf Kitchens","kind":"hospitality","position":[-500,-844],"trades":["unite-here","seiu"],"programmes":["culinary-kitchen","hotel-workers"],"stations":["kitchen","allergen-control","fryer-oil-change","hw-banquet-room-flip-and-staging"],"blurb":"The kitchens and banquet rooms along the wharf: line cooks, the allergen check, and the crews who turn a room between events."},
+  ],
+  landmarks: [
+    {"id":"the-ferry-building","name":"the Ferry Building","position":[440,-286],"kind":"place"},
+    {"id":"coit-tower","name":"Coit Tower","position":[-72,-623],"kind":"tower"},
+    {"id":"union-square","name":"Union Square","position":[-140,101],"kind":"square"},
+    {"id":"chinatown","name":"Chinatown","position":[-88,-211],"kind":"neighbourhood"},
+    {"id":"bay-bridge-anchorage","name":"the Bay Bridge anchorage","position":[672,10],"kind":"bridge"},
+    {"id":"fishermans-wharf","name":"Fisherman's Wharf","position":[-440,-915],"kind":"wharf"},
+    {"id":"aquatic-park","name":"Aquatic Park","position":[-700,-844],"kind":"park"},
+    {"id":"palace-of-fine-arts","name":"the Palace of Fine Arts","position":[-1807,-573],"kind":"place"},
+    {"id":"civic-center","name":"Civic Center","position":[-560,528],"kind":"plaza"},
+    {"id":"lombard-street-crooked-block","name":"Lombard Street's crooked block","position":[-588,-608],"kind":"street"},
+  ],
+  connectors: [
+    {"id":"sf-van-ness-north","kind":"road","name":"Van Ness Avenue north to the Marina","from":{"parish":"sf-downtown","position":[-800,-251]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.424,37.795]},"lonlat":[-122.424,37.795],"approximate":true},
+    {"id":"sf-embarcadero-north","kind":"road","name":"The Embarcadero north past the wharf","from":{"parish":"sf-downtown","position":[-440,-804]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.415,37.806]},"lonlat":[-122.415,37.806],"approximate":true},
+    {"id":"sf-dt-market-street","kind":"road","name":"Market Street south-west into the Mission","from":{"parish":"sf-downtown","position":[-600,754]},"to":{"parish":"sf-mission","position":[-440,-603],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
+    {"id":"sf-dt-king-street","kind":"road","name":"The Embarcadero at King Street","from":{"parish":"sf-downtown","position":[520,653]},"to":{"parish":"sf-mission","position":[680,-704],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
+    {"id":"sf-dt-geary-boulevard","kind":"road","name":"Geary Boulevard west to the Richmond","from":{"parish":"sf-downtown","position":[-1679,402]},"to":{"parish":"sf-golden-gate-park","position":[1280,-955],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"sf-downtown-fl-ferry-tide-and-timetable","title":"Tide, Timetable and the Gangway","site":"ferry-building-landing","landmark":"the-ferry-building","k12":"k12-graphing-tide-readings-at-the-pier","trade":"Ferry deckhands","tradeLine":"A deckhand reads the tide and the timetable together, so the gangway meets the boat level when the passengers step across.","minutes":3,"steps":["Watch the water against the pier: it rises and falls through the day.","The timetable says when each boat comes; the tide says how high it will sit.","A deckhand sets the gangway for both, so nobody steps up or down too far."],"check":{"q":"Why does a deckhand check the tide as well as the timetable?","options":["The boat sits higher or lower with the tide","The tide changes the price of a ticket","The timetable is only a guess"],"answer":0,"why":"The timetable says when; the tide says how high the deck will sit against the landing."}},
+    {"id":"sf-downtown-fl-cable-grip","title":"How a Cable Car Climbs","site":"cable-car-barn","landmark":"chinatown","k12":"k12-simple-machines-at-a-crane","trade":"Cable car mechanics","tradeLine":"A mechanic checks the grip and the brakes every day, because the car only moves while the grip holds the moving cable.","minutes":3,"steps":["Under the street a cable runs all the time, pulled by wheels in the barn.","The gripman closes the grip to hold the cable and the car is pulled along.","To stop, the grip lets go and the brakes hold the car on the hill."],"check":{"q":"What moves a cable car up the hill?","options":["A moving cable under the street that the grip holds","An engine inside every car","The passengers pushing"],"answer":0,"why":"The wheels in the barn pull the cable; the grip holds on and the car goes with it."}},
+    {"id":"sf-downtown-fl-steep-street","title":"Reading a Steep Street","site":"cable-car-barn","k12":"k12-slope-and-angles-on-a-ramp","trade":"Transit operators","tradeLine":"An operator sets the hand brake and chocks on a grade, because a steep street pulls a parked car downhill.","minutes":2,"steps":["Walk up the block and feel the street rise under your feet.","A slope is how far up for each step along; this street climbs quickly.","On a steep grade a crew always sets the brake before stepping away."],"check":{"q":"What does a crew do first when it stops on a steep street?","options":["Sets the brake so nothing rolls","Turns on the radio","Opens every door"],"answer":0,"why":"A slope pulls anything with wheels downhill, so the brake goes on first."}},
+    {"id":"sf-downtown-fl-speak-at-the-hall","title":"Your Turn at the Microphone","site":"market-street-union-hall","k12":"k12-public-speaking-at-the-hall","trade":"Union members","tradeLine":"A member who speaks at the hall says one clear point, gives a reason, and listens to the answer.","minutes":3,"steps":["The chair calls on members one at a time, and each has a turn.","Say your one point first, then the reason for it, in plain words.","Sit down and listen; a good meeting hears every side before a vote."],"check":{"q":"What makes a turn at the microphone work best?","options":["One clear point and a reason","Speaking as long as possible","Talking over the chair"],"answer":0,"why":"A clear point with a reason is easy for the room to hear, weigh and answer."}},
+  ],
+  gated: [
+    {"id":"sf-downtown-gated-pier-line-handling","kind":"side-quest","title":"Pier Line Handling at First Light","world":"parishes","parish":"sf-downtown","site":"embarcadero-piers","siteName":"Embarcadero Piers Cargo and Cruise Terminal","summary":"Work the lines with the pier crew as a ship comes alongside.","gate":{"stations":["mooring-line"],"note":"Finish the mooring line station before you work the lines at first light"}},
+    {"id":"sf-downtown-gated-bridge-deck-shift","kind":"side-quest","title":"A Night Shift on the Bridge Deck","world":"parishes","parish":"sf-downtown","site":"bay-bridge-crew-yard","siteName":"Bay Bridge Crew Yard","summary":"Join the deck crew under the lights for a lane closure.","gate":{"stations":["bridge-cable-inspection","gg-fog-and-wind-work-stop"],"note":"Walk the cable inspection and the fog and wind stop before the night shift"}},
+  ],
+};

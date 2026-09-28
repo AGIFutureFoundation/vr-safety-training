@@ -47,9 +47,13 @@ export const NP_ROAD_KINDS = {
   ferry: { width: 0, colour: 0x9fd6ee, lift: 0 },
 };
 /** The water kinds and their colours. */
-export const NP_WATER_KINDS = { river: 0x6b7c68, lake: 0x4f8ea6, canal: 0x5b7f8a, bayou: 0x4f6f5a, wetland: 0x557a6a, gulf: 0x3f7f9c };
-/** The district characters the massing knows (the brief's enum plus "downtown" for a central business district). */
-export const NP_CHARACTERS = ["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "downtown"];
+export const NP_WATER_KINDS = { river: 0x6b7c68, lake: 0x4f8ea6, canal: 0x5b7f8a, bayou: 0x4f6f5a, wetland: 0x557a6a, gulf: 0x3f7f9c, bay: 0x3f7892, ocean: 0x2f6a8c };
+/** The open-water kinds (a polygon a site never sits in): a lake, the gulf, a bay, the ocean. */
+export const NP_OPEN_WATER = ["lake", "gulf", "bay", "ocean"];
+/** A hill's limits (console GOLDEN-A): radius and height in map metres, and the steepest mean flank a mound may have. */
+export const NP_HILL = { minRadius: 80, maxRadius: 1500, maxHeight: 120, maxSlope: 0.35 };
+/** The district characters the massing knows (the brief's enum plus "downtown" for a central business district and "park" — trees, no buildings — for a city park, console GOLDEN-A). */
+export const NP_CHARACTERS = ["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "downtown", "park"];
 /** The connector kinds. */
 export const NP_CONNECTOR_KINDS = ["bridge", "causeway", "ferry", "road"];
 
@@ -226,7 +230,8 @@ export function npPrepare(parish) {
   const districts = (parish.districts ?? []).map((d) => ({ ...d, bbox: npBBox(d.poly) }));
   const rivers = water.filter((w) => w.kind === "river" && w.centre);
   const seed = [...String(parish.id ?? "parish")].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 7);
-  const prep = { water, districts, rivers, levees: parish.levees ?? [], roads: parish.roads ?? [], sites: parish.sites ?? [], seed, half: (parish.size ?? NP_SIZE) / 2 };
+  const hills = (parish.hills ?? []).filter((h) => Array.isArray(h?.center) && h.radius > 0 && h.height > 0);
+  const prep = { water, districts, rivers, hills, levees: parish.levees ?? [], roads: parish.roads ?? [], sites: parish.sites ?? [], seed, half: (parish.size ?? NP_SIZE) / 2 };
   npPrepCache.set(parish, prep);
   return prep;
 }
@@ -268,10 +273,42 @@ export function npLeveeRise(parish, x, z) {
   return rise;
 }
 
-/** The dry ground before levees and water: a flat delta with a gentle rise beside each river. */
+/**
+ * The hills' rise at (x, z), in metres over the flat field (console GOLDEN-A):
+ * each hill is a gentle procedural mound, a raised cosine from `height` at its
+ * `center` to nothing at `radius`, with a faint ripple so a flank is not a
+ * perfect bowl. Overlapping hills take the higher. Zero on a map with no hills
+ * (every New Orleans parish), so the delta field is unchanged there. A hill is
+ * a name on a mound, never a survey of the real one.
+ */
+export function npHillRise(parish, x, z) {
+  const { hills, seed } = npPrepare(parish);
+  let rise = 0;
+  for (const hl of hills) {
+    const d = Math.hypot(x - hl.center[0], z - hl.center[1]);
+    if (d >= hl.radius) continue;
+    const k = 0.5 * (1 + Math.cos((Math.PI * d) / hl.radius));
+    rise = Math.max(rise, hl.height * k * (1 + 0.04 * npValueNoise(x / 60, z / 60, seed + 11) * (1 - k)));
+  }
+  return rise;
+}
+
+/** The hill a point stands on (the one raising it most), or null. */
+export function npHillAt(parish, x, z) {
+  let best = null, bh = 0.05;
+  for (const hl of npPrepare(parish).hills) {
+    const d = Math.hypot(x - hl.center[0], z - hl.center[1]);
+    if (d >= hl.radius) continue;
+    const h = hl.height * 0.5 * (1 + Math.cos((Math.PI * d) / hl.radius));
+    if (h > bh) { bh = h; best = hl; }
+  }
+  return best;
+}
+
+/** The dry ground before levees and water: a flat delta with a gentle rise beside each river, and any hills. */
 function npBaseGround(parish, x, z) {
   const { rivers, seed } = npPrepare(parish);
-  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35;
+  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npHillRise(parish, x, z);
   for (const r of rivers) {
     const { d } = npPolyDistance(x, z, r.centre);
     const bank = r.width / 2;
@@ -283,7 +320,8 @@ function npBaseGround(parish, x, z) {
 /**
  * Terrain height (metres) at (x, z): the one field every consumer samples.
  * Water beds are cut to NP_BED with a short bank, levees rise as trapezoids,
- * and each site's pad is flattened to NP_GROUND.
+ * and each site's pad is flattened to NP_GROUND — or, on a hill, to the
+ * hill's height at the site's centre, so the pad is a terrace, not a pit.
  */
 export function npHeightAt(parish, x, z) {
   const prep = npPrepare(parish);
@@ -304,7 +342,7 @@ export function npHeightAt(parish, x, z) {
   h += npLeveeRise(parish, x, z);
   for (const s of prep.sites) {
     const d = Math.hypot(x - s.position[0], z - s.position[1]);
-    if (d < NP_PAD * 1.8) h = NP_GROUND + (h - NP_GROUND) * npSmooth(NP_PAD, NP_PAD * 1.8, d);
+    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length ? npHillRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
   }
   return h;
 }
@@ -427,6 +465,7 @@ export const NP_MASSING = {
   refinery: { spacing: 64, jitter: 8, kinds: [["tank", 0.7], ["stack", 0.3]] },
   campus: { spacing: 48, jitter: 8, kinds: [["campusBlock", 0.5], ["liveOak", 0.5]] },
   downtown: { spacing: 44, jitter: 6, kinds: [["tower", 1]] },
+  park: { spacing: 32, jitter: 12, kinds: [["liveOak", 0.55], ["cypress", 0.45]] },
 };
 
 /**
@@ -523,6 +562,21 @@ export function npValidate(parish, ctx = {}) {
   }
   for (const [list, what] of [[parish.water, "water"], [parish.levees, "levees"], [parish.roads, "roads"], [parish.districts, "districts"], [parish.sites, "sites"], [parish.landmarks, "landmarks"], [parish.connectors, "connectors"], [parish.fieldLessons, "fieldLessons"], [parish.gated, "gated"]]) {
     if (!Array.isArray(list)) bad.push(`${what} is not an array`); else ids(list, what);
+  }
+  if (parish.region !== undefined && !/^[a-z][a-z0-9-]*$/.test(String(parish.region))) bad.push(`region ${parish.region} is not a slug`);
+  if (parish.hills !== undefined) {
+    if (!Array.isArray(parish.hills)) bad.push("hills is not an array");
+    else {
+      ids(parish.hills, "hills");
+      for (const hl of parish.hills) {
+        if (!str(hl.name) || /\d/.test(hl.name)) bad.push(`hill ${hl.id}: a name with no digits`);
+        if (!inField(hl.center)) bad.push(`hill ${hl.id}: center outside the field`);
+        if (!(hl.radius >= NP_HILL.minRadius && hl.radius <= NP_HILL.maxRadius)) bad.push(`hill ${hl.id}: radius ${hl.radius}`);
+        if (!(hl.height > 0 && hl.height <= NP_HILL.maxHeight)) bad.push(`hill ${hl.id}: height ${hl.height}`);
+        else if ((hl.height * Math.PI) / (2 * hl.radius) > NP_HILL.maxSlope) bad.push(`hill ${hl.id}: flank steeper than a gentle mound`);
+        if (inField(hl.center) && npWaterAt(parish, ...hl.center)) bad.push(`hill ${hl.id}: its crown is in the water`);
+      }
+    }
   }
   for (const w of parish.water ?? []) {
     if (!Object.keys(NP_WATER_KINDS).includes(w.kind)) bad.push(`water ${w.id}: kind ${w.kind}`);

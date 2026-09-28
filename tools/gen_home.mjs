@@ -43,7 +43,7 @@ const { BAY_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "bayworld
 const { DEEP_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "underwater-data.js")).href);
 const { RW_SITES } = await import(pathToFileURL(join(WEBXR, "redwood", "js", "rw-data.js")).href);
 const { SM_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "summit-data.js")).href);
-const { NP_PARISHES } = await import(pathToFileURL(join(WEBXR, "shared", "np-parishes.js")).href);
+const { NP_PARISHES, npRegionGroups } = await import(pathToFileURL(join(WEBXR, "shared", "np-parishes.js")).href);
 // The Hard Hat Hunt counter's total (docs/easter-egg.md) — imported rather
 // than retyped, so a station added to or removed from the hunt can never
 // leave this page's footer counting against a stale number.
@@ -1448,7 +1448,7 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       blurb: "A 4 km mountain to walk: a dam and its penstock, a pass road and tunnel, a transmission ridge, a gondola and a summit lookout — and every job board opens a real line, dam, road or lift station.",
     }),
     appCard(layout, {
-      href: layout.app.parishes, tint: "#7fd3ff", count: `${NP_PARISHES.length} parish${NP_PARISHES.length === 1 ? "" : "es"} · ${NP_PARISHES.reduce((n, p) => n + p.sites.length, 0)} job sites`, shot: "parishes",
+      href: layout.app.parishes, tint: "#7fd3ff", count: `${npRegionGroups(NP_PARISHES).map(({ region, parishes }) => `${parishes.length} ${parishes.length === 1 ? region.noun : region.nouns}`).join(" · ")} · ${NP_PARISHES.reduce((n, p) => n + p.sites.length, 0)} job sites`, shot: "parishes",
       name: "New Orleans Parishes", go: "Walk the delta",
       blurb: "Streamed 4 km parish worlds on the delta: the river's bend, the lake shore, levees and floodwalls, the outfall canals and a wetland triangle — with job boards for the port, the levee crews, a pumping station, the streetcar barn, the rail yard, the hospital and stadium districts and a wetland restoration site.",
     }),

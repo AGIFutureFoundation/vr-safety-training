@@ -13,8 +13,8 @@ import { mapboxToken } from "../../shared/mapbox.js";
 import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { slGamesFor, slResolveSite, slMountPathBoard } from "../../shared/sl-parish-play.js";
-import { NP_PARISHES, npParish, npResolveConnectors } from "../../shared/np-parishes.js";
-import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npPlace, npStartSite } from "../../shared/np-parish.js";
+import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npRegionGroups } from "../../shared/np-parishes.js";
+import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
@@ -37,6 +37,8 @@ const npReturn = ppReturnSite(location.hash, location.search);
 const npReturnParish = npReturn?.includes("/") ? npReturn.split("/")[0] : null;
 const parish = npParish(npParams.get("parish") ?? npReturnParish ?? "") ?? NP_PARISHES[0];
 const npReturnSiteId = npReturn ? npReturn.split("/").pop() : null;
+// The map's region (console GOLDEN-A): the page title, and whether a map is a parish or a district, follow it.
+const npRegionHere = npRegion(npRegionOf(parish)) ?? { id: "new-orleans", name: "New Orleans", title: "New Orleans Parishes", noun: "parish", nouns: "parishes" };
 
 const np = { state: npLoad(), playing: false, yaw: 0, pitch: 0.02, x: 0, z: 0, timeIdx: 1, weatherIdx: 0, near: null, modal: null };
 
@@ -102,7 +104,7 @@ npApplySky();
 // Wildlife that fits a delta, from the shared budget table: egrets wading at
 // the wetland, pelicans over the lake, herons gliding along the river.
 const npWetland = parish.water.find((w) => w.kind === "wetland");
-const npLake = parish.water.find((w) => w.kind === "lake" || w.kind === "gulf");
+const npLake = parish.water.find((w) => w.kind === "lake" || w.kind === "gulf" || w.kind === "bay" || w.kind === "ocean");
 const npRiver = parish.water.find((w) => w.kind === "river");
 const npMid = (poly) => poly.reduce((a, p) => [a[0] + p[0] / poly.length, a[1] + p[1] / poly.length], [0, 0]);
 const npWild = [];
@@ -189,7 +191,7 @@ function npOpenLesson(l) {
 
 // --------------------------------------------------------------------- map
 
-const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480" };
+const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480", park: "#3f7a3a" };
 const NP_LAYERS = { districts: true, water: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
 function npMapXY(x, z, W) { return [(x + NP_SIZE / 2) / NP_SIZE * W, (z + NP_SIZE / 2) / NP_SIZE * W]; }
 function npRenderMap() {
@@ -226,13 +228,25 @@ function npTravel(s) { np.x = s.position[0]; np.z = s.position[1] + 16; np.yaw =
 
 // ------------------------------------------------------------ parish selector
 
-function npRenderParishes() {
-  const box = $("parish-list"); box.textContent = "";
-  for (const p of NP_PARISHES) {
-    const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id;
-    box.appendChild(a);
+/** The selector: a heading per region (NP_REGIONS order), then that region's maps as links; the current map is on. */
+function npFillSelector(box) {
+  box.textContent = "";
+  for (const { region, parishes } of npRegionGroups(NP_PARISHES)) {
+    const group = document.createElement("div"); group.className = "np-region"; group.dataset.region = region.id;
+    const h = document.createElement("p"); h.className = "eyebrow"; h.textContent = region.title; group.appendChild(h);
+    const row = document.createElement("div"); row.className = "row";
+    for (const p of parishes) {
+      const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id; a.dataset.region = region.id;
+      row.appendChild(a);
+    }
+    group.appendChild(row); box.appendChild(group);
   }
-  const ways = connectors.map((c) => `<div class="quest"><b>${c.name}</b><small>${c.kind} · ${c.to.parish === parish.id ? "within this parish" : `to ${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " — not built yet"}`}</small></div>`).join("");
+}
+
+function npRenderParishes() {
+  npFillSelector($("parish-list"));
+  $("parish-ways-title").textContent = `Ways out of this ${npRegionHere.noun}`;
+  const ways = connectors.map((c) => `<div class="quest"><b>${c.name}</b><small>${c.kind} · ${c.to.parish === parish.id ? `within this ${npRegionHere.noun}` : `to ${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " — not built yet"}`}</small></div>`).join("");
   $("parish-ways").innerHTML = ways || "<p class='note'>No connectors listed.</p>";
 }
 
@@ -278,7 +292,8 @@ function npHud() {
   const w = npWaterAt(parish, np.x, np.z);
   let near = parish.sites[0], nd = Infinity;
   for (const p of [...parish.sites, ...parish.landmarks]) { const dd = Math.hypot(np.x - p.position[0], np.z - p.position[1]); if (dd < nd) { nd = dd; near = p; } }
-  $("hud-zone").textContent = w ? w.name ?? w.kind : d?.name ?? parish.name;
+  const hill = w ? null : npHillAt(parish, np.x, np.z);
+  $("hud-zone").textContent = w ? w.name ?? w.kind : hill ? `${hill.name} · ${d?.name ?? parish.name}` : d?.name ?? parish.name;
   $("hud-near").textContent = `${near.name} · ${Math.round(nd)} m`;
   $("hud-alt").textContent = `${h.toFixed(1)} m`;
   $("hud-lessons").textContent = `${(parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length}/${(parish.fieldLessons ?? []).length}`;
@@ -348,11 +363,9 @@ if (npReturnSiteId) npBegin();
 $("menu-parish").textContent = parish.name;
 $("menu-blurb").textContent = parish.blurb ?? "";
 $("menu-count").textContent = `${parish.sites.length} job sites · ${parish.districts.length} districts · ${connectors.length} ways out`;
-{
-  const box = $("menu-parishes"); box.textContent = "";
-  for (const p of NP_PARISHES) { const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id; box.appendChild(a); }
-}
-document.title = `${parish.name} — New Orleans Parishes`;
+npFillSelector($("menu-parishes"));
+$("menu-eyebrow").textContent = `${npRegionHere.title} · a 4 km by 4 km world each`;
+document.title = `${parish.name} — ${npRegionHere.title}`;
 
 // Touch: a stick to walk, buttons for use / map / parishes.
 let npTouch = null;
@@ -362,7 +375,7 @@ try {
     buttons: [
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },
-      { id: "np-parishes", label: "Parishes", aria: "Parishes", onDown: () => npToggle("parishes") },
+      { id: "np-parishes", label: "Maps", aria: `${npRegionHere.title} and other regions`, onDown: () => npToggle("parishes") },
     ],
   });
 } catch { /* no touch layer */ }
@@ -370,10 +383,10 @@ tcMountQuality?.($("hud-stats"), (q) => tcApplyRenderer(npRenderer, tcTier(q)));
 
 gdMount();
 ctlMount({
-  world: "New Orleans Parishes", quality: true,
+  world: npRegionHere.title, quality: true,
   except: { move: "WASD or arrows walk; Shift runs; drag the view to look.", interact: "E at a job board, a lesson sign or a way out of the parish.", map: "M opens the map with districts, water, levees, roads and connectors." },
   unique: [
-    { label: "Parish selector", keys: ["P"], pad: "—", touch: "Parishes button" },
+    { label: "Region and map selector", keys: ["P"], pad: "—", touch: "Maps button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
   ],
 });

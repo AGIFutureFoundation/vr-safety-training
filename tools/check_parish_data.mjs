@@ -28,6 +28,10 @@
  *   - gated items on the gate contract (id, kind, title, site, world, gate
  *     with a note and resolvable stations / programmes / k12), no digits in
  *     the note;
+ *   - regions and hills (console GOLDEN-A): `region` is optional (a map
+ *     without one is a New Orleans parish) and a known region when given;
+ *     `hills` are named gentle mounds on the field, crowns out of the water;
+ *     the bay and ocean water kinds and the park district character;
  *   - the facts rule: no digits in any name or lesson text, no Mapbox token
  *     shape anywhere in the modules.
  * PARISH's check_parishes.mjs is meant to absorb this file; until then it
@@ -112,9 +116,11 @@ function ndRibbonDistance([x, z], pts) {
   }
   return best;
 }
-const ND_WATER_KINDS = new Set(["river", "lake", "canal", "bayou", "wetland", "gulf"]);
+const ND_WATER_KINDS = new Set(["river", "lake", "canal", "bayou", "wetland", "gulf", "bay", "ocean"]);
+/** The regions a map may name (np-parishes.js NP_REGIONS); a map with no `region` is a New Orleans parish. */
+const ND_REGIONS = new Set(["new-orleans", "san-francisco"]);
 const ND_ROAD_KINDS = new Set(["interstate", "avenue", "street", "riverroad", "bridge", "causeway", "ferry"]);
-const ND_DISTRICT_CHARACTERS = new Set(["quarter", "downtown", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus"]);
+const ND_DISTRICT_CHARACTERS = new Set(["quarter", "downtown", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "park"]);
 const ND_CONNECTOR_KINDS = new Set(["bridge", "causeway", "ferry", "road"]);
 const ND_TOKEN_SHAPE = /\bpk\.[A-Za-z0-9_-]{20,}/;
 
@@ -148,6 +154,24 @@ for (const [pid, p] of ndParishes) {
   ndCheck(ndSlug(pid), `${where}: id is a slug`);
   ndCheck(typeof p.name === "string" && p.name.length > 2 && !ndDigits(p.name), `${where}: a name with no digits`);
   ndCheck(p.size === 4096, `${where}: size is 4096`);
+  // region (console GOLDEN-A): optional — a map without one is a New Orleans parish — and a known region when given
+  ndCheck(p.region === undefined || ND_REGIONS.has(p.region), `${where}: region ${p.region ?? "(New Orleans by default)"} is a known region`);
+  ndCheck(!pid.startsWith("sf-") || p.region === "san-francisco", `${where}: an sf- map names region san-francisco`);
+  // hills (console GOLDEN-A): optional; each a named gentle mound on the field, clear of the water
+  if (p.hills !== undefined) {
+    ndCheck(Array.isArray(p.hills), `${where}: hills is an array`);
+    const hillIds = new Set();
+    for (const h of Array.isArray(p.hills) ? p.hills : []) {
+      const hw = `${where}: hill ${h.id}`;
+      ndCheck(ndSlug(h.id) && !hillIds.has(h.id), `${hw}: slug id, unique`);
+      hillIds.add(h.id);
+      ndCheck(typeof h.name === "string" && h.name.length > 2 && !ndDigits(h.name), `${hw}: a name with no digits`);
+      ndCheck(ndInField(h.center, (p.size ?? 4096) / 2), `${hw}: center on the field`);
+      ndCheck(Number.isFinite(h.radius) && h.radius >= 80 && h.radius <= 1500, `${hw}: radius 80–1500 map metres (${h.radius})`);
+      ndCheck(Number.isFinite(h.height) && h.height > 0 && h.height <= 120 && (h.height * Math.PI) / (2 * h.radius) < 0.35, `${hw}: a gentle mound (height ${h.height}, radius ${h.radius})`);
+      for (const w of p.water ?? []) if (!w.width && Array.isArray(w.poly) && w.poly.length >= 3) ndCheck(!ndInPoly(h.center, w.poly), `${hw}: its crown is not in ${w.id}`);
+    }
+  }
   const half = (p.size ?? 4096) / 2;
   for (const key of ["anchors", "water", "levees", "roads", "districts", "sites", "landmarks", "connectors", "fieldLessons", "gated"]) ndCheck(Array.isArray(p[key]), `${where}: ${key} is an array`);
   if (!Array.isArray(p.anchors) || !Array.isArray(p.sites)) continue;
@@ -184,7 +208,7 @@ for (const [pid, p] of ndParishes) {
     ndCheck(Array.isArray(w.poly) && w.poly.length >= 2 && w.poly.every((q) => ndInField(q, half)), `${where}: water ${w.id} points on the field`);
     ndCheck(w.width === undefined || (Number.isFinite(w.width) && w.width > 0), `${where}: water ${w.id} width is a positive number when given`);
     ndCheck(w.width !== undefined || w.poly.length >= 3, `${where}: water ${w.id} is a polygon (three or more points) or a ribbon with a width`);
-    if ((w.kind === "lake" || w.kind === "gulf") && !w.width) lakes.push(w);
+    if (["lake", "gulf", "bay", "ocean"].includes(w.kind) && !w.width) lakes.push(w);
   }
   for (const l of p.levees ?? []) {
     ndCheck(ndSlug(l.id) && Array.isArray(l.pts) && l.pts.length >= 2 && l.pts.every((q) => ndInField(q, half)), `${where}: levee ${l.id} has two or more points on the field`);
@@ -324,7 +348,8 @@ for (const [pid, p] of ndParishes) {
 }
 // The five connect: the causeway (Jefferson–St. Tammany), the river bridges and roads (Jefferson–Orleans,
 // Jefferson–Plaquemines), the river road (St. Bernard–Plaquemines), a ferry (St. Bernard–Orleans).
-for (const pair of ["jefferson↔st-tammany", "jefferson↔plaquemines", "plaquemines↔st-bernard", "jefferson↔orleans", "orleans↔st-bernard", "orleans↔st-tammany"]) {
+// The San Francisco districts connect too (console GOLDEN-A): Downtown–Mission, Downtown–Golden Gate Park, Mission–Golden Gate Park.
+for (const pair of ["jefferson↔st-tammany", "jefferson↔plaquemines", "plaquemines↔st-bernard", "jefferson↔orleans", "orleans↔st-bernard", "orleans↔st-tammany", ...(ndParishes.has("sf-downtown") ? ["sf-downtown↔sf-mission", "sf-downtown↔sf-golden-gate-park", "sf-golden-gate-park↔sf-mission"] : [])]) {
   ndCheck((ndNeighbours.get(pair) ?? 0) >= 1, `the parishes connect across ${pair}`);
 }
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "causeway")), "a causeway connector exists");

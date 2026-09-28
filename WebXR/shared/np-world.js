@@ -29,7 +29,7 @@ import {
 const NP_COL = {
   water: [0.16, 0.22, 0.2], wetland: [0.36, 0.45, 0.3], levee: [0.5, 0.62, 0.34], road: [0.24, 0.25, 0.27], pad: [0.62, 0.58, 0.5],
   quarter: [0.5, 0.42, 0.34], garden: [0.38, 0.52, 0.28], industrial: [0.5, 0.5, 0.48], suburb: [0.42, 0.55, 0.3], port: [0.55, 0.54, 0.5],
-  downtown: [0.46, 0.46, 0.47], campus: [0.4, 0.54, 0.3], refinery: [0.5, 0.47, 0.42], grass: [0.44, 0.56, 0.31],
+  downtown: [0.46, 0.46, 0.47], campus: [0.4, 0.54, 0.3], park: [0.36, 0.53, 0.27], refinery: [0.5, 0.47, 0.42], grass: [0.44, 0.56, 0.31],
 };
 
 /** The ground colour at (x, z) by cover (vertex colours, no textures), with a little grain. */
