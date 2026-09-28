@@ -129,11 +129,25 @@ export function smPolyDistance(x, z, pts) {
 
 // ------------------------------------------------------------------ layout
 
-/** The pass road: from the valley gate over the pass, through the tunnel, down the far side. */
+/**
+ * The pass road: from the valley gate over the pass, through the tunnel, down
+ * the far side. Between the crew yard (0, 700) and the pass saddle (450, -150)
+ * the climb was 22 % on a straight line; six switchback vertices now carry it
+ * at 9 % over 2330 m, with the avalanche-chute sign (300, 300) kept on the
+ * road. The along-road fractions in SM_ROAD_PROFILE and SM_TUNNEL_SPAN were
+ * printed for this polyline (its length is SM_ROAD_LENGTH); move a vertex and
+ * re-derive them.
+ */
 export const SM_PASS_ROAD = [
-  [-1950, 1850], [-1500, 1450], [-1100, 1150], [-500, 950], [0, 700], [300, 300], [450, -150], [600, -560],
-  [900, -900], [1400, -1300], [1950, -1850],
+  [-1950, 1850], [-1500, 1450], [-1100, 1150], [-500, 950], [0, 700],
+  [-240, 580], [280, 470], [-60, 360], [300, 300], [40, 150], [450, -150],
+  [600, -560], [900, -900], [1400, -1300], [1950, -1850],
 ];
+/** The switchback vertices' index range in SM_PASS_ROAD (first and last, inclusive). */
+export const SM_SWITCHBACKS = [4, 10];
+/** The road's length in metres, and the cumulative length at each vertex. */
+export const SM_ROAD_LENGTHS = SM_PASS_ROAD.reduce((L, p, i) => (i ? L.push(L[i - 1] + Math.hypot(p[0] - SM_PASS_ROAD[i - 1][0], p[1] - SM_PASS_ROAD[i - 1][1])) : 0, L), [0]);
+export const SM_ROAD_LENGTH = SM_ROAD_LENGTHS[SM_ROAD_LENGTHS.length - 1];
 /** The service road from the pass road to the dam, the ranger station and the gondola shop. */
 export const SM_SERVICE_ROAD = [[-1100, 1150], [-1050, 1050], [-760, 520], [-1230, 290], [-760, 520], [-260, -240]];
 /** The transmission line, substation to the far ridge. */
@@ -147,7 +161,7 @@ export const SM_LAKE = { centre: [-700, -40], radius: 380 };
 /** The tailrace river: from the powerhouse down the valley to the south-west corner, under the pass road once (a culvert). */
 export const SM_RIVER = [[-560, 790], [-646, 913], [-789, 957], [-753, 1103], [-766, 1252], [-844, 1380], [-952, 1484], [-1075, 1571], [-1225, 1573], [-1224, 1723], [-1195, 1870], [-1278, 1995], [-1250, 2048]];
 /** The river channel: half-width in metres where the bed is cut, its depth below the banks, and the corridor the banks blend over. */
-export const SM_RIVER_CHANNEL = { width: 14, depth: 2.6, corridor: 70 };
+export const SM_RIVER_CHANNEL = { width: 22, depth: 4, corridor: 70 };
 /** Hiking trails (the orienteering course follows the first). */
 export const SM_TRAILS = [
   { id: "lookout-trail", name: "West Ridge Lookout Trail", pts: [[-1230, 290], [-1300, 100], [-1380, -150], [-1450, -400], [-1510, -690]] },
@@ -214,22 +228,48 @@ export const SM_LANDMARKS = [
 
 // ----------------------------------------------------------------- terrain
 
-/** The pass road's height profile: [along-road fraction, metres]; the tunnel runs between the two portals. */
-export const SM_ROAD_PROFILE = [[0, 150], [0.28, 190], [0.45, 330], [0.62, 560], [0.7, 600], [0.8, 600], [0.9, 520], [1, 430]];
+/**
+ * The pass road's height profile: [along-road fraction, metres], one anchor
+ * per place the road passes (the gate, the service-road junction, the crew
+ * yard, the pass saddle, the tunnel portal, the two tunnel ends, the far gate,
+ * the end), interpolated linearly so every section has one grade. The tunnel
+ * runs between the two portals. Fractions come from the switchback script
+ * for the polyline above; the steepest section is held under SM_ROAD_MAX_GRADE
+ * by tools/check_summit.mjs.
+ */
+export const SM_ROAD_PROFILE = [[0, 150], [0.159, 190], [0.3309, 300], [0.667, 510], [0.73, 560], [0.7589, 560], [0.8387, 560], [0.8878, 520], [1, 430]];
 /** Along-road fractions of the tunnel (no road bed is cut between them). */
-export const SM_TUNNEL_SPAN = [0.7, 0.8];
+export const SM_TUNNEL_SPAN = [0.7589, 0.8387];
+/** The steepest grade (rise over run) the road bed may show anywhere outside the tunnel. */
+export const SM_ROAD_MAX_GRADE = 0.125;
 
 function smRoadHeight(t) {
   const P = SM_ROAD_PROFILE;
   for (let i = 1; i < P.length; i++) if (t <= P[i][0]) {
     const u = (t - P[i - 1][0]) / (P[i][0] - P[i - 1][0]);
-    return P[i - 1][1] + (P[i][1] - P[i - 1][1]) * u * u * (3 - 2 * u);
+    return P[i - 1][1] + (P[i][1] - P[i - 1][1]) * u;
   }
   return P[P.length - 1][1];
 }
 
 /** The road bed's height at an along-road fraction. */
 export function smRoadHeightAt(t) { return smRoadHeight(t); }
+
+/** The road's grade at an along-road fraction, signed in the direction of travel toward the far gate (rise over run). */
+export function smRoadGradeAt(t) {
+  const P = SM_ROAD_PROFILE;
+  for (let i = 1; i < P.length; i++) if (t <= P[i][0]) return (P[i][1] - P[i - 1][1]) / ((P[i][0] - P[i - 1][0]) * SM_ROAD_LENGTH);
+  return 0;
+}
+
+/** The point on the road at a distance in metres from the valley gate: { x, z, t, yaw } (yaw faces the direction of travel). */
+export function smRoadPointAt(d) {
+  const L = SM_ROAD_LENGTHS;
+  let i = 1; while (i < L.length - 1 && L[i] < d) i++;
+  const u = smClamp((d - L[i - 1]) / ((L[i] - L[i - 1]) || 1), 0, 1);
+  const [ax, az] = SM_PASS_ROAD[i - 1], [bx, bz] = SM_PASS_ROAD[i];
+  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, t: smClamp(d / SM_ROAD_LENGTH, 0, 1), yaw: Math.atan2(bx - ax, bz - az) };
+}
 
 function smNatural(x, z) {
   const t = smClamp((1400 - z) / 3000, 0, 1);
@@ -263,9 +303,11 @@ function smRawHeight(x, z) {
   const rv = smPolyDistance(x, z, SM_RIVER);
   if (rv.d < SM_RIVER_CHANNEL.corridor) {
     const open = smSmooth(12, 40, r.d);
-    const prof = smRiverProfile(rv.t);
+    const prof = smRiverProfile(rv.t), W = SM_RIVER_CHANNEL.width;
     if (prof < h) h += (prof - h) * (1 - smSmooth(6, SM_RIVER_CHANNEL.corridor, rv.d)) * open;
-    if (rv.d < SM_RIVER_CHANNEL.width) h -= SM_RIVER_CHANNEL.depth * (1 - smSmooth(3, SM_RIVER_CHANNEL.width, rv.d)) * open;
+    // Low ground beside the channel is lifted to the bank top (the profile), so both banks stand above the water.
+    else if (rv.d < W * 2) h += (prof - h) * (1 - smSmooth(W * 1.4, W * 2, rv.d)) * open;
+    if (rv.d < W) h -= SM_RIVER_CHANNEL.depth * (1 - smSmooth(3, W, rv.d)) * open;
   }
   return h;
 }
@@ -295,8 +337,11 @@ function smRiverProfile(t) {
   const f = smClamp(t, 0, 1) * (SM_RIVER_PROFILE.length - 1), i = Math.min(SM_RIVER_PROFILE.length - 2, Math.floor(f)), u = f - i;
   return SM_RIVER_PROFILE[i] + (SM_RIVER_PROFILE[i + 1] - SM_RIVER_PROFILE[i]) * u;
 }
-/** The river's surface height at an along-river fraction (the bed plus most of the channel's depth). */
-export function smRiverSurfaceAt(t) { return smRiverProfile(t) - SM_RIVER_CHANNEL.depth + 0.9; }
+/** The river bed's height at an along-river fraction (the channel's centre line). */
+export function smRiverBedAt(t) { return smRiverProfile(t) - SM_RIVER_CHANNEL.depth; }
+/** The river's surface height at an along-river fraction: SM_RIVER_SURFACE metres of water over the bed, the banks the rest of the depth above it. */
+export const SM_RIVER_SURFACE = 1.6;
+export function smRiverSurfaceAt(t) { return smRiverBedAt(t) + SM_RIVER_SURFACE; }
 
 /** The reservoir's water level (metres), fixed from the terrain at load. */
 export const SM_WATER_LEVEL = Math.round(smRawHeight(SM_LAKE.centre[0], SM_LAKE.centre[1]) + 6);
@@ -609,7 +654,7 @@ export const SM_MAIN_QUESTS = [
   { id: "sm-main-03-ranger", title: "The Trail Register", giver: "the duty ranger", site: "ranger-station", kind: "main", tier: 2, requires: "sm-main-02-dam",
     steps: [{ type: "goto", target: "ranger-station", text: "Sign the trail register at the ranger station." }, { type: "goto", target: "west-lookout", text: "Hike to the West Ridge Lookout." }], reward: { xp: 80, badge: "Lookout" } },
   { id: "sm-main-04-road", title: "Keep the Pass Open", giver: "the road crew foreman", site: "pass-road", kind: "main", tier: 3, requires: "sm-main-03-ranger",
-    steps: [{ type: "goto", target: "pass-road", text: "Report to the pass road crew yard." }, { type: "station", target: "drive-mountain-grade-and-engine-brake", text: "Take the mountain grade the way the sign says." }], reward: { xp: 100, badge: "Pass Crew" } },
+    steps: [{ type: "goto", target: "pass-road", text: "Report to the pass road crew yard." }, { type: "ride", target: "sm-ride-pass-descent", text: "Ride the switchbacks with the crew and set the engine brake at the pull-out." }, { type: "station", target: "drive-mountain-grade-and-engine-brake", text: "Take the mountain grade the way the sign says." }], reward: { xp: 100, badge: "Pass Crew" } },
   { id: "sm-main-05-tunnel", title: "Under the Ridge", giver: "the portal's heading boss", site: "tunnel-portal", kind: "main", tier: 3, requires: "sm-main-04-road",
     steps: [{ type: "goto", target: "tunnel-portal", text: "Drive or walk up to the tunnel portal." }, { type: "station", target: "cm-shotcrete-nozzle-and-rebound", text: "Clear the crew and shoot the portal face." }], reward: { xp: 100, badge: "Portal Crew" } },
   { id: "sm-main-06-lines", title: "Power Off the Ridge", giver: "the substation's switching operator", site: "substation", kind: "main", tier: 4, requires: "sm-main-05-tunnel",
@@ -664,6 +709,23 @@ export const SM_ACTIVITIES = [
     avoid: [{ at: [480, -1600], r: 90, note: "Marked avalanche terrain — the route plan keeps you out" }, { at: [800, -1420], r: 80, note: "Cornice edge — stay back per the plan" }],
     scoring: { point: 15, zoneEntryPenalty: 25, buddyCheck: 5 },
     blurb: "A snowcat-free survey on foot from the gondola top: log six survey points in order and radio a buddy check at each; stepping into a marked avalanche zone costs more than any point is worth." },
+];
+
+// -------------------------------------------------------------------- rides
+//
+// A ride is a quest step driven, not walked: the learner boards the crew
+// pickup at one site and it follows the pass road to another while the HUD
+// shows the grade and the station's own advice. Scored on safe practice only
+// (the engine brake set at the pull-out before the descent, never speed).
+// `advice` quotes the first sentence of a real step's `why` verbatim, like the
+// field notes; tools/check_summit.mjs verifies the quote.
+
+export const SM_RIDES = [
+  { id: "sm-ride-pass-descent", name: "Ride the Pass With the Crew", from: "pass-road", to: "tunnel-portal", stopAt: "pass-summit", speed: 11,
+    advice: { stationId: "drive-mountain-grade-and-engine-brake", stepId: "drm-pullout",
+      text: "The pull-out before a long grade is where the brakes are checked, while it is still easy to stop: the air pressure built and holding, the engine brake switched on so it is ready the moment you lift off the throttle, and the mirrors set to show the trailer tandems, because smoke from a hot brake shows there before you smell it." },
+    scoring: { brakeAtPullout: 30, brakeLate: 10, noBrake: -25, arrive: 10 },
+    blurb: "Board the crew pickup at the yard. It climbs the switchbacks and stops at the pass saddle's pull-out: set the engine brake there (E) before it starts down to the tunnel portal. Setting it on the grade scores less; not setting it at all costs more than the arrival is worth." },
 ];
 
 /** Every gated item in this world, for tools/check_gates.mjs (QUESTMASTER). */

@@ -85,6 +85,65 @@ check(Math.abs(D.smGradAt(250, -1600).aspect + 1) < 0.3 && Math.abs(D.smGradAt(2
   check(D.smRiverSurfaceAt(0) > D.smRiverSurfaceAt(1), "the river's surface descends from source to exit");
   check(D.smTreesForChunk(4, 12).every((t) => D.smPolyDistance(t.x, t.z, R).d > D.SM_RIVER_CHANNEL.width), "no conifer stands in the river channel");
 }
+// 1d. the pass road (SUMMIT-3, phase 4): switchbacks carry the climb between
+// the crew yard and the pass saddle, the chute sign stays on the road, and the
+// road bed's grade stays under SM_ROAD_MAX_GRADE everywhere outside the tunnel.
+{
+  const [a, b] = D.SM_SWITCHBACKS, R = D.SM_PASS_ROAD, L = D.SM_ROAD_LENGTHS;
+  check(b - a >= 4, `the switchback section has four or more legs (${b - a})`);
+  const straight = Math.hypot(R[b][0] - R[a][0], R[b][1] - R[a][1]), along = L[b] - L[a];
+  check(along / straight >= 2, `the switchbacks more than double the straight-line climb (${(along / straight).toFixed(2)}x)`);
+  check(D.smPolyDistance(...D.smPlace("avalanche-gallery").at, R).d < 1 && D.smPolyDistance(...D.smPlace("pass-road").at, R).d < 1 && D.smPolyDistance(...D.smPlace("pass-summit").at, R).d < 1, "the crew yard, the chute sign and the saddle sit on the road");
+  check(Math.abs(L[L.length - 1] - D.SM_ROAD_LENGTH) < 1e-6 && D.SM_ROAD_LENGTH > 6500, `the road's length is recorded (${Math.round(D.SM_ROAD_LENGTH)} m)`);
+  check(D.SM_ROAD_PROFILE.every((p, i, P) => i === 0 || p[0] > P[i - 1][0]) && D.SM_ROAD_PROFILE[0][0] === 0 && D.SM_ROAD_PROFILE.at(-1)[0] === 1, "the profile's fractions run from 0 to 1 in order");
+  const inTunnel = (t) => t > D.SM_TUNNEL_SPAN[0] && t < D.SM_TUNNEL_SPAN[1];
+  let steepest = 0, steepAt = 0;
+  for (let d = 20; d <= D.SM_ROAD_LENGTH; d += 20) {
+    const t0 = (d - 20) / D.SM_ROAD_LENGTH, t1 = d / D.SM_ROAD_LENGTH;
+    if (inTunnel(t0) || inTunnel(t1)) continue;
+    const g = Math.abs(D.smRoadHeightAt(t1) - D.smRoadHeightAt(t0)) / 20;
+    if (g > steepest) { steepest = g; steepAt = d; }
+  }
+  check(steepest <= D.SM_ROAD_MAX_GRADE + 1e-9, `the road bed's steepest grade outside the tunnel is ${(steepest * 100).toFixed(1)}% at ${steepAt} m, under the ${D.SM_ROAD_MAX_GRADE * 100}% maximum`);
+  check(D.smRoadGradeAt(0.5) > 0.05 && D.smRoadGradeAt(0.95) < -0.05, "the grade climbs on the way to the pass and descends past the tunnel");
+  // The terrain follows the bed on the switchbacks: the ground under the road's centre line is within a metre of the profile (outside the crew yard's flat pad, which wins there).
+  let off = 0;
+  for (let d = L[a]; d <= L[b]; d += 25) {
+    const p = D.smRoadPointAt(d);
+    if (D.SM_SITES.some((s) => Math.hypot(p.x - s.at[0], p.z - s.at[1]) < s.pad * 1.8)) continue;
+    if (Math.abs(D.smHeightAt(p.x, p.z) - D.smRoadHeightAt(p.t)) > 1) off++;
+  }
+  check(off === 0, `the ground under the switchbacks sits on the road profile (${off} samples off by over a metre)`);
+  const p = D.smRoadPointAt(L[a] + 10);
+  check(Math.abs(p.x - R[a][0] - (R[a + 1][0] - R[a][0]) * 10 / (L[a + 1] - L[a])) < 1e-6 && p.t > 0 && p.t < 1, "smRoadPointAt walks the polyline by metres");
+}
+// 1e. the river reads as water (phase 7): the surface sits above the bed and below both banks at every sample.
+{
+  const R = D.SM_RIVER, W = D.SM_RIVER_CHANNEL.width;
+  check(W >= 20 && D.SM_RIVER_CHANNEL.depth >= 3.5, "the channel is at least 20 m half-width and 3.5 m deep");
+  check(D.SM_RIVER_SURFACE > 0.5 && D.SM_RIVER_SURFACE < D.SM_RIVER_CHANNEL.depth, "the water sits over the bed and under the bank tops");
+  const lens = [0]; for (let i = 1; i < R.length; i++) lens.push(lens[i - 1] + Math.hypot(R[i][0] - R[i - 1][0], R[i][1] - R[i - 1][1]));
+  const total = lens[lens.length - 1];
+  let under = 0, drowned = 0, n = 0;
+  for (let k = 0; k <= 200; k++) {
+    const d = total * k / 200; let i = 1; while (i < lens.length - 1 && lens[i] < d) i++;
+    const u = (d - lens[i - 1]) / (lens[i] - lens[i - 1]);
+    const x = R[i - 1][0] + (R[i][0] - R[i - 1][0]) * u, z = R[i - 1][1] + (R[i][1] - R[i - 1][1]) * u;
+    if (D.smPolyDistance(x, z, D.SM_PASS_ROAD).d < 60) continue;
+    const dx = R[i][0] - R[i - 1][0], dz = R[i][1] - R[i - 1][1], l = Math.hypot(dx, dz) || 1, nx = -dz / l, nz = dx / l;
+    const s = D.smRiverSurfaceAt(k / 200);
+    n++;
+    if (s <= D.smHeightAt(x, z)) under++;
+    // A bank probe that lands back in the channel (the inside of a hairpin bend) is water, not bank: skip it.
+    for (const sgn of [1, -1]) {
+      const bx = x + sgn * nx * W * 1.3, bz = z + sgn * nz * W * 1.3;
+      if (D.smPolyDistance(bx, bz, R).d < W) continue;
+      if (s >= D.smHeightAt(bx, bz)) drowned++;
+    }
+  }
+  check(n > 150 && under === 0, `the river's surface is above its bed at every sample (${under} of ${n} under)`);
+  check(drowned === 0, `both banks stand above the water at every sample (${drowned} of ${n} drowned)`);
+}
 const builderSrc = readFileSync(join(WEBXR, "shared", "summit.js"), "utf8");
 check(/smImpostorGeometry/.test(builderSrc) && /SM_IMPOSTOR_RING/.test(builderSrc), "the builder draws impostors from the impostor ring");
 check(/smSnowlineAt\(aspect\)/.test(builderSrc) && /smBandNoise/.test(builderSrc), "the ground colour uses the aspect snowline and banded strata");
@@ -199,6 +258,44 @@ check(S.smCurrentMain(st)?.id === "sm-main-02-dam", "the next main quest is the 
 const lockedEgg = D.SM_EGGS.find((e) => e.gate);
 check(S.smFindEgg(S.smBlank(), lockedEgg.id, none).locked === true, "a gated field note stays locked for a fresh profile");
 
+// 5b. rides (SUMMIT-3, phase 3): a quest step ridden in the crew pickup, scored on safe practice only.
+check(D.SM_RIDES.length >= 1, "at least one ride");
+for (const r of D.SM_RIDES) {
+  for (const k of ["from", "to", "stopAt"]) check(!!D.smPlace(r[k]), `${r.id}: ${k} ${r[k]} exists`);
+  for (const k of ["from", "to", "stopAt"]) check(D.smPolyDistance(...D.smPlace(r[k]).at, D.SM_PASS_ROAD).d < 30, `${r.id}: ${r[k]} is on the pass road`);
+  check(stationIds.has(r.advice.stationId), `${r.id}: the advice cites a real station`);
+  const f = join(WEBXR, "smartcity", "js", "sims", `${r.advice.stationId}.js`);
+  if (existsSync(f)) {
+    const src = readFileSync(f, "utf8").replace(/\\'/g, "'").replace(/\\"/g, '"');
+    check(src.includes(r.advice.text), `${r.id}: the advice is quoted verbatim from ${r.advice.stationId}`);
+    check(new RegExp(`id:\\s*"${r.advice.stepId}"`).test(src), `${r.id}: cited step ${r.advice.stepId} exists`);
+  }
+  check(r.scoring.brakeAtPullout > r.scoring.brakeLate && r.scoring.brakeLate > 0 && r.scoring.noBrake < -r.scoring.arrive, `${r.id}: the pull-out brake scores most, a late brake less, no brake costs more than arriving earns`);
+  check(!("speed" in r.scoring) && r.speed > 0, `${r.id}: speed is never scored`);
+  const dt = 0.1;
+  const ride = (brakeWhen) => {
+    const run = S.smRideStart(r.id); let guard = 0;
+    while (!run.done && guard++ < 100000) { const phase = run.phase; S.smRideStep(run, dt, { brake: brakeWhen === phase && !run.brake }); }
+    return run;
+  };
+  const good = ride("stopped"), late = ride("descent"), none = ride(null);
+  check(good.done && good.brakeAt === "pullout" && good.score === r.scoring.brakeAtPullout + r.scoring.arrive, `${r.id}: the brake at the pull-out scores ${r.scoring.brakeAtPullout + r.scoring.arrive} (got ${good.score})`);
+  check(late.done && late.brakeAt === "late" && late.score === r.scoring.brakeLate + r.scoring.arrive, `${r.id}: a late brake scores ${r.scoring.brakeLate + r.scoring.arrive} (got ${late.score})`);
+  check(none.done && !none.brake && none.score === r.scoring.noBrake + r.scoring.arrive && none.score < 0, `${r.id}: no brake ends below zero (got ${none.score})`);
+  check(good.log.includes("pull-out") && good.log.includes("down the grade"), `${r.id}: the ride stops at the pull-out before the grade`);
+  check(Math.abs(good.d - S.smRoadMetresOf(r.to)) < 1 && good.t > 60, `${r.id}: the ride ends at ${r.to} after a real drive (${Math.round(good.t)} s)`);
+  const st = S.smBlank();
+  check(!S.smRideFinish(st, late) && !S.smRideFinish(st, none) && (st.rides ?? []).length === 0, `${r.id}: a late or missing brake does not satisfy the step`);
+  check(S.smRideFinish(st, good) && st.rides.includes(r.id), `${r.id}: the pull-out brake satisfies the step`);
+  check(S.smStepDone({ type: "ride", target: r.id }, st), `${r.id}: a ride step reads the ledger`);
+}
+check(D.SM_MAIN_QUESTS.some((q) => q.steps.some((s) => s.type === "ride" && D.SM_RIDES.some((r) => r.id === s.target))), "the main arc rides the pass with the crew");
+{
+  const st = S.smBlank(); const saved = JSON.parse(JSON.stringify(st)); saved.rides = ["sm-ride-pass-descent"];
+  const store = { getItem: () => JSON.stringify(saved), setItem() {} };
+  check(S.smLoad(store).rides.includes("sm-ride-pass-descent"), "the ledger keeps finished rides");
+}
+
 // 6. activities
 check(D.SM_ACTIVITIES.some((a) => a.kind === "orienteering") && D.SM_ACTIVITIES.some((a) => a.kind === "survey"), "an orienteering course and a survey route");
 {
@@ -227,7 +324,25 @@ check(/raptors:\s*\{\s*count:\s*\d+,\s*meshes:\s*\d+/.test(wl) && /deer:\s*\{\s*
 check(/kind: "raptors"/.test(app) && /kind: "deer"/.test(app) && /kind: "gulls"/.test(app), "the app builds gulls, raptors and deer from the shared module");
 check(!/wlRaptors|wlDeer/.test(app), "the app carries no private wildlife builders");
 check(/\bpickup\(root/.test(app) && !/pickup as /.test(app) && /smDriveTruck\(dt\)/.test(app) && /SHARED \/ "fleet\.js"[\s\S]*summit-data\.js/.test(bundler), "the crew pickup drives the pass road and fleet.js is bundled for it");
+check(/smRideFrame\(dt\)/.test(app) && /smRideStart\(/.test(app) && /smRideFinish\(/.test(app) && /advice\.text/.test(app), "the app rides the pickup through state.js and shows the station's advice");
 check(readFileSync(join(WEBXR, "shared", "passport.js"), "utf8").includes('summit: "Sierra Summit"'), "the runner can say Back to Sierra Summit");
+// Phase 6: the Atlas carries a Sierra Summit section drawn from this world's data (SM_SITES, SM_LANDMARKS), with deep links into the page.
+const atlasSrc = readFileSync(join(WEBXR, "bayworld", "js", "atlas.js"), "utf8");
+const atlasHtml = readFileSync(join(WEBXR, "bayworld", "atlas.html"), "utf8");
+check(/from "\.\.\/\.\.\/shared\/summit-data\.js"/.test(atlasSrc) && /atlasSummitSvg/.test(atlasSrc) && /atlasSummitPlaces/.test(atlasSrc), "atlas.js reads summit-data.js for a Summit section");
+check(/id="atlas-summit-map"/.test(atlasHtml) && /id="atlas-summit-list"/.test(atlasHtml), "atlas.html has the Summit map and list");
+check(/"atlas":\s*\{[\s\S]*?SHARED \/ "summit-data\.js"[\s\S]*?bayworld\/js\/atlas\.js/.test(bundler), "the atlas bundle carries summit-data.js");
+{
+  const A = await import(pathToFileURL(join(WEBXR, "bayworld", "js", "atlas.js")).href);
+  const places = A.atlasSummitPlaces();
+  check(places.filter((p) => p.kind === "site").length === D.SM_SITES.length && places.filter((p) => p.kind === "landmark").length === D.SM_LANDMARKS.length, "the Summit atlas lists every site and landmark");
+  const svg = A.atlasSummitSvg();
+  check((svg.match(/data-summit-site="/g) ?? []).length === D.SM_SITES.length && (svg.match(/data-summit-landmark="/g) ?? []).length === D.SM_LANDMARKS.length, "the Summit map draws one marker per site and landmark");
+  check(/data-road="pass-road"/.test(svg) && /data-river/.test(svg), "the Summit map draws the pass road and the river");
+  const list = A.atlasSummitListHtml(places);
+  for (const s of D.SM_SITES) check(list.includes(`${A.ATLAS_LINKS.summit}?site=${encodeURIComponent(s.id)}"`), `${s.id}: the atlas deep-links into Sierra Summit`);
+  check(A.atlasSummitDeepLinks(places.find((p) => p.stations.length)).station?.includes("from=atlas"), "a Summit station launches from the atlas");
+}
 // The homepage card lands with the next phase (tools/briefs/next/summit-next.md).
 
 const dist = join(WEBXR, "summit", "dist", "summit.html");

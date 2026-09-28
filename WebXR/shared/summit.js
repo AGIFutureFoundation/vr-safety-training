@@ -223,8 +223,9 @@ export function smBuildSummit(root, THREE, opts = {}) {
   fixed.add(water);
 
   // The river: a flat water ribbon on the channel's own descending surface, absent under the road's culvert.
-  const riverMat = new THREE.MeshLambertMaterial({ color: 0x3a7fa0, transparent: true, opacity: 0.86 });
-  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x3a7fa0,
+  // Brighter than the reservoir so it reads from the bank; a little emissive so it still reads at dusk.
+  const riverMat = new THREE.MeshLambertMaterial({ color: 0x5cb8e0, emissive: 0x143a4e, transparent: true, opacity: 0.92 });
+  const river = new THREE.Mesh(smRibbon(THREE, SM_RIVER, SM_RIVER_CHANNEL.width * 0.9, 0, 0x5cb8e0,
     { stepLen: 10, surface: smRiverSurfaceAt, omit: (x, z) => smPolyDistance(x, z, SM_PASS_ROAD).d < 12 }), riverMat);
   river.name = "summit-river";
   fixed.add(river);
