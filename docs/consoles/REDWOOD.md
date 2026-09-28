@@ -39,3 +39,6 @@ Next brief: `tools/briefs/next/redwood-next.md`. Stills: `docs/img/redwood/`.
 Atlas entry, Guide knowledge (gen_guide_kb), Unity export entry, `check_mobile` / `check_ui` / `check_links` rows for the new page,
 new stations for the sawmill and the trail crew, a vehicle mesh and road-following physics, `check_gates.mjs` integration once
 QUESTMASTER lands `shared/skill-gates.js`.
+
+## Status log
+- 05:57 — first walkable increment committed (3ecf940), checker + home card + four stills (6f6e654); check_redwood 395/395; full check_all running on a loaded machine.
