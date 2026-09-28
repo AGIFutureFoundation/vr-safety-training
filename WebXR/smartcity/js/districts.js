@@ -8,7 +8,9 @@ import {
 import { PROPS_BUILDERS } from "../../shared/props.js";
 import { buildFairwayPark } from "../../shared/fairway.js";
 import { buildBayWorld } from "../../shared/bayworld.js";
-import { buildUnderwater } from "../../shared/underwater.js";
+import { buildUnderwater, deepSiltFace } from "../../shared/underwater.js";
+import { windTurbine, dataHall, oceanDataPod, scissorLift } from "../../shared/equipment.js";
+import { deckCrane, workboat } from "../../shared/fleet.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -613,6 +615,96 @@ function garmentLoft(g, x, z, ry = 0) {
     box(s, 1.2, 0.9, 0.5, rx, 2.2, -4.5, [0xb86bd6, 0x3b7bbf, 0xd67b6b][i], { rough: 0.9, cast: false, receive: false });
   }
   return { s, panes };
+}
+
+// ------------------------------------------ wind farm, data hall, ocean pod
+//
+// Three scenic districts for the wind-and-data-infrastructure pack, built
+// from the equipment kit's windTurbine, dataHall and oceanDataPod. Each is a
+// low vignette under SCENIC_BUDGET: one kit machine near, silhouettes far.
+
+/** A fenced collector substation: a gravel pad, two transformer bodies with
+ *  radiator fins, a bus gantry and a control house, all kept off the walk. */
+function wsSubstation(g, x, z) {
+  const s = group(g, x, 0, z);
+  const gravel = surfaceTexture((cx, w, h) => mudflatFace(cx, w, h, { base: "#8e8a80", base2: "#6f6b62", cracks: 0, pools: 0 }), { repeat: 3, px: 256 });
+  const pad = box(s, 12, 0.08, 9, 0, 0.04, 0, 0x8e8a80, { rough: 0.95, cast: false });
+  pad.material = texturedMat(gravel, { rough: 0.95, metal: 0.02 });
+  for (const tx of [-2.6, 2.6]) {
+    box(s, 2.2, 2.4, 1.8, tx, 1.25, 0, 0x7b8a7e, { rough: 0.6, metal: 0.3 });
+    box(s, 2.4, 1.6, 0.2, tx, 1.1, 1.0, 0x5f6b62, { rough: 0.6, metal: 0.3 });
+  }
+  for (const gx of [-4.5, 4.5]) box(s, 0.25, 6, 0.25, gx, 3, -3, 0x9aa2a8, { rough: 0.5, metal: 0.5 });
+  box(s, 9.2, 0.25, 0.25, 0, 6, -3, 0x9aa2a8, { rough: 0.5, metal: 0.5 });
+  const houseTex = surfaceTexture((cx, w, h) => blockFace(cx, w, h), { repeat: 1, px: 256 });
+  const house = box(s, 3.4, 2.8, 2.6, 0, 1.4, 3.2, 0xb8b2a4, { rough: 0.85 });
+  house.material = texturedMat(houseTex, { rough: 0.85 });
+  for (const [fx, fz, w, d] of [[0, -4.5, 12, 0.06], [0, 4.5, 12, 0.06], [-6, 0, 0.06, 9], [6, 0, 0.06, 9]]) box(s, w, 2.1, d, fx, 1.05, fz, 0x9fa8ae, { rough: 0.6, metal: 0.5, opacity: 0.45, transparent: true, cast: false });
+  return s;
+}
+
+function windFarm(g, env) {
+  flood(g, 0, 20, -30, 0xfff2dc, 1.1);
+  rangeGround(g);
+  dirtRoad(g, -7, 11, -40, 4.2);
+  hill(g, -30, -44, 34, 10, 16, 0x333d22);
+  hill(g, 8, -52, 42, 13, 18, 0x2e3a20);
+  hill(g, 42, -42, 32, 10, 15, 0x333d22);
+  const near = windTurbine(g, -15, 0, -12, { ry: 0.35 });
+  const far = [turbine(g, -30, -36, 26), turbine(g, 2, -46, 30), turbine(g, 30, -38, 26)];
+  wsSubstation(g, 16, -14);
+  const sock = windSock(g, 9, 6.5, 5);
+  const gusty = env.weather === "wind" || env.weather === "storm";
+  const rotor = near.userData.parts.hub;
+  return (t) => {
+    rotor.rotation.z = t * (gusty ? 1.1 : 0.5);
+    for (const hub of far) hub.rotation.z = t * (gusty ? 1.3 : 0.6);
+    sock.rotation.y = Math.PI / 2 + Math.sin(t * 0.4) * (gusty ? 0.5 : 0.2);
+  };
+}
+
+function dataCenterBuild(g, env) {
+  flood(g, 0, 14, -8, 0xeef4ff, 1.0);
+  const slabTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h), { repeat: 10, px: 384 });
+  const slab = cyl(g, 30, 30, 0.2, 0, -0.1, 0, 0x9a9a96, { rough: 0.9, seg: 40, cast: false });
+  slab.material = texturedMat(slabTex, { rough: 0.9, metal: 0.02, color: 0xc9c7c0 });
+  // The shell under construction: columns and roof beams on a grid, the
+  // near bays open to the sky, a corrugated back wall.
+  for (const cx of [-18, 0, 18]) for (const cz of [-20, -11]) box(g, 0.4, 7, 0.4, cx, 3.5, cz, 0x8b949b, { rough: 0.5, metal: 0.5 });
+  for (const cz of [-20, -11]) box(g, 36.4, 0.5, 0.3, 0, 7, cz, 0x7d858d, { rough: 0.5, metal: 0.5 });
+  const wallTex = surfaceTexture((cx, w, h) => brickFace(cx, w, h, { rows: 12, cols: 18 }), { repeat: 3, px: 384 });
+  const wall = box(g, 36, 7, 0.3, 0, 3.5, -21, 0xb0a89a, { rough: 0.85 });
+  wall.material = texturedMat(wallTex, { rough: 0.85 });
+  const hall = dataHall(g, -12, 0, -14, { ry: 0 });
+  // Cable trays overhead, on hangers, running out to the new bays.
+  for (const tz of [-9]) box(g, 30, 0.08, 0.5, 0, 4.4, tz, 0xa8b0b6, { rough: 0.5, metal: 0.6 });
+  scissorLift(g, 12, 0, -9, { ry: 0.3 });
+  const alarm = hall.userData.parts.crahAlarm;
+  const lampMat = alarm.children[0]?.material;
+  void env;
+  return (t) => { if (lampMat?.emissiveIntensity !== undefined) lampMat.emissiveIntensity = 0.6 + Math.max(0, Math.sin(t * 2)) * 0.4; };
+}
+
+function oceanDataCenter(g, env) {
+  flood(g, 0, 16, 6, 0xeef6ff, 1.0);
+  bayWater(g, { y: -0.9, r: 70 });
+  // The workboat's working deck is the ground: a steel deck-plate barge
+  // alongside the crane, the pod's own recovery cradle aft.
+  const deckTex = surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 6, px: 384 });
+  const deck = box(g, 20, 1.1, 22, 0, -0.55, 1, 0x6b737a, { rough: 0.7, metal: 0.4, cast: false });
+  deck.material = texturedMat(deckTex, { rough: 0.7, metal: 0.4 });
+  for (const sx of [-10, 10]) box(g, 0.08, 1.0, 22, sx, 0.5, 1, 0xf0b323, { rough: 0.5, metal: 0.3 });
+  deckCrane(g, -6.5, 0, -8.5, { ry: 0.5 });
+  workboat(g, 16, -0.45, -6, { ry: 0.2 });
+  // Below: the seabed and the pod on its skid, seen through the water off
+  // the stern — the Deep's own silt face, laid as a slab well below the deck.
+  const silt = surfaceTexture((cx, w, h) => deepSiltFace(cx, w, h), { repeat: 6, px: 256 });
+  const bed = box(g, 60, 0.4, 40, 0, -9, -32, 0x4a574d, { rough: 1, cast: false });
+  bed.material = texturedMat(silt, { rough: 1, metal: 0 });
+  const pod = oceanDataPod(g, 0, -8.8, -30, { ry: 0.4 });
+  const lamp = pod.userData.parts.leakLamp;
+  const gusty = env.weather === "wind" || env.weather === "storm";
+  return (t) => { lamp.visible = Math.sin(t * 3) > -0.6; deck.position.y = -0.55 + Math.sin(t * 0.8) * (gusty ? 0.03 : 0.01); };
 }
 
 // ------------------------------------------------------- scenic districts
@@ -2078,6 +2170,66 @@ export const DISTRICTS = {
     spawn: { x: 0, z: 8, ry: 0 },
     roam: 11,
     build(g) { return orbAerospaceDepot(g); },
+  },
+  "wind-farm": {
+    // A ridge wind farm: the range floor, one kit turbine near enough to
+    // climb (tower door, ladder, nacelle), silhouettes along the ridge and a
+    // fenced collector substation. Wind is its default — the go/no-go on a
+    // climb or a blade platform is read from the wind, per the site's
+    // procedure — replaced by a station's own weather or `?weather=`.
+    plaza: false,
+    sky: 0x223018, fog: 0x2c3820, hemi: [0xaebf7a, 0x2a2410], mast: 0xfff0c8,
+    key: 0xfff2dc,
+    weather: "wind",
+    fogRange: [55, 225],
+    far: 230,
+    skyline: false,
+    roam: 12,
+    spawn: { x: 0, z: 9.6, ry: 0 },
+    dressing: [
+      { prop: "siteOffice", x: 12.5, z: 2.5, ry: -1.2 },
+      { prop: "fuelTank", x: -18, z: 6, ry: 1.1 },
+    ],
+    build(g, _accent, env = {}) { return windFarm(g, env); },
+  },
+  "data-center-build": {
+    // A data hall under construction: the slab, a steel frame with its back
+    // wall up, one finished hall module (raised floor, aisles, racks,
+    // busway, CRAH and suppression panel), cable trays overhead and a
+    // scissor lift in the next bay. The hall is roofed only in part, so the
+    // hour still reads; a station's own weather or `?weather=` applies.
+    plaza: false,
+    sky: 0x121820, fog: 0x1a212b, hemi: [0xc9d6e4, 0x2a2e34], mast: 0xeef4ff,
+    key: 0xeef4ff,
+    weather: "overcast",
+    fogRange: [40, 150],
+    far: 160,
+    skyline: false,
+    roam: 10,
+    spawn: { x: 0, z: 8.4, ry: 0 },
+    dressing: [
+      { prop: "lightMast", x: -16, z: 4, lit: true },
+    ],
+    build(g, _accent, env = {}) { return dataCenterBuild(g, env); },
+  },
+  "ocean-data-center": {
+    // A sealed data pod from a workboat's deck and from below: the learner
+    // stands on the working deck beside the deck crane, the service vessel
+    // alongside, and the pod on its seabed skid shows through the water off
+    // the stern. Wind is its default — deck work and a crane lift read the
+    // sea state, and diving limits are per the dive plan — replaced by a
+    // station's own weather or `?weather=`.
+    plaza: false,
+    dressing: null,
+    sky: 0x14303c, fog: 0x1a3844, hemi: [0x9fc4d4, 0x16242a], mast: 0xdff4ff,
+    key: 0xe6f4ff,
+    weather: "wind",
+    fogRange: [40, 180],
+    far: 190,
+    skyline: false,
+    roam: 9.2,
+    spawn: { x: 0, z: 8.2, ry: 0 },
+    build(g, _accent, env = {}) { return oceanDataCenter(g, env); },
   },
   "the-deep": {
     // The bottom of the bay as an open world — a shallow shelf, an eelgrass

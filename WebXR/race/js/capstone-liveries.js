@@ -280,5 +280,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "aerospace-defense-and-robotics",
     "name": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
     "accent": "#6fd3e8"
+  },
+  {
+    "programme": "wind-and-data-infrastructure",
+    "name": "Wind & Data Infrastructure",
+    "accent": "#3fa7d6"
   }
 ];

@@ -4927,6 +4927,90 @@ export const SIDE_QUESTS = [
     }
   },
   {
+    "id": "bw-side-wind-and-data-infrastructure-opener",
+    "title": "Wind & Data Infrastructure — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Wind & Data Infrastructure",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "wind-and-data-infrastructure",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Wind & Data Infrastructure",
+        "text": "The training lead meets you at Wind & Data Infrastructure and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "ws-turbine-climb-and-rescue-kit-check",
+        "text": "The climb is decided on the ground: the wind read against the site's limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail."
+      },
+      {
+        "type": "station",
+        "target": "ws-nacelle-lockout-and-yaw-brake-fault",
+        "text": "A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen."
+      },
+      {
+        "type": "station",
+        "target": "ws-blade-inspection-from-a-platform",
+        "text": "The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Wind & Data Infrastructure — Opener"
+    }
+  },
+  {
+    "id": "bw-side-wind-and-data-infrastructure-capstone",
+    "title": "Wind & Data Infrastructure — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Wind & Data Infrastructure",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-wind-and-data-infrastructure-opener",
+    "programmeId": "wind-and-data-infrastructure",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Wind & Data Infrastructure",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+        "text": "One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush."
+      },
+      {
+        "type": "station",
+        "target": "ws-crah-alarm-response-in-a-live-hall",
+        "text": "An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead."
+      },
+      {
+        "type": "station",
+        "target": "ws-ocean-pod-retrieval-and-hatch-opening",
+        "text": "A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Wind & Data Infrastructure — Capstone"
+    }
+  },
+  {
     "id": "bw-side-teamwork-opener",
     "title": "Teamwork — Talk Before You Move",
     "giver": "the college's team captain",

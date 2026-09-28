@@ -1336,6 +1336,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "ad-cobot-risk-assessment-and-speed-separation", why: "A cobot bench is only released once its risk assessment is walked against the bench as built and the scanner zones are proven by a person walking into them." },
     ],
   },
+  {
+    id: "wind-and-data-infrastructure",
+    name: "Wind & Data Infrastructure",
+    union: "IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies",
+    certification: "Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan",
+    guides: ["ibew-neca-jatc", "ironworkers-impact", "iuoe-training", "osha-1910-269", "osha-1910-147", "nfpa-70e", "ansi-z359", "nec-nfpa-70", "bicsi-installer", "osha-1910-28"],
+    summary: "Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.",
+    accent: "#3fa7d6",
+    stations: [
+      { app: "smartcity", id: "ws-turbine-climb-and-rescue-kit-check", why: "The climb is decided on the ground: the wind read against the site's limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail." },
+      { app: "smartcity", id: "ws-nacelle-lockout-and-yaw-brake-fault", why: "A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen." },
+      { app: "smartcity", id: "ws-blade-inspection-from-a-platform", why: "The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at." },
+      { app: "smartcity", id: "ws-substation-switching-under-a-permit", why: "Collector switching runs to a written order with every step repeated back, the breaker proven open before the disconnect moves and the gap grounded before a permit goes out." },
+      { app: "smartcity", id: "ws-data-hall-busway-install-and-torque-signoff", why: "A busway joint is only as good as its torque and its record, so the run is proven dead before the lift goes up and every joint is torqued with a calibrated wrench, marked and signed." },
+      { app: "smartcity", id: "ws-raised-floor-tile-lift-and-cable-tray-safety", why: "One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush." },
+      { app: "smartcity", id: "ws-crah-alarm-response-in-a-live-hall", why: "An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead." },
+      { app: "smartcity", id: "ws-ocean-pod-retrieval-and-hatch-opening", why: "A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns." },
+    ],
+  },
 ];
 
 /**

@@ -1,0 +1,375 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "floor-kept-a-floor",
+    "name": "Floor Kept a Floor",
+    "note": "One tile out, barricaded and attended, the cable laid in, and the tile reseated flush"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "IBEW/NECA JATC telecommunications training as a body; BICSI installation practice for the cable pathway and the tray fill; NFPA 70 (NEC) for the tray bonding and the cable types under a raised floor; 29 CFR 1910.22 for the floor opening and the walking surface; 29 CFR 1910.268 for telecommunications work; the floor manufacturer's instructions and the hall's operating procedure for every load and temperature",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BICSI",
+        "citedAs": "BICSI",
+        "id": "bicsi-installer",
+        "title": "BICSI Installer 2 and Optical Fiber installer credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.268",
+        "id": "osha-1910-268",
+        "title": "29 CFR 1910.268 — Telecommunications"
+      }
+    ]
+  },
+  "district": "data-center-build",
+  "domain": "Connectivity",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "barricaded-first",
+        "name": "Barricaded First",
+        "note": "The opening was barricaded before the tile came up"
+      },
+      {
+        "id": "no-open-holes",
+        "name": "No Open Holes",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the airflow watch steady"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pull",
+        "name": "Clean Pull",
+        "note": "No corrections from the ticket to the close-out"
+      },
+      {
+        "id": "unbroken-lift",
+        "name": "Unbroken Lift",
+        "note": "The tile lift ran without a break"
+      },
+      {
+        "id": "brisk-pull",
+        "name": "Brisk Pull",
+        "note": "Lifted, laid in and reseated inside 80% of par"
+      }
+    ],
+    "currency": "TILES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Installer",
+      "Telecom Technician",
+      "Lead Technician",
+      "Pathway Authority Certified"
+    ],
+    "system": "Pathway Authority"
+  },
+  "hazards": {
+    "drag-over-tray-edge": "You went to drag the cable over the tray's side rail. A cable pulled over an edge is crushed and its jacket scraped at that point, and the damage hides under the floor until the link fails or the power cable beside it heats.",
+    "leave-opening-unattended": "You went to leave the open tile to fetch more cable. An opening in a live hall's aisle, even barricaded, is attended by the person who opened it until the tile is back.",
+    "lift-adjacent-tile": "You went to lift the next tile along while the first was still out. Two adjacent tiles out take away the support the grid's stringers rely on and can let the floor around the opening shift — the floor manufacturer limits it for a reason.",
+    "step-into-opening": "You went to step across the open tile space to reach the rack. An open tile is a hole to the slab below, edged by tiles that can tip when a boot lands on their edge — the way round is along the barricade."
+  },
+  "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tile-lift",
+      "alert": "Someone is pushing a loaded server cart down the aisle toward the open tile, looking at the rack labels, not the floor.",
+      "cue": "Hold up the stop paddle and stop the cart before the barricade.",
+      "delay": 3,
+      "id": "cart-down-aisle",
+      "kind": "A server cart rolls down the aisle",
+      "missNote": "The cart kept coming toward the opening with nobody stopping it, and a loaded wheel at the edge of an open tile drops into the plenum.",
+      "seconds": 11,
+      "target": "aisle-stop-paddle",
+      "why": "A barricade marks the opening but a person steering a heavy cart and reading rack labels may not see it until a wheel is at the edge; the stop paddle held up in their line of sight stops the cart where the barricade alone might not.",
+      "wrongNote": "It is the stop paddle. The tile is already up; the cart is the new hazard."
+    },
+    {
+      "after": "airflow-watch",
+      "alert": "The rack next to the opening has raised an inlet temperature alarm — the open tile is starving its perforated tile of cold air.",
+      "cue": "Call the hall operator on the phone and tell them what is open and where.",
+      "delay": 3,
+      "id": "inlet-hot-spot",
+      "kind": "A rack inlet temperature alarm",
+      "missNote": "The alarm went unreported while the rack inlet heated, and the hall operator had no idea an open tile was the reason.",
+      "seconds": 12,
+      "target": "hall-operator-phone",
+      "why": "An open tile changes the plenum's pressure and can starve the racks beside it of cold air; the hall operator watches the whole hall's cooling and may need the tile back in sooner, so they hear about the alarm from the person standing at the opening.",
+      "wrongNote": "It is the phone to the hall operator. The airflow watch tells you, not them."
+    }
+  ],
+  "lateNotes": {
+    "tile-lifter": "The tile comes up only once the opening is barricaded and the lifter's vacuum has been proven.",
+    "tile-seat": "The tile is reseated once the cable is in the tray and tied, not with a cable still across the stringer."
+  },
+  "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "glassVacuumLifter",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "aisle-stop-paddle",
+      "cable-lay-in",
+      "cable-over-tray-edge",
+      "close-out",
+      "cold-aisle-meter",
+      "drag-over-tray-edge",
+      "flush-check",
+      "hall-operator-phone",
+      "leave-opening-unattended",
+      "lift-adjacent-tile",
+      "lifted-tile",
+      "lifter-vacuum-gauge",
+      "loose-pedestal-head",
+      "step-into-opening",
+      "tile-barrier-chain",
+      "tile-barrier-sign",
+      "tile-cones",
+      "tile-lifter",
+      "tile-rest-spot",
+      "tile-seat",
+      "tray-bond-check",
+      "work-ticket"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the ticket: which tile, which tray, the cable to lay and the hall's rules for an open tile.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Read the ticket: which tile, which tray, the cable to lay and the hall's rules for an open tile.",
+      "target": "work-ticket",
+      "title": "Read the work ticket and the floor plan",
+      "why": "A floor plan says which tile opens over which tray and what else runs in the plenum there — power whips, chilled-water pipe, fire detection — so the tile that comes up is the right one and nothing under it is a surprise."
+    },
+    {
+      "cue": "Call the hall operator: which tile is coming up, for how long, and who is attending it.",
+      "id": "notify",
+      "kind": "select",
+      "prompt": "Call the hall operator: which tile is coming up, for how long, and who is attending it.",
+      "target": "hall-operator-phone",
+      "title": "Tell the hall operator before a tile comes up",
+      "why": "In a live hall the raised floor is also the cooling plenum, and the operator is watching its pressure and the rack temperatures; telling them first means a change in the readings has an explanation and a person to call."
+    },
+    {
+      "cue": "Set the cones round the tile, then hang the barrier chain.",
+      "id": "barricade",
+      "itemNames": {
+        "tile-barrier-chain": "barrier chain hung between them",
+        "tile-cones": "cones set round the tile"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cones, then the chain — the chain hangs between the cones.",
+      "prompt": "Set the cones round the tile, then hang the barrier chain.",
+      "targets": [
+        "tile-cones",
+        "tile-barrier-chain"
+      ],
+      "title": "Barricade the tile before it comes up",
+      "why": "The barricade goes up before the opening exists, so there is never a moment when the hole is there and the warning is not; an aisle is a route people walk while reading labels, not the floor."
+    },
+    {
+      "cue": "Pump the suction lifter onto the tile and commit when its gauge reads in the green.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "LIFTER VACUUM",
+        "missNote": "The cups are not holding in the green — re-seat them before the tile comes up.",
+        "speed": 0.6
+      },
+      "id": "lifter-check",
+      "kind": "gauge",
+      "prompt": "Pump the suction lifter onto the tile and commit when its gauge reads in the green.",
+      "target": "lifter-vacuum-gauge",
+      "title": "Prove the lifter's vacuum",
+      "why": "A suction cup can feel firm while it bleeds air through a nicked seal, and a tile that drops from a lifter lands on a foot or into the plenum on a cable; the gauge reads the vacuum the cups are actually holding, which is what the lift depends on."
+    },
+    {
+      "cue": "Hold the lifter and bring the tile straight up and out, keeping it level.",
+      "holdBreakNote": "The lift stopped — bring the tile straight up and out in one steady movement.",
+      "id": "tile-lift",
+      "kind": "hold",
+      "prompt": "Hold the lifter and bring the tile straight up and out, keeping it level.",
+      "seconds": 4,
+      "target": "tile-lifter",
+      "title": "Lift the tile straight up",
+      "why": "A tile lifted straight and level clears its neighbours' edges without prising them up, and does not swing into the rack or the person beside you; tilted out, it drags a corner across the stringer and the next tile along."
+    },
+    {
+      "cue": "Carry the tile to its rest spot against the rack end, out of the walkway.",
+      "drag": {
+        "missNote": "The tile is not at its rest spot — out of the aisle, against the rack end.",
+        "radius": 0.5,
+        "to": "tile-rest-spot"
+      },
+      "id": "set-tile-down",
+      "kind": "drag",
+      "prompt": "Carry the tile to its rest spot against the rack end, out of the walkway.",
+      "target": "lifted-tile",
+      "title": "Set the tile down out of the aisle",
+      "why": "A loose tile left in the aisle is a second trip hazard next to the first, and a tile leaning where a cart can catch it falls; set against the rack end it is out of the walkway and ready to go back."
+    },
+    {
+      "cue": "Look under the floor and find what needs putting right before the tile goes back.",
+      "id": "inspect-plenum",
+      "itemNames": {
+        "cable-over-tray-edge": "a cable already crushed over the tray edge",
+        "loose-pedestal-head": "a loose pedestal head"
+      },
+      "itemNotes": {
+        "cable-over-tray-edge": "Someone before you pulled this cable over the side rail and it is flattened at the edge — reported so it can be tested and replaced.",
+        "loose-pedestal-head": "This pedestal head turns by hand — the tile above it will rock. It is tightened per the floor manufacturer before the tile goes back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look under the floor and find what needs putting right before the tile goes back.",
+      "targets": [
+        "loose-pedestal-head",
+        "cable-over-tray-edge"
+      ],
+      "title": "Inspect the plenum under the tile",
+      "why": "The open tile is the only time anyone sees this part of the plenum, so it is looked at, not just reached into: a loose pedestal head makes a rocking tile and a crushed cable is a failure waiting in the tray."
+    },
+    {
+      "cue": "Check the tray's bonding jumper is in place, then lay the cable into the tray and tie it — never drag it over the side rail.",
+      "id": "lay-cable",
+      "itemNames": {
+        "cable-lay-in": "cable laid into the tray and tied",
+        "tray-bond-check": "tray bonding jumper checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Bonding first, then the cable — the tray is checked before anything else goes in it.",
+      "prompt": "Check the tray's bonding jumper is in place, then lay the cable into the tray and tie it — never drag it over the side rail.",
+      "targets": [
+        "tray-bond-check",
+        "cable-lay-in"
+      ],
+      "title": "Lay the cable into the tray",
+      "why": "A metal tray is bonded so a fault finds a path to ground instead of a person, and a broken jumper is found by looking; the cable is laid in by hand because a cable dragged over a rail is crushed at the rail and its performance or insulation suffers there."
+    },
+    {
+      "cue": "Keep watching the cold-aisle reading beside the opening while you work.",
+      "holdBreakNote": "The watch broke — keep an eye on the cold aisle while the tile is out.",
+      "id": "airflow-watch",
+      "kind": "track",
+      "prompt": "Keep watching the cold-aisle reading beside the opening while you work.",
+      "seconds": 7,
+      "target": "cold-aisle-meter",
+      "title": "Watch the cold aisle while the tile is out",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "COLD AISLE",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "An open tile vents the plenum where it should not and starves the perforated tiles in front of the racks, so the cold-aisle reading beside the opening is watched for as long as it is open — the job is quick because the hall is live."
+    },
+    {
+      "cue": "Turn the tile square to the grid and lower it onto its pedestals until it sits flush.",
+      "id": "reseat-tile",
+      "kind": "turn",
+      "prompt": "Turn the tile square to the grid and lower it onto its pedestals until it sits flush.",
+      "target": "tile-seat",
+      "title": "Reseat the tile square",
+      "turn": {
+        "axis": "y",
+        "label": "TILE SQUARE",
+        "turns": 0.35
+      },
+      "why": "A tile set down out of square rides up on a stringer and rocks, and a rocking tile under a cart wheel is how the next opening appears; turned square and lowered, it seats on all four pedestals at once."
+    },
+    {
+      "cue": "Step on each corner of the reseated tile and check it is flush and does not rock.",
+      "id": "flush-check",
+      "kind": "select",
+      "prompt": "Step on each corner of the reseated tile and check it is flush and does not rock.",
+      "target": "flush-check",
+      "title": "Walk the tile",
+      "why": "The last check is the one the next person does without thinking — walking on it; a corner that dips under a boot now is fixed now, before it dips under a loaded cart."
+    },
+    {
+      "cue": "Close the ticket: the cable laid, the findings under the floor and the tile back, and tell the hall operator.",
+      "id": "close-ticket",
+      "kind": "select",
+      "prompt": "Close the ticket: the cable laid, the findings under the floor and the tile back, and tell the hall operator.",
+      "target": "close-out",
+      "title": "Close out the ticket",
+      "why": "The close-out tells the hall operator the plenum is sealed again and records what was found underneath, so a loose pedestal or a crushed cable becomes somebody's job rather than a memory."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW steward if you are not sure how to reach it",
+  "tagline": "One tile out at a time with a proven lifter, the opening barricaded and attended, the plenum inspected, the cable laid into the tray rather than dragged over it, and the tile reseated flush",
+  "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
+  "trade": "IBEW telecommunications technician",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -93,7 +93,7 @@ export function deepLighting(band) {
 // ----------------------------------------------------------------- faces
 
 /** Silt and sand: a muted base with darker specks and a few pale ripples. */
-function deepSiltFace(g, w, h, o = {}) {
+export function deepSiltFace(g, w, h, o = {}) {
   g.fillStyle = o.base ?? "#4a574d"; g.fillRect(0, 0, w, h);
   const rng = deepSeededRng(o.seed ?? 11);
   g.fillStyle = "rgba(0,0,0,0.12)";

@@ -27160,5 +27160,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-turbine-climb-and-rescue-kit-check",
+    "index": "ws-01",
+    "domain": "Energy",
+    "trade": "IBEW / Ironworkers wind technician",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC and Ironworkers IMPACT wind-technician training as bodies; ANSI Z359 for the harness, the fall-arrest rail system and the rescue kit; 29 CFR 1910.269 for work on generation installations; 29 CFR 1910.28 and 29 CFR 1910.23 for the fixed ladder and its fall protection; the turbine manufacturer's manual and the site's climb procedure for every limit",
+    "name": "Turbine Climb & Rescue-Kit Check",
+    "weather": "wind",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Turbine Climb & Rescue-Kit Check VR",
+    "tagline": "The wind read against the site's own limit, the harness walked by hand, the rescue kit opened and proven with a second climber who can use it, and the runner tugged on the rail before a single rung",
+    "accent": 4171734,
+    "accentCss": "#3fa7d6",
+    "parSeconds": 300,
+    "badge": {
+      "id": "proven-before-rung-one",
+      "name": "Proven Before Rung One",
+      "note": "Wind, harness, rescue kit, buddy and runner all proven on the ground before the climb began"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tower Authority",
+      "currency": "RUNGS",
+      "ranks": [
+        "Trainee Climber",
+        "Climber",
+        "Wind Technician",
+        "Lead Technician",
+        "Tower Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+    "index": "ws-02",
+    "domain": "Energy",
+    "trade": "IBEW wind technician",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC wind-technician training as a body; 29 CFR 1910.147 for the control of hazardous energy and 29 CFR 1910.269 for generation installations; NFPA 70E for the absence-of-voltage test and the arc-flash boundary; ANSI Z359 for the tie-off in the nacelle; the turbine manufacturer's manual for the rotor lock, the yaw brake and every pressure and speed",
+    "name": "Nacelle Lockout & Yaw-Brake Fault",
+    "weather": "wind",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Nacelle Lockout & Yaw-Brake Fault VR",
+    "tagline": "Stopped locally, the rotor watched down and locked, the yaw proven held, then isolated, locked, tagged, tested for absence of voltage and bled of stored energy before a start that must not happen",
+    "accent": 6273248,
+    "accentCss": "#5fb8e0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "locked-held-proven",
+      "name": "Locked, Held, Proven",
+      "note": "The rotor locked, the yaw held, the energy isolated and the start tried dead before anyone reached into the drive train"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nacelle Authority",
+      "currency": "LOCKS",
+      "ranks": [
+        "Trainee",
+        "Technician",
+        "Wind Technician",
+        "Lead Technician",
+        "Nacelle Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-blade-inspection-from-a-platform",
+    "index": "ws-03",
+    "domain": "Energy",
+    "trade": "Ironworkers / IBEW blade technician",
+    "category": "Energy & Power",
+    "certification": "Ironworkers IMPACT and IBEW/NECA JATC wind training as bodies; ANSI Z359 for the independent lifeline and harness on a suspended platform; 29 CFR 1910.28 and 29 CFR 1926.502 for the fall-protection system; 29 CFR 1910.269 for work on the generation installation; the platform manufacturer's manual and the site's procedure for every wind and load limit",
+    "name": "Blade Inspection from a Platform",
+    "weather": "wind",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Blade Inspection from a Platform VR",
+    "tagline": "The wind read against the site's platform limit before the platform leaves the ground, the rotor locked with the blade parked, the platform proven, and every defect photographed and reported rather than guessed at",
+    "accent": 8373480,
+    "accentCss": "#7fc4e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "wind-decides",
+      "name": "The Wind Decides",
+      "note": "The go or no-go made against the written limit, the platform proven and every defect on the record"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Blade Authority",
+      "currency": "PASSES",
+      "ranks": [
+        "Trainee",
+        "Rope Hand",
+        "Blade Technician",
+        "Lead Technician",
+        "Blade Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-substation-switching-under-a-permit",
+    "index": "ws-04",
+    "domain": "Energy",
+    "trade": "IBEW substation electrician",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC substation training as a body; 29 CFR 1910.269 for switching, clearances, grounding and the permit; NFPA 70E for the arc-rated PPE and the absence-of-voltage test; the NESC (IEEE C2) for the substation's own clearances; NETA acceptance and maintenance testing practice for the ground set and the detector; every voltage, rating and approach distance per the switching order and the site's tables",
+    "name": "Collector Substation Switching Under a Permit",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Collector Substation Switching Under a Permit VR",
+    "tagline": "A written order switched step by step with every step repeated back, the breaker proven open before the disconnect moves, the gap locked, tested and grounded, and a permit issued only then",
+    "accent": 14723135,
+    "accentCss": "#e0a83f",
+    "parSeconds": 320,
+    "badge": {
+      "id": "switched-to-order",
+      "name": "Switched to the Order",
+      "note": "Every step repeated back, the breaker proven open before the disconnect, and the gap grounded before the permit went out"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Switching Authority",
+      "currency": "STEPS",
+      "ranks": [
+        "Trainee",
+        "Switchman",
+        "Substation Electrician",
+        "Lead Switchman",
+        "Switching Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-data-hall-busway-install-and-torque-signoff",
+    "index": "ws-05",
+    "domain": "Connectivity",
+    "trade": "IBEW inside wireman",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC inside-wireman training as a body; NFPA 70 (NEC) for the busway installation; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition; 29 CFR 1910.147 for the lockout; NETA acceptance testing practice for the torque verification and the insulation-resistance test; the busway manufacturer's installation instructions for every torque value and test voltage",
+    "name": "Data-Hall Busway Install & Torque Sign-Off",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "data-center-build",
+    "title": "SmartCiti.X~ Data-Hall Busway Install & Torque Sign-Off VR",
+    "tagline": "The run isolated upstream and proven dead before the lift goes up, the section hung and its joint inspected, torqued with a calibrated wrench to the manufacturer's value, marked, tested and signed",
+    "accent": 5223334,
+    "accentCss": "#4fb3a6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "torqued-and-signed",
+      "name": "Torqued & Signed",
+      "note": "Every joint torqued with a calibrated wrench, marked, insulation-tested and signed before the run was handed over"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Busway Authority",
+      "currency": "JOINTS",
+      "ranks": [
+        "Apprentice",
+        "Wireman",
+        "Inside Wireman",
+        "Foreman",
+        "Busway Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+    "index": "ws-06",
+    "domain": "Connectivity",
+    "trade": "IBEW telecommunications technician",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC telecommunications training as a body; BICSI installation practice for the cable pathway and the tray fill; NFPA 70 (NEC) for the tray bonding and the cable types under a raised floor; 29 CFR 1910.22 for the floor opening and the walking surface; 29 CFR 1910.268 for telecommunications work; the floor manufacturer's instructions and the hall's operating procedure for every load and temperature",
+    "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "data-center-build",
+    "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
+    "tagline": "One tile out at a time with a proven lifter, the opening barricaded and attended, the plenum inspected, the cable laid into the tray rather than dragged over it, and the tile reseated flush",
+    "accent": 6472096,
+    "accentCss": "#62c1a0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "floor-kept-a-floor",
+      "name": "Floor Kept a Floor",
+      "note": "One tile out, barricaded and attended, the cable laid in, and the tile reseated flush"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pathway Authority",
+      "currency": "TILES",
+      "ranks": [
+        "Apprentice",
+        "Installer",
+        "Telecom Technician",
+        "Lead Technician",
+        "Pathway Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-crah-alarm-response-in-a-live-hall",
+    "index": "ws-07",
+    "domain": "Connectivity",
+    "trade": "IBEW critical-facilities technician",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC critical-facilities training as a body; 29 CFR 1910.147 for isolating the air handler before service; NFPA 70E and 29 CFR 1910.333 for the absence-of-voltage test at its disconnect; 29 CFR 1910.22 for a wet floor in the hall; 29 CFR 1910.38 for the hall's emergency action plan when the suppression system pre-alarms; the hall's operating procedure and the unit manufacturer's manual for every set point and limit",
+    "name": "CRAH Alarm Response in a Live Hall",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "data-center-build",
+    "title": "SmartCiti.X~ CRAH Alarm Response in a Live Hall VR",
+    "tagline": "The alarm read and reported, the supply air read against its band, the unit walked down, the standby brought on per the procedure and the hall watched back before the failed unit is isolated and serviced",
+    "accent": 7319782,
+    "accentCss": "#6fb0e6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "hall-held",
+      "name": "Hall Held",
+      "note": "The hall kept cool on the standby unit while the failed one was isolated, proven dead and serviced"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Critical Facilities Authority",
+      "currency": "RACKS",
+      "ranks": [
+        "Trainee",
+        "Facilities Tech",
+        "Critical Facilities Tech",
+        "Lead Tech",
+        "Critical Facilities Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+    "index": "ws-08",
+    "domain": "Connectivity",
+    "trade": "IBEW / IUOE marine data-centre crew",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC training as a body for the pod's electrical isolation; 29 CFR 1910.147 for locking out the shore cable before the hatch; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition inside the pod; 29 CFR 1910.28 for the deck edge and 29 CFR 1910.132 for the deck PPE and flotation; the lift plan, the dive plan and the pod's operating procedure for every sea state, load, depth and diving limit",
+    "name": "Ocean Pod Retrieval & Hatch Opening",
+    "weather": "wind",
+    "indoor": null,
+    "district": "ocean-data-center",
+    "title": "SmartCiti.X~ Ocean Pod Retrieval & Hatch Opening VR",
+    "tagline": "The sea state read against the lift plan, the diver out and counted before the hoist moves, the pod brought over the rail on tag lines, sea-fastened and isolated, and its leak lamp read before a hatch bolt turns",
+    "accent": 4169668,
+    "accentCss": "#3f9fc4",
+    "parSeconds": 330,
+    "badge": {
+      "id": "landed-isolated-opened",
+      "name": "Landed, Isolated, Opened",
+      "note": "The pod lifted to the plan, landed and fastened, its cable locked out and its leak lamp read before the hatch came off"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Marine Data Authority",
+      "currency": "LIFTS",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Pod Technician",
+        "Lift Supervisor",
+        "Marine Data Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

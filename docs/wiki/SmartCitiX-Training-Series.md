@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-28. 640 SmartCiti.X stations across 19 categories and 55 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-28. 648 SmartCiti.X stations across 19 categories and 56 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 65 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -61,6 +61,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Marine Ecology & Restoration — Survey and Restoration Crews](#marine-ecology-and-restoration)
 - [Commercial Diving & Scientific Scuba](#commercial-diving-and-scientific-scuba)
 - [Aerospace Depot and Robotics — IAM and UAW Skilled Trades](#aerospace-defense-and-robotics)
+- [Wind & Data Infrastructure](#wind-and-data-infrastructure)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1656,6 +1657,26 @@ Eight civilian-style workplace-safety jobs in a generic aerospace depot and a ro
 | ad-2 | [Robot Cell Lockout & Safe Re-entry](../../WebXR/smartcity/index.html?sim=ad-robot-cell-lockout-and-safe-reentry) | Robot technician, cell lockout and re-entry — UAW/IAM | overcast, robotics-factory | 14 | 2 | — | A robot cell is only entered once it is stopped, isolated under a personal lock, tried and proven at zero energy, with any jog made in reduced speed. |
 | ad-3 | [AMR Fleet Traffic & E-stop Drill](../../WebXR/smartcity/index.html?sim=ad-amr-fleet-traffic-and-estop-drill) | Automation technician, AMR fleet traffic and e-stop — UAW/IAM | overcast, robotics-factory | 14 | 2 | — | An AMR floor is crossed only at the marked points, the e-stop drill proves every unit stops, and a faulted robot is taken out of the fleet before anyone touches it. |
 | ad-8 | [Cobot Risk Assessment & Speed-and-Separation](../../WebXR/smartcity/index.html?sim=ad-cobot-risk-assessment-and-speed-separation) | Automation technician, collaborative robot application — UAW/IAM | overcast, robotics-training-centre | 14 | 2 | — | A cobot bench is only released once its risk assessment is walked against the bench as built and the scanner zones are proven by a person walking into them. |
+
+<a id="wind-and-data-infrastructure"></a>
+## Wind & Data Infrastructure
+
+**Union:** IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies
+
+**Certifications and standards:** Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan
+
+Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| ws-01 | [Turbine Climb & Rescue-Kit Check](../../WebXR/smartcity/index.html?sim=ws-turbine-climb-and-rescue-kit-check) | IBEW / Ironworkers wind technician | wind, wind-farm | 12 | 2 | — | The climb is decided on the ground: the wind read against the site's limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail. |
+| ws-02 | [Nacelle Lockout & Yaw-Brake Fault](../../WebXR/smartcity/index.html?sim=ws-nacelle-lockout-and-yaw-brake-fault) | IBEW wind technician | wind, wind-farm | 12 | 2 | — | A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen. |
+| ws-03 | [Blade Inspection from a Platform](../../WebXR/smartcity/index.html?sim=ws-blade-inspection-from-a-platform) | Ironworkers / IBEW blade technician | wind, wind-farm | 12 | 2 | — | The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at. |
+| ws-04 | [Collector Substation Switching Under a Permit](../../WebXR/smartcity/index.html?sim=ws-substation-switching-under-a-permit) | IBEW substation electrician | overcast, wind-farm | 12 | 2 | — | Collector switching runs to a written order with every step repeated back, the breaker proven open before the disconnect moves and the gap grounded before a permit goes out. |
+| ws-05 | [Data-Hall Busway Install & Torque Sign-Off](../../WebXR/smartcity/index.html?sim=ws-data-hall-busway-install-and-torque-signoff) | IBEW inside wireman | overcast, data-center-build | 12 | 2 | — | A busway joint is only as good as its torque and its record, so the run is proven dead before the lift goes up and every joint is torqued with a calibrated wrench, marked and signed. |
+| ws-06 | [Raised-Floor Tile Lift & Cable Tray Safety](../../WebXR/smartcity/index.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety) | IBEW telecommunications technician | overcast, data-center-build | 12 | 2 | — | One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush. |
+| ws-07 | [CRAH Alarm Response in a Live Hall](../../WebXR/smartcity/index.html?sim=ws-crah-alarm-response-in-a-live-hall) | IBEW critical-facilities technician | overcast, data-center-build | 12 | 2 | — | An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead. |
+| ws-08 | [Ocean Pod Retrieval & Hatch Opening](../../WebXR/smartcity/index.html?sim=ws-ocean-pod-retrieval-and-hatch-opening) | IBEW / IUOE marine data-centre crew | wind, ocean-data-center | 13 | 2 | — | A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns. |
 
 ## Real-world environments
 

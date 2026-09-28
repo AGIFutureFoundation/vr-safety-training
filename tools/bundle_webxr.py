@@ -135,6 +135,8 @@ APPS = {
             # ladder.js, all already listed above.
             SHARED / "tracking.js",
             SHARED / "variants.js",
+            # The ?fault= simulation option (docs/districts.md).
+            SHARED / "faults.js",
             # Random events (docs/events.md): the seeded ambient scheduler and
             # the interrupt-timing jitter every station gets for free.
             SHARED / "events.js",

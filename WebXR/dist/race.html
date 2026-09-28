@@ -9497,6 +9497,170 @@ function cobotBench(parent, x, y, z, opts = {}) {
 
 // ------------------------------------------------------------------ budget
 
+// ------------------------------------------------ wind and data infrastructure
+//
+// Three builders for the wind-and-data-infrastructure pack: a utility wind
+// turbine, a data-hall module and a sealed ocean data pod. Proportions are
+// stylised and carry no rating: a station states no hub height, blade
+// length, rack load, torque or depth — those live in the manufacturer's
+// manual, the work order and the dive plan. Same contract as the rest of
+// this file.
+
+const WS_WHITE = 0xe9ecee;
+const WS_TOWER = 0xdfe3e6;
+
+/**
+ * A utility wind turbine at a stylised scale (`opts.hub` sets the hub
+ * height, default 22 m; `opts.blade` the blade length, default 9 m): a
+ * tapered tower with its base door and an internal ladder carrying a
+ * fall-arrest rail, a nacelle with a roof hatch and a service crane on the
+ * roof, the hub and three blades. Rotor faces +Z. Parts: tower, towerDoor,
+ * ladder, fallArrestRail, nacelle, hatch, serviceCrane, yawDeck, hub,
+ * blades (the three blade roots as a list).
+ */
+function windTurbine(parent, x, y, z, opts = {}) {
+  const H = opts.hub ?? 22, B = opts.blade ?? 9;
+  const rig = flRig(parent, x, y, z, opts, "windTurbine", [0, 0, 0.4]);
+  const S = rig.shell;
+  cyl(S, 1.9, 2.1, 0.5, 0, 0.25, 0, 0x9aa0a4, { rough: 0.9, finish: "concrete", seg: 20 });
+  const tower = rig.part("tower", 0, 0.5, 0);
+  cyl(tower, 0.8, 1.35, H - 1.3, 0, (H - 1.3) / 2, 0, WS_TOWER, { rough: 0.5, metal: 0.2, finish: "painted", seg: 20 });
+  box(tower, 1.2, 0.18, 0.9, 0, 0.09, 1.6, 0x7d858d, { rough: 0.6, metal: 0.5, finish: "galvanised" });
+  const door = rig.part("towerDoor", 0, 0.2, 1.3, tower);
+  box(door, 0.9, 1.95, 0.06, 0, 0.98, 0, 0x8b949b, { rough: 0.5, metal: 0.5, finish: "painted" });
+  box(door, 0.08, 0.2, 0.05, 0.3, 1.0, 0.05, 0x2b3138, { rough: 0.4, metal: 0.6 });
+  const ladder = rig.part("ladder", 0, 0.2, 0.2, tower);
+  for (const sx of [-0.22, 0.22]) box(ladder, 0.05, 4.2, 0.05, sx, 2.1, 0, 0xb8bec4, { rough: 0.4, metal: 0.6, finish: "galvanised" });
+  for (let i = 0; i < 12; i++) box(ladder, 0.44, 0.03, 0.03, 0, 0.2 + i * 0.34, 0, 0xb8bec4, { rough: 0.4, metal: 0.6 });
+  const rail = rig.part("fallArrestRail", 0, 0.2, 0.26, tower);
+  box(rail, 0.04, 4.2, 0.03, 0, 2.1, 0, 0xf2c14b, { rough: 0.5, metal: 0.4, finish: "painted" });
+  const yaw = rig.part("yawDeck", 0, H, 0);
+  cyl(yaw, 0.95, 0.95, 0.3, 0, 0.15, 0, 0x7d858d, { rough: 0.5, metal: 0.5, seg: 20 });
+  const nac = rig.part("nacelle", 0, 0.3, 0, yaw);
+  box(nac, 2.1, 2.1, 4.4, 0, 1.05, -0.6, WS_WHITE, { rough: 0.45, metal: 0.15, finish: "painted" });
+  box(nac, 1.9, 0.12, 1.0, 0, 2.16, -2.2, 0x9aa3aa, { rough: 0.6, metal: 0.4, finish: "grating" });
+  const hatch = rig.part("hatch", 0, 2.12, -1.0, nac);
+  box(hatch, 0.9, 0.06, 0.9, 0, 0.03, 0, 0xc9ced2, { rough: 0.5, metal: 0.3 });
+  const crane = rig.part("serviceCrane", 0.6, 2.1, -2.4, nac);
+  cyl(crane, 0.07, 0.07, 1.1, 0, 0.55, 0, 0xf0b323, { rough: 0.5, finish: "painted", seg: 10 });
+  box(crane, 0.12, 0.12, 1.3, 0, 1.1, -0.5, 0xf0b323, { rough: 0.5, finish: "painted" });
+  const hub = rig.part("hub", 0, 1.05, 1.9, nac);
+  ball(hub, 0.75, 0, 0, 0.1, WS_WHITE, { rough: 0.4, metal: 0.15 });
+  const blades = [];
+  for (let i = 0; i < 3; i++) {
+    const root = rig.part(`blade${i + 1}`, 0, 0, 0.3, hub);
+    root.rotation.z = i * (Math.PI * 2 / 3);
+    box(root, 0.5, B, 0.16, 0.08, B / 2 + 0.3, 0, WS_WHITE, { rough: 0.4, metal: 0.1, finish: "painted" });
+    box(root, 0.2, B * 0.3, 0.14, 0.08, B * 0.82, 0.02, 0xd23a2a, { rough: 0.5, finish: "painted" });
+    blades.push(root);
+  }
+  rig.set("blades", blades);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.windTurbine.footprint });
+}
+
+/**
+ * One data-hall module: a raised access floor of tiles on pedestals (one
+ * tile is its own part so a station can lift it with the suction lifter),
+ * two rack rows facing a cold aisle, hot-aisle containment roofs behind
+ * them, an overhead busway with a tap-off box, a computer-room air handler
+ * (CRAH) at the end with its alarm lamp, and a clean-agent fire-suppression
+ * panel with an abort switch on a wall stub. Parts: floor, liftTile,
+ * tileVoid, racksA, racksB, busway, tapBox, crah, crahAlarm,
+ * suppressionPanel, abortSwitch.
+ */
+function dataHall(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "dataHall");
+  const S = rig.shell;
+  const W = 7.2, D = 6.4, FH = 0.45;
+  const floor = rig.part("floor", 0, 0, 0);
+  const tileMat = flCanvasMat("wsFloorTile", 128, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#c9cdd0"], [1, "#b9bec2"]]);
+    noiseTexture(g, w, h, { density: 1400, alpha: 0.08 });
+    g.strokeStyle = "#7e858b"; g.lineWidth = 3;
+    for (let i = 0; i <= 2; i++) { g.beginPath(); g.moveTo(i * w / 2, 0); g.lineTo(i * w / 2, h); g.stroke(); g.beginPath(); g.moveTo(0, i * h / 2); g.lineTo(w, i * h / 2); g.stroke(); }
+  }, { rough: 0.6, metal: 0.1, repeat: [W / 1.2, D / 1.2] });
+  flBox(floor, W, 0.04, D, 0, FH - 0.02, 0, tileMat);
+  for (const sx of [-1, 1]) box(floor, 0.06, FH, D, sx * (W / 2 - 0.03), FH / 2, 0, 0x5a6168, { rough: 0.6, metal: 0.4 });
+  for (const sz of [-1, 1]) box(floor, W, FH, 0.06, 0, FH / 2, sz * (D / 2 - 0.03), 0x5a6168, { rough: 0.6, metal: 0.4 });
+  const voidP = rig.part("tileVoid", 0.6, 0, 0);
+  box(voidP, 0.58, 0.02, 0.58, 0, 0.02, 0, 0x1a1d20, { rough: 0.9 });
+  for (const sx of [-0.25, 0.25]) cyl(voidP, 0.02, 0.02, FH, sx, FH / 2, 0, 0x8b949b, { rough: 0.5, metal: 0.6, seg: 8 });
+  const tile = rig.part("liftTile", 0.6, FH + 0.005, 0);
+  box(tile, 0.6, 0.03, 0.6, 0, 0, 0, 0x9fc4de, { rough: 0.55, metal: 0.1 });
+  const rackMat = flCanvasMat("wsRackFront", 128, 256, (g, w, h) => {
+    g.fillStyle = "#15181c"; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 26; i++) { g.fillStyle = i % 3 ? "#262b31" : "#1e2328"; g.fillRect(8, 10 + i * 9, w - 16, 7); g.fillStyle = i % 4 ? "#3fc26a" : "#4fa3ff"; g.fillRect(w - 20, 12 + i * 9, 4, 3); }
+  }, { rough: 0.5, metal: 0.4, repeat: [1, 1] });
+  for (const [name, rz] of [["racksA", -1.3], ["racksB", 1.3]]) {
+    const row = rig.part(name, 0, FH, rz);
+    for (let i = 0; i < 5; i++) {
+      const rx = -2.4 + i * 0.64;
+      box(row, 0.6, 2.1, 1.1, rx, 1.05, 0, 0x1c1f23, { rough: 0.5, metal: 0.4, finish: "painted" });
+      flPanel(row, 0.56, 2.0, rx, 1.05, rz < 0 ? 0.56 : -0.56, rackMat, rz < 0 ? "+z" : "-z");
+    }
+  }
+  box(S, 3.3, 0.06, 1.1, -1.12, FH + 2.45, -2.4, 0xbfe6f5, { rough: 0.2, opacity: 0.5, transparent: true });
+  box(S, 3.3, 0.06, 1.1, -1.12, FH + 2.45, 2.4, 0xbfe6f5, { rough: 0.2, opacity: 0.5, transparent: true });
+  const bus = rig.part("busway", -1.12, FH + 2.9, 0);
+  box(bus, 3.6, 0.14, 0.22, 0, 0, 0, 0x8b949b, { rough: 0.45, metal: 0.6, finish: "galvanised" });
+  for (const bx of [-1.6, 1.6]) box(bus, 0.04, 0.5, 0.04, bx, 0.3, 0, 0x5a6168, { rough: 0.6, metal: 0.4 });
+  const tap = rig.part("tapBox", -0.5, -0.2, 0, bus);
+  box(tap, 0.3, 0.26, 0.2, 0, 0, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
+  const crah = rig.part("crah", 2.6, FH, 0);
+  box(crah, 1.4, 2.0, 0.9, 0, 1.0, 0, 0xd7dbdd, { rough: 0.5, metal: 0.2, finish: "painted" });
+  box(crah, 1.2, 0.8, 0.02, 0, 1.4, 0.46, 0x3a4047, { rough: 0.6, metal: 0.3, finish: "grating" });
+  const alarm = rig.part("crahAlarm", 0.45, 1.85, 0.47, crah);
+  cyl(alarm, 0.06, 0.06, 0.06, 0, 0, 0, ...FL.amber, { seg: 10 }).rotation.x = Math.PI / 2;
+  box(S, 0.2, 2.6, 1.6, W / 2 - 0.2, FH + 1.3, -2.2, 0xa7adb2, { rough: 0.8, finish: "concrete" });
+  const panel = rig.part("suppressionPanel", W / 2 - 0.34, FH + 1.35, -2.2);
+  box(panel, 0.06, 0.6, 0.46, 0, 0, 0, 0xc0282a, { rough: 0.5, finish: "painted" });
+  const abort = rig.part("abortSwitch", -0.05, -0.1, 0.1, panel);
+  cyl(abort, 0.04, 0.04, 0.04, 0, 0, 0, 0xf0b323, { rough: 0.4, seg: 10 }).rotation.z = Math.PI / 2;
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.dataHall.footprint });
+}
+
+/**
+ * A sealed ocean data pod: a horizontal pressure cylinder with domed ends
+ * on a seabed skid frame, a bolted service hatch on the +Z dome, a
+ * power-and-fibre cable leaving the -Z end along the seabed, two lifting
+ * padeyes with a four-leg bridle and master link a vessel's crane hooks,
+ * and a leak-detect lamp by the hatch. Stands at y 0 on the frame's feet.
+ * Parts: pod, frame, hatch, hatchBolts, cable, bridle, masterLink,
+ * leakLamp.
+ */
+function oceanDataPod(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "oceanDataPod");
+  const L = 5.4, R = 1.05, cy = 1.45;
+  const frame = rig.part("frame", 0, 0, 0);
+  for (const sx of [-1, 1]) box(frame, 0.16, 0.16, L + 0.6, sx * 0.9, 0.08, 0, 0xd9a21e, { rough: 0.55, metal: 0.4, finish: "painted" });
+  for (const sz of [-1.8, 0, 1.8]) {
+    box(frame, 1.96, 0.14, 0.16, 0, 0.1, sz, 0xd9a21e, { rough: 0.55, metal: 0.4, finish: "painted" });
+    box(frame, 1.6, 0.34, 0.12, 0, 0.4, sz, 0x2b3138, { rough: 0.6, metal: 0.4 });
+  }
+  const pod = rig.part("pod", 0, cy, 0);
+  cyl(pod, R, R, L - R, 0, 0, 0, 0xcfd6db, { rough: 0.35, metal: 0.55, finish: "brushed", seg: 24 }).rotation.x = Math.PI / 2;
+  for (const sz of [-1, 1]) { const d = ball(pod, R, 0, 0, sz * (L / 2 - R * 0.5), 0xcfd6db, { rough: 0.35, metal: 0.55 }); d.scale.z = 0.5; }
+  for (const sz of [-1.6, 0, 1.6]) torus(pod, R + 0.02, 0.05, 0, 0, sz, 0x6b737a, { rough: 0.5, metal: 0.5, seg: 6, seg2: 24 });
+  const hatch = rig.part("hatch", 0, 0, L / 2 + 0.02, pod);
+  cyl(hatch, 0.48, 0.48, 0.1, 0, 0, 0, 0x8b949b, { rough: 0.4, metal: 0.6, seg: 20 }).rotation.x = Math.PI / 2;
+  const bolts = rig.part("hatchBolts", 0, 0, 0.07, hatch);
+  torus(bolts, 0.42, 0.03, 0, 0, 0, 0x2b3138, { rough: 0.4, metal: 0.7, seg: 6, seg2: 16 });
+  const lamp = rig.part("leakLamp", 0.62, 0.62, L / 2 - 0.2, pod);
+  ball(lamp, 0.07, 0, 0, 0, ...FL.green);
+  const cable = rig.part("cable", 0, 0, -L / 2 - 0.1);
+  cyl(cable, 0.07, 0.07, 1.2, 0, 1.0, 0, 0x17191c, { rough: 0.7, seg: 10 });
+  cyl(cable, 0.07, 0.07, 0.9, 0, 0.08, 0.1, 0x17191c, { rough: 0.7, seg: 10 }).rotation.x = Math.PI / 2;
+  const bridle = rig.part("bridle", 0, cy + R, 0);
+  const top = [0, 1.7, 0];
+  for (const sz of [-1.5, 1.5]) {
+    torus(bridle, 0.1, 0.03, 0, 0.08, sz, 0xd9a21e, { rough: 0.5, metal: 0.5, seg: 6, seg2: 12 });
+    for (const sx of [-0.12, 0.12]) flStrut(bridle, [sx, 0.12, sz], top, 0.018, 0x9aa2a8, { rough: 0.4, metal: 0.6 });
+  }
+  const link = rig.part("masterLink", 0, 1.78, 0, bridle);
+  torus(link, 0.12, 0.03, 0, 0, 0, 0xd9a21e, { rough: 0.5, metal: 0.5, seg: 6, seg2: 12 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.oceanDataPod.footprint });
+}
+
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
 const EQUIPMENT_BUDGET = {
   excavator: { build: "excavator", meshes: 21, footprint: [3.05, 4.83, 10.78], parts: ["trackL", "trackR", "house", "door", "boom", "stick", "bucket", "lights", "counterweight"], note: "20 t tracked excavator, dig-ready" },
@@ -9540,6 +9704,9 @@ const EQUIPMENT_BUDGET = {
   batteryChargingStation: { build: "batteryChargingStation", meshes: 6, footprint: [1, 1.67, 0.8], parts: ["beacon", "cable"], note: "lift-truck battery charger cabinet with a spill containment tray" },
   rollingMillStand: { build: "rollingMillStand", meshes: 16, footprint: [3.86, 3.1, 5], parts: ["housingL", "housingR", "workRollTop", "workRollBottom", "backupRollTop", "backupRollBottom", "screwdown", "guardGate", "entryTable", "exitTable"], note: "four-high hot-strip mill stand with an entry/exit roller table" },
   ladleCrane: { build: "ladleCrane", meshes: 10, footprint: [2.7, 3.21, 1.16], parts: ["bridge", "trolley", "hookBlock", "ladleBody", "ladleTrunnion", "pourLip"], note: "overhead ladle crane, ladle hanging free to tilt on its trunnions" },
+  windTurbine: { build: "windTurbine", meshes: 20, footprint: [16.36, 32.65, 6.3], parts: ["tower", "towerDoor", "ladder", "fallArrestRail", "nacelle", "hatch", "serviceCrane", "yawDeck", "hub", "blades"], note: "utility wind turbine at a stylised scale: tower door, ladder with fall-arrest rail, nacelle hatch and service crane, three blades" },
+  dataHall: { build: "dataHall", meshes: 19, footprint: [7.2, 3.9, 6.4], parts: ["floor", "liftTile", "tileVoid", "racksA", "racksB", "busway", "tapBox", "crah", "crahAlarm", "suppressionPanel", "abortSwitch"], note: "data-hall module: raised floor with a lifting tile, hot and cold aisles, racks, busway, CRAH and suppression panel" },
+  oceanDataPod: { build: "oceanDataPod", meshes: 12, footprint: [2.24, 4.43, 6.15], parts: ["pod", "frame", "hatch", "hatchBolts", "cable", "bridle", "masterLink", "leakLamp"], note: "sealed ocean data pod on a seabed skid with a service hatch, cable, bridle and leak lamp" },
   continuousMinerFront: { build: "continuousMinerFront", meshes: 12, footprint: [3.09, 1.28, 4.44], parts: ["trackL", "trackR", "chassis", "gatheringArmL", "gatheringArmR", "cuttingDrum", "boomConveyor", "cabGuard"], note: "continuous mining machine cutting end, low profile for a coal seam" },
 };
 
@@ -9548,7 +9715,7 @@ const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig, regionalJet,
   pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck, cabinInterior, amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer,
-  batteryChargingStation, rollingMillStand, ladleCrane, continuousMinerFront, cleanRoomBay, testStand, depotHangarBay, robotCell, cobotBench,
+  batteryChargingStation, rollingMillStand, ladleCrane, continuousMinerFront, cleanRoomBay, testStand, depotHangarBay, robotCell, cobotBench, windTurbine, dataHall, oceanDataPod,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -11018,6 +11185,25 @@ const CURRICULA = [
       { app: "smartcity", id: "ad-robot-cell-lockout-and-safe-reentry", why: "A robot cell is only entered once it is stopped, isolated under a personal lock, tried and proven at zero energy, with any jog made in reduced speed." },
       { app: "smartcity", id: "ad-amr-fleet-traffic-and-estop-drill", why: "An AMR floor is crossed only at the marked points, the e-stop drill proves every unit stops, and a faulted robot is taken out of the fleet before anyone touches it." },
       { app: "smartcity", id: "ad-cobot-risk-assessment-and-speed-separation", why: "A cobot bench is only released once its risk assessment is walked against the bench as built and the scanner zones are proven by a person walking into them." },
+    ],
+  },
+  {
+    id: "wind-and-data-infrastructure",
+    name: "Wind & Data Infrastructure",
+    union: "IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies",
+    certification: "Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan",
+    guides: ["ibew-neca-jatc", "ironworkers-impact", "iuoe-training", "osha-1910-269", "osha-1910-147", "nfpa-70e", "ansi-z359", "nec-nfpa-70", "bicsi-installer", "osha-1910-28"],
+    summary: "Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.",
+    accent: "#3fa7d6",
+    stations: [
+      { app: "smartcity", id: "ws-turbine-climb-and-rescue-kit-check", why: "The climb is decided on the ground: the wind read against the site's limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail." },
+      { app: "smartcity", id: "ws-nacelle-lockout-and-yaw-brake-fault", why: "A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen." },
+      { app: "smartcity", id: "ws-blade-inspection-from-a-platform", why: "The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at." },
+      { app: "smartcity", id: "ws-substation-switching-under-a-permit", why: "Collector switching runs to a written order with every step repeated back, the breaker proven open before the disconnect moves and the gap grounded before a permit goes out." },
+      { app: "smartcity", id: "ws-data-hall-busway-install-and-torque-signoff", why: "A busway joint is only as good as its torque and its record, so the run is proven dead before the lift goes up and every joint is torqued with a calibrated wrench, marked and signed." },
+      { app: "smartcity", id: "ws-raised-floor-tile-lift-and-cable-tray-safety", why: "One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush." },
+      { app: "smartcity", id: "ws-crah-alarm-response-in-a-live-hall", why: "An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead." },
+      { app: "smartcity", id: "ws-ocean-pod-retrieval-and-hatch-opening", why: "A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns." },
     ],
   },
 ];
@@ -12509,6 +12695,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "aerospace-defense-and-robotics",
     "name": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
     "accent": "#6fd3e8"
+  },
+  {
+    "programme": "wind-and-data-infrastructure",
+    "name": "Wind & Data Infrastructure",
+    "accent": "#3fa7d6"
   }
 ];
 

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 640
+      "stations": 648
     },
     "trades": {
       "entry": "trades/index.html",
@@ -58,7 +58,11 @@
         "ut-pe-pipe-fusion-and-squeeze-off",
         "ut-cathodic-protection-test-station-reading",
         "ut-gas-meter-set-and-regulator-vent",
-        "ut-service-line-locate-and-hand-dig-near-gas-main"
+        "ut-service-line-locate-and-hand-dig-near-gas-main",
+        "ws-substation-switching-under-a-permit",
+        "ws-blade-inspection-from-a-platform",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
+        "ws-turbine-climb-and-rescue-kit-check"
       ]
     },
     {
@@ -179,7 +183,11 @@
         "cell-site-battery",
         "microwave-backhaul",
         "aerial-lashing",
-        "data-hall"
+        "data-hall",
+        "ws-ocean-pod-retrieval-and-hatch-opening",
+        "ws-crah-alarm-response-in-a-live-hall",
+        "ws-raised-floor-tile-lift-and-cable-tray-safety",
+        "ws-data-hall-busway-install-and-torque-signoff"
       ]
     },
     {
@@ -5505,6 +5513,67 @@
         "levels": 20,
         "lessons": 1672,
         "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "wind-and-data-infrastructure",
+      "name": "Wind & Data Infrastructure",
+      "union": "IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies",
+      "certification": "Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan",
+      "summary": "Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.",
+      "accent": "#3fa7d6",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ws-turbine-climb-and-rescue-kit-check",
+          "why": "The climb is decided on the ground: the wind read against the site's limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+          "why": "A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-blade-inspection-from-a-platform",
+          "why": "The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-substation-switching-under-a-permit",
+          "why": "Collector switching runs to a written order with every step repeated back, the breaker proven open before the disconnect moves and the gap grounded before a permit goes out."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-data-hall-busway-install-and-torque-signoff",
+          "why": "A busway joint is only as good as its torque and its record, so the run is proven dead before the lift goes up and every joint is torqued with a calibrated wrench, marked and signed."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+          "why": "One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-crah-alarm-response-in-a-live-hall",
+          "why": "An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead."
+        },
+        {
+          "app": "smartcity",
+          "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+          "why": "A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1690,
+        "tasks": 140,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -32229,7 +32298,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32889,7 +32958,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -58636,6 +58705,668 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=ad-cleanroom-gowning-and-esd-discipline"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+      "name": "Ocean Pod Retrieval & Hatch Opening",
+      "title": "SmartCiti.X~ Ocean Pod Retrieval & Hatch Opening VR",
+      "tagline": "The sea state read against the lift plan, the diver out and counted before the hoist moves, the pod brought over the rail on tag lines, sea-fastened and isolated, and its leak lamp read before a hatch bolt turns",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW / IUOE marine data-centre crew",
+      "union": null,
+      "certification": "IBEW/NECA JATC training as a body for the pod's electrical isolation; 29 CFR 1910.147 for locking out the shore cable before the hatch; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition inside the pod; 29 CFR 1910.28 for the deck edge and 29 CFR 1910.132 for the deck PPE and flotation; the lift plan, the dive plan and the pod's operating procedure for every sea state, load, depth and diving limit",
+      "accent": "#3f9fc4",
+      "parSeconds": 330,
+      "weather": "wind",
+      "indoor": null,
+      "district": "ocean-data-center",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "hold",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "landed-isolated-opened",
+        "name": "Landed, Isolated, Opened",
+        "note": "The pod lifted to the plan, landed and fastened, its cable locked out and its leak lamp read before the hatch came off"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-08",
+      "flat": false,
+      "system": "Marine Data Authority",
+      "currency": "LIFTS",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Pod Technician",
+        "Lift Supervisor",
+        "Marine Data Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "diver-counted",
+          "name": "Diver Counted",
+          "note": "The diver was out and accounted for before the hoist moved"
+        },
+        {
+          "id": "no-hands-in-the-bight",
+          "name": "No Hands in the Bight",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-taglines",
+          "name": "Steady Tag Lines",
+          "note": "Held the pod steady over the rail"
+        },
+        {
+          "id": "clean-recovery",
+          "name": "Clean Recovery",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "unbroken-hoist",
+          "name": "Unbroken Hoist",
+          "note": "The hoist ran without a break"
+        },
+        {
+          "id": "brisk-recovery",
+          "name": "Brisk Recovery",
+          "note": "Recovered and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-ocean-pod-retrieval-and-hatch-opening"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-crah-alarm-response-in-a-live-hall",
+      "name": "CRAH Alarm Response in a Live Hall",
+      "title": "SmartCiti.X~ CRAH Alarm Response in a Live Hall VR",
+      "tagline": "The alarm read and reported, the supply air read against its band, the unit walked down, the standby brought on per the procedure and the hall watched back before the failed unit is isolated and serviced",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW critical-facilities technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC critical-facilities training as a body; 29 CFR 1910.147 for isolating the air handler before service; NFPA 70E and 29 CFR 1910.333 for the absence-of-voltage test at its disconnect; 29 CFR 1910.22 for a wet floor in the hall; 29 CFR 1910.38 for the hall's emergency action plan when the suppression system pre-alarms; the hall's operating procedure and the unit manufacturer's manual for every set point and limit",
+      "accent": "#6fb0e6",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "data-center-build",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "track",
+        "hold",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "hall-held",
+        "name": "Hall Held",
+        "note": "The hall kept cool on the standby unit while the failed one was isolated, proven dead and serviced"
+      },
+      "meshes": 152,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-07",
+      "flat": false,
+      "system": "Critical Facilities Authority",
+      "currency": "RACKS",
+      "ranks": [
+        "Trainee",
+        "Facilities Tech",
+        "Critical Facilities Tech",
+        "Lead Tech",
+        "Critical Facilities Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "reported-first",
+          "name": "Reported First",
+          "note": "The hall operator heard about it before anything was touched"
+        },
+        {
+          "id": "no-reflexes",
+          "name": "No Reflexes",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the hall recovery watch steady"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections from the alarm to the log"
+        },
+        {
+          "id": "unbroken-test",
+          "name": "Unbroken Test",
+          "note": "The absence test ran without a break"
+        },
+        {
+          "id": "brisk-response",
+          "name": "Brisk Response",
+          "note": "Responded and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-crah-alarm-response-in-a-live-hall"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+      "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+      "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
+      "tagline": "One tile out at a time with a proven lifter, the opening barricaded and attended, the plenum inspected, the cable laid into the tray rather than dragged over it, and the tile reseated flush",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW telecommunications technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC telecommunications training as a body; BICSI installation practice for the cable pathway and the tray fill; NFPA 70 (NEC) for the tray bonding and the cable types under a raised floor; 29 CFR 1910.22 for the floor opening and the walking surface; 29 CFR 1910.268 for telecommunications work; the floor manufacturer's instructions and the hall's operating procedure for every load and temperature",
+      "accent": "#62c1a0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "data-center-build",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "find",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "floor-kept-a-floor",
+        "name": "Floor Kept a Floor",
+        "note": "One tile out, barricaded and attended, the cable laid in, and the tile reseated flush"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-06",
+      "flat": false,
+      "system": "Pathway Authority",
+      "currency": "TILES",
+      "ranks": [
+        "Apprentice",
+        "Installer",
+        "Telecom Technician",
+        "Lead Technician",
+        "Pathway Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "barricaded-first",
+          "name": "Barricaded First",
+          "note": "The opening was barricaded before the tile came up"
+        },
+        {
+          "id": "no-open-holes",
+          "name": "No Open Holes",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the airflow watch steady"
+        },
+        {
+          "id": "clean-pull",
+          "name": "Clean Pull",
+          "note": "No corrections from the ticket to the close-out"
+        },
+        {
+          "id": "unbroken-lift",
+          "name": "Unbroken Lift",
+          "note": "The tile lift ran without a break"
+        },
+        {
+          "id": "brisk-pull",
+          "name": "Brisk Pull",
+          "note": "Lifted, laid in and reseated inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-data-hall-busway-install-and-torque-signoff",
+      "name": "Data-Hall Busway Install & Torque Sign-Off",
+      "title": "SmartCiti.X~ Data-Hall Busway Install & Torque Sign-Off VR",
+      "tagline": "The run isolated upstream and proven dead before the lift goes up, the section hung and its joint inspected, torqued with a calibrated wrench to the manufacturer's value, marked, tested and signed",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW inside wireman",
+      "union": null,
+      "certification": "IBEW/NECA JATC inside-wireman training as a body; NFPA 70 (NEC) for the busway installation; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition; 29 CFR 1910.147 for the lockout; NETA acceptance testing practice for the torque verification and the insulation-resistance test; the busway manufacturer's installation instructions for every torque value and test voltage",
+      "accent": "#4fb3a6",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "data-center-build",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "torqued-and-signed",
+        "name": "Torqued & Signed",
+        "note": "Every joint torqued with a calibrated wrench, marked, insulation-tested and signed before the run was handed over"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-05",
+      "flat": false,
+      "system": "Busway Authority",
+      "currency": "JOINTS",
+      "ranks": [
+        "Apprentice",
+        "Wireman",
+        "Inside Wireman",
+        "Foreman",
+        "Busway Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "dead-first",
+          "name": "Dead First",
+          "note": "The run was proven dead before anyone was on the lift"
+        },
+        {
+          "id": "no-feel-torque",
+          "name": "No Torque by Feel",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-megger",
+          "name": "Steady Megger",
+          "note": "Held the insulation test steady"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections from the drawings to the sign-off"
+        },
+        {
+          "id": "unbroken-test",
+          "name": "Unbroken Test",
+          "note": "The insulation test ran without a break"
+        },
+        {
+          "id": "brisk-install",
+          "name": "Brisk Install",
+          "note": "Hung, torqued and signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-data-hall-busway-install-and-torque-signoff"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-substation-switching-under-a-permit",
+      "name": "Collector Substation Switching Under a Permit",
+      "title": "SmartCiti.X~ Collector Substation Switching Under a Permit VR",
+      "tagline": "A written order switched step by step with every step repeated back, the breaker proven open before the disconnect moves, the gap locked, tested and grounded, and a permit issued only then",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW substation electrician",
+      "union": null,
+      "certification": "IBEW/NECA JATC substation training as a body; 29 CFR 1910.269 for switching, clearances, grounding and the permit; NFPA 70E for the arc-rated PPE and the absence-of-voltage test; the NESC (IEEE C2) for the substation's own clearances; NETA acceptance and maintenance testing practice for the ground set and the detector; every voltage, rating and approach distance per the switching order and the site's tables",
+      "accent": "#e0a83f",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "find",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "switched-to-order",
+        "name": "Switched to the Order",
+        "note": "Every step repeated back, the breaker proven open before the disconnect, and the gap grounded before the permit went out"
+      },
+      "meshes": 158,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-04",
+      "flat": false,
+      "system": "Switching Authority",
+      "currency": "STEPS",
+      "ranks": [
+        "Trainee",
+        "Switchman",
+        "Substation Electrician",
+        "Lead Switchman",
+        "Switching Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-open",
+          "name": "Proven Open",
+          "note": "The breaker was proven open before the disconnect moved"
+        },
+        {
+          "id": "to-the-letter",
+          "name": "To the Letter",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the work-zone watch steady"
+        },
+        {
+          "id": "clean-order",
+          "name": "Clean Order",
+          "note": "No corrections from the order to the permit"
+        },
+        {
+          "id": "unbroken-grounds",
+          "name": "Unbroken Grounds",
+          "note": "The grounds went on without a break"
+        },
+        {
+          "id": "brisk-switching",
+          "name": "Brisk Switching",
+          "note": "Switched and permitted inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-substation-switching-under-a-permit"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-blade-inspection-from-a-platform",
+      "name": "Blade Inspection from a Platform",
+      "title": "SmartCiti.X~ Blade Inspection from a Platform VR",
+      "tagline": "The wind read against the site's platform limit before the platform leaves the ground, the rotor locked with the blade parked, the platform proven, and every defect photographed and reported rather than guessed at",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Ironworkers / IBEW blade technician",
+      "union": null,
+      "certification": "Ironworkers IMPACT and IBEW/NECA JATC wind training as bodies; ANSI Z359 for the independent lifeline and harness on a suspended platform; 29 CFR 1910.28 and 29 CFR 1926.502 for the fall-protection system; 29 CFR 1910.269 for work on the generation installation; the platform manufacturer's manual and the site's procedure for every wind and load limit",
+      "accent": "#7fc4e8",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "find",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "wind-decides",
+        "name": "The Wind Decides",
+        "note": "The go or no-go made against the written limit, the platform proven and every defect on the record"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-03",
+      "flat": false,
+      "system": "Blade Authority",
+      "currency": "PASSES",
+      "ranks": [
+        "Trainee",
+        "Rope Hand",
+        "Blade Technician",
+        "Lead Technician",
+        "Blade Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "limit-read",
+          "name": "Limit Read",
+          "note": "The wind was read against the site's platform limit"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-platform",
+          "name": "Steady Platform",
+          "note": "Held the platform clear of the blade"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections from the plan to the report"
+        },
+        {
+          "id": "unbroken-raise",
+          "name": "Unbroken Raise",
+          "note": "The platform raise ran without a break"
+        },
+        {
+          "id": "brisk-pass",
+          "name": "Brisk Pass",
+          "note": "Inspected and reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-blade-inspection-from-a-platform"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+      "name": "Nacelle Lockout & Yaw-Brake Fault",
+      "title": "SmartCiti.X~ Nacelle Lockout & Yaw-Brake Fault VR",
+      "tagline": "Stopped locally, the rotor watched down and locked, the yaw proven held, then isolated, locked, tagged, tested for absence of voltage and bled of stored energy before a start that must not happen",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW wind technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC wind-technician training as a body; 29 CFR 1910.147 for the control of hazardous energy and 29 CFR 1910.269 for generation installations; NFPA 70E for the absence-of-voltage test and the arc-flash boundary; ANSI Z359 for the tie-off in the nacelle; the turbine manufacturer's manual for the rotor lock, the yaw brake and every pressure and speed",
+      "accent": "#5fb8e0",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "turn",
+        "gauge",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "locked-held-proven",
+        "name": "Locked, Held, Proven",
+        "note": "The rotor locked, the yaw held, the energy isolated and the start tried dead before anyone reached into the drive train"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-02",
+      "flat": false,
+      "system": "Nacelle Authority",
+      "currency": "LOCKS",
+      "ranks": [
+        "Trainee",
+        "Technician",
+        "Wind Technician",
+        "Lead Technician",
+        "Nacelle Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "rotor-locked-first",
+          "name": "Rotor Locked First",
+          "note": "The rotor lock went in before any other work"
+        },
+        {
+          "id": "nothing-trusted",
+          "name": "Nothing Trusted",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the rotor slow-down watch steady"
+        },
+        {
+          "id": "clean-lockout",
+          "name": "Clean Lockout",
+          "note": "No corrections from the work order to the log"
+        },
+        {
+          "id": "unbroken-bleed",
+          "name": "Unbroken Bleed",
+          "note": "The accumulator bleed ran to completion"
+        },
+        {
+          "id": "brisk-isolation",
+          "name": "Brisk Isolation",
+          "note": "Isolated and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-nacelle-lockout-and-yaw-brake-fault"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-turbine-climb-and-rescue-kit-check",
+      "name": "Turbine Climb & Rescue-Kit Check",
+      "title": "SmartCiti.X~ Turbine Climb & Rescue-Kit Check VR",
+      "tagline": "The wind read against the site's own limit, the harness walked by hand, the rescue kit opened and proven with a second climber who can use it, and the runner tugged on the rail before a single rung",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW / Ironworkers wind technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC and Ironworkers IMPACT wind-technician training as bodies; ANSI Z359 for the harness, the fall-arrest rail system and the rescue kit; 29 CFR 1910.269 for work on generation installations; 29 CFR 1910.28 and 29 CFR 1910.23 for the fixed ladder and its fall protection; the turbine manufacturer's manual and the site's climb procedure for every limit",
+      "accent": "#3fa7d6",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "proven-before-rung-one",
+        "name": "Proven Before Rung One",
+        "note": "Wind, harness, rescue kit, buddy and runner all proven on the ground before the climb began"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-01",
+      "flat": false,
+      "system": "Tower Authority",
+      "currency": "RUNGS",
+      "ranks": [
+        "Trainee Climber",
+        "Climber",
+        "Wind Technician",
+        "Lead Technician",
+        "Tower Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "kit-opened",
+          "name": "Kit Opened",
+          "note": "The rescue kit was opened and proven, not trusted by its bag"
+        },
+        {
+          "id": "never-free-climbed",
+          "name": "Never Free-Climbed",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-climber",
+          "name": "Steady Climber",
+          "note": "Held the climb pace steady"
+        },
+        {
+          "id": "clean-climb",
+          "name": "Clean Climb",
+          "note": "No corrections from the permit to the log"
+        },
+        {
+          "id": "unbroken-pace",
+          "name": "Unbroken Pace",
+          "note": "The climb ran to the platform without a break"
+        },
+        {
+          "id": "brisk-ground-check",
+          "name": "Brisk Ground Check",
+          "note": "Up and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-turbine-climb-and-rescue-kit-check"
     },
     {
       "app": "trades",

@@ -1,18 +1,18 @@
 key,value,source
-procedures,649,WebXR/smartcity/catalog.json stations.length
-smartcityStations,640,WebXR/smartcity/catalog.json stations where app = smartcity
+procedures,657,WebXR/smartcity/catalog.json stations.length
+smartcityStations,648,WebXR/smartcity/catalog.json stations where app = smartcity
 tradeSkillsRooms,9,WebXR/smartcity/catalog.json stations where app = trades
-programmes,55,WebXR/smartcity/js/curricula.js CURRICULA.length
+programmes,56,WebXR/smartcity/js/curricula.js CURRICULA.length
 categories,20,WebXR/smartcity/catalog.json categories.length
 unions,111,tools/unions.json unions.length
 trainingBodies,105,tools/standards.json standards where body = union
 standards,509,tools/standards.json standards.length
-competencies,65,WebXR/shared/competency.js COMPETENCIES.length
-programmeCompetencies,55,WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length
+competencies,66,WebXR/shared/competency.js COMPETENCIES.length
+programmeCompetencies,56,WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length
 coreCompetencies,10,WebXR/shared/competency.js CORE_COMPETENCIES.length
 profileLevels,33,WebXR/smartcity/catalog.json profile.levels
-programmeLadderLevels,1100,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
-programmeLadderLevelsFull,1099,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
+programmeLadderLevels,1120,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
+programmeLadderLevelsFull,1119,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
 checkers,65,tools/check_all.mjs CHECKERS array
 evalProceduresScored,641,tools/eval-content.json results.length
 evalCorpusMean,95.8,tools/eval-content.json mean of results[].score
@@ -20,31 +20,31 @@ evalBand95plus,521,tools/eval-content.json results with score >= 95
 evalBand90to94,116,tools/eval-content.json results with score 90-94
 evalBandBelow90,4,tools/eval-content.json results with score < 90
 bayWorldZones,16,WebXR/shared/bayworld-data.js BAY_ZONES.length
-bayWorldSites,51,WebXR/shared/bayworld-data.js BAY_SITES.length
+bayWorldSites,53,WebXR/shared/bayworld-data.js BAY_SITES.length
 bayWorldLandmarks,28,WebXR/shared/bayworld-data.js BAY_LANDMARKS.length
 bayWorldRoads,15,WebXR/shared/bayworld-data.js BAY_ROADS.length
 bayWorldMainQuests,7,WebXR/bayworld/js/quests-data.js MAIN_QUESTS.length
-bayWorldSideQuests,110,WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length
+bayWorldSideQuests,112,WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length
 bayWorldEggQuests,26,WebXR/bayworld/js/quests-data.js EGG_QUESTS.length
 bayWorldFieldGuideEggs,8,WebXR/bayworld/js/quests-data.js FIELD_GUIDE_EGGS.length
 bayWorldActivities,6,WebXR/bayworld/js/quests-data.js SIDE_ACTIVITIES.length
 deepZones,14,WebXR/shared/underwater-data.js DEEP_ZONES.length
-deepSites,32,WebXR/shared/underwater-data.js DEEP_SITES.length
+deepSites,33,WebXR/shared/underwater-data.js DEEP_SITES.length
 deepLandmarks,25,WebXR/shared/underwater-data.js DEEP_LANDMARKS.length
 deepLines,17,WebXR/shared/underwater-data.js DEEP_LINES.length
 deepMainDives,6,WebXR/underwater/js/dives-data.js DV_MAIN_DIVES.length
-deepSideDives,34,WebXR/underwater/js/dives-data.js DV_SIDE_DIVES.length
+deepSideDives,36,WebXR/underwater/js/dives-data.js DV_SIDE_DIVES.length
 deepEggDives,24,WebXR/underwater/js/dives-data.js DV_EGG_DIVES.length
 deepActivities,4,WebXR/underwater/js/dives-data.js DV_ACTIVITIES.length
 fairwayHoles,9,WebXR/shared/fairway-data.js FAIRWAY_HOLES.length
 regattaYachts,12,WebXR/shared/yacht-fleet.js YACHT_FLEET.length
 regattaCourses,3,WebXR/regatta/js/courses.js RG_COURSES.length
 regattaEvents,5,WebXR/regatta/js/events.js RG_EVENTS.length
-scenicDistricts,10,WebXR/smartcity/js/districts.js DISTRICTS entries with plaza: false
-assetBuilders,137,"tools/gen_investor.mjs: entries of EQUIPMENT_BUDGET, FLEET_BUDGET, PROPS_BUDGET, TOOLKIT_BUDGET, WILDLIFE_BUDGET (kinds), SKY_BUDGET (one dome)"
-unityModels,96,exports/unity/SmartCitiX/Models/MANIFEST.json entries.length
-unityModels.equipment,42,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = equipment
+scenicDistricts,13,WebXR/smartcity/js/districts.js DISTRICTS entries with plaza: false
+assetBuilders,140,"tools/gen_investor.mjs: entries of EQUIPMENT_BUDGET, FLEET_BUDGET, PROPS_BUDGET, TOOLKIT_BUDGET, WILDLIFE_BUDGET (kinds), SKY_BUDGET (one dome)"
+unityModels,99,exports/unity/SmartCitiX/Models/MANIFEST.json entries.length
+unityModels.equipment,45,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = equipment
 unityModels.fleet,32,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = fleet
 unityModels.toolkit,22,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = toolkit
-unityExportBytes,7258740,exports/unity/SmartCitiX/Models/MANIFEST.json bytes
-uiPages,67,ls WebXR/dist/*.html WebXR/dist/tracks/*.html
+unityExportBytes,7445344,exports/unity/SmartCitiX/Models/MANIFEST.json bytes
+uiPages,68,ls WebXR/dist/*.html WebXR/dist/tracks/*.html

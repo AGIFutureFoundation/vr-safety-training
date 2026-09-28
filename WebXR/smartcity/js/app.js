@@ -42,6 +42,7 @@ import {
   levelMilestone, milestoneConfettiSvg,
 } from "../../shared/ladder.js";
 import { makeVariant } from "../../shared/variants.js";
+import { faultFromQuery, faultedRoom } from "../../shared/faults.js";
 import {
   allMyTraining, refresherLabel, trainingStreak, buildTranscript, transcriptHtml, SignOffs,
   streakBonusXp, cleanRunBadges, hazardFreeWeekBadge, onTimeRefreshers, programmeLeaderboard,
@@ -762,6 +763,11 @@ async function enterSim(id, { briefed = false } = {}) {
     const v = makeVariant(room, { seed: urlQuery.get("seed") ?? room.id, level: variantLevel });
     if (v) room = { ...v, id: room.id, variantId: v.id };
   }
+  // ?fault=<id> runs the station with one of its declared faults
+  // (shared/faults.js, docs/districts.md): one step's answer rewritten here,
+  // the scene changed by the station's own onFault() once it is built.
+  const urlFault = faultFromQuery(location.search);
+  if (urlFault && room.steps?.length) room = faultedRoom(room, urlFault);
   // Random events (shared/events.js, docs/events.md): on by default past
   // level 10 of a ladder and for an assessment variant, off in the base run,
   // and always off when the instructor is already driving this run's own
@@ -833,6 +839,10 @@ async function enterSim(id, { briefed = false } = {}) {
   state.room = room;
   state.api = room.build(root);
   state.hits = state.api.hits;
+  if (room.activeFault) {
+    state.api.onFault?.(room.activeFault);
+    setRail("warn", `<b>${escapeHtml(room.faultLabel ?? room.activeFault)}</b> — ${escapeHtml(room.faultNote ?? "")}`);
+  }
   // Now the station's own count is known: the safety sign stays only if the
   // station and its two signs still fit the headset budget (the same rule
   // tools/check_budget.mjs enforces).
