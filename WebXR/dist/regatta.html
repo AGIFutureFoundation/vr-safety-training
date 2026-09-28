@@ -15730,6 +15730,24 @@ function lkStationLink(id, { runner = "./smartcity-x.html", trades = LK_TRADES_P
   return `${base}?${room ? "room" : "sim"}=${encodeURIComponent(id)}${from ? `&from=${encodeURIComponent(from)}` : ""}${back}${extra}`;
 }
 
+/** A world's `?site=` deep link to one of its sites, relative to the world's own page. */
+function lkSiteLink(siteId, page = "") { return `${page}?site=${encodeURIComponent(siteId)}`; }
+
+/**
+ * A job board's heading as a link to the site it describes (`?site=<id>` on
+ * the world's own page), so the name always leads to the place it names.
+ */
+function lkSiteHeading(el, site) {
+  if (!el) return;
+  el.textContent = "";
+  const a = el.ownerDocument.createElement("a");
+  a.id = "jb-site-link";
+  a.href = lkSiteLink(site.id);
+  a.textContent = site.name;
+  a.style.color = "inherit";
+  el.appendChild(a);
+}
+
 /** A station id as a label: "confined-space-entry" → "confined space entry". */
 function lkStationLabel(id) { return String(id ?? "").replace(/-/g, " "); }
 

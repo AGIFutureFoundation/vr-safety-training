@@ -5,7 +5,7 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
-import { lkRenderStations } from "../../shared/links.js";
+import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt } from "./seabed.js";
 import {
   dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine,
@@ -180,7 +180,7 @@ function dvTryAscend() {
 
 function dvOpenJobBoard(site) {
   dvApp.lastSite = site;
-  $("jb-title").textContent = site.name;
+  lkSiteHeading($("jb-title"), site);
   $("jb-zone").textContent = DV_ZONES.find((z) => z.id === site.zone)?.name ?? site.zone;
   const progress = dvSiteProgress(TrainingRecords.list(), site);
   $("jb-progress").textContent = progress.attempts

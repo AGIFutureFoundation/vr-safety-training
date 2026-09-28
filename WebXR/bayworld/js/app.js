@@ -5,7 +5,7 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
-import { lkRenderStations } from "../../shared/links.js";
+import { lkRenderStations, lkSiteHeading } from "../../shared/links.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
@@ -186,7 +186,7 @@ function bwTryEnterExit() {
 
 function bwOpenJobBoard(site) {
   bwApp.lastMissionSite = site;
-  $("jb-title").textContent = site.name;
+  lkSiteHeading($("jb-title"), site);
   $("jb-zone").textContent = BW_ZONES.find((z) => z.id === site.zone)?.name ?? site.zone;
   const progress = bwSiteProgress(TrainingRecords.list(), site);
   $("jb-progress").textContent = progress.attempts

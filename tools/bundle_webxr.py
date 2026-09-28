@@ -785,6 +785,11 @@ DIST_SHARED = [
     # The programme chips on the homepage rails (docs/interop.md) import the
     # passport lazily, with the modules it reads.
     "passport.js", "passport-programmes.js", "competency.js", "game.js",
+    # The lazy-loaded SmartCiti.X sims and citykit.js import these by their
+    # "../../../shared/" path, which from sims/ and the folder root lands on
+    # this folder's shared/ — without them no station loads in the flat build
+    # (tools/check_links.mjs loads one per world). Their own imports included.
+    "kit.js", "textures.js", "eggs.js", "ei-guide.js", "equipment.js", "fleet.js", "props.js", "toolkit.js", "perf.js",
 ]
 
 
