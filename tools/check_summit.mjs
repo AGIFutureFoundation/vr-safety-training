@@ -148,6 +148,7 @@ const builderSrc = readFileSync(join(WEBXR, "shared", "summit.js"), "utf8");
 check(/smImpostorGeometry/.test(builderSrc) && /SM_IMPOSTOR_RING/.test(builderSrc), "the builder draws impostors from the impostor ring");
 check(/smSnowlineAt\(aspect\)/.test(builderSrc) && /smBandNoise/.test(builderSrc), "the ground colour uses the aspect snowline and banded strata");
 check(/summit-river/.test(builderSrc) && /smRiverSurfaceAt/.test(builderSrc), "the builder lays the river on its own descending surface");
+check(/verts\.push\(\.\.\.prev\.l, \.\.\.l, \.\.\.prev\.r, \.\.\.prev\.r, \.\.\.l, \.\.\.r\)/.test(builderSrc), "ribbons are wound with the face normal up, so roads, trails and the river are not culled from above");
 
 // 2. sites and stations
 const work = D.SM_SITES.filter((s) => s.stations.length);

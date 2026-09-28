@@ -166,7 +166,11 @@ function smRibbon(THREE, pts, width, lift, colour, { skip = null, stepLen = 8, s
     if (surface) { l[1] = r[1] = surface(Math.min(d, total) / (total || 1)) + lift; }
     else { l[1] = smHeightAt(l[0], l[2]) + lift; r[1] = smHeightAt(r[0], r[2]) + lift; }
     if (prev && !off && !prev.off) {
-      verts.push(...prev.l, ...prev.r, ...l, ...prev.r, ...r, ...l);
+      // Wound so the face normal points up (+y): (l, l', r) then (r, l', r').
+      // The other order faces down and a front-side material culls the whole
+      // ribbon from above — the road then "shows" only as its flattened bench
+      // and the river only as a fold (SUMMIT-3, the river-visibility fix).
+      verts.push(...prev.l, ...l, ...prev.r, ...prev.r, ...l, ...r);
       for (let k = 0; k < 6; k++) cols.push(c.r, c.g, c.b);
     }
     prev = { l, r, off };
