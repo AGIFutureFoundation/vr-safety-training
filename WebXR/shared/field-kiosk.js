@@ -35,7 +35,8 @@ export function k2LessonDone(lesson) { return ppAwarded("field-lesson", lesson.i
  */
 export function k2AdaptLesson(l, world) {
   return {
-    ...l, world, station: l.station ?? l.k12, tradeLine: l.tradeLine ?? l.trade,
+    // Summit's and Redwood's lessons carry `station` as the trade station and `k12` as the K-12 one; the shared shape's `station` is the K-12 station
+    ...l, world, station: l.k12 ?? l.station, tradeStation: l.k12 ? l.station : l.tradeStation, tradeLine: l.tradeLine ?? l.trade,
     position: l.position ?? l.at ?? null,
     check: l.check ? { ...l.check, question: l.check.question ?? l.check.q, options: l.check.options ?? l.check.choices } : l.check,
   };

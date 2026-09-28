@@ -311,6 +311,10 @@ for (const w of ["summit", "redwood"]) if (!/K2_WORLD_PAGES = \{[^}]*\b/.test(re
     if (/fetch\(|XMLHttpRequest|navigator\.sendBeacon|<script[^>]*src="https?:/.test(page)) fail("teacher", "the teacher page reaches the network"); else ok();
     if (!/@media print/.test(page)) fail("teacher", "the teacher page has no print stylesheet"); else ok();
     if (!/k2FieldNotes\(/.test(page)) fail("teacher", "the teacher page does not read Field Notes from the passport"); else ok();
+    // every link on the page launches a classroom station, never a lesson's trade station (Summit's and Redwood's carry both)
+    const stray = [...page.matchAll(/sim=([^"&]+)/g)].map((m) => m[1]).filter((id) => !seenStations.has(id));
+    if (stray.length) fail("teacher", `${stray.length} link(s) launch a non-K-12 station: ${[...new Set(stray)].slice(0, 3).join(", ")}`); else ok();
+    if (!/station: l\.k12 \?\? l\.station/.test(kioskSrc)) fail("kiosks", "k2AdaptLesson must take the K-12 station (k12) before the trade station (station)"); else ok();
   }
 }
 

@@ -26,7 +26,7 @@ const { lkStationLink, lkStationLabel } = await import("../WebXR/shared/links.js
 
 export const K2_WORLD_NAMES = { bayworld: "Bay World", deep: "The Deep", regatta: "The Regatta", fairway: "Fairway Park", summit: "Sierra Summit", redwood: "Redwood Reach" };
 // the same adaptation WebXR/shared/field-kiosk.js makes at run time (k2AdaptLesson), kept here so the generator needs no browser storage
-const adapt = (l, world) => ({ ...l, world, station: l.station ?? l.k12, tradeLine: l.tradeLine ?? l.trade, position: l.position ?? l.at ?? null,
+const adapt = (l, world) => ({ ...l, world, station: l.k12 ?? l.station, tradeLine: l.tradeLine ?? l.trade, position: l.position ?? l.at ?? null,
   check: { ...l.check, question: l.check.question ?? l.check.q, options: l.check.options ?? l.check.choices } });
 export const ALL_LESSONS = [...K2_FIELD_LESSONS, ...SM_FIELD_LESSONS.map((l) => adapt(l, "summit")), ...RW_FIELD_LESSONS.map((l) => adapt(l, "redwood"))];
 
