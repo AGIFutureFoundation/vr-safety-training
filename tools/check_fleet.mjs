@@ -177,6 +177,9 @@ const KITS = [
   { file: "shared/fleet.js", budget: "FLEET_BUDGET", builders: "FLEET_BUILDERS" },
   { file: "shared/equipment.js", budget: "EQUIPMENT_BUDGET", builders: "EQUIPMENT_BUILDERS" },
   { file: "shared/toolkit.js", budget: "TOOLKIT_BUDGET", builders: "TOOLKIT_BUILDERS" },
+  // The Motor Pool kit (console MOTORPOOL): its own builders, after the kits it dispatches to.
+  { file: "shared/drivables-data.js", budget: null, builders: null },
+  { file: "shared/drivables.js", budget: "DV_BUDGET", builders: "DV_BUILDERS" },
 ];
 // The class ceilings the assets brief sets, whatever a table declares.
 const CEILING = {
@@ -193,7 +196,7 @@ process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); 
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const present = KITS.filter((k) => existsSync(join(WEBXR, k.file)));
 const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", ...present.map((k) => k.file)].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
-const names = present.flatMap((k) => [k.budget, k.builders]);
+const names = present.flatMap((k) => (k.budget ? [k.budget, k.builders] : []));
 // Service liveries (console CARTOGRAPHER, tools/briefs/worlds-detail-brief.md), exported when fleet.js has them.
 const CT_LIVERY_NAMES = ["CT_SERVICE_LIVERIES", "CT_TRAFFIC_SERVICES", "CT_TRAFFIC_FLEET", "CT_HARBOUR_FLEET", "ctServiceLivery", "ctBuildLiveried"];
 const ctFleetSrc = readFileSync(join(WEBXR, "shared/fleet.js"), "utf8");
@@ -228,6 +231,7 @@ let failures = 0, total = 0;
 const fail = (msg) => { console.log(`  ✗ ${msg}`); failures += 1; };
 const summary = [];
 for (const kit of present) {
+  if (!kit.budget) continue; // a data module a kit imports, concatenated for scope only
   const table = suite[kit.budget], builders = suite[kit.builders];
   if (!table || !builders) { fail(`${kit.file}: exports ${kit.budget} and ${kit.builders} are required`); continue; }
   const counts = [];

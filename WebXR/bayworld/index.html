@@ -127,7 +127,7 @@
     #hud-stats{max-width:calc(50% - 16px)}
     #hud-objective{top:calc(150px + env(safe-area-inset-top,0px));max-width:none}
     #hud-minimap{width:96px;height:96px;bottom:calc(144px + env(safe-area-inset-bottom,0px));right:12px}
-    #hud-buttons{bottom:calc(136px + env(safe-area-inset-bottom,0px));left:12px}
+    #hud-buttons{bottom:calc(136px + env(safe-area-inset-bottom,0px));left:12px;max-width:calc(100% - 136px);flex-wrap:wrap}
   }
   @media (max-height:500px) and (min-width:501px){
     #hud-phone{top:calc(40px + env(safe-area-inset-top,0px));padding:6px 10px}
@@ -159,6 +159,7 @@
   <div id="hud-buttons">
     <button id="hud-radio-btn" data-tr="world.radio">Radio</button>
     <button id="hud-map-btn" data-tr="world.mapM">Map (M)</button>
+    <button id="hud-motorpool-btn">Motor Pool</button>
   </div>
 </div>
 <button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
@@ -193,6 +194,15 @@
       <a class="btn ghost" id="jb-regatta" href="../regatta/regatta.html" hidden style="text-decoration:none">Regatta</a>
       <button class="btn ghost" id="jb-close" data-tr="common.close">Close</button>
     </div>
+  </div>
+</div>
+
+<div class="screen" id="scr-motorpool" hidden>
+  <div class="card" style="max-width:720px">
+    <p class="eyebrow">Motor Pool</p>
+    <h2>Vehicles and watercraft</h2>
+    <div id="dv-board" aria-label="Motor Pool board"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="dv-close" data-tr="common.close">Close</button></div>
   </div>
 </div>
 

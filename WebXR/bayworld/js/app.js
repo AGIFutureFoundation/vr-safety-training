@@ -20,7 +20,7 @@ import { CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS } from "../../shared/b
 import { k2BuildKiosks, k2NearestKiosk, k2OpenLesson, k2KioskPrompt } from "../../shared/field-kiosk.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
-import { BW_VEHICLES, BW_SPEED_CAP, bwStepPlayer, bwStepVehicle, bwVehicleParams, bwMissionLink, bwSpawnTraffic, bwStepTraffic, bwCreatePedestrian, bwStepPedestrian, bwAdvanceClock, bwNearestPlace, bwZoneAt } from "./sim.js";
+import { BW_VEHICLES, BW_SPEED_CAP, bwStepPlayer, bwStepVehicle, bwVehicleParams, bwRegisterVehicles, bwMissionLink, bwSpawnTraffic, bwStepTraffic, bwCreatePedestrian, bwStepPedestrian, bwAdvanceClock, bwNearestPlace, bwZoneAt } from "./sim.js";
 import { bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress, bwIsVehicleUnlocked, bwIsFastTravelUnlocked, bwIsSiteVisited } from "./career.js";
 import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn, bwMarkSpawn } from "./quest-engine.js";
 import { BW_QUESTS, BW_GATED_QUESTS } from "./quests-select.js";
@@ -29,6 +29,10 @@ import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../sha
 import { qmIsOpen, qmSnapshot, qmNameQuests } from "../../shared/skill-gates.js";
 import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap, bwMapFieldLessons, ctBwLayerState, ctBwSetLayer, ctBwMapLayers } from "./map.js";
 import { bwBuildWorld } from "./world.js";
+// The Motor Pool (console MOTORPOOL, shared/drivables-data.js): fifty road, site and rail drivables and twenty watercraft behind the gate contract.
+import { dvRoadParams } from "../../shared/drivables-data.js";
+import { dvBuild, dvBudgetFor } from "../../shared/drivables.js";
+import { dvMountMotorPool } from "../../shared/drivables-board.js";
 
 // Bay World — the app: menus, the phone-style HUD, keyboard/touch/gamepad
 // input for on-foot and vehicle play, the map, the car radio and the render
@@ -156,7 +160,7 @@ function bwPadSnapshot() { return bwPad.poll(1 / 60); }
 function bwOpenScreen(name) {
   bwApp.screen = name;
   for (const id of ["scr-menu", "scr-jobboard", "scr-radio", "scr-asset"]) $(id)?.toggleAttribute("hidden", true);
-  for (const id of ["scr-menu", "scr-jobboard", "scr-radio", "scr-lesson"]) $(id)?.toggleAttribute("hidden", true);
+  for (const id of ["scr-menu", "scr-jobboard", "scr-radio", "scr-lesson", "scr-motorpool"]) $(id)?.toggleAttribute("hidden", true);
   $("hud")?.toggleAttribute("hidden", name !== "game");
   $("view-toggle")?.toggleAttribute("hidden", name !== "game");
   if (name === "menu") $("scr-menu")?.removeAttribute("hidden");
@@ -164,6 +168,35 @@ function bwOpenScreen(name) {
   if (name === "radio") $("scr-radio")?.removeAttribute("hidden");
   if (name === "asset") $("scr-asset")?.removeAttribute("hidden");
   if (name === "lesson") $("scr-lesson")?.removeAttribute("hidden");
+  if (name === "motorpool") { $("scr-motorpool")?.removeAttribute("hidden"); bwApp.motorPool?.refresh(); }
+}
+
+// ------------------------------------------------------------- motor pool
+//
+// The board lists every drivable (locked rows link to the qualifying
+// station). Taking one out builds its kit once beside the learner, registers
+// its handling with sim.js and puts the learner at the wheel through the
+// same vehicle mode the depot's four use; the previous Motor Pool vehicle is
+// removed, so the scene never carries more than one extra kit build.
+function bwOpenMotorPool() {
+  if (!bwApp.motorPool) bwApp.motorPool = dvMountMotorPool({ el: $("dv-board"), world: "bayworld", page: null, storage: bwStore, regatta: "../regatta/regatta.html", onDrive: bwTakeOutDrivable });
+  bwOpenScreen("motorpool");
+}
+function bwTakeOutDrivable(entry) {
+  const id = `dv-${entry.id}`;
+  if (bwApp.mode === "vehicle") bwTryEnterExit();
+  const prev = bwApp.dvMesh;
+  if (prev) { prev.parent?.remove(prev); delete bwApp.world.vehicles[prev.userData.bwVehicleId]; bwApp.dvMesh = null; }
+  const budget = dvBudgetFor(entry);
+  bwRegisterVehicles([dvRoadParams(entry, budget?.footprint)]);
+  const h = bwApp.player.heading, x = bwApp.player.x + Math.sin(h) * 6, z = bwApp.player.z + Math.cos(h) * 6;
+  const mesh = dvBuild(bwApp.scene, entry, x, 0, z, { ry: h });
+  mesh.userData.bwVehicleId = id; mesh.userData.bwParked = [x, z];
+  bwApp.world.vehicles[id] = mesh; bwApp.dvMesh = mesh;
+  bwApp.mode = "vehicle"; bwApp.vehicleId = id;
+  bwApp.vehicleState = { x, z, heading: h, speed: 0, vehicleId: id };
+  bwOpenScreen("game");
+  bwToast(`Pre-trip done — at the wheel of the ${entry.name}. F parks it.`);
 }
 
 /** A K-12 field lesson at its kiosk: three steps, the check, the passport record. */
@@ -304,6 +337,8 @@ $("jb-launch")?.addEventListener("click", () => {
   window.location.href = link;
 });
 $("jb-close")?.addEventListener("click", () => bwOpenScreen("game"));
+$("dv-close")?.addEventListener("click", () => bwOpenScreen("game"));
+$("hud-motorpool-btn")?.addEventListener("click", bwOpenMotorPool);
 
 // ------------------------------------------------------------- mission return
 
