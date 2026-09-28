@@ -495,6 +495,9 @@ APPS = {
             WEBXR / "bayworld/js/quest-engine.js",
             WEBXR / "bayworld/js/career.js",
             SHARED / "links.js",
+            # NPC characters (console GRIOT): the generated roster, then the engine, after crew.js and links.js.
+            SHARED / "npc-data.js",
+            SHARED / "npc.js",
             WEBXR / "bayworld/js/sim.js",
             SHARED / "field-lessons.js",
             WEBXR / "bayworld/js/map.js",
@@ -624,6 +627,10 @@ APPS = {
             SHARED / "account.js",
             SHARED / "controls.js",
             SHARED / "links.js",
+            # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
+            SHARED / "crew.js",
+            SHARED / "npc-data.js",
+            SHARED / "npc.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
@@ -657,6 +664,10 @@ APPS = {
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
             SHARED / "links.js",
+            # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
+            SHARED / "crew.js",
+            SHARED / "npc-data.js",
+            SHARED / "npc.js",
             SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
             SHARED / "field-lessons.js",

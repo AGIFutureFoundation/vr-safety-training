@@ -61,6 +61,8 @@ const CHECKERS = [
   // Redwood Reach, the forest world (docs/consoles/REDWOOD.md).
   "check_redwood.mjs",
   "check_summit.mjs",
+  // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).
+  "check_npc.mjs",
   "check_investor.mjs",
   "check_mobile.mjs",
   // One learner, one ledger, one set of records across every app (docs/interop.md).

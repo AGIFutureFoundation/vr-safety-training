@@ -22,6 +22,8 @@ import {
 } from "./rw-career.js";
 import { rwBuildWorld } from "./rw-world.js";
 import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
+// NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
+import { grMount } from "../../shared/npc.js";
 
 // Redwood Reach — the app: the menu, the walk (and the fire-road vehicle),
 // the HUD, the job boards, the quest log with its skill gates, the field tins,
@@ -74,6 +76,13 @@ function rwInitScene() {
   // markers along the fire roads and foot trails, found by walking or driving
   // up to them; the field tins stay the world's own. It raycasts for itself.
   tzWatchWorld("redwood", { scene, THREE, pos: () => [rwApp.x, rwApp.z], camera: () => rwApp.camera, groundAt: rwHeightAt, size: 0.7, lift: 1.3 });
+  // The characters at the sites (docs/consoles/GRIOT.md): a crew figure on each pad with a work/walk/break loop; G talks.
+  rwApp.npc = grMount("redwood", {
+    three: THREE, root: scene, sites: RW_SITES, groundAt: rwHeightAt, from: "redwood", page: ppHerePage(),
+    pos: () => (rwApp.screen === "playing" && !rwApp.driving ? [rwApp.x, rwApp.z] : null),
+    openLesson: (id) => { const fl = RW_FIELD_LESSONS.find((x) => x.id === id); if (fl) rwRunLesson(fl); },
+    openQuest: () => rwOpenQuests(),
+  });
   rwPlaceCamera();
   world.stream(rwApp.x, rwApp.z, { all: true });
   // For the headless checkers and the still captures.
@@ -498,6 +507,7 @@ function rwFrame(now) {
   if (rwApp.screen === "playing" && rwApp.world) rwTick(dt);
   if (rwApp.world && rwApp.renderer) {
     rwApp.world.update(dt, rwApp.camera);
+    rwApp.npc?.animate(now / 1000, dt);
     rwApp.renderer.render(rwApp.scene, rwApp.camera);
   }
   rwEdge.clear();
@@ -598,6 +608,7 @@ ctlMount({
     { label: "Fire-road vehicle", keys: ["R"], pad: "Y", touch: "Drive button" },
     { label: "Quest log", keys: ["J"], pad: "—", touch: "Quests button" },
     { label: "Advance the clock", keys: ["T"], pad: "—", touch: "—" },
+    { label: "Talk to a crew member at a site", keys: ["G"], pad: "—", touch: "Talk button" },
     { label: "Look around for treasure markers", keys: ["L"], pad: "—", touch: "—" },
   ],
 });

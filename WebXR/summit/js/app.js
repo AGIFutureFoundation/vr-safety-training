@@ -18,6 +18,8 @@ import { SM_BOUNDS, SM_SIZE, SM_SITES, SM_LANDMARKS, SM_EGGS, SM_FIELD_LESSONS, 
 import { smBuildSummit, smGroundColour } from "../../shared/summit.js";
 import { smLoad, smSave, smGateMissing, smGateOpen, smCurrentMain, smAdvanceQuests, smVisit, smFindEgg, smAnswerLesson, smActStart, smActStep, smActFinish, smRideStart, smRideStep, smRideFinish, smStepDone } from "./state.js";
 import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
+// NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
+import { grMount } from "../../shared/npc.js";
 
 // Sierra Summit — the app: a first-person walker over the streamed mountain,
 // the HUD, job boards, field notes, field lessons, the map with layers and
@@ -94,6 +96,13 @@ const smWild = [
   buildWildlife(root, { zone: { x: smRidgeTop.at[0], z: smRidgeTop.at[1] - 120, w: 420, d: 420, y: smHeightAt(smRidgeTop.at[0], smRidgeTop.at[1]) + 40 }, kind: "raptors", count: 3 }),
   buildWildlife(root, { zone: { x: smRanger.at[0] + 34, z: smRanger.at[1] + 26, w: 26, d: 22, y: smHeightAt(smRanger.at[0], smRanger.at[1]) }, kind: "deer", count: 4 }),
 ];
+// The characters at the sites (docs/consoles/GRIOT.md): a crew figure on each pad with a work/walk/break loop; G talks.
+const smNpc = grMount("summit", {
+  three: THREE, root, sites: SM_SITES, groundAt: smHeightAt, from: "summit", page: ppHerePage(),
+  pos: () => (sm.playing && !sm.modal && !sm.ride ? [sm.x, sm.z] : null),
+  openLesson: (id) => { const l = SM_FIELD_LESSONS.find((x) => x.id === id); if (l) smOpenLesson(l); },
+  openQuest: () => smToggle("quests"),
+});
 
 // The crew pickup: drives the pass road end to end and back (through the
 // tunnel, where the ridge hides it), so the road reads as a road. Distance
@@ -415,6 +424,7 @@ function frame(now) {
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of smWild) w.animate(now / 1000, dt);
+  smNpc.animate(now / 1000, dt);
   if (!sm.ride) smDriveTruck(dt);
   smHudT += dt; smVisitT += dt;
   if (smVisitT > 0.5) {
@@ -462,6 +472,7 @@ ctlMount({
     { label: "Radio check (activities)", keys: ["R"], pad: "—", touch: "—" },
     { label: "Engine brake (riding the pickup)", keys: ["E"], pad: "A", touch: "Use button" },
     { label: "Look around for treasure markers", keys: ["L"], pad: "—", touch: "—" },
+    { label: "Talk to a crew member at a site", keys: ["G"], pad: "—", touch: "Talk button" },
   ],
 });
 
@@ -470,7 +481,7 @@ window.__summitTest = {
   THREE, camera, scene, smRenderer, world, sm,
   teleport(x, z, yaw = sm.yaw, pitch = sm.pitch, lift = 0) { sm.x = x; sm.z = z; sm.yaw = yaw; sm.pitch = pitch; sm.lift = lift; world.update(x, z, 999); },
   begin: smBegin, stats: () => world.stats(), setTime(i) { sm.timeIdx = i; smApplySky(); }, setWeather(i) { sm.weatherIdx = i; smApplySky(); },
-  wildlife: smWild, truck: smTruck, truckAt: () => ({ d: smTruckD, dir: smTruckDir }),
+  wildlife: smWild, npc: smNpc, truck: smTruck, truckAt: () => ({ d: smTruckD, dir: smTruckDir }),
   board(id = SM_RIDES[0].id) { smBoard(SM_RIDES.find((r) => r.id === id)); }, brake: smSetBrake, ride: () => sm.ride,
 };
 
