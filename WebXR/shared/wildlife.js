@@ -3,7 +3,8 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 // Generic wildlife for the open worlds: gull and pelican flocks over water,
 // shorebirds on a shoreline, seals on a float, a fish school and a ray
 // under the surface (the dive game and the outer bay), a kelp crab on a
-// rock. Every animal is a few low-mesh parts with a simple motion loop
+// rock; and a mountain set (console SUMMIT-2): raptors soaring over a
+// ridge and a deer group grazing at a meadow edge. Every animal is a few low-mesh parts with a simple motion loop
 // driven by property writes, and every group is tagged
 // `userData.wildlife = { kind }` so a game can count a sighting.
 //
@@ -27,7 +28,9 @@ export const WILDLIFE_BUDGET = {
   fish: { count: 60, meshes: 1, motion: "school" },
   ray: { count: 1, meshes: 2, motion: "figure-eight" },
   crab: { count: 1, meshes: 4, motion: "sidestep" },
-  total: 62,
+  raptors: { count: 3, meshes: 9, motion: "soar" },
+  deer: { count: 4, meshes: 28, motion: "graze" },
+  total: 99,
 };
 export const WILDLIFE_KINDS = Object.keys(WILDLIFE_BUDGET).filter((k) => k !== "total");
 
@@ -250,7 +253,63 @@ function wlCrab(parent, zone, count, rng) {
   };
 }
 
-const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab };
+// ---------------------------------------------------------------- mountain
+
+/** Raptors: wide, slow circles high over the zone, gliding with a rare flap; each on its own thermal. */
+function wlRaptors(parent, zone, count, rng) {
+  const body = wlMat(0x4a3a2c), wing = wlMat(0x3a2e24);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const u = wlBird(parent, "raptors", zone.x, zone.y + 30, zone.z, { len: 0.7, span: 2.0, body, wing });
+    u.radius = Math.max(20, Math.min(zone.w, zone.d) * (0.25 + rng() * 0.3));
+    u.height = zone.y + 25 + rng() * 30;
+    u.speed = (0.08 + rng() * 0.06) * (rng() < 0.5 ? 1 : -1);
+    u.phase = rng() * Math.PI * 2;
+    u.cx = zone.x + (rng() - 0.5) * zone.w * 0.4;
+    u.cz = zone.z + (rng() - 0.5) * zone.d * 0.4;
+    units.push(u);
+  }
+  return (t) => {
+    for (const u of units) {
+      const a = t * u.speed + u.phase;
+      u.g.position.set(u.cx + Math.cos(a) * u.radius, u.height + Math.sin(t * 0.15 + u.phase) * 6, u.cz + Math.sin(a) * u.radius);
+      u.g.rotation.y = -a + (u.speed > 0 ? 0 : Math.PI);
+      u.g.rotation.z = u.speed > 0 ? -0.18 : 0.18; // banked into the circle
+      const glide = Math.sin(t * 0.3 + u.phase) > 0.85; // a short flap now and then
+      wlFlap(u, t, glide ? 5 : 0, glide ? 0.3 : 0);
+    }
+  };
+}
+
+/** A deer group at a meadow edge: body, neck and head, four legs each; heads dip to graze and lift to look, one steps now and then. */
+function wlDeer(parent, zone, count, rng) {
+  const hide = wlMat(0x8a6a48, { rough: 0.9 }), dark = wlMat(0x5a4632, { rough: 0.9 });
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const ox = (rng() - 0.5) * zone.w * 0.8, oz = (rng() - 0.5) * zone.d * 0.8;
+    const g = wlUnit(parent, "deer", zone.x + ox, zone.y, zone.z + oz);
+    g.rotation.y = rng() * Math.PI * 2;
+    wlBox(g, 0.5, 0.55, 1.2, 0, 0.95, 0, hide);
+    const neck = new THREE.Group(); neck.position.set(0, 1.15, 0.55); g.add(neck);
+    wlBox(neck, 0.2, 0.5, 0.2, 0, 0.2, 0, hide);
+    wlBox(neck, 0.18, 0.18, 0.36, 0, 0.5, 0.12, dark);
+    for (const [lx, lz] of [[-0.18, 0.45], [0.18, 0.45], [-0.18, -0.45], [0.18, -0.45]]) wlBox(g, 0.1, 0.7, 0.1, lx, 0.35, lz, dark);
+    units.push({ g, neck, phase: rng() * 10, home: [g.position.x, g.position.z], yaw: g.rotation.y });
+  }
+  return (t) => {
+    for (const u of units) {
+      const cyc = (t * 0.25 + u.phase) % 8;
+      // graze for most of the cycle (head down), look up for a moment, then a short step forward
+      u.neck.rotation.x = cyc < 5 ? 1.1 : cyc < 6.5 ? -0.2 : 0.6;
+      const step = cyc >= 6.5 ? Math.sin((cyc - 6.5) / 1.5 * Math.PI) : 0;
+      u.g.position.x = u.home[0] + Math.sin(u.yaw) * step * 0.6;
+      u.g.position.z = u.home[1] + Math.cos(u.yaw) * step * 0.6;
+      u.g.position.y = zone.y + Math.abs(Math.sin(t * 6)) * step * 0.04;
+    }
+  };
+}
+
+const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer };
 
 /**
  * Build one wildlife group.

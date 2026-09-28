@@ -221,6 +221,12 @@ check(html.includes('href="../index.html"'), "the page links Home");
 const app = readFileSync(join(WEBXR, "summit", "js", "app.js"), "utf8");
 check(/gdMount\(\)/.test(app) && /ctlMount\(/.test(app), "the page mounts the Guide and the control grammar");
 check(/lkStationLink\(id, \{ runner: SM_RUNNER, from: "summit"/.test(app), "job boards route through lkStationLink");
+// Phase 3 and 7: mountain wildlife through the shared budget table (never a private copy), and the crew pickup on the pass road.
+const wl = readFileSync(join(WEBXR, "shared", "wildlife.js"), "utf8");
+check(/raptors:\s*\{\s*count:\s*\d+,\s*meshes:\s*\d+/.test(wl) && /deer:\s*\{\s*count:\s*\d+,\s*meshes:\s*\d+/.test(wl), "wildlife.js budgets raptors and deer");
+check(/kind: "raptors"/.test(app) && /kind: "deer"/.test(app) && /kind: "gulls"/.test(app), "the app builds gulls, raptors and deer from the shared module");
+check(!/wlRaptors|wlDeer/.test(app), "the app carries no private wildlife builders");
+check(/\bpickup\(root/.test(app) && !/pickup as /.test(app) && /smDriveTruck\(dt\)/.test(app) && /SHARED \/ "fleet\.js"[\s\S]*summit-data\.js/.test(bundler), "the crew pickup drives the pass road and fleet.js is bundled for it");
 check(readFileSync(join(WEBXR, "shared", "passport.js"), "utf8").includes('summit: "Sierra Summit"'), "the runner can say Back to Sierra Summit");
 // The homepage card lands with the next phase (tools/briefs/next/summit-next.md).
 

@@ -7,6 +7,7 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
+import { pickup } from "../../shared/fleet.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
 import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
@@ -82,8 +83,40 @@ function smApplySky() {
   $("hud-weather").textContent = SM_WEATHERS[sm.weatherIdx];
 }
 smApplySky();
-// Gulls over the reservoir: the one shared wildlife kind that fits here.
-const gulls = buildWildlife(root, { zone: { x: SM_LAKE.centre[0], z: SM_LAKE.centre[1], w: 500, d: 500, y: SM_WATER_LEVEL + 20 }, kind: "gulls", count: 6 });
+// Wildlife from the shared budget table: gulls over the reservoir, raptors
+// soaring over the transmission ridge, a deer group at the meadow edge by
+// the ranger station (the pad is flat there, so the group stands level).
+const smRanger = smPlace("ranger-station");
+const smRidgeTop = smPlace("ridge-line");
+const smWild = [
+  buildWildlife(root, { zone: { x: SM_LAKE.centre[0], z: SM_LAKE.centre[1], w: 500, d: 500, y: SM_WATER_LEVEL + 20 }, kind: "gulls", count: 6 }),
+  buildWildlife(root, { zone: { x: smRidgeTop.at[0], z: smRidgeTop.at[1] - 120, w: 420, d: 420, y: smHeightAt(smRidgeTop.at[0], smRidgeTop.at[1]) + 40 }, kind: "raptors", count: 3 }),
+  buildWildlife(root, { zone: { x: smRanger.at[0] + 34, z: smRanger.at[1] + 26, w: 26, d: 22, y: smHeightAt(smRanger.at[0], smRanger.at[1]) }, kind: "deer", count: 4 }),
+];
+
+// The crew pickup: drives the pass road end to end and back (through the
+// tunnel, where the ridge hides it), so the road reads as a road. Distance
+// along the road is kept in metres; the road profile gives its height.
+const smTruck = pickup(root, 0, 0, 0, { livery: { colour: 0xf2a53a, fleetName: "PASS ROAD CREW" } });
+const smRoadLens = [0];
+for (let i = 1; i < SM_PASS_ROAD.length; i++) smRoadLens.push(smRoadLens[i - 1] + Math.hypot(SM_PASS_ROAD[i][0] - SM_PASS_ROAD[i - 1][0], SM_PASS_ROAD[i][1] - SM_PASS_ROAD[i - 1][1]));
+const smRoadTotal = smRoadLens[smRoadLens.length - 1];
+let smTruckD = smRoadTotal * 0.12, smTruckDir = 1;
+function smRoadAt(d) {
+  let i = 1; while (i < smRoadLens.length - 1 && smRoadLens[i] < d) i++;
+  const u = Math.max(0, Math.min(1, (d - smRoadLens[i - 1]) / ((smRoadLens[i] - smRoadLens[i - 1]) || 1)));
+  const [ax, az] = SM_PASS_ROAD[i - 1], [bx, bz] = SM_PASS_ROAD[i];
+  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, yaw: Math.atan2(bx - ax, bz - az) };
+}
+function smDriveTruck(dt) {
+  smTruckD += smTruckDir * 11 * dt;
+  if (smTruckD > smRoadTotal - 40) { smTruckD = smRoadTotal - 40; smTruckDir = -1; }
+  if (smTruckD < 40) { smTruckD = 40; smTruckDir = 1; }
+  const p = smRoadAt(smTruckD);
+  smTruck.position.set(p.x, smHeightAt(p.x, p.z) + 0.35, p.z);
+  smTruck.rotation.y = p.yaw + (smTruckDir > 0 ? 0 : Math.PI);
+}
+smDriveTruck(0);
 
 addEventListener("resize", () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); smRenderer.setSize(innerWidth, innerHeight); });
 
@@ -326,7 +359,8 @@ function frame(now) {
   world.update(sm.x, sm.z, 2);
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
-  gulls.animate(now / 1000, dt);
+  for (const w of smWild) w.animate(now / 1000, dt);
+  smDriveTruck(dt);
   smHudT += dt; smVisitT += dt;
   if (smVisitT > 0.5) {
     smVisitT = 0;
@@ -378,5 +412,6 @@ window.__summitTest = {
   THREE, camera, scene, smRenderer, world, sm,
   teleport(x, z, yaw = sm.yaw, pitch = sm.pitch, lift = 0) { sm.x = x; sm.z = z; sm.yaw = yaw; sm.pitch = pitch; sm.lift = lift; world.update(x, z, 999); },
   begin: smBegin, stats: () => world.stats(), setTime(i) { sm.timeIdx = i; smApplySky(); }, setWeather(i) { sm.weatherIdx = i; smApplySky(); },
+  wildlife: smWild, truck: smTruck, truckAt: () => ({ d: smTruckD, dir: smTruckDir }),
 };
 
