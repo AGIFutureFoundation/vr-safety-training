@@ -35,7 +35,7 @@
   }
   *{box-sizing:border-box} html,body{margin:0;min-height:100%}
   body{ background: radial-gradient(1100px 620px at 10% -10%, rgba(79,209,255,.10), transparent 60%), var(--void);
-    color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; padding:36px 20px 72px }
+    color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; padding:60px 20px 72px }
   main{max-width:1180px;margin:0 auto}
   .eyebrow{font-family:var(--cond);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--muted);margin:0 0 8px}
   h1{font-family:var(--cond);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:clamp(28px,5vw,42px);margin:0 0 12px}
@@ -58,9 +58,16 @@
   #flow-state.bad{color:var(--bad)} #flow-state.good{color:var(--good)}
   input[type=text],input[type=search]{flex:1 1 260px}
   select{flex:0 1 240px}
-  .tabs{display:flex;gap:8px;margin:0 0 18px;flex-wrap:wrap}
-  .tabs button[aria-selected=true]{background:var(--accent);color:#08131a;border-color:transparent}
-  @media (max-width:700px){.tabs button, .row button{min-height:44px}}
+  /* The design system's tabs (.at-tab paint): an underline, not a filled pill, so the selected view reads at a glance. */
+  .tabs{display:flex;gap:4px;margin:0 0 18px;border-bottom:1px solid var(--edge);overflow-x:auto}
+  .tabs button{min-height:44px;padding:0 14px;border:0;border-radius:0;border-bottom:3px solid transparent;background:none;color:var(--muted);font:600 15px/1 var(--cond);letter-spacing:.04em;white-space:nowrap}
+  .tabs button:hover{color:var(--text)}
+  .tabs button[aria-selected=true]{background:none;color:var(--text);border-bottom-color:var(--accent)}
+  /* The Cohorts tab (ENTERPRISE's cohort.js draws it): its grid and code chips on the same roles. */
+  #view-cohort table.en-grid td,#view-cohort table.en-grid th{border-color:var(--edge)}
+  #view-cohort code.en-code{background:var(--raised);padding:2px 8px;border-radius:var(--at-r-sm,6px)}
+  #view-cohort .en-dot{box-shadow:0 0 0 1px var(--edge)}
+  @media (max-width:700px){.row button{min-height:44px}}
   #count{font-family:var(--cond);letter-spacing:.06em;text-transform:uppercase;font-size:13px;color:var(--muted);margin:0 0 12px}
   #target{color:var(--accent);font-weight:600}
   #sent{color:var(--good);font-size:13px;min-height:18px;margin:8px 0 0}

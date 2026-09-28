@@ -70,9 +70,13 @@ All tokens are CSS custom properties prefixed `--at-`. Dark is the default
 
 `atIllustration(programmeIdOrKind, { title })` returns an inline SVG; without a
 title it is decorative (`aria-hidden`). `atIlloKind(id)` maps a programme id to
-one of 16 kinds: electrical, construction, maritime, dive, health, culinary,
+one of 21 kinds: electrical, construction, maritime, dive, health, culinary,
 logistics, environmental, aerospace, robotics, sports (and emotional
-intelligence), k12, events, garment, pathway and a general safety fallback.
+intelligence), responders (emergency services), the four K-12 programmes
+(k12-maths, k12-science, k12-civics, k12-literacy) and a generic k12
+classroom, events, garment, pathway and a general safety fallback. No two
+programme categories share a drawing; a keyword only matches at the start of
+a segment of the id (`support` no longer reaches the port drawing).
 Motifs are tools, structures, vehicles and symbols — no brands, logos or
 people.
 

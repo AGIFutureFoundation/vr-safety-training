@@ -27,35 +27,40 @@
 <!-- /wf-seo -->
 <link rel="stylesheet" href="shared/design.css">
 <style>
-  :root { --bg: #0b1520; --panel: #101e2b; --line: #2c4458; --ink: #eef5fa; --muted: #b6c8d6; --gold: #f2c14b; --gold-2: #ffd97a; --ok: #6fdc9a; }
+  /* The design system's roles (shared/design.css), with fallbacks; the map keeps its gold. */
+  :root { --bg: var(--at-bg, #0b1520); --panel: var(--at-surface, #101e2b); --line: var(--at-border, #2c4458); --ink: var(--at-on-surface, #eef5fa); --muted: var(--at-on-surface-muted, #b6c8d6); --gold: var(--at-warning, #f2c14b); --gold-2: #ffd97a; --ok: var(--at-success, #6fdc9a); --cond: var(--at-font-display, system-ui, sans-serif); }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--at-font-body, system-ui, -apple-system, "Segoe UI", sans-serif); }
+  :focus-visible { outline: 3px solid var(--at-focus, var(--gold)); outline-offset: 2px; }
   main { max-width: 980px; margin: 0 auto; padding: 72px 16px 96px; }
-  h1 { margin: 0 0 4px; font-size: clamp(26px, 5vw, 36px); color: var(--gold-2); }
-  h2 { margin: 28px 0 10px; font-size: 20px; }
+  h1 { margin: 0 0 4px; font: 700 clamp(30px, 5vw, 44px)/1.1 var(--cond); text-transform: uppercase; letter-spacing: .01em; color: var(--gold-2); }
+  h2 { margin: 28px 0 10px; font: 700 23px/1.2 var(--cond); text-transform: uppercase; letter-spacing: .03em; }
   p.lead { margin: 0 0 16px; color: var(--muted); max-width: 64ch; }
   .total { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
   .total b { font-size: 40px; color: var(--gold); }
   .bar { height: 10px; border-radius: 5px; background: #1c2e3e; overflow: hidden; }
   .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-2)); }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
-  .card h3 { margin: 0 0 6px; font-size: 17px; display: flex; justify-content: space-between; gap: 8px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--at-r-lg, 12px); padding: 14px 16px; box-shadow: var(--at-elev-1, none); }
+  .card h3 { margin: 0 0 6px; font: 700 19px/1.2 var(--cond); display: flex; justify-content: space-between; gap: 8px; }
   .card h3 span { color: var(--gold); font-variant-numeric: tabular-nums; }
   .card ul { list-style: none; margin: 8px 0 0; padding: 0; font-size: 14px; color: var(--muted); }
   .card li { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; border-top: 1px dashed #22384a; }
   .card li:first-child { border-top: 0; }
   .set.done { border-color: var(--gold); }
-  .badge { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 10px; font-size: 13px; font-weight: 700; background: #2a3a48; color: var(--muted); }
-  .set.done .badge { background: var(--gold); color: #1a1400; }
+  .badge { display: inline-flex; align-items: center; min-height: 24px; margin-top: 8px; padding: 0 8px; border-radius: var(--at-r-pill, 999px); font: 600 12px/1 var(--at-font-body, system-ui, sans-serif); letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--line); background: var(--at-raised, #2a3a48); color: var(--muted); }
+  .set.done .badge { background: var(--gold); border-color: var(--gold); color: #1a1400; }
   .found { display: grid; gap: 10px; }
-  .found article { background: var(--panel); border-left: 3px solid var(--gold); border-radius: 8px; padding: 10px 12px; }
-  .found h3 { margin: 0; font-size: 16px; }
+  .found article { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: var(--at-r-md, 8px); padding: 10px 12px; }
+  .found h3 { margin: 0; font: 700 18px/1.2 var(--cond); }
   .found .where { font-size: 13px; color: var(--muted); }
   .found p { margin: 6px 0 0; }
-  .empty { color: var(--muted); font-style: italic; }
+  /* The empty state: the design system's dashed box with the map icon, so "nothing yet" reads as an invitation. */
+  .empty { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 420px; margin: 8px auto; padding: 24px; text-align: center; border: 1px dashed var(--at-border-strong, #2c4458); border-radius: var(--at-r-lg, 12px); color: var(--muted); }
+  .empty::before { content: ""; width: 44px; height: 44px; background: var(--gold); -webkit-mask: var(--at-icon-map) center/contain no-repeat; mask: var(--at-icon-map) center/contain no-repeat; }
   .note { margin-top: 28px; font-size: 14px; color: var(--muted); }
-  #tz-reset, #tz-account { min-height: 44px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+  #tz-reset, #tz-account { display: inline-flex; align-items: center; min-height: 44px; margin: 4px 2px; border-radius: var(--at-r-pill, 999px); border: 1px solid var(--at-border-strong, #6a8296); background: var(--at-raised, #1b2a38); color: var(--ink); font: 600 15px/1 var(--cond); letter-spacing: .04em; text-transform: uppercase; padding: 0 18px; cursor: pointer; }
+  #tz-reset:hover, #tz-account:hover { background: var(--at-raised-2, #24364a); border-color: var(--gold); }
   /* Site header, navigation, breadcrumb and footer (console WAYFINDER-2): the same three places as the homepage and the
      track pages. The shared bar (shared/controls.js #ctl-nav) is fixed at the top left; --hm-nav-w, measured from it at
      run time, keeps the brand line clear of it. */

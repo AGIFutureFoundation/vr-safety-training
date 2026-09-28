@@ -49,6 +49,8 @@ const SOURCE_PAGES = [
   "trades/index.html", "race/index.html", "regatta/regatta.html", "bayworld/index.html", "bayworld/atlas.html",
   "fairway/index.html", "instructor/index.html", "campus/index.html", "holodeck/index.html", "underwater/underwater.html",
   "verify/index.html", "arcade/index.html", "smartcity/index.html", "portal/index.html",
+  // ATELIER-2: the frontier worlds, the Treasure Map and the privacy page.
+  "summit/index.html", "redwood/redwood.html", "treasures.html", "privacy.html",
 ].map((p) => join(WEBXR, p));
 const htmlIn = (dir) => existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".html")).map((f) => join(dir, f)) : [];
 const APP_DIST = readdirSync(WEBXR).filter((d) => d !== "dist" && statSync(join(WEBXR, d)).isDirectory()).flatMap((d) => htmlIn(join(WEBXR, d, "dist")));
