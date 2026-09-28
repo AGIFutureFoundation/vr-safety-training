@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 662
+      "stations": 663
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-slope-and-angles-on-a-ramp",
         "k12-energy-transfer-at-the-wind-farm",
         "k12-fractions-in-the-kitchen",
         "k12-first-aid-awareness-call-for-help",
@@ -9879,6 +9880,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-slope-and-angles-on-a-ramp",
+      "name": "Slope and Angles on a Ramp",
+      "title": "SmartCiti.X~ Slope and Angles on a Ramp VR",
+      "tagline": "Rise over run, both in the same unit — and stay behind the barrier while the crew works",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the construction site's visitor bay — learner and site engineer",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "rise-over-run",
+        "name": "Rise over Run",
+        "note": "A ramp's slope worked out from its own rise and run, compared with its angle and checked against the plan's limit"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "815",
+      "flat": false,
+      "system": "Ramp Board",
+      "currency": "LEVELS",
+      "ranks": [
+        "Visitor",
+        "Measurer",
+        "Setter-out",
+        "Checker",
+        "Engineer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-slope-and-angles-on-a-ramp"
     },
     {
       "app": "smartcity",
@@ -33640,7 +33724,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 267,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",

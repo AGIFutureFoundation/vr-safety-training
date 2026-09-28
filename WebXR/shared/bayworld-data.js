@@ -273,7 +273,7 @@ export const BAY_SITES = [
   { id: "downtown-housing-block", name: "Downtown Housing Block", zone: "downtown", position: [24, 31],
     programmes: ["property-management", "roofers-and-waterproofers"], stations: ["pm-lobby-and-front-desk", "rf-torch-applied-membrane-and-fire-watch"] },
   { id: "uptown-construction-site", name: "Uptown Construction Site", zone: "uptown", position: [-9, -230],
-    programmes: ["builders-trades", "cement-masons-and-plasterers"], stations: ["concrete-pour", "cm-slab-screed-bull-float-and-trowel"] },
+    programmes: ["builders-trades", "cement-masons-and-plasterers", "k12-practical-math"], stations: ["concrete-pour", "cm-slab-screed-bull-float-and-trowel", "k12-slope-and-angles-on-a-ramp"] },
   { id: "uptown-theatre-district", name: "Uptown Theatre District", zone: "uptown", position: [-68, -204],
     programmes: ["screen-and-media-crafts", "bartending-course"], stations: ["bar-well-setup", "id-check-underage"] },
   { id: "uptown-restaurant-row", name: "Uptown Restaurant Row", zone: "uptown", position: [-36, -275],

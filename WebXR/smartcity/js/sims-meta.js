@@ -28084,5 +28084,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-slope-and-angles-on-a-ramp",
+    "index": "815",
+    "domain": "Education",
+    "trade": "Maths class at the construction site's visitor bay — learner and site engineer",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Slope and Angles on a Ramp",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Slope and Angles on a Ramp VR",
+    "tagline": "Rise over run, both in the same unit — and stay behind the barrier while the crew works",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "rise-over-run",
+      "name": "Rise over Run",
+      "note": "A ramp's slope worked out from its own rise and run, compared with its angle and checked against the plan's limit"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ramp Board",
+      "currency": "LEVELS",
+      "ranks": [
+        "Visitor",
+        "Measurer",
+        "Setter-out",
+        "Checker",
+        "Engineer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
