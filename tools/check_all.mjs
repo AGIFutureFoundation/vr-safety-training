@@ -54,6 +54,8 @@ const CHECKERS = [
   "check_race.mjs", "check_arcade.mjs", "check_eggs.mjs", "check_eggs_app.mjs", "check_treasures.mjs", "check_props.mjs", "check_textures.mjs", "check_fairway_game.mjs",
   "check_fairway.mjs", "check_bayworld_game.mjs", "check_bay_quests.mjs", "check_bayworld.mjs", "check_mapbox.mjs",
   "check_gates.mjs",
+  // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
+  "check_drivables.mjs",
   "check_unity_export.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",

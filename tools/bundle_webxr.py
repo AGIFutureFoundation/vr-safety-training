@@ -520,6 +520,12 @@ APPS = {
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
+            # The Motor Pool (console MOTORPOOL): the registry, the kit (which
+            # dispatches to fleet.js and equipment.js) and the board.
+            SHARED / "equipment.js",
+            SHARED / "drivables-data.js",
+            SHARED / "drivables.js",
+            SHARED / "drivables-board.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

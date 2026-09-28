@@ -53,6 +53,14 @@ export const BW_VEHICLES = [
   { id: "class-a-tractor", name: "Class A Tractor", builder: "semiTractor", top: 15, accel: 5, turn: 1.1, dims: [3.02, 3.95, 6.86], reputation: 160 },
 ];
 const BW_VEHICLES_BY_ID = new Map(BW_VEHICLES.map((v) => [v.id, v]));
+/** The Motor Pool (shared/drivables-data.js, console MOTORPOOL) registers a
+ *  drivable's handling here when a learner takes it out, so bwStepVehicle
+ *  drives it by the same rules as the four depot vehicles. BW_VEHICLES itself
+ *  is untouched: the depot still parks four, never fifty. */
+export function bwRegisterVehicles(list) {
+  for (const v of list ?? []) if (v?.id) BW_VEHICLES_BY_ID.set(v.id, { ...v, top: Math.min(v.top, BW_SPEED_CAP) });
+  return BW_VEHICLES_BY_ID.size;
+}
 export function bwVehicleParams(id) {
   const v = BW_VEHICLES_BY_ID.get(id);
   if (!v) throw new Error(`unknown vehicle id: ${id}`);
