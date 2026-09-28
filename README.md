@@ -93,7 +93,7 @@ restoration crews, kitchen workers, dental hygienists, first responders and more
 certification requirement — sharing the same apprentice profile as Trade Skills Simulator; the
 training programmes they form, with screenshots, are on the generated
 [series page](docs/wiki/SmartCitiX-Training-Series.md), and the standards each one cites are on the generated
-[compliance matrix](docs/compliance/compliance-matrix.md); every station passes the 61 checkers in
+[compliance matrix](docs/compliance/compliance-matrix.md); every station passes the 85 checkers in
 `tools/check_all.mjs` before it ships, and the counts in this paragraph are read from
 `WebXR/smartcity/catalog.json` and that file — [`docs/STATUS.md`](docs/STATUS.md) carries the dated
 build log with the live totals; how they run on hardhat-mounted

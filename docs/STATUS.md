@@ -1,18 +1,18 @@
 # Build status — SmartCiti.X and the WebXR training network
 
-Updated: 2026-09-27. A dated log of what landed, wave by wave, over the last sixty commits on the working branch, with the eval score of every station that shipped, the checkers that grew around it, the pages to read and what went wrong first. The Unity prototype's own status stays in [`../STATUS.md`](../STATUS.md).
+Updated: 2026-09-28. A dated log of what landed, wave by wave, over the last sixty commits on the working branch, with the eval score of every station that shipped, the checkers that grew around it, the pages to read and what went wrong first. The Unity prototype's own status stays in [`../STATUS.md`](../STATUS.md).
 
 ## Live totals
 
 | | Now | Where the number comes from |
 |---|---|---|
-| Procedures in the catalog | **633** — 624 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
+| Procedures in the catalog | **685** — 676 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
 | Categories | **20** — SmartCiti.X trade-union categories (now including Youth Sports & Coaching, Healthcare Support and Grounds & Landscaping) plus Trade Skills Simulator | `catalog.json` |
-| Training programmes | **54**, each a twenty-level ladder of 75-lesson levels (1079 of 1080 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
-| Checkers | **61**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 61 checkers pass.` |
-| Content eval | corpus mean **96 / 100** over 633 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
-| Standards registry | **509** entries across 95 bodies over the 20 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
-| Competencies | **64** (54 programme, 10 core) | `node tools/check_competency.mjs` |
+| Training programmes | **60**, each a twenty-level ladder of 75-lesson levels (1199 of 1200 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
+| Checkers | **85**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 85 checkers pass.` |
+| Content eval | corpus mean **96 / 100** over 641 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
+| Standards registry | **513** entries across 99 bodies over the 20 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
+| Competencies | **70** (60 programme, 10 core) | `node tools/check_competency.mjs` |
 | Device profiles | **33** head-worn devices in 6 run profiles | `node tools/check_devices.mjs` |
 | App | published artifact (private until shared), with the race, the arcade, the eggs, Fairway Park, Bay World, the Regatta, the Deep, the Bay Atlas and 54 track pages beside it | |
 
