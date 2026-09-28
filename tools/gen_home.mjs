@@ -1565,6 +1565,14 @@ ${unionChips}
     </div>
   </section>
 
+  <section class="hm-sec" id="agent-net" aria-labelledby="agent-net-title">
+    <p class="eyebrow">In preparation</p>
+    <h2 id="agent-net-title">SmartCiti.X on the agent network</h2>
+    <p class="sub">In preparation, not live: a plan for other software agents to hire this platform's station evaluations in simulation,
+    synthetic robot-skill datasets, curriculum queries and lessons. No learner data ever leaves your device.
+    <a href="${layout.doc("virtuals/strategy.md")}">Read the plan</a>.</p>
+  </section>
+
   <section class="hm-about" aria-labelledby="about-title">
     <p class="eyebrow" id="about-title">One engine underneath</p>
     <p class="lead">Three simulators share one procedure engine, one apprentice profile and one training record:

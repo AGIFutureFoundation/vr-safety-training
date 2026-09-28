@@ -1,0 +1,75 @@
+{
+  "$comment": "An offering in the shape acp-cli's `acp offering create` takes (src/commands/offering.ts at commit 9aa61ae): name, description, priceType, priceValue, slaMinutes, requirements, deliverable, requiredFunds, isHidden, subscriptionIds. Prices are null: set by the owner. Keys under x-smartcitix are this repository's own and are never sent. Draft, in preparation; nothing is published.",
+  "name": "station-evaluation",
+  "description": "Run a robot or agent policy through a SmartCiti.X Holodeck station in simulation on the real procedure engine and get the engine's summary: score, stars, unsafe actions, holds broken, pass or fail, deterministic for a seed. Evidence of a procedure under this engine's scoring, not a certification.",
+  "priceType": null,
+  "priceValue": null,
+  "priceNote": "set by the owner",
+  "slaMinutes": 30,
+  "requirements": {
+    "type": "object",
+    "properties": {
+      "stationId": {
+        "type": "string",
+        "description": "A station id in the skill registry"
+      },
+      "app": {
+        "type": "string",
+        "enum": [
+          "smartcity",
+          "trades"
+        ]
+      },
+      "skill": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "seed": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "required": [
+      "stationId",
+      "app"
+    ],
+    "additionalProperties": false
+  },
+  "deliverable": {
+    "type": "object",
+    "properties": {
+      "station": {
+        "type": "object"
+      },
+      "summary": {
+        "type": "object"
+      },
+      "notice": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "station",
+      "summary",
+      "notice"
+    ]
+  },
+  "requiredFunds": false,
+  "isHidden": true,
+  "subscriptionIds": [],
+  "x-smartcitix": {
+    "function": "evaluate_station",
+    "handler": "evaluateStation",
+    "registry": {
+      "module": "WebXR/shared/skill-registry.js",
+      "export": "skStation",
+      "app": "trades",
+      "exampleStation": "electrical"
+    },
+    "engine": {
+      "module": "WebXR/shared/robot.js",
+      "export": "runEpisode"
+    }
+  }
+}

@@ -183,12 +183,14 @@ async function build() {
   const docFiles = [
     ...readdirSync(join(ROOT, "docs")).filter((f) => f.endsWith(".md")).map((f) => `docs/${f}`),
     ...readdirSync(join(ROOT, "docs/programmes")).filter((f) => f.endsWith(".md")).map((f) => `docs/programmes/${f}`),
+    // SmartCiti.X on the agent network (docs/consoles/VIRTUALS.md).
+    ...readdirSync(join(ROOT, "docs/virtuals")).filter((f) => f.endsWith(".md")).map((f) => `docs/virtuals/${f}`),
   ].sort();
   for (const rel of docFiles) {
     const lines = readFileSync(join(ROOT, rel), "utf8").split("\n");
     let docTitle = null, head = null, para = [], n = 0;
     const flush = () => {
-      if (head && para.length && n < (rel.startsWith("docs/programmes/") ? 2 : 6)) {
+      if (head && para.length && n < (rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals/") ? 2 : 6)) {
         const text = plain(para.join(" "));
         if (text.length > 30) {
           add({ id: `doc:${rel.slice(5)}#${n}`, kind: "doc", title: head === docTitle ? docTitle : `${docTitle} — ${head}`, src: rel,
@@ -242,6 +244,9 @@ async function build() {
     ["guide-what", "What can the Guide answer?", "guide you who are what can answer",
       "I answer only from this platform's own pages: the programmes and stations, the worlds and their sites, the controls, the unions and the docs. When nothing matches I say so. I run on this device and send nothing anywhere unless this site's owner has set a hosted answer service.",
       "WebXR/shared/guide.js", [{ label: "Open the programme finder", href: "index.html#catalog" }]],
+    ["agent-network", "What is SmartCiti.X on the agent network?", "smartcitix agent network virtuals acp citi token",
+      "In preparation, not live: a plan for other agents to hire station evaluations in simulation, synthetic datasets, curriculum queries and lessons. No learner data leaves your device, nothing is on-chain, and $Citi is only a name the owner chose.",
+      "docs/virtuals/strategy.md", []],
   ];
   for (const [id, q, keys, a, src, links] of faq) add({ id: `faq:${id}`, kind: "faq", title: q, keys, text: a, src, links });
 
