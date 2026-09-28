@@ -559,6 +559,37 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # Sierra Summit (WebXR/summit, console SUMMIT): a 4096 m mountain world
+    # streamed in 256 m chunks. shared/summit-data.js is the pure ground truth
+    # (terrain field, sites, eggs, lessons, quests, activities), shared/
+    # summit.js the three.js builder, summit/js/state.js the headless ledger.
+    "summit": {
+        "out": "summit.html",
+        "modules": [
+            SHARED / "profiles.js",
+            SHARED / "input.js",
+            SHARED / "weather.js",
+            SHARED / "sky.js",
+            SHARED / "wildlife.js",
+            SHARED / "records.js",
+            SHARED / "perf.js",
+            SHARED / "touch.js",
+            SHARED / "summit-data.js",
+            SHARED / "summit.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
+            SHARED / "links.js",
+            WEBXR / "summit/js/state.js",
+            SHARED / "auth.js",
+            SHARED / "account.js",
+            SHARED / "controls.js",
+            WEBXR / "summit/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
     # The Bay Atlas (docs/mapbox.md): a second page in the Bay World folder
     # ("dir"/"index" below), DOM-only — no three.js — over the shared Bay
     # World data, bay-geo's fit and shared/mapbox.js. Mapbox GL itself is
@@ -870,6 +901,7 @@ DIST_PAGES = {
     "atlas": "atlas.html",
     "regatta": "regatta.html",
     "underwater": "underwater.html",
+    "summit": "summit.html",
 }
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported
