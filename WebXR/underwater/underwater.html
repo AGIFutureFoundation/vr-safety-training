@@ -140,17 +140,17 @@
     <div>Dive reputation <b id="hud-reputation">0</b></div>
     <div>Survey credits <b id="hud-credits">0</b></div>
   </div>
-  <div id="hud-objective" class="panel">No active dive.</div>
+  <div id="hud-objective" class="panel" data-tr="world.noDive">No active dive.</div>
   <div id="hud-activity" class="panel" hidden></div>
   <div id="hud-prompt" class="panel" hidden></div>
   <canvas id="hud-minimap" width="140" height="140"></canvas>
   <div id="hud-buttons">
-    <button id="hud-activities-btn">Activities</button>
-    <button id="hud-map-btn">Map (M)</button>
-    <button id="hud-surface-btn">Ascent line (U)</button>
+    <button id="hud-activities-btn" data-tr="world.activities">Activities</button>
+    <button id="hud-map-btn" data-tr="world.mapM">Map (M)</button>
+    <button id="hud-surface-btn" data-tr="world.ascent">Ascent line (U)</button>
   </div>
 </div>
-<button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
+<button id="view-toggle" class="btn ghost" data-tr="world.firstPerson" hidden>First person (V)</button>
 
 
 <div class="screen" id="scr-menu">
@@ -160,7 +160,7 @@
     <div class="stripe"></div>
     <p class="lead">A dive game under the bay: swim or pilot an ROV over a large seabed, from the pier pilings out to the seamount. A buddy on a line, an ascent line to the surface at every site, daylight that falls away as you go down, and a reserve you watch rather than count. Every job board is a real dive or restoration station; finish one and the career ledger fills.</p>
     <div class="row">
-      <button class="btn primary" id="menu-start">Splash in</button>
+      <button class="btn primary" id="menu-start" data-tr="world.splash">Splash in</button>
     </div>
     <p class="note"><b>Controls</b> — Keyboard: <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span> or the arrows to fin, <span class="kbd">Space</span> to rise, <span class="kbd">C</span> to sink, <span class="kbd">Shift</span> to fin hard, <span class="kbd">E</span> to open a job board or look at a lantern, <span class="kbd">R</span> to launch or recover the ROV at a site, <span class="kbd">U</span> to take the nearest ascent line, <span class="kbd">V</span> for the camera, <span class="kbd">M</span> for the map. Touch: the on-screen stick and buttons. Gamepad: the left stick fins.</p>
     <p class="note">Depth, gas, decompression and current limits are never stated here: they are per the dive plan and the tables the supervisor holds. Every zone, landmark and site is original to this platform, and no species, owner or organisation is named.</p>
@@ -169,41 +169,41 @@
 
 <div class="screen" id="scr-jobboard" hidden>
   <div class="card">
-    <p class="eyebrow">Job board</p>
+    <p class="eyebrow" data-tr="world.jobBoard">Job board</p>
     <h2 id="jb-title">Site</h2>
     <p id="jb-zone"></p>
     <p id="jb-progress"></p>
     <p id="jb-programmes"></p>
     <p id="jb-chip" class="pp-chip" hidden></p>
-    <p id="jb-done" hidden>Board done: passed, on your passport.</p>
+    <p id="jb-done" data-tr="world.boardDone" hidden>Board done: passed, on your passport.</p>
     <ul id="jb-stations" class="jb-stations" aria-label="Stations on this board" hidden></ul>
     <div class="row" style="margin-top:14px">
-      <button class="btn primary" id="jb-launch">Start the station</button>
-      <button class="btn ghost" id="jb-close">Close</button>
+      <button class="btn primary" id="jb-launch" data-tr="world.startStation">Start the station</button>
+      <button class="btn ghost" id="jb-close" data-tr="common.close">Close</button>
     </div>
   </div>
 </div>
 
 <div class="screen" id="scr-activities" hidden>
   <div class="card">
-    <p class="eyebrow">Scored activities</p>
-    <h2>Activities</h2>
+    <p class="eyebrow" data-tr="world.scoredActs">Scored activities</p>
+    <h2 data-tr="world.activities">Activities</h2>
     <p class="lead">Four runs scored on time, count or line held — never a wager. Start one and swim to its first marker.</p>
     <div class="activity-list" id="activity-list"></div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="activities-close">Close</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="activities-close" data-tr="common.close">Close</button></div>
   </div>
 </div>
 
 <div class="screen" id="scr-map" hidden>
   <div class="card" style="width:min(1100px,100%)">
     <p class="eyebrow">The Deep</p>
-    <h2>Dive map</h2>
+    <h2 data-tr="world.diveMap">Dive map</h2>
     <p class="lead">Every site's ascent line opens for fast travel once you have finished a station or a dive there. <a href="../bayworld/index.html" style="color:var(--accent)">Bay World</a> is the city above this water.</p>
     <div class="map-layout">
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>
     </div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close" data-tr="world.closeM">Close (M)</button></div>
   </div>
 </div>
 

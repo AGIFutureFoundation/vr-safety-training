@@ -147,7 +147,7 @@
 
 <div id="hud" hidden>
   <div id="hud-hole" class="panel"><div class="n"></div><div class="sub"></div></div>
-  <div id="hud-score" class="panel"><span>Total</span><b></b></div>
+  <div id="hud-score" class="panel"><span data-tr="world.total">Total</span><b></b></div>
   <div id="hud-wind" class="panel"></div>
   <div id="hud-lie" class="panel"></div>
   <div id="hud-clubs"></div>
@@ -155,9 +155,9 @@
     <div class="sub" id="meter-label">Power</div>
     <div class="bar"><div class="fill" id="meter-fill"></div><div class="zone"></div></div>
   </div>
-  <div id="hud-care" class="panel"><b>Groundskeeper's log</b><div>Care score: <b id="care-score">100</b></div><div id="care-actions"></div></div>
+  <div id="hud-care" class="panel"><b data-tr="world.careLog">Groundskeeper's log</b><div>Care score: <b id="care-score">100</b></div><div id="care-actions"></div></div>
 </div>
-<button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
+<button id="view-toggle" class="btn ghost" data-tr="world.firstPerson" hidden>First person (V)</button>
 
 <div class="screen" id="scr-menu">
   <div class="card">
@@ -165,15 +165,15 @@
     <h1 class="logo">Fairway Park</h1>
     <div class="stripe"></div>
     <p class="lead">A nine-hole course and an outdoor sports facility, played for real strokes and real scores. Aim, pick a club, time the swing meter, and play the ball as it lies — rough, sand and water all behave differently, and a groundskeeper's log scores how you leave the course behind you.</p>
-    <label class="field" for="crew-tag">Crew tag (for the leaderboard)</label>
+    <label class="field" for="crew-tag" data-tr="world.crewTag">Crew tag (for the leaderboard)</label>
     <input type="text" id="crew-tag" maxlength="12" placeholder="YOUR TAG">
     <div class="modes">
-      <button class="mode" id="menu-play"><b>Play the course</b><span>Stroke play, nine holes, par 35.</span></button>
-      <button class="mode" id="menu-facility"><b>Sports facility</b><span>Sprint, free throws and penalty kicks — 60-second rounds.</span></button>
-      <button class="mode" id="menu-scores"><b>Scorecards &amp; leaderboard</b><span>Your best round and the crew's top scores.</span></button>
+      <button class="mode" id="menu-play"><b data-tr="world.playCourse">Play the course</b><span>Stroke play, nine holes, par 35.</span></button>
+      <button class="mode" id="menu-facility"><b data-tr="world.facility">Sports facility</b><span>Sprint, free throws and penalty kicks — 60-second rounds.</span></button>
+      <button class="mode" id="menu-scores"><b data-tr="world.scores">Scorecards &amp; leaderboard</b><span>Your best round and the crew's top scores.</span></button>
     </div>
     <div class="grounds" id="grounds-board">
-      <p class="eyebrow">Grounds crew board</p>
+      <p class="eyebrow" data-tr="world.groundsBoard">Grounds crew board</p>
       <p class="note pp-chip" id="grounds-chip" hidden></p>
       <p class="note" id="grounds-done" hidden>Board done: a grounds station passed, on your passport.</p>
       <div class="gs-row" id="grounds-stations"></div>
@@ -185,18 +185,18 @@
 
 <div class="screen" id="scr-scorecard" hidden>
   <div class="card">
-    <p class="eyebrow">Round complete</p>
+    <p class="eyebrow" data-tr="world.roundDone">Round complete</p>
     <h2 id="sc-title">Scorecard</h2>
     <table class="score" id="sc-table"></table>
     <p class="lead" id="sc-summary"></p>
     <h2>Groundskeeper's log</h2>
     <p class="lead" id="sc-care-summary"></p>
     <div id="sc-care-log"></div>
-    <h2>Leaderboard</h2>
+    <h2 data-tr="world.leaderboard">Leaderboard</h2>
     <ol class="board" id="sc-board"></ol>
     <div class="row" style="margin-top:14px">
-      <button class="btn primary" id="sc-again">Play again</button>
-      <button class="btn ghost" id="sc-menu">Menu</button>
+      <button class="btn primary" id="sc-again" data-tr="world.playAgain">Play again</button>
+      <button class="btn ghost" id="sc-menu" data-tr="world.menu">Menu</button>
     </div>
   </div>
 </div>
@@ -206,20 +206,20 @@
     <p class="eyebrow">Fairway Park</p>
     <h2>Scorecards &amp; leaderboard</h2>
     <p class="lead" id="scores-best"></p>
-    <h2>Nine-hole leaderboard</h2>
+    <h2 data-tr="world.nineBoard">Nine-hole leaderboard</h2>
     <ol class="board" id="scores-board"></ol>
     <div id="scores-minigames"></div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="scores-back">Menu</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="scores-back" data-tr="world.menu">Menu</button></div>
   </div>
 </div>
 
 <div class="screen" id="scr-facility" hidden>
   <div class="card">
     <p class="eyebrow">Fairway Park</p>
-    <h2>Sports facility</h2>
+    <h2 data-tr="world.facility">Sports facility</h2>
     <p class="lead">Sixty-second rounds, real scores, best runs kept alongside the course leaderboard.</p>
     <div class="modes" id="facility-list"></div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="facility-back">Menu</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="facility-back" data-tr="world.menu">Menu</button></div>
   </div>
 </div>
 

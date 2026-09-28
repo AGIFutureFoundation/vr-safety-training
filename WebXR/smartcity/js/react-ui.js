@@ -9,6 +9,7 @@
 
 import { SIMS_META } from "./sims-meta.js";
 import { prettyKey } from "../../shared/input.js";
+import { trT, trLang, trSubscribe } from "../../shared/i18n.js";
 
 const h = React.createElement;
 const { Fragment, useSyncExternalStore } = React;
@@ -87,6 +88,12 @@ const INTRO_BUTTONS = [
   { id: "open-controls", label: "Controls", action: "openControls" },
   { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
 ];
+
+// The intro buttons' string keys (tools/i18n/en.json), by button id.
+const TR_INTRO_KEYS = { "start-tour": "run.startTour", "enter-ar": "run.enterAr", "enter-vr": "run.enterVr", "enter-flat": "run.free",
+  "view-leaderboard": "run.leaderboards", "view-records": "run.records", "view-training": "run.myTraining", "view-programs": "run.programmes",
+  "view-flows": "run.flows", "open-signin": "acct.signin", "open-share": "run.share", "open-editor": "run.editor", "open-controls": "run.controls",
+  "reset-progress": "run.reset" };
 
 /** The station cards in the order the grid draws them: grouped by category in
  *  CATEGORY_ORDER, then by each sim's own catalog index. */
@@ -215,14 +222,14 @@ export function mountUI(store, actions) {
   function HudMission() {
     const hud = useSlice("hud");
     return h("div", { className: "chip", id: "hud-mission" },
-      h("div", { className: "eyebrow" }, "District"),
+      h("div", { className: "eyebrow" }, trT("run.district")),
       h("div", { id: "hud-room" }, hud.room));
   }
 
   function HudMetrics() {
     const hud = useSlice("hud");
     return h("div", { className: "chip", id: "hud-metrics" },
-      h("div", { className: "eyebrow" }, "Score"),
+      h("div", { className: "eyebrow" }, trT("run.score")),
       h("div", { id: "hud-score" }, hud.score),
       h("div", { id: "hud-combo", className: [hud.comboHot && "hot", hud.comboFire && "fire"].filter(Boolean).join(" ") }, hud.comboText),
       hud.scorePops.map((p) => h("div", { key: p.id, className: p.big ? "score-pop big" : "score-pop" }, p.text)));
@@ -288,6 +295,7 @@ export function mountUI(store, actions) {
     const hud = useSlice("hud");
     return h("div", { id: "hud-objective" },
       h("div", { id: "hud-step" }, hud.step),
+      trLang() !== "en" && hud.step ? h("div", { className: "tr-stepnote", "data-tr-stepnote": "" }, trT("step.english")) : null,
       h("div", { id: "hud-cue" }, hud.cue),
       h("div", { id: "hud-gesture", hidden: !hud.gestureVisible }, hud.gestureVerb));
   }
@@ -309,8 +317,7 @@ export function mountUI(store, actions) {
     const rows = useSlice("controls").rows;
     const keyFor = (action, fallback) => rows.find((r) => r.action === action)?.pretty?.[0] ?? fallback;
     return h("div", { id: "hud-hint" },
-      `Drag to look · Click to act · ${keyFor("controls", prettyKey("Slash"))} controls · `
-      + `${keyFor("mute", "M")} mute · ${keyFor("back", "Esc")} campus`);
+      trT("run.hint", { controls: keyFor("controls", prettyKey("Slash")), mute: keyFor("mute", "M"), back: keyFor("back", "Esc") }));
   }
 
   function GestureTip() {
@@ -324,14 +331,14 @@ export function mountUI(store, actions) {
 
   function ArPrompt() {
     const ar = useSlice("arPrompt");
-    return h("div", { id: "ar-prompt", hidden: !ar.visible }, h("b", null, "Tap a surface"), h("br"), "to place this station");
+    return h("div", { id: "ar-prompt", hidden: !ar.visible }, h("b", null, trT("run.tapSurface")), h("br"), trT("run.toPlace"));
   }
 
   function ScaleRow() {
     const scaleRow = useSlice("scaleRow");
     return h("div", { id: "scale-row", hidden: !scaleRow.visible },
-      h("button", { id: "scale-down", onClick: actions.scaleDown }, "− Smaller"),
-      h("button", { id: "scale-up", onClick: actions.scaleUp }, "+ Larger"));
+      h("button", { id: "scale-down", onClick: actions.scaleDown }, trT("run.smaller")),
+      h("button", { id: "scale-up", onClick: actions.scaleUp }, trT("run.larger")));
   }
 
   /** Grouped by category, in CATEGORY_ORDER, sorted by each sim's own
@@ -367,7 +374,7 @@ export function mountUI(store, actions) {
       onClick: actions[b.action],
     },
     numbers && h("span", { className: "idx-badge", "aria-hidden": "true" }, i + 1),
-    b.textFromSlice ? resetText : (b.textFrom ? intro[b.textFrom] : b.label))));
+    b.textFromSlice ? resetText : (b.textFrom ? intro[b.textFrom] : trT(TR_INTRO_KEYS[b.id] ?? "", null, b.label)))));
   }
 
   function IntroCard() {
@@ -379,7 +386,7 @@ export function mountUI(store, actions) {
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_TAIL_HTML } }),
         h("div", { className: "namerow" },
           h("label", { className: "eyebrow", htmlFor: "player-name" },
-            intro.identityLocked ? "Crew tag (set by your training provider)" : "Crew tag (for the leaderboard)"),
+            intro.identityLocked ? trT("run.crewTagLocked") : trT("world.crewTag")),
           h("input", {
             id: "player-name", maxLength: 12, placeholder: "YOU", autoComplete: "off",
             value: intro.playerName, readOnly: intro.identityLocked,
@@ -421,7 +428,7 @@ export function mountUI(store, actions) {
             }, o.label))),
           f.feedback && h("div", { className: `flat-feedback ${f.feedback.kind}`, "aria-live": "polite", dangerouslySetInnerHTML: { __html: f.feedback.html } })),
         h("div", { className: "btnrow" },
-          h("button", { id: "flat-hub", type: "button", onClick: actions.backToHub }, "Back to campus"))));
+          h("button", { id: "flat-hub", type: "button", onClick: actions.backToHub }, trT("run.backCampus")))));
   }
 
   /** Flipped-classroom pre-brief: the station's procedure as study material
@@ -444,21 +451,21 @@ export function mountUI(store, actions) {
             h("b", null, s.title),
             h("span", null, s.why)))),
         h("div", { className: "btnrow" },
-          h("button", { className: "primary", id: "prebrief-start", type: "button", onClick: actions.prebriefStart }, "I've read it — start the run"),
-          h("button", { id: "prebrief-skip", type: "button", onClick: actions.prebriefSkip }, "Skip the brief"),
-          h("button", { id: "prebrief-close", type: "button", onClick: actions.prebriefClose }, "Back to campus"))));
+          h("button", { className: "primary", id: "prebrief-start", type: "button", onClick: actions.prebriefStart }, trT("run.readStart")),
+          h("button", { id: "prebrief-skip", type: "button", onClick: actions.prebriefSkip }, trT("run.skipBrief")),
+          h("button", { id: "prebrief-close", type: "button", onClick: actions.prebriefClose }, trT("run.backCampus")))));
   }
 
   function ResultsCard() {
     const results = useSlice("results");
     if (!results.visible) return h("div", { className: "overlay", id: "results", hidden: true });
-    return h("div", { className: "overlay", id: "results", role: "dialog", "aria-modal": "true", "aria-label": "Run results" },
+    return h("div", { className: "overlay", id: "results", role: "dialog", "aria-modal": "true", "aria-label": trT("run.results") },
       h("div", { className: "card" },
         h("div", { id: "results-body", dangerouslySetInnerHTML: { __html: results.html } }),
         h("div", { className: "btnrow" },
-          h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, results.nextLabel ?? "Next stop →"),
-          h("button", { className: results.retryPrimary ? "primary" : "", id: "res-retry", onClick: actions.retryResult }, "Run it again"),
-          h("button", { id: "res-hub", onClick: actions.backToHub }, "Back to campus"))));
+          h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, results.nextLabel ?? trT("run.nextStop")),
+          h("button", { className: results.retryPrimary ? "primary" : "", id: "res-retry", onClick: actions.retryResult }, trT("run.runAgain")),
+          h("button", { id: "res-hub", onClick: actions.backToHub }, trT("run.backCampus")))));
   }
 
   function LeaderboardCard() {
@@ -1286,7 +1293,7 @@ export function mountUI(store, actions) {
       id: "controls-btn", type: "button",
       onClick: actions.openControls,
       title: "Controls — keyboard, gamepad and voice (? or F1)",
-      "aria-label": "Controls: keyboard, gamepad and voice",
+      "aria-label": trT("run.controlsAria"),
     }, "⌨");
   }
 
@@ -1312,12 +1319,14 @@ export function mountUI(store, actions) {
     return h("button", {
       id: "speak-btn", type: "button",
       onClick: actions.speakHint,
-      title: "Read the current step aloud",
-      "aria-label": "Read the current step aloud",
+      title: trT("run.speak"),
+      "aria-label": trT("run.speak"),
     }, "🔊");
   }
 
   function App() {
+    // Re-render the whole shell when the language changes (shared/i18n.js).
+    useSyncExternalStore(trSubscribe, trLang);
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
