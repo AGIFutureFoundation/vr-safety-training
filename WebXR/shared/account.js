@@ -20,6 +20,7 @@
 // makes no request of its own. Every top-level name starts with `gt`.
 
 import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
+import { trT } from "./i18n.js";
 import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile } from "./profiles.js";
 
 const gtHasDom = typeof document !== "undefined";
@@ -63,8 +64,8 @@ export function gtConfigUrlFrom(homeHref) {
 
 /** What the chip says: the signed-in name, or Sign in (with a Demo badge in the demo). */
 export function gtChipLabel(session = Auth.session, demo = gtIsDemo()) {
-  if (session) return { text: String(session.name || "Signed in").slice(0, 24), badge: null };
-  return { text: "Sign in", badge: demo ? "Demo" : null };
+  if (session) return { text: String(session.name || trT("acct.signedIn")).slice(0, 24), badge: null };
+  return { text: trT("acct.signin"), badge: demo ? trT("acct.demo") : null };
 }
 
 function gtEl(tag, props = {}, ...kids) {
@@ -86,7 +87,7 @@ function gtRenderChip() {
   chip.textContent = "";
   chip.append(text);
   if (badge) chip.append(" ", gtEl("span", { class: "gt-badge", text: badge }));
-  chip.setAttribute("aria-label", Auth.session ? `Account: ${text}` : (badge ? "Sign in (demo mode on)" : "Sign in"));
+  chip.setAttribute("aria-label", Auth.session ? trT("acct.chipAria", { name: text }) : (badge ? trT("acct.signinDemoAria") : trT("acct.signin")));
 }
 
 function gtMsg(text) {
@@ -115,37 +116,34 @@ function gtSignInView(panel) {
   // 1. Google — its own button when configured, a plain disabled line otherwise.
   if (cfg.googleClientId) {
     const mount = gtEl("div", { id: "gt-google" });
-    panel.append(gtEl("p", { class: "gt-line", text: "Continue with Google" }), mount);
+    panel.append(gtEl("p", { class: "gt-line", text: trT("acct.google", null, "Continue with Google") }), mount);
     if (!gtState.googleStarted) { gtState.googleStarted = true; gtRun("google", { mount }).finally(() => { gtState.googleStarted = false; }); }
   } else {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "google", disabled: true },
-      "Continue with Google", gtEl("small", { text: "Google sign-in is available when this deployment is configured" })));
+      trT("acct.google"), gtEl("small", { text: trT("acct.googleOff") })));
   }
   // 2. MetaMask — Sign-In with Ethereum through window.ethereum.
   if (env.ethereum?.request) {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "wallet", on: { click: () => gtRun("wallet") } },
-      "Connect MetaMask", gtEl("small", { text: "Your wallet signs a Sign-In with Ethereum message. It spends nothing; your training host verifies the signature." })));
+      trT("acct.wallet", null, "Connect MetaMask"), gtEl("small", { text: trT("acct.walletNote") })));
   } else {
-    const line = gtEl("p", { class: "gt-line", "data-provider": "wallet" }, "Connect MetaMask: no Ethereum wallet was found in this browser. ");
-    line.append(gtEl("a", { href: GT_WALLET_INSTALL, target: "_blank", rel: "noopener noreferrer", text: "Install MetaMask" }), ".");
+    const line = gtEl("p", { class: "gt-line", "data-provider": "wallet" }, `${trT("acct.noWallet")} `);
+    line.append(gtEl("a", { href: GT_WALLET_INSTALL, target: "_blank", rel: "noopener noreferrer", text: trT("acct.installWallet") }), ".");
     panel.append(line);
   }
   // 3. E-mail link, or the device passkey when no link service is configured.
   const input = gtEl("input", { id: "gt-field", type: cfg.emailEndpoint ? "email" : "text", autocomplete: cfg.emailEndpoint ? "email" : "nickname",
-    placeholder: cfg.emailEndpoint ? "Your e-mail address" : "A name for this device's passkey", "aria-label": cfg.emailEndpoint ? "Your e-mail address" : "A name for this device's passkey" });
+    placeholder: trT(cfg.emailEndpoint ? "acct.emailPh" : "acct.passkeyPh"), "aria-label": trT(cfg.emailEndpoint ? "acct.emailPh" : "acct.passkeyPh") });
   const passkeyOk = !!env.hasPasskey && !!env.credentials;
   const mailBtn = gtEl("button", { type: "button", class: "gt-opt", "data-provider": cfg.emailEndpoint ? "email" : "passkey",
     disabled: !cfg.emailEndpoint && !passkeyOk,
     on: { click: () => gtRun(cfg.emailEndpoint ? "email" : "passkey", { email: input.value, name: input.value }) } },
-  "E-mail me a link", gtEl("small", { text: cfg.emailEndpoint
-    ? "One request to your training provider's link service; it mails a link that opens this page signed in."
-    : (passkeyOk ? "No e-mail service is configured here, so this makes a passkey on this device instead. Nothing is sent anywhere."
-      : "No e-mail service is configured and this browser has no passkeys.") }));
+  trT("acct.email", null, "E-mail me a link"), gtEl("small", { text: trT(cfg.emailEndpoint ? "acct.emailNote" : (passkeyOk ? "acct.passkeyNote" : "acct.noPasskey")) }));
   panel.append(input, mailBtn);
   // 4. The free demo.
   panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
     on: { click: () => { gtEnterDemo(); gtRenderChip(); gtClose(); } } },
-  "Try the free demo — no sign-in", gtEl("small", { text: "Every world and station opens. Nothing is kept beyond this tab." })));
+  trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
 
 function gtRender(view = null) {
@@ -153,29 +151,29 @@ function gtRender(view = null) {
   if (!panel) return;
   panel.textContent = "";
   const v = view ?? (Auth.session ? "account" : "signin");
-  panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? "Sign in" : "Your account" }));
+  panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? trT("acct.signin") : trT("acct.account") }));
   if (v === "signin") {
     panel.append(gtEl("p", { text: gtIsDemo()
-      ? "Demo mode is on: your runs live in this tab only. Sign in to keep them."
-      : "Signing in keeps your progress private to you on this device. These pages are static files: your training host, not this page, verifies the credential." }));
+      ? trT("acct.introDemo")
+      : trT("acct.intro") }));
     gtSignInView(panel);
   } else if (v === "carry") {
-    panel.append(gtEl("p", { text: `Signed in as ${Auth.session?.name ?? "you"}. This tab holds ${gtDemoRuns()} demo run(s).` }));
+    panel.append(gtEl("p", { text: trT("acct.carry", { name: Auth.session?.name ?? "you", n: gtDemoRuns() }) }));
     panel.append(gtEl("div", { class: "gt-row" },
-      gtEl("button", { type: "button", id: "gt-carry", on: { click: () => { gtCarryDemo(); gtRender("account"); gtMsg("Your demo runs are now in your account."); } } }, "Keep my demo runs"),
-      gtEl("button", { type: "button", id: "gt-nocarry", on: { click: () => { gtLeaveDemo({ discard: true }); gtRender("account"); } } }, "Not now")));
+      gtEl("button", { type: "button", id: "gt-carry", on: { click: () => { gtCarryDemo(); gtRender("account"); gtMsg(trT("acct.carried")); } } }, trT("acct.keep")),
+      gtEl("button", { type: "button", id: "gt-nocarry", on: { click: () => { gtLeaveDemo({ discard: true }); gtRender("account"); } } }, trT("acct.notNow"))));
   } else {
     panel.append(gtEl("p", { text: Auth.describe() ?? "" }));
-    panel.append(gtEl("p", { text: `Progress shown: ${gtProfile().kind === "account" ? "yours only" : "this device"}. Another person signing in here sees their own.` }));
+    panel.append(gtEl("p", { text: trT("acct.progress", { whose: trT(gtProfile().kind === "account" ? "acct.yours" : "acct.device") }) }));
     panel.append(gtEl("div", { class: "gt-row" },
-      gtEl("button", { type: "button", id: "gt-signout", on: { click: () => { Auth.signOut(); gtRenderChip(); gtRender("signin"); gtMsg("Signed out. Your progress is kept, hidden until you sign in again."); } } }, "Sign out"),
+      gtEl("button", { type: "button", id: "gt-signout", on: { click: () => { Auth.signOut(); gtRenderChip(); gtRender("signin"); gtMsg(trT("acct.signedOut")); } } }, trT("acct.signout")),
       gtEl("button", { type: "button", id: "gt-signout-clear", on: { click: () => {
-        if (typeof confirm === "function" && !confirm("Sign out and delete your training records on this device?")) return;
-        Auth.signOut({ clearRecords: true }); gtRenderChip(); gtRender("signin"); gtMsg("Signed out and your records on this device were deleted.");
-      } } }, "Sign out and clear my records")));
+        if (typeof confirm === "function" && !confirm(trT("acct.confirmClear"))) return;
+        Auth.signOut({ clearRecords: true }); gtRenderChip(); gtRender("signin"); gtMsg(trT("acct.cleared"));
+      } } }, trT("acct.signoutClear"))));
   }
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
-  panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, "Close")));
+  panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }
 
 function gtClose() {
@@ -232,6 +230,7 @@ export function gtMountAccount(nav, { configUrl = null } = {}) {
       .catch(() => null)
       .finally(() => gtRenderChip());
     addEventListener("gt:profile", () => gtRenderChip());
+    addEventListener("tr:change", () => { gtRenderChip(); const d = document.getElementById("gt-dialog"); if (d && !d.hidden) gtRender(); });
   }
   gtRenderChip();
   return chip;

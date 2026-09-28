@@ -27,6 +27,7 @@
 // name here starts with `gd`.
 
 import { speak, stopSpeaking, speechSupported } from "./voice-assist.js";
+import { trT, trLang, trApply } from "./i18n.js";
 
 const gdHasDom = typeof document !== "undefined";
 const gdPosKey = "holodeck-guide-pos-v1";
@@ -203,7 +204,7 @@ async function gdLoadConfig() {
 /** Ask: on-device, or the hosted endpoint when one is configured (with the retrieved chunks). */
 export async function gdAsk(question) {
   const index = await gdLoadKb();
-  if (!index) return { text: "My notes could not load on this page, so I can't answer yet. The programme finder on the homepage lists every programme.", links: [gdFinderLink], chunks: [], matched: false };
+  if (!index) return { text: trT("guide.noKb"), links: [{ ...gdFinderLink, label: trT("guide.finder", null, gdFinderLink.label) }], chunks: [], matched: false };
   const local = gdAnswer(index, question);
   const cfg = await gdLoadConfig();
   const endpoint = cfg?.endpoint;
@@ -404,7 +405,7 @@ export function gdMount(opts = {}) {
   if (!gdHasDom || document.getElementById("gd-btn")) return { open() {}, close() {}, toggle() {}, ask: gdAsk, el: null };
   gdInjectCss();
   const btn = document.createElement("button");
-  btn.type = "button"; btn.id = "gd-btn"; btn.textContent = "Guide";
+  btn.type = "button"; btn.id = "gd-btn"; btn.textContent = "Guide"; btn.setAttribute("data-tr", "guide.btn"); btn.setAttribute("data-tr-aria", "guide.btnAria");
   btn.setAttribute("aria-label", "Open the Guide: ask a question (drag to move, Alt+Arrow keys to move)");
   btn.setAttribute("aria-haspopup", "dialog"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", "gd-panel");
   btn.addEventListener("click", () => { if (!btn.dataset.dragged) gdToggle(); });
@@ -412,18 +413,19 @@ export function gdMount(opts = {}) {
   panel.id = "gd-panel"; panel.hidden = true;
   panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "false"); panel.setAttribute("aria-labelledby", "gd-title");
   const Rec = gdRecognition();
-  panel.innerHTML = `<header><h2 id="gd-title">Guide</h2>
-<button type="button" id="gd-voice" aria-pressed="false" aria-label="Read answers aloud"${speechSupported ? "" : " hidden"}>Voice</button>
-<button type="button" id="gd-close" aria-label="Close the Guide">Close</button></header>
+  panel.innerHTML = `<header><h2 id="gd-title" data-tr="guide.btn">Guide</h2>
+<button type="button" id="gd-voice" aria-pressed="false" aria-label="Read answers aloud" data-tr="guide.voice" data-tr-aria="guide.voiceAria"${speechSupported ? "" : " hidden"}>Voice</button>
+<button type="button" id="gd-close" aria-label="Close the Guide" data-tr="common.close" data-tr-aria="guide.closeAria">Close</button></header>
 <div class="gd-log" aria-live="polite"></div>
-<form id="gd-form"><label for="gd-q" class="gd-sr" style="position:absolute;left:-9999px">Your question</label>
-<input id="gd-q" type="text" autocomplete="off" placeholder="Ask about a trade, a world, the controls…" enterkeyhint="send">
-<button type="button" id="gd-mic" aria-label="Ask by voice"${Rec ? "" : " hidden"}>Mic</button>
-<button type="submit" id="gd-send">Ask</button></form>
-<p class="gd-fine">Answers come only from this platform's own pages.</p>`;
+<form id="gd-form"><label for="gd-q" class="gd-sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap" data-tr="guide.question">Your question</label>
+<input id="gd-q" type="text" autocomplete="off" placeholder="Ask about a trade, a world, the controls…" data-tr-ph="guide.ph" enterkeyhint="send">
+<button type="button" id="gd-mic" aria-label="Ask by voice" data-tr="guide.mic" data-tr-aria="guide.micAria"${Rec ? "" : " hidden"}>Mic</button>
+<button type="submit" id="gd-send" data-tr="guide.ask">Ask</button></form>
+<p class="gd-fine" data-tr="guide.fine">Answers come only from this platform's own pages.</p>`;
   document.body.appendChild(btn);
   document.body.appendChild(panel);
-  gdSay(panel, "guide", "Hi. Ask me how to start, where a trade is trained, what a star means, or how the controls work. I only answer from what is on this platform.");
+  gdSay(panel, "guide", trLang() === "en" ? "Hi. Ask me how to start, where a trade is trained, what a star means, or how the controls work. I only answer from what is on this platform." : `${trT("guide.hello")} ${trT("guide.english")}`);
+  trApply();
   const input = panel.querySelector("#gd-q");
   const ask = async (q) => {
     q = String(q ?? "").trim();

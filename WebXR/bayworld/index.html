@@ -134,8 +134,8 @@
   <div id="hud-prompt" class="panel" hidden></div>
   <canvas id="hud-minimap" width="140" height="140"></canvas>
   <div id="hud-buttons">
-    <button id="hud-radio-btn">Radio</button>
-    <button id="hud-map-btn">Map (M)</button>
+    <button id="hud-radio-btn" data-tr="world.radio">Radio</button>
+    <button id="hud-map-btn" data-tr="world.mapM">Map (M)</button>
   </div>
 </div>
 <button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
@@ -157,45 +157,45 @@
 
 <div class="screen" id="scr-jobboard" hidden>
   <div class="card">
-    <p class="eyebrow">Job board</p>
+    <p class="eyebrow" data-tr="world.jobBoard">Job board</p>
     <h2 id="jb-title">Site</h2>
     <p id="jb-zone"></p>
     <p id="jb-progress"></p>
     <p id="jb-programmes"></p>
     <p id="jb-chip" class="pp-chip" hidden></p>
-    <p id="jb-done" hidden>Board done: passed, on your passport.</p>
+    <p id="jb-done" data-tr="world.boardDone" hidden>Board done: passed, on your passport.</p>
     <ul id="jb-stations" class="jb-stations" aria-label="Stations on this board" hidden></ul>
     <div class="row" style="margin-top:14px">
-      <button class="btn primary" id="jb-launch">Start the mission</button>
+      <button class="btn primary" id="jb-launch" data-tr="world.startMission">Start the mission</button>
       <a class="btn ghost" id="jb-regatta" href="../regatta/regatta.html" hidden style="text-decoration:none">Regatta</a>
-      <button class="btn ghost" id="jb-close">Close</button>
+      <button class="btn ghost" id="jb-close" data-tr="common.close">Close</button>
     </div>
   </div>
 </div>
 
 <div class="screen" id="scr-radio" hidden>
   <div class="card">
-    <p class="eyebrow">Car radio</p>
+    <p class="eyebrow" data-tr="world.carRadio">Car radio</p>
     <h2>Bay World Radio</h2>
     <div class="radio-stations">
       <button class="btn" id="radio-station-quiz"><b>Foreman's Radio</b><br><span id="radio-best" style="font-weight:400;text-transform:none">Ten questions on the standards behind the work.</span></button>
       <button class="btn" id="radio-station-loop"><b>Bay Loop</b><br><span style="font-weight:400;text-transform:none">An original chiptune loop — <span id="radio-loop-state">Off</span></span></button>
     </div>
     <div id="radio-quiz"></div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="radio-close">Close</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="radio-close" data-tr="common.close">Close</button></div>
   </div>
 </div>
 
 <div class="screen" id="scr-map" hidden>
   <div class="card" style="width:min(1100px,100%)">
     <p class="eyebrow">Bay World</p>
-    <h2>Map</h2>
+    <h2 data-tr="world.map">Map</h2>
     <p class="lead">Fast travel unlocks for a site once you have visited it once on foot or by road. The <a href="./atlas.html" id="map-atlas-link" style="color:var(--accent)">Atlas</a> lists every site and landmark with its programmes, over a real-world map when you bring your own token.</p>
     <div class="map-layout">
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>
     </div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button><a class="btn ghost" href="./atlas.html" style="text-decoration:none">Atlas</a><a class="btn ghost" href="../regatta/regatta.html" style="text-decoration:none">Regatta</a><a class="btn ghost" id="map-dive-link" href="../underwater/underwater.html" style="text-decoration:none">Dive</a></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close" data-tr="world.closeM">Close (M)</button><a class="btn ghost" href="./atlas.html" style="text-decoration:none">Atlas</a><a class="btn ghost" href="../regatta/regatta.html" style="text-decoration:none">Regatta</a><a class="btn ghost" id="map-dive-link" href="../underwater/underwater.html" style="text-decoration:none">Dive</a></div>
   </div>
 </div>
 

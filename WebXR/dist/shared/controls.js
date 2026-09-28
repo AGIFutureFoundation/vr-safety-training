@@ -28,6 +28,7 @@
 
 import { gtMountAccount } from "./account.js";
 import { thMount } from "./theme.js";
+import { trMountPicker, trT, trSubscribe, trApply } from "./i18n.js";
 
 const ctlHasDom = typeof document !== "undefined";
 
@@ -61,7 +62,7 @@ export function ctlTouchButton(verb, extra = {}) {
 export function ctlHelpRows({ except = {}, omit = [] } = {}) {
   return ctlVerbs.filter((v) => !omit.includes(v.id)).map((v) => {
     const note = except[v.id];
-    return { ...v, keysText: v.keys.join(" / "), note: note ?? "" };
+    return { ...v, label: trT(`verb.${v.id}`, null, v.label), keysText: v.keys.join(" / "), note: note ?? "" };
   });
 }
 
@@ -178,14 +179,14 @@ function ctlRender(el, opts) {
   const shared = rows.map((r) => `<tr data-verb="${r.id}"><th scope="row">${ctlEsc(r.label)}</th><td>${kbd(r.keys)}${r.note ? `<span class="ctl-note">${ctlEsc(r.note)}</span>` : ""}</td>` +
     `<td>${ctlEsc(r.pad)}</td><td>${ctlEsc(r.touch)}</td><td class="ctl-hide-phone">${ctlEsc(r.xr)}</td></tr>`).join("");
   const unique = (opts.unique ?? []).map((u) => `<tr><th scope="row">${ctlEsc(u.label)}</th><td>${kbd(u.keys ?? [])}</td><td>${ctlEsc(u.pad ?? "—")}</td><td>${ctlEsc(u.touch ?? "—")}</td><td class="ctl-hide-phone">${ctlEsc(u.xr ?? "—")}</td></tr>`).join("");
-  const head = `<thead><tr><th scope="col">Action</th><th scope="col">Keyboard</th><th scope="col">Gamepad</th><th scope="col">Touch</th><th scope="col" class="ctl-hide-phone">Headset</th></tr></thead>`;
+  const head = `<thead><tr><th scope="col">${ctlEsc(trT("help.action"))}</th><th scope="col">${ctlEsc(trT("help.keyboard"))}</th><th scope="col">${ctlEsc(trT("help.gamepad"))}</th><th scope="col">${ctlEsc(trT("help.touch"))}</th><th scope="col" class="ctl-hide-phone">${ctlEsc(trT("help.headset"))}</th></tr></thead>`;
   el.innerHTML = `<div class="ctl-panel">
-<button type="button" class="ctl-close" id="ctl-help-close" aria-label="Close help">Close</button>
-<h2 id="ctl-help-title">Controls — ${ctlEsc(opts.world)}</h2>
-<p>The same keys work in every world. Press <kbd>H</kbd> or <kbd>Esc</kbd> to close this panel.</p>
-<h3>Every world</h3>
+<button type="button" class="ctl-close" id="ctl-help-close" aria-label="${ctlEsc(trT("help.closeAria"))}">${ctlEsc(trT("common.close"))}</button>
+<h2 id="ctl-help-title">${ctlEsc(trT("help.title", { world: opts.world }))}</h2>
+<p>${ctlEsc(trT("help.intro"))}</p>
+<h3>${ctlEsc(trT("help.every"))}</h3>
 <table class="ctl-shared">${head}<tbody>${shared}</tbody></table>
-${unique ? `<h3>${ctlEsc(opts.world)} only</h3><table class="ctl-unique">${head}<tbody>${unique}</tbody></table>` : ""}
+${unique ? `<h3>${ctlEsc(trT("help.only", { world: opts.world }))}</h3><table class="ctl-unique">${head}<tbody>${unique}</tbody></table>` : ""}
 ${opts.note ? `<p>${ctlEsc(opts.note)}</p>` : ""}
 </div>`;
   el.querySelector("#ctl-help-close").addEventListener("click", () => ctlHelp(false));
@@ -230,6 +231,12 @@ function ctlOnKey(e) {
   if (!opts) return;
   const help = document.getElementById("ctl-help");
   const open = help && !help.hidden;
+  const lang = document.getElementById("tr-lang");
+  if (lang && !lang.hidden) {
+    // The language picker is modal too: Tab stays in it, its own Esc closes it.
+    if (e.code === "Tab") { e.stopImmediatePropagation(); ctlTrapTab(e, lang); }
+    return;
+  }
   if (open) {
     // The overlay is modal: nothing behind it moves while it is up.
     if (e.code === "Escape" || e.code === "KeyH") { e.preventDefault(); e.stopImmediatePropagation(); ctlHelp(false); return; }
@@ -282,11 +289,12 @@ export function ctlMount(opts = {}) {
       const a = document.createElement("a");
       a.className = "home-chip ctl-home"; a.href = o.home ?? "./index.html"; a.textContent = "⌂ Home";
       a.setAttribute("aria-label", "Back to the homepage");
+      a.setAttribute("data-tr", "nav.home"); a.setAttribute("data-tr-aria", "nav.homeAria");
       nav.appendChild(a);
     }
     const btn = document.createElement("button");
     btn.type = "button"; btn.id = "ctl-help-btn"; btn.textContent = "?";
-    btn.setAttribute("aria-label", "Help and controls (H)");
+    btn.setAttribute("aria-label", "Help and controls (H)"); btn.setAttribute("data-tr-aria", "nav.help");
     btn.setAttribute("aria-haspopup", "dialog"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", "ctl-help");
     btn.addEventListener("click", () => ctlHelp());
     nav.appendChild(btn);
@@ -294,6 +302,9 @@ export function ctlMount(opts = {}) {
   }
   // The account chip: one sign-in entry on every page (shared/account.js).
   if (o.account !== false) gtMountAccount(nav, { configUrl: o.authConfig ?? null });
+  // The language chip (shared/i18n.js): after the account chip, so Tab still
+  // reaches Home and help first. Mounting it starts the language layer.
+  trMountPicker(nav);
   let el = document.getElementById("ctl-help");
   if (!el) {
     el = document.createElement("div");
@@ -303,7 +314,9 @@ export function ctlMount(opts = {}) {
     body.appendChild(el);
   }
   ctlRender(el, o);
+  trApply();
   if (!ctlState.mounted) {
+    trSubscribe(() => { const h = document.getElementById("ctl-help"); if (h && ctlState.opts) ctlRender(h, ctlState.opts); });
     // Capture phase, so the overlay's keys never reach the world behind it.
     window.addEventListener("keydown", ctlOnKey, true);
     ctlState.mounted = true;

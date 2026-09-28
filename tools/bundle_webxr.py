@@ -686,6 +686,14 @@ for _gd_cfg in APPS.values():
         _gd_add = ([] if SHARED / "voice-assist.js" in _gd_mods else [SHARED / "voice-assist.js"]) + [SHARED / "guide.js"]
         _gd_mods[_gd_at:_gd_at] = _gd_add
 
+# The language layer (console BABEL, docs/i18n.md) rides with the chrome: every
+# app that carries controls.js, account.js or guide.js gets shared/i18n-strings.js
+# and shared/i18n.js first, since neither imports anything else.
+for _tr_cfg in APPS.values():
+    _tr_mods = _tr_cfg["modules"]
+    if any(SHARED / n in _tr_mods for n in ("controls.js", "account.js", "guide.js")) and SHARED / "i18n.js" not in _tr_mods:
+        _tr_mods[0:0] = [SHARED / "i18n-strings.js", SHARED / "i18n.js"]
+
 def dist_fixup(html: str) -> str:
     # The repository's docs/ folder is not published beside any bundle: a
     # source page's link into it keeps its text reference and loses the dead
@@ -872,6 +880,8 @@ DIST_SHARED = [
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
     "controls.js", "account.js", "profiles.js",
+    # The language layer controls.js, account.js and guide.js import (docs/i18n.md).
+    "i18n.js", "i18n-strings.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
     # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
     # docs/agent-protocols.md), lazily imported by the homepage's own script

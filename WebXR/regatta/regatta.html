@@ -109,12 +109,12 @@
 
 <div class="screen" id="scr-menu">
   <div class="card">
-    <p class="eyebrow">Bay World · on the water</p>
+    <p class="eyebrow" data-tr="world.onWater">Bay World · on the water</p>
     <h1 class="logo">Bay Regatta</h1>
     <div class="stripe"></div>
     <p class="lead">Twelve motor yachts berthed around the bay, a calendar of hosted events, and three race courses. Every cast-off starts with the briefing — the guest count read back, a life jacket for every person aboard plus a spare, the muster point named — and every run is scored the way a skipper is judged: each mark on its side, no-wake speed through the harbour mouth, the give-way vessel keeping clear at a crossing, and a clean docking home. Reputation and credits go into the same career ledger as Bay World.</p>
     <p class="note" id="menu-career"></p>
-    <div class="row"><button class="btn primary" id="menu-enter">Enter the harbour</button></div>
+    <div class="row"><button class="btn primary" id="menu-enter" data-tr="world.enterHarbour">Enter the harbour</button></div>
     <p id="menu-race-hint">Racing is inside: enter the harbour, then choose <b>Race the fleet</b>.</p>
     <div id="menu-body" hidden>
       <h3>Hosted events</h3>
@@ -124,7 +124,7 @@
         <label>Your yacht <select id="pick-yacht"></select></label>
         <label>Course <select id="pick-course"></select></label>
       </div>
-      <div class="row"><button class="btn" id="menu-race">Race the fleet</button></div>
+      <div class="row"><button class="btn" id="menu-race" data-tr="world.raceFleet">Race the fleet</button></div>
     </div>
     <p class="note"><b>Helm</b> — Keyboard: <span class="kbd">W</span>/<span class="kbd">S</span> ahead and astern, <span class="kbd">A</span>/<span class="kbd">D</span> rudder, <span class="kbd">V</span> for the camera, <span class="kbd">Esc</span> back to the harbour. Touch: the stick. Gamepad: the left stick.</p>
     <p class="note">Right of way here is taught the way a skipper learns it — when another vessel crosses from your starboard side you are the give-way vessel and keep clear by easing down or turning away. Every yacht, course and event is original to this platform; the score is a plain result and nothing is bought or staked.</p>
@@ -133,7 +133,7 @@
 
 <div class="screen" id="scr-briefing" hidden>
   <div class="card">
-    <p class="eyebrow">Pre-departure briefing</p>
+    <p class="eyebrow" data-tr="world.briefing">Pre-departure briefing</p>
     <h2 id="br-title">Event</h2>
     <p class="lead" id="br-blurb"></p>
     <ol id="br-items"></ol>
@@ -143,20 +143,20 @@
     <p class="note pp-chip" id="br-chip" hidden></p>
     <p class="note" id="br-result"></p>
     <div class="row" style="margin-top:14px">
-      <button class="btn primary" id="br-go">Lines off</button>
-      <button class="btn ghost" id="br-back">Back</button>
+      <button class="btn primary" id="br-go" data-tr="world.linesOff">Lines off</button>
+      <button class="btn ghost" id="br-back" data-tr="world.back">Back</button>
     </div>
   </div>
 </div>
 
 <div class="screen" id="scr-results" hidden>
   <div class="card">
-    <p class="eyebrow">Result</p>
+    <p class="eyebrow" data-tr="world.result">Result</p>
     <h2 id="res-title">Race result</h2>
     <ul id="res-lines"></ul>
     <p class="note" id="res-award"></p>
     <div class="row" style="margin-top:14px">
-      <button class="btn primary" id="res-again">Back to the harbour</button>
+      <button class="btn primary" id="res-again" data-tr="world.backHarbour">Back to the harbour</button>
       <a class="btn ghost" href="../bayworld/index.html?site=island-yacht-harbor">Bay World</a>
     </div>
   </div>

@@ -92,7 +92,7 @@
 <main>
   <section class="card" aria-labelledby="atlas-map-title">
     <div class="mapbar">
-      <h2 id="atlas-map-title">Map</h2>
+      <h2 id="atlas-map-title" data-tr="world.map">Map</h2>
       <span class="badge" id="atlas-mode">Built-in map</span>
     </div>
     <div id="atlas-map" aria-live="polite"></div>
@@ -102,20 +102,20 @@
 
   <aside class="side">
     <section class="card">
-      <h2>Real-world map</h2>
+      <h2 data-tr="atlas.realMap">Real-world map</h2>
       <label for="atlas-token">Paste a Mapbox public token; it stays in this browser.</label>
       <input id="atlas-token" type="password" autocomplete="off" spellcheck="false" placeholder="pk. …" aria-describedby="atlas-token-state">
       <div class="row">
-        <button class="btn primary" id="atlas-token-save" type="button">Use this token</button>
-        <button class="btn" id="atlas-token-clear" type="button">Forget it</button>
+        <button class="btn primary" id="atlas-token-save" type="button" data-tr="atlas.useToken">Use this token</button>
+        <button class="btn" id="atlas-token-clear" type="button" data-tr="atlas.forget">Forget it</button>
       </div>
       <p id="atlas-token-state"></p>
       <p class="note">Nothing is sent to Mapbox until a token exists; with one, the library is fetched from cdnjs and each map request carries the token. A deployment can also set <code>mapboxToken</code> in <code>auth-config.json</code>, or pass <code>?mapbox=</code> on the launch URL for one tab. Details and where this works: <code>docs/mapbox.md</code>.</p>
     </section>
 
     <section class="card" style="margin-top:14px" aria-labelledby="atlas-list-title">
-      <h2 id="atlas-list-title">Sites and landmarks</h2>
-      <label for="atlas-search">Filter by name, zone, programme or station</label>
+      <h2 id="atlas-list-title" data-tr="atlas.sites">Sites and landmarks</h2>
+      <label for="atlas-search" data-tr="atlas.filter">Filter by name, zone, programme or station</label>
       <input id="atlas-search" type="search" autocomplete="off" spellcheck="false" placeholder="port, hills, rigging, dock-crane…">
       <p class="count" id="atlas-count" role="status"></p>
       <div id="atlas-list"></div>
