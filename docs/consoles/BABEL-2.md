@@ -15,3 +15,11 @@
 - 05:08 UTC · Arabic complete, 321/321, logical order, no bidi marks added · 5ca93e7 · next: pt
 - 05:09 UTC · Portuguese complete, 321/321 · a43d27e · next: bn
 - 05:11 UTC · Bengali complete, 321/321 · 9ddbdea · next: ru
+- 05:11 UTC · Russian complete, 321/321 · 634f6fb · next: ur
+- 05:13 UTC · Urdu complete, 321/321, logical order · d1ec1f1 · next: a first phone check
+- 05:13 UTC · probe: homepage at 360x640 in ar, ur, zh, hi and am (am still chrome-only) on 127.0.0.1:8974 from this worktree's WebXR/, server stopped after: scrollWidth 360 in all five. Seen, not in this brief: the hero's "Start playing" and "Find your trade" buttons stay English in every language (no data-tr on the hero actions) · — · next: id
+- 05:14 UTC · Indonesian complete, 321/321 · c882e03 · next: sw
+- 05:16 UTC · Swahili complete, 321/321 · 72e0c3b · next: tl
+- 05:17 UTC · Tagalog complete, 321/321 · d7abb59 · next: vi
+- 05:18 UTC · Vietnamese complete, 321/321 · 8b3294c · next: ko
+- 05:19 UTC · Korean complete, 321/321 · aadfcff · next: ja
