@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 676
+      "stations": 688
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,18 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-by-wetlands-as-a-storms-speed-bump",
+        "k12-by-the-water-cycle-from-lake-to-tap",
+        "k12-by-a-streetcar-timetable",
+        "k12-by-the-rivers-current-and-a-pilots-job",
+        "k12-by-what-a-pump-station-does-in-the-rain",
+        "k12-by-measuring-a-floodwall-in-steps",
+        "k12-by-reading-a-flood-maps-colours",
+        "k12-by-a-ferry-timetable-and-the-tide",
+        "k12-by-a-family-readiness-plan",
+        "k12-by-sorting-containers-at-the-port",
+        "k12-by-a-shrimp-boats-fair-count",
+        "k12-by-how-a-levee-holds-water-back",
         "k12-teamwork-and-feedback",
         "k12-digital-citizenship-and-online-safety",
         "k12-public-speaking-at-the-hall",
@@ -5659,6 +5671,36 @@
           "app": "smartcity",
           "id": "k12-geometry-of-a-turbine-blade-sweep",
           "why": "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-a-streetcar-timetable",
+          "why": "A timetable read as rows of stops and columns of trips, the gap between departures found by subtraction and a trip chosen that arrives with time to spare."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-a-ferry-timetable-and-the-tide",
+          "why": "A round trip planned from both banks' departures with a sensible wait, and the water-level board read to set the landing ramp level with the deck."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-a-shrimp-boats-fair-count",
+          "why": "A catch counted fairly by level scoops from all over the bin, tallied, averaged and used to estimate the whole, with the small fish returned first."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-reading-a-flood-maps-colours",
+          "why": "A practice flood map read through its key, scale bar and north arrow, low ground told from high, and a route and meeting place planned calmly from the evidence."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-sorting-containers-at-the-port",
+          "why": "Model containers sorted by a rule, grouped by destination, stacked so the first to leave sits on top and the heaviest sit low, and the sort checked in a table."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-measuring-a-floodwall-in-steps",
+          "why": "A stretch of floodwall measured by pacing, a pace measured against the crew's tape, steps turned into length and the answer checked against the wall's panels."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -5723,6 +5765,31 @@
           "app": "smartcity",
           "id": "k12-a-controlled-experiment",
           "why": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-how-a-levee-holds-water-back",
+          "why": "A levee as a wide, low bank of packed clay under grass, tested in a model tank against loose sand, with a wet spot flagged and reported rather than dug."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-what-a-pump-station-does-in-the-rain",
+          "why": "Rain followed from a roof to the pump station, the reason low ground needs a lift, and a model pump started in order with its screen kept clear."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-wetlands-as-a-storms-speed-bump",
+          "why": "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-the-rivers-current-and-a-pilots-job",
+          "why": "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-the-water-cycle-from-lake-to-tap",
+          "why": "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -5831,6 +5898,11 @@
           "app": "smartcity",
           "id": "k12-teamwork-and-feedback",
           "why": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-by-a-family-readiness-plan",
+          "why": "A readiness plan a family makes together before storm season — who helps, what goes in the go-bag, where to meet and where to go — written down, shared and practised."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -9963,6 +10035,1002 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-wetlands-as-a-storms-speed-bump",
+      "name": "Wetlands as a Storm's Speed Bump",
+      "title": "SmartCiti.X~ Wetlands as a Storm's Speed Bump VR",
+      "tagline": "Grass, mud and shallow water slow a wave down — test it fairly, then help the crew plant",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class on the restoration crew's boat at the wetlands — learner and restoration crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#7aa84e",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "marsh-maker",
+        "name": "Marsh Maker",
+        "note": "Ran a fair wave-tank test with and without marsh plants, explained where the wave's energy went and planted with the crew"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "831",
+      "flat": false,
+      "system": "Marsh Board",
+      "currency": "STEMS",
+      "ranks": [
+        "Seedling",
+        "Sprout",
+        "Stem",
+        "Clump",
+        "Marsh Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-wetlands-as-a-storms-speed-bump"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-the-water-cycle-from-lake-to-tap",
+      "name": "The Water Cycle from Lake to Tap",
+      "title": "SmartCiti.X~ The Water Cycle from Lake to Tap VR",
+      "tagline": "Up as vapour, down as rain, cleaned at the plant — and clear is never the same as safe to drink",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class on the lakefront with a water utility operator — learner and water treatment operator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#3fa6c8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "cycle-tracer",
+        "name": "Cycle Tracer",
+        "note": "Traced water from the lake to the sky and back, ordered the cleaning steps at a model plant and kept lake water out of the cup"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "834",
+      "flat": false,
+      "system": "Cycle Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Droplet",
+        "Vapour",
+        "Cloud",
+        "Stream",
+        "Operator"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-the-water-cycle-from-lake-to-tap"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-streetcar-timetable",
+      "name": "A Streetcar Timetable",
+      "title": "SmartCiti.X~ A Streetcar Timetable VR",
+      "tagline": "Stops down the side, trips across the top — read the right column, then count the gap",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the streetcar barn with a transit dispatcher — learner and streetcar dispatcher",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#b8503a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "timetable-reader",
+        "name": "Timetable Reader",
+        "note": "Read a streetcar timetable by row and column, found the gap between trips and planned a journey that arrives on time"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "835",
+      "flat": false,
+      "system": "Timetable Board",
+      "currency": "TRIPS",
+      "ranks": [
+        "Rider",
+        "Reader",
+        "Planner",
+        "Conductor",
+        "Dispatcher"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-a-streetcar-timetable"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-the-rivers-current-and-a-pilots-job",
+      "name": "The River's Current and a Pilot's Job",
+      "title": "SmartCiti.X~ The River's Current and a Pilot's Job VR",
+      "tagline": "Downstream the river helps, upstream it pushes back — a pilot reads the current before every turn",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class aboard the pilot boat at the marina — learner and river pilot boat operator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5b86b8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "current-reader",
+        "name": "Current Reader",
+        "note": "Timed floats in the channel, explained how current changes a boat's speed and aimed a model boat upstream to cross"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "832",
+      "flat": false,
+      "system": "River Board",
+      "currency": "BENDS",
+      "ranks": [
+        "Deckhand",
+        "Lookout",
+        "Helm",
+        "Mate",
+        "Pilot"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-the-rivers-current-and-a-pilots-job"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-what-a-pump-station-does-in-the-rain",
+      "name": "What a Pump Station Does in the Rain",
+      "title": "SmartCiti.X~ What a Pump Station Does in the Rain VR",
+      "tagline": "Water only runs downhill — so in low ground the pumps give it a lift, and the screen stays clear",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class at the drainage pumping station — learner and pump station operator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4f9fc0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "rain-lifter",
+        "name": "Rain Lifter",
+        "note": "Traced rain from a roof to the pump station, explained why low ground needs a pump and kept the model's screen clear"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "830",
+      "flat": false,
+      "system": "Pump Board",
+      "currency": "LIFTS",
+      "ranks": [
+        "Drop",
+        "Gutter",
+        "Drain",
+        "Canal",
+        "Operator"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-what-a-pump-station-does-in-the-rain"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-measuring-a-floodwall-in-steps",
+      "name": "Measuring a Floodwall in Steps",
+      "title": "SmartCiti.X~ Measuring a Floodwall in Steps VR",
+      "tagline": "Measure your pace, count your steps, check with the panels — the same unit all the way",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class along the floodwall with the structure crew — learner and floodwall crew foreman",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#8a8f98",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "pace-counter",
+        "name": "Pace Counter",
+        "note": "Measured a stretch of floodwall by pacing, turned steps into a real length with a measured pace and checked it against the panels"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "840",
+      "flat": false,
+      "system": "Wall Board",
+      "currency": "PACES",
+      "ranks": [
+        "Walker",
+        "Pacer",
+        "Counter",
+        "Checker",
+        "Foreman"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-measuring-a-floodwall-in-steps"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-reading-a-flood-maps-colours",
+      "name": "Reading a Flood Map's Colours",
+      "title": "SmartCiti.X~ Reading a Flood Map's Colours VR",
+      "tagline": "Key first, then colours — a flood map shows low and high ground so a family can plan calmly",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths and map class with the levee district's planner — learner and levee district planner",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#7a6fc0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "map-key-reader",
+        "name": "Map Key Reader",
+        "note": "Read a practice flood map through its key and scale, told low ground from high and planned a route to higher ground"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "838",
+      "flat": false,
+      "system": "Map Board",
+      "currency": "KEYS",
+      "ranks": [
+        "Looker",
+        "Key Reader",
+        "Scale Reader",
+        "Route Planner",
+        "Planner"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-reading-a-flood-maps-colours"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-ferry-timetable-and-the-tide",
+      "name": "A Ferry Timetable and the Tide",
+      "title": "SmartCiti.X~ A Ferry Timetable and the Tide VR",
+      "tagline": "Depart, cross, arrive, return — and the water level tells the mate where to set the ramp",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the ferry landing with the ferry mate — learner and ferry deck mate",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#3e7fa6",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "crossing-planner",
+        "name": "Crossing Planner",
+        "note": "Read departures from both banks, found the crossing time, planned a round trip and matched the ramp to the water-level board"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "836",
+      "flat": false,
+      "system": "Crossing Board",
+      "currency": "CROSSINGS",
+      "ranks": [
+        "Passenger",
+        "Reader",
+        "Planner",
+        "Deckhand",
+        "Mate"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-a-ferry-timetable-and-the-tide"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-family-readiness-plan",
+      "name": "A Family Readiness Plan",
+      "title": "SmartCiti.X~ A Family Readiness Plan VR",
+      "tagline": "Who helps, what to pack, where to go — made together, written down and practised before it is needed",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Life-skills class in the school hall with the parish readiness team — learner and school nurse",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#d49a3a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "ready-together",
+        "name": "Ready Together",
+        "note": "Made a family readiness plan with helpers, a packed go-bag list, a meeting place and a way to go, and practised it with a classmate"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "833",
+      "flat": false,
+      "system": "Ready Board",
+      "currency": "PLANS",
+      "ranks": [
+        "Listener",
+        "Packer",
+        "Planner",
+        "Helper",
+        "Neighbour"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-a-family-readiness-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-sorting-containers-at-the-port",
+      "name": "Sorting Containers at the Port",
+      "title": "SmartCiti.X~ Sorting Containers at the Port VR",
+      "tagline": "Sort by where it is going, stack what leaves first on top — and heavy boxes go low",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the port terminal with a yard planner — learner and container yard planner",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c0503e",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "yard-sorter",
+        "name": "Yard Sorter",
+        "note": "Sorted model containers by destination, stacked them so the first to leave sat on top and checked the sort with a table"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "839",
+      "flat": false,
+      "system": "Yard Board",
+      "currency": "BOXES",
+      "ranks": [
+        "Tallier",
+        "Sorter",
+        "Stacker",
+        "Checker",
+        "Yard Planner"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-sorting-containers-at-the-port"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-shrimp-boats-fair-count",
+      "name": "A Shrimp Boat's Fair Count",
+      "title": "SmartCiti.X~ A Shrimp Boat's Fair Count VR",
+      "tagline": "Scoop from all over, tally every one, repeat — a fair sample tells you about the whole catch",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class aboard a shrimp boat at the harbour — learner and shrimp boat deckhand",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#d0764a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "fair-counter",
+        "name": "Fair Counter",
+        "note": "Took fair sample scoops from a catch bin, tallied them, found the average and estimated the whole catch from it"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "837",
+      "flat": false,
+      "system": "Catch Board",
+      "currency": "TALLIES",
+      "ranks": [
+        "Sorter",
+        "Counter",
+        "Tallier",
+        "Sampler",
+        "Deck Boss"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-a-shrimp-boats-fair-count"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-how-a-levee-holds-water-back",
+      "name": "How a Levee Holds Water Back",
+      "title": "SmartCiti.X~ How a Levee Holds Water Back VR",
+      "tagline": "Wide at the bottom, packed clay inside, grass on top — and a wet spot is flagged, never dug",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class on the levee crest with the levee inspection crew — learner and levee inspector",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#6fae5a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "bank-reader",
+        "name": "Bank Reader",
+        "note": "Explained why a levee is wide at its base, tested clay against sand in the model tank and flagged a wet spot for the inspector"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "829",
+      "flat": false,
+      "system": "Levee Board",
+      "currency": "FLAGS",
+      "ranks": [
+        "Walker",
+        "Spotter",
+        "Tester",
+        "Reader",
+        "Inspector"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-by-how-a-levee-holds-water-back"
     },
     {
       "app": "smartcity",
@@ -34886,7 +35954,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",
