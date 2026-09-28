@@ -66,7 +66,7 @@
   @media (max-width:700px){
     .wf-nav{display:none}
     body .back{display:inline-flex; align-items:center; min-height:44px}
-    body .sub, body .why, body .cert, body .gapnote, body .summary, body .foot p{font-size:16px}
+    body:not(#wf) :is(.sub, .why, .cert, .gapnote, .summary, .foot p, .st-std, .proof li, .card p){font-size:16px}
     body .launch, body .lvl-foot a{display:inline-flex; align-items:center; min-height:44px}
   }
   header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}

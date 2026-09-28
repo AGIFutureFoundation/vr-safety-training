@@ -245,6 +245,8 @@ const CSS = `
   :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
   .skip{position:absolute; inset-inline-start:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
   .skip:focus{inset-inline-start:var(--gutter); top:8px}
+  /* Readable copy on a phone (console WAYFINDER): card and section text at 16 px. */
+  @media (max-width:700px){ body:not(#wf) :is(.card-blurb, .prog-meta, .prog-union, .prog-tag, .sub, .hm-sub, .aside, .devices, .cont-line, .count, .tag, .card p, .catmeta, main p:not(.eyebrow)){font-size:16px} }
   .eyebrow{
     font-family:var(--cond); font-weight:600; text-transform:uppercase;
     letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0;

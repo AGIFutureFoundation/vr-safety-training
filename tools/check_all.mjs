@@ -48,6 +48,8 @@ const CHECKERS = [
   "check_auth.mjs",
   // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).
   "check_i18n.mjs",
+  // Titles, descriptions, canonical, Open Graph, JSON-LD, the sitemap and phone usability on every page (docs/consoles/WAYFINDER.md).
+  "check_seo.mjs",
 ];
 
 let failed = 0;
