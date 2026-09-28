@@ -94,6 +94,8 @@ const CHECKERS = [
   "check_design.mjs",
   // Layered maps, interactive assets, service liveries and avatar styles (docs/consoles/CARTOGRAPHER.md).
   "check_worlds_detail.mjs",
+  // The Cloudflare deployment: wrangler.toml, the edge files, the /api router, the deploy agent's plan (docs/deploy-cloudflare.md).
+  "check_deploy.mjs",
   // The perf files, their budgets and the checkers' own speed (docs/consoles/PROVING.md).
   "check_proving.mjs",
 ];

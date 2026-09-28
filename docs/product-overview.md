@@ -79,6 +79,8 @@ Categories run from Community Environmental Justice (51 stations) and Culinary &
 
 **Static only.** Serve `WebXR/` or the `dist/` folders over HTTPS. Records, progress, badges and check-ins live in the learner's browser; the instructor console works across tabs on one machine with no process at all. WebXR needs a secure context and, when embedded, `allow="xr-spatial-tracking"`. The CSP must allow `cdnjs.cloudflare.com` and Google Fonts, or both are self-hosted.
 
+**On Cloudflare Pages** ([deploy-cloudflare.md](deploy-cloudflare.md)). The flat `WebXR/dist/` folder is the project; a small router behind `/api/*` answers health, serves `auth-config.json` with an organisation's enterprise block merged in from a KV namespace, and forwards the payments webhook. The deploy agent (`tools/deploy_agent.mjs`) plans, gates on the checker suite, provisions, deploys, verifies and rolls back; it is a dry run until an API token and account id are in the environment, and nothing in the repository holds either.
+
 **With a host page or LMS.** The host supplies identity by URL or `postMessage`, receives progress, record and credential events at its own origin only, and may hand over a flow. The static catalog lets it index every station without loading the app. **With sign-in**, the host fills in the client ids or e-mail endpoint it operates and its server verifies the credential the page hands back. **With an LRS**, an https endpoint and credential are set from the records overlay, the launch URL or the embedding page.
 
 **With a verified launch.** Deploy the LTI relay behind TLS and register it with the platform — a platform-side act not yet performed.
