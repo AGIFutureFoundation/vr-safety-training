@@ -124,7 +124,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       seconds: 6,
       title: "Stay on the line",
       cue: "Hold the phone and listen until they say you can hang up.",
-      why: "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off.",
+      why: "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off. If you are not sure what to say, the person answering will guide you with questions, so stay with them.",
       holdBreakNote: "You hung up too early. Stay on the line until they tell you it is fine to go."
     },
     {
@@ -138,7 +138,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       },
       title: "Put the phone on speaker",
       cue: "Turn the phone to speaker so your hands are free and the adult can hear.",
-      why: "Putting the phone on speaker lets the adult beside you hear the questions and answer too, and leaves your hands free to wave to arriving help. It is a small step that makes the call work better for everyone."
+      why: "Putting the phone on speaker lets the adult beside you hear the questions and answer too, and leaves your hands free to wave to arriving help. It is a small step that makes the call work better for everyone. Every detail you can give calmly is one less question the call-taker has to ask while help is on its way."
     },
     {
       id: "speak-calmly-and-clearly",
@@ -155,7 +155,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       },
       title: "Speak calmly and clearly",
       cue: "Commit when your voice is calm and clear enough to be understood first time.",
-      why: "A calm, clear voice gets information across first time; a rushed or shouted one has to be repeated, which costs time. Taking a breath before speaking is the simplest way to be understood in an emergency."
+      why: "A calm, clear voice gets information across first time; a rushed or shouted one has to be repeated, which costs time. Taking a breath before speaking is the simplest way to be understood in an emergency. Saying where you are first, before anything else, means help can start moving even if the call is cut short."
     },
     {
       id: "show-help-where-to-come",
@@ -168,7 +168,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       },
       title: "Show help where to come",
       cue: "Drag the waving arm to the safe spot by the road where help will arrive.",
-      why: "Showing arriving help exactly where to go saves time. Standing safely at the road edge, with an adult, and waving is a useful job a young person can do while trained people take over."
+      why: "Showing arriving help exactly where to go saves time. Standing safely at the road edge, with an adult, and waving is a useful job a young person can do while trained people take over. Responders arriving at a busy place lose time finding the right spot, so a clear signal from a safe place gets them there sooner."
     },
     {
       id: "say-what-you-will-not-do",
@@ -176,7 +176,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       target: "kfa-clinical-card",
       title: "Say what you will not do",
       cue: "Say why you will not try to treat the injury yourself.",
-      why: "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most."
+      why: "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most. Trying a treatment you have not been trained in can make things worse, and it takes an adult's attention away from calling for help."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -202,7 +202,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       },
       title: "Spot the problems in a classmate's plan",
       cue: "Look at the classmate's help plan and mark each problem.",
-      why: "Help plans go wrong in predictable ways: running into danger, trying a treatment and giving a vague location. Spotting them in someone else's plan helps you remember the right order when it matters."
+      why: "Help plans go wrong in predictable ways: running into danger, trying a treatment and giving a vague location. Spotting them in someone else's plan helps you remember the right order when it matters. The right order is always the same: stay safe, fetch an adult, call for help and say exactly where you are."
     },
     {
       id: "stay-steady-until-help-arrives",
@@ -222,7 +222,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       },
       title: "Stay steady until help arrives",
       cue: "Hold yourself in band — calm and near the adult — until help arrives.",
-      why: "Waiting for help is hard, and it is tempting to do something, anything. Staying calm, close to the adult and ready to answer questions is the most useful thing to do until trained people take over.",
+      why: "Waiting for help is hard, and it is tempting to do something, anything. Staying calm, close to the adult and ready to answer questions is the most useful thing to do until trained people take over. Moving about or crowding round only adds to the confusion that responders then have to sort out.",
       holdBreakNote: "You drifted from calm. Take a breath and stay beside the adult."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       doneLine: "Account given",
       title: "Tell the adult what happened",
       cue: "When help has arrived, tell the adult what you saw.",
-      why: "Afterwards, telling the adult clearly what you saw helps them and the responders. Keep it to what you saw, in order, the same way a clear report is written."
+      why: "Afterwards, telling the adult clearly what you saw helps them and the responders. Keep it to what you saw, in order, the same way a clear report is written. Guesses about what caused it can wait; the responders need what you actually saw first."
     },
     {
       id: "share-the-steps-with-the-class",
@@ -241,7 +241,7 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       doneLine: "Steps shared",
       title: "Share the steps with the class",
       cue: "Tell the class the steps: safe, adult, call, where.",
-      why: "Sharing the steps helps classmates remember them, and saying them out loud fixes them in your own memory. Short steps that everyone knows are exactly what helps in a real emergency."
+      why: "Sharing the steps helps classmates remember them, and saying them out loud fixes them in your own memory. Short steps that everyone knows are exactly what helps in a real emergency. In a frightening moment people fall back on what they have practised, so the practice is the preparation."
     },
     {
       id: "crew-check-in",

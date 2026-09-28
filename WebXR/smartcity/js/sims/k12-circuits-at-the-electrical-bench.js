@@ -124,7 +124,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       seconds: 6,
       title: "Trace the loop from one end to the other",
       cue: "Follow the path with your finger from the battery, round, and back.",
-      why: "Tracing the loop by hand finds a loose clip or a gap faster than guessing. If your finger cannot get back to where it started along wires and parts, the current cannot either, and the bulb will stay dark.",
+      why: "Tracing the loop by hand finds a loose clip or a gap faster than guessing. If your finger cannot get back to where it started along wires and parts, the current cannot either, and the bulb will stay dark. Finding the break by following the loop, part by part, is the same fault-finding an electrician does.",
       holdBreakNote: "You lost the path. Start again at the battery and follow it all the way round."
     },
     {
@@ -138,7 +138,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       },
       title: "Close the switch",
       cue: "Turn the switch to close the gap in the loop.",
-      why: "A switch is simply a controlled gap in the loop. Closing it completes the circuit and the bulb lights; opening it breaks the loop and the bulb goes out. Seeing that shows why a complete loop is the one rule of every circuit."
+      why: "A switch is simply a controlled gap in the loop. Closing it completes the circuit and the bulb lights; opening it breaks the loop and the bulb goes out. Seeing that shows why a complete loop is the one rule of every circuit. Every circuit, from a torch to a building's wiring, depends on that unbroken path."
     },
     {
       id: "judge-the-brightness-with-two-bulbs",
@@ -155,7 +155,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       },
       title: "Judge the brightness with two bulbs in series",
       cue: "Commit when you judge how bright the two bulbs in series are compared with one.",
-      why: "Adding a second bulb in series shares the battery's push between them, so each glows more dimly. Judging the change carefully, rather than guessing, is observation, and it sets up the comparison with parallel next."
+      why: "Adding a second bulb in series shares the battery's push between them, so each glows more dimly. Judging the change carefully, rather than guessing, is observation, and it sets up the comparison with parallel next. Noticing what happens to every bulb, not just one, is what makes the comparison fair."
     },
     {
       id: "move-the-second-bulb-onto-its",
@@ -176,7 +176,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       target: "kce-warm-card",
       title: "Say what to do if a battery feels warm",
       cue: "Say what you do if a battery or wire feels warm.",
-      why: "A warm battery or wire is a sign that something is wrong, often a short. Disconnecting it and telling the teacher at once is the rule, and knowing it before anything warms up is what lets you act quickly."
+      why: "A warm battery or wire is a sign that something is wrong, often a short. Disconnecting it and telling the teacher at once is the rule, and knowing it before anything warms up is what lets you act quickly. A warm wire or battery is a sign to disconnect and tell the teacher, never to carry on."
     },
     {
       id: "spot-the-faults-in-a-classmate",
@@ -222,7 +222,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       },
       title: "Keep observations steady as you swap branches",
       cue: "Hold your attention in band as you switch between series and parallel and note each change.",
-      why: "Swapping between arrangements quickly makes it easy to mix up which result went with which. Steady, careful observation and noting each change as it happens keeps the comparison clean.",
+      why: "Swapping between arrangements quickly makes it easy to mix up which result went with which. Steady, careful observation and noting each change as it happens keeps the comparison clean. Changing one thing at a time means you know which change made the difference.",
       holdBreakNote: "Your notes and the circuit drifted apart. Check which arrangement is on the bench and note it again."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       doneLine: "Circuits recorded",
       title: "Record the circuits and what you saw",
       cue: "Draw each circuit and note the brightness in series and in parallel.",
-      why: "A drawn circuit with its observation beside it is how electricians and scientists record what they built. It means anyone can rebuild it and check your observation for themselves."
+      why: "A drawn circuit with its observation beside it is how electricians and scientists record what they built. It means anyone can rebuild it and check your observation for themselves. That is exactly how electricians leave a drawing of a circuit for the next person to work on it."
     },
     {
       id: "disconnect-and-pack-the-kit-away",
@@ -241,7 +241,7 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
       doneLine: "Kit disconnected and packed",
       title: "Disconnect and pack the kit away",
       cue: "Battery out first, then pack the parts in their places.",
-      why: "Disconnecting the battery before packing stops anything shorting in the box, and putting parts in their places means the next class finds a working kit. Finishing safely is part of the lesson, not an afterthought."
+      why: "Disconnecting the battery before packing stops anything shorting in the box, and putting parts in their places means the next class finds a working kit. Finishing safely is part of the lesson, not an afterthought. Disconnecting the battery first and checking the kit is complete means it is safe and ready for the next class."
     },
     {
       id: "crew-check-in",

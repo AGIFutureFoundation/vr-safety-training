@@ -124,7 +124,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       seconds: 6,
       title: "Watch the boat settle without touching it",
       cue: "Keep still and watch where the boat settles in the water.",
-      why: "Watching an object settle, without nudging it, shows how low it sits once the water's upward push balances its weight. Touching it spoils the observation; patient watching is what lets you see the balance the whole topic is about.",
+      why: "Watching an object settle, without nudging it, shows how low it sits once the water's upward push balances its weight. Touching it spoils the observation; patient watching is what lets you see the balance the whole topic is about. Floating is a balance between the object's weight and the water's upward push, and you can watch it settle.",
       holdBreakNote: "You nudged the boat and spoiled the observation. Let it settle again on its own."
     },
     {
@@ -138,7 +138,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       },
       title: "Turn the block into a boat",
       cue: "Turn the dial from the solid block to the same material shaped as a boat.",
-      why: "Changing only the shape, and keeping the same material and amount, is the fair test that shows shape matters. A hollow shape pushes aside more water, so the water pushes up harder, and the same material that sank can float."
+      why: "Changing only the shape, and keeping the same material and amount, is the fair test that shows shape matters. A hollow shape pushes aside more water, so the water pushes up harder, and the same material that sank can float. That is why a heavy steel ship floats while a small steel bolt sinks straight to the bottom."
     },
     {
       id: "load-the-boat-until-it-sits",
@@ -155,7 +155,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       },
       title: "Load the boat until it sits low but still floats",
       cue: "Commit when the boat is loaded low in the water but still floating.",
-      why: "Adding cargo makes the boat sit lower as it pushes aside more water to balance the extra weight. Stopping while it still floats shows that balance at its limit, and it is the idea behind the load lines painted on real ships' hulls."
+      why: "Adding cargo makes the boat sit lower as it pushes aside more water to balance the extra weight. Stopping while it still floats shows that balance at its limit, and it is the idea behind the load lines painted on real ships' hulls. Crews check those marks so a ship is never loaded so deep that it becomes unsafe."
     },
     {
       id: "put-your-result-on-the-class",
@@ -168,7 +168,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       },
       title: "Put your result on the class board",
       cue: "Drag your result card onto the class results board beside everyone else's.",
-      why: "One result can be a fluke; many results from the class together show a pattern. Putting yours beside everyone else's is how science builds confidence in a finding, and it lets the class spot any result that needs repeating."
+      why: "One result can be a fluke; many results from the class together show a pattern. Putting yours beside everyone else's is how science builds confidence in a finding, and it lets the class spot any result that needs repeating. Putting every group's results side by side shows which findings are solid and which were flukes."
     },
     {
       id: "explain-the-squirting-bottle",
@@ -222,7 +222,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       },
       title: "Keep your observations matched to what you see",
       cue: "Hold your notes in band with what the tank actually shows as objects settle.",
-      why: "It is easy to write what you expected rather than what happened. Keeping notes matched to the tank, including surprises, is the honesty that makes a science result worth trusting.",
+      why: "It is easy to write what you expected rather than what happened. Keeping notes matched to the tank, including surprises, is the honesty that makes a science result worth trusting. A surprise is often where the most interesting question in the whole lesson is hiding.",
       holdBreakNote: "Your notes drifted from what the tank shows. Look again and write what you see."
     },
     {
@@ -241,7 +241,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       doneLine: "Explanation shared",
       title: "Explain the boat to the class",
       cue: "Explain why the boat floats when the block of the same material sinks.",
-      why: "Explaining the boat and the block to the class, using the push of the water, is the clearest test of whether the idea has landed. Classmates who predicted wrongly learn most from an explanation that uses the same objects they saw."
+      why: "Explaining the boat and the block to the class, using the push of the water, is the clearest test of whether the idea has landed. Classmates who predicted wrongly learn most from an explanation that uses the same objects they saw. Using the real objects keeps the explanation honest, because everyone can check it against what happened."
     },
     {
       id: "crew-check-in",
