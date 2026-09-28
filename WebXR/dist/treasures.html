@@ -34,7 +34,7 @@
   .found p { margin: 6px 0 0; }
   .empty { color: var(--muted); font-style: italic; }
   .note { margin-top: 28px; font-size: 14px; color: var(--muted); }
-  #tz-reset { min-height: 36px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+  #tz-reset, #tz-account { min-height: 36px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -53,7 +53,7 @@
   <h2>What you have found</h2>
   <div class="found" id="tz-found"><p class="empty">Nothing yet. Try knocking on things.</p></div>
 
-  <p class="note">Your treasures are saved to your own profile: signed in, this device, or the demo tab (the demo keeps nothing once the tab closes). Some treasures stay locked until you have passed a station; when you find a locked one, it tells you which station to pass. <button id="tz-reset" type="button">Clear my treasures</button></p>
+  <p class="note">Your treasures are saved to your own profile: signed in, this device, or the demo tab (the demo keeps nothing once the tab closes). Some treasures stay locked until you have passed a station; when you find a locked one, it tells you which station to pass. <button id="tz-account" type="button">Sign in or switch profile</button> <button id="tz-reset" type="button">Clear my treasures</button></p>
 </main>
 <script type="module">
 import { tzMapModel, tzClear } from "./shared/treasures.js";
@@ -93,6 +93,7 @@ function render() {
     f.append(a);
   }
 }
+$("tz-account").addEventListener("click", () => document.getElementById("gt-account")?.click());
 $("tz-reset").addEventListener("click", () => { if (typeof confirm !== "function" || confirm("Clear every treasure found on this profile?")) { tzClear(); render(); } });
 addEventListener("gt:profile", render);
 addEventListener("tz:found", render);
