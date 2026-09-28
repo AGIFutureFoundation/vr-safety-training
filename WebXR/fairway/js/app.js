@@ -25,6 +25,8 @@ import {
 } from "./minigames.js";
 import { fgCrewTag, fgLoadScores, fgSubmitRound, fgSubmitMinigame, FAIRWAY_TABLE_SIZE } from "./scores.js";
 import { fwBuildWorld } from "./world.js";
+// The K-12 layer (shared/field-lessons.js): the park's field lessons listed on the facility screen.
+import { k2LessonsFor, k2RenderLessonList } from "../../shared/field-lessons.js";
 
 // Fairway Park — the app: menus, the golf HUD and swing meter, camera and
 // input for the course, and the three sports-facility mini-games. Every
@@ -423,6 +425,7 @@ function fwRenderScoresScreen() {
 function fwRenderFacilityMenu() {
   const wrap = $("facility-list");
   wrap.textContent = "";
+  const lessons = $("facility-lessons"); if (lessons) { lessons.textContent = ""; k2RenderLessonList(lessons, k2LessonsFor("fairway"), lkStationLink); }
   for (const g of FAIRWAY_MINIGAMES_INFO) {
     const b = document.createElement("button");
     b.className = "mode";

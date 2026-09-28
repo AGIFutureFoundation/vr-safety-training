@@ -3,123 +3,259 @@
   "index": "827",
   "prefix": "kdc",
   "accent": "#9a6ad0",
-  "floor": ["#6c6e76", "#60626a"],
-  "wall": ["#e2e2ec", "#d2d2de"],
+  "floor": [
+    "#6c6e76",
+    "#60626a"
+  ],
+  "wall": [
+    "#e2e2ec",
+    "#d2d2de"
+  ],
   "trade": "Life-skills class in the community college's computer lab — learner and digital skills tutor",
   "header": "Upper-primary and lower-secondary life skills in a community college's computer lab: strong passphrases, what not to share, spotting a scam message, checking a claim before sharing it and being kind online, with every message and account in the scene invented for practice.",
   "name": "Digital Citizenship and Online Safety",
   "tagline": "Pause before you click, share or post — and tell a trusted adult when something feels wrong",
-  "badge": {"id": "pause-and-check", "name": "Pause and Check", "note": "A strong passphrase set, a scam spotted, a claim checked before sharing and a trusted adult told"},
-  "board": {"name": "Safety Board", "currency": "CHECKS", "ranks": ["Newcomer", "Checker", "Guardian", "Mentor", "Digital Citizen"]},
+  "badge": {
+    "id": "pause-and-check",
+    "name": "Pause and Check",
+    "note": "A strong passphrase set, a scam spotted, a claim checked before sharing and a trusted adult told"
+  },
+  "board": {
+    "name": "Safety Board",
+    "currency": "CHECKS",
+    "ranks": [
+      "Newcomer",
+      "Checker",
+      "Guardian",
+      "Mentor",
+      "Digital Citizen"
+    ]
+  },
   "hazards": [
-    {"id": "click-the-prize-link", "label": "Click the link in the prize message?", "face": "YOU\nWON!", "text": "You clicked the link in a message saying you had won a prize. Messages that rush you with prizes or threats are a common trick to steal accounts; pause, do not click, and show a trusted adult or delete it."},
-    {"id": "share-your-home-address", "label": "Post where you live to a new online friend?", "face": "HOME\nADDRESS", "text": "You shared where you live with someone you only know online. Personal details like your address, school or phone number stay private; people online are not always who they say they are, and a trusted adult can help if someone keeps asking."},
-    {"id": "same-password-everywhere", "label": "Use one password for every account?", "face": "ONE FOR\nALL", "text": "You used the same password for every account. If one site leaks it, every account is open; a different strong passphrase for each, kept in a safe place or a password manager a trusted adult helps you set up, keeps one leak from becoming many."},
-    {"id": "share-before-checking", "label": "Share a shocking post before checking it?", "face": "SHARE\nNOW", "text": "You shared a shocking post before checking it. Posts built to shock spread fast whether they are true or not; check who made it and whether trusted sources agree, and if you cannot tell, do not pass it on."}
+    {
+      "id": "click-the-prize-link",
+      "label": "Click the link in the prize message?",
+      "face": "YOU\nWON!",
+      "text": "You clicked the link in a message saying you had won a prize. Messages that rush you with prizes or threats are a common trick to steal accounts; pause, do not click, and show a trusted adult or delete it."
+    },
+    {
+      "id": "share-your-home-address",
+      "label": "Post where you live to a new online friend?",
+      "face": "HOME\nADDRESS",
+      "text": "You shared where you live with someone you only know online. Personal details like your address, school or phone number stay private; people online are not always who they say they are, and a trusted adult can help if someone keeps asking."
+    },
+    {
+      "id": "same-password-everywhere",
+      "label": "Use one password for every account?",
+      "face": "ONE FOR\nALL",
+      "text": "You used the same password for every account. If one site leaks it, every account is open; a different strong passphrase for each, kept in a safe place or a password manager a trusted adult helps you set up, keeps one leak from becoming many."
+    },
+    {
+      "id": "share-before-checking",
+      "label": "Share a shocking post before checking it?",
+      "face": "SHARE\nNOW",
+      "text": "You shared a shocking post before checking it. Posts built to shock spread fast whether they are true or not; check who made it and whether trusted sources agree, and if you cannot tell, do not pass it on."
+    }
   ],
   "find1": {
     "title": "Find the warning signs in a message",
     "cue": "Mark the three warning signs in the practice message on screen.",
     "why": "Scam messages often share the same signs: they rush you to act now, they come from an address that does not quite match who they claim to be, and they ask for a password or personal detail. Spotting those three signs lets you stop before you click, which is the single most useful online safety habit.",
-    "items": [["rush", "a demand to act right now", "Rushing you is a classic pressure trick."], ["odd-sender", "a sender address that does not match", "Check who really sent it."], ["asks-password", "a request for your password", "No real service asks for it by message."]],
-    "decoy": ["logo", "a colourful logo", "Logos are easy to copy, so a logo alone proves nothing either way."]
+    "items": [
+      [
+        "rush",
+        "a demand to act right now",
+        "Rushing you is a classic pressure trick."
+      ],
+      [
+        "odd-sender",
+        "a sender address that does not match",
+        "Check who really sent it."
+      ],
+      [
+        "asks-password",
+        "a request for your password",
+        "No real service asks for it by message."
+      ]
+    ],
+    "decoy": [
+      "logo",
+      "a colourful logo",
+      "Logos are easy to copy, so a logo alone proves nothing either way."
+    ]
   },
   "select1": {
     "title": "Know who your trusted adults are",
     "cue": "Read the card: if something online worries you, tell a trusted adult.",
     "why": "Online problems are much easier to sort out with help, and nobody should face them alone. Knowing before anything happens who your trusted adults are, a parent, carer, teacher or tutor, means you know exactly where to go if something feels wrong.",
-    "key": "trusted-card", "label": "Tell a trusted adult", "face": "TELL AN\nADULT"
+    "key": "trusted-card",
+    "label": "Tell a trusted adult",
+    "face": "TELL AN\nADULT"
   },
   "seq": {
     "title": "Put the pause-and-check routine in order",
     "cue": "Pause, check who sent it, check what it asks, then decide or ask for help.",
     "why": "Pausing first stops the rush that scams depend on. Checking the sender and what the message asks for reveals most tricks, and then you can decide calmly, or ask a trusted adult if you are unsure. The same routine works for messages, links and posts.",
     "oon": "Out of order. Pause first, before anything else.",
-    "items": [["ord-pause", "pause before clicking"], ["ord-sender", "check who sent it"], ["ord-asks", "check what it asks for"], ["ord-decide", "decide, or ask a trusted adult"]]
+    "items": [
+      [
+        "ord-pause",
+        "pause before clicking"
+      ],
+      [
+        "ord-sender",
+        "check who sent it"
+      ],
+      [
+        "ord-asks",
+        "check what it asks for"
+      ],
+      [
+        "ord-decide",
+        "decide, or ask a trusted adult"
+      ]
+    ]
   },
   "hold": {
     "title": "Hold off clicking while you check",
     "cue": "Keep your hand off the link while you check the message.",
     "why": "A scam works when you click before thinking. Deliberately holding off while you check the sender and the request gives your judgement time to catch up with the message's pressure, and it costs nothing if the message turns out to be real.",
     "brk": "Your cursor drifted onto the link. Move it away and keep checking.",
-    "key": "hold-off", "label": "Hand off the link"
+    "key": "hold-off",
+    "label": "Hand off the link"
   },
   "turn": {
     "title": "Turn the privacy setting to friends only",
     "cue": "Turn the practice profile's privacy dial from public to friends only.",
     "why": "A public profile can be seen by anyone, including strangers. Setting it to people you actually know limits who can see your posts and details, and checking that setting on every new account is a habit worth having for life.",
-    "key": "privacy-dial", "label": "Profile privacy", "dial": "PRIVACY"
+    "key": "privacy-dial",
+    "label": "Profile privacy",
+    "dial": "PRIVACY"
   },
   "gauge": {
     "title": "Make the passphrase strong enough",
     "cue": "Commit when the strength meter shows a strong passphrase.",
     "why": "A passphrase made of several unrelated words is long and hard to guess, yet easy for you to remember. Watching the strength meter rise as you add words shows why length matters more than a single odd symbol.",
-    "key": "strength-meter", "label": "Passphrase strength", "meter": "STRENGTH",
+    "key": "strength-meter",
+    "label": "Passphrase strength",
+    "meter": "STRENGTH",
     "miss": "Not strong enough yet. Add another unrelated word."
   },
   "drag": {
     "title": "Move the scam message to report",
     "cue": "Drag the scam message to the report folder instead of replying.",
     "why": "Reporting a scam helps the service block it for others, while replying tells the sender your account is active. Moving it to report and then deleting it is the safe way to deal with it, and showing a trusted adult is always fine too.",
-    "key": "scam-token", "label": "Scam message", "spot": "report-spot", "spotLabel": "Report folder",
+    "key": "scam-token",
+    "label": "Scam message",
+    "spot": "report-spot",
+    "spotLabel": "Report folder",
     "miss": "Not reported yet. Put it in the report folder, not the reply box."
   },
   "select2": {
     "title": "Say how to check a claim before sharing",
     "cue": "Say two ways to check whether a surprising post is true before sharing it.",
     "why": "Checking who made a post and whether trusted sources report the same thing catches most false claims. Saying how you would check, not just that you would, is the skill that stops you passing on something untrue to people who trust you.",
-    "key": "compare-card", "label": "Check before sharing", "face": "TRUE? HOW\nDO YOU KNOW?"
+    "key": "compare-card",
+    "label": "Check before sharing",
+    "face": "TRUE? HOW\nDO YOU KNOW?"
   },
   "find2": {
     "title": "Spot the problems in a practice profile",
     "cue": "Look at the invented practice profile and mark each problem.",
     "why": "Profiles give away more than people realise: a school name, a home street in a photo, a public setting. Spotting them on a practice profile teaches you to check your own before strangers can.",
-    "items": [["pf-school", "the school name in the bio", "Keep school and location private."], ["pf-street", "a street sign in a photo", "Photos can give away where you live."], ["pf-public", "the profile set to public", "Set it to people you know."]],
-    "decoy": ["pf-hobby", "a post about a favourite hobby", "Sharing a hobby with friends is fine. Keep it."]
+    "items": [
+      [
+        "pf-school",
+        "the school name in the bio",
+        "Keep school and location private."
+      ],
+      [
+        "pf-street",
+        "a street sign in a photo",
+        "Photos can give away where you live."
+      ],
+      [
+        "pf-public",
+        "the profile set to public",
+        "Set it to people you know."
+      ]
+    ],
+    "decoy": [
+      "pf-hobby",
+      "a post about a favourite hobby",
+      "Sharing a hobby with friends is fine. Keep it."
+    ]
   },
   "track": {
     "title": "Keep a group chat kind",
     "cue": "Keep the chat's tone in the kind band as messages come in, stepping in gently when it slips.",
     "why": "Group chats can turn unkind quickly, and people often go along with it. Keeping your own messages kind, and gently stepping in or telling an adult when others are unkind, is what being a good digital citizen looks like day to day.",
     "brk": "The chat turned unkind. Step in gently or tell a trusted adult.",
-    "key": "track-meter", "label": "Chat kept kind", "meter": "KINDNESS"
+    "key": "track-meter",
+    "label": "Chat kept kind",
+    "meter": "KINDNESS"
   },
   "record": {
     "title": "Record your safety checklist",
     "cue": "Write the checks you will use: pause, sender, request, privacy, passphrase.",
     "why": "A short personal checklist makes good habits automatic. Writing it in your own words helps you remember it when a real message arrives and you have only a moment to decide.",
-    "key": "safety-log", "label": "Safety checklist", "done": "Checklist recorded"
+    "key": "safety-log",
+    "label": "Safety checklist",
+    "done": "Checklist recorded"
   },
   "share": {
     "title": "Share one tip with a younger learner",
     "cue": "Pick one tip you would teach a younger learner and practise saying it.",
     "why": "Teaching someone else is one of the best ways to remember something yourself. Choosing one clear tip and saying it simply prepares you to help a younger brother, sister or friend stay safe too.",
-    "key": "share-board", "label": "One tip to share", "done": "Tip ready to share"
+    "key": "share-board",
+    "label": "One tip to share",
+    "done": "Tip ready to share"
   },
   "checkin": {
     "title": "Check in at the end of the lesson",
     "cue": "Is there anything online that worries you? Who would you tell?",
-    "why": "A check-in gives every learner a quiet chance to say if something online has worried them, and reminds everyone who they can go to. It is not marked, and the teacher, a counsellor or a trusted adult at home is always there to help.",
+    "why": "The session ends with each learner describing one choice they made online today and what they would do if a message worried them. Saying who they would go to, at school or at home, is the point; the college's IT staff listen for the learners who can name a person and not just a button.",
     "label": "End-of-lesson check-in"
   },
   "interrupts": [
-    {"id": "a-stranger-asks-for-a-photo", "kind": "Unsafe request", "key": "tell-adult", "label": "Stop replying and tell the tutor",
-     "alert": "On the practice chat, a new contact nobody knows asks for a photo and says to keep it secret.",
-     "cue": "Stop replying and tell the tutor straight away.",
-     "why": "Anyone who asks you to keep a secret from adults is a warning sign. Stopping and telling a trusted adult at once is always the right move, and you will never be in trouble for asking for help.",
-     "miss": "The chat carried on, and the request got more pushy before anyone told an adult.",
-     "wrong": "That keeps the chat going. Stop and tell the tutor. Choose the response that deals with it now.",
-     "done": "Tutor told, contact blocked and reported. The lesson carries on."},
-    {"id": "the-tutor-asks-about-the-link", "kind": "Tutor question", "key": "say-check", "label": "Say how you would check the link",
-     "alert": "The digital skills tutor asks how you would check whether a link in a message is safe.",
-     "cue": "Say you would pause, check the sender and what it asks, and ask an adult if unsure.",
-     "why": "The tutor is checking you have a routine, not just a feeling. Naming the steps shows you can deal with a new message you have never seen before.",
-     "miss": "You said you would just click and see, and the tutor showed you where that link really went.",
-     "wrong": "That clicks without checking. Choose the response that deals with it now.",
-     "done": "Routine named. The tutor agrees."}
+    {
+      "id": "a-stranger-asks-for-a-photo",
+      "kind": "Unsafe request",
+      "key": "tell-adult",
+      "label": "Stop replying and tell the tutor",
+      "alert": "On the practice chat, a new contact nobody knows asks for a photo and says to keep it secret.",
+      "cue": "Stop replying and tell the tutor straight away.",
+      "why": "Anyone who asks you to keep a secret from adults is a warning sign. Stopping and telling a trusted adult at once is always the right move, and you will never be in trouble for asking for help.",
+      "miss": "The chat carried on, and the request got more pushy before anyone told an adult.",
+      "wrong": "That keeps the chat going. Stop and tell the tutor. Choose the response that deals with it now.",
+      "done": "Tutor told, contact blocked and reported. The lesson carries on."
+    },
+    {
+      "id": "the-tutor-asks-about-the-link",
+      "kind": "Tutor question",
+      "key": "say-check",
+      "label": "Say how you would check the link",
+      "alert": "The digital skills tutor asks how you would check whether a link in a message is safe.",
+      "cue": "Say you would pause, check the sender and what it asks, and ask an adult if unsure.",
+      "why": "The tutor is checking you have a routine, not just a feeling. Naming the steps shows you can deal with a new message you have never seen before.",
+      "miss": "You said you would just click and see, and the tutor showed you where that link really went.",
+      "wrong": "That clicks without checking. Choose the response that deals with it now.",
+      "done": "Routine named. The tutor agrees."
+    }
   ],
-  "crew": ["Class teacher", "Classmate", "Digital skills tutor", "Lab assistant"],
-  "guide": {"start": "Pause, check, then decide.", "after": "Check who made it before you share.", "hazard": "Stop. Is it rushing you? Would you tell a trusted adult?"},
+  "crew": [
+    "Class teacher",
+    "Classmate",
+    "Digital skills tutor",
+    "Lab assistant"
+  ],
+  "guide": {
+    "start": "Pause, check, then decide.",
+    "after": "Check who made it before you share.",
+    "hazard": "Stop. Is it rushing you? Would you tell a trusted adult?"
+  },
   "lateRecord": "The checklist is written once the checks are done — nothing to record yet.",
-  "lateCheckin": "The check-in comes at the very end of the lesson."
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "lab",
+  "order": "b"
 }

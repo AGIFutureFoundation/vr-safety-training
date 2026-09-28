@@ -16,6 +16,8 @@ import { rgCreateRace, rgStepRace, rgScoreRace, rgLearner, rgTargetFor, rgGiveWa
 import { rgCalendar, rgEventById, rgBriefingChecklist, rgBriefingResult, rgAwardEvent, rgStationLink, rgLifeJacketsNeeded } from "./events.js";
 import { ppAward, ppCompleted, ppCompleteReturns, ppProgressChip, ppReturnSite, ppHerePage } from "../../shared/passport.js";
 import { rgBuildWorld } from "./world.js";
+// The K-12 layer (shared/field-lessons.js): lessons on this course, on the course card and in the briefing.
+import { k2LessonsFor, k2DrawFieldLayer, k2RenderLessonList } from "../../shared/field-lessons.js";
 
 // Bay Regatta — the app: the events calendar, the briefing, the yacht and
 // course pick, the race HUD and the render loop. Every rule that must run the
@@ -120,9 +122,13 @@ $("menu-race")?.addEventListener("click", () => { rgApp.event = null; rgApp.brie
 
 // ------------------------------------------------------------------ briefing
 
+/** The K-12 field lessons anchored on one race course. */
+function rgCourseLessons(courseId) { return k2LessonsFor("regatta").filter((l) => l.anchor.kind === "course" && l.anchor.id === courseId); }
+
 function rgOpenBriefing(event) {
   rgApp.event = event;
   rgApp.courseId = event.course;
+  const lessons = $("br-lessons"); if (lessons) { lessons.textContent = ""; k2RenderLessonList(lessons, rgCourseLessons(event.course), rgStationLink); }
   const rostered = rgYachtsForEvent(event.id);
   if (!rostered.some((y) => y.id === rgApp.yachtId)) rgApp.yachtId = rostered[0]?.id ?? rgApp.yachtId;
   $("br-title").textContent = event.name;
@@ -207,6 +213,7 @@ function rgDrawCourseCard() {
     ctx.beginPath(); ctx.arc(p.x, p.y, i === me.next % c.marks.length && me.next < c.marks.length ? 6 : 4, 0, Math.PI * 2); ctx.fill();
   });
   const d = toMap(c.dock.x, c.dock.z); ctx.fillStyle = "#8a7a62"; ctx.fillRect(d.x - 4, d.y - 4, 8, 8);
+  k2DrawFieldLayer(ctx, rgCourseLessons(c.id).map((l) => ({ ...l, ...toMap(l.position[0], l.position[1]) })), null); // the K-12 layer
   for (const boat of rgApp.race.boats) {
     const p = toMap(boat.x, boat.z);
     ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(boat.heading);

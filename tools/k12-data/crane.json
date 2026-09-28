@@ -3,123 +3,259 @@
   "index": "821",
   "prefix": "kcr",
   "accent": "#4fb88a",
-  "floor": ["#7c7a72", "#6e6c64"],
-  "wall": ["#e4e0d6", "#d6d2c6"],
+  "floor": [
+    "#7c7a72",
+    "#6e6c64"
+  ],
+  "wall": [
+    "#e4e0d6",
+    "#d6d2c6"
+  ],
   "trade": "Science class at the container terminal's training room — learner and crane operator",
   "header": "Lower-secondary science at a container terminal's training room: levers, pulleys and the wheel and axle in a crane, why a machine trades force for distance and never gives more work than it gets, and why the operator's load chart sets what the crane may lift, all on a bench model with the real cranes seen from the window.",
   "name": "Simple Machines at a Crane",
   "tagline": "A machine trades force for distance, never free work — and the load chart has the last word",
-  "badge": {"id": "force-for-distance", "name": "Force for Distance", "note": "A crane's levers and pulleys explained, force traded for distance on the model and the load chart respected"},
-  "board": {"name": "Machine Board", "currency": "LIFTS", "ranks": ["Visitor", "Rigger's Helper", "Tester", "Explainer", "Engineer"]},
+  "badge": {
+    "id": "force-for-distance",
+    "name": "Force for Distance",
+    "note": "A crane's levers and pulleys explained, force traded for distance on the model and the load chart respected"
+  },
+  "board": {
+    "name": "Machine Board",
+    "currency": "LIFTS",
+    "ranks": [
+      "Visitor",
+      "Rigger's Helper",
+      "Tester",
+      "Explainer",
+      "Engineer"
+    ]
+  },
   "hazards": [
-    {"id": "pulley-gives-free-energy", "label": "Say more pulleys mean the crane does less work?", "face": "FREE\nWORK", "text": "You said adding pulleys means less work is done. More pulley lines make the pull easier, but you pull a longer length of rope for the same lift; the work, force multiplied by distance, stays the same or a little more because of friction. Machines trade, they never give work away."},
-    {"id": "longer-boom-lifts-more", "label": "Say a longer boom reach lifts more?", "face": "REACH\nFURTHER", "text": "You said reaching further out lets the crane lift more. It is the other way round: the further the load is from the crane's base, the bigger its turning effect, so the crane can lift less at long reach. That is exactly what the operator's load chart shows."},
-    {"id": "stand-under-the-load", "label": "Stand under the model's load to see the pulley?", "face": "UNDER THE\nLOAD", "text": "You stood under the suspended load to look at the pulley. Nobody stands under a load, on the model or on the quay; it is the first rule every rigger and operator learns, and the model is built so you can see the pulley from the side."},
-    {"id": "load-chart-is-a-guide", "label": "Say the load chart is only a rough guide?", "face": "ROUGH\nGUIDE", "text": "You said the load chart is only a guide. For a crane operator it is a limit, set by the maker for each reach and configuration; going past it risks the crane tipping or failing. The science explains the chart, and the chart is obeyed."}
+    {
+      "id": "pulley-gives-free-energy",
+      "label": "Say more pulleys mean the crane does less work?",
+      "face": "FREE\nWORK",
+      "text": "You said adding pulleys means less work is done. More pulley lines make the pull easier, but you pull a longer length of rope for the same lift; the work, force multiplied by distance, stays the same or a little more because of friction. Machines trade, they never give work away."
+    },
+    {
+      "id": "longer-boom-lifts-more",
+      "label": "Say a longer boom reach lifts more?",
+      "face": "REACH\nFURTHER",
+      "text": "You said reaching further out lets the crane lift more. It is the other way round: the further the load is from the crane's base, the bigger its turning effect, so the crane can lift less at long reach. That is exactly what the operator's load chart shows."
+    },
+    {
+      "id": "stand-under-the-load",
+      "label": "Stand under the model's load to see the pulley?",
+      "face": "UNDER THE\nLOAD",
+      "text": "You stood under the suspended load to look at the pulley. Nobody stands under a load, on the model or on the quay; it is the first rule every rigger and operator learns, and the model is built so you can see the pulley from the side."
+    },
+    {
+      "id": "load-chart-is-a-guide",
+      "label": "Say the load chart is only a rough guide?",
+      "face": "ROUGH\nGUIDE",
+      "text": "You said the load chart is only a guide. For a crane operator it is a limit, set by the maker for each reach and configuration; going past it risks the crane tipping or failing. The science explains the chart, and the chart is obeyed."
+    }
   ],
   "find1": {
     "title": "Find the simple machines in the crane",
     "cue": "Mark the three simple machines in the model crane.",
     "why": "A crane is several simple machines working together. The boom is a lever turning about its pivot, the hook block is a set of pulleys, and the winch drum is a wheel and axle. Finding each one in the model shows that the big machines on the quay are built from ideas you can test on a bench.",
-    "items": [["lever", "the boom turning about its pivot", "A lever: a bar turning about a fixed point."], ["pulley", "the pulleys in the hook block", "Pulleys share the load between several lines of rope."], ["wheel-axle", "the winch drum and its handle", "A wheel and axle: a big turn on the handle, a small turn on the drum."]],
-    "decoy": ["cab-window", "the operator's cab window", "It gives the operator a view, but it is not a machine."]
+    "items": [
+      [
+        "lever",
+        "the boom turning about its pivot",
+        "A lever: a bar turning about a fixed point."
+      ],
+      [
+        "pulley",
+        "the pulleys in the hook block",
+        "Pulleys share the load between several lines of rope."
+      ],
+      [
+        "wheel-axle",
+        "the winch drum and its handle",
+        "A wheel and axle: a big turn on the handle, a small turn on the drum."
+      ]
+    ],
+    "decoy": [
+      "cab-window",
+      "the operator's cab window",
+      "It gives the operator a view, but it is not a machine."
+    ]
   },
   "select1": {
     "title": "Know the rule: never under a load",
     "cue": "Read the card: never stand or reach under a suspended load.",
     "why": "A suspended load can slip, swing or drop, and the space beneath it is the most dangerous place near any crane. The rule applies to the bench model too, because the habit you practise here is the one that keeps people safe on every quay and building site.",
-    "key": "load-card", "label": "Never under a load", "face": "NEVER\nUNDER"
+    "key": "load-card",
+    "label": "Never under a load",
+    "face": "NEVER\nUNDER"
   },
   "seq": {
     "title": "Put the pulley test in order",
     "cue": "Weigh the pull with one line, add lines, weigh again, then measure the rope pulled.",
     "why": "Measuring the pull with one line first gives a baseline to compare with. Adding lines and measuring again shows the pull getting smaller, and measuring the length of rope you had to pull shows where the trade happens: less force, more distance, and never less work.",
     "oon": "Out of order. Measure with one line first, so you have something to compare.",
-    "items": [["ord-one", "measure the pull with one line"], ["ord-add", "add pulley lines"], ["ord-again", "measure the pull again"], ["ord-rope", "measure the rope you pulled"]]
+    "items": [
+      [
+        "ord-one",
+        "measure the pull with one line"
+      ],
+      [
+        "ord-add",
+        "add pulley lines"
+      ],
+      [
+        "ord-again",
+        "measure the pull again"
+      ],
+      [
+        "ord-rope",
+        "measure the rope you pulled"
+      ]
+    ]
   },
   "hold": {
     "title": "Hold the force meter steady on the rope",
     "cue": "Hold the force meter still on the rope while the load hangs clear.",
     "why": "A force meter only reads the pull correctly while the load is hanging still; any jerk or swing adds to the reading. Holding it steady until the needle settles gives a number you can compare fairly with the next test.",
     "brk": "The load swung and the reading jumped. Let it settle and hold still.",
-    "key": "force-hold", "label": "Force meter on the rope"
+    "key": "force-hold",
+    "label": "Force meter on the rope"
   },
   "turn": {
     "title": "Turn the winch handle to lift the load",
     "cue": "Turn the winch handle and watch how far it turns for a small lift.",
     "why": "The handle travels round a big circle while the drum winds only a little rope, which is how a small push on the handle lifts a heavy load. Feeling how many turns a short lift takes is the wheel and axle's trade, felt in your own hand.",
-    "key": "winch-dial", "label": "Winch handle", "dial": "WINCH"
+    "key": "winch-dial",
+    "label": "Winch handle",
+    "dial": "WINCH"
   },
   "gauge": {
     "title": "Read the pull at the right moment",
     "cue": "Commit when the force meter shows the steady pull with the load held still.",
     "why": "The pull needed to hold a load still is the fair measurement; the pull while starting or speeding up is larger. Reading at the steady moment is what lets you compare one line with several and see the pulleys' effect clearly.",
-    "key": "pull-meter", "label": "Force meter reading", "meter": "PULL",
+    "key": "pull-meter",
+    "label": "Force meter reading",
+    "meter": "PULL",
     "miss": "Not the steady pull. Wait until the load hangs still before reading."
   },
   "drag": {
     "title": "Move the load closer on the model boom",
     "cue": "Drag the load block to the reach where the model's load chart allows it.",
     "why": "The same load has a bigger turning effect the further out it hangs, so a crane can lift less at long reach. Moving it inside the chart's limit is exactly the decision an operator makes before every lift, with the chart, not a guess, as the guide.",
-    "key": "load-token", "label": "Load block", "spot": "reach-spot", "spotLabel": "Inside the chart's reach",
+    "key": "load-token",
+    "label": "Load block",
+    "spot": "reach-spot",
+    "spotLabel": "Inside the chart's reach",
     "miss": "Still too far out for the chart. Bring the load closer to the base."
   },
   "select2": {
     "title": "Say why more pulleys make pulling easier",
     "cue": "Say why more pulley lines make the pull easier, and what you give up.",
     "why": "More lines share the load, so each carries less and your pull is smaller, but you must pull a longer length of rope. Saying both halves, easier pull and longer rope, is understanding the trade instead of thinking the machine gives something for nothing.",
-    "key": "compare-card", "label": "What is the trade?", "face": "EASIER\nBUT...?"
+    "key": "compare-card",
+    "label": "What is the trade?",
+    "face": "EASIER\nBUT...?"
   },
   "find2": {
     "title": "Spot the problems in a classmate's explanation",
     "cue": "Look at the draft explanation and mark each problem.",
     "why": "Explanations of machines go wrong in the same ways: a machine said to give free work, a longer reach said to lift more and a load chart called a rough guide. Spotting them helps you write explanations that are true as well as tidy.",
-    "items": [["ex-free", "a machine said to give free work", "Machines trade force for distance."], ["ex-reach", "a longer reach said to lift more", "Further out, the crane lifts less."], ["ex-guide", "the load chart called a rough guide", "The chart is a limit."]],
-    "decoy": ["ex-diagram", "a labelled diagram of the pulleys", "A labelled diagram is good practice. Keep it."]
+    "items": [
+      [
+        "ex-free",
+        "a machine said to give free work",
+        "Machines trade force for distance."
+      ],
+      [
+        "ex-reach",
+        "a longer reach said to lift more",
+        "Further out, the crane lifts less."
+      ],
+      [
+        "ex-guide",
+        "the load chart called a rough guide",
+        "The chart is a limit."
+      ]
+    ],
+    "decoy": [
+      "ex-diagram",
+      "a labelled diagram of the pulleys",
+      "A labelled diagram is good practice. Keep it."
+    ]
   },
   "track": {
     "title": "Lower the load smoothly",
     "cue": "Keep the lowering speed steady as the model load comes down.",
     "why": "Lowering smoothly keeps the load from swinging and stops sudden jerks that load the rope far more than the steady weight does. Operators lower with care for the same reason, and feeling it on the model shows why speed changes matter.",
     "brk": "The load dropped too fast and swung. Slow it and bring it back steady.",
-    "key": "track-meter", "label": "Smooth lowering", "meter": "LOWERING"
+    "key": "track-meter",
+    "label": "Smooth lowering",
+    "meter": "LOWERING"
   },
   "record": {
     "title": "Record the test results",
     "cue": "Write the pull and the rope length for each number of lines.",
     "why": "A results table puts force and distance side by side, so the trade becomes visible: as one goes down the other goes up. Writing both for each test is what turns a demonstration into evidence someone else can check.",
-    "key": "machine-log", "label": "Test record", "done": "Results recorded"
+    "key": "machine-log",
+    "label": "Test record",
+    "done": "Results recorded"
   },
   "share": {
     "title": "Ask the operator how they use the chart",
     "cue": "Ask the crane operator how the load chart guides a real lift.",
     "why": "Hearing an operator explain how they check reach, load and configuration before every lift connects the science to a skilled trade. It shows that the ideas tested on the bench are the ones professionals rely on every shift.",
-    "key": "share-board", "label": "Ask the operator", "done": "Operator's answer noted"
+    "key": "share-board",
+    "label": "Ask the operator",
+    "done": "Operator's answer noted"
   },
   "checkin": {
     "title": "Check in at the end of the session",
     "cue": "Where else have you seen a lever or a pulley? What still puzzles you?",
-    "why": "A check-in helps learners spot simple machines in everyday things, from scissors to bike gears, and lets the teacher hear what needs revisiting. It is not marked, and a trusted adult is there if anything in the session was hard.",
+    "why": "The terminal shift ends with a tailgate talk, so the visit ends with one too: every learner names the machine part that made the load easier to move and says how. The riggers listening can tell straight away who has seen the trade in a lever and a pulley and who has only seen a crane.",
     "label": "End-of-session check-in"
   },
   "interrupts": [
-    {"id": "a-horn-sounds-on-the-quay", "kind": "Quay signal", "key": "stay-back", "label": "Stay back from the window and listen",
-     "alert": "A horn sounds on the quay outside and a real crane begins to move a container.",
-     "cue": "Stay back from the window and listen to the operator's instruction.",
-     "why": "A horn on the quay warns everyone that a lift is starting. Even inside, the rule is to stay where you are told and listen; learning to respond to signals straight away is part of being safe anywhere machines work.",
-     "miss": "Learners crowded the window door, and the operator had to stop the talk to move them back.",
-     "wrong": "That takes you towards the quay. Stay back and listen. Choose the response that deals with it now.",
-     "done": "Group stayed back, lift finished outside. The lesson carries on."},
-    {"id": "the-operator-asks-about-reach", "kind": "Operator question", "key": "say-reach", "label": "Say what reach does to the lift",
-     "alert": "The crane operator asks what happens to how much the crane can lift as the load moves further out.",
-     "cue": "Say that further out, the crane can lift less, and why.",
-     "why": "The operator is checking the idea behind every load chart. Saying that a load further out has a bigger turning effect, so the crane can lift less, shows you understand why the chart looks the way it does.",
-     "miss": "You said it could lift more, and the operator showed you the chart going the other way.",
-     "wrong": "That has it backwards. Choose the response that deals with it now.",
-     "done": "Reach and turning effect explained. The operator agrees."}
+    {
+      "id": "a-horn-sounds-on-the-quay",
+      "kind": "Quay signal",
+      "key": "stay-back",
+      "label": "Stay back from the window and listen",
+      "alert": "A horn sounds on the quay outside and a real crane begins to move a container.",
+      "cue": "Stay back from the window and listen to the operator's instruction.",
+      "why": "A horn on the quay warns everyone that a lift is starting. Even inside, the rule is to stay where you are told and listen; learning to respond to signals straight away is part of being safe anywhere machines work.",
+      "miss": "Learners crowded the window door, and the operator had to stop the talk to move them back.",
+      "wrong": "That takes you towards the quay. Stay back and listen. Choose the response that deals with it now.",
+      "done": "Group stayed back, lift finished outside. The lesson carries on."
+    },
+    {
+      "id": "the-operator-asks-about-reach",
+      "kind": "Operator question",
+      "key": "say-reach",
+      "label": "Say what reach does to the lift",
+      "alert": "The crane operator asks what happens to how much the crane can lift as the load moves further out.",
+      "cue": "Say that further out, the crane can lift less, and why.",
+      "why": "The operator is checking the idea behind every load chart. Saying that a load further out has a bigger turning effect, so the crane can lift less, shows you understand why the chart looks the way it does.",
+      "miss": "You said it could lift more, and the operator showed you the chart going the other way.",
+      "wrong": "That has it backwards. Choose the response that deals with it now.",
+      "done": "Reach and turning effect explained. The operator agrees."
+    }
   ],
-  "crew": ["Science teacher", "Classmate", "Crane operator", "Rigger"],
-  "guide": {"start": "Less force, more distance.", "after": "Easier pull, longer rope.", "hazard": "Stop. Is the machine giving free work? Is anyone under the load?"},
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Crane operator",
+    "Rigger"
+  ],
+  "guide": {
+    "start": "Less force, more distance.",
+    "after": "Easier pull, longer rope.",
+    "hazard": "Stop. Is the machine giving free work? Is anyone under the load?"
+  },
   "lateRecord": "The test record is written once every test is done — nothing to record yet.",
-  "lateCheckin": "The check-in comes at the very end of the session."
+  "lateCheckin": "The check-in comes at the very end of the session.",
+  "scene": "wall",
+  "order": "b"
 }

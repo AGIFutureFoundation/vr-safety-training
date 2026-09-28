@@ -9,7 +9,9 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
 import { lkRenderStations, lkSiteHeading, lkStationLink } from "../../shared/links.js";
-import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
+import { k2DrawFieldLayer, k2LessonsFor } from "../../shared/field-lessons.js";
+// K-12 field lessons in play (shared/field-kiosk.js): a kiosk per lesson, the lesson screen, the Field Notes badge.
+import { k2BuildKiosks, k2NearestKiosk, k2OpenLesson, k2KioskPrompt } from "../../shared/field-kiosk.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
@@ -152,12 +154,27 @@ function bwPadSnapshot() { return bwPad.poll(1 / 60); }
 
 function bwOpenScreen(name) {
   bwApp.screen = name;
-  for (const id of ["scr-menu", "scr-jobboard", "scr-radio"]) $(id)?.toggleAttribute("hidden", true);
+  for (const id of ["scr-menu", "scr-jobboard", "scr-radio", "scr-lesson"]) $(id)?.toggleAttribute("hidden", true);
   $("hud")?.toggleAttribute("hidden", name !== "game");
   $("view-toggle")?.toggleAttribute("hidden", name !== "game");
   if (name === "menu") $("scr-menu")?.removeAttribute("hidden");
   if (name === "jobboard") $("scr-jobboard")?.removeAttribute("hidden");
   if (name === "radio") $("scr-radio")?.removeAttribute("hidden");
+  if (name === "lesson") $("scr-lesson")?.removeAttribute("hidden");
+}
+
+/** A K-12 field lesson at its kiosk: three steps, the check, the passport record. */
+function bwOpenLesson(lesson) {
+  k2OpenLesson(lesson, $("k2-lesson"), {
+    linkFor: lkStationLink,
+    onClose: () => bwOpenScreen("game"),
+    onDone: (r) => {
+      bwApp.kiosks?.refresh();
+      if (r.badge) bwToast("Field Notes badge earned — on your passport", 5000);
+      else if (r.first) bwToast(`Field lesson answered · ${r.notes.done} of ${r.notes.total} in Bay World`, 4000);
+    },
+  });
+  bwOpenScreen("lesson");
 }
 
 function bwToggleCamera() { bwApp.cameraMode = bwApp.cameraMode === "chase" ? "first" : "chase"; $("view-toggle").textContent = bwApp.cameraMode === "chase" ? "First person (V)" : "Chase camera (V)"; }
@@ -436,6 +453,7 @@ function bwSetup3D() {
   scene.add(root);
   const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale });
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
+  bwApp.kiosks = k2BuildKiosks(root, THREE, k2LessonsFor("bayworld"));
   tzWatchWorld("bayworld", { scene, THREE, pos: () => (bwApp.screen === "game" ? [bwApp.player.x, bwApp.player.z] : null), camera: () => bwApp.camera });
 
   bwApp.traffic = bwSpawnTraffic(tier.trafficScale < 1 ? 1 : 2);
@@ -496,6 +514,7 @@ function bwStep(dt) {
   bwApp.nearSite = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
   bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_LANDMARKS, 16);
   bwApp.nearVehicle = null;
+  bwApp.nearLesson = bwApp.mode === "foot" ? k2NearestKiosk(bwApp.player.x, bwApp.player.z, k2LessonsFor("bayworld")) : null;
   if (bwApp.mode === "foot") {
     for (const v of BW_VEHICLES) {
       const mesh = bwApp.world.vehicles[v.id];
@@ -506,12 +525,14 @@ function bwStep(dt) {
   if (prompt) {
     if (bwApp.mode === "vehicle") prompt.textContent = "Press F to park";
     else if (bwApp.nearVehicle) prompt.textContent = `Press F to enter the ${bwVehicleParams(bwApp.nearVehicle).name}`;
+    else if (bwApp.nearLesson) prompt.textContent = k2KioskPrompt(bwApp.nearLesson);
     else if (bwApp.nearSite) prompt.textContent = `Press E — ${bwApp.nearSite.name}`;
     else prompt.textContent = "";
     prompt.toggleAttribute("hidden", !prompt.textContent);
   }
   if (bwApp.interactPressed) {
-    if (bwApp.mode === "foot" && bwApp.nearSite) bwOpenJobBoard(bwApp.nearSite);
+    if (bwApp.mode === "foot" && bwApp.nearLesson) bwOpenLesson(bwApp.nearLesson);
+    else if (bwApp.mode === "foot" && bwApp.nearSite) bwOpenJobBoard(bwApp.nearSite);
   }
 
   const advanced = bwAdvanceQuests({

@@ -385,6 +385,7 @@ APPS = {
             SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
             SHARED / "skill-gates-ui.js",
+            SHARED / "field-lessons.js",  # the K-12 field-lesson list
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -500,6 +501,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "field-kiosk.js",  # K-12 field lessons in play (kiosks, the lesson screen)
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -561,6 +563,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "field-kiosk.js",  # K-12 field lessons in play (kiosks, the lesson screen)
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -719,6 +722,7 @@ APPS = {
             SHARED / "skill-gates.js",
             SHARED / "side-games-data.js",
             SHARED / "skill-gates-ui.js",
+            SHARED / "field-lessons.js",  # the K-12 field-lesson list
             WEBXR / "regatta/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
