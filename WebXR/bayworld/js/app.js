@@ -13,6 +13,8 @@ import { lkRenderStations, lkSiteHeading, lkStationLink, lkAssetLink, lkStationL
 import { k2DrawFieldLayer, k2LessonsFor } from "../../shared/field-lessons.js";
 import { gtStorage } from "../../shared/profiles.js";
 import { ctAvatarLoad } from "../../shared/crew.js";
+// NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
+import { grMount } from "../../shared/npc.js";
 import { CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS } from "../../shared/bayworld-data.js";
 // K-12 field lessons in play (shared/field-kiosk.js): a kiosk per lesson, the lesson screen, the Field Notes badge.
 import { k2BuildKiosks, k2NearestKiosk, k2OpenLesson, k2KioskPrompt } from "../../shared/field-kiosk.js";
@@ -546,6 +548,13 @@ function bwSetup3D() {
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
   bwApp.kiosks = k2BuildKiosks(root, THREE, k2LessonsFor("bayworld"));
   tzWatchWorld("bayworld", { scene, THREE, pos: () => (bwApp.screen === "game" ? [bwApp.player.x, bwApp.player.z] : null), camera: () => bwApp.camera });
+  // The characters at the sites (docs/consoles/GRIOT.md): the ground here is y = 0, the way the learner's figure stands.
+  bwApp.npc = grMount("bayworld", {
+    three: THREE, root, sites: BW_SITES, groundAt: () => 0, from: "bayworld", page: ppHerePage(),
+    pos: () => (bwApp.screen === "game" && bwApp.mode === "foot" ? [bwApp.player.x, bwApp.player.z] : null),
+    openLesson: (id) => { const l = k2LessonsFor("bayworld").find((x) => x.id === id); if (l) bwOpenLesson(l); },
+  });
+  bwApp.npcClock = 0;
 
   bwApp.traffic = bwSpawnTraffic(tier.trafficScale < 1 ? 1 : 2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);
@@ -601,8 +610,10 @@ function bwStep(dt) {
   if (bwApp.mode === "foot") { playerMesh.visible = true; playerMesh.position.set(bwApp.player.x, 0, bwApp.player.z); playerMesh.rotation.y = bwApp.player.heading; }
   else playerMesh.visible = false;
   bwApp.world.placeCamera(bwApp.camera, bwApp.cameraMode, bwApp.player.x, 0, bwApp.player.z, bwApp.player.heading);
+  bwApp.npcClock = (bwApp.npcClock ?? 0) + dt;
+  bwApp.npc?.animate(bwApp.npcClock, dt);
 
-  bwApp.nearSite = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
+  bwApp.nearSite =bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
   bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_LANDMARKS, 16);
   bwApp.nearAsset = bwApp.mode === "foot" ? bwNearestPlace(bwApp.player.x, bwApp.player.z, CT_BW_ASSETS, 6) : null;
   bwApp.nearVehicle = null;
@@ -713,6 +724,7 @@ ctlMount({
     { label: "Run", keys: ["Shift"], pad: "Hold left stick", touch: "Run button" },
     { label: "Get in or out of a vehicle", keys: ["F"], pad: "A near a vehicle", touch: "E button" },
     { label: "Drive: throttle, brake, steer", keys: ["W", "S", "A", "D"], pad: "Right stick", touch: "Stick; Brake button" },
+    { label: "Talk to a crew member at a site", keys: ["G"], pad: "—", touch: "Talk button" },
   ],
 });
 
