@@ -2,6 +2,38 @@
   "accent": "#f0645b",
   "anchors": [
     {
+      "id": "ct-bench-lake-necklace",
+      "name": "Bench · Lakeside Promenade",
+      "position": [
+        282.3,
+        -37.5
+      ],
+      "stations": [
+        "electrical",
+        "welding",
+        "trench-box"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "lake"
+    },
+    {
+      "id": "ct-kiosk-lake-loop-boathouse",
+      "name": "Information kiosk · Lake Loop Boathouse",
+      "position": [
+        286.4,
+        -79.8
+      ],
+      "stations": [
+        "electrical",
+        "welding",
+        "trench-box"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "lake"
+    },
+    {
       "id": "lake-loop-boathouse",
       "name": "Lake Loop Boathouse",
       "position": [
@@ -16,6 +48,23 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "lake"
+    },
+    {
+      "id": "ct-dive-slate-shelf-checkout-site",
+      "name": "Dive slate · Shelf Checkout Site",
+      "position": [
+        -349,
+        -525.7
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
     },
     {
       "id": "shelf-checkout-site",

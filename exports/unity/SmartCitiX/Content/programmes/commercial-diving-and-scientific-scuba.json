@@ -25,6 +25,116 @@
       "zone": "outer-bay"
     },
     {
+      "id": "ct-bench-tidewater-shoreline-park",
+      "name": "Bench · Tidewater Shoreline Park",
+      "position": [
+        68.5,
+        289.1
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-channel-marker",
+      "name": "Bus stop · Channel Marker",
+      "position": [
+        -961.6,
+        523.1
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-notice-board-channel-buoy-tender-pier",
+      "name": "Union hall notice board · Channel Buoy Tender Pier",
+      "position": [
+        -673.7,
+        496.6
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety",
+        "me-kelp-transect-survey-and-photo-quadrats",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "cd-underwater-wet-welding-and-cutting",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "ct-notice-board-estuary-research-dock",
+      "name": "Union hall notice board · Estuary Research Dock",
+      "position": [
+        84.9,
+        318.3
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-fish-visual-census-and-data-sheet",
+        "me-invasive-species-identification-and-reporting",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
       "id": "estuary-research-dock",
       "name": "Estuary Research Dock",
       "position": [
@@ -67,6 +177,204 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-buoy-main-guideline",
+      "name": "Line buoy · Main Guideline",
+      "position": [
+        -702.9,
+        -557.3
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+        "centre": [
+          -750,
+          -560
+        ],
+        "id": "pier-pilings",
+        "name": "The Pier Pilings",
+        "palette": {
+          "accent": 11071712,
+          "seabed": 4872013,
+          "water": 1989212
+        },
+        "radius": 170
+      }
+    },
+    {
+      "id": "ct-buoy-pier-anchor-line",
+      "name": "Line buoy · Pier Anchor Line",
+      "position": [
+        -748.3,
+        -563.6
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+        "centre": [
+          -750,
+          -560
+        ],
+        "id": "pier-pilings",
+        "name": "The Pier Pilings",
+        "palette": {
+          "accent": 11071712,
+          "seabed": 4872013,
+          "water": 1989212
+        },
+        "radius": 170
+      }
+    },
+    {
+      "id": "ct-buoy-shore-guideline",
+      "name": "Line buoy · Shore Guideline",
+      "position": [
+        -756,
+        -600
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+        "centre": [
+          -750,
+          -560
+        ],
+        "id": "pier-pilings",
+        "name": "The Pier Pilings",
+        "palette": {
+          "accent": 11071712,
+          "seabed": 4872013,
+          "water": 1989212
+        },
+        "radius": 170
+      }
+    },
+    {
+      "id": "ct-dive-slate-outfall-intake-lockout-site",
+      "name": "Dive slate · Outfall Intake Lockout Site",
+      "position": [
+        392.8,
+        -302.7
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "ct-dive-slate-pier-piling-inspection-station",
+      "name": "Dive slate · Pier Piling Inspection Station",
+      "position": [
+        -722,
+        -580
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "ct-dive-slate-shelf-checkout-site",
+      "name": "Dive slate · Shelf Checkout Site",
+      "position": [
+        -349,
+        -525.7
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "ct-dive-slate-trench-rov-station",
+      "name": "Dive slate · Trench ROV Station",
+      "position": [
+        -697.4,
+        464.6
+      ],
+      "stations": [
+        "uw-rov-pre-dive-and-tether-management",
+        "mw-dive-supervisor-and-dive-plan",
+        "cd-rov-launch-recovery-and-tether-management"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "deep-trench"
+    },
+    {
+      "id": "ct-survey-marker-kelp-night-line-site",
+      "name": "Survey marker · Kelp Night Line Site",
+      "position": [
+        -512.4,
+        -263.9
+      ],
+      "stations": [
+        "mw-diver-emergency-and-recovery",
+        "mw-dive-supervisor-and-dive-plan",
+        "cd-low-visibility-and-night-dive-line-work"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "ct-survey-marker-pier-surface-supplied-station",
+      "name": "Survey marker · Pier Surface-Supplied Station",
+      "position": [
+        -733.3,
+        -517.8
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "pier-pilings"
     },
     {
       "id": "kelp-night-line-site",

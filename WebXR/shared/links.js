@@ -86,3 +86,38 @@ export function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) 
   ul.toggleAttribute("hidden", list.length < 2);
   return list.length;
 }
+
+/**
+ * Where each open world's interactive assets link (tools/briefs/worlds-detail-brief.md):
+ * the world's own page (for a `site` link's `?site=`) and the SmartCiti.X
+ * runner its job boards already use, both relative to the world's folder.
+ */
+export const LK_ASSET_WORLDS = Object.freeze({
+  bayworld: { page: "index.html", runner: "../smartcity/index.html" },
+  underwater: { page: "underwater.html", runner: "../smartcity/dist/smartcity-x.html" },
+});
+
+/** A programme's overview in SmartCiti.X (`?programme=<id>`), the Atlas's own form. */
+export function lkProgrammeLink(id, { runner = "../smartcity/index.html", from = null } = {}) {
+  if (!id) throw new Error("lkProgrammeLink needs a programme id");
+  return `${runner}?programme=${encodeURIComponent(id)}${from ? `&from=${encodeURIComponent(from)}` : ""}`;
+}
+
+/**
+ * The one link an interactive asset opens, from its `link` record:
+ * `{ type: "station", id, site }` launches the station (lkStationLink, with
+ * the way home), `{ type: "programme", id }` opens the programme overview,
+ * `{ type: "site", id }` is the world's own `?site=` deep link and
+ * `{ type: "page", href }` a sibling app's page. `world` is "bayworld" or
+ * "underwater"; `page` is the calling page's own path for the return.
+ */
+export function lkAssetLink(asset, { world = "bayworld", page = null } = {}) {
+  const w = LK_ASSET_WORLDS[world] ?? LK_ASSET_WORLDS.bayworld;
+  const l = asset?.link ?? {};
+  if (l.type === "station") return lkStationLink(l.id, { runner: w.runner, from: world, page, siteId: l.site ?? null });
+  if (l.type === "programme") return lkProgrammeLink(l.id, { runner: w.runner, from: world });
+  // `?site=` alone resolves to the calling page in every layout (the flat build renames it).
+  if (l.type === "site") return lkSiteLink(l.id);
+  if (l.type === "page" && l.href) return `${l.href}${l.href.includes("?") ? "&" : "?"}from=${encodeURIComponent(world)}`;
+  throw new Error(`asset "${asset?.id}" has no link`);
+}

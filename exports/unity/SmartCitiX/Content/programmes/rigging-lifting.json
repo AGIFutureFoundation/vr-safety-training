@@ -2,6 +2,23 @@
   "accent": "#a079ff",
   "anchors": [
     {
+      "id": "ct-notice-board-port-container-terminal",
+      "name": "Union hall notice board · Port Container Terminal",
+      "position": [
+        -320,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
       "id": "port-container-terminal",
       "name": "Port Container Terminal",
       "position": [
@@ -18,6 +35,37 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "port"
+    },
+    {
+      "id": "ct-tool-basket-shelf-lift-bag-site",
+      "name": "Tool basket · Shelf Lift Bag Site",
+      "position": [
+        -384.8,
+        -589.7
+      ],
+      "stations": [
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "ct-tool-basket-wreck-salvage-rigging",
+      "name": "Tool basket · Wreck Salvage Rigging",
+      "position": [
+        285.9,
+        268.4
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "wreck-hollow"
     },
     {
       "id": "shelf-lift-bag-site",

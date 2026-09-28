@@ -2,6 +2,40 @@
   "accent": "#3fa7d6",
   "anchors": [
     {
+      "id": "ct-kiosk-ridge-wind-farm",
+      "name": "Information kiosk · Ridge Wind Farm",
+      "position": [
+        940.2,
+        -517.5
+      ],
+      "stations": [
+        "ws-turbine-climb-and-rescue-kit-check",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
+        "ws-blade-inspection-from-a-platform",
+        "ws-substation-switching-under-a-permit"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-tool-crib-emery-data-center-campus",
+      "name": "Tool crib · Emery Data Center Campus",
+      "position": [
+        -597,
+        -345.2
+      ],
+      "stations": [
+        "ws-data-hall-busway-install-and-torque-signoff",
+        "ws-raised-floor-tile-lift-and-cable-tray-safety",
+        "ws-crah-alarm-response-in-a-live-hall",
+        "ws-ocean-pod-retrieval-and-hatch-opening"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "emery-crossing"
+    },
+    {
       "id": "emery-data-center-campus",
       "name": "Emery Data Center Campus",
       "position": [
@@ -36,6 +70,20 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "upper-hills"
+    },
+    {
+      "id": "ct-tool-basket-mud-plain-data-pod-skid",
+      "name": "Tool basket · Mud Plain Data Pod Skid",
+      "position": [
+        -267,
+        397.7
+      ],
+      "stations": [
+        "ws-ocean-pod-retrieval-and-hatch-opening"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "mud-plain"
     },
     {
       "id": "mud-plain-data-pod-skid",

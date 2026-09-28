@@ -61,7 +61,9 @@ class Shape { moveTo(){} lineTo(){} quadraticCurveTo(){} }
 export const FrontSide=0, DoubleSide=2, AdditiveBlending=1, NormalBlending=0, PCFSoftShadowMap=1;
 export { Vec2 as Vector2, Vec3 as Vector3, Mesh, Points, Line, Shape, Color };
 export class Group extends Obj3D {}
-export class Object3D extends Obj3D {}
+export class Object3D extends Obj3D { constructor(){super();this.matrix={};} updateMatrix(){} }
+// One draw for many copies (the worlds' interactive assets, console CARTOGRAPHER): counted as one mesh.
+export class InstancedMesh extends Mesh { constructor(g,m,n){super(g,m);this.count=n;this.isInstancedMesh=true;this.instanceMatrix={needsUpdate:false};} setMatrixAt(){} setColorAt(){} }
 export class BoxGeometry extends Geometry {}
 export class CylinderGeometry extends Geometry {}
 export class SphereGeometry extends Geometry {}

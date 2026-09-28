@@ -9,25 +9,21 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
-import { lkRenderStations, lkSiteHeading, lkStationLink } from "../../shared/links.js";
+import { lkRenderStations, lkSiteHeading, lkStationLink, lkAssetLink, lkStationLabel } from "../../shared/links.js";
 import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
+import { gtStorage } from "../../shared/profiles.js";
+import { ctAvatarLoad } from "../../shared/crew.js";
+import { CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS } from "../../shared/bayworld-data.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
-import {
-  BW_VEHICLES, BW_SPEED_CAP, bwStepPlayer, bwStepVehicle, bwVehicleParams, bwMissionLink,
-  bwSpawnTraffic, bwStepTraffic, bwCreatePedestrian, bwStepPedestrian,
-  bwAdvanceClock, bwNearestPlace, bwZoneAt,
-} from "./sim.js";
-import {
-  bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress,
-  bwIsVehicleUnlocked, bwIsFastTravelUnlocked, bwIsSiteVisited,
-} from "./career.js";
+import { BW_VEHICLES, BW_SPEED_CAP, bwStepPlayer, bwStepVehicle, bwVehicleParams, bwMissionLink, bwSpawnTraffic, bwStepTraffic, bwCreatePedestrian, bwStepPedestrian, bwAdvanceClock, bwNearestPlace, bwZoneAt } from "./sim.js";
+import { bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress, bwIsVehicleUnlocked, bwIsFastTravelUnlocked, bwIsSiteVisited } from "./career.js";
 import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn, bwMarkSpawn } from "./quest-engine.js";
 import { BW_QUESTS, BW_GATED_QUESTS } from "./quests-select.js";
 // Skill-gated side quests (docs/skill-gates.md): board rows, map pins, the lock toast and the quest-log panel.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot, qmNameQuests } from "../../shared/skill-gates.js";
-import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap, bwMapFieldLessons } from "./map.js";
+import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap, bwMapFieldLessons, ctBwLayerState, ctBwSetLayer, ctBwMapLayers } from "./map.js";
 import { bwBuildWorld } from "./world.js";
 
 // Bay World — the app: menus, the phone-style HUD, keyboard/touch/gamepad
@@ -40,6 +36,8 @@ import { bwBuildWorld } from "./world.js";
 const $ = (id) => document.getElementById(id);
 const bwStore = (() => { try { return window.localStorage; } catch { return null; } })();
 const PLACES = [...BW_SITES, ...BW_LANDMARKS];
+/** The interactive assets in the 3-D shape bwNearestPlace() reads. */
+const CT_BW_ASSETS = CT_BAY_ASSETS.map((a) => ({ ...a, position: [a.position[0], 0, a.position[1]] }));
 
 /** The Bay Atlas's deep link (docs/mapbox.md): `?site=<id>` or
  *  `?landmark=<id>` names the place the shift starts beside — a few metres
@@ -77,7 +75,7 @@ const bwApp = {
   wind: null,                // { speed, dir } from shared/sky.js's recipe
   traffic: [],
   pedestrians: [],
-  nearSite: null, nearVehicle: null, nearLandmark: null,
+  nearSite: null, nearVehicle: null, nearLandmark: null, nearAsset: null,
   interactPressed: false,
   lastMissionSite: null,
   radio: { on: false, station: null, quiz: null, quizIndex: 0, quizScore: 0, chiptune: null },
@@ -153,20 +151,68 @@ function bwPadSnapshot() { return bwPad.poll(1 / 60); }
 
 function bwOpenScreen(name) {
   bwApp.screen = name;
-  for (const id of ["scr-menu", "scr-jobboard", "scr-radio"]) $(id)?.toggleAttribute("hidden", true);
+  for (const id of ["scr-menu", "scr-jobboard", "scr-radio", "scr-asset"]) $(id)?.toggleAttribute("hidden", true);
   $("hud")?.toggleAttribute("hidden", name !== "game");
   $("view-toggle")?.toggleAttribute("hidden", name !== "game");
   if (name === "menu") $("scr-menu")?.removeAttribute("hidden");
   if (name === "jobboard") $("scr-jobboard")?.removeAttribute("hidden");
   if (name === "radio") $("scr-radio")?.removeAttribute("hidden");
+  if (name === "asset") $("scr-asset")?.removeAttribute("hidden");
 }
+
+// ------------------------------------------------------ interactive assets
+
+/**
+ * What pressing E at an interactive asset does (CT_BAY_ASSET_KINDS): the
+ * panel names it, says what it holds and links to its real page through
+ * shared/links.js's lkAssetLink. A bench also settles the camera and shows
+ * the Guide's tip; a bus stop lists the sites already visited to hop to.
+ */
+function ctOpenAsset(asset) {
+  const kind = CT_BAY_ASSET_KINDS[asset.kind];
+  $("asset-kind").textContent = kind.label;
+  $("asset-title").textContent = asset.name;
+  $("asset-does").textContent = kind.does;
+  const list = $("asset-list");
+  list.textContent = "";
+  let text = "";
+  if (asset.kind === "bench") {
+    bwApp.cameraMode = "chase";
+    text = `The Guide: ${asset.tip ?? "Walk the ground once before the work starts and name what could hurt someone."}`;
+  } else if (asset.kind === "notice-board") {
+    text = "Programmes anchored nearby:";
+    for (const p of asset.programmes) list.append(Object.assign(document.createElement("li"), { textContent: lkStationLabel(p) }));
+  } else if (asset.kind === "tool-crib") {
+    text = `The crib hands out the kit for ${lkStationLabel(asset.link.id)}; the station itself lists every tool and checks each one out.`;
+  } else if (asset.kind === "bus-stop") {
+    const visited = BW_SITES.filter((s) => bwIsFastTravelUnlocked(s.id, bwStore));
+    text = visited.length ? "Ride to a site you have visited:" : "No sites visited yet — the link opens the nearest site.";
+    for (const s of visited) {
+      const li = document.createElement("li");
+      const b = Object.assign(document.createElement("button"), { className: "btn", type: "button", textContent: s.name });
+      b.addEventListener("click", () => { bwApp.player.x = s.position[0]; bwApp.player.z = s.position[2]; bwOpenScreen("game"); bwToast(`Rode the bus to ${s.name}.`); });
+      li.append(b); list.append(li);
+    }
+  } else if (asset.kind === "kiosk") {
+    text = `The nearest station's programme: ${lkStationLabel(asset.link.id)}.`;
+  } else if (asset.kind === "dock-box") {
+    text = "Inside: the yacht briefing card — guest count, lifejackets, the man-overboard call — and the regatta calendar.";
+  }
+  $("asset-text").textContent = text;
+  list.toggleAttribute("hidden", !list.children.length);
+  const a = $("asset-link");
+  a.href = lkAssetLink(asset, { world: "bayworld", page: ppHerePage() });
+  a.textContent = { station: "Open the station", programme: "Open the programme", site: "Go to the site", page: "Open the Bay Regatta" }[asset.link.type];
+  bwOpenScreen("asset");
+}
+$("asset-close")?.addEventListener("click", () => bwOpenScreen("game"));
 
 function bwToggleCamera() { bwApp.cameraMode = bwApp.cameraMode === "chase" ? "first" : "chase"; $("view-toggle").textContent = bwApp.cameraMode === "chase" ? "First person (V)" : "Chase camera (V)"; }
 
 function bwToggleMap(force) {
   bwApp.mapOpen = force ?? !bwApp.mapOpen;
   $("scr-map")?.toggleAttribute("hidden", !bwApp.mapOpen);
-  if (bwApp.mapOpen) bwDrawFullMap();
+  if (bwApp.mapOpen) { ctRenderLayerToggles(); bwDrawFullMap(); }
 }
 
 // ------------------------------------------------------------- vehicles
@@ -373,6 +419,48 @@ function bwDrawMinimap() {
   ctx.restore();
 }
 
+const ctHex = (n) => `#${(n >>> 0 & 0xffffff).toString(16).padStart(6, "0")}`;
+
+/** The layer toggles above the full map, one checkbox per CT_BAY_LAYERS entry. */
+function ctRenderLayerToggles() {
+  const box = $("map-layers");
+  if (!box) return;
+  const state = ctBwLayerState(bwStore);
+  box.textContent = "";
+  for (const l of CT_BAY_LAYERS) {
+    const label = document.createElement("label");
+    const cb = Object.assign(document.createElement("input"), { type: "checkbox", checked: !!state[l.id] });
+    cb.dataset.layer = l.id;
+    cb.addEventListener("change", () => { ctBwSetLayer(l.id, cb.checked, bwStore); bwDrawFullMap(); });
+    const sw = Object.assign(document.createElement("span"), { className: "swatch" });
+    sw.style.background = ctHex(l.colour);
+    label.append(cb, sw, l.label);
+    box.append(label);
+  }
+}
+
+/** Draw every layer that is on, in CT_BAY_LAYERS order. Returns the count drawn per layer. */
+function ctDrawLayers(ctx, size) {
+  const on = ctBwLayerState(bwStore);
+  const layers = ctBwMapLayers(size, { quests: questState(bwStore) });
+  const drawn = {};
+  const dot = (f, r) => { ctx.fillStyle = ctHex(f.colour); ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI * 2); ctx.fill(); };
+  for (const l of CT_BAY_LAYERS) {
+    if (!on[l.id]) { drawn[l.id] = 0; continue; }
+    const feats = layers[l.id] ?? [];
+    for (const f of feats) {
+      if (f.points) { ctx.strokeStyle = "#4a5a68"; ctx.lineWidth = Math.max(2, f.lanes * 0.6); ctx.beginPath(); f.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke(); }
+      else if (l.id === "jobs") { dot(f, 5); }
+      else if (l.id === "landmarks") { ctx.fillStyle = ctHex(f.colour); ctx.beginPath(); ctx.moveTo(f.x, f.y - 5); ctx.lineTo(f.x + 5, f.y); ctx.lineTo(f.x, f.y + 5); ctx.lineTo(f.x - 5, f.y); ctx.closePath(); ctx.fill(); }
+      else if (l.id === "wildlife") { ctx.strokeStyle = ctHex(f.colour); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(f.x, f.y, 7, 0, Math.PI * 2); ctx.stroke(); }
+      else dot(f, l.id === "assets" ? 2.5 : f.transit ? 3.5 : 4);
+    }
+    drawn[l.id] = feats.length;
+  }
+  bwApp.ctLayersDrawn = drawn;
+  return drawn;
+}
+
 function bwDrawFullMap() {
   const canvas = $("map-canvas");
   if (!canvas) return;
@@ -394,11 +482,10 @@ function bwDrawFullMap() {
     const p = bwWorldToMap(q.anchor[0], q.anchor[1], size);
     qmDrawPin(ctx, p.x + 9 + (i % 3) * 4, p.y - 9, qmIsOpen(q.gate, qmSnap));
   });
+  ctDrawLayers(ctx, size);
   const listEl = $("map-sites");
   listEl.innerHTML = "";
   for (const s of bwMapSites(size, bwStore)) {
-    ctx.fillStyle = s.visited ? "#8cff5a" : "#f2c14b";
-    ctx.beginPath(); ctx.arc(s.x, s.y, 5, 0, Math.PI * 2); ctx.fill();
     const row = document.createElement("div");
     row.className = "map-site-row";
     const btn = s.fastTravel ? `<button class="btn" data-fast="${s.id}">Fast travel</button>` : `<span class="locked">Visit to unlock</span>`;
@@ -435,7 +522,9 @@ function bwSetup3D() {
   });
   const root = new THREE.Group();
   scene.add(root);
-  const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale });
+  const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale, avatar: ctAvatarLoad(gtStorage()) });
+  // The avatar picked on the account chip, live: a save or a profile change re-dresses the figure.
+  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => world.bwSetAvatar(ctAvatarLoad(gtStorage())));
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
   tzWatchWorld("bayworld", { scene, THREE, pos: () => (bwApp.screen === "game" ? [bwApp.player.x, bwApp.player.z] : null), camera: () => bwApp.camera });
 
@@ -496,6 +585,7 @@ function bwStep(dt) {
 
   bwApp.nearSite = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
   bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_LANDMARKS, 16);
+  bwApp.nearAsset = bwApp.mode === "foot" ? bwNearestPlace(bwApp.player.x, bwApp.player.z, CT_BW_ASSETS, 6) : null;
   bwApp.nearVehicle = null;
   if (bwApp.mode === "foot") {
     for (const v of BW_VEHICLES) {
@@ -508,11 +598,13 @@ function bwStep(dt) {
     if (bwApp.mode === "vehicle") prompt.textContent = "Press F to park";
     else if (bwApp.nearVehicle) prompt.textContent = `Press F to enter the ${bwVehicleParams(bwApp.nearVehicle).name}`;
     else if (bwApp.nearSite) prompt.textContent = `Press E — ${bwApp.nearSite.name}`;
+    else if (bwApp.nearAsset) prompt.textContent = `Press E — ${CT_BAY_ASSET_KINDS[bwApp.nearAsset.kind].label}`;
     else prompt.textContent = "";
     prompt.toggleAttribute("hidden", !prompt.textContent);
   }
   if (bwApp.interactPressed) {
     if (bwApp.mode === "foot" && bwApp.nearSite) bwOpenJobBoard(bwApp.nearSite);
+    else if (bwApp.mode === "foot" && bwApp.nearAsset) ctOpenAsset(bwApp.nearAsset);
   }
 
   const advanced = bwAdvanceQuests({
@@ -579,6 +671,8 @@ window.__bayworldTest = {
   app: bwApp,
   step: bwStep,
   jobBoard: bwOpenJobBoard,
+  asset: ctOpenAsset,
+  assets: CT_BW_ASSETS,
   camera: () => bwApp.camera,
 };
 

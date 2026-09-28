@@ -11,6 +11,9 @@
 // no longer bundled (see seabed.js for the data side of the same switch).
 import { buildUnderwater, deepLighting } from "../../shared/underwater.js";
 import { DV_SITES, dvFloorY } from "./seabed.js";
+import { CT_DEEP_ASSETS, CT_DEEP_ASSET_KINDS } from "../../shared/underwater-data.js";
+import { CT_HARBOUR_FLEET, ctBuildLiveried, ctServiceLivery } from "../../shared/fleet.js";
+import { ctAvatarFigure } from "../../shared/crew.js";
 import { dvAscentLines, dvLightBand, dvDaylightFactor } from "./dive-sim.js";
 
 const DV_EYE_HEIGHT = 0.4;
@@ -31,7 +34,10 @@ function dvDiverFigure(THREE, { suit = 0x1f3a4a, tank = 0xd9d9d0, fins = 0x222a3
 
 function dvRovMesh(THREE) {
   const g = new THREE.Group();
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.5, 1.1), new THREE.MeshStandardMaterial({ color: 0xf2c14b, roughness: 0.6, metalness: 0.3 }));
+  // The survey service's livery (fleet.js's CT_SERVICE_LIVERIES), like the kit's own ROV.
+  const lv = ctServiceLivery("survey", 7);
+  g.userData.ctService = "survey";
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.5, 1.1), new THREE.MeshStandardMaterial({ color: lv.colour, roughness: 0.6, metalness: 0.3 }));
   const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff2c0, emissiveIntensity: 1.2 }));
   lamp.position.set(0, 0.1, 0.6);
   const thruster = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.04, 6, 10), new THREE.MeshStandardMaterial({ color: 0x222a30 }));
@@ -66,7 +72,17 @@ export function dvBuildWorld(root, THREE, opts = {}) {
   let hemi = seabed.lights?.hemi ?? null, key = seabed.lights?.key ?? null;
   if (!hemi || !key) root.traverse((o) => { if (o.isHemisphereLight && !hemi) hemi = o; if (o.isDirectionalLight && !key) key = o; });
 
-  const diver = dvDiverFigure(THREE);
+  // The learner's own diver: the avatar style picked on the account chip
+  // (shared/crew.js), always in dive gear here, laid flat to swim.
+  const diver = new THREE.Group();
+  function dvSetAvatar(style) {
+    while (diver.children.length) diver.remove(diver.children[0]);
+    const fig = ctAvatarFigure(THREE, { ...(style ?? {}), ppe: "dive" });
+    fig.rotation.x = Math.PI / 2; fig.position.set(0, 0.2, -0.9);
+    diver.add(fig);
+    return diver;
+  }
+  dvSetAvatar(opts.avatar);
   const buddy = dvDiverFigure(THREE, { suit: 0x3a5a2a, tank: 0xf2c14b });
   const rov = dvRovMesh(THREE);
   rov.visible = false;
@@ -94,6 +110,41 @@ export function dvBuildWorld(root, THREE, opts = {}) {
     root.add(line, float);
     return { line, float, siteId: l.siteId };
   });
+
+  // Interactive assets (CT_DEEP_ASSETS): one InstancedMesh per kind for the
+  // body and one for its marker, on the seabed; a buoy's float rides above.
+  const ctGeo = {
+    buoy: [new THREE.CylinderGeometry(0.04, 0.04, 3, 6), new THREE.SphereGeometry(0.45, 10, 8), 1.5, 3.2],
+    "dive-slate": [new THREE.BoxGeometry(0.1, 1.2, 0.1), new THREE.BoxGeometry(0.6, 0.45, 0.05), 0.6, 1.25],
+    "survey-marker": [new THREE.CylinderGeometry(0.05, 0.05, 1.6, 6), new THREE.BoxGeometry(0.4, 0.3, 0.04), 0.8, 1.55],
+    "tool-basket": [new THREE.BoxGeometry(0.9, 0.5, 0.6), new THREE.TorusGeometry(0.3, 0.03, 6, 12), 0.25, 0.7],
+  };
+  const ctAssetMeshes = [];
+  const ctDummy = new THREE.Object3D();
+  for (const [kind, [bodyGeo, topGeo, bodyY, topY]] of Object.entries(ctGeo)) {
+    const list = CT_DEEP_ASSETS.filter((a) => a.kind === kind && (!opts.zone || a.zone === opts.zone));
+    if (!list.length) continue;
+    const colour = CT_DEEP_ASSET_KINDS[kind].colour;
+    const body = new THREE.InstancedMesh(bodyGeo, new THREE.MeshStandardMaterial({ color: 0x5a6a70, roughness: 0.8 }), list.length);
+    const top = new THREE.InstancedMesh(topGeo, new THREE.MeshStandardMaterial({ color: colour, emissive: colour, emissiveIntensity: 0.4, roughness: 0.5 }), list.length);
+    list.forEach((a, i) => {
+      const fy = dvFloorY(a.position[0], a.position[1]);
+      ctDummy.rotation.set(0, (i * 1.3) % (Math.PI * 2), 0);
+      ctDummy.position.set(a.position[0], fy + bodyY, a.position[1]); ctDummy.updateMatrix(); body.setMatrixAt(i, ctDummy.matrix);
+      ctDummy.position.set(a.position[0], fy + topY, a.position[1]); ctDummy.updateMatrix(); top.setMatrixAt(i, ctDummy.matrix);
+    });
+    root.add(body, top);
+    ctAssetMeshes.push(body, top);
+  }
+
+  // The Deep's harbour fleet at the surface over its sites: the dive-support
+  // and restoration workboats and the survey skiff, each in its service
+  // livery (fleet.js's CT_HARBOUR_FLEET); the survey ROV is the one above.
+  const harbour = CT_HARBOUR_FLEET.filter((h) => h.world === "underwater" && h.builder !== "rov").map((h, i) => {
+    const site = DV_SITES.find((s) => s.id === h.at);
+    if (!site || (opts.zone && site.zone !== opts.zone)) return null;
+    return ctBuildLiveried(root, h, site.position[0] + 6, 0, site.position[2] - 6, { ry: i * 1.1 });
+  }).filter(Boolean);
 
   // Lanterns by egg id, placed on the seabed at the egg's anchor by app.js.
   const lanterns = {};
@@ -170,7 +221,7 @@ export function dvBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    seabed, diver, buddy, rov, buddyLine, tether, ascentMeshes, lanterns, markers, hemi, key,
+    seabed, diver, buddy, rov, buddyLine, tether, ascentMeshes, lanterns, markers, hemi, key, ctAssetMeshes, harbour, dvSetAvatar,
     dvPlaceLantern, dvSetMarkers, dvMarkHit, dvApplyLighting, placeCamera, dvSetLine,
   };
 }

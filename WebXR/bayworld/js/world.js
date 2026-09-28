@@ -17,6 +17,9 @@ import { bayGroundTexture, bayGroundUvMatrix, mapboxToken, readMapboxConfig } fr
 import { BW_VEHICLES } from "./sim.js";
 import { buildSky, skyFor, skyState, advanceSky, skySetWeather, skyCompass } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
+import { CT_BAY_WILDLIFE, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS } from "../../shared/bayworld-data.js";
+import { CT_TRAFFIC_FLEET, CT_HARBOUR_FLEET, ctBuildLiveried } from "../../shared/fleet.js";
+import { ctAvatarFigure, ctAvatarVariety } from "../../shared/crew.js";
 
 const BW_EYE_HEIGHT = 1.62;
 const BW_VEHICLE_BUILDERS = { sedan, pickup, boxTruck, semiTractor };
@@ -32,15 +35,7 @@ const BW_DEPOT = { x: -40, z: -40, spacing: 9 };
  *  seals on a float and a kelp crab on the breakwater rock off the north
  *  pier. Counts are WILDLIFE_BUDGET's own defaults — a scene budget, not a
  *  census — and a one-zone build (`opts.zone`) keeps only its own entries. */
-const BW_WILDLIFE = [
-  { kind: "gulls", zone: "port", area: { x: -300, z: 450, w: 260, d: 180, y: -0.4 } },
-  { kind: "pelicans", zone: "outer-bay", area: { x: -1000, z: 380, w: 300, d: 200, y: -0.4 } },
-  { kind: "fish", zone: "outer-bay", area: { x: -1000, z: 300, w: 120, d: 80, y: -0.4 } },
-  { kind: "ray", zone: "outer-bay", area: { x: -1060, z: 520, w: 100, d: 60, y: -0.4 } },
-  { kind: "shorebirds", zone: "island-harbour", area: { x: 80, z: 722, w: 80, d: 6, y: 0 } },
-  { kind: "seals", zone: "north-shoreline", area: { x: -960, z: -690, w: 20, d: 20, y: -0.4 } },
-  { kind: "crab", zone: "north-shoreline", area: { x: -928, z: -646, w: 4, d: 4, y: -0.2 } },
-];
+const BW_WILDLIFE = CT_BAY_WILDLIFE;
 
 function bwPersonFigure(THREE, { body = 0x3a6ea5, skin = 0xd8b090, cap = 0xf2c14b } = {}) {
   const g = new THREE.Group();
@@ -166,8 +161,53 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   // hour, so dayRate is 0 and advanceSky() only walks the weather.
   const skyDrift = skyState({ hours: 9, weather: startWeather, dayRate: 0, driftEvery: opts.driftEvery ?? 150 });
 
-  const player = bwPersonFigure(THREE);
+  // The learner's own figure, in the avatar style picked on the account chip
+  // (shared/crew.js, stored per profile); bwSetAvatar() swaps it live.
+  const player = new THREE.Group();
+  function bwSetAvatar(style) {
+    while (player.children.length) player.remove(player.children[0]);
+    player.add(ctAvatarFigure(THREE, style ?? {}));
+    return player;
+  }
+  bwSetAvatar(opts.avatar);
   root.add(player);
+
+  // Interactive assets (CT_BAY_ASSETS): one InstancedMesh per kind for the
+  // body and one for its lit top, however many assets — twelve meshes for
+  // the lot, placed once and never moved.
+  const ctAssetGeo = {
+    kiosk: [new THREE.BoxGeometry(0.8, 1.9, 0.5), new THREE.BoxGeometry(0.9, 0.5, 0.08), 0.95, 1.7],
+    bench: [new THREE.BoxGeometry(1.8, 0.1, 0.5), new THREE.BoxGeometry(1.8, 0.45, 0.08), 0.45, 0.72],
+    "notice-board": [new THREE.BoxGeometry(0.12, 2.0, 0.12), new THREE.BoxGeometry(1.6, 1.0, 0.08), 1.0, 1.6],
+    "tool-crib": [new THREE.BoxGeometry(1.4, 2.0, 1.0), new THREE.BoxGeometry(1.2, 0.3, 0.05), 1.0, 1.7],
+    "bus-stop": [new THREE.BoxGeometry(0.1, 2.6, 0.1), new THREE.BoxGeometry(0.6, 0.6, 0.06), 1.3, 2.4],
+    "dock-box": [new THREE.BoxGeometry(1.2, 0.7, 0.7), new THREE.BoxGeometry(1.25, 0.08, 0.75), 0.35, 0.74],
+  };
+  const ctAssetMeshes = [];
+  const ctDummy = new THREE.Object3D();
+  for (const [kind, [bodyGeo, topGeo, bodyY, topY]] of Object.entries(ctAssetGeo)) {
+    const list = CT_BAY_ASSETS.filter((a) => a.kind === kind && (!opts.zone || a.zone === opts.zone));
+    if (!list.length) continue;
+    const colour = CT_BAY_ASSET_KINDS[kind].colour;
+    const body = new THREE.InstancedMesh(bodyGeo, new THREE.MeshStandardMaterial({ color: kind === "bench" ? 0x7a5234 : 0x39444e, roughness: 0.7 }), list.length);
+    const top = new THREE.InstancedMesh(topGeo, new THREE.MeshStandardMaterial({ color: colour, emissive: colour, emissiveIntensity: 0.35, roughness: 0.5 }), list.length);
+    list.forEach((a, i) => {
+      ctDummy.rotation.set(0, (i * 1.3) % (Math.PI * 2), 0);
+      ctDummy.position.set(a.position[0], bodyY, a.position[1]); ctDummy.updateMatrix(); body.setMatrixAt(i, ctDummy.matrix);
+      ctDummy.position.set(a.position[0], topY, a.position[1]); ctDummy.updateMatrix(); top.setMatrixAt(i, ctDummy.matrix);
+    });
+    body.userData.ctAssetKind = kind; top.userData.ctAssetKind = kind;
+    root.add(body, top);
+    ctAssetMeshes.push(body, top);
+  }
+
+  // The harbour fleet: working boats at the marinas and piers, each in its
+  // service livery (fleet.js's CT_HARBOUR_FLEET).
+  const harbour = CT_HARBOUR_FLEET.filter((h) => h.world === "bayworld").map((h, i) => {
+    const site = BW_SITES.find((s) => s.id === h.at);
+    if (!site || (opts.zone && site.zone !== opts.zone)) return null;
+    return ctBuildLiveried(root, h, site.position[0] - 14, 0, site.position[2] + 10, { ry: i * 0.8 });
+  }).filter(Boolean);
 
   // The fleet, parked at the motor pool. Each is a real fleet.js build, so it
   // shares the platform's own vehicle kit rather than a bespoke arcade model.
@@ -193,12 +233,14 @@ export function bwBuildWorld(root, THREE, opts = {}) {
 
   // Ambient traffic: a small reusable pool of vehicle meshes, moved (never
   // rebuilt) every frame from sim.js's own bwStepTraffic() output.
-  const trafficBuilders = [sedan, pickup, boxTruck];
+  // Cycled through fleet.js's CT_TRAFFIC_FLEET: every road service in its
+  // own livery (transit, utility, delivery, emergency, construction, port)
+  // between private cars, each with its own unit number.
   function bwSpawnTrafficMeshes(count) {
     const out = [];
     for (let i = 0; i < count; i++) {
-      const builder = trafficBuilders[i % trafficBuilders.length];
-      out.push(builder(root, 0, 0, 0, {}));
+      const entry = CT_TRAFFIC_FLEET[i % CT_TRAFFIC_FLEET.length];
+      out.push(ctBuildLiveried(root, entry, 0, 0, 0, {}, 1 + Math.floor(i / CT_TRAFFIC_FLEET.length)));
     }
     return out;
   }
@@ -207,8 +249,9 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   // own bwStepPedestrian() output.
   function bwSpawnPedestrianMeshes(count) {
     const out = [];
-    const palette = [0x3a6ea5, 0xa5563a, 0x4a9a5a, 0x8a6fbf];
-    for (let i = 0; i < count; i++) out.push(bwPersonFigure(THREE, { body: palette[i % palette.length] }));
+    // Each from the shared style space, every axis stepped on its own
+    // (shared/crew.js's ctAvatarVariety), so no trade travels with one look.
+    for (let i = 0; i < count; i++) { const g = new THREE.Group(); g.add(ctAvatarFigure(THREE, ctAvatarVariety(i))); root.add(g); out.push(g); }
     return out;
   }
 
@@ -285,7 +328,7 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    city, player, vehicles, sun, hemi, satelliteGround, sky, wildlife, skyDrift,
+    city, player, vehicles, sun, hemi, satelliteGround, sky, wildlife, skyDrift, ctAssetMeshes, harbour, bwSetAvatar,
     bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwStepSky, bwApplyLighting, placeCamera,
   };
 }

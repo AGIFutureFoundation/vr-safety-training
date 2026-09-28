@@ -2,6 +2,54 @@
   "accent": "#f2c14b",
   "anchors": [
     {
+      "id": "ct-bench-estuary-marina",
+      "name": "Bench · Estuary Marina",
+      "position": [
+        128.6,
+        262.3
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-waterfront-square",
+      "name": "Bus stop · Waterfront Square",
+      "position": [
+        112.5,
+        304.4
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-kiosk-estuary-shoreline-park-trailhead",
+      "name": "Information kiosk · Shoreline Park Trailhead",
+      "position": [
+        115.3,
+        296.5
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
       "id": "estuary-shoreline-park-trailhead",
       "name": "Shoreline Park Trailhead",
       "position": [
@@ -16,6 +64,38 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-dive-slate-flats-sediment-core-site",
+      "name": "Dive slate · Flats Sediment Core Site",
+      "position": [
+        -132.3,
+        -247.9
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab",
+        "me-water-column-sampling-from-a-small-boat"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "ct-survey-marker-outfall-discharge-photo-point",
+      "name": "Survey marker · Outfall Discharge Photo Point",
+      "position": [
+        439.2,
+        -202
+      ],
+      "stations": [
+        "discharge-photo-doc",
+        "air-sensor-install"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
     },
     {
       "id": "flats-sediment-core-site",

@@ -2,6 +2,37 @@
   "accent": "#dba428",
   "anchors": [
     {
+      "id": "ct-notice-board-ridge-reservoir-yard",
+      "name": "Union hall notice board · Ridge Reservoir Yard",
+      "position": [
+        895.8,
+        -514.6
+      ],
+      "stations": [
+        "ut-cathodic-protection-test-station-reading",
+        "or-solar-farm-tracker-row-maintenance",
+        "op-equipment-daily-walkaround-and-fluids"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    },
+    {
+      "id": "ct-tool-crib-hills-grading-site",
+      "name": "Tool crib · Hills Grading Site",
+      "position": [
+        673.9,
+        -296.7
+      ],
+      "stations": [
+        "op-excavator-trench-and-utility-locate",
+        "op-dozer-slope-work-and-rollover-protection"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "hills"
+    },
+    {
       "id": "hills-grading-site",
       "name": "Hills Grading Site",
       "position": [
@@ -31,6 +62,22 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "upper-hills"
+    },
+    {
+      "id": "ct-tool-basket-pier-creosote-pile-site",
+      "name": "Tool basket · Pier Creosote Pile Site",
+      "position": [
+        -788.4,
+        -577.9
+      ],
+      "stations": [
+        "creosote-pile-removal",
+        "op-pile-driving-rig-and-lead-setup",
+        "br-marine-mammal-observer-during-pile-driving"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "pier-pilings"
     },
     {
       "id": "pier-creosote-pile-site",

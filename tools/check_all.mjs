@@ -57,6 +57,8 @@ const CHECKERS = [
   // One design system: the shared stylesheet on every page, self-hosted fonts,
   // credited vendored packs, no emoji icons in the chrome, AA token pairs (docs/design-system/README.md).
   "check_design.mjs",
+  // Layered maps, interactive assets, service liveries and avatar styles (docs/consoles/CARTOGRAPHER.md).
+  "check_worlds_detail.mjs",
 ];
 
 let failed = 0;

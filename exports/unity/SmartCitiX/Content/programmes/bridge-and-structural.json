@@ -18,6 +18,38 @@
       "zone": "bridge-approach"
     },
     {
+      "id": "ct-bus-stop-bridge-approach-plaza",
+      "name": "Bus stop · Bridge Approach Plaza",
+      "position": [
+        -602.7,
+        -142.9
+      ],
+      "stations": [
+        "steel-erector",
+        "bridge-cable-inspection",
+        "bridge-lead-containment"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "bridge-approach"
+    },
+    {
+      "id": "ct-kiosk-bridge-approach-toll-plaza",
+      "name": "Information kiosk · Bridge Approach Toll Plaza",
+      "position": [
+        -598.9,
+        -180
+      ],
+      "stations": [
+        "steel-erector",
+        "bridge-cable-inspection",
+        "bridge-lead-containment"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "bridge-approach"
+    },
+    {
       "id": "channel-scour-survey",
       "name": "Channel Scour Survey",
       "position": [
@@ -30,6 +62,22 @@
         "bridge-cable-inspection"
       ],
       "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-tool-basket-channel-scour-survey",
+      "name": "Tool basket · Channel Scour Survey",
+      "position": [
+        -176,
+        72.4
+      ],
+      "stations": [
+        "uw-bridge-pier-scour-survey",
+        "uw-underwater-concrete-and-bag-placement",
+        "bridge-cable-inspection"
+      ],
+      "table": "CT_DEEP_ASSETS",
       "world": "underwater",
       "zone": "shipping-channel"
     }

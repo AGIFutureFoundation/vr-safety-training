@@ -2,6 +2,147 @@
   "accent": "#4fb3c8",
   "anchors": [
     {
+      "id": "ct-bench-island-beach-esplanade",
+      "name": "Bench · Island Beach Esplanade",
+      "position": [
+        68.6,
+        686.4
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-bench-north-pier",
+      "name": "Bench · North Pier",
+      "position": [
+        -849.1,
+        -705
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-bench-south-shoreline-park",
+      "name": "Bench · South Shoreline Park",
+      "position": [
+        695.9,
+        693.7
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-kiosk-north-marina-pier",
+      "name": "Information kiosk · North Marina Pier",
+      "position": [
+        -780.7,
+        -634.7
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-kiosk-south-shoreline-marina",
+      "name": "Information kiosk · South Shoreline Marina",
+      "position": [
+        771.9,
+        681.4
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "ct-tool-crib-estuary-marina-boatyard",
+      "name": "Tool crib · Marina Boatyard",
+      "position": [
+        98.8,
+        268.3
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-surface-supplied-dive-station-setup",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-tool-crib-island-boatyard",
+      "name": "Tool crib · Island Boatyard",
+      "position": [
+        116.4,
+        719.7
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
       "id": "estuary-marina-boatyard",
       "name": "Marina Boatyard",
       "position": [
@@ -127,6 +268,709 @@
       "table": "DEEP_SITES",
       "world": "underwater",
       "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-buoy-channel-centreline",
+      "name": "Line buoy · Channel Centreline",
+      "position": [
+        -995,
+        16
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "The western approach to the shipping channel, a buoy chain overhead and traffic that a dive supervisor never lets a diver forget.",
+        "centre": [
+          -750,
+          0
+        ],
+        "id": "channel-approach",
+        "name": "Channel Approach",
+        "palette": {
+          "accent": 14164778,
+          "seabed": 4868682,
+          "water": 1326664
+        },
+        "radius": 220
+      }
+    },
+    {
+      "id": "ct-buoy-eelgrass-transect",
+      "name": "Line buoy · Eelgrass Transect",
+      "position": [
+        102.4,
+        -536.8
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-fish-visual-census-and-data-sheet"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A soft-bottom meadow of ribbon grass swaying in the tide, with transplant plots staked along its edge.",
+        "centre": [
+          100,
+          -540
+        ],
+        "id": "eelgrass-meadow",
+        "name": "Eelgrass Meadow",
+        "palette": {
+          "accent": 5884283,
+          "seabed": 5925434,
+          "water": 2780264
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-buoy-flats-anchor-line",
+      "name": "Line buoy · Flats Anchor Line",
+      "position": [
+        -95.4,
+        -251.9
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+        "centre": [
+          -100,
+          -260
+        ],
+        "id": "tide-flats",
+        "name": "Tide Gauge Flats",
+        "palette": {
+          "accent": 5231103,
+          "seabed": 6974042,
+          "water": 2055262
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-kelp-transect",
+      "name": "Line buoy · Kelp Transect",
+      "position": [
+        -499.7,
+        -224
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Tall kelp anchored to a rocky rise, its canopy closing overhead into shifting green light.",
+        "centre": [
+          -500,
+          -220
+        ],
+        "id": "kelp-forest",
+        "name": "Kelp Forest",
+        "palette": {
+          "accent": 8042056,
+          "seabed": 3815978,
+          "water": 1790036
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-buoy-main-guideline",
+      "name": "Line buoy · Main Guideline",
+      "position": [
+        -702.9,
+        -557.3
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+        "centre": [
+          -750,
+          -560
+        ],
+        "id": "pier-pilings",
+        "name": "The Pier Pilings",
+        "palette": {
+          "accent": 11071712,
+          "seabed": 4872013,
+          "water": 1989212
+        },
+        "radius": 170
+      }
+    },
+    {
+      "id": "ct-buoy-mud-plain-anchor-line",
+      "name": "Line buoy · Mud Plain Anchor Line",
+      "position": [
+        -303.9,
+        340.1
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Flat, featureless soft bottom south of the channel where a fin kick lifts a cloud that hangs for minutes.",
+        "centre": [
+          -300,
+          330
+        ],
+        "id": "mud-plain",
+        "name": "The Mud Plain",
+        "palette": {
+          "accent": 9148581,
+          "seabed": 3815988,
+          "water": 1126204
+        },
+        "radius": 230
+      }
+    },
+    {
+      "id": "ct-buoy-outfall-transect",
+      "name": "Line buoy · Outfall Transect",
+      "position": [
+        403.4,
+        -542.1
+      ],
+      "stations": [
+        "br-culvert-retrofit-for-fish-passage",
+        "br-fish-screen-maintenance",
+        "br-tidal-marsh-grading-amphibious-excavator"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Where a tidal-marsh channel spills onto the flats: turbid water, a sandbar, and current that turns with the tide.",
+        "centre": [
+          650,
+          -560
+        ],
+        "id": "marsh-mouth",
+        "name": "Marsh Channel Mouth",
+        "palette": {
+          "accent": 9164453,
+          "seabed": 6969914,
+          "water": 3828314
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-reef-ball-transect",
+      "name": "Line buoy · Reef Ball Transect",
+      "position": [
+        -103.9,
+        -260.7
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+        "centre": [
+          -100,
+          -260
+        ],
+        "id": "tide-flats",
+        "name": "Tide Gauge Flats",
+        "palette": {
+          "accent": 5231103,
+          "seabed": 6974042,
+          "water": 2055262
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-seamount-ascent-line",
+      "name": "Line buoy · Seamount Ascent Line",
+      "position": [
+        603.9,
+        499.1
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+        "centre": [
+          650,
+          450
+        ],
+        "id": "seamount",
+        "name": "The Seamount",
+        "palette": {
+          "accent": 16747098,
+          "seabed": 4866104,
+          "water": 997956
+        },
+        "radius": 260
+      }
+    },
+    {
+      "id": "ct-buoy-seamount-transect",
+      "name": "Line buoy · Seamount Transect",
+      "position": [
+        643.9,
+        440.3
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+        "centre": [
+          650,
+          450
+        ],
+        "id": "seamount",
+        "name": "The Seamount",
+        "palette": {
+          "accent": 16747098,
+          "seabed": 4866104,
+          "water": 997956
+        },
+        "radius": 260
+      }
+    },
+    {
+      "id": "ct-buoy-trench-lip-transect",
+      "name": "Line buoy · Trench Lip Transect",
+      "position": [
+        -296.2,
+        331.4
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Flat, featureless soft bottom south of the channel where a fin kick lifts a cloud that hangs for minutes.",
+        "centre": [
+          -300,
+          330
+        ],
+        "id": "mud-plain",
+        "name": "The Mud Plain",
+        "palette": {
+          "accent": 9148581,
+          "seabed": 3815988,
+          "water": 1126204
+        },
+        "radius": 230
+      }
+    },
+    {
+      "id": "ct-buoy-wreck-anchor-line",
+      "name": "Line buoy · Wreck Anchor Line",
+      "position": [
+        244.1,
+        286.8
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A scoured hollow beside the channel holding an old workboat hull, bow and stern still readable under the growth.",
+        "centre": [
+          250,
+          300
+        ],
+        "id": "wreck-hollow",
+        "name": "The Wreck Hollow",
+        "palette": {
+          "accent": 15909195,
+          "seabed": 3820100,
+          "water": 1061436
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-buoy-wreck-photo-line",
+      "name": "Line buoy · Wreck Photo Line",
+      "position": [
+        248.2,
+        296.5
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A scoured hollow beside the channel holding an old workboat hull, bow and stern still readable under the growth.",
+        "centre": [
+          250,
+          300
+        ],
+        "id": "wreck-hollow",
+        "name": "The Wreck Hollow",
+        "palette": {
+          "accent": 15909195,
+          "seabed": 3820100,
+          "water": 1061436
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-dive-slate-approach-boom-tow-site",
+      "name": "Dive slate · Approach Boom Tow Site",
+      "position": [
+        -762.2,
+        42.4
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "ct-dive-slate-flats-sediment-core-site",
+      "name": "Dive slate · Flats Sediment Core Site",
+      "position": [
+        -132.3,
+        -247.9
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab",
+        "me-water-column-sampling-from-a-small-boat"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "ct-dive-slate-kelp-transect-start",
+      "name": "Dive slate · Kelp Transect Start",
+      "position": [
+        -495.6,
+        -209
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-kelp-transect-survey-and-photo-quadrats"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "ct-dive-slate-mud-plain-trash-capture",
+      "name": "Dive slate · Mud Plain Trash Capture Site",
+      "position": [
+        -336.9,
+        376.6
+      ],
+      "stations": [
+        "br-trash-capture-device-service",
+        "br-volunteer-cleanup-day-safety-lead"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "ct-dive-slate-shelf-checkout-site",
+      "name": "Dive slate · Shelf Checkout Site",
+      "position": [
+        -349,
+        -525.7
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "ct-survey-marker-channel-dredge-survey",
+      "name": "Survey marker · Channel Dredge Survey",
+      "position": [
+        -154.8,
+        50.3
+      ],
+      "stations": [
+        "dredge-barge",
+        "br-dredge-material-screening-and-disposal-decision",
+        "br-barge-loading-of-contaminated-sediment"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-survey-marker-eelgrass-fish-census-line",
+      "name": "Survey marker · Eelgrass Fish Census Line",
+      "position": [
+        71.7,
+        -576
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting",
+        "me-fish-visual-census-and-data-sheet"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "ct-survey-marker-flats-workboat-anchorage",
+      "name": "Survey marker · Flats Workboat Anchorage",
+      "position": [
+        -46.2,
+        -228.4
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "mw-workboat-towing-and-line-handling"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "ct-survey-marker-marsh-mouth-culvert",
+      "name": "Survey marker · Marsh Mouth Culvert",
+      "position": [
+        627.6,
+        -596.3
+      ],
+      "stations": [
+        "br-culvert-retrofit-for-fish-passage",
+        "br-fish-screen-maintenance",
+        "br-tidal-marsh-grading-amphibious-excavator"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "ct-survey-marker-pier-surface-supplied-station",
+      "name": "Survey marker · Pier Surface-Supplied Station",
+      "position": [
+        -733.3,
+        -517.8
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "ct-survey-marker-reef-ball-placement-site",
+      "name": "Survey marker · Reef Ball Placement Site",
+      "position": [
+        312.9,
+        34.5
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-derelict-vessel-salvage-rigging",
+        "container-lashing"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "ct-survey-marker-seamount-capstone-survey",
+      "name": "Survey marker · Seamount Capstone Survey",
+      "position": [
+        649.7,
+        444.9
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team",
+        "me-shoreline-debris-and-microplastics-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "seamount"
+    },
+    {
+      "id": "ct-survey-marker-shelf-debris-sweep",
+      "name": "Survey marker · Shelf Debris Sweep",
+      "position": [
+        -337.7,
+        -583.1
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-derelict-gear-recovery-dive",
+        "br-shoreline-cleanup-sharps-and-hazardous-debris"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "ct-survey-marker-wreck-photo-survey",
+      "name": "Survey marker · Wreck Photo Survey",
+      "position": [
+        233.9,
+        293.1
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "wreck-hollow"
+    },
+    {
+      "id": "ct-tool-basket-eelgrass-turbidity-curtain",
+      "name": "Tool basket · Eelgrass Turbidity Curtain",
+      "position": [
+        56.9,
+        -493.8
+      ],
+      "stations": [
+        "br-turbidity-curtain-deployment",
+        "br-bird-nesting-buffer-and-work-window"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "ct-tool-basket-flats-sonde-station",
+      "name": "Tool basket · Flats Sonde Station",
+      "position": [
+        -90.4,
+        -265.3
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "ct-tool-basket-marsh-mouth-invasive-plot",
+      "name": "Tool basket · Marsh Mouth Invasive Plot",
+      "position": [
+        705.4,
+        -552.8
+      ],
+      "stations": [
+        "spartina-removal",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-levee-inspection-and-seepage"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "ct-tool-basket-mud-plain-hotspot-survey",
+      "name": "Tool basket · Mud Plain Hotspot Survey",
+      "position": [
+        -273.7,
+        302.5
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "ct-tool-basket-wreck-salvage-rigging",
+      "name": "Tool basket · Wreck Salvage Rigging",
+      "position": [
+        285.9,
+        268.4
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "wreck-hollow"
     },
     {
       "id": "eelgrass-fish-census-line",

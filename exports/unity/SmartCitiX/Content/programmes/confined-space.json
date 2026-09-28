@@ -2,6 +2,38 @@
   "accent": "#4fd1ff",
   "anchors": [
     {
+      "id": "ct-notice-board-south-treatment-plant",
+      "name": "Union hall notice board · South Treatment Plant",
+      "position": [
+        734.1,
+        579.1
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-tool-crib-west-oakland-utility-yard",
+      "name": "Tool crib · West Oakland Utility Yard",
+      "position": [
+        -369.8,
+        56.9
+      ],
+      "stations": [
+        "valve-vault",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
       "id": "south-treatment-plant",
       "name": "South Treatment Plant",
       "position": [
@@ -33,6 +65,23 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "west-oakland"
+    },
+    {
+      "id": "ct-dive-slate-outfall-intake-lockout-site",
+      "name": "Dive slate · Outfall Intake Lockout Site",
+      "position": [
+        392.8,
+        -302.7
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
     },
     {
       "id": "outfall-intake-lockout-site",

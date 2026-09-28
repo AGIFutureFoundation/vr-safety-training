@@ -194,6 +194,10 @@ writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const present = KITS.filter((k) => existsSync(join(WEBXR, k.file)));
 const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", ...present.map((k) => k.file)].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const names = present.flatMap((k) => [k.budget, k.builders]);
+// Service liveries (console CARTOGRAPHER, tools/briefs/worlds-detail-brief.md), exported when fleet.js has them.
+const CT_LIVERY_NAMES = ["CT_SERVICE_LIVERIES", "CT_TRAFFIC_SERVICES", "CT_TRAFFIC_FLEET", "CT_HARBOUR_FLEET", "ctServiceLivery", "ctBuildLiveried"];
+const ctFleetSrc = readFileSync(join(WEBXR, "shared/fleet.js"), "utf8");
+for (const n of CT_LIVERY_NAMES) if (new RegExp(`export (const|function) ${n}\\b`).test(ctFleetSrc)) names.push(n);
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\nimport { __bounds } from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\nexport { THREE, __bounds, ${names.join(", ")} };`);
 const suite = await import(pathToFileURL(join(dir, "suite.mjs")).href);
 
@@ -269,7 +273,56 @@ for (const kit of present) {
   summary.push(`${kit.file.split("/").pop()}: ${counts.length}`);
 }
 for (const k of KITS) if (!present.includes(k)) fail(`${k.file} is missing`);
+
+// ------------------------------------------------ livery coverage (worlds-detail brief)
+// Every road service the brief names runs in the traffic fleet; every service
+// livery is a generic platform name (never a real operator or brand); every
+// traffic and harbour entry builds with its livery painted and inside its
+// builder's budget; the Deep's workboats, survey vessel and ROV each carry a
+// distinct livery; and the regatta's twelve yachts keep their own names.
+let liveryLine = "";
+if (!suite.CT_SERVICE_LIVERIES) fail("shared/fleet.js: CT_SERVICE_LIVERIES (service liveries) is missing");
+else {
+  const L = suite.CT_SERVICE_LIVERIES;
+  for (const svc of ["transit", "utility", "delivery", "emergency", "construction", "port"]) {
+    if (!L[svc]) fail(`livery: no "${svc}" service livery`);
+    if (!suite.CT_TRAFFIC_SERVICES.includes(svc)) fail(`livery: CT_TRAFFIC_SERVICES leaves out "${svc}"`);
+    if (!suite.CT_TRAFFIC_FLEET.some((e) => e.service === svc)) fail(`livery: no traffic vehicle runs in the "${svc}" livery`);
+  }
+  for (const [svc, l] of Object.entries(L)) {
+    if (!/^SMARTCITI [A-Z ]+$/.test(l.fleetName)) fail(`livery ${svc}: fleet name "${l.fleetName}" is not the platform's generic form`);
+    if (typeof l.colour !== "number" || typeof l.accent !== "number" || l.colour === l.accent) fail(`livery ${svc}: needs two distinct colours`);
+  }
+  const colours = Object.values(L).map((l) => `${l.colour}|${l.accent}`);
+  if (new Set(colours).size !== colours.length) fail("livery: two services share the same colour pair");
+  const built = [];
+  for (const e of [...suite.CT_TRAFFIC_FLEET, ...suite.CT_HARBOUR_FLEET]) {
+    const root = new suite.THREE.Group();
+    let g;
+    try { g = suite.ctBuildLiveried(root, e, 0, 0, 0, {}); } catch (err) { fail(`livery ${e.id ?? e.builder}: build threw — ${err.message}`); continue; }
+    const budget = suite.FLEET_BUDGET[e.builder];
+    const { merged } = mergedCount(g);
+    if (budget && merged > budget.meshes) fail(`livery ${e.id ?? e.builder}: ${merged} meshes, over ${e.builder}'s ${budget.meshes}`);
+    if (e.service) {
+      const want = suite.ctServiceLivery(e.service, e.unit ?? 1);
+      const lv = g.userData?.livery;
+      if (!lv || lv.colour !== want.colour || lv.fleetName !== want.fleetName) fail(`livery ${e.id ?? e.builder}: the ${e.service} livery is not what the builder painted`);
+    }
+    if (g.userData?.ctService !== (e.service ?? "private")) fail(`livery ${e.id ?? e.builder}: userData.ctService not set`);
+    built.push(e);
+  }
+  const deep = suite.CT_HARBOUR_FLEET.filter((e) => e.world === "underwater");
+  for (const b of ["workboat", "rov"]) if (!deep.some((e) => e.builder === b)) fail(`livery: the Deep has no liveried ${b}`);
+  if (!deep.some((e) => e.service === "survey" && e.builder !== "rov")) fail("livery: the Deep has no liveried survey vessel");
+  const deepKeys = deep.map((e) => `${e.service}|${e.unit}`);
+  if (new Set(deepKeys).size !== deepKeys.length) fail("livery: two of the Deep's vessels share a livery and unit number");
+  const yachtSrc = readFileSync(join(WEBXR, "shared/yacht-fleet.js"), "utf8");
+  const yachtNames = [...yachtSrc.matchAll(/\bname:\s*"([^"]+)"/g)].map((m) => m[1]);
+  if (yachtNames.length < 12 || new Set(yachtNames).size !== yachtNames.length) fail(`livery: the regatta fleet should keep twelve distinctly named yachts (found ${yachtNames.length})`);
+  if (yachtNames.some((n) => Object.values(L).some((l) => l.fleetName === n.toUpperCase()))) fail("livery: a service livery overwrote a regatta yacht's name");
+  liveryLine = ` Liveries: ${Object.keys(L).length} services over ${built.length} traffic and harbour vehicles.`;
+}
 console.log(failures
   ? `\n${failures} fleet kit problem(s).`
-  : `\nAll ${total} kit builders render headlessly inside their mesh budget, footprint and parts (${summary.join(", ")}).`);
+  : `\nAll ${total} kit builders render headlessly inside their mesh budget, footprint and parts (${summary.join(", ")}).${liveryLine}`);
 process.exit(failures ? 1 : 0);

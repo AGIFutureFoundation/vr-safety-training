@@ -64,6 +64,9 @@
   .atlas-site,.atlas-landmark{cursor:pointer}
   .atlas-site:hover,.atlas-site:focus-visible{r:8;outline:none;stroke:#fff}
   .atlas-landmark:hover,.atlas-landmark:focus-visible{outline:none;stroke:#fff}
+  .atlas-layers{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 8px;font-size:13px}
+  .atlas-layers label{display:inline-flex;gap:6px;align-items:center;min-height:32px;cursor:pointer}
+  .atlas-layers .swatch{display:inline-block;width:10px;height:10px;border-radius:50%}
   #atlas-status{font-size:13px;color:var(--dim);line-height:1.5;margin:10px 0 0}
   #atlas-detail{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--raised);border:1px solid var(--edge-strong);font-size:14px;line-height:1.45}
   .atlas-name{font-family:var(--cond);font-size:20px;text-transform:uppercase;letter-spacing:.03em}
@@ -113,6 +116,7 @@
       <h2 id="atlas-map-title" data-tr="world.map">Map</h2>
       <span class="badge" id="atlas-mode">Built-in map</span>
     </div>
+    <div id="atlas-layers" class="atlas-layers" role="group" aria-label="Map layers"></div>
     <div id="atlas-map" aria-live="polite"></div>
     <p id="atlas-status" role="status"></p>
     <div id="atlas-detail" hidden></div>

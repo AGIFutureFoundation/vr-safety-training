@@ -2,6 +2,125 @@
   "accent": "#e8552d",
   "anchors": [
     {
+      "id": "ct-bench-island-beach-esplanade",
+      "name": "Bench · Island Beach Esplanade",
+      "position": [
+        68.6,
+        686.4
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-bus-stop-island-ferry-landing-clock",
+      "name": "Bus stop · Ferry Landing Clock",
+      "position": [
+        172,
+        576
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-bus-stop-union-hall",
+      "name": "Bus stop · Union Hall",
+      "position": [
+        -373.5,
+        32.5
+      ],
+      "stations": [
+        "press-brake",
+        "sm-shop-layout-and-shear"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-island-ferry-landing",
+      "name": "Information kiosk · Island Ferry Landing",
+      "position": [
+        180.9,
+        582.9
+      ],
+      "stations": [
+        "mw-ferry-deckhand-and-passenger-safety",
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "forklift-dock"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-notice-board-island-yacht-harbor",
+      "name": "Union hall notice board · Island Yacht Harbor",
+      "position": [
+        85.1,
+        638.2
+      ],
+      "stations": [
+        "mooring-line",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
+        "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "ct-notice-board-west-oakland-union-hall",
+      "name": "Union hall notice board · West Oakland Union Hall",
+      "position": [
+        -411.4,
+        43.4
+      ],
+      "stations": [
+        "press-brake",
+        "sm-shop-layout-and-shear"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-tool-crib-island-boatyard",
+      "name": "Tool crib · Island Boatyard",
+      "position": [
+        116.4,
+        719.7
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
       "id": "island-boatyard",
       "name": "Island Boatyard",
       "position": [
@@ -107,6 +226,306 @@
       "table": "DEEP_SITES",
       "world": "underwater",
       "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-buoy-channel-centreline",
+      "name": "Line buoy · Channel Centreline",
+      "position": [
+        -995,
+        16
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "The western approach to the shipping channel, a buoy chain overhead and traffic that a dive supervisor never lets a diver forget.",
+        "centre": [
+          -750,
+          0
+        ],
+        "id": "channel-approach",
+        "name": "Channel Approach",
+        "palette": {
+          "accent": 14164778,
+          "seabed": 4868682,
+          "water": 1326664
+        },
+        "radius": 220
+      }
+    },
+    {
+      "id": "ct-buoy-pier-anchor-line",
+      "name": "Line buoy · Pier Anchor Line",
+      "position": [
+        -748.3,
+        -563.6
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+        "centre": [
+          -750,
+          -560
+        ],
+        "id": "pier-pilings",
+        "name": "The Pier Pilings",
+        "palette": {
+          "accent": 11071712,
+          "seabed": 4872013,
+          "water": 1989212
+        },
+        "radius": 170
+      }
+    },
+    {
+      "id": "ct-buoy-shore-guideline",
+      "name": "Line buoy · Shore Guideline",
+      "position": [
+        -756,
+        -600
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+        "centre": [
+          -750,
+          -560
+        ],
+        "id": "pier-pilings",
+        "name": "The Pier Pilings",
+        "palette": {
+          "accent": 11071712,
+          "seabed": 4872013,
+          "water": 1989212
+        },
+        "radius": 170
+      }
+    },
+    {
+      "id": "ct-buoy-wreck-anchor-line",
+      "name": "Line buoy · Wreck Anchor Line",
+      "position": [
+        244.1,
+        286.8
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A scoured hollow beside the channel holding an old workboat hull, bow and stern still readable under the growth.",
+        "centre": [
+          250,
+          300
+        ],
+        "id": "wreck-hollow",
+        "name": "The Wreck Hollow",
+        "palette": {
+          "accent": 15909195,
+          "seabed": 3820100,
+          "water": 1061436
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-buoy-wreck-photo-line",
+      "name": "Line buoy · Wreck Photo Line",
+      "position": [
+        248.2,
+        296.5
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "A scoured hollow beside the channel holding an old workboat hull, bow and stern still readable under the growth.",
+        "centre": [
+          250,
+          300
+        ],
+        "id": "wreck-hollow",
+        "name": "The Wreck Hollow",
+        "palette": {
+          "accent": 15909195,
+          "seabed": 3820100,
+          "water": 1061436
+        },
+        "radius": 200
+      }
+    },
+    {
+      "id": "ct-dive-slate-approach-boom-tow-site",
+      "name": "Dive slate · Approach Boom Tow Site",
+      "position": [
+        -762.2,
+        42.4
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "ct-dive-slate-outfall-intake-lockout-site",
+      "name": "Dive slate · Outfall Intake Lockout Site",
+      "position": [
+        392.8,
+        -302.7
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "ct-dive-slate-pier-piling-inspection-station",
+      "name": "Dive slate · Pier Piling Inspection Station",
+      "position": [
+        -722,
+        -580
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "ct-dive-slate-trench-rov-station",
+      "name": "Dive slate · Trench ROV Station",
+      "position": [
+        -697.4,
+        464.6
+      ],
+      "stations": [
+        "uw-rov-pre-dive-and-tether-management",
+        "mw-dive-supervisor-and-dive-plan",
+        "cd-rov-launch-recovery-and-tether-management"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "deep-trench"
+    },
+    {
+      "id": "ct-survey-marker-flats-workboat-anchorage",
+      "name": "Survey marker · Flats Workboat Anchorage",
+      "position": [
+        -46.2,
+        -228.4
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "mw-workboat-towing-and-line-handling"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "ct-survey-marker-kelp-night-line-site",
+      "name": "Survey marker · Kelp Night Line Site",
+      "position": [
+        -512.4,
+        -263.9
+      ],
+      "stations": [
+        "mw-diver-emergency-and-recovery",
+        "mw-dive-supervisor-and-dive-plan",
+        "cd-low-visibility-and-night-dive-line-work"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "ct-survey-marker-wreck-photo-survey",
+      "name": "Survey marker · Wreck Photo Survey",
+      "position": [
+        233.9,
+        293.1
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "wreck-hollow"
+    },
+    {
+      "id": "ct-tool-basket-channel-scour-survey",
+      "name": "Tool basket · Channel Scour Survey",
+      "position": [
+        -176,
+        72.4
+      ],
+      "stations": [
+        "uw-bridge-pier-scour-survey",
+        "uw-underwater-concrete-and-bag-placement",
+        "bridge-cable-inspection"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-tool-basket-shelf-lift-bag-site",
+      "name": "Tool basket · Shelf Lift Bag Site",
+      "position": [
+        -384.8,
+        -589.7
+      ],
+      "stations": [
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shallow-shelf"
     },
     {
       "id": "flats-workboat-anchorage",

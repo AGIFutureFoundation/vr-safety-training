@@ -22,10 +22,11 @@
 import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
 import { trT } from "./i18n.js";
 import { cnMount } from "./cinema.js";
-import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile } from "./profiles.js";
+import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile, gtStorage } from "./profiles.js";
 // The treasure ledger rides with the chip: the dialog links the Treasure Map and every page arms its finders.
 import { tzArmPage, tzMapHref, tzFoundIds } from "./treasures.js";
 import { TZ_TREASURES } from "./treasures-data.js";
+import { CT_AVATAR_STYLES, CT_AVATAR_AXES, ctAvatarLoad, ctAvatarSave, ctAvatarOption } from "./crew.js";
 
 const gtHasDom = typeof document !== "undefined";
 const GT_WALLET_INSTALL = "https://metamask.io/download/";
@@ -50,6 +51,12 @@ const gtCss = `
 #gt-dialog .gt-row button{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
 #gt-dialog label.gt-check{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}
 #gt-dialog label.gt-check input{width:auto;min-height:0;margin:0}
+#gt-account .ct-av{display:inline-block;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-sizing:content-box;flex:none}
+#gt-dialog .ct-av-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;margin:0 0 10px}
+#gt-dialog .ct-av-grid label{font-size:14px;color:#d4dee8}
+#gt-dialog .ct-av-grid select{min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#081018;color:#fff;font:15px system-ui,sans-serif;padding:0 8px}
+#gt-dialog .ct-av-preview{display:flex;gap:10px;align-items:center;margin:0 0 10px;font-size:14px;color:#d4dee8}
+#gt-dialog .ct-av-preview .ct-av{display:inline-block;width:28px;height:28px;border-radius:50%;border:5px solid #fff}
 `;
 
 const gtState = { mounted: false, env: null, configUrl: null, ready: null, returnTo: null, googleStarted: false };
@@ -89,7 +96,7 @@ function gtRenderChip() {
   if (!chip) return;
   const { text, badge } = gtChipLabel();
   chip.textContent = "";
-  chip.append(text);
+  chip.append(ctAvatarSwatch(), text);
   if (badge) chip.append(" ", gtEl("span", { class: "gt-badge", text: badge }));
   chip.setAttribute("aria-label", Auth.session ? trT("acct.chipAria", { name: text }) : (badge ? trT("acct.signinDemoAria") : trT("acct.signin")));
 }
@@ -150,6 +157,39 @@ function gtSignInView(panel) {
   trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
 
+/** The learner's avatar as a small swatch: skin tone inside, headwear or hard-hat colour as the ring. */
+function ctAvatarSwatch(style = ctAvatarLoad(gtStorage())) {
+  const hex = (n) => `#${(n >>> 0).toString(16).padStart(6, "0")}`;
+  const ppe = ctAvatarOption("ppe", style.ppe);
+  const ring = ppe.helmet ? ctAvatarOption("hardHat", style.hardHat).hex : ctAvatarOption("hairColour", style.hairColour).hex;
+  const el = gtEl("span", { class: "ct-av", "aria-hidden": "true" });
+  el.style.background = hex(ctAvatarOption("skin", style.skin).hex);
+  el.style.borderColor = hex(ring);
+  return el;
+}
+
+const CT_AXIS_LABELS = { body: "Body", skin: "Skin tone", hair: "Hair or head covering", hairColour: "Hair or covering colour", ppe: "Trade PPE", hardHat: "Hard hat colour" };
+
+/** The avatar picker: one select per axis, stored per profile (shared/profiles.js) on Save. */
+function ctAvatarView(panel) {
+  const style = ctAvatarLoad(gtStorage());
+  panel.append(gtEl("p", { text: "Choose how your own figure looks in Bay World and the Deep. Every option works with every trade; it is kept with your profile on this device." }));
+  const preview = gtEl("div", { class: "ct-av-preview", id: "ct-av-preview" });
+  const draw = () => { preview.textContent = ""; preview.append(ctAvatarSwatch(style), `${ctAvatarOption("body", style.body).label} · ${ctAvatarOption("hair", style.hair).label} · ${ctAvatarOption("ppe", style.ppe).label}`); };
+  const grid = gtEl("div", { class: "ct-av-grid" });
+  for (const axis of CT_AVATAR_AXES) {
+    const id = `ct-av-${axis}`;
+    const sel = gtEl("select", { id, "data-axis": axis, on: { change: (e) => { style[axis] = e.target.value; draw(); } } });
+    for (const o of CT_AVATAR_STYLES[axis]) sel.append(gtEl("option", { value: o.id, selected: o.id === style[axis], text: o.label }));
+    grid.append(gtEl("label", { for: id, text: CT_AXIS_LABELS[axis] ?? axis }), sel);
+  }
+  draw();
+  panel.append(preview, grid);
+  panel.append(gtEl("div", { class: "gt-row" },
+    gtEl("button", { type: "button", id: "ct-av-save", on: { click: () => { ctAvatarSave(style, gtStorage()); gtRenderChip(); gtMsg("Avatar saved to this profile."); } } }, "Save avatar"),
+    gtEl("button", { type: "button", id: "ct-av-back", on: { click: () => gtRender() } }, "Back")));
+}
+
 function gtRender(view = null) {
   const panel = document.querySelector("#gt-dialog .gt-panel");
   if (!panel) return;
@@ -157,6 +197,9 @@ function gtRender(view = null) {
   const v = view ?? (Auth.session ? "account" : "signin");
   panel.append(gtEl("h2", { id: "gt-title", text: v === "signin" ? trT("acct.signin") : trT("acct.account") }));
   if (v === "signin") {
+  panel.append(gtEl("h2", { id: "gt-title", text: v === "avatar" ? "Your avatar" : v === "signin" ? "Sign in" : "Your account" }));
+  if (v === "avatar") ctAvatarView(panel);
+  else if (v === "signin") {
     panel.append(gtEl("p", { text: gtIsDemo()
       ? trT("acct.introDemo")
       : trT("acct.intro") }));
@@ -179,6 +222,9 @@ function gtRender(view = null) {
   // The Treasure Map (docs/treasures.md): counts only, never where an unfound one is.
   panel.append(gtEl("p", { class: "gt-line", id: "gt-treasures" }, `Treasures found: ${tzFoundIds().length} of ${TZ_TREASURES.length}. `,
     gtEl("a", { href: tzMapHref(), id: "gt-treasure-map", text: "Open the Treasure Map" })));
+  // The avatar picker sits after the sign-in options, so Google stays the first choice.
+  if (v !== "avatar") panel.append(gtEl("button", { type: "button", class: "gt-opt", id: "ct-av-open", on: { click: () => gtRender("avatar") } },
+    ctAvatarSwatch(), " Your avatar", gtEl("small", { text: "Body, skin tone, hair or head covering and trade PPE for your own figure in the worlds." })));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }
@@ -242,6 +288,7 @@ export function gtMountAccount(nav, { configUrl = null } = {}) {
       .finally(() => gtRenderChip());
     addEventListener("gt:profile", () => gtRenderChip());
     addEventListener("tr:change", () => { gtRenderChip(); const d = document.getElementById("gt-dialog"); if (d && !d.hidden) gtRender(); });
+    addEventListener("ct:avatar", () => gtRenderChip());
   }
   gtRenderChip();
   try { tzArmPage(); } catch (_) { /* a page with no treasures */ }

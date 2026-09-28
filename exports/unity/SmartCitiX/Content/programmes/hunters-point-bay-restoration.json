@@ -2,6 +2,76 @@
   "accent": "#8fd18b",
   "anchors": [
     {
+      "id": "ct-bench-estuary-marina",
+      "name": "Bench · Estuary Marina",
+      "position": [
+        128.6,
+        262.3
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-bus-stop-waterfront-square",
+      "name": "Bus stop · Waterfront Square",
+      "position": [
+        112.5,
+        304.4
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-kiosk-estuary-shoreline-park-trailhead",
+      "name": "Information kiosk · Shoreline Park Trailhead",
+      "position": [
+        115.3,
+        296.5
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
       "id": "estuary-shoreline-park-trailhead",
       "name": "Shoreline Park Trailhead",
       "position": [
@@ -55,6 +125,211 @@
       "table": "DEEP_SITES",
       "world": "underwater",
       "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-buoy-marsh-drift-transect",
+      "name": "Line buoy · Marsh Drift Transect",
+      "position": [
+        649,
+        -556.1
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline",
+        "me-tidal-marsh-channel-restoration-day"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Where a tidal-marsh channel spills onto the flats: turbid water, a sandbar, and current that turns with the tide.",
+        "centre": [
+          650,
+          -560
+        ],
+        "id": "marsh-mouth",
+        "name": "Marsh Channel Mouth",
+        "palette": {
+          "accent": 9164453,
+          "seabed": 6969914,
+          "water": 3828314
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-mud-plain-anchor-line",
+      "name": "Line buoy · Mud Plain Anchor Line",
+      "position": [
+        -303.9,
+        340.1
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Flat, featureless soft bottom south of the channel where a fin kick lifts a cloud that hangs for minutes.",
+        "centre": [
+          -300,
+          330
+        ],
+        "id": "mud-plain",
+        "name": "The Mud Plain",
+        "palette": {
+          "accent": 9148581,
+          "seabed": 3815988,
+          "water": 1126204
+        },
+        "radius": 230
+      }
+    },
+    {
+      "id": "ct-buoy-trench-lip-transect",
+      "name": "Line buoy · Trench Lip Transect",
+      "position": [
+        -296.2,
+        331.4
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Flat, featureless soft bottom south of the channel where a fin kick lifts a cloud that hangs for minutes.",
+        "centre": [
+          -300,
+          330
+        ],
+        "id": "mud-plain",
+        "name": "The Mud Plain",
+        "palette": {
+          "accent": 9148581,
+          "seabed": 3815988,
+          "water": 1126204
+        },
+        "radius": 230
+      }
+    },
+    {
+      "id": "ct-dive-slate-eelgrass-transplant-plots",
+      "name": "Dive slate · Eelgrass Transplant Plots",
+      "position": [
+        125.3,
+        -502.6
+      ],
+      "stations": [
+        "eelgrass-transplant",
+        "br-native-planting-and-erosion-mats",
+        "me-eelgrass-seed-collection-and-nursery"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "ct-dive-slate-marsh-mouth-tide-gate",
+      "name": "Dive slate · Marsh Mouth Tide Gate",
+      "position": [
+        643.4,
+        -523.1
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline",
+        "me-tidal-marsh-channel-restoration-day"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "ct-dive-slate-reef-ball-monitoring-plot",
+      "name": "Dive slate · Reef Ball Monitoring Plot",
+      "position": [
+        368.9,
+        5.6
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "me-invasive-species-identification-and-reporting"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "ct-survey-marker-channel-dredge-survey",
+      "name": "Survey marker · Channel Dredge Survey",
+      "position": [
+        -154.8,
+        50.3
+      ],
+      "stations": [
+        "dredge-barge",
+        "br-dredge-material-screening-and-disposal-decision",
+        "br-barge-loading-of-contaminated-sediment"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "ct-tool-basket-marsh-mouth-invasive-plot",
+      "name": "Tool basket · Marsh Mouth Invasive Plot",
+      "position": [
+        705.4,
+        -552.8
+      ],
+      "stations": [
+        "spartina-removal",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-levee-inspection-and-seepage"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "ct-tool-basket-mud-plain-hotspot-survey",
+      "name": "Tool basket · Mud Plain Hotspot Survey",
+      "position": [
+        -273.7,
+        302.5
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "ct-tool-basket-pier-creosote-pile-site",
+      "name": "Tool basket · Pier Creosote Pile Site",
+      "position": [
+        -788.4,
+        -577.9
+      ],
+      "stations": [
+        "creosote-pile-removal",
+        "op-pile-driving-rig-and-lead-setup",
+        "br-marine-mammal-observer-during-pile-driving"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "pier-pilings"
     },
     {
       "id": "eelgrass-transplant-plots",

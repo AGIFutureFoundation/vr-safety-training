@@ -606,3 +606,149 @@ export function bayRoadAt(x, z) {
   if (!best || best.d > best.halfWidth) return null;
   return { onRoad: true, lane: best.lane, heading: best.heading };
 }
+
+// ------------------------------------------------ layers and interactive assets
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER).
+// Everything below is pure data derived from the tables above, so the in-game
+// map, the Atlas's SVG fallback and tools/check_worlds_detail.mjs all read the
+// same thing. Every top-level name is prefixed `ct`/`CT_` because the bundler
+// concatenates every module into one scope.
+
+/**
+ * The map layers the in-game map and the Atlas can toggle, in drawing order.
+ * `source` names the data a layer is drawn from; nothing here is drawn twice.
+ */
+export const CT_BAY_LAYERS = [
+  { id: "roads", label: "Roads and transit", colour: 0x8aa2b4, on: true, source: "BAY_ROADS and the transit landmarks" },
+  { id: "jobs", label: "Job sites by programme", colour: 0xf2c14b, on: true, source: "BAY_SITES, coloured by first programme" },
+  { id: "landmarks", label: "Landmarks", colour: 0xa079ff, on: true, source: "BAY_LANDMARKS" },
+  { id: "activities", label: "Activities and eggs found", colour: 0x8cff5a, on: false, source: "the quest layer, done or open" },
+  { id: "assets", label: "Interactive assets", colour: 0x4fd1ff, on: false, source: "CT_BAY_ASSETS" },
+  { id: "wildlife", label: "Wildlife sightings", colour: 0x59c9c9, on: false, source: "CT_BAY_WILDLIFE" },
+];
+
+/** A fixed, colour-blind-aware palette a programme's colour is drawn from. */
+export const CT_PROGRAMME_PALETTE = [0xf2c14b, 0x4fd1ff, 0xf07a1f, 0x59c97b, 0xd86bd0, 0xe25c5c, 0x3b7bbf, 0xc9a06a, 0x8cff5a, 0xa079ff, 0x59c9c9, 0xffffff];
+
+/** A programme id's map colour: stable for the id, the same in every world. */
+export function ctProgrammeColour(id) {
+  if (!id) return 0x7f8c96;
+  let h = 7;
+  for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return CT_PROGRAMME_PALETTE[h % CT_PROGRAMME_PALETTE.length];
+}
+
+/**
+ * Where the generic wildlife lives, by zone, each over a plain rectangle of
+ * water or shore in metres. bayworld/js/world.js builds these herds and the
+ * map's wildlife layer marks the same rectangles as sighting spots. Counts
+ * are shared/wildlife.js's own scene defaults, never a census.
+ */
+export const CT_BAY_WILDLIFE = [
+  { kind: "gulls", zone: "port", area: { x: -300, z: 450, w: 260, d: 180, y: -0.4 } },
+  { kind: "pelicans", zone: "outer-bay", area: { x: -1000, z: 380, w: 300, d: 200, y: -0.4 } },
+  { kind: "fish", zone: "outer-bay", area: { x: -1000, z: 300, w: 120, d: 80, y: -0.4 } },
+  { kind: "ray", zone: "outer-bay", area: { x: -1060, z: 520, w: 100, d: 60, y: -0.4 } },
+  { kind: "shorebirds", zone: "island-harbour", area: { x: 80, z: 722, w: 80, d: 6, y: 0 } },
+  { kind: "seals", zone: "north-shoreline", area: { x: -960, z: -690, w: 20, d: 20, y: -0.4 } },
+  { kind: "crab", zone: "north-shoreline", area: { x: -928, z: -646, w: 4, d: 4, y: -0.2 } },
+];
+
+/**
+ * The kinds of interactive set dressing, what pressing E does at each, and
+ * the kind of page each one links to (shared/links.js's lkAssetLink turns an
+ * asset's `link` into an href). `meshes` is the per-asset share of the
+ * instanced build (one InstancedMesh per kind, however many assets).
+ */
+export const CT_BAY_ASSET_KINDS = {
+  kiosk: { label: "Information kiosk", does: "Opens the nearest station's programme overview.", link: "programme", colour: 0x4fd1ff },
+  bench: { label: "Bench", does: "Sit down: the camera settles and the Guide offers a tip.", link: "station", colour: 0x9a6a3a },
+  "notice-board": { label: "Union hall notice board", does: "Lists the programmes anchored nearby.", link: "programme", colour: 0xd8232a },
+  "tool-crib": { label: "Tool crib", does: "Shows the tools the nearest station hands out, then opens that station.", link: "station", colour: 0xf2c14b },
+  "bus-stop": { label: "Bus stop", does: "Fast-travels to a site already visited.", link: "site", colour: 0x3b7bbf },
+  "dock-box": { label: "Dock box", does: "Holds the yacht briefing and opens the Bay Regatta.", link: "page", colour: 0xe8e2d4 },
+};
+
+/** A short, generic safety tip the Guide offers at a bench — method, never a claim about a place. */
+export const CT_BENCH_TIPS = [
+  "Before any task, walk the ground once and name the hazards out loud.",
+  "If the plan changes, stop and re-brief everyone before the work restarts.",
+  "Check your PPE before you need it, not when you need it.",
+  "A near miss is a free lesson: report it the same shift.",
+  "Anyone on the crew can call stop-work. Use it when something looks wrong.",
+  "Keep three points of contact on every ladder and every vessel boarding.",
+];
+
+const CT_BAY_SITE_KIND = (s) => {
+  if (/union-hall/.test(s.id) || (s.programmes ?? []).length >= 3) return "notice-board";
+  if (/shop|yard|plant|lab|terminal|center|centre|site|campus/.test(s.id)) return "tool-crib";
+  return "kiosk";
+};
+
+function ctRing(p, i, r) {
+  const a = (i * 2.399963) % (Math.PI * 2);
+  return [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+}
+
+
+/**
+ * Nudge an asset's spot out along a spiral until it is more than 15 m from
+ * every site (a site's job board answers E within 14 m, so an asset closer
+ * than that could never be used) and more than 7 m from every asset already
+ * placed (the asset prompt answers within 6 m).
+ */
+function ctBayClear(p, taken) {
+  const ok = (q) => BAY_SITES.every((s) => Math.hypot(s.position[0] - q[0], s.position[1] - q[1]) > 15)
+    && taken.every((a) => Math.hypot(a.position[0] - q[0], a.position[1] - q[1]) > 7);
+  p = [Math.min(BAY_BOUNDS.maxX - 5, Math.max(BAY_BOUNDS.minX + 5, p[0])), Math.min(BAY_BOUNDS.maxZ - 5, Math.max(BAY_BOUNDS.minZ + 5, p[1]))];
+  if (ok(p)) return p;
+  for (let k = 1; k < 200; k += 1) {
+    const a = k * 0.9, r = 4 + k * 1.5;
+    const q = [Math.round((p[0] + Math.cos(a) * r) * 10) / 10, Math.round((p[1] + Math.sin(a) * r) * 10) / 10];
+    if (ok(q)) return q;
+  }
+  return p;
+}
+
+function ctBuildBayAssets() {
+  const out = [];
+  BAY_SITES.forEach((s, i) => {
+    const kind = CT_BAY_SITE_KIND(s);
+    const prog = s.programmes?.[0] ?? null, st = s.stations?.[0] ?? null;
+    // A site with no programme or station yet still gets a bench that links to its own ?site= page.
+    let link;
+    if (kind === "tool-crib" && st) link = { type: "station", id: st, site: s.id };
+    else if (prog) link = { type: "programme", id: prog, site: s.id };
+    else link = { type: "site", id: s.id };
+    out.push({ id: `ct-${kind}-${s.id}`, kind: link.type === "site" ? "bench" : kind, zone: s.zone, near: s.id,
+      name: `${CT_BAY_ASSET_KINDS[link.type === "site" ? "bench" : kind].label} · ${s.name}`, position: ctRing(s.position, i, 20),
+      programmes: s.programmes ?? [], stations: s.stations ?? [], link });
+  });
+  BAY_LANDMARKS.forEach((l, i) => {
+    const transit = l.kind === "transit" || l.kind === "plaza" || l.kind === "infrastructure" || l.kind === "market" || l.kind === "civic";
+    // The nearest site with a station, for the bench's tip-and-station link and the bus stop's hop.
+    let best = null, bd = Infinity;
+    for (const s of BAY_SITES) {
+      if (!(s.stations ?? []).length) continue;
+      const d = Math.hypot(s.position[0] - l.position[0], s.position[1] - l.position[1]);
+      if (d < bd) { bd = d; best = s; }
+    }
+    const kind = transit ? "bus-stop" : "bench";
+    const link = kind === "bus-stop" ? { type: "site", id: best.id } : { type: "station", id: best.stations[0], site: best.id };
+    out.push({ id: `ct-${kind}-${l.id}`, kind, zone: l.zone, near: best.id, name: `${CT_BAY_ASSET_KINDS[kind].label} · ${l.name}`,
+      position: ctRing(l.position, i + 3, 12), tip: CT_BENCH_TIPS[i % CT_BENCH_TIPS.length], programmes: best.programmes ?? [], stations: best.stations ?? [], link });
+  });
+  for (const id of ["island-yacht-harbor", "estuary-marina-boatyard", "north-marina-pier", "south-shoreline-marina"]) {
+    const s = BAY_SITES.find((x) => x.id === id);
+    if (!s) continue;
+    out.push({ id: `ct-dock-box-${s.id}`, kind: "dock-box", zone: s.zone, near: s.id, name: `${CT_BAY_ASSET_KINDS["dock-box"].label} · ${s.name}`,
+      position: ctRing(s.position, 11, 9), programmes: ["yacht-and-charter-crew"], stations: [], link: { type: "page", href: "../regatta/regatta.html" } });
+  }
+  const placed = [];
+  for (const a of out) { a.position = ctBayClear(a.position, placed); placed.push(a); }
+  return out;
+}
+
+/** Every interactive asset in Bay World: `{ id, kind, zone, near, name, position:[x,z], programmes, stations, link, tip? }`. */
+export const CT_BAY_ASSETS = ctBuildBayAssets();

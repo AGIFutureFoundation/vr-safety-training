@@ -114,6 +114,8 @@ await check("the adapted seabed is sound: zones, sites, landmarks, lines and a c
 await check("the scene builds behind a three.js stub at both detail levels, inside the mesh budget", async () => {
   const modules = [
     "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js", "smartcity/js/citykit.js",
+    // The avatar style space (console CARTOGRAPHER): world.js dresses the learner's diver from it.
+    "shared/crew.js",
     "shared/underwater-data.js", "shared/underwater.js",
     "underwater/js/seabed.js", "underwater/js/dive-sim.js", "underwater/js/world.js",
   ];

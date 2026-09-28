@@ -2,6 +2,60 @@
   "accent": "#9fd8ff",
   "anchors": [
     {
+      "id": "ct-bench-warehouse-district",
+      "name": "Bench · Warehouse District",
+      "position": [
+        -317.8,
+        17.2
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-west-oakland-air-monitoring-post",
+      "name": "Information kiosk · West Oakland Air Monitoring Post",
+      "position": [
+        -299.6,
+        -8.5
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
       "id": "north-shoreline-field-lab",
       "name": "North Shoreline Field Lab",
       "position": [
@@ -39,6 +93,82 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "west-oakland"
+    },
+    {
+      "id": "ct-buoy-flats-anchor-line",
+      "name": "Line buoy · Flats Anchor Line",
+      "position": [
+        -95.4,
+        -251.9
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+        "centre": [
+          -100,
+          -260
+        ],
+        "id": "tide-flats",
+        "name": "Tide Gauge Flats",
+        "palette": {
+          "accent": 5231103,
+          "seabed": 6974042,
+          "water": 2055262
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-reef-ball-transect",
+      "name": "Line buoy · Reef Ball Transect",
+      "position": [
+        -103.9,
+        -260.7
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+        "centre": [
+          -100,
+          -260
+        ],
+        "id": "tide-flats",
+        "name": "Tide Gauge Flats",
+        "palette": {
+          "accent": 5231103,
+          "seabed": 6974042,
+          "water": 2055262
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-tool-basket-flats-sonde-station",
+      "name": "Tool basket · Flats Sonde Station",
+      "position": [
+        -90.4,
+        -265.3
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
     },
     {
       "id": "flats-sonde-station",

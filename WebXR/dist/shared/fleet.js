@@ -2528,3 +2528,76 @@ export const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, deliveryVan, ambulance, fireEngine,
   bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat, motorYacht, yachtTender, skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge, rov,
 };
+
+// ------------------------------------------------------------ service liveries
+//
+// World detail (tools/briefs/worlds-detail-brief.md, console CARTOGRAPHER):
+// the traffic and harbour fleets are painted by service, each livery a
+// generic platform name and a colour pair — no real operator, carrier or
+// brand. The regatta's twelve yachts keep their own names
+// (shared/yacht-fleet.js); these liveries never touch them.
+
+/** One livery per service: `{ label, colour, accent, fleetName, prefix }`. */
+export const CT_SERVICE_LIVERIES = {
+  transit: { label: "Transit", colour: 0x1c8f6f, accent: 0xf1f2ee, fleetName: "SMARTCITI TRANSIT", prefix: "T" },
+  utility: { label: "Utility", colour: 0xf2f2ee, accent: 0xf07a1f, fleetName: "SMARTCITI UTILITIES", prefix: "U" },
+  delivery: { label: "Delivery", colour: 0x5a3d8a, accent: 0xf2c14b, fleetName: "SMARTCITI PARCEL", prefix: "D" },
+  emergency: { label: "Emergency", colour: 0xf4f5f3, accent: 0xd8322c, fleetName: "SMARTCITI EMS", prefix: "E" },
+  construction: { label: "Construction", colour: 0xf2b21b, accent: 0x14171a, fleetName: "SMARTCITI BUILD", prefix: "C" },
+  port: { label: "Port", colour: 0x2c5a7a, accent: 0xf0b323, fleetName: "SMARTCITI PORT", prefix: "P" },
+  survey: { label: "Survey", colour: 0xf2c14b, accent: 0x1b1e22, fleetName: "SMARTCITI SURVEY", prefix: "S" },
+  dive: { label: "Dive support", colour: 0xd9dde0, accent: 0xd8322c, fleetName: "SMARTCITI DIVE", prefix: "DV" },
+  restoration: { label: "Restoration", colour: 0x2e8b57, accent: 0xf2f2ee, fleetName: "SMARTCITI RESTORE", prefix: "R" },
+};
+
+/** The six road-and-port services the brief names; every one appears in CT_TRAFFIC_FLEET. */
+export const CT_TRAFFIC_SERVICES = ["transit", "utility", "delivery", "emergency", "construction", "port"];
+
+/** A builder's `opts.livery` for a service and a unit number. */
+export function ctServiceLivery(service, unit = 1) {
+  const l = CT_SERVICE_LIVERIES[service];
+  if (!l) return undefined;
+  return { colour: l.colour, accent: l.accent, fleetName: l.fleetName, unitNumber: `${l.prefix}-${String(unit).padStart(2, "0")}` };
+}
+
+/**
+ * Bay World's ambient traffic, cycled in order: every road service once,
+ * plus private sedans and a second delivery truck. Builders are the kit's
+ * own, each inside its FLEET_BUDGET count.
+ */
+export const CT_TRAFFIC_FLEET = [
+  { builder: "busTransit", service: "transit" },
+  { builder: "sedan", service: null },
+  { builder: "cargoVan", service: "utility" },
+  { builder: "deliveryVan", service: "delivery" },
+  { builder: "pickup", service: "construction" },
+  { builder: "sedan", service: null },
+  { builder: "ambulance", service: "emergency" },
+  { builder: "yardHustler", service: "port" },
+  { builder: "boxTruck", service: "delivery" },
+];
+
+/**
+ * The harbour fleets: Bay World's working boats at its marinas and piers,
+ * and the Deep's workboats, survey vessels and ROV, each with its own
+ * service livery and unit number (`at` is a site id in that world).
+ */
+export const CT_HARBOUR_FLEET = [
+  { id: "bw-port-workboat", world: "bayworld", builder: "workboat", service: "port", unit: 3, at: "channel-buoy-tender-pier" },
+  { id: "bw-survey-skiff", world: "bayworld", builder: "skiff", service: "survey", unit: 1, at: "north-marina-pier" },
+  { id: "bw-restoration-skimmer", world: "bayworld", builder: "skimmerVessel", service: "restoration", unit: 2, at: "south-shoreline-marina" },
+  { id: "bw-dive-workboat", world: "bayworld", builder: "workboat", service: "dive", unit: 4, at: "island-boatyard" },
+  { id: "dv-dive-workboat", world: "underwater", builder: "workboat", service: "dive", unit: 1, at: "pier-surface-supplied-station" },
+  { id: "dv-survey-skiff", world: "underwater", builder: "skiff", service: "survey", unit: 2, at: "channel-dredge-survey" },
+  { id: "dv-restoration-workboat", world: "underwater", builder: "workboat", service: "restoration", unit: 5, at: "eelgrass-transplant-plots" },
+  { id: "dv-survey-rov", world: "underwater", builder: "rov", service: "survey", unit: 7, at: "trench-rov-station" },
+];
+
+/** Build one CT_TRAFFIC_FLEET / CT_HARBOUR_FLEET entry with its livery. */
+export function ctBuildLiveried(parent, entry, x, y, z, opts = {}, unit = entry.unit ?? 1) {
+  const fn = FLEET_BUILDERS[entry.builder];
+  const livery = entry.service ? ctServiceLivery(entry.service, unit) : undefined;
+  const g = fn(parent, x, y, z, { ...opts, ...(livery ? { livery } : {}) });
+  g.userData.ctService = entry.service ?? "private";
+  return g;
+}

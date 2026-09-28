@@ -13,21 +13,19 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage, ppCompleted } from "../../shared/passport.js";
-import { lkRenderStations, lkSiteHeading, lkStationLink } from "../../shared/links.js";
+import { lkRenderStations, lkSiteHeading, lkStationLink, lkAssetLink, lkStationLabel } from "../../shared/links.js";
 import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt, dvFloorY } from "./seabed.js";
-import {
-  dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine,
-  dvAdvanceClock, dvMissionLink, dvNearestPlace, dvDepthFraction, DV_SURFACE_Y,
-} from "./dive-sim.js";
-import {
-  dvCareerState, dvAwardDiveReward, dvCollectDiveReturns, dvSiteProgress, dvIsCraftUnlocked, dvIsAscentUnlocked,
-} from "./dive-career.js";
+import { gtStorage } from "../../shared/profiles.js";
+import { ctAvatarLoad } from "../../shared/crew.js";
+import { DEEP_LINES, CT_DEEP_LAYERS, CT_DEEP_ASSETS, CT_DEEP_ASSET_KINDS } from "../../shared/underwater-data.js";
+import { dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine, dvAdvanceClock, dvMissionLink, dvNearestPlace, dvDepthFraction, DV_SURFACE_Y } from "./dive-sim.js";
+import { dvCareerState, dvAwardDiveReward, dvCollectDiveReturns, dvSiteProgress, dvIsCraftUnlocked, dvIsAscentUnlocked } from "./dive-career.js";
 import { dvRegisterDives, dvDiveState, dvOnDiveStep, dvOnDiveDone, dvAdvanceDives, dvNoteStationReturn } from "./dive-engine.js";
 import { DV_DIVES } from "./dives-select.js";
 import { DV_ACTIVITIES } from "./dives.js";
 import { dvStartActivity, dvStepActivity, dvRecordActivityScore, dvBestActivityScore } from "./activities.js";
-import { dvMapLines, dvMapZones, dvMapLandmarks, dvMapSites, dvWorldToMap, dvMapFieldLessons } from "./dive-map.js";
+import { dvMapLines, dvMapZones, dvMapLandmarks, dvMapSites, dvWorldToMap, dvMapFieldLessons, ctDvLayerState, ctDvSetLayer, ctDvMapLayers } from "./dive-map.js";
 import { dvBuildWorld } from "./world.js";
 
 // The Deep — the app: the menu, the dive slate HUD (a reserve bar and a
@@ -66,7 +64,7 @@ const dvApp = {
   rov: null,
   reserve: 1,
   hours: 9,
-  nearSite: null, nearLandmark: null, nearAscent: null,
+  nearSite: null, nearLandmark: null, nearAscent: null, nearAsset: null,
   interactPressed: false, rovPressed: false, ascendPressed: false,
   lastSite: null,
   activity: null,
@@ -139,7 +137,8 @@ const dvPad = createGamepad({ getGamepads: () => (navigator.getGamepads ? naviga
 
 function dvOpenScreen(name) {
   dvApp.screen = name;
-  for (const id of ["scr-menu", "scr-jobboard", "scr-activities"]) $(id)?.toggleAttribute("hidden", true);
+  for (const id of ["scr-menu", "scr-jobboard", "scr-activities", "scr-asset"]) $(id)?.toggleAttribute("hidden", true);
+  if (name === "asset") $("scr-asset")?.removeAttribute("hidden");
   $("hud")?.toggleAttribute("hidden", name !== "game");
   $("view-toggle")?.toggleAttribute("hidden", name !== "game");
   if (name === "menu") $("scr-menu")?.removeAttribute("hidden");
@@ -152,7 +151,7 @@ function dvToggleCamera() { dvApp.cameraMode = dvApp.cameraMode === "chase" ? "f
 function dvToggleMap(force) {
   dvApp.mapOpen = force ?? !dvApp.mapOpen;
   $("scr-map")?.toggleAttribute("hidden", !dvApp.mapOpen);
-  if (dvApp.mapOpen) dvDrawFullMap();
+  if (dvApp.mapOpen) { ctDvRenderLayerToggles(); dvDrawFullMap(); }
 }
 
 // ------------------------------------------------------------------- ROV
@@ -351,6 +350,79 @@ function dvDrawMinimap() {
   ctx.restore();
 }
 
+/** The interactive assets in the 3-D shape dvNearestPlace() reads. */
+const CT_DV_ASSETS = CT_DEEP_ASSETS.map((a) => ({ ...a, position: [a.position[0], 0, a.position[1]] }));
+const ctDvHex = (n) => `#${(n >>> 0 & 0xffffff).toString(16).padStart(6, "0")}`;
+
+/**
+ * What pressing E at an interactive asset does (CT_DEEP_ASSET_KINDS): the
+ * panel names it, says what it holds and links to its real page through
+ * shared/links.js's lkAssetLink. A buoy names the dive line it marks.
+ */
+function ctDvOpenAsset(asset) {
+  const kind = CT_DEEP_ASSET_KINDS[asset.kind];
+  $("asset-kind").textContent = kind.label;
+  $("asset-title").textContent = asset.name;
+  $("asset-does").textContent = kind.does;
+  const list = $("asset-list");
+  list.textContent = "";
+  let text = "";
+  if (asset.kind === "buoy") {
+    const line = DEEP_LINES.find((l) => l.id === asset.line);
+    text = line ? `This buoy marks the ${line.name} (${line.kind.replace(/-/g, " ")}), ${line.points.length} waypoints; follow it hand over hand, per the dive plan.` : "This buoy marks the site's descent line; the site's board has the dive plan.";
+  } else if (asset.kind === "survey-marker") {
+    text = "Programmes anchored at this site:";
+    for (const p of asset.programmes) list.append(Object.assign(document.createElement("li"), { textContent: lkStationLabel(p) }));
+  } else {
+    text = `For ${lkStationLabel(asset.link.id)}: the station itself lists the plan and every tool, and checks each one.`;
+  }
+  $("asset-text").textContent = text;
+  list.toggleAttribute("hidden", !list.children.length);
+  const a = $("asset-link");
+  a.href = lkAssetLink(asset, { world: "underwater", page: ppHerePage() });
+  a.textContent = { station: "Open the station", programme: "Open the programme", site: "Go to the site", page: "Open" }[asset.link.type];
+  dvOpenScreen("asset");
+}
+$("asset-close")?.addEventListener("click", () => dvOpenScreen("game"));
+
+/** The layer toggles above the full map, one checkbox per CT_DEEP_LAYERS entry. */
+function ctDvRenderLayerToggles() {
+  const box = $("map-layers");
+  if (!box) return;
+  const state = ctDvLayerState(dvStore);
+  box.textContent = "";
+  for (const l of CT_DEEP_LAYERS) {
+    const label = document.createElement("label");
+    const cb = Object.assign(document.createElement("input"), { type: "checkbox", checked: !!state[l.id] });
+    cb.dataset.layer = l.id;
+    cb.addEventListener("change", () => { ctDvSetLayer(l.id, cb.checked, dvStore); dvDrawFullMap(); });
+    const sw = Object.assign(document.createElement("span"), { className: "swatch" });
+    sw.style.background = ctDvHex(l.colour);
+    label.append(cb, sw, l.label);
+    box.append(label);
+  }
+}
+
+/** Draw every layer that is on, in CT_DEEP_LAYERS order. Returns the count drawn per layer. */
+function ctDvDrawLayers(ctx, size) {
+  const on = ctDvLayerState(dvStore);
+  const layers = ctDvMapLayers(size, { dives: dvDiveState(dvStore), eggs: DV_DIVES.filter((q) => q.kind === "egg"), activities: DV_ACTIVITIES });
+  const drawn = {};
+  for (const l of CT_DEEP_LAYERS) {
+    if (!on[l.id]) { drawn[l.id] = 0; continue; }
+    const feats = layers[l.id] ?? [];
+    for (const f of feats) {
+      if (f.points) { ctx.strokeStyle = ctDvHex(f.colour); ctx.lineWidth = f.kind === "channel" ? 4 : 2; ctx.beginPath(); f.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke(); continue; }
+      ctx.fillStyle = ctDvHex(f.colour);
+      if (l.id === "wildlife") { ctx.strokeStyle = ctDvHex(f.colour); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(f.x, f.y, 7, 0, Math.PI * 2); ctx.stroke(); continue; }
+      ctx.beginPath(); ctx.arc(f.x, f.y, l.id === "jobs" ? 5 : l.id === "assets" ? 2.5 : 4, 0, Math.PI * 2); ctx.fill();
+    }
+    drawn[l.id] = feats.length;
+  }
+  dvApp.ctLayersDrawn = drawn;
+  return drawn;
+}
+
 function dvDrawFullMap() {
   const canvas = $("map-canvas");
   if (!canvas) return;
@@ -372,11 +444,10 @@ function dvDrawFullMap() {
     const p = dvWorldToMap(g.pos[0], g.pos[1], size);
     qmDrawPin(ctx, p.x + 9, p.y - 9, qmIsOpen(g.gate, qmSnap));
   }
+  ctDvDrawLayers(ctx, size);
   const listEl = $("map-sites");
   listEl.innerHTML = "";
   for (const s of dvMapSites(size, dvStore)) {
-    ctx.fillStyle = s.visited ? "#8cff5a" : "#f2c14b";
-    ctx.beginPath(); ctx.arc(s.x, s.y, 5, 0, Math.PI * 2); ctx.fill();
     const row = document.createElement("div");
     row.className = "map-site-row";
     const btn = s.ascent ? `<button class="btn" data-ascent="${s.id}">Take the ascent line</button>` : `<span class="locked">Dive here to open its line</span>`;
@@ -414,7 +485,9 @@ function dvSetup3D() {
   });
   const root = new THREE.Group();
   scene.add(root);
-  const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale });
+  const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale, avatar: ctAvatarLoad(gtStorage()) });
+  // The avatar picked on the account chip, live: a save or a profile change re-dresses the diver.
+  for (const ev of ["ct:avatar", "gt:profile"]) window.addEventListener(ev, () => world.dvSetAvatar(ctAvatarLoad(gtStorage())));
   dvApp.scene = scene; dvApp.camera = camera; dvApp.renderer = renderer; dvApp.world = world;
   tzWatchWorld("underwater", { scene, THREE, pos: () => (dvApp.diver ? [dvApp.diver.x, dvApp.diver.z] : null), camera: () => dvApp.camera, groundAt: dvFloorY, size: 0.35, lift: 0.8 });
   // One lantern per egg dive, at the egg's own anchor, hidden once found.
@@ -463,6 +536,7 @@ function dvStep(dt) {
   dvApp.light = dvApp.world.dvApplyLighting(dvApp.scene, depth, dvApp.hours);
 
   dvApp.nearSite = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_SITES, 14);
+  dvApp.nearAsset = dvApp.mode === "swim" ? dvNearestPlace(dvApp.diver.x, dvApp.diver.z, CT_DV_ASSETS, 6) : null;
   dvApp.nearLandmark = dvNearestPlace(dvApp.diver.x, dvApp.diver.z, DV_LANDMARKS, 16);
   dvApp.nearAscent = dvNearestAscentLine(dvApp.diver.x, dvApp.diver.z, DV_ASCENT, 10);
   const prompt = $("hud-prompt");
@@ -470,11 +544,13 @@ function dvStep(dt) {
     if (dvApp.mode === "rov") prompt.textContent = "Press R to recover the ROV";
     else if (line.taut) prompt.textContent = "Buddy line taut — wait for your buddy";
     else if (dvApp.nearSite) prompt.textContent = `Press E — ${dvApp.nearSite.name} · R for the ROV · U for the ascent line`;
+    else if (dvApp.nearAsset) prompt.textContent = `Press E — ${CT_DEEP_ASSET_KINDS[dvApp.nearAsset.kind].label}`;
     else if (dvApp.nearLandmark) prompt.textContent = `${dvApp.nearLandmark.name} — press E to look`;
     else prompt.textContent = "";
     prompt.toggleAttribute("hidden", !prompt.textContent);
   }
   if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearSite && !dvApp.activity) dvOpenJobBoard(dvApp.nearSite);
+  else if (dvApp.interactPressed && dvApp.mode === "swim" && dvApp.nearAsset && !dvApp.activity) ctDvOpenAsset(dvApp.nearAsset);
   if (dvApp.rovPressed) dvTryRov();
   if (dvApp.ascendPressed) dvTryAscend();
 
@@ -527,7 +603,7 @@ $("map-close")?.addEventListener("click", () => dvToggleMap(false));
 window.addEventListener("pageshow", () => { if (dvApp.screen === "game") dvCheckDiveReturns(); });
 document.addEventListener("visibilitychange", () => { if (!document.hidden && dvApp.screen === "game") dvCheckDiveReturns(); });
 
-window.__underwaterTest = { app: dvApp, step: dvStep, jobBoard: dvOpenJobBoard, camera: () => dvApp.camera };
+window.__underwaterTest = { app: dvApp, step: dvStep, jobBoard: dvOpenJobBoard, camera: () => dvApp.camera, asset: ctDvOpenAsset, assets: CT_DV_ASSETS };
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
 // The Guide (shared/guide.js): the floating help button and its question panel.
