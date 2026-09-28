@@ -18666,7 +18666,7 @@ function gdMount(opts = {}) {
 <button type="button" id="gd-voice" aria-pressed="false" aria-label="Read answers aloud" data-tr="guide.voice" data-tr-aria="guide.voiceAria"${speechSupported ? "" : " hidden"}>Voice</button>
 <button type="button" id="gd-close" aria-label="Close the Guide" data-tr="common.close" data-tr-aria="guide.closeAria">Close</button></header>
 <div class="gd-log" aria-live="polite"></div>
-<form id="gd-form"><label for="gd-q" class="gd-sr" style="position:absolute;left:-9999px" data-tr="guide.question">Your question</label>
+<form id="gd-form"><label for="gd-q" class="gd-sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap" data-tr="guide.question">Your question</label>
 <input id="gd-q" type="text" autocomplete="off" placeholder="Ask about a trade, a world, the controls…" data-tr-ph="guide.ph" enterkeyhint="send">
 <button type="button" id="gd-mic" aria-label="Ask by voice" data-tr="guide.mic" data-tr-aria="guide.micAria"${Rec ? "" : " hidden"}>Mic</button>
 <button type="submit" id="gd-send" data-tr="guide.ask">Ask</button></form>
