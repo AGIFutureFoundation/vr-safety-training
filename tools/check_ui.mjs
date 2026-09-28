@@ -48,6 +48,8 @@ const PAGES_ALL = [
     panels: ["#hud-helm", "#hud-next", "#hud-checks", "#hud-course-map"] },
   { name: "The Deep", page: "underwater.html", start: ["#menu-start"],
     panels: ["#hud-slate", "#hud-stats", "#hud-objective", "#hud-activity", "#hud-minimap", "#hud-buttons"] },
+  { name: "Redwood Reach", page: "redwood.html", start: ["#menu-start"],
+    panels: ["#hud-site", "#hud-objective", "#hud-stats", "#hud-minimap", "#hud-buttons"] },
   { name: "Track: electrical", page: "tracks/electrical-first-period.html", panels: [] },
   { name: "Track: port operations", page: "tracks/port-operations.html", panels: [] },
   { name: "Track: first responders", page: "tracks/first-responders.html", panels: [] },

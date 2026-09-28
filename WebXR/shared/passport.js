@@ -30,11 +30,11 @@ export const PP_NATIVE_HOST = { regatta: "bayworld" };
 /** Read for the Fairway rounds count; it keeps no currency of its own. */
 export const PP_FAIRWAY_KEY = "fairway-park-v1";
 /** The worlds (and rooms) that pay into the one ledger, in display order. */
-export const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "holodeck", "smartcity"];
+export const PP_SOURCES = ["bayworld", "underwater", "regatta", "fairway", "trades", "holodeck", "smartcity", "redwood"];
 /** A world's display name — the "Back to <world>" label and the export's platform. */
 export const PP_APP_NAMES = {
   bayworld: "Bay World", underwater: "the Deep", regatta: "the Bay Regatta", fairway: "Fairway Park",
-  trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas",
+  trades: "Trade Skills", holodeck: "the Holodeck", smartcity: "SmartCiti.X", atlas: "the Bay Atlas", redwood: "Redwood Reach",
 };
 export const PP_EVENTS = ["station-passed", "programme-milestone", "award"];
 

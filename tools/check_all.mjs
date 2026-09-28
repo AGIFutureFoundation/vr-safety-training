@@ -36,6 +36,8 @@ const CHECKERS = [
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",
+  // Redwood Reach, the forest world (docs/consoles/REDWOOD.md).
+  "check_redwood.mjs",
   "check_investor.mjs",
   "check_mobile.mjs",
   // One learner, one ledger, one set of records across every app (docs/interop.md).

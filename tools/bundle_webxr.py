@@ -573,6 +573,42 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # Redwood Reach (WebXR/redwood, page redwood.html): a 4096 m forest world
+    # with streamed terrain chunks, instanced trees, the shared sky and
+    # wildlife, eleven work sites whose job boards launch real stations, a
+    # skill-gated quest layer, field tins and K-12 field lessons (console
+    # REDWOOD, docs/consoles/REDWOOD.md). Every name in redwood/js is rw….
+    "redwood": {
+        "index": "redwood.html",
+        "out": "redwood.html",
+        "modules": [
+            SHARED / "profiles.js",
+            SHARED / "input.js",
+            SHARED / "weather.js",
+            SHARED / "sky.js",
+            SHARED / "wildlife.js",
+            SHARED / "records.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "perf.js",
+            SHARED / "touch.js",
+            WEBXR / "redwood/js/rw-data.js",
+            WEBXR / "redwood/js/rw-lore-data.js",
+            WEBXR / "redwood/js/rw-career.js",
+            WEBXR / "redwood/js/rw-world.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
+            SHARED / "auth.js",
+            SHARED / "account.js",
+            SHARED / "controls.js",
+            SHARED / "links.js",
+            WEBXR / "redwood/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
     # The Bay Atlas (docs/mapbox.md): a second page in the Bay World folder
     # ("dir"/"index" below), DOM-only — no three.js — over the shared Bay
     # World data, bay-geo's fit and shared/mapbox.js. Mapbox GL itself is
@@ -902,6 +938,7 @@ DIST_PAGES = {
     "atlas": "atlas.html",
     "regatta": "regatta.html",
     "underwater": "underwater.html",
+    "redwood": "redwood.html",
 }
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported

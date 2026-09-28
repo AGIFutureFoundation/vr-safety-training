@@ -36,6 +36,8 @@ const GAMES_ALL = [
     panels: ["#hud-slate", "#hud-stats", "#hud-objective", "#hud-activity", "#hud-minimap", "#hud-buttons"] },
   { name: "Fairway Park", page: "fairway.html", start: ["#menu-play"],
     panels: ["#hud-hole", "#hud-score", "#hud-wind", "#hud-lie", "#hud-clubs", "#hud-care", "#hud-meter"] },
+  { name: "Redwood Reach", page: "redwood.html", start: ["#menu-start"],
+    panels: ["#hud-site", "#hud-objective", "#hud-stats", "#hud-minimap", "#hud-buttons"] },
 ];
 const GAMES = process.env.TC_ONLY ? GAMES_ALL.filter((g) => g.page === process.env.TC_ONLY) : GAMES_ALL;
 const SIZES = [{ label: "360x640", width: 360, height: 640 }, { label: "640x360", width: 640, height: 360 }];
