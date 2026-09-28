@@ -610,7 +610,21 @@ function resetPlacement() {
   state.placed = state.mode !== "ar";
 }
 
+/**
+ * The tab title and description follow the open station (console WAYFINDER-2,
+ * on Trade Skills' wfRoomMeta): a ?sim= link names its station from first
+ * paint, and leaving to the hub restores the page's own stamped text. Every
+ * word is the station's own name and tagline.
+ */
+function wfSimMeta(sim) {
+  const d = document.querySelector('meta[name="description"]');
+  wfSimMeta.hub ??= { title: document.title, desc: d?.content ?? "" };
+  document.title = sim ? `${sim.name} — SmartCiti.X` : wfSimMeta.hub.title;
+  if (d) d.content = sim ? `${sim.name}: ${sim.tagline ?? ""}`.slice(0, 155) : wfSimMeta.hub.desc;
+}
+
 function enterHub() {
+  if (state.room) wfSimMeta(null); // only when leaving a station: enterHub() also runs at start
   clearRoom();
   state.session = null;
   state.room = null;
@@ -839,6 +853,7 @@ async function enterSim(id, { briefed = false } = {}) {
   worldRoot.add(root);
   state.roomRoot = root;
   state.room = room;
+  wfSimMeta(SIMS_META_BY_ID[id] ?? room);
   state.api = room.build(root);
   state.hits = state.api.hits;
   tzPlantHost(root, THREE, `smartcity/${room.id}`); // off the interaction system, like the hard hats
@@ -4375,6 +4390,7 @@ function drawVrHud() {
 // -------------------------------------------------------------------- intro
 
 let deepLink = new URLSearchParams(location.search).get("sim");
+if (deepLink && SIMS_META_BY_ID[deepLink]) wfSimMeta(SIMS_META_BY_ID[deepLink]); // the station's name from first paint
 // The round trip (docs/interop.md): a job board opens a station with
 // `?from=<world>&return=<the world's page>#site=<id>`; the finished run's
 // results card then offers "Back to <world>". Only a same-origin return is
