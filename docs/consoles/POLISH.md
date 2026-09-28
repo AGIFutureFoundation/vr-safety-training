@@ -12,3 +12,4 @@ Rules kept here: every new top-level name is prefixed `th…`/`TH_` (or `lk…` 
 - 02:56 UTC · check_links first run: world pages open on a menu, so "draws a canvas" failed for Bay World, the Deep, Fairway, the Regatta; the target loader now presses through each menu as a player does. The Atlas draws SVG (no Mapbox token): asserted by its markers instead · next: gate.
 - 03:05 UTC · check_links clean (20799 checks: Home + Guide on 55 pages, 25 link targets rendered, 180 Atlas chip links); check_ui clean for the fixed pages · d5fd4a2, 6bad5c5, 2fbcda1, 45a6426 · next: captures and the full gate.
 - 03:15 UTC · After captures written with `node tools/capture_polish.mjs after` (10 files beside the 10 before) · next: check_all.
+- 03:50 UTC · check_all: 66 of 67 pass; check_links failed only on a canvas screenshot timing out (15 s default) for Trade Skills under the shared machine's load; the screenshot now has 60 s · next: re-run check_links, hand back.

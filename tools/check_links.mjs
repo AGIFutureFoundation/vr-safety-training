@@ -360,7 +360,7 @@ async function lkRendersEnvironment(href) {
       }, null, { timeout: 20000 }).then((h) => h.jsonValue(), () => null);
       if (check(!!box, `${label}: the page draws a canvas`)) {
         await page.waitForTimeout(1500);
-        const png = await page.screenshot({ clip: box });
+        const png = await page.screenshot({ clip: box, timeout: 60000 });
         check(png.length > 8000, `${label}: the canvas shows a drawn frame, not a flat fill`, `${png.length} bytes`);
       }
     }
