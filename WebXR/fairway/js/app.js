@@ -624,3 +624,7 @@ ctlMount({
 
 // The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
 qmMountSideGames({ world: "fairway", worldName: "Fairway Park", items: QM_WORLD_GAMES.fairway, from: "fairway", page: ppHerePage() });
+
+// Live-test handle (tools/measure_frames.mjs, tools/phone_pass.mjs): the app
+// state with its scene and renderer once the course is up; read-only by convention.
+window.__fairwayTest = { app };

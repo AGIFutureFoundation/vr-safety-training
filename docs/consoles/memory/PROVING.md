@@ -1,0 +1,13 @@
+# PROVING memory — read this first
+
+Short, durable lessons for the next team at this console.
+
+- **The worktree may start at the wrong commit.** This one stood at the repository's initial commit; `git reset --hard claude/vr-ar-safety-training-wkwmve` inside the worktree (never `-C` the main tree) put it on the merged branch.
+- **`check_all` schedules; it does not check.** Gatekeepers (`check_parse`, `check_imports`) run alone and first, then the two checkers that rewrite tree files (`check_interop` → `shared/passport-programmes.js`, read by `check_gates` and `check_links`; `check_standards` → `docs/standards/README.md`), then a load-aware pool. `CHECK_JOBS=1` restores the one-at-a-time run. Browser checkers weigh two slots. Every run lands in `docs/perf/checkers-last.json`; `check_proving` compares it to `docs/perf/checkers-baseline.json`.
+- **Every other checker writes only under its own `mkdtemp` dir** — that is what makes the pool safe. A new checker that writes into the tree must go in `SERIAL_FIRST` or it will race.
+- **One browser at a time on the shared box.** `tools/lib/pv_browser.mjs` is the one server + Chromium + vendor-route arrangement (three.js and React from `WebXR/vendor/`, fonts stubbed, everything off-host aborted); `measure_frames`, `phone_pass` and `soak` all use it. Never run two of them, or one beside `check_all`.
+- **Live-test handles are the measurement surface.** `__bayworldTest.app`, `__redwoodTest.app`, `__underwaterTest.app`, `__regattaTest.app`, `__fairwayTest.app` carry `scene`/`renderer` once the world is up; `__summitTest.scene`/`.smRenderer`; `__tradesTest.scene()/renderer()`; `__smartcityTest.scene()/renderer()`. `renderer.info.render.frame > 0` is the "it drew" tell (`pvWaitReady`).
+- **Tiers on the URL:** `?tier=low|balanced|high` (render tier, perf.js `tcTierChoice`) and `?quality=low|high` (texture tier). Both are needed for a clean low/high comparison at one viewport.
+- **SwiftShader numbers are relative.** 90+ ms a frame in Summit at load 1.4 is normal there; write the load average beside every number and compare only runs at a similar load. Never quote them as device frame times.
+- **The open worlds have no VR entry.** Only Trade Skills, the Holodeck and SmartCiti.X set `renderer.xr.enabled` and ask `navigator.xr`; the six open worlds run plain `requestAnimationFrame` loops. A headset pass of the worlds needs that work first (`docs/perf/headset.md`).
+- **Bundling is cheap** (~0.15 s an app, a few seconds for all); rebuild after touching any `js/app.js` and `node --check` the dist is unnecessary — the bundler reports clashes itself.
