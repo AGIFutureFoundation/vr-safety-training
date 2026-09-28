@@ -22,7 +22,7 @@
 //   - `reward.xp` turned into this app's own `{ reputation, credits }` shape
 //     (`badge`/`xp` carried through too, harmlessly, for a HUD that wants
 //     them later).
-import { ALL_QUESTS, resolveQuestSite, resolveLandmark } from "./quests.js";
+import { ALL_QUESTS, GATED_QUESTS, resolveQuestSite, resolveLandmark } from "./quests.js";
 import { BW_SITES, BW_LANDMARKS } from "./city.js";
 
 /** Shift credits per reputation point a quest's own xp awards — the same
@@ -49,10 +49,15 @@ function bwAdaptQuest(quest) {
     site: site?.id ?? quest.site,
     anchor,
     steps: quest.steps.map((step) => (step.type === "station" ? step : { ...step, target: bwResolveTarget(step.target) })),
-    reward: { reputation: xp, credits: xp * BW_XP_TO_CREDITS, badge: quest.reward?.badge ?? null, xp },
+    reward: { reputation: xp, credits: xp * BW_XP_TO_CREDITS, badge: quest.reward?.badge ?? null, xp, ...(quest.reward?.cosmetic ? { cosmetic: quest.reward.cosmetic } : {}) },
   };
 }
 
 /** Every one of BAY3's quests (main arc, side quests, egg field notes),
  *  adapted for this app's own quest-engine.js. */
 export const BW_QUESTS = ALL_QUESTS.map(bwAdaptQuest);
+
+/** The skill-gated side quests (docs/skill-gates.md), adapted the same way.
+ *  They register with the engine like any quest; quest-engine.js's gate hook
+ *  keeps each one still until shared/skill-gates.js says its gate is open. */
+export const BW_GATED_QUESTS = GATED_QUESTS.map(bwAdaptQuest);

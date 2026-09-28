@@ -30,6 +30,9 @@
 //             target station id.
 
 import { gtStorage } from "../../shared/profiles.js";
+// Skill gates (docs/skill-gates.md): the one hook below keeps a gated quest
+// still until shared/skill-gates.js says its gate is open.
+import { qmIsOpen, qmCachedSnapshot } from "../../shared/skill-gates.js";
 const BW_QUEST_KEY = "bayworld-quests-v1";
 export const BW_GOTO_RADIUS = 12;
 export const BW_DRIVE_MIN_SPEED = 3;
@@ -138,6 +141,7 @@ export function bwAdvanceQuests(snapshot, { storage } = {}) {
   for (const quest of bwQuests.values()) {
     const entry = bwEntryFor(state, quest.id);
     if (entry.done) continue;
+    if (quest.gate && !qmIsOpen(quest.gate, qmCachedSnapshot())) continue; // skill gate (shared/skill-gates.js)
     const step = quest.steps[entry.stepIndex];
     if (!step || step.type === "station") continue; // station steps only move via bwNoteStationReturn
     let hit = false;
@@ -176,6 +180,7 @@ export function bwNoteStationReturn(siteIdOrSimId, { storage } = {}) {
   for (const quest of bwQuests.values()) {
     const entry = bwEntryFor(state, quest.id);
     if (entry.done) continue;
+    if (quest.gate && !qmIsOpen(quest.gate, qmCachedSnapshot())) continue; // skill gate (shared/skill-gates.js)
     const step = quest.steps[entry.stepIndex];
     if (!step || step.type !== "station") continue;
     if (step.target !== siteIdOrSimId) continue;

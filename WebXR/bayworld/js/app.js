@@ -19,7 +19,10 @@ import {
   bwIsVehicleUnlocked, bwIsFastTravelUnlocked, bwIsSiteVisited,
 } from "./career.js";
 import { registerQuests, questState, onQuestStep, onQuestDone, bwAdvanceQuests, bwNoteStationReturn } from "./quest-engine.js";
-import { BW_QUESTS } from "./quests-select.js";
+import { BW_QUESTS, BW_GATED_QUESTS } from "./quests-select.js";
+// Skill-gated side quests (docs/skill-gates.md): board rows, map pins, the lock toast and the quest-log panel.
+import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
+import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
 import { bwMapRoads, bwMapZones, bwMapLandmarks, bwMapSites, bwWorldToMap } from "./map.js";
 import { bwBuildWorld } from "./world.js";
 
@@ -209,7 +212,19 @@ function bwOpenJobBoard(site) {
   // The yacht harbour's board also opens the Bay Regatta (WebXR/regatta): the
   // fleet, the hosted events and the race courses on this same water.
   $("jb-regatta")?.toggleAttribute("hidden", site.id !== "island-yacht-harbor");
+  bwBoardGates(site);
   bwOpenScreen("jobboard");
+}
+/** The skill-gated side quests sited here, as board rows (locked with reason and links, or open). */
+function bwBoardGates(site) {
+  document.getElementById("jb-qm")?.remove();
+  const here = bwQmItems.filter((q) => q.site === site.id);
+  const list = $("jb-stations");
+  if (!here.length || !list?.parentNode) return;
+  const box = document.createElement("div");
+  box.id = "jb-qm";
+  list.parentNode.insertBefore(box, list.nextSibling);
+  qmBoardRows(box, here, { from: "bayworld", page: ppHerePage() });
 }
 $("jb-launch")?.addEventListener("click", () => {
   const site = bwApp.lastMissionSite;
@@ -367,6 +382,13 @@ function bwDrawFullMap() {
   ctx.strokeStyle = "#4a5a68"; ctx.lineWidth = 3;
   for (const r of bwMapRoads(size)) { ctx.beginPath(); r.points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke(); }
   for (const l of bwMapLandmarks(size)) { ctx.fillStyle = "#a079ff"; ctx.beginPath(); ctx.arc(l.x, l.y, 4, 0, Math.PI * 2); ctx.fill(); }
+  // Skill-gated side quests: a padlock pin while locked, a star once open (never hidden).
+  const qmSnap = qmSnapshot();
+  bwQmItems.forEach((q, i) => {
+    if (!q.anchor) return;
+    const p = bwWorldToMap(q.anchor[0], q.anchor[1], size);
+    qmDrawPin(ctx, p.x + 9 + (i % 3) * 4, p.y - 9, qmIsOpen(q.gate, qmSnap));
+  });
   const listEl = $("map-sites");
   listEl.innerHTML = "";
   for (const s of bwMapSites(size, bwStore)) {
@@ -491,6 +513,7 @@ function bwStep(dt) {
     interact: bwApp.interactPressed, inVehicle: bwApp.mode === "vehicle", speed: Math.abs(bwApp.player.speed ?? 0),
   }, { storage: bwStore });
   if (advanced.length) bwRenderQuestHud();
+  bwNearLockedQuest();
   bwApp.interactPressed = false;
 
   $("hud-clock").textContent = bwFormatClock(bwApp.hours);
@@ -509,8 +532,20 @@ function bwLoop(now) {
   requestAnimationFrame(bwLoop);
 }
 
+// Walking up to a locked side quest's site shows the lock toast once per visit.
+let bwQmNear = null;
+function bwNearLockedQuest() {
+  const q = bwQmItems.find((it) => it.anchor && Math.hypot(bwApp.player.x - it.anchor[0], bwApp.player.z - it.anchor[1]) < 14);
+  if (!q) { bwQmNear = null; return; }
+  if (bwQmNear === q.id) return;
+  bwQmNear = q.id;
+  if (!qmIsOpen(q.gate, qmSnapshot())) qmLockToast(q, { from: "bayworld", page: ppHerePage() });
+  else bwToast(`${q.title} is open here — see Side games.`);
+}
+
 function bwStart() {
   registerQuests(BW_QUESTS);
+  registerQuests(BW_GATED_QUESTS);
   bwSetup3D();
   bwWireTouch();
   tcMountQuality($("hud-stats"), (t) => tcApplyRenderer(bwApp.renderer, tcTier(t)));
@@ -539,6 +574,9 @@ window.__bayworldTest = {
   camera: () => bwApp.camera,
 };
 
+// The gated items with their site's display name, for the panel and the board rows.
+const bwQmItems = BW_GATED_QUESTS.map((q) => ({ ...q, siteName: BW_SITES.find((s) => s.id === q.site)?.name ?? q.site, summary: q.steps[0]?.text }));
+
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
 // The Guide (shared/guide.js): the floating help button and its question panel.
 gdMount();
@@ -551,3 +589,6 @@ ctlMount({
     { label: "Drive: throttle, brake, steer", keys: ["W", "S", "A", "D"], pad: "Right stick", touch: "Stick; Brake button" },
   ],
 });
+
+// The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
+qmMountSideGames({ world: "bayworld", worldName: "Bay World", items: bwQmItems, from: "bayworld", page: ppHerePage() });

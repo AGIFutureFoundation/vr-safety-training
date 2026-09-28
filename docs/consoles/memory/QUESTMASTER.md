@@ -1,0 +1,13 @@
+# QUESTMASTER memory — read first
+
+Short, durable lessons for the next team at this console.
+
+- **Gate logic lives in `WebXR/shared/skill-gates.js`, never in a world engine.** The Bay World quest engine has one line per advance loop (`if (quest.gate && !qmIsOpen(quest.gate, qmCachedSnapshot())) continue;`). Keep it that way: another console owns `requires` in that file, and a one-line hook merges cleanly.
+- **Use the cached snapshot in per-frame code.** `bwAdvanceQuests` runs every frame. `qmSnapshot()` parses the whole attempt log, up to a thousand records. Per-frame callers use `qmCachedSnapshot()`, which re-reads at most once a second. After a known change (a finished game, a mission return), call `qmInvalidate()`.
+- **Storage.** Bay World's `app.js` hands its engine raw `window.localStorage`. Everything else goes through `gtStorage()`, which namespaces the keys in `GT_PROFILE_KEYS` per profile. Gates read `gtStorage()`, which is the default when no storage is passed. Tests inject storage by setting `globalThis.localStorage` to an in-memory Storage before import. `qm-side-games-v1` is in `GT_PROFILE_KEYS`.
+- **Complete** means 1+ star on any attempt. That is looser than `passed`, which needs 2+ stars and no hazard hits. A programme with `minStars` sums the best stars per station, the same sum `ppProgramme` shows.
+- **Bay World quest data is generated.** Edit `tools/gen_bay_quests.mjs`, then run `node tools/gen_bay_quests.mjs`, and never hand-edit `quests-data.js`. `GATED_QUESTS` is kept out of `ALL_QUESTS` on purpose, because `check_bay_quests` asserts exact counts and tier rules over `ALL_QUESTS`. `quests-select.js` exports `BW_GATED_QUESTS`, and `app.js` registers it.
+- **Bundler.** Everything shares one scope. `quest-engine.js` sits before `skill-gates.js` in the bayworld bundle. That is safe only because it references `qmIsOpen` inside functions and never at module top level. Keep it that way.
+- **Worktree guard.** Complex shell heredocs and `for` loops that run node on a variable get refused. Write patch scripts to the scratchpad and run them, and run each checker as its own command.
+- **Facts rule in the checker.** No digits in lock notes or practice text. "K-12" is stripped before that test.
+- **Checker discovery.** Any `*-data.js` under `WebXR/` with no CDN import that exports an array whose name contains `GATED` is picked up by `check_gates.mjs`. Other consoles (TREASURE, SUMMIT, REDWOOD) should use that route.

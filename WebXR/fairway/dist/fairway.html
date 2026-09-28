@@ -533,6 +533,7 @@ const GT_REGISTRY_KEY = "vr-training-profiles-v1";
 const GT_PROFILE_KEYS = [
   "vr-training-records-v1",
   "vr-passport-v1",
+  "qm-side-games-v1",
   "vr-training-episodes-v1", "vr-training-episodes-current-v1",
   "bayworld-career-v1", "underwater-career-v1",
   "bayworld-quests-v1", "underwater-dives-v1", "underwater-activities-v1",
@@ -13458,7 +13459,559 @@ function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) {
 }
 
 
+/* ===== shared/skill-gates.js ===== */
+// Skill gates — "locked until the learner has completed these" for any quest,
+// side game, treasure or egg on the platform (tools/briefs/frontier-brief.md,
+// the shared data contract; docs/skill-gates.md).
+//
+//   gate: { stations?: [stationId…], programmes?: [{ id, minStars? }…],
+//           quests?: [questId…], k12?: [stationId…], note }
+//
+// A station (or K-12 station) counts as complete at 1+ star in the learner's
+// attempt log (records.js, the one log every world's passport reads). A
+// programme counts as complete when every one of its stations is complete,
+// or — when it names `minStars` — when the best stars summed over its
+// stations reach that number (the same sum passport.js's ppProgramme shows).
+// A quest counts as complete when Bay World's quest engine, the Deep's dive
+// engine or the side-game ledger below has it marked done.
+//
+// Pure and storage-injectable: no DOM, no three.js. Every world reads it
+// through one small hook (bayworld/js/quest-engine.js skips a gated quest
+// while qmIsOpen() says no); the lock UI lives in skill-gates-ui.js.
+// Every name is prefixed `qm`/`QM_`: the bundler concatenates modules into
+// one scope and erases import aliases (tools/bundle_webxr.py).
+
+
+
+/** The stores a gate reads (never writes, except the side-game ledger it owns). */
+const QM_RECORDS_KEY = "vr-training-records-v1";
+const QM_QUEST_KEYS = ["bayworld-quests-v1", "underwater-dives-v1"];
+/** The side-game ledger: finished games, best safe-practice score, cosmetics earned. */
+const QM_LEDGER_KEY = "qm-side-games-v1";
+const QM_GATE_FIELDS = ["stations", "programmes", "quests", "k12"];
+
+function qmStore(storage) {
+  if (storage) return storage;
+  try { return gtStorage(); } catch (_) { return null; }
+}
+
+function qmReadJson(store, key, fallback) {
+  try {
+    const raw = store?.getItem(key);
+    if (!raw) return fallback;
+    const v = JSON.parse(raw);
+    return v && typeof v === "object" ? v : fallback;
+  } catch (_) { return fallback; }
+}
+
+/** The side-game ledger: `{ done: { [gameId]: { score, of, at } }, cosmetics: [id…] }`. */
+function qmLedger(storage) {
+  const raw = qmReadJson(qmStore(storage), QM_LEDGER_KEY, {});
+  return {
+    done: raw.done && typeof raw.done === "object" ? raw.done : {},
+    cosmetics: Array.isArray(raw.cosmetics) ? raw.cosmetics : [],
+  };
+}
+
+/**
+ * Record a finished side game. Scored on safe practice only: `score` safe
+ * calls out of `of`. A game counts as done (and its cosmetic unlocks) only
+ * when every call was the safe one — a run with an unsafe call is a practice
+ * run, kept as the best score but never marked done.
+ */
+function qmFinishGame(game, { score, of }, storage) {
+  const store = qmStore(storage);
+  const led = qmLedger(store);
+  const prev = led.done[game.id];
+  const clean = (score | 0) >= (of | 0) && (of | 0) > 0;
+  if (clean || !prev) led.done[game.id] = { score: score | 0, of: of | 0, at: new Date().toISOString(), clean: clean || !!prev?.clean };
+  if (clean && game.reward?.cosmetic && !led.cosmetics.includes(game.reward.cosmetic)) led.cosmetics.push(game.reward.cosmetic);
+  try { store?.setItem(QM_LEDGER_KEY, JSON.stringify(led)); } catch (_) { /* private mode */ }
+  qmInvalidate();
+  return { clean, cosmetic: clean ? game.reward?.cosmetic ?? null : null };
+}
+
+/**
+ * One read of everything a gate can ask about: best stars per station, and
+ * the set of finished quest / side-game ids. Take it once per frame or per
+ * panel render and pass it to qmIsOpen / qmMissing.
+ */
+function qmSnapshot(storage) {
+  const store = qmStore(storage);
+  const stars = new Map();
+  let records = [];
+  try { records = JSON.parse(store?.getItem(QM_RECORDS_KEY) || "[]"); } catch (_) { records = []; }
+  for (const r of Array.isArray(records) ? records : []) {
+    if (!r || !r.simId) continue;
+    stars.set(r.simId, Math.max(stars.get(r.simId) ?? 0, r.stars | 0));
+  }
+  const questsDone = new Set();
+  for (const key of QM_QUEST_KEYS) {
+    const byId = qmReadJson(store, key, {}).byId ?? {};
+    for (const [id, e] of Object.entries(byId)) if (e && e.done) questsDone.add(id);
+  }
+  for (const [id, e] of Object.entries(qmLedger(store).done)) if (e && e.clean) questsDone.add(id);
+  return { stars, questsDone };
+}
+
+let qmCache = null;
+/**
+ * qmSnapshot() for a per-frame caller (the quest engine's hook): re-read at
+ * most once a second per storage, and at once after qmInvalidate() (a
+ * mission return, a finished side game).
+ */
+function qmCachedSnapshot(storage, now = Date.now()) {
+  if (qmCache && qmCache.storage === (storage ?? null) && now - qmCache.at < 1000) return qmCache.snap;
+  qmCache = { storage: storage ?? null, at: now, snap: qmSnapshot(storage) };
+  return qmCache.snap;
+}
+/** Drop the cached snapshot so the next gate read sees fresh completions. */
+function qmInvalidate() { qmCache = null; }
+
+function qmStationDone(id, snap) { return (snap.stars.get(id) ?? 0) >= 1; }
+
+function qmProgrammeState(p, snap) {
+  const prog = PP_PROGRAMMES[p.id];
+  if (!prog) return { done: false, stars: 0, total: 0, passed: 0 };
+  let stars = 0, passed = 0;
+  for (const s of prog.stations) { const n = snap.stars.get(s) ?? 0; stars += n; if (n >= 1) passed += 1; }
+  const done = p.minStars ? stars >= p.minStars : passed >= prog.stations.length;
+  return { done, stars, total: prog.stations.length, passed };
+}
+
+/**
+ * What still stands between the learner and this gate, as display-ready
+ * rows: `[{ kind: "station"|"k12"|"programme"|"quest", id, label, detail }]`.
+ * An empty list means open. A missing or empty gate is always open.
+ */
+function qmMissing(gate, snap = qmSnapshot()) {
+  if (!gate) return [];
+  const out = [];
+  for (const id of gate.stations ?? []) if (!qmStationDone(id, snap)) out.push({ kind: "station", id, label: qmLabel(id) });
+  for (const id of gate.k12 ?? []) if (!qmStationDone(id, snap)) out.push({ kind: "k12", id, label: qmLabel(id) });
+  for (const p of gate.programmes ?? []) {
+    const st = qmProgrammeState(p, snap);
+    if (st.done) continue;
+    const name = PP_PROGRAMMES[p.id]?.name ?? qmLabel(p.id);
+    out.push({ kind: "programme", id: p.id, label: name,
+      detail: p.minStars ? `${st.stars} of ${p.minStars} stars` : `${st.passed} of ${st.total} stations` });
+  }
+  for (const id of gate.quests ?? []) if (!snap.questsDone.has(id)) out.push({ kind: "quest", id, label: qmLabel(id.replace(/^(bw|dv|qm)-/, "")) });
+  return out;
+}
+
+/** True when every requirement in the gate is met (or there is no gate). */
+function qmIsOpen(gate, snap) {
+  if (!gate) return true;
+  return qmMissing(gate, snap ?? qmSnapshot()).length === 0;
+}
+
+/** Every station id a gate names, stations and K-12 alike (the lock's links). */
+function qmGateStations(gate) {
+  return [...(gate?.stations ?? []), ...(gate?.k12 ?? [])];
+}
+
+/** A station id read aloud: "crane-yard" -> "crane yard". */
+function qmLabel(id) { return String(id ?? "").replace(/-/g, " "); }
+
+/**
+ * The "Skills to unlock" roll-up for a quest log: every station still
+ * missing across the locked items, with the items each one opens, most
+ * doors first. `items` is any list of `{ id, title, gate }`.
+ */
+function qmSkillsToUnlock(items, snap = qmSnapshot()) {
+  const by = new Map();
+  for (const it of items) {
+    for (const m of qmMissing(it.gate, snap)) {
+      const key = `${m.kind}:${m.id}`;
+      if (!by.has(key)) by.set(key, { ...m, opens: [] });
+      by.get(key).opens.push(it.title ?? it.id);
+    }
+  }
+  return [...by.values()].sort((a, b) => b.opens.length - a.opens.length || a.label.localeCompare(b.label));
+}
+
+/** Validate the gate's shape (the checker and the data modules share this). */
+function qmGateProblems(gate) {
+  const out = [];
+  if (!gate || typeof gate !== "object") return ["no gate object"];
+  if (typeof gate.note !== "string" || gate.note.trim().length < 12) out.push("gate has no one-line note");
+  const any = QM_GATE_FIELDS.some((f) => Array.isArray(gate[f]) && gate[f].length);
+  if (!any) out.push("gate names no requirement");
+  for (const k of Object.keys(gate)) if (k !== "note" && !QM_GATE_FIELDS.includes(k)) out.push(`unknown gate field "${k}"`);
+  for (const p of gate.programmes ?? []) if (!p || typeof p.id !== "string") out.push("programme entry without an id");
+  return out;
+}
+
+
+/* ===== shared/side-games-data.js ===== */
+// Skill-gated side games for the Deep, the Bay Regatta and Fairway Park
+// (tools/briefs/frontier-brief.md, QUESTMASTER; docs/skill-gates.md).
+// Bay World's gated side quests are generated with the rest of its quest
+// data (tools/gen_bay_quests.mjs -> bayworld/js/quests-data.js GATED_QUESTS).
+//
+// Every game carries a gate in the shared contract (shared/skill-gates.js),
+// is scored ONLY on safe practice — each round offers the safe call and an
+// unsafe one, and a clean run is every call safe — and unlocks one cosmetic
+// avatar item. No harm is scored, nothing is bought, nothing is random.
+// The rounds are built from QM_SAFE_PRACTICES: generic safe habits phrased
+// "per the plan / label / dive plan", never a number, limit or clause.
+//
+// Names prefixed `qm`/`QM_` (the bundler shares one scope).
+
+/**
+ * The safe-practice library a game's rounds are drawn from. `{task}` and
+ * `{site}` are filled from the game. Each entry: the prompt, the safe call,
+ * the unsafe call (shown in a seeded order so the safe one is not always first).
+ */
+const QM_SAFE_PRACTICES = {
+  plan: { prompt: "Before the {task} starts, what comes first?", safe: "Read the plan for the job and brief the crew on it.", unsafe: "Start now and sort the plan out as you go." },
+  ppe: { prompt: "What do you wear for the {task}?", safe: "The PPE the plan and the task call for, checked before you start.", unsafe: "Whatever is closest, since it is a short job." },
+  zone: { prompt: "Someone walks toward the work during the {task}.", safe: "Hold the work and keep them outside the marked exclusion zone.", unsafe: "Carry on — they can see what is happening." },
+  lockout: { prompt: "The equipment at {site} needs clearing mid-task.", safe: "Stop, lock out and verify zero energy before reaching in.", unsafe: "Reach in quickly while it idles." },
+  comms: { prompt: "The signal from your crew partner is unclear.", safe: "Stop and confirm with a read-back before anything moves.", unsafe: "Guess what they meant and keep moving." },
+  stopwork: { prompt: "Conditions change partway through the {task}.", safe: "Call a stop, reassess with the crew and restart only when it is safe.", unsafe: "Push on to finish before it gets worse." },
+  buddy: { prompt: "Your buddy drops out of sight at {site}.", safe: "Stop, signal and run the lost-buddy procedure in the dive plan.", unsafe: "Keep working; they will turn up." },
+  inspect: { prompt: "The gear for the {task} is ready on the rack.", safe: "Inspect it and tag out anything damaged before use.", unsafe: "Use it — it was fine last time." },
+  spill: { prompt: "A small spill shows up at {site}.", safe: "Contain it with the spill kit and report it.", unsafe: "Leave it; it will disperse on its own." },
+  label: { prompt: "You are about to apply a product at {site}.", safe: "Read the label and follow it, including the PPE and re-entry it names.", unsafe: "Mix it a little stronger to save a second pass." },
+  weather: { prompt: "The weather turns during the {task}.", safe: "Check it against the limits in the plan and stand down if it is outside them.", unsafe: "Keep going; the forecast said it would clear." },
+  lift: { prompt: "A load is about to be lifted at {site}.", safe: "Confirm the lift plan, the rigging and a clear area under the load.", unsafe: "Lift it and warn people as it swings." },
+  fatigue: { prompt: "It is late in a long shift on the {task}.", safe: "Check in on fatigue and hand over if you are not fit to continue.", unsafe: "Skip the break to finish sooner." },
+  traffic: { prompt: "The {task} sits beside live traffic.", safe: "Set up the traffic control the plan calls for before starting.", unsafe: "Work fast and watch the traffic yourself." },
+  overboard: { prompt: "Someone goes into the water near {site}.", safe: "Raise the alarm, point and keep eyes on them, and run the recovery drill.", unsafe: "Jump in after them without a word to the crew." },
+  allergen: { prompt: "An order at {site} is flagged for an allergy in the rush.", safe: "Stop, check the recipe and use clean tools and a clean station for it.", unsafe: "Pick the allergen off the plate and send it." },
+  radio: { prompt: "You need to cross a busy stretch of water at {site}.", safe: "Call on the radio as the plan sets out and wait for the clear.", unsafe: "Cross quickly and hope the others see you." },
+};
+
+const qmG = (id, world, title, site, task, gate, practices, cosmetic, summary, pin = null) =>
+  ({ id, world, kind: "side-game", title, site, task, gate, practices, reward: { cosmetic }, summary, pin });
+
+/** The Deep (underwater): harbour salvage, surveys and night lines. */
+const QM_DEEP_GAMES = [
+  qmG("qm-deep-harbour-salvage-hunt", "underwater", "Harbour Salvage Hunt", "wreck-salvage-rigging", "salvage lift",
+    { stations: ["mw-dive-supervisor-and-dive-plan", "uw-lift-bag-rigging-and-object-recovery"], note: "Dive supervision and lift-bag rigging before you rig a salvage lift." },
+    ["plan", "lift", "buddy"], "salvage diver's shoulder patch", "Find three marked pieces of lost gear at the wreck and rig each for a controlled lift."),
+  qmG("qm-deep-kelp-transect-count", "underwater", "Kelp Transect Count", "kelp-transect-start", "transect count",
+    { stations: ["me-kelp-transect-survey-and-photo-quadrats"], note: "The kelp transect survey station before you run the count." },
+    ["plan", "buddy", "stopwork"], "kelp surveyor's slate charm", "Swim the kelp transect with your buddy and log each photo quadrat."),
+  qmG("qm-deep-piling-inspection-trail", "underwater", "Piling Inspection Trail", "pier-piling-inspection-station", "piling inspection",
+    { stations: ["cd-pier-piling-inspection-and-wrap-repair"], note: "Pier piling inspection and wrap repair before you walk the piling trail." },
+    ["inspect", "buddy", "comms"], "piling inspector's helmet decal", "Inspect a row of pilings, flag the damaged wrap and call it up to the surface."),
+  qmG("qm-deep-rov-tether-maze", "underwater", "ROV Tether Maze", "outfall-diffuser-inspection", "ROV run",
+    { stations: ["uw-rov-pre-dive-and-tether-management"], note: "ROV pre-dive and tether management before you fly the tether maze." },
+    ["inspect", "comms", "stopwork"], "ROV pilot's tether-knot pin", "Fly the ROV through the diffuser run without fouling the tether."),
+  qmG("qm-deep-night-line-dive", "underwater", "Night Line Dive", "kelp-night-line-site", "night line dive",
+    { stations: ["cd-low-visibility-and-night-dive-line-work"], programmes: [{ id: "commercial-diving-and-scientific-scuba", minStars: 4 }], note: "Low-visibility line work and some commercial diving stars before the night line." },
+    ["buddy", "plan", "comms"], "night diver's glow wristband", "Follow the night line out and back, keeping contact with your buddy the whole way."),
+  qmG("qm-deep-eelgrass-replant", "underwater", "Eelgrass Replant", "eelgrass-transplant-plots", "replanting",
+    { stations: ["me-eelgrass-seed-collection-and-nursery"], note: "Eelgrass seed collection and nursery work before you replant the plots." },
+    ["plan", "zone", "buddy"], "eelgrass gardener's fin tag", "Replant the marked plots from the nursery trays, staying off the planted rows."),
+  qmG("qm-deep-debris-map", "underwater", "Debris Map Challenge", "shelf-debris-sweep", "debris survey",
+    { stations: ["br-underwater-debris-survey-and-mapping", "br-dive-site-hazard-assessment-and-jsa"], note: "Debris survey and the dive-site hazard assessment before you map the shelf." },
+    ["plan", "inspect", "stopwork"], "shelf mapper's compass bead", "Map every marked piece of debris on the shelf and flag the ones to leave for a crew."),
+  qmG("qm-deep-buoyancy-trim-course", "underwater", "Buoyancy Trim Course", "shelf-checkout-site", "trim course",
+    { k12: ["k12-buoyancy-and-pressure-in-the-deep"], note: "The K-12 buoyancy and pressure lesson before you swim the trim course." },
+    ["plan", "buddy", "stopwork"], "trim-course finisher's fin ribbon", "Hover through the hoops at the checkout site using trim, not your hands."),
+];
+
+/** The Bay Regatta: boat handling, rescue and working on the water. */
+const QM_REGATTA_GAMES = [
+  qmG("qm-regatta-rescue-drill", "regatta", "Regatta Rescue Drill", "Estuary Sprint", "rescue drill",
+    { stations: ["yc-man-overboard-recovery-drill", "br-cold-water-immersion-and-mob-recovery"], note: "Overboard recovery and cold-water immersion stations before the rescue drill." },
+    ["overboard", "comms", "ppe"], "rescue-crew burgee", "Run a marked overboard drill: alarm, spotter, approach and recovery."),
+  qmG("qm-regatta-crosswind-docking", "regatta", "Crosswind Docking Challenge", "the guest berth", "docking",
+    { stations: ["yc-line-handling-and-docking-in-crosswind"], note: "Line handling and docking in a crosswind before the docking challenge." },
+    ["comms", "plan", "stopwork"], "dockhand's rope bracelet", "Bring the yacht alongside in a crosswind with clear calls to the line handlers."),
+  qmG("qm-regatta-fuel-dock-drill", "regatta", "Fuel Dock Drill", "the fuel dock", "fuel transfer",
+    { stations: ["yc-fuel-dock-transfer-and-spill-kit"], note: "The fuel dock transfer and spill-kit station before the fuel dock drill." },
+    ["spill", "plan", "zone"], "fuel-dock hand's cap badge", "Fuel the tender by the book and deal with a drip before it reaches the water."),
+  qmG("qm-regatta-boom-tow-formation", "regatta", "Boom Tow Formation", "Outer Bay Loop", "boom tow",
+    { stations: ["br-boom-towing-between-two-vessels"], note: "Boom towing between two vessels before you hold the tow formation." },
+    ["comms", "radio", "weather"], "boom-tow crew pennant", "Hold a two-boat boom formation around the marks with steady radio calls."),
+  qmG("qm-regatta-work-zone-passage", "regatta", "Work Zone Passage", "North Channel Passage", "work-zone passage",
+    { stations: ["br-vhf-and-navigation-in-a-work-zone"], note: "VHF and navigation in a work zone before you pass the dredge line." },
+    ["radio", "plan", "stopwork"], "channel navigator's sleeve stripe", "Pass a marked work zone in the channel, calling and waiting as the plan sets out."),
+  qmG("qm-regatta-tender-transfer", "regatta", "Tender Transfer Run", "the guest berth", "guest transfer",
+    { stations: ["yc-tender-launch-and-guest-transfer", "yc-pre-departure-safety-briefing-and-guest-count"], note: "Tender launch and the pre-departure briefing before you run guest transfers." },
+    ["plan", "ppe", "weather"], "tender driver's lanyard", "Launch the tender and ferry each guest ashore with a count at both ends."),
+  qmG("qm-regatta-pilot-ladder", "regatta", "Pilot Ladder Transfer", "Outer Bay Loop", "pilot transfer",
+    { stations: ["pilot-transfer"], programmes: [{ id: "yacht-and-charter-crew", minStars: 6 }], note: "The pilot transfer station and some yacht crew stars before the ladder run." },
+    ["weather", "comms", "ppe"], "pilot-boat crew beanie", "Hold station alongside for a pilot ladder transfer and call each stage."),
+];
+
+/** Fairway Park: grounds crew, sports-field and course care. */
+const QM_FAIRWAY_GAMES = [
+  qmG("qm-fairway-greens-crew-dawn", "fairway", "Greens Crew at Dawn", "the greens", "greens round",
+    { stations: ["gk-greens-mowing-and-hole-changing"], note: "Greens mowing and hole changing before you run the dawn greens round." },
+    ["inspect", "zone", "plan"], "greenskeeper's flag-pin badge", "Mow and change the holes on three greens before the first group tees off.", [0, 120]),
+  qmG("qm-fairway-bunker-rebuild", "fairway", "Bunker Rebuild Puzzle", "the bunkers", "bunker rebuild",
+    { stations: ["gk-bunker-renovation-and-drainage"], note: "Bunker renovation and drainage before you solve the rebuild puzzle." },
+    ["plan", "ppe", "inspect"], "bunker rake cap", "Lay out drainage and sand for a bunker in the right order.", [40, 200]),
+  qmG("qm-fairway-irrigation-leak-hunt", "fairway", "Irrigation Leak Hunt", "the pump house", "leak hunt",
+    { stations: ["gk-irrigation-controller-valve-box-and-backflow-check"], note: "The irrigation controller, valve box and backflow station before the leak hunt." },
+    ["lockout", "inspect", "plan"], "irrigation tech's valve-key charm", "Trace a pressure drop from the pump house to the leaking valve box.", [-270, -36]),
+  qmG("qm-fairway-storm-cleanup", "fairway", "Storm Cleanup Crew", "the cart path", "storm cleanup",
+    { stations: ["gk-storm-cleanup-chipper-and-traffic-control", "gk-chainsaw-start-and-limbing-on-the-ground"], note: "Storm cleanup with the chipper and chainsaw limbing on the ground first." },
+    ["zone", "ppe", "traffic"], "storm crew hi-vis sash", "Clear fallen limbs from the cart path with a chipper and a coned-off work area.", [-150, 60]),
+  qmG("qm-fairway-field-line-marking", "fairway", "Field Line Marking", "the pitch", "line marking",
+    { stations: ["gk-sports-field-line-marking-and-goal-anchoring"], k12: ["k12-measuring-and-scaling-the-court"], note: "Field line marking and the K-12 measuring-and-scaling lesson before you mark the pitch." },
+    ["plan", "inspect", "zone"], "line-marker's chalk wristband", "Mark the pitch from a scaled plan and check every goal is anchored.", [-225, 55]),
+  qmG("qm-fairway-mower-slope-course", "fairway", "Mower Slope Course", "the maintenance yard", "slope mowing",
+    { stations: ["gk-ride-on-mower-pre-start-and-slope-work"], programmes: [{ id: "grounds-and-landscaping", minStars: 6 }], note: "The ride-on mower pre-start and some grounds stars before the slope course." },
+    ["inspect", "stopwork", "plan"], "mower operator's seat-belt buckle badge", "Run a marked mowing course that includes a slope, walking what the plan says to walk.", [-288, -36]),
+];
+
+/** Every non-Bay-World side game, in world order. */
+const QM_SIDE_GAMES = [...QM_DEEP_GAMES, ...QM_REGATTA_GAMES, ...QM_FAIRWAY_GAMES];
+
+/** Every world's gated items for the checker: world -> items. */
+const QM_WORLD_GAMES = {
+  underwater: QM_DEEP_GAMES, regatta: QM_REGATTA_GAMES, fairway: QM_FAIRWAY_GAMES,
+};
+
+function qmFill(s, game) { return s.replace(/\{task\}/g, game.task ?? "job").replace(/\{site\}/g, game.siteName ?? game.site ?? "the site"); }
+
+/**
+ * A game's rounds, ready to show: `[{ key, prompt, options: [{ text, safe }] }]`.
+ * The order of the two options is fixed per game and round (a hash of the
+ * id), so a run is repeatable and the safe call is not always first.
+ */
+function qmRounds(game) {
+  let h = 0;
+  for (const ch of game.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return (game.practices ?? []).map((key, i) => {
+    const p = QM_SAFE_PRACTICES[key];
+    const safe = { text: qmFill(p.safe, game), safe: true };
+    const unsafe = { text: qmFill(p.unsafe, game), safe: false };
+    const flip = ((h >> i) & 1) === 1;
+    return { key, prompt: qmFill(p.prompt, game), options: flip ? [unsafe, safe] : [safe, unsafe] };
+  });
+}
+
+
+/* ===== shared/skill-gates-ui.js ===== */
+// The lock UI for skill gates (docs/skill-gates.md): a "Side games" chip in
+// the shared nav, a quest-log panel listing every gated item in a world —
+// locked rows show a lock, the one-line reason and a link to each required
+// station; open rows play a short safe-practice round — a "Skills to unlock"
+// roll-up, the lock toast, board rows a job board can append, and a map pin.
+//
+// DOM only, no three.js. The gate logic stays in skill-gates.js. Names are
+// prefixed `qm` (the bundler shares one scope).
+
+
+
+
+const QM_LOCK_SVG = '<svg class="qm-lock" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h.5A1.5 1.5 0 0 1 14 8.5v5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5v-5A1.5 1.5 0 0 1 3.5 7H4Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>';
+
+const qmCss = `
+#qm-chip{height:32px;padding:0 12px;border-radius:16px;border:1px solid rgba(255,255,255,.35);background:rgba(10,20,30,.78);color:#fff;font:700 13px/1 system-ui,sans-serif;cursor:pointer}
+#qm-chip.qm-float{position:fixed;top:calc(48px + env(safe-area-inset-top,0px));left:10px;z-index:9985}
+#qm-chip:hover{background:rgba(79,209,255,.3)}
+#qm-panel{position:fixed;inset:0;z-index:10040;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);padding:12px}
+#qm-panel[hidden]{display:none}
+#qm-panel .qm-box{background:#0f1a24;color:#e9f1f7;border:1px solid rgba(160,210,235,.35);border-radius:14px;width:min(640px,100%);max-height:calc(100vh - 24px);overflow:auto;padding:16px 18px;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+#qm-panel h2{margin:0 0 4px;font-size:18px} #qm-panel h3{margin:16px 0 6px;font-size:15px}
+#qm-panel .qm-sub{color:#a9bccb;margin:0 0 10px}
+.qm-row{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;margin:8px 0;background:rgba(255,255,255,.03)}
+.qm-row.qm-locked{border-style:dashed;opacity:.95}
+.qm-row .qm-title{font-weight:700;display:flex;gap:6px;align-items:center}
+.qm-row .qm-note{color:#ffd79a;margin:4px 0}
+.qm-row .qm-meta{color:#a9bccb;font-size:12px}
+.qm-row a{color:#7fd3ff}
+.qm-row ul{margin:4px 0 0 18px;padding:0}
+.qm-btn{margin-top:6px;padding:6px 12px;border-radius:8px;border:1px solid rgba(127,211,255,.6);background:rgba(127,211,255,.12);color:#fff;font:600 13px/1.2 system-ui,sans-serif;cursor:pointer}
+.qm-btn:hover{background:rgba(127,211,255,.3)}
+.qm-done{color:#8fe3a1;font-weight:600}
+.qm-opt{display:block;width:100%;text-align:left;margin:6px 0}
+#qm-toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:10030;max-width:min(520px,calc(100vw - 24px));background:#1b2733;color:#fff;border:1px solid #ffb44d;border-radius:10px;padding:10px 14px;font:14px/1.4 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+#qm-toast[hidden]{display:none} #qm-toast a{color:#7fd3ff}
+`;
+
+function qmEsc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function qmEnsureCss() {
+  if (typeof document === "undefined" || document.getElementById("qm-css")) return;
+  const st = document.createElement("style");
+  st.id = "qm-css";
+  st.textContent = qmCss;
+  document.head.appendChild(st);
+}
+
+/** The link list for a missing requirement: stations open the runner, a quest or programme names itself. */
+function qmMissingHtml(missing, { from = null, page = null } = {}) {
+  return missing.map((m) => {
+    if (m.kind === "station" || m.kind === "k12") {
+      const href = lkStationLink(m.id, { from, page });
+      return `<li><a href="${qmEsc(href)}">${qmEsc(m.label)}</a>${m.kind === "k12" ? " (K-12 lesson)" : ""}</li>`;
+    }
+    if (m.kind === "programme") return `<li>Programme: ${qmEsc(m.label)} — ${qmEsc(m.detail)}</li>`;
+    return `<li>Quest: ${qmEsc(m.label)}</li>`;
+  }).join("");
+}
+
+/** One board row (a job board or the quest log): locked with its reason and links, or open. */
+function qmRowHtml(item, snap, opts = {}) {
+  const missing = qmMissing(item.gate, snap);
+  const led = qmLedger(opts.storage);
+  const rec = led.done[item.id];
+  const locked = missing.length > 0;
+  const where = item.siteName ?? String(item.site ?? "").replace(/-/g, " ");
+  let body;
+  if (locked) {
+    body = `<div class="qm-note">${qmEsc(item.gate.note)}</div><div class="qm-meta">Complete to unlock:</div><ul>${qmMissingHtml(missing, opts)}</ul>`;
+  } else {
+    const done = rec?.clean ? `<span class="qm-done">Done — ${qmEsc(item.reward?.cosmetic ?? "reward earned")}</span>` : rec ? `<span class="qm-meta">Best: ${rec.score} of ${rec.of} safe calls — every call safe earns the reward.</span>` : "";
+    body = `<div>${qmEsc(item.summary ?? item.steps?.[0]?.text ?? "")}</div><div class="qm-meta">Scored on safe practice. Reward: ${qmEsc(item.reward?.cosmetic ?? "")}</div>${done}<br><button class="qm-btn" data-qm-play="${qmEsc(item.id)}">${rec ? "Play again" : "Play"}</button>`;
+  }
+  return `<div class="qm-row${locked ? " qm-locked" : ""}" data-qm-id="${qmEsc(item.id)}"><div class="qm-title">${locked ? QM_LOCK_SVG : ""}${qmEsc(item.title)}</div><div class="qm-meta">${qmEsc(where)}${locked ? " · locked" : " · open"}</div>${body}</div>`;
+}
+
+/** Append the gated items to a job board's list element as board rows. */
+function qmBoardRows(el, items, opts = {}) {
+  if (!el || !items?.length) return;
+  qmEnsureCss();
+  const snap = qmSnapshot(opts.storage);
+  const wrap = document.createElement("div");
+  wrap.className = "qm-board";
+  wrap.innerHTML = `<h3>Side games here</h3>${items.map((it) => qmRowHtml(it, snap, opts)).join("")}`;
+  el.appendChild(wrap);
+}
+
+/** The lock toast: the reason and a link to each required station. */
+function qmLockToast(item, opts = {}) {
+  if (typeof document === "undefined") return;
+  qmEnsureCss();
+  let el = document.getElementById("qm-toast");
+  if (!el) { el = document.createElement("div"); el.id = "qm-toast"; el.setAttribute("role", "status"); document.body.appendChild(el); }
+  const missing = qmMissing(item.gate, qmSnapshot(opts.storage));
+  if (!missing.length) return;
+  el.innerHTML = `<b>${QM_LOCK_SVG} ${qmEsc(item.title)} is locked.</b><div>${qmEsc(item.gate.note)}</div><ul style="margin:4px 0 0 18px;padding:0">${qmMissingHtml(missing, opts)}</ul>`;
+  el.hidden = false;
+  clearTimeout(qmLockToast.t);
+  qmLockToast.t = setTimeout(() => { el.hidden = true; }, opts.ms ?? 7000);
+}
+
+/** A map pin on a 2D canvas: a padlock when locked, a star when open. */
+function qmDrawPin(ctx, x, y, open) {
+  ctx.save();
+  ctx.fillStyle = open ? "#8fe3a1" : "#ffb44d";
+  ctx.strokeStyle = "rgba(0,0,0,.7)";
+  ctx.lineWidth = 1.5;
+  if (open) {
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) { const r = i % 2 ? 3 : 7, a = -Math.PI / 2 + i * Math.PI / 5; ctx.lineTo(x + r * Math.cos(a), y + r * Math.sin(a)); }
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+  } else {
+    ctx.fillRect(x - 5, y - 1, 10, 8); ctx.strokeRect(x - 5, y - 1, 10, 8);
+    ctx.beginPath(); ctx.arc(x, y - 2, 3.5, Math.PI, 0); ctx.strokeStyle = "#ffb44d"; ctx.lineWidth = 2; ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/**
+ * Mount the "Side games" chip and the quest-log panel for one world.
+ * `items`: the world's gated items (side games or gated quests).
+ * `from`/`page`: the "Back to <world>" hand-off every station link carries.
+ * Returns `{ open, close, refresh, toast }`.
+ */
+function qmMountSideGames({ world, worldName = world, items, from = world, page = null, storage = null, onDone = null } = {}) {
+  if (typeof document === "undefined" || !items?.length) return null;
+  qmEnsureCss();
+  const opts = { from, page, storage };
+  const chip = document.createElement("button");
+  chip.id = "qm-chip";
+  chip.type = "button";
+  chip.textContent = "Side games";
+  chip.setAttribute("aria-haspopup", "dialog");
+  const nav = document.getElementById("ctl-nav");
+  if (nav) nav.appendChild(chip); else { chip.classList.add("qm-float"); document.body.appendChild(chip); }
+
+  const panel = document.createElement("div");
+  panel.id = "qm-panel";
+  panel.hidden = true;
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-modal", "true");
+  panel.setAttribute("aria-label", `Side games in ${worldName}`);
+  document.body.appendChild(panel);
+
+  function render() {
+    qmInvalidate();
+    const snap = qmSnapshot(storage);
+    const open = items.filter((it) => qmIsOpen(it.gate, snap));
+    const locked = items.filter((it) => !qmIsOpen(it.gate, snap));
+    const skills = qmSkillsToUnlock(items, snap);
+    const cos = qmLedger(storage).cosmetics;
+    panel.innerHTML = `<div class="qm-box"><h2>Side games in ${qmEsc(worldName)}</h2>
+      <p class="qm-sub">${open.length} open · ${locked.length} locked · scored on safe practice, never on harm. Finish a station to open its games.</p>
+      ${open.map((it) => qmRowHtml(it, snap, opts)).join("")}
+      ${locked.map((it) => qmRowHtml(it, snap, opts)).join("")}
+      <h3>Skills to unlock</h3>
+      ${skills.length ? `<ul class="qm-skills">${skills.map((s) => `<li>${s.kind === "station" || s.kind === "k12" ? `<a href="${qmEsc(lkStationLink(s.id, opts))}">${qmEsc(s.label)}</a>` : qmEsc(s.label)}${s.detail ? ` (${qmEsc(s.detail)})` : ""} — opens ${s.opens.length}: ${qmEsc(s.opens.join(", "))}</li>`).join("")}</ul>` : "<p>Everything here is open.</p>"}
+      ${cos.length ? `<h3>Cosmetics earned</h3><p>${qmEsc(cos.join(" · "))}</p>` : ""}
+      <button class="qm-btn" data-qm-close>Close</button></div>`;
+  }
+
+  function play(item) {
+    const rounds = qmRounds(item);
+    let i = 0, safe = 0;
+    const box = panel.querySelector(".qm-box");
+    const step = () => {
+      if (i >= rounds.length) {
+        const res = qmFinishGame(item, { score: safe, of: rounds.length }, storage);
+        box.innerHTML = `<h2>${qmEsc(item.title)}</h2><p>${safe} of ${rounds.length} safe calls.</p><p>${res.clean ? `Every call safe — you earned the <b>${qmEsc(res.cosmetic)}</b>.` : "A safe crew replays the call it missed. Try again for the reward."}</p><button class="qm-btn" data-qm-back>Back to the list</button>`;
+        onDone?.(item, res);
+        return;
+      }
+      const r = rounds[i];
+      box.innerHTML = `<h2>${qmEsc(item.title)}</h2><p class="qm-sub">Call ${i + 1} of ${rounds.length}</p><p>${qmEsc(r.prompt)}</p>${r.options.map((o, k) => `<button class="qm-btn qm-opt" data-qm-opt="${k}">${qmEsc(o.text)}</button>`).join("")}`;
+      box.querySelectorAll("[data-qm-opt]").forEach((b) => b.addEventListener("click", () => {
+        if (r.options[+b.dataset.qmOpt].safe) safe += 1;
+        i += 1; step();
+      }));
+    };
+    step();
+  }
+
+  panel.addEventListener("click", (e) => {
+    const t = e.target.closest?.("[data-qm-play],[data-qm-close],[data-qm-back]");
+    if (e.target === panel || t?.hasAttribute("data-qm-close")) { panel.hidden = true; return; }
+    if (t?.hasAttribute("data-qm-back")) { render(); return; }
+    const id = t?.getAttribute("data-qm-play");
+    const item = id && items.find((x) => x.id === id);
+    if (item) { if (qmIsOpen(item.gate, qmSnapshot(storage))) play(item); else qmLockToast(item, opts); }
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) panel.hidden = true; });
+  chip.addEventListener("click", () => { render(); panel.hidden = false; panel.querySelector("button")?.focus(); });
+
+  return {
+    open() { render(); panel.hidden = false; },
+    close() { panel.hidden = true; },
+    refresh: render,
+    toast: (item) => qmLockToast(item, opts),
+  };
+}
+
+
 /* ===== fairway/js/app.js ===== */
+// Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Fairway Park — the app: menus, the golf HUD and swing meter, camera and
 // input for the course, and the three sports-facility mini-games. Every
 // scoring rule lives in golf.js / minigames.js / scores.js (pure, headless —
@@ -14053,6 +14606,9 @@ ctlMount({
     { label: "Pick a club", keys: ["1", "2", "3", "4"], pad: "—", touch: "Club buttons" },
   ],
 });
+
+// The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
+qmMountSideGames({ world: "fairway", worldName: "Fairway Park", items: QM_WORLD_GAMES.fairway, from: "fairway", page: ppHerePage() });
 
 </script>
 </body>

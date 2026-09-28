@@ -1,5 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+// Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
+import { qmMountSideGames } from "../../shared/skill-gates-ui.js";
+import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
@@ -333,3 +336,6 @@ ctlMount({
     { label: "Throttle and rudder (the helm)", keys: ["W", "S", "A", "D"], pad: "Left stick", touch: "Stick: forward throttle, sideways rudder" },
   ],
 });
+
+// The "Side games" chip and quest-log panel (shared/skill-gates-ui.js), after ctlMount's nav exists.
+qmMountSideGames({ world: "regatta", worldName: "the Bay Regatta", items: QM_WORLD_GAMES.regatta, from: "regatta", page: ppHerePage() });

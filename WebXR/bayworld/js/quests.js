@@ -21,9 +21,12 @@
  * cross-checks those strings against bayworld-data.js's BAY_SITES and
  * BAY_LANDMARKS only when that file exists in the worktree.
  */
-import { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, FIELD_GUIDE_EGGS, SIDE_ACTIVITIES, LANDMARK_NOTES } from "./quests-data.js";
+import { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, FIELD_GUIDE_EGGS, SIDE_ACTIVITIES, LANDMARK_NOTES, GATED_QUESTS } from "./quests-data.js";
 
-export { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, FIELD_GUIDE_EGGS, SIDE_ACTIVITIES, LANDMARK_NOTES };
+// GATED_QUESTS (skill-gated side quests, docs/skill-gates.md) stay out of
+// ALL_QUESTS on purpose: tools/check_gates.mjs owns their rules, and
+// quests-select.js registers them with the engine beside ALL_QUESTS.
+export { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, FIELD_GUIDE_EGGS, SIDE_ACTIVITIES, LANDMARK_NOTES, GATED_QUESTS };
 
 /** Every quest BAY2's registerQuests() should receive, main arc first, then
  *  every programme's side quests, then the egg field notes, then the Field
