@@ -375,7 +375,7 @@ try {
     buttons: [
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },
-      { id: "np-parishes", label: "Parishes", aria: "Parishes", onDown: () => npToggle("parishes") },
+      { id: "np-parishes", label: "Maps", aria: `${npRegionHere.title} and other regions`, onDown: () => npToggle("parishes") },
     ],
   });
 } catch { /* no touch layer */ }
@@ -386,7 +386,7 @@ ctlMount({
   world: npRegionHere.title, quality: true,
   except: { move: "WASD or arrows walk; Shift runs; drag the view to look.", interact: "E at a job board, a lesson sign or a way out of the parish.", map: "M opens the map with districts, water, levees, roads and connectors." },
   unique: [
-    { label: "Parish selector", keys: ["P"], pad: "—", touch: "Parishes button" },
+    { label: "Region and map selector", keys: ["P"], pad: "—", touch: "Maps button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
   ],
 });

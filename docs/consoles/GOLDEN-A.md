@@ -50,3 +50,20 @@ Base: `a643c66` on `claude/vr-ar-safety-training-wkwmve` (the worktree started a
 - 22:48 started; base reset to a643c66 (worktree was at 589f0d8).
 - 22:56 read brief, engine, checkers, docs, PARISH and DELTA memory; plan above. Connector contract with GOLDEN-B taken
   verbatim from the coordinator's task.
+- 23:08 commit 1 (`1da2686`): engine regions + hills + bay/ocean + park; the three districts (9 sites each) from the
+  scratch generator; both checkers extended; bundler list; docs/parishes.md SF section. `check_parish_data` 4038/0,
+  `check_parishes` 10276/0, `check_parish_play`, `check_parse`, `check_imports` green.
+- 23:14 Chromium smoke on port 8993 (vendored three.js routed for the CDN import): all three SF maps and Orleans load at
+  1280×720 and 360×640 with no page error; titles "Downtown & Embarcadero — San Francisco Districts" etc.; the selector
+  shows "New Orleans Parishes: 5" then "San Francisco Districts: 3"; Nob Hill reads as a gentle rise under the quarter
+  blocks. Only 404s are the pre-existing `media/backgrounds.json` probes.
+- 23:18 selector copy made region-neutral (keys line "P maps", touch button "Maps", controls row "Region and map
+  selector"); full suite started once, one job, niced.
+
+## Decisions
+- **No `region` edit to the five parish modules.** ASSAYER edits four of them this run; the registry defaults instead.
+- **Water kinds `bay` and `ocean`** rather than reusing `gulf`, so the map, the HUD and the wildlife say what the water is.
+- **District character `park`** (trees, no buildings) for Golden Gate Park, the Panhandle, Lands End and Lake Merced.
+- **Scale 2.2 m per map metre** for every SF map, set by `check_parish_data`'s 8 km field floor; boxes overlap.
+- **Internal connector ids carry the side** (`sf-dt-…`, `sf-mi-…`, `sf-gp-…`) and pair by kind and lonlat, the DELTA rule.
+- **Not rebuilt:** `WebXR/parishes/dist/parishes.html` (the gate regenerates output; a bundle also restamps the page head).
