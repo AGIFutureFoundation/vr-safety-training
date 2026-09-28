@@ -17,6 +17,8 @@
 // practice read "per the plan". No three.js here. Names prefixed kw/KW_ (one bundle scope).
 
 import { slSiteName, slResolveSite, slGameById } from "./sl-parish-play.js";
+import { lkStationLink } from "./links.js";
+import { qmSnapshot, qmIsOpen } from "./skill-gates.js";
 
 export const KW_WORLD = "parishes";
 export const KW_PAGE = "parishes.html";
@@ -208,6 +210,44 @@ export function kwGriotSites(parishData) {
 /** Counts for the console log and the hand-back. */
 export function kwPlayCounts() {
   return { kiosks: KW_KIOSKS.length, quests: KW_QUESTS.length, parishes: new Set(KW_KIOSKS.map((k) => k.parish)).size, lessons: new Set(KW_QUESTS.map((q) => q.steps[1].lesson)).size };
+}
+
+// ------------------------------------------------------------------ the side-quest board (menu, DOM only)
+
+/**
+ * The quest board's model for one parish (pure): each quest with its three links in order and
+ * what is done. `snap` is a gate snapshot (qmSnapshot()); `completed(stationId)` says whether a
+ * station has a record (the passport's ppCompleted); the lesson slot is BAYOU's and shows as text
+ * until the coordinator reconciles its id.
+ */
+export function kwQuestBoard(parishId, { snap = null, completed = () => false, page = KW_PAGE } = {}) {
+  const s = snap ?? qmSnapshot();
+  return kwQuestsFor(parishId).map((q) => {
+    const lesson = q.steps[1], station = q.steps[2], game = kwGameFor(q.steps[3].game);
+    return {
+      id: q.id, title: q.title, siteName: slSiteName(q.parish, q.site), giver: q.giver,
+      lesson: { id: lesson.lesson, text: lesson.text },
+      station: { id: station.station, text: station.text, done: !!completed(station.station), href: lkStationLink(station.station, { from: KW_WORLD, page, siteId: `${q.parish}/${q.site}` }) },
+      game: { id: game?.id ?? q.steps[3].game, title: game?.title ?? q.steps[3].game, text: q.steps[3].text, open: game ? qmIsOpen(game.gate, s) : false, done: !!s.questsDone?.has(game?.id) },
+      stamp: q.reward.stamp,
+    };
+  });
+}
+
+const kwEsc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/** Render the parish's side quests into `el`; `onGame(id)` opens the side-game panel. Returns the model. */
+export function kwMountQuestBoard(el, parishId, opts = {}) {
+  const rows = kwQuestBoard(parishId, opts);
+  if (!el) return rows;
+  if (!rows.length) { el.innerHTML = ""; return rows; }
+  el.innerHTML = `<section class="kw-quests" aria-label="Side quests"><p class="eyebrow" style="margin-top:16px">Side quests</p><p class="note">Each quest is a lesson, a union station and a mini-game at one site.</p><ol>${rows.map((r) =>
+    `<li><strong>${kwEsc(r.title)}</strong> <span class="note">at ${kwEsc(r.siteName)}, with ${kwEsc(r.giver)}</span><br>` +
+    `<span data-kw-lesson="${kwEsc(r.lesson.id)}">Lesson: ${kwEsc(r.lesson.text)}</span> · ` +
+    `<a href="${kwEsc(r.station.href)}">${r.station.done ? "✓ " : ""}Station: ${kwEsc(r.station.text)}</a> · ` +
+    `<button type="button" class="btn" data-kw-game="${kwEsc(r.game.id)}">${r.game.done ? "✓ " : r.game.open ? "" : "Locked: "}${kwEsc(r.game.title)}</button></li>`).join("")}</ol></section>`;
+  if (typeof opts.onGame === "function") for (const b of el.querySelectorAll("[data-kw-game]")) b.addEventListener("click", () => opts.onGame(b.getAttribute("data-kw-game")));
+  return rows;
 }
 
 

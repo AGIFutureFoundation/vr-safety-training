@@ -237,6 +237,14 @@ const WANT_KIOSKS = ["kw-sandbag-relay", "kw-pump-startup", "kw-floodgate-closeo
     clean(q.id, [q.title, ...q.steps.map((s) => s.text)].join(" "));
   }
   check(new Set(Q.map((q) => q.steps[1].lesson)).size === Q.length, "quests", "two quests share a lesson");
+  // The menu's quest board: a row per quest, a station link with the way back, the game named.
+  globalThis.localStorage.clear(); G.qmInvalidate();
+  let rows = 0;
+  for (const id of PARISH_IDS) for (const r of KP.kwQuestBoard(id, { snap: G.qmSnapshot() })) {
+    rows += 1;
+    check(/from=parishes/.test(r.station.href) && r.game.title && !r.game.done && r.lesson.id.startsWith("by-"), "board", `${r.id}: board row lacks a station link, a game or its lesson slot`);
+  }
+  check(rows === Q.length, "board", `the quest boards show ${rows} rows for ${Q.length} quests`);
 }
 
 // ------------------------------------------------------------ wiring and hygiene
@@ -244,6 +252,7 @@ const WANT_KIOSKS = ["kw-sandbag-relay", "kw-pump-startup", "kw-floodgate-closeo
   const app = rd("WebXR/parishes/js/app.js");
   check(/kwDressParish\(/.test(app), "wiring", "parishes/js/app.js does not dress the parish (kwDressParish)");
   check(/kwKiosksFor\(/.test(app), "wiring", "parishes/js/app.js does not list the kiosks (kwKiosksFor)");
+  check(/kwMountQuestBoard\(\$\("menu-krewe"\)/.test(app) && rd("WebXR/parishes/parishes.html").includes('id="menu-krewe"'), "wiring", "the parish menu does not mount the side-quest board");
   const bundle = rd("tools/bundle_webxr.py");
   const block = bundle.slice(bundle.indexOf('"parishes": {'), bundle.indexOf('"entry"', bundle.indexOf('"parishes": {')));
   for (const f of ["kw-play-data.js", "kw-place.js", "kw-kits.js"]) check(block.includes(`"${f}"`), "bundle", `the parishes bundle lacks ${f}`);

@@ -108,6 +108,7 @@
     <p class="eyebrow" style="margin-top:16px">Choose a parish</p>
     <div class="row" id="menu-parishes"></div>
     <div id="menu-paths"></div>
+    <div id="menu-krewe"></div>
     <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
   </div>
 </section>
@@ -32062,6 +32063,7 @@ const QM_STATION_NAMES = {
   "container-lashing": "Container Lashing",
   "crane-yard": "Crane Yard",
   "creosote-pile-removal": "Creosote Pile Removal",
+  "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod",
   "cs-permit-entry-and-attendant-duties": "Permit Entry & Attendant Duties",
   "cs-ventilation-and-air-monitoring-plan": "Ventilation & Air Monitoring Plan",
   "decon-support-laborer": "Decon Support Laborer",
@@ -32511,13 +32513,19 @@ function qmFill(s, game) { return s.replace(/\{task\}/g, game.task ?? "job").rep
 function qmRounds(game) {
   let h = 0;
   for (const ch of game.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return (game.practices ?? []).map((key, i) => {
+  const rounds = (game.practices ?? []).map((key, i) => {
     const p = QM_SAFE_PRACTICES[key];
     const safe = { text: qmFill(p.safe, game), safe: true };
     const unsafe = { text: qmFill(p.unsafe, game), safe: false };
     const flip = ((h >> i) & 1) === 1;
     return { key, prompt: qmFill(p.prompt, game), options: flip ? [unsafe, safe] : [safe, unsafe] };
   });
+  // A game's own calls (KREWE's kiosks: `calls: [{ prompt, safe, unsafe }]`), after the shared practices.
+  for (const [i, c] of (game.calls ?? []).entries()) {
+    const safe = { text: c.safe, safe: true }, unsafe = { text: c.unsafe, safe: false };
+    rounds.push({ key: `call-${i}`, prompt: c.prompt, options: ((h >> (i + 5)) & 1) === 1 ? [unsafe, safe] : [safe, unsafe] });
+  }
+  return rounds;
 }
 
 
@@ -33708,6 +33716,822 @@ function slSitePlay(parishId, siteId) {
 function slCounts() {
   return { parishes: SL_PARISHES.length, sites: SL_PARISHES.reduce((n, p) => n + p.sites.length, 0), mainQuests: SL_MAIN_QUESTS.length,
     sideGames: SL_SIDE_GAMES.length, fieldLessons: SL_FIELD_LESSONS.length, handoffs: SL_HANDOFFS.length, connectors: SL_CONNECTORS.length };
+}
+
+
+/* ===== shared/kw-play-data.js ===== */
+// KREWE — kiosks, mini-games and side quests at the parish sites (docs/consoles/KREWE.md).
+//
+//   KW_KIOSKS     five mini-games at real parish sites, in the shared side-game contract
+//                 (docs/skill-gates.md): each behind union stations (the gate contract),
+//                 scored on safe practice (a mechanic from side-game-mechanics.js, the
+//                 safe-practice calls and the kiosk's own calls), each rewarding a cosmetic
+//                 and a stamp. KW_GATED is the same list for check_gates's discovery.
+//   KW_QUESTS     ten side quests, each a chain: a K-12 lesson → a union station → a mini-game.
+//                 The lesson slot holds BAYOU's placeholder id `by-<topic>` (BAYOU writes the
+//                 lessons in a parallel worktree; the coordinator reconciles the ids).
+//   kwKioskSpots(parishData)   where each kiosk stands in a parish data module (bound through
+//                 SECONDLINE's slResolveSite), for the world, the HUD and GRIOT.
+//   kwGriotSites(parishData)   site records in grMount's documented shape so a GRIOT parish
+//                 character (keyed by site kind) stands at each kiosk.
+//
+// Facts rule: places by public name only, no figures, no dates; every call is a plain safe
+// practice read "per the plan". No three.js here. Names prefixed kw/KW_ (one bundle scope).
+
+
+
+
+const KW_WORLD = "parishes";
+const KW_PAGE = "parishes.html";
+
+// ------------------------------------------------------------------ kiosks
+
+const kwCall = (prompt, safe, unsafe) => ({ prompt, safe, unsafe });
+
+/**
+ * A kiosk: `{ id, world, kind: "side-game", parish, site, siteName, title, task, mechanic, gate,
+ * practices, calls, reward: { cosmetic, stamp }, summary, character, kit, drivable? }`.
+ * `character` is the GRIOT site kind whose character stands at it; `kit` the KREWE kit beside it.
+ */
+const kwMakeKiosk = (id, parish, site, o) => ({
+  id: `kw-${id}`, world: KW_WORLD, kind: "side-game", parish, site, siteName: slSiteName(parish, site),
+  title: o.title, task: o.task, mechanic: o.mechanic, gate: o.gate, practices: o.practices, calls: o.calls,
+  reward: { cosmetic: o.cosmetic, stamp: `kw-stamp-${id}` }, summary: o.summary, character: o.character, kit: o.kit,
+  ...(o.drivable ? { drivable: o.drivable } : {}),
+});
+
+const KW_KIOSKS = [
+  kwMakeKiosk("sandbag-relay", "orleans", "levee-crew", {
+    title: "Sandbag Relay", task: "sandbag relay", mechanic: "delivery-run", character: "levee", kit: "kwLeveeWall",
+    drivable: "flatbed-truck",
+    gate: { stations: ["br-levee-inspection-and-seepage", "tdl-trailer-loading-and-dock-plate"],
+      note: "Levee inspection first, then load securement: the flatbed brings the bags, the crew builds the line." },
+    practices: ["plan", "lift", "traffic"],
+    calls: [
+      kwCall("The flatbed from the Motor Pool backs up to the levee toe with the bags.", "Use a spotter, stop it clear of the crew and chock it before anyone unloads.", "Wave it in close so the bags land right beside the line."),
+      kwCall("A bag is heavy and the line is long.", "Pass it hand to hand, lift with your legs and keep your back straight.", "Carry two at a time to finish sooner."),
+      kwCall("The bags go down on the wet spot the inspector flagged.", "Lay them in rows with the seams staggered, the way the inspector shows you.", "Pile them in a heap as high as you can reach."),
+    ],
+    cosmetic: "sandbag crew armband",
+    summary: "A Motor Pool flatbed delivers the bags; the crew passes them hand to hand and lays a staggered row where the inspector flagged.",
+  }),
+  kwMakeKiosk("pump-startup", "jefferson", "drainage-canal-pumps", {
+    title: "Pump Start-Up Order", task: "pump start-up", mechanic: "lockout-steps", character: "pump-station", kit: "kwPumpHouse",
+    gate: { stations: ["stormwater-outfall", "cs-non-entry-retrieval-and-tripod"],
+      note: "The stormwater outfall and the non-entry retrieval stations before you start a pump." },
+    practices: ["plan", "lockout", "comms"],
+    calls: [
+      kwCall("Rain is coming and the operator says the pumps start soon.", "Check the intake screen is clear and the locks are off only when the whole crew is out.", "Start the pump and look at the screen afterwards."),
+      kwCall("The pump is ready to prime.", "Follow the start-up order on the card: vent, prime, then start.", "Skip the prime; it will catch once it spins."),
+      kwCall("The pump is running.", "Watch the gauge and the discharge, and call the operator if either looks wrong.", "Walk away; a running pump looks after itself."),
+    ],
+    cosmetic: "pump watch lanyard",
+    summary: "Start the canal pumps in the card's order: clear the screen, remove locks with the crew out, vent, prime, start, watch the gauge.",
+  }),
+  kwMakeKiosk("floodgate-closeout", "st-bernard", "floodgate-station", {
+    title: "Floodgate Close-Out", task: "floodgate close-out", mechanic: "switching-order", character: "levee", kit: "kwFloodgate",
+    gate: { stations: ["tide-gate", "valve-vault"],
+      note: "The tide gate and valve vault stations before you work the close-out checklist." },
+    practices: ["plan", "zone", "comms"],
+    calls: [
+      kwCall("The gate is about to swing shut across the road.", "Clear the gate's path, set the barriers and call it clear before it moves.", "Close it while a car is still passing; it moves slowly."),
+      kwCall("The gate is shut.", "Check the seal along its whole edge and tick each line of the checklist.", "Glance at it from the truck and call it done."),
+      kwCall("The checklist has one line you cannot tick.", "Stop, tell the gate operator and fix it before signing the close-out.", "Sign it anyway; the rest looks fine."),
+    ],
+    cosmetic: "gate crew patch",
+    summary: "Close the floodgate by the checklist: clear the path, swing it with a read-back, check the seal, sign every line.",
+  }),
+  kwMakeKiosk("container-sort", "orleans", "port-terminal", {
+    title: "Container Sort", task: "container sort", mechanic: "lift-sequencer", character: "port", kit: "kwShrimpBoat",
+    gate: { stations: ["container-lashing", "dock-crane"],
+      note: "Container lashing and the dock crane before you sort the stacks." },
+    practices: ["lift", "zone", "inspect"],
+    calls: [
+      kwCall("Boxes arrive for three different ships.", "Read each box's label and sort it into its ship's row.", "Stack them wherever there is room and sort them later."),
+      kwCall("A heavy box and a light box go on the same stack.", "Put the heavy box low and the light box on top, per the stow plan.", "Put the light box under the heavy one; it fits better."),
+      kwCall("A lashing rod on a stack looks bent.", "Tag it out and ask for a new one before the stack is locked.", "Leave it; the others will hold."),
+    ],
+    cosmetic: "wharf sorter's cap",
+    summary: "Sort the wharf's boxes by ship and weight: read the label, heavy low, light high, every lashing checked.",
+  }),
+  kwMakeKiosk("ferry-lineup", "plaquemines", "ferry-landing", {
+    title: "Ferry Line-Up", task: "ferry line-up", mechanic: "traffic-zone", character: "port", kit: "kwFerryLanding",
+    gate: { stations: ["mw-ferry-deckhand-and-passenger-safety"],
+      note: "The ferry deckhand and passenger safety station before you line up the deck." },
+    practices: ["traffic", "comms", "weather"],
+    calls: [
+      kwCall("Cars and walkers wait at the landing.", "Walkers board on their own path, cars wait in their lanes until you wave them on.", "Let everyone on at once to save time."),
+      kwCall("A car rolls toward the ramp before the deck is ready.", "Hold up the stop sign and keep it back until the ramp is down and chained.", "Wave it on; the ramp is nearly down."),
+      kwCall("The deck is full.", "Count against the plan and close the gate when the count says full.", "Squeeze one more car on; there is a gap."),
+    ],
+    cosmetic: "ferry deckhand's whistle",
+    summary: "Line up the ferry deck: walkers apart, cars in lanes, nothing on before the ramp is chained, count to the plan and close the gate.",
+  }),
+];
+
+/** The same list for tools/check_gates.mjs's discovery (an export named …GATED… in a -data.js module). */
+const KW_GATED = KW_KIOSKS;
+const KW_KIOSK_IDS = KW_KIOSKS.map((k) => k.id);
+function kwKiosk(id) { return KW_KIOSKS.find((k) => k.id === id) ?? null; }
+function kwKiosksFor(parishId, siteId = null) { return KW_KIOSKS.filter((k) => k.parish === parishId && (!siteId || k.site === siteId)); }
+
+/** The kiosk's own calls as side-game rounds (same `{ prompt, options: [{ text, safe }] }` shape as qmRounds). */
+function kwCallRounds(kiosk) {
+  let h = 11;
+  for (const ch of kiosk.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return (kiosk.calls ?? []).map((c, i) => {
+    const a = { text: c.safe, safe: true }, b = { text: c.unsafe, safe: false };
+    return { key: `call-${i}`, prompt: c.prompt, options: ((h >> (i + 3)) & 1) ? [b, a] : [a, b] };
+  });
+}
+
+/** The stamps earned so far: a kiosk's stamp is earned by its first clean run (a gate snapshot's questsDone). */
+function kwStampsEarned(snap) {
+  const done = snap?.questsDone ?? new Set();
+  return KW_KIOSKS.filter((k) => done.has(k.id)).map((k) => k.reward.stamp);
+}
+
+// ------------------------------------------------------------------ side quests: lesson → station → game
+
+/** BAYOU's lesson topics (placeholders until the coordinator reconciles BAYOU's ids). */
+const KW_BAYOU_LESSONS = [
+  "by-levee-holds", "by-pump-rain", "by-wetland-speed-bump", "by-river-pilot", "by-readiness-plan", "by-lake-to-tap",
+  "by-streetcar-timetable", "by-ferry-tides", "by-fair-count", "by-flood-map-colours", "by-container-sort", "by-floodwall-steps",
+];
+
+const kwMakeQuest = (id, title, parish, site, giver, lesson, station, game, text) => ({
+  id: `kw-q-${id}`, kind: "side-quest", world: KW_WORLD, title, parish, site, giver,
+  steps: [
+    { type: "goto", parish, site, text: `Meet ${giver} at ${slSiteName(parish, site)}.` },
+    { type: "lesson", lesson, text: text[0] },
+    { type: "station", station, text: text[1] },
+    { type: "game", game, text: text[2] },
+  ],
+  reward: { stamp: `kw-stamp-q-${id}` },
+});
+
+const KW_QUESTS = [
+  kwMakeQuest("sandbag-line", "Hold the Line", "orleans", "levee-crew", "the levee inspector", "by-levee-holds", "br-levee-inspection-and-seepage", "kw-sandbag-relay",
+    ["Learn how a levee holds the water back.", "Walk the levee with the inspection station.", "Build the sandbag line where the inspector flags."]),
+  kwMakeQuest("rain-night-pumps", "Rain Night Pumps", "jefferson", "drainage-canal-pumps", "the drainage operator", "by-pump-rain", "stormwater-outfall", "kw-pump-startup",
+    ["Learn what a pump station does when it rains.", "Do the stormwater outfall station.", "Start the pumps in the right order."]),
+  kwMakeQuest("close-the-gate", "Close the Gate", "st-bernard", "floodgate-station", "the gate operator", "by-floodwall-steps", "tide-gate", "kw-floodgate-closeout",
+    ["Measure a floodwall in steps.", "Do the tide gate station.", "Work the floodgate close-out checklist."]),
+  kwMakeQuest("box-by-box", "Box by Box", "orleans", "port-terminal", "the terminal superintendent", "by-container-sort", "container-lashing", "kw-container-sort",
+    ["Learn how the port sorts its boxes.", "Do the container lashing station.", "Sort the wharf's boxes by ship and weight."]),
+  kwMakeQuest("ferry-morning", "Ferry Morning", "plaquemines", "ferry-landing", "the ferry mate", "by-ferry-tides", "mw-ferry-deckhand-and-passenger-safety", "kw-ferry-lineup",
+    ["Read the ferry's timetable and the tide.", "Do the ferry deckhand station.", "Line up the deck for the crossing."]),
+  kwMakeQuest("marsh-speed-bump", "The Marsh Speed Bump", "orleans", "wetlands-restoration", "the restoration crew lead", "by-wetland-speed-bump", "marsh-transect-survey", "sl-orleans-marsh-count",
+    ["Learn how wetlands slow a storm down.", "Do the marsh transect survey station.", "Count the marsh along the line."]),
+  kwMakeQuest("pilot-ladder", "Up the Pilot Ladder", "plaquemines", "pilot-station", "the pilot boat operator", "by-river-pilot", "pilot-transfer", "sl-plaquemines-pilot-transfer-watch",
+    ["Learn about the river's current and a pilot's job.", "Do the pilot transfer station.", "Keep the pilot transfer watch."]),
+  kwMakeQuest("family-plan", "The Family Plan", "st-tammany", "staging-yard", "the staging yard boss", "by-readiness-plan", "shelter-intake-operations", "sl-st-tammany-staging-yard-roll-out",
+    ["Make a readiness plan together: who helps, what to pack, where to go.", "Do the shelter intake station.", "Roll the staging yard out on the plan."]),
+  kwMakeQuest("barn-timetable", "Barn Timetable", "orleans", "streetcar-barn", "the barn foreman", "by-streetcar-timetable", "bus-depot-lift", "sl-orleans-barn-power-switching",
+    ["Read a streetcar schedule as a timetable.", "Do the depot lift station.", "Work the barn's switching order."]),
+  kwMakeQuest("fair-catch", "A Fair Catch", "st-bernard", "fishing-harbour", "the harbour master", "by-fair-count", "oyster-reef-monitoring", "sl-st-bernard-harbour-recovery",
+    ["Count a shrimp boat's catch fairly.", "Do the oyster reef monitoring station.", "Run the harbour recovery drill."]),
+];
+
+function kwQuest(id) { return KW_QUESTS.find((q) => q.id === id) ?? null; }
+/** A quest's game: a KREWE kiosk or a SECONDLINE side game. */
+function kwGameFor(id) { return kwKiosk(id) ?? slGameById(id); }
+/** The quests a parish offers (for the path board or a GRIOT hand-off). */
+function kwQuestsFor(parishId) { return KW_QUESTS.filter((q) => q.parish === parishId); }
+
+// ------------------------------------------------------------------ positions in a parish data module
+
+/** Offset from the bound site's centre where a kiosk stands (inside the pad, clear of the site board). */
+const KW_KIOSK_OFFSET = [-14, 10];
+
+/**
+ * Where each kiosk of this parish stands: `[{ kiosk, site, x, z }]`, bound through slResolveSite
+ * (by id, then by the SL site's `match`). A kiosk whose site the data lacks is left out.
+ */
+function kwKioskSpots(parishData) {
+  const out = [];
+  for (const k of kwKiosksFor(parishData?.id)) {
+    const site = slResolveSite(parishData, k.site);
+    if (!site || !Array.isArray(site.position)) continue;
+    out.push({ kiosk: k, site, x: site.position[0] + KW_KIOSK_OFFSET[0], z: site.position[1] + KW_KIOSK_OFFSET[1] });
+  }
+  return out;
+}
+
+/**
+ * Site records in grMount's documented shape (`{ id, name, kind, position }`, npc.js) so the parish
+ * character whose `siteKind` matches stands at each kiosk. Pass them first in `sites` so a
+ * character keyed by kind finds the kiosk before any other site of that kind:
+ *   grMount(`parish:${parish.id}`, { three, root, sites: [...kwGriotSites(parish), ...parish.sites], groundAt, pos })
+ */
+function kwGriotSites(parishData) {
+  return kwKioskSpots(parishData).map(({ kiosk, x, z }) => ({ id: kiosk.id, name: kiosk.title, kind: kiosk.character, position: [x, z], kiosk: kiosk.id }));
+}
+
+/** Counts for the console log and the hand-back. */
+function kwPlayCounts() {
+  return { kiosks: KW_KIOSKS.length, quests: KW_QUESTS.length, parishes: new Set(KW_KIOSKS.map((k) => k.parish)).size, lessons: new Set(KW_QUESTS.map((q) => q.steps[1].lesson)).size };
+}
+
+// ------------------------------------------------------------------ the side-quest board (menu, DOM only)
+
+/**
+ * The quest board's model for one parish (pure): each quest with its three links in order and
+ * what is done. `snap` is a gate snapshot (qmSnapshot()); `completed(stationId)` says whether a
+ * station has a record (the passport's ppCompleted); the lesson slot is BAYOU's and shows as text
+ * until the coordinator reconciles its id.
+ */
+function kwQuestBoard(parishId, { snap = null, completed = () => false, page = KW_PAGE } = {}) {
+  const s = snap ?? qmSnapshot();
+  return kwQuestsFor(parishId).map((q) => {
+    const lesson = q.steps[1], station = q.steps[2], game = kwGameFor(q.steps[3].game);
+    return {
+      id: q.id, title: q.title, siteName: slSiteName(q.parish, q.site), giver: q.giver,
+      lesson: { id: lesson.lesson, text: lesson.text },
+      station: { id: station.station, text: station.text, done: !!completed(station.station), href: lkStationLink(station.station, { from: KW_WORLD, page, siteId: `${q.parish}/${q.site}` }) },
+      game: { id: game?.id ?? q.steps[3].game, title: game?.title ?? q.steps[3].game, text: q.steps[3].text, open: game ? qmIsOpen(game.gate, s) : false, done: !!s.questsDone?.has(game?.id) },
+      stamp: q.reward.stamp,
+    };
+  });
+}
+
+const kwEsc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/** Render the parish's side quests into `el`; `onGame(id)` opens the side-game panel. Returns the model. */
+function kwMountQuestBoard(el, parishId, opts = {}) {
+  const rows = kwQuestBoard(parishId, opts);
+  if (!el) return rows;
+  if (!rows.length) { el.innerHTML = ""; return rows; }
+  el.innerHTML = `<section class="kw-quests" aria-label="Side quests"><p class="eyebrow" style="margin-top:16px">Side quests</p><p class="note">Each quest is a lesson, a union station and a mini-game at one site.</p><ol>${rows.map((r) =>
+    `<li><strong>${kwEsc(r.title)}</strong> <span class="note">at ${kwEsc(r.siteName)}, with ${kwEsc(r.giver)}</span><br>` +
+    `<span data-kw-lesson="${kwEsc(r.lesson.id)}">Lesson: ${kwEsc(r.lesson.text)}</span> · ` +
+    `<a href="${kwEsc(r.station.href)}">${r.station.done ? "✓ " : ""}Station: ${kwEsc(r.station.text)}</a> · ` +
+    `<button type="button" class="btn" data-kw-game="${kwEsc(r.game.id)}">${r.game.done ? "✓ " : r.game.open ? "" : "Locked: "}${kwEsc(r.game.title)}</button></li>`).join("")}</ol></section>`;
+  if (typeof opts.onGame === "function") for (const b of el.querySelectorAll("[data-kw-game]")) b.addEventListener("click", () => opts.onGame(b.getAttribute("data-kw-game")));
+  return rows;
+}
+
+
+/* ===== shared/kw-place.js ===== */
+// KREWE — where the parish kits stand (docs/consoles/KREWE.md). Pure: no three.js.
+//
+// kwPlacements(parish, { tier }) reads a parish data module (np-data-<parish>.js) through the
+// engine's pure answers (np-parish.js) and returns `[{ kit, x, z, y, ry, why }]`:
+//   - by site kind: a pump station house at every pump site, its pipes toward the nearest levee;
+//     floodwall sections and a floodgate on the levee nearest every levee, floodwall, floodgate
+//     and lock site; a shrimp boat and an oyster lugger on the open water nearest every harbour,
+//     marina, port, ferry, landing and shipyard site; a ferry landing on the shore at every ferry
+//     and landing site; a bandstand and a ring of live oaks at every park and campus site and park
+//     landmark; two streetcars parked at a streetcar barn; and the kiosk's kit beside each KREWE
+//     kiosk (kw-play-data.js).
+//   - by district character: streetcars on the avenues through quarter, garden and downtown
+//     districts (Orleans only: the streetcar is Orleans's), live oaks lining garden-district
+//     avenues, shotgun-house blocks fronting the streets of quarter, suburb and garden districts,
+//     and one parade route's barriers along an avenue through a quarter or downtown district.
+// Deterministic (npRng from the parish id), capped per kit (KW_CAPS) so a parish's whole dressing
+// stays inside KW_DRESS_BUDGET: at most one draw call per kit and a fixed triangle allowance on
+// top of the engine's own NP_BUDGET. Names prefixed kw/KW_.
+
+
+
+/** The whole dressing of one parish: one draw call per kit, and this many triangles at most. */
+const KW_DRESS_BUDGET = { drawCalls: 13, triangles: 45000 };
+/** Placements per kit per parish, at most (high tier; `low` keeps about half of the trees, blocks and barriers). */
+const KW_CAPS = {
+  streetcar: 8, pumpHouse: 4, leveeWall: 24, floodgate: 6, shrimpBoat: 6, oysterLugger: 6,
+  shotgunBlock: 10, liveOak: 44, bandstand: 4, paradeBarriers: 16, ferryLanding: 4, kioskBoard: 5, sandbagStack: 10,
+};
+/** The triangles each kit costs as drawn (kept equal to KW_BUDGET's `tri` by tools/check_krewe.mjs). */
+const KW_TRI = {
+  streetcar: 96, pumpHouse: 288, leveeWall: 60, floodgate: 128, shrimpBoat: 180, oysterLugger: 156,
+  shotgunBlock: 384, liveOak: 336, bandstand: 316, paradeBarriers: 372, ferryLanding: 288, kioskBoard: 72, sandbagStack: 84,
+};
+
+const KW_SITE_RULES = [
+  { re: /pump/, kits: ["pumpHouse"] },
+  { re: /levee|floodwall|floodgate|lock/, kits: ["leveeWall", "floodgate", "sandbagStack"] },
+  { re: /harbou?r|marina|port|ferry|landing|shipyard/, kits: ["shrimpBoat", "oysterLugger"] },
+  { re: /ferry|landing/, kits: ["ferryLanding"] },
+  { re: /park|campus/, kits: ["bandstand", "liveOak"] },
+  { re: /streetcar/, kits: ["streetcar"] },
+];
+const KW_TROLLEY_CHARACTERS = new Set(["quarter", "garden", "downtown"]);
+const KW_BLOCK_CHARACTERS = new Set(["quarter", "suburb", "garden"]);
+const KW_PARADE_CHARACTERS = new Set(["quarter", "downtown"]);
+
+/** Dry, off every road and not on a levee (the ground a free-standing kit needs). */
+function kwDry(parish, x, z, { pad = false } = {}) {
+  const c = npCoverAt(parish, x, z);
+  if (c === "water" || c === "wetland" || c === "road" || c === "levee") return false;
+  if (c === "pad" && !pad) return false;
+  const half = npPrepare(parish).half;
+  return Math.abs(x) < half - 20 && Math.abs(z) < half - 20;
+}
+const kwOpenWater = (parish, x, z) => { const w = npWaterAt(parish, x, z); return !!w && w.kind !== "wetland"; };
+
+/** The nearest open water to a site: `{ x, z, shore: { x, z }, ang }` or null, searched in rings. */
+function kwNearestWater(parish, sx, sz) {
+  for (let r = 30; r <= 600; r += 15) {
+    for (let k = 0; k < 24; k++) {
+      const a = (k / 24) * Math.PI * 2, x = sx + Math.sin(a) * r, z = sz + Math.cos(a) * r;
+      if (!kwOpenWater(parish, x, z)) continue;
+      const x2 = sx + Math.sin(a) * (r + 18), z2 = sz + Math.cos(a) * (r + 18);
+      if (!kwOpenWater(parish, x2, z2)) continue;
+      return { x: sx + Math.sin(a) * (r + 12), z: sz + Math.cos(a) * (r + 12), shore: { x: sx + Math.sin(a) * (r - 14), z: sz + Math.cos(a) * (r - 14) }, ang: a };
+    }
+  }
+  return null;
+}
+
+/** The nearest levee to a point: `{ levee, d, t }` or null. */
+function kwNearestLevee(parish, x, z) {
+  let best = null;
+  for (const l of npPrepare(parish).levees) { const r = npPolyDistance(x, z, l.pts); if (!best || r.d < best.d) best = { levee: l, ...r }; }
+  return best;
+}
+
+/** True when no engine massing part stands within `r` metres (so a kit does not sit inside a block). */
+function kwClearOfMassing(parish, x, z, r, cache) {
+  const { cx, cz, key } = npChunkOf(x, z);
+  let spots = cache.get(key);
+  if (!spots) { spots = npMassingForChunk(parish, cx, cz); cache.set(key, spots); }
+  return !spots.some((s) => Math.hypot(s.x - x, s.z - z) < r);
+}
+
+/**
+ * Every kit placement for a parish, deterministic. `tier` "low" keeps about half of the trees,
+ * blocks and barriers. Each spot: `{ kit, x, z, y, ry, why }` (why = the rule that placed it).
+ */
+function kwPlacements(parish, { tier = "high" } = {}) {
+  const prep = npPrepare(parish);
+  const rng = npRng((prep.seed ^ 0x6b77) >>> 0);
+  const out = [];
+  const count = {};
+  const room = (kit) => (count[kit] ?? 0) < Math.ceil(KW_CAPS[kit] * (tier === "low" && /liveOak|shotgunBlock|paradeBarriers/.test(kit) ? 0.5 : 1));
+  const put = (kit, x, z, y, ry, why) => {
+    if (!room(kit)) return false;
+    if (out.some((s) => Math.hypot(s.x - x, s.z - z) < (kit === "leveeWall" ? 6 : kit === "sandbagStack" ? 2 : kit === "kioskBoard" ? 3 : kit === "liveOak" ? 9 : 12))) return false;
+    count[kit] = (count[kit] ?? 0) + 1;
+    out.push({ kit, x: Math.round(x * 10) / 10, z: Math.round(z * 10) / 10, y: Math.round(y * 100) / 100, ry: Math.round(ry * 1000) / 1000, why });
+    return true;
+  };
+  const ground = (x, z) => npHeightAt(parish, x, z);
+
+  // ---- the KREWE kiosks: the kiosk's own kit beside it
+  for (const k of kwKioskSpots(parish)) {
+    put("kioskBoard", k.x, k.z, ground(k.x, k.z), 0, `kiosk ${k.kiosk.id}`);
+    if (k.kiosk.id === "kw-sandbag-relay") for (let i = 0; i < 3; i++) { const x = k.x + 4 + i * 2.2, z = k.z - 6; put("sandbagStack", x, z, ground(x, z), 0, `kiosk ${k.kiosk.id}`); }
+    const kit = k.kiosk.kit.replace(/^kw/, "").replace(/^./, (c) => c.toLowerCase());
+    if (kit === "shrimpBoat" || kit === "ferryLanding" || kit === "floodgate" || kit === "leveeWall") continue; // placed by the site rules below
+    const x = k.x - 10, z = k.z;
+    if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), 0, `kiosk ${k.kiosk.id}`);
+  }
+
+  // ---- by site kind
+  for (const s of prep.sites) {
+    const kind = String(s.kind ?? "");
+    const [sx, sz] = s.position;
+    for (const rule of KW_SITE_RULES) {
+      if (!rule.re.test(kind)) continue;
+      for (const kit of rule.kits) {
+        if (kit === "pumpHouse") {
+          const lv = kwNearestLevee(parish, sx, sz);
+          let ry = 0;
+          if (lv && lv.d < 600) { const p = npPolyPointAt(lv.levee.pts, lv.t); ry = Math.atan2(p.x - sx, p.z - sz); }
+          const x = sx + Math.sin(ry) * (NP_PAD - 16), z = sz + Math.cos(ry) * (NP_PAD - 16);
+          put(kit, x, z, ground(x, z), ry, `pump site ${s.id}`);
+        } else if (kit === "leveeWall" || kit === "floodgate") {
+          const lv = kwNearestLevee(parish, sx, sz);
+          if (!lv || lv.d > 500) continue;
+          const L = npPolyLength(lv.levee.pts) || 1;
+          const at = (off) => { const q = npPolyPointAt(lv.levee.pts, Math.min(1, Math.max(0, lv.t + off / L))); return { x: Math.round(q.x * 10) / 10, z: Math.round(q.z * 10) / 10, yaw: q.yaw }; };
+          const onCrest = (p) => !kwOpenWater(parish, p.x, p.z) && npLeveeRise(parish, p.x, p.z) > 0.5;
+          if (kit === "floodgate") { const p = at(0); if (onCrest(p)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
+          else for (const off of [-30, -18, 18, 30]) { const p = at(off); if (onCrest(p)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
+        } else if (kit === "shrimpBoat" || kit === "oysterLugger") {
+          const w = kwNearestWater(parish, sx, sz);
+          if (!w) continue;
+          const side = kit === "shrimpBoat" ? 1 : -1, along = w.ang + Math.PI / 2;
+          const x = w.x + Math.sin(along) * 9 * side, z = w.z + Math.cos(along) * 9 * side;
+          if (kwOpenWater(parish, x, z)) put(kit, x, z, NP_WATER_Y - 0.9, along, `water by ${s.id}`);
+        } else if (kit === "ferryLanding") {
+          const w = kwNearestWater(parish, sx, sz);
+          if (!w) continue;
+          const { x, z } = w.shore;
+          if (!npWaterAt(parish, x, z)) put(kit, x, z, Math.max(NP_WATER_Y, ground(x, z)), w.ang, `ferry shore by ${s.id}`);
+        } else if (kit === "bandstand") {
+          const x = sx + 20, z = sz + 22;
+          if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), rng() * Math.PI, `park or campus ${s.id}`);
+        } else if (kit === "liveOak") {
+          for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3 + 0.3, x = sx + Math.sin(a) * 34, z = sz + Math.cos(a) * 34; if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), rng() * Math.PI * 2, `park or campus ${s.id}`); }
+        } else if (kit === "sandbagStack") {
+          const x = sx + 12, z = sz - 12;
+          if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), 0, `levee crew at ${s.id}`);
+        } else if (kit === "streetcar") {
+          for (const dx of [-6, 6]) { const x = sx + dx, z = sz - 14; put(kit, x, z, ground(x, z), 0, `barn ${s.id}`); }
+        }
+      }
+    }
+  }
+  // Park landmarks: a bandstand and a few oaks.
+  for (const l of parish.landmarks ?? []) {
+    if (!/park|square/.test(String(l.kind ?? "")) || !Array.isArray(l.position)) continue;
+    const [lx, lz] = l.position;
+    if (kwDry(parish, lx + 12, lz, {})) put("bandstand", lx + 12, lz, ground(lx + 12, lz), rng() * Math.PI, `park landmark ${l.id}`);
+    for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2 + 0.7, x = lx + Math.sin(a) * 28, z = lz + Math.cos(a) * 28; if (kwDry(parish, x, z, {})) put("liveOak", x, z, ground(x, z), rng() * 6.28, `park landmark ${l.id}`); }
+  }
+
+  // ---- by district character, along the roads
+  const massCache = new Map();
+  let paradeDone = false;
+  for (const r of prep.roads) {
+    if (r.kind === "ferry" || r.kind === "bridge" || r.kind === "causeway") continue;
+    const L = npPolyLength(r.pts), width = NP_ROAD_KINDS[r.kind]?.width ?? 8;
+    // Streetcars on Orleans avenues through quarter, garden and downtown districts.
+    if (parish.id === "orleans" && r.kind === "avenue") {
+      for (let d = 120; d < L - 60; d += 420) {
+        const p = npPolyPointAt(r.pts, d / L), ch = npDistrictAt(parish, p.x, p.z)?.character;
+        if (KW_TROLLEY_CHARACTERS.has(ch) && !npWaterAt(parish, p.x, p.z) && npLeveeRise(parish, p.x, p.z) < 0.2) put("streetcar", p.x, p.z, ground(p.x, p.z) + 0.3, p.yaw, `avenue in a ${ch} district`);
+      }
+    }
+    // Live oaks lining garden-district avenues and streets.
+    if (r.kind === "avenue" || r.kind === "street") {
+      for (let d = 30; d < L - 30; d += 48) {
+        const p = npPolyPointAt(r.pts, d / L);
+        if (npDistrictAt(parish, p.x, p.z)?.character !== "garden") continue;
+        for (const side of [1, -1]) {
+          const x = p.x + Math.cos(p.yaw) * (width / 2 + 5) * side, z = p.z - Math.sin(p.yaw) * (width / 2 + 5) * side;
+          if (kwDry(parish, x, z) && kwClearOfMassing(parish, x, z, 7, massCache)) put("liveOak", x, z, ground(x, z), rng() * 6.28, "garden-district avenue");
+        }
+      }
+    }
+    // Shotgun-house blocks fronting the streets of quarter, suburb and garden districts.
+    if (r.kind === "street" || r.kind === "avenue" || r.kind === "riverroad") {
+      for (let d = 90; d < L - 90; d += 260) {
+        const p = npPolyPointAt(r.pts, d / L);
+        const side = rng() < 0.5 ? 1 : -1, off = width / 2 + 11;
+        const x = p.x + Math.cos(p.yaw) * off * side, z = p.z - Math.sin(p.yaw) * off * side;
+        const ch = npDistrictAt(parish, x, z)?.character;
+        if (!KW_BLOCK_CHARACTERS.has(ch) || !kwDry(parish, x, z)) continue;
+        if (npNearestRoad(parish, x, z).d < width / 2 + 7) continue;
+        if (!kwClearOfMassing(parish, x, z, 8, massCache)) continue;
+        put("shotgunBlock", x, z, ground(x, z), p.yaw + (side > 0 ? -Math.PI / 2 : Math.PI / 2), `street in a ${ch} district`);
+      }
+    }
+    // One parade route: barriers along both kerbs of the first avenue through a quarter or downtown district.
+    if (!paradeDone && r.kind === "avenue") {
+      let placed = 0;
+      for (let d = 40; d < L - 40 && placed < KW_CAPS.paradeBarriers; d += 30) {
+        const p = npPolyPointAt(r.pts, d / L);
+        if (!KW_PARADE_CHARACTERS.has(npDistrictAt(parish, p.x, p.z)?.character)) continue;
+        for (const side of [1, -1]) {
+          const x = p.x + Math.cos(p.yaw) * (width / 2 + 1.2) * side, z = p.z - Math.sin(p.yaw) * (width / 2 + 1.2) * side;
+          if (!npWaterAt(parish, x, z) && npLeveeRise(parish, x, z) < 0.2 && npCoverAt(parish, x, z) !== "road" && put("paradeBarriers", x, z, ground(x, z), p.yaw + Math.PI / 2, "parade route")) placed++;
+        }
+      }
+      if (placed) paradeDone = true;
+    }
+  }
+  return out;
+}
+
+/** A parish dressing's cost: `{ drawCalls, triangles, placements, byKit }` (pure, from KW_TRI). */
+function kwDressCost(spots) {
+  const byKit = {};
+  for (const s of spots) byKit[s.kit] = (byKit[s.kit] ?? 0) + 1;
+  return { drawCalls: Object.keys(byKit).length, triangles: Object.entries(byKit).reduce((t, [k, n]) => t + n * (KW_TRI[k] ?? 0), 0), placements: spots.length, byKit };
+}
+
+
+/* ===== shared/kw-kits.js ===== */
+// KREWE — the parish kits (docs/consoles/KREWE.md): a streetcar, a pump station house with its
+// discharge pipes, a floodwall section and a floodgate, a shrimp boat and an oyster lugger, a
+// shotgun-house block, a live oak with root buttresses, a bandstand, a parade barrier run and a
+// ferry landing. All procedural, nothing imported, nothing modelled on a real building or boat:
+// generic district character.
+//
+// Same contract as shared/fleet.js and shared/props.js: `(parent, x, y, z, opts)`, metres, front
+// (or bow) toward +Z, footprint centred, y = 0 the ground (or the waterline for a hull), a baked
+// static group (`userData.fleetBake`) so mergeStatic() leaves one mesh per material. KW_BUDGET
+// declares each builder's mesh count and footprint; tools/check_fleet.mjs (this file is one of
+// its kits) and tools/check_krewe.mjs hold every builder to it.
+//
+// In a parish the kits are not built one by one: kwDressParish() bakes each builder once into a
+// single vertex-coloured geometry and draws every placement of that kit as one InstancedMesh, so
+// the whole dressing of a parish costs at most one draw call per kit (KW_DRESS_BUDGET).
+// Names prefixed kw/KW_ (one bundle scope).
+
+const KW_C = {
+  green: 0x2f6b3a, glass: 0x28323a, roof: 0x8a8d90, black: 0x26282b, red: 0x9c2b25, cream: 0xe9e0c8,
+  brick: 0xa0563f, concrete: 0xb8b4a8, dark: 0x55575a, steel: 0x7d848b, gate: 0xc9a227, white: 0xf1f1ee,
+  hull: 0x3b5f7a, hullLow: 0x7a2e2a, deck: 0x9c8466, wood: 0x6f5238, bark: 0x5a4636, leaf: 0x3b6a33, leafB: 0x2f5a2a,
+  rail: 0x9aa0a6, orange: 0xd9772b, pile: 0x6b5a44,
+};
+const KW_SEG = { seg: 8 };
+
+/** A baked root in the fleet contract. */
+function kwRoot(parent, x, y, z, opts, kind) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  g.rotation.y = opts.ry ?? 0;
+  g.name = kind;
+  g.userData.fleetBake = true;
+  g.userData.parts = {};
+  parent?.add(g);
+  return g;
+}
+/** An inner group shifted by (ox, oz), so a kit authored off its natural origin still measures centred. */
+function kwShift(g, ox, oz) { const inner = new THREE.Group(); inner.position.set(ox, 0, oz); g.add(inner); return inner; }
+
+/** Streetcar: a single car on two trucks with a trolley pole (front toward +Z). */
+function kwStreetcar(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwStreetcar");
+  const L = 14;
+  box(g, 2.6, 2.1, L, 0, 1.75, 0, KW_C.green);
+  box(g, 2.64, 0.85, L - 1.2, 0, 2.2, 0, KW_C.glass);
+  box(g, 2.3, 0.4, L - 0.6, 0, 3.0, 0, KW_C.roof);
+  box(g, 1.2, 0.3, L - 4, 0, 3.35, 0, KW_C.roof);
+  box(g, 2.66, 0.18, L, 0, 1.1, 0, KW_C.red);
+  for (const s of [1, -1]) box(g, 2.2, 0.55, 2.6, 0, 0.35, s * 4.4, KW_C.black);
+  const pole = box(g, 0.08, 0.08, 4.2, 0, 4.1, -2.2, KW_C.black);
+  pole.rotation.x = 0.28;
+  return g;
+}
+
+/** Pump station house with its discharge pipes running out and down toward the levee (+Z). */
+function kwPumpHouse(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwPumpHouse");
+  const hz = -5.2;
+  box(g, 12, 7, 9, 0, 3.5, hz, KW_C.brick);
+  box(g, 12.6, 0.5, 9.6, 0, 7.25, hz, KW_C.concrete);
+  box(g, 2.4, 3.2, 0.2, -3, 1.6, hz + 4.55, KW_C.dark);
+  for (const px of [-1, 3]) box(g, 1.6, 1.4, 0.15, px + 1, 4.8, hz + 4.55, KW_C.glass);
+  for (const px of [-3.5, 0, 3.5]) {
+    const run = cyl(g, 0.55, 0.55, 10, px, 5.2, 4.8, KW_C.steel, KW_SEG);
+    run.rotation.x = Math.PI / 2;
+    cyl(g, 0.55, 0.55, 4.8, px, 2.8, 9.8, KW_C.steel, KW_SEG);
+    box(g, 1.6, 0.4, 1.6, px, 0.2, 9.8, KW_C.concrete);
+  }
+  return g;
+}
+
+/** A floodwall section: a thin concrete wall on its footing, a joint at each end (length along Z). */
+function kwLeveeWall(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwLeveeWall");
+  box(g, 2.4, 0.4, 12, 0, 0.2, 0, KW_C.concrete);
+  box(g, 0.6, 3.2, 12, 0, 2.0, 0, KW_C.concrete);
+  for (const s of [1, -1]) box(g, 0.66, 3.2, 0.12, 0, 2.0, s * 5.94, KW_C.dark);
+  box(g, 0.7, 0.12, 12, 0, 3.66, 0, KW_C.dark);
+  return g;
+}
+
+/** A floodgate: two piers, a head beam, a swing leaf and its hand wheel (the opening along Z). */
+function kwFloodgate(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwFloodgate");
+  for (const s of [1, -1]) box(g, 1.4, 5, 1.4, 0, 2.5, s * 5.3, KW_C.concrete);
+  box(g, 1.4, 0.8, 12, 0, 5.4, 0, KW_C.concrete);
+  const leaf = new THREE.Group(); leaf.name = "leaf"; leaf.position.set(0, 0, -4.6); g.add(leaf);
+  box(leaf, 0.45, 3.4, 9.2, 0, 1.9, 4.6, KW_C.gate);
+  for (let i = 0; i < 3; i++) box(leaf, 0.55, 0.18, 9.2, 0, 0.8 + i * 1.1, 4.6, KW_C.dark);
+  const wheel = cyl(g, 0.5, 0.5, 0.1, 0.8, 1.4, 5.3, KW_C.red, KW_SEG);
+  wheel.rotation.z = Math.PI / 2;
+  box(g, 0.3, 0.08, 10.6, 0, 0.04, 0, KW_C.steel);
+  g.userData.parts.leaf = leaf;
+  return g;
+}
+
+/** A shrimp boat: a white-and-blue hull, a forward wheelhouse, a mast with two outrigger booms. */
+function kwShrimpBoat(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwShrimpBoat");
+  box(g, 3.6, 1.0, 11, 0, 0.5, -0.8, KW_C.hullLow);
+  box(g, 3.6, 0.9, 11, 0, 1.45, -0.8, KW_C.white);
+  const bow = box(g, 2.5, 1.9, 2.5, 0, 0.95, 4.7, KW_C.white);
+  bow.rotation.y = Math.PI / 4;
+  box(g, 3.4, 0.12, 10.6, 0, 1.94, -0.8, KW_C.deck);
+  box(g, 2.6, 2.0, 2.8, 0, 3.0, 2.4, KW_C.white);
+  box(g, 2.66, 0.6, 2.4, 0, 3.4, 2.4, KW_C.glass);
+  cyl(g, 0.12, 0.14, 7, 0, 5.45, 0.2, KW_C.steel, { seg: 6 });
+  for (const s of [1, -1]) {
+    const boom = cyl(g, 0.07, 0.09, 6.4, s * 2.9, 5.0, 0.2, KW_C.steel, { seg: 6 });
+    boom.rotation.z = s * 1.0;
+    box(g, 0.6, 1.2, 1.2, s * 5.2, 3.0, 0.2, KW_C.dark);
+  }
+  box(g, 2.8, 0.9, 2.2, 0, 2.45, -4.6, KW_C.dark);
+  return g;
+}
+
+/** An oyster lugger: a broad low hull, a wide open deck for sacks, a wheelhouse aft. */
+function kwOysterLugger(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwOysterLugger"), g = kwShift(root, 0, -0.65);
+  box(g, 4.4, 1.1, 11, 0, 0.55, -0.4, KW_C.hull);
+  const bow = box(g, 3.1, 1.1, 3.1, 0, 0.55, 5.0, KW_C.hull);
+  bow.rotation.y = Math.PI / 4;
+  box(g, 4.2, 0.12, 11, 0, 1.16, -0.4, KW_C.deck);
+  for (const s of [1, -1]) box(g, 0.12, 0.5, 10, s * 2.14, 1.45, -0.4, KW_C.white);
+  box(g, 3.0, 2.2, 2.6, 0, 2.3, -4.3, KW_C.white);
+  box(g, 3.06, 0.6, 2.2, 0, 2.8, -4.3, KW_C.glass);
+  for (let i = 0; i < 4; i++) box(g, 0.9, 0.5, 0.7, -1.2 + (i % 2) * 2.4, 1.47, 1.2 + Math.floor(i / 2) * 1.4, KW_C.pile);
+  cyl(g, 0.1, 0.12, 4.2, 0, 3.3, 0.2, KW_C.steel, { seg: 6 });
+  return root;
+}
+
+/** A shotgun-house block: four narrow single-storey houses side by side, gable to the street (+Z), each with a front porch. */
+function kwShotgunBlock(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwShotgunBlock");
+  const paint = [0xd9c27a, 0x9fc3c9, 0xe0a3a0, 0xb9d39a];
+  const W = 4.2, gap = 1.6, n = 4;
+  for (let i = 0; i < n; i++) {
+    const hx = -((n - 1) * (W + gap)) / 2 + i * (W + gap);
+    box(g, W, 1.0, 14, hx, 0.5, -0.6, KW_C.concrete);
+    box(g, W, 3.4, 14, hx, 2.7, -0.6, paint[i]);
+    for (const s of [1, -1]) {
+      const r = box(g, W * 0.62, 0.18, 14.4, hx + s * W * 0.26, 5.0, -0.6, KW_C.roof);
+      r.rotation.z = -s * 0.55;
+    }
+    box(g, W, 0.2, 1.8, hx, 1.1, 7.2, KW_C.wood);
+    for (const s of [1, -1]) box(g, 0.14, 2.6, 0.14, hx + s * (W / 2 - 0.2), 2.4, 7.9, KW_C.white);
+    box(g, 1.1, 2.2, 0.1, hx - 0.9, 2.3, 6.42, KW_C.dark);
+  }
+  return g;
+}
+
+/** A live oak: a short trunk on flaring root buttresses, long low limbs and a broad flattened crown. */
+function kwLiveOak(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwLiveOak");
+  cyl(g, 0.55, 0.85, 3.4, 0, 1.7, 0, KW_C.bark, { seg: 7 });
+  for (let i = 0; i < 4; i++) {
+    const a = i * Math.PI / 2 + 0.4;
+    const r = box(g, 0.5, 0.7, 2.0, Math.sin(a) * 0.9, 0.7, Math.cos(a) * 0.9, KW_C.bark);
+    r.rotation.order = "YXZ"; r.rotation.y = a; r.rotation.x = 0.35;
+  }
+  for (let i = 0; i < 3; i++) {
+    const a = i * 2.1 + 0.3;
+    const limb = box(g, 0.45, 0.45, 5.2, Math.sin(a) * 2.4, 3.8, Math.cos(a) * 2.4, KW_C.bark);
+    limb.rotation.order = "YXZ"; limb.rotation.y = a; limb.rotation.x = -0.3;
+  }
+  const crown = [[0, 6.2, 0, 5.6], [3.4, 5.6, 1.6, 3.6], [-2.8, 5.8, -2.4, 3.8], [-1.2, 5.4, 3.4, 3.2]];
+  for (const [cx, cy, cz, r] of crown) {
+    const c = ball(g, r, cx, cy, cz, cx === 0 ? KW_C.leaf : KW_C.leafB, { seg: 7, seg2: 5 });
+    c.scale.set(1.25, 0.5, 1.25);
+  }
+  return g;
+}
+
+/** A bandstand: a raised octagonal deck, eight posts, a low railing and a pointed roof. */
+function kwBandstand(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwBandstand");
+  cyl(g, 5, 5.2, 1.2, 0, 0.6, 0, KW_C.concrete, KW_SEG);
+  cyl(g, 4.9, 4.9, 0.15, 0, 1.27, 0, KW_C.wood, KW_SEG);
+  for (let i = 0; i < 8; i++) {
+    const a = i * Math.PI / 4 + Math.PI / 8;
+    cyl(g, 0.14, 0.14, 3.4, Math.sin(a) * 4.5, 3.0, Math.cos(a) * 4.5, KW_C.white, { seg: 6 });
+  }
+  cyl(g, 4.6, 4.6, 0.12, 0, 2.3, 0, KW_C.white, { ...KW_SEG, open: true });
+  cyl(g, 0.3, 5.6, 2.4, 0, 5.9, 0, KW_C.red, KW_SEG);
+  box(g, 2.4, 0.6, 1.6, 0, 0.3, 5.6, KW_C.concrete);
+  return g;
+}
+
+/** A parade barrier run: six interlocking steel crowd barriers in a line (along X), on flat feet. */
+function kwParadeBarriers(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwParadeBarriers");
+  const n = 6, P = 2.3;
+  for (let i = 0; i < n; i++) {
+    const px = -((n - 1) * P) / 2 + i * P;
+    box(g, P - 0.1, 0.06, 0.06, px, 1.1, 0, KW_C.rail);
+    box(g, P - 0.1, 0.06, 0.06, px, 0.25, 0, KW_C.rail);
+    box(g, P - 0.3, 0.8, 0.02, px, 0.68, 0, KW_C.steel);
+    for (const s of [1, -1]) box(g, 0.08, 0.06, 0.7, px + s * (P / 2 - 0.2), 0.03, 0, KW_C.dark);
+  }
+  box(g, 1.6, 0.3, 0.03, 0, 0.8, 0.04, KW_C.orange);
+  return g;
+}
+
+/** A ferry landing: an apron ramp down to the water (+Z), two pile dolphins, a waiting shelter and bollards. */
+function kwFerryLanding(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwFerryLanding"), g = kwShift(root, 1.08, 0.1);
+  box(g, 9, 0.6, 8, 0, 0.3, -4, KW_C.concrete);
+  const ramp = box(g, 7, 0.4, 8, 0, 0.5, 3.8, KW_C.steel);
+  ramp.rotation.x = 0.06;
+  for (const s of [1, -1]) {
+    for (let i = 0; i < 3; i++) cyl(g, 0.3, 0.3, 3.2, s * (5.4 + (i === 2 ? 0.55 : 0)), 1.6, 6.2 + (i === 1 ? 0.6 : 0), KW_C.pile, { seg: 6 });
+    cyl(g, 0.2, 0.25, 0.6, s * 4.0, 0.9, -1.0, KW_C.dark, { seg: 6 });
+  }
+  for (const [sx, sz] of [[-2.2, -6.8], [2.2, -6.8], [-2.2, -4.6], [2.2, -4.6]]) box(g, 0.14, 2.6, 0.14, sx - 5.8, 1.9, sz, KW_C.white);
+  box(g, 5.2, 0.2, 3.0, -5.8, 3.3, -5.7, KW_C.roof);
+  box(g, 3.6, 0.5, 0.5, -5.8, 0.85, -5.7, KW_C.wood);
+  return root;
+}
+
+/** A kiosk: a roofed sign board on two posts over a small counter, where a mini-game is played (front +Z). */
+function kwKioskBoard(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwKioskBoard"), g = kwShift(root, 0, -0.22);
+  for (const s of [1, -1]) box(g, 0.14, 2.6, 0.14, s * 1.0, 1.3, 0, KW_C.dark);
+  box(g, 2.3, 1.2, 0.1, 0, 1.9, 0.02, KW_C.cream);
+  box(g, 2.3, 0.18, 0.12, 0, 2.55, 0.02, KW_C.gate);
+  box(g, 2.6, 0.12, 0.9, 0, 2.7, 0.2, KW_C.red);
+  box(g, 1.6, 0.9, 0.5, 0, 0.45, 0.45, KW_C.wood);
+  return root;
+}
+
+/** A sandbag pallet: a low pallet with bags stacked in staggered rows (the sandbag relay's load). */
+function kwSandbagStack(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwSandbagStack");
+  box(g, 1.2, 0.14, 1.2, 0, 0.07, 0, KW_C.wood);
+  for (let row = 0; row < 3; row++) for (let i = 0; i < 2; i++) {
+    const bag = box(g, 1.0, 0.24, 0.5, 0, 0.26 + row * 0.24, (i - 0.5) * 0.52, 0xb8a47a);
+    if (row % 2) bag.rotation.y = Math.PI / 2;
+  }
+  return g;
+}
+
+/**
+ * The kits and what each costs: meshes after mergeStatic(), footprint [W, H, L] in metres
+ * (measured with `node tools/check_fleet.mjs --measure`), and triangles as drawn in a parish
+ * (tools/check_krewe.mjs measures them from the builder's own geometry parameters).
+ */
+const KW_BUDGET = {
+  streetcar: { build: "kwStreetcar", meshes: 5, footprint: [2.66, 4.64, 14], tri: 96 },
+  pumpHouse: { build: "kwPumpHouse", meshes: 5, footprint: [12.6, 7.5, 20.6], tri: 288 },
+  leveeWall: { build: "kwLeveeWall", meshes: 2, footprint: [2.4, 3.72, 12], tri: 60 },
+  floodgate: { build: "kwFloodgate", meshes: 5, footprint: [1.55, 5.8, 12], tri: 128, parts: ["leaf"] },
+  shrimpBoat: { build: "kwShrimpBoat", meshes: 6, footprint: [11.28, 8.95, 12.77], tri: 180 },
+  oysterLugger: { build: "kwOysterLugger", meshes: 6, footprint: [4.4, 5.4, 13.09], tri: 156 },
+  shotgunBlock: { build: "kwShotgunBlock", meshes: 9, footprint: [21.9, 5.76, 15.9], tri: 384 },
+  liveOak: { build: "kwLiveOak", meshes: 3, footprint: [15.45, 9, 14.55], tri: 336 },
+  bandstand: { build: "kwBandstand", meshes: 4, footprint: [11.2, 7.1, 12], tri: 316 },
+  paradeBarriers: { build: "kwParadeBarriers", meshes: 4, footprint: [13.7, 1.13, 0.7], tri: 372 },
+  ferryLanding: { build: "kwFerryLanding", meshes: 7, footprint: [14.65, 3.4, 15.8], tri: 288 },
+  kioskBoard: { build: "kwKioskBoard", meshes: 5, footprint: [2.6, 2.76, 0.95], tri: 72 },
+  sandbagStack: { build: "kwSandbagStack", meshes: 2, footprint: [1.2, 0.86, 1.52], tri: 84 },
+};
+
+const KW_KIT_BUILDERS = {
+  kwStreetcar, kwPumpHouse, kwLeveeWall, kwFloodgate, kwShrimpBoat, kwOysterLugger,
+  kwShotgunBlock, kwLiveOak, kwBandstand, kwParadeBarriers, kwFerryLanding, kwKioskBoard, kwSandbagStack,
+};
+
+// ------------------------------------------------------------------ baking and dressing a parish
+
+/**
+ * Bake one builder into a single non-indexed geometry with the material colours as vertex
+ * colours (the parish engine's own convention, np-world.js's npMerge). `three` is the caller's
+ * three.js module.
+ */
+function kwBakeKit(three, build) {
+  const tmp = new three.Group();
+  const g = KW_KIT_BUILDERS[build](tmp, 0, 0, 0, {});
+  tmp.updateMatrixWorld(true);
+  const parts = [];
+  g.traverse((o) => { if (o.isMesh && o.geometry) parts.push(o); });
+  const polys = parts.map((m) => { const geo = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone(); geo.applyMatrix4(m.matrixWorld); return [geo, m.material?.color ?? new three.Color(0xcccccc)]; });
+  const total = polys.reduce((s, [geo]) => s + geo.attributes.position.count, 0);
+  const pos = new Float32Array(total * 3), col = new Float32Array(total * 3);
+  let o = 0;
+  for (const [geo, c] of polys) {
+    pos.set(geo.attributes.position.array, o * 3);
+    for (let i = 0; i < geo.attributes.position.count; i++) { col[(o + i) * 3] = c.r; col[(o + i) * 3 + 1] = c.g; col[(o + i) * 3 + 2] = c.b; }
+    o += geo.attributes.position.count;
+    geo.dispose();
+  }
+  const out = new three.BufferGeometry();
+  out.setAttribute("position", new three.BufferAttribute(pos, 3));
+  out.setAttribute("color", new three.BufferAttribute(col, 3));
+  out.computeVertexNormals();
+  out.computeBoundingSphere();
+  return out;
+}
+
+/**
+ * Dress a parish with the kits: kwPlacements() (pure, kw-place.js) decides where by district
+ * character and site kind; each kit becomes one InstancedMesh. Returns
+ * `{ group, meshes, spots, stats() }`. `opts.tier` ("low" | "balanced" | "high") trims the list.
+ */
+function kwDressParish(root, three, parish, opts = {}) {
+  const spots = kwPlacements(parish, { tier: opts.tier ?? "high" });
+  const group = new three.Group(); group.name = "kw-dressing";
+  const material = new three.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+  const byKit = {};
+  for (const s of spots) (byKit[s.kit] ??= []).push(s);
+  const meshes = [];
+  const m4 = new three.Matrix4(), q = new three.Quaternion(), up = new three.Vector3(0, 1, 0), one = new three.Vector3(1, 1, 1), p = new three.Vector3();
+  for (const [kit, list] of Object.entries(byKit)) {
+    const spec = KW_BUDGET[kit];
+    if (!spec) continue;
+    const im = new three.InstancedMesh(kwBakeKit(three, spec.build), material, list.length);
+    list.forEach((s, i) => { q.setFromAxisAngle(up, s.ry ?? 0); m4.compose(p.set(s.x, s.y, s.z), q, s.scale ? new three.Vector3(s.scale, s.scale, s.scale) : one); im.setMatrixAt(i, m4); });
+    im.instanceMatrix.needsUpdate = true;
+    im.computeBoundingSphere?.();
+    im.name = `kw-${kit}`;
+    group.add(im); meshes.push(im);
+  }
+  root.add(group);
+  function stats() {
+    let triangles = 0;
+    for (const m of meshes) triangles += (m.geometry.attributes.position.count / 3) * m.count;
+    return { drawCalls: meshes.length, triangles: Math.round(triangles), placements: spots.length, budget: KW_DRESS_BUDGET };
+  }
+  return { group, meshes, spots, stats };
 }
 
 
@@ -36531,6 +37355,8 @@ np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z] });
+// KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
+const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 const connectors = npResolveConnectors(parish);
 
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
@@ -36848,15 +37674,17 @@ ctlMount({
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  begin: npBegin, stats: () => world.stats(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  krewe: kwDress, begin: npBegin, stats: () => world.stats(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...slGamesFor(parish.id).map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
-qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
+const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
+// KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
+kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() });
 
 </script>
 </body>

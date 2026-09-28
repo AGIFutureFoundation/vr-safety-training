@@ -17,7 +17,7 @@ import { NP_PARISHES, npParish, npResolveConnectors } from "../../shared/np-pari
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
-import { kwKiosksFor } from "../../shared/kw-play-data.js";
+import { kwKiosksFor, kwMountQuestBoard } from "../../shared/kw-play-data.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 
@@ -393,5 +393,7 @@ window.__parishTest = {
 function npPlayItems() {
   return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
-qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
+const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
+// KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
+kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() });
