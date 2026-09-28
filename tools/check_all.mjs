@@ -33,6 +33,8 @@ const CHECKERS = [
   // One learner, one ledger, one set of records across every app (docs/interop.md).
   "check_interop.mjs",
   "check_ui.mjs",
+  // The account chip, the free demo and one private profile per person (docs/sign-in.md).
+  "check_auth.mjs",
 ];
 
 let failed = 0;

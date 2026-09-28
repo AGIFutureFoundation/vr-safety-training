@@ -19,7 +19,7 @@
 // nothing is ever sent to an endpoint that was not configured. This file
 // makes no request of its own. Every top-level name starts with `gt`.
 
-import { Auth, makeAuthEnv, cleanConfigUrl } from "./auth.js";
+import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
 import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile } from "./profiles.js";
 
 const gtHasDom = typeof document !== "undefined";
@@ -226,7 +226,8 @@ export function gtMountAccount(nav, { configUrl = null } = {}) {
     const url = configUrl ?? gtConfigUrlFrom(document.querySelector("#ctl-nav .home-chip, .home-chip")?.getAttribute("href"));
     gtState.configUrl = url;
     gtState.env = makeAuthEnv({ configUrl: url });
-    gtState.ready = (Auth.env ? Promise.resolve(Auth.config) : Auth.loadConfig(gtState.env))
+    // A page that already read its configuration (SmartCiti.X) is not asked twice.
+    gtState.ready = (Auth.config !== EMPTY_AUTH_CONFIG ? Promise.resolve(Auth.config) : Auth.loadConfig(gtState.env))
       .then(() => { if (!Auth.session) Auth.load(); })
       .catch(() => null)
       .finally(() => gtRenderChip());

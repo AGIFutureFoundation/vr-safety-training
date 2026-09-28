@@ -25447,7 +25447,8 @@ function gtMountAccount(nav, { configUrl = null } = {}) {
     const url = configUrl ?? gtConfigUrlFrom(document.querySelector("#ctl-nav .home-chip, .home-chip")?.getAttribute("href"));
     gtState.configUrl = url;
     gtState.env = makeAuthEnv({ configUrl: url });
-    gtState.ready = (Auth.env ? Promise.resolve(Auth.config) : Auth.loadConfig(gtState.env))
+    // A page that already read its configuration (SmartCiti.X) is not asked twice.
+    gtState.ready = (Auth.config !== EMPTY_AUTH_CONFIG ? Promise.resolve(Auth.config) : Auth.loadConfig(gtState.env))
       .then(() => { if (!Auth.session) Auth.load(); })
       .catch(() => null)
       .finally(() => gtRenderChip());
