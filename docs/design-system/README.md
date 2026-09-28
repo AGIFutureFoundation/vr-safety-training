@@ -88,7 +88,22 @@ people.
   headings, meta and navigation are untouched.
 - **Track pages** — the hero carries the programme's illustration; palette
   aliased to the roles.
-- **Atlas, instructor console** — palette aliased to the roles; buttons pills.
+- **Atlas, instructor console** — palette aliased to the roles; buttons pills;
+  the console's views are underline tabs (the `.at-tab` paint) and the page
+  clears the fixed chip bar; the Cohorts tab's grid and invite-code chips paint
+  from the roles (ENTERPRISE's `cohort.js` draws them).
+- **Sierra Summit, Redwood Reach** — the neutral roles, the display face, pill
+  buttons, the card surface on Redwood's mode cards, lock and done marks with
+  the lock and check icons, the toast surface, chip-shaped map layers. Each
+  world keeps its own accent (Summit's sky-blue and gold, Redwood's amber and
+  moss) so it still reads as itself; the Home chip carries the house icon only.
+- **Treasure Map, privacy page** — linked to the stylesheet; headings on the
+  display face, cards and tables on the surfaces, the empty state a dashed box
+  with the map icon, buttons pills.
+- **Track pages** — the sticky top band pads by `--at-nav-w`, the fixed chip
+  bar's measured width (set at run time as the homepage does), so the brand
+  line never runs under Home / help / sign-in / language; under 700 px the
+  brand line hides and the "All stations" link stays.
 - **Every app** — the Home chip's house icon (the ⌂/⛳ glyph removed from the
   markup and from all 21 language tables); the station runner's results and
   leaderboard cards, overlay button rows and the sign-in dialog take the
