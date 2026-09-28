@@ -680,9 +680,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
-      "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen"
+      "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
+      "k12-slope-and-angles-on-a-ramp"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "k12-science",

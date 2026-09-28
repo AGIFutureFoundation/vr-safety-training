@@ -28126,5 +28126,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-graphing-tide-readings-at-the-pier",
+    "index": "816",
+    "domain": "Education",
+    "trade": "Maths class on the pier's viewing deck — learner and harbour technician",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Graphing Tide Readings at the Pier",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Graphing Tide Readings at the Pier VR",
+    "tagline": "Time along the bottom, height up the side — and keep behind the rail while you read the staff",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "rise-and-fall",
+      "name": "Rise and Fall",
+      "note": "Tide readings taken from the staff, plotted on labelled axes and the pattern described from the graph"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tide Board",
+      "currency": "READINGS",
+      "ranks": [
+        "Watcher",
+        "Reader",
+        "Recorder",
+        "Plotter",
+        "Hydrographer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-probability-with-a-fair-spinner",
+    "index": "817",
+    "domain": "Education",
+    "trade": "Maths class at the community fair's games tent — learner and stall volunteer",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Probability with a Fair Spinner",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Probability with a Fair Spinner VR",
+    "tagline": "Equal parts make a fair spinner — and one lucky run proves nothing",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "fair-and-square",
+      "name": "Fair and Square",
+      "note": "A spinner checked for fairness, outcomes predicted from equal parts and a tally compared honestly with the prediction"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spinner Board",
+      "currency": "SPINS",
+      "ranks": [
+        "Spinner",
+        "Counter",
+        "Tallier",
+        "Predictor",
+        "Statistician"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-geometry-of-a-turbine-blade-sweep",
+    "index": "818",
+    "domain": "Education",
+    "trade": "Maths class at the wind farm's visitor centre — learner and site technician",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Geometry of a Turbine's Blade Sweep",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Geometry of a Turbine's Blade Sweep VR",
+    "tagline": "The blade is the radius, the tip draws the circle — and visitors stay outside the fence",
+    "accent": 5939160,
+    "accentCss": "#5a9fd8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "full-sweep",
+      "name": "Full Sweep",
+      "note": "A rotor's swept circle worked from its blade length, circumference and area kept apart and the answer checked by estimate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rotor Board",
+      "currency": "SWEEPS",
+      "ranks": [
+        "Visitor",
+        "Measurer",
+        "Drafter",
+        "Calculator",
+        "Engineer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

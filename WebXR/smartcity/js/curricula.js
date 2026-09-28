@@ -1372,6 +1372,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-reading-a-map-scale-in-bay-world", why: "A map as a scale drawing: a winding route measured, scaled up to real distance and turned into a journey time that passes a sense check." },
       { app: "smartcity", id: "k12-fractions-in-the-kitchen", why: "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept." },
       { app: "smartcity", id: "k12-slope-and-angles-on-a-ramp", why: "Slope as rise over run on an access ramp at a working site, matched units, the run measured flat and the answer checked against the plan's own limit." },
+      { app: "smartcity", id: "k12-graphing-tide-readings-at-the-pier", why: "A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for their pattern without guessing past the data." },
+      { app: "smartcity", id: "k12-probability-with-a-fair-spinner", why: "Chance as a fraction of equal parts, a prediction written before the spins and a long tally compared with it, with a spinner that has no memory and stickers as the only prize." },
+      { app: "smartcity", id: "k12-geometry-of-a-turbine-blade-sweep", why: "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model." },
     ],
   },
   {

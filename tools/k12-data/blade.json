@@ -1,0 +1,125 @@
+{
+  "id": "k12-geometry-of-a-turbine-blade-sweep",
+  "index": "818",
+  "prefix": "kbs",
+  "accent": "#5a9fd8",
+  "floor": ["#7a8270", "#6c7462"],
+  "wall": ["#e2e6dc", "#d2d8cc"],
+  "trade": "Maths class at the wind farm's visitor centre — learner and site technician",
+  "header": "Lower-secondary maths at a wind farm's visitor centre: the circle a turbine's blades sweep, radius from blade length, circumference as the distance a tip travels and area as the air the rotor meets, worked from the scale model's own measurements with no output figure claimed.",
+  "name": "Geometry of a Turbine's Blade Sweep",
+  "tagline": "The blade is the radius, the tip draws the circle — and visitors stay outside the fence",
+  "badge": {"id": "full-sweep", "name": "Full Sweep", "note": "A rotor's swept circle worked from its blade length, circumference and area kept apart and the answer checked by estimate"},
+  "board": {"name": "Rotor Board", "currency": "SWEEPS", "ranks": ["Visitor", "Measurer", "Drafter", "Calculator", "Engineer"]},
+  "hazards": [
+    {"id": "blade-is-the-diameter", "label": "Use the blade length as the circle's diameter?", "face": "BLADE =\nDIAMETER", "text": "You used the blade length as the diameter. Each blade reaches from the hub to the edge of the circle, so the blade is the radius; the diameter is twice as long. Mixing them up changes the area by a factor of four, not two."},
+    {"id": "area-and-circumference-mixed", "label": "Use the circumference formula to find the area?", "face": "WRONG\nFORMULA", "text": "You used the circumference formula when the question asked for the area. Circumference is the distance round the edge, measured in a length unit; area is the space inside, measured in a square unit. Checking the unit of the answer catches the mix-up."},
+    {"id": "walk-to-the-turbine-base", "label": "Walk out to the turbine to measure a real blade?", "face": "INSIDE THE\nFENCE", "text": "You walked towards the turbine to measure a real blade. Visitors stay outside the fenced area the site team sets round each turbine; the scale model in the visitor centre is there so the maths can be done safely."},
+    {"id": "double-radius-double-area", "label": "Say twice the blade length means twice the area?", "face": "DOUBLE =\nDOUBLE?", "text": "You said doubling the blade length doubles the swept area. Area grows with the radius multiplied by itself, so doubling the blade gives four times the area; it is why longer blades matter so much in turbine design."}
+  ],
+  "find1": {
+    "title": "Find what the model gives you",
+    "cue": "Mark the three things on the scale model you need before any calculation.",
+    "why": "A swept circle is set by one length, but only if you know where it is measured and in what unit. The blade length from hub centre to tip is the radius, the model's scale tells you how it relates to a real turbine, and the unit keeps the answer honest. Find those three before you calculate anything.",
+    "items": [["blade-length", "the blade length from hub to tip", "This is the radius of the swept circle."], ["model-scale", "the scale printed on the model's base", "It links the model to a full-size turbine."], ["length-unit", "the unit the length is marked in", "Area will come out in this unit squared."]],
+    "decoy": ["tower-colour", "the tower's paint colour", "It helps pilots see the tower, but it has nothing to do with the circle."]
+  },
+  "select1": {
+    "title": "Stay outside the turbine fence",
+    "cue": "Read the site rule on the card before the lesson starts.",
+    "why": "A working turbine has moving blades high above the ground and heavy parts inside, and the site team keeps visitors outside its fenced area for good reason. The whole lesson uses the scale model, so nobody needs to go near a turbine to learn how its circle works.",
+    "key": "fence-card", "label": "Visitors stay outside the fence", "face": "OUTSIDE\nTHE FENCE"
+  },
+  "seq": {
+    "title": "Put the calculation in order",
+    "cue": "Identify the radius, choose the formula, calculate, then check with an estimate.",
+    "why": "Deciding which length is the radius comes first, because every later step depends on it. Choosing the formula to match the question, circumference for distance round or area for space inside, then calculating and checking against a rough estimate, catches the two commonest slips before anyone relies on the number.",
+    "oon": "Out of order. Decide which length is the radius before you choose a formula.",
+    "items": [["ord-radius", "identify the radius"], ["ord-formula", "choose the formula the question needs"], ["ord-calc", "calculate with the unit"], ["ord-estimate", "check against an estimate"]]
+  },
+  "hold": {
+    "title": "Hold the tape along one blade",
+    "cue": "Hold the tape straight from the hub centre to the blade tip until the reading steadies.",
+    "why": "The radius runs from the centre of the hub, not from its edge, to the very tip of the blade. Holding the tape straight along that line until the reading steadies gives the true radius; starting at the hub's edge quietly shortens every answer that follows.",
+    "brk": "The tape slipped off the hub centre. Set it back at the centre and hold it again.",
+    "key": "tape", "label": "Tape from hub centre to tip"
+  },
+  "turn": {
+    "title": "Turn the rotor through a full sweep",
+    "cue": "Turn the model rotor slowly so one tip traces the whole circle.",
+    "why": "Turning the model and watching one tip makes the circle visible: the tip travels the circumference and the blades pass over the whole area inside it. Seeing it move is what turns a formula into a picture you can reason with.",
+    "key": "rotor-dial", "label": "Turn the model rotor", "dial": "SWEEP"
+  },
+  "gauge": {
+    "title": "Check your answer against an estimate",
+    "cue": "Commit when the estimate bar sits where your calculated area should fall.",
+    "why": "A circle's area is a little over three times the radius multiplied by itself, so a quick estimate tells you roughly what size answer to expect. If the calculated area lands far from the estimate, a length or formula has slipped, and it is far cheaper to find that now than later.",
+    "key": "estimate-meter", "label": "Estimate check", "meter": "ESTIMATE",
+    "miss": "Too far from the estimate. Check the radius and the formula before you trust it."
+  },
+  "drag": {
+    "title": "Place the radius on the drawing",
+    "cue": "Drag the radius marker so it runs from the centre of the circle to its edge.",
+    "why": "Drawing the radius in the right place, centre to edge, is the step that stops the blade-as-diameter mistake. A labelled drawing also shows anyone checking your work exactly which length you used, before they look at a single number.",
+    "key": "radius-token", "label": "Radius marker", "spot": "radius-spot", "spotLabel": "Centre to edge",
+    "miss": "Not centre to edge yet. Start the radius at the middle of the circle."
+  },
+  "select2": {
+    "title": "Say what happens when the blade doubles",
+    "cue": "Say how the swept area changes if the blade is twice as long, and why.",
+    "why": "Doubling the radius makes the area four times larger, because area depends on the radius multiplied by itself. Saying why, not just the answer, is the understanding engineers use when they explain why longer blades catch so much more of the wind.",
+    "key": "compare-card", "label": "Double the blade", "face": "TWICE THE\nBLADE?"
+  },
+  "find2": {
+    "title": "Spot the problems in a classmate's working",
+    "cue": "Look at the draft calculation and mark each problem.",
+    "why": "Circle calculations go wrong in the same few ways: the blade used as the diameter, an area given in a plain length unit, and the circumference formula used for area. Spotting them on another page trains you to check your own before you hand it in.",
+    "items": [["wk-diameter", "the blade used as the diameter", "The blade is the radius."], ["wk-unit", "an area with a plain length unit", "Area needs a square unit."], ["wk-formula", "the circumference formula used for area", "Match the formula to the question."]],
+    "decoy": ["wk-drawing", "a labelled drawing of the circle", "A labelled drawing is good practice. Keep it."]
+  },
+  "track": {
+    "title": "Follow the tip round the circle",
+    "cue": "Keep the pointer on the blade tip as the model rotor turns.",
+    "why": "The tip of the blade moves fastest of any point on the rotor, because it covers the whole circumference in the same time the hub makes one turn. Following it makes clear why the tip travels so far on each turn compared with points nearer the hub.",
+    "brk": "The pointer lost the tip. Find it again and follow it round.",
+    "key": "track-meter", "label": "Tip followed", "meter": "TIP"
+  },
+  "record": {
+    "title": "Record the working and the answer",
+    "cue": "Write the radius, the formula, the answer with its unit and your estimate.",
+    "why": "Writing each step, not just the answer, means a slip can be found in one line instead of redoing everything. Keeping the estimate beside the answer shows the check was done, which is what makes a calculation trustworthy to someone else.",
+    "key": "rotor-log", "label": "Working record", "done": "Working and answer recorded"
+  },
+  "share": {
+    "title": "Explain the sweep to the technician",
+    "cue": "Tell the technician what the blade's circle is and how you worked it out.",
+    "why": "Explaining your method to someone who works with turbines every day tests whether you really understand it. They will hear straight away whether the radius and the formula were chosen for the right reasons, and they can tell you how the idea is used on site.",
+    "key": "share-board", "label": "Explain to the technician", "done": "Sweep explained to the technician"
+  },
+  "checkin": {
+    "title": "Check in at the end of the visit",
+    "cue": "What made sense about circles today, and what still feels tricky?",
+    "why": "A check-in at the end gives every learner a chance to say what clicked and what did not, so the teacher knows where to start next time. Nobody is marked on it, and the teacher or a trusted adult is there for anyone who found the lesson hard.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    {"id": "a-gust-rattles-the-door", "kind": "Weather warning", "key": "stay-inside", "label": "Stay inside and listen to the technician",
+     "alert": "A strong gust rattles the visitor centre door and the technician asks everyone to stay inside.",
+     "cue": "Stay inside with your group and listen for the technician's instruction.",
+     "why": "On a windy ridge, the site team decides when it is safe to be outside, and a sudden gust is their call to make. Staying with your group and listening means nobody is caught outdoors in weather the site has not cleared.",
+     "miss": "Two learners stepped outside to feel the wind, and the technician had to fetch them back.",
+     "wrong": "That takes you outside. Stay in and listen. Choose the response that deals with it now.",
+     "done": "Group stayed inside, gust passed. The lesson carries on."},
+    {"id": "the-technician-asks-which-is-radius", "kind": "Technician question", "key": "say-radius", "label": "Say which length is the radius",
+     "alert": "The site technician points at the model and asks which length is the radius of the swept circle.",
+     "cue": "Say that the blade, from hub centre to tip, is the radius.",
+     "why": "The technician is checking the step every later calculation depends on. Naming the blade as the radius, measured from the hub's centre, shows you will not double or halve the circle by accident.",
+     "miss": "You said the whole rotor width, and the technician showed you that was the diameter.",
+     "wrong": "That is the diameter, not the radius. Choose the response that deals with it now.",
+     "done": "Blade named as the radius. The technician nods."}
+  ],
+  "crew": ["Maths teacher", "Classmate", "Site technician", "Visitor centre guide"],
+  "guide": {"start": "The blade is the radius.", "after": "Double the blade, four times the area.", "hazard": "Stop. Is that the radius, and the right formula?"},
+  "lateRecord": "The working record is written once the answer is checked — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit."
+}

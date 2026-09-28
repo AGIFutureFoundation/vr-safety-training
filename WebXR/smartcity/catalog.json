@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 663
+      "stations": 666
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,9 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-geometry-of-a-turbine-blade-sweep",
+        "k12-probability-with-a-fair-spinner",
+        "k12-graphing-tide-readings-at-the-pier",
         "k12-slope-and-angles-on-a-ramp",
         "k12-energy-transfer-at-the-wind-farm",
         "k12-fractions-in-the-kitchen",
@@ -5626,16 +5629,21 @@
           "app": "smartcity",
           "id": "k12-fractions-in-the-kitchen",
           "why": "Fractions where a mistake is easy to taste: a recipe card halved by one fraction throughout, the right measure chosen and the kitchen's own rules kept."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-slope-and-angles-on-a-ramp",
+          "why": "Slope as rise over run on an access ramp at a working site, matched units, the run measured flat and the answer checked against the plan's own limit."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1040,
-        "tasks": 80,
+        "lessons": 1300,
+        "tasks": 100,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 2,
+        "stationsNeeded": 1,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -9880,6 +9888,255 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-geometry-of-a-turbine-blade-sweep",
+      "name": "Geometry of a Turbine's Blade Sweep",
+      "title": "SmartCiti.X~ Geometry of a Turbine's Blade Sweep VR",
+      "tagline": "The blade is the radius, the tip draws the circle — and visitors stay outside the fence",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the wind farm's visitor centre — learner and site technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "full-sweep",
+        "name": "Full Sweep",
+        "note": "A rotor's swept circle worked from its blade length, circumference and area kept apart and the answer checked by estimate"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "818",
+      "flat": false,
+      "system": "Rotor Board",
+      "currency": "SWEEPS",
+      "ranks": [
+        "Visitor",
+        "Measurer",
+        "Drafter",
+        "Calculator",
+        "Engineer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-geometry-of-a-turbine-blade-sweep"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-probability-with-a-fair-spinner",
+      "name": "Probability with a Fair Spinner",
+      "title": "SmartCiti.X~ Probability with a Fair Spinner VR",
+      "tagline": "Equal parts make a fair spinner — and one lucky run proves nothing",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class at the community fair's games tent — learner and stall volunteer",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "fair-and-square",
+        "name": "Fair and Square",
+        "note": "A spinner checked for fairness, outcomes predicted from equal parts and a tally compared honestly with the prediction"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "817",
+      "flat": false,
+      "system": "Spinner Board",
+      "currency": "SPINS",
+      "ranks": [
+        "Spinner",
+        "Counter",
+        "Tallier",
+        "Predictor",
+        "Statistician"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-probability-with-a-fair-spinner"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-graphing-tide-readings-at-the-pier",
+      "name": "Graphing Tide Readings at the Pier",
+      "title": "SmartCiti.X~ Graphing Tide Readings at the Pier VR",
+      "tagline": "Time along the bottom, height up the side — and keep behind the rail while you read the staff",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class on the pier's viewing deck — learner and harbour technician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a9fd8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "rise-and-fall",
+        "name": "Rise and Fall",
+        "note": "Tide readings taken from the staff, plotted on labelled axes and the pattern described from the graph"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "816",
+      "flat": false,
+      "system": "Tide Board",
+      "currency": "READINGS",
+      "ranks": [
+        "Watcher",
+        "Reader",
+        "Recorder",
+        "Plotter",
+        "Hydrographer"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-graphing-tide-readings-at-the-pier"
     },
     {
       "app": "smartcity",
@@ -33724,7 +33981,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -34384,7 +34641,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
