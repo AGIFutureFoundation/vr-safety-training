@@ -87,7 +87,7 @@ function rwInitScene() {
   rwPlaceCamera();
   world.stream(rwApp.x, rwApp.z, { all: true });
   // For the headless checkers and the still captures.
-  window.__redwoodTest = { app: rwApp, world, teleport: rwTeleport, stats: () => world.stats(), sites: RW_SITES };
+  window.__redwoodTest = { app: rwApp, world, teleport: rwTeleport, stats: () => ({ ...world.stats(), render: { ...renderer.info.render } }), sites: RW_SITES };
 }
 
 function rwGround(x, z) { return rwHeightAt(x, z); }
