@@ -69,6 +69,42 @@ function rwTreeGeometries() {
   };
 }
 
+/** A sword fern: five triangular fronds from a crown at the origin, splayed out and up. */
+function rwFrondGeometry() {
+  const pos = [], nor = [];
+  const n = 5;
+  for (let k = 0; k < n; k += 1) {
+    const a = (k / n) * Math.PI * 2 + 0.3, b = a + Math.PI / 2;
+    const tx = Math.cos(a) * 1.1, tz = Math.sin(a) * 1.1;
+    const wx = Math.cos(b) * 0.16, wz = Math.sin(b) * 0.16;
+    pos.push(-wx, 0.1, -wz, wx, 0.1, wz, tx, 0.75, tz);
+    for (let i = 0; i < 3; i += 1) nor.push(0, 1, 0);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+  return g;
+}
+
+/** A light shaft's texture: a soft vertical gradient, bright under the canopy, gone at the ground. */
+function rwShaftTexture() {
+  const c = document.createElement("canvas");
+  c.width = 16; c.height = 128;
+  const g = c.getContext("2d");
+  if (g) {
+    const grad = g.createLinearGradient(0, 0, 0, 128);
+    grad.addColorStop(0, "rgba(255,255,255,0.0)"); grad.addColorStop(0.18, "rgba(255,255,255,1)"); grad.addColorStop(0.6, "rgba(255,255,255,0.45)"); grad.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = grad; g.fillRect(0, 0, 16, 128);
+    // Soft edges: fade the sides.
+    const side = g.createLinearGradient(0, 0, 16, 0);
+    side.addColorStop(0, "rgba(0,0,0,1)"); side.addColorStop(0.35, "rgba(0,0,0,0)"); side.addColorStop(0.65, "rgba(0,0,0,0)"); side.addColorStop(1, "rgba(0,0,0,1)");
+    g.globalCompositeOperation = "destination-out"; g.fillStyle = side; g.fillRect(0, 0, 16, 128);
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 /** A trunk's collision radius at the ground (matches the drawn cylinder's base). */
 export function rwTrunkRadius(t) { return t.s * (t.kind === "redwood" ? 0.04 : t.kind === "fir" ? 0.035 : 0.06); }
 
@@ -123,11 +159,21 @@ export function rwBuildWorld(scene, opts = {}) {
   const groundMat = new THREE.MeshLambertMaterial({ vertexColors: true });
   const treeMat = new THREE.MeshLambertMaterial({ vertexColors: true });
   const trees = rwTreeGeometries();
-  // Understory geometry: a fern clump (a flattened, splayed cone) and a fallen log.
+  // Understory geometry: a fern clump (a flattened, splayed cone), a sword
+  // fern (five fronds radiating from the crown), a fallen log with its
+  // root plate, a cut stump, and a canopy light shaft (a translucent
+  // gradient plane, additive, only lit in the day band).
   const fernGeo = new THREE.ConeGeometry(0.9, 0.9, 6, 1, true); fernGeo.translate(0, 0.35, 0);
   const fernMat = new THREE.MeshLambertMaterial({ color: 0x3f6a2a, side: THREE.DoubleSide });
-  const logGeo = new THREE.CylinderGeometry(0.6, 0.7, 14, 7); logGeo.rotateZ(Math.PI / 2);
-  const logMat = new THREE.MeshLambertMaterial({ color: 0x5a3a26 });
+  const frondGeo = rwFrondGeometry();
+  const frondMat = new THREE.MeshLambertMaterial({ color: 0x4a7a30, side: THREE.DoubleSide });
+  const logGeo = rwMerge([[new THREE.CylinderGeometry(0.6, 0.75, 14, 7), 0x5a3a26, 0], [new THREE.CylinderGeometry(1.6, 1.6, 0.5, 8), 0x4a2e1c, -7]]);
+  logGeo.rotateZ(Math.PI / 2);
+  const stumpGeo = rwMerge([[new THREE.CylinderGeometry(1.0, 1.3, 1.6, 7), 0x5a3a26, 0.8], [new THREE.CylinderGeometry(0.95, 0.95, 0.1, 7), 0xa8865a, 1.6]]);
+  const woodMat = new THREE.MeshLambertMaterial({ vertexColors: true });
+  const shaftGeo = new THREE.PlaneGeometry(7, 46); shaftGeo.translate(0, 23, 0); shaftGeo.rotateZ(0.22);
+  const shaftMat = new THREE.MeshBasicMaterial({ map: rwShaftTexture(), color: 0xffe9b0, transparent: true, opacity: 0.38, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false });
+  const shaftMeshes = new Set();
   const blockedRoads = (x, z) => RW_ROADS.some((r) => rwPolylineDistance(r.points, x, z) < 6) || RW_TRAILS.some((t) => rwPolylineDistance(t.points, x, z) < 2.5)
     || RW_SITES.some((st) => Math.hypot(x - st.position[0], z - st.position[1]) < st.pad);
 
@@ -250,7 +296,11 @@ export function rwBuildWorld(scene, opts = {}) {
     if (g) {
       g.fillStyle = "rgba(20,28,16,0.82)"; g.fillRect(0, 0, 512, 96);
       g.strokeStyle = "#e0a040"; g.lineWidth = 4; g.strokeRect(2, 2, 508, 92);
-      g.fillStyle = color; g.font = "600 40px Barlow, Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.fillStyle = color; g.textAlign = "center"; g.textBaseline = "middle";
+      // Long site names shrink to fit the plate rather than clipping.
+      let size = 40;
+      g.font = `600 ${size}px Barlow, Arial, sans-serif`;
+      while (size > 22 && g.measureText(text).width > 480) { size -= 2; g.font = `600 ${size}px Barlow, Arial, sans-serif`; }
       g.fillText(text, 256, 50);
     }
     const tex = new THREE.CanvasTexture(c);
@@ -262,8 +312,19 @@ export function rwBuildWorld(scene, opts = {}) {
   const M = (hex) => new THREE.MeshLambertMaterial({ color: hex });
   const mats = { wood: M(0x8a5a36), red: M(0xb8322a), roof: M(0x4a4a44), steel: M(0x9aa0a6), glass: new THREE.MeshLambertMaterial({ color: 0xcfe8f0, transparent: true, opacity: 0.55 }),
     yellow: M(0xe0b020), green: M(0x3a6a3a), tent: M(0xd08a3a), log: M(0x6a4028), gravel: M(0x9a9282), board: M(0x3a2a1a), white: M(0xe8e4d8) };
-  function box(g, w, h, d, mat, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y + h / 2, z); g.add(m); return m; }
-  function cyl(g, r, h, mat, x, y, z, rotZ = 0) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 8), mat); m.position.set(x, y, z); m.rotation.z = rotZ; g.add(m); return m; }
+  // Site-building colliders: every solid a walker would meet at chest height
+  // (taller than 1.5 m, standing below 1.6 m) is recorded as a rectangle in
+  // the site's local frame while the site is dressed. Flat pads, boardwalks,
+  // low stakes and overhead conveyors are left walkable.
+  let footprints = null;
+  const solid = (h, y) => footprints && h >= 1.5 && y < 1.6;
+  function box(g, w, h, d, mat, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y + h / 2, z); g.add(m); if (solid(h, y)) footprints.push({ x, z, hw: w / 2, hd: d / 2 }); return m; }
+  function cyl(g, r, h, mat, x, y, z, rotZ = 0) {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 8), mat); m.position.set(x, y, z); m.rotation.z = rotZ; g.add(m);
+    if (rotZ) { if (footprints && y - r < 1.6) footprints.push({ x, z, hw: h / 2, hd: r }); } else if (solid(h, y - h / 2)) footprints.push({ x, z, hw: r, hd: r });
+    return m;
+  }
+  function tent(g, r, h, mat, x, z) { const t = new THREE.Mesh(new THREE.ConeGeometry(r, h, 4), mat); t.position.set(x, h / 2, z); g.add(t); footprints?.push({ x, z, hw: r * 0.8, hd: r * 0.8 }); return t; }
   function dress(s, g) {
     switch (s.kind) {
       case "fire-station":
@@ -282,7 +343,7 @@ export function rwBuildWorld(scene, opts = {}) {
         box(g, 6, 2.5, 3, mats.white, 0, 0, 0); box(g, 3, 1.4, 5, mats.yellow, 8, 0, 4);
         for (let i = 0; i < 10; i += 1) box(g, 0.15, 1.2, 0.15, mats.green, -12 + i * 2.4, 0, 12); break;
       case "campground":
-        for (let i = 0; i < 6; i += 1) { const t = new THREE.Mesh(new THREE.ConeGeometry(1.8, 2.2, 4), mats.tent); t.position.set(-30 + i * 11, 1.1, -12 + (i % 2) * 20); g.add(t); box(g, 2.4, 0.8, 1.2, mats.wood, -27 + i * 11, 0, -8 + (i % 2) * 20); }
+        for (let i = 0; i < 6; i += 1) { tent(g, 1.8, 2.2, mats.tent, -30 + i * 11, -12 + (i % 2) * 20); box(g, 2.4, 0.8, 1.2, mats.wood, -27 + i * 11, 0, -8 + (i % 2) * 20); }
         box(g, 4, 3, 0.4, mats.board, 30, 0, 10); box(g, 8, 3.5, 5, mats.wood, 34, 0, -24); break;
       case "nursery":
         for (let i = 0; i < 3; i += 1) box(g, 10, 4, 30, mats.glass, -20 + i * 14, 0, 0);
@@ -299,7 +360,7 @@ export function rwBuildWorld(scene, opts = {}) {
         box(g, 40, 0.2, 30, mats.gravel, 0, 0, 0); box(g, 7, 3.2, 3.5, mats.yellow, -10, 0, 0); box(g, 9, 2.6, 2.6, mats.yellow, 4, 0, 6);
         box(g, 6, 3, 3, mats.yellow, 14, 0, -6); box(g, 18, 6, 10, mats.roof, 0, 0, -18); cyl(g, 3, 6, mats.green, 18, 3, 12); break;
       case "trail-camp":
-        for (let i = 0; i < 3; i += 1) { const t = new THREE.Mesh(new THREE.ConeGeometry(2, 2.4, 4), mats.green); t.position.set(-8 + i * 7, 1.2, -6); g.add(t); }
+        for (let i = 0; i < 3; i += 1) tent(g, 2, 2.4, mats.green, -8 + i * 7, -6);
         box(g, 4, 2, 2, mats.board, 8, 0, 6); box(g, 3, 1.8, 0.3, mats.board, -6, 0, 8); break;
       case "grove":
         box(g, 2, 0.3, 30, mats.wood, 0, 0.4, 0); box(g, 3, 0.8, 0.8, mats.wood, 4, 0, 6);
@@ -310,11 +371,15 @@ export function rwBuildWorld(scene, opts = {}) {
     box(g, 0.25, 2.2, 0.25, mats.wood, -2, 0, -s.pad * 0.5); box(g, 0.25, 2.2, 0.25, mats.wood, 2, 0, -s.pad * 0.5);
     box(g, 4.6, 2.2, 0.2, mats.board, 0, 1.4, -s.pad * 0.5);
   }
+  const siteColliders = new Map();
   for (const s of RW_SITES) {
     const g = new THREE.Group();
     g.position.set(s.position[0], s.padY, s.position[1]);
     g.name = `rw-site-${s.id}`;
+    footprints = [];
     dress(s, g);
+    siteColliders.set(s.id, footprints);
+    footprints = null;
     const lb = label(s.name);
     lb.position.set(0, s.kind === "lookout" ? 24 : 16, 0);
     g.add(lb);
@@ -386,33 +451,37 @@ export function rwBuildWorld(scene, opts = {}) {
     }
     // The understory: sword-fern clumps under the redwoods and the odd
     // fallen log, one instanced mesh each, from the same seeded noise.
-    const ferns = [], logs = [];
-    const fstep = budget.segments >= 32 ? 9 : 14;
+    const ferns = [], fronds = [], logs = [], stumps = [], shafts = [];
+    const fstep = budget.segments >= 32 ? 9 : 12;
+    const logCap = budget.segments >= 32 ? 10 : 6, shaftCap = budget.segments >= 32 ? 14 : 6;
     for (let gz = 0; gz < RW_CHUNK / fstep; gz += 1) for (let gx = 0; gx < RW_CHUNK / fstep; gx += 1) {
       const fx = x0 + (gx + rwNoise(cx * 31 + gx * 1.9, cz * 29 + gz * 2.3)) * fstep, fz = z0 + (gz + rwNoise(cx * 17 + gx * 2.9 + 3, cz * 13 + gz * 1.1)) * fstep;
       const fh = rwHeightAt(fx, fz);
       if (rwBiomeAt(fx, fz, fh) !== "redwood" || blockedRoads(fx, fz)) continue;
-      const n = rwNoise(fx / 5, fz / 5);
-      if (n > 0.62 && logs.length < 6 && rwNoise(fx / 3 + 9, fz / 3) > 0.7) logs.push([fx, fh, fz, n]);
-      else if (n > 0.3) ferns.push([fx, fh, fz, n]);
+      const n = rwNoise(fx / 5, fz / 5), m = rwNoise(fx / 3 + 9, fz / 3);
+      if (n > 0.62 && m > 0.7) { if (logs.length < logCap) logs.push([fx, fh, fz, n]); else if (stumps.length < logCap) stumps.push([fx, fh, fz, n]); }
+      else if (n > 0.3) (m > 0.5 ? fronds : ferns).push([fx, fh, fz, n]);
+      else if (n < 0.14 && shafts.length < shaftCap) shafts.push([fx, fh, fz, n]);
     }
-    for (const [list, geo, mat] of [[ferns, fernGeo, fernMat], [logs, logGeo, logMat]]) {
+    // Sword ferns stand a metre or two high; under trees forty metres tall a clump reads at this scale.
+    for (const [list, geo, mat, lift, scale] of [[ferns, fernGeo, fernMat, 0, (n) => 1.5 + 1.4 * n], [fronds, frondGeo, frondMat, 0, (n) => 1.7 + 1.3 * n], [logs, logGeo, woodMat, 0.6, (n) => 0.9 + 0.5 * n], [stumps, stumpGeo, woodMat, 0, (n) => 0.9 + n * 0.8], [shafts, shaftGeo, shaftMat, 0, (n) => 1 + n]]) {
       if (!list.length) continue;
       const im = new THREE.InstancedMesh(geo, mat, list.length);
       list.forEach(([fx, fh, fz, n], i) => {
-        q.setFromAxisAngle(up, n * 20); v.set(fx, fh + (geo === logGeo ? 0.6 : 0), fz);
-        const k = geo === logGeo ? 1 : 0.8 + n; sc.set(k, k, k); m4.compose(v, q, sc); im.setMatrixAt(i, m4);
+        q.setFromAxisAngle(up, n * 20); v.set(fx, fh + lift, fz);
+        const k = scale(n); sc.set(k, k, k); m4.compose(v, q, sc); im.setMatrixAt(i, m4);
       });
       im.computeBoundingSphere();
+      if (geo === shaftGeo) { im.visible = band === "day"; im.renderOrder = 2; shaftMeshes.add(im); }
       group.add(im);
     }
-    group.userData = { cx, cz, instances, understory: ferns.length + logs.length };
+    group.userData = { cx, cz, instances, understory: ferns.length + fronds.length + logs.length + stumps.length, shafts: shafts.length };
     root.add(group);
     return group;
   }
   function disposeChunk(group) {
     root.remove(group);
-    for (const c of group.children) { if (c.isInstancedMesh) c.dispose?.(); else c.geometry?.dispose?.(); }
+    for (const c of group.children) { if (c.isInstancedMesh) { shaftMeshes.delete(c); c.dispose?.(); } else c.geometry?.dispose?.(); }
   }
   // Trunk colliders: every tree's trunk radius plus a walker's clearance,
   // read from the same deterministic layout the chunk was drawn from.
@@ -430,6 +499,16 @@ export function rwBuildWorld(scene, opts = {}) {
       const x0 = RW_BOUNDS.minX + cx * RW_CHUNK, z0 = RW_BOUNDS.minZ + cz * RW_CHUNK;
       if (x < x0 - 8 || x > x0 + RW_CHUNK + 8 || z < z0 - 8 || z > z0 + RW_CHUNK + 8) continue;
       for (const t of layoutFor(cx, cz)) if (Math.hypot(x - t.x, z - t.z) < rwTrunkRadius(t) + clearance) return true;
+    }
+    return blockedBySite(x, z, clearance);
+  }
+  /** True when (x, z) is inside a site building's footprint (plus the walker's clearance). */
+  function blockedBySite(x, z, clearance = 0.7) {
+    for (const s of RW_SITES) {
+      const [sx, sz] = s.position;
+      if (Math.abs(x - sx) > s.pad + 10 || Math.abs(z - sz) > s.pad + 10) continue;
+      const lx = x - sx, lz = z - sz;
+      for (const f of siteColliders.get(s.id) ?? []) if (Math.abs(lx - f.x) < f.hw + clearance && Math.abs(lz - f.z) < f.hd + clearance) return true;
     }
     return false;
   }
@@ -478,6 +557,8 @@ export function rwBuildWorld(scene, opts = {}) {
     sun.intensity = 1.0 * day; hemi.intensity = 0.35 + 0.55 * day;
     const a = ((hour - 6) / 12) * Math.PI;
     sun.position.set(Math.cos(a) * 500, Math.max(60, Math.sin(a) * 500), 200);
+    // Light shafts only read under a day sky; at dusk and night they go dark.
+    for (const m of shaftMeshes) m.visible = band === "day";
     return band;
   }
   let band = setHour(hour);
@@ -492,8 +573,13 @@ export function rwBuildWorld(scene, opts = {}) {
 
   return {
     root, sky, update, stream, setHour, get hour() { return hour; }, get band() { return band; }, set band(b) { band = b; },
-    chunks, siteGroups, tinMeshes, budget, blocked,
+    chunks, siteGroups, tinMeshes, budget, blocked, blockedBySite, siteColliders,
     markFound(id) { const m = tinMeshes.get(id); if (m) { m.userData.found = true; m.visible = false; } },
-    stats() { let inst = 0, tris = 0; for (const g of chunks.values()) { inst += g.userData.instances; tris += g.children[0].geometry.index.count / 3; } return { chunks: chunks.size, instances: inst, groundTriangles: tris }; },
+    stats() {
+      let inst = 0, tris = 0, under = 0, shafts = 0;
+      for (const g of chunks.values()) { inst += g.userData.instances; under += g.userData.understory; shafts += g.userData.shafts; tris += g.children[0].geometry.index.count / 3; }
+      let colliders = 0; for (const f of siteColliders.values()) colliders += f.length;
+      return { chunks: chunks.size, instances: inst, understory: under, shafts, groundTriangles: tris, siteColliders: colliders };
+    },
   };
 }
