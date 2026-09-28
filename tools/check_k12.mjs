@@ -31,7 +31,13 @@
  *      Bay World, the Deep, the Regatta and Fairway Park, each anchored at a
  *      real site, landmark, course, facility or hole, tied to a K-12 station
  *      and a trade, linked through lkStationLink, within reading bounds, and
- *      drawn as a K-12 layer on the Bay World and Deep maps.
+ *      drawn as a K-12 layer on the Bay World and Deep maps;
+ *   8b. the lessons in play (WebXR/shared/field-kiosk.js): kiosks and a
+ *      lesson screen in Bay World and the Deep, the lesson list on the
+ *      Regatta's course card and briefing and on Fairway Park's facility
+ *      screen, the module bundled after passport.js;
+ *   8c. Summit's and Redwood's own ten lessons each, in their exported
+ *      schemas, against their sites and landmarks and the K-12 stations.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -234,6 +240,83 @@ for (const [file, fn] of [["WebXR/bayworld/js/map.js", "bwMapFieldLessons"], ["W
 }
 for (const file of ["WebXR/bayworld/js/app.js", "WebXR/underwater/js/app.js"]) {
   if (!/k2DrawFieldLayer\(/.test(read(file))) fail("map layer", `${file} does not draw the K-12 layer`); else ok();
+}
+
+// 8b — field lessons in play (WebXR/shared/field-kiosk.js): a kiosk per lesson
+// and a lesson screen in Bay World and the Deep; the lesson list on the
+// Regatta's briefing and course card and on Fairway Park's facility screen.
+const kioskSrc = read("WebXR/shared/field-kiosk.js");
+for (const fn of ["k2BuildKiosks", "k2NearestKiosk", "k2OpenLesson", "k2RecordLesson", "k2FieldNotes"]) {
+  if (!kioskSrc.includes(`export function ${fn}`)) fail("kiosks", `field-kiosk.js does not export ${fn}`); else ok();
+}
+if (/THREE\./.test(kioskSrc)) fail("kiosks", "field-kiosk.js spells the three.js namespace; take the library from the caller"); else ok();
+for (const [app, html] of [["WebXR/bayworld/js/app.js", "WebXR/bayworld/index.html"], ["WebXR/underwater/js/app.js", "WebXR/underwater/underwater.html"]]) {
+  const src = read(app);
+  for (const call of ["k2BuildKiosks(", "k2NearestKiosk(", "k2OpenLesson(", "k2KioskPrompt("]) if (!src.includes(call)) fail("kiosks", `${app} does not call ${call})`); else ok();
+  const page = read(html);
+  if (!page.includes('id="scr-lesson"') || !page.includes('id="k2-lesson"')) fail("kiosks", `${html} has no lesson screen`); else ok();
+}
+if (!/k2RenderLessonList\(/.test(read("WebXR/regatta/js/app.js")) || !/k2DrawFieldLayer\(/.test(read("WebXR/regatta/js/app.js"))) fail("map layer", "the Regatta draws no K-12 layer on its course card or briefing"); else ok();
+if (!read("WebXR/regatta/regatta.html").includes('id="br-lessons"')) fail("map layer", "regatta.html has no br-lessons list"); else ok();
+if (!/k2RenderLessonList\(/.test(read("WebXR/fairway/js/app.js"))) fail("map layer", "Fairway Park lists no K-12 lessons"); else ok();
+if (!read("WebXR/fairway/index.html").includes('id="facility-lessons"')) fail("map layer", "fairway/index.html has no facility-lessons list"); else ok();
+for (const world of ["bayworld", "underwater"]) {
+  const bundle = read("tools/bundle_webxr.py");
+  if (!bundle.includes('SHARED / "field-kiosk.js"')) fail("kiosks", `bundle_webxr.py does not carry field-kiosk.js for ${world}`); else ok();
+}
+// the bundler must see passport.js before field-kiosk.js in each world's list
+{
+  const b = read("tools/bundle_webxr.py");
+  let pos = 0, n = 0;
+  while ((pos = b.indexOf('SHARED / "field-kiosk.js"', pos + 1)) > 0) {
+    n++;
+    const before = b.lastIndexOf('SHARED / "passport.js"', pos);
+    const sectionStart = b.lastIndexOf('"modules": [', pos);
+    if (before < sectionStart) fail("kiosks", "field-kiosk.js is listed before passport.js in a bundle");
+    else ok();
+  }
+  if (n < 2) fail("kiosks", `field-kiosk.js is in ${n} bundle list(s), expected Bay World and the Deep`); else ok();
+}
+
+// 8c — Summit's and Redwood's own field lessons, in their exported schemas
+// (SM_FIELD_LESSONS: place/at/k12/check.q+choices; RW_FIELD_LESSONS:
+// site/landmark/k12/check.q+options): ten each, every anchor a real site or
+// landmark of that world, every k12 link a classroom station, three steps, a
+// check with a right answer in range, minutes two to four, and reading level
+// within the K-12 station ceiling. Their consoles own the words; a digit in
+// one is reported, not failed, because their scenes show the numbers they use.
+{
+  const SM = await import("../WebXR/shared/summit-data.js");
+  const RWD = await import("../WebXR/redwood/js/rw-data.js");
+  const RWL = await import("../WebXR/redwood/js/rw-lore-data.js");
+  const smAnchors = new Set([...SM.SM_SITES.map((s) => s.id), ...SM.SM_LANDMARKS.map((l) => l.id)]);
+  const rwSites = new Set(RWD.RW_SITES.map((s) => s.id)), rwLandmarks = new Set(RWD.RW_LANDMARKS.map((l) => l.id));
+  const worlds = [
+    ["summit", SM.SM_FIELD_LESSONS, (l) => (smAnchors.has(l.place) ? [] : [`place ${l.place} is not a Summit site or landmark`]), (l) => l.check?.choices],
+    ["redwood", RWL.RW_FIELD_LESSONS, (l) => [...(rwSites.has(l.site) ? [] : [`site ${l.site} is not a Redwood site`]), ...(l.landmark && !rwLandmarks.has(l.landmark) ? [`landmark ${l.landmark} is not a Redwood landmark`] : [])], (l) => l.check?.options],
+  ];
+  let digits = 0;
+  for (const [world, list, anchorsOf, optionsOf] of worlds) {
+    if (!Array.isArray(list) || list.length < 10) fail(world, `${list?.length ?? 0} field lessons, fewer than ten`); else ok();
+    const seen = new Set();
+    for (const l of list ?? []) {
+      if (!/-fl-/.test(l.id ?? "")) fail(world, `lesson id "${l.id}" lacks -fl-`); else ok();
+      if (seen.has(l.id)) fail(world, `duplicate lesson id ${l.id}`); seen.add(l.id);
+      for (const p of anchorsOf(l)) fail(l.id, p);
+      if (!seenStations.has(l.k12)) fail(l.id, `k12 "${l.k12}" is not a classroom station`); else ok();
+      if (l.station && !ROOMS.has(l.station)) fail(l.id, `trade station "${l.station}" is not a station`); else ok();
+      if (!(l.minutes >= 2 && l.minutes <= 4)) fail(l.id, `minutes ${l.minutes} outside two to four`); else ok();
+      if (!Array.isArray(l.steps) || l.steps.length !== 3 || !l.steps.every((s) => typeof s === "string" && s.trim())) fail(l.id, "steps are not three sentences"); else ok();
+      const opts = optionsOf(l);
+      if (!l.check?.q || !Array.isArray(opts) || opts.length < 2 || !Number.isInteger(l.check.answer) || l.check.answer < 0 || l.check.answer >= opts.length) fail(l.id, "check question malformed"); else ok();
+      for (const f of ["title", "trade"]) if (typeof l[f] !== "string" || !l[f].trim()) fail(l.id, `no ${f}`); else ok();
+      const text = [l.title, l.tradeLine ?? "", ...(l.steps ?? []), l.check?.q ?? "", ...(opts ?? [])].join(" ");
+      if (/\d/.test(text)) digits++;
+      const st = readingStats([`${l.title}.`, ...(l.steps ?? []), l.check?.q ?? ""].join(" "));
+      if (st.grade > RL_STATION[1]) fail(l.id, `reading level ${st.grade.toFixed(1)} over the K-12 ceiling ${RL_STATION[1]}`); else ok();
+    }
+  }
+  if (digits) console.log(`  · ${digits} Summit/Redwood lesson(s) state a figure their scene shows (reported, not failed; the K-12 lessons themselves carry none)`);
 }
 
 // 6 — the finder, the doc

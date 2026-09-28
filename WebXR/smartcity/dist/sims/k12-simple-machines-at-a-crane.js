@@ -128,6 +128,40 @@ export const SIM_K12_SIMPLE_MACHINES_AT_A_CRANE = {
       holdBreakNote: "The load swung and the reading jumped. Let it settle and hold still."
     },
     {
+      id: "say-why-more-pulleys-make-pulling",
+      kind: "select",
+      target: "kcr-compare-card",
+      title: "Say why more pulleys make pulling easier",
+      cue: "Say why more pulley lines make the pull easier, and what you give up.",
+      why: "More lines share the load, so each carries less and your pull is smaller, but you must pull a longer length of rope. Saying both halves, easier pull and longer rope, is understanding the trade instead of thinking the machine gives something for nothing."
+    },
+    {
+      id: "spot-the-problems-in-a-classmates",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kcr-ex-free",
+        "kcr-ex-reach",
+        "kcr-ex-guide"
+      ],
+      itemNames: {
+        "kcr-ex-free": "a machine said to give free work",
+        "kcr-ex-reach": "a longer reach said to lift more",
+        "kcr-ex-guide": "the load chart called a rough guide"
+      },
+      itemNotes: {
+        "kcr-ex-free": "Machines trade force for distance.",
+        "kcr-ex-reach": "Further out, the crane lifts less.",
+        "kcr-ex-guide": "The chart is a limit."
+      },
+      decoyNotes: {
+        "kcr-ex-diagram": "A labelled diagram is good practice. Keep it."
+      },
+      title: "Spot the problems in a classmate's explanation",
+      cue: "Look at the draft explanation and mark each problem.",
+      why: "Explanations of machines go wrong in the same ways: a machine said to give free work, a longer reach said to lift more and a load chart called a rough guide. Spotting them helps you write explanations that are true as well as tidy."
+    },
+    {
       id: "turn-the-winch-handle-to-lift",
       kind: "turn",
       target: "kcr-winch-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_SIMPLE_MACHINES_AT_A_CRANE = {
       title: "Move the load closer on the model boom",
       cue: "Drag the load block to the reach where the model's load chart allows it.",
       why: "The same load has a bigger turning effect the further out it hangs, so a crane can lift less at long reach. Moving it inside the chart's limit is exactly the decision an operator makes before every lift, with the chart, not a guess, as the guide."
-    },
-    {
-      id: "say-why-more-pulleys-make-pulling",
-      kind: "select",
-      target: "kcr-compare-card",
-      title: "Say why more pulleys make pulling easier",
-      cue: "Say why more pulley lines make the pull easier, and what you give up.",
-      why: "More lines share the load, so each carries less and your pull is smaller, but you must pull a longer length of rope. Saying both halves, easier pull and longer rope, is understanding the trade instead of thinking the machine gives something for nothing."
-    },
-    {
-      id: "spot-the-problems-in-a-classmates",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kcr-ex-free",
-        "kcr-ex-reach",
-        "kcr-ex-guide"
-      ],
-      itemNames: {
-        "kcr-ex-free": "a machine said to give free work",
-        "kcr-ex-reach": "a longer reach said to lift more",
-        "kcr-ex-guide": "the load chart called a rough guide"
-      },
-      itemNotes: {
-        "kcr-ex-free": "Machines trade force for distance.",
-        "kcr-ex-reach": "Further out, the crane lifts less.",
-        "kcr-ex-guide": "The chart is a limit."
-      },
-      decoyNotes: {
-        "kcr-ex-diagram": "A labelled diagram is good practice. Keep it."
-      },
-      title: "Spot the problems in a classmate's explanation",
-      cue: "Look at the draft explanation and mark each problem.",
-      why: "Explanations of machines go wrong in the same ways: a machine said to give free work, a longer reach said to lift more and a load chart called a rough guide. Spotting them helps you write explanations that are true as well as tidy."
     },
     {
       id: "lower-the-load-smoothly",
@@ -250,7 +250,7 @@ export const SIM_K12_SIMPLE_MACHINES_AT_A_CRANE = {
       doneLine: "Checked in",
       title: "Check in at the end of the session",
       cue: "Where else have you seen a lever or a pulley? What still puzzles you?",
-      why: "A check-in helps learners spot simple machines in everyday things, from scissors to bike gears, and lets the teacher hear what needs revisiting. It is not marked, and a trusted adult is there if anything in the session was hard."
+      why: "The terminal shift ends with a tailgate talk, so the visit ends with one too: every learner names the machine part that made the load easier to move and says how. The riggers listening can tell straight away who has seen the trade in a lever and a pulley and who has only seen a crane."
     }
   ],
 

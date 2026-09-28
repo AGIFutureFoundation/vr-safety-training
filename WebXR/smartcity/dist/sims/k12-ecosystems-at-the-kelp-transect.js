@@ -128,6 +128,40 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
       holdBreakNote: "The view drifted off the tape. Bring it back to the line and hold it."
     },
     {
+      id: "say-what-happens-if-the-urchins",
+      kind: "select",
+      target: "kek-compare-card",
+      title: "Say what happens if the urchin's predator goes",
+      cue: "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
+      why: "With no predator, urchins can grow in number and graze the kelp faster than it regrows. Explaining that chain, predator to urchin to kelp, is understanding the web as a system rather than a list, which is what ecology is about."
+    },
+    {
+      id: "spot-the-problems-in-a-classmates",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kek-fw-backwards",
+        "kek-fw-unseen",
+        "kek-fw-no-base"
+      ],
+      itemNames: {
+        "kek-fw-backwards": "an arrow pointing from eater to food",
+        "kek-fw-unseen": "an animal the camera never showed",
+        "kek-fw-no-base": "no producer at the base"
+      },
+      itemNotes: {
+        "kek-fw-backwards": "Arrows follow the energy, food to eater.",
+        "kek-fw-unseen": "Only what was observed goes in.",
+        "kek-fw-no-base": "Every web starts with a producer."
+      },
+      decoyNotes: {
+        "kek-fw-key": "A key helps anyone read the web. Keep it."
+      },
+      title: "Spot the problems in a classmate's food web",
+      cue: "Look at the draft food web and mark each problem.",
+      why: "Food webs go wrong in a few ways: an arrow pointing the wrong way, an animal the camera never showed and a missing producer at the base. Spotting them in someone else's web helps you check that your own tells the truth about the transect."
+    },
+    {
       id: "turn-the-web-card-to-add",
       kind: "turn",
       target: "kek-arrow-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
       title: "Place the sea star in the web",
       cue: "Drag the sea star card to where it belongs: an eater of urchins.",
       why: "A predator that eats urchins keeps their numbers in check, and fewer urchins means more kelp survives. Placing it above the urchin in the web shows that chain, and it is the kind of link marine scientists watch when they ask why a kelp forest is thriving or thinning."
-    },
-    {
-      id: "say-what-happens-if-the-urchins",
-      kind: "select",
-      target: "kek-compare-card",
-      title: "Say what happens if the urchin's predator goes",
-      cue: "Say what could happen to the kelp if the urchins' predator disappeared, and why.",
-      why: "With no predator, urchins can grow in number and graze the kelp faster than it regrows. Explaining that chain, predator to urchin to kelp, is understanding the web as a system rather than a list, which is what ecology is about."
-    },
-    {
-      id: "spot-the-problems-in-a-classmates",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kek-fw-backwards",
-        "kek-fw-unseen",
-        "kek-fw-no-base"
-      ],
-      itemNames: {
-        "kek-fw-backwards": "an arrow pointing from eater to food",
-        "kek-fw-unseen": "an animal the camera never showed",
-        "kek-fw-no-base": "no producer at the base"
-      },
-      itemNotes: {
-        "kek-fw-backwards": "Arrows follow the energy, food to eater.",
-        "kek-fw-unseen": "Only what was observed goes in.",
-        "kek-fw-no-base": "Every web starts with a producer."
-      },
-      decoyNotes: {
-        "kek-fw-key": "A key helps anyone read the web. Keep it."
-      },
-      title: "Spot the problems in a classmate's food web",
-      cue: "Look at the draft food web and mark each problem.",
-      why: "Food webs go wrong in a few ways: an arrow pointing the wrong way, an animal the camera never showed and a missing producer at the base. Spotting them in someone else's web helps you check that your own tells the truth about the transect."
     },
     {
       id: "follow-the-diver-along-the-line",
@@ -250,7 +250,7 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
       doneLine: "Checked in",
       title: "Check in at the end of the trip",
       cue: "What did the camera show you that surprised you? What would you look for next time?",
-      why: "Ending the trip with a check-in lets every learner name what they noticed, which is where curiosity for the next survey comes from. It is not marked, and anyone who felt uneasy on the boat can say so to the teacher or a trusted adult."
+      why: "Back on the tender's deck, the survey ends the way a dive crew debriefs: each person names one thing they counted and one thing they would count differently. Hearing the group's answers shows the skipper who has grasped the transect line and who wants another pass along it."
     }
   ],
 
@@ -368,29 +368,21 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#d6e4e0", base2: "#c6d6d2", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+    // a working boat's deck: a rail along the stern, a wheelhouse, coiled lines and a life ring
+    void wallMat;
+    const rail = group(g, 0, 0, -4.6);
+    for (let i = 0; i < 9; i++) cyl(rail, 0.025, 0.025, 1.0, -3.2 + i * 0.8, 0.5, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(rail, 6.6, 0.05, 0.05, 0, 1.0, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    box(rail, 6.6, 0.03, 0.03, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    const house = group(g, -2.6, 0, -3.9);
+    box(house, 1.8, 2.1, 1.2, 0, 1.05, 0, 0xf4f0e6, { rough: 0.7 });
+    box(house, 1.5, 0.6, 0.04, 0, 1.5, 0.61, 0x2a3a4a, { rough: 0.3, metal: 0.2 });
+    box(house, 1.9, 0.08, 1.3, 0, 2.14, 0, 0xd8a54a, { rough: 0.6 });
+    for (const [cx0, cz0] of [[2.4, -3.8], [3.0, -3.3]]) for (let i = 0; i < 3; i++) cyl(g, 0.28 - i * 0.03, 0.28 - i * 0.03, 0.05, cx0, 0.03 + i * 0.05, cz0, 0xd8c04a, { rough: 0.9, seg: 14 });
+    const ring = group(g, 3.3, 1.2, -4.55);
+    cyl(ring, 0.32, 0.32, 0.06, 0, 0, 0, 0xf0645b, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    cyl(ring, 0.18, 0.18, 0.08, 0, 0, 0, 0xf4f0e6, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    for (const bx of [-3.6, 3.6]) box(g, 0.5, 0.5, 0.5, bx, 0.25, -2.6, 0x6b4a2e, { rough: 0.8 });
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};

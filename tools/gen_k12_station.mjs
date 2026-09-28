@@ -3,11 +3,12 @@
  *
  *     node tools/gen_k12_station.mjs tools/k12-data/<slug>.json [...more]
  *
- * Every K-12 station shares one scene layout (a learning wall, desks, shelves,
- * a ring of beads, cards, meters, dials and boards on a station pad) and one
- * thirteen-step shape: find, select, sequence, hold, turn, gauge, drag,
- * select, find, track, record, share, check-in, with the two interruptions
- * armed on the hold and the track steps. Only the words change. This script
+ * Every K-12 station shares one control ring (beads, cards, meters, dials and
+ * boards on a station pad) and thirteen step kinds: find, select, sequence,
+ * hold, turn, gauge, drag, select, find, track, record, share, check-in, with
+ * the two interruptions armed on the hold and the track steps. The JSON picks
+ * the `scene` behind the ring (wall, bench, deck, stage, lab) and the `order`
+ * of the steps (a, b, c — see ORDERS); the words are its own. This script
  * turns one compact JSON file into WebXR/smartcity/js/sims/<id>.js; after it,
  * run `node tools/add_station.mjs <id>` to register the station.
  *

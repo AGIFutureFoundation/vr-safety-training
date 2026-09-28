@@ -90,14 +90,6 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       why: "Every map has three things that tell you how to read it: a key that explains its symbols, a scale that links distances on paper to distances on the ground, and an orientation mark that shows which way is which. Reading those three first, on any map from any era, stops you misreading everything else."
     },
     {
-      id: "follow-the-archives-handling-rules",
-      kind: "select",
-      target: "kml-archive-card",
-      title: "Follow the archive's handling rules",
-      cue: "Read the card: no touching originals, use the pointer and the overlay.",
-      why: "Old maps are fragile and some exist only once. Using the pointer and the clear overlay instead of fingers protects them from skin oils and tears, and it is how every archive keeps its collection readable for future learners."
-    },
-    {
       id: "put-the-map-reading-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       outOfOrderNote: "Out of order. Read the label and the key before you read routes."
     },
     {
-      id: "hold-the-overlay-still-on-the",
-      kind: "hold",
-      target: "kml-overlay-hold",
-      seconds: 6,
-      title: "Hold the overlay still on the map",
-      cue: "Hold the clear overlay steady over the old map while you trace the route on it.",
-      why: "The overlay lets you mark without touching the original, but only if it stays still. Holding it steady while you trace means your marks line up with the map, and the original stays untouched.",
-      holdBreakNote: "The overlay slipped and the trace no longer lines up. Set it back and hold it."
+      id: "follow-the-archives-handling-rules",
+      kind: "select",
+      target: "kml-archive-card",
+      title: "Follow the archive's handling rules",
+      cue: "Read the card: no touching originals, use the pointer and the overlay.",
+      why: "Old maps are fragile and some exist only once. Using the pointer and the clear overlay instead of fingers protects them from skin oils and tears, and it is how every archive keeps its collection readable for future learners."
     },
     {
       id: "turn-the-old-map-to-match",
@@ -158,6 +148,16 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       why: "Setting the dividers against the scale bar turns a gap on paper into a distance on the ground. Checking against the scale each time, rather than guessing, lets you compare the same route on maps drawn at different scales."
     },
     {
+      id: "hold-the-overlay-still-on-the",
+      kind: "hold",
+      target: "kml-overlay-hold",
+      seconds: 6,
+      title: "Hold the overlay still on the map",
+      cue: "Hold the clear overlay steady over the old map while you trace the route on it.",
+      why: "The overlay lets you mark without touching the original, but only if it stays still. Holding it steady while you trace means your marks line up with the map, and the original stays untouched.",
+      holdBreakNote: "The overlay slipped and the trace no longer lines up. Set it back and hold it."
+    },
+    {
       id: "match-the-old-landmark-to-the",
       kind: "drag",
       target: "kml-harbour-token",
@@ -169,14 +169,6 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       title: "Match the old landmark to the new map",
       cue: "Drag the old map's harbour marker to the same place on the modern map.",
       why: "Finding the same landmark on both maps anchors the comparison. Once one place is matched, you can see what moved, grew or disappeared around it, which is how historians use maps to study change over time."
-    },
-    {
-      id: "say-why-the-maker-drew-it",
-      kind: "select",
-      target: "kml-compare-card",
-      title: "Say why the maker drew it this way",
-      cue: "Say one reason the old map's maker might have shown some places large and left others out.",
-      why: "A map made for sailors shows harbours and shoals; one made for landowners shows boundaries. Asking why a maker chose what to show is reading a map as a source, and it reveals as much about the maker as about the place."
     },
     {
       id: "spot-the-problems-in-a-classmates",
@@ -203,6 +195,14 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       title: "Spot the problems in a classmate's comparison",
       cue: "Look at the draft map comparison and mark each problem.",
       why: "Map comparisons go wrong in familiar ways: north assumed to be at the top, an old map called wrong because it differs, and no mention of who made the map. Spotting them helps you write comparisons that treat maps as the sources they are."
+    },
+    {
+      id: "say-why-the-maker-drew-it",
+      kind: "select",
+      target: "kml-compare-card",
+      title: "Say why the maker drew it this way",
+      cue: "Say one reason the old map's maker might have shown some places large and left others out.",
+      why: "A map made for sailors shows harbours and shoals; one made for landowners shows boundaries. Asking why a maker chose what to show is reading a map as a source, and it reveals as much about the maker as about the place."
     },
     {
       id: "follow-the-old-road-across-both",
@@ -250,7 +250,7 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
       doneLine: "Checked in",
       title: "Check in at the end of the visit",
       cue: "What surprised you about how the place changed? What was hard to read?",
-      why: "A check-in gives learners a moment to say what surprised them about the change over time, and lets the teacher hear which map skills need more practice. It is not marked, and a trusted adult is there if anyone wants to talk."
+      why: "The archive closes its reading room by having visitors put back what they used, and the class closes by putting into words what changed between the maps and what did not. Each learner names one feature and one era; the archivist can hear who reads a map as evidence and who still reads it as a picture."
     }
   ],
 

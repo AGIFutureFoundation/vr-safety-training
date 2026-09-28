@@ -128,6 +128,40 @@ export const SIM_K12_DIGITAL_CITIZENSHIP_AND_ONLINE_SAFETY = {
       holdBreakNote: "Your cursor drifted onto the link. Move it away and keep checking."
     },
     {
+      id: "say-how-to-check-a-claim",
+      kind: "select",
+      target: "kdc-compare-card",
+      title: "Say how to check a claim before sharing",
+      cue: "Say two ways to check whether a surprising post is true before sharing it.",
+      why: "Checking who made a post and whether trusted sources report the same thing catches most false claims. Saying how you would check, not just that you would, is the skill that stops you passing on something untrue to people who trust you."
+    },
+    {
+      id: "spot-the-problems-in-a-practice",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kdc-pf-school",
+        "kdc-pf-street",
+        "kdc-pf-public"
+      ],
+      itemNames: {
+        "kdc-pf-school": "the school name in the bio",
+        "kdc-pf-street": "a street sign in a photo",
+        "kdc-pf-public": "the profile set to public"
+      },
+      itemNotes: {
+        "kdc-pf-school": "Keep school and location private.",
+        "kdc-pf-street": "Photos can give away where you live.",
+        "kdc-pf-public": "Set it to people you know."
+      },
+      decoyNotes: {
+        "kdc-pf-hobby": "Sharing a hobby with friends is fine. Keep it."
+      },
+      title: "Spot the problems in a practice profile",
+      cue: "Look at the invented practice profile and mark each problem.",
+      why: "Profiles give away more than people realise: a school name, a home street in a photo, a public setting. Spotting them on a practice profile teaches you to check your own before strangers can."
+    },
+    {
       id: "turn-the-privacy-setting-to-friends",
       kind: "turn",
       target: "kdc-privacy-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_DIGITAL_CITIZENSHIP_AND_ONLINE_SAFETY = {
       title: "Move the scam message to report",
       cue: "Drag the scam message to the report folder instead of replying.",
       why: "Reporting a scam helps the service block it for others, while replying tells the sender your account is active. Moving it to report and then deleting it is the safe way to deal with it, and showing a trusted adult is always fine too."
-    },
-    {
-      id: "say-how-to-check-a-claim",
-      kind: "select",
-      target: "kdc-compare-card",
-      title: "Say how to check a claim before sharing",
-      cue: "Say two ways to check whether a surprising post is true before sharing it.",
-      why: "Checking who made a post and whether trusted sources report the same thing catches most false claims. Saying how you would check, not just that you would, is the skill that stops you passing on something untrue to people who trust you."
-    },
-    {
-      id: "spot-the-problems-in-a-practice",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kdc-pf-school",
-        "kdc-pf-street",
-        "kdc-pf-public"
-      ],
-      itemNames: {
-        "kdc-pf-school": "the school name in the bio",
-        "kdc-pf-street": "a street sign in a photo",
-        "kdc-pf-public": "the profile set to public"
-      },
-      itemNotes: {
-        "kdc-pf-school": "Keep school and location private.",
-        "kdc-pf-street": "Photos can give away where you live.",
-        "kdc-pf-public": "Set it to people you know."
-      },
-      decoyNotes: {
-        "kdc-pf-hobby": "Sharing a hobby with friends is fine. Keep it."
-      },
-      title: "Spot the problems in a practice profile",
-      cue: "Look at the invented practice profile and mark each problem.",
-      why: "Profiles give away more than people realise: a school name, a home street in a photo, a public setting. Spotting them on a practice profile teaches you to check your own before strangers can."
     },
     {
       id: "keep-a-group-chat-kind",
@@ -250,7 +250,7 @@ export const SIM_K12_DIGITAL_CITIZENSHIP_AND_ONLINE_SAFETY = {
       doneLine: "Checked in",
       title: "Check in at the end of the lesson",
       cue: "Is there anything online that worries you? Who would you tell?",
-      why: "A check-in gives every learner a quiet chance to say if something online has worried them, and reminds everyone who they can go to. It is not marked, and the teacher, a counsellor or a trusted adult at home is always there to help."
+      why: "The session ends with each learner describing one choice they made online today and what they would do if a message worried them. Saying who they would go to, at school or at home, is the point; the college's IT staff listen for the learners who can name a person and not just a button."
     }
   ],
 
@@ -368,29 +368,26 @@ export const SIM_K12_DIGITAL_CITIZENSHIP_AND_ONLINE_SAFETY = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#e2e2ec", base2: "#d2d2de", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+    // a lab bench behind the station, a fume cabinet, a reagent rack and an eyewash post
+    const back = group(g, 0, 0, -4.7);
+    box(back, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
+    const bench = group(g, 0, 0, -4.1);
+    box(bench, 4.6, 0.9, 0.7, 0, 0.45, 0, 0x2b2f35, { rough: 0.6 });
+    box(bench, 4.7, 0.05, 0.75, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    box(bench, 0.5, 0.02, 0.4, -1.4, 0.94, 0, 0x8aa0a8, { rough: 0.3, metal: 0.5 });
+    cyl(bench, 0.02, 0.02, 0.3, -1.4, 1.1, -0.15, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
+    for (let i = 0; i < 6; i++) cyl(bench, 0.05, 0.05, 0.22 + (i % 3) * 0.06, -0.4 + i * 0.28, 1.06, -0.15, [0x7fc4d8, 0xf2c14b, 0xa0e0a0][i % 3], { rough: 0.2, seg: 10 });
+    const hood = group(g, 2.9, 0, -4.2);
+    box(hood, 1.2, 0.9, 0.8, 0, 0.45, 0, 0xd8d4cc, { rough: 0.6 });
+    box(hood, 1.2, 1.3, 0.8, 0, 1.55, 0, 0xc8d8dc, { rough: 0.2, metal: 0.1 });
+    box(hood, 1.1, 0.04, 0.7, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    const rack = group(g, -2.9, 0, -4.3);
+    box(rack, 1.0, 1.8, 0.34, 0, 0.9, 0, 0x8a8f96, { rough: 0.5, metal: 0.4 });
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) cyl(rack, 0.06, 0.06, 0.24, -0.33 + c * 0.22, 0.32 + r * 0.55, 0.06, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.3, seg: 10 });
+    const wash = group(g, 3.6, 0, -2.8);
+    cyl(wash, 0.03, 0.03, 1.1, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(wash, 0.3, 0.1, 0.3, 0, 1.12, 0, 0x59c97b, { rough: 0.5 });
+    for (const bx of [-0.08, 0.08]) cyl(wash, 0.03, 0.03, 0.08, bx, 1.2, 0, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};

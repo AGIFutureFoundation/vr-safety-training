@@ -90,14 +90,6 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       why: "Teams work well when everyone knows the shared goal, each person has a clear role, and there are agreed ways to talk, like taking turns and listening. Finding those three on the team board shows that good teamwork is built on purpose, not left to luck."
     },
     {
-      id: "walk-round-the-wet-patch",
-      kind: "select",
-      target: "ktf-wet-card",
-      title: "Walk round the wet patch",
-      cue: "Read the coach's card: walk round the cone, never across a wet court.",
-      why: "A wet patch on a sports floor is as slippery as ice. Walking round the cone and letting the coach dry it is the rule every team follows, because an injured teammate helps nobody, and looking after each other is where teamwork starts. A wet patch is also a test of the team: the one who stops to warn others is doing the team's work."
-    },
-    {
       id: "put-the-feedback-steps-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       outOfOrderNote: "Out of order. Ask if they want feedback before you give it."
     },
     {
-      id: "hold-your-reply-while-a-teammate",
-      kind: "hold",
-      target: "ktf-listen-hold",
-      seconds: 6,
-      title: "Hold your reply while a teammate speaks",
-      cue: "Stay quiet and listen fully until your teammate has finished.",
-      why: "Waiting until someone has finished, instead of planning your answer while they talk, is what listening really means. It shows respect, it means you hear the whole idea, and it often changes what you were going to say. People can tell when they are really being listened to, and it makes them more willing to listen back.",
-      holdBreakNote: "You jumped in before they finished. Let them finish, then reply."
+      id: "walk-round-the-wet-patch",
+      kind: "select",
+      target: "ktf-wet-card",
+      title: "Walk round the wet patch",
+      cue: "Read the coach's card: walk round the cone, never across a wet court.",
+      why: "A wet patch on a sports floor is as slippery as ice. Walking round the cone and letting the coach dry it is the rule every team follows, because an injured teammate helps nobody, and looking after each other is where teamwork starts. A wet patch is also a test of the team: the one who stops to warn others is doing the team's work."
     },
     {
       id: "turn-the-role-wheel-to-share",
@@ -158,6 +148,16 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       why: "Feedback that is too vague helps nobody, and feedback that is harsh makes people stop listening. Aiming for specific and kind, the middle of the band, gives your teammate something clear to work on and the confidence to try it. The same words can land as help or as criticism depending on how they are said, so tone matters."
     },
     {
+      id: "hold-your-reply-while-a-teammate",
+      kind: "hold",
+      target: "ktf-listen-hold",
+      seconds: 6,
+      title: "Hold your reply while a teammate speaks",
+      cue: "Stay quiet and listen fully until your teammate has finished.",
+      why: "Waiting until someone has finished, instead of planning your answer while they talk, is what listening really means. It shows respect, it means you hear the whole idea, and it often changes what you were going to say. People can tell when they are really being listened to, and it makes them more willing to listen back.",
+      holdBreakNote: "You jumped in before they finished. Let them finish, then reply."
+    },
+    {
       id: "choose-a-helpful-feedback-card",
       kind: "drag",
       target: "ktf-feedback-token",
@@ -169,14 +169,6 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       title: "Choose a helpful feedback card",
       cue: "Drag the specific, kind feedback card to your teammate's spot.",
       why: "A card that says what went well and one thing to try next gives your teammate a clear way forward. Choosing it over a vague or harsh card is practising exactly the words that make feedback land well."
-    },
-    {
-      id: "say-how-to-receive-feedback-well",
-      kind: "select",
-      target: "ktf-compare-card",
-      title: "Say how to receive feedback well",
-      cue: "Say what you do when someone gives you feedback, even if you disagree.",
-      why: "Receiving feedback well means listening, asking a question to understand and thanking the person, then deciding what to use. Saying that aloud builds the habit, and it is one of the most valuable skills in school, sport and work. Nobody has to agree with every piece of feedback, but hearing it fully before deciding is fair to both people."
     },
     {
       id: "spot-the-problems-in-a-practice",
@@ -203,6 +195,14 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       title: "Spot the problems in a practice team talk",
       cue: "Look at the practice team talk and mark each problem.",
       why: "Team talks go wrong in familiar ways: feedback aimed at the person, a quiet teammate never asked and a decision made by the loudest voice. Spotting them in a practice talk helps you notice and fix them in real ones."
+    },
+    {
+      id: "say-how-to-receive-feedback-well",
+      kind: "select",
+      target: "ktf-compare-card",
+      title: "Say how to receive feedback well",
+      cue: "Say what you do when someone gives you feedback, even if you disagree.",
+      why: "Receiving feedback well means listening, asking a question to understand and thanking the person, then deciding what to use. Saying that aloud builds the habit, and it is one of the most valuable skills in school, sport and work. Nobody has to agree with every piece of feedback, but hearing it fully before deciding is fair to both people."
     },
     {
       id: "keep-a-disagreement-calm",
@@ -250,7 +250,7 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
       doneLine: "Checked in",
       title: "Check in at the end of the session",
       cue: "How did working as a team feel today? What would you do differently?",
-      why: "A check-in lets every learner say how teamwork felt for them, which may be different for quiet and loud members, and helps the coach and teacher support everyone. It is not marked, and a trusted adult is always there to talk to. Some people find group work easy and others find it tiring, and both are normal things to say out loud."
+      why: "The arena crew ends a shift with a huddle, so the class ends with one: each learner says what the team did well and what they personally would change. Practising that in front of the group, with no blame in it, is the whole of the lesson, and the coach can hear which teams found their voice."
     }
   ],
 
@@ -368,28 +368,19 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#ece0d4", base2: "#ded2c4", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
+    // a hall's stage behind the station: risers, a curtain, footlights and rows of seats at the sides
+    void wallMat;
+    const stage = group(g, 0, 0, -4.4);
+    box(stage, 6.6, 0.5, 1.6, 0, 0.25, 0, 0x4a3a30, { rough: 0.7 });
+    box(stage, 6.8, 0.05, 1.7, 0, 0.52, 0, 0x6b4a2e, { rough: 0.6 });
+    box(stage, 6.6, 2.6, 0.1, 0, 1.85, -0.75, 0x7a2a2a, { rough: 0.95 });
+    for (let i = 0; i < 7; i++) box(stage, 0.12, 2.5, 0.06, -2.7 + i * 0.9, 1.85, -0.68, 0x8a3232, { rough: 0.95 });
+    for (let i = 0; i < 6; i++) ball(stage, 0.05, -2.5 + i * 1.0, 0.56, 0.8, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.2, rough: 0.4, seg: 8 });
+    for (const side of [-1, 1]) for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const seat = group(g, side * (2.9 + c * 0.55), 0, -3.2 + r * 0.7, side * 0.35);
+      box(seat, 0.45, 0.06, 0.45, 0, 0.45, 0, 0x2a5a8a, { rough: 0.8 });
+      box(seat, 0.45, 0.5, 0.06, 0, 0.72, -0.2, 0x2a5a8a, { rough: 0.8 });
+      for (const [lx, lz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) box(seat, 0.03, 0.42, 0.03, lx, 0.21, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
     }
 
     // ------------------------------------------------------------ controls

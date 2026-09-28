@@ -90,14 +90,6 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
       why: "This lesson keeps three things apart. A general fact card holds something widely established, like craft guilds training apprentices; a research question card holds something to find out; and a source card records where information came from. Keeping them separate is the historian's habit that stops guesses becoming facts."
     },
     {
-      id: "read-the-librarys-handling-rules",
-      kind: "select",
-      target: "kgu-handling-card",
-      title: "Read the library's handling rules",
-      cue: "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
-      why: "Old documents and books are fragile and often irreplaceable. Clean dry hands, pencils instead of pens, and asking before copying keep them safe for the next reader, and they are the rules every archive and library follows. A torn page or an ink mark cannot be undone, so the rules protect evidence nobody can replace."
-    },
-    {
       id: "put-the-research-method-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
       outOfOrderNote: "Out of order. Check your sources before you write what they show."
     },
     {
-      id: "hold-the-old-book-open-gently",
-      kind: "hold",
-      target: "kgu-book-hold",
-      seconds: 6,
-      title: "Hold the old book open gently",
-      cue: "Support the old book's cover gently on the rest while you read.",
-      why: "Forcing an old book flat can crack its spine. Supporting the cover gently on a rest, and holding it still while you read, protects it; the care you take with a source is part of respecting the evidence. Handling a source with care is also a way of respecting the people whose work and lives it records.",
-      holdBreakNote: "The book slipped and pressed flat. Support the cover again gently."
+      id: "read-the-librarys-handling-rules",
+      kind: "select",
+      target: "kgu-handling-card",
+      title: "Read the library's handling rules",
+      cue: "Read the card: clean dry hands, pencils only near old papers, and ask before copying.",
+      why: "Old documents and books are fragile and often irreplaceable. Clean dry hands, pencils instead of pens, and asking before copying keep them safe for the next reader, and they are the rules every archive and library follows. A torn page or an ink mark cannot be undone, so the rules protect evidence nobody can replace."
     },
     {
       id: "turn-the-card-from-fact-to",
@@ -158,6 +148,16 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
       why: "Sources vary in reliability: a book that cites its evidence is stronger than an unsigned post that cites nothing. Judging each one, rather than trusting or rejecting everything, is how historians build an account that stands up. A weak source is not useless; it may point you to a stronger one that it failed to cite."
     },
     {
+      id: "hold-the-old-book-open-gently",
+      kind: "hold",
+      target: "kgu-book-hold",
+      seconds: 6,
+      title: "Hold the old book open gently",
+      cue: "Support the old book's cover gently on the rest while you read.",
+      why: "Forcing an old book flat can crack its spine. Supporting the cover gently on a rest, and holding it still while you read, protects it; the care you take with a source is part of respecting the evidence. Handling a source with care is also a way of respecting the people whose work and lives it records.",
+      holdBreakNote: "The book slipped and pressed flat. Support the cover again gently."
+    },
+    {
       id: "place-the-apprentice-card-in-the",
       kind: "drag",
       target: "kgu-apprentice-token",
@@ -169,14 +169,6 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
       title: "Place the apprentice card in the sequence",
       cue: "Drag the apprentice card to the start of the craft training sequence.",
       why: "It is widely established that craft guilds trained newcomers as apprentices, who learned from experienced workers before working more independently. Placing the apprentice at the start of the sequence reflects that general fact; the details for any one place or trade are research questions."
-    },
-    {
-      id: "say-how-a-guild-and-a",
-      kind: "select",
-      target: "kgu-compare-card",
-      title: "Say how a guild and a union differ",
-      cue: "Say one way guilds and modern unions differ, as a question to research further.",
-      why: "Guilds often included workshop owners, while unions organise workers; that general difference opens questions worth researching. Saying it carefully, and turning the rest into questions, is how you handle a topic where easy comparisons mislead. Keeping the comparison careful stops you from reading today's world back into the past."
     },
     {
       id: "spot-the-problems-in-a-classmates",
@@ -203,6 +195,14 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
       title: "Spot the problems in a classmate's notes",
       cue: "Look at the draft research notes and mark each problem.",
       why: "Research notes go wrong in familiar ways: an invented date, a claim with no source and a statement that everyone worked the same way. Spotting them in someone else's notes trains you to keep your own honest."
+    },
+    {
+      id: "say-how-a-guild-and-a",
+      kind: "select",
+      target: "kgu-compare-card",
+      title: "Say how a guild and a union differ",
+      cue: "Say one way guilds and modern unions differ, as a question to research further.",
+      why: "Guilds often included workshop owners, while unions organise workers; that general difference opens questions worth researching. Saying it carefully, and turning the rest into questions, is how you handle a topic where easy comparisons mislead. Keeping the comparison careful stops you from reading today's world back into the past."
     },
     {
       id: "follow-the-source-trail-through-the",
@@ -250,7 +250,7 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
       doneLine: "Checked in",
       title: "Check in at the end of the lesson",
       cue: "Which research question would you most like to answer? What was tricky?",
-      why: "A check-in lets learners name the question that caught their curiosity, which is where the next piece of research begins. It is not marked, and the teacher or a trusted adult is there for anyone who wants to talk."
+      why: "Research ends with a list of open questions, not a list of answers, so the visit closes with each learner reading one question they wrote and the source they would try first. That habit, unknowns turned into questions, is what the hall's own historians want the class to carry away."
     }
   ],
 
