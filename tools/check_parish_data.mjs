@@ -102,6 +102,16 @@ function ndInPoly([x, z], poly) {
   }
   return inside;
 }
+/** Map metres from a point to a polyline (the shortest distance to any segment). */
+function ndRibbonDistance([x, z], pts) {
+  let best = Infinity;
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, az] = pts[i - 1], [bx, bz] = pts[i], dx = bx - ax, dz = bz - az, L = dx * dx + dz * dz || 1;
+    const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L));
+    best = Math.min(best, Math.hypot(x - ax - t * dx, z - az - t * dz));
+  }
+  return best;
+}
 const ND_WATER_KINDS = new Set(["river", "lake", "canal", "bayou", "wetland", "gulf"]);
 const ND_ROAD_KINDS = new Set(["interstate", "avenue", "street", "riverroad", "bridge", "causeway", "ferry"]);
 const ND_DISTRICT_CHARACTERS = new Set(["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus"]);
@@ -205,6 +215,9 @@ for (const [pid, p] of ndParishes) {
     ndCheck(typeof s.kind === "string" && ndSlug(s.kind), `${sw}: a kind`);
     ndCheck(ndInField(s.position, half), `${sw}: position on the field`);
     ndCheck(!lakes.some((w) => ndInPoly(s.position, w.poly)), `${sw}: not in the lake or the gulf`);
+    // …and on the bank of every ribbon (a river, a canal, a bayou), not in its water: further than half its width plus a
+    // pad's margin from its centre line. Landmarks are exempt (a bridge, a lock and a canal sit on the water by nature).
+    for (const w of p.water ?? []) if (w.width) ndCheck(ndRibbonDistance(s.position, w.poly) > w.width / 2 + 8, `${sw}: on the bank of ${w.id}, not in it (${Math.round(ndRibbonDistance(s.position, w.poly))} m from the centre line, half width ${w.width / 2})`);
     ndCheck(Array.isArray(s.trades) && s.trades.length >= 1 && s.trades.every((t) => ndUnionIds.has(t)), `${sw}: every trade is a tools/unions.json id (${(s.trades ?? []).filter((t) => !ndUnionIds.has(t)).join(", ") || "ok"})`);
     ndCheck(Array.isArray(s.programmes) && s.programmes.length >= 1 && s.programmes.every((c) => ndProgrammeIds.has(c)), `${sw}: every programme is a catalog curriculum (${(s.programmes ?? []).filter((c) => !ndProgrammeIds.has(c)).join(", ") || "ok"})`);
     ndCheck(Array.isArray(s.stations) && s.stations.length >= 2 && s.stations.every((id) => ndStationIds.has(id)), `${sw}: two or more stations, every one a catalog station (${(s.stations ?? []).filter((id) => !ndStationIds.has(id)).join(", ") || "ok"})`);

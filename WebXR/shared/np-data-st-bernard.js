@@ -51,7 +51,7 @@ export const NP_ST_BERNARD = {
     { id: "eastern-marsh", name: "The eastern marsh", poly: [[-663,829],[543,968],[1749,1382],[1990,1935],[-663,1935]], character: "wetland" },
   ],
   sites: [
-    { id: "sb-river-road", name: "River Road Levee Crew", kind: "levee", position: [-1688,-442], trades: ["liuna","iuoe"], programmes: ["heavy-equipment-operators"],
+    { id: "sb-river-road", name: "River Road Levee Crew", kind: "levee", position: [-1652,-581], trades: ["liuna","iuoe"], programmes: ["heavy-equipment-operators"],
       stations: ["br-levee-inspection-and-seepage","op-compactor-lift-thickness-and-edge","op-excavator-trench-and-utility-locate"] },
     { id: "sb-refinery", name: "Refinery Corridor Turnaround", kind: "refinery", position: [-1025,-69], trades: ["usw","ibb","ua","insulators"], programmes: ["insulators-and-boilermakers","plumbers-and-pipefitters","confined-space"],
       stations: ["ib-pressure-vessel-confined-entry-and-hot-work","ib-refractory-and-castable-installation","ib-boiler-tube-replacement-and-rolling","tank-lining","cs-permit-entry-and-attendant-duties"] },
@@ -63,7 +63,7 @@ export const NP_ST_BERNARD = {
       stations: ["tide-gate","mw-workboat-towing-and-line-handling","br-vhf-and-navigation-in-a-work-zone"] },
     { id: "sb-shell-beach", name: "Shell Beach Oyster & Shrimp Harbour", kind: "harbour", position: [1990,829], trades: ["ibu","siu"], programmes: ["marine-ecology-and-restoration","ports-maritime-ecology"],
       stations: ["oyster-reef-monitoring","me-oyster-reef-monitoring-and-settlement-tiles","br-cold-water-immersion-and-mob-recovery","spill-boom-deploy"] },
-    { id: "sb-chalmette-ferry", name: "Chalmette Ferry Landing", kind: "ferry", position: [-1568,-373], trades: ["ibu","meba"], programmes: ["port-operations"],
+    { id: "sb-chalmette-ferry", name: "Chalmette Ferry Landing", kind: "ferry", position: [-1471,-428], trades: ["ibu","meba"], programmes: ["port-operations"],
       stations: ["mw-ferry-deckhand-and-passenger-safety","mooring-line"] },
     { id: "sb-hospital", name: "Parish Hospital & EMS Station", kind: "hospital", position: [-1327,-332], trades: ["nnu","seiu","nage","iaff"], programmes: ["first-responders","healthcare-support"],
       stations: ["ambulance-scene-safety","cardiac-arrest-pit-crew","who-treatment-centre-triage","triage-point"] },
@@ -76,7 +76,7 @@ export const NP_ST_BERNARD = {
   ],
   landmarks: [
     { id: "chalmette-battlefield", name: "Chalmette Battlefield", position: [-1749,-276], kind: "park" },
-    { id: "chalmette-ferry-landing", name: "Chalmette ferry landing", position: [-1568,-387], kind: "ferry" },
+    { id: "chalmette-ferry-landing", name: "Chalmette ferry landing", position: [-1495,-401], kind: "ferry" },
     { id: "violet-canal", name: "Violet Canal", position: [-543,0], kind: "canal" },
     { id: "shell-beach-shore", name: "Shell Beach", position: [2014,815], kind: "shore" },
     { id: "bayou-bienvenue", name: "Bayou Bienvenue", position: [-1387,-898], kind: "bayou" },

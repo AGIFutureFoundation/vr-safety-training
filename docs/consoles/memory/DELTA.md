@@ -19,7 +19,10 @@ Short, durable lessons for the next team at this console (the parish data module
   runner page link per station). Parish gated items live inside `NP_<PARISH>.gated`; PARISH aggregates them once.
 - **Pure literals survive the bundler.** The modules import nothing and declare only `NP_<PARISH>`; check_parse and
   check_imports pass with nothing to erase. Any helper you add needs the `nd` prefix.
-- **Sites must stay out of polygon water.** The validator does point-in-polygon against every lake/gulf polygon;
-  Venice sat inside Breton Sound's edge on the first run — move the polygon edge, not the town.
-- **Validator:** `node tools/check_parish_data.mjs` — 1,788 checks in under a second; it also asserts docs/parishes.md
+- **Sites must stay out of the water, ribbons included.** The validator does point-in-polygon against every lake/gulf
+  polygon and holds every site further than half a ribbon's width (plus a pad margin) from a river/canal/bayou centre
+  line; landmarks are exempt (a bridge, a lock sit on the water). Venice sat inside Breton Sound's edge and eight sites
+  sat in a river ribbon on the first runs — move the polygon edge or the site to its *correct* bank (Chalmette is on the
+  river's north-east bank; check which side of the centre line you land on, not only the distance).
+- **Validator:** `node tools/check_parish_data.mjs` — 1,964 checks in under a second; it also asserts docs/parishes.md
   lists every connector id. PARISH's `check_parishes.mjs` is meant to absorb it.

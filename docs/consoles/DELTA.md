@@ -49,3 +49,18 @@ station id an existing catalog station (no new stations); no secrets, no network
   docs/perf/checkers-baseline.json — added `check_parish_data.mjs` after check_summit with a 400 ms baseline (it runs in
   0.2 s). check_proving 162, check_console, check_gates (66 gated items, mine not discovered twice by design), check_k12,
   check_unity_export, check_treasures, check_interop all green · next: commit, start the full suite, next brief.
+- 19:14 UTC · check_all wiring committed · dacc840 · full `node tools/check_all.mjs` started in the background at 19:14
+  (load average 21 on four cores — seven consoles at once; expect 40 minutes) · next: the next brief, a ribbon audit.
+- 19:18 UTC · Scratch audit: eight *sites* sat inside a river/canal ribbon (the validator only tested lake and gulf
+  polygons) — the Chalmette ferry landing, the St. Bernard river road crew, Port Sulphur's terminal, the pipeline yard,
+  Empire's harbour, Venice marina, the Intracoastal lock, Slidell's rail yard, the Madisonville boatyard. Moved each to
+  its bank in the generator; landmarks on the water (a bridge, a lock) stay. The regeneration and a ribbon rule in the
+  validator are held until the suite finishes so it reads a stable tree · next: apply after the suite, re-validate, commit.
+- 19:20 UTC · Coordinator: a batch merged (origin at 4f20b8f, a small forward delta: i18n.js, controls.js, gen_home.mjs,
+  investor data). The full suite is mid-run on this tree, so the fetch-and-merge waits for its exit (the next clean
+  point), then `node --check` on every touched file · next: suite exit → merge → regenerate → validate → commit.
+- 19:25 UTC · check_parish_data ran inside the suite (328 ms, green), so the held changes went in: the ribbon rule in
+  the validator (a site further than half a ribbon's width plus a pad margin from every river/canal/bayou centre line),
+  the nine sites regenerated on their banks — two of them first landed on the *wrong* bank (the ferry landing on the
+  Algiers side), fixed by checking the side, not the distance. 1,964 checks pass, 0 fail; the four modules parse.
+  tools/briefs/next/delta-next.md written · next: commit; suite exit → merge origin's batch.
