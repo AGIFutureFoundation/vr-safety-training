@@ -128,6 +128,40 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       holdBreakNote: "You rushed into writing and mixed in a guess. Stop and picture what you actually saw."
     },
     {
+      id: "read-the-report-back-before-handing",
+      kind: "select",
+      target: "kir-readback-card",
+      title: "Read the report back before handing it in",
+      cue: "Read your report back as if you were someone who was not there.",
+      why: "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught. Reading aloud slows you down enough to hear a missing word, a muddled order or a guess that crept in."
+    },
+    {
+      id: "spot-the-problems-in-a-classmate",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kir-ir-guess",
+        "kir-ir-blame",
+        "kir-ir-no-response"
+      ],
+      itemNames: {
+        "kir-ir-guess": "a guess written as fact",
+        "kir-ir-blame": "blame instead of description",
+        "kir-ir-no-response": "nothing on what was done"
+      },
+      itemNotes: {
+        "kir-ir-guess": "Did they see it? Label it or leave it out.",
+        "kir-ir-blame": "Describe what happened; blame is not the report's job.",
+        "kir-ir-no-response": "The response belongs in every report."
+      },
+      decoyNotes: {
+        "kir-ir-time": "When and where are exactly right. Keep them."
+      },
+      title: "Spot the problems in a classmate's report",
+      cue: "Look at the draft report and mark each problem.",
+      why: "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own. Reading someone else's draft with fresh eyes is easier than reading your own, which is why checking in pairs works so well."
+    },
+    {
       id: "turn-a-guess-into-a-statement",
       kind: "turn",
       target: "kir-fact-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
       title: "Hand the report to the right person",
       cue: "Drag your report to the hall supervisor, who needs it.",
       why: "A report only helps once it reaches the person who can act on it. Handing it to the supervisor, rather than leaving it on a desk or sharing it around, means it gets acted on and other people's details stay private. A report left in a bag or shared around the class helps nobody and can hurt the people named in it."
-    },
-    {
-      id: "read-the-report-back-before-handing",
-      kind: "select",
-      target: "kir-readback-card",
-      title: "Read the report back before handing it in",
-      cue: "Read your report back as if you were someone who was not there.",
-      why: "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught. Reading aloud slows you down enough to hear a missing word, a muddled order or a guess that crept in."
-    },
-    {
-      id: "spot-the-problems-in-a-classmate",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kir-ir-guess",
-        "kir-ir-blame",
-        "kir-ir-no-response"
-      ],
-      itemNames: {
-        "kir-ir-guess": "a guess written as fact",
-        "kir-ir-blame": "blame instead of description",
-        "kir-ir-no-response": "nothing on what was done"
-      },
-      itemNotes: {
-        "kir-ir-guess": "Did they see it? Label it or leave it out.",
-        "kir-ir-blame": "Describe what happened; blame is not the report's job.",
-        "kir-ir-no-response": "The response belongs in every report."
-      },
-      decoyNotes: {
-        "kir-ir-time": "When and where are exactly right. Keep them."
-      },
-      title: "Spot the problems in a classmate's report",
-      cue: "Look at the draft report and mark each problem.",
-      why: "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own. Reading someone else's draft with fresh eyes is easier than reading your own, which is why checking in pairs works so well."
     },
     {
       id: "keep-the-report-factual-to-the",

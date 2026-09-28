@@ -43,3 +43,17 @@
 - **Picked** 1a1153e (before/after captures, README, memory, next brief): documentation only.
 - **Picked** 1b4bed9 (snapshot). Reviewed: empty states on the instructor console's Live, Roster and Log views (`.at-empty` exists in design.css; `bus.available` exists in the app), re-taken instructor captures. Kept.
 - Regenerated tracks, homepage and bundles. check_design pass (174 pages, 32 contrast pairs); check_seo 4413 pass; check_home pass; check_tracks pass; check_treasures pass.
+
+### K-12 / SCHOLAR-4 (worktree-agent-a319c77ce4631959b)
+
+- **Picked** daf1813 (tools/extract_k12_station.mjs reads the fourteen hand-written K-12 stations back into tools/k12-data JSON; gen_k12_station exports `gen` and `ORDERS` and takes a desk colour, default unchanged, so the tree's other generated stations regenerate byte-identical). Clean.
+- **Picked** d04f62f (court station rewritten; Summit and Redwood write the shared field-lesson passport award through `k2AdaptLesson`; teacher page and printable cards, tools/gen_k12_cards.mjs; check_k12). Conflicts resolved keeping the Crescent tree: `K2_WORLD_PAGES` keeps `parishes` and gains `redwood`; Redwood keeps the skill-gates imports and the quiet-treasure call and gains the K-12 award; Summit keeps its import set (fleet, field layer, skill gates, NPCs) and the treasure call, and its double toast (a leftover in the tree) becomes one toast carrying the lesson's why plus the passport/badge note; bundle_webxr.py's Summit list no longer lists field-lessons.js twice.
+- **Picked** d112c1a (timeline and buoyancy stations rewritten, next brief) and e6657e4 (the teacher page and `k2AdaptLesson` take the K-12 station first; check_k12 asserts classroom links). Clean apart from dist.
+- Every pick's bundles and the .pyc were taken from the tree. Regenerated with the repo's generators in the batch order (sims meta, unions, catalog, Bay and Deep quests, compliance, wiki, interop, skill registry, gate names, treasures, K-12 cards, Guide KB, homepage, bundles, investor, KB, bundles); the coordinator's scratchpad helpers (registry dedupe, programme anchoring) and the Unity export were not run. teacher.html regenerated now lists the Parishes lessons too.
+- check_k12 pass; check_lessons pass; check_summit 6145; check_redwood 395; check_gates 6623 / 0 failed; check_parse 2296; check_imports 900; check_guide 266.
+
+## Left for the coordinator
+
+- check_links was not completed in this session (a full run did not finish in 12 minutes on the shared machine); the gate's check_all runs it. New or changed pages it will read: WebXR/k12/teacher.html, the Treasure Map's header and breadcrumb, the track pages.
+- The Unity export (tools/export_unity.mjs --models) was not rerun; Redwood's RW_GATED shape is unchanged, so worlds/redwood.json should not move.
+- docs/skill-gates.md still headlines "The items (70)" while check_gates counts 189; the count line predates this rescue.

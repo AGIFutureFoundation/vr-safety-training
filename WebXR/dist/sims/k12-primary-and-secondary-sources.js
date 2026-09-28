@@ -128,6 +128,40 @@ export const SIM_K12_PRIMARY_AND_SECONDARY_SOURCES = {
       holdBreakNote: "You stopped reading and jumped to a conclusion. Go back and read the whole letter first."
     },
     {
+      id: "say-where-the-evidence-runs-out",
+      kind: "select",
+      target: "kps-gap-card",
+      title: "Say where the evidence runs out",
+      cue: "The diary has a missing page. Say what the evidence cannot tell us.",
+      why: "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
+    },
+    {
+      id: "spot-the-problems-in-a-classmate",
+      kind: "find",
+      noHint: true,
+      targets: [
+        "kps-ess-no-source",
+        "kps-ess-book-as-witness",
+        "kps-ess-guess-fact"
+      ],
+      itemNames: {
+        "kps-ess-no-source": "a claim with no source",
+        "kps-ess-book-as-witness": "the book quoted as if it were there",
+        "kps-ess-guess-fact": "a guess written as fact"
+      },
+      itemNotes: {
+        "kps-ess-no-source": "Every claim needs evidence behind it. Where is it from?",
+        "kps-ess-book-as-witness": "The book was written later. It is an interpretation, not a witness.",
+        "kps-ess-guess-fact": "Where the evidence stops, say so. A guess must be labelled as one."
+      },
+      decoyNotes: {
+        "kps-ess-question": "Naming an open question is good history. Keep it."
+      },
+      title: "Spot the problems in a classmate's essay",
+      cue: "Look at the draft essay and mark each problem before it is handed in.",
+      why: "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
+    },
+    {
       id: "turn-from-the-primary-to-the",
       kind: "turn",
       target: "kps-lens-dial",
@@ -169,40 +203,6 @@ export const SIM_K12_PRIMARY_AND_SECONDARY_SOURCES = {
       title: "Link the claim to its evidence",
       cue: "Drag the book's main claim onto the primary source that supports it.",
       why: "Tracing a claim to the evidence behind it is how historians check each other's work. Placing the book's claim beside the letter that supports it shows the reader exactly where the claim comes from, and it reveals at once any claim with nothing beneath it, which is the claim to be most careful about."
-    },
-    {
-      id: "say-where-the-evidence-runs-out",
-      kind: "select",
-      target: "kps-gap-card",
-      title: "Say where the evidence runs out",
-      cue: "The diary has a missing page. Say what the evidence cannot tell us.",
-      why: "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
-    },
-    {
-      id: "spot-the-problems-in-a-classmate",
-      kind: "find",
-      noHint: true,
-      targets: [
-        "kps-ess-no-source",
-        "kps-ess-book-as-witness",
-        "kps-ess-guess-fact"
-      ],
-      itemNames: {
-        "kps-ess-no-source": "a claim with no source",
-        "kps-ess-book-as-witness": "the book quoted as if it were there",
-        "kps-ess-guess-fact": "a guess written as fact"
-      },
-      itemNotes: {
-        "kps-ess-no-source": "Every claim needs evidence behind it. Where is it from?",
-        "kps-ess-book-as-witness": "The book was written later. It is an interpretation, not a witness.",
-        "kps-ess-guess-fact": "Where the evidence stops, say so. A guess must be labelled as one."
-      },
-      decoyNotes: {
-        "kps-ess-question": "Naming an open question is good history. Keep it."
-      },
-      title: "Spot the problems in a classmate's essay",
-      cue: "Look at the draft essay and mark each problem before it is handed in.",
-      why: "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
     },
     {
       id: "keep-the-argument-balanced-as-you",

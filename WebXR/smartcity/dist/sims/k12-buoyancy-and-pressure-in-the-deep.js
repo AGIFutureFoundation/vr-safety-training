@@ -51,10 +51,10 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
   }),
 
   hazards: {
-    "heavy-things-always-sink": "You said heavy things always sink. Whether something floats depends on how much water it pushes aside compared with its own weight, which is why a large ship floats and a small stone sinks. Heavy on its own does not decide it; the shape and the space it takes up matter too.",
-    "change-two-things-at-once": "You changed the shape and the material in the same test. When two things change at once, you cannot tell which one made the difference; a fair test changes one thing and keeps the rest the same.",
-    "lean-over-the-viewing-rail": "You leaned over the viewing rail. The rail is there because the edge is a drop into water, and the guide brings the test tank to the bench so nobody needs to lean; the lesson happens on the safe side of the rail.",
-    "say-pressure-is-the-same-everywhere": "You said the water pushes the same at every depth. The deeper you go, the more water is above, and the harder it pushes from every side; that is why the holes lower down on the test bottle squirt furthest, and why deep-water equipment is built so strongly."
+    "heavy-things-always-sink": "You said heavy things always sink. Whether something rides or sinks depends on how much water it shoves aside compared with its own weight, which is why an iron ship rides the swell while a pebble drops to the seabed. Heavy on its own decides nothing; the shape and the room it takes up in the water matter too.",
+    "change-two-things-at-once": "You swapped the shape and the material in one drop. When two things alter at once, the tank cannot tell you which one made the difference; an honest trial alters one thing and keeps the rest exactly as it was.",
+    "lean-over-the-viewing-rail": "You leaned over the viewing rail. The rail is there because the lip beyond it is a drop into deep water, and the guide carries the tank to the bench so nobody ever needs to lean; the whole visit happens on the dry side of the rail.",
+    "say-pressure-is-the-same-everywhere": "You said the water squeezes the same at every depth. The deeper a diver goes, the more water is stacked above, and the harder it squeezes from every side; that is why the lowest hole in the corked bottle jets furthest, and why the hulls that work in deep water are built so thick."
   },
 
   lateNotes: {
@@ -86,16 +86,16 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         "kbd-platform-sign": "Part of the platform, not the test. Choose the objects on the bench."
       },
       title: "Find what you will test",
-      cue: "Mark the three objects on the bench you will predict and test.",
-      why: "A good test starts with a clear set of things to try. Here that is a solid block, the same material shaped into a hollow boat, and a sealed bottle with air inside. Picking objects that differ in one useful way each is what lets the results teach something rather than just entertain."
+      cue: "Tap the three things on the bench that will go into the tank: the solid block, the hull shaped from the same stuff, and the corked bottle with air inside.",
+      why: "A trial in the tank starts by choosing what to drop in. Here it is a solid block, the very same material hammered into a hollow hull, and a corked bottle full of air. Each differs from the next in one useful way, which is what lets the tank teach something rather than merely splash."
     },
     {
       id: "take-your-place-behind-the-viewing",
       kind: "select",
       target: "kbd-rail-card",
       title: "Take your place behind the viewing rail",
-      cue: "Stand behind the rail; the guide brings the test tank to the bench.",
-      why: "The viewing rail marks the edge of a drop into water, and every visit starts behind it. The guide brings the test tank to the bench precisely so that curiosity never needs to lean over anything; following the platform's rule comes before the experiment."
+      cue: "Stand behind the viewing rail; the guide carries the tank to the bench on the dry side.",
+      why: "The viewing rail marks the lip of a drop into deep water, and every visit to the platform begins behind it. The guide carries the tank to the bench precisely so curiosity never has to lean over the lip; keeping the platform's rule comes before any trial in the tank."
     },
     {
       id: "put-the-test-in-order",
@@ -113,9 +113,9 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         "kbd-ord-explain": "4 · explain"
       },
       title: "Put the test in order",
-      cue: "Predict, test one change, observe, explain.",
-      why: "Writing a prediction before testing means the result can surprise you, which is where learning happens. Changing one thing at a time keeps the test fair, observing carefully keeps it honest, and explaining in terms of the water's upward push turns a result into understanding.",
-      outOfOrderNote: "Out of order. Predict before you test, or the result cannot surprise you."
+      cue: "Write the guess, alter one thing, drop it in and keep eyes on it, then explain with the water's upthrust.",
+      why: "Writing the guess down before anything touches the tank means the water can surprise you, and surprise is where the learning lives. Altering a single thing keeps the trial honest, keeping eyes on the tank keeps the notes honest, and explaining with the water's upthrust turns a splash into understanding.",
+      outOfOrderNote: "Not that way round. Write the guess before the drop, or the tank cannot surprise you."
     },
     {
       id: "watch-the-boat-settle-without-touching",
@@ -123,60 +123,17 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       target: "kbd-watch-boat",
       seconds: 6,
       title: "Watch the boat settle without touching it",
-      cue: "Keep still and watch where the boat settles in the water.",
-      why: "Watching an object settle, without nudging it, shows how low it sits once the water's upward push balances its weight. Touching it spoils the observation; patient watching is what lets you see the balance the whole topic is about. Floating is a balance between the object's weight and the water's upward push, and you can watch it settle.",
-      holdBreakNote: "You nudged the boat and spoiled the observation. Let it settle again on its own."
-    },
-    {
-      id: "turn-the-block-into-a-boat",
-      kind: "turn",
-      target: "kbd-shape-dial",
-      turn: {
-        turns: 0.5,
-        axis: "y",
-        label: "BOAT"
-      },
-      title: "Turn the block into a boat",
-      cue: "Turn the dial from the solid block to the same material shaped as a boat.",
-      why: "Changing only the shape, and keeping the same material and amount, is the fair test that shows shape matters. A hollow shape pushes aside more water, so the water pushes up harder, and the same material that sank can float. That is why a heavy steel ship floats while a small steel bolt sinks straight to the bottom."
-    },
-    {
-      id: "load-the-boat-until-it-sits",
-      kind: "gauge",
-      target: "kbd-load-meter",
-      gauge: {
-        label: "CARGO",
-        speed: 0.6,
-        green: [
-          0.4,
-          0.58
-        ],
-        missNote: "Outside the band. Too little and nothing is learned; too much and it sinks. Load it again."
-      },
-      title: "Load the boat until it sits low but still floats",
-      cue: "Commit when the boat is loaded low in the water but still floating.",
-      why: "Adding cargo makes the boat sit lower as it pushes aside more water to balance the extra weight. Stopping while it still floats shows that balance at its limit, and it is the idea behind the load lines painted on real ships' hulls. Crews check those marks so a ship is never loaded so deep that it becomes unsafe."
-    },
-    {
-      id: "put-your-result-on-the-class",
-      kind: "drag",
-      target: "kbd-result-token",
-      drag: {
-        to: "kbd-results-spot",
-        radius: 0.45,
-        missNote: "Not in place yet. Take it all the way to on the class results board."
-      },
-      title: "Put your result on the class board",
-      cue: "Drag your result card onto the class results board beside everyone else's.",
-      why: "One result can be a fluke; many results from the class together show a pattern. Putting yours beside everyone else's is how science builds confidence in a finding, and it lets the class spot any result that needs repeating. Putting every group's results side by side shows which findings are solid and which were flukes."
+      cue: "Hands off: keep eyes on the hull until it settles and its waterline stops moving.",
+      why: "Left alone, a hull sinks until the water's upthrust balances its weight, and the waterline it settles at shows that balance. A finger on the rim spoils the reading; patient waiting is what lets the balance the whole platform is about show itself in the tank.",
+      holdBreakNote: "You nudged the hull and the waterline jumped. Hands off and let it settle again."
     },
     {
       id: "explain-the-squirting-bottle",
       kind: "select",
       target: "kbd-depth-card",
       title: "Explain the squirting bottle",
-      cue: "Water squirts furthest from the lowest hole. Say why.",
-      why: "The lowest hole has the most water above it, so the water there pushes hardest and squirts furthest. Explaining that with the idea of water pressing from above is the qualitative understanding of pressure this lesson aims at, without needing any figures."
+      cue: "The corked bottle jets furthest from its lowest hole. Say why.",
+      why: "The lowest hole has the most water stacked above it, so the water there squeezes hardest and jets furthest. Explaining that with the weight of water pressing down from above is the understanding of pressure this platform aims at, with no figures needed: deeper means more squeeze."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -201,8 +158,51 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         "kbd-con-prediction": "Writing the prediction first is good practice. Keep it."
       },
       title: "Spot the problems in a classmate's conclusion",
-      cue: "Look at the draft conclusion and mark each problem.",
-      why: "A conclusion should follow from the evidence and use the right idea to explain it. The usual problems are explaining floating by weight alone, drawing a conclusion from an unfair test and ignoring a result that did not fit. Spotting them makes your own conclusions stronger."
+      cue: "Look over the verdict a classmate wrote on the bench and tap each slip before it goes on the chart.",
+      why: "A verdict should follow from the tank and lean on the right idea. The usual slips are blaming weight alone for a sinking, drawing a verdict from a trial that altered two things at once, and leaving out a reading that did not suit. Catching them on a classmate's sheet makes your own verdicts sturdier."
+    },
+    {
+      id: "turn-the-block-into-a-boat",
+      kind: "turn",
+      target: "kbd-shape-dial",
+      turn: {
+        turns: 0.5,
+        axis: "y",
+        label: "BOAT"
+      },
+      title: "Turn the block into a boat",
+      cue: "Turn the dial from the solid block to the hull hammered from the same stuff.",
+      why: "Altering only the shape, with the same material and the same amount, is the one-change trial that proves shape decides it. A hollow hull shoves aside far more water, so the water shoves back harder, and the very stuff that sank as a block rides as a hull. That is why an iron ship floats while an iron bolt drops to the seabed."
+    },
+    {
+      id: "load-the-boat-until-it-sits",
+      kind: "gauge",
+      target: "kbd-load-meter",
+      gauge: {
+        label: "CARGO",
+        speed: 0.6,
+        green: [
+          0.4,
+          0.58
+        ],
+        missNote: "Outside the band. Too light a load teaches nothing; too heavy and the tank has it. Load the hull again."
+      },
+      title: "Load the boat until it sits low but still floats",
+      cue: "Commit when the cargo has the hull riding low, its waterline near the rim but still afloat.",
+      why: "Every crate of cargo makes the hull ride lower as it shoves aside more water to balance the added weight. Stopping while the rim is still dry shows that balance at its edge, and it is the idea behind the load line painted on a real ship's side. Crews read that line so a hull is never loaded so deep that a wave comes over the rim."
+    },
+    {
+      id: "put-your-result-on-the-class",
+      kind: "drag",
+      target: "kbd-result-token",
+      drag: {
+        to: "kbd-results-spot",
+        radius: 0.45,
+        missNote: "Not on the chart yet. Carry the card all the way to the tank-side chart."
+      },
+      title: "Put your result on the class board",
+      cue: "Drag your reading card onto the tank-side chart beside the other groups' cards.",
+      why: "A single reading may be a fluke; a chart of every group's readings shows a pattern. Sliding your card beside the others is how a finding earns trust, and it lets the platform spot a reading that wants a second drop in the tank. Cards side by side show which findings hold water and which were flukes."
     },
     {
       id: "keep-your-observations-matched-to-what",
@@ -221,9 +221,9 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         label: "HONEST"
       },
       title: "Keep your observations matched to what you see",
-      cue: "Hold your notes in band with what the tank actually shows as objects settle.",
-      why: "It is easy to write what you expected rather than what happened. Keeping notes matched to the tank, including surprises, is the honesty that makes a science result worth trusting. A surprise is often where the most interesting question in the whole lesson is hiding.",
-      holdBreakNote: "Your notes drifted from what the tank shows. Look again and write what you see."
+      cue: "Keep your notes in band with what the tank actually shows as each object settles to its waterline.",
+      why: "It is easy to write down what the guess said instead of what the tank shows. Keeping the notes matched to the waterline, surprises included, is the honesty that makes a reading from the platform worth trusting. A surprise is often where the best question of the whole visit is hiding.",
+      holdBreakNote: "Your notes have drifted from the tank. Look at the waterline again and write what you see."
     },
     {
       id: "record-predictions-results-and-explanations",
@@ -231,8 +231,8 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       target: "kbd-lab-log",
       doneLine: "Predictions and results recorded",
       title: "Record predictions, results and explanations",
-      cue: "Write each prediction, what happened, and the explanation using the water's push.",
-      why: "Recording predictions alongside results shows where your thinking changed, which is the real evidence of learning. Anyone can repeat the test from your record and check your explanation."
+      cue: "Write each guess, what the tank did, and the explanation in terms of the water's upthrust.",
+      why: "Writing the guess beside what the tank did shows where your thinking changed, which is the real proof of learning on the platform. Anyone with the same block, hull and bottle can repeat the drop from your sheet and weigh your explanation against their own tank."
     },
     {
       id: "explain-the-boat-to-the-class",
@@ -240,8 +240,8 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       target: "kbd-share-board",
       doneLine: "Explanation shared",
       title: "Explain the boat to the class",
-      cue: "Explain why the boat floats when the block of the same material sinks.",
-      why: "Explaining the boat and the block to the class, using the push of the water, is the clearest test of whether the idea has landed. Classmates who predicted wrongly learn most from an explanation that uses the same objects they saw. Using the real objects keeps the explanation honest, because everyone can check it against what happened."
+      cue: "Explain to the group why the hull rides when the block of the same stuff sinks.",
+      why: "Explaining the hull and the block to the group, in terms of the water's upthrust, is the surest sign the idea has landed. Classmates whose guess was wrong learn most from an explanation built on the very objects they watched settle. The real objects keep the explanation honest, because anyone can hold it against the tank."
     },
     {
       id: "crew-check-in",
@@ -249,8 +249,8 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       target: "kbd-checkin",
       doneLine: "Checked in",
       title: "Check in at the end of the lesson",
-      cue: "How did the experiment go? What surprised you, and what would you test next?",
-      why: "Ending with a short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the lesson hard can talk to the teacher or a trusted adult afterwards."
+      cue: "Before the group leaves the platform: what did the tank do that you did not expect, and what would you drop in next?",
+      why: "A short round before the group leaves the platform lets the teacher hear which ideas landed and which did not, and gives every learner a moment to name one thing they would drop into the tank next time. Nobody is marked on the platform, and the teacher or a trusted adult is there for anyone who wants to talk more afterwards."
     }
   ],
 
@@ -262,11 +262,11 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       delay: 3,
       seconds: 12,
       target: "kbd-stop-and-tell-guide",
-      alert: "The test tank starts to overflow onto the platform floor near the rail.",
-      cue: "Stop adding water, step back from the wet patch and tell the guide.",
-      why: "Water on a platform floor beside a rail is a slip hazard in exactly the wrong place. Stopping, stepping back and telling the guide, who can mop and mark it, comes before the experiment.",
-      missNote: "Nobody told the guide, and a classmate slipped on the wet floor by the rail. Next time, stop the lesson and deal with it first.",
-      wrongNote: "That does not deal with the spill. Stop and tell the guide. Choose the response that deals with it now."
+      alert: "The tank brims over and water runs across the platform decking towards the rail.",
+      cue: "Stop pouring, step back off the wet decking and tell the guide.",
+      why: "Water across the decking beside a rail is a slip in exactly the wrong spot. Stopping the pour, stepping back and telling the guide, who has the mop and the wet-floor sign, comes before any drop in the tank.",
+      missNote: "Nobody told the guide, and a classmate slipped on the wet decking by the rail. Next time, stop the trial and deal with it first.",
+      wrongNote: "That does not deal with the water on the decking. Stop and tell the guide. Choose the response that deals with it now."
     },
     {
       id: "the-guide-asks-why-ships-float",
@@ -275,11 +275,11 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
       delay: 3,
       seconds: 12,
       target: "kbd-explain-push",
-      alert: "The platform guide asks how a huge metal ship can float when a small metal nut sinks.",
-      cue: "Explain using shape and the water's upward push, not weight alone.",
-      why: "The guide is checking whether the boat-and-block result transfers to something new. Explaining that the ship's hollow shape pushes aside a great deal of water, so the upward push balances its weight, shows real understanding.",
-      missNote: "You said the ship was lighter than it looks, which is not why it floats. Next time, stop the lesson and deal with it first.",
-      wrongNote: "That explains by weight alone. Use the shape and the water's push."
+      alert: "The platform guide asks how a great iron ship can ride the sea when an iron nut sinks in the tank.",
+      cue: "Answer with the hull's shape and the water's upthrust, not with weight alone.",
+      why: "The guide is asking whether the hull-and-block reading carries over to something new. Saying that the ship's hollow hull shoves aside a great deal of water, so the upthrust balances its weight, shows the idea has left the tank and reached the sea.",
+      missNote: "You said the ship was lighter than it looks, which is not why it rides. Next time, stop the trial and deal with it first.",
+      wrongNote: "That is weight alone. Use the hull's shape and the water's upthrust."
     }
   ],
 
@@ -368,29 +368,21 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#dfe6e2", base2: "#cfd8d4", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5216890, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+    // a working boat's deck: a rail along the stern, a wheelhouse, coiled lines and a life ring
+    void wallMat;
+    const rail = group(g, 0, 0, -4.6);
+    for (let i = 0; i < 9; i++) cyl(rail, 0.025, 0.025, 1.0, -3.2 + i * 0.8, 0.5, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(rail, 6.6, 0.05, 0.05, 0, 1.0, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    box(rail, 6.6, 0.03, 0.03, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+    const house = group(g, -2.6, 0, -3.9);
+    box(house, 1.8, 2.1, 1.2, 0, 1.05, 0, 0xf4f0e6, { rough: 0.7 });
+    box(house, 1.5, 0.6, 0.04, 0, 1.5, 0.61, 0x2a3a4a, { rough: 0.3, metal: 0.2 });
+    box(house, 1.9, 0.08, 1.3, 0, 2.14, 0, 0xd8a54a, { rough: 0.6 });
+    for (const [cx0, cz0] of [[2.4, -3.8], [3.0, -3.3]]) for (let i = 0; i < 3; i++) cyl(g, 0.28 - i * 0.03, 0.28 - i * 0.03, 0.05, cx0, 0.03 + i * 0.05, cz0, 0xd8c04a, { rough: 0.9, seg: 14 });
+    const ring = group(g, 3.3, 1.2, -4.55);
+    cyl(ring, 0.32, 0.32, 0.06, 0, 0, 0, 0xf0645b, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    cyl(ring, 0.18, 0.18, 0.08, 0, 0, 0, 0xf4f0e6, { rough: 0.6, seg: 18 }).rotation.x = Math.PI / 2;
+    for (const bx of [-3.6, 3.6]) box(g, 0.5, 0.5, 0.5, bx, 0.25, -2.6, 0x6b4a2e, { rough: 0.8 });
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};
@@ -427,7 +419,7 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
     // ------------------------------------------------------------ the guide
     const guide = group(g, 0, 2.15, -3.2);
     box(guide, 0.94, 0.44, 0.02, 0, 0, -0.012, 0x7fc4d8, { rough: 0.5, emissive: 0x7fc4d8, ei: 0.25 });
-    const guideFace = decal(guide, 0.9, 0.4, 0, 0, 0, (cx, w, h) => text(cx, w, h, "THE GUIDE", ["Predict, test, explain."], "#7fc4d8"), { px: 512, glow: true, ei: 0.9 });
+    const guideFace = decal(guide, 0.9, 0.4, 0, 0, 0, (cx, w, h) => text(cx, w, h, "THE GUIDE", ["Guess, drop, explain."], "#7fc4d8"), { px: 512, glow: true, ei: 0.9 });
     const paintGuide = (msg) => repaint(guideFace, (cx, w, h) => {
       cx.fillStyle = "rgba(10,20,28,0.94)"; cx.fillRect(0, 0, w, h);
       cx.fillStyle = "#7fc4d8"; cx.fillRect(0, 0, w, 5);
@@ -472,11 +464,11 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         if (step.id === "record-predictions-results-and-explanations") repaint(boards["kbd-lab-log"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Predictions and results recorded"], "#59c97b"));
         if (step.id === "explain-the-boat-to-the-class") repaint(boards["kbd-share-board"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Explanation shared"], "#59c97b"));
         if (step.id === "crew-check-in") repaint(boards["kbd-checkin"].userData.face, (cx, w, h) => text(cx, w, h, "DONE", ["Checked in"], "#59c97b"));
-        if (step.id === "explain-the-squirting-bottle") paintGuide("Water pushes up; deeper water pushes harder.");
+        if (step.id === "explain-the-squirting-bottle") paintGuide("Water shoves up; deeper water squeezes harder.");
       },
 
       onHazard() {
-        paintGuide("Stop. Heavy is not the whole story — think about the push of the water.");
+        paintGuide("Stop. Heavy is not the whole tale — think about the water's upthrust.");
       },
 
       onInterrupt(it) {
@@ -488,8 +480,8 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         alarmLamp.material = lampOn;
         const who = arrivals[it.id];
         if (it.resolved !== "answered") { if (who) who.rotation.y += 0.6; paintGuide("That one went unanswered. Next time, stop and deal with it first."); return; }
-        if (it.id === "the-tank-starts-to-overflow") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Guide told, floor mopped and marked. The test carries on at the bench."); }
-        if (it.id === "the-guide-asks-why-ships-float") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Explained with shape and the water's push. The idea has transferred."); }
+        if (it.id === "the-tank-starts-to-overflow") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Guide told, decking mopped and signed. The trial carries on at the bench."); }
+        if (it.id === "the-guide-asks-why-ships-float") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Answered with shape and upthrust. The idea has reached the sea."); }
       },
 
       animate(tm, dt, session) {

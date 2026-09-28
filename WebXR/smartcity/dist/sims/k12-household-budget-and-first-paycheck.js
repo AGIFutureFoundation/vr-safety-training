@@ -90,14 +90,6 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
       why: "A pay slip is a small table of arithmetic. The gross pay is what was earned, the deductions are what is taken before it reaches you, and the net pay is what arrives. Finding all three first stops you planning with the wrong number, which is the commonest mistake a first-time earner makes."
     },
     {
-      id: "keep-your-practice-details-private",
-      kind: "select",
-      target: "kbp-private-card",
-      title: "Keep your practice details private",
-      cue: "Turn the slip face down when you are not working on it.",
-      why: "Keeping personal financial details private is a life skill in its own right, and it starts in practice. The slip uses made-up details, but turning it face down when you are not working on it builds the same habit you will need with a real slip, a bank card or a message asking for account details."
-    },
-    {
       id: "put-the-budget-steps-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
       outOfOrderNote: "Out of order. Start from what actually arrives, then the needs, before anything else."
     },
     {
-      id: "add-up-the-bills-without-skipping",
-      kind: "hold",
-      target: "kbp-add-bills",
-      seconds: 6,
-      title: "Add up the bills without skipping one",
-      cue: "Hold your place and add the bills on the table one by one.",
-      why: "Adding a column of bills is easy to get wrong by skipping one or counting one twice. Working through them one by one, keeping your place, gives a total you can trust; it is the same care anyone takes with a real month's bills, where one forgotten bill can undo the whole plan.",
-      holdBreakNote: "You lost your place and skipped a bill. Go back to the last one you are sure of."
+      id: "keep-your-practice-details-private",
+      kind: "select",
+      target: "kbp-private-card",
+      title: "Keep your practice details private",
+      cue: "Turn the slip face down when you are not working on it.",
+      why: "Keeping personal financial details private is a life skill in its own right, and it starts in practice. The slip uses made-up details, but turning it face down when you are not working on it builds the same habit you will need with a real slip, a bank card or a message asking for account details."
     },
     {
       id: "turn-the-fraction-into-a-percentage",
@@ -158,6 +148,16 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
       why: "Saving too little leaves nothing for a surprise; saving so much that the needs go unpaid leads to borrowing, which undoes the saving. A realistic amount is one the month can actually bear, and it is the same judgement adults make every month."
     },
     {
+      id: "add-up-the-bills-without-skipping",
+      kind: "hold",
+      target: "kbp-add-bills",
+      seconds: 6,
+      title: "Add up the bills without skipping one",
+      cue: "Hold your place and add the bills on the table one by one.",
+      why: "Adding a column of bills is easy to get wrong by skipping one or counting one twice. Working through them one by one, keeping your place, gives a total you can trust; it is the same care anyone takes with a real month's bills, where one forgotten bill can undo the whole plan.",
+      holdBreakNote: "You lost your place and skipped a bill. Go back to the last one you are sure of."
+    },
+    {
       id: "cover-the-surprise-from-the-buffer",
       kind: "drag",
       target: "kbp-surprise-token",
@@ -169,14 +169,6 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
       title: "Cover the surprise from the buffer",
       cue: "A surprise cost arrives. Drag it onto the amount you kept back.",
       why: "This is what the kept-back amount is for. Covering a surprise from the buffer, rather than from the needs or by borrowing, shows the plan working exactly as designed, and it is why every budget keeps something in reserve."
-    },
-    {
-      id: "check-the-budget-balances",
-      kind: "select",
-      target: "kbp-check-card",
-      title: "Check the budget balances",
-      cue: "Check that everything planned adds up to the net pay, no more.",
-      why: "A budget balances when everything planned adds up to what arrives. Checking it before the month starts, rather than finding out at the end, is what separates a plan from a hope, and it is the same check a business does with its own accounts."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -203,6 +195,14 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
       title: "Spot the problems in a classmate's budget",
       cue: "Look at the draft budget and mark each problem before it is handed in.",
       why: "Checking someone else's budget trains you to see the traps in your own. The usual problems are planning from the gross pay, a percentage taken of the wrong total and nothing kept back for surprises. Each one looks fine on paper until the month begins."
+    },
+    {
+      id: "check-the-budget-balances",
+      kind: "select",
+      target: "kbp-check-card",
+      title: "Check the budget balances",
+      cue: "Check that everything planned adds up to the net pay, no more.",
+      why: "A budget balances when everything planned adds up to what arrives. Checking it before the month starts, rather than finding out at the end, is what separates a plan from a hope, and it is the same check a business does with its own accounts."
     },
     {
       id: "keep-spending-on-plan-through-the",
