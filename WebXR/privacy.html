@@ -37,7 +37,7 @@
     <h3>Nothing leaves this device without your opt-in</h3>
     <ul>
       <li>No page here makes a network request about you. The only files read unprompted are the page's own scripts, its catalogue and <code>auth-config.json</code> beside the homepage, all same-origin.</li>
-      <li>Sign-in providers are contacted only when a deployment configured them, and only when you press their button (<a href="../docs/sign-in.md">docs/sign-in.md</a>). With nothing configured, no provider is ever contacted.</li>
+      <li>Sign-in providers are contacted only when a deployment configured them, and only when you press their button (<a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/sign-in.md">docs/sign-in.md</a>). With nothing configured, no provider is ever contacted.</li>
       <li>An export is a file handed to you. You decide where it goes.</li>
     </ul>
   </div>
@@ -55,12 +55,12 @@
     <tr><th>Key</th><th>Holds</th><th>Leaves the device</th></tr>
     <tr><td><code>vr-training-records-v1</code></td><td>One entry per finished attempt: station, category, score, stars, corrections, unsafe actions, time against par, pass or fail, the crew tag you typed. No biometrics, no free text beyond that tag.</td><td>Only in an export you download (CSV, xAPI, Open Badges, transcript).</td></tr>
     <tr><td><code>vr-passport-v1</code></td><td>Which world an award came from, which job boards are done, which returns were paid.</td><td>Only in an export.</td></tr>
-    <tr><td><code>vr-training-episodes-v1</code></td><td>The optional step-by-step episode log for robot-training datasets; the crew tag is folded to a digest before it is written.</td><td>Only through the consent-gated share (<a href="../docs/wallets-and-sharing.md">docs/wallets-and-sharing.md</a>).</td></tr>
+    <tr><td><code>vr-training-episodes-v1</code></td><td>The optional step-by-step episode log for robot-training datasets; the crew tag is folded to a digest before it is written.</td><td>Only through the consent-gated share (<a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wallets-and-sharing.md">docs/wallets-and-sharing.md</a>).</td></tr>
     <tr><td><code>bayworld-career-v1</code>, <code>underwater-career-v1</code>, <code>redwood-career-v1</code>, the quest and dive stores</td><td>Each world's reputation, credits, quest steps and activities.</td><td>Never.</td></tr>
     <tr><td><code>vr-treasures-v1</code></td><td>Which treasures you have found.</td><td>Never.</td></tr>
     <tr><td><code>vr-training-signoffs-v1</code></td><td>Instructor attestations typed on this device: a name, a date, a note.</td><td>Only in a transcript export.</td></tr>
     <tr><td><code>vr-training-auth-v1</code></td><td>The signed-in session: display name, provider, the id the provider returned. Removed on sign-out.</td><td>Posted only to the host page a deployment configured as <code>homePage</code>, never to anyone else.</td></tr>
-    <tr><td><code>vr-org-v1</code></td><td>The organisation layer (<a href="../docs/enterprise.md">docs/enterprise.md</a>): organisations, cohorts, members with a display name and a role, your progress-sharing consent (off by default), a data-minimised progress snapshot when it is on, and this device's audit log of coordinator actions.</td><td>Only in a cohort file a coordinator exports, and then only the snapshots of members who turned sharing on.</td></tr>
+    <tr><td><code>vr-org-v1</code></td><td>The organisation layer (<a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/enterprise.md">docs/enterprise.md</a>): organisations, cohorts, members with a display name and a role, your progress-sharing consent (off by default), a data-minimised progress snapshot when it is on, and this device's audit log of coordinator actions.</td><td>Only in a cohort file a coordinator exports, and then only the snapshots of members who turned sharing on.</td></tr>
     <tr><td><code>holodeck-lang-v1</code>, <code>vr-training-profile-salt-v1</code>, <code>vr-training-profiles-v1</code></td><td>Your language, the random salt the digests use, the "This device" adoption note.</td><td>Never.</td></tr>
   </table></div>
 
@@ -77,7 +77,7 @@
   </div>
 
   <h2>Deployment settings</h2>
-  <p class="lead">A deployment for one organisation may fill in the <code>enterprise</code> block of <code>auth-config.json</code>: the organisation's name, which sign-in methods are offered, a default language, which worlds and programmes are enabled, and a data-retention note it writes for itself. Nothing in that block is read from a link, and single sign-on remains a configuration point on the host page — no identity provider is built into these files. See <a href="../docs/enterprise.md">docs/enterprise.md</a>.</p>
+  <p class="lead">A deployment for one organisation may fill in the <code>enterprise</code> block of <code>auth-config.json</code>: the organisation's name, which sign-in methods are offered, a default language, which worlds and programmes are enabled, and a data-retention note it writes for itself. Nothing in that block is read from a link, and single sign-on remains a configuration point on the host page — no identity provider is built into these files. See <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/enterprise.md">docs/enterprise.md</a>.</p>
 
   <p class="note">Clearing this browser's site data removes every store above. Inside the sign-in dialog, <em>Sign out and clear my records</em> removes only the signed-in person's records. <button type="button" id="pv-account">Sign in / switch profile</button> <a href="./index.html">Back to the homepage</a>.</p>
 </main>
