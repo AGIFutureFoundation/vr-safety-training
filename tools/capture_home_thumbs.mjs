@@ -32,6 +32,7 @@ export const HM_CAPTURES = [
   { id: "regatta", page: "regatta.html", start: ["#menu-enter", "#menu-race"], settle: 4000 },
   { id: "underwater", page: "underwater.html", start: ["#menu-start"], keys: ["KeyV"], settle: 3500 },
   { id: "summit", page: "summit.html", start: ["#menu-start"], settle: 4500 },
+  { id: "parishes", page: "parishes.html", start: ["#menu-start"], settle: 6000 },
   { id: "fairway", page: "fairway.html", start: ["#menu-play"], settle: 3500 },
   { id: "redwood", page: "redwood.html", start: ["#menu-start"], settle: 4500 },
   { id: "atlas", page: "atlas.html", start: [], settle: 2500 },

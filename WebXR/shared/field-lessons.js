@@ -41,6 +41,7 @@ export const K2_WORLD_PAGES = {
   regatta: "../regatta/regatta.html",
   fairway: "../fairway/index.html",
   summit: "../summit/index.html",
+  parishes: "../parishes/parishes.html",
 };
 
 const k2L = (id, world, anchor, position, title, station, trade, tradeLine, minutes, band, steps, check) =>

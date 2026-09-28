@@ -30,7 +30,10 @@ export const WILDLIFE_BUDGET = {
   crab: { count: 1, meshes: 4, motion: "sidestep" },
   raptors: { count: 3, meshes: 9, motion: "soar" },
   deer: { count: 4, meshes: 28, motion: "graze" },
-  total: 99,
+  // The delta set (console PARISH): egrets wading a marsh edge, herons gliding a river.
+  egrets: { count: 5, meshes: 20, motion: "wade" },
+  herons: { count: 3, meshes: 9, motion: "glide" },
+  total: 128,
 };
 export const WILDLIFE_KINDS = Object.keys(WILDLIFE_BUDGET).filter((k) => k !== "total");
 
@@ -158,6 +161,57 @@ function wlShorebirds(parent, zone, count, rng) {
       u.g.position.y = zone.y + (cyc < 1 ? Math.abs(Math.sin(cyc * 18)) * 0.03 : 0);
       u.g.rotation.y = u.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
       if (cyc > 3.9) u.dir = -u.dir;
+    }
+  };
+}
+
+/** Egrets: white waders at a marsh edge — body, neck, head, legs (4 meshes); a slow step and a neck dip. */
+function wlEgrets(parent, zone, count, rng) {
+  const body = wlMat(0xf6f6f2), leg = wlMat(0x2a2a28), bill = wlMat(0xd8b450);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const x = zone.x + (rng() - 0.5) * zone.w, z = zone.z + (rng() - 0.5) * zone.d;
+    const g = wlUnit(parent, "egrets", x, zone.y, z);
+    wlBall(g, 0.18, 0, 0.62, 0, body, 1, 0.8, 1.5);
+    const neck = wlBox(g, 0.06, 0.5, 0.06, 0, 0.98, 0.2, body);
+    wlBall(g, 0.08, 0, 1.28, 0.26, bill, 1, 0.8, 1.6);
+    wlBox(g, 0.03, 0.55, 0.03, 0, 0.28, 0, leg);
+    units.push({ g, neck, x0: x, z0: z, phase: rng() * 10, heading: rng() * Math.PI * 2, step: 0.6 + rng() * 0.6 });
+  }
+  return (t) => {
+    for (const u of units) {
+      const cyc = (t * 0.35 + u.phase) % 6;            // step for a second of every six, dip the neck in the middle
+      const run = cyc < 1 ? cyc : 1;
+      u.g.position.x = u.x0 + Math.sin(u.heading) * run * u.step;
+      u.g.position.z = u.z0 + Math.cos(u.heading) * run * u.step;
+      u.g.rotation.y = u.heading;
+      u.neck.rotation.x = cyc > 3 && cyc < 4 ? Math.sin((cyc - 3) * Math.PI) * 0.9 : 0;
+      if (cyc > 5.9) { u.x0 = u.g.position.x; u.z0 = u.g.position.z; u.heading += (Math.sin(t + u.phase) > 0 ? 1 : -1) * 0.8; }
+    }
+  };
+}
+
+/** Herons: grey-blue, slow wingbeats, one long pass along the zone and back (like the pelicans, higher and alone). */
+function wlHerons(parent, zone, count, rng) {
+  const body = wlMat(0x8a97a3), wing = wlMat(0x4f5b66);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const u = wlBird(parent, "herons", zone.x, zone.y + 9, zone.z, { len: 1.0, span: 2.2, body, wing });
+    u.offset = i * 14 + rng() * 6;
+    u.phase = i * 1.3;
+    u.height = zone.y + 8 + rng() * 6;
+    units.push(u);
+  }
+  const half = Math.max(30, zone.w * 0.45);
+  const period = Math.max(40, half / 3.2);
+  return (t) => {
+    const k = (t % (period * 2)) / period;
+    const dir = k < 1 ? 1 : -1;
+    const x = zone.x + (k < 1 ? -half + k * 2 * half : half - (k - 1) * 2 * half);
+    for (const u of units) {
+      u.g.position.set(x - dir * u.offset, u.height + Math.sin(t * 0.4 + u.phase) * 0.6, zone.z + (u.offset % 3) * 4 - 4);
+      u.g.rotation.y = dir > 0 ? -Math.PI / 2 : Math.PI / 2;
+      wlFlap(u, t, 1.6, 0.3);
     }
   };
 }
@@ -309,7 +363,7 @@ function wlDeer(parent, zone, count, rng) {
   };
 }
 
-const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer };
+const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab, raptors: wlRaptors, deer: wlDeer, egrets: wlEgrets, herons: wlHerons };
 
 /**
  * Build one wildlife group.

@@ -43,6 +43,7 @@ const { BAY_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "bayworld
 const { DEEP_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "underwater-data.js")).href);
 const { RW_SITES } = await import(pathToFileURL(join(WEBXR, "redwood", "js", "rw-data.js")).href);
 const { SM_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "summit-data.js")).href);
+const { NP_PARISHES } = await import(pathToFileURL(join(WEBXR, "shared", "np-parishes.js")).href);
 // The Hard Hat Hunt counter's total (docs/easter-egg.md) — imported rather
 // than retyped, so a station added to or removed from the hunt can never
 // leave this page's footer counting against a stale number.
@@ -234,7 +235,7 @@ const LAYOUTS = {
     media: "home/media/",
     // The Guide's links point into the published folder (console COMPASS).
     guideRoot: "./dist/",
-    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html", redwood: "redwood/redwood.html", summit: "summit/index.html" },
+    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html", redwood: "redwood/redwood.html", summit: "summit/index.html", parishes: "parishes/parishes.html" },
     aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
@@ -246,7 +247,7 @@ const LAYOUTS = {
     out: "home.html",
     media: "media/",
     guideRoot: "./",
-    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", regatta: "regatta.html", underwater: "underwater.html", redwood: "redwood.html", summit: "summit.html" },
+    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", regatta: "regatta.html", underwater: "underwater.html", redwood: "redwood.html", summit: "summit.html", parishes: "parishes.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
@@ -1445,6 +1446,11 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       href: layout.app.summit, tint: "#7fd3ff", count: `${SM_SITES.filter((s) => s.stations.length).length} job sites`, shot: "summit",
       name: "Sierra Summit", go: "Start the climb",
       blurb: "A 4 km mountain to walk: a dam and its penstock, a pass road and tunnel, a transmission ridge, a gondola and a summit lookout — and every job board opens a real line, dam, road or lift station.",
+    }),
+    appCard(layout, {
+      href: layout.app.parishes, tint: "#7fd3ff", count: `${NP_PARISHES.length} parish${NP_PARISHES.length === 1 ? "" : "es"} · ${NP_PARISHES.reduce((n, p) => n + p.sites.length, 0)} job sites`, shot: "parishes",
+      name: "New Orleans Parishes", go: "Walk the delta",
+      blurb: "Streamed 4 km parish worlds on the delta: the river's bend, the lake shore, levees and floodwalls, the outfall canals and a wetland triangle — with job boards for the port, the levee crews, a pumping station, the streetcar barn, the rail yard, the hospital and stadium districts and a wetland restoration site.",
     }),
     appCard(layout, {
       href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes", shot: "fairway",
