@@ -17,6 +17,15 @@ Short, durable lessons for the next team at this console (the Bayou brief's GOLD
   GOLDEN-A's module is never edited, and until sf-downtown is registered check_parishes tests the way on a stand-in.
 - **No bare hash on a cross-world link.** Bay World reads `#site=` as its own return site; `lkWorldLink` encodes the
   whole return inside `&return=`, so the parishes' `#site=<district>/<site>` never reaches Bay World's hash.
+- **A new parish-surface treasure touches four checkers.** gen_treasures (the kits and lesson finds), check_treasures
+  and check_parish_play (both bind triggers through SL_PARISHES — extended with `sgDistrict`), and check_gates (a gated
+  kit needs a display name: run `node tools/gen_gate_names.mjs`). Copy the regenerated `guide-kb.js`,
+  `treasures-data.js` and `gate-names-data.js` into `WebXR/dist/shared/` (DIST_SHARED is a plain copy) or check_guide
+  reports the dist stale.
+- **A partial bundle needs three more steps for the flat folder:** `bundle_webxr.py parishes atlas bayworld`, then
+  `combined_fixup` into `WebXR/dist/<page>`, then `stamp_seo()` (else check_seo calls the flat pages stale), and
+  `cp WebXR/home.html WebXR/dist/index.html` after gen_home (else check_home does). Restore
+  `tools/__pycache__/bundle_webxr.cpython-311.pyc` before committing — it is tracked.
 - **Flat links come from the bundler's own rewrites.** Source `../bayworld/index.html?site=` becomes
   `./bayworld.html?site=`; `../parishes/parishes.html?parish=` becomes `./parishes.html?parish=`. check_parishes runs
   `dist_fixup` + `combined_fixup` in Python, as check_links does.

@@ -48,3 +48,15 @@ reports it *pending* until then.
 - Ten SF field lessons (five per district) tied to K-12 stations; `check_k12` section for them; treasures in gen_treasures.
 - Wiring: bundler module lists, `check_parishes` (SF sites, world connector, Bay World link), `check_links` (static: the
   Bay Bridge and the way back resolve in both layouts), passport, home card, SEO entry, Guide KB chunk.
+
+## Log
+- Base reset from 589f0d8 to a643c66 (local, no fetch). Plan and the connector table above written first.
+- 8339a1e — the two districts (generated from lon/lat, S = 2.05), the `world` connector kind, `sg-ways.js`,
+  `lkWorldLink`, the app's way out, Bay World's way back (Atlas and map), check_parishes' San Francisco section,
+  docs/parishes.md's San Francisco section. check_parishes and check_parish_data green.
+- 3a693dc — ten SF field lessons (`sg-fl-…`, five per district) on the play layer via `sg-sf-play.js`; a Fog-Day Kit
+  off every SF site and the lessons as Field Scholar finds; check_k12 8e, check_treasures, check_gates green.
+- 1fb183f — the San Francisco Districts home card (own capture), the parishes SEO line naming both regions, the
+  Guide's `world:san-francisco` chunk; parishes, Atlas and Bay World bundles rebuilt and flattened.
+- 3cf40cc — check_links section 9 (the Bay Bridge both ways, both layouts, a crossing loaded); check_parish_play
+  knows the SF caches; `tools/briefs/next/golden-b-next.md`.
