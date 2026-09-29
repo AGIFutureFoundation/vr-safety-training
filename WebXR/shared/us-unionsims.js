@@ -14,7 +14,7 @@
 // Every top-level name is prefixed us/US_ (the bundler shares one scope).
 
 import { US_SIMS, US_PROJECTS, US_PLACES_BY_PROJECT } from "./us-unionsims-data.js";
-import { psScore, psMistakes, psDebrief, psCreditLevel } from "./ps-projectsim.js";
+import { psScore, psMistakes, psDebrief, psCreditLevel, psRegisterSims } from "./ps-projectsim.js";
 import { tyEarn } from "./ty-economy.js";
 
 export { US_SIMS, US_PROJECTS, US_PLACES_BY_PROJECT };
@@ -42,3 +42,6 @@ export function usDeanModules() {
       paths: ["union-trades"], minutes: sim.steps.length * 2 + 2, launch: { world: "parishes", parish: place?.parish ?? null, site: place?.site ?? null } };
   });
 }
+
+// The craft simulations open from PROJECTSIM's boards and panel at their places (registered once, on import).
+psRegisterSims(US_SIMS, (parishId) => US_SIMS.flatMap((sim) => (US_PLACES_BY_PROJECT[sim.project] ?? []).filter((p) => p.parish === parishId).map((p) => ({ sim: sim.id, parish: p.parish, site: p.site }))));

@@ -45,10 +45,21 @@ export const PS_TIDE_OPEN = 0.6;
 export const PS_SITE_REACH = 240;
 
 export function psSims() { return PS_SIMS; }
-export function psSim(id) { return PS_SIMS.find((s) => s.id === id) ?? null; }
+export function psSim(id) { return PS_SIMS.find((s) => s.id === id) ?? PS_EXTRA.sims.find((s) => s.id === id) ?? null; }
+
+/**
+ * Other consoles' simulations in PROJECTSIM's shape (UNIONSIMS' craft simulations) join the boards and panels here:
+ * `psRegisterSims(sims, placesFor(parishId) -> [{ sim, parish, site }])`. psSims() still lists PROJECTSIM's own five.
+ */
+const PS_EXTRA = { sims: [], places: [] };
+export function psRegisterSims(sims, placesFor) {
+  for (const sim of sims ?? []) if (!PS_EXTRA.sims.some((s) => s.id === sim.id)) PS_EXTRA.sims.push(sim);
+  if (typeof placesFor === "function") PS_EXTRA.places.push(placesFor);
+}
 
 export function psPlacesFor(parishId, { lookup = npParish } = {}) {
   const here = PS_PLACES.filter((p) => p.parish === parishId);
+  for (const f of PS_EXTRA.places) { try { for (const p of f(parishId) ?? []) if (!here.some((h) => h.sim === p.sim && h.site === p.site)) here.push(p); } catch (_) { /* keep PROJECTSIM's own */ } }
   for (const g of PS_GUARDED) {
     if (g.parish !== parishId) continue;
     let map = null;

@@ -65,6 +65,8 @@ import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
 import { bqGamesFor } from "../../shared/bq-games-data.js";
 import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
+// UNIONSIMS: the craft simulations register with PROJECTSIM's boards on import (docs/consoles/UNIONSIMS.md).
+import { usSims } from "../../shared/us-unionsims.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -739,6 +741,7 @@ addEventListener("gt:profile", () => { try { dnHere = dnApplyHere(); } catch (_)
 // menu; each step is a real station's step, the order gates (permit, lockout, locate, mats, PPE) are scored, the award goes to the
 // passport and a pass pays Crew Credits through TYCOON's tyEarn.
 psSetRecorder(ppAward);
+void usSims; // registered on import, before the boards render
 var psWorld = psMountProjectSim({
   three: THREE, root, parish, el: $("menu-ps"), tier: npTierName,
   reducedMotion: (() => { try { return !!matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } })(),
