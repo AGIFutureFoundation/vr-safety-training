@@ -42,15 +42,19 @@ export const HV_AGENCY = {
   "new-orleans": "the Louisiana Department of Wildlife and Fisheries",
   bay: "the California Department of Fish and Wildlife",
 };
-export const hvFamily = (parish) => (npRegionOf(parish) === "new-orleans" ? "new-orleans" : "bay");
+// Louisiana maps outside the five parishes (the development sites, growth-city and neighbourhood districts) are Louisiana waters too.
+export const HV_LOUISIANA_REGIONS = ["new-orleans", "louisiana-sites", "louisiana-cities", "new-orleans-districts"];
+export const hvFamily = (parish) => (HV_LOUISIANA_REGIONS.includes(npRegionOf(parish)) ? "new-orleans" : "bay");
 
 /** Water classes: the engine's water kind read by region (San Francisco Bay is drawn as `gulf` on the Marina map). */
 export function hvWaterClass(parish, w) {
   if (!w) return null;
   const fam = hvFamily(parish), name = String(w.name ?? "");
-  if (/procedural|swale|storm drain/i.test(name)) return null;
+  if (/procedural|swale|storm drain|stormwater/i.test(name)) return null;
   if (fam === "new-orleans") {
     if (w.kind === "wetland") return "marsh";
+    // An inland Louisiana lake (an oxbow on the Red River, say) is fresh water: fished from the bank like a canal, no crab or shrimp.
+    if (w.kind === "lake" && npRegionOf(parish) === "louisiana-sites" && !/gulf|bay|sound|pontchartrain|borgne/i.test(name)) return "canal";
     return ["river", "lake", "canal", "bayou", "gulf"].includes(w.kind) ? w.kind : null;
   }
   if (w.kind === "wetland") return "marsh";

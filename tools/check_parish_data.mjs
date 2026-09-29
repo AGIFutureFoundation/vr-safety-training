@@ -118,7 +118,7 @@ function ndRibbonDistance([x, z], pts) {
 }
 const ND_WATER_KINDS = new Set(["river", "lake", "canal", "bayou", "wetland", "gulf", "bay", "ocean"]);
 /** The regions a map may name (np-parishes.js NP_REGIONS); a map with no `region` is a New Orleans parish. */
-const ND_REGIONS = new Set(["new-orleans", "san-francisco", "oakland", "north-east-bay", "south-bay", "bay-program", "louisiana-sites", "programmes"]);
+const ND_REGIONS = new Set(["new-orleans", "san-francisco", "oakland", "north-east-bay", "south-bay", "bay-program", "programmes", "louisiana-sites", "louisiana-cities", "new-orleans-districts"]);
 const ND_ROAD_KINDS = new Set(["interstate", "avenue", "street", "riverroad", "bridge", "causeway", "ferry"]);
 const ND_DISTRICT_CHARACTERS = new Set(["quarter", "downtown", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "park"]);
 const ND_CONNECTOR_KINDS = new Set(["bridge", "causeway", "ferry", "road"]);

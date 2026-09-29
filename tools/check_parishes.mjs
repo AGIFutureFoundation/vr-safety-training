@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay", "bp-san-mateo-shoreline", "bp-nutrient-pilot", "sm-unspoken-smiles", "la-starbase-vermilion", "la-black-bayou-cameron", "la-saronic-franklin", "la-avex-new-iberia"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay", "bp-san-mateo-shoreline", "bp-nutrient-pilot", "sm-unspoken-smiles", "la-starbase-vermilion", "la-black-bayou-cameron", "la-saronic-franklin", "la-avex-new-iberia", "la-meta-richland", "la-delta-forge-rapides", "la-shintech-plaquemine"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
