@@ -11,7 +11,7 @@ facts file `$SP/epa/epa-2026-facts.md` (the only source for project facts). Base
 | Port of Oakland — four trash capture devices on port property | `oak-west-oakland` | precinct: two trash capture device sites (placement procedural, labelled) |
 | Port of Oakland — Clean Ports zero-emission conversion | `oak-west-oakland` | precinct: charging yard, battery energy storage site, drayage staging, zero-emission cargo equipment yard |
 | C/CAG — monitor and control PCB sources (sites not named) | `bp-san-mateo-shoreline` (new, **representative**) | 13 sites |
-| BACWA — five nutrient-reduction pilots (sites not stated) | `bp-nutrient-pilot` (new, **procedural, representative**) | 12 sites |
+| BACWA — five nutrient-reduction pilots (sites not stated) | `bp-nutrient-pilot` (new, **procedural, representative**) | 13 sites |
 | City of San Jose — GSI implementation plan | `bay-san-jose` | precinct: street survey, site assessment, planning studio |
 | City of San Pablo — build and monitor GSI | `bay-san-pablo` | precinct: bioretention build, monitoring point, underdrain crew |
 | ABAG — Strip Marsh East | `bp-strip-marsh-east` | +3: small-boat landing, water-control structure, swamp mat crossing |
@@ -57,7 +57,12 @@ re-point `usPlaces` to `bp-nutrient-pilot` / `npp-operator-rounds` (us-sim-plant
    crafts per project, the us- guard). Act: check_parishes. Observed: 2 fails — the plant's blurb lacked "representative", the
    port's trash capture precinct had two unions → blurb fixed, iuoe-local3 on the vacuum-truck site.
 6. Reason: UNIONSIMS' final ids replaced one station and dropped two simulations. Act: pj-precincts updated, the guard reads
-   `usSims()` when us-unionsims.js is present, usPlaces sites listed. Observed: see the hand-back line below.
+   `usSims()` when us-unionsims.js is present, usPlaces sites listed. Observed: check_parishes 33839 passed, 0 failed; the guard
+   notes 0 resolved / 33 pending in this tree (UNIONSIMS not merged here).
+7. Reason: the wider checkers read every site. Act: check_parish_play, check_tycoon, check_npc one at a time. Observed:
+   check_tycoon 46 fails (20 new site kinds had no listing word) → words added to TY_KIND_WORDS (the Bay Program integration's
+   pattern), then 2 fails ("the mat road" read as an address) → "the swamp mats", 0 fail; check_npc 1 fail (bp-nutrient-pilot
+   placed one character) → the pump shop takes kind `pump` and a shoreline levee walk site is added, 0 fail.
 
 ## Left
 

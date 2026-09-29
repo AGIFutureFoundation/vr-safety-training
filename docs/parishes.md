@@ -433,7 +433,7 @@ never imply that a real plant, property or facility is part of a project.
 
 | map | id | module | export | region | sites | connectors |
 | San Mateo County Bayside (representative) | `bp-san-mateo-shoreline` | `np-data-bp-san-mateo-shoreline.js` | `NP_BP_SAN_MATEO_SHORELINE` | bay-program | 13 | 2 |
-| A Nutrient Pilot Plant on San Pablo Bay (procedural, representative) | `bp-nutrient-pilot` | `np-data-bp-nutrient-pilot.js` | `NP_BP_NUTRIENT_PILOT` | bay-program | 12 | 2 |
+| A Nutrient Pilot Plant on San Pablo Bay (procedural, representative) | `bp-nutrient-pilot` | `np-data-bp-nutrient-pilot.js` | `NP_BP_NUTRIENT_PILOT` | bay-program | 13 | 2 |
 
 **San Mateo County Bayside** (C/CAG: monitor and control PCB sources; the project's sites are not named) — a representative
 bayside industrial area on the county's shore of San Francisco Bay: the bay to the north-east, the Bayshore Freeway, a procedural
@@ -445,7 +445,7 @@ drain clean-out crew, the sample intake desk, the levee patrol, perimeter air mo
 is not stated) — a procedural wastewater treatment plant on a stretch of San Pablo Bay's southern shore that no map covers; only
 the water body is named. Sites: operator rounds, the chemical feed building, the aeration basin deck, a pilot process skid, the
 digester complex, the plant laboratory, the outfall monitoring landing, the chemical delivery dock, the plant substation, the
-pump and blower shop, the shoreline marsh crew and the solids load-out; hills rise behind the shore.
+pump and blower shop, the shoreline marsh crew, the solids load-out and the shoreline levee walk; hills rise behind the shore.
 
 **The Port of Oakland: a precinct, not a new map.** `npBounds(oak-west-oakland)` is lon −122.361 … −122.263, lat 37.773 … 37.851:
 the Outer Harbor, the Middle Harbor and the Seventh Street terminals all lie inside it, so the seaport gets a project precinct

@@ -101,6 +101,12 @@ const TY_KIND_WORDS = {
   boating: "the boating dock", boatyard: "the boatyard", civic: "the civic centre", clinic: "the clinic", hotel: "the hotel", market: "the market hall",
   monitoring: "the monitoring station", plant: "the plant room", theatre: "the theatre", trucking: "the truck yard", utility: "the utility yard",
   stormwater: "the rain gardens", yard: "the works yard", "trash-capture": "the drain inlet", industrial: "the loading docks", shore: "the waterline",
+  // PROJECTLANDS' project precincts and representative maps (docs/consoles/PROJECTLANDS.md).
+  aeration: "the basin walkway", assessment: "the survey stakes", "boat-landing": "the boat landing", charging: "the charging yard",
+  chemical: "the chemical building", decon: "the wash-down line", delivery: "the delivery dock", digester: "the digesters",
+  "energy-storage": "the battery site fence", excavation: "the dig site", haul: "the load-out", hazmat: "the drum yard", lab: "the lab",
+  "mat-crossing": "the swamp mats", pilot: "the pilot skid", planning: "the planning office", sampling: "the sampling grid",
+  survey: "the survey crew's van", "vacuum-truck": "the truck bay", "water-control": "the tide gate",
 };
 const TY_ROOM_WORDS = ["Upstairs room", "Back room", "Corner room", "Loft room", "Garden room"];
 const TY_SHOP_WORDS = ["Shopfront", "Ground-floor shop", "Corner unit", "Workshop bay", "Kiosk unit"];
