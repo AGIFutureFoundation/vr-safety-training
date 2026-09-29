@@ -17,6 +17,8 @@ import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npReg
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
+import { cwMassFilter, cwBlockWalk } from "../../shared/cw-cityworks.js";
+import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
@@ -70,7 +72,11 @@ const npStart = npPlace(parish, npReturnSiteId ?? npParams.get("site") ?? "") ??
 np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
-const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z] });
+const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
+// CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
+// site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
+const cwStreetsMount = cwMountStreets({ THREE, root, parish, tier: npTierName });
+cwStreetsMount.update(np.x, np.z, 999);
 // KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
 const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 const connectors = npResolveConnectors(parish);
@@ -102,6 +108,7 @@ function npApplySky() {
   const night = NP_TIMES[np.timeIdx] === "night";
   sun.intensity = night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6;
   hemi.intensity = night ? 0.25 : 0.95;
+  cwStreetsMount.setNight(night || NP_TIMES[np.timeIdx] === "dusk");
   $("hud-clock").textContent = NP_TIMES[np.timeIdx];
   $("hud-weather").textContent = NP_WEATHERS[np.weatherIdx];
 }
@@ -350,12 +357,13 @@ function frame(now) {
     nx = Math.max(-NP_SIZE / 2 + 5, Math.min(NP_SIZE / 2 - 5, nx)); nz = Math.max(-NP_SIZE / 2 + 5, Math.min(NP_SIZE / 2 - 5, nz));
     // Water stops the walk unless a bridge or a ferry carries the learner; a wetland is wadeable.
     const wet = npWaterAt(parish, nx, nz);
-    if (!wet || wet.kind === "wetland" || npHeightAt(parish, nx, nz) > 0.3) { np.x = nx; np.z = nz; }
+    if (!wet || wet.kind === "wetland" || npHeightAt(parish, nx, nz) > 0.3) [np.x, np.z] = cwBlockWalk(parish, np.x, np.z, nx, nz);
   }
   const gy = Math.max(npHeightAt(parish, np.x, np.z), 0.2);
   camera.position.set(np.x, gy + NP_EYE, np.z);
   camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   world.update(np.x, np.z, 2);
+  cwStreetsMount.update(np.x, np.z, 1);
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
@@ -442,7 +450,8 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); cwStreetsMount.update(x, z, 999); },
+  cityworks: cwStreetsMount,
   krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 

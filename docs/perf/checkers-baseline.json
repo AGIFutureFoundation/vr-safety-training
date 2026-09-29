@@ -90,9 +90,11 @@
     "check_payments.mjs": 2000,
     "check_drivables.mjs": 579,
     "check_parishes.mjs": 17679,
-    "check_npc.mjs": 1332
+    "check_npc.mjs": 1332,
+    "check_cityworks.mjs": 58400
   },
   "notes": {
+    "check_cityworks.mjs": "2026-09-29 01:30 UTC: first baseline (CITYWORKS, the Packs run): ten maps, colliders over all 256 chunks each, and a headless parish + streets build at every site on two tiers.",
     "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression.",
     "check_parishes.mjs": "2026-09-29 01:10 UTC: rebaselined 11.0 s -> 17.7 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the engine checks ten maps (five New Orleans parishes and five San Francisco districts, all strict) instead of five.",
     "check_unity_export.mjs": "2026-09-29 01:10 UTC: rebaselined 6.2 s -> 7.8 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the export carries the twelve Bayou K-12 stations and the San Francisco content.",
