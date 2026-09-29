@@ -64,39 +64,45 @@ whole-pool refill, inside one update. Now, in check_detail's walk on la-saronic-
   Frames over the budget on the real clock are preemption on a shared machine: the steps between clock reads are
   p99 31 µs and p99.9 0.24 ms.
 
-**Generation per chunk.** CPU median 10.1–10.2 ms (budget back to 12). A chunk now spreads over ~12–17 frames' slices.
+**Generation per chunk.** CPU median 10.0–10.2 ms over three runs (budget back to 12). A chunk now spreads over
+~12–17 frames' slices.
 
-**Phone, the 21 Louisiana maps** (`docs/perf/phone-maps.json`; 360×640, tier low, SwiftShader at load 18: frame times
-are relative):
+**Final check_detail** (load 19.1): 477 pass, 0 fail.
+- Virtual-clock worst frame: 2.80 ms at high (budget 3), 1.80 ms at low (budget 2).
+- Real clock: median frame 2.76 / 1.75 ms. The p99 was 13.6 / 4.7 ms and the worst up to 116 ms, both under heavy
+  preemption, so they were reported and not judged.
+
+**Phone, the 21 Louisiana maps** (`docs/perf/phone-maps.json`, from the final full check_mobile run; 360×640, tier low, SwiftShader at
+load 10.6, so frame times are relative):
 
 | map | meshes | triangles | draw calls | detail inst / tris | frame median | detail frame median / worst |
 |---|---|---|---|---|---|---|
-| la-starbase-vermilion | 203 | 59,562 | 99 | 1,558 / 7,052 | 99 ms | 1.80 / 7.9 ms |
-| la-black-bayou-cameron | 189 | 43,081 | 72 | 1,418 / 7,438 | 98 ms | 1.80 / 8.2 ms |
-| la-saronic-franklin | 159 | 68,150 | 56 | 919 / 4,652 | 83 ms | 1.80 / 5.5 ms |
-| la-avex-new-iberia | 160 | 55,596 | 77 | 1,319 / 5,848 | 85 ms | 1.80 / 8.7 ms |
-| laf-downtown | 190 | 63,810 | 76 | 1,009 / 4,768 | 86 ms | 1.80 / 5.8 ms |
-| laf-carencro-north | 180 | 58,105 | 59 | 1,100 / 5,402 | 77 ms | 1.80 / 12.4 ms |
-| monroe-west-monroe | 179 | 50,406 | 83 | 1,020 / 4,910 | 80 ms | 1.80 / 8.4 ms |
-| la-meta-richland | 168 | 53,403 | 80 | 1,350 / 6,198 | 62 ms | 1.80 / 5.4 ms |
-| la-delta-forge-rapides | 182 | 55,781 | 77 | 1,605 / 6,964 | 101 ms | 1.80 / 40.6 ms |
-| la-shintech-plaquemine | 177 | 57,936 | 68 | 991 / 4,736 | 70 ms | 1.80 / 7.1 ms |
-| lc-lakefront-downtown | 204 | 59,990 | 65 | 590 / 3,174 | 44 ms | 0.00 / 3.3 ms |
-| lc-calcasieu-channel | 196 | 66,730 | 59 | 1,767 / 7,192 | 53 ms | 1.80 / 5.2 ms |
-| lc-port-of-vinton | 220 | 55,926 | 67 | 643 / 3,244 | 34 ms | 0.00 / 6.0 ms |
-| nola-french-quarter-cbd | 193 | 55,122 | 74 | 638 / 3,480 | 43 ms | 0.00 / 6.6 ms |
-| nola-uptown-garden | 222 | 74,419 | 77 | 1,607 / 6,818 | 65 ms | 1.80 / 8.9 ms |
-| nola-mid-city-gentilly | 202 | 79,704 | 104 | 1,739 / 7,610 | 102 ms | 1.80 / 12.3 ms |
-| nola-bywater-lower-ninth | 240 | 82,683 | 75 | 1,710 / 7,488 | 113 ms | 1.80 / 11.4 ms |
-| br-downtown-riverfront | 192 | 65,804 | 94 | 855 / 4,140 | 132 ms | 1.80 / 8.3 ms |
-| br-north-industrial | 182 | 48,932 | 95 | 936 / 4,810 | 94 ms | 1.80 / 40.2 ms |
-| br-riverplex-ascension | 177 | 62,828 | 79 | 1,829 / 7,612 | 114 ms | 1.80 / 43.8 ms |
-| hammond-downtown | 170 | 64,341 | 72 | 914 / 4,556 | 92 ms | 1.80 / 12.1 ms |
+| la-starbase-vermilion | 203 | 59,562 | 99 | 1,558 / 7,052 | 100 ms | 1.80 / 48.8 ms |
+| la-black-bayou-cameron | 189 | 43,081 | 72 | 1,418 / 7,438 | 96 ms | 1.80 / 15.2 ms |
+| la-saronic-franklin | 159 | 68,150 | 56 | 919 / 4,652 | 101 ms | 1.80 / 7.9 ms |
+| la-avex-new-iberia | 160 | 55,596 | 77 | 1,319 / 5,848 | 125 ms | 1.80 / 5.2 ms |
+| laf-downtown | 190 | 63,810 | 76 | 1,009 / 4,768 | 117 ms | 1.80 / 10.1 ms |
+| laf-carencro-north | 180 | 58,105 | 59 | 1,100 / 5,402 | 59 ms | 0.60 / 5.4 ms |
+| monroe-west-monroe | 179 | 50,406 | 83 | 1,020 / 4,910 | 109 ms | 1.80 / 12.8 ms |
+| la-meta-richland | 168 | 53,403 | 80 | 1,350 / 6,198 | 92 ms | 1.80 / 19.1 ms |
+| la-delta-forge-rapides | 182 | 55,781 | 77 | 1,605 / 6,964 | 98 ms | 1.80 / 9.8 ms |
+| la-shintech-plaquemine | 177 | 57,936 | 70 | 991 / 4,736 | 95 ms | 1.80 / 18.2 ms |
+| lc-lakefront-downtown | 204 | 59,990 | 65 | 590 / 3,174 | 97 ms | 1.80 / 7.1 ms |
+| lc-calcasieu-channel | 196 | 66,730 | 59 | 1,767 / 7,192 | 78 ms | 1.80 / 10.3 ms |
+| lc-port-of-vinton | 220 | 55,926 | 67 | 643 / 3,244 | 55 ms | 0.10 / 64.5 ms |
+| nola-french-quarter-cbd | 193 | 55,122 | 74 | 638 / 3,480 | 93 ms | 1.80 / 19.4 ms |
+| nola-uptown-garden | 222 | 74,419 | 77 | 1,607 / 6,818 | 87 ms | 1.80 / 14.6 ms |
+| nola-mid-city-gentilly | 202 | 79,704 | 104 | 1,739 / 7,610 | 110 ms | 1.80 / 12.6 ms |
+| nola-bywater-lower-ninth | 240 | 82,683 | 75 | 1,710 / 7,488 | 94 ms | 1.80 / 12.0 ms |
+| br-downtown-riverfront | 192 | 65,804 | 94 | 855 / 4,140 | 107 ms | 1.80 / 11.5 ms |
+| br-north-industrial | 182 | 48,932 | 95 | 936 / 4,810 | 80 ms | 1.80 / 37.3 ms |
+| br-riverplex-ascension | 177 | 62,828 | 79 | 1,829 / 7,612 | 68 ms | 1.80 / 22.3 ms |
+| hammond-downtown | 170 | 64,341 | 72 | 914 / 4,556 | 103 ms | 1.80 / 8.6 ms |
 
 Every map is inside NP_BUDGET (worst 240 meshes, 82,683 triangles, 104 draw calls) and inside the pool's 26,000
-triangles at low (worst 7,612). In the browser the detail frame median is 1.80 ms against 2 ms. Three maps show a
-~40 ms worst detail frame (la-delta-forge-rapides, br-north-industrial, br-riverplex-ascension): the page's clock
-under SwiftShader at load 18, where rendering and the stream share one thread. It is reported, not judged; the
+triangles at low (worst 7,612). In the browser the detail frame median is 1.80 ms against 2 ms. The largest worst detail frames
+(lc-port-of-vinton 64 ms, la-starbase-vermilion 49 ms, br-north-industrial 37 ms): the page's clock
+under SwiftShader on a loaded machine, where rendering and the stream share one thread. It is reported, not judged; the
 virtual-clock proof covers the scheduler.
 
 ## Cycles
@@ -130,13 +136,15 @@ time, paired comparisons, medians over repeats or a virtual clock, never on a si
    (median of 3 runs) is judged only when the load average is at or under the core count (PROVING's rule), and
    reported otherwise. Observed: **check_detail 477 pass, 0 fail**. At load 8.6 the real frame median was
    2.76 ms (high, budget 3) and 1.75 ms (low, budget 2); p99 3.90 / 2.77 ms and worst 7.5 / 3.8 ms were reported, not
-   judged. Before, the one-shot fill's worst frame was 36–46 ms. Pass.
+   judged. Before, the one-shot fill's worst frame was 36–46 ms. Pass. The final run (load 19.1, with genMs 12) gave
+   477 pass, 0 fail, and a virtual-clock worst frame of 2.80 / 1.80 ms against 3 / 2.
 7. Reason: return genMs to 12 only if the generator is really faster. Act: a paired A/B against 684be2fb's
    generator on 184 chunks, interleaved, min of 5 timings each. Observed: median ratio **0.90** (10.9 → 10.3 ms),
    identical output on every chunk. check_detail's CPU median was 10.1 and 10.2 ms in two runs. Pass: genMs 14 → 12.
 8. Reason: the phone pass on the 21 Louisiana maps; proof = check_mobile's map lines. Act: the maps section in
    check_mobile (the source page, the phone context, tier low). Observed: `TC_ONLY=maps node tools/check_mobile.mjs`
-   gave **168 checks pass, 0 fail** (21 maps × 8), at load 18.2. All pass, so there was nothing to fix. The densest is
+   gave **168 checks pass, 0 fail** (21 maps × 8), at load 18.2. The final full run (games and maps) gave
+   **326 pass, 0 fail**. All pass, so there was nothing to fix. The densest is
    nola-bywater-lower-ninth: 240 meshes (≤ 260) and 82,683 triangles (≤ 400,000). Pass.
 
 ## Left
