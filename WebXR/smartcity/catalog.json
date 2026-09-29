@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 715
+      "stations": 716
     },
     "trades": {
       "entry": "trades/index.html",
@@ -555,6 +555,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-lk-building-new-marsh-on-the-coast",
         "k12-by-wetlands-as-a-storms-speed-bump",
         "k12-by-the-water-cycle-from-lake-to-tap",
         "k12-by-a-streetcar-timetable",
@@ -10228,6 +10229,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-building-new-marsh-on-the-coast",
+      "name": "Building New Marsh on the Coast",
+      "title": "SmartCiti.X~ Building New Marsh on the Coast VR",
+      "tagline": "Mud, water and grass make a marsh — watch the crew fill a cell, then help plant it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science walk with a coastal marsh restoration crew — learner and restoration crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#6f9a58",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "marsh-builder",
+        "name": "Marsh Builder",
+        "note": "Found why a coastal marsh shrinks, watched mud settle in a model cell and helped the crew plant the new edge"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "964",
+      "flat": false,
+      "system": "Marsh Board",
+      "currency": "SPRIGS",
+      "ranks": [
+        "Mud Pie",
+        "Seedling",
+        "Grass Clump",
+        "Marsh Edge",
+        "Marsh Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-building-new-marsh-on-the-coast"
     },
     {
       "app": "smartcity",
@@ -36860,7 +36944,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 258,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -30310,5 +30310,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-lk-building-new-marsh-on-the-coast",
+    "index": "964",
+    "domain": "Education",
+    "trade": "Science walk with a coastal marsh restoration crew — learner and restoration crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Building New Marsh on the Coast",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Building New Marsh on the Coast VR",
+    "tagline": "Mud, water and grass make a marsh — watch the crew fill a cell, then help plant it",
+    "accent": 7314008,
+    "accentCss": "#6f9a58",
+    "parSeconds": 330,
+    "badge": {
+      "id": "marsh-builder",
+      "name": "Marsh Builder",
+      "note": "Found why a coastal marsh shrinks, watched mud settle in a model cell and helped the crew plant the new edge"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Marsh Board",
+      "currency": "SPRIGS",
+      "ranks": [
+        "Mud Pie",
+        "Seedling",
+        "Grass Clump",
+        "Marsh Edge",
+        "Marsh Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
