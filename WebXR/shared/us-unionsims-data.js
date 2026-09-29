@@ -208,10 +208,22 @@ export const US_PROJECTS = ["trash-capture", "green-stormwater", "tidal-channel"
 
 /** Where each simulation plays in this tree: the PROJECTSIM sites of its project type (real site ids). */
 export const US_PLACES_BY_PROJECT = {
-  "trash-capture": [{ parish: "sf-mission", site: "islais-creek-pump-station" }, { parish: "sf-bayview", site: "port-southern-terminals" }],
-  "green-stormwater": [{ parish: "sf-mission", site: "mission-bay-construction-site" }, { parish: "sf-marina", site: "chestnut-construction" }],
-  "tidal-channel": [{ parish: "sf-bayview", site: "yosemite-slough-restoration" }, { parish: "sf-marina", site: "crissy-marsh-crew" }],
-  "nutrient-reduction": [{ parish: "sf-mission", site: "islais-creek-pump-station" }],
-  "pcb-source-control": [{ parish: "sf-bayview", site: "shipyard-soil-cell" }, { parish: "sf-bayview", site: "shipyard-shoreline-crew" }],
-  "clean-ports": [{ parish: "sf-bayview", site: "port-southern-terminals" }, { parish: "sf-mission", site: "potrero-bus-yard" }],
+  // The project maps first (PROJECTLANDS' precincts and the Bay Program maps), then the San Francisco sites the simulations
+  // first played at. San Jose's award is a plan, not a build, so no construction simulation plays there.
+  "trash-capture": [{ parish: "bp-san-leandro-bay", site: "slb-trash-capture-device-north" }, { parish: "bp-san-leandro-bay", site: "slb-vacuum-truck-staging" },
+    { parish: "bp-san-leandro-bay", site: "slb-debris-haul-transfer" }, { parish: "oak-west-oakland", site: "oak-port-trash-capture-outer-harbor" },
+    { parish: "sf-mission", site: "islais-creek-pump-station" }, { parish: "sf-bayview", site: "port-southern-terminals" }],
+  "green-stormwater": [{ parish: "sf-outer-mission", site: "om-rain-garden-block" }, { parish: "sf-outer-mission", site: "om-underdrain-piping-crew" },
+    { parish: "bay-san-pablo", site: "sp-gsi-bioretention-build" }, { parish: "bay-san-pablo", site: "sp-gsi-underdrain-crew" },
+    { parish: "sf-mission", site: "mission-bay-construction-site" }, { parish: "sf-marina", site: "chestnut-construction" }],
+  "tidal-channel": [{ parish: "bp-strip-marsh-east", site: "sme-tidal-channel-excavation" }, { parish: "bp-strip-marsh-east", site: "sme-marsh-mat-crossing" },
+    { parish: "bp-strip-marsh-east", site: "sme-small-boat-landing" }, { parish: "bp-strip-marsh-east", site: "sme-water-control-structure" },
+    { parish: "sf-bayview", site: "yosemite-slough-restoration" }, { parish: "sf-marina", site: "crissy-marsh-crew" }],
+  "nutrient-reduction": [{ parish: "bp-nutrient-pilot", site: "npp-operator-rounds" }, { parish: "bp-nutrient-pilot", site: "npp-pilot-process-skid" },
+    { parish: "bp-nutrient-pilot", site: "npp-maintenance-shop" }],
+  "pcb-source-control": [{ parish: "bp-san-mateo-shoreline", site: "smc-regulated-soil-loadout" }, { parish: "bp-san-mateo-shoreline", site: "smc-lab-intake" },
+    { parish: "bp-san-mateo-shoreline", site: "smc-pcb-soil-sampling" }, { parish: "sf-bayview", site: "shipyard-soil-cell" }, { parish: "sf-bayview", site: "shipyard-shoreline-crew" }],
+  "clean-ports": [{ parish: "oak-west-oakland", site: "oak-port-charging-yard" }, { parish: "oak-west-oakland", site: "oak-port-ze-equipment-yard" },
+    { parish: "oak-west-oakland", site: "oak-port-drayage-staging" }, { parish: "oak-west-oakland", site: "oak-port-battery-storage-site" },
+    { parish: "sf-bayview", site: "port-southern-terminals" }],
 };
