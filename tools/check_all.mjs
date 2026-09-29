@@ -102,6 +102,8 @@ const CHECKERS = [
   "check_cityworks.mjs",
   // ATMOS: deterministic weather, lamps at dusk/dawn, fog never hides a board, a silent-by-default synth soundscape, budgets (docs/consoles/ATMOS.md).
   "check_atmos.mjs",
+  // FACADES: exterior detail kits per massing kind and region, per-chunk budgets per tier, generic sign words only, determinism (docs/consoles/FACADES.md).
+  "check_facades.mjs",
   // INTERFACE: the parishes menu in four tabs, every mount reachable, keyboard/gamepad order, 44 px touch at 390x844, onboarding (docs/consoles/INTERFACE.md).
   "check_interface.mjs",
   // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).

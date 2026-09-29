@@ -798,6 +798,8 @@ APPS = {
             # LANDMARKS: the landmark kit np-world.js draws a registry kind with (before np-world.js).
             SHARED / "lm-landmarks.js",
             SHARED / "np-world.js",
+            # FACADES: exterior detail and generic storefront signs (sets NP_MASSING_HOOKS.details; after np-world.js).
+            SHARED / "fc-facades.js",
             # RELIEF: Mapbox Terrain-RGB relief and the tier-capped drape for any map's box, token-gated (docs/mapbox.md).
             SHARED / "rl-relief.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
