@@ -33,6 +33,7 @@ import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -602,6 +603,20 @@ var stWorld = stMountPaths({
 window.__parishTest.storyline = stWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
+// DEEPWATER: shoreline dive entries on this map (docs/consoles/DEEPWATER.md) open the Deep at a Bay Program region, with a way back.
+npMountDiveEntries($("menu-packs"), parish);
+function npMountDiveEntries(el, p) {
+  const entries = (() => { try { return dwShoreEntriesFor(p, { from: `../parishes/parishes.html?parish=${encodeURIComponent(p.id)}` }); } catch { return []; } })();
+  window.__parishTest.diveEntries = entries.map((e) => e.id);
+  if (!el?.parentNode || !entries.length) return;
+  const box = document.createElement("div");
+  const head = document.createElement("p");
+  head.className = "eyebrow"; head.style.marginTop = "16px"; head.textContent = "Dive entries from this shore";
+  const row = document.createElement("div"); row.className = "row"; row.style.flexWrap = "wrap";
+  for (const e of entries) { const a = document.createElement("a"); a.className = "btn"; a.href = e.url; a.textContent = e.label; row.appendChild(a); }
+  box.append(head, row);
+  el.parentNode.insertBefore(box, el.nextSibling);
+}
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";

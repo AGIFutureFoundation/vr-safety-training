@@ -42,6 +42,8 @@ import { dvBuildWorld } from "./world.js";
 // wires input, the DOM and three.js around them.
 
 const $ = (id) => document.getElementById(id);
+// DEEPWATER: `?region=<id>` opens the Deep at a Bay Program region (region.html, shared/dw-regions.js).
+try { if (typeof window !== "undefined" && new URLSearchParams(window.location?.search || "").get("region")) window.location.replace(`./region.html${window.location.search}`); } catch (_) { /* headless */ }
 const dvStore = (() => { try { return window.localStorage; } catch { return null; } })();
 const DV_PLACES = [...DV_SITES, ...DV_LANDMARKS];
 const DV_ASCENT = dvAscentLines(DV_SITES);
