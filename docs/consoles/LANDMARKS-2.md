@@ -79,3 +79,7 @@ stands below the map (y −400) with its own lights, the player walks a box coll
    parishes app (door prompt "E — go inside …", the outdoor root hidden and streaming stopped inside, a box collider, E to come
    out at the door). Observe: check_landmarks 1515 passed, 0 failed; rooms 7 meshes / 128–648 triangles (≤ 120 / 4000); 7 doors
    on the maps; a fake ix is used, a throwing one falls back. PASS.
+5. Reason: the engine budgets hold on every map with the new kits, and the bundle carries them. Act: `check_parishes` (single),
+   `bundle_webxr.py parishes`, `node --check` of the bundled module, `eval_worlds --no-browser` once. Observe: check_parishes
+   30927 passed, 0 failed; bundle 4370 KB, 120 modules, parses; eval_worlds 27 subjects, mean 97, all 22 maps budget 4/4 (the
+   18 findings are play-layer lessons on the Bay Area maps — PLAYLAYER's section). No eval was run before (base not measured). PASS.
