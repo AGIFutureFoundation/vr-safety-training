@@ -313,7 +313,7 @@
     <div id="dn-root"></div>
   </section>
 
-  <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <code>docs/instructor-console.md</code>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../../portal/index.html">Back to the network portal</a>. Programme bundles for a cohort: <a href="../packs/index.html">Holodeck Packs</a> (SmartCiti.X · Powered by AGI Corp).</p>
+  <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <code>docs/instructor-console.md</code>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../../portal/index.html">Back to the network portal</a>. Programme bundles for a cohort: <a href="../../packs/index.html">Holodeck Packs</a> (SmartCiti.X · Powered by AGI Corp).</p>
 </main>
 <script type="module">
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
@@ -1069,6 +1069,7 @@ const QM_STATION_NAMES = {
   "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
   "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
   "ballast-water-sampling": "Ballast Water Sampling",
+  "bb-passing-and-catching": "Passing and Catching",
   "br-barge-loading-of-contaminated-sediment": "Barge Loading of Contaminated Sediment",
   "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
   "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window",
@@ -1110,11 +1111,13 @@ const QM_STATION_NAMES = {
   "drive-light-vehicle-fleet-and-forklift-course": "Light Vehicle Fleet and Forklift Course",
   "drive-night-fog-and-rail-crossing": "Night Fog and Rail Crossing",
   "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
+  "ed-kitchen-receiving-and-warewash-sanitizing": "Kitchen Receiving & Warewash Sanitizing",
   "ew-machine-room-lockout-and-brake-test": "Machine Room Lockout and Brake Test",
   "fire-pump": "Fire Pump",
   "firefighter-rehab-sector": "Firefighter Rehab Sector",
   "forklift-dock": "Forklift Dock",
   "fp-anchor-selection-and-rescue-plan": "Anchor Selection & Rescue Plan",
+  "fryer-oil-change": "Fryer Oil Change",
   "gg-deck-lane-closure-and-traveller": "Deck Lane Closure & Traveller",
   "gg-fog-and-wind-work-stop": "Fog & Wind Work Stop",
   "gg-tower-climb-and-tie-off": "Tower Climb & Tie-Off",
@@ -1130,6 +1133,7 @@ const QM_STATION_NAMES = {
   "hc-code-response-support-and-crash-cart-check": "Code Response Support & Crash Cart Check",
   "hc-dietary-tray-line-and-allergy-flags": "Dietary Tray Line & Allergy Flags",
   "hc-environmental-services-isolation-room-turnover": "Isolation Room Turnover",
+  "hc-hazardous-drug-spill-kit-response": "Hazardous Drug Spill Kit Response",
   "hc-patient-transport-and-safe-handling": "Patient Transport & Safe Handling",
   "hw-banquet-room-flip-and-staging": "Banquet Room Flip & Staging",
   "ib-hydrostatic-test-and-inspector-witness": "Hydrostatic Test and Inspector Witness",
