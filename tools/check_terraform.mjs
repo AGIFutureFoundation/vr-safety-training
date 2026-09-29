@@ -163,6 +163,7 @@ ok(totalRibbons > 0 && totalStreams > 0, "no rivers or streams at all");
   const W = await S("np-world.js");
   const TW = await S("tf-world.js");
   let worstMesh = 0, worstTri = 0, worstMap = "";
+  const tfMeshes = {};
   for (const parish of NP_PARISHES) {
     const coverTri = {}, rainN = {};
     for (const tier of ["low", "high"]) {
@@ -182,6 +183,7 @@ ok(totalRibbons > 0 && totalStreams > 0, "no rivers or streams at all");
         ok(c.chunks <= (2 * tf.TF_BUDGET.radius[tier] + 1) ** 2, `${parish.id}/${tier}: ${c.chunks} cover chunks loaded`);
       }
       coverTri[tier] = ct;
+      tfMeshes[tier] = Math.max(tfMeshes[tier] ?? 0, land.counts().meshes + 1); // + the rain
       ok(wm <= np.NP_BUDGET.drawCalls, `${parish.id}/${tier}: ${wm} meshes with TERRAFORM over ${np.NP_BUDGET.drawCalls}`);
       ok(wt <= np.NP_BUDGET.triangles, `${parish.id}/${tier}: ${wt} triangles with TERRAFORM over ${np.NP_BUDGET.triangles}`);
       if (wm > worstMesh) { worstMesh = wm; worstMap = `${parish.id}/${tier}`; }
@@ -202,8 +204,9 @@ ok(totalRibbons > 0 && totalStreams > 0, "no rivers or streams at all");
     }
     ok(coverTri.low < coverTri.high || coverTri.high === 0, `${parish.id}: the phone tier's cover is not lighter (${coverTri.low} vs ${coverTri.high})`);
     ok(rainN.low < rainN.high, `${parish.id}: the phone tier's rain is not lighter`);
+    ok(tfMeshes.low <= 4 && tfMeshes.low < tfMeshes.high && tfMeshes.high <= 12, `${parish.id}: TERRAFORM's meshes ${tfMeshes.low} (phone) / ${tfMeshes.high} (desktop) over 4 / 12`);
   }
-  console.log(`headless build: engine + TERRAFORM at every site of ${NP_PARISHES.length} maps, worst ${worstMesh} meshes (${worstMap}) / ${worstTri} triangles of ${np.NP_BUDGET.drawCalls} / ${np.NP_BUDGET.triangles}; the phone tier's cover and rain lighter on every map; grass and trees sway, the storm rains; reduced motion holds sway and water at zero and shows no rain`);
+  console.log(`headless build: engine + TERRAFORM at every site of ${NP_PARISHES.length} maps, worst ${worstMesh} meshes (${worstMap}) / ${worstTri} triangles of ${np.NP_BUDGET.drawCalls} / ${np.NP_BUDGET.triangles}; TERRAFORM's own meshes at most ${tfMeshes.low} on the phone tier, ${tfMeshes.high} on desktop; the phone tier's cover and rain lighter on every map; grass and trees sway, the storm rains; reduced motion holds sway and water at zero and shows no rain`);
 }
 console.log(`budget: worst chunk ${worstTufts} tufts / ${worstTri} triangles of ${tf.TF_BUDGET.tuftsPerChunk} / ${tf.TF_BUDGET.trianglesPerChunk}; one merged cover mesh per chunk, radius ${JSON.stringify(tf.TF_BUDGET.radius)}; phone tier without bushes`);
 console.log(`totals: ${NP_PARISHES.length} maps, ${totalRibbons} ribbons, ${totalStreams} streams/ditches, ${totalCulverts} culverts, ${totalChunks} chunks sampled, ${totalTufts} tufts, ${totalLitter} litter`);

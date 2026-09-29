@@ -24,7 +24,7 @@ import {
 /** Budgets per streamed chunk (one merged cover mesh per chunk) and the cover radius per tier (the phone tier is `low`). */
 export const TF_BUDGET = {
   meshesPerChunk: 1, tuftsPerChunk: 360, bushesPerChunk: 24, litterPerChunk: 8, trianglesPerChunk: 6000,
-  radius: { low: 1, balanced: 1, high: 1 }, density: { low: 0.35, balanced: 0.7, high: 1 }, streamsPerMap: 8,
+  radius: { low: 0, balanced: 1, high: 1 }, density: { low: 0.5, balanced: 0.7, high: 1 }, streamsPerMap: 8,
 };
 /** Triangles per cover part (tf-world.js's templates). */
 export const TF_TRI = { tuft: 3, bush: 20, can: 12, bag: 20, paper: 2, tyre: 32 };
@@ -317,8 +317,8 @@ function tfCharacterAt(prep, x, z) {
 
 /**
  * The ground cover of one chunk at a tier, deterministic: `{ tufts: [{ x, y, z, h, rot }], bushes: [{ x, y, z, s, rot }],
- * litter: [...] }`. Tufts come in clusters of seven by the district character's density; the phone tier (`low`) carries
- * about a third of the tufts and no bushes. Nothing stands on a road, water, a pad or a levee.
+ * litter: [...] }`. Tufts come in clusters of seven by the district character's density; the phone tier (`low`, cover in the player's chunk only) carries
+ * about half the tufts and no bushes. Nothing stands on a road, water, a pad or a levee.
  */
 export function tfCoverForChunk(parish, cx, cz, tier = "high") {
   const ctx = tfChunkCtx(parish, cx, cz);

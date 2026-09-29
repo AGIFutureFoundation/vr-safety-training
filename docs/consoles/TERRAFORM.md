@@ -31,8 +31,24 @@ no stream, ditch, culvert, tuft or piece of litter is a claim about a real place
    roads level, reduced motion still.
 
 ## Seams
-- `tfWind(t, seed?) -> { dir: [x, z], speed, gust }`, `tfWindAt(x, z, t, seed?) -> 0..1` — for grass, trees, flags, rain.
+- `tfWind(t, seed?) -> { dir: [x, z], speed, gust }`, `tfWindAt(x, z, t, seed?) -> 0..1`, `tfMotion(reduced, t)` —
+  in `shared/tf-water.js` (no imports, so any world can take it); read by the grass, bushes, trees and rain here.
 - `tfWaterDepthAt(parish, x, z) -> metres` (0 on land), `tfFlowAt(parish, x, z) -> [vx, vz]` — for NEWTON's `nwWorld`.
 - `tfLitterAt(parish, chunkKey) -> [{ id, kind, x, y, z }]` — for the play layer's pick-up and NEWTON's dynamic props.
-- `tfMountTerraform({ THREE, root, parish, tier, reduced }) -> { update(x, z), animate(t, dt), counts() }` — mounted in the parishes app.
-- `tfAnimateWater(THREE, material, { flow: [x, z], reduced })` — mounted on Redwood Reach's river.
+- `tfMountTerraform({ THREE, root, parish, tier, reduced, waters, trees }) -> { update(x, z), animate(t, dt), counts(), litter() }`
+  and `tfMountRain({ THREE, root, tier, reduced }) -> { set(on), animate(t, dt, x, y, z), count() }` (`tf-world.js`) —
+  mounted in the parishes app (`__parishTest.terraform` exposes the land, the rain, `depthAt`, `flowAt`, `litterAt`).
+- `tfAnimateWater(THREE, material, { flow: [x, z], reduced })` (`tf-water.js`) — mounted on Redwood Reach's river with a
+  per-vertex `tfFlow` from source to mouth.
+- Engine: `NP_TERRAIN_HOOKS = { cut, wet }` in `np-parish.js` (null = the delta field unchanged) and
+  `world.treeMaterial` in `np-world.js` (the swaying kinds: live oak, cypress, reed).
+
+## What shipped (check_terraform's lines are the proof)
+- 10 maps: 26 river/canal/bayou ribbons with a gentle bank and a wet strip, 38 procedural streams and ditches (points
+  source → mouth), 17 culverts; every channel point below its banks, every ribbon and stream flows downstream, culverts
+  cut nothing and show no water on the road, levee points untouched by the cut.
+- Cover: 418 chunks sampled, every tuft, bush and piece of litter off road, water, pad and levee; worst chunk 304 tufts /
+  1,244 triangles of 360 / 6,000; one merged mesh per chunk; the phone tier covers only the player's chunk, half the
+  tufts, no bushes, fewer rain streaks; TERRAFORM's own meshes at most 4 (phone) / 12 (desktop).
+- Headless build of the engine with TERRAFORM at every site: worst 183 meshes / 89,071 triangles of 260 / 400,000.
+- Reduced motion: no sway, no ripple scroll, no rain (tfMotion, the mounts and the checker agree).

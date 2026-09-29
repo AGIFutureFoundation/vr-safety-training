@@ -192,7 +192,7 @@ export function tfMountTerraform({ THREE, root, parish, tier = "high", reduced =
   function counts() {
     let tufts = 0, bushes = 0, litter = 0, triangles = 0;
     for (const c of loaded.values()) { tufts += c.cover.tufts.length; bushes += c.cover.bushes.length; litter += c.cover.litter.length; triangles += c.tri; }
-    return { chunks: loaded.size, meshes: loaded.size + 1 + (streamMesh ? 1 : 0), tufts, bushes, litter, triangles, streams: streams.length, culverts: culverts.length, reduced, perChunk: NP_CHUNK };
+    return { chunks: loaded.size, meshes: group.children.length, tufts, bushes, litter, triangles, streams: streams.length, culverts: culverts.length, reduced, perChunk: NP_CHUNK };
   }
   const litter = () => [...loaded.values()].flatMap((c) => c.cover.litter);
   animate(0);
