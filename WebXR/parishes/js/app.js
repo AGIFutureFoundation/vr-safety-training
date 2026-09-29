@@ -28,7 +28,7 @@ import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
 import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwDoorOf } from "../../shared/cw-cityworks.js";
-import { ixMountInteriors, ixTycoonStyle, ixDoorSpot } from "../../shared/ix-interiors.js";
+import { ixMountInteriors, ixTycoonStyle, ixDoorSpot, ixRegisterDresser, IX_KIND_STYLE } from "../../shared/ix-interiors.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
@@ -68,6 +68,7 @@ import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
 // UNIONSIMS: the craft simulations register with PROJECTSIM's boards on import (docs/consoles/UNIONSIMS.md).
 import { usSims } from "../../shared/us-unionsims.js";
+import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -489,6 +490,9 @@ function npUse() {
     npHud();
     return;
   }
+  // CLASSROOMS: inside a room E uses the nearest fixture (or goes out at the door); at a room's door E goes in.
+  if (crWorld?.inside()) { const r = crWorld.useNear(np.x, np.z); if (r && typeof r === "object") { np.x = r.x; np.z = r.z; } return; }
+  if (crWorld?.near()) { const at = crWorld.enter(crWorld.near().id, [np.x, np.z]); if (at) { np.x = at.x; np.z = at.z; np.yaw = 0; } return; }
   const n = np.near;
   if (!n) return;
   if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: n.style, title: n.title }); np.near = null; }
@@ -571,7 +575,8 @@ function frame(now) {
       const v = nwPhys.vehicle; np.x = v.x; np.z = v.z;
     } else {
       // The walk through NEWTON's physics: off an edge it falls, walls stop it, water is waded or swum and its flow carries.
-      if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
+      if (crWorld?.inside()) { const c = crWorld.clamp(np.x, np.z); np.x = c.x; np.z = c.z; } // CLASSROOMS: the room's walls
+    if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
       const av = nwPhys.walk({ vx: (fx * f - fz * s) * speed, vz: (fz * f + fx * s) * speed }, dt);
       np.x = av.x; np.z = av.z;
       if (av.mode !== nwMode && NW_MODE_TOAST[av.mode] && nwMode !== "fall") npToast(NW_MODE_TOAST[av.mode], 4200);
@@ -624,6 +629,7 @@ function frame(now) {
     np.near = ixCam ? null : npNearest();
     npQmApproach(np.near);
     if (np.playing) scSession.tick(np.x, np.z);
+    if (np.playing) crWorld?.tick(np.x, np.z);
     for (const s of parish.sites) if (Math.hypot(np.x - s.position[0], np.z - s.position[1]) < 40 && npVisit(np.state, parish.id, s.id)) { npToast(`Visited: ${s.name}. Fast travel unlocked.`); npSave(np.state); }
   }
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
@@ -809,6 +815,21 @@ var psWorld = psMountProjectSim({
   toast: npToast, stationHref: (id, siteId) => npLink(id, siteId), onOpen: () => npClose(),
 });
 
+// CLASSROOMS (docs/consoles/CLASSROOMS.md): rooms that teach at the school, union-hall and programme sites; the board opens
+// a SCHOLAR session, a bench or bay a real station, a bay's simulation PROJECTSIM, a robotics game ROBOTICS' (guarded).
+function crLaunch(l, room) {
+  if (l.type === "lesson") return scSession.open(l.id) !== false;
+  if (l.type === "sim") return psWorld?.open(l.id, room?.site) !== false;
+  if (l.type === "game") { const g = globalThis.rbOpenGame; if (typeof g === "function") return g(l.id) !== false; npToast("This robotics game opens once the robotics layer is in this build."); return true; }
+  location.href = npLink(l.id, room?.site); return true;
+}
+// INTERIORS' shell when it is in the build (guarded): the same rooms furnish its styles as dressers, and its doors take over.
+var crDressed = crRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser, IX_KIND_STYLE } : null, { parish, launch: crLaunch });
+var crWorld = crMountClassrooms({
+  three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
+  groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
+});
+
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
@@ -817,6 +838,7 @@ window.__parishTest = {
   cityworks: cwStreetsMount,
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   projectsim: psWorld,
+  classrooms: crWorld,
   openBoard(siteId) { const s = parish.sites.find((x) => x.id === siteId); if (s) npOpenBoard(s); return !!s; },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
   // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
@@ -831,6 +853,8 @@ function npPlayItems() {
   return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id), ...rbGamesFor(parish)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
+// CLASSROOMS' robotics bays open ROBOTICS' games through the side-game panel (gate respected).
+globalThis.rbOpenGame = (id) => npSideGames?.playById?.(id) ?? false;
 if (!slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() })) plMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage(), openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); } });
 // KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
 if (!kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() }).length) plMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); } });

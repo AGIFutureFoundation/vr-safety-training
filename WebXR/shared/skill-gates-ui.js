@@ -220,5 +220,12 @@ export function qmMountSideGames({ world, worldName = world, items, from = world
     close() { panel.hidden = true; },
     refresh: render,
     toast: (item) => qmLockToast(item, opts),
+    /** Open one game by id (a classroom's robotics bay, say): plays it if its gate is open, else the lock toast. */
+    playById(id) {
+      const it = items.find((x) => x.id === id);
+      if (!it) return false;
+      if (!qmIsOpen(it.gate, qmSnapshot(storage))) { qmLockToast(it, opts); return true; }
+      render(); panel.hidden = false; play(it); return true;
+    },
   };
 }
