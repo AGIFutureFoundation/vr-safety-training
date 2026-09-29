@@ -22,25 +22,25 @@
  * clutter from the region's PALETTE categories. Everything is procedural and generic: nothing records a real object.
  * Nothing moves, so reduced motion needs nothing.
  */
-import { NP_SIZE, NP_CHUNK, NP_ROAD_KINDS, NP_MASSING, npPrepare, npHeightAt, npCoverAt, npRng, npMassingForChunk, npPolyLength, npPolyPointAt, npRoadSurfaceAt } from "./np-parish.js";
+import { NP_SIZE, NP_CHUNK, NP_ROAD_KINDS, NP_MASSING, npPrepare, npHeightAt, npCoverAt, npDistrictAt, npRng, npMassingForChunk, npPolyLength, npPolyPointAt, npRoadSurfaceAt } from "./np-parish.js";
 import { NP_MASSING_HOOKS } from "./np-world.js";
 import { PA_CATEGORIES, paRegionCategories, paRegionOf } from "./pa-palette-data.js";
 
 /** The detail families, one InstancedMesh each in the pool (triangles an instance; `flat` = double-sided). */
 export const DT_FAMILIES = [
-  { id: "tuft", tris: 4, flat: true, note: "grass tufts, weeds, crop rows, cane, rice, hanging moss" },
+  { id: "tuft", tris: 4, flat: true, note: "grass tufts, weeds, crop rows, cane and rice rows, hanging moss" },
   { id: "flower", tris: 4, note: "flowers in yards and verges" },
   { id: "reed", tris: 6, flat: true, note: "reeds and rushes at the water's edge and in the marsh" },
   { id: "shrub", tris: 8, note: "shrubs and hedges" },
-  { id: "fence", tris: 2, flat: true, note: "fence panels, rails and overhead wires" },
+  { id: "fence", tris: 2, flat: true, note: "fence panels, rails, overhead wires and gallery ironwork" },
   { id: "lamp", tris: 20, note: "street lamps" },
-  { id: "post", tris: 12, note: "hydrants, bollards, meters, sign posts, mailboxes, pilings, roof vents and tanks" },
-  { id: "box", tris: 12, note: "benches, bins, AC units, drums, pallets, containers, barriers, hay bales, stacks" },
+  { id: "post", tris: 12, note: "hydrants, bollards, meters, sign posts, mailboxes, pilings, roof vents and tanks, pipe-rack posts, taxiway lights, gallery posts, gas lamps" },
+  { id: "box", tris: 12, note: "benches, bins, AC units, drums, pallets, containers, barriers, hay bales, stacks, crab traps, rack beams, ground-support carts, tugs, chocks, keel blocks, steel plate" },
   { id: "pole", tris: 20, note: "power poles with a cross-arm" },
-  { id: "decal", tris: 2, flat: true, note: "road dashes, crosswalk stripes, solar panels, rice-check water" },
+  { id: "decal", tris: 2, flat: true, note: "road dashes, crosswalk stripes, solar panels, rice-check water, apron slabs, taxi lines, slip rails, gallery floors" },
   { id: "cone", tris: 8, note: "traffic cones, cypress knees, saplings" },
   { id: "palm", tris: 12, flat: true, note: "palms" },
-  { id: "tree", tris: 14, note: "small trees" },
+  { id: "tree", tris: 14, note: "small trees and cypress" },
   { id: "disc", tris: 4, flat: true, note: "lily pads and crab-trap floats" },
   { id: "pipe", tris: 12, note: "pipe runs on racks" },
 ];
@@ -101,7 +101,60 @@ export const DT_TABLE = {
   shore: [["reed", 26, "reed"], ["tuft", 6, "marsh"], ["post", 0.4, "piling"]],
   edgewater: [["reed", 12, "reed"], ["disc", 2, "lily"], ["post", 0.25, "piling"], ["disc", 0.2, "float"]],
   water: [["disc", 0.01, "float"]],
+  // DETAIL-2: the Louisiana rows (DT_VARIANTS picks them). A 4th entry is a row spacing in metres: the thing is set in
+  // straight rows (the x coordinate snapped, the yaw along the row), so cane, rice, pipe racks and slip rails line up.
+  cane: [["tuft", 38, "cane", 1.5], ["tuft", 4, "weed"], ["decal", 0.05, "headland"], ["fence", 0.12, "farm"], ["box", 0.02, "bale"]],
+  rice: [["tuft", 32, "rice", 1], ["decal", 0.9, "check"], ["tuft", 3, "marsh"], ["fence", 0.1, "farm"]],
+  cypress: [["reed", 34, "reed"], ["tuft", 8, "marsh"], ["tree", 0.16, "cypress"], ["cone", 1.4, "knee"], ["disc", 1, "lily"], ["flower", 0.4, "marsh"]],
+  bayouedge: [["reed", 12, "reed"], ["disc", 1.6, "lily"], ["post", 0.5, "piling"], ["disc", 0.7, "float"], ["cone", 0.5, "knee"]],
+  bayoushore: [["reed", 22, "reed"], ["tuft", 6, "marsh"], ["post", 0.5, "piling"], ["cone", 0.4, "knee"], ["box", 0.12, "crabtrap"]],
+  crabwater: [["disc", 0.03, "float"]],
+  piperack: [["tuft", 10, "weed"], ["post", 0.5, "rackpost", 8], ["box", 0.35, "rackbeam", 8], ["pipe", 0.9, "rackpipe", 8], ["pipe", 0.6, "rackpipe2", 8], ["box", 0.5, "drum"], ["post", 0.35, "valve"], ["box", 0.15, "pallet"]],
+  apron: [["tuft", 16, "grass"], ["decal", 1.4, "apron"], ["decal", 0.25, "taxiline", 8], ["post", 0.12, "taxilight"], ["box", 0.03, "gse"], ["box", 0.06, "chock"]],
+  hangar: [["tuft", 8, "weed"], ["decal", 0.8, "apron"], ["box", 0.6, "pallet"], ["box", 0.06, "gse"], ["box", 0.02, "tug"], ["post", 0.1, "taxilight"], ["box", 0.1, "chock"]],
+  slipway: [["tuft", 6, "weed"], ["decal", 0.5, "sliprail", 4], ["box", 0.4, "keelblock", 4], ["post", 0.4, "piling"], ["box", 0.35, "plate"], ["box", 0.1, "container"], ["post", 0.3, "bollard"], ["pipe", 0.05, "pipe"]],
+  gallery: [["tuft", 10, "weed"], ["flower", 5, "planter"], ["shrub", 0.5, "planter"], ["box", 0.4, "bin"], ["post", 0.5, "bollard"], ["post", 0.12, "gaslamp"]],
 };
+
+/**
+ * DETAIL-2: the Louisiana maps use the shared characters (garden, park, industrial, port, refinery, quarter, wetland), so
+ * their own look comes from the region and the district's name — never the map id. Inside a region matching
+ * DT_LA_REGIONS: water, water's edge and shore take the bayou rows (crab-trap floats, pilings, cypress knees), wetland
+ * districts the cypress row, and a district whose character and name match a rule below takes that rule's row. The
+ * `gallery` row also hangs galleries and ironwork on the district's quarter blocks.
+ */
+export const DT_LA_REGIONS = /louisiana|new-orleans/;
+export const DT_VARIANTS = [
+  // [character, name pattern (null: every district of that character in the region), row]
+  ["garden", /rice/i, "rice"],
+  ["garden", /cane|field/i, "cane"],
+  ["park", /runway|taxiway|apron/i, "apron"],
+  ["industrial", /hangar|airport|aviation/i, "hangar"],
+  ["port", /shipyard|boatyard|slipway/i, "slipway"],
+  ["refinery", null, "piperack"],
+  ["industrial", /plant|process|propellant|compressor|blending/i, "piperack"],
+  ["quarter", /french quarter|marigny|trem[eé]|faubourg|seventh ward/i, "gallery"],
+];
+/** Lift above the ground per kind (metres): the pipes and beams ride on the rack posts. */
+const DT_LIFT = { rackpipe: 5.4, rackpipe2: 4.6, rackbeam: 5.1 };
+/** The yaw of a thing set in rows (the rows run along z): pipes (long in x) turn along the row, beams across it. */
+const DT_ROW_YAW = { rackpipe: Math.PI / 2, rackpipe2: Math.PI / 2, rackbeam: Math.PI / 2 };
+const dtVarCache = new WeakMap();
+/** A map's Louisiana variants (cached): { la, rows: Map(district key -> row), chars: Set of characters with a variant }. */
+export function dtVariants(parish) {
+  let v = dtVarCache.get(parish);
+  if (v) return v;
+  const la = DT_LA_REGIONS.test(paRegionOf(parish));
+  const rows = new Map(), chars = new Set();
+  if (la) for (const d of npPrepare(parish).districts) {
+    const hit = DT_VARIANTS.find(([ch, re]) => ch === d.character && (!re || re.test(d.name ?? "")));
+    if (hit) { rows.set(dtDistrictKey(d), hit[2]); chars.add(d.character); }
+  }
+  v = { la, rows, chars };
+  dtVarCache.set(parish, v);
+  return v;
+}
+const dtDistrictKey = (d) => `${d.id}|${d.name}`;
 
 /** Colours by what a thing is (linear-ish RGB 0..1, jittered per instance). `null` = from the region's PALETTE walls. */
 const DT_COLOUR = {
@@ -114,6 +167,12 @@ const DT_COLOUR = {
   piling: [0.4, 0.33, 0.25], float: [0.95, 0.5, 0.15], dash: [0.92, 0.92, 0.85], stripe: [0.95, 0.95, 0.95], lamp: [0.3, 0.32, 0.34],
   hydrant: [0.8, 0.15, 0.1], meter: [0.5, 0.5, 0.52], sign: [0.6, 0.6, 0.62], mailbox: null, pole: [0.42, 0.33, 0.24], wire: [0.1, 0.1, 0.1],
   fence: null, ac: [0.78, 0.78, 0.76], vent: [0.5, 0.5, 0.5], rooftank: [0.55, 0.45, 0.35], solar: [0.1, 0.15, 0.3],
+  // DETAIL-2 (Louisiana rows)
+  cane: [0.45, 0.58, 0.22], rice: [0.55, 0.62, 0.25], headland: [0.5, 0.42, 0.3], cypress: [0.32, 0.42, 0.22], crabtrap: [0.5, 0.52, 0.46],
+  rackpost: [0.55, 0.5, 0.4], rackbeam: [0.5, 0.46, 0.4], rackpipe: [0.7, 0.7, 0.68], rackpipe2: [0.75, 0.72, 0.55],
+  apron: [0.6, 0.6, 0.58], taxiline: [0.95, 0.8, 0.15], taxilight: [0.2, 0.35, 0.95], gse: [0.9, 0.9, 0.85], tug: [0.95, 0.7, 0.1], chock: [0.95, 0.8, 0.1],
+  sliprail: [0.3, 0.28, 0.26], keelblock: [0.45, 0.33, 0.2], plate: [0.4, 0.4, 0.42], gaslamp: [0.1, 0.11, 0.12],
+  gallerypost: [0.08, 0.09, 0.1], ironwork: [0.06, 0.07, 0.08], gallerydeck: [0.45, 0.38, 0.3], fern: [0.25, 0.5, 0.2],
 };
 /** Base scale [sx, sy, sz] per kind (the family's unit geometry is scaled by it and ±25%). */
 const DT_SCALE = {
@@ -125,6 +184,12 @@ const DT_SCALE = {
   piling: [0.3, 2.4, 0.3], float: [0.25, 1, 0.25], dash: [0.25, 1, 3], stripe: [0.6, 1, 4], lamp: [1, 1, 1], hydrant: [0.35, 0.8, 0.35],
   meter: [0.15, 1.3, 0.15], sign: [0.1, 2.6, 0.1], mailbox: [0.4, 1.1, 0.3], pole: [1, 1, 1], wire: [1, 0.03, 1], fence: [1, 1.2, 1],
   ac: [1.4, 1, 1.2], vent: [0.4, 0.8, 0.4], rooftank: [1.6, 2.4, 1.6], solar: [3, 1, 2],
+  // DETAIL-2 (Louisiana rows)
+  cane: [0.6, 6, 0.6], rice: [0.6, 1.8, 0.6], headland: [1.2, 1, 8], cypress: [0.7, 2.4, 0.7], crabtrap: [0.6, 0.4, 0.6],
+  rackpost: [0.35, 5.4, 0.35], rackbeam: [0.3, 0.3, 4], rackpipe: [8, 1.2, 1.2], rackpipe2: [8, 0.8, 0.8],
+  apron: [8, 1, 8], taxiline: [0.3, 1, 6], taxilight: [0.15, 0.35, 0.15], gse: [2.2, 1.4, 1.4], tug: [3, 1.2, 1.8], chock: [0.4, 0.25, 0.3],
+  sliprail: [0.3, 1, 8], keelblock: [1.2, 0.8, 0.6], plate: [2.4, 0.25, 1.2], gaslamp: [0.12, 3, 0.12],
+  gallerypost: [0.12, 4, 0.12], ironwork: [1, 0.9, 1], gallerydeck: [1, 1, 1.2], fern: [1.3, 1.3, 1.3],
 };
 
 const DT_CELL = 8;
@@ -200,27 +265,32 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
     bufs[DT_IDX[fam]].push(x, y, z, yaw, sc[0] * k, sc[1] * k, sc[2] * k, col[0] * l, col[1] * l, col[2] * l);
   };
   const halfEdge = prep.half - 2;
+  const V = dtVariants(parish);
+  // The Louisiana variant row at a point (a district lookup only for characters that have a variant on this map).
+  const variantAt = (c, x, z) => { if (!V.chars.has(c)) return null; const d = npDistrictAt(parish, x, z); return d ? V.rows.get(dtDistrictKey(d)) ?? null : null; };
   for (let j = 0; j < DT_CELLS; j++) for (let i = 0; i < DT_CELLS; i++) {
     const c = cover[j * DT_CELLS + i];
     if (c === "road") continue;
     let row = c;
     if (isWet(c)) {
       const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([di, dj]) => { const ii = i + di, jj = j + dj; return ii >= 0 && jj >= 0 && ii < DT_CELLS && jj < DT_CELLS && !isWet(cover[jj * DT_CELLS + ii]); });
-      row = nb ? "edgewater" : "water";
+      row = nb ? (V.la ? "bayouedge" : "edgewater") : (V.la ? "crabwater" : "water");
     } else if (c !== "wetland") {
       const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([di, dj]) => { const ii = i + di, jj = j + dj; return ii >= 0 && jj >= 0 && ii < DT_CELLS && jj < DT_CELLS && isWet(cover[jj * DT_CELLS + ii]); });
-      row = nb ? "shore" : dtCharacterRow(c);
-    }
+      row = nb ? (V.la ? "bayoushore" : "shore") : (variantAt(c, x0 + (i + 0.5) * DT_CELL, z0 + (j + 0.5) * DT_CELL) ?? dtCharacterRow(c));
+    } else if (V.la) row = "cypress";
     const tab = DT_TABLE[row] ?? DT_TABLE.grass;
     const cx0 = x0 + i * DT_CELL, cz0 = z0 + j * DT_CELL;
-    for (const [fam, count0, kind] of tab) {
+    const onWater = row === "edgewater" || row === "water" || row === "bayouedge" || row === "crabwater";
+    for (const [fam, count0, kind, sp] of tab) {
       const count = count0 * DT_CELL_SCALE, whole = Math.floor(count), n = whole + (rng() < count - whole ? 1 : 0);
       for (let q = 0; q < n; q++) {
-        const x = cx0 + rng() * DT_CELL, z = cz0 + rng() * DT_CELL;
+        // In rows (sp): x snapped to the row lines, the yaw along the row (the same random draws either way).
+        const ux = rng(), x = sp ? cx0 + (Math.floor(ux * DT_CELL / sp) + 0.5) * sp : cx0 + ux * DT_CELL, z = cz0 + rng() * DT_CELL;
         if (Math.abs(x) > halfEdge || Math.abs(z) > halfEdge) { rng(); rng(); rng(); rng(); continue; }
-        const onWater = row === "edgewater" || row === "water";
-        const y = onWater ? (fam === "post" ? -1.2 : fam === "reed" ? -0.4 : 0.03) : hAt(x, z);
-        put(fam, kind, x, y + (fam === "decal" ? 0.04 : 0), z, rng() * Math.PI * 2);
+        const y = onWater ? (fam === "post" ? -1.2 : fam === "reed" ? -0.4 : 0.03) : hAt(x, z) + (DT_LIFT[kind] ?? 0);
+        const yaw = rng() * Math.PI * 2;
+        put(fam, kind, x, y + (fam === "decal" ? 0.04 : 0), z, sp ? (DT_ROW_YAW[kind] ?? 0) : yaw);
       }
     }
   }
@@ -289,6 +359,16 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
       }
       // ground clutter at the back door
       for (let k = 0; k < 3; k++) { const [px, pz] = at((rng() - 0.5) * hx * 2, -hz - 1.5); put("box", s.kind === "shed" ? "pallet" : "bin", px, hAt(px, pz), pz, s.rot); }
+      // DETAIL-2: a gallery on the street front of a quarter block in a `gallery` district (the French Quarter and its
+      // neighbours): iron posts to the ground, the gallery floor, an iron railing along it and hanging ferns.
+      if (s.kind === "quarterBlock" && V.chars.has("quarter") && variantAt("quarter", s.x, s.z) === "gallery") {
+        const lift = Math.min(3.8, 4.4 * s.s), gy = s.y + lift, depth = 1.3, fz = hz + depth, nPost = Math.max(2, Math.round((2 * hx) / 2.6));
+        for (let k = 0; k < nPost; k++) { const [px, pz] = at(-hx + (k + 0.5) * (2 * hx) / nPost, fz); put("post", "gallerypost", px, s.y, pz, s.rot, 0, [0.12, lift + 1, 0.12]); }
+        const [dx, dz] = at(0, hz + depth / 2); put("decal", "gallerydeck", dx, gy, dz, s.rot, 0, [2 * hx, 1, depth]);
+        const [rx, rz] = at(0, fz); put("fence", "ironwork", rx, gy, rz, s.rot, 0, [2 * hx, 0.95, 1]);
+        for (const side of [-1, 1]) { const [sx2, sz2] = at(side * hx, hz + depth / 2); put("fence", "ironwork", sx2, gy, sz2, s.rot + Math.PI / 2, 0, [depth, 0.95, 1]); }
+        for (let k = 0; k < nPost - 1; k++) { const [px, pz] = at(-hx + (k + 1) * (2 * hx) / nPost, fz - 0.1); put("flower", "fern", px, gy - 0.9, pz, rng() * 6.28); }
+      }
     } else if (s.kind === "gardenHouse" || s.kind === "suburbHouse") {
       const lot = (NP_MASSING.garden.spacing + NP_MASSING.suburb.spacing) / 4 - 1; // half a lot, metres
       for (let k = -3; k <= 3; k++) {
@@ -419,6 +499,7 @@ export function dtExportParams() {
     owner: "DETAIL", seed: "npPrepare(parish).seed ^ chunk (cx, cz) hash, mulberry32 per chunk; one threshold per candidate (tiers and rings nest)",
     cell: DT_CELL, cellScale: DT_CELL_SCALE, density: DT_DENSITY, fade: DT_FADE, capacity: DT_CAPACITY, budget: DT_BUDGET,
     families: DT_FAMILIES.map((f) => ({ id: f.id, tris: f.tris, note: f.note })), table: DT_TABLE,
+    variants: { regions: DT_LA_REGIONS.source, rules: DT_VARIANTS.map(([character, re, row]) => ({ character, name: re ? re.source : null, row })) },
     note: "Procedural and generic: seeded scatter by district character, cover, roads, water and sites; nothing records a real object.",
   };
 }
