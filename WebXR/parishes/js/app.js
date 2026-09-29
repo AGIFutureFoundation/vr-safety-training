@@ -22,7 +22,7 @@ import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
-import { cwMassFilter, cwBlockWalk, cwStreets, cwColliders, cwSidewalkAt } from "../../shared/cw-cityworks.js";
+import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt } from "../../shared/cw-cityworks.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";

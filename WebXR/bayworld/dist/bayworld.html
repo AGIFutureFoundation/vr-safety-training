@@ -50931,6 +50931,13 @@ const NP_TRI = {
   cypress: 28, reed: 6, tank: 40, stack: 24, bridgePier: 12, sign: 24,
 };
 
+/**
+ * Terrain hooks another module may set (console TERRAFORM): `cut(parish, x, z, h, water) -> h` carves channels and banks
+ * into the ground before the levees and pads, `wet(parish, x, z) -> 0..1` marks the shoreline strip for the ground colour.
+ * Unset (null), the height field is exactly the delta above.
+ */
+const NP_TERRAIN_HOOKS = { cut: null, wet: null };
+
 // ------------------------------------------------------------------ maths
 
 const npClamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -51207,7 +51214,10 @@ function npHeightAt(parish, x, z) {
       h = NP_BED + (NP_WATER_Y - 0.4 - NP_BED) * (1 - npSmooth(0, 12, edge));
     }
   }
-  h += npLeveeRise(parish, x, z);
+  const lv = npLeveeRise(parish, x, z);
+  // TERRAFORM's channel cut (shared/tf-terraform.js): streams, ditches and river banks; never under a levee.
+  if (NP_TERRAIN_HOOKS.cut && lv < 0.3) h = NP_TERRAIN_HOOKS.cut(parish, x, z, h, w);
+  h += lv;
   for (const s of prep.sites) {
     const d = Math.hypot(x - s.position[0], z - s.position[1]);
     if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length ? npHillRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }

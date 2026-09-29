@@ -106,10 +106,28 @@ for (const [file, src] of sources) {
   // A destructured parameter with an options-bag default, e.g. `function f(a,
   // { surface = null } = {})` — a real local binding like the one above, just
   // in a parameter list rather than a `const` statement.
-  for (const m of rawSrc.matchAll(/\{([^{}]*)\}\s*=\s*\{\}/g)) {
-    for (const part of m[1].split(",")) {
-      const name = (part.split(":").pop() ?? "").trim().replace(/=.*$/, "").trim();
-      if (name) local.add(name);
+  // The bag is found by brace depth, so a default that itself holds braces (`toast = () => {}`,
+  // `bounds = { minX: 0 }`) does not hide the names after it.
+  for (const m of rawSrc.matchAll(/\}\s*=\s*\{\}/g)) {
+    let depth = 0, start = -1;
+    for (let i = m.index; i >= 0; i--) {
+      const ch = rawSrc[i];
+      if (ch === "}") depth++;
+      else if (ch === "{" && --depth === 0) { start = i; break; }
+    }
+    if (start < 0) continue;
+    const body = rawSrc.slice(start + 1, m.index);
+    const parts = []; let d = 0, cur = "";
+    for (const ch of body) {
+      if ("{[(".includes(ch)) d++;
+      else if ("}])".includes(ch)) d--;
+      if (ch === "," && d === 0) { parts.push(cur); cur = ""; } else cur += ch;
+    }
+    parts.push(cur);
+    for (const part of parts) {
+      const key = part.split("=")[0];
+      const name = (key.split(":").pop() ?? "").trim();
+      if (/^[A-Za-z_$][\w$]*$/.test(name)) local.add(name);
     }
   }
   // …and what it imports, including default and namespace forms.
