@@ -29,6 +29,8 @@ import { nwMountPhysics } from "../../shared/nw-drive.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
+import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
+import { stMountPaths } from "../../shared/st-stories.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -324,7 +326,7 @@ function npQmApproach(near) {
   if (npQmNear === site.id) return;
   npQmNear = site.id;
   const locked = (parish.gated ?? []).find((g) => g.site === site.id && !qmIsOpen(g.gate, qmSnapshot()));
-  if (locked) qmLockToast(locked, { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` } });
+  if (locked && stPromptsOn()) qmLockToast(locked, { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` } });
 }
 
 function npNearest() {
@@ -441,6 +443,7 @@ function frame(now) {
   for (const w of npWild) w.animate(now / 1000, dt);
   mgLife?.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
+  stWorld?.animate(now / 1000);
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -457,7 +460,9 @@ requestAnimationFrame(frame);
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;
   npHud();
-  npToast(npReturnSiteId ? `Back at ${npStart.name}.` : `Welcome to ${parish.name}. Walk to the orange job board (E), or open the map (M).`);
+  if (npReturnSiteId) npToast(`Back at ${npStart.name}.`);
+  else if (!stPromptsOn()) npToast(`${parish.name}: just roam. No prompts; every board, lesson and kiosk opens when you reach it.`);
+  else if (!(stChosenPath() && stWorld?.greet())) npToast(`Welcome to ${parish.name}. Walk to the orange job board (E), or open the map (M).`);
 }
 $("menu-start").addEventListener("click", npBegin);
 if (npReturnSiteId) npBegin();
@@ -541,3 +546,11 @@ const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
 // KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
 kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() });
+// STORYLINE: pick your path (the menu at the world's start), the path's side stories, a glow over its boards, who greets first.
+var stWorld = stMountPaths({
+  three: THREE, root, parish, world, el: $("menu-storyline"), tier: npTierName,
+  reducedMotion: (() => { try { return !!matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } })(),
+  toast: npToast, openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); },
+  stationHref: (id, siteId) => npLink(id, siteId),
+});
+window.__parishTest.storyline = stWorld;

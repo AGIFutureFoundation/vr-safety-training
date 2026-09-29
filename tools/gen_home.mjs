@@ -1358,7 +1358,8 @@ function appCard(layout, { href, tint: t, count, name, blurb, go, shot }) {
     return `      <a class="app world" style="--tint:${t}" href="${href}">
         <span class="shot">${img}${hmCardVideo(layout, shot)}</span>
         <span class="body">
-          <span class="count">${esc(count)}</span>
+          <span class="count">${esc(count)}</span>${/parishes\.html/.test(String(href)) ? `
+          <span class="st-chip" data-st-chip hidden style="display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--tint);margin:4px 0">Pick a path</span>` : ""}
           <h2>${esc(name)}</h2>
           <p>${esc(blurb)}</p>
           <span class="go">${esc(go)}</span>
@@ -1795,6 +1796,7 @@ ${docs}
 <script type="module">${wfSearchScript(catalog)}</script>
 <script type="module">${SCRIPT}</script>
 <script type="module">${hmScript(layout)}</script>
+<script type="module">import { stMountChip } from "./shared/st-paths.js"; for (const el of document.querySelectorAll("[data-st-chip]")) { stMountChip(el); el.hidden = false; }</script>
 <script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: "#top", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>
 <script type="module">import { gdMount } from "./shared/guide.js"; gdMount({ root: ${JSON.stringify(layout.guideRoot)}, y: 0.9 });</script>
 </body>

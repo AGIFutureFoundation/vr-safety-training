@@ -59,6 +59,8 @@ const CHECKERS = [
   "check_krewe.mjs",
   // MENAGERIE: pets, animals and passers-by on the parish maps and Bay World (docs/consoles/MENAGERIE.md).
   "check_menagerie.mjs",
+  // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
+  "check_storyline.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
