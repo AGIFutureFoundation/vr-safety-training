@@ -29176,5 +29176,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bk-bioretention-rain-garden-excavation",
+    "index": "BK-1",
+    "domain": "Construction",
+    "trade": "LIUNA laborer crew lead on a sidewalk bioretention cell, with an IUOE Local 3 operating engineer on the compact excavator",
+    "category": "Construction & Structural Trades",
+    "certification": "LIUNA Training and Education Fund construction craft laborer training for the ground crew; IUOE Local 3 operating engineer apprenticeship for the excavator; OSHA 29 CFR 1926 Subpart P Excavations for the cut, its spoil, its egress and the competent person's inspection; 29 CFR 1926.602 for the earthmoving machine; the California excavation notice law (Government Code 4216, the 811 call) for the locate ticket and the tolerance zone; the MUTCD for the sidewalk closure and the pedestrian detour; ANSI/ISEA 107 high-visibility garments; 29 CFR 1926.21 safety training",
+    "name": "Bioretention Rain Garden Excavation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bioretention Rain Garden Excavation VR",
+    "tagline": "A rain garden cut into a city sidewalk: the plan and the locate ticket read, the walk closed with a detour, the paint checked, the marked line exposed by vacuum, the cut signalled to grade and read on the rod, the gravel, underdrain and soil placed in order, the cleanout capped, the plants set, the inlet and the edge checked, logged and the crew checked in",
+    "accent": 7319114,
+    "accentCss": "#6fae4a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "sponge-in-the-sidewalk",
+      "name": "Sponge In The Sidewalk",
+      "note": "The cell dug to grade over a located line, layered in order and planted, with the walk kept open for everyone who needed it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rain Garden Build",
+      "currency": "CELL",
+      "ranks": [
+        "Planting Hand",
+        "Pothole Hand",
+        "Grade Checker",
+        "Cell Foreman",
+        "Rain Garden Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bk-street-drain-trash-capture-cleanout",
+    "index": "BK-2",
+    "domain": "Environmental",
+    "trade": "LIUNA laborer crew lead on a stormwater maintenance crew, servicing a street trash capture vault from the surface with the vacuum truck's operator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew; OSHA 29 CFR 1910.146 permit-required confined spaces (this service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the vacuum truck's power take-off before any hand clears the boom; the MUTCD Part 6 for the lane closure; ANSI/ISEA 107 high-visibility garments; 29 CFR 1910.1030 bloodborne pathogens practice for sharps in the catch; the NPDES stormwater rules, 40 CFR 122.26, and the Regional Water Quality Control Board's municipal stormwater permit trash provisions; NIOSH findings on confined-space fatalities among would-be rescuers",
+    "name": "Street Drain Trash Capture Cleanout",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Street Drain Trash Capture Cleanout VR",
+    "tagline": "A trash capture vault under the street, emptied from the surface: the order read, the lane closed with a sign and a taper, the cover lifted, the air read at the opening, the vault looked over from above, the vacuum boom guided down, the truck locked out to clear a clog, the clamp freed, the screen rinsed, the catch estimated, logged and the crew checked in",
+    "accent": 4169928,
+    "accentCss": "#3fa0c8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "from-the-surface",
+      "name": "From The Surface",
+      "note": "The vault emptied and rinsed without anyone going in, leaning in or reaching into a live boom"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Vault Service",
+      "currency": "SCREEN",
+      "ranks": [
+        "Cone Hand",
+        "Boom Guide",
+        "Vault Lead",
+        "Stormwater Foreman",
+        "Vault Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bk-wastewater-nutrient-chemical-feed",
+    "index": "BK-3",
+    "domain": "Environmental",
+    "trade": "Wastewater treatment plant operator on the nutrient-removal rounds: the chemical feed skid and the aeration basin",
+    "category": "Water & Environmental",
+    "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.1200 hazard communication and the chemical's safety data sheet; 29 CFR 1910.132 and 1910.133 for the splash protection; ANSI Z358.1 for the eyewash and safety shower; 29 CFR 1910.147 control of hazardous energy for the metering pump; 29 CFR 1910.22 and 1910.23 walking-working surfaces and guardrails on the basin walkway; NFPA 820 for the plant's classified areas; NIOSH findings on drownings in aerated tanks",
+    "name": "Nutrient Reduction Chemical Feed and Aeration",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Nutrient Reduction Chemical Feed and Aeration VR",
+    "tagline": "A treatment plant's nutrient-removal rounds: the order and the SDS read, splash gear on, the feed area walked, the eyewash flushed, the metering pump locked out, the line bled, the drip tray set, the pump calibrated while a fitting sprays, the dose read, the basin walkway walked, the oxygen probe pulled while a coworker leans for a hard hat, the oxygen read, logged and the crew checked in",
+    "accent": 11565784,
+    "accentCss": "#b07ad8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "dose-and-air",
+      "name": "Dose And Air",
+      "note": "The feed calibrated and the basin read without a splash on skin or a hand over the rail"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nutrient Rounds",
+      "currency": "DOSE",
+      "ranks": [
+        "Rounds Trainee",
+        "Feed Hand",
+        "Process Operator",
+        "Shift Operator",
+        "Nutrient Rounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

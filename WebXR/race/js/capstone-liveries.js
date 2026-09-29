@@ -162,6 +162,11 @@ export const CAPSTONE_LIVERIES = [
     "accent": "#4fb3c8"
   },
   {
+    "programme": "bay-program-projects",
+    "name": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+    "accent": "#6fae4a"
+  },
+  {
     "programme": "railroad-crafts",
     "name": "Railroad Crafts — Track, Car and Cab",
     "accent": "#d63b3b"
