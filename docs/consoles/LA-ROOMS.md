@@ -56,10 +56,19 @@ Louisiana programme itself; all 326 resolve.
    drives parishes.html?parish=la-meta-richland: teleport to the data hall's door, E, check the room, stand at the tile lifter,
    E at the door. Observe: 3604 passed, 0 failed. The page entered `lar-data-hall` with 11 object actions and 15 meshes, offered
    `lar-tile` at its spot, came back to the same door spot, with no page errors.
+6. Reason: the objects must read at a glance, not only through the prompt. Act: one name sign (a canvas plane) over every object,
+   on both tiers. Observe: check_la_rooms 3706 passed, 0 failed. The worst room is 30 meshes, 1114 / 986 triangles
+   (caps 120; 6000 / 3000). A real-page screenshot of the AVEX paint hangar shows the signed respirator bench, the sprayer,
+   the tug and the airframe.
+7. Reason: a craft hall should lead with the work planned on its own map. Act: `larPathwaysHere(map)` (the pathways of the
+   LP_TRACKS placed on the map) fills the front row nearest the door, and the lobby board names them. Observe:
+   check_la_rooms 3733 passed, 0 failed (9 craft halls, each with its map's pathways in the front row). The browser pass
+   gives 3739 passed, 0 failed (the data hall is 26 meshes with signs, no page errors). check_interiors 733/0;
+   check_classrooms 1684/0.
 
 ## Checkers (last lines)
 
-- `node tools/check_la_rooms.mjs` → `check_la_rooms: ok — 3598 passed, 0 failed`
+- `node tools/check_la_rooms.mjs` → `check_la_rooms: ok — 3733 passed, 0 failed` (about 1.5 s); with `--browser` (port 9023) → `ok — 3739 passed, 0 failed` (about 30 s)
 - `node tools/check_interiors.mjs` → `PASS check_interiors: 733 passed, 0 failed`
 - `node tools/check_classrooms.mjs` → `check_classrooms: ok — 1684 passed, 0 failed`
 - `node tools/check_parishes.mjs` → `check_parishes: 62985 passed, 0 failed`
@@ -70,5 +79,5 @@ Louisiana programme itself; all 326 resolve.
   CLASSROOMS' generic five-bay training centre. Adding the Louisiana pathway bays there is a CLASSROOMS change.
 - PROJECTSIM's open panel says "funded under the Bay Program awards and Clean Ports" for every simulation, including the
   Louisiana ones (`ps-projectsim.js` `open`). That wording belongs to PROJECTSIM or LA-PROGRAMME.
-- Objects have no floating name signs (the prompt "E — <label>" names them). A canvas sign per object would cost a mesh each.
-- Not yet proved in a browser. The module round trip (enter → walk → E → exit) runs headless in the checker.
+- The browser pass covers one room (the data hall). The other five are proved headless (build, reachability, launch).
+- A station launched from a room goes to the station page and comes back to the site outside, not into the room (INTERIORS' open item).

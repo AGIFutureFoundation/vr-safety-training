@@ -24,7 +24,7 @@
 //   `launch(l, r)` is the world's handler: the parishes app passes crLaunch (a station link, psWorld.open for a simulation).
 
 import { ixStyleFor } from "./ix-interiors.js";
-import { LP_PATHWAYS, LP_NO_PARTNERSHIP } from "./lp-programme-data.js";
+import { LP_PATHWAYS, LP_TRACKS, LP_NO_PARTNERSHIP } from "./lp-programme-data.js";
 
 export const LAR_STYLES = {
   "lar-hangar": "an aircraft hangar (aircraft paint, maintenance and conversion; a vehicle-processing variant at the launch site)",
@@ -189,20 +189,34 @@ const LAR_CONTROL_BOARD = {
 /** Trade references for the programme's crafts (tools/unions.json abbreviations; check_la_rooms compares them). */
 export const LAR_CRAFT_NAMES = { ibew: "IBEW", ua: "UA", ironworkers: "IW", iuoe: "IUOE", carpenters: "UBC", liuna: "LIUNA", cwa: "CWA", usw: "USW", insulators: "IAHFIAW", ibb: "IBB", iam: "IAM", iupat: "IUPAT", smart: "SMART", teamsters: "IBT", ila: "ILA" };
 
-/** The craft hall: a lobby, an apprenticeship board, a K-12 corner and a bay per LP_PATHWAYS role pathway (bench + simulation kiosk). */
-function larCraftLayout() {
+/** The role pathways of the programme tracks that play on a map (LP_TRACKS places), in programme order. */
+export function larPathwaysHere(parishId) {
+  const ids = new Set(LP_TRACKS.filter((t) => t.places.some((p) => p.map === parishId)).flatMap((t) => t.pathways));
+  return LP_PATHWAYS.filter((p) => ids.has(p.id)).map((p) => p.id);
+}
+
+/**
+ * The craft hall: a lobby, an apprenticeship board, a K-12 corner and a bay per LP_PATHWAYS role pathway (bench + simulation
+ * kiosk). The front row (z = −1, nearest the door) holds this map's own pathways; the back row the rest.
+ */
+function larCraftLayout(parishId = null) {
   const crafts = [...new Set(LP_PATHWAYS.flatMap((p) => p.crafts.map((c) => c.union)))];
   const fixtures = [
     larF("lobby", "board", `Lobby board: the programme's crafts — ${crafts.map((c) => LAR_CRAFT_NAMES[c] ?? c).join(", ")} (trade references)`, [-11.9, 2.5], "e", "station", "union-hall-and-dispatch"),
     larF("apprentice", "board", "Apprenticeship board: reading apprenticeship standards", [-11.9, -3.5], "e", "station", "apprenticeship-standards-reading"),
     larF("k12", "board", "Awareness corner: the crews behind a big build", [11.9, 2.5], "w", "station", "k12-lk-the-crews-behind-a-big-build"),
   ];
-  LP_PATHWAYS.forEach((p, i) => {
-    const x = [-8, 0, 8][i % 3], z = i < 3 ? -6.5 : -1;
+  const here = new Set(larPathwaysHere(parishId));
+  const front = LP_PATHWAYS.filter((p) => here.has(p.id)).slice(0, 3);
+  const order = [...LP_PATHWAYS.filter((p) => !front.includes(p)), ...front];
+  const slots = [[-8, -6.5], [0, -6.5], [8, -6.5], [-8, -1], [0, -1], [8, -1]];
+  order.forEach((p, i) => {
+    const [x, z] = slots[i];
     const st = p.stations[0], sim = p.sims[0];
     fixtures.push(larF(`bay-${p.id}`, "bay", `${p.title} bay: ${st.replace(/-/g, " ")}`, [x - 1, z], "s", "station", st));
     if (sim) fixtures.push(larF(`sim-${p.id}`, "kiosk", `${p.title} bay: a programme simulation`, [x + 1.6, z], "s", "sim", sim));
   });
+  if (front.length) fixtures[0] = { ...fixtures[0], label: `${fixtures[0].label}; this site's pathways at the front — ${front.map((p) => p.title).join(", ")}` };
   return { deco: [], fixtures };
 }
 
@@ -232,7 +246,7 @@ export function larRoomsFor(parish) {
   for (const site of parish?.sites ?? []) {
     const style = ixStyleFor(site.kind, site.id);
     if (!LAR_STYLES[style]) continue;
-    let lay = style === "lar-craft-hall" ? larCraftLayout() : LAR_LAYOUT[style];
+    let lay = style === "lar-craft-hall" ? larCraftLayout(parish.id) : LAR_LAYOUT[style];
     if (style === "lar-hangar" && /vehicle/.test(site.id)) lay = LAR_LAYOUT["lar-hangar/vehicle"];
     let fixtures = lay.fixtures.map((f) => ({ ...f, launch: { ...f.launch } }));
     if (style === "lar-control-room" && LAR_CONTROL_BOARD[parish.id]) {

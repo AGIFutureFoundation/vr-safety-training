@@ -79,6 +79,18 @@ for (const { p, r } of rooms) for (const f of r.fixtures) {
   kinds.add(`${l.type}:${l.id}`);
 }
 note(`launches: ${nLaunch} objects in ${rooms.length} rooms — ${nSim} programme simulations, ${nLp} in the Louisiana programme, all resolved; ${kinds.size} distinct`);
+// The craft hall puts this map's own pathways (the programme tracks placed on it) in the front row, nearest the door.
+let halls = 0;
+for (const { p, r } of rooms.filter((x) => x.r.style === "lar-craft-hall")) {
+  const here = LAR.larPathwaysHere(p.id);
+  check(here.length >= 1, `${r.id}: the programme places at least one track on ${p.id}`);
+  const bays = r.fixtures.filter((f) => /^bay-/.test(f.id));
+  check(bays.length === LP.LP_PATHWAYS.length, `${r.id}: a bay per role pathway (${bays.length})`);
+  const front = bays.filter((f) => f.at[1] === -1).map((f) => f.id.slice(4));
+  check(here.slice(0, 3).every((id) => front.includes(id)), `${r.id}: ${here.join(", ")} in the front row (${front.join(", ")})`);
+  halls++;
+}
+note(`craft halls: ${halls}, each with its map's own pathways in the front row`);
 check(nLp / Math.max(1, nLaunch) >= 0.6, `most launches come from the Louisiana programme (${nLp} of ${nLaunch})`);
 
 // 3 + 4. budget and use, per room on both tiers.
