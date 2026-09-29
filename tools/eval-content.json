@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27",
+  "generated": "2026-09-29",
   "weights": {
     "variety": 0.18,
     "decisions": 0.2,
@@ -741,6 +741,58 @@
           "score": 0.35806451612903245,
           "nearest": "ambulance-scene-safety",
           "similarity": 0.26838709677419353
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hazmat-container-inspection",
+      "name": "Hazmat Container Inspection",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 308,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 0.6,
+          "cited": 5,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 0.9090909090909091,
+          "want": 11,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9515909090909092,
+          "meshes": 167,
+          "materials": 77,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.4810559006211182,
+          "nearest": "reefer-yard-monitoring",
+          "similarity": 0.24378881987577639
         }
       }
     },
@@ -2514,58 +2566,6 @@
     },
     {
       "app": "smartcity",
-      "id": "hazmat-container-inspection",
-      "name": "Hazmat Container Inspection",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 93,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 308,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 0.75,
-          "cited": 4,
-          "inScope": 3,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 0.9090909090909091,
-          "want": 11,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9515909090909092,
-          "meshes": 167,
-          "materials": 77,
-          "interactables": 21
-        },
-        "originality": {
-          "score": 0.4810559006211182,
-          "nearest": "reefer-yard-monitoring",
-          "similarity": 0.24378881987577639
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "air-sensor-install",
       "name": "Neighbourhood Air Sensor",
       "category": "Community Environmental Justice",
@@ -3861,6 +3861,58 @@
           "score": 0.5382352941176471,
           "nearest": "keg-cellar-co2",
           "similarity": 0.2323529411764706
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-map-literacy-across-eras",
+      "name": "Map Literacy Across Eras",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.855,
+          "medianWhy": 221,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3398467432950192,
+          "nearest": "k12-by-reading-a-flood-maps-colours",
+          "similarity": 0.2720306513409962
         }
       }
     },
@@ -6258,6 +6310,266 @@
     },
     {
       "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan",
+      "name": "Payload Crane Lift with a Lift Plan",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.72,
+          "medianWhy": 194,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 197,
+          "materials": 81,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.6677419354838711,
+          "nearest": "bs-tandem-lift-girder-set",
+          "similarity": 0.2064516129032258
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy",
+      "name": "Hazardous Fluid Servicing with a Buddy",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.76,
+          "medianWhy": 202,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 208,
+          "materials": 89,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5157894736842107,
+          "nearest": "av-lavatory-and-potable-water-separation",
+          "similarity": 0.23684210526315788
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk",
+      "name": "Depot Tool Control & FOD Walk",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.71,
+          "medianWhy": 192,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 217,
+          "materials": 92,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.625925925925926,
+          "nearest": "av-borescope-and-tool-control-inventory",
+          "similarity": 0.21481481481481482
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+      "name": "Ocean Pod Retrieval & Hatch Opening",
+      "category": "Connectivity & Telecom",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.79,
+          "medianWhy": 208,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 80,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5131313131313132,
+          "nearest": "br-workboat-crane-lift-from-water",
+          "similarity": 0.23737373737373738
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-substation-switching-under-a-permit",
+      "name": "Collector Substation Switching Under a Permit",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9099999999999999,
+          "medianWhy": 232,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 83,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.26031128404669285,
+          "nearest": "substation-switching",
+          "similarity": 0.28793774319066145
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "track-access",
       "name": "Track Access",
       "category": "Mobility & Transit",
@@ -6721,6 +7033,578 @@
           "score": 0.5364779874213838,
           "nearest": "pl-fire-sprinkler-riser-and-flow-test",
           "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-streetcar-timetable",
+      "name": "A Streetcar Timetable",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 265,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.17305389221556888,
+          "nearest": "k12-by-a-ferry-timetable-and-the-tide",
+          "similarity": 0.30538922155688625
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-ferry-timetable-and-the-tide",
+      "name": "A Ferry Timetable and the Tide",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 273,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.17305389221556888,
+          "nearest": "k12-by-a-streetcar-timetable",
+          "similarity": 0.30538922155688625
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-digital-citizenship-and-online-safety",
+      "name": "Digital Citizenship and Online Safety",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.48158844765342973,
+          "nearest": "k12-writing-a-clear-incident-report",
+          "similarity": 0.24368231046931407
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-public-speaking-at-the-hall",
+      "name": "Public Speaking at the Hall",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.905,
+          "medianWhy": 231,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5072519083969466,
+          "nearest": "k12-first-aid-awareness-call-for-help",
+          "similarity": 0.2385496183206107
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-oral-history-interview-skills",
+      "name": "Oral History Interview Skills",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.875,
+          "medianWhy": 225,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.532391713747646,
+          "nearest": "k12-teamwork-and-feedback",
+          "similarity": 0.2335216572504708
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-a-controlled-experiment",
+      "name": "A Controlled Experiment",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9099999999999999,
+          "medianWhy": 232,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.41508379888268165,
+          "nearest": "k12-by-wetlands-as-a-storms-speed-bump",
+          "similarity": 0.2569832402234637
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-simple-machines-at-a-crane",
+      "name": "Simple Machines at a Crane",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9200000000000002,
+          "medianWhy": 234,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.43626373626373643,
+          "nearest": "k12-slope-and-angles-on-a-ramp",
+          "similarity": 0.25274725274725274
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-fractions-in-the-kitchen",
+      "name": "Fractions in the Kitchen",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9299999999999999,
+          "medianWhy": 236,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.22882703777336005,
+          "nearest": "k12-reading-instructions-and-safety-labels",
+          "similarity": 0.294234592445328
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-writing-a-clear-incident-report",
+      "name": "Writing a Clear Incident Report",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 287,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.18399246704331462,
+          "nearest": "k12-reading-instructions-and-safety-labels",
+          "similarity": 0.3032015065913371
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-reading-a-map-scale-in-bay-world",
+      "name": "Reading a Map Scale in Bay World",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.95,
+          "medianWhy": 240,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.279654510556622,
+          "nearest": "k12-slope-and-angles-on-a-ramp",
+          "similarity": 0.2840690978886756
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-reading-instructions-and-safety-labels",
+      "name": "Reading Instructions and Safety Labels",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.18399246704331462,
+          "nearest": "k12-writing-a-clear-incident-report",
+          "similarity": 0.3032015065913371
         }
       }
     },
@@ -8325,7 +9209,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 255,
           "materials": 83,
           "interactables": 28
         },
@@ -11874,6 +12758,214 @@
     },
     {
       "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds",
+      "name": "Test Stand Exclusion Zone & Holds",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.7550000000000001,
+          "medianWhy": 201,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 187,
+          "materials": 76,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.6800000000000002,
+          "nearest": "ws-substation-switching-under-a-permit",
+          "similarity": 0.204
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill",
+      "name": "AMR Fleet Traffic & E-stop Drill",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.7849999999999999,
+          "medianWhy": 207,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 211,
+          "materials": 78,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5745019920318726,
+          "nearest": "ad-cobot-risk-assessment-and-speed-separation",
+          "similarity": 0.2250996015936255
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry",
+      "name": "Robot Cell Lockout & Safe Re-entry",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8150000000000002,
+          "medianWhy": 213,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 193,
+          "materials": 84,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.41673003802281394,
+          "nearest": "ws-nacelle-lockout-and-yaw-brake-fault",
+          "similarity": 0.25665399239543724
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-crah-alarm-response-in-a-live-hall",
+      "name": "CRAH Alarm Response in a Live Hall",
+      "category": "Connectivity & Telecom",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 93,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5802083333333333,
+          "nearest": "or-solar-farm-tracker-row-maintenance",
+          "similarity": 0.22395833333333334
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "press-brake",
       "name": "Press Brake",
       "category": "Manufacturing & Automation",
@@ -12082,6 +13174,58 @@
     },
     {
       "app": "smartcity",
+      "id": "substation-switching",
+      "name": "Substation Switching",
+      "category": "Energy & Power",
+      "steps": 11,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 382,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9431818181818181,
+          "meshes": 170,
+          "materials": 73,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.26031128404669285,
+          "nearest": "ws-substation-switching-under-a-permit",
+          "similarity": 0.28793774319066145
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "scaffold-erection",
       "name": "Scaffold Erection",
       "category": "Construction & Structural Trades",
@@ -12181,6 +13325,1306 @@
           "score": 0.12857142857142873,
           "nearest": "av-marshalling-and-wingwalker-signals",
           "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-wetlands-as-a-storms-speed-bump",
+      "name": "Wetlands as a Storm's Speed Bump",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 272,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3160714285714286,
+          "nearest": "k12-by-the-rivers-current-and-a-pilots-job",
+          "similarity": 0.2767857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-the-water-cycle-from-lake-to-tap",
+      "name": "The Water Cycle from Lake to Tap",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 259,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3068376068376069,
+          "nearest": "k12-water-cycle-and-filtration",
+          "similarity": 0.27863247863247864
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-the-rivers-current-and-a-pilots-job",
+      "name": "The River's Current and a Pilot's Job",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 281,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3160714285714286,
+          "nearest": "k12-by-wetlands-as-a-storms-speed-bump",
+          "similarity": 0.2767857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-what-a-pump-station-does-in-the-rain",
+      "name": "What a Pump Station Does in the Rain",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 275,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.24901960784313726,
+          "nearest": "k12-by-sorting-containers-at-the-port",
+          "similarity": 0.2901960784313726
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-measuring-a-floodwall-in-steps",
+      "name": "Measuring a Floodwall in Steps",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 263,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.34457831325301225,
+          "nearest": "k12-by-a-shrimp-boats-fair-count",
+          "similarity": 0.2710843373493976
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-reading-a-flood-maps-colours",
+      "name": "Reading a Flood Map's Colours",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2797665369649807,
+          "nearest": "k12-by-a-streetcar-timetable",
+          "similarity": 0.2840466926070039
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-family-readiness-plan",
+      "name": "A Family Readiness Plan",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 277,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.40304114490161025,
+          "nearest": "k12-by-reading-a-flood-maps-colours",
+          "similarity": 0.259391771019678
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-sorting-containers-at-the-port",
+      "name": "Sorting Containers at the Port",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.24901960784313726,
+          "nearest": "k12-by-what-a-pump-station-does-in-the-rain",
+          "similarity": 0.2901960784313726
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-a-shrimp-boats-fair-count",
+      "name": "A Shrimp Boat's Fair Count",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 266,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.34457831325301225,
+          "nearest": "k12-by-measuring-a-floodwall-in-steps",
+          "similarity": 0.2710843373493976
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-by-how-a-levee-holds-water-back",
+      "name": "How a Levee Holds Water Back",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 265,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3296296296296297,
+          "nearest": "k12-by-what-a-pump-station-does-in-the-rain",
+          "similarity": 0.2740740740740741
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-guilds-and-the-history-of-work",
+      "name": "Guilds and the History of Work",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 312,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2986159169550173,
+          "nearest": "k12-primary-and-secondary-sources",
+          "similarity": 0.28027681660899656
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-weather-and-the-sky",
+      "name": "Weather and the Sky",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9550000000000001,
+          "medianWhy": 241,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.553211009174312,
+          "nearest": "k12-graphing-tide-readings-at-the-pier",
+          "similarity": 0.22935779816513763
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-geometry-of-a-turbine-blade-sweep",
+      "name": "Geometry of a Turbine's Blade Sweep",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 255,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.33382899628252805,
+          "nearest": "k12-slope-and-angles-on-a-ramp",
+          "similarity": 0.2732342007434944
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-probability-with-a-fair-spinner",
+      "name": "Probability with a Fair Spinner",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.99,
+          "medianWhy": 248,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.4430167597765364,
+          "nearest": "k12-a-controlled-experiment",
+          "similarity": 0.25139664804469275
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-graphing-tide-readings-at-the-pier",
+      "name": "Graphing Tide Readings at the Pier",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 265,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.30113421550094527,
+          "nearest": "k12-by-a-ferry-timetable-and-the-tide",
+          "similarity": 0.27977315689981097
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-slope-and-angles-on-a-ramp",
+      "name": "Slope and Angles on a Ramp",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 281,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.279654510556622,
+          "nearest": "k12-reading-a-map-scale-in-bay-world",
+          "similarity": 0.2840690978886756
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-energy-transfer-at-the-wind-farm",
+      "name": "Energy Transfer at the Wind Farm",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 286,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.34102564102564126,
+          "nearest": "k12-water-cycle-and-filtration",
+          "similarity": 0.2717948717948718
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-first-aid-awareness-call-for-help",
+      "name": "First Aid Awareness: Call for Help",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 294,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2673076923076925,
+          "nearest": "k12-reading-instructions-and-safety-labels",
+          "similarity": 0.2865384615384615
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-how-a-local-council-meeting-works",
+      "name": "How a Local Council Meeting Works",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 284,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.28267716535433085,
+          "nearest": "k12-writing-a-clear-incident-report",
+          "similarity": 0.28346456692913385
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-building-a-timeline-from-documents",
+      "name": "Building a Timeline from Documents",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 313,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3733001658374793,
+          "nearest": "k12-primary-and-secondary-sources",
+          "similarity": 0.26533996683250416
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-circuits-at-the-electrical-bench",
+      "name": "Circuits at the Electrical Bench",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3736641221374046,
+          "nearest": "k12-energy-transfer-at-the-wind-farm",
+          "similarity": 0.2652671755725191
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-buoyancy-and-pressure-in-the-deep",
+      "name": "Buoyancy and Pressure in the Deep",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 300,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.38719611021069716,
+          "nearest": "k12-water-cycle-and-filtration",
+          "similarity": 0.2625607779578606
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-household-budget-and-first-paycheck",
+      "name": "A Household Budget and a First Paycheck",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.32101313320825525,
+          "nearest": "k12-reading-instructions-and-safety-labels",
+          "similarity": 0.275797373358349
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-primary-and-secondary-sources",
+      "name": "Primary and Secondary Sources",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2986159169550173,
+          "nearest": "k12-guilds-and-the-history-of-work",
+          "similarity": 0.28027681660899656
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-water-cycle-and-filtration",
+      "name": "The Water Cycle and Filtration",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 308,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3068376068376069,
+          "nearest": "k12-by-the-water-cycle-from-lake-to-tap",
+          "similarity": 0.27863247863247864
         }
       }
     },
@@ -15553,7 +17997,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 251,
           "materials": 92,
           "interactables": 29
         },
@@ -19985,6 +22429,162 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation",
+      "name": "Cobot Risk Assessment & Speed-and-Separation",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 83,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.5745019920318726,
+          "nearest": "ad-amr-fleet-traffic-and-estop-drill",
+          "similarity": 0.2250996015936255
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+      "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+      "category": "Connectivity & Telecom",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.845,
+          "medianWhy": 219,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 63,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6402697495183046,
+          "nearest": "ws-crah-alarm-response-in-a-live-hall",
+          "similarity": 0.2119460500963391
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+      "name": "Nacelle Lockout & Yaw-Brake Fault",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9325,
+          "meshes": 153,
+          "materials": 81,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.41673003802281394,
+          "nearest": "ad-robot-cell-lockout-and-safe-reentry",
+          "similarity": 0.25665399239543724
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -20246,58 +22846,6 @@
     },
     {
       "app": "smartcity",
-      "id": "substation-switching",
-      "name": "Substation Switching",
-      "category": "Energy & Power",
-      "steps": 11,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 382,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 3,
-          "inScope": 3,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9431818181818181,
-          "meshes": 170,
-          "materials": 73,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.3616161616161617,
-          "nearest": "motor-control-center",
-          "similarity": 0.2676767676767677
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "fire-pump",
       "name": "Fire Pump",
       "category": "Building Systems & Facilities",
@@ -20501,6 +23049,266 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip",
+      "name": "Zero-Emission Drayage Truck Pre-Trip",
+      "category": "Mobility & Transit",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 229,
+          "materials": 105,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.3561954624781852,
+          "nearest": "cp-zero-emission-terminal-equipment-pre-use",
+          "similarity": 0.268760907504363
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use",
+      "name": "Zero-Emission Terminal Equipment Pre-Use",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 111,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3561954624781852,
+          "nearest": "cp-zero-emission-drayage-truck-pre-trip",
+          "similarity": 0.268760907504363
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-teamwork-and-feedback",
+      "name": "Teamwork and Feedback",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 292,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.45482625482625494,
+          "nearest": "k12-how-a-local-council-meeting-works",
+          "similarity": 0.24903474903474904
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-ecosystems-at-the-kelp-transect",
+      "name": "Ecosystems at the Kelp Transect",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 256,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.49279279279279287,
+          "nearest": "k12-graphing-tide-readings-at-the-pier",
+          "similarity": 0.24144144144144145
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-measuring-and-scaling-the-court",
+      "name": "Measuring and Scaling the Court",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 286,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5214904679376083,
+          "nearest": "k12-reading-a-map-scale-in-bay-world",
+          "similarity": 0.23570190641247835
         }
       }
     },
@@ -21905,6 +24713,58 @@
           "score": 0.42340425531914916,
           "nearest": "bus-yard-fuelling-and-brake-check",
           "similarity": 0.2553191489361702
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-hazmat-labeling-and-segregation",
+      "name": "Hazmat Labeling and Segregation",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 371,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 0.875,
+          "cited": 8,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 181,
+          "materials": 98,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6324487334137515,
+          "nearest": "hw-housekeeping-cart-and-chemical-safety",
+          "similarity": 0.2135102533172497
         }
       }
     },
@@ -27369,6 +30229,214 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline",
+      "name": "Cleanroom Gowning & ESD Discipline",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.885,
+          "medianWhy": 227,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 194,
+          "materials": 79,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.648306595365419,
+          "nearest": "ad-hazardous-fluid-servicing-with-a-buddy",
+          "similarity": 0.2103386809269162
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-data-hall-busway-install-and-torque-signoff",
+      "name": "Data-Hall Busway Install & Torque Sign-Off",
+      "category": "Connectivity & Telecom",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.925,
+          "medianWhy": 235,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.995,
+          "meshes": 178,
+          "materials": 77,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6629629629629631,
+          "nearest": "ws-nacelle-lockout-and-yaw-brake-fault",
+          "similarity": 0.2074074074074074
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-blade-inspection-from-a-platform",
+      "name": "Blade Inspection from a Platform",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9000000000000001,
+          "medianWhy": 230,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9700000000000001,
+          "meshes": 168,
+          "materials": 89,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.6348171701112878,
+          "nearest": "gg-tower-climb-and-tie-off",
+          "similarity": 0.21303656597774245
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-turbine-climb-and-rescue-kit-check",
+      "name": "Turbine Climb & Rescue-Kit Check",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 289,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9275,
+          "meshes": 151,
+          "materials": 87,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5095238095238097,
+          "nearest": "gg-tower-climb-and-tie-off",
+          "similarity": 0.23809523809523808
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -27781,6 +30849,110 @@
           "score": 0.6482200647249192,
           "nearest": "press-brake",
           "similarity": 0.21035598705501618
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops",
+      "name": "Charging Yard: Connectors, E-Stops and Cable Management",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 256,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 112,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5559322033898306,
+          "nearest": "et-ev-fleet-depot-charging-and-arc-flash",
+          "similarity": 0.2288135593220339
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "name": "High-Voltage Lockout on Electric Cargo Equipment",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 228,
+          "materials": 107,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5364779874213838,
+          "nearest": "et-ev-fleet-depot-charging-and-arc-flash",
+          "similarity": 0.23270440251572327
         }
       }
     },
@@ -28665,58 +31837,6 @@
           "score": 0.4552447552447554,
           "nearest": "tdl-pallet-jack-and-racking",
           "similarity": 0.24895104895104894
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "tdl-hazmat-labeling-and-segregation",
-      "name": "Hazmat Labeling and Segregation",
-      "category": "Mobility & Transit",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 371,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 181,
-          "materials": 98,
-          "interactables": 26
-        },
-        "originality": {
-          "score": 0.6324487334137515,
-          "nearest": "hw-housekeeping-cart-and-chemical-safety",
-          "similarity": 0.2135102533172497
         }
       }
     },
@@ -33085,6 +36205,110 @@
           "score": 0.67456279809221,
           "nearest": "stormwater-outfall",
           "similarity": 0.20508744038155802
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+      "name": "Hydrogen Fuel Cell Equipment and Fuelling",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 99,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 110,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6836065573770492,
+          "nearest": "cp-zero-emission-terminal-equipment-pre-use",
+          "similarity": 0.20327868852459016
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness",
+      "name": "Battery Energy Storage Site Awareness",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 99,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 243,
+          "materials": 98,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.7716180371352785,
+          "nearest": "battery-storage-container-commissioning",
+          "similarity": 0.1856763925729443
         }
       }
     },

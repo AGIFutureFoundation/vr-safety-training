@@ -488,7 +488,9 @@ export const PROGRAMME_COMPETENCIES = [
       "drive-light-vehicle-fleet-and-forklift-course", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
       "union-hall-and-dispatch", "first-period-evaluation", "trades-lineage-briefing", "credit-report-reading",
       "debt-reduction-plan", "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending",
-      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
+      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources",
+      "cp-zero-emission-drayage-truck-pre-trip", "cp-zero-emission-terminal-equipment-pre-use", "cp-charging-yard-connectors-and-e-stops", "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "cp-hydrogen-fuel-cell-equipment-and-fuelling", "cp-battery-energy-storage-site-awareness"
     ],
     require: 6,
   },

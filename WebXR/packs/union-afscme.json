@@ -44,6 +44,30 @@
     },
     {
       "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
+    },
+    {
+      "app": "smartcity",
       "id": "ei-leading-under-pressure"
     },
     {
@@ -958,6 +982,8 @@
     {
       "world": "bayworld",
       "sites": [
+        "port-container-terminal",
+        "port-maintenance-shop",
         "port-hazmat-response-yard",
         "estuary-research-dock",
         "estuary-marina-boatyard",
@@ -1161,6 +1187,12 @@
     "decon-line": "Decon Line",
     "lift-station": "Lift Station",
     "forklift-dock": "Forklift Dock",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "ei-leading-under-pressure": "Leading Under Pressure",
     "ei-giving-and-taking-feedback": "Giving and Taking Feedback",
     "ei-conflict-on-the-crew": "Conflict on the Crew",
@@ -1389,7 +1421,7 @@
     "phlebotomy": "Draw Station"
   },
   "version": "1.0.0",
-  "contentHash": "e513e78f",
+  "contentHash": "fb946448",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

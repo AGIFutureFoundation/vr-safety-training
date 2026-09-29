@@ -787,6 +787,8 @@ APPS = {
             SHARED / "nw-drive.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
+            # CLEANPORTS: the zero-emission port stations keyed to BAYMAP's West Oakland sites (pure data, guarded).
+            SHARED / "cp-cleanports.js",
             SHARED / "kw-place.js",
             SHARED / "kw-kits.js",
             # MENAGERIE: pets, animals and passers-by, one InstancedMesh per kind (after np-parish.js).

@@ -67,6 +67,8 @@ const CHECKERS = [
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
   "check_newton.mjs",
+  // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).
+  "check_cleanports.mjs",
   "check_unity_export.mjs",
   // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
   "check_packs.mjs",

@@ -28,11 +28,14 @@ import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { nwMountPhysics } from "../../shared/nw-drive.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
+import { cpPlaceInParish } from "../../shared/cp-cleanports.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+// CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
+cpPlaceInParish(npParish);
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts

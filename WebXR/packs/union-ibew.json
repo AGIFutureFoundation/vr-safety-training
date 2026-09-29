@@ -130,6 +130,14 @@
     },
     {
       "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
       "id": "battery-storage-container-commissioning"
     },
     {
@@ -317,6 +325,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "estuary-research-dock",
         "downtown-tower-site",
         "downtown-central-plant",
@@ -507,6 +516,8 @@
     "battery-yard": "Battery Yard",
     "confined-rescue": "Confined Rescue",
     "airport-ramp": "Airport Ramp",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
     "battery-storage-container-commissioning": "Battery Storage Container Commissioning",
     "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
     "hazmat-container-inspection": "Hazmat Container Inspection",
@@ -553,7 +564,7 @@
     "welding": "Weld Bay"
   },
   "version": "1.0.0",
-  "contentHash": "18483d71",
+  "contentHash": "9251a237",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
