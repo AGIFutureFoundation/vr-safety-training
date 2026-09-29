@@ -45,6 +45,11 @@ import { NP_BP_SAN_MATEO_SHORELINE } from "./np-data-bp-san-mateo-shoreline.js";
 import { NP_BP_NUTRIENT_PILOT } from "./np-data-bp-nutrient-pilot.js";
 // The programme worlds (console SMILES, docs/consoles/SMILES.md): procedural districts built for one programme, not real places.
 import { NP_SM_UNSPOKEN_SMILES } from "./np-data-sm-unspoken-smiles.js";
+// Louisiana development sites (console SITES-COAST, docs/consoles/SITES-COAST.md): the coastal / Acadiana project maps.
+import { NP_LA_STARBASE_VERMILION } from "./np-data-la-starbase-vermilion.js";
+import { NP_LA_BLACK_BAYOU_CAMERON } from "./np-data-la-black-bayou-cameron.js";
+import { NP_LA_SARONIC_FRANKLIN } from "./np-data-la-saronic-franklin.js";
+import { NP_LA_AVEX_NEW_IBERIA } from "./np-data-la-avex-new-iberia.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -59,6 +64,7 @@ export const NP_PARISHES = [
   NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY, NP_OAK_EMERYVILLE_BERKELEY,
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
   NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY, NP_BP_SAN_MATEO_SHORELINE, NP_BP_NUTRIENT_PILOT,
+  NP_LA_STARBASE_VERMILION, NP_LA_BLACK_BAYOU_CAMERON, NP_LA_SARONIC_FRANKLIN, NP_LA_AVEX_NEW_IBERIA,
   NP_SM_UNSPOKEN_SMILES,
 ];
 
@@ -70,6 +76,7 @@ export const NP_REGIONS = [
   { id: "north-east-bay", name: "North East Bay", title: "North East Bay Districts", noun: "district", nouns: "districts" },
   { id: "south-bay", name: "South Bay", title: "South Bay Districts", noun: "district", nouns: "districts" },
   { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
+  { id: "louisiana-sites", name: "Louisiana Development Sites", title: "Louisiana Development Sites", noun: "site area", nouns: "site areas" },
   { id: "programmes", name: "Programme Worlds", title: "Programme Worlds (procedural)", noun: "world", nouns: "worlds" },
 ];
 
