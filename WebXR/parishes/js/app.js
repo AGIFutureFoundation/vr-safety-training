@@ -29,6 +29,8 @@ import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { nwMountPhysics } from "../../shared/nw-drive.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
+// PLAYLAYER: the Bay Area maps' path board and side quests (the New Orleans shapes, read from each map's own lessons).
+import { plMountPathBoard, plMountQuestBoard } from "../../shared/pl-bay-play.js";
 import { cpPlaceInParish } from "../../shared/cp-cleanports.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
@@ -728,9 +730,9 @@ function npPlayItems() {
   return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
-slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
+if (!slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() })) plMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage(), openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); } });
 // KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
-kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() });
+if (!kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() }).length) plMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); } });
 // STORYLINE: pick your path (the menu at the world's start), the path's side stories, a glow over its boards, who greets first.
 var stWorld = stMountPaths({
   three: THREE, root, parish, world, el: $("menu-storyline"), tier: npTierName,
