@@ -30058,5 +30058,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "us-vacuum-truck-operator-hookup-and-offload",
+    "index": "961",
+    "domain": "Environmental",
+    "trade": "Vacuum truck operator on a stormwater maintenance crew, setting up, running and offloading a combination vacuum truck at a street trash capture device with a laborer at the opening",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training; OSHA 29 CFR 1926.601 motor vehicles on a work site; OSHA 29 CFR 1910.146 permit-required confined spaces (the service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the truck's power take-off before any hand clears the tube; the MUTCD Part 6 for the lane closure; OSHA 29 CFR 1910.95 for hearing protection near the blower; ANSI/ISEA 107 high-visibility garments and 29 CFR 1910.132 PPE; the NPDES stormwater rules, 40 CFR 122.26, and the municipal stormwater permit for where collected debris and water may be decanted",
+    "name": "Vacuum Truck Operator Hookup and Offload",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Vacuum Truck Operator Hookup and Offload VR VR",
+    "tagline": "A combination vacuum truck at a street trash capture device: yesterday's report read, the truck set up past the opening with the lane coned, the outriggers and chocks down, the vacuum relief and the debris-body seals checked, the boom swung clear of the overhead line, the vacuum held in band while the laborer guides the tube, the hose kept out of the walkway, the full-body gauge read, the offload done only at the approved decant site, and the report written",
+    "accent": 15901242,
+    "accentCss": "#f2a23a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "usvt-badge",
+      "name": "Steady Suction",
+      "note": "The truck set up, the vacuum held in band and the load decanted only where it may go"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Steady Suction",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Crew Hand",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "us-regulated-soil-haul-load-tarp-and-manifest",
+    "index": "962",
+    "domain": "Environmental",
+    "trade": "Teamsters driver hauling regulated soil and debris from a cleanup or source-control site, with a LIUNA laborer at the load-out and the decontamination pad",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad; PHMSA 49 CFR 172 hazmat employee training, shipping papers and placards where the load is a regulated hazardous material; EPA RCRA 40 CFR 262 for the hazardous-waste manifest; OSHA 29 CFR 1926.601 motor vehicles on a work site; 29 CFR 1910.132 PPE; the NPDES stormwater rules, 40 CFR 122.26, for track-out reaching a storm drain; and the site's own work plan for the load-out route, the decon pad and the receiving facility",
+    "name": "Regulated Soil Haul: Load, Tarp and Manifest",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Regulated Soil Haul: Load, Tarp and Manifest VR VR",
+    "tagline": "A regulated-soil load-out: the work plan's route and receiving facility read, the truck staged on the clean side, the bed liner checked, the load watched in from outside the swing, the tarp pulled and strapped, the tyres and mudflaps brushed on the decon pad, the manifest checked line by line and signed, placards matched, the track-out swept, and the haul logged",
+    "accent": 13214011,
+    "accentCss": "#c9a13b",
+    "parSeconds": 330,
+    "badge": {
+      "id": "usrh-badge",
+      "name": "Clean Off the Pad",
+      "note": "Loaded, covered, decontaminated and papered before the wheels touched the street"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean Off the Pad",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Crew Hand",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "us-treatment-plant-process-pump-lockout",
+    "index": "963",
+    "domain": "Environmental",
+    "trade": "Wastewater treatment plant operator and mechanic locking out a process pump and its blower-fed aeration line before a mechanic opens the pump",
+    "category": "Water & Environmental",
+    "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.147 control of hazardous energy, including the energy-control procedure, the group lockout and the verification of isolation; 29 CFR 1910.146 permit-required confined spaces for the wet well the pump draws from; 29 CFR 1910.132 for the PPE at the motor control centre; 29 CFR 1910.22 walking-working surfaces in the pump gallery; ANSI Z358.1 for the eyewash beside the seal-water chemical tank; NFPA 820 for the plant's classified areas; OSHA 29 CFR 1910.1200 hazard communication for the seal-water chemicals; NIOSH findings on deaths of workers servicing machinery that was not locked out",
+    "name": "Treatment Plant Process Pump Lockout",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Treatment Plant Process Pump Lockout VR VR",
+    "tagline": "A process pump at a treatment plant: the work order and the pump's energy-control procedure read, the control room told, the pump stopped in local and the standby taken out of auto, the breaker opened and locked with a group box, the suction and discharge valves closed and chained, the line bled to zero, the stored air in the aeration header vented, the try-start tried, each worker's lock on the box, the job done and the pump released by the procedure",
+    "accent": 5219281,
+    "accentCss": "#4fa3d1",
+    "parSeconds": 330,
+    "badge": {
+      "id": "uspl-badge",
+      "name": "Zero Energy Proven",
+      "note": "Every source isolated, bled and tried before a hand went inside the pump"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Zero Energy Proven",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Crew Hand",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

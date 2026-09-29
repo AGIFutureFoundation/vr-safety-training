@@ -162,13 +162,71 @@ const mods = PS.psDeanModules();
 check(mods.length === sims.length && mods.every((m) => m.kind === "projectsim" && m.stations.every((s) => stations.has(s)) && NP_PARISHES.some((p) => p.id === m.launch.parish && p.sites.some((s) => s.id === m.launch.site))), "records", "DEAN module shape does not resolve");
 console.log(`  records: tyEarn paid ${r2.credits.amount} CC once (level ${PS.psCreditLevel(95)}), fail pays 0, repeat is a duplicate · ${awards.length} passport awards · best ${PS2.psLoad().best["ps-pcb-sampling"]} after reload · ${mods.length} DEAN modules`);
 
+// ---- UNIONSIMS craft simulations (WebXR/shared/us-unionsims*.js): every step resolves to a real station step, order penalties,
+// arithmetic, union tags only from tools/unions.json, every sim reachable, Crew Credits once, DEAN modules resolve.
+{
+  const US = await imp("shared/us-unionsims.js");
+  const unionIds = new Set(JSON.parse(rd("tools/unions.json")).unions.map((u) => u.id));
+  const usSimsAll = US.usSims();
+  let usSteps = 0, usResolved = 0;
+  const usStations = new Set();
+  check(usSimsAll.length >= 12 && US.US_PROJECTS.every((p) => US.usSimsFor(p).length >= 2), "unionsims", `every project type needs ≥2 craft sims (${US.US_PROJECTS.map((p) => `${p}:${US.usSimsFor(p).length}`).join(" ")})`);
+  check(new Set(usSimsAll.map((s) => s.id)).size === usSimsAll.length, "unionsims", "duplicate sim ids");
+  for (const sim of usSimsAll) {
+    check(sim.id.startsWith("us-sim-") && sim.name && sim.briefing?.length > 60 && sim.craft && US.US_PROJECTS.includes(sim.project), "unionsims", `${sim.id}: id, name, briefing, craft or project missing`);
+    check(sim.unions?.length >= 1 && sim.unions.every((u) => unionIds.has(u)), "unionsims", `${sim.id}: union tags not all in tools/unions.json (${sim.unions})`);
+    check(sim.steps.length >= 5 && sim.steps.length <= 8, "unionsims", `${sim.id}: ${sim.steps.length} steps (5–8)`);
+    check(new Set(sim.steps.map((s) => s.id)).size === sim.steps.length, "unionsims", `${sim.id}: duplicate step ids`);
+    const text = [sim.name, sim.briefing, ...sim.steps.flatMap((s) => [s.title, s.practice, s.safe, s.unsafe])].join(" ");
+    check(!FEAR.test(text), "unionsims", `${sim.id}: injury/fear word "${FEAR.exec(text)?.[0]}"`);
+    check(!FIGURES.test(text), "unionsims", `${sim.id}: carries a program figure "${FIGURES.exec(text)?.[0]}"`);
+    check(!/\bpartner(ship|ed)?\b|in partnership|official (union )?programme|certified by/i.test(text), "unionsims", `${sim.id}: partnership wording`);
+    check(sim.steps.some((s) => s.gate) && sim.steps.some((s) => s.requires.length), "unionsims", `${sim.id}: no order gate`);
+    for (const s of sim.steps) {
+      usSteps += 1;
+      const st = stations.get(s.station);
+      const ids = stepsOf(s.station);
+      check(!!st && String(st.certification ?? "").length > 40, "unionsims", `${sim.id}/${s.id}: station ${s.station} missing or unsourced`);
+      check(!!ids && ids.has(s.step), "unionsims", `${sim.id}/${s.id}: step ${s.step} is not a step of ${s.station}`);
+      if (st && ids?.has(s.step)) { usResolved += 1; usStations.add(s.station); }
+      for (const g of s.requires) check(sim.steps.some((x) => x.id === g && x.gate), "unionsims", `${sim.id}/${s.id}: requires ${g}, not a gate`);
+      check(s.safe && s.unsafe && s.safe !== s.unsafe && s.practice?.length > 30, "unionsims", `${sim.id}/${s.id}: calls or practice missing`);
+    }
+    // arithmetic and order penalties (the same contract as the PROJECTSIM five)
+    const clean = { order: sim.steps.map((s) => s.id), calls: Object.fromEntries(sim.steps.map((s) => [s.id, true])) };
+    const sc = US.usScore(sim, clean);
+    check(sc.score === 100 && sc.passed && sc.penalties === 0 && US.usMistakes(sim, clean).length === 0, "unionsims", `${sim.id}: clean run not 100`);
+    for (const gate of sim.steps.filter((s) => s.gate)) {
+      const dependents = sim.steps.filter((s) => s.requires.includes(gate.id));
+      const skip = { order: clean.order.filter((x) => x !== gate.id), calls: Object.fromEntries(sim.steps.filter((s) => s.id !== gate.id).map((s) => [s.id, true])) };
+      const sk = US.usScore(sim, skip);
+      const want = (sim.steps.length - 1) * 100 - dependents.length * PS.PS_ORDER_PENALTY;
+      check(sk.points === want && sk.penalties === dependents.length, "unionsims", `${sim.id}: skipped ${gate.id} → ${sk.points}, want ${want}`);
+      check(US.usMistakes(sim, skip).filter((m) => m.kind === "order" && m.gate === gate.id).length === dependents.length, "unionsims", `${sim.id}: mistake log misses skipped ${gate.id}`);
+    }
+    const oneBad = { ...clean, calls: { ...clean.calls, [sim.steps.at(-1).id]: false } };
+    const ob = US.usScore(sim, oneBad);
+    check(ob.score === Math.round(((sim.steps.length - 1) / sim.steps.length) * 100) && US.usDebrief(sim, oneBad).mistakes.length === 1, "unionsims", `${sim.id}: one unsafe → ${ob.score}`);
+    const places = US.usPlaces(sim.id);
+    check(places.length >= 1 && places.every((p) => NP_PARISHES.some((q) => q.id === p.parish && q.sites.some((x) => x.id === p.site))), "unionsims", `${sim.id}: not reachable at a real site`);
+  }
+  const b0 = TY.tyLedger().balance;
+  const pay1 = US.usRecord(usSimsAll[0].id, { score: 95, passed: true });
+  const pay2 = US.usRecord(usSimsAll[0].id, { score: 95, passed: true });
+  check(pay1?.credits?.paid && !pay2?.credits?.paid && TY.tyLedger().balance > b0, "unionsims", `Crew Credits: ${JSON.stringify([pay1, pay2])}`);
+  const usMods = US.usDeanModules();
+  check(usMods.length === usSimsAll.length && usMods.every((m) => m.kind === "projectsim" && m.stations.every((s) => stations.has(s)) && m.launch.parish), "unionsims", "UNIONSIMS DEAN modules do not resolve");
+  const usUnions = new Set(usSimsAll.flatMap((s) => s.unions));
+  console.log(`  unionsims: ${usSimsAll.length} craft simulations over ${US.US_PROJECTS.length} project types · steps resolved ${usResolved}/${usSteps} to ${usStations.size} stations · ${usUnions.size} unions, all in unions.json · order penalties and arithmetic hold · Crew Credits once (${pay1?.credits?.amount} CC) · ${usMods.length} DEAN modules`);
+}
+
 // ---- wiring
 const app = rd("WebXR/parishes/js/app.js");
 check(app.includes("psMountProjectSim(") && app.includes("psSetRecorder(ppAward)") && app.includes('psWorld?.boardRows($("board-ps"), site.id)'), "wiring", "the parishes app does not mount the simulations at the boards");
 const page = rd("WebXR/parishes/parishes.html");
 check(page.includes('id="menu-ps"') && page.includes('id="board-ps"'), "wiring", "parishes.html lacks #menu-ps / #board-ps");
 const bundler = rd("tools/bundle_webxr.py");
-for (const f of ["ps-projectsim-data.js", "ps-projectsim.js"]) check(bundler.includes(`"${f}"`), "wiring", `the bundler does not carry ${f}`);
+for (const f of ["ps-projectsim-data.js", "ps-projectsim.js", "us-unionsims-data.js", "us-unionsims.js"]) check(bundler.includes(`"${f}"`), "wiring", `the bundler does not carry ${f}`);
 check(rd("tools/check_all.mjs").includes('"check_projectsim.mjs"'), "wiring", "check_all does not list check_projectsim.mjs");
 const doc = existsSync(join(ROOT, "docs/consoles/PROJECTSIM.md")) ? rd("docs/consoles/PROJECTSIM.md") : "";
 check(doc.includes("## Seams") && doc.includes("## Cycles"), "doc", "PROJECTSIM.md needs Seams and Cycles");
