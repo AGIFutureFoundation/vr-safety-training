@@ -23,6 +23,10 @@ import { NP_SF_MISSION } from "./np-data-sf-mission.js";
 import { NP_SF_GOLDEN_GATE_PARK } from "./np-data-sf-golden-gate-park.js";
 import { NP_SF_MARINA } from "./np-data-sf-marina.js";
 import { NP_SF_BAYVIEW } from "./np-data-sf-bayview.js";
+// The walkable San Francisco districts (console NEIGHBORHOODS, docs/consoles/NEIGHBORHOODS.md).
+import { NP_SF_NORTH_BEACH } from "./np-data-sf-north-beach.js";
+import { NP_SF_HAIGHT_CASTRO } from "./np-data-sf-haight-castro.js";
+import { NP_SF_SUNSET_SOUTH } from "./np-data-sf-sunset-south.js";
 // Oakland & the East Bay (console BAYMAP, docs/consoles/BAYMAP.md).
 import { NP_OAK_WEST_OAKLAND } from "./np-data-oak-west-oakland.js";
 import { NP_OAK_DOWNTOWN_LAKE } from "./np-data-oak-downtown-lake.js";
@@ -37,6 +41,7 @@ import { npGeoToXz, npToGeo } from "./np-geo.js";
 export const NP_PARISHES = [
   NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY,
   NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW,
+  NP_SF_NORTH_BEACH, NP_SF_HAIGHT_CASTRO, NP_SF_SUNSET_SOUTH,
   NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY,
 ];
 

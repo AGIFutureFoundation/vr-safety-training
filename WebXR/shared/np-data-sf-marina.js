@@ -1286,7 +1286,10 @@ export const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-downtown",
-    "position": [-800, -251],
+    "position": [
+     -800,
+     -251
+    ],
     "lonlat": [
      -122.424,
      37.795
@@ -1311,7 +1314,10 @@ export const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-downtown",
-    "position": [-440, -804],
+    "position": [
+     -440,
+     -804
+    ],
     "lonlat": [
      -122.415,
      37.806
@@ -1336,7 +1342,10 @@ export const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-golden-gate-park",
-    "position": [240, -955],
+    "position": [
+     240,
+     -955
+    ],
     "lonlat": [
      -122.472,
      37.782
@@ -1370,6 +1379,34 @@ export const NP_SF_MARINA = {
    "lonlat": [
     -122.478,
     37.829
+   ],
+   "approximate": true
+  },
+  {
+   "id": "sf-ma-north-beach-bay-street",
+   "kind": "road",
+   "name": "Bay Street east to North Beach and the wharf",
+   "from": {
+    "parish": "sf-marina",
+    "position": [
+     772,
+     -378
+    ]
+   },
+   "to": {
+    "parish": "sf-north-beach",
+    "position": [
+     -1935,
+     -334
+    ],
+    "lonlat": [
+     -122.432,
+     37.805
+    ]
+   },
+   "lonlat": [
+    -122.432,
+    37.805
    ],
    "approximate": true
   }

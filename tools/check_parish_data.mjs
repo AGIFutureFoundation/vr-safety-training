@@ -195,7 +195,10 @@ for (const [pid, p] of ndParishes) {
     ndCheck(worst < 150, `${where}: the fit puts every anchor back within 150 ground metres (worst ${Math.round(worst)} m)`);
     const [cornerLon] = toGeo([-half, 0]), [cornerLon2] = toGeo([half, 0]);
     const groundWidth = ndGroundMetres(toGeo([-half, 0]), toGeo([half, 0]));
-    ndCheck(groundWidth > 8000 && groundWidth < 120000 && cornerLon < cornerLon2, `${where}: the field spans a plausible ground width, east to the right (${Math.round(groundWidth / 1000)} km)`);
+    // A walkable map (console NEIGHBORHOODS) declares its `scale` (real metres per map metre, recorded in docs/parishes.md):
+    // its ground width is then the field times that scale, within 15 %, instead of the eight-kilometre floor.
+    const ndDeclared = Number.isFinite(p.scale) && Math.abs(groundWidth / ((p.size ?? 4096) * p.scale) - 1) < 0.15;
+    ndCheck((groundWidth > 8000 || ndDeclared) && groundWidth < 120000 && cornerLon < cornerLon2, `${where}: the field spans a plausible ground width, east to the right (${Math.round(groundWidth / 1000)} km${ndDeclared ? `, the declared scale ${p.scale}` : ""})`);
     const groundHeight = ndGroundMetres(toGeo([0, -half]), toGeo([0, half]));
     const aniso = groundWidth / groundHeight;
     ndCheck(aniso > 0.8 && aniso < 1.25 && toGeo([0, -half])[1] > toGeo([0, half])[1], `${where}: near-uniform scale with north up (width/height ${aniso.toFixed(2)})`);
@@ -349,8 +352,21 @@ for (const [pid, p] of ndParishes) {
 // The five connect: the causeway (Jefferson–St. Tammany), the river bridges and roads (Jefferson–Orleans,
 // Jefferson–Plaquemines), the river road (St. Bernard–Plaquemines), a ferry (St. Bernard–Orleans).
 // The San Francisco districts connect too (console GOLDEN-A): Downtown–Mission, Downtown–Golden Gate Park, Mission–Golden Gate Park.
-for (const pair of ["jefferson↔st-tammany", "jefferson↔plaquemines", "plaquemines↔st-bernard", "jefferson↔orleans", "orleans↔st-bernard", "orleans↔st-tammany", ...(ndParishes.has("sf-downtown") ? ["sf-downtown↔sf-mission", "sf-downtown↔sf-golden-gate-park", "sf-golden-gate-park↔sf-mission"] : [])]) {
+for (const pair of ["jefferson↔st-tammany", "jefferson↔plaquemines", "plaquemines↔st-bernard", "jefferson↔orleans", "orleans↔st-bernard", "orleans↔st-tammany", ...(ndParishes.has("sf-downtown") ? ["sf-downtown↔sf-mission", "sf-downtown↔sf-golden-gate-park", "sf-golden-gate-park↔sf-mission"] : []), ...(ndParishes.has("sf-north-beach") ? ["sf-downtown↔sf-north-beach", "sf-marina↔sf-north-beach", "sf-golden-gate-park↔sf-haight-castro", "sf-haight-castro↔sf-mission", "sf-downtown↔sf-haight-castro", "sf-golden-gate-park↔sf-sunset-south"] : [])]) {
   ndCheck((ndNeighbours.get(pair) ?? 0) >= 1, `the parishes connect across ${pair}`);
+}
+// The walkable San Francisco districts (console NEIGHBORHOODS, docs/consoles/NEIGHBORHOODS.md): each declares a walkable
+// scale, holds twelve or more sites, named hills, sn-fl- lessons and sn- gated items, and pairs its roads with the coarse districts.
+for (const id of ["sf-north-beach", "sf-haight-castro", "sf-sunset-south"]) {
+  const p = ndParishes.get(id);
+  if (!ndCheck(!!p, `${id}: the walkable district is in the tree`)) continue;
+  ndCheck(p.region === "san-francisco" && Number.isFinite(p.scale) && p.scale >= 0.9 && p.scale <= 1.5, `${id}: region san-francisco at a walkable declared scale (${p.scale})`);
+  ndCheck(p.sites.length >= 12, `${id}: twelve or more sites (${p.sites.length})`);
+  ndCheck((p.hills ?? []).length >= 1 && p.hills.every((h) => !ndDigits(h.name)), `${id}: named hills (${(p.hills ?? []).map((h) => h.name).join(", ")})`);
+  ndCheck((p.fieldLessons ?? []).every((l) => l.id.startsWith("sn-fl-") && ndStationIds.has(l.station)), `${id}: every field lesson is sn-fl- with a trade station`);
+  ndCheck((p.gated ?? []).every((g) => g.id.startsWith("sn-")), `${id}: every gated item is sn-`);
+  const coarse = new Set((p.connectors ?? []).map((c) => c.to?.parish).filter((t) => ndParishes.has(t) && !["sf-north-beach", "sf-haight-castro", "sf-sunset-south"].includes(t)));
+  ndCheck(coarse.size >= 1 && (p.connectors ?? []).every((c) => c.id.startsWith("sf-") && c.kind === "road"), `${id}: road connectors paired with the coarse districts (${[...coarse].join(", ")})`);
 }
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "causeway")), "a causeway connector exists");
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "ferry")), "a ferry connector exists");
