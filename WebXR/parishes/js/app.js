@@ -724,6 +724,8 @@ var psWorld = psMountProjectSim({
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
+  // LANDMARKS-2: the walk-in doors and room controller, and Use (E), for headless tests.
+  walkin: { doors: lxDoors, room: lxRoom, use: () => npUse(), near: () => npNearest() },
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,

@@ -83,3 +83,8 @@ stands below the map (y −400) with its own lights, the player walks a box coll
    `bundle_webxr.py parishes`, `node --check` of the bundled module, `eval_worlds --no-browser` once. Observe: check_parishes
    30927 passed, 0 failed; bundle 4370 KB, 120 modules, parses; eval_worlds 27 subjects, mean 97, all 22 maps budget 4/4 (the
    18 findings are play-layer lessons on the Bay Area maps — PLAYLAYER's section). No eval was run before (base not measured). PASS.
+6. Reason: see a walk-in round-trip in the real app. Act: `__parishTest.walkin` (doors, room, use, near) in the parishes app,
+   the bundle rebuilt, a scratch playwright probe on port 9002. Observe: the page never exposed `__parishTest` within 70–110 s
+   on this shared machine (only resource errors: ERR_TUNNEL_CONNECTION_FAILED, then ERR_CERT_AUTHORITY_INVALID with
+   --no-proxy-server; no page errors). NOT PROVEN in a browser — left for the coordinator's gate. check_landmarks re-run:
+   1515 passed, 0 failed; checkers-baseline.json updated to the all-maps run (71.3 s worst seen).
