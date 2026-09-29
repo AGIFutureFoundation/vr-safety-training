@@ -323,13 +323,14 @@ export const SIM_CP_HIGH_VOLTAGE_LOCKOUT_ON_ELECTRIC_CARGO_EQUIPMENT = {
     const bodies = {};
     const home = {};
     const n = PROPS.length;
+    let figN = 0;
     PROPS.forEach((p, i) => {
       const a = Math.PI * (1.08 + 0.84 * (i / Math.max(1, n - 1)));
       const r = i % 2 ? 2.55 : 1.85;
       const x = Math.cos(a) * r, z = Math.sin(a) * r * 0.85 + 0.25;
       let obj, bodyMesh;
       if (p.kind === "figure") {
-        obj = standingFigure(g, x * 1.08, z + 0.2, { ry: Math.atan2(-x, -z), cloth: 0x3a5a7a });
+        const fx = 1.2 - (figN++) * 2.4, fz = 1.25; obj = standingFigure(g, fx, fz, { ry: Math.atan2(-fx, -fz), cloth: 0x3a5a7a });
         bodyMesh = null;
         holoTag(obj, p.name, 0, 1.95, 0, { css: "#d2312b", w: 0.34 });
       } else if (p.kind === "meter") {
