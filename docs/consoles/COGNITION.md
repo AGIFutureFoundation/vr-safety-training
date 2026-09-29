@@ -32,6 +32,8 @@ learning module: **unit → lesson → flow** for each K-12 programme.
 
 7. Reason: the runner showed nothing in five San Francisco districts and two parishes (only BAYOU's lessons were placed); place each lesson at the maps' own field lessons and at the site boards that launch its station; proof = check line 7 "maps with lessons 10/10" and every placement a real site of that map. Act: two `places` sources in the generator (np-parishes.js field lessons by `k12`, site boards by `stations`), a guide never follows a parish lesson to another map. Observe: 10/10 maps (orleans 12, jefferson 4, st-bernard 11, plaquemines 6, st-tammany 7, sf-downtown 4, sf-mission 3, sf-golden-gate-park 3, sf-marina 5, sf-bayview 5), parishes 32 placements, 268 passed / 0 failed — passed. check_parishes: 12920 passed, 0 failed; check_redwood: all 395 checks pass; check_k12: All K-12 checks pass; check_budget: all 697 stations inside budget.
 
+8. Reason: the Kids rule over everything the runner says, not only the generated text; proof = check line 6b "40/40" with a missed check walked in every lesson. Act: 6b walks each lesson, gathers every spoken line, option and note, holds the lesson's ceiling and a fear-framing word list. Observe: 40/40 first run, 308 passed / 0 failed — passed.
+
 ## Seams
 
 - `cgUnits()` → `CG_UNITS` `[{ id, programme, title, lessons: [{ id, station, title, kind, lessonRef, band, ceiling, grade, flow, where, places }] }]`.

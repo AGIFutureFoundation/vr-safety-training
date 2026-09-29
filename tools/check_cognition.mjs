@@ -173,6 +173,33 @@ if (scholar !== finished) fail("report", `${scholar} SCHOLAR session reports for
 if (dean !== finished) fail("report", `${dean} DEAN progress reports for ${finished} finished lessons`); else ok();
 line(`6 runner finished headlessly: ${finished}/${lessonsSeen.size} lesson flows; reports — SCHOLAR ${scholar}, DEAN ${dean}; brief lines are the lesson's own steps ${briefOk}/${lessonsSeen.size}`);
 
+// 6b — Kids rule on everything the runner says: every spoken line of every lesson under its reading ceiling, no fear framing
+const FEAR = /\b(die|dies|died|death|dead|kill|killed|drown|drowned|drowning|injur\w*|blood|bleeding|scary|terrif\w*|horror|panic)\b/i;
+let spokenOk = 0, spokenAll = 0;
+for (const u of units) for (const l of u.lessons) {
+  const flow = CG.cgFlow(l.flow);
+  const r = CG.cgFlowRunner(flow, { lesson: { ...l, unit: u.id }, at: () => 0 });
+  const said = [];
+  let missed = false;
+  for (let i = 0; i < 40 && !r.done; i++) {
+    const s = r.say(); said.push(s.line, ...(s.options ?? []), s.note ?? "");
+    const ph = r.phase;
+    if (ph === "lesson") r.next({ passed: true });
+    else if (ph === "check") { const c = flow.nodes.find((n) => n.id === r.run.nodeId).params.check; r.next({ answer: missed ? c.answer : c.options.findIndex((_, k) => k !== c.answer) }); missed = true; }
+    else if (ph === "apply") r.next({ done: true });
+    else r.next({});
+  }
+  spokenAll++;
+  // the station's own title lines ("Open the station ...") and the flow's node titles are the station's words; judge the lesson lines
+  const text = said.filter((x) => x && !/^(Open the station|Now use it here|Welcome\.)/.test(x)).join(" ");
+  const g = readingStats(text).grade;
+  const fear = text.match(FEAR);
+  if (fear) fail(l.id, `fear framing in a spoken line: "${fear[0]}"`);
+  else if (g > l.ceiling) fail(l.id, `spoken lines read at ${g.toFixed(1)}, over the ceiling ${l.ceiling}`);
+  else { spokenOk++; ok(); }
+}
+line(`6b Kids rule on every spoken line (reading ceiling held, no fear framing), a miss walked in each: ${spokenOk}/${spokenAll}`);
+
 // 7 — mounted in the parishes app and Redwood Reach
 const mounts = [["parishes", "WebXR/parishes/js/app.js"], ["redwood", "WebXR/redwood/js/app.js"]];
 let mounted = 0;
