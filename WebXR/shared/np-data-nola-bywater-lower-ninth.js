@@ -1361,6 +1361,29 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
    ]
   },
   {
+   "id": "st-claude-avenue-bridge",
+   "name": "the St. Claude Avenue bridge over the Industrial Canal",
+   "kind": "bridge",
+   "pts": [
+    [
+     236,
+     -116
+    ],
+    [
+     382,
+     -67
+    ],
+    [
+     528,
+     -19
+    ],
+    [
+     637,
+     18
+    ]
+   ]
+  },
+  {
    "id": "algiers-point-streets",
    "name": "the streets of Algiers Point",
    "kind": "street",

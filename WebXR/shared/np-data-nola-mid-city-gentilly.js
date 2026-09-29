@@ -1212,6 +1212,25 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
    ]
   },
   {
+   "id": "magnolia-bridge",
+   "name": "the Magnolia Bridge over Bayou St. John",
+   "kind": "bridge",
+   "pts": [
+    [
+     77,
+     913
+    ],
+    [
+     221,
+     913
+    ],
+    [
+     257,
+     913
+    ]
+   ]
+  },
+  {
    "id": "city-park-avenue",
    "name": "City Park Avenue",
    "kind": "street",
@@ -1884,7 +1903,7 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
    "id": "magnolia-bridge",
    "name": "the Magnolia Bridge on Bayou St. John",
    "position": [
-    212,
+    109,
     913
    ],
    "kind": "bridge",
