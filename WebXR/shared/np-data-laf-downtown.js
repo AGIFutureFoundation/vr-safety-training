@@ -1,0 +1,107 @@
+// Downtown Lafayette and the Vermilion River — a Louisiana growth-city district on the parish schema (console ACADIANA,
+// docs/consoles/ACADIANA.md, docs/parishes.md). A stylised 4096 m map, not a survey: real places appear only by their
+// public names as places; every coordinate is approximate (three decimals, `approximate: true`) and exists only to place
+// the map. One north-up uniform scale (x east, +z south). The rivers, bayous, interstates and named streets follow the
+// general shape of the real ones; blocks, massing, pads and every site are PROCEDURAL training places, and every site
+// layout is the platform's illustration (the city, its waterways and its roads are real). No growth figure is stated.
+// Water and road layout checked against Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026).
+// Generated from lon/lat by the ACADIANA layout script; pure data, no imports.
+export const NP_LAF_DOWNTOWN = {
+  id: "laf-downtown",
+  name: "Downtown Lafayette and the Vermilion",
+  region: "louisiana-cities",
+  size: 4096,
+  scale: 2,
+  blurb: "Lafayette's downtown and the Vermilion River in Cajun and Creole country: a workforce centre where learners start, a mid-rise going up, historic facades restored, water mains and streetscape crews, the university's plant rooms, the Vermilion's riverbank crew and the airport's ramp across the river. The site layouts are illustrative; the city, the river and the roads are real.",
+  start: "lafd-workforce-centre",
+  anchors: [
+    {"xz":[-433,-334],"lonlat":[-92.019,30.225],"approximate":true,"name":"Downtown Lafayette"},
+    {"xz":[-481,445],"lonlat":[-92.02,30.211],"approximate":true,"name":"University of Louisiana at Lafayette"},
+    {"xz":[-962,278],"lonlat":[-92.03,30.214],"approximate":true,"name":"Girard Park"},
+    {"xz":[289,1503],"lonlat":[-92.004,30.192],"approximate":true,"name":"Vermilionville"},
+    {"xz":[1058,779],"lonlat":[-91.988,30.205],"approximate":true,"name":"Lafayette Regional Airport"},
+    {"xz":[-1347,334],"lonlat":[-92.038,30.213],"approximate":true,"name":"The Oil Center"},
+    {"xz":[-385,-390],"lonlat":[-92.018,30.226],"approximate":true,"name":"Parc San Souci"},
+  ],
+  hills: [
+  ],
+  water: [
+    {"id":"vermilion-river","name":"the Vermilion River","kind":"river","width":24,"poly":[[2046,-139],[1866,-83],[1337,178],[895,178],[572,267],[457,395],[308,568],[164,829],[164,1091],[-14,1263],[-337,1308],[-659,1436],[-952,1525],[-1303,1787],[-1597,2004],[-2046,2046]]},
+    {"id":"cypress-lake","name":"Cypress Lake on the campus","kind":"lake","poly":[[-553,512],[-457,512],[-457,590],[-553,590]]},
+    {"id":"coulee-procedural","name":"a coulee (procedural drainage)","kind":"canal","width":8,"poly":[[-2046,-501],[-1731,-390],[-1251,-223],[-866,-28]]},
+  ],
+  levees: [
+    {"id":"vermilion-west-bank-procedural","name":"the Vermilion's west bank protection (procedural)","height":1.6,"pts":[[58,724],[48,1058],[-87,1180]]},
+    {"id":"vermilion-east-bank-procedural","name":"the Vermilion's east bank by the airport (procedural)","height":1.6,"pts":[[673,28],[962,28],[1299,0]]},
+  ],
+  roads: [
+    {"id":"interstate-ten","name":"Interstate Ten","kind":"interstate","pts":[[-2046,-1686],[-1202,-1837],[-818,-2043]]},
+    {"id":"evangeline-thruway","name":"the Evangeline Thruway","kind":"interstate","pts":[[-216,-2046],[-188,-1776],[-130,-1080],[-14,-122],[289,134],[457,312],[457,835],[601,1263],[928,1787],[1188,2046]]},
+    {"id":"johnston-street","name":"Johnston Street","kind":"avenue","pts":[[-385,-250],[-673,195],[-1058,724],[-1683,1392],[-2046,2046]]},
+    {"id":"pinhook-road","name":"Pinhook Road","kind":"avenue","pts":[[-289,-139],[-192,612],[-120,1336],[-24,2046]]},
+    {"id":"university-avenue","name":"University Avenue","kind":"avenue","pts":[[-1010,-1865],[-914,-946],[-770,-167],[-649,362],[-673,1113],[-770,2046]]},
+    {"id":"jefferson-street","name":"Jefferson Street","kind":"street","pts":[[-505,-751],[-457,-362],[-385,0]]},
+    {"id":"congress-street","name":"Congress Street","kind":"street","pts":[[-914,-306],[-457,-417],[48,-557]]},
+    {"id":"camellia-boulevard","name":"Camellia Boulevard","kind":"street","pts":[[-2046,863],[-1731,1113],[-1299,1698],[-1106,2046]]},
+  ],
+  districts: [
+    {"id":"downtown-core","name":"Downtown Lafayette","character":"downtown","poly":[[-770,-724],[0,-724],[0,56],[-770,56]]},
+    {"id":"northside","name":"the Northside neighbourhoods","character":"suburb","poly":[[-1683,-1865],[0,-1865],[0,-724],[-1683,-724]]},
+    {"id":"freetown-port-rico","name":"the Freetown and Port Rico blocks","character":"quarter","poly":[[-770,56],[0,56],[0,445],[-770,445]]},
+    {"id":"ul-campus","name":"the university campus","character":"campus","poly":[[-770,445],[0,445],[0,1169],[-770,1169]]},
+    {"id":"girard-park","name":"Girard Park","character":"park","poly":[[-1154,-56],[-770,-56],[-770,668],[-1154,668]]},
+    {"id":"oil-center","name":"the Oil Center","character":"downtown","poly":[[-1683,-56],[-1154,-56],[-1154,668],[-1683,668]]},
+    {"id":"saint-streets","name":"the Saint Streets and the west side","character":"garden","poly":[[-2046,-724],[-770,-724],[-770,-56],[-2046,-56]]},
+    {"id":"west-side","name":"the neighbourhoods west of the Oil Center","character":"suburb","poly":[[-2046,-56],[-1683,-56],[-1683,668],[-2046,668]]},
+    {"id":"south-lafayette","name":"south Lafayette","character":"suburb","poly":[[-2046,668],[-770,668],[-770,2046],[-2046,2046]]},
+    {"id":"south-of-campus","name":"the blocks south of the campus","character":"suburb","poly":[[-770,1169],[0,1169],[0,2046],[-770,2046]]},
+    {"id":"vermilion-banks","name":"the Vermilion River banks by Vermilionville","character":"park","poly":[[0,390],[577,390],[577,1837],[0,1837]]},
+    {"id":"airport-thruway","name":"the airport and the Thruway's industrial strip","character":"industrial","poly":[[577,390],[1828,390],[1828,2046],[577,2046]]},
+    {"id":"east-side","name":"the east side across the river","character":"suburb","poly":[[0,-1865],[1828,-1865],[1828,390],[0,390]]},
+    {"id":"far-northwest","name":"the neighbourhoods by the interstate","character":"suburb","poly":[[-2046,-1865],[-1683,-1865],[-1683,-724],[-2046,-724]]},
+  ],
+  sites: [
+    {"id":"lafd-workforce-centre","name":"Downtown Lafayette Workforce Centre","kind":"civic","position":[-601,-529],"trades":["carpenters","ibew","liuna","ua"],"programmes":["job-readiness-edition","civic-leadership-and-ei"],"stations":["jobsite-orientation-and-osha-10","apprenticeship-application-and-test","union-hall-and-dispatch","constituent-service-desk"],"blurb":"Where learners start in Lafayette: the site orientation, the apprenticeship application and a dispatch board of the trades the region's projects call for (a procedural centre). A trade reference only: no employer's or union's programme is delivered here."},
+    {"id":"lafd-vermilion-bank-work","name":"Vermilion Riverbank Crew","kind":"levee","position":[0,891],"trades":["iuoe","liuna","opcmia"],"programmes":["heavy-equipment-operators","builders-trades"],"stations":["br-levee-inspection-and-seepage","op-dozer-slope-work-and-rollover-protection","formwork-shoring","concrete-pour"],"blurb":"A procedural bank-protection job on the Vermilion's west bank: the bank walked for seepage, the dozer on the slope and the formwork for a new bulkhead cap."},
+    {"id":"lafd-streetscape-utilities","name":"Downtown Streetscape and Utilities Dig","kind":"excavation","position":[-697,-250],"trades":["iuoe","liuna","ua"],"programmes":["heavy-equipment-operators","plumbers-and-pipefitters"],"stations":["trench-box","op-excavator-trench-and-utility-locate","ut-service-line-locate-and-hand-dig-near-gas-main"],"blurb":"A procedural streetscape job downtown: utilities located and hand-dug near the gas line, the excavator in the trench and the trench box set."},
+    {"id":"lafd-midrise-steel","name":"Downtown Mid-Rise Steel","kind":"construction","position":[-265,-278],"trades":["ironworkers","carpenters","liuna"],"programmes":["bridge-and-structural","builders-trades"],"stations":["jobsite-orientation-and-osha-10","bs-structural-bolting-and-torque","formwork-shoring","concrete-pour"],"blurb":"A procedural mid-rise going up downtown: the orientation, the ironworkers bolting the frame and the deck formed and poured."},
+    {"id":"lafd-historic-facade-restoration","name":"Historic Facade Restoration","kind":"construction","position":[-409,-612],"trades":["bac","opcmia","carpenters"],"programmes":["builders-trades"],"stations":["masonry-silica-scaffold","bt-masonry-wall-layout-and-mortar","scaffold-erection"],"blurb":"A procedural downtown storefront restored: the scaffold up, silica dust controlled at the saw and the masonry relaid to the old line."},
+    {"id":"lafd-water-main-replacement","name":"Water Main Replacement","kind":"utility","position":[-914,-584],"trades":["uwua","liuna","iuoe"],"programmes":["water-and-gas-utility-crews","confined-space"],"stations":["ut-water-main-break-emergency-shutdown-and-excavation","valve-vault","manhole-entry-and-atmospheric-monitoring"],"blurb":"A procedural water main swapped out on the west side: the shutdown and excavation, the valve vault and the air checked before anyone enters."},
+    {"id":"lafd-roofing-crew","name":"Low-Slope Roofing Crew","kind":"construction","position":[-96,139],"trades":["urw","smart"],"programmes":["roofers-and-waterproofers"],"stations":["rf-roof-tear-off-and-debris-chute","rf-torch-applied-membrane-and-fire-watch","rf-single-ply-tpo-heat-welding-and-seam-probe"],"blurb":"A procedural roof job in the Freetown blocks: the tear-off down a debris chute, the torch-applied membrane with a fire watch and the seams probed."},
+    {"id":"lafd-electrical-service-upgrade","name":"Electrical Service Upgrade","kind":"substation","position":[-192,-584],"trades":["ibew"],"programmes":["electrical-first-period","energy-transition"],"stations":["temporary-site-power","transformer-vault","arc-flash-label-study"],"blurb":"A procedural service upgrade for a downtown block: temporary site power, the transformer vault and the arc flash labels read before the cover comes off."},
+    {"id":"lafd-hospital-mep-fitout","name":"Hospital Wing Fit-Out","kind":"hospital","position":[-1419,501],"trades":["ua","ibew","smart","seiu"],"programmes":["plumbers-and-pipefitters","first-responders"],"stations":["pl-medical-gas-brazing-and-purge","sm-duct-hanging-and-seismic-bracing","hc-patient-transport-and-safe-handling","pm-sprinkler-riser-room"],"blurb":"A procedural hospital wing in the Oil Center being fitted out: medical gas brazed and purged, ductwork hung and braced, and the sprinkler riser room."},
+    {"id":"lafd-parking-deck-concrete","name":"Parking Deck Concrete","kind":"construction","position":[-697,-83],"trades":["opcmia","carpenters","liuna","ironworkers"],"programmes":["builders-trades","bridge-and-structural"],"stations":["formwork-shoring","concrete-pour","bs-structural-bolting-and-torque"],"blurb":"A procedural parking deck at the edge of downtown: shoring under the deck, the pour and the precast connections bolted."},
+    {"id":"lafd-traffic-signal-install","name":"Traffic Signal Install","kind":"substation","position":[-337,-807],"trades":["ibew","liuna"],"programmes":["electrical-first-period"],"stations":["signal-cabinet","temporary-site-power","line-truck"],"blurb":"A procedural signal job on a downtown corner: the cabinet wired, the line truck set up and the lane closed before the mast goes up."},
+    {"id":"lafd-drainage-coulee","name":"Coulee Drainage Crew","kind":"stormwater","position":[-1443,-445],"trades":["liuna","afscme","iuoe"],"programmes":["heavy-equipment-operators","grounds-and-landscaping"],"stations":["bioswale-build","op-excavator-trench-and-utility-locate","trench-box"],"blurb":"A procedural drainage job on a coulee west of downtown: the channel cleaned out, a planted swale built and the trench shored."},
+    {"id":"lafd-school-renovation","name":"School Campus Renovation","kind":"school","position":[-1852,278],"trades":["aft","seiu","carpenters"],"programmes":["education-support-staff","k12-literacy-and-life-skills"],"stations":["ed-custodial-chemical-dilution-and-floor-machine","ed-playground-equipment-inspection","ed-crossing-guard-intersection-control","k12-reading-instructions-and-safety-labels"],"blurb":"A procedural school campus under renovation: the crossing guard at the corner, the playground inspected and the custodians' chemical room."},
+    {"id":"lafd-crane-lift-zone","name":"Downtown Crane Lift Zone","kind":"construction","position":[-96,-362],"trades":["iuoe","ironworkers"],"programmes":["rigging-lifting"],"stations":["crane-yard","rl-critical-lift-plan-and-signalperson","op-crawler-crane-assembly-and-load-chart"],"blurb":"A procedural crane pad on the east edge of downtown: the critical lift plan, the signalperson and the crane's load chart."},
+    {"id":"lafd-scaffold-facade","name":"Facade Scaffold and Glazing","kind":"construction","position":[-442,111],"trades":["carpenters","iupat","ironworkers"],"programmes":["builders-trades"],"stations":["scaffold-erection","gl-glass-handling-cart-and-crane-vacuum-lifter","sm-architectural-panels-at-height"],"blurb":"A procedural facade job: the scaffold erected and tagged, glass handled with a vacuum lifter and panels set at height."},
+    {"id":"lafd-kitchen-fitout","name":"Restaurant Kitchen Fit-Out","kind":"hospitality","position":[-361,-473],"trades":["unite-here","smart","ua"],"programmes":["culinary-kitchen","hotel-workers"],"stations":["kitchen","kitchen-gas-shutoff","sm-kitchen-exhaust-and-fire-wrap","allergen-control"],"blurb":"A procedural downtown restaurant kitchen: the exhaust hood fire-wrapped, the gas shutoff found and the line set for allergen control."},
+    {"id":"lafd-campus-plant","name":"University Plant Rooms","kind":"campus","position":[-313,779],"trades":["ua","ibew","afscme"],"programmes":["stationary-engineer","education-support-staff"],"stations":["chiller-plant","pm-fire-alarm-panel-room","pm-electrical-room","ed-science-lab-chemical-storage-and-eyewash"],"blurb":"The university's plant rooms and teaching labs (a procedural site): the chiller plant, the fire alarm panel and the lab's chemical cupboard."},
+    {"id":"lafd-airport-ramp","name":"Airport Ramp Crew","kind":"airport","position":[1130,946],"trades":["iam","teamsters"],"programmes":["aviation-maintenance-and-ground"],"stations":["airport-ramp","av-marshalling-and-wingwalker-signals","av-pushback-tug-and-towbar-connection"],"blurb":"The regional airport's ramp across the river (a procedural site): marshalling and wingwalkers and the pushback tug."},
+    {"id":"lafd-fire-station","name":"Downtown Fire Station","kind":"fire-station","position":[-866,-891],"trades":["iaff","naemt"],"programmes":["first-responders","fall-protection"],"stations":["ambulance-scene-safety","aerial-ladder","traffic-incident-management"],"blurb":"A procedural fire station north of downtown: the aerial ladder check, the ambulance scene and the crew who clear a lane safely."},
+    {"id":"lafd-thruway-warehouse","name":"Thruway Warehouse and Dock","kind":"warehouse","position":[1443,1503],"trades":["teamsters"],"programmes":["warehouse-and-logistics-automation","job-readiness-edition"],"stations":["forklift-dock","tdl-trailer-loading-and-dock-plate","tw-high-bay-order-picker-fall-protection"],"blurb":"A procedural warehouse off the Thruway: the forklift at the dock, the dock plate and trailer, and the order picker's harness."},
+  ],
+  landmarks: [
+    {"id":"lafd-sign","name":"a sign: the site layouts are illustrative; the city, the river and the roads are real","position":[-505,-445],"kind":"place"},
+    {"id":"cathedral-st-john","name":"the Cathedral of St. John the Evangelist","position":[-577,-250],"kind":"place"},
+    {"id":"parc-san-souci","name":"Parc San Souci","position":[-385,-362],"kind":"park"},
+    {"id":"girard-park-lm","name":"Girard Park","position":[-962,278],"kind":"park"},
+    {"id":"cypress-lake-lm","name":"Cypress Lake","position":[-601,551],"kind":"shore"},
+    {"id":"vermilionville-lm","name":"Vermilionville","position":[409,1419],"kind":"place"},
+    {"id":"vermilion-bridge","name":"the Pinhook Road bridge over the Vermilion","position":[-120,1269],"kind":"bridge"},
+  ],
+  connectors: [
+    {"id":"ac-lafd-i49-north","kind":"road","name":"The interstate north toward Carencro","from":{"parish":"laf-downtown","position":[-216,-2046]},"to":{"parish":"laf-carencro-north","position":[1562,2046]},"lonlat":[-92.0145,30.2572],"approximate":true},
+    {"id":"ac-lafd-thruway-south","kind":"road","name":"The Evangeline Thruway south toward Broussard and New Iberia (no map yet)","from":{"parish":"laf-downtown","position":[1154,2046]},"to":{"parish":"laf-broussard-south","position":null,"lonlat":[-91.986,30.1822]},"lonlat":[-91.986,30.1822],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"ac-fl-how-the-vermilion-rises","title":"How the Vermilion Rises in a Storm","site":"lafd-vermilion-bank-work","landmark":"vermilionville-lm","k12":"k12-by-how-a-levee-holds-water-back","station":"br-levee-inspection-and-seepage","trade":"Heavy equipment operators","tradeLine":"An operator walks the bank before and after high water, so a soft spot is found before it gives way.","minutes":3,"steps":["Rain across the prairie drains into coulees and then into the river.","The river rises slowly and a bank holds it back where the land is low.","A crew walks the bank for wet spots and stays off it while the water is high."],"check":{"q":"When does a crew walk the riverbank?","options":["Before and after high water, never on a soft bank in a flood","Only when the sun is out","Never, banks look after themselves"],"answer":0,"why":"Walking the bank before and after high water finds weak spots while staying safe."}},
+    {"id":"ac-fl-reading-a-downtown-map","title":"Reading a Map of Downtown Lafayette","site":"lafd-workforce-centre","landmark":"cathedral-st-john","k12":"k12-reading-a-map-scale-in-bay-world","station":"jobsite-orientation-and-osha-10","trade":"Site supervisors","tradeLine":"A supervisor reads the site map at the orientation, so every new worker knows the way in, the way out and where to meet.","minutes":3,"steps":["Find the north arrow and the scale bar first.","Find the river, the main streets and the site gate on the legend.","Mark the meeting point and the way out before the work starts."],"check":{"q":"What should a new worker find first on a site map?","options":["The north arrow and the scale","The biggest building","The prettiest colour"],"answer":0,"why":"The north arrow and the scale tell you which way and how far."}},
+    {"id":"ac-fl-simple-machines-downtown","title":"Simple Machines at a Downtown Crane","site":"lafd-crane-lift-zone","landmark":"parc-san-souci","k12":"k12-simple-machines-at-a-crane","station":"rl-critical-lift-plan-and-signalperson","trade":"Crane operators","tradeLine":"An operator and a signalperson agree the lift plan, so the load moves only when the path below is clear.","minutes":3,"steps":["A crane uses pulleys and a long arm to lift a heavy load.","One person gives the signals and the operator watches only them.","Nobody walks under a load, ever."],"check":{"q":"Who does the crane operator watch during a lift?","options":["The one signalperson","Anyone who waves","Nobody, the crane knows the way"],"answer":0,"why":"One signalperson keeps the signals clear and the lift safe."}},
+  ],
+  gated: [
+    {"id":"laf-downtown-gated-high-water","kind":"side-quest","title":"High Water on the Vermilion","site":"lafd-vermilion-bank-work","summary":"Walk the west bank with the crew after a wet week and flag every soft spot.","gate":{"stations":["br-levee-inspection-and-seepage"],"note":"Finish the levee inspection and seepage station before the high-water walk"},"world":"parishes","parish":"laf-downtown","siteName":"Vermilion Riverbank Crew"},
+    {"id":"laf-downtown-gated-night-lift","kind":"side-quest","title":"A Night Lift Downtown","site":"lafd-crane-lift-zone","summary":"Plan and signal a steel lift after the streets have emptied.","gate":{"stations":["rl-critical-lift-plan-and-signalperson"],"note":"Finish the critical lift plan and signalperson station before the night lift"},"world":"parishes","parish":"laf-downtown","siteName":"Downtown Crane Lift Zone"},
+  ],
+};

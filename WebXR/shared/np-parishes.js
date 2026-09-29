@@ -45,6 +45,10 @@ import { NP_BP_SAN_MATEO_SHORELINE } from "./np-data-bp-san-mateo-shoreline.js";
 import { NP_BP_NUTRIENT_PILOT } from "./np-data-bp-nutrient-pilot.js";
 // The programme worlds (console SMILES, docs/consoles/SMILES.md): procedural districts built for one programme, not real places.
 import { NP_SM_UNSPOKEN_SMILES } from "./np-data-sm-unspoken-smiles.js";
+// Louisiana growth-city districts (console ACADIANA, docs/consoles/ACADIANA.md): Lafayette, Carencro and Monroe.
+import { NP_LAF_DOWNTOWN } from "./np-data-laf-downtown.js";
+import { NP_LAF_CARENCRO_NORTH } from "./np-data-laf-carencro-north.js";
+import { NP_MONROE_WEST_MONROE } from "./np-data-monroe-west-monroe.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -59,6 +63,7 @@ export const NP_PARISHES = [
   NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY, NP_OAK_EMERYVILLE_BERKELEY,
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
   NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY, NP_BP_SAN_MATEO_SHORELINE, NP_BP_NUTRIENT_PILOT,
+  NP_LAF_DOWNTOWN, NP_LAF_CARENCRO_NORTH, NP_MONROE_WEST_MONROE,
   NP_SM_UNSPOKEN_SMILES,
 ];
 
@@ -70,6 +75,9 @@ export const NP_REGIONS = [
   { id: "north-east-bay", name: "North East Bay", title: "North East Bay Districts", noun: "district", nouns: "districts" },
   { id: "south-bay", name: "South Bay", title: "South Bay Districts", noun: "district", nouns: "districts" },
   { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
+  { id: "louisiana-sites", name: "Louisiana Development Sites", title: "Louisiana Development Sites", noun: "site area", nouns: "site areas" },
+  { id: "louisiana-cities", name: "Louisiana Growth Cities", title: "Louisiana Growth City Districts", noun: "district", nouns: "districts" },
+  { id: "new-orleans-districts", name: "New Orleans Neighbourhoods", title: "New Orleans Neighbourhood Districts", noun: "district", nouns: "districts" },
   { id: "programmes", name: "Programme Worlds", title: "Programme Worlds (procedural)", noun: "world", nouns: "worlds" },
 ];
 

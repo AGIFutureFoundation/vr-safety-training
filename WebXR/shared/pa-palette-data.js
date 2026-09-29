@@ -100,6 +100,12 @@ export const PA_CATEGORIES = {
     walls: [0xe6d9c0, 0xd4c7a8, 0xc8cfb4, 0xecdcc8, 0xd8c0a8],
     sign: { ground: 0xfaf4e6, ink: 0x0b1822 }, note: "Beige and sage stucco houses; procedural.",
   },
+  // ACADIANA: Cajun and Creole country (Lafayette, Carencro, Monroe) — raised cottages in cypress tones under tin roofs.
+  "acadian-cypress": {
+    id: "acadian-cypress", name: "Acadian cypress and tin", wall: "clapboard", roof: "corrugated",
+    walls: [0xc9a878, 0xe8dcc0, 0x9fb59a, 0xd9b48f, 0xa9c2c9, 0xefe6d2],
+    sign: { ground: 0x3b2a1c, ink: 0xf6efe0 }, note: "Cypress-toned and whitewashed clapboard cottages under tin roofs, the Cajun and Creole prairie's look; procedural.",
+  },
 };
 
 /** The district character a massing kind stands for (np-parish.js places kinds by district character). */
@@ -120,6 +126,10 @@ export const PA_REGION_CHARACTERS = {
   // The programme worlds (SMILES: a procedural community-health district) read as a bright small town.
   programmes: { quarter: "creole-cottage-pastels", garden: "craftsman-shingle", suburb: "sunset-pastels", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "bay-program": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  // The Louisiana wave: development sites (marsh, river industry), growth cities, New Orleans neighbourhood districts.
+  "louisiana-sites": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "louisiana-cities": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "new-orleans-districts": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
 };
 /** A district's own override (map id -> character -> category id), where its character differs from its region's. */
 export const PA_PARISH_CHARACTERS = {
@@ -132,6 +142,10 @@ export const PA_PARISH_CHARACTERS = {
   "sf-bayview": { industrial: "port-steel" },
   "oak-west-oakland": { industrial: "port-steel" },
   "oak-fruitvale-estuary": { quarter: "mission-stucco", suburb: "sunset-pastels" },
+  // ACADIANA: Cajun and Creole country — Acadian cypress-and-tin cottages in the neighbourhoods.
+  "laf-downtown": { suburb: "acadian-cypress", garden: "garden-district-whites" },
+  "laf-carencro-north": { quarter: "acadian-cypress", suburb: "acadian-cypress" },
+  "monroe-west-monroe": { suburb: "acadian-cypress", industrial: "riverfront-brick" },
 };
 /** One tile's size on a wall, in metres, per pixel painter (shared/textures.js TX_PX_PAINTERS). */
 export const PA_TEXTURES = {

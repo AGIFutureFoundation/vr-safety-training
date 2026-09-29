@@ -488,3 +488,37 @@ A programme world is a **procedural** district built for one programme — **not
   `programme-worlds-south`); they stay pending until such a world is registered.
 - Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
   `tools/check_smiles.mjs`.
+
+## Louisiana growth cities — Lafayette, Carencro and Monroe (region `louisiana-cities`, console ACADIANA)
+
+Three district maps in Cajun and Creole country and north Louisiana, on the strict engine, each laid out from lon/lat by one
+north-up uniform frame (docs/consoles/ACADIANA.md). The cities, rivers, bayous, interstates and named streets follow the general
+shape of the real ones — the Vermilion, the Ouachita, Bayou DeSiard, the interstates and the Evangeline Thruway were checked
+against Copernicus Sentinel-2 imagery (contains modified Copernicus Sentinel data 2026) — while blocks, massing and every site
+are procedural and every site layout is the platform's illustration. Each map's blurb, module header and a sign landmark say so.
+No city growth figure is stated anywhere (the facts file lists them as unverified).
+
+- `laf-downtown` — **Downtown Lafayette and the Vermilion** (`np-data-laf-downtown.js`), 2 real metres per map metre, lon
+  about -92.053 … -91.967, lat 30.182 … 30.256: downtown, the Freetown and Port Rico blocks, the university campus and Cypress
+  Lake, Girard Park, the Oil Center, the Vermilion's banks by Vermilionville, the airport across the river. Twenty sites
+  (`lafd-*`, start `lafd-workforce-centre`), three field lessons (`ac-fl-*`), two gated side quests.
+- `laf-carencro-north` — **Carencro and North Lafayette** (`np-data-laf-carencro-north.js`), 2 real metres per map metre, lon
+  about -92.090 … -92.004, lat 30.259 … 30.332: Carencro, the interstates' interchange and its industrial park, north Lafayette,
+  the cane and rice fields and crawfish ponds (the play layer's crawfish and rice spots). Eighteen sites (`lafc-*`, start
+  `lafc-workforce-trailer`, required `lafc-industrial-park`).
+- `monroe-west-monroe` — **Monroe and West Monroe** (`np-data-monroe-west-monroe.js`), 3 real metres per map metre, lon about
+  -92.160 … -92.030, lat 32.455 … 32.565: the Ouachita between the two cities with the Monroe floodwall and the West Monroe
+  levee, Bayou DeSiard and the university, the interstate and its river bridge, the airport. Monroe is named as a place only
+  (the nearest city to the Richland Parish project, by geography). Eighteen sites (`mon-*`, start `mon-workforce-centre`,
+  required `mon-river-bridge-work`).
+
+The two Lafayette maps meet across a gap of about three hundred metres just north of the interstate, and pair one road crossing
+there; the other ends wait for maps not yet in the tree.
+
+| crossing | kind | between | agreed point (lon, lat) | ids |
+|---|---|---|---|---|
+| The Evangeline Thruway and the interstate north | road | laf-downtown ↔ laf-carencro-north | -92.0145, 30.2572 | `ac-lafd-i49-north`, `ac-lafc-i49-south` |
+| The Evangeline Thruway south (no map yet) | road | laf-downtown → laf-broussard-south | -91.986, 30.1822 | `ac-lafd-thruway-south` |
+| The interstate north toward Opelousas (no map yet) | road | laf-carencro-north → st-landry-opelousas | -92.0368, 30.3322 | `ac-lafc-i49-north` |
+| Interstate Twenty east toward Richland Parish (no map yet) | road | monroe-west-monroe → ouachita-east-i20 | -92.0298, 32.4923 | `ac-mon-i20-east` |
+| Interstate Twenty west toward Ruston (no map yet) | road | monroe-west-monroe → ouachita-west-i20 | -92.1602, 32.5065 | `ac-mon-i20-west` |
