@@ -188,7 +188,7 @@ function fcMergeParts(THREE, parts) {
 }
 
 /** The region group a parish's kits read: New Orleans or the Bay Area. */
-export function fcRegionGroup(parish) { return (parish?.region ?? "new-orleans") === "new-orleans" ? "new-orleans" : "bay"; }
+export function fcRegionGroup(parish) { return /^(new-orleans|louisiana)/.test(parish?.region ?? "new-orleans") ? "new-orleans" : "bay"; }
 
 /** The detail ids of one kit on a tier (the phone tier keeps the two cheapest). */
 export function fcKitDetails(kind, group, tier = "high") {

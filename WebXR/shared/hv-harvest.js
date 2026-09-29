@@ -42,7 +42,8 @@ export const HV_AGENCY = {
   "new-orleans": "the Louisiana Department of Wildlife and Fisheries",
   bay: "the California Department of Fish and Wildlife",
 };
-export const hvFamily = (parish) => (npRegionOf(parish) === "new-orleans" ? "new-orleans" : "bay");
+// Every Louisiana region (the parishes, the New Orleans neighbourhood districts, the Louisiana maps) is the Louisiana family.
+export const hvFamily = (parish) => (/^(new-orleans|louisiana)/.test(npRegionOf(parish)) ? "new-orleans" : "bay");
 
 /** Water classes: the engine's water kind read by region (San Francisco Bay is drawn as `gulf` on the Marina map). */
 export function hvWaterClass(parish, w) {
@@ -232,7 +233,8 @@ export function hvSpotsFor(parish) {
       for (let a = 0; a < 8; a++) {
         const px = bx + Math.cos(a * Math.PI / 4) * 9, pz = bz + Math.sin(a * Math.PI / 4) * 9;
         if (Math.abs(px) > half || Math.abs(pz) > half) continue;
-        if (!hvDry(parish, px, pz) || hvOnRoad(parish, px, pz)) continue;
+        // test the spot where it will stand (rounded), so a narrow canal's bank never rounds into the water
+        if (!hvDry(parish, Math.round(px), Math.round(pz)) || hvOnRoad(parish, Math.round(px), Math.round(pz))) continue;
         const b = hvWaterBeside(parish, px, pz, 12);
         if (!b || b.w !== w) continue;
         cands.push({ x: Math.round(px), z: Math.round(pz), w, cls, h: hvHash(`${parish.id}:${Math.round(px)}:${Math.round(pz)}`) });

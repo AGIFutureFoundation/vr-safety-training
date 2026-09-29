@@ -293,7 +293,7 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
    "id": "orleans-avenue-canal",
    "name": "the Orleans Avenue Canal",
    "kind": "canal",
-   "width": 27,
+   "width": 24,
    "poly": [
     [
      -513,

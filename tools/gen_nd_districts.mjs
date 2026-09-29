@@ -229,7 +229,7 @@ const D = [
     water: [
       { id: "bayou-st-john", name: "Bayou St. John", kind: "bayou", width: 55, ll: [[-90.0852, 30.0225], [-90.0848, 30.0100], [-90.0845, 30.0030], [-90.0855, 29.9950], [-90.0868, 29.9880], [-90.0880, 29.9820], [-90.0878, 29.9770]] },
       { id: "london-avenue-canal", name: "the London Avenue Canal", kind: "canal", width: 40, ll: [[-90.0692, 30.0225], [-90.0690, 30.0100], [-90.0690, 29.9925]] },
-      { id: "orleans-avenue-canal", name: "the Orleans Avenue Canal", kind: "canal", width: 40, ll: [[-90.0985, 30.0225], [-90.0984, 30.0100], [-90.0983, 29.9960]] },
+      { id: "orleans-avenue-canal", name: "the Orleans Avenue Canal", kind: "canal", width: 36, ll: [[-90.0985, 30.0225], [-90.0984, 30.0100], [-90.0983, 29.9960]] },
       { id: "city-park-big-lake", name: "City Park's Big Lake", kind: "lake", ll: [[-90.0935, 29.9888], [-90.0905, 29.9890], [-90.0898, 29.9908], [-90.0930, 29.9910]] },
       { id: "city-park-lagoon", name: "a City Park lagoon", kind: "lake", ll: [[-90.0950, 30.0115], [-90.0925, 30.0118], [-90.0915, 30.0145], [-90.0940, 30.0150]] },
     ],
