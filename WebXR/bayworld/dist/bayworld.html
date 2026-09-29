@@ -50863,6 +50863,1171 @@ const K2_GATED = QM_K12_COURSES.map(qmK12Item).filter(Boolean);
 function qmK12GatedFor(world) { return K2_GATED.filter((it) => it.world === world); }
 
 
+/* ===== shared/np-parish.js ===== */
+// The parish world engine's pure half (console PARISH, docs/consoles/PARISH.md):
+// everything a parish map on the shared schema (NP_<PARISH> in
+// shared/np-data-<parish>.js) needs computed without three.js or the DOM —
+// the flat delta height field with its levees and water beds, the water and
+// district tests, the streamed 256 m chunk grid with its LOD rings, the
+// deterministic block massing per district character, a polygon
+// triangulator for the water bodies, a triangle estimate against the mobile
+// budget, and the validator tools/check_parishes.mjs and DELTA's own modules
+// run. shared/np-world.js is the three.js builder over this.
+//
+// Frame: x east, z south (north is -z), the field [-size/2, size/2]², water
+// at y = 0, dry ground about NP_GROUND, water beds cut to NP_BED. Nothing here
+// is a claim about a real place — the height field is a generic delta.
+//
+// Every top-level name is prefixed np/NP_ (the bundler concatenates all
+// modules into one scope).
+
+const NP_SIZE = 4096;
+const NP_CHUNK = 256;
+const NP_CHUNKS_PER_SIDE = NP_SIZE / NP_CHUNK;
+/** Grid segments per chunk at each LOD ring (0 = the player's chunk and its neighbours); a delta is flat, so few are needed. */
+const NP_LOD_SEGMENTS = [16, 12, 8, 4];
+/** Chunks kept loaded around the player, per quality tier (Chebyshev radius). */
+const NP_STREAM_RADIUS = { low: 2, balanced: 3, high: 3 };
+/** Chunk rings that carry the district massing (blocks, houses, oaks, sheds, cranes), per tier. */
+const NP_MASS_RADIUS = { low: 1, balanced: 2, high: 2 };
+/** Heights (metres): dry ground, the water surface, a water bed, the natural-levee rise beside a river. */
+const NP_GROUND = 0.8;
+const NP_WATER_Y = 0;
+const NP_BED = -3;
+const NP_NATURAL_LEVEE = 1.6;
+/** A levee's trapezoid: crest half-width and the batter (run) each side, in metres. */
+const NP_LEVEE_CREST = 3;
+const NP_LEVEE_BATTER = 22;
+/** A site's flattened pad radius and the blend beyond it. */
+const NP_PAD = 40;
+/** Mesh and triangle budget the builder is held to on a phone (tools/check_parishes.mjs). */
+const NP_BUDGET = { drawCalls: 260, triangles: 400000, chunksLoaded: 49 };
+/** The road kinds: ribbon width and colour; a bridge or causeway is an elevated deck, a ferry a water route. */
+const NP_ROAD_KINDS = {
+  interstate: { width: 22, colour: 0x3a3d42, lift: 0.3 },
+  avenue: { width: 16, colour: 0x4b4d52, lift: 0.25 },
+  street: { width: 9, colour: 0x585a5e, lift: 0.2 },
+  riverroad: { width: 8, colour: 0x8a7a5c, lift: 0.2 },
+  bridge: { width: 14, colour: 0x6f7378, lift: 0.4, clearance: 24 },
+  causeway: { width: 14, colour: 0x6f7378, lift: 0.4, clearance: 8 },
+  ferry: { width: 0, colour: 0x9fd6ee, lift: 0 },
+};
+/** The water kinds and their colours. */
+const NP_WATER_KINDS = { river: 0x6b7c68, lake: 0x4f8ea6, canal: 0x5b7f8a, bayou: 0x4f6f5a, wetland: 0x557a6a, gulf: 0x3f7f9c, bay: 0x3f7892, ocean: 0x2f6a8c };
+/** The open-water kinds (a polygon a site never sits in): a lake, the gulf, a bay, the ocean. */
+const NP_OPEN_WATER = ["lake", "gulf", "bay", "ocean"];
+/** A hill's limits (console GOLDEN-A): radius and height in map metres, and the steepest mean flank a mound may have. */
+const NP_HILL = { minRadius: 80, maxRadius: 1500, maxHeight: 120, maxSlope: 0.35 };
+/** The district characters the massing knows (the brief's enum plus "downtown" for a central business district and "park" — trees, no buildings — for a city park, console GOLDEN-A). */
+const NP_CHARACTERS = ["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "downtown", "park"];
+/** The connector kinds; a `world` connector's far end is another world's page (GOLDEN-B, shared/sg-ways.js). */
+const NP_CONNECTOR_KINDS = ["bridge", "causeway", "ferry", "road", "world"];
+/** The worlds a `world` connector may lead to, and the page each opens with `?site=` (source layout, relative to WebXR/parishes/). */
+const NP_WAY_WORLDS = { bayworld: "../../bayworld/index.html" };
+
+/** Triangles per massing part, by kind (the builder's geometries). */
+const NP_TRI = {
+  quarterBlock: 24, gardenHouse: 20, liveOak: 60, shed: 12, crane: 60, suburbHouse: 20, tower: 12, campusBlock: 12,
+  cypress: 28, reed: 6, tank: 40, stack: 24, bridgePier: 12, sign: 24,
+};
+
+// ------------------------------------------------------------------ maths
+
+const npClamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+const npSmooth = (e0, e1, v) => { const t = npClamp((v - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+
+/** A small seeded RNG (mulberry32). */
+function npRng(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function npHash(ix, iz, seed) {
+  let h = Math.imul(ix, 374761393) ^ Math.imul(iz, 668265263) ^ Math.imul(seed, 2246822519);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+
+function npValueNoise(x, z, seed) {
+  const ix = Math.floor(x), iz = Math.floor(z), fx = x - ix, fz = z - iz;
+  const ux = fx * fx * (3 - 2 * fx), uz = fz * fz * (3 - 2 * fz);
+  const a = npHash(ix, iz, seed), b = npHash(ix + 1, iz, seed), c = npHash(ix, iz + 1, seed), d = npHash(ix + 1, iz + 1, seed);
+  return (a + (b - a) * ux + (c - a) * uz + (a - b - c + d) * ux * uz) * 2 - 1;
+}
+
+/** Distance from (x, z) to a polyline; returns { d, t } with t the along-line fraction. */
+function npPolyDistance(x, z, pts) {
+  let best = Infinity, bestAlong = 0, run = 0, total = 0;
+  for (let i = 1; i < pts.length; i++) total += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, az] = pts[i - 1], [bx, bz] = pts[i];
+    const dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz, L = Math.sqrt(L2);
+    const u = L2 ? npClamp(((x - ax) * dx + (z - az) * dz) / L2, 0, 1) : 0;
+    const d = Math.hypot(x - (ax + dx * u), z - (az + dz * u));
+    if (d < best) { best = d; bestAlong = (run + u * L) / (total || 1); }
+    run += L;
+  }
+  return { d: best, t: bestAlong };
+}
+
+/** The length of a polyline in metres. */
+function npPolyLength(pts) { let L = 0; for (let i = 1; i < pts.length; i++) L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); return L; }
+
+/** The point at an along-line fraction t: { x, z, yaw } (yaw faces the direction of travel). */
+function npPolyPointAt(pts, t) {
+  const total = npPolyLength(pts), d = npClamp(t, 0, 1) * total;
+  let run = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, az] = pts[i - 1], [bx, bz] = pts[i], L = Math.hypot(bx - ax, bz - az);
+    if (run + L >= d || i === pts.length - 1) {
+      const u = L ? npClamp((d - run) / L, 0, 1) : 0;
+      return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, yaw: Math.atan2(bx - ax, bz - az) };
+    }
+    run += L;
+  }
+  return { x: pts[0][0], z: pts[0][1], yaw: 0 };
+}
+
+/** Points along a polyline every `spacing` metres (the first and last included). */
+function npPointsAlong(pts, spacing) {
+  const out = [];
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, az] = pts[i - 1], [bx, bz] = pts[i];
+    const L = Math.hypot(bx - ax, bz - az), n = Math.max(1, Math.round(L / spacing));
+    for (let k = i === 1 ? 0 : 1; k <= n; k++) out.push([ax + (bx - ax) * k / n, az + (bz - az) * k / n]);
+  }
+  return out;
+}
+
+/** Even-odd point-in-polygon test. */
+function npPointInPoly(x, z, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, zi] = poly[i], [xj, zj] = poly[j];
+    if ((zi > z) !== (zj > z) && x < ((xj - xi) * (z - zi)) / ((zj - zi) || 1e-12) + xi) inside = !inside;
+  }
+  return inside;
+}
+
+/** A polygon's bounding box `{ minX, maxX, minZ, maxZ }`. */
+function npBBox(poly) {
+  let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+  for (const [x, z] of poly) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (z < minZ) minZ = z; if (z > maxZ) maxZ = z; }
+  return { minX, maxX, minZ, maxZ };
+}
+
+/** The signed area of a polygon (positive when wound counter-clockwise in x/z). */
+function npPolyArea(poly) {
+  let a = 0;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) a += (poly[j][0] + poly[i][0]) * (poly[j][1] - poly[i][1]);
+  return a / 2;
+}
+
+/** A closed strip polygon around a centreline of `width` (the river, a canal). */
+function npStripFromCentreline(pts, width) {
+  const w = width / 2, left = [], right = [];
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+    const dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1, nx = -dz / L, nz = dx / L;
+    left.push([pts[i][0] + nx * w, pts[i][1] + nz * w]); right.push([pts[i][0] - nx * w, pts[i][1] - nz * w]);
+  }
+  return [...left, ...right.reverse()];
+}
+
+/**
+ * Ear-clipping triangulation of a simple polygon: returns index triples into
+ * `poly`, wound so the face normal points up (+y) in the x/z frame the
+ * builder uses. Degenerate ears are skipped; a polygon that will not clip
+ * falls back to a fan so nothing is ever left without a surface.
+ */
+function npTriangulate(poly) {
+  const n = poly.length;
+  if (n < 3) return [];
+  const idx = [];
+  for (let i = 0; i < n; i++) idx.push(i);
+  if (npPolyArea(poly) < 0) idx.reverse();
+  const tris = [];
+  const cross = (a, b, c) => (poly[b][0] - poly[a][0]) * (poly[c][1] - poly[a][1]) - (poly[b][1] - poly[a][1]) * (poly[c][0] - poly[a][0]);
+  const inTri = (p, a, b, c) => {
+    const d1 = cross(a, b, p), d2 = cross(b, c, p), d3 = cross(c, a, p);
+    return !((d1 < 0 || d2 < 0 || d3 < 0) && (d1 > 0 || d2 > 0 || d3 > 0));
+  };
+  let guard = 0;
+  while (idx.length > 3 && guard++ < 4 * n * n) {
+    let clipped = false;
+    for (let i = 0; i < idx.length; i++) {
+      const a = idx[(i + idx.length - 1) % idx.length], b = idx[i], c = idx[(i + 1) % idx.length];
+      if (cross(a, b, c) <= 1e-9) continue;
+      let ear = true;
+      for (const p of idx) { if (p === a || p === b || p === c) continue; if (inTri(p, a, b, c)) { ear = false; break; } }
+      if (!ear) continue;
+      tris.push([a, b, c]); idx.splice(i, 1); clipped = true; break;
+    }
+    if (!clipped) break;
+  }
+  if (idx.length === 3) tris.push([idx[0], idx[1], idx[2]]);
+  else if (idx.length > 3) for (let i = 1; i < idx.length - 1; i++) tris.push([idx[0], idx[i], idx[i + 1]]);
+  // In the x/z frame a counter-clockwise (positive-area) triangle seen from +y
+  // is wound (a, c, b) for three.js's front face: swap to face up.
+  return tris.map(([a, b, c]) => [a, c, b]);
+}
+
+// ------------------------------------------------------------------ prepared parish
+
+const npPrepCache = new WeakMap();
+
+/**
+ * Derived structures for one parish, computed once: water polygons (strips
+ * for centrelines), their boxes and colours, levee segments, districts with
+ * boxes, site pads, the river centrelines (for the natural levee) and a
+ * seed. Every query below reads this.
+ */
+function npPrepare(parish) {
+  const hit = npPrepCache.get(parish);
+  if (hit) return hit;
+  const water = (parish.water ?? []).map((w) => {
+    const poly = w.width ? npStripFromCentreline(w.poly, w.width) : w.poly;
+    return { ...w, shape: poly, bbox: npBBox(poly), colour: NP_WATER_KINDS[w.kind] ?? 0x4f8ea6, centre: w.width ? w.poly : null };
+  });
+  const districts = (parish.districts ?? []).map((d) => ({ ...d, bbox: npBBox(d.poly) }));
+  const rivers = water.filter((w) => w.kind === "river" && w.centre);
+  const seed = [...String(parish.id ?? "parish")].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 7);
+  const hills = (parish.hills ?? []).filter((h) => Array.isArray(h?.center) && h.radius > 0 && h.height > 0);
+  const prep = { water, districts, rivers, hills, levees: parish.levees ?? [], roads: parish.roads ?? [], sites: parish.sites ?? [], seed, half: (parish.size ?? NP_SIZE) / 2 };
+  npPrepCache.set(parish, prep);
+  return prep;
+}
+
+/** The water feature at (x, z), or null. */
+function npWaterAt(parish, x, z) {
+  const { water } = npPrepare(parish);
+  for (const w of water) {
+    const b = w.bbox;
+    if (x < b.minX || x > b.maxX || z < b.minZ || z > b.maxZ) continue;
+    if (npPointInPoly(x, z, w.shape)) return w;
+  }
+  return null;
+}
+
+/** True over water (a wetland counts: it is walkable marsh in the builder, but not ground for a site or a road). */
+function npInWater(parish, x, z) { return npWaterAt(parish, x, z) !== null; }
+
+/** The district containing (x, z), or null. */
+function npDistrictAt(parish, x, z) {
+  const { districts } = npPrepare(parish);
+  for (const d of districts) {
+    const b = d.bbox;
+    if (x < b.minX || x > b.maxX || z < b.minZ || z > b.maxZ) continue;
+    if (npPointInPoly(x, z, d.poly)) return d;
+  }
+  return null;
+}
+
+/** The levee profile at (x, z): the highest crest contribution of any levee, in metres above ground. */
+function npLeveeRise(parish, x, z) {
+  let rise = 0;
+  for (const l of npPrepare(parish).levees) {
+    const { d } = npPolyDistance(x, z, l.pts);
+    if (d > NP_LEVEE_CREST + NP_LEVEE_BATTER) continue;
+    const k = d <= NP_LEVEE_CREST ? 1 : 1 - npSmooth(NP_LEVEE_CREST, NP_LEVEE_CREST + NP_LEVEE_BATTER, d);
+    rise = Math.max(rise, (l.height ?? 4) * k);
+  }
+  return rise;
+}
+
+/**
+ * The hills' rise at (x, z), in metres over the flat field (console GOLDEN-A):
+ * each hill is a gentle procedural mound, a raised cosine from `height` at its
+ * `center` to nothing at `radius`, with a faint ripple so a flank is not a
+ * perfect bowl. Overlapping hills take the higher. Zero on a map with no hills
+ * (every New Orleans parish), so the delta field is unchanged there. A hill is
+ * a name on a mound, never a survey of the real one.
+ */
+function npHillRise(parish, x, z) {
+  const { hills, seed } = npPrepare(parish);
+  let rise = 0;
+  for (const hl of hills) {
+    const d = Math.hypot(x - hl.center[0], z - hl.center[1]);
+    if (d >= hl.radius) continue;
+    const k = 0.5 * (1 + Math.cos((Math.PI * d) / hl.radius));
+    rise = Math.max(rise, hl.height * k * (1 + 0.04 * npValueNoise(x / 60, z / 60, seed + 11) * (1 - k)));
+  }
+  return rise;
+}
+
+/** The hill a point stands on (the one raising it most), or null. */
+function npHillAt(parish, x, z) {
+  let best = null, bh = 0.05;
+  for (const hl of npPrepare(parish).hills) {
+    const d = Math.hypot(x - hl.center[0], z - hl.center[1]);
+    if (d >= hl.radius) continue;
+    const h = hl.height * 0.5 * (1 + Math.cos((Math.PI * d) / hl.radius));
+    if (h > bh) { bh = h; best = hl; }
+  }
+  return best;
+}
+
+/** The dry ground before levees and water: a flat delta with a gentle rise beside each river, and any hills. */
+function npBaseGround(parish, x, z) {
+  const { rivers, seed } = npPrepare(parish);
+  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npHillRise(parish, x, z);
+  for (const r of rivers) {
+    const { d } = npPolyDistance(x, z, r.centre);
+    const bank = r.width / 2;
+    if (d < bank + 320) h += NP_NATURAL_LEVEE * (1 - npSmooth(bank, bank + 320, d));
+  }
+  return h;
+}
+
+/**
+ * Terrain height (metres) at (x, z): the one field every consumer samples.
+ * Water beds are cut to NP_BED with a short bank, levees rise as trapezoids,
+ * and each site's pad is flattened to NP_GROUND — or, on a hill, to the
+ * hill's height at the site's centre, so the pad is a terrace, not a pit.
+ */
+function npHeightAt(parish, x, z) {
+  const prep = npPrepare(parish);
+  let h = npBaseGround(parish, x, z);
+  const w = npWaterAt(parish, x, z);
+  if (w) {
+    if (w.kind === "wetland") h = NP_WATER_Y - 0.35 + npValueNoise(x / 30, z / 30, prep.seed + 2) * 0.3;
+    else {
+      // The bank: a bed at NP_BED, rising to the water line within a few metres of the edge.
+      let edge = Infinity;
+      for (let i = 0, j = w.shape.length - 1; i < w.shape.length; j = i++) {
+        const { d } = npPolyDistance(x, z, [w.shape[j], w.shape[i]]);
+        if (d < edge) edge = d;
+      }
+      h = NP_BED + (NP_WATER_Y - 0.4 - NP_BED) * (1 - npSmooth(0, 12, edge));
+    }
+  }
+  h += npLeveeRise(parish, x, z);
+  for (const s of prep.sites) {
+    const d = Math.hypot(x - s.position[0], z - s.position[1]);
+    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length ? npHillRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
+  }
+  return h;
+}
+
+/** Slope (rise over run) at (x, z), by central differences. */
+function npSlopeAt(parish, x, z, e = 3) {
+  const dx = npHeightAt(parish, x + e, z) - npHeightAt(parish, x - e, z);
+  const dz = npHeightAt(parish, x, z + e) - npHeightAt(parish, x, z - e);
+  return Math.hypot(dx, dz) / (2 * e);
+}
+
+/** The nearest road (with its distance) to (x, z). */
+function npNearestRoad(parish, x, z) {
+  let best = null, bd = Infinity;
+  for (const r of npPrepare(parish).roads) { const { d } = npPolyDistance(x, z, r.pts); if (d < bd) { bd = d; best = r; } }
+  return { road: best, d: bd };
+}
+
+/** Ground cover at (x, z): "water" | "wetland" | "levee" | "road" | "pad" | a district character | "grass". */
+function npCoverAt(parish, x, z) {
+  const w = npWaterAt(parish, x, z);
+  if (w) return w.kind === "wetland" ? "wetland" : "water";
+  if (npLeveeRise(parish, x, z) > 0.5) return "levee";
+  const { road, d } = npNearestRoad(parish, x, z);
+  if (road && road.kind !== "ferry" && d < (NP_ROAD_KINDS[road.kind]?.width ?? 8) / 2) return "road";
+  if (npPrepare(parish).sites.some((s) => Math.hypot(x - s.position[0], z - s.position[1]) < NP_PAD)) return "pad";
+  return npDistrictAt(parish, x, z)?.character ?? "grass";
+}
+
+/** A site or landmark by id (either list), or null. */
+function npPlace(parish, id) {
+  return (parish.sites ?? []).find((s) => s.id === id) ?? (parish.landmarks ?? []).find((l) => l.id === id) ?? null;
+}
+
+/** The point the learner starts from: the parish's `start` site, else the first site. */
+function npStartSite(parish) { return npPlace(parish, parish.start) ?? parish.sites?.[0] ?? null; }
+
+// ------------------------------------------------------------------ bridges
+
+/** A bridge or causeway deck's height above the water line at an along-road fraction: ramps over the first and last fifth. */
+function npDeckHeightAt(road, t) {
+  const kind = NP_ROAD_KINDS[road.kind];
+  if (!kind?.clearance) return 0;
+  const ramp = npSmooth(0, 0.22, t) * (1 - npSmooth(0.78, 1, t));
+  return NP_GROUND + kind.clearance * ramp;
+}
+
+/** The water kinds a plain road may cross on a short span (the engine bridges them); a river, lake or gulf needs a bridge, causeway or ferry. */
+const NP_SPANNABLE = ["canal", "bayou", "wetland"];
+
+/**
+ * The road surface height at an along-road fraction: the deck for a bridge
+ * or causeway; over a canal, bayou or wetland a short flat span at bank
+ * height; else the ground plus the ribbon lift.
+ */
+function npRoadSurfaceAt(parish, road, t) {
+  const p = npPolyPointAt(road.pts, t);
+  const kind = NP_ROAD_KINDS[road.kind] ?? NP_ROAD_KINDS.street;
+  const h = npHeightAt(parish, p.x, p.z);
+  if (kind.clearance) return Math.max(h + kind.lift, npDeckHeightAt(road, t));
+  const w = npWaterAt(parish, p.x, p.z);
+  if (w && NP_SPANNABLE.includes(w.kind)) return Math.max(h, NP_GROUND + 1.4 + npLeveeRise(parish, p.x, p.z)) + kind.lift;
+  return h + kind.lift;
+}
+
+/**
+ * The samples (every 20 m) where a plain road stands in a river, lake or
+ * gulf — water it may not cross without a bridge, causeway or ferry.
+ * Returns `[{ x, z, water }]`; empty for a sound road.
+ */
+function npRoadWet(parish, road) {
+  if (NP_ROAD_KINDS[road.kind]?.clearance || road.kind === "ferry") return [];
+  const out = [];
+  for (const [x, z] of npPointsAlong(road.pts, 20)) {
+    const w = npWaterAt(parish, x, z);
+    if (w && !NP_SPANNABLE.includes(w.kind)) out.push({ x, z, water: w.id });
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------ chunks
+
+/** The chunk key and indices containing (x, z). */
+function npChunkOf(x, z) {
+  const cx = npClamp(Math.floor((x + NP_SIZE / 2) / NP_CHUNK), 0, NP_CHUNKS_PER_SIDE - 1);
+  const cz = npClamp(Math.floor((z + NP_SIZE / 2) / NP_CHUNK), 0, NP_CHUNKS_PER_SIDE - 1);
+  return { cx, cz, key: `${cx},${cz}` };
+}
+
+/** The chunks to keep loaded around (x, z) at `radius`, each with its LOD ring. */
+function npChunksAround(x, z, radius) {
+  const { cx, cz } = npChunkOf(x, z);
+  const out = [];
+  for (let dz = -radius; dz <= radius; dz++) for (let dx = -radius; dx <= radius; dx++) {
+    const ix = cx + dx, iz = cz + dz;
+    if (ix < 0 || iz < 0 || ix >= NP_CHUNKS_PER_SIDE || iz >= NP_CHUNKS_PER_SIDE) continue;
+    const ring = Math.max(Math.abs(dx), Math.abs(dz));
+    out.push({ cx: ix, cz: iz, key: `${ix},${iz}`, ring, lod: Math.min(ring, NP_LOD_SEGMENTS.length - 1) });
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------ massing
+
+/**
+ * The block massing per district character: the grid spacing, the kinds it
+ * places and how (each spot picks one kind by the seeded roll). Nothing is a
+ * real building — a quarter is low blocks with galleries, a garden district
+ * houses under live oaks, an industrial corridor sheds, a port cranes along
+ * the water, a suburb small houses and trees, a wetland cypress and reed, a
+ * refinery tanks and stacks, a campus mid blocks with trees, a downtown towers.
+ */
+const NP_MASSING = {
+  quarter: { spacing: 26, jitter: 4, kinds: [["quarterBlock", 1]] },
+  garden: { spacing: 34, jitter: 8, kinds: [["gardenHouse", 0.55], ["liveOak", 0.45]] },
+  industrial: { spacing: 70, jitter: 10, kinds: [["shed", 1]] },
+  suburb: { spacing: 30, jitter: 8, kinds: [["suburbHouse", 0.7], ["liveOak", 0.3]] },
+  port: { spacing: 60, jitter: 6, kinds: [["crane", 0.35], ["shed", 0.65]] },
+  wetland: { spacing: 24, jitter: 10, kinds: [["cypress", 0.35], ["reed", 0.65]] },
+  refinery: { spacing: 64, jitter: 8, kinds: [["tank", 0.7], ["stack", 0.3]] },
+  campus: { spacing: 48, jitter: 8, kinds: [["campusBlock", 0.5], ["liveOak", 0.5]] },
+  downtown: { spacing: 44, jitter: 6, kinds: [["tower", 1]] },
+  park: { spacing: 32, jitter: 12, kinds: [["liveOak", 0.55], ["cypress", 0.45]] },
+};
+
+/**
+ * The massing spots of one chunk, deterministic: `{ kind, x, z, y, rot, s, h }`
+ * for every district cell whose centre is inside a district of that
+ * character, on dry land (a wetland's own water excepted), off every road's
+ * width plus a margin, off every levee, outside every site pad and clear
+ * of the water's edge. `h` is the part's height (towers vary).
+ */
+function npMassingForChunk(parish, cx, cz) {
+  const prep = npPrepare(parish);
+  const x0 = -NP_SIZE / 2 + cx * NP_CHUNK, z0 = -NP_SIZE / 2 + cz * NP_CHUNK;
+  const out = [];
+  const touching = prep.districts.filter((d) => d.bbox.maxX >= x0 && d.bbox.minX <= x0 + NP_CHUNK && d.bbox.maxZ >= z0 && d.bbox.minZ <= z0 + NP_CHUNK);
+  for (const d of touching) {
+    const m = NP_MASSING[d.character];
+    if (!m) continue;
+    const gx0 = Math.floor(x0 / m.spacing), gx1 = Math.ceil((x0 + NP_CHUNK) / m.spacing), gz0 = Math.floor(z0 / m.spacing), gz1 = Math.ceil((z0 + NP_CHUNK) / m.spacing);
+    for (let gz = gz0; gz < gz1; gz++) for (let gx = gx0; gx < gx1; gx++) {
+      const rng = npRng((prep.seed ^ Math.imul(gx + 5000, 7919) ^ Math.imul(gz + 5000, 104729)) >>> 0);
+      const x = (gx + 0.5) * m.spacing + (rng() - 0.5) * m.jitter, z = (gz + 0.5) * m.spacing + (rng() - 0.5) * m.jitter;
+      if (x < x0 || x >= x0 + NP_CHUNK || z < z0 || z >= z0 + NP_CHUNK) continue;
+      if (Math.abs(x) > prep.half - 6 || Math.abs(z) > prep.half - 6) continue;
+      if (!npPointInPoly(x, z, d.poly)) continue;
+      if (npDistrictAt(parish, x, z) !== d) continue;
+      const w = npWaterAt(parish, x, z);
+      if (w && !(w.kind === "wetland" && d.character === "wetland")) continue;
+      if (npLeveeRise(parish, x, z) > 0.2) continue;
+      const near = npNearestRoad(parish, x, z);
+      if (near.road && near.road.kind !== "ferry" && near.d < (NP_ROAD_KINDS[near.road.kind]?.width ?? 8) / 2 + 6) continue;
+      if (prep.sites.some((s) => Math.hypot(x - s.position[0], z - s.position[1]) < NP_PAD + 8)) continue;
+      let roll = rng(), kind = m.kinds[m.kinds.length - 1][0];
+      for (const [k, p] of m.kinds) { if (roll < p) { kind = k; break; } roll -= p; }
+      const h = kind === "tower" ? 30 + rng() * 90 : kind === "campusBlock" ? 10 + rng() * 8 : kind === "quarterBlock" ? 6 + rng() * 4 : kind === "shed" ? 7 + rng() * 4 : kind === "tank" ? 9 + rng() * 6 : kind === "stack" ? 30 + rng() * 20 : kind === "crane" ? 34 : kind === "cypress" ? 9 + rng() * 6 : kind === "liveOak" ? 8 + rng() * 5 : kind === "reed" ? 1.4 + rng() * 0.8 : 4.5 + rng() * 2.5;
+      out.push({ kind, x, z, y: npHeightAt(parish, x, z), rot: rng() * Math.PI * 2, s: 0.85 + rng() * 0.3, h });
+    }
+  }
+  return out;
+}
+
+/**
+ * A pure worst-case triangle estimate for one streamed view on a tier:
+ * every chunk in the square at its ring's LOD, the densest character's
+ * massing in every massing chunk, the backdrop and the fixed features'
+ * allowance. tools/check_parishes.mjs holds it to NP_BUDGET.triangles and
+ * the builder's stats() measures the real count.
+ */
+function npTriangleEstimate(parish, tier = "high") {
+  const r = NP_STREAM_RADIUS[tier] ?? 3, mr = NP_MASS_RADIUS[tier] ?? 2;
+  let tri = 64 * 64 * 2; // the coarse backdrop
+  let densest = 0;
+  for (const [ch, m] of Object.entries(NP_MASSING)) {
+    const cells = (NP_CHUNK / m.spacing) ** 2;
+    const per = m.kinds.reduce((s, [k, p]) => s + p * (NP_TRI[k] ?? 20), 0);
+    densest = Math.max(densest, cells * per);
+    void ch;
+  }
+  for (const c of npChunksAround(0, 0, r)) {
+    tri += NP_LOD_SEGMENTS[c.lod] ** 2 * 2;
+    if (c.ring <= mr) tri += densest * (tier === "low" ? 0.6 : 1);
+  }
+  // Fixed features: water polygons, levee crowns, road ribbons, bridge piers, sites, signs.
+  const roadM = (parish.roads ?? []).reduce((s, rd) => s + npPolyLength(rd.pts), 0);
+  const leveeM = (parish.levees ?? []).reduce((s, l) => s + npPolyLength(l.pts), 0);
+  tri += Math.round(roadM / 8) * 2 + Math.round(leveeM / 10) * 6 + (parish.water ?? []).length * 400 + (parish.sites ?? []).length * 120 + (parish.landmarks ?? []).length * 40;
+  return Math.round(tri);
+}
+
+// ------------------------------------------------------------------ validation
+
+/**
+ * Validate one parish against the shared schema. `ctx` supplies what the
+ * platform knows: `{ stations: Set, k12: Set, programmes: Set, unions: Set,
+ * parishes: Map<id, parish> }`. Returns a list of problems (empty when the
+ * module is sound). DELTA's modules run this before the checker does.
+ */
+function npValidate(parish, ctx = {}) {
+  const bad = [];
+  const str = (v) => typeof v === "string" && v.trim().length > 0;
+  const pt = (p) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);
+  const inField = (p) => pt(p) && Math.abs(p[0]) <= (parish.size ?? NP_SIZE) / 2 && Math.abs(p[1]) <= (parish.size ?? NP_SIZE) / 2;
+  const ids = (list, what) => { const seen = new Set(); for (const it of list ?? []) { if (!str(it?.id)) bad.push(`${what}: an entry has no id`); else if (seen.has(it.id)) bad.push(`${what}: duplicate id ${it.id}`); seen.add(it?.id); } };
+  if (!str(parish.id) || !/^[a-z][a-z0-9-]*$/.test(parish.id)) bad.push("id missing or not a slug");
+  if (!str(parish.name)) bad.push("no name");
+  if (parish.size !== NP_SIZE) bad.push(`size ${parish.size} is not ${NP_SIZE}`);
+  if (parish.scale != null && !(Number.isFinite(parish.scale) && parish.scale >= 0.5 && parish.scale <= 25)) bad.push(`scale ${parish.scale} is not a number of real metres per metre between one half and twenty-five`);
+  const anchors = parish.anchors ?? [];
+  if (anchors.length < 6 || anchors.length > 10) bad.push(`${anchors.length} anchors (need six to ten)`);
+  for (const a of anchors) {
+    if (!inField(a.xz)) bad.push(`anchor ${a.name ?? "?"}: xz outside the field`);
+    if (!pt(a.lonlat) || Math.abs(a.lonlat[0]) > 180 || Math.abs(a.lonlat[1]) > 90) bad.push(`anchor ${a.name ?? "?"}: lonlat malformed`);
+    else if (a.lonlat.some((v) => Math.round(v * 1000) / 1000 !== v)) bad.push(`anchor ${a.name ?? "?"}: lonlat carries more than three decimals`);
+    if (a.approximate !== true) bad.push(`anchor ${a.name ?? "?"}: not marked approximate`);
+    if (!str(a.name)) bad.push("an anchor has no name");
+  }
+  for (const [list, what] of [[parish.water, "water"], [parish.levees, "levees"], [parish.roads, "roads"], [parish.districts, "districts"], [parish.sites, "sites"], [parish.landmarks, "landmarks"], [parish.connectors, "connectors"], [parish.fieldLessons, "fieldLessons"], [parish.gated, "gated"]]) {
+    if (!Array.isArray(list)) bad.push(`${what} is not an array`); else ids(list, what);
+  }
+  if (parish.region !== undefined && !/^[a-z][a-z0-9-]*$/.test(String(parish.region))) bad.push(`region ${parish.region} is not a slug`);
+  if (parish.hills !== undefined) {
+    if (!Array.isArray(parish.hills)) bad.push("hills is not an array");
+    else {
+      ids(parish.hills, "hills");
+      for (const hl of parish.hills) {
+        if (!str(hl.name) || /\d/.test(hl.name)) bad.push(`hill ${hl.id}: a name with no digits`);
+        if (!inField(hl.center)) bad.push(`hill ${hl.id}: center outside the field`);
+        if (!(hl.radius >= NP_HILL.minRadius && hl.radius <= NP_HILL.maxRadius)) bad.push(`hill ${hl.id}: radius ${hl.radius}`);
+        if (!(hl.height > 0 && hl.height <= NP_HILL.maxHeight)) bad.push(`hill ${hl.id}: height ${hl.height}`);
+        else if ((hl.height * Math.PI) / (2 * hl.radius) > NP_HILL.maxSlope) bad.push(`hill ${hl.id}: flank steeper than a gentle mound`);
+        if (inField(hl.center) && npWaterAt(parish, ...hl.center)) bad.push(`hill ${hl.id}: its crown is in the water`);
+      }
+    }
+  }
+  for (const w of parish.water ?? []) {
+    if (!Object.keys(NP_WATER_KINDS).includes(w.kind)) bad.push(`water ${w.id}: kind ${w.kind}`);
+    if (!Array.isArray(w.poly) || w.poly.length < (w.width ? 2 : 3) || !w.poly.every(inField)) bad.push(`water ${w.id}: poly malformed or outside the field`);
+    if (w.width !== undefined && !(w.width > 0)) bad.push(`water ${w.id}: width`);
+  }
+  for (const l of parish.levees ?? []) {
+    if (!Array.isArray(l.pts) || l.pts.length < 2 || !l.pts.every(inField)) bad.push(`levee ${l.id}: pts malformed or outside the field`);
+    if (!(l.height > 0 && l.height <= 12)) bad.push(`levee ${l.id}: height ${l.height}`);
+  }
+  for (const r of parish.roads ?? []) {
+    if (!NP_ROAD_KINDS[r.kind]) bad.push(`road ${r.id}: kind ${r.kind}`);
+    if (!Array.isArray(r.pts) || r.pts.length < 2 || !r.pts.every(inField)) bad.push(`road ${r.id}: pts malformed or outside the field`);
+    else { const wet = npRoadWet(parish, r); if (wet.length) bad.push(`road ${r.id}: ${wet.length} samples in ${[...new Set(wet.map((w) => w.water))].join(", ")} without a bridge`); }
+  }
+  for (const d of parish.districts ?? []) {
+    if (!NP_CHARACTERS.includes(d.character)) bad.push(`district ${d.id}: character ${d.character}`);
+    if (!str(d.name)) bad.push(`district ${d.id}: no name`);
+    if (!Array.isArray(d.poly) || d.poly.length < 3 || !d.poly.every(inField)) bad.push(`district ${d.id}: poly malformed or outside the field`);
+  }
+  const siteIds = new Set((parish.sites ?? []).map((s) => s.id)), landmarkIds = new Set((parish.landmarks ?? []).map((l) => l.id));
+  if ((parish.sites ?? []).length < 8) bad.push(`${(parish.sites ?? []).length} sites (need eight or more)`);
+  for (const s of parish.sites ?? []) {
+    if (!str(s.name) || !str(s.kind)) bad.push(`site ${s.id}: no name or kind`);
+    if (!inField(s.position)) bad.push(`site ${s.id}: position outside the field`);
+    else if (npWaterAt(parish, ...s.position) && npWaterAt(parish, ...s.position).kind !== "wetland") bad.push(`site ${s.id}: in the water`);
+    if (!Array.isArray(s.trades) || !s.trades.length) bad.push(`site ${s.id}: no trades`);
+    else if (ctx.unions) for (const t of s.trades) if (!ctx.unions.has(t)) bad.push(`site ${s.id}: union ${t} is not in tools/unions.json`);
+    if (!Array.isArray(s.stations) || !s.stations.length) bad.push(`site ${s.id}: no stations`);
+    else if (ctx.stations) for (const id of s.stations) if (!ctx.stations.has(id)) bad.push(`site ${s.id}: station ${id} is not in the catalog`);
+    if (!Array.isArray(s.programmes)) bad.push(`site ${s.id}: programmes is not an array`);
+    else if (ctx.programmes) for (const id of s.programmes) if (!ctx.programmes.has(id)) bad.push(`site ${s.id}: programme ${id} is not in the catalog`);
+  }
+  for (const l of parish.landmarks ?? []) {
+    if (!str(l.name) || !str(l.kind)) bad.push(`landmark ${l.id}: no name or kind`);
+    if (!inField(l.position)) bad.push(`landmark ${l.id}: position outside the field`);
+  }
+  for (const c of parish.connectors ?? []) {
+    if (!NP_CONNECTOR_KINDS.includes(c.kind)) bad.push(`connector ${c.id}: kind ${c.kind}`);
+    if (!str(c.name)) bad.push(`connector ${c.id}: no name`);
+    if (c.from?.parish !== parish.id) bad.push(`connector ${c.id}: from.parish is not ${parish.id}`);
+    if (!inField(c.from?.position)) bad.push(`connector ${c.id}: from.position outside the field`);
+    if (c.kind === "world") {
+      // A way out to another world: `to: { world, site, href }`, the href that world's page with `?site=`.
+      const page = NP_WAY_WORLDS[c.to?.world];
+      if (!page) bad.push(`connector ${c.id}: world ${c.to?.world} is not a known world`);
+      else if (!str(c.to?.site) || c.to?.href !== `${page}?site=${encodeURIComponent(c.to.site)}`) bad.push(`connector ${c.id}: href is not ${page}?site=<site>`);
+      if (ctx.worldSites?.[c.to?.world] && !ctx.worldSites[c.to.world].has(c.to?.site)) bad.push(`connector ${c.id}: ${c.to?.site} is not a ${c.to?.world} site`);
+      continue;
+    }
+    if (!str(c.to?.parish)) bad.push(`connector ${c.id}: to.parish missing`);
+    if (c.to?.position != null && !pt(c.to.position)) bad.push(`connector ${c.id}: to.position malformed`);
+    if (c.to?.position == null && !pt(c.to?.lonlat)) bad.push(`connector ${c.id}: to needs a position or a lonlat`);
+  }
+  for (const l of parish.fieldLessons ?? []) {
+    if (!/-fl-/.test(l.id ?? "")) bad.push(`lesson ${l.id}: id lacks -fl-`);
+    if (!siteIds.has(l.site)) bad.push(`lesson ${l.id}: site ${l.site} is not a site`);
+    if (l.landmark && !landmarkIds.has(l.landmark)) bad.push(`lesson ${l.id}: landmark ${l.landmark} is not a landmark`);
+    if (ctx.k12 && !ctx.k12.has(l.k12)) bad.push(`lesson ${l.id}: k12 ${l.k12} is not a classroom station`);
+    for (const f of ["title", "trade", "tradeLine"]) if (!str(l[f])) bad.push(`lesson ${l.id}: no ${f}`);
+    if (!(l.minutes >= 2 && l.minutes <= 4)) bad.push(`lesson ${l.id}: minutes ${l.minutes}`);
+    if (!Array.isArray(l.steps) || l.steps.length !== 3 || !l.steps.every(str)) bad.push(`lesson ${l.id}: steps are not three sentences`);
+    const c = l.check;
+    if (!c || !str(c.q) || !Array.isArray(c.options) || c.options.length < 2 || !Number.isInteger(c.answer) || c.answer < 0 || c.answer >= c.options.length || !str(c.why)) bad.push(`lesson ${l.id}: check malformed`);
+    if (/\d/.test([l.title, l.tradeLine, ...(l.steps ?? []), c?.q ?? "", ...(c?.options ?? []), c?.why ?? ""].join(" "))) bad.push(`lesson ${l.id}: text states a figure`);
+  }
+  for (const g of parish.gated ?? []) {
+    if (!str(g.title) || !str(g.kind)) bad.push(`gated ${g.id}: no title or kind`);
+    if (g.world !== "parishes" || g.parish !== parish.id) bad.push(`gated ${g.id}: world/parish are not parishes/${parish.id}`);
+    if (!siteIds.has(g.site)) bad.push(`gated ${g.id}: site ${g.site} is not a site`);
+    if (!g.gate || !str(g.gate.note)) bad.push(`gated ${g.id}: no gate note`);
+    if (ctx.stations) for (const id of [...(g.gate?.stations ?? []), ...(g.gate?.k12 ?? [])]) if (!ctx.stations.has(id)) bad.push(`gated ${g.id}: station ${id} is not in the catalog`);
+    if (g.gate?.note && /\d/.test(g.gate.note.replace(/K-12/g, ""))) bad.push(`gated ${g.id}: the note carries a digit`);
+  }
+  return bad;
+}
+
+
+/* ===== shared/mg-life.js ===== */
+// MENAGERIE — life on the streets (docs/consoles/MENAGERIE.md): pets and animals by region and district
+// character, and ambient passers-by on the sidewalks, for the parish maps and Bay World.
+//
+// THE SEAM (the Packs brief's shape):
+//
+//   mgMountLife({ three, root, parish | map, groundAt, sidewalkAt, colliders, pos, threats, tier, night, still, seed })
+//     -> { animate(t, dt), counts(), stats(), agents, meshes, dispose() }
+//
+//     three       the three.js namespace (passed in; this module never imports it, so Node runs it)
+//     root        the group the InstancedMeshes go into
+//     parish      a parish-engine map (np-data-*.js), or `map` — an adapter from mgParishMap / mgBayMap
+//     groundAt    (x, z) -> ground height in metres
+//     sidewalkAt  optional (x, z) -> bool (CITYWORKS `cwSidewalkAt(parish, x, z)`); absent, the road edges are used
+//     colliders   optional (chunkKey) -> [{ min: [x, y, z], max: [x, y, z], kind }] (CITYWORKS `cwColliders`)
+//     pos         () -> [x, z] of the avatar, or null (nothing flees a menu)
+//     threats     optional () -> [[x, z], ...] moving vehicles; animals flee them, passers-by step aside
+//     tier        "low" | "balanced" | "high" (the phone tier places fewer)
+//     night       true places the night routine: fewer people and birds, more cats
+//     still       true (and prefers-reduced-motion) places the world and moves nothing
+//
+// Everything is procedural and says so: the kinds are the generic urban and coastal ones, the counts are a scene
+// budget and never a census, and no figure here is a fact about a real place. GRIOT's named characters stay the
+// ones who talk; a passer-by the avatar walks into steps aside and nods. One InstancedMesh per kind (plus one for
+// the passers-by's heads), so a whole map costs at most MG_BUDGET.drawCalls draw calls.
+// Names prefixed mg/MG_ (the bundler shares one scope).
+
+
+// ------------------------------------------------------------------ kinds
+
+const MG_TINT = 0xffffff; // a part drawn in the instance's own colour (coat, clothing)
+const MG_HEAD_Y = { pedestrian: 1.62, jogger: 1.62, walker: 1.62, cyclist: 1.66 };
+
+/**
+ * Per kind: its body as boxes `[w, h, d, x, y, z, colour]` (front +z, feet at y 0), how it moves, how far it
+ * flees (metres from the avatar or a vehicle) and how fast, its speed, how night changes it, and the coat or
+ * clothing colours an individual is drawn in. `tri` is the triangles one individual costs (12 per box).
+ */
+const MG_KINDS = {
+  pedestrian: { group: "person", moves: "ground", motion: "walk", speed: 1.3, flee: 0, aside: 1.6, night: 0.35, coats: null,
+    parts: [[0.34, 0.8, 0.2, 0, 0.4, 0, 0x2b2f36], [0.46, 0.62, 0.26, 0, 1.12, 0, MG_TINT]] },
+  jogger: { group: "person", moves: "ground", motion: "walk", speed: 2.8, flee: 0, aside: 2.2, night: 0.2, coats: [0xe8533a, 0x2a7de1, 0x3d9a4a, 0xf2c14b, 0xf4f4f0],
+    parts: [[0.32, 0.8, 0.2, 0, 0.4, 0, 0x22252b], [0.42, 0.6, 0.24, 0, 1.12, 0, MG_TINT]] },
+  walker: { group: "person", moves: "ground", motion: "walk", speed: 1.0, flee: 0, aside: 1.8, night: 0.4, coats: null,
+    // a person with a dog on a lead: the dog trots ahead on the kerb side
+    parts: [[0.34, 0.8, 0.2, 0, 0.4, 0, 0x2b2f36], [0.46, 0.62, 0.26, 0, 1.12, 0, MG_TINT],
+      [0.26, 0.28, 0.62, 0.55, 0.36, 1.25, 0x8a5a32], [0.2, 0.2, 0.24, 0.55, 0.55, 1.62, 0x8a5a32], [0.22, 0.22, 0.5, 0.55, 0.11, 1.25, 0x5a3a22],
+      [0.03, 0.03, 1.2, 0.36, 0.72, 0.72, 0xd8322c]] },
+  cyclist: { group: "person", moves: "ground", motion: "walk", speed: 4.2, flee: 0, aside: 2.4, night: 0.25, coats: [0xf2c14b, 0xe8533a, 0x1c7f7a, 0xf4f4f0],
+    parts: [[0.06, 0.08, 1.2, 0, 0.62, 0, 0x2b2f36], [0.05, 0.66, 0.66, 0, 0.33, 0.55, 0x1a1a1a], [0.05, 0.66, 0.66, 0, 0.33, -0.55, 0x1a1a1a],
+      [0.3, 0.5, 0.22, 0, 0.82, -0.05, 0x22252b], [0.4, 0.58, 0.26, 0, 1.28, 0.05, MG_TINT]] },
+  dog: { group: "pet", moves: "ground", motion: "wander", speed: 1.8, flee: 6, fleeSpeed: 4.5, roam: 10, night: 0.5, coats: [0x8a5a32, 0x2a2420, 0xd8b86a, 0xe8e6e0, 0x6a4428],
+    parts: [[0.3, 0.3, 0.7, 0, 0.42, 0, MG_TINT], [0.22, 0.22, 0.26, 0, 0.62, 0.42, MG_TINT], [0.26, 0.28, 0.56, 0, 0.14, 0, 0x3a2e24], [0.05, 0.05, 0.3, 0, 0.55, -0.46, MG_TINT]] },
+  cat: { group: "pet", moves: "ground", motion: "perch", speed: 0.9, flee: 5, fleeSpeed: 4.0, roam: 4, night: 1.6, coats: [0x2a2420, 0xd8904a, 0x9a9a98, 0xe8e6e0, 0x6a4428],
+    parts: [[0.18, 0.2, 0.45, 0, 0.2, 0, MG_TINT], [0.16, 0.15, 0.15, 0, 0.34, 0.26, MG_TINT], [0.04, 0.04, 0.36, 0, 0.3, -0.36, MG_TINT]] },
+  pigeon: { group: "bird", moves: "flies", motion: "flock", speed: 0.6, flee: 5, fleeSpeed: 6, roam: 4, lift: 7, night: 0.2, coats: [0x8a8f98, 0x6f747c, 0xa9adb3],
+    parts: [[0.14, 0.14, 0.28, 0, 0.14, 0, MG_TINT], [0.08, 0.08, 0.1, 0, 0.25, 0.13, 0x5a5f68], [0.42, 0.02, 0.16, 0, 0.17, -0.02, MG_TINT]] },
+  gull: { group: "bird", moves: "flies", motion: "flock", speed: 0.7, flee: 8, fleeSpeed: 7, roam: 8, lift: 12, night: 0.2, coats: [0xf2f4f6, 0xe6e9ec],
+    parts: [[0.2, 0.18, 0.5, 0, 0.2, 0, MG_TINT], [0.1, 0.1, 0.12, 0, 0.32, 0.26, MG_TINT], [1.2, 0.03, 0.24, 0, 0.24, -0.02, 0xb8bfc6]] },
+  pelican: { group: "bird", moves: "flies", motion: "glide", speed: 5, flee: 14, fleeSpeed: 6, roam: 60, lift: 10, night: 0.2, coats: [0xd9cfc0, 0xcfc4b2],
+    parts: [[0.4, 0.34, 1.0, 0, 0, 0, MG_TINT], [2.4, 0.04, 0.45, 0, 0.05, 0, 0x6b625a], [0.1, 0.08, 0.42, 0, 0.04, 0.68, 0xd8b450]] },
+  egret: { group: "bird", moves: "ground", wades: true, motion: "wander", speed: 0.4, flee: 12, fleeSpeed: 3, roam: 8, night: 0.3, coats: [0xf6f6f2],
+    parts: [[0.2, 0.2, 0.4, 0, 0.65, 0, MG_TINT], [0.06, 0.5, 0.06, 0, 1.0, 0.16, MG_TINT], [0.04, 0.5, 0.04, 0, 0.25, 0, 0x2a2a28], [0.05, 0.05, 0.18, 0, 1.26, 0.26, 0xd8b450]] },
+  heron: { group: "bird", moves: "ground", wades: true, motion: "wander", speed: 0.35, flee: 16, fleeSpeed: 3, roam: 10, night: 0.5, coats: [0x8a97a3],
+    parts: [[0.26, 0.26, 0.5, 0, 0.8, 0, MG_TINT], [0.07, 0.6, 0.07, 0, 1.25, 0.2, MG_TINT], [0.05, 0.62, 0.05, 0, 0.31, 0, 0x2a2a28], [0.06, 0.06, 0.24, 0, 1.56, 0.32, 0xd8b450]] },
+  squirrel: { group: "wild", moves: "ground", motion: "wander", speed: 1.6, flee: 7, fleeSpeed: 5, roam: 8, night: 0, coats: [0x7a5a3a, 0x8a8a86],
+    parts: [[0.1, 0.12, 0.22, 0, 0.08, 0, MG_TINT], [0.08, 0.22, 0.08, 0, 0.19, -0.14, MG_TINT], [0.07, 0.07, 0.08, 0, 0.16, 0.13, MG_TINT]] },
+  sealion: { group: "wild", moves: "swims", motion: "swim", speed: 0.5, flee: 10, fleeSpeed: 2.5, roam: 12, night: 0.8, coats: [0x5a4a3a, 0x4a3e32],
+    parts: [[0.5, 0.36, 1.6, 0, 0.05, 0, MG_TINT], [0.24, 0.24, 0.3, 0, 0.32, 0.86, MG_TINT], [1.0, 0.05, 0.26, 0, 0.0, 0.3, 0x3a3028]] },
+  chicken: { group: "wild", moves: "ground", motion: "wander", speed: 0.7, flee: 5, fleeSpeed: 3.5, roam: 6, night: 0, coats: [0xc9884a, 0xf1ece0, 0x3a2e24],
+    parts: [[0.22, 0.22, 0.3, 0, 0.26, 0, MG_TINT], [0.1, 0.14, 0.1, 0, 0.44, 0.14, MG_TINT], [0.03, 0.06, 0.08, 0, 0.54, 0.14, 0xc0302a], [0.1, 0.14, 0.04, 0, 0.07, 0, 0xd8a040]] },
+};
+for (const k of Object.values(MG_KINDS)) k.tri = k.parts.length * 12 + (MG_HEAD_Y[Object.keys(MG_KINDS).find((n) => MG_KINDS[n] === k)] ? 12 : 0);
+const MG_KIND_NAMES = Object.keys(MG_KINDS);
+/** The kinds that are passers-by (people); every other kind is an animal. */
+const MG_PEOPLE = MG_KIND_NAMES.filter((k) => MG_KINDS[k].group === "person");
+
+/** The budget: draw calls for a whole map, agents per 256 m chunk and per map by tier, per-kind caps per map, triangles. */
+const MG_BUDGET = {
+  drawCalls: MG_KIND_NAMES.length + 1, // one InstancedMesh per kind, one for the passers-by's heads
+  perChunk: { high: 24, balanced: 18, low: 8 },
+  perMap: { high: 360, balanced: 260, low: 120 },
+  caps: { pedestrian: 120, jogger: 24, walker: 30, cyclist: 24, dog: 24, cat: 40, pigeon: 48, gull: 36, pelican: 12, egret: 10, heron: 2, squirrel: 30, sealion: 8, chicken: 2 },
+  triangles: 26000,
+};
+
+/** The districts where people walk, and which animals each character keeps. */
+const MG_STREET_CHARS = new Set(["quarter", "downtown", "garden", "suburb", "campus", "park", "port"]);
+const MG_PORCH_CHARS = new Set(["quarter", "garden", "suburb"]);
+const MG_YARD_CHARS = new Set(["garden", "suburb", "park", "campus"]);
+const MG_PIGEON_CHARS = new Set(["downtown", "quarter", "port"]);
+const MG_SQUIRREL_CHARS = new Set(["park", "campus", "garden"]);
+const MG_WATERFRONT = /port|harbou?r|marina|ferry|landing|pier|wharf|terminal|shipyard|beach|lifeguard|embarcadero|seawall|lakefront|dock/;
+const MG_TRANSIT = /transit|bus|streetcar|rail|ferry|terminal|station|hub|barn|trolley|light-rail/;
+
+// ------------------------------------------------------------------ adapters
+
+/** A parish-engine map as the life map: roads with widths, sites with their character, and cover from np-parish. */
+function mgParishMap(parish) {
+  const prep = npPrepare(parish);
+  return {
+    id: parish.id, region: parish.region ?? "new-orleans", half: prep.half,
+    roads: prep.roads.filter((r) => r.kind !== "ferry").map((r) => ({ id: r.id, kind: r.kind, width: NP_ROAD_KINDS[r.kind]?.width ?? 8, pts: r.pts, deck: r.kind === "bridge" || r.kind === "causeway", fast: r.kind === "interstate" })),
+    sites: prep.sites.map((s) => ({ id: s.id, kind: `${s.kind ?? ""} ${s.id}`, x: s.position[0], z: s.position[1], character: npDistrictAt(parish, s.position[0], s.position[1])?.character ?? "grass" })),
+    waters: prep.water.map((w) => ({ id: w.id, kind: w.kind, shape: w.shape, centre: w.centre })),
+    coverAt: (x, z) => npCoverAt(parish, x, z),
+    characterAt: (x, z) => npDistrictAt(parish, x, z)?.character ?? "grass",
+    openWaterAt: (x, z) => { const w = npWaterAt(parish, x, z); return !!w && w.kind !== "wetland"; },
+    wetlandAt: (x, z) => npWaterAt(parish, x, z)?.kind === "wetland",
+    waterKindAt: (x, z) => npWaterAt(parish, x, z)?.kind ?? null,
+  };
+}
+
+const MG_BAY_CHARACTER = { downtown: "downtown", uptown: "downtown", "west-oakland": "quarter", fruitvale: "quarter", "emery-crossing": "suburb", coliseum: "campus", hills: "park", "upper-hills": "park", lake: "park", port: "port", "estuary-waterfront": "port", "island-harbour": "port", "bridge-approach": "industrial", "north-shoreline": "park", "south-shoreline": "park", "outer-bay": "port" };
+
+/**
+ * Bay World as the life map, from its own pure data: `{ roads: BAY_ROADS, sites: BW_SITES, zoneAt, roadAt, waterTopAt, bounds }`
+ * (bayworld-data.js's `bayZoneAt(x, z).id`, `bayRoadAt`, `txWaterTopAt`, `BAY_BOUNDS`).
+ */
+function mgBayMap({ roads = [], sites = [], zoneAt = () => "downtown", roadAt = () => null, waterTopAt = () => null, bounds = { minX: -1200, maxX: 1200, minZ: -800, maxZ: 800 } } = {}) {
+  const character = (x, z) => MG_BAY_CHARACTER[zoneAt(x, z)] ?? "suburb";
+  const inBounds = (x, z) => x > bounds.minX + 10 && x < bounds.maxX - 10 && z > bounds.minZ + 10 && z < bounds.maxZ - 10;
+  return {
+    id: "bayworld", region: "bay-area", half: Math.max(bounds.maxX, bounds.maxZ),
+    roads: roads.map((r) => ({ id: r.id, kind: "avenue", width: Math.max(8, (r.lanes ?? 2) * 3.4), pts: r.points ?? r.pts, fast: (r.lanes ?? 2) >= 6 })),
+    sites: sites.map((s) => ({ id: s.id, kind: `${s.zone ?? ""} ${s.id}`, x: s.position[0], z: s.position.length > 2 ? s.position[2] : s.position[1], character: character(s.position[0], s.position.length > 2 ? s.position[2] : s.position[1]) })),
+    waters: [],
+    coverAt: (x, z) => (!inBounds(x, z) ? "water" : waterTopAt(x, z) != null ? "water" : roadAt(x, z) ? "road" : character(x, z)),
+    characterAt: character,
+    openWaterAt: (x, z) => !inBounds(x, z) || waterTopAt(x, z) != null,
+    wetlandAt: () => false,
+    waterKindAt: (x, z) => (waterTopAt(x, z) != null ? "bay" : null),
+  };
+}
+
+// ------------------------------------------------------------------ planning
+
+function mgSeedOf(id, seed = 0) { return [...String(id)].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 101 + seed); }
+function mgInBox(x, z, boxes) { for (const b of boxes ?? []) if (x >= b.min[0] && x <= b.max[0] && z >= b.min[2] && z <= b.max[2]) return true; return false; }
+
+/** The ground a kind may stand on at (x, z): fliers anywhere, swimmers only on open water, waders on land or wetland, the rest dry land. */
+function mgGroundOk(map, kind, x, z) {
+  const k = MG_KINDS[kind];
+  if (!k) return false;
+  if (k.moves === "flies") return true;
+  const open = map.openWaterAt(x, z);
+  if (k.moves === "swims") return open;
+  if (open) return false;
+  if (map.wetlandAt(x, z)) return !!k.wades;
+  return true;
+}
+
+/**
+ * Where life stands on one map: a deterministic list of agents `{ id, kind, x, z, heading, leg?, chunk, why }`.
+ *   map   mgParishMap(parish) or mgBayMap(...)
+ *   o     { tier, night, seed, sidewalkAt(x, z) -> bool, colliders(chunkKey) -> boxes }
+ */
+function mgPlan(map, o = {}) {
+  const tier = MG_BUDGET.perChunk[o.tier] ? o.tier : "high";
+  const rng = npRng(mgSeedOf(map.id, o.seed ?? 0));
+  const cands = [];
+  const sites = map.sites ?? [];
+  const nearSite = (x, z) => { let d = Infinity; for (const s of sites) d = Math.min(d, Math.hypot(x - s.x, z - s.z)); return d; };
+  const boxesAt = (x, z) => { try { return o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { return []; } };
+  const add = (kind, x, z, heading, why, extra = {}) => {
+    if (!mgGroundOk(map, kind, x, z) || mgInBox(x, z, boxesAt(x, z))) return;
+    cands.push({ kind, x, z, heading, why, ...extra, pri: rng() * (1 + nearSite(x, z) / 350) });
+  };
+  // A spot beside a road: on the sidewalk when CITYWORKS answers, else the road edge (half width plus a metre and a half).
+  const edge = (p, n, width, side, extra = 1.5) => {
+    for (const off of [width / 2 + extra, width / 2 + extra + 1, width / 2 + extra + 2.5]) {
+      const x = p[0] + n[0] * off * side, z = p[1] + n[1] * off * side;
+      if (o.sidewalkAt) { let on = false; try { on = !!o.sidewalkAt(x, z); } catch { on = false; } if (on) return [x, z]; continue; }
+      const c = map.coverAt(x, z);
+      if (c !== "road" && c !== "water" && c !== "wetland" && c !== "levee") return [x, z];
+    }
+    return null;
+  };
+  const off = (p, n, d, side) => { const x = p[0] + n[0] * d * side, z = p[1] + n[1] * d * side; const c = map.coverAt(x, z); return c === "road" || c === "water" || c === "levee" ? null : [x, z]; };
+
+  // Along the streets: passers-by, walkers with dogs, joggers and cyclists, cats on porches, dogs and squirrels in yards and parks.
+  for (const r of map.roads ?? []) {
+    if (r.deck || !r.pts || r.pts.length < 2) continue;
+    const pts = npPointsAlong(r.pts, 70);
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      const dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz) || 1;
+      const n = [-dz / L, dx / L], heading = Math.atan2(dx, dz);
+      const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+      const ch = map.characterAt(mid[0], mid[1]);
+      const side = rng() < 0.5 ? 1 : -1;
+      if (MG_STREET_CHARS.has(ch) && !r.fast) {
+        const pa = edge(a, n, r.width, side), pb = edge(b, n, r.width, side);
+        if (pa && pb) {
+          const roll = rng();
+          const kind = roll < 0.62 ? "pedestrian" : roll < 0.78 ? "walker" : roll < 0.9 ? "jogger" : "pedestrian";
+          add(kind, pa[0], pa[1], heading, `a passer-by on the ${o.sidewalkAt ? "sidewalk" : "road edge"} of a ${ch} street`, { leg: [pa, pb] });
+        }
+        if (rng() < 0.3) { // a cyclist keeps to the road's own edge
+          const cx0 = a[0] + n[0] * (r.width / 2 - 1) * -side, cz0 = a[1] + n[1] * (r.width / 2 - 1) * -side;
+          const cx1 = b[0] + n[0] * (r.width / 2 - 1) * -side, cz1 = b[1] + n[1] * (r.width / 2 - 1) * -side;
+          if (!map.openWaterAt(cx0, cz0) && !map.openWaterAt(cx1, cz1)) add("cyclist", cx0, cz0, heading, `a cyclist at the edge of a ${ch} street`, { leg: [[cx0, cz0], [cx1, cz1]], onRoad: true });
+        }
+      }
+      if (MG_PORCH_CHARS.has(ch) && rng() < 0.35) { const p = off(mid, n, r.width / 2 + 6 + rng() * 2, -side); if (p) add("cat", p[0], p[1], heading + Math.PI / 2 * side, `a cat on a porch of a ${ch} street`); }
+      if (MG_YARD_CHARS.has(ch) && rng() < 0.18) { const p = off(mid, n, r.width / 2 + 9, -side); if (p) add("dog", p[0], p[1], rng() * 6.28, `a dog in a ${ch} yard`); }
+      if (MG_SQUIRREL_CHARS.has(ch) && rng() < 0.22) { const p = off(mid, n, r.width / 2 + 12, side); if (p) add("squirrel", p[0], p[1], rng() * 6.28, `a squirrel under the ${ch} trees`); }
+      if (ch === "downtown" && rng() < 0.12) { const p = edge(mid, n, r.width, -side, 3); if (p) for (let k = 0; k < 4; k++) add("pigeon", p[0] + (rng() - 0.5) * 3, p[1] + (rng() - 0.5) * 3, rng() * 6.28, "pigeons on a downtown sidewalk"); }
+    }
+  }
+  // A stray chicken in the first garden district's streets (one or two per map).
+  {
+    const garden = cands.filter((c) => c.kind === "cat" && map.characterAt(c.x, c.z) === "garden");
+    if (garden.length) { const g = garden[Math.floor(rng() * garden.length)]; add("chicken", g.x + 2, g.z + 1, rng() * 6.28, "a stray chicken in a garden district"); add("chicken", g.x + 3, g.z - 1, rng() * 6.28, "a stray chicken in a garden district"); }
+  }
+  // At the sites: pigeons on downtown and quarter pads, waiting passers-by at transit, a crossing at the nearest road, the waterfront.
+  for (const s of sites) {
+    const kind = s.kind.toLowerCase();
+    if (MG_PIGEON_CHARS.has(s.character)) { const a = rng() * 6.28, d = 30 + rng() * 10; for (let k = 0; k < 5; k++) add("pigeon", s.x + Math.cos(a) * d + (rng() - 0.5) * 4, s.z + Math.sin(a) * d + (rng() - 0.5) * 4, rng() * 6.28, "pigeons at the edge of a site pad"); }
+    let best = null;
+    for (const r of map.roads ?? []) { if (r.deck || r.fast || !r.pts) continue; const { d, t } = npPolyDistance(s.x, s.z, r.pts); if (!best || d < best.d) best = { d, t, r }; }
+    if (best && best.d < 260) {
+      const p = npPolyPointAt(best.r.pts, best.t), n = [Math.cos(p.yaw), -Math.sin(p.yaw)], w = best.r.width;
+      const a = [p.x + n[0] * (w / 2 + 1.5), p.z + n[1] * (w / 2 + 1.5)], b = [p.x - n[0] * (w / 2 + 1.5), p.z - n[1] * (w / 2 + 1.5)];
+      if (map.coverAt(a[0], a[1]) !== "water" && map.coverAt(b[0], b[1]) !== "water") add("pedestrian", a[0], a[1], p.yaw + Math.PI / 2, "a passer-by crossing at the junction nearest a site", { leg: [a, b], crossing: true, onRoad: true });
+      if (MG_TRANSIT.test(kind)) for (let k = 0; k < 3; k++) add("pedestrian", a[0] + Math.sin(p.yaw) * (k - 1) * 1.2, a[1] + Math.cos(p.yaw) * (k - 1) * 1.2, p.yaw + Math.PI + (n[0] > 0 ? Math.PI / 2 : -Math.PI / 2), "a passer-by waiting at a transit stop", { wait: true });
+    }
+    if (MG_WATERFRONT.test(kind)) {
+      // The first open water on a ray out from the site: gulls land on the shore, sea lions haul out in the San Francisco bay.
+      for (let k = 0; k < 16; k++) {
+        const a = (k / 16) * Math.PI * 2 + rng() * 0.1;
+        let hit = null;
+        for (let d = 20; d <= 180; d += 10) { const x = s.x + Math.cos(a) * d, z = s.z + Math.sin(a) * d; if (map.openWaterAt(x, z)) { hit = [x, z, d]; break; } }
+        if (!hit) continue;
+        for (let j = 0; j < 6; j++) add("gull", hit[0] - Math.cos(a) * 6 + (rng() - 0.5) * 8, hit[1] - Math.sin(a) * 6 + (rng() - 0.5) * 8, rng() * 6.28, "gulls at the waterfront beside a site");
+        if (map.region === "san-francisco" || map.region === "bay-area") for (let j = 0; j < 3; j++) add("sealion", hit[0] + Math.cos(a) * (8 + j * 3), hit[1] + Math.sin(a) * (8 + j * 3), a, "sea lions in the bay off a waterfront site");
+        break;
+      }
+    }
+  }
+  // Over the New Orleans water: pelicans along rivers and lakes near a site; egrets and a heron at a wetland edge.
+  if (map.region === "new-orleans") {
+    for (const w of map.waters ?? []) {
+      const pts = w.centre ?? w.shape;
+      if (!pts?.length) continue;
+      if (w.kind === "wetland") {
+        const p = pts[Math.floor(rng() * pts.length)], c = pts.reduce((acc, q) => [acc[0] + q[0] / pts.length, acc[1] + q[1] / pts.length], [0, 0]);
+        for (let t = 0.12; t < 0.5; t += 0.06) { const x = p[0] + (c[0] - p[0]) * t, z = p[1] + (c[1] - p[1]) * t; if (map.wetlandAt(x, z)) { for (let j = 0; j < 4; j++) add("egret", x + (rng() - 0.5) * 12, z + (rng() - 0.5) * 12, rng() * 6.28, "egrets wading a wetland edge"); add("heron", x + 14, z + 6, rng() * 6.28, "a heron in the wetland"); break; } }
+      } else if (w.kind === "river" || w.kind === "lake" || w.kind === "canal" || w.kind === "bayou") {
+        let best = null;
+        for (const q of pts) { const d = Math.min(...sites.map((s) => Math.hypot(q[0] - s.x, q[1] - s.z))); if (!best || d < best.d) best = { q, d }; }
+        if (best && best.d < 500 && map.openWaterAt(best.q[0], best.q[1])) for (let j = 0; j < 3; j++) add("pelican", best.q[0] + j * 3, best.q[1] + j * 2, rng() * 6.28, `pelicans over the ${w.kind}`);
+      }
+    }
+  }
+  // The night routine, the caps (per kind, per chunk, per map) and the tier.
+  cands.sort((a, b) => a.pri - b.pri);
+  const perChunk = MG_BUDGET.perChunk[tier], perMap = MG_BUDGET.perMap[tier], lowScale = tier === "low" ? 0.4 : tier === "balanced" ? 0.75 : 1;
+  const byKind = {}, byChunk = {}, out = [];
+  for (const c of cands) {
+    const k = MG_KINDS[c.kind];
+    const nightMul = o.night ? k.night : 1;
+    if (nightMul < 1 && rng() > nightMul) continue; // fewer out at night (none for a kind whose night is 0)
+    const cap = Math.round(MG_BUDGET.caps[c.kind] * lowScale);
+    if ((byKind[c.kind] ?? 0) >= Math.max(0, cap)) continue;
+    const chunk = npChunkOf(c.x, c.z).key;
+    if ((byChunk[chunk] ?? 0) >= perChunk || out.length >= perMap) continue;
+    byKind[c.kind] = (byKind[c.kind] ?? 0) + 1; byChunk[chunk] = (byChunk[chunk] ?? 0) + 1;
+    const { pri, ...a } = c;
+    out.push({ id: `${map.id}-${c.kind}-${byKind[c.kind]}`, ...a, chunk });
+  }
+  // Night brings the cats out: a second cat on the porch beside one that is already there, inside the cap.
+  if (o.night) for (const c of out.filter((x) => x.kind === "cat")) {
+    if ((byKind.cat ?? 0) >= Math.round(MG_BUDGET.caps.cat * lowScale)) break;
+    const x = c.x + 1.5, z = c.z + 1;
+    if (!mgGroundOk(map, "cat", x, z) || (byChunk[c.chunk] ?? 0) >= perChunk || out.length >= perMap) continue;
+    byKind.cat += 1; byChunk[c.chunk] += 1;
+    out.push({ ...c, id: `${map.id}-cat-${byKind.cat}`, x, z, why: "a second cat out on a porch at night" });
+  }
+  return out;
+}
+
+/** Counts by kind of a plan (or of a mounted life's agents). */
+function mgCounts(agents) { const out = {}; for (const a of agents) out[a.kind] = (out[a.kind] ?? 0) + 1; return out; }
+
+/** Triangles and draw calls a plan costs as drawn. */
+function mgCost(agents) {
+  const counts = mgCounts(agents);
+  let triangles = 0, heads = 0;
+  for (const [k, n] of Object.entries(counts)) { triangles += MG_KINDS[k].tri * n; if (MG_HEAD_Y[k]) heads += n; }
+  return { counts, triangles, drawCalls: Object.keys(counts).length + (heads ? 1 : 0), agents: agents.length };
+}
+
+// ------------------------------------------------------------------ behaviour
+
+/** A live agent from a planned one: its home, its motion state and its own seeded clock. */
+function mgAgent(p, i = 0) {
+  const r = npRng(mgSeedOf(p.id, i));
+  return { ...p, home: [p.x, p.z], y: 0, s: r(), dir: r() < 0.5 ? 1 : -1, mode: "idle", timer: r() * 4, target: null, side: 0, nod: 0, lift: 0, rng: r, phase: r() * 6.28 };
+}
+
+function mgNearestThreat(a, ctx) {
+  let best = null, bd = Infinity;
+  if (ctx.pos) { const d = Math.hypot(a.x - ctx.pos[0], a.z - ctx.pos[1]); if (d < bd) { bd = d; best = ctx.pos; } }
+  for (const t of ctx.threats ?? []) { const d = Math.hypot(a.x - t[0], a.z - t[1]); if (d < bd) { bd = d; best = t; } }
+  return { at: best, d: bd };
+}
+
+function mgTryMove(a, ctx, nx, nz) {
+  if (ctx.map && !mgGroundOk(ctx.map, a.kind, nx, nz)) return false;
+  if (ctx.boxesAt && MG_KINDS[a.kind].moves !== "flies" && mgInBox(nx, nz, ctx.boxesAt(nx, nz))) return false;
+  a.x = nx; a.z = nz; return true;
+}
+
+/**
+ * One behaviour step, pure: `ctx = { pos: [x, z] | null, threats: [[x, z]], map, boxesAt(x, z), t }`.
+ * Animals flee to their kind's flee distance and settle home once it is clear; flocks lift and land; passers-by walk
+ * their leg, wait or cross, and step aside (and nod) when the avatar or a vehicle comes close.
+ */
+function mgStep(a, ctx, dt) {
+  const k = MG_KINDS[a.kind];
+  if (!k || dt <= 0) return a;
+  const th = mgNearestThreat(a, ctx);
+  if (k.group === "person") {
+    // Step aside toward the kerb and nod when the avatar (or a vehicle) comes close; ease back after.
+    const close = th.at && th.d < k.aside;
+    a.side += ((close ? 1 : 0) - a.side) * Math.min(1, dt * 4);
+    a.nod = close ? Math.min(1, a.nod + dt * 3) : Math.max(0, a.nod - dt * 2);
+    if (a.wait || !a.leg) return a;
+    if (close && a.side > 0.5) return a; // pause while stepping aside
+    const [p0, p1] = a.leg, L = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) || 1;
+    a.s += (a.dir * k.speed * dt) / L;
+    if (a.s > 1) { a.s = 1; a.dir = -1; } else if (a.s < 0) { a.s = 0; a.dir = 1; }
+    const nx = [-(p1[1] - p0[1]) / L, (p1[0] - p0[0]) / L];
+    a.x = p0[0] + (p1[0] - p0[0]) * a.s + nx[0] * a.side * 0.9 * a.dir;
+    a.z = p0[1] + (p1[1] - p0[1]) * a.s + nx[1] * a.side * 0.9 * a.dir;
+    a.heading = Math.atan2((p1[0] - p0[0]) * a.dir, (p1[1] - p0[1]) * a.dir);
+    return a;
+  }
+  // Animals: flee first.
+  if (th.at && th.d < k.flee * 1.15) {
+    a.mode = "flee"; a.timer = 3;
+    let ax = a.x - th.at[0], az = a.z - th.at[1];
+    const L = Math.hypot(ax, az) || 1; ax /= L; az /= L;
+    const step = k.fleeSpeed * dt;
+    let moved = false;
+    for (const turn of [0, 0.6, -0.6, 1.2, -1.2, 1.8, -1.8]) {
+      const c = Math.cos(turn), s = Math.sin(turn), dx = ax * c - az * s, dz = ax * s + az * c;
+      if (mgTryMove(a, ctx, a.x + dx * step, a.z + dz * step)) { a.heading = Math.atan2(dx, dz); moved = true; break; }
+    }
+    if (k.moves === "flies") a.lift = Math.min(1, a.lift + dt * 1.5);
+    if (!moved && k.moves !== "flies") a.timer = 3; // cornered against water or a wall: holds, and tries again next step
+    return a;
+  }
+  if (a.mode === "flee") { a.timer -= dt; if (a.timer <= 0) a.mode = "return"; return a; }
+  const clear = !th.at || th.d > k.flee * 1.5;
+  if (a.mode === "return") {
+    if (k.moves === "flies") a.lift = Math.max(0, a.lift - dt * 0.5);
+    const dx = a.home[0] - a.x, dz = a.home[1] - a.z, d = Math.hypot(dx, dz);
+    if (d < 0.5) { a.mode = "idle"; a.timer = 2; return a; }
+    if (!clear) return a; // wary: holds its ground until the avatar moves off
+    const step = Math.min(d, k.speed * 1.2 * dt), nx = a.x + (dx / d) * step, nz = a.z + (dz / d) * step;
+    // never walk back into the flee radius
+    if (th.at && Math.hypot(nx - th.at[0], nz - th.at[1]) < k.flee * 1.15) return a;
+    if (mgTryMove(a, ctx, nx, nz)) a.heading = Math.atan2(dx, dz); else { a.home = [a.x, a.z]; a.mode = "idle"; }
+    return a;
+  }
+  // Idle routines.
+  a.timer -= dt;
+  if (k.motion === "flock" || k.motion === "glide") {
+    // Land and lift in turns (a flock's own clock), circle home while up.
+    const up = k.motion === "glide" ? 1 : Math.sin(ctx.t * 0.08 + a.phase * 0.2) > 0.55 ? 1 : 0;
+    a.lift += (up - a.lift) * Math.min(1, dt * 0.6);
+    if (a.lift > 0.2) { const ang = ctx.t * (k.motion === "glide" ? 0.05 : 0.25) + a.phase, r = k.roam * (0.6 + a.lift * 0.6); a.x = a.home[0] + Math.cos(ang) * r; a.z = a.home[1] + Math.sin(ang) * r; a.heading = -ang; }
+    else if (a.timer <= 0) { a.timer = 1 + a.rng() * 3; const t = [a.home[0] + (a.rng() - 0.5) * k.roam * 0.5, a.home[1] + (a.rng() - 0.5) * k.roam * 0.5]; if (mgGroundOk(ctx.map, a.kind, t[0], t[1])) { a.heading = Math.atan2(t[0] - a.x, t[1] - a.z); a.x += (t[0] - a.x) * 0.3; a.z += (t[1] - a.z) * 0.3; } }
+    return a;
+  }
+  if (k.motion === "swim") { a.x = a.home[0] + Math.sin(ctx.t * 0.1 + a.phase) * k.roam * 0.4; a.z = a.home[1] + Math.cos(ctx.t * 0.07 + a.phase) * k.roam * 0.3; if (ctx.map && !mgGroundOk(ctx.map, a.kind, a.x, a.z)) { a.x = a.home[0]; a.z = a.home[1]; } a.heading = ctx.t * 0.1 + a.phase; return a; }
+  // wander / perch: pick a spot inside the roam radius, walk to it, pause (a cat mostly sits).
+  if (!a.target && a.timer <= 0) {
+    if (k.motion === "perch" && a.rng() < 0.7) { a.timer = 4 + a.rng() * 6; return a; }
+    const ang = a.rng() * 6.28, r = a.rng() * k.roam;
+    a.target = [a.home[0] + Math.cos(ang) * r, a.home[1] + Math.sin(ang) * r];
+  }
+  if (a.target) {
+    const dx = a.target[0] - a.x, dz = a.target[1] - a.z, d = Math.hypot(dx, dz);
+    if (d < 0.2) { a.target = null; a.timer = 1.5 + a.rng() * 4; return a; }
+    const step = Math.min(d, k.speed * dt);
+    if (mgTryMove(a, ctx, a.x + (dx / d) * step, a.z + (dz / d) * step)) a.heading = Math.atan2(dx, dz); else { a.target = null; a.timer = 1; }
+  }
+  return a;
+}
+
+// ------------------------------------------------------------------ building
+
+/** prefers-reduced-motion, read the way a11y.js reads it (false in Node). */
+function mgReducedMotion() {
+  try { return !!globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches; } catch { return false; }
+}
+
+/** One kind's boxes baked into a single vertex-coloured, non-indexed geometry. */
+function mgBake(three, parts) {
+  const pos = [], nor = [], col = [], c = new three.Color();
+  for (const [w, h, d, x, y, z, colour] of parts) {
+    const g = new three.BoxGeometry(w, h, d).toNonIndexed();
+    g.translate(x, y, z);
+    const p = g.attributes.position.array, n = g.attributes.normal.array;
+    c.setHex(colour);
+    for (let i = 0; i < p.length; i += 3) { pos.push(p[i], p[i + 1], p[i + 2]); nor.push(n[i], n[i + 1], n[i + 2]); col.push(c.r, c.g, c.b); }
+    g.dispose?.();
+  }
+  const geo = new three.BufferGeometry();
+  geo.setAttribute("position", new three.Float32BufferAttribute(pos, 3));
+  geo.setAttribute("normal", new three.Float32BufferAttribute(nor, 3));
+  geo.setAttribute("color", new three.Float32BufferAttribute(col, 3));
+  return geo;
+}
+
+/** The passers-by's clothing and skin, from crew.js's avatar styles (one population with the crew). */
+const MG_OUTFITS = [0x3a6ea5, 0x8a3a1e, 0x3d6b3a, 0x6a1f2a, 0x1c7f7a, 0xd8b86a, 0x2a3f6a, 0xf4f4f0, 0x9a9a98, 0xd8322c, 0xf2c14b];
+const MG_SKIN = [0xf6e0d0, 0xeccbb0, 0xe0b894, 0xd4a47c, 0xc49068, 0xb07c56, 0x9a6846, 0x86563a, 0x70462e, 0x5c3824, 0x4a2c1c, 0x382014];
+
+/** The seam: see the header. */
+function mgMountLife(o = {}) {
+  const three = o.three;
+  const map = o.map ?? (o.parish ? mgParishMap(o.parish) : null);
+  if (!three || !map) return { animate() {}, counts: () => ({}), stats: () => ({ drawCalls: 0, triangles: 0, agents: 0 }), agents: [], meshes: [], dispose() {} };
+  const still = !!(o.still ?? mgReducedMotion());
+  const colliders = typeof o.colliders === "function" ? o.colliders : null;
+  const boxesAt = colliders ? (x, z) => { try { return colliders(npChunkOf(x, z).key) ?? []; } catch { return []; } } : null;
+  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders });
+  const agents = plan.map((p, i) => mgAgent(p, i));
+  const groundAt = o.groundAt ?? (() => 0);
+  const group = new three.Group(); group.name = "mg-life";
+  const material = new three.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+  const byKind = {};
+  for (const a of agents) (byKind[a.kind] ??= []).push(a);
+  const meshes = [];
+  const people = agents.filter((a) => MG_HEAD_Y[a.kind]);
+  const heads = people.length ? new three.InstancedMesh(mgBake(three, [[0.22, 0.24, 0.22, 0, 0, 0, MG_TINT]]), material, people.length) : null;
+  const col = new three.Color();
+  for (const [kind, list] of Object.entries(byKind)) {
+    const k = MG_KINDS[kind];
+    const im = new three.InstancedMesh(mgBake(three, k.parts), material, list.length);
+    im.name = `mg-${kind}`;
+    list.forEach((a, i) => {
+      a.slot = i;
+      const coats = k.coats ?? MG_OUTFITS;
+      im.setColorAt?.(i, col.setHex(coats[Math.floor(a.rng() * coats.length)]));
+    });
+    if (im.instanceColor) im.instanceColor.needsUpdate = true;
+    im.frustumCulled = false;
+    group.add(im); meshes.push(im); byKind[kind].mesh = im;
+  }
+  if (heads) {
+    heads.name = "mg-heads"; heads.frustumCulled = false;
+    people.forEach((a, i) => { a.headSlot = i; heads.setColorAt?.(i, col.setHex(MG_SKIN[Math.floor(a.rng() * MG_SKIN.length)])); });
+    if (heads.instanceColor) heads.instanceColor.needsUpdate = true;
+    group.add(heads); meshes.push(heads);
+  }
+  (o.root ?? null)?.add(group);
+  const m4 = new three.Matrix4(), q = new three.Quaternion(), e = new three.Euler(), v = new three.Vector3(), one = new three.Vector3(1, 1, 1);
+  function place(a) {
+    const k = MG_KINDS[a.kind];
+    const ground = k.moves === "swims" ? 0 : groundAt(a.x, a.z);
+    const fly = k.moves === "flies" ? (k.motion === "glide" ? k.lift : a.lift * k.lift) : 0;
+    const y = ground + fly + (k.moves === "swims" && !still ? Math.sin((a.phase + a.s) * 3) * 0.05 : 0);
+    e.set(a.nod * 0.25, a.heading ?? 0, 0, "YXZ"); q.setFromEuler(e);
+    m4.compose(v.set(a.x, y, a.z), q, one);
+    byKind[a.kind].mesh.setMatrixAt(a.slot, m4);
+    if (heads && a.headSlot != null) {
+      e.set(a.nod * 0.5, a.heading ?? 0, 0, "YXZ"); q.setFromEuler(e);
+      const hy = MG_HEAD_Y[a.kind];
+      m4.compose(v.set(a.x + Math.sin(a.heading ?? 0) * (a.kind === "cyclist" ? 0.08 : 0), y + hy, a.z + Math.cos(a.heading ?? 0) * (a.kind === "cyclist" ? 0.08 : 0)), q, one);
+      heads.setMatrixAt(a.headSlot, m4);
+    }
+  }
+  for (const a of agents) place(a);
+  for (const m of meshes) { m.instanceMatrix.needsUpdate = true; m.computeBoundingSphere?.(); }
+  const ACTIVE = 320; // metres around the avatar where life moves; beyond it, it holds where it was
+  let lastT = 0;
+  return {
+    agents, meshes, group, still, map,
+    animate(t, dt = 0) {
+      if (still || dt <= 0) return;
+      lastT = t;
+      const pos = o.pos?.() ?? null;
+      let threats = [];
+      try { threats = o.threats?.() ?? []; } catch { threats = []; }
+      const ctx = { pos, threats, map, boxesAt, t };
+      const cx = pos?.[0] ?? agents[0]?.home[0] ?? 0, cz = pos?.[1] ?? agents[0]?.home[1] ?? 0;
+      for (const a of agents) {
+        if (Math.abs(a.home[0] - cx) > ACTIVE || Math.abs(a.home[1] - cz) > ACTIVE) continue;
+        mgStep(a, ctx, dt); place(a);
+      }
+      for (const m of meshes) m.instanceMatrix.needsUpdate = true;
+    },
+    counts: () => mgCounts(agents),
+    stats() { const c = mgCost(agents); return { ...c, drawCalls: meshes.length, budget: MG_BUDGET, still, t: lastT }; },
+    dispose() { group.parent?.remove(group); for (const m of meshes) m.geometry.dispose?.(); material.dispose?.(); },
+  };
+}
+
+
 /* ===== bayworld/js/app.js ===== */
 // Hidden treasures (shared/treasures.js, docs/treasures.md).
 
@@ -50877,6 +52042,8 @@ function qmK12GatedFor(world) { return K2_GATED.filter((it) => it.world === worl
 
 // NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
 
+
+// MENAGERIE (docs/consoles/MENAGERIE.md): pets, animals and passers-by on the streets, instanced per kind.
 
 // K-12 field lessons in play (shared/field-kiosk.js): a kiosk per lesson, the lesson screen, the Field Notes badge.
 
@@ -51465,6 +52632,15 @@ function bwSetup3D() {
   // shared map carries.
   bwApp.pedestrians = BW_SITES.filter((_, i) => i % (tier.trafficScale < 1 ? 6 : 3) === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
+  // MENAGERIE: street life beside the site pedestrians — passers-by on the road edges, dogs, cats, pigeons, squirrels,
+  // gulls and sea lions at the waterfront; the traffic cars are threats (animals flee, passers-by step aside).
+  bwApp.life = mgMountLife({
+    three: THREE, root, tier: tier.trafficScale < 1 ? "low" : "high", night: bwApp.hours < 6 || bwApp.hours > 20,
+    map: mgBayMap({ roads: BAY_ROADS, sites: BW_SITES, zoneAt: (x, z) => bayZoneAt(x, z).id, roadAt: bayRoadAt, waterTopAt: txWaterTopAt, bounds: BAY_BOUNDS }),
+    groundAt: () => 0,
+    pos: () => (bwApp.screen === "game" && bwApp.mode === "foot" ? [bwApp.player.x, bwApp.player.z] : null),
+    threats: () => (bwApp.traffic ?? []).filter((v) => Number.isFinite(v.x)).map((v) => [v.x, v.z]),
+  });
 }
 
 function bwStep(dt) {
@@ -51514,6 +52690,7 @@ function bwStep(dt) {
   bwApp.world.placeCamera(bwApp.camera, bwApp.cameraMode, bwApp.player.x, 0, bwApp.player.z, bwApp.player.heading);
   bwApp.npcClock = (bwApp.npcClock ?? 0) + dt;
   bwApp.npc?.animate(bwApp.npcClock, dt);
+  bwApp.life?.animate(bwApp.npcClock, dt);
 
   bwApp.nearSite =bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
   bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_LANDMARKS, 16);
@@ -51620,6 +52797,7 @@ window.__bayworldTest = {
   asset: ctOpenAsset,
   assets: CT_BW_ASSETS,
   camera: () => bwApp.camera,
+  life: () => bwApp.life,
 };
 
 // The gated items with their site's display name, for the panel and the board rows.

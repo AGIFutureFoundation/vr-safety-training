@@ -50,6 +50,32 @@ started beside the avatar ends at least its flee radius away, then settles home 
 match the declared triangles; the fallback without `sidewalkAt` and a stub `sidewalkAt`/`colliders` both honoured;
 facts (no digits in kind names or the `why` lines); wiring (both apps mount it, the bundler carries it).
 
+## What shipped (check_menagerie's lines, high tier, day)
+
+| map | agents | people | animal kinds | worst chunk | triangles | draw calls |
+|---|---:|---:|---:|---:|---:|---:|
+| orleans | 359 | 198 | 9 | 19 | 15,660 | 14 |
+| jefferson | 117 | 54 | 8 | 15 | 4,800 | 13 |
+| st-bernard | 121 | 61 | 7 | 19 | 5,268 | 12 |
+| plaquemines | 118 | 47 | 6 | 19 | 4,692 | 11 |
+| st-tammany | 150 | 71 | 9 | 15 | 6,312 | 14 |
+| sf-downtown | 337 | 190 | 7 | 18 | 14,460 | 12 |
+| sf-mission | 206 | 135 | 7 | 15 | 9,180 | 12 |
+| sf-golden-gate-park | 233 | 159 | 5 | 13 | 10,692 | 10 |
+| sf-marina | 290 | 175 | 7 | 16 | 12,576 | 12 |
+| sf-bayview | 208 | 140 | 5 | 15 | 9,096 | 10 |
+| bayworld | 204 | 98 | 6 | 24 | 8,256 | 11 |
+
+Budgets: 24 agents per chunk (low 8), 360 per map (low 120), 26,000 triangles, 15 draw calls. Flee, measured from a
+still avatar started a metre away: dog 7.0 of 6 m, cat 5.9 of 5, squirrel 8.1 of 7, pigeon 5.9 of 5, gull 9.5 of 8,
+chicken 5.8 of 5, egret 13.9 of 12. A headless load of Orleans, SF Downtown (reduced motion: placed, still) and Bay World
+shows no page error; the parish app's renderer drew 106 calls / 89,500 triangles in Orleans with life on.
+
+Evals (`node tools/eval_worlds.mjs`, port 8983, browser included): mean 98 before (d85a41f) and 98 after; every
+parish and Bay World page still loads at both sizes with no page error. Singles run: `check_menagerie` 20,167/0,
+`check_parishes` 12,920/0, `check_mobile` 158 pass, `check_budget` all 697 stations inside, `check_fleet` 143 builders
+inside. The parishes and Bay World bundles were rebuilt and parse clean.
+
 ## Seams
 
 - **Provided — `mgMountLife({ three, root, parish, groundAt, sidewalkAt, colliders, pos, threats, tier, night, still })
