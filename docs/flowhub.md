@@ -424,3 +424,14 @@ flowchart LR
 None of that requires a host to know anything about how a station works, and
 none of it lets a host change a verdict: a flow chooses the order, and the
 engine — not the flow, and not the host — decides whether a run passed.
+
+## The parish lesson flows (BAYOU)
+
+Twelve flows, one per New Orleans parish K-12 lesson, generated from `BY_LESSONS` in
+`WebXR/shared/by-parish-lessons.js` by `node tools/gen_by_flows.mjs`: `by-levee`, `by-pump`, `by-wetlands`,
+`by-river`, `by-family-plan`, `by-water-cycle`, `by-streetcar`, `by-ferry`, `by-catch`, `by-flood-map`,
+`by-containers` and `by-floodwall`. Each is pre-brief → the station (back to the brief until passed) → a check
+question (a `checkin` node carrying `params.check`) → the hand-off to the two-minute apply step in the parish (an
+`external` node whose `ref` is a KREWE kiosk id or a BAYOU mini-game, with the fallback in `params`) → the closing
+check-in. A GRIOT character drives one on device through `WebXR/shared/by-flow-agent.js` (greet, step, check,
+hand off). As everywhere in this document, this is the SmartCiti.X side of the contract only.

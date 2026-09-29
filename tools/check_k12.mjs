@@ -60,6 +60,10 @@ const F = await import("../WebXR/shared/flowhub.js");
 const catalog = JSON.parse(read("WebXR/smartcity/catalog.json"));
 const REG = JSON.parse(read("tools/standards.json"));
 const REG_IDS = new Set(REG.standards.map((s) => s.id));
+const BYL = await import("../WebXR/shared/by-parish-lessons.js");
+// The New Orleans parish stations (BAYOU) join the existing programmes; section 9
+// checks them, and the brief's counts below are of the core stations only.
+const BY_IDS = new Set(BYL.BY_LESSONS.map((l) => l.station));
 const city = await loadSmartCity();
 const ROOMS = new Map(city.ROOMS.map((r) => [r.id, r]));
 
@@ -171,7 +175,8 @@ for (const c of K12) {
     const cert = r.certification ?? "";
     if (/\d/.test(cert.replace(/Goal 4\b/g, "").replace(/K-12/g, ""))) fail(id, "certification states a figure other than the goal's own number"); else ok();
     if (/certif(y|ies|ied) (the|this) lesson|accredited by|endorsed by/i.test(cert.replace(/None of these certifies the lesson/i, ""))) fail(id, "certification claims a body certifies the lesson"); else ok();
-    // 5 — launchable from a world
+    // 5 — launchable from a world (a parish station from its parish site: section 9)
+    if (BY_IDS.has(id)) continue;
     const boards = [...BAY_SITES.map((s) => ["bayworld", s]), ...DEEP_SITES.map((s) => ["deep", s])]
       .filter(([, s]) => (s.stations ?? []).includes(id) && (s.programmes ?? []).includes(c.id));
     if (!boards.length) fail(id, `no Bay World or Deep site board launches it with its programme ${c.id}`);
@@ -186,9 +191,11 @@ for (const c of K12) {
 const WANT_STATIONS = { "k12-practical-math": 8, "k12-science": 8, "k12-history-and-civics": 6, "k12-literacy-and-life-skills": 6 };
 for (const c of K12) {
   const want = WANT_STATIONS[c.id];
-  if (want && c.stations.length !== want) fail(c.id, `${c.stations.length} stations, the brief names ${want}`); else ok();
+  const core = c.stations.filter((s) => !BY_IDS.has(s.id)).length;
+  if (want && core !== want) fail(c.id, `${core} core stations, the brief names ${want}`); else ok();
 }
-if (seenStations.size !== 28) fail("stations", `${seenStations.size} K-12 stations, expected twenty-eight`); else ok();
+const nCore = [...seenStations].filter((id) => !BY_IDS.has(id)).length;
+if (nCore !== 28) fail("stations", `${nCore} core K-12 stations, expected twenty-eight`); else ok();
 // Station prose (cues and whys) sits between upper-primary and upper-secondary
 // reading; a field lesson reads on the spot, so it sits lower and in short
 // sentences. Flesch–Kincaid grade as a rough yardstick (tools/lib/reading-level.mjs).
@@ -402,6 +409,98 @@ for (const world of ["bayworld", "underwater"]) {
     if (!href.includes(`sim=${l.k12}`) || !href.includes("from=parishes")) fail(l.id, `link "${href}" does not launch its classroom station`); else ok();
   }
   console.log(`  · ${list.length} San Francisco field lessons across ${SGP.SG_DISTRICTS.length} districts`);
+}
+// 9 — the New Orleans parish lessons (BAYOU, WebXR/shared/by-parish-lessons.js):
+// twelve or more stations, each in a classroom programme and anchored at a real
+// site of np-data-<parish>.js; its band's reading ceiling held; a GRIOT guide and a
+// trade station that resolve; a flow per lesson (WebXR/flows/by-*.json) that
+// validates, carries the check and hands off to the lesson's apply step; every
+// apply id resolving (a KREWE `kw-` kiosk with a BAYOU fallback, or a BAYOU mini-game
+// on a shared mechanic that builds steps); no digit, no fact-shaped claim and no
+// fear framing; and the flow agent driving a flow to its end with the passport
+// recording the lesson and the apply step once each.
+{
+  const NPC = await import("../WebXR/shared/npc.js");
+  const { QM_MECHANICS } = await import("../WebXR/shared/side-game-mechanics.js");
+  const AG = await import("../WebXR/shared/by-flow-agent.js");
+  const FACTS = /\b(built|opened|founded|established|dedicated|acres|feet|miles|tall|population|century|anniversary|named after)\b/i;
+  const FEAR = /\b(scary|scared|disaster|catastroph\w*|devastat\w*|deadly|drown\w*|terrif\w*|destroy\w*|panic)\b/i;
+  const parishData = {};
+  for (const pid of ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany"]) {
+    const m = await import(`../WebXR/shared/np-data-${pid}.js`);
+    parishData[pid] = Object.values(m).find((v) => v && Array.isArray(v.sites));
+  }
+  const list = BYL.BY_LESSONS;
+  if (list.length < 12) fail("bayou", `${list.length} parish lessons, fewer than twelve`); else ok();
+  const seen = new Set(), programmes = new Map(CURRICULA.map((c) => [c.id, c]));
+  const parishes = new Set();
+  for (const l of list) {
+    const where = l.id;
+    if (!/^by-lesson-/.test(l.id) || seen.has(l.id)) fail(where, "lesson id is not a unique by-lesson- id"); else ok();
+    seen.add(l.id);
+    const prog = programmes.get(l.programme);
+    if (!prog || prog.audience !== "classroom" || !prog.stations.some((s) => s.id === l.station)) fail(where, `station ${l.station} is not in classroom programme ${l.programme}`); else ok();
+    const r = ROOMS.get(l.station);
+    if (!r) { fail(where, `station ${l.station} is not a SmartCiti.X station`); continue; }
+    const site = parishData[l.parish]?.sites.find((s) => s.id === l.site);
+    if (!site) fail(where, `site ${l.parish}/${l.site} is not a site of np-data-${l.parish}.js`); else { ok(); parishes.add(l.parish); }
+    const ceiling = BYL.BY_BAND_CEILING[l.band];
+    if (!ceiling) fail(where, `band "${l.band}" is not one of ${Object.keys(BYL.BY_BAND_CEILING).join(" / ")}`);
+    else {
+      const st = readingStats((r.steps ?? []).map((s) => `${s.cue} ${s.why}`).join(" "));
+      if (st.grade > ceiling) fail(where, `station reading level ${st.grade.toFixed(1)} over the ${l.band} ceiling ${ceiling}`); else ok();
+      const ls = readingStats([`${l.title}.`, ...l.steps, l.check.q].join(" "));
+      if (ls.grade > Math.min(ceiling, RL_LESSON_MAX)) fail(where, `lesson lines read at ${ls.grade.toFixed(1)}, over ${Math.min(ceiling, RL_LESSON_MAX)}`); else ok();
+    }
+    if (!NPC.grCharacter(l.guide)) fail(where, `guide ${l.guide} is not a GRIOT character`); else ok();
+    if (!ROOMS.has(l.tradeStation)) fail(where, `trade station ${l.tradeStation} is not a station`); else ok();
+    const c = l.check;
+    if (!c?.q || !Array.isArray(c.options) || c.options.length < 2 || !Number.isInteger(c.answer) || c.answer < 0 || c.answer >= c.options.length || !c.why) fail(where, "check question malformed"); else ok();
+    if (!Array.isArray(l.steps) || l.steps.length !== 3) fail(where, "not three one-idea steps"); else ok();
+    const text = [l.title, l.siteName, ...l.steps, c.q, ...c.options, c.why].join(" ");
+    if (/\d/.test(text)) fail(where, "lesson text states a figure (a digit)"); else ok();
+    const all = `${text} ${prose(r)}`;
+    if (FACTS.test(all)) fail(where, `carries a fact-shaped word about a place (${all.match(FACTS)[0]})`); else ok();
+    if (FEAR.test(all)) fail(where, `fear framing (${all.match(FEAR)[0]}) — readiness, teamwork and who helps`); else ok();
+    // apply step
+    const ids = [l.apply.id, l.apply.fallback].filter(Boolean);
+    for (const aid of ids) {
+      if (aid.startsWith("kw-")) { if (!BYL.BY_KREWE_KIOSKS.includes(aid)) fail(where, `kiosk ${aid} is not a KREWE kiosk id`); else ok(); continue; }
+      const g = BYL.byApplyGame(aid);
+      if (!g) { fail(where, `apply step ${aid} is not a BAYOU mini-game`); continue; }
+      if (!QM_MECHANICS[g.mechanic]) fail(where, `mini-game ${aid} uses unknown mechanic ${g.mechanic}`); else ok();
+      if (!BYL.byApplySteps(aid).length) fail(where, `mini-game ${aid} builds no steps`); else ok();
+      if (g.parish !== l.parish || g.site !== l.site) fail(where, `mini-game ${aid} is not at the lesson's site`); else ok();
+      if (g.minutes !== 2) fail(where, `mini-game ${aid} is not a two-minute step`); else ok();
+    }
+    if (l.apply.id.startsWith("kw-") && !l.apply.fallback) fail(where, "a KREWE kiosk with no BAYOU fallback"); else ok();
+    const a = BYL.byApplyFor(l, { kiosks: [] });
+    if (!a || a.kind !== "mini-game") fail(where, "no playable apply step without KREWE's kiosks"); else ok();
+    const href = BYL.byStationHref(l);
+    if (!href.includes(`sim=${l.station}`) || !href.includes("from=parishes")) fail(where, `link "${href}" does not launch its station from the parishes`); else ok();
+    // the flow
+    const fp = `WebXR/flows/${l.flow}.json`;
+    if (!existsSync(join(ROOT, fp))) { fail(where, `no flow at ${fp}`); continue; }
+    const flow = JSON.parse(read(fp));
+    const v = F.validateFlow(flow, catalog);
+    if (!v.ok) fail(where, `flow does not validate: ${v.errors.join("; ")}`); else ok();
+    const ext = flow.nodes.find((n) => n.kind === "external");
+    if (!ext || ext.ref !== l.apply.id) fail(where, "flow does not hand off to the lesson's apply step"); else ok();
+    if (!flow.nodes.some((n) => n.kind === "station" && n.ref === l.station) || !flow.nodes.some((n) => n.params?.check?.q === c.q)) fail(where, "flow lacks the station or the check question"); else ok();
+    // the agent drives it on device (headless here) and the passport records both
+    const awards = [];
+    const agent = AG.byFlowAgent(flow, { lesson: l, character: NPC.grCharacter(l.guide), award: (src, o) => awards.push(`${src}:${o.attemptId}`), awarded: (src, id) => awards.includes(`${src}:${id}`) });
+    agent.next(); agent.next(); agent.next({ passed: true });
+    agent.next({ answer: (c.answer + 1) % c.options.length });
+    const stayed = agent.phase === "check" && agent.say().note === c.why;
+    agent.next({ answer: c.answer }); agent.next({ done: true }); agent.next();
+    if (!stayed || agent.phase !== "done") fail(where, `the flow agent did not drive the flow to its end (at ${agent.phase})`); else ok();
+    if (awards.length !== 2 || !awards[0].startsWith("by-lesson:") || !awards[1].startsWith("by-apply:")) fail(where, `the passport did not record the lesson and the apply step (${awards.join(", ")})`); else ok();
+  }
+  if (parishes.size < 4) fail("bayou", `parish lessons reach ${parishes.size} parishes, fewer than four`); else ok();
+  const idx = JSON.parse(read("WebXR/flows/index.json"));
+  for (const l of list) if (!idx.flows.some((r) => r.id === l.flow)) fail(l.id, "flow not listed in flows/index.json"); else ok();
+  console.log(`  · ${list.length} parish lessons across ${parishes.size} parishes, ${BYL.BY_APPLY_GAMES.length} apply mini-games, ${list.filter((l) => l.apply.id.startsWith("kw-")).length} KREWE kiosks`);
 }
 
 // 6 — the finder, the doc

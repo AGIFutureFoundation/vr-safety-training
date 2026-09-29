@@ -1375,6 +1375,12 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-graphing-tide-readings-at-the-pier", why: "A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for their pattern without guessing past the data." },
       { app: "smartcity", id: "k12-probability-with-a-fair-spinner", why: "Chance as a fraction of equal parts, a prediction written before the spins and a long tally compared with it, with a spinner that has no memory and stickers as the only prize." },
       { app: "smartcity", id: "k12-geometry-of-a-turbine-blade-sweep", why: "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model." },
+      { app: "smartcity", id: "k12-by-a-streetcar-timetable", why: "A timetable read as rows of stops and columns of trips, the gap between departures found by subtraction and a trip chosen that arrives with time to spare." },
+      { app: "smartcity", id: "k12-by-a-ferry-timetable-and-the-tide", why: "A round trip planned from both banks' departures with a sensible wait, and the water-level board read to set the landing ramp level with the deck." },
+      { app: "smartcity", id: "k12-by-a-shrimp-boats-fair-count", why: "A catch counted fairly by level scoops from all over the bin, tallied, averaged and used to estimate the whole, with the small fish returned first." },
+      { app: "smartcity", id: "k12-by-reading-a-flood-maps-colours", why: "A practice flood map read through its key, scale bar and north arrow, low ground told from high, and a route and meeting place planned calmly from the evidence." },
+      { app: "smartcity", id: "k12-by-sorting-containers-at-the-port", why: "Model containers sorted by a rule, grouped by destination, stacked so the first to leave sits on top and the heaviest sit low, and the sort checked in a table." },
+      { app: "smartcity", id: "k12-by-measuring-a-floodwall-in-steps", why: "A stretch of floodwall measured by pacing, a pace measured against the crew's tape, steps turned into length and the answer checked against the wall's panels." },
     ],
   },
   {
@@ -1397,6 +1403,11 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-weather-and-the-sky", why: "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood." },
       { app: "smartcity", id: "k12-simple-machines-at-a-crane", why: "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed." },
       { app: "smartcity", id: "k12-a-controlled-experiment", why: "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows." },
+      { app: "smartcity", id: "k12-by-how-a-levee-holds-water-back", why: "A levee as a wide, low bank of packed clay under grass, tested in a model tank against loose sand, with a wet spot flagged and reported rather than dug." },
+      { app: "smartcity", id: "k12-by-what-a-pump-station-does-in-the-rain", why: "Rain followed from a roof to the pump station, the reason low ground needs a lift, and a model pump started in order with its screen kept clear." },
+      { app: "smartcity", id: "k12-by-wetlands-as-a-storms-speed-bump", why: "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat." },
+      { app: "smartcity", id: "k12-by-the-rivers-current-and-a-pilots-job", why: "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn." },
+      { app: "smartcity", id: "k12-by-the-water-cycle-from-lake-to-tap", why: "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe." },
     ],
   },
   {
@@ -1437,6 +1448,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-public-speaking-at-the-hall", why: "A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and nerves handled, with the stage edge respected." },
       { app: "smartcity", id: "k12-digital-citizenship-and-online-safety", why: "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told." },
       { app: "smartcity", id: "k12-teamwork-and-feedback", why: "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations." },
+      { app: "smartcity", id: "k12-by-a-family-readiness-plan", why: "A readiness plan a family makes together before storm season — who helps, what goes in the go-bag, where to meet and where to go — written down, shared and practised." },
     ],
   },
 ];

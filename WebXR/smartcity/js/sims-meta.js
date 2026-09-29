@@ -28672,5 +28672,509 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-by-how-a-levee-holds-water-back",
+    "index": "829",
+    "domain": "Education",
+    "trade": "Science class on the levee crest with the levee inspection crew — learner and levee inspector",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "How a Levee Holds Water Back",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ How a Levee Holds Water Back VR",
+    "tagline": "Wide at the bottom, packed clay inside, grass on top — and a wet spot is flagged, never dug",
+    "accent": 7319130,
+    "accentCss": "#6fae5a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "bank-reader",
+      "name": "Bank Reader",
+      "note": "Explained why a levee is wide at its base, tested clay against sand in the model tank and flagged a wet spot for the inspector"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Levee Board",
+      "currency": "FLAGS",
+      "ranks": [
+        "Walker",
+        "Spotter",
+        "Tester",
+        "Reader",
+        "Inspector"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-a-shrimp-boats-fair-count",
+    "index": "837",
+    "domain": "Education",
+    "trade": "Maths class aboard a shrimp boat at the harbour — learner and shrimp boat deckhand",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Shrimp Boat's Fair Count",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Shrimp Boat's Fair Count VR",
+    "tagline": "Scoop from all over, tally every one, repeat — a fair sample tells you about the whole catch",
+    "accent": 13661770,
+    "accentCss": "#d0764a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "fair-counter",
+      "name": "Fair Counter",
+      "note": "Took fair sample scoops from a catch bin, tallied them, found the average and estimated the whole catch from it"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Catch Board",
+      "currency": "TALLIES",
+      "ranks": [
+        "Sorter",
+        "Counter",
+        "Tallier",
+        "Sampler",
+        "Deck Boss"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-sorting-containers-at-the-port",
+    "index": "839",
+    "domain": "Education",
+    "trade": "Maths class at the port terminal with a yard planner — learner and container yard planner",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Sorting Containers at the Port",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Sorting Containers at the Port VR",
+    "tagline": "Sort by where it is going, stack what leaves first on top — and heavy boxes go low",
+    "accent": 12603454,
+    "accentCss": "#c0503e",
+    "parSeconds": 330,
+    "badge": {
+      "id": "yard-sorter",
+      "name": "Yard Sorter",
+      "note": "Sorted model containers by destination, stacked them so the first to leave sat on top and checked the sort with a table"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Yard Board",
+      "currency": "BOXES",
+      "ranks": [
+        "Tallier",
+        "Sorter",
+        "Stacker",
+        "Checker",
+        "Yard Planner"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-a-family-readiness-plan",
+    "index": "833",
+    "domain": "Education",
+    "trade": "Life-skills class in the school hall with the parish readiness team — learner and school nurse",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Family Readiness Plan",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Family Readiness Plan VR",
+    "tagline": "Who helps, what to pack, where to go — made together, written down and practised before it is needed",
+    "accent": 13933114,
+    "accentCss": "#d49a3a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "ready-together",
+      "name": "Ready Together",
+      "note": "Made a family readiness plan with helpers, a packed go-bag list, a meeting place and a way to go, and practised it with a classmate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ready Board",
+      "currency": "PLANS",
+      "ranks": [
+        "Listener",
+        "Packer",
+        "Planner",
+        "Helper",
+        "Neighbour"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-a-ferry-timetable-and-the-tide",
+    "index": "836",
+    "domain": "Education",
+    "trade": "Maths class at the ferry landing with the ferry mate — learner and ferry deck mate",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Ferry Timetable and the Tide",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Ferry Timetable and the Tide VR",
+    "tagline": "Depart, cross, arrive, return — and the water level tells the mate where to set the ramp",
+    "accent": 4095910,
+    "accentCss": "#3e7fa6",
+    "parSeconds": 330,
+    "badge": {
+      "id": "crossing-planner",
+      "name": "Crossing Planner",
+      "note": "Read departures from both banks, found the crossing time, planned a round trip and matched the ramp to the water-level board"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crossing Board",
+      "currency": "CROSSINGS",
+      "ranks": [
+        "Passenger",
+        "Reader",
+        "Planner",
+        "Deckhand",
+        "Mate"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-reading-a-flood-maps-colours",
+    "index": "838",
+    "domain": "Education",
+    "trade": "Maths and map class with the levee district's planner — learner and levee district planner",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Reading a Flood Map's Colours",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reading a Flood Map's Colours VR",
+    "tagline": "Key first, then colours — a flood map shows low and high ground so a family can plan calmly",
+    "accent": 8024000,
+    "accentCss": "#7a6fc0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "map-key-reader",
+      "name": "Map Key Reader",
+      "note": "Read a practice flood map through its key and scale, told low ground from high and planned a route to higher ground"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Map Board",
+      "currency": "KEYS",
+      "ranks": [
+        "Looker",
+        "Key Reader",
+        "Scale Reader",
+        "Route Planner",
+        "Planner"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-measuring-a-floodwall-in-steps",
+    "index": "840",
+    "domain": "Education",
+    "trade": "Maths class along the floodwall with the structure crew — learner and floodwall crew foreman",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Measuring a Floodwall in Steps",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Measuring a Floodwall in Steps VR",
+    "tagline": "Measure your pace, count your steps, check with the panels — the same unit all the way",
+    "accent": 9080728,
+    "accentCss": "#8a8f98",
+    "parSeconds": 330,
+    "badge": {
+      "id": "pace-counter",
+      "name": "Pace Counter",
+      "note": "Measured a stretch of floodwall by pacing, turned steps into a real length with a measured pace and checked it against the panels"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wall Board",
+      "currency": "PACES",
+      "ranks": [
+        "Walker",
+        "Pacer",
+        "Counter",
+        "Checker",
+        "Foreman"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-what-a-pump-station-does-in-the-rain",
+    "index": "830",
+    "domain": "Education",
+    "trade": "Science class at the drainage pumping station — learner and pump station operator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "What a Pump Station Does in the Rain",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ What a Pump Station Does in the Rain VR",
+    "tagline": "Water only runs downhill — so in low ground the pumps give it a lift, and the screen stays clear",
+    "accent": 5218240,
+    "accentCss": "#4f9fc0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "rain-lifter",
+      "name": "Rain Lifter",
+      "note": "Traced rain from a roof to the pump station, explained why low ground needs a pump and kept the model's screen clear"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pump Board",
+      "currency": "LIFTS",
+      "ranks": [
+        "Drop",
+        "Gutter",
+        "Drain",
+        "Canal",
+        "Operator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-the-rivers-current-and-a-pilots-job",
+    "index": "832",
+    "domain": "Education",
+    "trade": "Science class aboard the pilot boat at the marina — learner and river pilot boat operator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The River's Current and a Pilot's Job",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The River's Current and a Pilot's Job VR",
+    "tagline": "Downstream the river helps, upstream it pushes back — a pilot reads the current before every turn",
+    "accent": 5998264,
+    "accentCss": "#5b86b8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "current-reader",
+      "name": "Current Reader",
+      "note": "Timed floats in the channel, explained how current changes a boat's speed and aimed a model boat upstream to cross"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "River Board",
+      "currency": "BENDS",
+      "ranks": [
+        "Deckhand",
+        "Lookout",
+        "Helm",
+        "Mate",
+        "Pilot"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-a-streetcar-timetable",
+    "index": "835",
+    "domain": "Education",
+    "trade": "Maths class at the streetcar barn with a transit dispatcher — learner and streetcar dispatcher",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "A Streetcar Timetable",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ A Streetcar Timetable VR",
+    "tagline": "Stops down the side, trips across the top — read the right column, then count the gap",
+    "accent": 12079162,
+    "accentCss": "#b8503a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "timetable-reader",
+      "name": "Timetable Reader",
+      "note": "Read a streetcar timetable by row and column, found the gap between trips and planned a journey that arrives on time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Timetable Board",
+      "currency": "TRIPS",
+      "ranks": [
+        "Rider",
+        "Reader",
+        "Planner",
+        "Conductor",
+        "Dispatcher"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-the-water-cycle-from-lake-to-tap",
+    "index": "834",
+    "domain": "Education",
+    "trade": "Science class on the lakefront with a water utility operator — learner and water treatment operator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Water Cycle from Lake to Tap",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Water Cycle from Lake to Tap VR",
+    "tagline": "Up as vapour, down as rain, cleaned at the plant — and clear is never the same as safe to drink",
+    "accent": 4171464,
+    "accentCss": "#3fa6c8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cycle-tracer",
+      "name": "Cycle Tracer",
+      "note": "Traced water from the lake to the sky and back, ordered the cleaning steps at a model plant and kept lake water out of the cup"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cycle Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Droplet",
+        "Vapour",
+        "Cloud",
+        "Stream",
+        "Operator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-by-wetlands-as-a-storms-speed-bump",
+    "index": "831",
+    "domain": "Education",
+    "trade": "Science class on the restoration crew's boat at the wetlands — learner and restoration crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Wetlands as a Storm's Speed Bump",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Wetlands as a Storm's Speed Bump VR",
+    "tagline": "Grass, mud and shallow water slow a wave down — test it fairly, then help the crew plant",
+    "accent": 8038478,
+    "accentCss": "#7aa84e",
+    "parSeconds": 330,
+    "badge": {
+      "id": "marsh-maker",
+      "name": "Marsh Maker",
+      "note": "Ran a fair wave-tank test with and without marsh plants, explained where the wave's energy went and planted with the crew"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Marsh Board",
+      "currency": "STEMS",
+      "ranks": [
+        "Seedling",
+        "Sprout",
+        "Stem",
+        "Clump",
+        "Marsh Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -1,0 +1,146 @@
+{
+  "id": "k12-by-what-a-pump-station-does-in-the-rain",
+  "index": "830",
+  "prefix": "byp",
+  "accent": "#4f9fc0",
+  "floor": ["#6f7478", "#62676b"],
+  "wall": ["#d8e2e8", "#c8d4dc"],
+  "trade": "Science class at the drainage pumping station — learner and pump station operator",
+  "header": "Upper-primary science at the Drainage Pumping Station in Orleans Parish: rain runs to the lowest place it can reach, drains and canals carry it to the station, and pumps lift it up and over to the river or the lake, using only the model and the operator's panel the scene shows.",
+  "name": "What a Pump Station Does in the Rain",
+  "tagline": "Water only runs downhill — so in low ground the pumps give it a lift, and the screen stays clear",
+  "badge": { "id": "rain-lifter", "name": "Rain Lifter", "note": "Traced rain from a roof to the pump station, explained why low ground needs a pump and kept the model's screen clear" },
+  "board": { "name": "Pump Board", "currency": "LIFTS", "ranks": ["Drop", "Gutter", "Drain", "Canal", "Operator"] },
+  "hazards": [
+    { "id": "water-runs-uphill", "label": "Say rain in low ground flows out to the river by itself?", "face": "FLOWS\nUPHILL?", "text": "You said the water would run out to the river on its own. Water only runs downhill. Where the streets sit lower than the water around them, it collects in the low places, and a pump has to lift it up and over before it can leave." },
+    { "id": "clear-the-screen-by-hand", "label": "Reach into the model's intake to pull out the leaves?", "face": "HAND\nIN", "text": "You reached into the intake while the model pump was running. Operators never put a hand near moving parts: they stop the pump, lock it off and use the rake. The rule is the same for a model on the bench and a real station." },
+    { "id": "one-big-pump-is-enough", "label": "Run every pump at once the moment it starts to rain?", "face": "ALL\nAT ONCE", "text": "You switched every pump on at once. Operators start pumps one after another as the water in the canal rises, so the power supply and the canals keep up. Starting in order is steadier and leaves pumps ready if more rain comes." },
+    { "id": "litter-does-not-matter", "label": "Say litter in the street drain does no harm?", "face": "JUST\nLITTER", "text": "You said street litter does not matter. Leaves, bottles and bags wash into the drains and pile up on the station's screens, which slows the water down. Keeping drains clear at home is one way every family helps the pumps do their job." }
+  ],
+  "find1": {
+    "title": "Find where the rain goes",
+    "cue": "Mark the three places the rain passes on its way to the pump station in the model street.",
+    "why": "Rain that lands on a roof does not vanish. It runs down the gutter, into the street drain, then along an underground pipe or an open canal to the pump station. Finding each stop on the model is how you follow the water's whole path, and it shows why a blocked drain anywhere slows everything behind it.",
+    "items": [
+      ["gutter", "the roof gutter and downpipe", "Rain leaves the roof here."],
+      ["drain", "the street drain grate", "Water from the street goes in here."],
+      ["canal", "the drainage canal", "It carries the water to the station."]
+    ],
+    "decoy": ["mailbox", "a mailbox on the corner", "Part of the street, but no rainwater passes through it."]
+  },
+  "select1": {
+    "title": "Stand behind the yellow line in the pump hall",
+    "cue": "Take your place behind the yellow line before the operator starts the demonstration.",
+    "why": "A pump hall is a working room with big machines, and the yellow line shows where visitors stand. From behind it you can see the pumps, the panel and the operator clearly. Standing there first means the operator can concentrate on the pumps and never has to stop to move someone out of the way.",
+    "key": "line-card",
+    "label": "Stand behind the line",
+    "face": "BEHIND\nTHE LINE"
+  },
+  "seq": {
+    "title": "Put the pump start-up in order",
+    "cue": "Check the screen is clear, check the canal level, start the first pump, then watch the level fall.",
+    "why": "Operators follow the same order every time. A clear screen lets water reach the pump, the canal level tells them whether a pump is needed, and starting one pump before the next keeps the flow steady. Watching the level afterwards proves the pump is really moving water.",
+    "oon": "Out of order. Check the screen is clear before any pump starts.",
+    "items": [
+      ["ord-screen", "check the screen is clear"],
+      ["ord-level", "read the canal level"],
+      ["ord-start", "start the first pump"],
+      ["ord-watch", "watch the level fall"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the model pump steady",
+    "cue": "Hold the model pump's switch until the water in the low tank is lifted into the high tank.",
+    "why": "A pump does its work only while it runs. Holding the switch shows how long it takes to lift water from the low tank up to the high one. Seeing that it takes time helps you understand why a station keeps running long after the rain has stopped, until the canals are back down.",
+    "brk": "The pump stopped halfway and the water ran back down. Hold the switch until the lift is done.",
+    "key": "pump-switch",
+    "label": "Run the model pump"
+  },
+  "turn": {
+    "title": "Open the canal gate a little",
+    "cue": "Turn the gate wheel so water in the model canal flows gently towards the pump.",
+    "why": "Gates guide water to the pumps. Opening a gate slowly lets the canal fill the pump's intake without a rush that stirs up mud and litter. Operators open gates gently for the same reason, so the flow stays smooth and the screens do not clog all at once.",
+    "key": "gate-wheel",
+    "label": "Canal gate wheel",
+    "dial": "GATE"
+  },
+  "gauge": {
+    "title": "Start the pump at the right level",
+    "cue": "Commit when the canal gauge reaches the start mark on the operator's panel.",
+    "why": "A pump that starts too early runs dry and wears out; one that starts too late lets the canal fill up. The start mark is the level the operators chose for the first pump. Reading the gauge and acting at that mark is the same careful choice a real operator makes on every rainy shift.",
+    "key": "canal-meter",
+    "label": "Canal level",
+    "meter": "CANAL",
+    "miss": "Not at the start mark. Watch the gauge and commit right on the line."
+  },
+  "drag": {
+    "title": "Move the rake to the screen",
+    "cue": "Drag the long rake to the screen once the model pump is switched off.",
+    "why": "The screen is a row of bars that stops litter from reaching the pump. When it fills up, water slows down. The operator switches the pump off first, then uses a long rake from the walkway to clear it. Using the rake keeps hands far from the water and any moving part.",
+    "key": "rake",
+    "label": "Screen rake",
+    "spot": "screen",
+    "spotLabel": "The intake screen",
+    "miss": "The rake is not on the screen yet. Move it right up to the bars."
+  },
+  "select2": {
+    "title": "Say why this water needs a pump",
+    "cue": "Choose the reason the water in the low tank could not reach the high tank without the pump.",
+    "why": "Water moves from high places to low places on its own. The low tank sits below the high tank, so the water had no way up until the pump lifted it. Saying that clearly is the big idea of the lesson, and it explains every pump station you will ever see.",
+    "key": "reason-card",
+    "label": "Give the reason",
+    "face": "WHY A\nPUMP?"
+  },
+  "find2": {
+    "title": "Spot what slows the water down",
+    "cue": "Look at the street photo board and mark each thing that could block a drain.",
+    "why": "Most drain problems start small: leaves piled on a grate, a bag caught in a gutter, grass cuttings swept into the street. Each one slows the water on its way to the pumps. Spotting them teaches you what your family can clear before a rainy day, which is one real way to help.",
+    "items": [
+      ["ph-leaves", "leaves piled on a grate", "Rake them up before rain."],
+      ["ph-bag", "a plastic bag in the gutter", "Put it in the bin."],
+      ["ph-cuttings", "grass cuttings in the street", "Keep them on the lawn."]
+    ],
+    "decoy": ["ph-clear", "a clear, open drain grate", "That is what a drain should look like."]
+  },
+  "track": {
+    "title": "Follow the canal level as the pumps work",
+    "cue": "Keep the marker on the canal level as it rises with the rain and falls with the pumps.",
+    "why": "During rain the canal rises, and as pumps run it falls again. The operator watches that level all shift, because it shows whether the pumps are keeping up. Following it teaches you that the job is not one switch, it is steady watching and adjusting until the rain has passed.",
+    "brk": "The marker left the canal level. Follow the water back and settle on the middle.",
+    "key": "level-meter",
+    "label": "Canal level followed",
+    "meter": "LEVEL"
+  },
+  "record": {
+    "title": "Record the rain's path and the pump test",
+    "cue": "Draw the path from roof to river and write when the model pump started and stopped.",
+    "why": "A drawing of the water's path and a note of what the pump did turn a demonstration into something you can explain at home. Operators keep a log of every start and stop for the same reason, so the next shift can see what happened and plan for the next rain.",
+    "key": "pump-log",
+    "label": "Pump record",
+    "done": "Path and pump test recorded"
+  },
+  "share": {
+    "title": "Explain the path to a classmate",
+    "cue": "Show your drawing to a classmate and trace the water's path out loud.",
+    "why": "Explaining something out loud shows whether you really understand it. As you trace the path from roof to river, your classmate can ask where the water goes next. If you can answer each question, the idea is yours, and you can teach it to your family too.",
+    "key": "share-board",
+    "label": "Explain to a classmate",
+    "done": "Path explained"
+  },
+  "checkin": {
+    "title": "Check in at the viewing window",
+    "cue": "What surprised you about where the rain goes? What could your family do to help the drains?",
+    "why": "The operators end a shift by handing over to the next crew, so the class ends by handing over what it learned. Each learner names one step on the water's path and one thing a family can do, like clearing a grate. Anyone still puzzled about why the water needs a lift can ask the operator now.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "the-screen-alarm-light-comes-on", "kind": "Panel alarm", "key": "tell-operator", "label": "Tell the operator the screen light is on", "alert": "A light on the model panel shows the intake screen is filling with leaves.", "cue": "Tell the operator the screen light is on and wait behind the line.", "why": "The light means the screen needs clearing. Telling the operator lets them stop the pump and rake it safely. Trying to fix it yourself, or ignoring it because the demonstration is going well, is how a small blockage becomes a bigger problem.", "miss": "Nobody spoke up, and the model screen filled until the water in the canal stopped moving towards the pump.", "wrong": "That does not tell the operator about the light. Say it clearly and stay behind the line. Choose the response that deals with it now.", "done": "Operator told, screen cleared with the rake. The lesson carries on." },
+    { "id": "the-operator-asks-where-the-water-goes", "kind": "Operator question", "key": "say-path", "label": "Say where the lifted water goes next", "alert": "The operator asks where the water goes after the pump lifts it.", "cue": "Say that it goes up and over into the outfall canal and on to the river or the lake.", "why": "Knowing where the water ends up completes the picture. The pump is only one step; the water still has to travel on to the river or the lake. Saying the whole path shows you understand the station as part of a bigger system.", "miss": "You said the water just disappears, and the operator had to explain the outfall canal before the group could go on.", "wrong": "That leaves out where the water goes. Name the next step on its path. Choose the response that deals with it now.", "done": "Path to the outfall named. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Pump station operator", "Screen rake crew"],
+  "guide": { "start": "Rain runs downhill — follow it.", "after": "Low ground needs a lift.", "hazard": "Stop. Pump off, lock it, use the rake." },
+  "lateRecord": "The pump record is written once the model test is done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "lab",
+  "order": "b"
+}
