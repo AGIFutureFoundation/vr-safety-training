@@ -1,0 +1,122 @@
+{
+  "id": "union-nnu",
+  "kind": "union",
+  "name": "NNU Union Package",
+  "title": "SmartCiti.X NNU Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to National Nurses United: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "decon-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-after-action-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-safe-and-dignified-burial"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-risk-communication-and-community-engagement"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-vaccination-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-water-sanitation-and-hygiene"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-treatment-centre-triage"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-contact-tracing-visit"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-isolation-ward-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-ppe-donning-and-doffing"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-surveillance-and-case-definition"
+    }
+  ],
+  "unions": [
+    "nnu"
+  ],
+  "unionLine": "National Nurses United",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-hazmat-response-yard",
+        "coliseum-area-hospital",
+        "emery-lab-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-hospital",
+        "sb-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "shipyard-soil-cell"
+      ]
+    }
+  ],
+  "stationNames": {
+    "decon-line": "Decon Line",
+    "who-after-action-review": "After-Action Review",
+    "who-safe-and-dignified-burial": "Safe and Dignified Burial",
+    "who-risk-communication-and-community-engagement": "Risk Communication and Community Engagement",
+    "who-vaccination-line": "Vaccination Line",
+    "who-water-sanitation-and-hygiene": "Water, Sanitation and Hygiene",
+    "who-treatment-centre-triage": "Treatment Centre Triage",
+    "who-contact-tracing-visit": "Contact Tracing Visit",
+    "who-isolation-ward-setup": "Isolation Ward Setup",
+    "who-ppe-donning-and-doffing": "PPE Donning and Doffing",
+    "who-surveillance-and-case-definition": "Surveillance and Case Definition"
+  },
+  "version": "1.0.0",
+  "contentHash": "9c82cb61",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

@@ -1,0 +1,131 @@
+{
+  "id": "union-smart-td",
+  "kind": "union",
+  "name": "SMART-TD Union Package",
+  "title": "SmartCiti.X SMART-TD Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to SMART Transportation Division: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "rcl-switching"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-blue-flag-protection-in-the-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-locomotive-cab-startup-and-alerter"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-crossing-signal-maintenance-and-flagging"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-hand-brake-and-securement-on-a-grade"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-air-brake-test-and-train-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-switch-inspection-and-lubrication"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-tie-and-rail-replacement-with-track-machines"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-roadway-worker-protection-and-job-briefing"
+    }
+  ],
+  "unions": [
+    "smart-td"
+  ],
+  "unionLine": "SMART Transportation Division",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "streetcar-barn",
+        "rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-kenner-rail"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-slidell-rail"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "cable-car-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "king-street-rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-streetcar-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "islais-rail-yard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "rcl-switching": "RCL Switching",
+    "ra-blue-flag-protection-in-the-yard": "Blue Flag Protection in the Yard",
+    "ra-locomotive-cab-startup-and-alerter": "Locomotive Cab Startup & Alerter",
+    "ra-crossing-signal-maintenance-and-flagging": "Crossing Signal Maintenance & Flagging",
+    "ra-hand-brake-and-securement-on-a-grade": "Hand Brake & Securement on a Grade",
+    "ra-air-brake-test-and-train-inspection": "Air Brake Test & Train Inspection",
+    "ra-switch-inspection-and-lubrication": "Switch Inspection & Lubrication",
+    "ra-tie-and-rail-replacement-with-track-machines": "Tie & Rail Replacement with Track Machines",
+    "ra-roadway-worker-protection-and-job-briefing": "Roadway Worker Protection & Job Briefing"
+  },
+  "version": "1.0.0",
+  "contentHash": "754e6b05",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

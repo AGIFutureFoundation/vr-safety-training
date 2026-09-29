@@ -1,0 +1,261 @@
+{
+  "id": "library-environmental-monitoring",
+  "kind": "library",
+  "name": "Environmental Monitoring Station Library",
+  "title": "SmartCiti.X Environmental Monitoring Station Library — Powered by AGI Corp",
+  "audience": "open",
+  "summary": "Every Environmental Monitoring station in the catalog, to roam freely.",
+  "certification": null,
+  "programmes": [],
+  "relatedProgrammes": [
+    "air-quality-monitoring",
+    "bay-restoration-maritime-underwater",
+    "hazmat-environmental",
+    "hunters-point-bay-restoration"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "hunters-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "air-monitor"
+    },
+    {
+      "app": "smartcity",
+      "id": "sampling-well"
+    },
+    {
+      "app": "smartcity",
+      "id": "stormwater-outfall"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-restoration-data-qa-and-public-reporting"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-drone-shoreline-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "drum-sampling-and-overpack"
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-air-lab"
+    },
+    {
+      "app": "smartcity",
+      "id": "opacity-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "marsh-transect-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "haul-road-dust"
+    },
+    {
+      "app": "smartcity",
+      "id": "building-rad-scan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ust-removal"
+    },
+    {
+      "app": "smartcity",
+      "id": "well-install"
+    },
+    {
+      "app": "smartcity",
+      "id": "soil-loadout"
+    },
+    {
+      "app": "smartcity",
+      "id": "rad-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "stack-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "landfill-gas"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-material-screening-and-disposal-decision"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-trash-capture-device-service"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-water-quality-sonde-calibration-and-deploy"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-turbidity-curtain-deployment"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-level-b-entry-and-scba-change-out"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-drum-staging-and-compatibility-segregation"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-bird-nesting-buffer-and-work-window"
+    }
+  ],
+  "unions": [],
+  "unionLine": null,
+  "k12Bands": [],
+  "path": "roam",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-hazmat-response-yard",
+        "estuary-shoreline-park-trailhead",
+        "west-oakland-air-monitoring-post",
+        "north-shoreline-field-lab"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "eelgrass-fish-census-line",
+        "eelgrass-turbidity-curtain",
+        "marsh-mouth-tide-gate",
+        "kelp-transect-start",
+        "flats-sonde-station",
+        "flats-sediment-core-site",
+        "outfall-diffuser-inspection",
+        "channel-dredge-survey",
+        "mud-plain-hotspot-survey",
+        "mud-plain-trash-capture",
+        "wreck-photo-survey",
+        "seamount-capstone-survey"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "lookout",
+        "restoration",
+        "estuary",
+        "old-growth"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "wetland-restoration"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-central-wetlands"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-myrtle-grove-diversion"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-big-branch"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "islais-creek-pump-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "crissy-marsh-crew",
+        "marina-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "hunters-point-shipyard",
+        "shipyard-soil-cell",
+        "shipyard-groundwater-yard",
+        "herons-head-wetland",
+        "yosemite-slough-restoration"
+      ]
+    }
+  ],
+  "stationNames": {
+    "hunters-point": "Hunters Point Briefing",
+    "air-monitor": "Perimeter Air",
+    "sampling-well": "Sampling Well",
+    "stormwater-outfall": "Stormwater Outfall",
+    "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
+    "br-drone-shoreline-survey": "Drone Shoreline Survey",
+    "drum-sampling-and-overpack": "Drum Sampling & Overpack",
+    "mobile-air-lab": "Mobile Air Lab",
+    "opacity-reading": "Opacity Reading",
+    "marsh-transect-survey": "Marsh Transect Survey",
+    "haul-road-dust": "Haul Road Dust",
+    "building-rad-scan": "Building Rad Scan",
+    "ust-removal": "UST Removal",
+    "well-install": "Well Install",
+    "soil-loadout": "Soil Loadout",
+    "rad-survey": "Rad Survey",
+    "stack-test": "Stack Test",
+    "landfill-gas": "Landfill Gas",
+    "br-dredge-material-screening-and-disposal-decision": "Dredge Material Screening & Disposal Decision",
+    "br-trash-capture-device-service": "Trash Capture Device Service",
+    "br-legacy-mercury-and-pcb-hotspot-handling": "Legacy Mercury & PCB Hotspot Handling",
+    "br-water-quality-sonde-calibration-and-deploy": "Water Quality Sonde Calibration & Deploy",
+    "br-sediment-chain-of-custody-and-lab-prep": "Sediment Chain of Custody & Lab Prep",
+    "br-turbidity-curtain-deployment": "Turbidity Curtain Deployment",
+    "br-dredge-spoils-dewatering-pad": "Dredge Spoils Dewatering Pad",
+    "hz-level-b-entry-and-scba-change-out": "Level B Entry & SCBA Change-Out",
+    "hz-drum-staging-and-compatibility-segregation": "Drum Staging & Compatibility Segregation",
+    "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window"
+  },
+  "version": "1.0.0",
+  "contentHash": "296e1fc2",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

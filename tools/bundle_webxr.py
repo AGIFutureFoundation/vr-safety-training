@@ -1307,13 +1307,13 @@ def build_combined() -> int:
                 (DIST / "vendor" / sub / f.name).write_bytes(f.read_bytes())
                 copied += 1
     # The Holodeck Packs (console PACKS, tools/gen_packs.mjs): the page written for this folder
-    # (WebXR/packs/dist/index.html) and every pack manifest beside it.
+    # (WebXR/packs/flat/index.html) and every pack manifest beside it.
     packs = WEBXR / "packs"
-    if not (packs / "dist" / "index.html").exists():
-        print("[dist] WebXR/packs/dist/index.html is missing — run tools/gen_packs.mjs before bundling.", file=sys.stderr)
+    if not (packs / "flat" / "index.html").exists():
+        print("[dist] WebXR/packs/flat/index.html is missing — run tools/gen_packs.mjs before bundling.", file=sys.stderr)
         return 1
     (DIST / "packs").mkdir(parents=True, exist_ok=True)
-    (DIST / "packs" / "index.html").write_bytes((packs / "dist" / "index.html").read_bytes())
+    (DIST / "packs" / "index.html").write_bytes((packs / "flat" / "index.html").read_bytes())
     copied += 1
     for f in sorted(packs.glob("*.json")):
         (DIST / "packs" / f.name).write_bytes(f.read_bytes())

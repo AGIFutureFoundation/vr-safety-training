@@ -1,0 +1,195 @@
+{
+  "id": "union-iatse",
+  "kind": "union",
+  "name": "IATSE Union Package",
+  "title": "SmartCiti.X IATSE Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Alliance of Theatrical Stage Employees: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "live-events",
+    "rigging-lifting",
+    "screen-and-media-crafts"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "crane-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "rigging-loft"
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "stage-power"
+    },
+    {
+      "app": "smartcity",
+      "id": "chain-hoist"
+    },
+    {
+      "app": "smartcity",
+      "id": "fly-system"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-intimacy-and-conduct-coordination-briefing"
+    },
+    {
+      "app": "smartcity",
+      "id": "stage-load-in-and-truss-rigging"
+    },
+    {
+      "app": "smartcity",
+      "id": "broadcast-truck"
+    },
+    {
+      "app": "smartcity",
+      "id": "arena-rigging"
+    },
+    {
+      "app": "smartcity",
+      "id": "pyro-cue"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-crowd-barricade-and-show-stop-call"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-followspot-and-truss-access-at-height"
+    },
+    {
+      "app": "smartcity",
+      "id": "rl-critical-lift-plan-and-signalperson"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-newsroom-storm-scene-and-live-truck-mast"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-theatre-fly-floor-and-quick-change-lane"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-recording-studio-hearing-conservation-and-load-in"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-sound-stage-electrical-distribution-and-cable-crossings"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-location-shoot-traffic-control-and-heat-hydration"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-camera-dolly-and-crane-track"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-set-safety-meeting-and-stunt-go-no-go"
+    }
+  ],
+  "unions": [
+    "iatse"
+  ],
+  "unionLine": "International Alliance of Theatrical Stage Employees",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "estuary-research-dock",
+        "coliseum-stadium"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "shelf-lift-bag-site",
+        "wreck-salvage-rigging"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "gondola-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "port-terminal",
+        "stadium-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "embarcadero-piers"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "china-basin-stadium-district",
+        "dogpatch-shipyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "fort-mason-piers"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "port-southern-terminals"
+      ]
+    }
+  ],
+  "stationNames": {
+    "crane-yard": "Crane Yard",
+    "rigging-loft": "Rigging Loft",
+    "dock-crane": "Dock Crane",
+    "stage-power": "Stage Power",
+    "chain-hoist": "Chain Hoist",
+    "fly-system": "Fly System",
+    "md-intimacy-and-conduct-coordination-briefing": "Intimacy & Conduct Coordination Briefing",
+    "stage-load-in-and-truss-rigging": "Stage Load-In & Truss Rigging",
+    "broadcast-truck": "Broadcast Truck",
+    "arena-rigging": "Arena Rigging",
+    "pyro-cue": "Pyro Cue",
+    "le-crowd-barricade-and-show-stop-call": "Crowd Barricade & Show-Stop Call",
+    "le-followspot-and-truss-access-at-height": "Followspot & Truss Access at Height",
+    "rl-critical-lift-plan-and-signalperson": "Critical Lift Plan & Signalperson",
+    "md-newsroom-storm-scene-and-live-truck-mast": "Newsroom Storm Scene & Live Truck Mast",
+    "md-theatre-fly-floor-and-quick-change-lane": "Theatre Fly Floor & Quick-Change Lane",
+    "md-recording-studio-hearing-conservation-and-load-in": "Recording Studio Hearing Conservation & Load-In",
+    "md-sound-stage-electrical-distribution-and-cable-crossings": "Sound Stage Electrical Distribution & Cable Crossings",
+    "md-location-shoot-traffic-control-and-heat-hydration": "Location Shoot Traffic Control & Heat/Hydration",
+    "md-camera-dolly-and-crane-track": "Camera Dolly & Crane Track",
+    "md-set-safety-meeting-and-stunt-go-no-go": "Set Safety Meeting & Stunt Go/No-Go"
+  },
+  "version": "1.0.0",
+  "contentHash": "05455219",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

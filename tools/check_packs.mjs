@@ -60,7 +60,9 @@ section("up to date with tools/gen_packs.mjs (manifests, index, data module, bot
   ok(!extra.length, `manifests with no pack: ${extra.join(", ")}`);
   ok(readFileSync(join(WEBXR, "shared", "pk-packs-data.js"), "utf8") === pkDataModule(fresh, catalog), "WebXR/shared/pk-packs-data.js is stale");
   ok(readFileSync(join(PK_DIR, "index.html"), "utf8") === pkPageHtml(fresh, catalog, unions, parishes, "source"), "WebXR/packs/index.html is stale");
-  ok(readFileSync(join(PK_DIR, "dist", "index.html"), "utf8") === pkPageHtml(fresh, catalog, unions, parishes, "dist"), "WebXR/packs/dist/index.html is stale");
+  ok(readFileSync(join(PK_DIR, "flat", "index.html"), "utf8") === pkPageHtml(fresh, catalog, unions, parishes, "dist"), "WebXR/packs/flat/index.html is stale");
+  const pub = join(WEBXR, "dist", "packs", "index.html");
+  ok(!existsSync(pub) || readFileSync(pub, "utf8") === readFileSync(join(PK_DIR, "flat", "index.html"), "utf8"), "WebXR/dist/packs/index.html differs from WebXR/packs/flat/index.html — run python3 tools/bundle_webxr.py");
 });
 
 section("manifest shape, titles, branding, paths, versions", () => {
@@ -147,7 +149,7 @@ section("page links resolve (source layout WebXR/packs/, flat layout WebXR/dist/
     ok(file.startsWith(WEBXR) && existsSync(file), `source page: ${u} does not resolve`);
     queryResolves(u, "source page");
   }
-  const dist = readFileSync(join(PK_DIR, "dist", "index.html"), "utf8");
+  const dist = readFileSync(join(PK_DIR, "flat", "index.html"), "utf8");
   for (const u of hrefs(dist)) {
     if (u.startsWith("#")) continue;
     linkCount++;

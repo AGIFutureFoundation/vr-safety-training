@@ -1,0 +1,63 @@
+{
+  "id": "library-surface-prep-and-coatings",
+  "kind": "library",
+  "name": "Surface Prep & Coatings Station Library",
+  "title": "SmartCiti.X Surface Prep & Coatings Station Library — Powered by AGI Corp",
+  "audience": "open",
+  "summary": "Every Surface Prep & Coatings station in the catalog, to roam freely — including stations no programme lists yet.",
+  "certification": null,
+  "programmes": [],
+  "relatedProgrammes": [
+    "hazmat-environmental"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "bridge-blast"
+    },
+    {
+      "app": "smartcity",
+      "id": "tank-lining"
+    },
+    {
+      "app": "trades",
+      "id": "pressure-washer"
+    },
+    {
+      "app": "trades",
+      "id": "paint-sprayer"
+    }
+  ],
+  "unions": [],
+  "unionLine": null,
+  "k12Bands": [],
+  "path": "roam",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-refinery"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-pipeline-yard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "bridge-blast": "Bridge Blast",
+    "tank-lining": "Tank Lining",
+    "pressure-washer": "Wash-Down Yard",
+    "paint-sprayer": "Coatings Bay"
+  },
+  "version": "1.0.0",
+  "contentHash": "d255bcae",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

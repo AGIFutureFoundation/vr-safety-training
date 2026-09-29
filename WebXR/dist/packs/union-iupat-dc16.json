@@ -1,0 +1,83 @@
+{
+  "id": "union-iupat-dc16",
+  "kind": "union",
+  "name": "IUPAT DC 16 Union Package",
+  "title": "SmartCiti.X IUPAT DC 16 Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to IUPAT District Council 16: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "gl-shop-drawing-takeoff-and-field-measure"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-aluminium-panel-fabrication-and-brake"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-tempered-glass-breakage-and-cleanup"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-skylight-glass-replacement-and-fall-protection"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-swing-stage-glazing-and-sealant"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-glass-handling-cart-and-crane-vacuum-lifter"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-storefront-frame-and-glass-set-with-cups"
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-curtain-wall-unit-setting-from-the-floor"
+    }
+  ],
+  "unions": [
+    "iupat-dc16"
+  ],
+  "unionLine": "IUPAT District Council 16",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-tower-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "financial-district-high-rise"
+      ]
+    }
+  ],
+  "stationNames": {
+    "gl-shop-drawing-takeoff-and-field-measure": "Shop Drawing Takeoff And Field Measure",
+    "gl-aluminium-panel-fabrication-and-brake": "Aluminium Panel Fabrication And Brake",
+    "gl-tempered-glass-breakage-and-cleanup": "Tempered Glass Breakage And Cleanup",
+    "gl-skylight-glass-replacement-and-fall-protection": "Skylight Glass Replacement And Fall Protection",
+    "gl-swing-stage-glazing-and-sealant": "Swing Stage Glazing And Sealant",
+    "gl-glass-handling-cart-and-crane-vacuum-lifter": "Glass Handling Cart And Crane Vacuum Lifter",
+    "gl-storefront-frame-and-glass-set-with-cups": "Storefront Frame And Glass Set With Cups",
+    "gl-curtain-wall-unit-setting-from-the-floor": "Curtain Wall Unit Setting From The Floor"
+  },
+  "version": "1.0.0",
+  "contentHash": "89f297f7",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

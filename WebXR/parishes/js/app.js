@@ -460,7 +460,9 @@ npMountPacks($("menu-packs"), parish.id);
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";
-  const chosen = (() => { try { return globalThis.stChosenPath?.() ?? null; } catch { return null; } })();
+  // STORYLINE's seam (stChosenPath() -> path id); guarded until the coordinator merges st-*.js into this bundle.
+  // eslint-disable-next-line no-undef
+  const chosen = (() => { try { return (typeof stChosenPath === "function" ? stChosenPath() : globalThis.stChosenPath?.()) ?? null; } catch { return null; } })();
   const packs = pkPacksAt(`parishes:${parishId}`).filter((p) => p.kind !== "library");
   const first = (p) => (chosen && (p.path === chosen || p.alsoPaths.includes(chosen)) ? 0 : 1);
   packs.sort((a, b) => first(a) - first(b) || a.name.localeCompare(b.name));

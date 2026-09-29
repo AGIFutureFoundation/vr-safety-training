@@ -1,0 +1,116 @@
+{
+  "id": "union-bac",
+  "kind": "union",
+  "name": "BAC Union Package",
+  "title": "SmartCiti.X BAC Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Union of Bricklayers and Allied Craftworkers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "builders-trades"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "masonry-silica-scaffold"
+    },
+    {
+      "app": "smartcity",
+      "id": "mass-timber-panel-set"
+    },
+    {
+      "app": "smartcity",
+      "id": "formwork-shoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-masonry-wall-layout-and-mortar"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-rebar-tying-and-impalement-protection"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-formwork-stripping-and-reshoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-ranch-road-grading-and-culvert"
+    }
+  ],
+  "unions": [
+    "bac"
+  ],
+  "unionLine": "International Union of Bricklayers and Allied Craftworkers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "uptown-construction-site"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "pass-road"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "equipment-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "levee-floodwall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-surge-barrier"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-bay-construction-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "chestnut-construction"
+      ]
+    }
+  ],
+  "stationNames": {
+    "concrete-pour": "Concrete Pour",
+    "masonry-silica-scaffold": "Masonry Silica Scaffold",
+    "mass-timber-panel-set": "Mass Timber Panel Set",
+    "formwork-shoring": "Formwork Shoring",
+    "bt-masonry-wall-layout-and-mortar": "Masonry Wall Layout & Mortar",
+    "bt-rebar-tying-and-impalement-protection": "Rebar Tying & Impalement Protection",
+    "bt-formwork-stripping-and-reshoring": "Formwork Stripping & Reshoring",
+    "or-ranch-road-grading-and-culvert": "Ranch Road Grading & Culvert"
+  },
+  "version": "1.0.0",
+  "contentHash": "bb08080e",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

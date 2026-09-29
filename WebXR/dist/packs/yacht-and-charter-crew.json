@@ -1,0 +1,124 @@
+{
+  "id": "yacht-and-charter-crew",
+  "kind": "programme",
+  "name": "Yacht & Charter Crew",
+  "title": "SmartCiti.X Yacht & Charter Crew — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs on a mid-size motor yacht at her marina berth and under way on the estuary: the charter briefing with every head counted against the manifest, coming alongside on the spring in a crosswind, the fuel transfer declared and boomed before the nozzle moves, the engine room sniffed and blown before the key, the person-overboard drill with the ring thrown first and the propellers stopped before the platform, the galley fire with the fuel off before the blanket, the tender lowered steady and every guest across with two hands free, and shore power connected boat end first with a tingle in the water treated as an emergency. No fuel quantity, wind speed, weight or voltage is ever stated — those live in the vessel's plans, the captain's standing orders and the tender's plate.",
+  "certification": "IBU and SIU deck training and MEBA engineering practice for charter yacht crew, tested against USCG 33 CFR 83 Inland Navigation Rules, 33 CFR 155 and 33 CFR 156.150 for the fuel transfer, 46 CFR 25 and 46 CFR 199 for lifesaving and fire-fighting equipment as the vessel's certificate applies them, NFPA 306 for gas hazards below decks, NFPA 70E for the shore-power connection, OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.157 portable fire extinguishers and 29 CFR 1910.132 personal protective equipment, and IMO STCW basic safety training, across eight jobs a deckhand, mate, engineer and steward actually rotate through on a mid-size motor yacht",
+  "programmes": [
+    "yacht-and-charter-crew"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "yc-pre-departure-safety-briefing-and-guest-count"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-line-handling-and-docking-in-crosswind"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-fuel-dock-transfer-and-spill-kit"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-engine-room-pre-start-and-bilge-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-man-overboard-recovery-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-galley-fire-and-fixed-system"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-tender-launch-and-guest-transfer"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-shore-power-connection-and-in-water-electrical-safety"
+    }
+  ],
+  "unions": [
+    "ibu",
+    "siu",
+    "meba"
+  ],
+  "unionLine": "IBU, SIU and MEBA as training bodies for charter yacht deck, steward and engineering crew",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "estuary-marina-boatyard",
+        "island-yacht-harbor"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "ferry-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-empire-harbour",
+        "pq-venice-marina"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-mandeville-harbour",
+        "st-madisonville-boatyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "ferry-building-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-lifeguard-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "marina-harbour",
+        "crissy-rescue-station"
+      ]
+    }
+  ],
+  "stationNames": {
+    "yc-pre-departure-safety-briefing-and-guest-count": "Pre-Departure Safety Briefing & Guest Count",
+    "yc-line-handling-and-docking-in-crosswind": "Line Handling & Docking In A Crosswind",
+    "yc-fuel-dock-transfer-and-spill-kit": "Fuel Dock Transfer & Spill Kit",
+    "yc-engine-room-pre-start-and-bilge-check": "Engine Room Pre-Start & Bilge Check",
+    "yc-man-overboard-recovery-drill": "Man Overboard Recovery Drill",
+    "yc-galley-fire-and-fixed-system": "Galley Fire & Fixed System",
+    "yc-tender-launch-and-guest-transfer": "Tender Launch & Guest Transfer",
+    "yc-shore-power-connection-and-in-water-electrical-safety": "Shore Power Connection & In-Water Electrical Safety"
+  },
+  "version": "1.0.0",
+  "contentHash": "4547674e",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

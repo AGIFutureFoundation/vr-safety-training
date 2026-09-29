@@ -1953,5 +1953,7 @@
   var want = q.get("pack"); if (want) { var el = document.getElementById("pack-" + want.replace(/[^a-z0-9-]/g, "")); if (el) { el.hidden = false; el.scrollIntoView({ block: "start" }); } }
 })();
 </script>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the Holodeck Packs", except: { move: "A page, not a world: Tab walks the packs.", look: "Scroll the page.", interact: "Enter opens the focused link.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
 </html>

@@ -79,7 +79,7 @@ export function pkExportPack(id, out = join(ROOT, "exports", "packs", id)) {
     ...catalog, pack: { id: pack.id, title: pack.title, version: pack.version, brand: pack.brand },
     categories: cats, curricula: catalog.curricula.filter((c) => programmeIds.has(c.id)), stations,
   }));
-  const page = readFileSync(join(PACKS, "dist", "index.html"), "utf8");
+  const page = readFileSync(join(PACKS, "flat", "index.html"), "utf8");
   const start = page.indexOf(`<article class="at-card pk-card" id="pack-${pack.id}"`);
   const end = page.indexOf("</article>", start);
   if (start < 0 || end < 0) throw new Error(`the Packs page has no card for ${pack.id}`);

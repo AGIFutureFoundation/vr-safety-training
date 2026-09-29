@@ -1,0 +1,124 @@
+{
+  "id": "energy-transition",
+  "kind": "programme",
+  "name": "Energy Transition Systems",
+  "title": "SmartCiti.X Energy Transition Systems — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The plant a utility is building now: solar, storage, charging and the substation that ties them together. Direct current behaves differently, and every station here is about that difference.",
+  "certification": "NFPA 70E, NFPA 855 energy storage, NEC Article 690 photovoltaic systems and utility interconnection practice",
+  "programmes": [
+    "energy-transition"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "solar-deck"
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "charge-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "substation-switching"
+    },
+    {
+      "app": "smartcity",
+      "id": "cell-site-battery"
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-storage-container-commissioning"
+    },
+    {
+      "app": "smartcity",
+      "id": "et-ev-fleet-depot-charging-and-arc-flash"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-transmission-line-right-of-way-patrol"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-solar-farm-tracker-row-maintenance"
+    }
+  ],
+  "unions": [
+    "ibew"
+  ],
+  "unionLine": "IBEW outside construction and utility locals",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-substation-yard",
+        "hills-transmission-corridor",
+        "ridge-reservoir-yard"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "substation",
+        "ridge-line"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-buras-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-lacombe-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "potrero-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "third-street-rail-barn"
+      ]
+    }
+  ],
+  "stationNames": {
+    "solar-deck": "Solar Deck",
+    "battery-yard": "Battery Yard",
+    "charge-point": "Charge Point",
+    "substation-switching": "Substation Switching",
+    "cell-site-battery": "Cell Site Battery",
+    "battery-storage-container-commissioning": "Battery Storage Container Commissioning",
+    "et-ev-fleet-depot-charging-and-arc-flash": "EV Fleet Depot Charging & Arc Flash",
+    "or-transmission-line-right-of-way-patrol": "Transmission Line ROW Patrol",
+    "or-solar-farm-tracker-row-maintenance": "Solar Tracker Row Maintenance"
+  },
+  "version": "1.0.0",
+  "contentHash": "70121fdf",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

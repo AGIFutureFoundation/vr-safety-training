@@ -24,10 +24,11 @@ K-12 packs also serve Teachers) — secondary, never replacing `path`.
 Manifest (`WebXR/packs/<id>.json`, written by `tools/gen_packs.mjs`):
 `{ id, kind, title: "SmartCiti.X <Pack name> — Powered by AGI Corp", name, brand, audience, summary,
 programmes[], stations[{app,id}], worlds[{world, parish?, sites[]}], unions[], k12Bands[], path, alsoPaths[],
-version, generator, provenance }`. Pack ids are `pk-<kind>-<slug>`… no: ids are the programme / union / category
-slug with a kind prefix only where two kinds could collide (`union-<id>`, `library-<slug>`); programmes and K-12
-tracks keep their programme id. `version` is `1.<stations>.<worlds>` style content version from a stable hash
-(deterministic, no timestamps).
+version, contentHash, stationNames, generator, provenance }`. Pack ids: a programme or K-12 track keeps its
+programme id; a union package is `union-<registry id>`; a library is `library-<category slug>`. `version` is `1.0.0`
+with an 8-hex `contentHash` of its stations, programmes, worlds and unions (deterministic, no timestamps). A library
+names the programmes that share its stations only as `relatedProgrammes` (its `programmes` is empty), so an exported
+library never carries a programme whose other stations it lacks.
 
 Where it plays: a station plays at a site when a world's site data lists it — Bay World (`BAY_SITES`), the Deep
 (`DEEP_SITES`), Sierra Summit (`SM_SITES`), Redwood Reach (`RW_SITES`) and the ten parish/district maps
@@ -35,7 +36,7 @@ Where it plays: a station plays at a site when a world's site data lists it — 
 
 Files:
 - `tools/gen_packs.mjs` → `WebXR/packs/<id>.json`, `WebXR/packs/index.json`, `WebXR/shared/pk-packs-data.js`
-  (compact literal for the bundles), `WebXR/packs/index.html` (source layout) and `WebXR/packs/dist/index.html`
+  (compact literal for the bundles), `WebXR/packs/index.html` (source layout) and `WebXR/packs/flat/index.html`
   (flat bundle layout, copied by the bundler to `WebXR/dist/packs/index.html` with the manifests).
 - `WebXR/shared/pk-packs.js` — the registry: `pkPacks(filter?)`, `pkPack(id)`, `pkPackOf(stationId)`,
   `pkPacksAt(world, placeId)`, `pkPathOf(packId)`.

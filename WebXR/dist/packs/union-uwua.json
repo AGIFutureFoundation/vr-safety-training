@@ -1,0 +1,139 @@
+{
+  "id": "union-uwua",
+  "kind": "union",
+  "name": "UWUA Union Package",
+  "title": "SmartCiti.X UWUA Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to Utility Workers Union of America: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "gas-leak-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-night-storm-response-crew-and-portable-generator"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-water-treatment-chemical-delivery-unloading"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-pe-pipe-fusion-and-squeeze-off"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-cathodic-protection-test-station-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-gas-meter-set-and-regulator-vent"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-service-line-locate-and-hand-dig-near-gas-main"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-hydrant-flow-test-and-flushing-with-traffic-control"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-water-main-break-emergency-shutdown-and-excavation"
+    }
+  ],
+  "unions": [
+    "uwua"
+  ],
+  "unionLine": "Utility Workers Union of America",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-utility-yard",
+        "south-treatment-plant",
+        "ridge-reservoir-yard"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "outfall-diffuser-inspection"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "water-plant"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "pumping-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-pump-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-river-road-levee",
+        "pq-buras-substation",
+        "pq-pipeline-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-slidell-staging"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "sunset-reservoir-pump-house"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "marina-seawall-crew"
+      ]
+    }
+  ],
+  "stationNames": {
+    "gas-leak-survey": "Gas Leak Survey",
+    "ut-night-storm-response-crew-and-portable-generator": "Night Storm-Response Crew & Portable Generator",
+    "ut-water-treatment-chemical-delivery-unloading": "Water Treatment Chemical Delivery Unloading",
+    "ut-pe-pipe-fusion-and-squeeze-off": "PE Pipe Fusion & Squeeze-Off",
+    "ut-cathodic-protection-test-station-reading": "Cathodic Protection Test-Station Reading",
+    "ut-gas-meter-set-and-regulator-vent": "Gas Meter Set & Regulator Vent Check",
+    "ut-service-line-locate-and-hand-dig-near-gas-main": "Service-Line Locate & Hand-Dig Near a Marked Gas Main",
+    "ut-hydrant-flow-test-and-flushing-with-traffic-control": "Hydrant Flow Test & Flushing With Traffic Control",
+    "ut-water-main-break-emergency-shutdown-and-excavation": "Water Main Break Emergency Shutdown & Excavation"
+  },
+  "version": "1.0.0",
+  "contentHash": "144ca2f6",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

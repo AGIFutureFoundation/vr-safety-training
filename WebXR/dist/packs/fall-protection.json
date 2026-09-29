@@ -1,0 +1,109 @@
+{
+  "id": "fall-protection",
+  "kind": "programme",
+  "name": "Working at Height — Fall Protection",
+  "title": "SmartCiti.X Working at Height — Fall Protection — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Anchor, connect, and the thing you are standing on. Four heights, four different reasons the system has to be right before the first step off the deck.",
+  "certification": "OSHA 29 CFR 1926 Subpart M fall protection, Subpart L scaffolds, and ANSI Z359 personal fall-arrest systems",
+  "programmes": [
+    "fall-protection"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "scaffold-erection"
+    },
+    {
+      "app": "smartcity",
+      "id": "steel-erector"
+    },
+    {
+      "app": "smartcity",
+      "id": "tower-climb"
+    },
+    {
+      "app": "smartcity",
+      "id": "microwave-backhaul"
+    },
+    {
+      "app": "smartcity",
+      "id": "aerial-ladder"
+    },
+    {
+      "app": "smartcity",
+      "id": "leading-edge-and-horizontal-lifeline"
+    },
+    {
+      "app": "smartcity",
+      "id": "fp-anchor-selection-and-rescue-plan"
+    }
+  ],
+  "unions": [
+    "ironworkers",
+    "carpenters",
+    "cwa"
+  ],
+  "unionLine": "Ironworkers, Carpenters, CWA and NATE climbers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-tower-site",
+        "bridge-approach-toll-plaza"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "tunnel-portal",
+        "ridge-line"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "financial-district-high-rise"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-bay-construction-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "richmond-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "chestnut-construction"
+      ]
+    }
+  ],
+  "stationNames": {
+    "scaffold-erection": "Scaffold Erection",
+    "steel-erector": "Steel Erector",
+    "tower-climb": "Tower Climb",
+    "microwave-backhaul": "Microwave Backhaul",
+    "aerial-ladder": "Aerial Ladder",
+    "leading-edge-and-horizontal-lifeline": "Leading Edge & Horizontal Lifeline",
+    "fp-anchor-selection-and-rescue-plan": "Anchor Selection & Rescue Plan"
+  },
+  "version": "1.0.0",
+  "contentHash": "91575667",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

@@ -12,7 +12,7 @@
  *   WebXR/packs/index.json         the list of packs (id, kind, title, path, file)
  *   WebXR/shared/pk-packs-data.js  the same packs as one compact literal for the bundles (read by pk-packs.js)
  *   WebXR/packs/index.html         the Packs page, source layout (WebXR/packs/ beside the apps' folders)
- *   WebXR/packs/dist/index.html    the Packs page, flat bundle layout (the bundler copies it to WebXR/dist/packs/)
+ *   WebXR/packs/flat/index.html    the Packs page, flat bundle layout (the bundler copies it to WebXR/dist/packs/)
  *
  * Nothing is invented: a pack names only catalog stations and programmes, registry unions and sites the
  * worlds list. No logo file is referenced; the branding line is text.
@@ -371,6 +371,8 @@ ${packs.map(card).join("\n")}
   var want = q.get("pack"); if (want) { var el = document.getElementById("pack-" + want.replace(/[^a-z0-9-]/g, "")); if (el) { el.hidden = false; el.scrollIntoView({ block: "start" }); } }
 })();
 </script>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the Holodeck Packs", except: { move: "A page, not a world: Tab walks the packs.", look: "Scroll the page.", interact: "Enter opens the focused link.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
 </html>
 `;
@@ -379,7 +381,7 @@ ${packs.map(card).join("\n")}
 export async function pkWriteAll() {
   const { packs, catalog, unions } = await pkBuild();
   const { parishes } = await pkWorldSites();
-  mkdirSync(join(PK_DIR, "dist"), { recursive: true });
+  mkdirSync(join(PK_DIR, "flat"), { recursive: true });
   // Drop manifests of packs that no longer exist.
   const want = new Set(packs.map((p) => `${p.id}.json`).concat("index.json"));
   for (const f of readdirSync(PK_DIR)) if (f.endsWith(".json") && !want.has(f)) rmSync(join(PK_DIR, f));
@@ -390,7 +392,7 @@ export async function pkWriteAll() {
   }));
   writeFileSync(PK_DATA_FILE, pkDataModule(packs, catalog));
   writeFileSync(join(PK_DIR, "index.html"), pkPageHtml(packs, catalog, unions, parishes, "source"));
-  writeFileSync(join(PK_DIR, "dist", "index.html"), pkPageHtml(packs, catalog, unions, parishes, "dist"));
+  writeFileSync(join(PK_DIR, "flat", "index.html"), pkPageHtml(packs, catalog, unions, parishes, "dist"));
   return packs;
 }
 

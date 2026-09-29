@@ -1,0 +1,147 @@
+{
+  "id": "heavy-equipment-operators",
+  "kind": "programme",
+  "name": "Heavy Equipment Operators — IUOE Local 3",
+  "title": "SmartCiti.X Heavy Equipment Operators — IUOE Local 3 — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight machines, eight IUOE jobs: an excavator trenching over a located utility, a dozer cutting a bench with its ROPS and seatbelt proven, a wheel loader working around its own blind zones, a grader cutting a road's crown to a stringline, a compactor rolling a fill lift by lift at the edge, a crawler crane's assembly closed out against its own load chart, a pile rig plumbed in two planes before the first blow, and the daily walkaround that keeps every one of them honest. Every station ends with a spotter, a checker or a tender who is doing a job the seat itself cannot do alone.",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subparts O, P, CC and W (motor vehicles and mechanized equipment, excavations, cranes and derricks, and rollover protective structures) and material-handling and pile-driving sections 1926.601 through .603; 29 CFR 1926.21 safety training; NIOSH fatality-investigation findings on struck-by, rollover and crane-assembly incidents; ASME B30.5 for the crawler crane",
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "op-excavator-trench-and-utility-locate"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-dozer-slope-work-and-rollover-protection"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-loader-truck-loading-and-blind-spots"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-grader-fine-grade-and-crown"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-compactor-lift-thickness-and-edge"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-crawler-crane-assembly-and-load-chart"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-pile-driving-rig-and-lead-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-equipment-daily-walkaround-and-fluids"
+    }
+  ],
+  "unions": [
+    "iuoe"
+  ],
+  "unionLine": "IUOE — International Union of Operating Engineers Local 3 operating engineer training",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "hills-grading-site",
+        "ridge-reservoir-yard"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "pier-creosote-pile-site"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "pass-road",
+        "tunnel-portal"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill",
+        "equipment-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "levee-floodwall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-lakefront-levee"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-river-road",
+        "sb-surge-barrier"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-river-road-levee"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-timber-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-bay-construction-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "chestnut-construction"
+      ]
+    }
+  ],
+  "stationNames": {
+    "op-excavator-trench-and-utility-locate": "Excavator Trench & Utility Locate",
+    "op-dozer-slope-work-and-rollover-protection": "Dozer Slope Work & Rollover Protection",
+    "op-loader-truck-loading-and-blind-spots": "Loader Truck Loading & Blind Spots",
+    "op-grader-fine-grade-and-crown": "Grader Fine Grade & Crown",
+    "op-compactor-lift-thickness-and-edge": "Compactor Lift Thickness & Edge",
+    "op-crawler-crane-assembly-and-load-chart": "Crawler Crane Assembly & Load Chart",
+    "op-pile-driving-rig-and-lead-setup": "Pile Driving Rig & Lead Setup",
+    "op-equipment-daily-walkaround-and-fluids": "Equipment Daily Walkaround & Fluids"
+  },
+  "version": "1.0.0",
+  "contentHash": "b738312e",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

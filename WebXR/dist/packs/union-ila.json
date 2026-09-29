@@ -1,0 +1,45 @@
+{
+  "id": "union-ila",
+  "kind": "union",
+  "name": "ILA Union Package",
+  "title": "SmartCiti.X ILA Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Longshoremen's Association: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "pilot-transfer"
+    }
+  ],
+  "unions": [
+    "ila"
+  ],
+  "unionLine": "International Longshoremen's Association",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "channel-buoy-tender-pier"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "approach-buoy-tender-station"
+      ]
+    }
+  ],
+  "stationNames": {
+    "pilot-transfer": "Pilot Transfer"
+  },
+  "version": "1.0.0",
+  "contentHash": "dc925b5e",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

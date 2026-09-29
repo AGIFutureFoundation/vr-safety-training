@@ -1,0 +1,99 @@
+{
+  "id": "union-uaw",
+  "kind": "union",
+  "name": "UAW Union Package",
+  "title": "SmartCiti.X UAW Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Union, United Automobile, Aerospace and Agricultural Implement Workers of America: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "aerospace-defense-and-robotics"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "robot-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "conveyor-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline"
+    }
+  ],
+  "unions": [
+    "uaw"
+  ],
+  "unionLine": "International Union, United Automobile, Aerospace and Agricultural Implement Workers of America",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-robotics-centre"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop"
+      ]
+    }
+  ],
+  "stationNames": {
+    "robot-cell": "Robot Cell",
+    "conveyor-guard": "Conveyor Guard",
+    "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation",
+    "ad-payload-crane-lift-with-a-lift-plan": "Payload Crane Lift with a Lift Plan",
+    "ad-test-stand-exclusion-zone-and-holds": "Test Stand Exclusion Zone & Holds",
+    "ad-hazardous-fluid-servicing-with-a-buddy": "Hazardous Fluid Servicing with a Buddy",
+    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
+    "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline"
+  },
+  "version": "1.0.0",
+  "contentHash": "040ecf7c",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

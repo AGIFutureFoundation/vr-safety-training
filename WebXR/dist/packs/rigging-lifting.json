@@ -1,0 +1,114 @@
+{
+  "id": "rigging-lifting",
+  "kind": "programme",
+  "name": "Rigging and Lifting",
+  "title": "SmartCiti.X Rigging and Lifting — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Load, radius, chart, and what is under the load. Five lifts in five industries that all fail the same way.",
+  "certification": "ASME B30 rigging and crane practice, NCCCO operator knowledge, and ETCP entertainment rigging for the theatre station",
+  "programmes": [
+    "rigging-lifting"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "crane-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "chain-hoist"
+    },
+    {
+      "app": "smartcity",
+      "id": "rigging-loft"
+    },
+    {
+      "app": "smartcity",
+      "id": "fly-system"
+    },
+    {
+      "app": "smartcity",
+      "id": "rl-critical-lift-plan-and-signalperson"
+    }
+  ],
+  "unions": [
+    "ironworkers",
+    "iuoe",
+    "ilwu",
+    "iatse"
+  ],
+  "unionLine": "Ironworkers, IUOE crane operators, ILWU and IATSE riggers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "estuary-research-dock",
+        "coliseum-stadium"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "shelf-lift-bag-site",
+        "wreck-salvage-rigging"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "gondola-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "port-terminal",
+        "stadium-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "embarcadero-piers"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "china-basin-stadium-district",
+        "dogpatch-shipyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "port-southern-terminals"
+      ]
+    }
+  ],
+  "stationNames": {
+    "crane-yard": "Crane Yard",
+    "dock-crane": "Dock Crane",
+    "chain-hoist": "Chain Hoist",
+    "rigging-loft": "Rigging Loft",
+    "fly-system": "Fly System",
+    "rl-critical-lift-plan-and-signalperson": "Critical Lift Plan & Signalperson"
+  },
+  "version": "1.0.0",
+  "contentHash": "5267fb4f",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

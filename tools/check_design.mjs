@@ -51,11 +51,13 @@ const SOURCE_PAGES = [
   "verify/index.html", "arcade/index.html", "smartcity/index.html", "portal/index.html",
   // ATELIER-2: the frontier worlds, the Treasure Map and the privacy page.
   "summit/index.html", "redwood/redwood.html", "treasures.html", "privacy.html",
+  // PACKS: the Holodeck Packs page (tools/gen_packs.mjs).
+  "packs/index.html",
 ].map((p) => join(WEBXR, p));
 const htmlIn = (dir) => existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".html")).map((f) => join(dir, f)) : [];
 const APP_DIST = readdirSync(WEBXR).filter((d) => d !== "dist" && statSync(join(WEBXR, d)).isDirectory()).flatMap((d) => htmlIn(join(WEBXR, d, "dist")));
 const TRACKS = htmlIn(join(WEBXR, "home/tracks"));
-const FLAT = [...htmlIn(join(WEBXR, "dist")), ...htmlIn(join(WEBXR, "dist/tracks")), join(WEBXR, "dist/design/index.html")];
+const FLAT = [...htmlIn(join(WEBXR, "dist")), ...htmlIn(join(WEBXR, "dist/tracks")), ...htmlIn(join(WEBXR, "dist/packs")), join(WEBXR, "dist/design/index.html")];
 const PAGES = [...SOURCE_PAGES, ...TRACKS, ...APP_DIST, ...FLAT];
 
 console.log("Design system\n");
