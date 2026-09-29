@@ -10,11 +10,15 @@
  *       matrices (Float32Array n*16), `cols` n linear RGB colours (Float32Array n*3). A lower tier or a farther ring is a
  *       subset of the higher one: every candidate draws its random numbers first and is kept by one threshold.
  *
- *     dtMountDetail(root, THREE, parish, { tier, hooks? }) -> { flush(), stats(), dispose(), meshes }
+ *     dtDetailSteps(parish, cx, cz, tier, { ring, spots, slice: { deadline } }) -> generator returning the same value
+ *       dtDetailForChunk's one chunk, resumable (SMOOTH): it yields once performance.now() passes slice.deadline.
+ *
+ *     dtMountDetail(root, THREE, parish, { tier, hooks?, frameMs? }) -> { frame(), drain(), flush(), stats(), capacityOk(), dispose(), meshes }
  *       A pool, not per-chunk meshes: DT_FAMILIES.length (≤ 16) InstancedMeshes under `root`, one per family, capacity
  *       per tier (DT_CAPACITY). Sets hooks.chunkLoaded / chunkUnloaded / streamed (NP_MASSING_HOOKS by default): each
- *       streamed chunk inside DT_FADE's rings generates its instances at its ring's density; the pool refills (a copy of
- *       the chunks' arrays, nearest ring first) once per engine update. Call it before npBuildParish.
+ *       streamed chunk inside DT_FADE's rings is queued; every engine update (`streamed` -> frame()) refills the pool (a
+ *       copy of the finished chunks' arrays, nearest ring first) and generates queued chunks, time-sliced, until
+ *       DT_BUDGET.frameMs[tier] is spent (SMOOTH). drain() finishes the queue at once. Call it before npBuildParish.
  *
  * Budget: tiny geometry (2–20 triangles an instance), no textures, two shared materials; the visible set's triangles are
  * capped by the capacities (DT_BUDGET.triangles per tier, tools/check_detail.mjs proves Σ capacity × triangles ≤ it).
@@ -69,7 +73,12 @@ export const DT_BUDGET = {
   // slipways, galleries) measured 13.3 ms CPU median on a quiet gate; the worst-case bound (90 ms) is unchanged. Next step is
   // generation in a worker or spread across frames (docs/consoles/DETAIL-2.md, Left).
   maxMeshes: 16, genMs: 14, genWorstMs: 90, ratio: { high: 100, balanced: 25, low: 5 },
+  // SMOOTH: the detail work one frame may spend (ms): the pool's refill plus sliced generation. A chunk (~13 ms) is made
+  // across several frames instead of inside one; 3 ms is a fifth of a 60 Hz frame and a quarter of a 72 Hz headset's.
+  frameMs: { high: 3, balanced: 3, low: 2 },
 };
+/** How far inside the frame budget the generation deadline sits (the overshoot is one checkpoint, tens of µs). */
+const DT_SLICE_MARGIN_MS = 0.25;
 
 /** Map a district character (or cover) to a scatter table row; unknown characters fall back by name, then to "grass". */
 export function dtCharacterRow(ch) {
@@ -228,18 +237,46 @@ class DtBuf {
     const k = this.n * 3; this.cols[k] = r; this.cols[k + 1] = g; this.cols[k + 2] = b;
     this.n++;
   }
-  trim() { return { n: this.n, mats: this.mats.subarray(0, this.n * 16), cols: this.cols.subarray(0, this.n * 3) }; }
+  // An exact-size copy: the scratch buffers are reused by the next chunk (SMOOTH: ~1.2 MB of fresh buffers a chunk was
+  // ~12 % of generation in the garbage collector).
+  trim() { return { n: this.n, mats: this.mats.slice(0, this.n * 16), cols: this.cols.slice(0, this.n * 3) }; }
+}
+/** Scratch buffer sets, one per generation in flight (a sliced chunk holds its set until it finishes or is dropped). */
+const dtFree = [];
+function dtAcquire() { const b = dtFree.pop() ?? DT_FAMILIES.map(() => new DtBuf()); for (const x of b) x.n = 0; return b; }
+function dtRelease(b) { if (dtFree.length < 4) dtFree.push(b); }
+/** Work units between clock reads in a sliced generation (a unit is one candidate or one grid sample). */
+const DT_CHECK_EVERY = 48;
+
+/** One chunk's detail, in one go. See the header for the shape. */
+export function dtDetailForChunk(parish, cx, cz, tier = "high", opts = {}) {
+  const g = dtDetailSteps(parish, cx, cz, tier, { ...opts, slice: null });
+  let r = g.next();
+  while (!r.done) r = g.next();
+  return r.value;
 }
 
-/** One chunk's detail. See the header for the shape. */
-export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spots = null, tally = false } = {}) {
+/**
+ * The same chunk's detail as a resumable generation (SMOOTH): `slice = { deadline }` (performance.now() ms); the
+ * generator yields at its next checkpoint once the clock passes `slice.deadline` and resumes where it stopped; its return
+ * value is exactly dtDetailForChunk's (the same code, the same random draws in the same order — yielding draws nothing).
+ * With no slice it never reads the clock and never yields. Drop an unfinished one with `.return()` (frees its buffers).
+ */
+export function* dtDetailSteps(parish, cx, cz, tier = "high", opts = {}) {
+  const bufs = dtAcquire();
+  try { return yield* dtSteps(bufs, parish, cx, cz, tier, opts); } finally { dtRelease(bufs); }
+}
+
+function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = false, slice = null } = {}) {
   const prep = npPrepare(parish);
+  // Checkpoints: every DT_CHECK_EVERY work units, a sliced generation reads the clock and yields past its deadline.
+  let work = 0;
+  const clock = typeof performance !== "undefined" ? performance : Date;
   const keepP = (DT_DENSITY[tier] ?? 1) * ((DT_FADE[tier] ?? DT_FADE.high)[ring] ?? 0);
   // tally: also count what every tier would keep at this ring, in the same pass (the checker's ratio walk).
   // (Flat arrays, not [tier, p] pairs: this runs once per candidate — DETAIL-2 cut its allocations.)
   const tierIds = tally ? Object.keys(DT_DENSITY) : [], nT = tierIds.length;
   const tierP = new Float64Array(tierIds.map((t) => DT_DENSITY[t] * ((DT_FADE[t] ?? DT_FADE.high)[ring] ?? 0))), tierN = new Float64Array(nT);
-  const bufs = DT_FAMILIES.map(() => new DtBuf());
   const out = () => { const families = {}; let count = 0; DT_FAMILIES.forEach((f, i) => { families[f.id] = bufs[i].trim(); count += bufs[i].n; }); const counts = {}; tierIds.forEach((t, i) => { counts[t] = tierN[i]; }); return { families, count, tiers: counts }; };
   if (keepP <= 0) return out();
   const x0 = -NP_SIZE / 2 + cx * NP_CHUNK, z0 = -NP_SIZE / 2 + cz * NP_CHUNK;
@@ -247,7 +284,10 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   const region = dtRegionColours(parish);
   // Heights on a 16 m grid, bilinear between (the nearest ring's terrain uses the same step).
   const hn = NP_CHUNK / DT_HGRID + 1, H = new Float32Array(hn * hn);
-  for (let j = 0; j < hn; j++) for (let i = 0; i < hn; i++) H[j * hn + i] = npHeightAt(parish, x0 + i * DT_HGRID, z0 + j * DT_HGRID);
+  for (let j = 0; j < hn; j++) {
+    for (let i = 0; i < hn; i++) H[j * hn + i] = npHeightAt(parish, x0 + i * DT_HGRID, z0 + j * DT_HGRID);
+    if (slice && (work += hn * 2) >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
+  }
   const hAt = (x, z) => {
     const fx = Math.min(hn - 1.0001, Math.max(0, (x - x0) / DT_HGRID)), fz = Math.min(hn - 1.0001, Math.max(0, (z - z0) / DT_HGRID));
     const i = Math.floor(fx), j = Math.floor(fz), u = fx - i, v = fz - j, a = H[j * hn + i], b = H[j * hn + i + 1], c = H[(j + 1) * hn + i], d = H[(j + 1) * hn + i + 1];
@@ -255,7 +295,12 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   };
   // Cover per 8 m cell (the centre's), then the water-edge rows by the neighbours.
   const cover = new Array(DT_CELLS * DT_CELLS);
-  for (let j = 0; j < DT_CELLS; j++) for (let i = 0; i < DT_CELLS; i++) cover[j * DT_CELLS + i] = npCoverAt(parish, x0 + (i + 0.5) * DT_CELL, z0 + (j + 0.5) * DT_CELL);
+  for (let j = 0; j < DT_CELLS; j++) {
+    for (let i = 0; i < DT_CELLS; i++) {
+      cover[j * DT_CELLS + i] = npCoverAt(parish, x0 + (i + 0.5) * DT_CELL, z0 + (j + 0.5) * DT_CELL);
+      if (slice && (work += 2) >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
+    }
+  }
   const isWet = (c) => c === "water";
   // Is a 4-neighbour inside the chunk wet (want = true) or dry (want = false)? (No per-cell arrays or closures.)
   const nbWet = (i, j, want) => (i + 1 < DT_CELLS && isWet(cover[j * DT_CELLS + i + 1]) === want) || (i > 0 && isWet(cover[j * DT_CELLS + i - 1]) === want)
@@ -263,6 +308,7 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   const put = (fam, kind, x, y, z, yaw, jit = 0.25, extra = null) => {
     // Every candidate draws its numbers first, then one threshold keeps it: lower tiers and farther rings are subsets.
     const u = rng(), a = rng(), b = rng(), e = rng();
+    work++;
     for (let q = 0; q < nT; q++) if (u < tierP[q]) tierN[q]++;
     if (u >= keepP) return;
     const sc = extra ?? DT_SCALE[kind] ?? [1, 1, 1], k = 1 - jit + a * jit * 2;
@@ -276,6 +322,7 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   // The Louisiana variant row at a point (a district lookup only for characters that have a variant on this map).
   const variantAt = (c, x, z) => { if (!V.chars.has(c)) return null; const d = npDistrictAt(parish, x, z); return d ? V.rows.get(dtDistrictKey(d)) ?? null : null; };
   for (let j = 0; j < DT_CELLS; j++) for (let i = 0; i < DT_CELLS; i++) {
+    if (slice && work >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
     const c = cover[j * DT_CELLS + i];
     if (c === "road") continue;
     let row = c;
@@ -289,7 +336,8 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
     const tab = DT_TABLE[row] ?? DT_TABLE.grass;
     const cx0 = x0 + i * DT_CELL, cz0 = z0 + j * DT_CELL;
     const onWater = row === "edgewater" || row === "water" || row === "bayouedge" || row === "crabwater";
-    for (const [fam, count0, kind, sp] of tab) {
+    for (let e = 0; e < tab.length; e++) {
+      const te = tab[e], fam = te[0], count0 = te[1], kind = te[2], sp = te[3];
       const count = count0 * DT_CELL_SCALE, whole = Math.floor(count), n = whole + (rng() < count - whole ? 1 : 0);
       for (let q = 0; q < n; q++) {
         // In rows (sp): x snapped to the row lines, the yaw along the row (the same random draws either way).
@@ -316,6 +364,7 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
     if (L < 1) continue;
     const deck = !!style.clearance, w = style.width / 2;
     for (let d = 0; d < L; d += 4) {
+      if (slice && ++work >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
       const t = d / L, p = npPolyPointAt(r.pts, t);
       if (p.x < x0 || p.x >= x0 + NP_CHUNK || p.z < z0 || p.z >= z0 + NP_CHUNK) continue;
       const nx = Math.cos(p.yaw), nz = -Math.sin(p.yaw), ys = npRoadSurfaceAt(parish, r, t);
@@ -350,6 +399,7 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   // Buildings (the chunk's massing spots): roof kit on flat roofs, yards round houses, moss on live oaks, rails by tanks.
   const list = spots ?? npMassingForChunk(parish, cx, cz);
   for (const s of list) {
+    if (slice && work >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
     const c = Math.cos(s.rot), sn = Math.sin(s.rot);
     const at = (lx, lz) => [s.x + c * lx + sn * lz, s.z - sn * lx + c * lz];
     if (s.kind === "tower" || s.kind === "shed" || s.kind === "campusBlock" || s.kind === "quarterBlock") {
@@ -440,7 +490,7 @@ export function dtGeometries(THREE) {
 }
 
 /** Mount the pool. See the header. */
-export function dtMountDetail(root, THREE, parish, { tier = "high", hooks = null } = {}) {
+export function dtMountDetail(root, THREE, parish, { tier = "high", hooks = null, frameMs = DT_BUDGET.frameMs[tier] ?? DT_BUDGET.frameMs.high } = {}) {
   const h = hooks ?? NP_MASSING_HOOKS;
   const cap = DT_CAPACITY[tier] ?? DT_CAPACITY.high;
   const geos = dtGeometries(THREE);
@@ -454,47 +504,128 @@ export function dtMountDetail(root, THREE, parish, { tier = "high", hooks = null
     im.count = 0; im.frustumCulled = false; im.name = `detail-${f.id}`;
     group.add(im); return im;
   });
-  const chunks = new Map(); // key -> { ring, det }
-  let dirty = false, genMs = [], overflow = 0;
+  // SMOOTH: generation is off the frame. chunkLoaded only queues the chunk; every engine update (the `streamed` hook,
+  // once a frame in the app) refills the pool if a chunk finished, then runs the queued generations (dtDetailSteps)
+  // until the frame's detail budget (DT_BUDGET.frameMs[tier], or `frameMs`) is spent, resuming a half-made chunk on
+  // the next frame. The map keeps load order (a finished chunk fills the slot it was queued in), so once the queue is
+  // empty the pool holds exactly what the one-shot fill held. frameMs: Infinity is the one-shot fill (every queued chunk
+  // generated in the update that streamed it).
+  const clock = typeof performance !== "undefined" ? performance : Date;
+  const chunks = new Map(); // key -> { key, ring, cx, cz, spots, det (null while queued) }
+  const queue = [];         // keys waiting, in load order
+  const slice = { deadline: Infinity };
+  let job = null;           // { c, gen, ms } the generation in flight
+  let dirty = false, genMs = [], overflow = 0, frames = [], flushMs = [], slices = 0, stepWorst = 0;
   const fade = DT_FADE[tier] ?? DT_FADE.high;
+  function cancel(key) {
+    if (job?.c.key === key) { job.gen.return(); job = null; }
+    const i = queue.indexOf(key); if (i >= 0) queue.splice(i, 1);
+  }
   function chunkLoaded({ parish: p, chunk, spots }) {
     if (p !== parish) return;
-    if ((fade[chunk.ring] ?? 0) <= 0) { if (chunks.delete(chunk.key)) dirty = true; return; }
-    const t0 = performance.now();
-    const det = dtDetailForChunk(parish, chunk.cx, chunk.cz, tier, { ring: chunk.ring, spots: spots ?? null });
-    genMs.push(performance.now() - t0); if (genMs.length > 256) genMs.shift();
-    chunks.set(chunk.key, { ring: chunk.ring, det }); dirty = true;
+    cancel(chunk.key);
+    const old = chunks.get(chunk.key);
+    if ((fade[chunk.ring] ?? 0) <= 0) { if (chunks.delete(chunk.key) && old.det) dirty = true; return; }
+    if (old?.det) dirty = true; // its old instances leave the pool until the new ones are made
+    chunks.set(chunk.key, { key: chunk.key, ring: chunk.ring, cx: chunk.cx, cz: chunk.cz, spots: spots ?? null, det: null });
+    queue.push(chunk.key);
   }
-  function chunkUnloaded({ parish: p, key }) { if (p === parish && chunks.delete(key)) dirty = true; }
-  function flush() {
-    if (!dirty) return false;
-    dirty = false; overflow = 0;
-    const order = [...chunks.values()].sort((a, b) => a.ring - b.ring);
-    DT_FAMILIES.forEach((f, i) => {
-      const im = meshes[i], max = cap[f.id] ?? 0; let n = 0;
-      for (const c of order) {
-        const d = c.det.families[f.id]; if (!d.n) continue;
-        const take = Math.min(d.n, max - n); if (take <= 0) { overflow += d.n; continue; }
-        im.instanceMatrix.array.set(d.mats.subarray(0, take * 16), n * 16);
-        im.instanceColor.array.set(d.cols.subarray(0, take * 3), n * 3);
-        n += take; overflow += d.n - take;
-      }
-      im.count = n; im.instanceMatrix.needsUpdate = true; im.instanceColor.needsUpdate = true;
-    });
+  function chunkUnloaded({ parish: p, key }) {
+    if (p !== parish) return;
+    cancel(key);
+    const old = chunks.get(key);
+    if (chunks.delete(key) && old.det) dirty = true;
+  }
+  /** Run one step of the generation in flight (starting the next queued chunk if none); true when there was work. */
+  function step() {
+    if (!job) {
+      const key = queue.shift(); if (key === undefined) return false;
+      const c = chunks.get(key);
+      job = { c, gen: dtDetailSteps(parish, c.cx, c.cz, tier, { ring: c.ring, spots: c.spots, slice }), ms: 0 };
+    }
+    const t0 = clock.now(), r = job.gen.next();
+    const dt = clock.now() - t0; job.ms += dt; slices++; if (dt > stepWorst) stepWorst = dt;
+    if (r.done) {
+      job.c.det = r.value; job.c.spots = null; dirty = true;
+      genMs.push(job.ms); if (genMs.length > 256) genMs.shift();
+      job = null;
+    }
     return true;
   }
-  h.chunkLoaded = chunkLoaded; h.chunkUnloaded = chunkUnloaded; h.streamed = flush;
+  // The refill, sliced by family: a pass snapshots the finished chunks (nearest ring first) and copies one family after
+  // another into its InstancedMesh until the frame's deadline; the next frame carries on with the next family. Each
+  // family is replaced whole, so a frame shows every family either before or after the pass, never half of one.
+  let fill = null; // { order, i, overflow } a refill pass in progress
+  function fillFamily(i, order) {
+    const f = DT_FAMILIES[i], im = meshes[i], max = cap[f.id] ?? 0; let n = 0, over = 0;
+    for (const c of order) {
+      const d = c.det.families[f.id]; if (!d.n) continue;
+      const take = Math.min(d.n, max - n); if (take <= 0) { over += d.n; continue; }
+      im.instanceMatrix.array.set(d.mats.subarray(0, take * 16), n * 16);
+      im.instanceColor.array.set(d.cols.subarray(0, take * 3), n * 3);
+      n += take; over += d.n - take;
+    }
+    im.count = n; im.instanceMatrix.needsUpdate = true; im.instanceColor.needsUpdate = true;
+    return over;
+  }
+  /** Refill until `deadline`; true when no refill is pending. */
+  function fillUntil(deadline) {
+    if (!fill) {
+      if (!dirty) return true;
+      dirty = false;
+      fill = { order: [...chunks.values()].filter((c) => c.det).sort((a, b) => a.ring - b.ring), i: 0, overflow: 0, t: 0 };
+    }
+    const t0 = clock.now();
+    while (fill.i < DT_FAMILIES.length) { fill.overflow += fillFamily(fill.i++, fill.order); if (clock.now() >= deadline) break; }
+    fill.t += clock.now() - t0;
+    if (fill.i < DT_FAMILIES.length) return false;
+    overflow = fill.overflow; flushMs.push(fill.t); if (flushMs.length > 256) flushMs.shift();
+    fill = null;
+    return true;
+  }
+  /** Refill the whole pool now (a pass in progress is finished first, then a fresh one if anything changed since). */
+  function flush() {
+    const had = dirty || !!fill;
+    while (!fillUntil(Infinity));
+    if (dirty) while (!fillUntil(Infinity));
+    return had;
+  }
+  /** One frame's detail work: carry on refilling, then generate until the budget is spent. Returns its ms. */
+  function frame() {
+    const t0 = clock.now();
+    if (frameMs === Infinity) { slice.deadline = Infinity; while (step()); flush(); }
+    else {
+      // The generator yields at its first checkpoint past the deadline (≤ DT_CHECK_EVERY work units, tens of µs), so
+      // the deadline sits a margin inside the budget.
+      slice.deadline = t0 + frameMs - DT_SLICE_MARGIN_MS;
+      if (fillUntil(slice.deadline)) while (clock.now() < slice.deadline && step());
+    }
+    const ms = clock.now() - t0;
+    frames.push(ms); if (frames.length > 512) frames.shift();
+    return ms;
+  }
+  /** Finish every queued chunk now and refill (fast travel, tests): the one-shot fill's result. */
+  function drain() { slice.deadline = Infinity; while (step()); return flush(); }
+  h.chunkLoaded = chunkLoaded; h.chunkUnloaded = chunkUnloaded; h.streamed = frame;
   function stats() {
     let instances = 0, triangles = 0;
     DT_FAMILIES.forEach((f, i) => { instances += meshes[i].count; triangles += meshes[i].count * f.tris; });
-    const s = [...genMs].sort((a, b) => a - b);
-    return { meshes: meshes.length, instances, triangles, chunks: chunks.size, overflow, genMedianMs: s.length ? s[s.length >> 1] : 0, genWorstMs: s.length ? s[s.length - 1] : 0 };
+    const s = [...genMs].sort((a, b) => a - b), fr = [...frames].sort((a, b) => a - b), fl = [...flushMs].sort((a, b) => a - b);
+    return {
+      meshes: meshes.length, instances, triangles, chunks: chunks.size, overflow, pending: queue.length + (job ? 1 : 0),
+      genMedianMs: s.length ? s[s.length >> 1] : 0, genWorstMs: s.length ? s[s.length - 1] : 0,
+      frameMs, frames: fr.length, frameMedianMs: fr.length ? fr[fr.length >> 1] : 0, frameWorstMs: fr.length ? fr[fr.length - 1] : 0,
+      flushWorstMs: fl.length ? fl[fl.length - 1] : 0, slices, stepWorstMs: stepWorst,
+    };
   }
+  function capacityOk() { return DT_FAMILIES.every((f, i) => meshes[i].count <= (cap[f.id] ?? 0) && meshes[i].count <= meshes[i].instanceMatrix.count); }
   function dispose() {
+    if (job) { job.gen.return(); job = null; }
+    queue.length = 0;
     if (h.chunkLoaded === chunkLoaded) { h.chunkLoaded = null; h.chunkUnloaded = null; h.streamed = null; }
     root.remove(group); for (const m of meshes) m.dispose?.(); for (const g of Object.values(geos)) g.dispose(); solid.dispose(); flat.dispose();
   }
-  return { flush, stats, dispose, meshes, group };
+  return { flush, frame, drain, stats, capacityOk, dispose, meshes, group };
 }
 
 /**

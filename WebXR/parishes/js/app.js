@@ -760,8 +760,8 @@ function frame(now) {
   }
   // INTERIORS: inside a room the outdoor world neither streams nor animates (its root is hidden); it resumes on exit.
   if (!ixCam) {
-  world.update(np.x, np.z, 2);
-  cwStreetsMount.update(np.x, np.z, 1);
+  // One stream step a frame (SMOOTH: a merge had left LANDMARKS-2's unguarded pair above this guarded one, so every frame
+  // streamed twice — up to four chunk builds and two detail budgets a frame — and streamed inside a walk-in room too).
   if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); }
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
@@ -1020,6 +1020,7 @@ window.__parishTest = {
   dean: () => dnHere,
   interiors: { mount: ixWorld, doors: ixDoors, rentals: () => ixRentalDoors(), use: () => npUse(), root }, // INTERIORS' browser pass
   harvest: hvWorld,
+  detail: dtPool, // SMOOTH: the time-sliced detail pool (stats(): pending, frameWorstMs, frameMs; drain())
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
