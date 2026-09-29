@@ -492,6 +492,30 @@ SGP.SG_FIELD_LESSONS.forEach((l) => {
     hint: "Take a field lesson at a San Francisco site and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: l.file, text: true, lesson: l.id },
     place: { id: l.site, stations: [l.k12, l.station] } });
 });
+// The rest of the Bay Area (PLAYLAYER, WebXR/shared/pl-bay-play.js): the other San Francisco, Oakland, East Bay,
+// South Bay and Bay Program maps on the same shapes — a Crew Kit off every site and each lesson's check as a quiet find.
+const PLP = await imp("WebXR/shared/pl-bay-play.js");
+let plIndex = 0;
+for (const d of PLP.PL_DISTRICTS) {
+  d.sites.forEach((s, i) => {
+    const [dx, dz] = SL_OFFSETS[(i + 5) % SL_OFFSETS.length];
+    let L;
+    try { L = siteLesson(s, /bridge|harbour|marina|rescue|park|marsh|shore|port|rail|clean|soil|well|sediment|court|pool|creek|lake|estuary|transit/i); }
+    catch (_) { L = unionLesson(SG_KIT_UNIONS[plIndex % SG_KIT_UNIONS.length]); }
+    plIndex += 1;
+    add({ id: `tz-parish-${d.id}-${s.id}`, name: `Crew Kit: ${s.name}`, surface: "parishes", world: "The Parishes", area: d.name,
+      set: `bay-kits-${d.id}`, how: "proximity", trigger: { world: "parishes", parish: d.id, site: s.id, dx, dz, r: 7 },
+      hint: PLP.PL_TREASURE_HINT, reveal: "chest", lesson: L.lesson, source: L.source, place: L.place ?? null,
+      gate: i % 4 === 2 && L.own ? { stations: [L.station], note: `The ${s.name} crew keeps this kit for people who have done the job there.` } : null });
+  });
+}
+PLP.PL_FIELD_LESSONS.forEach((l) => {
+  if (!rd(l.file).includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim from ${l.file}`);
+  add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "parishes", world: "The Parishes", area: "Field lessons",
+    set: "field-scholar", how: "lesson", trigger: { world: "parishes", lesson: l.id },
+    hint: "Take a field lesson at a Bay Area site and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: l.file, text: true, lesson: l.id },
+    place: { id: l.site, stations: [l.k12, l.station] } });
+});
 
 // ------------------------------------------------------------ sets
 
@@ -515,6 +539,7 @@ const SETS = [
   ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit, in Redwood Reach and across the parishes."],
   ...SLP.SL_PARISHES.map((p) => [`storm-kits-${p.id}`, `${p.short} Storm Kits`, `${p.short} Storm Crew`, `A storm kit cache off every site in ${p.name}.`]),
   ...SGP.SG_DISTRICTS.map((d) => [`fog-kits-${d.id}`, `${d.short} Fog-Day Kits`, `${d.short} Fog Crew`, `A fog-day kit off every site in ${d.name}.`]),
+  ...PLP.PL_DISTRICTS.map((d) => [`bay-kits-${d.id}`, `${d.short} Crew Kits`, `${d.short} Kit Keeper`, `A crew kit off every site in ${d.name}.`]),
 ].map(([id, name, badge, blurb]) => ({ id, name, badge, blurb, members: T.filter((t) => t.set === id).map((t) => t.id) }));
 
 const SURFACES = [
