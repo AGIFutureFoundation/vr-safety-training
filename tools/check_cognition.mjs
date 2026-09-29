@@ -180,9 +180,16 @@ for (const [w, p] of mounts) {
   const src = readFileSync(join(ROOT, p), "utf8");
   if (/cg-runner\.js/.test(src) && /cgMountRunner\(/.test(src)) { mounted++; ok(); } else fail(w, `${p} does not mount cgMountRunner`);
 }
+const { NP_PARISHES } = await import("../WebXR/shared/np-parishes.js");
+const perMap = NP_PARISHES.map((p) => [p.id, CG.cgLessonsAt({ world: "parishes", parish: p.id }).length]);
+for (const [id, n] of perMap) if (!n) fail(id, "no K-12 lesson placed in this map"); else ok();
+for (const [id] of perMap) for (const l of CG.cgLessonsAt({ world: "parishes", parish: id })) {
+  const site = NP_PARISHES.find((p) => p.id === id).sites.find((s) => s.id === l.here.site);
+  if (!site) fail(l.id, `placed at ${id}/${l.here.site}, which is not a site of that map`); else ok();
+}
 const rwHere = CG.cgLessonsAt({ world: "redwood" }).length;
 const npHere = CG.cgLessonsAt({ world: "parishes" }).length;
-line(`7 runner mounted: ${mounted}/${mounts.length} (parishes app, Redwood Reach); lessons placed — parishes ${npHere}, redwood ${rwHere}`);
+line(`7 runner mounted: ${mounted}/${mounts.length} (parishes app, Redwood Reach); lessons placed — parishes ${npHere}, redwood ${rwHere}; maps with lessons ${perMap.filter(([, n]) => n).length}/${perMap.length} (${perMap.map(([id, n]) => `${id} ${n}`).join(", ")})`);
 
 for (const f of fails.slice(0, 30)) console.log(`  FAIL ${f}`);
 console.log(`check_cognition: ${pass} passed, ${fails.length} failed (${Date.now() - t0} ms)`);

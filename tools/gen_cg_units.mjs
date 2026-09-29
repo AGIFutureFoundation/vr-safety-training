@@ -5,7 +5,8 @@
  *   node tools/gen_cg_units.mjs          # writes WebXR/shared/cg-units.js, WebXR/flows/cg-*.json, updates WebXR/flows/index.json
  *   node tools/gen_cg_units.mjs --check  # writes nothing; exits 1 if the output would change
  *
- * Sources (nothing invented): the catalog's four K-12 curricula (WebXR/smartcity/catalog.json), the
+ * Sources (nothing invented): the catalog's four K-12 curricula (WebXR/smartcity/catalog.json), the parish and district
+ * maps' own field lessons and site boards (np-parishes.js), the
  * field lessons (WebXR/shared/field-lessons.js, Redwood's RW_FIELD_LESSONS), BAYOU's parish lessons
  * (WebXR/shared/by-parish-lessons.js) and each K-12 station's own steps and interrupts (the rooms).
  *
@@ -27,6 +28,7 @@ const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json
 const FL = await import("../WebXR/shared/field-lessons.js");
 const BY = await import("../WebXR/shared/by-parish-lessons.js");
 const { RW_FIELD_LESSONS } = await import("../WebXR/redwood/js/rw-lore-data.js");
+const { NP_PARISHES } = await import("../WebXR/shared/np-parishes.js");
 const city = await loadSmartCity();
 const ROOMS = new Map(city.ROOMS.map((r) => [r.id, r]));
 const STATIONS = new Map(catalog.stations.map((s) => [s.id, s]));
@@ -126,6 +128,9 @@ for (const c of K12) {
       ...BY.BY_LESSONS.filter((l) => l.station === id).map((l) => ({ world: "parishes", parish: l.parish, site: l.site, lesson: l.id })),
       ...FL.K2_FIELD_LESSONS.filter((l) => l.station === id).map((l) => ({ world: l.world, anchor: l.anchor ?? null, lesson: l.id })),
       ...RW_FIELD_LESSONS.filter((l) => l.k12 === id).map((l) => ({ world: "redwood", site: l.site, lesson: l.id })),
+      // the ten parish and district maps: their own field lessons, then the site boards that launch the station
+      ...NP_PARISHES.flatMap((p) => (p.fieldLessons ?? []).filter((l) => (l.k12 ?? l.station) === id).map((l) => ({ world: "parishes", parish: p.id, site: l.site, lesson: l.id }))),
+      ...NP_PARISHES.flatMap((p) => p.sites.filter((s) => (s.stations ?? []).includes(id)).map((s) => ({ world: "parishes", parish: p.id, site: s.id, board: true }))),
     ];
     lessons.push({
       id: `cg-${c.id}-${id.replace(/^k12-/, "")}`, station: id, title: STATIONS.get(id)?.name ?? id,

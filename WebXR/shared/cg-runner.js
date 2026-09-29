@@ -38,7 +38,8 @@ export function cgLessonsAt({ world, parish = null, site = null } = {}) {
 
 /** The GRIOT character who guides a lesson: the parish lesson's own guide, else the fallback id the world passes. */
 export function cgGuideFor(lesson, fallbackId = null) {
-  const id = lesson?.here?.guide ?? lesson?.where?.guide ?? fallbackId;
+  // the guide of the place the lesson plays at (a parish lesson's own guide never follows it to another map)
+  const id = (lesson?.here ? lesson.here.guide : lesson?.where?.guide) ?? fallbackId;
   const g = id ? GR_ROSTER.find((c) => c.id === id) : null;
   return g ? { id: g.id, name: g.name, role: g.role } : null;
 }
