@@ -252,6 +252,7 @@ function channel() {
       { id: "east-bank-marsh-place", name: "the east bank marsh", position: f.xz([-93.3080, 30.1650]), kind: "marsh" },
       { id: "intracoastal-waterway-bank", name: "the Gulf Intracoastal Waterway", position: f.xz([-93.2950, 30.1110]), kind: "canal" },
       { id: "east-fields-place", name: "the fields east of the channel", position: f.xz([-93.2700, 30.1500]), kind: "field" },
+      { id: "open-water-shore", name: "the shore of the open water beside the channel", position: f.xz([-93.3265, 30.1280]), kind: "shore" },
       { id: "lcc-sign", name: SIGN, position: f.xz([-93.2750, 30.1340]), kind: "sign" },
     ],
     connectors: [
@@ -312,7 +313,7 @@ function vinton() {
       { id: "south-marsh", name: "the marsh south of Vinton", character: "wetland", poly: P([[-93.5700, 30.1470], [-93.5374, 30.1470], [-93.5374, 30.1357], [-93.5700, 30.1357]]) },
     ],
     sites: [
-      s("lpv-barge-berth-build", "Barge Berth Build", "port", [-93.5900, 30.1630], "berth", "The new barge berth going in (illustrative; the facts file gives the berth as 600 ft by 50 ft): the pile rig, the deck pour, the lift plan and the first mooring lines.", { precinct: true }),
+      s("lpv-barge-berth-build", "Barge Berth Build", "port", [-93.5900, 30.1630], "berth", "The new barge berth going in (illustrative): the pile rig, the deck pour, the lift plan and the first mooring lines.", { precinct: true }),
       s("lpv-site-prep", "Port Site Preparation", "construction", [-93.5980, 30.1720], "siteprep", "Clearing and grading the port's upland (illustrative): the dozer on the slope, locates before the dig, compacted lifts and the walkaround.", { precinct: true }),
       s("lpv-rail-and-road", "Rail and Road Crew", "rail", [-93.6165, 30.1715], "railroad", "The rail spur and the port road (illustrative): ties and rail, roadway worker protection, the crossing signal and the compacted base.", { precinct: true }),
       s("lpv-sheet-pile-wall", "Sheet-Pile Wall Crew", "seawall", [-93.5820, 30.1620], "sheetpile", "The sheet-pile wall along the berth (illustrative): the vibratory rig and its leads, the welded wale and the lift plan.", { precinct: true }),
@@ -380,6 +381,62 @@ function write(p) {
   console.log(`wrote np-data-${p.id}.js — ${p.sites.length} sites`);
 }
 
+// Field lessons (RW_FIELD_LESSONS shape, no digits) and gated side quests (the gate contract), per map.
+const L = (id, title, site, landmark, k12, station, trade, tradeLine, steps, q, options, answer, why) => ({ id, title, site, ...(landmark ? { landmark } : {}), k12, station, trade, tradeLine, minutes: 3, steps, check: { q, options, answer, why } });
+const Q = (parish, id, title, site, siteName, summary, stations, note) => ({ id, kind: "side-quest", title, world: "parishes", parish, site, siteName, summary, gate: { stations, note } });
+const EXTRA = {
+  "lc-lakefront-downtown": {
+    fieldLessons: [
+      L("sw-ld-fl-bridge-lever", "How a Crane Lifts a Bridge Beam", "lcd-bridge-work", "i10-calcasieu-bridge", "k12-simple-machines-at-a-crane", "bridge-cable-inspection", "Ironworkers", "An ironworker watches the signalperson, because a load on a crane swings wide and a clear path keeps everyone safe.",
+        ["Look up at the high bridge over the river and the crane beside the pier.", "A crane is a long lever: a heavy weight at the back balances the load at the hook.", "The crew keeps everyone out from under the load and follows one person's signals."],
+        "Why does the crew keep people out from under a crane's load?", ["A load can swing or drop, so the space under it stays clear", "It makes the crane go faster", "The crane cannot lift near people"], 0, "A suspended load can swing or fall, so the area under it is kept clear and one signalperson directs the lift."),
+      L("sw-ld-fl-storm-drain", "Where the Storm Drain Goes", "lcd-storm-drain-crew", "lake-charles-shore", "k12-es-where-the-storm-drain-goes", "stormwater-outfall", "Utility crews", "A storm drain crew keeps the outfall clear, because everything that washes into a street drain ends up in the lake.",
+        ["Find a drain grate by the kerb near the lakefront.", "Rain carries leaves, litter and oil from the street into the pipe under the road.", "The pipe opens at the lake, so the crew keeps it clear and nothing is poured down a drain."],
+        "Where does water from a street drain in Lake Charles end up?", ["In the lake and the river", "In a water treatment plant every time", "It disappears underground"], 0, "Street drains carry rain straight to the lake and the river, which is why nothing should be poured into them."),
+      L("sw-ld-fl-levee", "How a Seawall Holds the Lake Back", "lcd-seawall-crew", "lake-charles-shore", "k12-by-how-a-levee-holds-water-back", "br-levee-inspection-and-seepage", "Shoreline crews", "A shoreline crew checks the wall for cracks and wet ground behind it, because a small leak is the first sign a repair is needed.",
+        ["Stand on the lakefront and look at the wall between the water and the walk.", "The wall holds back the lake when the wind pushes waves toward the shore.", "The crew looks for cracks, gaps and soft ground behind the wall and reports them."],
+        "What is an early sign that a seawall needs repair?", ["Wet or soft ground behind the wall", "Birds sitting on the wall", "Calm water in front of it"], 0, "Water seeping through or under a wall shows up as wet or soft ground behind it, which the crew reports for repair."),
+    ],
+    gated: [
+      Q("lc-lakefront-downtown", "sw-ld-gated-bridge-deck", "A Shift on the Bridge Deck", "lcd-bridge-work", "Interstate River Bridge Crew", "Join the bridge crew for a shift on the deck high over the Calcasieu River.", ["leading-edge-and-horizontal-lifeline", "bridge-lead-containment"], "Finish the lifeline and lead containment stations before the deck shift"),
+      Q("lc-lakefront-downtown", "sw-ld-gated-tower-pour", "The Tower Pour", "lcd-downtown-high-rise", "Downtown High-Rise Site", "Help the crew place a floor slab on the downtown tower.", ["concrete-pour", "formwork-shoring"], "Walk the concrete pour and shoring stations before the pour"),
+    ],
+  },
+  "lc-calcasieu-channel": {
+    fieldLessons: [
+      L("sw-cc-fl-crane-balance", "Balancing a Heavy Lift", "lcc-crane-pad", "lcc-sign", "k12-simple-machines-at-a-crane", "rl-critical-lift-plan-and-signalperson", "Operating engineers", "An operator checks the load chart and the ground under the crane before every heavy lift, because soft ground can tip a crane.",
+        ["Look at the big crane standing on its pad of packed stone.", "The counterweight at the back balances the heavy load hanging from the hook.", "The pad spreads the weight so the crane stays level on soft ground."],
+        "Why is a crane set on a built-up pad at a marsh site?", ["So soft ground does not sink under it", "So it looks taller", "So it can drive faster"], 0, "Soft ground can give way under a crane's weight, so the crew builds and compacts a pad first."),
+      L("sw-cc-fl-tide-berth", "Reading the Water at the Berth", "lcc-marine-offload", "calcasieu-ship-channel-bank", "k12-graphing-tide-readings-at-the-pier", "mooring-line", "Longshore and marine crews", "A marine crew watches the water level at the berth, because a barge rises and falls and the lines must be tended.",
+        ["Watch a mark on a piling at the berth through the day.", "The water rises and falls a little with the tide and the wind.", "The crew tends the mooring lines so the barge stays snug as the water moves."],
+        "Why do crews tend mooring lines through the day?", ["The water level changes, so the lines need adjusting", "Lines wear out every hour", "To make the barge go faster"], 0, "As the water rises and falls the barge moves, so lines are adjusted to keep it held safely."),
+      L("sw-cc-fl-marsh", "A Marsh Slows the Storm", "lcc-marsh-mat-access", "east-bank-marsh-place", "k12-by-wetlands-as-a-storms-speed-bump", "br-tidal-marsh-grading-amphibious-excavator", "Heavy equipment operators", "An operator crosses the marsh on mats, because the mats protect the marsh and keep the machine from sinking.",
+        ["Look across the marsh grass on the channel's east bank.", "Grass and shallow water slow waves and soak up storm water.", "Crews lay mats so machines cross without tearing up the marsh."],
+        "Why do crews lay mats before driving on marsh?", ["To protect the marsh and keep machines from sinking", "To make the marsh warmer", "Mats are only for decoration"], 0, "Mats spread a machine's weight so it does not sink or rut the marsh that protects the shore."),
+    ],
+    gated: [
+      Q("lc-calcasieu-channel", "sw-cc-gated-module-set", "Setting a Module", "lcc-lng-module-set", "Module Set Area", "Help the lift crew set a pre-built module on its foundation (illustrative).", ["rl-critical-lift-plan-and-signalperson", "op-crawler-crane-assembly-and-load-chart"], "Finish the critical lift plan and crane load chart stations before the lift"),
+      Q("lc-calcasieu-channel", "sw-cc-gated-hydrotest", "The Hydrotest Walkdown", "lcc-hydrotest", "Hydrotest Station", "Walk the test boundary with the inspector before a line is filled (illustrative).", ["ib-hydrostatic-test-and-inspector-witness"], "Walk the hydrostatic test station before the walkdown"),
+    ],
+  },
+  "lc-port-of-vinton": {
+    fieldLessons: [
+      L("sw-pv-fl-float", "Why a Loaded Barge Floats", "lpv-barge-berth-build", "port-of-vinton-place", "k12-buoyancy-and-pressure-in-the-deep", "mooring-line", "Marine and dock crews", "A dock crew watches how low a barge sits, because a heavy load pushes it deeper and changes how it is tied up.",
+        ["Look at a barge tied to the berth and where the water meets its side.", "The water pushes up on the hull, and a heavier load sits the barge lower.", "The crew adjusts the lines as the barge is loaded so it stays snug to the berth."],
+        "What happens to a barge as it is loaded?", ["It sits lower in the water", "It rises higher", "It stops floating"], 0, "More weight pushes the hull deeper until the water's push balances it, so the barge sits lower."),
+      L("sw-pv-fl-drain", "Where the Field Water Goes", "lpv-drainage-culvert", "rice-fields-place", "k12-es-where-the-storm-drain-goes", "or-ranch-road-grading-and-culvert", "Labourers and operators", "A culvert crew keeps the pipes under the road clear, because a blocked culvert floods the road and the fields.",
+        ["Find the ditch beside the port road and the pipe under it.", "Rain from the fields runs along the ditch and through the pipe to the waterway.", "The crew clears the pipe ends and never works in a trench without protection."],
+        "What happens when a culvert under a road is blocked?", ["Water backs up and can flood the road", "The road gets drier", "Nothing changes"], 0, "Blocked culverts stop the water moving, so it backs up over the road and the fields."),
+      L("sw-pv-fl-marsh", "A Marsh Slows the Water", "lpv-environmental-survey", "south-marsh-place", "k12-by-wetlands-as-a-storms-speed-bump", "marsh-transect-survey", "Survey crews", "A survey crew walks a line across the marsh and records what grows there, so the work around the port protects it.",
+        ["Stand at the marsh edge south of town.", "Grass and shallow water slow the water after a storm.", "The survey crew records the plants so the port's work can avoid harming them."],
+        "Why does a crew survey the marsh before port work?", ["So the work can protect the marsh", "To find the fastest road", "To count cars"], 0, "Knowing what lives in the marsh lets the crew plan work that avoids harming it."),
+    ],
+    gated: [
+      Q("lc-port-of-vinton", "sw-pv-gated-first-pile", "The First Berth Pile", "lpv-barge-berth-build", "Barge Berth Build", "Help the pile crew drive the first pile for the new berth (illustrative).", ["op-pile-driving-rig-and-lead-setup", "rl-critical-lift-plan-and-signalperson"], "Finish the pile rig and lift plan stations before the first pile"),
+      Q("lc-port-of-vinton", "sw-pv-gated-rail-spur", "Laying the Rail Spur", "lpv-rail-and-road", "Rail and Road Crew", "Work with the track crew laying the port's rail spur (illustrative).", ["ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines"], "Walk roadway worker protection and track machines before the spur"),
+    ],
+  },
+};
 // Paired crossings between the SOUTHWEST maps: each end names the other's own from.position (both fields hold their end).
 const maps = [lakefront(), channel(), vinton()];
 for (const p of maps) for (const c of p.connectors) {
@@ -387,4 +444,4 @@ for (const p of maps) for (const c of p.connectors) {
   const pair = other?.connectors.find((x) => x.to.parish === p.id && x.lonlat.join() === c.lonlat.join());
   if (pair) c.to.position = pair.from.position;
 }
-for (const p of maps) write(p);
+for (const p of maps) { Object.assign(p, EXTRA[p.id]); write(p); }
