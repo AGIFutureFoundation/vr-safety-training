@@ -70,7 +70,9 @@ const BYL = await import("../WebXR/shared/by-parish-lessons.js");
 // checks them, and the brief's counts below are of the core stations only.
 const ESL = await import("../WebXR/shared/es-bay-lessons.js");
 // BAYOU parish stations and ESTUARY Bay ecology stations launch from their map sites and count apart from the core.
-const BY_IDS = new Set([...BYL.BY_LESSONS.map((l) => l.station), ...ESL.ES_LESSONS.map((l) => l.station)]);
+// LA-K12's Louisiana stations launch from their Louisiana map sites (section 11) and count apart from the core too.
+const LKL = await import("../WebXR/shared/lk-la-lessons.js");
+const BY_IDS = new Set([...BYL.BY_LESSONS.map((l) => l.station), ...ESL.ES_LESSONS.map((l) => l.station), ...LKL.LK_LESSONS.map((l) => l.station)]);
 const city = await loadSmartCity();
 const ROOMS = new Map(city.ROOMS.map((r) => [r.id, r]));
 
@@ -622,6 +624,74 @@ for (const w of ["summit", "redwood"]) if (!/K2_WORLD_PAGES = \{[^}]*\b/.test(re
   if (!mod.id || mod.audience !== "classroom" || mod.lessons.length !== ESL.ES_LESSONS.length) fail("estuary", "DEAN module shape malformed"); else ok();
   const planned = ESL.ES_PLANNED.filter((p) => !ROOMS.has(p.station)).length;
   console.log(`  · ${ESL.ES_LESSONS.length} Bay ecology lessons built, ${planned} published id(s) still without a station, DEAN module ${mod.id}`);
+}
+
+// 11 — the Louisiana lessons (LA-K12, WebXR/shared/lk-la-lessons.js): each station in a classroom programme, its band's
+// reading ceiling held, three one-idea steps and a check, no digit, no fear framing, no project figure, company name or
+// hiring claim; every fixed anchor that names a map in the tree names a real site on it (guarded otherwise), every lesson
+// plays on at least one map in the tree, the character fallback never lands outside a Louisiana region, and the SCHOLAR
+// and DEAN hooks are shaped and guarded.
+{
+  const FEAR = /\b(scary|scared|disaster|catastroph\w*|devastat\w*|deadly|drown\w*|terrif\w*|destroy\w*|panic|poison\w*|dying|dead)\b/i;
+  const PROJECT = /\b(?:SpaceX|Starbase|Meta|Applied Digital|Delta Forge|Shintech|Black Bayou|Saronic|AVEX|Aviation Exteriors|Woodside|FastSites|billion|million|hiring|hires)\b/i;
+  const { NP_PARISHES } = await import("../WebXR/shared/np-parishes.js");
+  const byId = new Map(NP_PARISHES.map((p) => [p.id, p]));
+  const programmes = new Map(CURRICULA.map((c) => [c.id, c]));
+  const seen = new Set();
+  let places = 0, pending = 0, byChar = 0;
+  for (const l of LKL.LK_LESSONS) {
+    const where = l.id;
+    if (!/^lk-lesson-/.test(l.id) || seen.has(l.id)) fail(where, "lesson id is not a unique lk-lesson- id"); else ok();
+    seen.add(l.id);
+    const prog = programmes.get(l.programme);
+    if (!prog || prog.audience !== "classroom" || !prog.stations.some((s) => s.id === l.station)) fail(where, `station ${l.station} is not in classroom programme ${l.programme} — run node tools/k12-data/lk-wire.mjs`); else ok();
+    const r = ROOMS.get(l.station);
+    if (!r) { fail(where, `station ${l.station} is not a SmartCiti.X station`); continue; }
+    const ceiling = LKL.LK_BAND_CEILING[l.band];
+    if (!ceiling) fail(where, `band "${l.band}" unknown`);
+    else {
+      const st = readingStats((r.steps ?? []).map((s) => `${s.cue} ${s.why}`).join(" "));
+      if (st.grade > ceiling) fail(where, `station reading level ${st.grade.toFixed(1)} over the ${l.band} ceiling ${ceiling}`); else ok();
+      const ls = readingStats([`${l.title}.`, ...l.steps, l.check.q].join(" "));
+      if (ls.grade > Math.min(ceiling, RL_LESSON_MAX)) fail(where, `lesson lines read at ${ls.grade.toFixed(1)}, over ${Math.min(ceiling, RL_LESSON_MAX)}`); else ok();
+      if (ls.wordsPerSentence < WPS_LESSON[0] || ls.wordsPerSentence > WPS_LESSON[1]) fail(where, `lesson lines at ${ls.wordsPerSentence.toFixed(1)} words per sentence`); else ok();
+      console.log(`  · ${l.station}: station reads at ${st.grade.toFixed(1)}, lesson lines at ${ls.grade.toFixed(1)} (${l.band} ceiling ${ceiling})`);
+    }
+    const c = l.check;
+    if (!c?.q || !Array.isArray(c.options) || c.options.length !== 3 || !Number.isInteger(c.answer) || c.answer < 0 || c.answer >= c.options.length || !c.why) fail(where, "check question malformed"); else ok();
+    if (!Array.isArray(l.steps) || l.steps.length !== 3) fail(where, "not three one-idea steps"); else ok();
+    if (!(l.minutes >= 2 && l.minutes <= 4)) fail(where, `minutes ${l.minutes} outside two to four`); else ok();
+    const text = [l.title, l.trade, l.tradeLine, l.programmeWhy, ...l.steps, c.q, ...c.options, c.why].join(" ");
+    if (/\d/.test(text)) fail(where, "lesson text states a figure (a digit)"); else ok();
+    const all = `${text} ${prose(r)}`.replace(/no employer's hiring is described/gi, "");
+    if (FEAR.test(all)) fail(where, `fear framing (${all.match(FEAR)[0]})`); else ok();
+    if (PROJECT.test(all)) fail(where, `project figure, company or hiring claim (${all.match(PROJECT)[0]})`); else ok();
+    let here = 0;
+    for (const a of l.anchors) {
+      const p = byId.get(a.map);
+      if (!p) { pending++; continue; }
+      if (!p.sites.some((s) => s.id === a.site)) fail(where, `anchor ${a.map}/${a.site} is not a site of that map`); else { ok(); here++; }
+    }
+    for (const p of NP_PARISHES) {
+      const got = LKL.lkPlacesOn(l, p);
+      for (const g of got) {
+        places++;
+        if (g.byCharacter) { byChar++; if (!LKL.LK_REGIONS.test(String(p.region ?? ""))) fail(where, `character fallback landed on ${p.id} outside a Louisiana region`); else ok(); }
+      }
+    }
+    if (!here) fail(where, "no fixed anchor on a map in the tree"); else ok();
+    if (!LKL.lkStationHref(l).includes(`sim=${l.station}`)) fail(where, "station link does not launch its station"); else ok();
+    const calls = [];
+    LKL.lkStartLesson(l.id, null, { scStartSession: (id, w) => (calls.push([id, w]), { id }) });
+    if (calls.length !== 1 || calls[0][0] !== l.id || calls[0][1].site !== l.anchors[0].site) fail(where, "SCHOLAR hook did not start a session at the lesson's first anchor"); else ok();
+    if (LKL.lkStartLesson(l.id, null, { scStartSession: null }) !== null) fail(where, "SCHOLAR hook is not guarded"); else ok();
+  }
+  const ses = NP_PARISHES.flatMap((p) => LKL.lkSessionLessons(p.id, { npParish: (id) => byId.get(id) }));
+  if (new Set(ses.map((s) => s.id)).size !== ses.length) fail("la-k12", "session lesson ids are not unique across maps"); else ok();
+  if (ses.some((s) => !byId.get(s.parish)?.sites.some((x) => x.id === s.site))) fail("la-k12", "a session lesson sits on no real site"); else ok();
+  const mod = LKL.lkModule();
+  if (!mod.id || mod.audience !== "classroom" || mod.lessons.length !== LKL.LK_LESSONS.length) fail("la-k12", "DEAN module shape malformed"); else ok();
+  console.log(`  · ${LKL.LK_LESSONS.length} Louisiana lessons, ${places} places on maps in the tree (${byChar} by character), ${pending} fixed anchor(s) pending a map, DEAN module ${mod.id}`);
 }
 
 // 6 — the finder, the doc
