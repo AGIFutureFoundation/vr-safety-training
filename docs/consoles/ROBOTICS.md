@@ -51,7 +51,7 @@ Environment & robotics wave. Base 9914455.
    digits → Observe: check_robotics 18/18.
 6. Reason: coordinator asked for DATAWORKS' DX schema → Act: guarded import + dxMakeEpisode/dxValidateEpisode →
    Observe: v1 in-tree and DX (temporary copy) both write 42 valid episodes; check_robotics 18/18. Committed 08d62a5.
-7. Reason: evals after → Observe: see the hand-back (eval_worlds before: 27 subjects, mean 97, 18 findings).
+7. Reason: evals and neighbours after → Observe: eval_worlds 27 subjects, mean 97, 18 findings before and after, every subject line identical; check_robot all pass; check_parishes 30924 passed, 0 failed; check_gates 7674 checks, 0 failed.
 
 ## Left
 
