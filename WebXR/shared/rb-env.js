@@ -430,32 +430,36 @@ function rbCellSim(sc) {
 // --------------------------------------------------------- station scenarios
 
 function rbStationSim(sc, bind) {
-  const { room, api, SessionClass } = bind ?? {};
+  const { room, SessionClass, rebuild = null } = bind ?? {};
+  let api = bind?.api ?? null;
   if (!room || !api || !SessionClass) throw new Error(`rbEnv(${sc.id}): a station scenario needs { station: { room, api, SessionClass } } (tools/lib/headless.mjs loadSmartCity())`);
-  let session, fb = null, agent = null, agentSeed = 1;
-  const hitIds = Object.keys(api.hits ?? {});
-  const hazardIds = Object.keys(room.hazards ?? {}).filter((id) => hitIds.includes(id));
+  let session, fb = null, agent = null, agentSeed = 1, engineRandom = Math.random;
+  // The engine draws a little cosmetic noise from Math.random (a track step's wobble, shared/game.js); for an
+  // episode to be deterministic by seed, the env lends it a seeded stream for the length of each call only.
+  const seeded = (fn) => { const m = Math.random; Math.random = engineRandom; try { return fn(); } finally { Math.random = m; } };
+  const ids = () => { const hitIds = Object.keys(api.hits ?? {}); return { hitIds, hazardIds: Object.keys(room.hazards ?? {}).filter((id) => hitIds.includes(id)) }; };
   return {
     init(seed) {
-      fb = null; agent = null; agentSeed = seed;
-      session = new SessionClass(room, {
+      // A station moves its props as it runs (a drag carries a part), so a reset rebuilds it when the caller can.
+      if (rebuild) api = rebuild();
+      fb = null; agent = null; agentSeed = seed; engineRandom = rng(seed * 48271 + 17);
+      session = seeded(() => new SessionClass(room, {
         onStep: (st, x) => api.onStep?.(st, x), onStepComplete: (st, x) => api.onStepComplete?.(st, x),
         onFeedback: (f, x) => { fb = f; api.onFeedback?.(f, x); }, onHazard: (id, x) => api.onHazard?.(id, x),
-      });
-      session.start();
+      }));
+      seeded(() => session.start());
     },
     observe() { const o = observeEmbodied(session, api, { room }); return { scenario: sc.id, station: room.id, ...o }; },
     apply(a) {
       const before = session.score; fb = null;
-      applyAction(session, a);
-      session.tick(sc.dt);
+      seeded(() => { applyAction(session, a); session.tick(sc.dt); });
       const o = observeEmbodied(session, api, { room });
       return { reward: (session.score - before) / 100, violations: fb?.hazard ? ["hazard"] : [], hazard: !!fb?.hazard, feedback: fb?.kind ?? null, grasp: o.grasp ?? null, maxForce: o.maxForce ?? null, pose: o.pose ?? null, keepOut: o.keepOut ?? null, operator: o.operator ?? "robot" };
     },
     finished() { return session.finished; },
     passed() { return session.finished && session.stars >= 2 && session.hazardHits === 0; },
     expert(o, R, skill) {
-      if (!agent || agent.skill !== skill) agent = new RobotAgent({ skill, seed: agentSeed, hitIds, hazardIds });
+      if (!agent || agent.skill !== skill) agent = new RobotAgent({ skill, seed: agentSeed, ...ids() });
       return agent.act(session);
     },
     raw() { return observe(session); },

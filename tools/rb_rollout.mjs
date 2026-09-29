@@ -31,6 +31,29 @@ const args = process.argv.slice(2);
 const opt = (name, dflt) => { const i = args.indexOf(`--${name}`); return i >= 0 && args[i + 1] && !args[i + 1].startsWith("--") ? args[i + 1] : dflt; };
 const has = (name) => args.includes(`--${name}`);
 
+// DATAWORKS' published schema (WebXR/shared/dx-data.js DX_SCHEMA, "smartcitix.holodeck.episode" 2.0.0) behind a
+// guard: it merges in parallel. When present, episodes are written through dxMakeEpisode() and validated with
+// dxValidateEpisode(); otherwise in the current tools/export_dataset.mjs v1 shape. The manifest records which.
+let DX = null;
+try { DX = await import("../WebXR/shared/dx-data.js"); } catch { DX = null; }
+/** Fixed timestamps keep synthetic shards byte-reproducible (they are simulated, not recorded, episodes). */
+const RB_FIXED_TIME = "2026-01-01T00:00:00.000Z";
+export const RB_WRITTEN_SCHEMA = DX ? { id: DX.DX_SCHEMA_ID, version: DX.DX_SCHEMA_VERSION } : { id: "vr-training-episodes (tools/export_dataset.mjs)", version: RB_SCHEMA.dataset };
+
+function rbToDx(sc, skill, seed, steps, summary, v1) {
+  const ep = DX.dxMakeEpisode({
+    source: "synthetic", world: "robotics", map: null, kind: sc.kind === "station" ? "station" : "robot-game", scenario: sc.id,
+    episodeId: `rb-${sc.id}-s${skill}-n${seed}`, startedAt: RB_FIXED_TIME, endedAt: RB_FIXED_TIME, createdAt: RB_FIXED_TIME,
+    durationS: v1.summary.seconds, truncated: summary.truncated,
+    summary: { success: summary.passed, safePractice: summary.violationCount === 0, score: summary.score, errors: v1.summary.errors, hazardHits: v1.summary.hazardHits },
+    generator: "tools/rb_rollout.mjs", recordedWith: "headless", seed, policy: `rbPolicy skill ${skill}`,
+    notes: `envSchema ${RB_SCHEMA.env}; station ${sc.station}; violations ${summary.violationRules.join(",") || "none"}`,
+  }, steps.map((s) => ({ ...s, t: s.info.t, info: { ...s.info, outcome: s.info.keepOutViolation ? "keep-out" : s.info.violations.length ? "hazard" : s.info.feedback ?? "ok", unsafe: s.info.violations.length > 0 } })));
+  const v = DX.dxValidateEpisode(ep);
+  if (!v.ok) throw new Error(`${sc.id}: DX schema: ${v.errors.slice(0, 3).join("; ")}`);
+  return ep;
+}
+
 /** Build the episodes for a plan, in memory. Exported so the checker can run
  * a small plan without touching disk. */
 export async function rbEpisodes({ scenarios = null, skills = [0.3, 0.65, 1], seeds = 2, baseSeed = 1, stations = true } = {}) {
@@ -43,7 +66,7 @@ export async function rbEpisodes({ scenarios = null, skills = [0.3, 0.65, 1], se
     if (sc.kind === "station") {
       const r = suite.ROOMS.find((x) => x.id === sc.station);
       if (!r) throw new Error(`${sc.id}: station ${sc.station} is not in the SmartCiti.X suite`);
-      bind = { room: r, api: r.build(new suite.THREE.Group()), SessionClass: suite.Session };
+      bind = { room: r, api: r.build(new suite.THREE.Group()), rebuild: () => r.build(new suite.THREE.Group()), SessionClass: suite.Session };
       room = r;
     }
     for (const skill of skills) for (let k = 0; k < seeds; k++) {
@@ -51,7 +74,7 @@ export async function rbEpisodes({ scenarios = null, skills = [0.3, 0.65, 1], se
       const env = rbEnv(sc.id, { seed, station: bind });
       const { steps, summary } = rbRollout(env, { skill, seed });
       const viol = steps.reduce((n, s) => n + (s.info.violations?.length ?? 0), 0);
-      out.push({ room, episode: {
+      const v1 = {
         schemaVersion: RB_SCHEMA.dataset, envSchema: RB_SCHEMA.env, source: "synthetic",
         app: "robotics", sourceApp: sc.kind === "station" ? "smartcity" : "robotics",
         station: sc.kind === "station" ? sc.station : sc.id, scenario: sc.id, name: sc.name, category: "Robotics & HRI",
@@ -63,7 +86,8 @@ export async function rbEpisodes({ scenarios = null, skills = [0.3, 0.65, 1], se
           keepOutViolations: steps.filter((s) => s.info.keepOutViolation).length, handoffs: 0,
           truncated: summary.truncated, violationRules: summary.violationRules,
         },
-      } });
+      };
+      out.push({ room, episode: DX ? rbToDx(sc, skill, seed, steps, summary, v1) : v1 });
     }
   }
   return out;
@@ -88,16 +112,16 @@ if (isMain) {
   for (const { room, episode } of eps) {
     appendFileSync(shard, JSON.stringify(episode) + "\n");
     fw?.add(episode, room);
-    const p = (per[episode.scenario] ??= { scenario: episode.scenario, station: episode.station, episodes: 0, steps: 0, passed: 0 });
-    p.episodes += 1; p.steps += episode.steps.length; p.passed += episode.summary.passed ? 1 : 0; steps += episode.steps.length;
+    const p = (per[episode.scenario] ??= { scenario: episode.scenario, episodes: 0, steps: 0, passed: 0 });
+    p.episodes += 1; p.steps += episode.steps.length; p.passed += (episode.summary.passed ?? episode.summary.success) ? 1 : 0; steps += episode.steps.length;
   }
   fw?.close?.();
   writeFileSync(join(out, "manifest.json"), JSON.stringify({
     generator: "tools/rb_rollout.mjs", generatedAt: new Date().toISOString(),
-    schemaVersion: RB_SCHEMA.dataset, envSchema: RB_SCHEMA.env, frame: RB_SCHEMA.frame, units: RB_SCHEMA.units,
+    schemaVersion: RB_SCHEMA.dataset, writtenSchema: RB_WRITTEN_SCHEMA, envSchema: RB_SCHEMA.env, frame: RB_SCHEMA.frame, units: RB_SCHEMA.units,
     skills, seeds, scenarios: Object.values(per), totals: { episodes: eps.length, steps },
     shards: ["episodes-robotics.jsonl"], formats,
     licence: "CC0-1.0 (synthetic, generated from procedural SmartCiti.X robotics scenarios)",
   }, null, 2) + "\n");
-  console.log(`rb_rollout: ${eps.length} episodes, ${steps} steps → ${out}`);
+  console.log(`rb_rollout: ${eps.length} episodes, ${steps} steps, schema ${RB_WRITTEN_SCHEMA.id} ${RB_WRITTEN_SCHEMA.version} → ${out}`);
 }

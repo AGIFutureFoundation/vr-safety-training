@@ -817,6 +817,9 @@ APPS = {
             SHARED / "at-world.js",
             SHARED / "at-sound.js",
             SHARED / "game.js",
+            # ROBOTICS: the robot policy and body (after game.js), for rb-env.js below.
+            SHARED / "robot.js",
+            SHARED / "robot-embodiment.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
@@ -861,6 +864,10 @@ APPS = {
             # DRILLS: the scenario drills (data, then the registry and mount; after st-paths.js and npc-data.js).
             SHARED / "dr-drills-data.js",
             SHARED / "dr-drills.js",
+            # ROBOTICS: scenarios (plain data), the gym env, then the sites and games mount (after side-game-mechanics.js, np-parish.js).
+            SHARED / "rb-robotics-data.js",
+            SHARED / "rb-env.js",
+            SHARED / "rb-world.js",
             # BAYQUEST: the Bay Program play layer (after ty-economy.js, st-stories.js, nw-physics.js, tf-terraform.js).
             SHARED / "bq-facts.js",
             SHARED / "bq-games-data.js",

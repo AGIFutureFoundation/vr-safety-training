@@ -46,6 +46,7 @@ import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atS
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
+import { rbMountRobotics, rbGamesFor, rbRegisterMechanics } from "../../shared/rb-world.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
@@ -517,6 +518,7 @@ function frame(now) {
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
+  rbWorld?.animate(dt, np.x, np.z);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
@@ -725,7 +727,8 @@ window.__parishTest = {
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  rbRegisterMechanics(); // ROBOTICS: the robotics games play in the shared panel by mechanic key
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id), ...rbGamesFor(parish)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
@@ -747,6 +750,13 @@ var drWorld = drMountDrills({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.drills = drWorld;
+// ROBOTICS (docs/consoles/ROBOTICS.md): robotics sites beside fitting map sites — moving robots that slow and stop as you
+// near (speed-and-separation), an e-stop to test, lockout at the cell gate, scored on safe practice; listed under the drills.
+var rbWorld = rbMountRobotics({
+  three: THREE, root, parish, el: $("menu-drills"), tier: npTierName, reducedMotion: npReduced, toast: npToast,
+  stationHref: (id, siteId) => npLink(id, siteId),
+});
+window.__parishTest.robotics = rbWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
