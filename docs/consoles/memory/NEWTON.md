@@ -9,4 +9,4 @@
   ring, swim meter, schematic vehicle by class, dent by vertex offset, hazards, the card DOM (`#nw-card`).
 - Parishes app: walk through `nwPhys.walk`, drive via the Motor Pool board's `onDrive`, Q exits; `__parishTest.newton`.
 - Seams read from `globalThis.tfWaterDepthAt / tfFlowAt / cwColliders / tfLitterAt` until the coordinator imports them.
-- Checker `tools/check_newton.mjs` (57 checks, ~2.6 s), in check_all and the baseline.
+- Checker `tools/check_newton.mjs` (60 checks, ~2.6 s), in check_all and the baseline. eval_worlds mean 98 before and after (15 subjects, no page error). check_parishes 12920/0, check_drivables 2049 clean. Dist not rebuilt (coordinator regenerates bundles).
