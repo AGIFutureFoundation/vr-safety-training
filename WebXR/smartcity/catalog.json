@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 691
+      "stations": 694
     },
     "trades": {
       "entry": "trades/index.html",
@@ -74,6 +74,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "cp-zero-emission-drayage-truck-pre-trip",
         "ml-retail-counter-deescalation",
         "wp-permit-study-and-knowledge-test",
         "wp-warehouse-ride-along",
@@ -435,6 +436,8 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cp-zero-emission-terminal-equipment-pre-use",
+        "cp-hydrogen-fuel-cell-equipment-and-fuelling",
         "cp-charging-yard-connectors-and-e-stops",
         "cp-high-voltage-lockout-on-electric-cargo-equipment",
         "yc-shore-power-connection-and-in-water-electrical-safety",
@@ -10041,6 +10044,238 @@
     },
     {
       "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip",
+      "name": "Zero-Emission Drayage Truck Pre-Trip",
+      "title": "SmartCiti.X~ Zero-Emission Drayage Truck Pre-Trip VR VR",
+      "tagline": "A battery-electric drayage tractor before the day's port turns: last night's inspection report read, the charge cable stowed and the port door shut, the state of charge read against the turns, the orange cables under the cab looked at and left alone, the air pressure built and held on an electric compressor, the brakes tested, the fifth wheel and the chassis twistlocks locked, a flat chassis tyre found, the pedestrian alert heard, and your own report written",
+      "category": "Mobility & Transit",
+      "domain": "Mobility",
+      "trade": "Teamsters drayage driver doing the pre-trip inspection on a battery-electric drayage tractor and container chassis before the first port turn",
+      "union": null,
+      "certification": "Teamsters driver training; FMCSA 49 CFR 396 inspection, repair and maintenance, including reviewing the last driver vehicle inspection report and writing your own; 49 CFR 393 parts and accessories necessary for safe operation; 49 CFR 392 driving of commercial motor vehicles; ANSI Z535.4 for the high-voltage warning labels on the battery system; OSHA 29 CFR 1910.132 for the gloves and high-visibility vest worn on the walk-around; NFPA 70E for the high-voltage components a driver recognises and does not touch; and the tractor maker's own pre-trip items for its battery system",
+      "accent": "#8fd14f",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "gauge",
+        "track",
+        "hold",
+        "turn",
+        "sequence",
+        "find"
+      ],
+      "badge": {
+        "id": "cpdt-badge",
+        "name": "Rolled Out Ready",
+        "note": "The report read, the charge matched to the turns and the chassis locked to the box before the first turn"
+      },
+      "meshes": 229,
+      "lights": 0,
+      "overBudget": false,
+      "index": "846",
+      "flat": false,
+      "system": "Rolled Out Ready",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "awards": [
+        {
+          "id": "cpdt-clean-read",
+          "name": "Clean Read",
+          "note": "The key reading committed inside its band first time"
+        },
+        {
+          "id": "cpdt-held",
+          "name": "Held Steady",
+          "note": "Every watch and hold ran unbroken"
+        },
+        {
+          "id": "cpdt-safe",
+          "name": "Never a Shortcut",
+          "note": "No unsafe action reached for anywhere in the run"
+        },
+        {
+          "id": "cpdt-clean",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "cpdt-fast",
+          "name": "Inside Par",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use",
+      "name": "Zero-Emission Terminal Equipment Pre-Use",
+      "title": "SmartCiti.X~ Zero-Emission Terminal Equipment Pre-Use VR VR",
+      "tagline": "Three battery-electric machines before a vessel shift: the operator's checklist read, the charge cable unplugged and hung before anything moves, the yard tractor's state of charge read against the shift, a lit high-voltage warning on its dash found and the tractor tagged, the top pick's twistlocks and spreader cycled, its hydraulic line checked, the straddle carrier's legs, tyres and mirrors walked, the pedestrian alert tested on a machine that is otherwise silent, a brake test held, a broken camera found, and the defects written up",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "ILWU equipment operator doing the pre-use inspection on a battery-electric yard tractor, top pick and straddle carrier before a vessel shift",
+      "union": null,
+      "certification": "ILWU operator training; OSHA 29 CFR 1917 marine terminals, including powered industrial truck inspection before use; 29 CFR 1910.178 powered industrial trucks; ANSI B56.1 for lift truck operator checks; NFPA 70E for the high-voltage warnings an operator must recognise and not touch; and each machine's posted operator's checklist",
+      "accent": "#f0b323",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "gauge",
+        "find",
+        "turn",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "cpte-badge",
+        "name": "Checked Before It Rolled",
+        "note": "Every machine walked, every warning read and the quiet ones heard before they moved"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "845",
+      "flat": false,
+      "system": "Checked Before It Rolled",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "awards": [
+        {
+          "id": "cpte-clean-read",
+          "name": "Clean Read",
+          "note": "The key reading committed inside its band first time"
+        },
+        {
+          "id": "cpte-held",
+          "name": "Held Steady",
+          "note": "Every watch and hold ran unbroken"
+        },
+        {
+          "id": "cpte-safe",
+          "name": "Never a Shortcut",
+          "note": "No unsafe action reached for anywhere in the run"
+        },
+        {
+          "id": "cpte-clean",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "cpte-fast",
+          "name": "Inside Par",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+      "name": "Hydrogen Fuel Cell Equipment and Fuelling",
+      "title": "SmartCiti.X~ Hydrogen Fuel Cell Equipment and Fuelling VR VR",
+      "tagline": "A hydrogen fuel cell top pick at the terminal's fuelling island: the posted instructions read, ignition sources left outside the island, the machine parked and shut down, the static ground clipped, a frosted and scuffed nozzle seal found and swapped for the spare, the nozzle seated, the fill pressure watched to the stop, the portable detector reading clean at every fitting, a hiss at the tank valve found with the detector rather than a hand, the dispenser's emergency stop pressed, the compartment locked out before the cover comes off, and the fuelling logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "ILWU equipment operator or IAM mechanic fuelling a hydrogen fuel cell top pick at a terminal fuelling station and checking its fuel cell compartment",
+      "union": null,
+      "certification": "ILWU operator training; NFPA 55 compressed gases and cryogenic fluids code for gaseous hydrogen storage and dispensing; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.178 powered industrial trucks for the operator's pre-use check; 29 CFR 1910.147 the control of hazardous energy before the fuel cell compartment is opened; NFPA 70 (NEC) for the dispenser's classified-area wiring; and the dispenser's own posted fuelling instructions",
+      "accent": "#7fb8ff",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "cphy-badge",
+        "name": "Clean Fill",
+        "note": "No ignition source on the island, the ground clipped first and every fitting checked with the detector, never a hand"
+      },
+      "meshes": 234,
+      "lights": 0,
+      "overBudget": false,
+      "index": "844",
+      "flat": false,
+      "system": "Clean Fill",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "awards": [
+        {
+          "id": "cphy-clean-read",
+          "name": "Clean Read",
+          "note": "The key reading committed inside its band first time"
+        },
+        {
+          "id": "cphy-held",
+          "name": "Held Steady",
+          "note": "Every watch and hold ran unbroken"
+        },
+        {
+          "id": "cphy-safe",
+          "name": "Never a Shortcut",
+          "note": "No unsafe action reached for anywhere in the run"
+        },
+        {
+          "id": "cphy-clean",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "cphy-fast",
+          "name": "Inside Par",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
       "id": "cp-battery-energy-storage-site-awareness",
       "name": "Battery Energy Storage Site Awareness",
       "title": "SmartCiti.X~ Battery Energy Storage Site Awareness VR VR",
@@ -10202,7 +10437,7 @@
       "domain": "Maritime",
       "trade": "ILWU maintenance mechanic or IAM machinist isolating the high-voltage system on a battery-electric yard tractor in a terminal shop bay",
       "union": null,
-      "certification": "ILWU maintenance and repair training; IAM machinist training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
+      "certification": "ILWU maintenance and repair training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
       "accent": "#f2a12b",
       "parSeconds": 360,
       "weather": "overcast",
@@ -36188,7 +36423,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 240,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -36848,7 +37083,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

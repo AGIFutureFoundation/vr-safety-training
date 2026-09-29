@@ -29183,7 +29183,7 @@ export const SIMS_META = [
     "domain": "Maritime",
     "trade": "ILWU maintenance mechanic or IAM machinist isolating the high-voltage system on a battery-electric yard tractor in a terminal shop bay",
     "category": "Maritime & Ports",
-    "certification": "ILWU maintenance and repair training; IAM machinist training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
+    "certification": "ILWU maintenance and repair training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
     "name": "High-Voltage Lockout on Electric Cargo Equipment",
     "weather": "overcast",
     "indoor": null,
@@ -29286,6 +29286,132 @@ export const SIMS_META = [
     "interruptCount": 2,
     "game": {
       "system": "Line Held",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "index": "844",
+    "domain": "Maritime",
+    "trade": "ILWU equipment operator or IAM mechanic fuelling a hydrogen fuel cell top pick at a terminal fuelling station and checking its fuel cell compartment",
+    "category": "Maritime & Ports",
+    "certification": "ILWU operator training; NFPA 55 compressed gases and cryogenic fluids code for gaseous hydrogen storage and dispensing; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.178 powered industrial trucks for the operator's pre-use check; 29 CFR 1910.147 the control of hazardous energy before the fuel cell compartment is opened; NFPA 70 (NEC) for the dispenser's classified-area wiring; and the dispenser's own posted fuelling instructions",
+    "name": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Hydrogen Fuel Cell Equipment and Fuelling VR VR",
+    "tagline": "A hydrogen fuel cell top pick at the terminal's fuelling island: the posted instructions read, ignition sources left outside the island, the machine parked and shut down, the static ground clipped, a frosted and scuffed nozzle seal found and swapped for the spare, the nozzle seated, the fill pressure watched to the stop, the portable detector reading clean at every fitting, a hiss at the tank valve found with the detector rather than a hand, the dispenser's emergency stop pressed, the compartment locked out before the cover comes off, and the fuelling logged",
+    "accent": 8370431,
+    "accentCss": "#7fb8ff",
+    "parSeconds": 340,
+    "badge": {
+      "id": "cphy-badge",
+      "name": "Clean Fill",
+      "note": "No ignition source on the island, the ground clipped first and every fitting checked with the detector, never a hand"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean Fill",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-zero-emission-terminal-equipment-pre-use",
+    "index": "845",
+    "domain": "Maritime",
+    "trade": "ILWU equipment operator doing the pre-use inspection on a battery-electric yard tractor, top pick and straddle carrier before a vessel shift",
+    "category": "Maritime & Ports",
+    "certification": "ILWU operator training; OSHA 29 CFR 1917 marine terminals, including powered industrial truck inspection before use; 29 CFR 1910.178 powered industrial trucks; ANSI B56.1 for lift truck operator checks; NFPA 70E for the high-voltage warnings an operator must recognise and not touch; and each machine's posted operator's checklist",
+    "name": "Zero-Emission Terminal Equipment Pre-Use",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Zero-Emission Terminal Equipment Pre-Use VR VR",
+    "tagline": "Three battery-electric machines before a vessel shift: the operator's checklist read, the charge cable unplugged and hung before anything moves, the yard tractor's state of charge read against the shift, a lit high-voltage warning on its dash found and the tractor tagged, the top pick's twistlocks and spreader cycled, its hydraulic line checked, the straddle carrier's legs, tyres and mirrors walked, the pedestrian alert tested on a machine that is otherwise silent, a brake test held, a broken camera found, and the defects written up",
+    "accent": 15774499,
+    "accentCss": "#f0b323",
+    "parSeconds": 340,
+    "badge": {
+      "id": "cpte-badge",
+      "name": "Checked Before It Rolled",
+      "note": "Every machine walked, every warning read and the quiet ones heard before they moved"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Checked Before It Rolled",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-zero-emission-drayage-truck-pre-trip",
+    "index": "846",
+    "domain": "Mobility",
+    "trade": "Teamsters drayage driver doing the pre-trip inspection on a battery-electric drayage tractor and container chassis before the first port turn",
+    "category": "Mobility & Transit",
+    "certification": "Teamsters driver training; FMCSA 49 CFR 396 inspection, repair and maintenance, including reviewing the last driver vehicle inspection report and writing your own; 49 CFR 393 parts and accessories necessary for safe operation; 49 CFR 392 driving of commercial motor vehicles; ANSI Z535.4 for the high-voltage warning labels on the battery system; OSHA 29 CFR 1910.132 for the gloves and high-visibility vest worn on the walk-around; NFPA 70E for the high-voltage components a driver recognises and does not touch; and the tractor maker's own pre-trip items for its battery system",
+    "name": "Zero-Emission Drayage Truck Pre-Trip",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Zero-Emission Drayage Truck Pre-Trip VR VR",
+    "tagline": "A battery-electric drayage tractor before the day's port turns: last night's inspection report read, the charge cable stowed and the port door shut, the state of charge read against the turns, the orange cables under the cab looked at and left alone, the air pressure built and held on an electric compressor, the brakes tested, the fifth wheel and the chassis twistlocks locked, a flat chassis tyre found, the pedestrian alert heard, and your own report written",
+    "accent": 9425231,
+    "accentCss": "#8fd14f",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cpdt-badge",
+      "name": "Rolled Out Ready",
+      "note": "The report read, the charge matched to the turns and the chassis locked to the box before the first turn"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rolled Out Ready",
       "currency": "TAG",
       "ranks": [
         "Yard Hand",

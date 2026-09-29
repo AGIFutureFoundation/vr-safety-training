@@ -161,6 +161,14 @@ export const SIM_CP_CHARGING_YARD_CONNECTORS_AND_E_STOPS = {
       }
     },
     {
+      "id": "lock-out-breaker",
+      "kind": "select",
+      "target": "dispenser-breaker",
+      "title": "Lock out dispenser 2 at its breaker",
+      "cue": "Open dispenser 2's breaker in the yard switchgear and hang your lock and tag before the electrician opens the housing.",
+      "why": "A tag on the connector stops people using it, but opening the housing needs the energy controlled at its source under 29 CFR 1910.147, and a lock on the breaker is what makes the repair safe whoever turns up to do it."
+    },
+    {
       "id": "watch-charge-session",
       "kind": "track",
       "target": "session-meter",
@@ -198,14 +206,6 @@ export const SIM_CP_CHARGING_YARD_CONNECTORS_AND_E_STOPS = {
       "title": "Check the ground around the pedestals",
       "cue": "Look at the base of each pedestal for pooled water, a cracked base or a damaged bollard.",
       "why": "Dispensers are rated for weather, but water standing over a cable entry or a cracked pedestal base is how moisture reaches terminations over time; a blocked drain is a small fix today and a ground fault next month."
-    },
-    {
-      "id": "lock-out-breaker",
-      "kind": "select",
-      "target": "dispenser-breaker",
-      "title": "Lock out dispenser 2 at its breaker",
-      "cue": "Open dispenser 2's breaker in the yard switchgear and hang your lock and tag before the electrician opens the housing.",
-      "why": "A tag on the connector stops people using it, but opening the housing needs the energy controlled at its source under 29 CFR 1910.147, and a lock on the breaker is what makes the repair safe whoever turns up to do it."
     },
     {
       "id": "update-status-board",
@@ -311,7 +311,7 @@ export const SIM_CP_CHARGING_YARD_CONNECTORS_AND_E_STOPS = {
     }
 
     // ------------------------------------------------ the things you reach for
-    const PROPS = [{"id":"yard-switching-log","name":"yard switching log","kind":"prop"},{"id":"dispenser-one","name":"dispenser 1","kind":"prop"},{"id":"dispenser-two","name":"dispenser 2","kind":"prop"},{"id":"dispenser-three","name":"dispenser 3","kind":"prop"},{"id":"cracked-connector-latch","name":"cracked latch on dispenser 2's connector","kind":"find"},{"id":"out-of-service-tag","name":"out of service tag","kind":"prop"},{"id":"loose-charge-cable","name":"loose charge cable","kind":"prop"},{"id":"cable-hanger","name":"cable hanger","kind":"dest"},{"id":"yard-e-stop","name":"yard e stop","kind":"prop"},{"id":"e-stop-reset","name":"e stop reset","kind":"prop"},{"id":"good-connector","name":"good connector","kind":"prop"},{"id":"tractor-inlet","name":"tractor inlet","kind":"dest"},{"id":"session-meter","name":"session meter","kind":"meter"},{"id":"pedestal-puddle","name":"water pooled around dispenser 3's pedestal","kind":"find"},{"id":"dispenser-breaker","name":"dispenser breaker","kind":"prop"},{"id":"in-service-board","name":"in service board","kind":"prop"},{"id":"yard-radio","name":"yard radio","kind":"prop"},{"id":"stop-operator","name":"stop operator","kind":"figure"},{"id":"walkway-sign","name":"walkway sign","kind":"prop"}];
+    const PROPS = [{"id":"yard-switching-log","name":"yard switching log","kind":"prop"},{"id":"dispenser-one","name":"dispenser 1","kind":"prop"},{"id":"dispenser-two","name":"dispenser 2","kind":"prop"},{"id":"dispenser-three","name":"dispenser 3","kind":"prop"},{"id":"cracked-connector-latch","name":"cracked latch on dispenser 2's connector","kind":"find"},{"id":"out-of-service-tag","name":"out of service tag","kind":"prop"},{"id":"loose-charge-cable","name":"loose charge cable","kind":"prop"},{"id":"cable-hanger","name":"cable hanger","kind":"dest"},{"id":"yard-e-stop","name":"yard e stop","kind":"prop"},{"id":"e-stop-reset","name":"e stop reset","kind":"prop"},{"id":"good-connector","name":"good connector","kind":"prop"},{"id":"tractor-inlet","name":"tractor inlet","kind":"dest"},{"id":"dispenser-breaker","name":"dispenser breaker","kind":"prop"},{"id":"session-meter","name":"session meter","kind":"meter"},{"id":"pedestal-puddle","name":"water pooled around dispenser 3's pedestal","kind":"find"},{"id":"in-service-board","name":"in service board","kind":"prop"},{"id":"yard-radio","name":"yard radio","kind":"prop"},{"id":"stop-operator","name":"stop operator","kind":"figure"},{"id":"walkway-sign","name":"walkway sign","kind":"prop"}];
     const HAZ = [{"id":"use-cracked-connector","name":"use cracked connector?"},{"id":"drive-over-cable","name":"drive over cable?"},{"id":"reset-e-stop-blind","name":"reset e stop blind?"},{"id":"open-housing-live","name":"open housing live?"}];
     const propCols = [0x2b3138, 0x3c444c, 0x46505a, 0x55606a, 0x2f3a44, 0x394652, 0x4c5660, 0x5f6973];
     const bodies = {};

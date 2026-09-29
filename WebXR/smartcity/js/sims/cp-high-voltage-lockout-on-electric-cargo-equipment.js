@@ -25,7 +25,7 @@ export const SIM_CP_HIGH_VOLTAGE_LOCKOUT_ON_ELECTRIC_CARGO_EQUIPMENT = {
   trade: "ILWU maintenance mechanic or IAM machinist isolating the high-voltage system on a battery-electric yard tractor in a terminal shop bay",
   category: "Maritime & Ports",
   weather: "overcast",
-  certification: "ILWU maintenance and repair training; IAM machinist training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
+  certification: "ILWU maintenance and repair training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
   name: "High-Voltage Lockout on Electric Cargo Equipment",
   title: simTitle("High-Voltage Lockout on Electric Cargo Equipment VR"),
   accent: CPHV_ACCENT,
