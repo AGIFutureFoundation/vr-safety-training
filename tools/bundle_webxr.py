@@ -778,6 +778,8 @@ APPS = {
             SHARED / "crew.js",
             SHARED / "npc-data.js",
             SHARED / "npc.js",
+            # TYCOON (the Packs run): the Crew Credits play economy (after npc-data.js, np-parishes.js and passport.js).
+            SHARED / "ty-economy.js",
             SHARED / "drivables-data.js",
             SHARED / "drivables-board.js",
             # NEWTON (the Packs run): the pure physics (after np-parish.js and drivables-data.js) and its parish mount.
