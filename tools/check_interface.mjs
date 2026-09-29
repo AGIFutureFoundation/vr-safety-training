@@ -135,6 +135,12 @@ try {
     await page.keyboard.press("Escape"); await page.waitForTimeout(150);
     const resumed = await page.evaluate(() => document.getElementById("menu").hidden && window.__parishTest.np.playing);
     check(resumed, "Esc resumes the walk");
+    // The contextual prompt sits over the board it names (walk 6 m south of the first board, face it).
+    await page.evaluate(() => { const t = window.__parishTest, b = t.world.siteBoards[0]; t.teleport(b.x, b.z + 6, 0, 0.05); });
+    // dt is clamped per frame, so a slow software-GL frame needs several frames before the near test runs.
+    await page.waitForFunction(() => !!document.getElementById("hud-prompt").dataset.uxAnchor, null, { timeout: 20000 }).catch(() => {});
+    const pr = await page.evaluate(() => { const p = document.getElementById("hud-prompt"); const r = p.getBoundingClientRect(); const t = window.__parishTest, b = t.world.siteBoards[0]; return { anchor: p.dataset.uxAnchor ?? "", hidden: p.hidden, top: Math.round(r.top), h: innerHeight, text: p.textContent, dbg: `np ${t.np.x.toFixed(1)},${t.np.z.toFixed(1)} board ${b.x.toFixed(1)},${b.z.toFixed(1)} near ${t.np.near?.kind} playing ${t.np.playing} modal ${t.np.modal}` }; });
+    check(!pr.hidden && pr.anchor === "board" && pr.top < pr.h - 160, `the prompt sits over what it names (${pr.anchor || "unanchored"} at y ${pr.top}/${pr.h}: "${pr.text}")`, pr.dbg);
     check(!errors.length, `desktop: no page errors`, errors.slice(0, 3).join(" | "));
     await ctx.close();
   }

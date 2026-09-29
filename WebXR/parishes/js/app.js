@@ -377,9 +377,9 @@ function npQmApproach(near) {
 
 function npNearest() {
   let best = null, bd = 9;
-  for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site }; } }
-  for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson }; } }
-  for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c }; } }
+  for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
+  for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
+  for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   return best;
 }
 
@@ -510,6 +510,7 @@ function frame(now) {
   }
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
   npRenderer.render(scene, camera);
+  uxAnchorPrompt();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -793,3 +794,17 @@ function uxPadMenu() {
   if (a && document.activeElement && document.activeElement !== document.body) document.activeElement.click();
 }
 window.__parishTest.ux = { tabs: uxTabs.ids, select: (t) => uxTabs.select(t), current: () => uxTabs.current(), open: () => uxOpenMenu(), resume: () => npBegin(), onboarding: uxOb };
+
+// INTERFACE: the contextual prompt sits over what it names (the board, the sign, the way out), projected each frame;
+// off screen or behind the camera it falls back to its bottom-centre place.
+const uxV = new THREE.Vector3();
+function uxAnchorPrompt() {
+  const p = $("hud-prompt");
+  const at = np.playing && !np.modal && np.near?.at;
+  if (!at || p.hidden) { if (p.dataset.uxAnchor) { p.style.left = p.style.top = p.style.bottom = p.style.transform = ""; delete p.dataset.uxAnchor; } return; }
+  uxV.set(at[0], Math.max(npHeightAt(parish, at[0], at[1]), 0) + 3.2, at[1]).project(camera);
+  const x = (uxV.x + 1) / 2 * innerWidth, y = (1 - uxV.y) / 2 * innerHeight;
+  if (uxV.z > 1 || x < 40 || x > innerWidth - 40 || y < 90 || y > innerHeight - 160) { if (p.dataset.uxAnchor) { p.style.left = p.style.top = p.style.bottom = p.style.transform = ""; delete p.dataset.uxAnchor; } return; }
+  p.style.left = `${Math.round(x)}px`; p.style.top = `${Math.round(y)}px`; p.style.bottom = "auto"; p.style.transform = "translate(-50%, -100%)";
+  p.dataset.uxAnchor = np.near.kind;
+}
