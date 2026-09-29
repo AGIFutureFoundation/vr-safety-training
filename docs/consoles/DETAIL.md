@@ -77,7 +77,7 @@ Ratio (every chunk at the nearest ring's density vs the baseline): high min 123.
 - A browser look at the scatter (headless only this round); ATMOS-style reduced-motion is moot (nothing moves).
 - Generation runs on the main thread inside the engine's two-chunks-a-frame stream; a worker or time-slicing would remove the
   worst-case spikes on slow phones.
-- The Louisiana maps' own characters (farm, marsh) fall back by name; once they merge, give them explicit DT_TABLE rows and a
+- (Done by DETAIL-2, `docs/consoles/DETAIL-2.md`.) The Louisiana maps' own characters (farm, marsh) fall back by name; once they merge, give them explicit DT_TABLE rows and a
   baseline row (check_detail notes maps without one).
 - check_mobile (headless Chromium over the dist bundles) was not run this round: the bundles were not rebuilt and the machine was shared; check_proving passes.
-- check_detail takes ~2.5 min on the shared machine (the ratio walk generates all 6,400 chunks); a sampled walk would cut it.
+- (Sampled by DETAIL-2.) check_detail takes ~2.5 min on the shared machine (the ratio walk generates all 6,400 chunks); a sampled walk would cut it.
