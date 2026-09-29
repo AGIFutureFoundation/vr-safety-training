@@ -10,12 +10,19 @@
  *     node tools/export_shared.mjs            # write both files
  *     node tools/export_shared.mjs --check    # build and validate, write nothing (exit 1 on a schema error)
  *
+ * v2 (console TQ-BRIDGE, docs/tradequest-bridge.md): `dnBuildShared()` still builds the v1 document;
+ * `dnBuildSharedV2()` extends it through tools/tq_bridge.mjs (maps, palette, facades, vehicles, robotics,
+ * dataset — each read from its owner behind a guard, `pending` until it exists), and the files written are
+ * v2 with the v2 schema (a superset of v1). exports/shared/tradequest-adapter.js maps v2 for TradeQuest.
+ *
  * Packs: PACKS' registry (`WebXR/shared/pk-packs.js`, `pkPacks()`) when it is in the tree, else one
  * fallback pack per catalogue programme (`packsSource` says which).
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { gzipSync } from "node:zlib";
+import { tqExtend, tqSchemaV2, tqValidate, TQ_BUDGET_BYTES, TQ_BUDGET_GZIP_BYTES } from "./tq_bridge.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SHARED = join(ROOT, "WebXR/shared");
@@ -104,14 +111,29 @@ export async function dnBuildShared() {
   };
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const doc = await dnBuildShared();
-  const bad = dnValidateSchema(doc);
+/** The v2 JSON Schema (DEAN's v1 schema plus the TQ-BRIDGE sections). */
+export const TQ_SHARED_SCHEMA_V2 = tqSchemaV2(DN_SHARED_SCHEMA);
+
+/** Build the v2 document: v1 + the TQ-BRIDGE sections (tools/tq_bridge.mjs). */
+export async function dnBuildSharedV2() { return tqExtend(await dnBuildShared(), { shared: SHARED }); }
+
+/** The file as written (and as the size budget measures it). */
+export const dnSharedText = (doc) => `${JSON.stringify(doc, null, 1)}\n`;
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const doc = await dnBuildSharedV2();
+  const bad = [...dnValidateSchema(doc), ...tqValidate(doc, TQ_SHARED_SCHEMA_V2, dnValidateSchema)];
+  const text = dnSharedText(doc);
+  const bytes = Buffer.byteLength(text);
+  const gz = gzipSync(text).length;
+  if (bytes > TQ_BUDGET_BYTES) bad.push(`size ${bytes} B over the budget of ${TQ_BUDGET_BYTES} B`);
+  if (gz > TQ_BUDGET_GZIP_BYTES) bad.push(`gzipped ${gz} B over the budget of ${TQ_BUDGET_GZIP_BYTES} B`);
   if (bad.length) { console.error(bad.slice(0, 20).join("\n")); process.exit(1); }
   if (!process.argv.includes("--check")) {
     mkdirSync(OUT, { recursive: true });
-    writeFileSync(join(OUT, "holodeck-shared.json"), `${JSON.stringify(doc, null, 1)}\n`);
-    writeFileSync(join(OUT, "holodeck-shared.schema.json"), `${JSON.stringify(DN_SHARED_SCHEMA, null, 2)}\n`);
+    writeFileSync(join(OUT, "holodeck-shared.json"), text);
+    writeFileSync(join(OUT, "holodeck-shared.schema.json"), `${JSON.stringify(TQ_SHARED_SCHEMA_V2, null, 2)}\n`);
   }
-  console.log(`export_shared: v${doc.version} · ${doc.packs.length} packs (${doc.packsSource}) · ${doc.paths.length} paths · ${Object.keys(doc.worlds).length} worlds · ${doc.parishes.length} parishes/districts · valid${process.argv.includes("--check") ? " (not written)" : " → exports/shared/holodeck-shared.json"}`);
+  const st = Object.entries(doc.sections).map(([k, s]) => `${k} ${s.status}`).join(", ");
+  console.log(`export_shared: v${doc.version} · ${doc.packs.length} packs (${doc.packsSource}) · ${doc.paths.length} paths · ${Object.keys(doc.worlds).length} worlds · ${doc.parishes.length} parishes/districts · sections: ${st} · ${(bytes / 1024).toFixed(1)} KiB of ${TQ_BUDGET_BYTES / 1024} KiB (gzip ${(gz / 1024).toFixed(1)} of ${TQ_BUDGET_GZIP_BYTES / 1024}) · valid${process.argv.includes("--check") ? " (not written)" : " → exports/shared/holodeck-shared.json"}`);
 }

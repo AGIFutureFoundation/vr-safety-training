@@ -28,7 +28,8 @@ const imp = (f) => import(pathToFileURL(join(ROOT, f)).href);
 const dn = await imp("WebXR/shared/dn-modules.js");
 const { dnLessonIndex, dnFrames } = await imp("WebXR/shared/dn-index.js");
 const org = await imp("WebXR/shared/org.js");
-const { dnBuildShared, dnValidateSchema } = await imp("tools/export_shared.mjs");
+// The file on disk is v2 (TQ-BRIDGE); the v1 checks below run on it unchanged against the v1 schema (v1 compatibility).
+const { dnBuildSharedV2: dnBuildShared, dnValidateSchema } = await imp("tools/export_shared.mjs");
 
 let fails = 0, checks = 0;
 const ok = (cond, what) => { checks++; if (!cond) { fails++; console.log(`  FAIL ${what}`); } return !!cond; };
