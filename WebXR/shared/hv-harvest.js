@@ -42,7 +42,9 @@ export const HV_AGENCY = {
   "new-orleans": "the Louisiana Department of Wildlife and Fisheries",
   bay: "the California Department of Fish and Wildlife",
 };
-export const hvFamily = (parish) => (npRegionOf(parish) === "new-orleans" ? "new-orleans" : "bay");
+// Louisiana (the development wave: site areas, growth cities, New Orleans neighbourhoods) shares the Gulf Coast family.
+export const HV_GULF_REGIONS = ["new-orleans", "louisiana-sites", "louisiana-cities", "new-orleans-districts"];
+export const hvFamily = (parish) => (HV_GULF_REGIONS.includes(npRegionOf(parish)) ? "new-orleans" : "bay");
 
 /** Water classes: the engine's water kind read by region (San Francisco Bay is drawn as `gulf` on the Marina map). */
 export function hvWaterClass(parish, w) {

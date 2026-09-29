@@ -5969,6 +5969,7 @@
     "br-volunteer-cleanup-day-safety-lead",
     "br-water-quality-sonde-calibration-and-deploy",
     "br-workboat-crane-lift-from-water",
+    "bridge-blast",
     "bridge-cable-inspection",
     "bridge-lead-containment",
     "broadcast-truck",
@@ -5988,6 +5989,7 @@
     "charge-point",
     "chiller-plant",
     "chlorine-room",
+    "cm-concrete-saw-cutting-with-water-and-silica-control",
     "cm-exterior-plaster-scratch-brown-and-finish-coats",
     "cnc-cell",
     "community-soil-split",
@@ -6002,6 +6004,7 @@
     "cp-hydrogen-fuel-cell-equipment-and-fuelling",
     "cp-zero-emission-drayage-truck-pre-trip",
     "cp-zero-emission-terminal-equipment-pre-use",
+    "crane-yard",
     "creosote-pile-removal",
     "cs-non-entry-retrieval-and-tripod",
     "cs-permit-entry-and-attendant-duties",
@@ -6052,11 +6055,13 @@
     "front-office-treatment-coordination",
     "fryer-oil-change",
     "garment-inspection-finish",
+    "gas-leak-survey",
     "gg-deck-lane-closure-and-traveller",
     "gg-fog-and-wind-work-stop",
     "gg-international-orange-recoat",
     "gg-main-cable-band-inspection",
     "gg-paint-containment-on-the-deck",
+    "gg-pile-driver-fender-repair",
     "gg-suspender-rope-replacement",
     "gg-tower-climb-and-tie-off",
     "gk-bunker-renovation-and-drainage",
@@ -6092,6 +6097,7 @@
     "hc-sterile-processing-decontamination-and-assembly",
     "hc-workplace-violence-deescalation-at-the-desk",
     "hood-suppression",
+    "hot-tap",
     "housekeeping-room-turn",
     "hunters-point",
     "hw-banquet-room-flip-and-staging",
@@ -6103,6 +6109,8 @@
     "ib-asbestos-glovebag-removal-on-a-pipe",
     "ib-boiler-tube-replacement-and-rolling",
     "ib-firestop-and-fire-wrap-installation",
+    "ib-hydrostatic-test-and-inspector-witness",
+    "ib-mechanical-insulation-pipe-and-jacketing",
     "ib-pressure-vessel-confined-entry-and-hot-work",
     "ib-refractory-and-castable-installation",
     "implant-surgery-assisting",
@@ -6157,6 +6165,7 @@
     "mw-ferry-deckhand-and-passenger-safety",
     "mw-hull-inspection-and-cleaning-dive",
     "mw-oil-transfer-watch-and-boom",
+    "mw-pier-pile-inspection-dive",
     "mw-workboat-towing-and-line-handling",
     "nitrous-oxide-monitoring",
     "op-compactor-lift-thickness-and-edge",
@@ -6169,6 +6178,7 @@
     "op-pile-driving-rig-and-lead-setup",
     "opacity-reading",
     "operatory-turnover",
+    "or-ranch-road-grading-and-culvert",
     "or-transmission-line-right-of-way-patrol",
     "oral-cancer-screening",
     "oral-surgery-assisting",
@@ -6182,6 +6192,7 @@
     "periodontal-charting",
     "phlebotomy",
     "pl-copper-press-and-solder-rough-in",
+    "pl-hydronic-boiler-piping-and-hydrotest",
     "pl-medical-gas-brazing-and-purge",
     "pl-natural-gas-pressure-test-and-leak-check",
     "pl-steam-trap-and-condensate-line-repair",
@@ -6220,9 +6231,11 @@
     "receiving-dock-food",
     "reefer-yard-monitoring",
     "rf-roof-tear-off-and-debris-chute",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe",
     "rf-skylight-and-hatch-guarding",
     "rf-torch-applied-membrane-and-fire-watch",
     "rigging-loft",
+    "rl-critical-lift-plan-and-signalperson",
     "sample-kit-shipping",
     "sampling-well",
     "scaffold-erection",
@@ -6284,11 +6297,13 @@
     "ut-cathodic-protection-test-station-reading",
     "ut-hydrant-flow-test-and-flushing-with-traffic-control",
     "ut-night-storm-response-crew-and-portable-generator",
+    "ut-pe-pipe-fusion-and-squeeze-off",
     "ut-service-line-locate-and-hand-dig-near-gas-main",
     "ut-water-main-break-emergency-shutdown-and-excavation",
     "ut-water-treatment-chemical-delivery-unloading",
     "uw-bridge-pier-scour-survey",
     "uw-pipeline-crossing-inspection-dive",
+    "uw-underwater-concrete-and-bag-placement",
     "valve-vault",
     "vapor-mitigation",
     "vessel-gangway-and-hatch-cover-safety",
@@ -6299,6 +6314,8 @@
     "who-treatment-centre-triage",
     "who-vaccination-line",
     "wildland-urban-interface",
+    "wp-permit-study-and-knowledge-test",
+    "ws-substation-switching-under-a-permit",
     "yc-engine-room-pre-start-and-bilge-check",
     "yc-fuel-dock-transfer-and-spill-kit",
     "yc-galley-fire-and-fixed-system",
@@ -6396,7 +6413,16 @@
     "sn-fl-victorian-scaffold",
     "st-fl-clouds-over-the-lake",
     "st-fl-one-change-in-the-marsh",
-    "st-fl-questions-at-the-briefing"
+    "st-fl-questions-at-the-briefing",
+    "sw-cc-fl-crane-balance",
+    "sw-cc-fl-marsh",
+    "sw-cc-fl-tide-berth",
+    "sw-ld-fl-bridge-lever",
+    "sw-ld-fl-levee",
+    "sw-ld-fl-storm-drain",
+    "sw-pv-fl-drain",
+    "sw-pv-fl-float",
+    "sw-pv-fl-marsh"
    ],
    "parish-lesson": [
     "by-lesson-catch",
@@ -12085,6 +12111,585 @@
      ]
     }
    ]
+  },
+  {
+   "id": "lc-lakefront-downtown",
+   "name": "Lake Charles Lakefront & Downtown",
+   "region": "louisiana-cities",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -93.225,
+    30.215004
+   ],
+   "bounds": {
+    "minLng": -93.271845,
+    "minLat": 30.174531,
+    "maxLng": -93.178154,
+    "maxLat": 30.255476
+   },
+   "sites": [
+    {
+     "id": "lcd-workforce-centre",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "wp-permit-study-and-knowledge-test",
+      "hazwoper-site-orientation",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lcd-bridge-work",
+     "stations": [
+      "bridge-lead-containment",
+      "bridge-cable-inspection",
+      "bridge-blast",
+      "leading-edge-and-horizontal-lifeline",
+      "uw-bridge-pier-scour-survey"
+     ]
+    },
+    {
+     "id": "lcd-lakefront-promenade",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+     ]
+    },
+    {
+     "id": "lcd-civic-centre-stage",
+     "stations": [
+      "stage-power",
+      "rigging-loft",
+      "stage-load-in-and-truss-rigging",
+      "le-crowd-barricade-and-show-stop-call"
+     ]
+    },
+    {
+     "id": "lcd-downtown-high-rise",
+     "stations": [
+      "steel-erector",
+      "concrete-pour",
+      "formwork-shoring",
+      "bt-rebar-tying-and-impalement-protection",
+      "ew-hoistway-false-car-and-rail-setting",
+      "gl-curtain-wall-unit-setting-from-the-floor"
+     ]
+    },
+    {
+     "id": "lcd-streetscape-crew",
+     "stations": [
+      "op-excavator-trench-and-utility-locate",
+      "trench-box",
+      "ut-service-line-locate-and-hand-dig-near-gas-main",
+      "cm-concrete-saw-cutting-with-water-and-silica-control"
+     ]
+    },
+    {
+     "id": "lcd-utility-locate",
+     "stations": [
+      "ut-service-line-locate-and-hand-dig-near-gas-main",
+      "gas-leak-survey",
+      "ut-pe-pipe-fusion-and-squeeze-off",
+      "ut-water-main-break-emergency-shutdown-and-excavation"
+     ]
+    },
+    {
+     "id": "lcd-storm-drain-crew",
+     "stations": [
+      "stormwater-outfall",
+      "lift-station",
+      "manhole-entry-and-atmospheric-monitoring",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "lcd-seawall-crew",
+     "stations": [
+      "op-pile-driving-rig-and-lead-setup",
+      "concrete-pour",
+      "uw-underwater-concrete-and-bag-placement",
+      "br-turbidity-curtain-deployment"
+     ]
+    },
+    {
+     "id": "lcd-hospital-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-sterile-processing-decontamination-and-assembly",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "lcd-fire-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "aerial-ladder",
+      "firefighter-rehab-sector",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "lcd-school-campus",
+     "stations": [
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels",
+      "ed-kitchen-receiving-and-warewash-sanitizing"
+     ]
+    },
+    {
+     "id": "lcd-transit-yard",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+     ]
+    },
+    {
+     "id": "lcd-marina-dock",
+     "stations": [
+      "mooring-line",
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "lcd-westlake-yard",
+     "stations": [
+      "mooring-line",
+      "dock-crane",
+      "pt-dock-fender-and-bollard-inspection",
+      "forklift-dock"
+     ]
+    },
+    {
+     "id": "lcd-substation",
+     "stations": [
+      "substation-switching",
+      "ws-substation-switching-under-a-permit",
+      "arc-flash-label-study",
+      "or-transmission-line-right-of-way-patrol"
+     ]
+    },
+    {
+     "id": "lcd-union-hall",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "wp-permit-study-and-knowledge-test",
+      "electrical",
+      "welding"
+     ]
+    },
+    {
+     "id": "lcd-roof-repair-crew",
+     "stations": [
+      "rf-roof-tear-off-and-debris-chute",
+      "rf-single-ply-tpo-heat-welding-and-seam-probe",
+      "rf-torch-applied-membrane-and-fire-watch",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lcd-university-grounds",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+     ]
+    },
+    {
+     "id": "lcd-prien-lake-park",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lc-calcasieu-channel",
+   "name": "the Calcasieu Ship Channel",
+   "region": "louisiana-sites",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -93.299996,
+    30.132499
+   ],
+   "bounds": {
+    "minLng": -93.346801,
+    "minLat": 30.092014,
+    "maxLng": -93.253192,
+    "maxLat": 30.172985
+   },
+   "sites": [
+    {
+     "id": "lcc-lng-module-set",
+     "stations": [
+      "rl-critical-lift-plan-and-signalperson",
+      "op-crawler-crane-assembly-and-load-chart",
+      "crane-yard",
+      "steel-erector"
+     ]
+    },
+    {
+     "id": "lcc-marine-offload",
+     "stations": [
+      "mooring-line",
+      "dock-crane",
+      "rl-critical-lift-plan-and-signalperson",
+      "pt-dock-fender-and-bollard-inspection"
+     ]
+    },
+    {
+     "id": "lcc-pipe-rack",
+     "stations": [
+      "steel-erector",
+      "welding",
+      "scaffold-erection",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lcc-heavy-haul-road",
+     "stations": [
+      "op-equipment-daily-walkaround-and-fluids",
+      "op-loader-truck-loading-and-blind-spots",
+      "op-compactor-lift-thickness-and-edge",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "lcc-tank-foundation",
+     "stations": [
+      "concrete-pour",
+      "formwork-shoring",
+      "bt-rebar-tying-and-impalement-protection",
+      "cm-concrete-saw-cutting-with-water-and-silica-control"
+     ]
+    },
+    {
+     "id": "lcc-pile-driving",
+     "stations": [
+      "op-pile-driving-rig-and-lead-setup",
+      "gg-pile-driver-fender-repair",
+      "br-marine-mammal-observer-during-pile-driving",
+      "rl-critical-lift-plan-and-signalperson"
+     ]
+    },
+    {
+     "id": "lcc-laydown-yard",
+     "stations": [
+      "forklift-dock",
+      "op-loader-truck-loading-and-blind-spots",
+      "tdl-trailer-loading-and-dock-plate",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "lcc-crane-pad",
+     "stations": [
+      "op-crawler-crane-assembly-and-load-chart",
+      "crane-yard",
+      "rl-critical-lift-plan-and-signalperson",
+      "op-compactor-lift-thickness-and-edge"
+     ]
+    },
+    {
+     "id": "lcc-workforce-parking",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "wp-permit-study-and-knowledge-test",
+      "hazwoper-site-orientation",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lcc-hydrotest",
+     "stations": [
+      "ib-hydrostatic-test-and-inspector-witness",
+      "pl-hydronic-boiler-piping-and-hydrotest",
+      "hot-tap",
+      "welding"
+     ]
+    },
+    {
+     "id": "lcc-insulation-crew",
+     "stations": [
+      "ib-mechanical-insulation-pipe-and-jacketing",
+      "scaffold-erection",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lcc-substation-build",
+     "stations": [
+      "substation-switching",
+      "ws-substation-switching-under-a-permit",
+      "arc-flash-label-study",
+      "trench-box"
+     ]
+    },
+    {
+     "id": "lcc-control-building",
+     "stations": [
+      "electrical",
+      "arc-flash-label-study",
+      "pm-electrical-room",
+      "pm-fire-alarm-panel-room"
+     ]
+    },
+    {
+     "id": "lcc-flare-area-build",
+     "stations": [
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "rl-critical-lift-plan-and-signalperson",
+      "steel-erector",
+      "welding"
+     ]
+    },
+    {
+     "id": "lcc-berth-dredge",
+     "stations": [
+      "dredge-barge",
+      "br-dredge-spoils-dewatering-pad",
+      "br-turbidity-curtain-deployment",
+      "br-vhf-and-navigation-in-a-work-zone"
+     ]
+    },
+    {
+     "id": "lcc-marsh-mat-access",
+     "stations": [
+      "br-tidal-marsh-grading-amphibious-excavator",
+      "op-equipment-daily-walkaround-and-fluids",
+      "op-excavator-trench-and-utility-locate",
+      "spill-boom-deploy"
+     ]
+    },
+    {
+     "id": "lcc-security-gate",
+     "stations": [
+      "tdl-backing-and-docking",
+      "traffic-incident-management",
+      "jobsite-orientation-and-osha-10"
+     ]
+    },
+    {
+     "id": "lcc-fire-water-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+      "confined-rescue"
+     ]
+    },
+    {
+     "id": "lcc-marsh-restoration-crew",
+     "stations": [
+      "marsh-transect-survey",
+      "br-water-quality-sonde-calibration-and-deploy",
+      "br-bird-nesting-buffer-and-work-window",
+      "br-drone-shoreline-survey"
+     ]
+    },
+    {
+     "id": "lcc-waterway-landing",
+     "stations": [
+      "mooring-line",
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lc-port-of-vinton",
+   "name": "the Port of Vinton",
+   "region": "louisiana-sites",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -93.579997,
+    30.172503
+   ],
+   "bounds": {
+    "minLng": -93.622566,
+    "minLat": 30.135704,
+    "maxLng": -93.537428,
+    "maxLat": 30.209303
+   },
+   "sites": [
+    {
+     "id": "lpv-barge-berth-build",
+     "stations": [
+      "op-pile-driving-rig-and-lead-setup",
+      "concrete-pour",
+      "mooring-line",
+      "rl-critical-lift-plan-and-signalperson"
+     ]
+    },
+    {
+     "id": "lpv-site-prep",
+     "stations": [
+      "op-dozer-slope-work-and-rollover-protection",
+      "op-excavator-trench-and-utility-locate",
+      "op-compactor-lift-thickness-and-edge",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "lpv-rail-and-road",
+     "stations": [
+      "ra-tie-and-rail-replacement-with-track-machines",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "ra-crossing-signal-maintenance-and-flagging",
+      "op-compactor-lift-thickness-and-edge"
+     ]
+    },
+    {
+     "id": "lpv-sheet-pile-wall",
+     "stations": [
+      "op-pile-driving-rig-and-lead-setup",
+      "gg-pile-driver-fender-repair",
+      "welding",
+      "rl-critical-lift-plan-and-signalperson"
+     ]
+    },
+    {
+     "id": "lpv-berth-dredge",
+     "stations": [
+      "dredge-barge",
+      "br-dredge-spoils-dewatering-pad",
+      "br-turbidity-curtain-deployment",
+      "br-vhf-and-navigation-in-a-work-zone"
+     ]
+    },
+    {
+     "id": "lpv-mooring-dolphins",
+     "stations": [
+      "mw-pier-pile-inspection-dive",
+      "pt-dock-fender-and-bollard-inspection",
+      "op-pile-driving-rig-and-lead-setup",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "lpv-crane-and-rigging",
+     "stations": [
+      "op-crawler-crane-assembly-and-load-chart",
+      "crane-yard",
+      "rl-critical-lift-plan-and-signalperson",
+      "op-compactor-lift-thickness-and-edge"
+     ]
+    },
+    {
+     "id": "lpv-drainage-culvert",
+     "stations": [
+      "or-ranch-road-grading-and-culvert",
+      "trench-box",
+      "br-culvert-retrofit-for-fish-passage",
+      "stormwater-outfall"
+     ]
+    },
+    {
+     "id": "lpv-environmental-survey",
+     "stations": [
+      "marsh-transect-survey",
+      "br-water-quality-sonde-calibration-and-deploy",
+      "br-bird-nesting-buffer-and-work-window",
+      "br-drone-shoreline-survey"
+     ]
+    },
+    {
+     "id": "lpv-laydown-yard",
+     "stations": [
+      "forklift-dock",
+      "op-loader-truck-loading-and-blind-spots",
+      "tdl-trailer-loading-and-dock-plate",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "lpv-utility-extension",
+     "stations": [
+      "ut-pe-pipe-fusion-and-squeeze-off",
+      "trench-box",
+      "or-transmission-line-right-of-way-patrol",
+      "ut-service-line-locate-and-hand-dig-near-gas-main"
+     ]
+    },
+    {
+     "id": "lpv-port-office",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "wp-permit-study-and-knowledge-test",
+      "hazwoper-site-orientation",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lpv-truck-gate",
+     "stations": [
+      "tdl-backing-and-docking",
+      "tdl-trailer-loading-and-dock-plate",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "lpv-warehouse-build",
+     "stations": [
+      "steel-erector",
+      "concrete-pour",
+      "leading-edge-and-horizontal-lifeline",
+      "tw-dock-leveler-and-trailer-restraint-check"
+     ]
+    },
+    {
+     "id": "lpv-vinton-main-street",
+     "stations": [
+      "op-excavator-trench-and-utility-locate",
+      "trench-box",
+      "ut-service-line-locate-and-hand-dig-near-gas-main",
+      "cm-concrete-saw-cutting-with-water-and-silica-control"
+     ]
+    },
+    {
+     "id": "lpv-fire-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "aerial-ladder",
+      "firefighter-rehab-sector",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "lpv-school-campus",
+     "stations": [
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels",
+      "ed-kitchen-receiving-and-warewash-sanitizing"
+     ]
+    },
+    {
+     "id": "lpv-rice-field-crew",
+     "stations": [
+      "or-ranch-road-grading-and-culvert",
+      "trench-box",
+      "br-culvert-retrofit-for-fish-passage",
+      "stormwater-outfall"
+     ]
+    }
+   ]
   }
  ],
  "provenance": [
@@ -12335,6 +12940,23 @@
       "bp-san-leandro-bay",
       "bp-san-mateo-shoreline",
       "bp-nutrient-pilot"
+     ]
+    },
+    {
+     "id": "louisiana-sites",
+     "name": "Louisiana Development Sites",
+     "noun": "site area",
+     "maps": [
+      "lc-calcasieu-channel",
+      "lc-port-of-vinton"
+     ]
+    },
+    {
+     "id": "louisiana-cities",
+     "name": "Louisiana Growth Cities",
+     "noun": "district",
+     "maps": [
+      "lc-lakefront-downtown"
      ]
     },
     {
@@ -19567,6 +20189,800 @@
        "name": "Lookout Rise"
       }
      ]
+    },
+    {
+     "id": "lc-lakefront-downtown",
+     "name": "Lake Charles Lakefront & Downtown",
+     "region": "louisiana-cities",
+     "sites": [
+      {
+       "id": "lcd-workforce-centre",
+       "name": "Lakefront Workforce Centre",
+       "kind": "office",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "wp-permit-study-and-knowledge-test",
+        "hazwoper-site-orientation",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lcd-bridge-work",
+       "name": "Interstate River Bridge Crew",
+       "kind": "bridge",
+       "stations": [
+        "bridge-lead-containment",
+        "bridge-cable-inspection",
+        "bridge-blast",
+        "leading-edge-and-horizontal-lifeline",
+        "uw-bridge-pier-scour-survey"
+       ]
+      },
+      {
+       "id": "lcd-lakefront-promenade",
+       "name": "Lakefront Promenade Grounds Crew",
+       "kind": "park",
+       "stations": [
+        "gk-tree-work-pole-saw-and-drop-zone",
+        "gk-storm-cleanup-chipper-and-traffic-control",
+        "gk-irrigation-controller-valve-box-and-backflow-check",
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+       ]
+      },
+      {
+       "id": "lcd-civic-centre-stage",
+       "name": "Lakefront Civic Centre Stage Crew",
+       "kind": "events",
+       "stations": [
+        "stage-power",
+        "rigging-loft",
+        "stage-load-in-and-truss-rigging",
+        "le-crowd-barricade-and-show-stop-call"
+       ]
+      },
+      {
+       "id": "lcd-downtown-high-rise",
+       "name": "Downtown High-Rise Site",
+       "kind": "construction",
+       "stations": [
+        "steel-erector",
+        "concrete-pour",
+        "formwork-shoring",
+        "bt-rebar-tying-and-impalement-protection",
+        "ew-hoistway-false-car-and-rail-setting",
+        "gl-curtain-wall-unit-setting-from-the-floor"
+       ]
+      },
+      {
+       "id": "lcd-streetscape-crew",
+       "name": "Ryan Street Streetscape Crew",
+       "kind": "utility",
+       "stations": [
+        "op-excavator-trench-and-utility-locate",
+        "trench-box",
+        "ut-service-line-locate-and-hand-dig-near-gas-main",
+        "cm-concrete-saw-cutting-with-water-and-silica-control"
+       ]
+      },
+      {
+       "id": "lcd-utility-locate",
+       "name": "Downtown Utility Locate Crew",
+       "kind": "utility",
+       "stations": [
+        "ut-service-line-locate-and-hand-dig-near-gas-main",
+        "gas-leak-survey",
+        "ut-pe-pipe-fusion-and-squeeze-off",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
+       ]
+      },
+      {
+       "id": "lcd-storm-drain-crew",
+       "name": "Storm Drain and Outfall Crew",
+       "kind": "pump",
+       "stations": [
+        "stormwater-outfall",
+        "lift-station",
+        "manhole-entry-and-atmospheric-monitoring",
+        "cs-permit-entry-and-attendant-duties"
+       ]
+      },
+      {
+       "id": "lcd-seawall-crew",
+       "name": "South Shore Bulkhead Crew",
+       "kind": "seawall",
+       "stations": [
+        "op-pile-driving-rig-and-lead-setup",
+        "concrete-pour",
+        "uw-underwater-concrete-and-bag-placement",
+        "br-turbidity-curtain-deployment"
+       ]
+      },
+      {
+       "id": "lcd-hospital-campus",
+       "name": "a Lake Charles Hospital Campus",
+       "kind": "hospital",
+       "stations": [
+        "hc-patient-transport-and-safe-handling",
+        "hc-code-response-support-and-crash-cart-check",
+        "hc-sterile-processing-decontamination-and-assembly",
+        "pl-medical-gas-brazing-and-purge",
+        "triage-point"
+       ]
+      },
+      {
+       "id": "lcd-fire-station",
+       "name": "a Lake Charles Fire Station",
+       "kind": "fire-station",
+       "stations": [
+        "structure-fire-sizeup",
+        "aerial-ladder",
+        "firefighter-rehab-sector",
+        "ambulance-scene-safety"
+       ]
+      },
+      {
+       "id": "lcd-school-campus",
+       "name": "a North Lake Charles School Campus",
+       "kind": "school",
+       "stations": [
+        "ed-playground-equipment-inspection",
+        "ed-crossing-guard-intersection-control",
+        "k12-reading-instructions-and-safety-labels",
+        "ed-kitchen-receiving-and-warewash-sanitizing"
+       ]
+      },
+      {
+       "id": "lcd-transit-yard",
+       "name": "the City Bus Yard",
+       "kind": "transit",
+       "stations": [
+        "track-access",
+        "signal-cabinet",
+        "ra-roadway-worker-protection-and-job-briefing",
+        "tr-wheelchair-lift-and-securement-on-a-bus"
+       ]
+      },
+      {
+       "id": "lcd-marina-dock",
+       "name": "the Lakefront Boat Launch",
+       "kind": "marina",
+       "stations": [
+        "mooring-line",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "br-cold-water-immersion-and-mob-recovery"
+       ]
+      },
+      {
+       "id": "lcd-westlake-yard",
+       "name": "Westlake River Yard",
+       "kind": "port",
+       "stations": [
+        "mooring-line",
+        "dock-crane",
+        "pt-dock-fender-and-bollard-inspection",
+        "forklift-dock"
+       ]
+      },
+      {
+       "id": "lcd-substation",
+       "name": "North Lake Charles Substation",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "ws-substation-switching-under-a-permit",
+        "arc-flash-label-study",
+        "or-transmission-line-right-of-way-patrol"
+       ]
+      },
+      {
+       "id": "lcd-union-hall",
+       "name": "Enterprise Boulevard Union Hall",
+       "kind": "union-hall",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "wp-permit-study-and-knowledge-test",
+        "electrical",
+        "welding"
+       ]
+      },
+      {
+       "id": "lcd-roof-repair-crew",
+       "name": "Storm Roof Repair Crew",
+       "kind": "construction",
+       "stations": [
+        "rf-roof-tear-off-and-debris-chute",
+        "rf-single-ply-tpo-heat-welding-and-seam-probe",
+        "rf-torch-applied-membrane-and-fire-watch",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lcd-university-grounds",
+       "name": "University Grounds Crew",
+       "kind": "campus",
+       "stations": [
+        "gk-tree-work-pole-saw-and-drop-zone",
+        "gk-storm-cleanup-chipper-and-traffic-control",
+        "gk-irrigation-controller-valve-box-and-backflow-check",
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+       ]
+      },
+      {
+       "id": "lcd-prien-lake-park",
+       "name": "Prien Lake Park Grounds",
+       "kind": "park",
+       "stations": [
+        "gk-tree-work-pole-saw-and-drop-zone",
+        "gk-storm-cleanup-chipper-and-traffic-control",
+        "gk-irrigation-controller-valve-box-and-backflow-check",
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "lake-charles-shore",
+       "name": "the shore of Lake Charles",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "i10-calcasieu-bridge",
+       "name": "the Interstate Ten bridge over the Calcasieu River",
+       "kind": "bridge",
+       "lm": null
+      },
+      {
+       "id": "downtown-lake-charles",
+       "name": "downtown Lake Charles",
+       "kind": "downtown",
+       "lm": null
+      },
+      {
+       "id": "westlake-place",
+       "name": "Westlake",
+       "kind": "town",
+       "lm": null
+      },
+      {
+       "id": "prien-lake-shore",
+       "name": "the Prien Lake shore",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "contraband-bayou-bank",
+       "name": "the Contraband Bayou bank",
+       "kind": "bayou",
+       "lm": null
+      },
+      {
+       "id": "mcneese-state-university",
+       "name": "McNeese State University",
+       "kind": "campus",
+       "lm": null
+      },
+      {
+       "id": "lcd-sign",
+       "name": "a sign: the project layout is illustrative; the parish, waterways and towns are real",
+       "kind": "sign",
+       "lm": null
+      }
+     ],
+     "hills": []
+    },
+    {
+     "id": "lc-calcasieu-channel",
+     "name": "the Calcasieu Ship Channel",
+     "region": "louisiana-sites",
+     "sites": [
+      {
+       "id": "lcc-lng-module-set",
+       "name": "Module Set Area",
+       "kind": "construction",
+       "stations": [
+        "rl-critical-lift-plan-and-signalperson",
+        "op-crawler-crane-assembly-and-load-chart",
+        "crane-yard",
+        "steel-erector"
+       ]
+      },
+      {
+       "id": "lcc-marine-offload",
+       "name": "Marine Offload Berth",
+       "kind": "port",
+       "stations": [
+        "mooring-line",
+        "dock-crane",
+        "rl-critical-lift-plan-and-signalperson",
+        "pt-dock-fender-and-bollard-inspection"
+       ]
+      },
+      {
+       "id": "lcc-pipe-rack",
+       "name": "Pipe Rack Crew",
+       "kind": "construction",
+       "stations": [
+        "steel-erector",
+        "welding",
+        "scaffold-erection",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lcc-heavy-haul-road",
+       "name": "Heavy-Haul Road Crew",
+       "kind": "construction",
+       "stations": [
+        "op-equipment-daily-walkaround-and-fluids",
+        "op-loader-truck-loading-and-blind-spots",
+        "op-compactor-lift-thickness-and-edge",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "lcc-tank-foundation",
+       "name": "Tank Foundation Pour",
+       "kind": "construction",
+       "stations": [
+        "concrete-pour",
+        "formwork-shoring",
+        "bt-rebar-tying-and-impalement-protection",
+        "cm-concrete-saw-cutting-with-water-and-silica-control"
+       ]
+      },
+      {
+       "id": "lcc-pile-driving",
+       "name": "Foundation Piling Crew",
+       "kind": "construction",
+       "stations": [
+        "op-pile-driving-rig-and-lead-setup",
+        "gg-pile-driver-fender-repair",
+        "br-marine-mammal-observer-during-pile-driving",
+        "rl-critical-lift-plan-and-signalperson"
+       ]
+      },
+      {
+       "id": "lcc-laydown-yard",
+       "name": "Laydown Yard",
+       "kind": "staging",
+       "stations": [
+        "forklift-dock",
+        "op-loader-truck-loading-and-blind-spots",
+        "tdl-trailer-loading-and-dock-plate",
+        "op-equipment-daily-walkaround-and-fluids"
+       ]
+      },
+      {
+       "id": "lcc-crane-pad",
+       "name": "Heavy Crane Pad",
+       "kind": "construction",
+       "stations": [
+        "op-crawler-crane-assembly-and-load-chart",
+        "crane-yard",
+        "rl-critical-lift-plan-and-signalperson",
+        "op-compactor-lift-thickness-and-edge"
+       ]
+      },
+      {
+       "id": "lcc-workforce-parking",
+       "name": "Workforce Parking and Orientation",
+       "kind": "office",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "wp-permit-study-and-knowledge-test",
+        "hazwoper-site-orientation",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lcc-hydrotest",
+       "name": "Hydrotest Station",
+       "kind": "construction",
+       "stations": [
+        "ib-hydrostatic-test-and-inspector-witness",
+        "pl-hydronic-boiler-piping-and-hydrotest",
+        "hot-tap",
+        "welding"
+       ]
+      },
+      {
+       "id": "lcc-insulation-crew",
+       "name": "Insulation Crew",
+       "kind": "workshop",
+       "stations": [
+        "ib-mechanical-insulation-pipe-and-jacketing",
+        "scaffold-erection",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lcc-substation-build",
+       "name": "Site Substation Build",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "ws-substation-switching-under-a-permit",
+        "arc-flash-label-study",
+        "trench-box"
+       ]
+      },
+      {
+       "id": "lcc-control-building",
+       "name": "Control Building Fit-Out",
+       "kind": "construction",
+       "stations": [
+        "electrical",
+        "arc-flash-label-study",
+        "pm-electrical-room",
+        "pm-fire-alarm-panel-room"
+       ]
+      },
+      {
+       "id": "lcc-flare-area-build",
+       "name": "Flare Area Build",
+       "kind": "construction",
+       "stations": [
+        "ib-pressure-vessel-confined-entry-and-hot-work",
+        "rl-critical-lift-plan-and-signalperson",
+        "steel-erector",
+        "welding"
+       ]
+      },
+      {
+       "id": "lcc-berth-dredge",
+       "name": "Berth Dredge Crew",
+       "kind": "landing",
+       "stations": [
+        "dredge-barge",
+        "br-dredge-spoils-dewatering-pad",
+        "br-turbidity-curtain-deployment",
+        "br-vhf-and-navigation-in-a-work-zone"
+       ]
+      },
+      {
+       "id": "lcc-marsh-mat-access",
+       "name": "Marsh Mat Access Road",
+       "kind": "mat-crossing",
+       "stations": [
+        "br-tidal-marsh-grading-amphibious-excavator",
+        "op-equipment-daily-walkaround-and-fluids",
+        "op-excavator-trench-and-utility-locate",
+        "spill-boom-deploy"
+       ]
+      },
+      {
+       "id": "lcc-security-gate",
+       "name": "Site Security Gate",
+       "kind": "trucking",
+       "stations": [
+        "tdl-backing-and-docking",
+        "traffic-incident-management",
+        "jobsite-orientation-and-osha-10"
+       ]
+      },
+      {
+       "id": "lcc-fire-water-station",
+       "name": "Fire Water Station",
+       "kind": "pump",
+       "stations": [
+        "structure-fire-sizeup",
+        "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+        "confined-rescue"
+       ]
+      },
+      {
+       "id": "lcc-marsh-restoration-crew",
+       "name": "East Bank Marsh Crew",
+       "kind": "wetland",
+       "stations": [
+        "marsh-transect-survey",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "br-bird-nesting-buffer-and-work-window",
+        "br-drone-shoreline-survey"
+       ]
+      },
+      {
+       "id": "lcc-waterway-landing",
+       "name": "Waterway Crew Landing",
+       "kind": "landing",
+       "stations": [
+        "mooring-line",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "br-cold-water-immersion-and-mob-recovery"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "calcasieu-ship-channel-bank",
+       "name": "the Calcasieu Ship Channel",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "east-bank-marsh-place",
+       "name": "the east bank marsh",
+       "kind": "marsh",
+       "lm": null
+      },
+      {
+       "id": "intracoastal-waterway-bank",
+       "name": "the Gulf Intracoastal Waterway",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "east-fields-place",
+       "name": "the fields east of the channel",
+       "kind": "field",
+       "lm": null
+      },
+      {
+       "id": "open-water-shore",
+       "name": "the shore of the open water beside the channel",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "lcc-sign",
+       "name": "a sign: the project layout is illustrative; the parish, waterways and towns are real",
+       "kind": "sign",
+       "lm": null
+      }
+     ],
+     "hills": []
+    },
+    {
+     "id": "lc-port-of-vinton",
+     "name": "the Port of Vinton",
+     "region": "louisiana-sites",
+     "sites": [
+      {
+       "id": "lpv-barge-berth-build",
+       "name": "Barge Berth Build",
+       "kind": "port",
+       "stations": [
+        "op-pile-driving-rig-and-lead-setup",
+        "concrete-pour",
+        "mooring-line",
+        "rl-critical-lift-plan-and-signalperson"
+       ]
+      },
+      {
+       "id": "lpv-site-prep",
+       "name": "Port Site Preparation",
+       "kind": "construction",
+       "stations": [
+        "op-dozer-slope-work-and-rollover-protection",
+        "op-excavator-trench-and-utility-locate",
+        "op-compactor-lift-thickness-and-edge",
+        "op-equipment-daily-walkaround-and-fluids"
+       ]
+      },
+      {
+       "id": "lpv-rail-and-road",
+       "name": "Rail and Road Crew",
+       "kind": "rail",
+       "stations": [
+        "ra-tie-and-rail-replacement-with-track-machines",
+        "ra-roadway-worker-protection-and-job-briefing",
+        "ra-crossing-signal-maintenance-and-flagging",
+        "op-compactor-lift-thickness-and-edge"
+       ]
+      },
+      {
+       "id": "lpv-sheet-pile-wall",
+       "name": "Sheet-Pile Wall Crew",
+       "kind": "seawall",
+       "stations": [
+        "op-pile-driving-rig-and-lead-setup",
+        "gg-pile-driver-fender-repair",
+        "welding",
+        "rl-critical-lift-plan-and-signalperson"
+       ]
+      },
+      {
+       "id": "lpv-berth-dredge",
+       "name": "Berth Dredge Crew",
+       "kind": "landing",
+       "stations": [
+        "dredge-barge",
+        "br-dredge-spoils-dewatering-pad",
+        "br-turbidity-curtain-deployment",
+        "br-vhf-and-navigation-in-a-work-zone"
+       ]
+      },
+      {
+       "id": "lpv-mooring-dolphins",
+       "name": "Mooring Dolphin Crew",
+       "kind": "landing",
+       "stations": [
+        "mw-pier-pile-inspection-dive",
+        "pt-dock-fender-and-bollard-inspection",
+        "op-pile-driving-rig-and-lead-setup",
+        "br-cold-water-immersion-and-mob-recovery"
+       ]
+      },
+      {
+       "id": "lpv-crane-and-rigging",
+       "name": "Crane and Rigging Pad",
+       "kind": "construction",
+       "stations": [
+        "op-crawler-crane-assembly-and-load-chart",
+        "crane-yard",
+        "rl-critical-lift-plan-and-signalperson",
+        "op-compactor-lift-thickness-and-edge"
+       ]
+      },
+      {
+       "id": "lpv-drainage-culvert",
+       "name": "Drainage Culvert Crew",
+       "kind": "utility",
+       "stations": [
+        "or-ranch-road-grading-and-culvert",
+        "trench-box",
+        "br-culvert-retrofit-for-fish-passage",
+        "stormwater-outfall"
+       ]
+      },
+      {
+       "id": "lpv-environmental-survey",
+       "name": "Environmental Survey Crew",
+       "kind": "monitoring",
+       "stations": [
+        "marsh-transect-survey",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "br-bird-nesting-buffer-and-work-window",
+        "br-drone-shoreline-survey"
+       ]
+      },
+      {
+       "id": "lpv-laydown-yard",
+       "name": "Port Laydown Yard",
+       "kind": "staging",
+       "stations": [
+        "forklift-dock",
+        "op-loader-truck-loading-and-blind-spots",
+        "tdl-trailer-loading-and-dock-plate",
+        "op-equipment-daily-walkaround-and-fluids"
+       ]
+      },
+      {
+       "id": "lpv-utility-extension",
+       "name": "Utility Extension Crew",
+       "kind": "utility",
+       "stations": [
+        "ut-pe-pipe-fusion-and-squeeze-off",
+        "trench-box",
+        "or-transmission-line-right-of-way-patrol",
+        "ut-service-line-locate-and-hand-dig-near-gas-main"
+       ]
+      },
+      {
+       "id": "lpv-port-office",
+       "name": "Port Office and Orientation",
+       "kind": "office",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "wp-permit-study-and-knowledge-test",
+        "hazwoper-site-orientation",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lpv-truck-gate",
+       "name": "Port Truck Gate",
+       "kind": "trucking",
+       "stations": [
+        "tdl-backing-and-docking",
+        "tdl-trailer-loading-and-dock-plate",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "lpv-warehouse-build",
+       "name": "Port Warehouse Build",
+       "kind": "warehouse",
+       "stations": [
+        "steel-erector",
+        "concrete-pour",
+        "leading-edge-and-horizontal-lifeline",
+        "tw-dock-leveler-and-trailer-restraint-check"
+       ]
+      },
+      {
+       "id": "lpv-vinton-main-street",
+       "name": "Vinton Main Street Utility Crew",
+       "kind": "utility",
+       "stations": [
+        "op-excavator-trench-and-utility-locate",
+        "trench-box",
+        "ut-service-line-locate-and-hand-dig-near-gas-main",
+        "cm-concrete-saw-cutting-with-water-and-silica-control"
+       ]
+      },
+      {
+       "id": "lpv-fire-station",
+       "name": "a Vinton Fire Station",
+       "kind": "fire-station",
+       "stations": [
+        "structure-fire-sizeup",
+        "aerial-ladder",
+        "firefighter-rehab-sector",
+        "ambulance-scene-safety"
+       ]
+      },
+      {
+       "id": "lpv-school-campus",
+       "name": "a Vinton School Campus",
+       "kind": "school",
+       "stations": [
+        "ed-playground-equipment-inspection",
+        "ed-crossing-guard-intersection-control",
+        "k12-reading-instructions-and-safety-labels",
+        "ed-kitchen-receiving-and-warewash-sanitizing"
+       ]
+      },
+      {
+       "id": "lpv-rice-field-crew",
+       "name": "Rice Field Drainage Crew",
+       "kind": "wetland",
+       "stations": [
+        "or-ranch-road-grading-and-culvert",
+        "trench-box",
+        "br-culvert-retrofit-for-fish-passage",
+        "stormwater-outfall"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "vinton-place",
+       "name": "Vinton",
+       "kind": "town",
+       "lm": null
+      },
+      {
+       "id": "port-of-vinton-place",
+       "name": "the Port of Vinton",
+       "kind": "port",
+       "lm": null
+      },
+      {
+       "id": "i10-vinton",
+       "name": "Interstate Ten at Vinton",
+       "kind": "road",
+       "lm": null
+      },
+      {
+       "id": "south-marsh-place",
+       "name": "the wooded wetland south-west of town",
+       "kind": "marsh",
+       "lm": null
+      },
+      {
+       "id": "rice-fields-place",
+       "name": "the rice fields east of the waterway",
+       "kind": "field",
+       "lm": null
+      },
+      {
+       "id": "pond-shore",
+       "name": "the shore of the pond south-west of town",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "lpv-sign",
+       "name": "a sign: the project layout is illustrative; the parish, waterways and towns are real",
+       "kind": "sign",
+       "lm": null
+      }
+     ],
+     "hills": []
     }
    ]
   }
