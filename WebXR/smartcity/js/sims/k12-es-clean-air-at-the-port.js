@@ -281,7 +281,7 @@ export const SIM_K12_ES_CLEAN_AIR_AT_THE_PORT = {
       cue: "Say the Port of Oakland names the Pacific Maritime Association for skills and safety training.",
       why: "The Port of Oakland says it partners with the Pacific Maritime Association for skills and safety training on the zero-emission equipment. New machines need crews who know them well. Training is part of every change at a port.",
       missNote: "You could not say who helps train the crews, and the crew lead had to explain before the class could go on.",
-      wrongNote: "That does not name the training partner. Choose the response that deals with it now."
+      wrongNote: "That does not name the group the Port says trains the crews. Choose the response that deals with it now."
     }
   ],
 

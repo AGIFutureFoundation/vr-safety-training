@@ -918,6 +918,41 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
     },
+    # The Deep's Bay Program regions (console DEEPWATER, shared/dw-regions.js): a second page in the underwater folder,
+    # reached from the Deep's "Bay Program regions" button and the parish shoreline dive entries (underwater.html?region=).
+    "region": {
+        "dir": "underwater",
+        "index": "region.html",
+        "out": "region.html",
+        "modules": [
+            SHARED / "profiles.js",
+            SHARED / "records.js",
+            SHARED / "identity.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
+            SHARED / "links.js",
+            SHARED / "auth.js",
+            SHARED / "i18n-strings.js",
+            SHARED / "i18n.js",
+            SHARED / "cinema.js",
+            SHARED / "gate-names-data.js",
+            SHARED / "skill-gates.js",
+            SHARED / "treasures-data.js",
+            SHARED / "treasures.js",
+            SHARED / "crew.js",
+            SHARED / "org.js",
+            SHARED / "account.js",
+            SHARED / "theme.js",
+            SHARED / "controls.js",
+            SHARED / "voice-assist.js",
+            SHARED / "guide.js",
+            SHARED / "dw-regions.js",
+            WEBXR / "underwater/js/dw-region-app.js",
+        ],
+        "entry": '<script type="module" src="./js/dw-region-app.js"></script>',
+    },
     # Bay Regatta (WebXR/regatta, page regatta.html): the twelve-yacht fleet
     # (shared/yacht-fleet.js, motorYacht variants), three race courses on Bay
     # World's water, the race engine and the hosted-events calendar, which
@@ -1279,6 +1314,7 @@ DIST_PAGES = {
     "redwood": "redwood.html",
     "summit": "summit.html",
     "parishes": "parishes.html",
+    "region": "region.html",
 }
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported
@@ -1306,6 +1342,8 @@ DIST_SHARED = [
     "side-game-mechanics.js",
     "by-parish-lessons.js",
     "sc-lessons.js",
+    # ESTUARY's Bay ecology lessons, which the scoreboard's lesson index reads.
+    "es-bay-lessons.js",
     # The treasure ledger account.js and guide.js import, and the Treasure Map
     # page (WebXR/treasures.html, copied beside the homepage) that reads it;
     # the gate engine treasures.js answers its locks through.

@@ -56,7 +56,9 @@ export function wfFit(text, max) {
  * topped up with the track's own size when that leaves room.
  */
 function wfSummary(prog, max) {
-  const sentences = String(prog.summary).replace(/\s+/g, " ").match(/[^.!?]+[.!?]+(\s|$)/g) ?? [prog.summary];
+  // Initialisms ("U.S.") are not sentence ends: hold their dots aside while splitting (the Bay Program's summary began at "S.").
+  const held = String(prog.summary).replace(/\s+/g, " ").replace(/\b(?:[A-Z]\.){2,}/g, (m) => m.replace(/\./g, "\u2024"));
+  const sentences = (held.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [held]).map((x) => x.replace(/\u2024/g, "."));
   let out = "";
   for (const s of sentences) { const next = (out + " " + s.trim()).trim(); if (next.length > max) break; out = next; }
   if (!out) return wfFit(prog.summary, max);

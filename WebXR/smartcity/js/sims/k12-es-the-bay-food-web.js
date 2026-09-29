@@ -267,7 +267,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       alert: "A work boat comes in to dock at the pier's landing.",
       cue: "Stand back from the landing so the crew can tie up.",
       why: "Docking crews need room to throw and tie lines. Standing back from the landing keeps everyone clear of the ropes. The class can watch from the deck once the boat is tied.",
-      missNote: "The class stayed by the landing, and the crew had to wait before tying up.",
+      missNote: "The class stayed by the landing, and the crew had to wait before they could tie the boat up.",
       wrongNote: "That keeps you by the landing. Stand back. Choose the response that deals with it now."
     },
     {

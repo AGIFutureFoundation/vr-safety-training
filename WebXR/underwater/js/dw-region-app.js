@@ -1,6 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ppAward, ppCompleted, ppHerePage } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
+import { ctlMount } from "../../shared/controls.js";
+import { gdMount } from "../../shared/guide.js";
 import { DW_REGIONS, DW_FIELD, dwRegionFromSearch, dwBuildRegion, dwConditionsAt, dwZoneAtRegion, dwFloorY } from "../../shared/dw-regions.js";
 
 // The Deep at a Bay Program region (DEEPWATER, docs/consoles/DEEPWATER.md):
@@ -114,3 +116,13 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
+
+// The platform chrome (the Home chip in the nav, the controls card and the Guide), as on the Deep's own page.
+gdMount();
+ctlMount({
+  world: "the Deep's Bay Program regions",
+  unique: [
+    { label: "Rise / sink", keys: ["E or Space", "Q or Shift"], pad: "—", touch: "—" },
+    { label: "Tide clock", keys: ["the slider"], pad: "—", touch: "Drag the slider" },
+  ],
+});
