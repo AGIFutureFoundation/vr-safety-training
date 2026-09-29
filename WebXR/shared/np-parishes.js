@@ -45,6 +45,11 @@ import { NP_BP_SAN_MATEO_SHORELINE } from "./np-data-bp-san-mateo-shoreline.js";
 import { NP_BP_NUTRIENT_PILOT } from "./np-data-bp-nutrient-pilot.js";
 // The programme worlds (console SMILES, docs/consoles/SMILES.md): procedural districts built for one programme, not real places.
 import { NP_SM_UNSPOKEN_SMILES } from "./np-data-sm-unspoken-smiles.js";
+// SOUTHWEST (docs/consoles/SOUTHWEST.md): Lake Charles and Calcasieu Parish — the lakefront and downtown, the ship channel's
+// industrial reach (Woodside Louisiana LNG's site area, layout illustrative) and the Port of Vinton (a FastSites site area).
+import { NP_LC_LAKEFRONT_DOWNTOWN } from "./np-data-lc-lakefront-downtown.js";
+import { NP_LC_CALCASIEU_CHANNEL } from "./np-data-lc-calcasieu-channel.js";
+import { NP_LC_PORT_OF_VINTON } from "./np-data-lc-port-of-vinton.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -60,6 +65,7 @@ export const NP_PARISHES = [
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
   NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY, NP_BP_SAN_MATEO_SHORELINE, NP_BP_NUTRIENT_PILOT,
   NP_SM_UNSPOKEN_SMILES,
+  NP_LC_LAKEFRONT_DOWNTOWN, NP_LC_CALCASIEU_CHANNEL, NP_LC_PORT_OF_VINTON,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
@@ -71,6 +77,9 @@ export const NP_REGIONS = [
   { id: "south-bay", name: "South Bay", title: "South Bay Districts", noun: "district", nouns: "districts" },
   { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
   { id: "programmes", name: "Programme Worlds", title: "Programme Worlds (procedural)", noun: "world", nouns: "worlds" },
+  { id: "louisiana-sites", name: "Louisiana Development Sites", title: "Louisiana Development Sites", noun: "site area", nouns: "site areas" },
+  { id: "louisiana-cities", name: "Louisiana Growth Cities", title: "Louisiana Growth City Districts", noun: "district", nouns: "districts" },
+  { id: "new-orleans-districts", name: "New Orleans Neighbourhoods", title: "New Orleans Neighbourhood Districts", noun: "district", nouns: "districts" },
 ];
 
 /** The region id a map belongs to: its `region`, else New Orleans (the parish modules predate regions). */
