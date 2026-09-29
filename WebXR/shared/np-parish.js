@@ -276,15 +276,24 @@ export function npPrepare(parish) {
   return prep;
 }
 
+// One-entry memos (console REACTOR): a terrain vertex asks the same point twice — npHeightAt, then npCoverAt for its
+// colour — so the last answer per query is kept. Both queries are pure in (parish, x, z) over the cached npPrepare.
+const npWaterMemo = { parish: null, x: NaN, z: NaN, w: null };
+const npLeveeMemo = { parish: null, x: NaN, z: NaN, rise: 0 };
+
 /** The water feature at (x, z), or null. */
 export function npWaterAt(parish, x, z) {
+  const m = npWaterMemo;
+  if (m.parish === parish && m.x === x && m.z === z) return m.w;
   const { water } = npPrepare(parish);
+  let hit = null;
   for (const w of water) {
     const b = w.bbox;
     if (x < b.minX || x > b.maxX || z < b.minZ || z > b.maxZ) continue;
-    if (npPointInPoly(x, z, w.shape)) return w;
+    if (npPointInPoly(x, z, w.shape)) { hit = w; break; }
   }
-  return null;
+  m.parish = parish; m.x = x; m.z = z; m.w = hit;
+  return hit;
 }
 
 /** True over water (a wetland counts: it is walkable marsh in the builder, but not ground for a site or a road). */
@@ -303,6 +312,13 @@ export function npDistrictAt(parish, x, z) {
 
 /** The levee profile at (x, z): the highest crest contribution of any levee, in metres above ground. */
 export function npLeveeRise(parish, x, z) {
+  const m = npLeveeMemo;
+  if (m.parish === parish && m.x === x && m.z === z) return m.rise;
+  const rise = npLeveeRiseAt(parish, x, z);
+  m.parish = parish; m.x = x; m.z = z; m.rise = rise;
+  return rise;
+}
+function npLeveeRiseAt(parish, x, z) {
   let rise = 0;
   const reach = NP_LEVEE_CREST + NP_LEVEE_BATTER;
   for (const l of npPrepare(parish).levees) {
@@ -407,12 +423,27 @@ export function npNearestRoad(parish, x, z) {
   return { road: best, d: bd };
 }
 
+/** The widest road half-width on the map (cached): beyond it no road can claim a point as "road". */
+const npReachCache = new WeakMap();
+function npRoadReach(parish) {
+  let r = npReachCache.get(parish);
+  if (r === undefined) { r = 0; for (const rd of npPrepare(parish).roads) r = Math.max(r, (NP_ROAD_KINDS[rd.kind]?.width ?? 8) / 2); npReachCache.set(parish, r); }
+  return r;
+}
+
 /** Ground cover at (x, z): "water" | "wetland" | "levee" | "road" | "pad" | a district character | "grass". */
 export function npCoverAt(parish, x, z) {
   const w = npWaterAt(parish, x, z);
   if (w) return w.kind === "wetland" ? "wetland" : "water";
   if (npLeveeRise(parish, x, z) > 0.5) return "levee";
-  const { road, d } = npNearestRoad(parish, x, z);
+  // The nearest road decides (npNearestRoad's rule), but only a road nearer than the widest half-width can make this
+  // "road", so roads whose box is farther than that are skipped — the same answer without measuring them (REACTOR).
+  const reach = npRoadReach(parish);
+  let road = null, d = Infinity;
+  for (const r of npPrepare(parish).roads) {
+    if (npOutside(npPtsBox(r.pts), x, z, reach)) continue;
+    const e = npPolyDist(x, z, r.pts); if (e < d) { d = e; road = r; }
+  }
   if (road && road.kind !== "ferry" && d < (NP_ROAD_KINDS[road.kind]?.width ?? 8) / 2) return "road";
   if (npPrepare(parish).sites.some((s) => Math.hypot(x - s.position[0], z - s.position[1]) < NP_PAD)) return "pad";
   return npDistrictAt(parish, x, z)?.character ?? "grass";
