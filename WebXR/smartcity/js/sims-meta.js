@@ -29218,5 +29218,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bk-street-drain-trash-capture-cleanout",
+    "index": "BK-2",
+    "domain": "Environmental",
+    "trade": "LIUNA laborer crew lead on a stormwater maintenance crew, servicing a street trash capture vault from the surface with the vacuum truck's operator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew; OSHA 29 CFR 1910.146 permit-required confined spaces (this service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the vacuum truck's power take-off before any hand clears the boom; the MUTCD Part 6 for the lane closure; ANSI/ISEA 107 high-visibility garments; 29 CFR 1910.1030 bloodborne pathogens practice for sharps in the catch; the NPDES stormwater rules, 40 CFR 122.26, and the Regional Water Quality Control Board's municipal stormwater permit trash provisions; NIOSH findings on confined-space fatalities among would-be rescuers",
+    "name": "Street Drain Trash Capture Cleanout",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Street Drain Trash Capture Cleanout VR",
+    "tagline": "A trash capture vault under the street, emptied from the surface: the order read, the lane closed with a sign and a taper, the cover lifted, the air read at the opening, the vault looked over from above, the vacuum boom guided down, the truck locked out to clear a clog, the clamp freed, the screen rinsed, the catch estimated, logged and the crew checked in",
+    "accent": 4169928,
+    "accentCss": "#3fa0c8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "from-the-surface",
+      "name": "From The Surface",
+      "note": "The vault emptied and rinsed without anyone going in, leaning in or reaching into a live boom"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Vault Service",
+      "currency": "SCREEN",
+      "ranks": [
+        "Cone Hand",
+        "Boom Guide",
+        "Vault Lead",
+        "Stormwater Foreman",
+        "Vault Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

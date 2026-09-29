@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 689
+      "stations": 690
     },
     "trades": {
       "entry": "trades/index.html",
@@ -512,6 +512,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "bk-street-drain-trash-capture-cleanout",
         "br-restoration-data-qa-and-public-reporting",
         "br-drone-shoreline-survey",
         "drum-sampling-and-overpack",
@@ -3929,6 +3930,11 @@
           "app": "smartcity",
           "id": "bk-bioretention-rain-garden-excavation",
           "why": "Green stormwater infrastructure starts as a hole in the sidewalk: the locate ticket matched to the paint, the marked line exposed by vacuum, the cut signalled to grade and the layers placed in the order that makes the cell soak."
+        },
+        {
+          "app": "smartcity",
+          "id": "bk-street-drain-trash-capture-cleanout",
+          "why": "A trash capture vault under the street is a permit-required confined space serviced entirely from the surface: the lane closed, the air read at the opening, and the vacuum truck locked out before any hand clears its boom."
         },
         {
           "app": "smartcity",
@@ -10102,6 +10108,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout",
+      "name": "Street Drain Trash Capture Cleanout",
+      "title": "SmartCiti.X~ Street Drain Trash Capture Cleanout VR",
+      "tagline": "A trash capture vault under the street, emptied from the surface: the order read, the lane closed with a sign and a taper, the cover lifted, the air read at the opening, the vault looked over from above, the vacuum boom guided down, the truck locked out to clear a clog, the clamp freed, the screen rinsed, the catch estimated, logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA laborer crew lead on a stormwater maintenance crew, servicing a street trash capture vault from the surface with the vacuum truck's operator",
+      "union": null,
+      "certification": "LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew; OSHA 29 CFR 1910.146 permit-required confined spaces (this service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the vacuum truck's power take-off before any hand clears the boom; the MUTCD Part 6 for the lane closure; ANSI/ISEA 107 high-visibility garments; 29 CFR 1910.1030 bloodborne pathogens practice for sharps in the catch; the NPDES stormwater rules, 40 CFR 122.26, and the Regional Water Quality Control Board's municipal stormwater permit trash provisions; NIOSH findings on confined-space fatalities among would-be rescuers",
+      "accent": "#3fa0c8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "hold",
+        "gauge",
+        "find",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "from-the-surface",
+        "name": "From The Surface",
+        "note": "The vault emptied and rinsed without anyone going in, leaning in or reaching into a live boom"
+      },
+      "meshes": 227,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BK-2",
+      "flat": false,
+      "system": "Vault Service",
+      "currency": "SCREEN",
+      "ranks": [
+        "Cone Hand",
+        "Boom Guide",
+        "Vault Lead",
+        "Stormwater Foreman",
+        "Vault Service Certified"
+      ],
+      "awards": [
+        {
+          "id": "order-read",
+          "name": "Order Read",
+          "note": "The order read and the vault looked over from above before the boom went down"
+        },
+        {
+          "id": "nobody-in",
+          "name": "Nobody In",
+          "note": "Never leaned over the opening, never climbed in, never stood in the live lane, never a hand in a running boom"
+        },
+        {
+          "id": "honest-reads",
+          "name": "Honest Reads",
+          "note": "Air and catch reads both committed inside their bands"
+        },
+        {
+          "id": "clean-vault",
+          "name": "Clean Vault",
+          "note": "No corrections from the order to the check-in"
+        },
+        {
+          "id": "steady-boom",
+          "name": "Steady Boom",
+          "note": "Held the boom in band the whole descent"
+        },
+        {
+          "id": "before-the-storm-drain",
+          "name": "Before The Rain",
+          "note": "Vault logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bk-street-drain-trash-capture-cleanout"
     },
     {
       "app": "smartcity",
@@ -36104,7 +36193,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -36764,7 +36853,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",

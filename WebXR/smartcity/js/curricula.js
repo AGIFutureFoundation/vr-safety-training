@@ -843,6 +843,7 @@ export const CURRICULA = [
     accent: "#6fae4a",
     stations: [
       { app: "smartcity", id: "bk-bioretention-rain-garden-excavation", why: "Green stormwater infrastructure starts as a hole in the sidewalk: the locate ticket matched to the paint, the marked line exposed by vacuum, the cut signalled to grade and the layers placed in the order that makes the cell soak." },
+      { app: "smartcity", id: "bk-street-drain-trash-capture-cleanout", why: "A trash capture vault under the street is a permit-required confined space serviced entirely from the surface: the lane closed, the air read at the opening, and the vacuum truck locked out before any hand clears its boom." },
       { app: "smartcity", id: "br-trash-capture-device-service", why: "A large trash capture device only keeps trash out of the Bay while it is serviced, and emptying one means a crane lift with nobody under the bag and nothing shaken back into the channel." },
       { app: "smartcity", id: "br-tidal-marsh-grading-amphibious-excavator", why: "Cutting new tidal channels and lowering berms is heavy equipment on soft ground at the water's edge, worked from the machine with the tide, the permit window and the ground crew all in the operator's picture." },
       { app: "smartcity", id: "br-dredge-spoils-dewatering-pad", why: "Sediment dug out for reuse comes ashore wet, and its decant goes back to the Bay only through the filter train under the pad's discharge conditions." },

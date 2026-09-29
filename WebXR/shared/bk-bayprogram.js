@@ -94,14 +94,14 @@ export const BK_PROJECTS = [
   {
     id: "san-leandro-trash-capture", recipient: "City of San Leandro", amount: "$2.49 million", place: "San Leandro Creek, draining to San Leandro Bay",
     does: "two large trash capture devices in stormwater drains, to reduce trash and pollutants entering San Leandro Bay",
-    stations: ["br-trash-capture-device-service"],
+    stations: ["bk-street-drain-trash-capture-cleanout", "br-trash-capture-device-service"],
     unions: ["liuna", "iuoe-local3"],
     marker: { ...REGIONAL },
   },
   {
     id: "port-of-oakland-trash-capture", recipient: "Port of Oakland", amount: "$5 million", place: "Port of Oakland",
     does: "four large trash capture devices collecting stormwater from 427 acres of port property, reducing more than 4,700 gallons of trash from entering San Francisco Bay",
-    stations: ["br-trash-capture-device-service"],
+    stations: ["bk-street-drain-trash-capture-cleanout", "br-trash-capture-device-service"],
     unions: ["liuna", "iuoe-local3"],
     marker: { world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal", href: "../parishes/index.html?parish=oak-west-oakland", note: "West Oakland's port terminals (BAYMAP's Oakland map)", bayworld: "port-container-terminal" },
   },
