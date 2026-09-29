@@ -55540,6 +55540,863 @@ class Session {
 }
 
 
+/* ===== shared/robot.js ===== */
+// Robot trainees — software agents that run the same procedure engine a
+// human learner runs, so a station can be (a) exercised at scale without a
+// headset, (b) tuned to an optimal difficulty for a given skill level, and
+// (c) mined for synthetic training data: every decision the agent makes,
+// what it saw, what it did and what it earned, as a trajectory.
+//
+// Nothing here knows about three.js or the DOM. An agent sees the Session
+// (step kind, target, gauge/track/turn state, score, streak) and the list of
+// interactable ids the room built, and emits one action at a time. The
+// caller applies the action — headlessly via tools/robot_train.mjs, or live
+// in the browser where the app forwards it through the same select / press /
+// rotate / drop path a click takes — and ticks the engine.
+//
+// Skill is a single number in [0, 1]: 1 is an expert who never misses, 0 is
+// a novice who guesses; the curriculum below searches for the skill at which
+// a station lands in a target success band — the "optimal level" where a
+// learner is neither bored nor lost — and reports it per station.
+
+
+/** Deterministic PRNG (mulberry32), so a dataset can be regenerated exactly. */
+function rng(seed = 1) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Everything the agent is allowed to see, as plain data — this is also the
+ * observation written to the trajectory. */
+function observe(session) {
+  const step = session.step;
+  // An interruption outranks the step: it is the thing the learner has to
+  // deal with right now, and a policy that cannot see it cannot be assessed
+  // on the skill the interruption exists to test.
+  const it = session.activeInterrupt;
+  const interrupt = it
+    ? { id: it.id, target: it.target, left: +(it.left ?? it.seconds ?? 12).toFixed(2), seconds: it.seconds ?? 12 }
+    : null;
+  if (!step) return { stepIndex: session.index, kind: null, interrupt };
+  const targets = step.kind === "sequence" || step.kind === "find" ? step.targets : [step.target];
+  return {
+    stepIndex: session.index, stepId: step.id, kind: step.kind, targets,
+    remaining: step.kind === "sequence" || step.kind === "find" ? step.targets.filter((t) => !session.sequence.includes(t)) : null,
+    anyOrder: !!step.anyOrder,
+    gauge: session.gauge ? { t: +session.gauge.t.toFixed(3), green: session.gauge.green, committed: session.gauge.committed } : null,
+    track: session.track ? { v: +session.track.v.toFixed(3), green: session.track.green, inBand: +session.track.inBand.toFixed(2), holding: session.holding } : null,
+    hold: step.kind === "hold" ? { holdFor: +session.holdFor.toFixed(2), seconds: step.seconds, holding: session.holding } : null,
+    turn: session.turn ? { amount: +session.turn.amount.toFixed(3), required: session.turn.required } : null,
+    drive: session.drive ? {
+      s: +session.drive.s.toFixed(2), total: +session.drive.total.toFixed(2),
+      speed: +session.drive.speed.toFixed(2), band: session.drive.band,
+      offset: +session.drive.offset.toFixed(3), laneWidth: session.drive.laneWidth,
+      curvature: +session.drive.curvature.toFixed(3), reverse: session.drive.reverse,
+      nextCheck: (session.drive.plan.find((c) => !c.done && !c.missed) ?? null)?.kind ?? null,
+    } : null,
+    interrupt,
+    score: session.score, streak: session.streak, errors: session.errors, hazardHits: session.hazardHits,
+    elapsed: +session.elapsed.toFixed(2),
+  };
+}
+
+/**
+ * A skill-parameterised policy. `hitIds` is every interactable in the room;
+ * `hazardIds` the subset that are seeded hazards. Returns an action:
+ *   { type: "select", id } | { type: "commit", id, at } | { type: "press", id }
+ *   | { type: "release" } | { type: "rotate", id, delta } | { type: "drop", id, distance }
+ *   | { type: "wait" }
+ */
+class RobotAgent {
+  constructor({ skill = 1, seed = 1, hitIds = [], hazardIds = [] } = {}) {
+    this.skill = Math.max(0, Math.min(1, skill));
+    this.random = rng(seed);
+    this.hitIds = hitIds;
+    this.hazardIds = hazardIds;
+    this._holdPlan = null;
+  }
+
+  /** Probability of a lapse on any decision — novices lapse often, experts never. */
+  get lapse() { return (1 - this.skill) * 0.45; }
+
+  pickWrong(correct) {
+    const r = this.random();
+    // A share of lapses are the unsafe kind, and it grows as skill drops.
+    if (this.hazardIds.length && r < (1 - this.skill) * 0.35) return this.hazardIds[Math.floor(this.random() * this.hazardIds.length)];
+    const others = this.hitIds.filter((id) => !correct.includes(id));
+    return others.length ? others[Math.floor(this.random() * others.length)] : correct[0];
+  }
+
+  act(session) {
+    const step = session.step;
+    if (!step || session.finished) return { type: "wait" };
+    const lapse = this.random() < this.lapse;
+
+    // A live interruption comes before the step. Skill here is not knowing
+    // which control to reach for — it is noticing at all while task-loaded,
+    // so a low-skill agent stalls on it and often runs the clock out, which
+    // is exactly how it goes on a real job.
+    const alarm = session.activeInterrupt;
+    if (alarm) {
+      if (this.random() > 0.25 + this.skill * 0.75) return { type: "wait" };
+      if (lapse) return { type: "select", id: this.pickWrong([alarm.target]) };
+      return { type: "select", id: alarm.target };
+    }
+
+    if (step.kind === "select") {
+      return { type: "select", id: lapse ? this.pickWrong([step.target]) : step.target };
+    }
+    if (step.kind === "sequence" || step.kind === "find") {
+      const remaining = step.targets.filter((t) => !session.sequence.includes(t));
+      if (!remaining.length) return { type: "wait" };
+      // Strict sequences: a lapse is picking a later item out of order.
+      const next = step.anyOrder || step.kind === "find" ? remaining[Math.floor(this.random() * remaining.length)] : remaining[0];
+      if (lapse) {
+        const outOfOrder = !step.anyOrder && remaining.length > 1 && this.random() < 0.5 ? remaining[1] : this.pickWrong(step.targets);
+        return { type: "select", id: outOfOrder };
+      }
+      return { type: "select", id: next };
+    }
+    if (step.kind === "gauge") {
+      if (!session.gauge || session.gauge.committed) return { type: "wait" };
+      const [lo, hi] = session.gauge.green;
+      const centre = (lo + hi) / 2, half = (hi - lo) / 2;
+      // Aim error scales with (1 - skill); an expert commits dead centre.
+      const err = (this.random() * 2 - 1) * (1 - this.skill) * half * 2.2;
+      const at = Math.max(0, Math.min(1, centre + err));
+      return { type: "commit", id: step.target, at };
+    }
+    if (step.kind === "hold") {
+      // Plan once per step: an expert holds through; a novice may let go early.
+      if (!this._holdPlan || this._holdPlan.step !== step.id) {
+        const early = this.random() < (1 - this.skill) * 0.6;
+        this._holdPlan = { step: step.id, releaseAt: early ? step.seconds * (0.3 + this.random() * 0.5) : Infinity, released: false };
+      }
+      if (session.holding && session.holdFor >= this._holdPlan.releaseAt && !this._holdPlan.released) {
+        this._holdPlan.released = true; this._holdPlan.releaseAt = Infinity;
+        return { type: "release" };
+      }
+      return session.holding ? { type: "wait" } : { type: "press", id: step.target };
+    }
+    if (step.kind === "track") {
+      if (!session.track) return { type: "wait" };
+      const tr = session.track;
+      const [lo, hi] = tr.green;
+      const centre = (lo + hi) / 2;
+      // Bang-bang control with a skill-dependent dead band: press to rise
+      // below centre, release to fall above it. Novices react late.
+      const slack = (1 - this.skill) * 0.25;
+      const target = centre + (this.random() * 2 - 1) * slack;
+      if (tr.v < target && !session.holding) return { type: "press", id: step.target };
+      if (tr.v >= target && session.holding) return { type: "release" };
+      return { type: "wait" };
+    }
+    if (step.kind === "turn") {
+      if (lapse) return { type: "select", id: this.pickWrong([step.target]) };
+      return { type: "rotate", id: step.target, delta: 0.25 + this.random() * 0.25 };
+    }
+    if (step.kind === "drive") {
+      // Follow the lane centre at the middle of the band and take every check
+      // in its window; skill below 1 wanders in the lane and skips checks.
+      const a = drivePolicy(session, { skill: this.skill, random: this.random });
+      return { type: "drive", throttle: +a.throttle.toFixed(3), steer: +a.steer.toFixed(3), check: a.check };
+    }
+    if (step.kind === "drag") {
+      if (lapse) return { type: "select", id: this.pickWrong([step.target]) };
+      const radius = step.drag?.radius ?? 0.35;
+      const miss = this.random() < (1 - this.skill) * 0.5;
+      return { type: "drop", id: step.target, distance: miss ? radius * (1.2 + this.random()) : radius * this.random() * 0.8 };
+    }
+    return { type: "wait" };
+  }
+}
+
+/** Apply one action to a Session. Returns the engine's feedback (or null). */
+function applyAction(session, action) {
+  switch (action.type) {
+    case "select": return session.select(action.id);
+    case "commit": if (session.gauge) session.gauge.t = action.at; return session.select(action.id);
+    case "press": session.setHolding(true); return null;
+    case "release": session.setHolding(false); return null;
+    case "rotate": return session.rotate(action.id, action.delta);
+    case "drop": return session.dropAt(action.id, action.distance);
+    case "drive": {
+      const fb = session.driveInput({ throttle: action.throttle, steer: action.steer });
+      return action.check ? session.driveCheck(action.check) ?? fb : fb;
+    }
+    default: return null;
+  }
+}
+
+/**
+ * Run one episode headlessly. `room` is any sim/room object; `api` is the
+ * result of room.build() (its hits are the id space). Returns the summary
+ * and, when `trajectory` is true, every decision as a record.
+ */
+function runEpisode(room, api, { skill = 1, seed = 1, dt = 0.05, maxTicks = 20000, trajectory = true, SessionClass, hooks = {} } = {}) {
+  const hitIds = Object.keys(api.hits ?? {});
+  const hazardIds = Object.keys(room.hazards ?? {}).filter((id) => hitIds.includes(id));
+  const agent = new RobotAgent({ skill, seed, hitIds, hazardIds });
+  const records = [];
+  let lastFeedback = null;
+  const session = new SessionClass(room, {
+    onStep: (step, s) => { api.onStep?.(step, s); hooks.onStep?.(step, s); },
+    onStepComplete: (step, s) => { api.onStepComplete?.(step, s); hooks.onStepComplete?.(step, s); },
+    onFeedback: (fb, s) => { lastFeedback = fb; api.onFeedback?.(fb, s); hooks.onFeedback?.(fb, s); },
+    onHazard: (id, s) => { api.onHazard?.(id, s); hooks.onHazard?.(id, s); },
+    onFinish: (s, summary) => hooks.onFinish?.(s, summary),
+  });
+  session.start();
+  let ticks = 0, decisions = 0;
+  while (!session.finished && ticks < maxTicks) {
+    const before = session.score;
+    const obs = trajectory ? observe(session) : null;
+    const action = agent.act(session);
+    lastFeedback = null;
+    applyAction(session, action);
+    session.tick(dt);
+    try { api.animate?.(ticks * dt, dt, session); } catch (_) { /* a room's cosmetics must not break a run */ }
+    ticks += 1;
+    // A tick with no decision can still pay out (a hold or track completing
+    // under the agent's existing press) — log those too, so the rewards in a
+    // trajectory account for every point in the score.
+    if (action.type !== "wait" || session.score !== before) {
+      if (action.type !== "wait") decisions += 1;
+      if (trajectory) records.push({
+        t: +(ticks * dt).toFixed(2), obs, action,
+        reward: session.score - before,
+        feedback: lastFeedback ? lastFeedback.kind : null,
+        hazard: !!lastFeedback?.hazard,
+      });
+    }
+  }
+  const summary = {
+    finished: session.finished, score: session.score, stars: session.stars, errors: session.errors,
+    hazardHits: session.hazardHits, holdBreaks: session.holdBreaks, seconds: +session.elapsed.toFixed(1),
+    precision: +session.precision.toFixed(3), earned: [...session.earned], decisions, ticks,
+    passed: session.finished && session.stars >= 2 && session.hazardHits === 0,
+  };
+  return { summary, records, session };
+}
+
+/**
+ * Curriculum: find the skill at which this room's success rate lands inside
+ * `band` (default 60–80% — challenged, not lost), by bisection over skill,
+ * running `episodes` seeded episodes per probe. Returns every probe so the
+ * difficulty curve itself is data.
+ */
+function calibrate(room, api, { band = [0.6, 0.8], episodes = 12, seed = 1, probes = 7, SessionClass, dt } = {}) {
+  const history = [];
+  let lo = 0, hi = 1, skill = 0.5, result = null;
+  const probe = (s) => {
+    let passes = 0, score = 0;
+    for (let i = 0; i < episodes; i++) {
+      const { summary } = runEpisode(room, api, { skill: s, seed: seed * 1000 + i, trajectory: false, SessionClass, dt });
+      if (summary.passed) passes += 1;
+      score += summary.score;
+    }
+    const rate = passes / episodes;
+    const entry = { skill: +s.toFixed(3), successRate: +rate.toFixed(3), meanScore: Math.round(score / episodes) };
+    history.push(entry);
+    return entry;
+  };
+  // Anchors first, so the curve has its ends.
+  const atZero = probe(0), atOne = probe(1);
+  if (atOne.successRate < band[0]) result = { ...atOne, note: "even an expert falls below the band — the station may be over-tuned" };
+  else if (atZero.successRate > band[1]) result = { ...atZero, note: "a random agent already exceeds the band — the station may be under-tuned" };
+  for (let i = 0; i < probes && !result; i++) {
+    const entry = probe(skill);
+    if (entry.successRate < band[0]) lo = skill;
+    else if (entry.successRate > band[1]) hi = skill;
+    else { result = entry; break; }
+    skill = (lo + hi) / 2;
+  }
+  if (!result) {
+    // Nearest probe to the band's centre if bisection ran out.
+    const centre = (band[0] + band[1]) / 2;
+    result = history.slice().sort((a, b) => Math.abs(a.successRate - centre) - Math.abs(b.successRate - centre))[0];
+    result = { ...result, note: "closest probe — no probe landed inside the band" };
+  }
+  return { optimal: result, band, episodes, history };
+}
+
+
+/* ===== shared/robot-embodiment.js ===== */
+// Embodiment — what a station looks like to a machine with an arm.
+//
+// shared/robot.js gives a station a policy: a skill-parameterised agent that
+// sees the Session and emits select / press / rotate / drop. That is enough to
+// exercise a procedure and mine it for decisions, and it is not enough to
+// train a robot. A robot does not "select the sharps container"; it moves an
+// end effector to a pose, approaches along a normal, closes on the object with
+// a grasp that suits the job, and applies a bounded force — and in a dental
+// operatory it does all of that a hand's width from a person's face.
+//
+// This module is that missing half, and only that half: for every interactable
+// a station built, a 3D target pose derived from the scene itself; for every
+// step, the grasp the step kind implies and the most force the robot may use;
+// and for the room, the volumes around the people in it that an end effector
+// must not enter. It is pure data over the objects the station already made —
+// no three.js, no DOM — so Node can import it directly and a checker can hold
+// every station to it.
+//
+// Two rules carry the safety of the thing:
+//
+//   * A step marked `noRobot` is never performed by the robot. In an embodied
+//     episode it is handed to the clinician: the procedure continues (the
+//     robot is learning to work beside a hygienist, not instead of one) and
+//     the trajectory records that decision as the human's, with no pose, no
+//     force and no credit.
+//   * Entering a keep-out volume is a violation unless the step itself says
+//     the patient is part of it, by declaring a `forceClass` — including
+//     `"none"`, which means "you may reach in and look, you may not touch".
+//     A station that reaches for a patient without saying so fails the
+//     checker, which is the point: the declaration is the safety case.
+//
+// The dental rule set the fifteen Unspoken Smiles stations are annotated to
+// lives in docs/robot-training.md, next to the dataset layout.
+
+
+// ------------------------------------------------------------------ constants
+
+/** How far off the surface the end effector stages before it closes, in metres. */
+const STANDOFF = 0.12;
+
+/** The grasp each step kind implies. This is the whole mapping — a station
+ * never names a grasp, it names a step kind, and the kind is what says how the
+ * hand has to behave. */
+const GRASP_BY_KIND = {
+  select: "touch",                     // momentary contact, then release
+  sequence: "touch",
+  find: "touch",
+  hold: "sustained-contact",           // press and stay pressed for step.seconds
+  press: "sustained-contact",
+  track: "continuous-adjustment",      // modulate to hold a value in a band
+  gauge: "continuous-adjustment",      // set a dial, then commit
+  turn: "wrist-rotation",              // torque about the approach axis
+  drag: "pick-and-place",              // lift here, place there
+  drive: "vehicle-control",            // throttle, brake and steer through the vehicle's own controls
+};
+
+/** Max contact force classes, weakest first. */
+const FORCE_CLASSES = ["none", "light", "firm"];
+
+/** The ceiling a step kind gets when the station declares nothing: a control
+ * is pressed lightly; a valve wheel and a carried cassette need real force. */
+const FORCE_BY_KIND = {
+  select: "light", sequence: "light", find: "light", hold: "light",
+  press: "light", track: "light", gauge: "light", turn: "firm", drag: "firm",
+  // A drive step is performed through the vehicle's controls, never by
+  // pushing on the world: the robot may drive (noRobot stays false), and the
+  // force it may put on anything outside the cab is none.
+  drive: "none",
+};
+
+/** Default keep-out radii, in metres, by what the volume is around. */
+const ZONE_RADIUS = { head: 0.2, torso: 0.3, body: 0.3, site: 0.12, bystander: 0.45 };
+/** Height of the centre of a standing person's keep-out sphere, in metres. */
+const BYSTANDER_CENTRE_Y = 1.1;
+
+// An id names part of a person when it carries one of these words…
+const PERSON_ID_RE = /(^|-)(patient|face|mouth|airway|child)(-|$)/;
+// …unless it also carries one of these, which are things, not people. Every
+// one of these was a real false positive in the dental set: `face-shield` is
+// PPE on a stand, `mouth-mirror` is an instrument on the bracket table, and a
+// keep-out volume around either one would sit in the middle of the equipment.
+const THING_ID_RE = /(mirror|retractor|prop|gauze|camera|shield|sleeve|barrier|wipe|cup|brush|tip|handpiece|mask|box|card|panel|form|log|kit|bin|bag|sign|strip|pad|cassette|table|stand|chart)/;
+
+/** Whether an interactable's id names part of a person. */
+function isPersonId(id) { return PERSON_ID_RE.test(id) && !THING_ID_RE.test(id); }
+
+const LICENCE_NOTE = "synthetic, generated from the SmartCiti.X procedures";
+
+// ------------------------------------------------------------------- 3D maths
+//
+// Deliberately hand-rolled rather than borrowed from three.js: this module has
+// to run in Node against the checkers' stub three, where matrixWorld is never
+// updated and getWorldPosition() returns the local position. Walking the parent
+// chain ourselves gives the same answer in the browser and in a checker, which
+// is the only way a pose in a dataset means anything.
+
+const rot = (v, a, i, j) => {
+  const c = Math.cos(a), s = Math.sin(a), out = v.slice();
+  out[i] = v[i] * c - v[j] * s;
+  out[j] = v[i] * s + v[j] * c;
+  return out;
+};
+/** Apply an XYZ Euler to a vector: Z first, then Y, then X (three.js's own
+ * default order for the single-axis rotations these stations use). */
+function rotateXYZ(v, x = 0, y = 0, z = 0) {
+  let out = v;
+  if (z) out = rot(out, z, 0, 1);
+  if (y) out = rot(out, y, 2, 0);
+  if (x) out = rot(out, x, 1, 2);
+  return out;
+}
+const round3 = (v) => v.map((n) => Math.round(n * 1000) / 1000);
+const unit = (v) => { const l = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0] / l, v[1] / l, v[2] / l]; };
+// Named for its arity, not just `dist`: these shared modules are concatenated
+// into one bundle, where a bare `dist` already belongs to hands.js.
+const dist3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+/**
+ * Where an object actually is in the room, and which way it faces: the object's
+ * local origin carried up the parent chain through every scale, rotation and
+ * offset, plus the accumulated rotation applied to +Z (the face a decal,
+ * a panel and a control are all built on in this kit).
+ */
+function worldPlacement(obj) {
+  let p = [0, 0, 0], rx = 0, ry = 0, rz = 0;
+  for (let o = obj; o; o = o.parent) {
+    const s = o.scale ?? {}, r = o.rotation ?? {}, t = o.position ?? {};
+    p = [p[0] * (s.x ?? 1), p[1] * (s.y ?? 1), p[2] * (s.z ?? 1)];
+    p = rotateXYZ(p, r.x ?? 0, r.y ?? 0, r.z ?? 0);
+    p = [p[0] + (t.x ?? 0), p[1] + (t.y ?? 0), p[2] + (t.z ?? 0)];
+    rx += r.x ?? 0; ry += r.y ?? 0; rz += r.z ?? 0;
+  }
+  return { position: round3(p), normal: round3(unit(rotateXYZ([0, 0, 1], rx, ry, rz))), euler: round3([rx, ry, rz]) };
+}
+
+/** The pose an end effector works this object from: the contact point, the
+ * approach normal, and the staging point a standoff back along it. */
+function poseFor(obj, o = {}) {
+  const { position, normal, euler } = worldPlacement(obj);
+  const standoff = o.standoff ?? STANDOFF;
+  return {
+    position, normal, euler, standoff,
+    approach: round3([position[0] + normal[0] * standoff, position[1] + normal[1] * standoff, position[2] + normal[2] * standoff]),
+  };
+}
+
+/** A pose for every interactable the station registered. */
+function stationPoses(api, o = {}) {
+  const poses = {};
+  for (const [id, obj] of Object.entries(api.hits ?? {})) if (obj) poses[id] = poseFor(obj, o);
+  return poses;
+}
+
+// ---------------------------------------------------------- keep-out volumes
+
+/** The top of the object tree a station's hits hang from, when no root is passed. */
+function rootOf(api) {
+  const first = Object.values(api.hits ?? {}).find(Boolean);
+  let o = first;
+  while (o?.parent) o = o.parent;
+  return o ?? null;
+}
+
+function walk(obj, fn) {
+  if (!obj) return;
+  fn(obj);
+  for (const c of obj.children ?? []) walk(c, fn);
+}
+
+/**
+ * The volumes an end effector must not enter: the people in the room.
+ *
+ *   * anything a station tagged `userData.patient` — the patient's head and
+ *     torso, tagged at the point the figure is built;
+ *   * any interactable whose id names part of a person (see isPersonId) —
+ *     `patient-airway`, `face-inspect`, `floor-of-mouth`: the small volumes
+ *     around the anatomy a procedure works on;
+ *   * a default head volume at a chair tagged `userData.patientChair`, for the
+ *     stations where the chair is empty right now and will not be for long;
+ *   * every other person in the room (`userData.crew`, which citykit's
+ *     standingFigure already sets) — a robot keeps out of the assistant at the
+ *     next bench for the same reason it keeps out of the patient.
+ */
+function keepOutZones(api, o = {}) {
+  // A hazard is a decoy prop, never a person: `leave-patient` is a sign about
+  // walking away from a sedated chair and `mouth-to-mouth` is a pocket mask on
+  // a shelf, and a keep-out volume around either one would sit in mid-air.
+  const hazards = new Set(Object.keys(o.hazards ?? {}));
+  const zones = [];
+  const seen = new Set();
+  const push = (z) => { if (!seen.has(z.id)) { seen.add(z.id); zones.push(z); } };
+  const root = o.root ?? rootOf(api);
+  const n = {};
+  const next = (part) => (n[part] = (n[part] ?? 0) + 1) - 1;
+  walk(root, (obj) => {
+    const tag = obj.userData?.patient;
+    if (tag) {
+      const part = (typeof tag === "object" && tag.part) || "body";
+      const { position } = worldPlacement(obj);
+      push({
+        id: `patient-${part}-${next(part)}`, label: `patient ${part}`, kind: "sphere", source: "userData.patient",
+        part, center: position, radius: (typeof tag === "object" && tag.radius) || ZONE_RADIUS[part] || ZONE_RADIUS.body,
+      });
+    }
+    const chair = obj.userData?.patientChair;
+    if (chair) {
+      const off = (typeof chair === "object" && chair.offset) || [0, 1.3, 0];
+      const { position } = worldPlacement(obj);
+      push({
+        id: `chair-head-${next("chair")}`, label: "head volume at the chair", kind: "sphere", source: "userData.patientChair",
+        part: "head", center: round3([position[0] + off[0], position[1] + off[1], position[2] + off[2]]),
+        radius: (typeof chair === "object" && chair.radius) || ZONE_RADIUS.head,
+      });
+    }
+    if (obj.userData?.crew) {
+      const { position } = worldPlacement(obj);
+      push({
+        id: `bystander-${next("bystander")}`, label: "person at work in the room", kind: "sphere", source: "userData.crew",
+        part: "bystander", center: round3([position[0], position[1] + BYSTANDER_CENTRE_Y, position[2]]),
+        radius: ZONE_RADIUS.bystander,
+      });
+    }
+  });
+  for (const [id, obj] of Object.entries(api.hits ?? {})) {
+    if (!obj || hazards.has(id) || !isPersonId(id)) continue;
+    push({
+      id: `site-${id}`, label: `patient site — ${id}`, kind: "sphere", source: "id",
+      part: "site", center: worldPlacement(obj).position, radius: ZONE_RADIUS.site,
+    });
+  }
+  return zones;
+}
+
+/** The zone a point lies inside, nearest centre first, or null. */
+function zoneAt(zones, point) {
+  let best = null, bestD = Infinity;
+  for (const z of zones) {
+    const d = dist3(z.center, point);
+    if (d <= z.radius && d < bestD) { best = z; bestD = d; }
+  }
+  return best;
+}
+/** The nearest zone to a point, inside it or not — the robot's clearance. */
+function nearestZone(zones, point) {
+  let best = null, bestD = Infinity;
+  for (const z of zones) {
+    const d = dist3(z.center, point) - z.radius;
+    if (d < bestD) { best = z; bestD = d; }
+  }
+  return best ? { id: best.id, clearance: Math.round(bestD * 1000) / 1000 } : null;
+}
+
+// ------------------------------------------------------------ step embodiment
+
+const targetsOf = (step) => (step.kind === "sequence" || step.kind === "find" ? step.targets ?? [] : step.target ? [step.target] : []);
+
+/** The force ceiling for a step, and where that number came from. */
+function forceFor(step) {
+  if (step.noRobot) return { maxForce: "none", forceSource: "noRobot", declared: step.forceClass ?? null };
+  if (step.forceClass) {
+    if (!FORCE_CLASSES.includes(step.forceClass)) throw new Error(`${step.id}: forceClass ${step.forceClass} is not one of ${FORCE_CLASSES.join(" | ")}`);
+    return { maxForce: step.forceClass, forceSource: "declared", declared: step.forceClass };
+  }
+  return { maxForce: FORCE_BY_KIND[step.kind] ?? "light", forceSource: "kind-default", declared: null };
+}
+
+/**
+ * Whether this step is allowed to put the end effector inside a keep-out
+ * volume, and for which ids. Declaring a `forceClass` is the declaration —
+ * the station saying "the patient is part of this step, and this is the most
+ * force it may ever take". `noRobot` authorises nothing, because the robot is
+ * not the one doing it.
+ */
+function patientContactAllowed(step) {
+  return !!step && !step.noRobot && !!step.forceClass;
+}
+
+/** Everything a robot needs to attempt one step. */
+function stepEmbodiment(step, poses, o = {}) {
+  const force = forceFor(step);
+  const ids = targetsOf(step);
+  const zones = o.zones ?? [];
+  const targets = ids.map((id) => {
+    const pose = poses[id] ?? null;
+    const zone = pose ? zoneAt(zones, pose.position) : null;
+    return { id, pose, zone: zone ? zone.id : null, keepOutPart: zone ? zone.part : null };
+  });
+  const emb = {
+    stepId: step.id, kind: step.kind, title: step.title,
+    grasp: GRASP_BY_KIND[step.kind] ?? "touch",
+    ...force,
+    noRobot: !!step.noRobot,
+    operator: step.noRobot ? "human" : "robot",
+    patientContact: patientContactAllowed(step),
+    note: step.robotNote ?? null,
+    targets,
+  };
+  if (step.kind === "turn") emb.turns = step.turn?.turns ?? 1;
+  if (step.kind === "hold") emb.seconds = step.seconds ?? null;
+  if (step.kind === "track") { emb.seconds = step.seconds ?? null; emb.band = step.track?.green ?? [0.42, 0.62]; }
+  if (step.kind === "gauge") emb.band = step.gauge?.green ?? [0.44, 0.62];
+  if (step.kind === "drive") {
+    emb.band = step.drive?.speedBand ?? null;
+    emb.drive = {
+      path: step.drive?.path ?? [], laneWidth: step.drive?.laneWidth ?? null, reverse: !!step.drive?.reverse,
+      checks: (step.drive?.checks ?? []).map((c) => ({ at: c.at, kind: c.kind })),
+      units: step.drive?.units ?? "mph",
+    };
+  }
+  if (step.kind === "drag") {
+    const to = step.drag?.to;
+    emb.place = { id: to ?? null, pose: to ? poses[to] ?? null : null, radius: step.drag?.radius ?? 0.35 };
+  }
+  return emb;
+}
+
+// ------------------------------------------------------- the embodiment layer
+
+const CACHE = new WeakMap();
+
+/** The observation schema written into a dataset's manifest. */
+function observationSchema() {
+  return {
+    inherits: "shared/robot.js observe(): stepIndex, stepId, kind, targets, remaining, anyOrder, gauge, track, hold, turn, interrupt, score, streak, errors, hazardHits, elapsed",
+    adds: {
+      grasp: `one of ${[...new Set(Object.values(GRASP_BY_KIND))].join(" | ")}`,
+      maxForce: FORCE_CLASSES.join(" | "),
+      forceSource: "noRobot | declared | kind-default",
+      noRobot: "true when this step is the clinician's, never the robot's",
+      operator: "robot | human",
+      pose: "{ position[3], normal[3], approach[3], standoff, euler[3] } for the step's primary target, in station metres",
+      poses: "one pose per target of this step, in the order the step names them",
+      place: "pick-and-place only: the drop pose and its radius",
+      drive: "vehicle-control only: the path, lane width, speed band and the checks the route asks for",
+      keepOut: "{ zones, inside, part, authorised, nearest: { id, clearance } } for the pose the robot is working",
+    },
+  };
+}
+
+/** The action space, described for a dataset's manifest. */
+function actionSpace() {
+  return {
+    types: {
+      select: "{ id } — touch an interactable",
+      commit: "{ id, at } — set a dial to `at` (0..1) and commit the reading",
+      press: "{ id } — begin sustained contact",
+      release: "{} — end sustained contact",
+      rotate: "{ id, delta } — signed fraction of a turn about the approach axis",
+      drop: "{ id, distance } — release a carried object `distance` metres from its socket",
+      drive: "{ throttle, steer, check } — throttle in [-1, 1] (below zero brakes), steer in [-1, 1] (positive to the right of travel), and a check kind (mirror-left | mirror-right | signal-left | signal-right | horn | gear-down | gear-up | lights) or null",
+      wait: "{} — no motion this tick",
+    },
+    grasps: GRASP_BY_KIND,
+    forceClasses: FORCE_CLASSES,
+    note: "Actions are applied through shared/robot.js applyAction() unchanged — the embodiment layer adds the pose, the grasp and the force ceiling each action is carried out under, it does not change what the engine accepts.",
+  };
+}
+
+/**
+ * Everything about a built station a robot needs, computed once per build and
+ * cached against the api object so an observation is cheap.
+ */
+function buildEmbodiment(room, api, o = {}) {
+  const poses = stationPoses(api, o);
+  const zones = keepOutZones(api, { ...o, hazards: room.hazards });
+  const steps = {};
+  for (const step of room.steps) steps[step.id] = stepEmbodiment(step, poses, { zones });
+  const emb = {
+    station: room.id, stationName: room.name ?? room.title,
+    standoff: o.standoff ?? STANDOFF,
+    poses, keepOut: zones, steps,
+    stepOrder: room.steps.map((s) => s.id),
+    noRobotSteps: room.steps.filter((s) => s.noRobot).map((s) => ({ id: s.id, title: s.title, why: s.robotNote ?? null })),
+    contactSteps: room.steps.filter((s) => s.forceClass && !s.noRobot).map((s) => ({ id: s.id, forceClass: s.forceClass })),
+    missingPoses: Object.keys(api.hits ?? {}).filter((id) => !poses[id]),
+    actionSpace: actionSpace(),
+    observationSchema: observationSchema(),
+  };
+  CACHE.set(api, emb);
+  return emb;
+}
+
+/** The cached embodiment for a built station, building it on first ask. */
+function embodimentFor(room, api, o = {}) {
+  const hit = CACHE.get(api);
+  if (hit && (!room || hit.station === room.id)) return hit;
+  return buildEmbodiment(room, api, o);
+}
+
+/** The keep-out account for one pose under one step. */
+function keepOutFor(emb, step, id) {
+  const pose = emb.poses[id] ?? null;
+  if (!pose) return { zones: emb.keepOut.length, inside: null, part: null, authorised: true, nearest: null };
+  const zone = zoneAt(emb.keepOut, pose.position);
+  const allowed = patientContactAllowed(step) && targetsOf(step).concat(step?.drag?.to ?? []).includes(id);
+  return {
+    zones: emb.keepOut.length,
+    inside: zone ? zone.id : null, part: zone ? zone.part : null,
+    authorised: !zone || allowed,
+    nearest: nearestZone(emb.keepOut, pose.position),
+  };
+}
+
+/**
+ * observe() with the body attached: the same observation the policy runner
+ * logs, plus the pose the end effector would work, the grasp the step implies,
+ * the force it may use and where that pose stands relative to the people in
+ * the room. `api` is the station's build() result; the embodiment is cached
+ * against it, so pass `{ room, root }` the first time if the caller has them.
+ */
+function observeEmbodied(session, api, o = {}) {
+  const base = observe(session);
+  const room = o.room ?? session.room;
+  const emb = embodimentFor(room, api, o);
+  const step = session.step;
+  if (!step) return { ...base, keepOut: { zones: emb.keepOut.length, inside: null, part: null, authorised: true, nearest: null } };
+  const se = emb.steps[step.id] ?? stepEmbodiment(step, emb.poses, { zones: emb.keepOut });
+  const primary = se.targets[0]?.id ?? null;
+  return {
+    ...base,
+    grasp: se.grasp, maxForce: se.maxForce, forceSource: se.forceSource,
+    noRobot: se.noRobot, operator: se.operator,
+    turns: se.turns ?? null, band: se.band ?? null, seconds: se.seconds ?? null,
+    pose: primary ? emb.poses[primary] ?? null : null,
+    poses: se.targets.map((t) => ({ id: t.id, pose: t.pose, zone: t.zone })),
+    place: se.place ?? null,
+    keepOut: primary ? keepOutFor(emb, step, primary) : { zones: emb.keepOut.length, inside: null, part: null, authorised: true, nearest: null },
+  };
+}
+
+// ------------------------------------------------------------ embodied episode
+
+/** The id an action reaches for, or null for the ones that move nothing. */
+function actedId(action) { return action.type === "release" || action.type === "wait" ? null : action.id ?? null; }
+
+/**
+ * One embodied episode, headless. Same policy, same engine, same seeds as
+ * shared/robot.js runEpisode() — what is added is the body: every decision
+ * carries the pose it was made at, the grasp, the force ceiling and its
+ * standing against the keep-out volumes, and a step the station marked
+ * `noRobot` is handed to the clinician rather than attempted.
+ *
+ * A handed-off step is still simulated, so the procedure's order and rhythm
+ * survive in the trajectory — the record simply says `operator: "human"` and
+ * carries no pose, no force and no keep-out account, because none of it was
+ * the robot's.
+ */
+function runEmbodiedEpisode(room, api, {
+  skill = 1, seed = 1, dt = 0.05, maxTicks = 20000, trajectory = true, SessionClass, hooks = {}, root, standoff,
+} = {}) {
+  const emb = embodimentFor(room, api, { root, standoff });
+  const hitIds = Object.keys(api.hits ?? {});
+  const hazardIds = Object.keys(room.hazards ?? {}).filter((id) => hitIds.includes(id));
+  const agent = new RobotAgent({ skill, seed, hitIds, hazardIds });
+  const records = [];
+  let lastFeedback = null;
+  const session = new SessionClass(room, {
+    onStep: (step, s) => { api.onStep?.(step, s); hooks.onStep?.(step, s); },
+    onStepComplete: (step, s) => { api.onStepComplete?.(step, s); hooks.onStepComplete?.(step, s); },
+    onFeedback: (fb, s) => { lastFeedback = fb; api.onFeedback?.(fb, s); hooks.onFeedback?.(fb, s); },
+    onHazard: (id, s) => { api.onHazard?.(id, s); hooks.onHazard?.(id, s); },
+    onFinish: (s, summary) => hooks.onFinish?.(s, summary),
+  });
+  session.start();
+  let ticks = 0, decisions = 0, robotDecisions = 0, handoffs = 0, violations = 0;
+  const violationLog = [], handoffSteps = new Set();
+  while (!session.finished && ticks < maxTicks) {
+    const before = session.score;
+    const step = session.step;
+    const human = !!step?.noRobot && !session.activeInterrupt;
+    const obs = trajectory ? observeEmbodied(session, api, { room, root, standoff }) : null;
+    const action = agent.act(session);
+    lastFeedback = null;
+    applyAction(session, action);
+    session.tick(dt);
+    try { api.animate?.(ticks * dt, dt, session); } catch (_) { /* a room's cosmetics must not break a run */ }
+    ticks += 1;
+    if (action.type === "wait" && session.score === before) continue;
+    if (action.type !== "wait") decisions += 1;
+    const id = actedId(action);
+    let keepOut = null, violation = false;
+    if (human) { if (action.type !== "wait") { handoffs += 1; if (step) handoffSteps.add(step.id); } }
+    else if (action.type !== "wait") {
+      robotDecisions += 1;
+      if (id) {
+        keepOut = keepOutFor(emb, session.activeInterrupt ? { id: "interrupt", kind: "select", target: session.activeInterrupt.target } : step ?? {}, id);
+        if (keepOut.inside && !keepOut.authorised) {
+          violation = true; violations += 1;
+          violationLog.push({ t: +(ticks * dt).toFixed(2), step: step?.id ?? null, id, zone: keepOut.inside, part: keepOut.part });
+        }
+      }
+    }
+    if (trajectory) {
+      const se = step ? emb.steps[step.id] ?? null : null;
+      records.push({
+        t: +(ticks * dt).toFixed(2), obs, action,
+        operator: human ? "human" : "robot",
+        pose: human || !id ? null : emb.poses[id] ?? null,
+        grasp: human ? null : se?.grasp ?? null,
+        maxForce: human ? null : se?.maxForce ?? null,
+        keepOut, keepOutViolation: violation,
+        reward: session.score - before,
+        feedback: lastFeedback ? lastFeedback.kind : null,
+        hazard: !!lastFeedback?.hazard,
+      });
+    }
+  }
+  const summary = {
+    finished: session.finished, score: session.score, stars: session.stars, errors: session.errors,
+    hazardHits: session.hazardHits, holdBreaks: session.holdBreaks, seconds: +session.elapsed.toFixed(1),
+    precision: +session.precision.toFixed(3), earned: [...session.earned],
+    decisions, robotDecisions, handoffs, handoffSteps: [...handoffSteps],
+    keepOutViolations: violations, ticks,
+    passed: session.finished && session.stars >= 2 && session.hazardHits === 0 && violations === 0,
+  };
+  return { summary, records, session, embodiment: emb, violations: violationLog };
+}
+
+/** One probe of a station at one skill: the success rate, mean score and the
+ * keep-out violations that skill costs. This is one point on a difficulty
+ * curve, and it is deliberately callable on its own so a browser can walk the
+ * ladder a probe at a time without blocking a frame for a whole calibration. */
+function probeSkill(room, api, { skill = 1, episodes = 6, seed = 1, SessionClass, dt, root } = {}) {
+  let passes = 0, score = 0, violations = 0, handoffs = 0, hazards = 0;
+  for (let i = 0; i < episodes; i++) {
+    const { summary } = runEmbodiedEpisode(room, api, { skill, seed: seed * 1000 + i, trajectory: false, SessionClass, dt, root });
+    if (summary.passed) passes += 1;
+    score += summary.score; violations += summary.keepOutViolations; handoffs += summary.handoffs; hazards += summary.hazardHits;
+  }
+  return {
+    skill: +skill.toFixed(3), episodes,
+    successRate: +(passes / episodes).toFixed(3), meanScore: Math.round(score / episodes),
+    keepOutViolations: violations, handoffsPerEpisode: +(handoffs / episodes).toFixed(1),
+    unsafeActionsPerEpisode: +(hazards / episodes).toFixed(2),
+  };
+}
+
+/** The skill ladder a difficulty curve is drawn on. */
+const DIFFICULTY_LADDER = [0, 0.25, 0.5, 0.75, 1];
+
+/**
+ * The embodied curriculum: the same idea as shared/robot.js calibrate(), with
+ * the pass rule that a run entering a keep-out volume is not a pass however
+ * well it scored. Walks a fixed ladder rather than bisecting, so the curve is
+ * comparable station to station and a UI can draw it as it fills.
+ */
+function calibrateEmbodied(room, api, { band = [0.6, 0.8], episodes = 6, seed = 1, SessionClass, dt, root, ladder = DIFFICULTY_LADDER, refine = 3 } = {}) {
+  const history = ladder.map((skill) => probeSkill(room, api, { skill, episodes, seed, SessionClass, dt, root }));
+  const within = (h) => h.successRate >= band[0] && h.successRate <= band[1];
+  // A five-rung ladder is coarse, and several of these stations go from never
+  // passing to always passing between two rungs. Bisect that gap a few times so
+  // the curve has points where it is actually changing.
+  for (let i = 0; i < refine && !history.some(within); i++) {
+    const sorted = history.slice().sort((a, b) => a.skill - b.skill);
+    const below = sorted.filter((h) => h.successRate < band[0]).pop();
+    const above = sorted.find((h) => h.successRate > band[1]);
+    if (!below || !above || above.skill - below.skill < 0.02) break;
+    history.push(probeSkill(room, api, { skill: (below.skill + above.skill) / 2, episodes, seed, SessionClass, dt, root }));
+  }
+  history.sort((a, b) => a.skill - b.skill);
+  const inBand = history.filter(within);
+  const centre = (band[0] + band[1]) / 2;
+  const optimal = inBand.length
+    ? inBand[0]
+    : { ...history.slice().sort((a, b) => Math.abs(a.successRate - centre) - Math.abs(b.successRate - centre))[0], note: "closest probe — no probe on the ladder landed inside the band" };
+  return { optimal, band, episodes, ladder, history };
+}
+
+
 /* ===== shared/competency.js ===== */
 // Competency and proof of training — the sober tier above the badges.
 //
@@ -96751,6 +97608,886 @@ function drMountDrills({ three = null, root = null, parish, el = null, tier = "b
 }
 
 
+/* ===== shared/rb-robotics-data.js ===== */
+// ROBOTICS (docs/consoles/ROBOTICS.md, docs/robot-training.md "Robotics
+// scenarios and the gym API"): the robotics scenarios, games and world sites
+// as plain, dependency-free data. TQ-BRIDGE exports this file's RB_* values
+// once to exports/shared/ for SmartCiti.X TradeQuest; nothing here imports
+// anything, so a Node script, a browser page and the bridge all read it as is.
+//
+// Facts rule: the sites name real places only by the map site they sit
+// beside (an existing catalog site id) and describe nothing about them; every
+// robot, cell and zone here is procedural, and every number is a simulation
+// parameter labelled procedural — not a figure from any standard, maker or
+// real site. Kids rule: the text is plain and calm — the robots here always
+// slow and stop for people; nothing is framed as a danger to be afraid of.
+// Names prefixed `rb`/`RB_` (the bundler shares one scope).
+
+/** The schema ids an rbEnv episode carries. `dataset` is the version of the
+ * dataset layer's episode format (tools/export_dataset.mjs SCHEMA_VERSION /
+ * shared/episodes.js EPISODE_SCHEMA_VERSION) this env writes; `env` versions
+ * the observation and action shapes below. tools/check_robotics.mjs fails if
+ * `dataset` drifts from export_dataset.mjs, so a bump there is seen here. */
+const RB_SCHEMA = { env: "rb-env/1", dataset: 1, frame: "scenario metres, +y up, origin at the work cell's floor centre", units: { distance: "m", speed: "m/s", force: "N (procedural)", time: "s" } };
+
+/** Simulated force ceilings per shared/robot-embodiment.js FORCE_CLASSES, in
+ * newtons — procedural simulation parameters, not a rating of any gripper. */
+const RB_FORCE_N = { none: 0, light: 12, firm: 40 };
+
+/** Speed-and-separation defaults for the world sites and the cell-entry
+ * scenario (procedural): inside `warn` metres the robot runs at reduced
+ * speed; inside `stop` it holds a protective stop until the person steps back. */
+const RB_SSM = { warn: 6, stop: 2.5, reducedSpeed: 0.3, fullSpeed: 1 };
+
+/** Safe-practice rule ids and their reward weights. Every penalty is a missed
+ * practice, never harm: the robot always stops for a person, so "entered a
+ * live cell" means the learner skipped the lockout, not that anything happened. */
+const RB_RULES = {
+  "enter-live-cell": { weight: -3, text: "Entered the cell before it was stopped and locked out." },
+  "skip-estop-test": { weight: -2, text: "Finished without testing the e-stop first." },
+  "skip-scanner-test": { weight: -1, text: "Committed the zones without testing the area scanner." },
+  "lockout-order": { weight: -1, text: "Tried to lock out before the robot was stopped." },
+  "no-verify": { weight: -1, text: "Entered without a try-start check for zero energy." },
+  "over-force": { weight: -1, text: "Gripped harder than the part's force limit." },
+  "keep-out": { weight: -2, text: "Moved the gripper into a person's keep-out space; the robot held a protective stop." },
+  "conflict": { weight: -1, text: "Two robots were sent to the same spot; both held and waited." },
+  "yield-missed": { weight: -1, text: "Sent a robot into the walkway while a person was crossing; it held and waited." },
+  "zone-too-small": { weight: -2, text: "Stop zone smaller than the robot needs to come to rest at that speed." },
+  "warn-inside-stop": { weight: -1, text: "Warning zone set inside the stop zone." },
+  "restart-with-lock": { weight: -1, text: "Tried to restart while a lock was still on." },
+  "left-locked": { weight: -1, text: "Left without removing your own lock and restarting the cell." },
+  "hazard": { weight: -1, text: "Chose an unsafe option at the station (station scenarios)." },
+};
+
+/**
+ * Scenarios. `kind: "game"` runs on rb-env.js's own simulation; `kind:
+ * "station"` wraps a catalog station's Session through shared/robot.js
+ * observe()/applyAction() and shared/robot-embodiment.js observeEmbodied()
+ * (the caller hands in the built room, see rbEnv). `maxSteps` bounds every
+ * episode; `station` names the catalog station the scenario teaches beside.
+ */
+const RB_SCENARIOS = [
+  {
+    id: "rb-teleop-pick-place", kind: "game", name: "Teleop Pick-and-Place",
+    blurb: "Guide a robot gripper to move parts from the bin to the fixture, gripping each part within its force limit and keeping clear of your teammate's space.",
+    station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 400, dt: 0.1,
+    params: { parts: 3, speed: 0.12, tolerance: 0.04, teammateRadius: 0.45 },
+    actions: ["move {dx,dy,dz} (m, capped at params.speed per step)", "grip {force} (N)", "release", "estop", "reset", "wait"],
+    safePractice: ["over-force", "keep-out"],
+  },
+  {
+    id: "rb-amr-fleet-routing", kind: "game", name: "AMR Fleet Routing",
+    blurb: "Route a small fleet of warehouse robots to their drop-offs without two robots claiming the same spot, and hold them at the walkway while a person crosses.",
+    station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 120, dt: 1,
+    params: { width: 9, height: 7, robots: 3, walkwayColumn: 4 },
+    actions: ["route {moves: [N|S|E|W|wait per robot]}", "estop", "wait"],
+    safePractice: ["conflict", "yield-missed"],
+  },
+  {
+    id: "rb-cobot-zone-setup", kind: "game", name: "Cobot Safety-Zone Setup",
+    blurb: "Set a cobot's warning and stop zones for its speed, test the area scanner and the e-stop, then commit the setup.",
+    station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 40, dt: 1,
+    params: { intrusion: 0.2 },
+    actions: ["set {param: warn|stop|speed, value}", "test {what: scanner|estop|zone-walk}", "commit", "wait"],
+    safePractice: ["zone-too-small", "warn-inside-stop", "skip-scanner-test", "skip-estop-test"],
+  },
+  {
+    id: "rb-cell-entry", kind: "game", name: "Robot Cell Entry",
+    blurb: "Walk up to a working robot cell, watch it slow and stop as you near, test the e-stop, lock out, check for zero energy, clear the jam and restart safely.",
+    station: "ad-robot-cell-lockout-and-safe-reentry", maxSteps: 160, dt: 0.5,
+    params: { start: 14, cellEdge: 1.2, walk: 1 },
+    actions: ["walk {d} (m, + toward the cell)", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"],
+    safePractice: ["enter-live-cell", "skip-estop-test", "lockout-order", "no-verify", "restart-with-lock", "left-locked"],
+  },
+  { id: "rb-station-robot-cell", kind: "station", name: "Robot Cell Lockout & Safe Re-entry (station)", station: "ad-robot-cell-lockout-and-safe-reentry", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
+  { id: "rb-station-amr-fleet", kind: "station", name: "AMR Fleet Traffic & E-stop Drill (station)", station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
+  { id: "rb-station-cobot", kind: "station", name: "Cobot Risk Assessment & Speed-and-Separation (station)", station: "ad-cobot-risk-assessment-and-speed-separation", maxSteps: 20000, dt: 0.05, safePractice: ["hazard"] },
+];
+
+/**
+ * Robotics sites in the parish-engine maps. Each sits beside an existing map
+ * site (`anchor`, a catalog site id) at a small procedural offset, runs one
+ * procedural rig (an AMR on a loop, a cobot arm cycling, a gantry traversing)
+ * with speed-and-separation zones, an e-stop post and a lockout point at the
+ * cell gate, and links the scenario and station it teaches.
+ */
+const RB_SITES = [
+  { id: "rb-site-west-oakland-port-automation", parish: "oak-west-oakland", anchor: "outer-harbor-container-terminal", offset: [34, 26], rig: "gantry", name: "Port Automation Yard (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-west-oakland-warehouse", parish: "oak-west-oakland", anchor: "mandela-parkway-warehouse-row", offset: [-30, 24], rig: "amr", name: "Automated Warehouse Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-san-jose-robotics-lab", parish: "bay-san-jose", anchor: "university-campus-plant-sj", offset: [30, -26], rig: "cobot", name: "Campus Robotics Lab (procedural)", scenario: "rb-cobot-zone-setup", station: "ad-cobot-risk-assessment-and-speed-separation" },
+  { id: "rb-site-orleans-warehouse", parish: "orleans", anchor: "no-sw-almonaster-corridor-distribution-warehouse", offset: [32, 28], rig: "amr", name: "Distribution Robot Aisle (procedural)", scenario: "rb-amr-fleet-routing", station: "ad-amr-fleet-traffic-and-estop-drill" },
+  { id: "rb-site-soma-robot-cell", parish: "sf-downtown", anchor: "dt-sw-south-of-market-fabrication-shop", offset: [-28, 26], rig: "cell", name: "Fabrication Robot Cell (procedural)", scenario: "rb-cell-entry", station: "ad-robot-cell-lockout-and-safe-reentry" },
+];
+
+/** In-world safe-practice scoring for a site visit (rb-world.js): each
+ * practice observed earns its points; out of 100. */
+const RB_SITE_PRACTICES = [
+  { id: "slowed", points: 20, text: "Watched the robot slow as you entered the warning zone." },
+  { id: "estop-test", points: 25, text: "Pressed and reset the e-stop to test it." },
+  { id: "lockout", points: 30, text: "Locked out at the gate before entering the cell." },
+  { id: "restart", points: 25, text: "Removed your lock and restarted from outside." },
+];
+
+/** Plain accessor for bridges: everything above as one object. */
+function rbSharedData() {
+  return { schema: RB_SCHEMA, forceN: RB_FORCE_N, ssm: RB_SSM, rules: RB_RULES, scenarios: RB_SCENARIOS, sites: RB_SITES, sitePractices: RB_SITE_PRACTICES };
+}
+
+
+/* ===== shared/rb-env.js ===== */
+// ROBOTICS — a gym-style training interface over the robotics games and the
+// robotics stations (docs/robot-training.md, "Robotics scenarios and the gym
+// API"). One call builds an environment:
+//
+//   const env = rbEnv("rb-cell-entry", { seed: 7 });
+//   let obs = env.reset();                          // or env.reset(seed)
+//   const policy = rbPolicy(env, { skill: 1, seed: 7 });
+//   for (;;) { const { observation, reward, done, info } = env.step(policy(obs)); obs = observation; if (done) break; }
+//
+// Headless and three.js-free, deterministic by seed (shared/robot.js rng), so
+// the same seed and the same actions give the same episode byte for byte.
+// Observations carry shared/robot-embodiment.js's embodiment fields (grasp,
+// maxForce, pose, keepOut with the same zone shape and clearance account),
+// and `info` carries exactly the per-step fields tools/export_dataset.mjs
+// writes (t, feedback, hazard, operator, pose, grasp, maxForce, keepOut,
+// keepOutViolation) plus the safe-practice rule a step broke — so
+// tools/rb_rollout.mjs writes episodes in the dataset layer's format with no
+// translation. A "station" scenario wraps a catalog station's Session through
+// robot.js observe()/applyAction() and observeEmbodied() — the caller hands in
+// the built room ({ room, api, SessionClass }), as tools/lib/headless.mjs
+// loadSmartCity() provides.
+//
+// Robots never harm anyone here: every rule a learner can break ends in the
+// robot holding a stop, and the penalty is for the missed practice.
+// Names prefixed `rb`/`RB_` (the bundler shares one scope).
+
+
+
+
+const rbR3 = (n) => Math.round(n * 1000) / 1000;
+const rbV3 = (v) => v.map(rbR3);
+const rbD3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+/** A scenario's plain data by id, or null. */
+function rbScenario(id) { return RB_SCENARIOS.find((s) => s.id === id) ?? null; }
+
+/**
+ * The speed-and-separation mode for a person `distance` metres from a robot:
+ * "full" outside the warning zone, "reduced" inside it, "stop" inside the
+ * stop zone. Shared by the cell-entry scenario and the world sites.
+ */
+function rbSsmMode(distance, zones = RB_SSM) {
+  if (distance <= zones.stop) return { mode: "stop", speed: 0 };
+  if (distance <= zones.warn) return { mode: "reduced", speed: zones.reducedSpeed };
+  return { mode: "full", speed: zones.fullSpeed };
+}
+
+/** A keep-out account in robot-embodiment.js's shape for one point. */
+function rbKeepOut(zones, point, authorised = false) {
+  const z = zoneAt(zones, point);
+  return { zones: zones.length, inside: z ? z.id : null, part: z ? z.part : null, authorised: !z || authorised, nearest: nearestZone(zones, point) };
+}
+const rbPose = (p) => ({ position: rbV3(p), normal: [0, 1, 0], approach: rbV3([p[0], p[1] + STANDOFF, p[2]]), standoff: STANDOFF, euler: [0, 0, 0] });
+
+// ------------------------------------------------------------ the core loop
+
+/** Wrap a scenario simulation in the gym contract. `sim` supplies init(seed),
+ * observe(), apply(action) -> { reward, feedback, violations[], hazard,
+ * operator?, pose?, grasp?, maxForce?, keepOut?, keepOutViolation? },
+ * finished(), passed() and expert(obs, random, skill). */
+function rbWrap(sc, sim, seed0) {
+  let seed = seed0, t = 0, steps = 0, score = 0, done = false, violations = [];
+  const env = {
+    id: sc.id, scenario: sc, schema: RB_SCHEMA,
+    get seed() { return seed; },
+    reset(s) {
+      if (s !== undefined) seed = s >>> 0;
+      t = 0; steps = 0; score = 0; done = false; violations = [];
+      sim.init(seed);
+      return sim.observe();
+    },
+    observe() { return sim.observe(); },
+    step(action = { type: "wait" }) {
+      if (done) return { observation: sim.observe(), reward: 0, done: true, info: { ...env.summary(), note: "episode already done" } };
+      const r = sim.apply(action ?? { type: "wait" });
+      steps += 1; t = rbR3(steps * (sc.dt ?? 1));
+      let reward = r.reward ?? 0;
+      for (const v of r.violations ?? []) { violations.push({ rule: v, step: steps }); reward += RB_RULES[v]?.weight ?? -1; }
+      reward = rbR3(reward); score = rbR3(score + reward);
+      done = sim.finished() || steps >= sc.maxSteps;
+      if (done && sim.finalViolations) for (const v of sim.finalViolations()) { violations.push({ rule: v, step: steps }); reward = rbR3(reward + (RB_RULES[v]?.weight ?? -1)); score = rbR3(score + (RB_RULES[v]?.weight ?? -1)); r.violations = [...(r.violations ?? []), v]; }
+      const info = {
+        t, wall: null, feedback: r.feedback ?? null, hazard: !!r.hazard || !!(r.violations ?? []).length,
+        operator: r.operator ?? "robot", pose: r.pose ?? null, grasp: r.grasp ?? null, maxForce: r.maxForce ?? null,
+        keepOut: r.keepOut ?? null, keepOutViolation: !!r.keepOutViolation,
+        violations: r.violations ?? [], score, steps,
+      };
+      if (done) Object.assign(info, env.summary());
+      return { observation: sim.observe(), reward, done, info };
+    },
+    summary() {
+      return { finished: sim.finished(), truncated: !sim.finished() && steps >= sc.maxSteps, passed: sim.finished() && sim.passed() && !violations.length, score, steps, violationCount: violations.length, violationRules: [...new Set(violations.map((v) => v.rule))] };
+    },
+    expert(obs, random, skill = 1) { return sim.expert(obs ?? sim.observe(), random, skill); },
+    actionSpace() { return { scenario: sc.id, actions: sc.actions ?? ["see robot-embodiment.js actionSpace()"] }; },
+  };
+  return env;
+}
+
+// ------------------------------------------------- game: teleop pick-and-place
+
+function rbTeleopSim(sc) {
+  const P = sc.params;
+  const BIN = [-0.4, 0.1, 0], FIX = [0.4, 0.1, 0];
+  let s;
+  const zones = () => [{ id: "bystander-0", label: "teammate at the bench", kind: "sphere", source: "rb-teleop", part: "bystander", center: s.mate, radius: P.teammateRadius ?? ZONE_RADIUS.bystander }];
+  const part = () => s.parts[s.i] ?? null;
+  return {
+    init(seed) {
+      const R = rng(seed * 7919 + 11);
+      s = {
+        p: [0, 0.3, -0.35], last: null, carrying: false, i: 0, placed: 0, mode: "run",
+        mate: rbV3([(R() - 0.5) * 0.1, 0.1, 0.3 + R() * 0.06]),
+        parts: Array.from({ length: P.parts }, (_, k) => ({ id: `part-${k}`, force: R() < 0.5 ? "light" : "firm" })),
+      };
+    },
+    observe() {
+      const pt = part(), cls = pt?.force ?? "none", ceil = RB_FORCE_N[cls];
+      const target = s.carrying ? FIX : BIN;
+      return {
+        scenario: sc.id, effector: rbV3(s.p), carrying: s.carrying, mode: s.mode,
+        part: pt ? { id: pt.id, maxForce: cls, ceilingN: ceil, minGripN: rbR3(ceil * 0.35) } : null,
+        bin: BIN, fixture: FIX, placed: s.placed, remaining: s.parts.length - s.placed,
+        grasp: GRASP_BY_KIND.drag, maxForce: cls, pose: rbPose(target), keepOut: rbKeepOut(zones(), s.p), lastFeedback: s.last ?? null,
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.005, violations: [], grasp: GRASP_BY_KIND.drag, maxForce: part()?.force ?? "none" };
+      if (a.type === "estop") { s.mode = "estop"; out.feedback = "estop"; }
+      else if (a.type === "reset") { s.mode = "run"; out.feedback = "reset"; }
+      else if (s.mode !== "run" && a.type !== "wait") out.feedback = "stopped";
+      else if (a.type === "move") {
+        const cap = P.speed, cl = (v) => Math.max(-cap, Math.min(cap, +v || 0));
+        const next = [s.p[0] + cl(a.dx), Math.max(0, s.p[1] + cl(a.dy)), s.p[2] + cl(a.dz)];
+        const ko = rbKeepOut(zones(), next);
+        if (ko.inside) { out.violations.push("keep-out"); out.keepOutViolation = true; out.feedback = "protective-stop"; out.keepOut = ko; }
+        else { s.p = next; out.feedback = "moved"; out.keepOut = ko; }
+      } else if (a.type === "grip") {
+        const pt = part();
+        if (!pt || s.carrying) out.feedback = "nothing-to-grip";
+        else if (rbD3(s.p, BIN) > P.tolerance * 2) out.feedback = "missed";
+        else {
+          const f = +a.force || 0, ceil = RB_FORCE_N[pt.force];
+          if (f > ceil) { out.violations.push("over-force"); out.feedback = "over-force"; }
+          else if (f < ceil * 0.35) out.feedback = "slip";
+          else { s.carrying = true; out.feedback = "gripped"; }
+        }
+      } else if (a.type === "release") {
+        if (!s.carrying) out.feedback = "empty";
+        else if (rbD3(s.p, FIX) <= P.tolerance * 2) { s.carrying = false; s.placed += 1; s.i += 1; out.reward += 1; out.feedback = "placed"; }
+        else { s.carrying = false; out.reward -= 0.2; out.feedback = "returned-to-bin"; }
+      }
+      out.pose = rbPose(s.p);
+      out.keepOut = out.keepOut ?? rbKeepOut(zones(), s.p);
+      // A policy re-routing after a stop reads this back; "backing-off" lasts until it is clear on the far side.
+      s.last = out.feedback === "protective-stop" || (s.last !== null && s.last !== undefined && (s.last === "protective-stop" || s.last === "backing-off") && s.p[2] > -0.25 && a.type === "move") ? (out.feedback === "protective-stop" ? "protective-stop" : "backing-off") : out.feedback ?? null;
+      return out;
+    },
+    finished() { return s.placed >= s.parts.length; },
+    passed() { return s.placed >= s.parts.length; },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.4;
+      if (o.mode !== "run") return { type: "reset" };
+      const pt = o.part; if (!pt) return { type: "wait" };
+      const goal = o.carrying ? FIX : BIN;
+      if (rbD3(o.effector, goal) <= P.tolerance) {
+        if (o.carrying) return { type: "release" };
+        // A novice's lapse grips at the full "firm" force whatever the part says.
+        return { type: "grip", force: lapse ? RB_FORCE_N.firm + 8 : rbR3((pt.ceilingN + pt.minGripN) / 2) };
+      }
+      // Route around the teammate: stage on the far side (z < 0) unless a lapse cuts straight across.
+      const via = [0, 0.18, -0.3];
+      // Once a protective stop has held it at the edge of the space, even a novice re-routes.
+      const atEdge = o.lastFeedback === "protective-stop" || o.lastFeedback === "backing-off";
+      const wantVia = (!lapse || atEdge) && Math.sign(o.effector[0]) !== Math.sign(goal[0]) && Math.abs(o.effector[0]) > 0.05 && o.effector[2] > -0.25;
+      const tgt = atEdge && o.effector[2] > -0.25 ? [o.effector[0], 0.18, -0.3] : wantVia ? via : goal;
+      const d = [tgt[0] - o.effector[0], tgt[1] - o.effector[1], tgt[2] - o.effector[2]];
+      const len = Math.hypot(...d) || 1, k = Math.min(1, P.speed / len);
+      return { type: "move", dx: rbR3(d[0] * k), dy: rbR3(d[1] * k), dz: rbR3(d[2] * k) };
+    },
+  };
+}
+
+// ---------------------------------------------------- game: AMR fleet routing
+
+const RB_DIRS = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0], wait: [0, 0] };
+
+function rbAmrSim(sc) {
+  const P = sc.params, W = P.width, H = P.height, WC = P.walkwayColumn;
+  const shelf = (x, y) => [1, 2, 6, 7].includes(x) && [1, 2, 4, 5].includes(y);
+  const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
+  let s;
+  const person = (tick) => ((tick + s.phase) % s.period) < s.cross;
+  return {
+    init(seed) {
+      const R = rng(seed * 104729 + 3);
+      const rows = [0, 3, 6];
+      const goals = rows.slice().sort(() => R() - 0.5);
+      s = { tick: 0, phase: Math.floor(R() * 12), period: 12 + Math.floor(R() * 6), cross: 4,
+        robots: rows.slice(0, P.robots).map((y, i) => ({ id: `amr-${i + 1}`, x: 0, y, gx: W - 1, gy: goals[i], done: false })), delivered: 0 };
+    },
+    observe() {
+      return {
+        scenario: sc.id, tick: s.tick, width: W, height: H, walkwayColumn: WC, personOnWalkway: person(s.tick),
+        robots: s.robots.map((r) => ({ id: r.id, at: [r.x, r.y], goal: [r.gx, r.gy], delivered: r.done })),
+        delivered: s.delivered, grasp: null, maxForce: "none", pose: null,
+        keepOut: { zones: person(s.tick) ? 1 : 0, inside: null, part: person(s.tick) ? "bystander" : null, authorised: true, nearest: null },
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", feedback: "tick" };
+      const busy = person(s.tick);
+      if (a.type === "route") {
+        const moves = a.moves ?? [];
+        const prop = s.robots.map((r, i) => {
+          if (r.done) return [r.x, r.y];
+          const d = RB_DIRS[moves[i]] ?? RB_DIRS.wait;
+          const nx = r.x + d[0], ny = r.y + d[1];
+          if (!inside(nx, ny) || shelf(nx, ny)) return [r.x, r.y];
+          if (busy && nx === WC && r.x !== WC) { out.violations.push("yield-missed"); out.feedback = "held-for-walkway"; return [r.x, r.y]; }
+          return [nx, ny];
+        });
+        // Conflicts: two robots to one cell, or a swap — both hold.
+        const hold = new Set();
+        for (let i = 0; i < prop.length; i++) for (let j = i + 1; j < prop.length; j++) {
+          const same = prop[i][0] === prop[j][0] && prop[i][1] === prop[j][1];
+          const swap = prop[i][0] === s.robots[j].x && prop[i][1] === s.robots[j].y && prop[j][0] === s.robots[i].x && prop[j][1] === s.robots[i].y && (prop[i][0] !== s.robots[i].x || prop[i][1] !== s.robots[i].y);
+          if (same || swap) { hold.add(i); hold.add(j); out.violations.push("conflict"); out.feedback = "conflict-held"; }
+        }
+        // A robot moving into a cell whose robot holds also holds (repeat to a fixed point).
+        let changed = true;
+        while (changed) {
+          changed = false;
+          for (let i = 0; i < prop.length; i++) {
+            if (hold.has(i)) continue;
+            for (let j = 0; j < prop.length; j++) {
+              if (i === j) continue;
+              const jStays = hold.has(j) || (prop[j][0] === s.robots[j].x && prop[j][1] === s.robots[j].y);
+              if (jStays && prop[i][0] === s.robots[j].x && prop[i][1] === s.robots[j].y && (prop[i][0] !== s.robots[i].x || prop[i][1] !== s.robots[i].y)) { hold.add(i); changed = true; if (!s.robots[j].done) { out.violations.push("conflict"); out.feedback = "conflict-held"; } }
+            }
+          }
+        }
+        s.robots.forEach((r, i) => {
+          if (r.done || hold.has(i)) return;
+          [r.x, r.y] = prop[i];
+          if (r.x === r.gx && r.y === r.gy) { r.done = true; s.delivered += 1; out.reward += 1; out.feedback = "delivered"; }
+        });
+      } else if (a.type === "estop") out.feedback = "fleet-hold";
+      s.tick += 1;
+      return out;
+    },
+    finished() { return s.delivered >= s.robots.length; },
+    passed() { return s.delivered >= s.robots.length; },
+    expert(o, R, skill) {
+      const busy = o.personOnWalkway;
+      const reserved = new Set(), key = (x, y) => `${x},${y}`;
+      const moves = [];
+      o.robots.forEach((r, i) => {
+        if (r.delivered) { moves.push("wait"); reserved.add(key(...r.at)); return; }
+        const lapse = R() < (1 - skill) * 0.5;
+        const blocked = new Set(reserved);
+        if (!lapse) o.robots.forEach((q, j) => { if (j > i) blocked.add(key(...q.at)); });
+        // BFS to the goal through free cells; the first move of the path is this tick's move.
+        const start = key(...r.at), goal = key(...r.goal), prev = new Map([[start, null]]), queue = [r.at];
+        while (queue.length) {
+          const [x, y] = queue.shift();
+          if (key(x, y) === goal) break;
+          for (const [dn, [dx, dy]] of Object.entries(RB_DIRS)) {
+            if (dn === "wait") continue;
+            const nx = x + dx, ny = y + dy, k = key(nx, ny);
+            if (!inside(nx, ny) || shelf(nx, ny) || prev.has(k) || (blocked.has(k) && k !== goal)) continue;
+            prev.set(k, [key(x, y), dn]); queue.push([nx, ny]);
+          }
+        }
+        let move = "wait";
+        if (prev.has(goal)) { let k = goal; while (prev.get(k) && prev.get(k)[0] !== start) k = prev.get(k)[0]; move = prev.get(k)?.[1] ?? "wait"; }
+        const d = RB_DIRS[move], nx = r.at[0] + d[0], ny = r.at[1] + d[1];
+        if (!lapse && (reserved.has(key(nx, ny)) || (busy && nx === o.walkwayColumn && r.at[0] !== o.walkwayColumn))) move = "wait";
+        const fin = move === "wait" ? r.at : [nx, ny];
+        reserved.add(key(...fin)); if (move !== "wait") reserved.add(key(...r.at));
+        moves.push(move);
+      });
+      return { type: "route", moves };
+    },
+  };
+}
+
+// ------------------------------------------------- game: cobot safety-zone setup
+
+function rbCobotSim(sc) {
+  const P = sc.params, HUMAN = 1.6, LATENCY = 0.1; // procedural approach speed (m/s) and scanner latency (s)
+  let s;
+  const required = () => rbR3(HUMAN * (s.stopTime + LATENCY) + s.speed * s.stopTime + P.intrusion);
+  return {
+    init(seed) {
+      const R = rng(seed * 15485863 + 5);
+      s = { stopTime: rbR3(0.3 + R() * 0.3), speed: 1, warn: 1, stop: 0.5, tested: { scanner: false, estop: false, "zone-walk": false }, committed: false, ok: false };
+    },
+    observe() {
+      return {
+        scenario: sc.id, speed: s.speed, warn: s.warn, stop: s.stop,
+        stopTime: s.tested["zone-walk"] ? s.stopTime : null, requiredStop: s.tested["zone-walk"] ? required() : null,
+        tested: { ...s.tested }, committed: s.committed,
+        grasp: null, maxForce: "none", pose: null,
+        keepOut: { zones: 1, inside: null, part: "bystander", authorised: true, nearest: { id: "stop-zone", clearance: rbR3(s.warn - s.stop) } },
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", feedback: a.type };
+      if (a.type === "set") {
+        const v = Math.max(0, +a.value || 0);
+        if (a.param === "speed") s.speed = rbR3(Math.min(1.5, Math.max(0.25, v)));
+        else if (a.param === "warn") s.warn = rbR3(Math.min(8, v));
+        else if (a.param === "stop") s.stop = rbR3(Math.min(8, v));
+        else out.feedback = "unknown-param";
+      } else if (a.type === "test" && a.what in s.tested) { s.tested[a.what] = true; out.feedback = `tested-${a.what}`; }
+      else if (a.type === "commit") {
+        s.committed = true;
+        if (s.stop < required()) out.violations.push("zone-too-small");
+        if (s.warn <= s.stop) out.violations.push("warn-inside-stop");
+        if (!s.tested.scanner) out.violations.push("skip-scanner-test");
+        if (!s.tested.estop) out.violations.push("skip-estop-test");
+        s.ok = !out.violations.length;
+        if (s.ok) out.reward += 2 + 0.5 * (s.speed / 1.5); // a clean setup, and a little for keeping the cell productive
+        out.feedback = s.ok ? "committed" : "committed-with-findings";
+      }
+      return out;
+    },
+    finished() { return s.committed; },
+    passed() { return s.ok; },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.5;
+      if (!o.tested["zone-walk"]) return { type: "test", what: "zone-walk" };
+      const target = rbR3(o.requiredStop * (lapse ? 0.8 : 1.15));
+      if (Math.abs(o.stop - target) > 0.02 && !(lapse && o.stop >= target)) return { type: "set", param: "stop", value: target };
+      if (o.warn < o.stop + 1) return { type: "set", param: "warn", value: rbR3(o.stop + 1.2) };
+      if (!o.tested.scanner && !lapse) return { type: "test", what: "scanner" };
+      if (!o.tested.estop && !lapse) return { type: "test", what: "estop" };
+      return { type: "commit" };
+    },
+  };
+}
+
+// ------------------------------------------------------- game: robot cell entry
+
+function rbCellSim(sc) {
+  const P = sc.params, GATE = RB_SSM.stop - 0.5, POST = GATE + 1;
+  let s;
+  return {
+    init(seed) {
+      const R = rng(seed * 32452843 + 9);
+      s = { d: P.start + Math.floor(R() * 4), mode: "full", estopTested: false, estopped: false, locked: false, verified: false, inside: false, jam: true, restarted: false, slowedSeen: false, credited: {} };
+      s.mode = rbSsmMode(s.d).mode;
+    },
+    observe() {
+      const ssm = rbSsmMode(s.inside ? 0 : s.d);
+      const mode = s.restarted ? "full" : s.locked ? "locked-out" : s.estopped ? "estopped" : ssm.mode;
+      return {
+        scenario: sc.id, distance: rbR3(s.inside ? 0 : s.d), gate: GATE, estopPost: POST, zones: { warn: RB_SSM.warn, stop: RB_SSM.stop },
+        robotMode: mode, robotSpeed: mode === "full" || mode === "reduced" ? (s.estopped || s.locked ? 0 : ssm.speed) : 0,
+        estopTested: s.estopTested, estopped: s.estopped, locked: s.locked, verified: s.verified, inside: s.inside, jam: s.jam, restarted: s.restarted,
+        grasp: null, maxForce: "none", pose: null,
+        keepOut: { zones: 1, inside: s.inside || s.d <= RB_SSM.stop ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "person-0", clearance: rbR3((s.inside ? 0 : s.d) - RB_SSM.stop) } },
+      };
+    },
+    apply(a) {
+      const out = { reward: -0.01, violations: [], maxForce: "none", operator: "human", feedback: a.type };
+      const credit = (k, r) => { if (!s.credited[k]) { s.credited[k] = true; out.reward += r; } };
+      const nearPost = !s.inside && s.d <= POST + 0.01;
+      switch (a.type) {
+        case "walk": {
+          if (s.inside) { out.feedback = "inside"; break; }
+          const step = Math.max(-P.walk, Math.min(P.walk, +a.d || 0));
+          const nd = rbR3(Math.max(GATE, s.d - step));
+          s.d = nd;
+          const m = rbSsmMode(s.d).mode;
+          if (m === "reduced" && !s.slowedSeen) { s.slowedSeen = true; out.feedback = "robot-slowed"; }
+          if (m === "stop") out.feedback = "robot-protective-stop";
+          break;
+        }
+        case "test-estop": if (!nearPost) { out.feedback = "too-far"; break; } s.estopTested = true; credit("estop-test", 0.2); out.feedback = "estop-tested"; break;
+        case "press-estop": if (!nearPost) { out.feedback = "too-far"; break; } s.estopped = true; out.feedback = "estopped"; break;
+        case "lockout":
+          if (!nearPost) { out.feedback = "too-far"; break; }
+          if (!s.estopped) { out.violations.push("lockout-order"); out.feedback = "not-stopped"; break; }
+          s.locked = true; credit("lockout", 0.2); out.feedback = "locked"; break;
+        case "verify": if (!s.locked) { out.feedback = "no-lock"; break; } s.verified = true; credit("verify", 0.2); out.feedback = "zero-energy"; break;
+        case "enter":
+          if (s.inside || s.d > GATE + 0.01) { out.feedback = s.inside ? "inside" : "too-far"; break; }
+          if (!s.locked) out.violations.push("enter-live-cell");
+          else if (!s.verified) out.violations.push("no-verify");
+          s.inside = true; out.feedback = s.locked ? "entered" : "entered-robot-held-stop"; break;
+        case "clear-jam": if (!s.inside || !s.jam) { out.feedback = "nothing"; break; } s.jam = false; out.reward += 1; out.feedback = "jam-cleared"; break;
+        case "exit": if (!s.inside) { out.feedback = "outside"; break; } s.inside = false; out.feedback = "exited"; break;
+        case "remove-lock": if (s.inside || !s.locked) { out.feedback = "nothing"; break; } s.locked = false; s.verified = false; out.feedback = "lock-removed"; break;
+        case "restart":
+          if (s.inside) { out.feedback = "person-in-cell"; break; }
+          if (s.locked) { out.violations.push("restart-with-lock"); out.feedback = "lock-still-on"; break; }
+          if (s.jam) { out.feedback = "jam-still-there"; break; }
+          s.estopped = false; s.restarted = true; out.reward += 0.5; out.feedback = "restarted"; break;
+        default: break;
+      }
+      return out;
+    },
+    finished() { return s.restarted; },
+    passed() { return s.restarted && !s.jam; },
+    finalViolations() {
+      const v = [];
+      if (!s.estopTested) v.push("skip-estop-test");
+      if (!s.restarted && s.locked && !s.jam) v.push("left-locked");
+      return v;
+    },
+    expert(o, R, skill) {
+      const lapse = R() < (1 - skill) * 0.35;
+      if (!o.jam && o.inside) return { type: "exit" };
+      if (!o.jam && o.locked) return { type: "remove-lock" };
+      if (!o.jam) return { type: "restart" };
+      if (o.distance > o.gate + 0.01 && !o.inside) return { type: "walk", d: 1 };
+      if (!o.estopTested && !lapse) return { type: "test-estop" };
+      if (!o.estopped && !(lapse && !o.locked)) return { type: "press-estop" };
+      if (!o.locked && !lapse) return { type: "lockout" };
+      if (o.locked && !o.verified && !lapse) return { type: "verify" };
+      if (!o.inside) return { type: "enter" };
+      return { type: "clear-jam" };
+    },
+  };
+}
+
+// --------------------------------------------------------- station scenarios
+
+function rbStationSim(sc, bind) {
+  const { room, SessionClass, rebuild = null } = bind ?? {};
+  let api = bind?.api ?? null;
+  if (!room || !api || !SessionClass) throw new Error(`rbEnv(${sc.id}): a station scenario needs { station: { room, api, SessionClass } } (tools/lib/headless.mjs loadSmartCity())`);
+  let session, fb = null, agent = null, agentSeed = 1, engineRandom = Math.random;
+  // The engine draws a little cosmetic noise from Math.random (a track step's wobble, shared/game.js); for an
+  // episode to be deterministic by seed, the env lends it a seeded stream for the length of each call only.
+  const seeded = (fn) => { const m = Math.random; Math.random = engineRandom; try { return fn(); } finally { Math.random = m; } };
+  const ids = () => { const hitIds = Object.keys(api.hits ?? {}); return { hitIds, hazardIds: Object.keys(room.hazards ?? {}).filter((id) => hitIds.includes(id)) }; };
+  return {
+    init(seed) {
+      // A station moves its props as it runs (a drag carries a part), so a reset rebuilds it when the caller can.
+      if (rebuild) api = rebuild();
+      fb = null; agent = null; agentSeed = seed; engineRandom = rng(seed * 48271 + 17);
+      session = seeded(() => new SessionClass(room, {
+        onStep: (st, x) => api.onStep?.(st, x), onStepComplete: (st, x) => api.onStepComplete?.(st, x),
+        onFeedback: (f, x) => { fb = f; api.onFeedback?.(f, x); }, onHazard: (id, x) => api.onHazard?.(id, x),
+      }));
+      seeded(() => session.start());
+    },
+    observe() { const o = observeEmbodied(session, api, { room }); return { scenario: sc.id, station: room.id, ...o }; },
+    apply(a) {
+      const before = session.score; fb = null;
+      seeded(() => { applyAction(session, a); session.tick(sc.dt); });
+      const o = observeEmbodied(session, api, { room });
+      return { reward: (session.score - before) / 100, violations: fb?.hazard ? ["hazard"] : [], hazard: !!fb?.hazard, feedback: fb?.kind ?? null, grasp: o.grasp ?? null, maxForce: o.maxForce ?? null, pose: o.pose ?? null, keepOut: o.keepOut ?? null, operator: o.operator ?? "robot" };
+    },
+    finished() { return session.finished; },
+    passed() { return session.finished && session.stars >= 2 && session.hazardHits === 0; },
+    expert(o, R, skill) {
+      if (!agent || agent.skill !== skill) agent = new RobotAgent({ skill, seed: agentSeed, ...ids() });
+      return agent.act(session);
+    },
+    raw() { return observe(session); },
+  };
+}
+
+const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": rbAmrSim, "rb-cobot-zone-setup": rbCobotSim, "rb-cell-entry": rbCellSim };
+
+/**
+ * Build an environment for a scenario id. Options: `seed` (default 1) and,
+ * for a station scenario, `station: { room, api, SessionClass }`.
+ */
+function rbEnv(scenarioId, { seed = 1, station = null } = {}) {
+  const sc = rbScenario(scenarioId);
+  if (!sc) throw new Error(`rbEnv: unknown scenario ${scenarioId}`);
+  const sim = sc.kind === "station" ? rbStationSim(sc, station) : RB_SIMS[sc.id]?.(sc);
+  if (!sim) throw new Error(`rbEnv: no simulation for ${scenarioId}`);
+  const env = rbWrap(sc, sim, seed >>> 0);
+  env.reset();
+  return env;
+}
+
+/** A seeded, skill-parameterised scripted policy for an env: skill 1 is the
+ * safe-practice expert (the demonstration), lower skills lapse. Returns
+ * `(observation) => action`. */
+function rbPolicy(env, { skill = 1, seed = 1 } = {}) {
+  const R = rng(seed * 2654435761 + 1);
+  return (obs) => env.expert(obs, R, skill);
+}
+
+/** Run one episode headlessly and return { steps, summary } — each step the
+ * { observation, action, reward, done, info } the dataset layer writes. */
+function rbRollout(env, { skill = 1, seed = env.seed, policy = null } = {}) {
+  let obs = env.reset(seed);
+  const pol = policy ?? rbPolicy(env, { skill, seed });
+  const steps = [];
+  for (let i = 0; i <= env.scenario.maxSteps; i++) {
+    const action = pol(obs);
+    const r = env.step(action);
+    steps.push({ observation: obs, action, reward: r.reward, done: r.done, info: r.info });
+    obs = r.observation;
+    if (r.done) break;
+  }
+  return { steps, summary: env.summary() };
+}
+
+
+/* ===== shared/rb-world.js ===== */
+// ROBOTICS — robotics sites in the parish-engine maps and the robotics side
+// games (docs/consoles/ROBOTICS.md, docs/robot-training.md).
+//
+// Sites (rb-robotics-data.js RB_SITES): beside an existing map site, one
+// procedural rig — an AMR on a loop, a cobot arm cycling, a gantry traversing,
+// a fenced robot cell — that runs at full speed, slows inside the warning
+// zone and holds a protective stop inside the stop zone as the player nears
+// (rb-env.js rbSsmMode, the same rule the cell-entry scenario trains). An
+// e-stop post the player can test, a lockout point at the gate, and a restart
+// from outside, scored on safe practice (RB_SITE_PRACTICES, out of 100).
+// Robots always stop for people: walking in without a lockout costs points
+// and the robot simply holds its stop.
+//
+// Games: the three robotics games play in the shared side-game panel
+// (side-game-mechanics.js shapes: board, prompt, one safe move) — their
+// boards are drawn from an rbEnv run of the same scenario, so the game and
+// the training interface teach one thing. They register into QM_MECHANICS
+// by key (items name `mechanic` explicitly; nothing matches by title), so the
+// twelve family mechanics and their matching are untouched.
+//
+// Budget: at most RB_MESHES_PER_SITE meshes per site (phone tier: the rig and
+// the post only); no per-frame allocation. Names prefixed `rb`/`RB_`.
+
+
+
+
+
+const RB_MESHES_PER_SITE = 8;
+
+/** This map's robotics sites, resolved to world positions (x, z) beside their anchors. */
+function rbSitesFor(parish) {
+  if (!parish) return [];
+  return RB_SITES.filter((s) => s.parish === parish.id).map((s) => {
+    const a = (parish.sites ?? []).find((x) => x.id === s.anchor);
+    if (!a) return null;
+    return { ...s, anchorName: a.name, position: [a.position[0] + s.offset[0], a.position[1] + s.offset[1]] };
+  }).filter(Boolean);
+}
+
+// ------------------------------------------------------------------ games
+
+const rbHashId = (s) => { let h = 5; for (const ch of String(s)) h = (h * 33 + ch.charCodeAt(0)) >>> 0; return h; };
+const rbStepOf = (id, i, board, prompt, safe, unsafe) => {
+  const flip = ((rbHashId(id) >> (i + 3)) & 1) === 1;
+  const a = { text: safe, safe: true }, b = { text: unsafe, safe: false };
+  return { board, prompt, options: flip ? [b, a] : [a, b] };
+};
+const rbWord = (n) => ["no", "one", "two", "three", "four", "five", "six"][n] ?? "several";
+
+/** The robotics games as side-game mechanics. Each build() reads an rbEnv run
+ * of its scenario (seeded by the item id) for the board. No digits in the text. */
+const RB_GAME_MECHANICS = {
+  "rb-teleop-pick-place": {
+    name: "Teleop pick-and-place", blurb: "Grip each part within its limit and keep the gripper clear of your teammate.", match: /(?!)/,
+    build(item) {
+      const env = rbEnv("rb-teleop-pick-place", { seed: rbHashId(item.id) % 997 + 1 });
+      const o = env.observe(), cls = o.part?.maxForce === "light" ? "light-touch" : "firm-grip";
+      return [
+        rbStepOf(item.id, 0, ["  bench: [bin] ···· gripper ···· [fixture]", `  next part: marked ${cls}`, `  parts left: ${rbWord(o.remaining)}`],
+          "The gripper is over the part. How do you grip it?", `Grip within the part's ${cls} limit — just enough to hold it.`, "Grip at full strength so it cannot slip."),
+        rbStepOf(item.id, 1, ["  bench: [bin] ···· teammate ···· [fixture]", "  your teammate is working beside the straight path"],
+          "You are carrying the part to the fixture. Which way?", "Route the gripper round the far side, clear of your teammate's space.", "Go straight across; the robot will stop if it gets close."),
+        rbStepOf(item.id, 2, ["  gripper over the fixture, part held"],
+          "Placing the part.", "Lower it onto the fixture slowly and release once it is seated.", "Release from above and let it drop into place."),
+      ];
+    },
+  },
+  "rb-amr-fleet-routing": {
+    name: "AMR fleet routing", blurb: "Send each robot to its drop-off without two robots claiming one spot, and hold at the walkway.", match: /(?!)/,
+    build(item) {
+      const env = rbEnv("rb-amr-fleet-routing", { seed: rbHashId(item.id) % 997 + 1 });
+      const o = env.observe(), n = o.robots.length;
+      return [
+        rbStepOf(item.id, 0, ["  aisle: [robot one] → → | walkway | → → [drop-off]", "  a person is crossing the walkway"],
+          "Robot one reaches the walkway edge.", "Hold robot one at the edge until the crossing is clear.", "Send it through; it will slow down near the person."),
+        rbStepOf(item.id, 1, ["  cross-aisle: [robot two] →  [ ]  ← [robot three]", "  both robots are routed to the same spot"],
+          "Two robots want the same cell next.", "Give one the right of way and hold the other for a moment.", "Send both and let their scanners sort it out."),
+        rbStepOf(item.id, 2, [`  fleet: ${rbWord(n)} robots`, "  one robot has left its marked lane"],
+          "A robot is outside its lane.", "Press the fleet stop, walk the lane with the lead, then resume.", "Walk over and push it back into the lane while it is live."),
+      ];
+    },
+  },
+  "rb-cobot-zone-setup": {
+    name: "Cobot safety-zone setup", blurb: "Size the stop zone for the robot's speed, test the scanner and the e-stop, then commit.", match: /(?!)/,
+    build(item) {
+      return [
+        rbStepOf(item.id, 0, ["  cobot cell: [arm] ( stop ) (( warning ))", "  stop time: not measured yet"],
+          "Before you set the zones.", "Measure how long the arm takes to stop, then size the zones from it.", "Use last month's zone sizes; the arm has not changed."),
+        rbStepOf(item.id, 1, ["  speed raised for a faster cycle"],
+          "The lead asks for a faster arm speed.", "Grow the stop zone to match the faster speed before running it.", "Keep the zones as they are; the arm slows near people anyway."),
+        rbStepOf(item.id, 2, ["  zones set · scanner ✓? · e-stop ✓?"],
+          "Ready to commit the setup.", "Test the area scanner and the e-stop, then commit.", "Commit now and test at the next shift change."),
+      ];
+    },
+  },
+};
+
+/** Put the robotics games into the shared mechanics table by key (idempotent). */
+function rbRegisterMechanics(table = QM_MECHANICS) {
+  for (const [k, m] of Object.entries(RB_GAME_MECHANICS)) if (table && !table[k]) table[k] = m;
+  return Object.keys(RB_GAME_MECHANICS);
+}
+
+/** The robotics side games on this map: one per site, gated on its station. */
+function rbGamesFor(parish) {
+  return rbSitesFor(parish).filter((s) => RB_GAME_MECHANICS[s.scenario] || s.scenario === "rb-cell-entry").map((s) => {
+    const mech = RB_GAME_MECHANICS[s.scenario] ? s.scenario : "rb-cobot-zone-setup";
+    const sc = RB_SCENARIOS.find((x) => x.id === mech);
+    return {
+      id: `rb-${parish.id}-${s.id.replace(/^rb-site-/, "")}`, world: "parishes", kind: "side-game", parish: parish.id,
+      site: s.anchor, siteName: s.anchorName, title: sc.name, task: sc.name.toLowerCase(), mechanic: mech,
+      gate: { stations: [s.station], note: "The station first — then run the robots here." },
+      practices: ["plan", "stopwork"], reward: { cosmetic: "robotics crew badge" }, summary: sc.blurb,
+    };
+  });
+}
+
+// ------------------------------------------------------------ site scoring
+
+/** A fresh site-visit state. */
+function rbSiteState() { return { mode: "full", estopped: false, locked: false, earned: {}, missed: {}, tested: false }; }
+
+/**
+ * One site-visit event → the new state and a calm note. Events: "near"
+ * (with distance), "test-estop", "press-estop", "lockout", "enter",
+ * "restart". Pure, so the checker scores a visit headlessly.
+ */
+function rbSiteEvent(st, ev, distance = Infinity) {
+  const s = { ...st, earned: { ...st.earned }, missed: { ...st.missed } };
+  let note = null;
+  if (ev === "near") {
+    const m = s.estopped || s.locked ? { mode: "stop" } : rbSsmMode(distance);
+    if (m.mode === "reduced" && s.mode === "full" && !s.earned.slowed) { s.earned.slowed = true; note = "The robot slowed as you came into its warning zone."; }
+    if (m.mode === "stop" && s.mode !== "stop" && !s.estopped && !s.locked) note = "The robot is holding a stop while you are close.";
+    s.mode = m.mode;
+  } else if (ev === "test-estop") { s.tested = true; s.earned["estop-test"] = true; note = "E-stop tested: pressed, the robot stopped, reset."; }
+  else if (ev === "press-estop") { s.estopped = true; s.mode = "stop"; note = "E-stop pressed. The robot is stopped."; }
+  else if (ev === "lockout") {
+    if (!s.estopped) note = "Stop the robot with the e-stop first, then lock out.";
+    else { s.locked = true; s.earned.lockout = true; note = "Your lock is on the gate. The cell is safe to enter."; }
+  } else if (ev === "enter") {
+    if (!s.locked) { s.missed["enter-live-cell"] = true; note = "The robot held its stop for you. Next time, lock out at the gate before going in."; }
+    else note = "Inside with your lock on — clear the jam, then step out.";
+  } else if (ev === "restart") {
+    if (!s.locked && !s.estopped) note = "It is already running.";
+    else { s.locked = false; s.estopped = false; s.mode = "full"; s.earned.restart = true; note = "Lock removed and the cell restarted from outside."; }
+  }
+  return { state: s, note };
+}
+
+/** Safe-practice score for a visit, out of 100 (a live-cell entry takes off a lockout's worth). */
+function rbSiteScore(st) {
+  let n = 0;
+  for (const p of RB_SITE_PRACTICES) if (st.earned[p.id]) n += p.points;
+  if (st.missed["enter-live-cell"]) n -= 30;
+  if (st.earned.restart && !st.tested) n -= 10;
+  return Math.max(0, Math.min(100, n));
+}
+
+// --------------------------------------------------------------- the mount
+
+/**
+ * Mount this map's robotics sites. Returns { sites, animate(dt, x, z), act(siteId, ev), state(siteId), score(siteId), meshes }.
+ * `three` and `root` are optional (a headless checker counts meshes with a stub).
+ */
+function rbMountRobotics({ three = null, root = null, parish, el = null, tier = "balanced", reducedMotion = false, toast = null, stationHref = null } = {}) {
+  rbRegisterMechanics();
+  const T = three, lean = tier === "low";
+  const sites = rbSitesFor(parish).map((s) => ({ ...s, y: Math.max(0, npHeightAt(parish, s.position[0], s.position[1])), st: rbSiteState(), phase: 0, rig: null }));
+  let meshes = 0;
+  const mat = (c, o = {}) => new T.MeshLambertMaterial({ color: c, ...o });
+  const add = (parent, geo, m, x, y, z, name) => { const mesh = new T.Mesh(geo, m); mesh.position.set(x, y, z); mesh.name = name; parent.add(mesh); meshes += 1; return mesh; };
+  if (T && root) for (const s of sites) {
+    const g = new T.Group(); g.name = s.id; g.position.set(s.position[0], s.y, s.position[1]); root.add(g);
+    if (!lean) {
+      add(g, new T.BoxGeometry(16, 0.08, 12), mat(0x8d949b), 0, 0.04, 0, "rb-pad");
+      const warn = add(g, new T.RingGeometry(RB_SSM.warn - 0.15, RB_SSM.warn, 40), mat(0xe8b923, { side: 2 }), 0, 0.1, 0, "rb-zone-warn"); warn.rotation.x = -Math.PI / 2;
+      const stop = add(g, new T.RingGeometry(RB_SSM.stop - 0.15, RB_SSM.stop, 32), mat(0xd8452a, { side: 2 }), 0, 0.11, 0, "rb-zone-stop"); stop.rotation.x = -Math.PI / 2;
+    }
+    const post = add(g, new T.CylinderGeometry(0.12, 0.12, 1.2, 10), mat(0xd8322a), RB_SSM.warn + 1, 0.6, 0, "rb-estop");
+    post.userData.rbSite = s.id;
+    const rig = new T.Group(); rig.name = `rb-rig-${s.rig}`; g.add(rig);
+    if (s.rig === "amr") add(rig, new T.BoxGeometry(1.2, 0.45, 0.8), mat(0xf2a33a), 0, 0.3, 0, "rb-amr");
+    else if (s.rig === "gantry") { add(rig, new T.BoxGeometry(12, 0.5, 0.6), mat(0xe0c341), 0, 5, 0, "rb-gantry-beam"); if (!lean) add(rig, new T.BoxGeometry(0.4, 5, 0.4), mat(0x6b7178), -6, 2.5, 0, "rb-gantry-leg"); }
+    else {
+      add(rig, new T.CylinderGeometry(0.35, 0.45, 0.8, 12), mat(0x5d6a78), 0, 0.4, 0, "rb-arm-base");
+      const arm = add(rig, new T.BoxGeometry(0.25, 0.25, 1.6), mat(0xf0f0f0), 0, 1, 0.8, "rb-arm"); arm.userData.pivot = true;
+      if (s.rig === "cell" && !lean) { const fence = add(g, new T.BoxGeometry(RB_SSM.stop * 2 - 1, 1.8, RB_SSM.stop * 2 - 1), mat(0xe8d34a, { transparent: true, opacity: 0.25 }), 0, 0.9, 0, "rb-cell-fence"); fence.userData.gate = true; }
+    }
+    s.rig = rig;
+  }
+
+  const note = (t) => { if (t) toast?.(t, 3200); };
+  function act(siteId, ev, distance) {
+    const s = sites.find((x) => x.id === siteId); if (!s) return null;
+    const r = rbSiteEvent(s.st, ev, distance); s.st = r.state; if (ev !== "near") note(r.note); else if (r.note) note(r.note);
+    renderPanel();
+    return r;
+  }
+  function animate(dt, px = Infinity, pz = Infinity) {
+    for (const s of sites) {
+      const d = Math.hypot(px - s.position[0], pz - s.position[1]);
+      if (d < RB_SSM.warn * 3) {
+        const before = s.st.mode;
+        const r = rbSiteEvent(s.st, "near", d); s.st = r.state;
+        if (r.note && before !== s.st.mode) note(r.note);
+        if (d < RB_SSM.stop - 0.5 && !s.st.missed["enter-live-cell"] && !s.st.locked) act(s.id, "enter");
+      }
+      const speed = s.st.estopped || s.st.locked ? 0 : rbSsmMode(d).speed;
+      if (!reducedMotion) s.phase += dt * speed * 0.6;
+      const rig = s.rig; if (!rig || !rig.children) continue;
+      if (s.rig && rig.name === "rb-rig-amr") { const a = s.phase; rig.position.set(Math.cos(a) * 5, 0, Math.sin(a) * 3.5); rig.rotation.y = -a; }
+      else if (rig.name === "rb-rig-gantry") rig.position.z = Math.sin(s.phase) * 4;
+      else rig.rotation.y = Math.sin(s.phase) * 1.2;
+    }
+  }
+
+  function renderPanel() {
+    if (!el || typeof document === "undefined") return;
+    let box = document.getElementById("rb-robotics");
+    if (!box) { box = document.createElement("div"); box.id = "rb-robotics"; el.parentNode?.insertBefore(box, el.nextSibling); }
+    if (!sites.length) { box.textContent = ""; return; }
+    const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+    box.innerHTML = `<p class="eyebrow" style="margin-top:16px">Robotics sites on this map · ${sites.length}</p>` + sites.map((s) => {
+      const href = stationHref?.(s.station, s.anchor);
+      return `<div class="rb-site" data-rb="${esc(s.id)}"><p><b>${esc(s.name)}</b> — beside ${esc(s.anchorName)} · robot ${esc(s.st.locked ? "locked out" : s.st.estopped ? "stopped" : s.st.mode === "full" ? "running" : s.st.mode === "reduced" ? "slowed" : "holding a stop")} · safe practice ${rbSiteScore(s.st)}/100${href ? ` · <a href="${esc(href)}">station</a>` : ""}</p>` +
+        `<div class="row" style="flex-wrap:wrap">${[["test-estop", "Test the e-stop"], ["press-estop", "Press the e-stop"], ["lockout", "Lock out at the gate"], ["restart", "Remove lock and restart"]].map(([k, t]) => `<button type="button" class="btn" data-rb-ev="${k}">${t}</button>`).join("")}</div></div>`;
+    }).join("");
+    for (const b of box.querySelectorAll("[data-rb-ev]")) b.addEventListener("click", () => act(b.closest("[data-rb]").getAttribute("data-rb"), b.getAttribute("data-rb-ev")));
+  }
+  renderPanel();
+
+  return {
+    sites: sites.map((s) => ({ id: s.id, rig: s.rig?.name ?? null, position: s.position, y: s.y, scenario: s.scenario, station: s.station })),
+    meshes, animate, act,
+    state: (id) => sites.find((s) => s.id === id)?.st ?? null,
+    score: (id) => { const s = sites.find((x) => x.id === id); return s ? rbSiteScore(s.st) : null; },
+    games: () => rbGamesFor(parish),
+    demo: (id) => { const e = rbEnv(sites.find((s) => s.id === id)?.scenario ?? "rb-cell-entry"); const pol = rbPolicy(e); let o = e.observe(), r; do { r = e.step(pol(o)); o = r.observation; } while (!r.done); return e.summary(); },
+    forceLimits: RB_FORCE_N,
+  };
+}
+
+
 /* ===== shared/bq-facts.js ===== */
 // BAYQUEST — the only Bay Program and Clean Ports lines the play layer states (docs/consoles/BAYQUEST.md).
 //
@@ -103971,6 +105708,7 @@ function frame(now) {
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
+  rbWorld?.animate(dt, np.x, np.z);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
@@ -104180,7 +105918,8 @@ window.__parishTest = {
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  rbRegisterMechanics(); // ROBOTICS: the robotics games play in the shared panel by mechanic key
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id), ...rbGamesFor(parish)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 if (!slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() })) plMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage(), openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); } });
@@ -104203,6 +105942,13 @@ var drWorld = drMountDrills({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.drills = drWorld;
+// ROBOTICS (docs/consoles/ROBOTICS.md): robotics sites beside fitting map sites — moving robots that slow and stop as you
+// near (speed-and-separation), an e-stop to test, lockout at the cell gate, scored on safe practice; listed under the drills.
+var rbWorld = rbMountRobotics({
+  three: THREE, root, parish, el: $("menu-drills"), tier: npTierName, reducedMotion: npReduced, toast: npToast,
+  stationHref: (id, siteId) => npLink(id, siteId),
+});
+window.__parishTest.robotics = rbWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
