@@ -1189,7 +1189,8 @@ export const NP_SF_NORTH_BEACH = {
     -457,
     -646
    ],
-   "kind": "place"
+   "kind": "place",
+   "lm": "wharf-pier-shed"
   }
  ],
  "connectors": [

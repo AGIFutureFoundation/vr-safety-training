@@ -5972,6 +5972,7 @@
     "cd-rov-launch-recovery-and-tether-management",
     "chain-hoist",
     "chiller-plant",
+    "cm-exterior-plaster-scratch-brown-and-finish-coats",
     "cnc-cell",
     "concrete-pour",
     "confined-rescue",
@@ -6020,8 +6021,10 @@
     "gg-paint-containment-on-the-deck",
     "gg-suspender-rope-replacement",
     "gg-tower-climb-and-tie-off",
+    "gk-bunker-renovation-and-drainage",
     "gk-chainsaw-start-and-limbing-on-the-ground",
     "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+    "gk-greens-mowing-and-hole-changing",
     "gk-hardscape-paver-base-and-compaction",
     "gk-irrigation-controller-valve-box-and-backflow-check",
     "gk-pesticide-and-fertilizer-application-per-the-label",
@@ -6080,6 +6083,7 @@
     "k12-weather-and-the-sky",
     "k12-writing-a-clear-incident-report",
     "kitchen",
+    "kitchen-gas-shutoff",
     "knife-skills",
     "laundry-plant-chemicals",
     "le-crowd-barricade-and-show-stop-call",
@@ -6093,6 +6097,7 @@
     "manhole-entry-and-atmospheric-monitoring",
     "marsh-transect-survey",
     "masonry-silica-scaffold",
+    "mass-timber-panel-set",
     "md-theatre-fly-floor-and-quick-change-lane",
     "me-invasive-species-identification-and-reporting",
     "me-oyster-reef-monitoring-and-settlement-tiles",
@@ -6122,6 +6127,7 @@
     "or-transmission-line-right-of-way-patrol",
     "overdose-response-naloxone",
     "oyster-reef-monitoring",
+    "paint-sprayer",
     "patient-intake-screening",
     "pcb-equipment-removal",
     "pl-copper-press-and-solder-rough-in",
@@ -6137,6 +6143,7 @@
     "pm-pool-and-spa-chemistry",
     "po-lashing-gear-inspection-and-tagging",
     "po-yard-hostler-and-pedestrian-separation",
+    "prep-cooling",
     "press-brake",
     "pt-crane-boom-hoist-brake-service",
     "pt-dock-fender-and-bollard-inspection",
@@ -6157,10 +6164,12 @@
     "ra-tie-and-rail-replacement-with-track-machines",
     "rad-survey",
     "rcl-switching",
+    "receiving-dock-food",
     "reefer-yard-monitoring",
     "rf-roof-tear-off-and-debris-chute",
     "rf-skylight-and-hatch-guarding",
     "rf-torch-applied-membrane-and-fire-watch",
+    "rigging-loft",
     "sampling-well",
     "scaffold-erection",
     "se-building-automation-alarm-triage",
@@ -6173,6 +6182,7 @@
     "shipyard-hotwork",
     "shore-power-hookup",
     "signal-cabinet",
+    "slicer-lockout",
     "sm-duct-fabrication-and-seams",
     "sm-plasma-table-and-fume",
     "sm-shop-layout-and-shear",
@@ -6229,6 +6239,7 @@
     "who-ppe-donning-and-doffing",
     "who-treatment-centre-triage",
     "who-vaccination-line",
+    "wildland-urban-interface",
     "yc-engine-room-pre-start-and-bilge-check",
     "yc-fuel-dock-transfer-and-spill-kit",
     "yc-galley-fire-and-fixed-system",
@@ -6257,6 +6268,15 @@
     "bp-sme-fl-levee-holds",
     "bp-sme-fl-marsh-speed-bump",
     "bp-sme-fl-tide-window",
+    "eb-fl-a-creek-on-its-way-to-the-bay",
+    "eb-fl-a-map-of-downtown",
+    "eb-fl-how-a-council-meeting-works",
+    "eb-fl-reading-the-hub-timetable",
+    "eb-fl-reading-the-station-timetable",
+    "eb-fl-sorting-cargo-at-the-harbour",
+    "eb-fl-speaking-at-the-civic-centre",
+    "eb-fl-what-happens-to-rain-on-the-street",
+    "eb-fl-where-the-river-goes-in-a-storm",
     "jf-fl-causeway-as-a-ruler",
     "jf-fl-pumps-lift-the-rain",
     "jf-fl-ramp-hand-signals",
@@ -6295,6 +6315,15 @@
     "sg-fl-safety-labels",
     "sg-fl-tide-graph-harbour",
     "sg-fl-water-cycle-slough",
+    "sn-fl-cable-car-grip",
+    "sn-fl-cold-chain-catch",
+    "sn-fl-dune-plants",
+    "sn-fl-kitchen-hood",
+    "sn-fl-lake-pump",
+    "sn-fl-reservoir-to-tap",
+    "sn-fl-rip-current",
+    "sn-fl-streetcar-signal",
+    "sn-fl-victorian-scaffold",
     "st-fl-clouds-over-the-lake",
     "st-fl-one-change-in-the-marsh",
     "st-fl-questions-at-the-briefing"
@@ -9966,6 +9995,448 @@
    ]
   },
   {
+   "id": "sf-north-beach",
+   "name": "North Beach, Chinatown & Fisherman's Wharf",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.410001,
+    37.802
+   ],
+   "bounds": {
+    "minLng": -122.43329,
+    "minLat": 37.783594,
+    "maxLng": -122.386712,
+    "maxLat": 37.820405
+   },
+   "sites": [
+    {
+     "id": "wharf-fishing-fleet",
+     "stations": [
+      "mooring-line",
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "yc-engine-room-pre-start-and-bilge-check",
+      "spill-boom-deploy"
+     ]
+    },
+    {
+     "id": "wharf-seafood-dock",
+     "stations": [
+      "receiving-dock-food",
+      "walk-in-cooler",
+      "gr-produce-receiving-cold-chain-and-pallet-jack",
+      "gr-ammonia-leak-alarm-response-cold-plant"
+     ]
+    },
+    {
+     "id": "embarcadero-pier-shed",
+     "stations": [
+      "mooring-line",
+      "vessel-gangway-and-hatch-cover-safety",
+      "pt-dock-fender-and-bollard-inspection",
+      "forklift-dock"
+     ]
+    },
+    {
+     "id": "hyde-street-cable-car-crew",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-hand-brake-and-securement-on-a-grade",
+      "ra-roadway-worker-protection-and-job-briefing"
+     ]
+    },
+    {
+     "id": "powell-street-cable-car-crew",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-crossing-signal-maintenance-and-flagging",
+      "ra-switch-inspection-and-lubrication"
+     ]
+    },
+    {
+     "id": "washington-square-school",
+     "stations": [
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels",
+      "ed-kitchen-receiving-and-warewash-sanitizing"
+     ]
+    },
+    {
+     "id": "columbus-restaurant-row",
+     "stations": [
+      "kitchen",
+      "knife-skills",
+      "hood-suppression",
+      "bar-well-setup",
+      "grease-trap"
+     ]
+    },
+    {
+     "id": "nb-chinatown-kitchens",
+     "stations": [
+      "kitchen-gas-shutoff",
+      "fryer-oil-change",
+      "dish-pit",
+      "prep-cooling",
+      "slicer-lockout"
+     ]
+    },
+    {
+     "id": "wharf-hotel-service",
+     "stations": [
+      "housekeeping-room-turn",
+      "hw-housekeeping-cart-and-chemical-safety",
+      "hw-banquet-room-flip-and-staging",
+      "laundry-plant-chemicals"
+     ]
+    },
+    {
+     "id": "chinatown-community-clinic",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-environmental-services-isolation-room-turnover",
+      "triage-point",
+      "hc-workplace-violence-deescalation-at-the-desk"
+     ]
+    },
+    {
+     "id": "north-beach-fire-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "aerial-ladder",
+      "firefighter-rehab-sector",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "telegraph-hill-grounds",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-chainsaw-start-and-limbing-on-the-ground"
+     ]
+    },
+    {
+     "id": "jackson-square-renovation",
+     "stations": [
+      "rf-roof-tear-off-and-debris-chute",
+      "pl-copper-press-and-solder-rough-in",
+      "ib-asbestos-glovebag-removal-on-a-pipe",
+      "cm-exterior-plaster-scratch-brown-and-finish-coats"
+     ]
+    },
+    {
+     "id": "embarcadero-seawall-crew",
+     "stations": [
+      "stormwater-outfall",
+      "pl-underground-sewer-lateral-and-trench-shoring",
+      "manhole-entry-and-atmospheric-monitoring",
+      "ut-night-storm-response-crew-and-portable-generator"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-haight-castro",
+   "name": "Haight, Castro & Twin Peaks",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.443,
+    37.763
+   ],
+   "bounds": {
+    "minLng": -122.466273,
+    "minLat": 37.744598,
+    "maxLng": -122.419727,
+    "maxLat": 37.781402
+   },
+   "sites": [
+    {
+     "id": "alamo-square-victorian-row",
+     "stations": [
+      "paint-sprayer",
+      "scaffold-erection",
+      "masonry-silica-scaffold",
+      "cm-exterior-plaster-scratch-brown-and-finish-coats",
+      "rf-roof-tear-off-and-debris-chute"
+     ]
+    },
+    {
+     "id": "haight-victorian-renovation",
+     "stations": [
+      "ib-asbestos-glovebag-removal-on-a-pipe",
+      "pl-water-heater-and-tpr-valve-replacement",
+      "rf-skylight-and-hatch-guarding",
+      "pl-natural-gas-pressure-test-and-leak-check"
+     ]
+    },
+    {
+     "id": "castro-victorian-repaint",
+     "stations": [
+      "paint-sprayer",
+      "scaffold-erection",
+      "masonry-silica-scaffold",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "duboce-hospital-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-sterile-processing-decontamination-and-assembly",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "castro-station-transit",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+     ]
+    },
+    {
+     "id": "church-street-line-crew",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-crossing-signal-maintenance-and-flagging",
+      "ra-switch-inspection-and-lubrication"
+     ]
+    },
+    {
+     "id": "castro-theatre-stage-crew",
+     "stations": [
+      "stage-power",
+      "fly-system",
+      "rigging-loft",
+      "le-followspot-and-truss-access-at-height",
+      "md-theatre-fly-floor-and-quick-change-lane"
+     ]
+    },
+    {
+     "id": "golden-gate-park-east-crew",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-chainsaw-start-and-limbing-on-the-ground"
+     ]
+    },
+    {
+     "id": "buena-vista-grounds",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "wildland-urban-interface"
+     ]
+    },
+    {
+     "id": "haight-school-campus",
+     "stations": [
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels",
+      "ed-kitchen-receiving-and-warewash-sanitizing"
+     ]
+    },
+    {
+     "id": "castro-restaurant-kitchens",
+     "stations": [
+      "kitchen",
+      "knife-skills",
+      "hood-suppression",
+      "bar-well-setup",
+      "grease-trap"
+     ]
+    },
+    {
+     "id": "cole-valley-fire-station",
+     "stations": [
+      "wildland-urban-interface",
+      "structure-fire-sizeup",
+      "cardiac-arrest-pit-crew",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "mount-sutro-forest-crew",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "wildland-urban-interface"
+     ]
+    },
+    {
+     "id": "laguna-honda-valve-house",
+     "stations": [
+      "valve-vault",
+      "cs-permit-entry-and-attendant-duties",
+      "ut-water-treatment-chemical-delivery-unloading",
+      "lift-station"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-sunset-south",
+   "name": "the Sunset & Ocean Beach South",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.484401,
+    37.721501
+   ],
+   "bounds": {
+    "minLng": -122.512319,
+    "minLat": 37.699425,
+    "maxLng": -122.456483,
+    "maxLat": 37.743577
+   },
+   "sites": [
+    {
+     "id": "ocean-beach-south-lifeguards",
+     "stations": [
+      "br-cold-water-immersion-and-mob-recovery",
+      "yc-man-overboard-recovery-drill",
+      "cardiac-arrest-pit-crew",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "fort-funston-dune-crew",
+     "stations": [
+      "me-shoreline-debris-and-microplastics-survey",
+      "me-invasive-species-identification-and-reporting",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-storm-cleanup-chipper-and-traffic-control"
+     ]
+    },
+    {
+     "id": "zoo-grounds-yard",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-chainsaw-start-and-limbing-on-the-ground"
+     ]
+    },
+    {
+     "id": "sf-state-campus-plant",
+     "stations": [
+      "chiller-plant",
+      "boiler-room",
+      "ed-science-lab-chemical-storage-and-eyewash",
+      "pm-fire-alarm-panel-room"
+     ]
+    },
+    {
+     "id": "stonestown-housing-site",
+     "stations": [
+      "concrete-pour",
+      "formwork-shoring",
+      "bt-rebar-tying-and-impalement-protection",
+      "mass-timber-panel-set"
+     ]
+    },
+    {
+     "id": "stonestown-grocery-dock",
+     "stations": [
+      "gr-produce-receiving-cold-chain-and-pallet-jack",
+      "gr-night-stocking-baler-and-compactor-lockout",
+      "gr-deli-slicer-sanitation-and-allergen-line",
+      "gr-checkstand-ergonomics-and-robbery-prevention"
+     ]
+    },
+    {
+     "id": "parkmerced-grounds",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-chainsaw-start-and-limbing-on-the-ground"
+     ]
+    },
+    {
+     "id": "ingleside-school-campus",
+     "stations": [
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels",
+      "ed-kitchen-receiving-and-warewash-sanitizing"
+     ]
+    },
+    {
+     "id": "nineteenth-avenue-fire-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "aerial-ladder",
+      "firefighter-rehab-sector",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "stern-grove-crew",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "wildland-urban-interface"
+     ]
+    },
+    {
+     "id": "stern-grove-stage-crew",
+     "stations": [
+      "stage-power",
+      "rigging-loft",
+      "stage-load-in-and-truss-rigging",
+      "le-crowd-barricade-and-show-stop-call"
+     ]
+    },
+    {
+     "id": "lake-merced-greens-crew",
+     "stations": [
+      "gk-greens-mowing-and-hole-changing",
+      "gk-bunker-renovation-and-drainage",
+      "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-irrigation-controller-valve-box-and-backflow-check"
+     ]
+    },
+    {
+     "id": "lake-merced-pump-crew",
+     "stations": [
+      "lift-station",
+      "stormwater-outfall",
+      "valve-vault",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "nineteenth-avenue-line-crew",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-crossing-signal-maintenance-and-flagging",
+      "ra-switch-inspection-and-lubrication"
+     ]
+    }
+   ]
+  },
+  {
    "id": "oak-west-oakland",
    "name": "West Oakland & the Port",
    "region": "oakland",
@@ -10354,6 +10825,419 @@
       "hc-linen-and-regulated-waste-handling",
       "patient-intake-screening",
       "sharps-exposure-response"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "oak-emeryville-berkeley",
+   "name": "Emeryville & Berkeley's Waterfront",
+   "region": "oakland",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.290002,
+    37.865999
+   ],
+   "bounds": {
+    "minLng": -122.336615,
+    "minLat": 37.828961,
+    "maxLng": -122.243389,
+    "maxLat": 37.903036
+   },
+   "sites": [
+    {
+     "id": "emeryville-rail-station",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "ra-roadway-worker-protection-and-job-briefing"
+     ]
+    },
+    {
+     "id": "emeryville-warehouse-studios",
+     "stations": [
+      "forklift-dock",
+      "tw-dock-leveler-and-trailer-restraint-check",
+      "tdl-trailer-loading-and-dock-plate",
+      "tw-conveyor-jam-clearing-and-loto"
+     ]
+    },
+    {
+     "id": "emeryville-lab-building-site",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "formwork-shoring",
+      "concrete-pour",
+      "bs-structural-bolting-and-torque"
+     ]
+    },
+    {
+     "id": "berkeley-marina-harbour",
+     "stations": [
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "yc-shore-power-connection-and-in-water-electrical-safety",
+      "yc-pre-departure-safety-briefing-and-guest-count"
+     ]
+    },
+    {
+     "id": "eastshore-shoreline-crew",
+     "stations": [
+      "br-native-planting-and-erosion-mats",
+      "living-shoreline",
+      "me-tidal-marsh-channel-restoration-day",
+      "br-water-quality-sonde-calibration-and-deploy"
+     ]
+    },
+    {
+     "id": "aquatic-park-storm-drain-crew",
+     "stations": [
+      "bioswale-build",
+      "stormwater-outfall",
+      "manhole-entry-and-atmospheric-monitoring",
+      "br-water-quality-sonde-calibration-and-deploy"
+     ]
+    },
+    {
+     "id": "university-campus-plant",
+     "stations": [
+      "chiller-plant",
+      "pm-fire-alarm-panel-room",
+      "ed-science-lab-chemical-storage-and-eyewash",
+      "pm-electrical-room"
+     ]
+    },
+    {
+     "id": "downtown-berkeley-transit-station",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "ra-roadway-worker-protection-and-job-briefing"
+     ]
+    },
+    {
+     "id": "berkeley-civic-centre",
+     "stations": [
+      "public-meeting-chair",
+      "cv-open-meeting-law-and-agenda-notice",
+      "constituent-service-desk",
+      "public-comment-prep"
+     ]
+    },
+    {
+     "id": "west-berkeley-maker-workshop",
+     "stations": [
+      "cnc-cell",
+      "welding",
+      "sm-plasma-table-and-fume",
+      "sm-shop-layout-and-shear"
+     ]
+    },
+    {
+     "id": "north-berkeley-school-campus",
+     "stations": [
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels"
+     ]
+    },
+    {
+     "id": "south-berkeley-fire-station",
+     "stations": [
+      "ambulance-scene-safety",
+      "aerial-ladder",
+      "cardiac-arrest-pit-crew",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "ashby-hospital-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-environmental-services-isolation-room-turnover",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bay-san-pablo",
+   "name": "San Pablo & Richmond's Shore",
+   "region": "north-east-bay",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.345002,
+    37.934995
+   ],
+   "bounds": {
+    "minLng": -122.391659,
+    "minLat": 37.897953,
+    "maxLng": -122.298344,
+    "maxLat": 37.972038
+   },
+   "sites": [
+    {
+     "id": "richmond-transit-station",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "ra-roadway-worker-protection-and-job-briefing"
+     ]
+    },
+    {
+     "id": "richmond-civic-centre",
+     "stations": [
+      "public-meeting-chair",
+      "cv-open-meeting-law-and-agenda-notice",
+      "constituent-service-desk",
+      "public-comment-prep"
+     ]
+    },
+    {
+     "id": "marina-bay-harbour",
+     "stations": [
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "yc-shore-power-connection-and-in-water-electrical-safety",
+      "yc-pre-departure-safety-briefing-and-guest-count"
+     ]
+    },
+    {
+     "id": "richmond-shipyard-crew",
+     "stations": [
+      "shipyard-hotwork",
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "tank-lining",
+      "cd-pier-piling-inspection-and-wrap-repair"
+     ]
+    },
+    {
+     "id": "richmond-harbour-terminal",
+     "stations": [
+      "reefer-yard-monitoring",
+      "straddle-carrier-ops",
+      "shore-power-hookup",
+      "hazmat-container-inspection",
+      "mooring-line"
+     ]
+    },
+    {
+     "id": "refinery-turnaround-yard",
+     "stations": [
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "ib-refractory-and-castable-installation",
+      "tank-lining",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "san-pablo-stormwater-crew",
+     "stations": [
+      "bioswale-build",
+      "stormwater-outfall",
+      "manhole-entry-and-atmospheric-monitoring",
+      "br-water-quality-sonde-calibration-and-deploy"
+     ]
+    },
+    {
+     "id": "richmond-school-campus",
+     "stations": [
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels"
+     ]
+    },
+    {
+     "id": "san-pablo-hospital-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-environmental-services-isolation-room-turnover",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "downtown-richmond-fire-station",
+     "stations": [
+      "ambulance-scene-safety",
+      "aerial-ladder",
+      "cardiac-arrest-pit-crew",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "richmond-rail-yard",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "ra-switch-inspection-and-lubrication",
+      "ra-air-brake-test-and-train-inspection",
+      "track-access"
+     ]
+    },
+    {
+     "id": "annex-substation",
+     "stations": [
+      "substation-switching",
+      "transformer-vault",
+      "arc-flash-label-study",
+      "battery-yard"
+     ]
+    },
+    {
+     "id": "point-isabel-shoreline-crew",
+     "stations": [
+      "br-native-planting-and-erosion-mats",
+      "living-shoreline",
+      "me-tidal-marsh-channel-restoration-day",
+      "br-water-quality-sonde-calibration-and-deploy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bay-san-jose",
+   "name": "Downtown San Jose",
+   "region": "south-bay",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -121.890001,
+    37.334999
+   ],
+   "bounds": {
+    "minLng": -121.936313,
+    "minLat": 37.29795,
+    "maxLng": -121.843689,
+    "maxLat": 37.372048
+   },
+   "sites": [
+    {
+     "id": "diridon-transit-hub",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "bus-yard-fuelling-and-brake-check"
+     ]
+    },
+    {
+     "id": "university-campus-plant-sj",
+     "stations": [
+      "chiller-plant",
+      "pm-fire-alarm-panel-room",
+      "ed-science-lab-chemical-storage-and-eyewash",
+      "pm-electrical-room"
+     ]
+    },
+    {
+     "id": "san-jose-civic-centre",
+     "stations": [
+      "public-meeting-chair",
+      "cv-open-meeting-law-and-agenda-notice",
+      "constituent-service-desk",
+      "public-comment-prep"
+     ]
+    },
+    {
+     "id": "downtown-stormwater-crew-yard",
+     "stations": [
+      "bioswale-build",
+      "stormwater-outfall",
+      "manhole-entry-and-atmospheric-monitoring",
+      "br-water-quality-sonde-calibration-and-deploy"
+     ]
+    },
+    {
+     "id": "guadalupe-river-park-grounds",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-hardscape-paver-base-and-compaction"
+     ]
+    },
+    {
+     "id": "san-jose-high-rise-site",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "formwork-shoring",
+      "concrete-pour",
+      "bs-structural-bolting-and-torque"
+     ]
+    },
+    {
+     "id": "convention-centre-stage-crew",
+     "stations": [
+      "stage-load-in-and-truss-rigging",
+      "stage-power",
+      "arena-rigging",
+      "pm-community-room-and-events"
+     ]
+    },
+    {
+     "id": "valley-medical-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-environmental-services-isolation-room-turnover",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "airport-ramp-crew",
+     "stations": [
+      "airport-ramp",
+      "av-pushback-tug-and-towbar-connection",
+      "av-marshalling-and-wingwalker-signals",
+      "av-hangar-jacking-and-stands"
+     ]
+    },
+    {
+     "id": "north-first-rail-barn",
+     "stations": [
+      "bus-depot-lift",
+      "bus-yard-fuelling-and-brake-check",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "signal-cabinet"
+     ]
+    },
+    {
+     "id": "east-side-fire-station",
+     "stations": [
+      "ambulance-scene-safety",
+      "aerial-ladder",
+      "cardiac-arrest-pit-crew",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "willow-glen-school-campus",
+     "stations": [
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels"
+     ]
+    },
+    {
+     "id": "japantown-union-hall",
+     "stations": [
+      "union-hall-and-dispatch",
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-application-and-test",
+      "public-meeting-chair"
      ]
     }
    ]

@@ -361,7 +361,7 @@ switchbacks, the Castro's theatre marquee, Sutro Tower, Twin Peaks, Lake Merced,
 | Divisadero Street at Geary | road | sf-haight-castro ↔ sf-downtown | -122.439, 37.781 | `sf-hc-divisadero-north`, `sf-dt-haight-castro-divisadero` |
 | The Great Highway along Ocean Beach | road | sf-sunset-south ↔ sf-golden-gate-park | -122.505, 37.743 | `sf-ss-great-highway-north`, `sf-gp-sunset-great-highway` |
 | Nineteenth Avenue | road | sf-sunset-south ↔ sf-golden-gate-park | -122.475, 37.743 | `sf-ss-nineteenth-avenue-north`, `sf-gp-sunset-nineteenth` |
-| Ocean Avenue to the Outer Mission | road | sf-sunset-south → sf-outer-mission (TIDELANDS, merging) | -122.458, 37.721 | `sf-ss-ocean-avenue-east` (`to.position: null` until sf-outer-mission pairs it) |
+| Ocean Avenue at the Sunset–Outer Mission line | road | sf-sunset-south ↔ sf-outer-mission | -122.458, 37.721 | `sf-ss-ocean-avenue-east`, `sf-om-ocean-avenue-west` |
 
 ## Hills — approximate positions (console RELIEF)
 
@@ -413,6 +413,7 @@ infrastructure) — planted sidewalk filtration, a rain garden block, the underg
 Mission Street transit corridor, a sewer crew yard, a locate crew, a soil yard, a planting crew and a maintenance crew.
 | Mission Street | road | sf-outer-mission ↔ sf-mission | -122.426, 37.730 | `sf-om-mission-street`, `sf-mi-outer-mission-street` |
 | Alemany Boulevard at the Bayshore Freeway | road | sf-outer-mission ↔ sf-mission | -122.405, 37.725 | `sf-om-alemany`, `sf-mi-outer-alemany` |
+| Ocean Avenue at the Sunset–Outer Mission line | road | sf-outer-mission ↔ sf-sunset-south | -122.458, 37.721 | `sf-om-ocean-avenue-west`, `sf-ss-ocean-avenue-east` |
 | The Nimitz Freeway | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary | -122.195, 37.750 | `bp-sl-nimitz-fruitvale`, `bm-fe-nimitz-san-leandro` |
 | International Boulevard | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary | -122.182, 37.751 | `bp-sl-international-fruitvale`, `bm-fe-international-san-leandro` |
 | Highway Thirty-Seven west | road | bp-strip-marsh-east → Sears Point (no map yet) | -122.397, 38.149 | `bp-sm-highway-37-west` |
