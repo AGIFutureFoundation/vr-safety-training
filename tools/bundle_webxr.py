@@ -281,6 +281,7 @@ APPS = {
             SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "np-data-bp-san-mateo-shoreline.js",
             SHARED / "np-data-bp-nutrient-pilot.js",
+            SHARED / "np-data-sm-unspoken-smiles.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "links.js",
@@ -792,6 +793,7 @@ APPS = {
             SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "np-data-bp-san-mateo-shoreline.js",
             SHARED / "np-data-bp-nutrient-pilot.js",
+            SHARED / "np-data-sm-unspoken-smiles.js",
             SHARED / "sg-ways.js",
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",
@@ -896,6 +898,8 @@ APPS = {
             # PROJECTSIM: the Bay Program project simulations (data, then the mount; after np-parishes, tf-terraform, nw-physics, ty-economy).
             SHARED / "ps-projectsim-data.js",
             SHARED / "ps-projectsim.js", SHARED / "us-unionsims-data.js", SHARED / "us-unionsims.js",
+            # SMILES: the Unspoken Smiles District's dental-health games (pure; mounted in the Play tab on that map only).
+            SHARED / "sm-smiles.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",

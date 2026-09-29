@@ -107,6 +107,8 @@ const CHECKERS = [
   "check_interiors.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
+  // SMILES: the Unspoken Smiles District — stations resolve, game lines trace to the stations, K-12 only in K-12 spots (docs/consoles/SMILES.md).
+  "check_smiles.mjs",
   // TERRAFORM: channels below their banks, rivers flowing downstream, deterministic wind, cover off roads/water/pads, budgets (docs/consoles/TERRAFORM.md).
   "check_terraform.mjs",
   // CITYWORKS: street fabric in the field and off water, road graph components, sidewalks dry, a collider per building, budgets (docs/consoles/CITYWORKS.md).

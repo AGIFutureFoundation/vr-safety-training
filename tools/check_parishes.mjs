@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay", "bp-san-mateo-shoreline", "bp-nutrient-pilot"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay", "bp-san-mateo-shoreline", "bp-nutrient-pilot", "sm-unspoken-smiles"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -567,6 +567,25 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   check(PJ.PJ_PRECINCTS.length === 9 && new Set(PJ.PJ_PRECINCTS.map((p) => p.parish)).size === 8, "pj: nine project precincts (the eight named projects, the port's two) on eight maps");
   check(PJ.pjGuardedUs(PJ.pjPrecinct("bacwa-nutrient-pilots"), { stations: ["us-treatment-plant-process-pump-lockout"] }).stations.length === 1 && PJ.pjGuardedUs(PJ.pjPrecinct("bacwa-nutrient-pilots"), {}).stations.length === 0, "pj: the guard admits a us- station only once it is in the catalog");
   note(`PROJECTLANDS: UNIONSIMS ids ${landed} resolved, ${pending} pending (${us.size} us- stations in the catalog, ${usSimIds.size} us- simulations in the tree)`);
+}
+
+// The programme worlds (console SMILES, docs/consoles/SMILES.md): procedural districts, region `programmes`, held strict,
+// labelled procedural and not a real place, on a nominal geo frame; the Unspoken Smiles District's required places.
+{
+  const pw = R.npRegion("programmes");
+  check(!!pw && pw.name === "Programme Worlds" && R.NP_REGIONS[R.NP_REGIONS.length - 1] === pw, "regions: Programme Worlds come last (procedural worlds)");
+  const sm = R.npParish("sm-unspoken-smiles");
+  check(!!sm, "sm-unspoken-smiles: registered");
+  if (sm) {
+    check(sm.region === "programmes" && NP_ENGINE_STRICT.has(sm.id) && sm.procedural === true, "sm-unspoken-smiles: region programmes, held strict, flagged procedural");
+    const src = readFileSync(join(WEBXR, "shared", "np-data-sm-unspoken-smiles.js"), "utf8");
+    check(src.includes("PROCEDURAL") && src.includes("NOT A REAL PLACE") && /not a real place/i.test(sm.blurb), "sm-unspoken-smiles: the module and the blurb say procedural, not a real place");
+    check(sm.anchors.every((a) => /nominal/.test(a.name)) && Math.abs(G.npToGeo(sm, [0, 0])[0]) < 0.01 && Math.abs(G.npToGeo(sm, [0, 0])[1]) < 0.01, "sm-unspoken-smiles: anchored on the nominal frame, asserting no place");
+    for (const kind of ["clinic", "school", "outreach", "civic", "market", "plaza", "park", "campus"]) check(sm.sites.some((s) => s.kind === kind), `sm-unspoken-smiles: a ${kind} site`);
+    check(sm.sites.length >= 12, `sm-unspoken-smiles: twelve or more sites (${sm.sites.length})`);
+    const text = [...sm.sites, ...sm.landmarks, ...sm.districts, ...(sm.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${sm.name} ${sm.blurb}`;
+    check(!/\d/.test(text), "sm-unspoken-smiles: no figure in a site, landmark, district or hill name or blurb");
+  }
 }
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
 // 3. the ledger

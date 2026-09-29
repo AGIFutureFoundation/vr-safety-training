@@ -9,7 +9,7 @@ import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
 import { mgMountLife } from "../../shared/mg-life.js";
 import { ppCompleted, ppHerePage, ppReturnSite, ppRecords, ppAward, ppAwarded } from "../../shared/passport.js";
-import { tyLedger, tySettle, tyTick, tySignsFor, tyMountLedger, tyBoardRows, tySetRecorder, TY_CURRENCY } from "../../shared/ty-economy.js";
+import { tyEarn, tyLedger, tySettle, tyTick, tySignsFor, tyMountLedger, tyBoardRows, tySetRecorder, TY_CURRENCY } from "../../shared/ty-economy.js";
 import { lkStationLink, lkStationLabel, lkWorldLink } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
 import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
@@ -76,6 +76,7 @@ import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js"
 import { usSims } from "../../shared/us-unionsims.js";
 import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
 import { hvMount } from "../../shared/hv-harvest.js";
+import { smilesMount } from "../../shared/sm-smiles.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -939,6 +940,10 @@ var hvWorld = hvMount({
   THREE, root, parish, el: $("menu-harvest"), toast: npToast, heightAt: (x, z) => npHeightAt(parish, x, z),
   pos: () => (np.playing && !np.modal ? [np.x, np.z] : null), hour: () => AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12,
 });
+// SMILES (docs/consoles/SMILES.md): the Unspoken Smiles District's dental-health games in the Play tab (only on that map);
+// the adult-only sterilisation order is left out of a K-12 session (?k12=1), and a clean run pays Crew Credits once.
+var smilesPanel = smilesMount({ el: $("menu-smiles"), parish, k12: npParams.get("k12") === "1", toast: npToast,
+  earn: (stationId, recordId) => tyEarn(stationId, { recordId }) });
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
