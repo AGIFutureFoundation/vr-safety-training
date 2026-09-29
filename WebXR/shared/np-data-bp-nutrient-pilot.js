@@ -14,7 +14,7 @@ export const NP_BP_NUTRIENT_PILOT = {
   region: "bay-program",
   representative: true,
   size: 4096,
-  blurb: "A procedural wastewater treatment plant on San Pablo Bay's shore, invented by the platform to teach the work behind BACWA's pilot projects aimed at reducing nutrient inputs to San Francisco Bay: operator rounds, chemical feed, the aeration basins, lockout on process equipment, the lab, the outfall and the marsh beyond the levee. It is not any real plant.",
+  blurb: "A representative, procedural wastewater treatment plant on San Pablo Bay's shore, invented by the platform to teach the work behind BACWA's pilot projects aimed at reducing nutrient inputs to San Francisco Bay: operator rounds, chemical feed, the aeration basins, lockout on process equipment, the lab, the outfall and the marsh beyond the levee. It is not any real plant.",
   start: "npp-operator-rounds",
   anchors: [
     {"xz":[0,-1265],"lonlat":[-122.27,38.055],"approximate":true,"name":"San Pablo Bay"},

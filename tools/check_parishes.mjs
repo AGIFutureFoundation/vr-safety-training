@@ -489,6 +489,85 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     for (const cid of ["sf-om-mission-street", "sf-om-alemany"]) check(om.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission"), `sf-outer-mission: ${cid} pairs with sf-mission`);
   }
 }
+// Every announced project, walkable (console PROJECTLANDS, docs/consoles/PROJECTLANDS.md): the two representative maps (C/CAG in
+// San Mateo County, BACWA's procedural plant), the Port of Oakland precinct on oak-west-oakland, the precincts on the other
+// project maps, no overlap with any map, the representative label, several crafts per project, and UNIONSIMS' ids guarded.
+{
+  const PJ = await imp("shared/pj-precincts.js");
+  const bundlerPj = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
+  const olapPj = (a, b) => Math.min(a.maxLon, b.maxLon) > Math.max(a.minLon, b.minLon) && Math.min(a.maxLat, b.maxLat) > Math.max(a.minLat, b.minLat);
+  const pjMaps = { "bp-san-mateo-shoreline": { kinds: ["sampling", "decon", "monitoring", "haul", "remediation", "wetland", "levee"], water: ["san-francisco-bay"], roads: ["bayshore-freeway"], named: ["San Francisco Bay", "the Bayshore Freeway"] },
+    "bp-nutrient-pilot": { kinds: ["plant", "chemical", "aeration", "pilot", "lab", "monitoring", "substation"], water: ["san-pablo-bay"], roads: [], named: ["San Pablo Bay"] } };
+  for (const [id, w] of Object.entries(pjMaps)) {
+    const p = R.npParish(id);
+    check(!!p && p.region === "bay-program" && NP_ENGINE_STRICT.has(id), `${id}: registered in bay-program and held to the strict engine`);
+    if (!p) continue;
+    check(p.representative === true && /representative/.test(p.name) && /representative/i.test(p.blurb), `${id}: labelled representative on the map (name, blurb, representative: true)`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
+    check(src.includes("REPRESENTATIVE") && src.includes("PROCEDURAL") && /not any real plant|No real plant, property\s*(\/\/\s*)?or facility/.test(src.replace(/\n\/\/ /g, " ")), `${id}: the module header says representative, procedural, and that no real facility is part of the project`);
+    check(p.landmarks.some((l) => /a sign: a (representative area|procedural plant)/.test(l.name)), `${id}: a sign on the map says it is representative`);
+    check(p.sites.length >= 10, `${id}: ten or more sites (${p.sites.length})`);
+    for (const k of w.kinds) check(p.sites.some((s) => s.kind === k), `${id}: a ${k} site`);
+    for (const x of w.water) check(p.water.some((v) => v.id === x), `${id}: water ${x}`);
+    for (const x of w.roads) check(p.roads.some((v) => v.id === x), `${id}: road ${x}`);
+    check((p.hills ?? []).length >= 1, `${id}: hills where the ground rises`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(npClearOrTerraced(p, s, h), `${id}/${s.id}: the pad sits clear of ${h.name}`);
+    const crafts = new Set(p.sites.flatMap((s) => s.trades));
+    check(crafts.size >= 6, `${id}: several crafts' work (${crafts.size} unions across its sites)`);
+    // only the named features are real; every other water body, road, district, hill and landmark is labelled procedural
+    const realNames = new Set(w.named);
+    const others = [...p.water, ...p.roads, ...p.districts, ...(p.hills ?? [])].filter((x) => !realNames.has(x.name));
+    check(others.every((x) => /procedural|representative|Peninsula hills/.test(x.name)), `${id}: every unnamed feature is labelled procedural (${others.filter((x) => !/procedural|representative|Peninsula hills/.test(x.name)).map((x) => x.id).join(", ") || "all"})`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb}`;
+    check(!/\d/.test(text), `${id}: no figure in a name or blurb`);
+    check(!/\$|million|acres|gallons|population|founded|elevation|partner/i.test(src), `${id}: no amount, figure, history or partnership claim`);
+    check(p.connectors.length >= 2 && p.connectors.every((c) => !parishes.has(c.to.parish) && !E.npWaterAt(p, ...c.from.position)), `${id}: pending ways out from dry ground (no map meets it)`);
+    for (const o of R.NP_PARISHES.filter((q) => q.id !== id)) check(!olapPj(G.npBounds(p), G.npBounds(o)), `${id}: its field does not overlap ${o.id}'s`);
+    check(bundlerPj.split(`SHARED / "np-data-${id}.js"`).length === 3, `${id}: in both bundles that carry np-parishes.js`);
+  }
+  // BACWA's plant: only the water body is named
+  const npp = R.npParish("bp-nutrient-pilot");
+  if (npp) check([...npp.sites, ...npp.landmarks].every((x) => !/[A-Z][a-z]+ (Plant|Treatment|Sanitary|District)\b/.test(x.name)) && npp.anchors.every((a) => a.name === "San Pablo Bay" || /procedural/.test(a.name)), "bp-nutrient-pilot: names only the water body (no plant, district or town)");
+  // the Port of Oakland: oak-west-oakland already covers the seaport, so a precinct there, not a new map
+  const wo = R.npParish("oak-west-oakland");
+  check(!!wo && G.npGeoContains(wo, [-122.315, 37.81]) && G.npGeoContains(wo, [-122.295, 37.80]), "oak-west-oakland's field covers the Outer Harbor and the Seventh Street terminals (so the Port of Oakland is a precinct, not a new map)");
+  check(!R.npParish("bp-oakland-seaport"), "no separate bp-oakland-seaport map duplicates the seaport");
+  const port = (wo?.sites ?? []).filter((s) => s.precinct);
+  check(port.filter((s) => s.kind === "trash-capture").length >= 2 && port.filter((s) => s.kind === "trash-capture").every((s) => /procedural/.test(s.name) || /procedural/.test(s.blurb)), `oak-west-oakland: trash capture device sites whose placement is labelled procedural (${port.filter((s) => s.kind === "trash-capture").length})`);
+  for (const [kind, st] of [["charging", "cp-charging-yard-connectors-and-e-stops"], ["energy-storage", "cp-battery-energy-storage-site-awareness"], ["trucking", "cp-zero-emission-drayage-truck-pre-trip"], ["port", "cp-zero-emission-terminal-equipment-pre-use"]]) check(port.some((s) => s.kind === kind && s.stations.includes(st)), `oak-west-oakland: a Clean Ports ${kind} site with ${st}`);
+  // the precincts on the other project maps
+  const pre = { "bay-san-jose": ["survey", "assessment", "planning"], "bay-san-pablo": ["construction", "monitoring", "utility"], "bp-strip-marsh-east": ["boat-landing", "water-control", "mat-crossing"], "bp-san-leandro-bay": ["vacuum-truck", "haul"], "sf-outer-mission": ["utility", "monitoring"] };
+  for (const [id, kinds] of Object.entries(pre)) {
+    const sites = (R.npParish(id)?.sites ?? []).filter((s) => s.precinct);
+    for (const k of kinds) check(sites.some((s) => s.kind === k), `${id}: a project precinct ${k} site`);
+    check(sites.every((s) => !/\$|million|acres|partner/i.test(s.blurb)), `${id}: the precinct blurbs carry no amount or partnership claim`);
+  }
+  check((R.npParish("bay-san-jose")?.sites ?? []).filter((s) => s.blurb.includes("develop a green stormwater infrastructure implementation plan")).length === 1, "bay-san-jose: the City's project is still told once");
+  // the precinct index: every site resolves, several crafts per project, UNIONSIMS' ids guarded
+  const us = new Set(catalog.stations.filter((s) => s.id.startsWith("us-")).map((s) => s.id));
+  // UNIONSIMS' simulations, guarded: read only when its module is in the tree.
+  let usSimIds = new Set();
+  if (existsSync(join(WEBXR, "shared", "us-unionsims.js"))) { try { const USM = await imp("shared/us-unionsims.js"); usSimIds = new Set((typeof USM.usSims === "function" ? USM.usSims() : []).map((x) => x.id)); } catch { usSimIds = new Set(); } }
+  let pending = 0, landed = 0;
+  for (const pc of PJ.PJ_PRECINCTS) {
+    const p = R.npParish(pc.parish);
+    check(!!p, `pj ${pc.project}: its map ${pc.parish} is registered`);
+    if (!p) continue;
+    const sites = pc.sites.map((sid) => p.sites.find((s) => s.id === sid));
+    check(sites.every(Boolean), `pj ${pc.project}: every site resolves on ${pc.parish} (${pc.sites.filter((sid, i) => !sites[i]).join(", ") || "ok"})`);
+    const crafts = new Set(sites.filter(Boolean).flatMap((s) => s.trades));
+    check(crafts.size >= 3 && sites.length >= 2, `pj ${pc.project}: several crafts' work (${sites.length} sites, ${crafts.size} unions)`);
+    check(pc.representative === (p.representative === true), `pj ${pc.project}: representative exactly when its map is`);
+    check([...pc.us.stations, ...pc.us.sims].every((x) => /^us-[a-z0-9-]+$/.test(x)), `pj ${pc.project}: UNIONSIMS ids are us- slugs`);
+    const g = PJ.pjGuardedUs(pc, { stations: ctx.stations, sims: usSimIds });
+    for (const up of pc.usPlaces ?? []) check(p.sites.some((s) => s.id === up.site) && pc.us.sims.includes(up.sim), `pj ${pc.project}: ${up.sim} has a place at ${pc.parish}/${up.site}`);
+    check(g.stations.every((x) => ctx.stations.has(x)) && g.pending.length + g.stations.length + g.sims.length === pc.us.stations.length + pc.us.sims.length, `pj ${pc.project}: the guard passes only resolving ids`);
+    landed += g.stations.length; pending += g.pending.length;
+  }
+  check(PJ.PJ_PRECINCTS.length === 9 && new Set(PJ.PJ_PRECINCTS.map((p) => p.parish)).size === 8, "pj: nine project precincts (the eight named projects, the port's two) on eight maps");
+  check(PJ.pjGuardedUs(PJ.pjPrecinct("bacwa-nutrient-pilots"), { stations: ["us-treatment-plant-process-pump-lockout"] }).stations.length === 1 && PJ.pjGuardedUs(PJ.pjPrecinct("bacwa-nutrient-pilots"), {}).stations.length === 0, "pj: the guard admits a us- station only once it is in the catalog");
+  note(`PROJECTLANDS: UNIONSIMS ids ${landed} resolved, ${pending} pending (${us.size} us- stations in the catalog, ${usSimIds.size} us- simulations in the tree)`);
+}
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
 // 3. the ledger
 {
