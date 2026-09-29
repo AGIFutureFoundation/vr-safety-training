@@ -66,9 +66,38 @@
     },
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-almonaster-corridor-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-elmwood-freight"
+        "jf-elmwood-freight",
+        "jf-sw-west-bank-waterfront-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-south-of-market-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "mandela-parkway-warehouse-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "high-street-warehouse-yard"
       ]
     }
   ],
@@ -83,7 +112,7 @@
     "tw-pick-to-light-ergonomics-and-rotation": "Pick-to-Light Ergonomics & Rotation"
   },
   "version": "1.0.0",
-  "contentHash": "cf5b2b65",
+  "contentHash": "08802fad",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

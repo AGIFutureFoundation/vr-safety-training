@@ -74,7 +74,8 @@
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-kenner-airport-side-rail-siding"
       ]
     },
     {
@@ -89,14 +90,17 @@
       "parish": "sf-downtown",
       "sites": [
         "transbay-transit-hub",
-        "cable-car-barn"
+        "cable-car-barn",
+        "dt-sw-south-of-market-rail-siding"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "king-street-rail-yard"
+        "king-street-rail-yard",
+        "mi-sw-islais-creek-rail-siding",
+        "mi-sw-south-of-market-rail-siding"
       ]
     },
     {
@@ -112,6 +116,28 @@
       "sites": [
         "islais-rail-yard"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-rail-yard",
+        "west-oakland-transit-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-transit-station"
+      ]
     }
   ],
   "stationNames": {
@@ -126,7 +152,7 @@
     "ra-roadway-worker-protection-and-job-briefing": "Roadway Worker Protection & Job Briefing"
   },
   "version": "1.0.0",
-  "contentHash": "3dda3e3e",
+  "contentHash": "cac2ce95",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

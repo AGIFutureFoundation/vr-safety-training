@@ -9,6 +9,7 @@
   "programmes": [
     "air-quality-monitoring",
     "bay-area-union-edition",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "bridge-and-structural",
     "builders-trades",
@@ -117,6 +118,18 @@
     {
       "app": "smartcity",
       "id": "concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -976,7 +989,11 @@
         "canal-lock",
         "lakefront-levee",
         "ferry-landing",
-        "bridge-crew"
+        "bridge-crew",
+        "no-sw-lakeview-and-gentilly-recreation-centre",
+        "no-sw-eastern-lakefront-marsh-restoration-camp",
+        "no-sw-lakeview-and-gentilly-pumping-station",
+        "no-sw-mid-city-recreation-centre"
       ]
     },
     {
@@ -989,7 +1006,9 @@
         "jf-river-bridge",
         "jf-harvey-canal-yard",
         "jf-gretna-landing",
-        "jf-hospital"
+        "jf-hospital",
+        "jf-sw-west-bank-waterfront-workboat-landing",
+        "jf-sw-metairie-recreation-centre"
       ]
     },
     {
@@ -1003,7 +1022,10 @@
         "sb-shell-beach",
         "sb-chalmette-ferry",
         "sb-fire-station",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-arabi-and-chalmette-recreation-centre",
+        "sb-sw-violet-and-poydras-recreation-centre",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -1017,7 +1039,9 @@
         "pq-pointe-a-la-hache-ferry",
         "pq-port-sulphur-terminal",
         "pq-empire-harbour",
-        "pq-pipeline-yard"
+        "pq-pipeline-yard",
+        "pq-sw-myrtle-grove-levee-maintenance-yard",
+        "pq-sw-myrtle-grove-pumping-station"
       ]
     },
     {
@@ -1029,7 +1053,9 @@
         "st-mandeville-harbour",
         "st-big-branch",
         "st-timber-yard",
-        "st-madisonville-boatyard"
+        "st-madisonville-boatyard",
+        "st-sw-piney-woods-east-recreation-centre",
+        "st-sw-slidell-recreation-centre"
       ]
     },
     {
@@ -1040,7 +1066,9 @@
         "ferry-building-landing",
         "market-street-union-hall",
         "financial-district-high-rise",
-        "bay-bridge-crew-yard"
+        "bay-bridge-crew-yard",
+        "dt-sw-south-of-market-fabrication-shop",
+        "dt-sw-mission-dolores-recreation-centre"
       ]
     },
     {
@@ -1051,7 +1079,10 @@
         "china-basin-stadium-district",
         "soma-maker-workshop",
         "dogpatch-shipyard",
-        "islais-creek-pump-station"
+        "islais-creek-pump-station",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site"
       ]
     },
     {
@@ -1060,7 +1091,14 @@
       "sites": [
         "ocean-beach-lifeguard-station",
         "lone-mountain-university-campus",
-        "sunset-reservoir-pump-house"
+        "sunset-reservoir-pump-house",
+        "gg-sw-sunset-recreation-centre",
+        "gg-sw-lone-mountain-campus-central-plant",
+        "gg-sw-sunset-pumping-station",
+        "gg-sw-sunset-housing-construction-site",
+        "gg-sw-inner-richmond-recreation-centre",
+        "gg-sw-golden-gate-park-recreation-centre",
+        "gg-sw-outer-richmond-recreation-centre"
       ]
     },
     {
@@ -1072,7 +1110,8 @@
         "crissy-marsh-crew",
         "fort-mason-piers",
         "marina-seawall-crew",
-        "chestnut-construction"
+        "chestnut-construction",
+        "ma-sw-inner-richmond-recreation-centre"
       ]
     },
     {
@@ -1087,7 +1126,90 @@
         "herons-head-wetland",
         "yosemite-slough-restoration",
         "bayview-rec-centre",
-        "india-basin-park-crew"
+        "india-basin-park-crew",
+        "bv-sw-islais-creek-fabrication-shop",
+        "bv-sw-visitacion-valley-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-utility-locate-crew",
+        "om-bioretention-soil-yard",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "mandela-parkway-union-hall",
+        "west-oakland-air-monitoring-station",
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "oakland-civic-centre",
+        "downtown-high-rise-site",
+        "uptown-theatre-stage-crew",
+        "laney-college-campus",
+        "lake-merritt-boating-dock",
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "embarcadero-metal-workshop",
+        "san-leandro-bay-shoreline-crew",
+        "alameda-estuary-boatyard",
+        "sausal-creek-storm-drain-crew",
+        "fruitvale-bridge-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection",
+        "slb-corporation-yard"
       ]
     }
   ],
@@ -1116,6 +1238,9 @@
     "confined-rescue": "Confined Rescue",
     "cooling-tower": "Cooling Tower",
     "concrete-pour": "Concrete Pour",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "br-benthic-grab-and-invertebrate-sorting": "Benthic Grab & Invertebrate Sorting",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
@@ -1304,7 +1429,7 @@
     "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check"
   },
   "version": "1.0.0",
-  "contentHash": "784cb4b4",
+  "contentHash": "56160bbc",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

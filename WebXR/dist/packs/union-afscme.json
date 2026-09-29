@@ -9,6 +9,7 @@
   "programmes": [
     "air-quality-monitoring",
     "basketball-fundamentals",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "civic-leadership-and-ei",
     "culinary-kitchen",
@@ -40,31 +41,23 @@
     },
     {
       "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
       "id": "forklift-dock"
     },
     {
       "app": "smartcity",
-      "id": "cp-zero-emission-drayage-truck-pre-trip"
+      "id": "bk-wastewater-nutrient-chemical-feed"
     },
     {
       "app": "smartcity",
-      "id": "cp-zero-emission-terminal-equipment-pre-use"
+      "id": "bk-street-drain-trash-capture-cleanout"
     },
     {
       "app": "smartcity",
-      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-battery-energy-storage-site-awareness"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-charging-yard-connectors-and-e-stops"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -963,6 +956,30 @@
       "id": "me-kelp-transect-survey-and-photo-quadrats"
     },
     {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
+    },
+    {
       "app": "trades",
       "id": "kitchen"
     },
@@ -1070,7 +1087,21 @@
         "hospitality-row",
         "wetland-restoration",
         "canal-lock",
-        "lakefront-levee"
+        "lakefront-levee",
+        "no-sw-lakeview-and-gentilly-park-grounds-yard",
+        "no-sw-mid-city-fire-station",
+        "no-sw-lower-ninth-ward-fire-station",
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-algiers-fire-station",
+        "no-sw-lakeview-and-gentilly-recreation-centre",
+        "no-sw-eastern-lakefront-marsh-restoration-camp",
+        "no-sw-mid-city-park-grounds-yard",
+        "no-sw-uptown-park-grounds-yard",
+        "no-sw-lower-ninth-ward-park-grounds-yard",
+        "no-sw-mid-city-community-clinic",
+        "no-sw-algiers-park-grounds-yard",
+        "no-sw-treme-restaurant-kitchen",
+        "no-sw-mid-city-recreation-centre"
       ]
     },
     {
@@ -1084,7 +1115,13 @@
         "jf-gretna-landing",
         "jf-hospital",
         "jf-lafreniere-park",
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-west-bank-waterfront-boat-harbour",
+        "jf-sw-west-bank-waterfront-workboat-landing",
+        "jf-sw-kenner-fire-station",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-metairie-recreation-centre",
+        "jf-sw-kenner-park-grounds-yard"
       ]
     },
     {
@@ -1097,7 +1134,14 @@
         "sb-violet-floodgate",
         "sb-shell-beach",
         "sb-hospital",
-        "sb-fire-station"
+        "sb-fire-station",
+        "sb-sw-violet-and-poydras-park-grounds-yard",
+        "sb-sw-arabi-and-chalmette-community-clinic",
+        "sb-sw-arabi-and-chalmette-recreation-centre",
+        "sb-sw-violet-and-poydras-recreation-centre",
+        "sb-sw-shell-beach-boat-harbour",
+        "sb-sw-refinery-corridor-fire-station",
+        "sb-sw-chalmette-park-grounds-yard"
       ]
     },
     {
@@ -1111,7 +1155,12 @@
         "pq-empire-harbour",
         "pq-fort-jackson",
         "pq-venice-marina",
-        "pq-belle-chasse-fire"
+        "pq-belle-chasse-fire",
+        "pq-sw-empire-and-buras-park-grounds-yard",
+        "pq-sw-belle-chasse-park-grounds-yard",
+        "pq-sw-scarsdale-and-braithwaite-fire-station",
+        "pq-sw-myrtle-grove-levee-maintenance-yard",
+        "pq-sw-myrtle-grove-trailhead-yard"
       ]
     },
     {
@@ -1125,7 +1174,20 @@
         "st-fontainebleau",
         "st-big-branch",
         "st-timber-yard",
-        "st-tammany-trace"
+        "st-tammany-trace",
+        "st-sw-piney-woods-east-park-grounds-yard",
+        "st-sw-piney-woods-east-fire-station",
+        "st-sw-piney-woods-west-park-grounds-yard",
+        "st-sw-piney-woods-east-plant-nursery",
+        "st-sw-covington-restaurant-kitchen",
+        "st-sw-slidell-park-grounds-yard",
+        "st-sw-slidell-community-clinic",
+        "st-sw-piney-woods-east-recreation-centre",
+        "st-sw-old-mandeville-park-grounds-yard",
+        "st-sw-lacombe-fire-station",
+        "st-sw-slidell-recreation-centre",
+        "st-sw-piney-woods-west-fire-station",
+        "st-sw-piney-woods-east-west-park-grounds-yard"
       ]
     },
     {
@@ -1134,7 +1196,17 @@
       "sites": [
         "cathedral-hill-hospital",
         "market-street-union-hall",
-        "fishermans-wharf-kitchens"
+        "fishermans-wharf-kitchens",
+        "dt-sw-south-of-market-distribution-warehouse",
+        "dt-sw-mission-dolores-fire-station",
+        "dt-sw-russian-hill-park-grounds-yard",
+        "dt-sw-western-addition-park-grounds-yard",
+        "dt-sw-north-beach-restaurant-kitchen",
+        "dt-sw-mission-dolores-park-grounds-yard",
+        "dt-sw-russian-hill-fire-station",
+        "dt-sw-western-addition-fire-station",
+        "dt-sw-mission-dolores-recreation-centre",
+        "dt-sw-russian-hill-plant-nursery"
       ]
     },
     {
@@ -1142,7 +1214,13 @@
       "parish": "sf-mission",
       "sites": [
         "potrero-hospital-campus",
-        "islais-creek-pump-station"
+        "islais-creek-pump-station",
+        "mi-sw-noe-valley-fire-station",
+        "mi-sw-bernal-heights-fire-station",
+        "mi-sw-potrero-hill-park-grounds-yard",
+        "mi-sw-noe-valley-park-grounds-yard",
+        "mi-sw-bernal-heights-park-grounds-yard",
+        "mi-sw-mission-community-clinic"
       ]
     },
     {
@@ -1154,7 +1232,17 @@
         "ocean-beach-lifeguard-station",
         "parnassus-hospital-campus",
         "sunset-reservoir-pump-house",
-        "richmond-fire-station"
+        "richmond-fire-station",
+        "gg-sw-inner-richmond-fire-station",
+        "gg-sw-sunset-community-clinic",
+        "gg-sw-outer-richmond-fire-station",
+        "gg-sw-sunset-recreation-centre",
+        "gg-sw-lake-merced-park-grounds-yard",
+        "gg-sw-inner-richmond-park-grounds-yard",
+        "gg-sw-outer-richmond-park-grounds-yard",
+        "gg-sw-inner-richmond-recreation-centre",
+        "gg-sw-golden-gate-park-recreation-centre",
+        "gg-sw-outer-richmond-recreation-centre"
       ]
     },
     {
@@ -1165,7 +1253,15 @@
         "presidio-crew-yard",
         "presidio-forestry",
         "crissy-marsh-crew",
-        "marina-seawall-crew"
+        "marina-seawall-crew",
+        "ma-sw-western-addition-restaurant-kitchen",
+        "ma-sw-inner-richmond-fire-station",
+        "ma-sw-russian-hill-restaurant-kitchen",
+        "ma-sw-inner-richmond-park-grounds-yard",
+        "ma-sw-western-addition-community-clinic",
+        "ma-sw-inner-richmond-recreation-centre",
+        "ma-sw-presidio-fire-station",
+        "ma-sw-western-addition-fire-station"
       ]
     },
     {
@@ -1177,7 +1273,97 @@
         "herons-head-wetland",
         "yosemite-slough-restoration",
         "bayview-rec-centre",
-        "india-basin-park-crew"
+        "india-basin-park-crew",
+        "bv-sw-excelsior-restaurant-kitchen",
+        "bv-sw-visitacion-valley-fire-station",
+        "bv-sw-visitacion-valley-park-grounds-yard",
+        "bv-sw-portola-fire-station",
+        "bv-sw-excelsior-community-clinic",
+        "bv-sw-bayview-fire-station",
+        "bv-sw-portola-park-grounds-yard",
+        "bv-sw-visitacion-valley-recreation-centre",
+        "bv-sw-excelsior-fire-station",
+        "bv-sw-bayview-park-grounds-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-sewer-crew-yard",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "port-truck-staging-yard",
+        "mandela-parkway-union-hall",
+        "defremery-recreation-centre",
+        "mandela-parkway-warehouse-row",
+        "west-oakland-air-monitoring-station",
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "oakland-civic-centre",
+        "lakeside-park-grounds-crew",
+        "lake-merritt-boating-dock",
+        "chinatown-kitchens",
+        "downtown-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-public-market",
+        "san-leandro-bay-shoreline-crew",
+        "alameda-estuary-boatyard",
+        "fruitvale-fire-station",
+        "high-street-warehouse-yard",
+        "sausal-creek-storm-drain-crew",
+        "fruitvale-bridge-crew",
+        "fruitvale-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection",
+        "slb-corporation-yard"
       ]
     }
   ],
@@ -1186,13 +1372,11 @@
     "air-monitor": "Perimeter Air",
     "decon-line": "Decon Line",
     "lift-station": "Lift Station",
+    "chlorine-room": "Chlorine Room",
     "forklift-dock": "Forklift Dock",
-    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
-    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
-    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
-    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
-    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
-    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "ei-leading-under-pressure": "Leading Under Pressure",
     "ei-giving-and-taking-feedback": "Giving and Taking Feedback",
     "ei-conflict-on-the-crew": "Conflict on the Crew",
@@ -1417,11 +1601,17 @@
     "me-eelgrass-seed-collection-and-nursery": "Eelgrass Seed Collection & Nursery",
     "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "kitchen": "Hot Line",
     "phlebotomy": "Draw Station"
   },
   "version": "1.0.0",
-  "contentHash": "fb946448",
+  "contentHash": "95df665a",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -130,14 +130,6 @@
     },
     {
       "app": "smartcity",
-      "id": "cp-battery-energy-storage-site-awareness"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-charging-yard-connectors-and-e-stops"
-    },
-    {
-      "app": "smartcity",
       "id": "battery-storage-container-commissioning"
     },
     {
@@ -301,6 +293,14 @@
       "id": "ws-turbine-climb-and-rescue-kit-check"
     },
     {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
       "app": "trades",
       "id": "electrical"
     },
@@ -386,7 +386,11 @@
         "streetcar-barn",
         "hospital-district",
         "stadium-district",
-        "canal-lock"
+        "canal-lock",
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-lakeview-and-gentilly-substation",
+        "no-sw-mid-city-community-clinic",
+        "no-sw-lakeview-and-gentilly-pumping-station"
       ]
     },
     {
@@ -398,7 +402,11 @@
         "jf-elmwood-freight",
         "jf-harvey-canal-yard",
         "jf-hospital",
-        "jf-transit-yard"
+        "jf-transit-yard",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-kenner-airport-side-substation",
+        "jf-sw-west-bank-waterfront-cargo-terminal",
+        "jf-sw-metairie-substation"
       ]
     },
     {
@@ -407,7 +415,12 @@
       "sites": [
         "sb-shell-beach",
         "sb-chalmette-ferry",
-        "sb-hospital"
+        "sb-hospital",
+        "sb-sw-arabi-and-chalmette-community-clinic",
+        "sb-sw-refinery-corridor-substation",
+        "sb-sw-arabi-and-chalmette-substation",
+        "sb-sw-violet-and-poydras-substation",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -420,7 +433,8 @@
         "pq-port-sulphur-terminal",
         "pq-empire-harbour",
         "pq-buras-substation",
-        "pq-pipeline-yard"
+        "pq-pipeline-yard",
+        "pq-sw-myrtle-grove-pumping-station"
       ]
     },
     {
@@ -430,7 +444,8 @@
         "st-slidell-staging",
         "st-hospital",
         "st-timber-yard",
-        "st-lacombe-substation"
+        "st-lacombe-substation",
+        "st-sw-slidell-community-clinic"
       ]
     },
     {
@@ -442,7 +457,8 @@
         "transbay-transit-hub",
         "cathedral-hill-hospital",
         "cable-car-barn",
-        "financial-district-high-rise"
+        "financial-district-high-rise",
+        "dt-sw-south-of-market-fabrication-shop"
       ]
     },
     {
@@ -455,7 +471,11 @@
         "potrero-hospital-campus",
         "potrero-bus-yard",
         "dogpatch-shipyard",
-        "islais-creek-pump-station"
+        "islais-creek-pump-station",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-mission-community-clinic"
       ]
     },
     {
@@ -465,7 +485,12 @@
         "parnassus-hospital-campus",
         "lone-mountain-university-campus",
         "ocean-beach-streetcar-terminal",
-        "sunset-reservoir-pump-house"
+        "sunset-reservoir-pump-house",
+        "gg-sw-sunset-community-clinic",
+        "gg-sw-sunset-substation",
+        "gg-sw-lone-mountain-campus-central-plant",
+        "gg-sw-sunset-pumping-station",
+        "gg-sw-sunset-bus-yard"
       ]
     },
     {
@@ -473,7 +498,9 @@
       "parish": "sf-marina",
       "sites": [
         "marina-seawall-crew",
-        "cow-hollow-bus-yard"
+        "cow-hollow-bus-yard",
+        "ma-sw-western-addition-community-clinic",
+        "ma-sw-inner-richmond-substation"
       ]
     },
     {
@@ -483,7 +510,70 @@
         "port-southern-terminals",
         "third-street-rail-barn",
         "hunters-point-shipyard",
-        "shipyard-groundwater-yard"
+        "shipyard-groundwater-yard",
+        "bv-sw-excelsior-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-transit-corridor",
+        "om-sewer-crew-yard",
+        "om-utility-locate-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "west-oakland-rail-yard",
+        "west-oakland-transit-station",
+        "mandela-parkway-warehouse-row",
+        "emeryville-shoreline-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "laney-college-campus",
+        "uptown-bus-operations-yard",
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-transit-station",
+        "brooklyn-basin-marina",
+        "embarcadero-metal-workshop",
+        "high-street-warehouse-yard",
+        "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-storm-drain-crew",
+        "slb-industrial-frontage-yard"
       ]
     }
   ],
@@ -516,8 +606,6 @@
     "battery-yard": "Battery Yard",
     "confined-rescue": "Confined Rescue",
     "airport-ramp": "Airport Ramp",
-    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
-    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
     "battery-storage-container-commissioning": "Battery Storage Container Commissioning",
     "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
     "hazmat-container-inspection": "Hazmat Container Inspection",
@@ -559,12 +647,14 @@
     "ws-blade-inspection-from-a-platform": "Blade Inspection from a Platform",
     "ws-nacelle-lockout-and-yaw-brake-fault": "Nacelle Lockout & Yaw-Brake Fault",
     "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
     "electrical": "Isolation Bay",
     "phlebotomy": "Draw Station",
     "welding": "Weld Bay"
   },
   "version": "1.0.0",
-  "contentHash": "9251a237",
+  "contentHash": "190790df",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -128,6 +128,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "west-oakland-rail-yard",
@@ -149,6 +156,13 @@
         "fruitvale-transit-station",
         "high-street-warehouse-yard"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-industrial-frontage-yard"
+      ]
     }
   ],
   "stationNames": {
@@ -161,7 +175,7 @@
     "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus"
   },
   "version": "1.0.0",
-  "contentHash": "d96a9999",
+  "contentHash": "8cbd663d",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

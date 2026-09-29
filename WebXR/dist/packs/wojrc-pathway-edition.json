@@ -229,10 +229,18 @@
     },
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-almonaster-corridor-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "jefferson",
       "sites": [
         "jf-elmwood-freight",
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-west-bank-waterfront-distribution-warehouse"
       ]
     },
     {
@@ -247,7 +255,31 @@
       "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "market-street-union-hall"
+        "market-street-union-hall",
+        "dt-sw-south-of-market-distribution-warehouse"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "port-truck-staging-yard",
+        "mandela-parkway-union-hall",
+        "mandela-parkway-warehouse-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-industrial-frontage-yard"
       ]
     }
   ],
@@ -300,7 +332,7 @@
     "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness"
   },
   "version": "1.0.0",
-  "contentHash": "ff363dd9",
+  "contentHash": "5800dbc2",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

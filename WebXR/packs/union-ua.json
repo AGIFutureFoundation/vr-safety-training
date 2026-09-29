@@ -528,6 +528,17 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "outer-harbor-container-terminal",
@@ -554,6 +565,29 @@
         "san-leandro-bay-shoreline-crew",
         "high-street-warehouse-yard",
         "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-monitoring-station",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-levee-inspection"
       ]
     }
   ],
@@ -635,7 +669,7 @@
     "plumbing": "Rough-In Bay"
   },
   "version": "1.0.0",
-  "contentHash": "4bba0c2a",
+  "contentHash": "d237ad0e",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

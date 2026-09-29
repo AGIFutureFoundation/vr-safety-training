@@ -451,6 +451,16 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "outer-harbor-container-terminal",
@@ -479,6 +489,17 @@
         "high-street-warehouse-yard",
         "sausal-creek-storm-drain-crew",
         "fruitvale-bridge-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring"
       ]
     }
   ],
@@ -542,7 +563,7 @@
     "pressure-washer": "Wash-Down Yard"
   },
   "version": "1.0.0",
-  "contentHash": "1ec1ce88",
+  "contentHash": "98989bea",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

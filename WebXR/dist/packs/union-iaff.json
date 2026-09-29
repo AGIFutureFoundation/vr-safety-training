@@ -311,7 +311,14 @@
       "sites": [
         "port-terminal",
         "pumping-station",
-        "hospital-district"
+        "hospital-district",
+        "no-sw-mid-city-fire-station",
+        "no-sw-lower-ninth-ward-fire-station",
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-algiers-fire-station",
+        "no-sw-lakeview-and-gentilly-substation",
+        "no-sw-mid-city-community-clinic",
+        "no-sw-lakeview-and-gentilly-pumping-station"
       ]
     },
     {
@@ -321,7 +328,11 @@
         "jf-airport-ramp",
         "jf-pump-station",
         "jf-causeway-yard",
-        "jf-elmwood-freight"
+        "jf-elmwood-freight",
+        "jf-sw-kenner-fire-station",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-kenner-airport-side-substation",
+        "jf-sw-metairie-substation"
       ]
     },
     {
@@ -330,7 +341,11 @@
       "sites": [
         "sb-refinery",
         "sb-hospital",
-        "sb-fire-station"
+        "sb-fire-station",
+        "sb-sw-arabi-and-chalmette-community-clinic",
+        "sb-sw-refinery-corridor-substation",
+        "sb-sw-violet-and-poydras-substation",
+        "sb-sw-refinery-corridor-fire-station"
       ]
     },
     {
@@ -339,7 +354,9 @@
       "sites": [
         "pq-intracoastal-lock",
         "pq-buras-substation",
-        "pq-belle-chasse-fire"
+        "pq-belle-chasse-fire",
+        "pq-sw-scarsdale-and-braithwaite-fire-station",
+        "pq-sw-myrtle-grove-pumping-station"
       ]
     },
     {
@@ -350,7 +367,11 @@
         "st-slidell-staging",
         "st-hospital",
         "st-timber-yard",
-        "st-lacombe-substation"
+        "st-lacombe-substation",
+        "st-sw-piney-woods-east-fire-station",
+        "st-sw-slidell-community-clinic",
+        "st-sw-lacombe-fire-station",
+        "st-sw-piney-woods-west-fire-station"
       ]
     },
     {
@@ -359,7 +380,11 @@
       "sites": [
         "embarcadero-piers",
         "cathedral-hill-hospital",
-        "financial-district-high-rise"
+        "financial-district-high-rise",
+        "dt-sw-mission-dolores-fire-station",
+        "dt-sw-south-of-market-fabrication-shop",
+        "dt-sw-russian-hill-fire-station",
+        "dt-sw-western-addition-fire-station"
       ]
     },
     {
@@ -370,7 +395,13 @@
         "soma-maker-workshop",
         "potrero-hospital-campus",
         "dogpatch-shipyard",
-        "islais-creek-pump-station"
+        "islais-creek-pump-station",
+        "mi-sw-noe-valley-fire-station",
+        "mi-sw-bernal-heights-fire-station",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-mission-community-clinic"
       ]
     },
     {
@@ -381,14 +412,25 @@
         "parnassus-hospital-campus",
         "lone-mountain-university-campus",
         "sunset-reservoir-pump-house",
-        "richmond-fire-station"
+        "richmond-fire-station",
+        "gg-sw-inner-richmond-fire-station",
+        "gg-sw-sunset-community-clinic",
+        "gg-sw-outer-richmond-fire-station",
+        "gg-sw-sunset-substation",
+        "gg-sw-lone-mountain-campus-central-plant",
+        "gg-sw-sunset-pumping-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-marina",
       "sites": [
-        "marina-seawall-crew"
+        "marina-seawall-crew",
+        "ma-sw-inner-richmond-fire-station",
+        "ma-sw-western-addition-community-clinic",
+        "ma-sw-inner-richmond-substation",
+        "ma-sw-presidio-fire-station",
+        "ma-sw-western-addition-fire-station"
       ]
     },
     {
@@ -399,7 +441,65 @@
         "third-street-rail-barn",
         "hunters-point-shipyard",
         "shipyard-soil-cell",
-        "yosemite-slough-restoration"
+        "yosemite-slough-restoration",
+        "bv-sw-visitacion-valley-fire-station",
+        "bv-sw-portola-fire-station",
+        "bv-sw-excelsior-community-clinic",
+        "bv-sw-bayview-fire-station",
+        "bv-sw-excelsior-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "mandela-parkway-warehouse-row",
+        "west-oakland-air-monitoring-station",
+        "emeryville-shoreline-substation",
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "laney-college-campus",
+        "downtown-fire-station",
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "embarcadero-metal-workshop",
+        "fruitvale-fire-station",
+        "high-street-warehouse-yard",
+        "sausal-creek-storm-drain-crew",
+        "fruitvale-bridge-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring"
       ]
     }
   ],
@@ -463,7 +563,7 @@
     "pressure-washer": "Wash-Down Yard"
   },
   "version": "1.0.0",
-  "contentHash": "713923d1",
+  "contentHash": "98989bea",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

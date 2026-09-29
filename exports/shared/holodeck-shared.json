@@ -818,6 +818,28 @@
    "path": "union-trades"
   },
   {
+   "id": "bay-program-projects",
+   "title": "SmartCiti.X SF Bay Program Projects — Stormwater, Marsh and Source Control — Powered by AGI Corp",
+   "programmes": [
+    "bay-program-projects"
+   ],
+   "stations": [
+    "bk-bioretention-rain-garden-excavation",
+    "bk-street-drain-trash-capture-cleanout",
+    "br-trash-capture-device-service",
+    "br-tidal-marsh-grading-amphibious-excavator",
+    "br-dredge-spoils-dewatering-pad",
+    "bk-wastewater-nutrient-chemical-feed",
+    "chlorine-room",
+    "br-legacy-mercury-and-pcb-hotspot-handling",
+    "br-sediment-chain-of-custody-and-lab-prep",
+    "br-culvert-retrofit-for-fish-passage",
+    "br-fish-screen-maintenance"
+   ],
+   "worlds": null,
+   "path": "union-trades"
+  },
+  {
    "id": "railroad-crafts",
    "title": "SmartCiti.X Railroad Crafts — Track, Car and Cab — Powered by AGI Corp",
    "programmes": [
@@ -1133,7 +1155,13 @@
     "wellness-shift-work-sleep-and-stress",
     "wellness-peer-support-conversation",
     "wellness-substance-use-and-the-job",
-    "wellness-asking-for-help-and-resources"
+    "wellness-asking-for-help-and-resources",
+    "cp-zero-emission-drayage-truck-pre-trip",
+    "cp-zero-emission-terminal-equipment-pre-use",
+    "cp-charging-yard-connectors-and-e-stops",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-battery-energy-storage-site-awareness"
    ],
    "worlds": null,
    "path": "union-trades"
@@ -1348,7 +1376,9 @@
     "k12-by-a-shrimp-boats-fair-count",
     "k12-by-reading-a-flood-maps-colours",
     "k12-by-sorting-containers-at-the-port",
-    "k12-by-measuring-a-floodwall-in-steps"
+    "k12-by-measuring-a-floodwall-in-steps",
+    "k12-es-count-it-a-fair-survey",
+    "k12-es-measure-a-rain-garden"
    ],
    "worlds": null,
    "path": "k12"
@@ -1372,7 +1402,16 @@
     "k12-by-what-a-pump-station-does-in-the-rain",
     "k12-by-wetlands-as-a-storms-speed-bump",
     "k12-by-the-rivers-current-and-a-pilots-job",
-    "k12-by-the-water-cycle-from-lake-to-tap"
+    "k12-by-the-water-cycle-from-lake-to-tap",
+    "k12-es-where-the-storm-drain-goes",
+    "k12-es-what-a-trash-capture-device-does",
+    "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+    "k12-es-the-tidal-marsh-nursery",
+    "k12-es-mud-on-the-move",
+    "k12-es-too-much-of-a-good-thing",
+    "k12-es-the-bay-food-web",
+    "k12-es-plastics-and-the-bay",
+    "k12-es-clean-air-at-the-port"
    ],
    "worlds": null,
    "path": "k12"
@@ -1407,7 +1446,8 @@
     "k12-public-speaking-at-the-hall",
     "k12-digital-citizenship-and-online-safety",
     "k12-teamwork-and-feedback",
-    "k12-by-a-family-readiness-plan"
+    "k12-by-a-family-readiness-plan",
+    "k12-es-who-does-this-work"
    ],
    "worlds": null,
    "path": "k12"
@@ -1418,6 +1458,7 @@
    "programmes": [
     "air-quality-monitoring",
     "basketball-fundamentals",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "civic-leadership-and-ei",
     "culinary-kitchen",
@@ -1435,7 +1476,11 @@
     "air-monitor",
     "decon-line",
     "lift-station",
+    "chlorine-room",
     "forklift-dock",
+    "bk-wastewater-nutrient-chemical-feed",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-bioretention-rain-garden-excavation",
     "ei-leading-under-pressure",
     "ei-giving-and-taking-feedback",
     "ei-conflict-on-the-crew",
@@ -1660,6 +1705,12 @@
     "me-eelgrass-seed-collection-and-nursery",
     "me-oyster-reef-monitoring-and-settlement-tiles",
     "me-kelp-transect-survey-and-photo-quadrats",
+    "cp-zero-emission-drayage-truck-pre-trip",
+    "cp-zero-emission-terminal-equipment-pre-use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-battery-energy-storage-site-awareness",
+    "cp-charging-yard-connectors-and-e-stops",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment",
     "kitchen",
     "phlebotomy"
    ],
@@ -2202,6 +2253,8 @@
     "ws-blade-inspection-from-a-platform",
     "ws-nacelle-lockout-and-yaw-brake-fault",
     "ws-turbine-climb-and-rescue-kit-check",
+    "cp-battery-energy-storage-site-awareness",
+    "cp-charging-yard-connectors-and-e-stops",
     "electrical",
     "phlebotomy",
     "welding"
@@ -2349,7 +2402,10 @@
     "uw-intake-screen-cleaning-with-lockout",
     "uw-underwater-concrete-and-bag-placement",
     "uw-pipeline-crossing-inspection-dive",
-    "uw-rov-pre-dive-and-tether-management"
+    "uw-rov-pre-dive-and-tether-management",
+    "cp-zero-emission-terminal-equipment-pre-use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment"
    ],
    "worlds": null,
    "path": "union-trades"
@@ -2599,6 +2655,7 @@
    "programmes": [
     "air-quality-monitoring",
     "bay-area-union-edition",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "bridge-and-structural",
     "builders-trades",
@@ -2636,6 +2693,9 @@
     "confined-rescue",
     "cooling-tower",
     "concrete-pour",
+    "bk-wastewater-nutrient-chemical-feed",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-bioretention-rain-garden-excavation",
     "br-benthic-grab-and-invertebrate-sorting",
     "br-beach-seine-fish-survey-and-handling",
     "br-restoration-data-qa-and-public-reporting",
@@ -2922,6 +2982,7 @@
    "title": "SmartCiti.X LIUNA Union Package — Powered by AGI Corp",
    "programmes": [
     "air-quality-monitoring",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "bridge-and-structural",
     "builders-trades",
@@ -2964,6 +3025,9 @@
     "confined-rescue",
     "airport-ramp",
     "concrete-pour",
+    "bk-wastewater-nutrient-chemical-feed",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-bioretention-rain-garden-excavation",
     "br-benthic-grab-and-invertebrate-sorting",
     "br-beach-seine-fish-survey-and-handling",
     "br-restoration-data-qa-and-public-reporting",
@@ -3280,6 +3344,7 @@
    "title": "SmartCiti.X SEIU Union Package — Powered by AGI Corp",
    "programmes": [
     "basketball-fundamentals",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "civic-leadership-and-ei",
     "culinary-kitchen",
@@ -3299,7 +3364,11 @@
     "triage-point",
     "boiler-room",
     "decon-line",
+    "chlorine-room",
     "forklift-dock",
+    "bk-wastewater-nutrient-chemical-feed",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-bioretention-rain-garden-excavation",
     "ei-leading-under-pressure",
     "ei-giving-and-taking-feedback",
     "ei-conflict-on-the-crew",
@@ -3554,6 +3623,12 @@
     "me-eelgrass-seed-collection-and-nursery",
     "me-oyster-reef-monitoring-and-settlement-tiles",
     "me-kelp-transect-survey-and-photo-quadrats",
+    "cp-zero-emission-drayage-truck-pre-trip",
+    "cp-zero-emission-terminal-equipment-pre-use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-battery-energy-storage-site-awareness",
+    "cp-charging-yard-connectors-and-e-stops",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment",
     "salon",
     "kitchen",
     "phlebotomy"
@@ -3880,7 +3955,13 @@
     "tw-dock-leveler-and-trailer-restraint-check",
     "tw-high-bay-order-picker-fall-protection",
     "tw-conveyor-jam-clearing-and-loto",
-    "tw-amr-traffic-zone-entry-and-lockout"
+    "tw-amr-traffic-zone-entry-and-lockout",
+    "cp-zero-emission-drayage-truck-pre-trip",
+    "cp-zero-emission-terminal-equipment-pre-use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-battery-energy-storage-site-awareness",
+    "cp-charging-yard-connectors-and-e-stops",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment"
    ],
    "worlds": null,
    "path": "union-trades"
@@ -4735,6 +4816,7 @@
    "id": "union-iuoe-local3",
    "title": "SmartCiti.X IUOE Local 3 Union Package — Powered by AGI Corp",
    "programmes": [
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "hunters-point-bay-restoration"
    ],
@@ -4743,7 +4825,11 @@
     "air-monitor",
     "sampling-well",
     "decon-line",
+    "chlorine-room",
     "stormwater-outfall",
+    "bk-wastewater-nutrient-chemical-feed",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-bioretention-rain-garden-excavation",
     "br-benthic-grab-and-invertebrate-sorting",
     "br-beach-seine-fish-survey-and-handling",
     "br-restoration-data-qa-and-public-reporting",
@@ -4848,11 +4934,16 @@
    "id": "union-seiu-1021",
    "title": "SmartCiti.X SEIU 1021 Union Package — Powered by AGI Corp",
    "programmes": [
+    "bay-program-projects",
     "first-responders",
     "marine-ecology-and-restoration"
    ],
    "stations": [
     "triage-point",
+    "chlorine-room",
+    "bk-wastewater-nutrient-chemical-feed",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-bioretention-rain-garden-excavation",
     "ambulance-scene-safety",
     "overdose-response-naloxone",
     "cardiac-arrest-pit-crew",
@@ -4868,6 +4959,13 @@
     "psychological-first-aid",
     "damage-assessment-team",
     "shelter-intake-operations",
+    "br-trash-capture-device-service",
+    "br-legacy-mercury-and-pcb-hotspot-handling",
+    "br-sediment-chain-of-custody-and-lab-prep",
+    "br-dredge-spoils-dewatering-pad",
+    "br-tidal-marsh-grading-amphibious-excavator",
+    "br-fish-screen-maintenance",
+    "br-culvert-retrofit-for-fish-passage",
     "or-wildland-fireline-construction-and-lookout",
     "me-invasive-species-identification-and-reporting",
     "me-shoreline-debris-and-microplastics-survey",
@@ -4909,7 +5007,8 @@
     "ws-substation-switching-under-a-permit",
     "ws-blade-inspection-from-a-platform",
     "ws-nacelle-lockout-and-yaw-brake-fault",
-    "ws-turbine-climb-and-rescue-kit-check"
+    "ws-turbine-climb-and-rescue-kit-check",
+    "cp-battery-energy-storage-site-awareness"
    ],
    "worlds": null,
    "path": "union-trades"
@@ -4976,7 +5075,8 @@
     "ml-dog-and-hazard-awareness-on-route",
     "ml-delivery-van-pretrip-and-route-loading",
     "ad-hazardous-fluid-servicing-with-a-buddy",
-    "ad-depot-tool-control-and-fod-walk"
+    "ad-depot-tool-control-and-fod-walk",
+    "cp-zero-emission-drayage-truck-pre-trip"
    ],
    "worlds": null,
    "path": "union-trades"
@@ -4991,6 +5091,7 @@
     "lift-station",
     "chlorine-room",
     "backflow-test",
+    "bk-wastewater-nutrient-chemical-feed",
     "br-beach-seine-fish-survey-and-handling",
     "br-volunteer-cleanup-day-safety-lead",
     "cs-non-entry-retrieval-and-tripod",
@@ -5219,6 +5320,7 @@
     "trench-box",
     "scaffold-erection",
     "concrete-pour",
+    "bk-bioretention-rain-garden-excavation",
     "leading-edge-and-horizontal-lifeline",
     "gg-pile-driver-fender-repair",
     "gg-fog-and-wind-work-stop",
@@ -5384,7 +5486,11 @@
     "cd-decompression-chamber-operations-and-post-dive",
     "cd-rov-launch-recovery-and-tether-management",
     "cd-pier-piling-inspection-and-wrap-repair",
-    "cd-underwater-wet-welding-and-cutting"
+    "cd-underwater-wet-welding-and-cutting",
+    "cp-zero-emission-terminal-equipment-pre-use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-charging-yard-connectors-and-e-stops",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment"
    ],
    "worlds": null,
    "path": "union-trades"
@@ -5398,6 +5504,7 @@
     "air-monitor",
     "sampling-well",
     "stormwater-outfall",
+    "bk-street-drain-trash-capture-cleanout",
     "br-restoration-data-qa-and-public-reporting",
     "br-drone-shoreline-survey",
     "drum-sampling-and-overpack",
@@ -5823,15 +5930,30 @@
     "bb-warmup-injury-prevention-and-hydration",
     "bioswale-build",
     "boiler-room",
+    "br-beach-seine-fish-survey-and-handling",
+    "br-benthic-grab-and-invertebrate-sorting",
+    "br-bird-nesting-buffer-and-work-window",
     "br-cold-water-immersion-and-mob-recovery",
+    "br-culvert-retrofit-for-fish-passage",
     "br-derelict-vessel-salvage-rigging",
     "br-dredge-material-screening-and-disposal-decision",
+    "br-dredge-spoils-dewatering-pad",
+    "br-drone-shoreline-survey",
+    "br-fish-screen-maintenance",
+    "br-intertidal-invasive-removal-by-hand-crew",
+    "br-legacy-mercury-and-pcb-hotspot-handling",
     "br-levee-inspection-and-seepage",
     "br-marine-mammal-observer-during-pile-driving",
     "br-native-planting-and-erosion-mats",
+    "br-restoration-data-qa-and-public-reporting",
+    "br-sediment-chain-of-custody-and-lab-prep",
     "br-shoreline-cleanup-sharps-and-hazardous-debris",
     "br-tidal-marsh-grading-amphibious-excavator",
+    "br-trash-capture-device-service",
+    "br-turbidity-curtain-deployment",
+    "br-underwater-sediment-core-sampling",
     "br-vhf-and-navigation-in-a-work-zone",
+    "br-volunteer-cleanup-day-safety-lead",
     "br-water-quality-sonde-calibration-and-deploy",
     "br-workboat-crane-lift-from-water",
     "bridge-cable-inspection",
@@ -5852,10 +5974,12 @@
     "chiller-plant",
     "cnc-cell",
     "concrete-pour",
+    "confined-rescue",
     "constituent-service-desk",
     "container-lashing",
     "cooling-tower",
     "creosote-pile-removal",
+    "cs-non-entry-retrieval-and-tripod",
     "cs-permit-entry-and-attendant-duties",
     "cs-ventilation-and-air-monitoring-plan",
     "cv-open-meeting-law-and-agenda-notice",
@@ -5867,6 +5991,7 @@
     "dock-crane",
     "dredge-barge",
     "drive-night-fog-and-rail-crossing",
+    "drum-sampling-and-overpack",
     "ed-boiler-room-filter-change-lockout",
     "ed-bus-pretrip-and-loading-zone",
     "ed-crossing-guard-intersection-control",
@@ -5932,6 +6057,7 @@
     "hw-flatwork-ironer-and-folder-guarding",
     "hw-housekeeping-cart-and-chemical-safety",
     "hz-decon-corridor-for-a-mass-casualty-drill",
+    "hz-drum-staging-and-compatibility-segregation",
     "ib-asbestos-glovebag-removal-on-a-pipe",
     "ib-boiler-tube-replacement-and-rolling",
     "ib-firestop-and-fire-wrap-installation",
@@ -6089,6 +6215,7 @@
     "ut-cathodic-protection-test-station-reading",
     "ut-hydrant-flow-test-and-flushing-with-traffic-control",
     "ut-night-storm-response-crew-and-portable-generator",
+    "ut-service-line-locate-and-hand-dig-near-gas-main",
     "ut-water-main-break-emergency-shutdown-and-excavation",
     "ut-water-treatment-chemical-delivery-unloading",
     "uw-bridge-pier-scour-survey",
@@ -6124,6 +6251,12 @@
     "bm-fl-water-in-the-lake",
     "bm-fl-wetland-speed-bump",
     "bm-fl-your-voice-at-the-hall",
+    "bp-slb-fl-shore-speed-bump",
+    "bp-slb-fl-trash-catcher",
+    "bp-slb-fl-where-the-drain-goes",
+    "bp-sme-fl-levee-holds",
+    "bp-sme-fl-marsh-speed-bump",
+    "bp-sme-fl-tide-window",
     "jf-fl-causeway-as-a-ruler",
     "jf-fl-pumps-lift-the-rain",
     "jf-fl-ramp-hand-signals",
@@ -6149,6 +6282,9 @@
     "sf-mission-fl-blue-flag",
     "sf-mission-fl-crane-pulleys",
     "sf-mission-fl-crossing-guard",
+    "sf-om-fl-call-before-you-dig",
+    "sf-om-fl-crossing-guard",
+    "sf-om-fl-sponge-sidewalk",
     "sg-fl-bridge-cable-machine",
     "sg-fl-clean-up-experiment",
     "sg-fl-court-measuring",
@@ -6248,6 +6384,9 @@
     "bb-warmup-injury-prevention-and-hydration",
     "biomonitoring-consent",
     "bioswale-build",
+    "bk-bioretention-rain-garden-excavation",
+    "bk-street-drain-trash-capture-cleanout",
+    "bk-wastewater-nutrient-chemical-feed",
     "boiler-room",
     "br-barge-loading-of-contaminated-sediment",
     "br-beach-seine-fish-survey-and-handling",
@@ -6346,6 +6485,12 @@
     "container-lashing",
     "conveyor-guard",
     "cooling-tower",
+    "cp-battery-energy-storage-site-awareness",
+    "cp-charging-yard-connectors-and-e-stops",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "cp-zero-emission-drayage-truck-pre-trip",
+    "cp-zero-emission-terminal-equipment-pre-use",
     "crane-yard",
     "credit-report-reading",
     "creosote-pile-removal",
@@ -6538,6 +6683,18 @@
     "k12-digital-citizenship-and-online-safety",
     "k12-ecosystems-at-the-kelp-transect",
     "k12-energy-transfer-at-the-wind-farm",
+    "k12-es-clean-air-at-the-port",
+    "k12-es-count-it-a-fair-survey",
+    "k12-es-measure-a-rain-garden",
+    "k12-es-mud-on-the-move",
+    "k12-es-plastics-and-the-bay",
+    "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+    "k12-es-the-bay-food-web",
+    "k12-es-the-tidal-marsh-nursery",
+    "k12-es-too-much-of-a-good-thing",
+    "k12-es-what-a-trash-capture-device-does",
+    "k12-es-where-the-storm-drain-goes",
+    "k12-es-who-does-this-work",
     "k12-first-aid-awareness-call-for-help",
     "k12-fractions-in-the-kitchen",
     "k12-geometry-of-a-turbine-blade-sweep",
@@ -9705,6 +9862,110 @@
    ]
   },
   {
+   "id": "sf-outer-mission",
+   "name": "Outer Mission & Excelsior",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.440002,
+    37.716004
+   ],
+   "bounds": {
+    "minLng": -122.491174,
+    "minLat": 37.675533,
+    "maxLng": -122.388831,
+    "maxLat": 37.756474
+   },
+   "sites": [
+    {
+     "id": "om-planted-sidewalk-filtration",
+     "stations": [
+      "bioswale-build",
+      "op-excavator-trench-and-utility-locate",
+      "trench-box",
+      "gk-irrigation-controller-valve-box-and-backflow-check"
+     ]
+    },
+    {
+     "id": "om-rain-garden-block",
+     "stations": [
+      "bioswale-build",
+      "gk-hardscape-paver-base-and-compaction",
+      "br-native-planting-and-erosion-mats",
+      "ut-service-line-locate-and-hand-dig-near-gas-main"
+     ]
+    },
+    {
+     "id": "om-underground-infiltration-site",
+     "stations": [
+      "trench-box",
+      "op-excavator-trench-and-utility-locate",
+      "op-loader-truck-loading-and-blind-spots",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "om-school-campus",
+     "stations": [
+      "ed-crossing-guard-intersection-control",
+      "ed-playground-equipment-inspection",
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-kitchen-receiving-and-warewash-sanitizing"
+     ]
+    },
+    {
+     "id": "om-transit-corridor",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+     ]
+    },
+    {
+     "id": "om-sewer-crew-yard",
+     "stations": [
+      "manhole-entry-and-atmospheric-monitoring",
+      "valve-vault",
+      "lift-station",
+      "confined-rescue"
+     ]
+    },
+    {
+     "id": "om-utility-locate-crew",
+     "stations": [
+      "ut-service-line-locate-and-hand-dig-near-gas-main",
+      "op-excavator-trench-and-utility-locate",
+      "ut-water-main-break-emergency-shutdown-and-excavation"
+     ]
+    },
+    {
+     "id": "om-bioretention-soil-yard",
+     "stations": [
+      "op-loader-truck-loading-and-blind-spots",
+      "op-compactor-lift-thickness-and-edge",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "om-street-tree-crew",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "br-native-planting-and-erosion-mats"
+     ]
+    },
+    {
+     "id": "om-maintenance-crew",
+     "stations": [
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "stormwater-outfall",
+      "gk-storm-cleanup-chipper-and-traffic-control"
+     ]
+    }
+   ]
+  },
+  {
    "id": "oak-west-oakland",
    "name": "West Oakland & the Port",
    "region": "oakland",
@@ -10093,6 +10354,217 @@
       "hc-linen-and-regulated-waste-handling",
       "patient-intake-screening",
       "sharps-exposure-response"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bp-strip-marsh-east",
+   "name": "Strip Marsh East",
+   "region": "bay-program",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.344998,
+    38.134999
+   ],
+   "bounds": {
+    "minLng": -122.396451,
+    "minLat": 38.094523,
+    "maxLng": -122.293545,
+    "maxLat": 38.175475
+   },
+   "sites": [
+    {
+     "id": "sme-staging-yard",
+     "stations": [
+      "op-equipment-daily-walkaround-and-fluids",
+      "op-loader-truck-loading-and-blind-spots",
+      "spill-boom-deploy",
+      "br-workboat-crane-lift-from-water"
+     ]
+    },
+    {
+     "id": "sme-tidal-channel-excavation",
+     "stations": [
+      "br-tidal-marsh-grading-amphibious-excavator",
+      "me-tidal-marsh-channel-restoration-day",
+      "op-excavator-trench-and-utility-locate",
+      "br-turbidity-curtain-deployment"
+     ]
+    },
+    {
+     "id": "sme-berm-lowering",
+     "stations": [
+      "op-dozer-slope-work-and-rollover-protection",
+      "br-levee-inspection-and-seepage",
+      "op-loader-truck-loading-and-blind-spots",
+      "br-bird-nesting-buffer-and-work-window"
+     ]
+    },
+    {
+     "id": "sme-sediment-reuse-placement",
+     "stations": [
+      "br-dredge-material-screening-and-disposal-decision",
+      "br-dredge-spoils-dewatering-pad",
+      "op-compactor-lift-thickness-and-edge",
+      "br-native-planting-and-erosion-mats"
+     ]
+    },
+    {
+     "id": "sme-monitoring-station",
+     "stations": [
+      "br-water-quality-sonde-calibration-and-deploy",
+      "marsh-transect-survey",
+      "br-drone-shoreline-survey",
+      "br-restoration-data-qa-and-public-reporting"
+     ]
+    },
+    {
+     "id": "sme-levee-road-patrol",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "br-cold-water-immersion-and-mob-recovery",
+      "br-vhf-and-navigation-in-a-work-zone"
+     ]
+    },
+    {
+     "id": "sme-slough-culvert-crew",
+     "stations": [
+      "br-culvert-retrofit-for-fish-passage",
+      "tide-gate",
+      "br-fish-screen-maintenance"
+     ]
+    },
+    {
+     "id": "sme-native-planting-crew",
+     "stations": [
+      "br-native-planting-and-erosion-mats",
+      "spartina-removal",
+      "br-intertidal-invasive-removal-by-hand-crew",
+      "living-shoreline"
+     ]
+    },
+    {
+     "id": "sme-bird-window-watch",
+     "stations": [
+      "br-bird-nesting-buffer-and-work-window",
+      "me-invasive-species-identification-and-reporting",
+      "br-beach-seine-fish-survey-and-handling"
+     ]
+    },
+    {
+     "id": "sme-sediment-sampling-station",
+     "stations": [
+      "br-underwater-sediment-core-sampling",
+      "br-sediment-chain-of-custody-and-lab-prep",
+      "br-benthic-grab-and-invertebrate-sorting",
+      "br-legacy-mercury-and-pcb-hotspot-handling"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bp-san-leandro-bay",
+   "name": "San Leandro Bay & San Leandro Creek",
+   "region": "bay-program",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.200003,
+    37.744998
+   ],
+   "bounds": {
+    "minLng": -122.251207,
+    "minLat": 37.704524,
+    "maxLng": -122.148799,
+    "maxLat": 37.785473
+   },
+   "sites": [
+    {
+     "id": "slb-trash-capture-device-north",
+     "stations": [
+      "br-trash-capture-device-service",
+      "manhole-entry-and-atmospheric-monitoring",
+      "cs-permit-entry-and-attendant-duties",
+      "ut-hydrant-flow-test-and-flushing-with-traffic-control"
+     ]
+    },
+    {
+     "id": "slb-trash-capture-device-south",
+     "stations": [
+      "br-trash-capture-device-service",
+      "cs-ventilation-and-air-monitoring-plan",
+      "cs-non-entry-retrieval-and-tripod",
+      "stormwater-outfall"
+     ]
+    },
+    {
+     "id": "slb-storm-drain-crew",
+     "stations": [
+      "manhole-entry-and-atmospheric-monitoring",
+      "valve-vault",
+      "ut-night-storm-response-crew-and-portable-generator",
+      "confined-rescue"
+     ]
+    },
+    {
+     "id": "slb-creek-mouth-restoration",
+     "stations": [
+      "living-shoreline",
+      "br-native-planting-and-erosion-mats",
+      "br-turbidity-curtain-deployment",
+      "br-culvert-retrofit-for-fish-passage"
+     ]
+    },
+    {
+     "id": "slb-shoreline-park-crew",
+     "stations": [
+      "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "br-volunteer-cleanup-day-safety-lead",
+      "marsh-transect-survey"
+     ]
+    },
+    {
+     "id": "slb-industrial-frontage-yard",
+     "stations": [
+      "forklift-dock",
+      "drum-sampling-and-overpack",
+      "hz-drum-staging-and-compatibility-segregation",
+      "stormwater-outfall"
+     ]
+    },
+    {
+     "id": "slb-outfall-monitoring",
+     "stations": [
+      "stormwater-outfall",
+      "br-water-quality-sonde-calibration-and-deploy",
+      "me-shoreline-debris-and-microplastics-survey"
+     ]
+    },
+    {
+     "id": "slb-shoreline-cleanup-point",
+     "stations": [
+      "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "me-shoreline-debris-and-microplastics-survey",
+      "br-volunteer-cleanup-day-safety-lead"
+     ]
+    },
+    {
+     "id": "slb-levee-inspection",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "tide-gate",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "slb-corporation-yard",
+     "stations": [
+      "op-equipment-daily-walkaround-and-fluids",
+      "op-loader-truck-loading-and-blind-spots",
+      "gk-storm-cleanup-chipper-and-traffic-control"
      ]
     }
    ]

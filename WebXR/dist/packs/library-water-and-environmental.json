@@ -8,6 +8,7 @@
   "certification": null,
   "programmes": [],
   "relatedProgrammes": [
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "confined-space",
     "hazmat-environmental",
@@ -37,6 +38,10 @@
     {
       "app": "smartcity",
       "id": "backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
     },
     {
       "app": "smartcity",
@@ -243,7 +248,9 @@
         "levee-floodwall",
         "pumping-station",
         "wetland-restoration",
-        "lakefront-levee"
+        "lakefront-levee",
+        "no-sw-eastern-lakefront-marsh-restoration-camp",
+        "no-sw-lakeview-and-gentilly-pumping-station"
       ]
     },
     {
@@ -251,7 +258,8 @@
       "parish": "jefferson",
       "sites": [
         "jf-lakefront-levee",
-        "jf-pump-station"
+        "jf-pump-station",
+        "jf-sw-west-bank-waterfront-boat-harbour"
       ]
     },
     {
@@ -263,7 +271,8 @@
         "sb-central-wetlands",
         "sb-violet-floodgate",
         "sb-shell-beach",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-boat-harbour"
       ]
     },
     {
@@ -275,7 +284,9 @@
         "pq-myrtle-grove-diversion",
         "pq-empire-harbour",
         "pq-buras-substation",
-        "pq-venice-marina"
+        "pq-venice-marina",
+        "pq-sw-myrtle-grove-levee-maintenance-yard",
+        "pq-sw-myrtle-grove-pumping-station"
       ]
     },
     {
@@ -297,7 +308,8 @@
       "world": "parishes",
       "parish": "sf-golden-gate-park",
       "sites": [
-        "sunset-reservoir-pump-house"
+        "sunset-reservoir-pump-house",
+        "gg-sw-sunset-pumping-station"
       ]
     },
     {
@@ -318,6 +330,61 @@
         "herons-head-wetland",
         "yosemite-slough-restoration"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-utility-locate-crew",
+        "om-street-tree-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lakeside-park-grounds-crew",
+        "lake-merritt-boating-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "san-leandro-bay-shoreline-crew",
+        "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection"
+      ]
     }
   ],
   "stationNames": {
@@ -326,6 +393,7 @@
     "lift-station": "Lift Station",
     "chlorine-room": "Chlorine Room",
     "backflow-test": "Backflow Test",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-volunteer-cleanup-day-safety-lead": "Volunteer Cleanup Day Safety Lead",
     "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod",
@@ -365,7 +433,7 @@
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats"
   },
   "version": "1.0.0",
-  "contentHash": "bf029fd1",
+  "contentHash": "76aba165",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -65,6 +65,14 @@
     {
       "app": "smartcity",
       "id": "k12-by-measuring-a-floodwall-in-steps"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-count-it-a-fair-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-measure-a-rain-garden"
     }
   ],
   "unions": [],
@@ -92,6 +100,13 @@
     },
     {
       "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-sw-myrtle-grove-trailhead-yard"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "st-tammany",
       "sites": [
         "st-tammany-trace"
@@ -112,10 +127,12 @@
     "k12-by-a-shrimp-boats-fair-count": "A Shrimp Boat's Fair Count",
     "k12-by-reading-a-flood-maps-colours": "Reading a Flood Map's Colours",
     "k12-by-sorting-containers-at-the-port": "Sorting Containers at the Port",
-    "k12-by-measuring-a-floodwall-in-steps": "Measuring a Floodwall in Steps"
+    "k12-by-measuring-a-floodwall-in-steps": "Measuring a Floodwall in Steps",
+    "k12-es-count-it-a-fair-survey": "Count It: a Fair Survey",
+    "k12-es-measure-a-rain-garden": "Measure a Rain Garden"
   },
   "version": "1.0.0",
-  "contentHash": "df781a45",
+  "contentHash": "bec5fb73",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

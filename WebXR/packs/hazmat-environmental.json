@@ -109,6 +109,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "west-oakland-air-monitoring-station"
@@ -119,6 +126,15 @@
       "parish": "oak-fruitvale-estuary",
       "sites": [
         "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-south",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring"
       ]
     }
   ],
@@ -135,7 +151,7 @@
     "hz-decon-corridor-for-a-mass-casualty-drill": "Decon Corridor for a Mass-Casualty Drill"
   },
   "version": "1.0.0",
-  "contentHash": "1eed9ff1",
+  "contentHash": "6e36dd6f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

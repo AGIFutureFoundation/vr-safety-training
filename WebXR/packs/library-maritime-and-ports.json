@@ -16,6 +16,7 @@
     "ports-maritime-ecology",
     "rigging-lifting",
     "situational-awareness",
+    "wojrc-pathway-edition",
     "yacht-and-charter-crew"
   ],
   "stations": [
@@ -306,6 +307,22 @@
     {
       "app": "smartcity",
       "id": "cd-underwater-wet-welding-and-cutting"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     }
   ],
   "unions": [],
@@ -318,6 +335,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "estuary-research-dock",
         "estuary-marina-boatyard",
         "island-yacht-harbor",
@@ -485,6 +503,22 @@
         "brooklyn-basin-marina",
         "alameda-estuary-boatyard"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-levee-road-patrol",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-levee-inspection"
+      ]
     }
   ],
   "stationNames": {
@@ -559,10 +593,14 @@
     "cd-decompression-chamber-operations-and-post-dive": "Decompression Chamber Operations & Post-Dive",
     "cd-rov-launch-recovery-and-tether-management": "ROV Launch, Recovery & Tether Management",
     "cd-pier-piling-inspection-and-wrap-repair": "Pier Piling Inspection & Wrap Repair",
-    "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side"
+    "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "88b58583",
+  "contentHash": "255b8fcf",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

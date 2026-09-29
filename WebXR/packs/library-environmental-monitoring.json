@@ -9,6 +9,7 @@
   "programmes": [],
   "relatedProgrammes": [
     "air-quality-monitoring",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "hazmat-environmental",
     "hunters-point-bay-restoration"
@@ -29,6 +30,10 @@
     {
       "app": "smartcity",
       "id": "stormwater-outfall"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
     },
     {
       "app": "smartcity",
@@ -225,6 +230,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "west-oakland-air-monitoring-station"
@@ -244,6 +256,30 @@
         "san-leandro-bay-shoreline-crew",
         "sausal-creek-storm-drain-crew"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring"
+      ]
     }
   ],
   "stationNames": {
@@ -251,6 +287,7 @@
     "air-monitor": "Perimeter Air",
     "sampling-well": "Sampling Well",
     "stormwater-outfall": "Stormwater Outfall",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
     "br-drone-shoreline-survey": "Drone Shoreline Survey",
     "drum-sampling-and-overpack": "Drum Sampling & Overpack",
@@ -277,7 +314,7 @@
     "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window"
   },
   "version": "1.0.0",
-  "contentHash": "fe5461bb",
+  "contentHash": "34ad8164",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

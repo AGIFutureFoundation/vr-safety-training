@@ -702,6 +702,16 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "outer-harbor-container-terminal",
@@ -728,6 +738,36 @@
         "san-leandro-bay-shoreline-crew",
         "alameda-estuary-boatyard",
         "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection"
       ]
     }
   ],
@@ -854,7 +894,7 @@
     "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management"
   },
   "version": "1.0.0",
-  "contentHash": "5943ad76",
+  "contentHash": "8ac5ec24",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

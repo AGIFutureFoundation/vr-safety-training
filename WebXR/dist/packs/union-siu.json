@@ -463,7 +463,8 @@
         "canal-lock",
         "lakefront-levee",
         "ferry-landing",
-        "bridge-crew"
+        "bridge-crew",
+        "no-sw-eastern-lakefront-marsh-restoration-camp"
       ]
     },
     {
@@ -474,7 +475,9 @@
         "jf-causeway-yard",
         "jf-river-bridge",
         "jf-harvey-canal-yard",
-        "jf-gretna-landing"
+        "jf-gretna-landing",
+        "jf-sw-west-bank-waterfront-boat-harbour",
+        "jf-sw-west-bank-waterfront-workboat-landing"
       ]
     },
     {
@@ -486,7 +489,9 @@
         "sb-violet-floodgate",
         "sb-shell-beach",
         "sb-chalmette-ferry",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-boat-harbour",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -501,7 +506,8 @@
         "pq-port-sulphur-terminal",
         "pq-empire-harbour",
         "pq-venice-marina",
-        "pq-pipeline-yard"
+        "pq-pipeline-yard",
+        "pq-sw-myrtle-grove-levee-maintenance-yard"
       ]
     },
     {
@@ -521,7 +527,8 @@
         "embarcadero-piers",
         "ferry-building-landing",
         "financial-district-high-rise",
-        "bay-bridge-crew-yard"
+        "bay-bridge-crew-yard",
+        "dt-sw-south-of-market-fabrication-shop"
       ]
     },
     {
@@ -529,7 +536,10 @@
       "parish": "sf-mission",
       "sites": [
         "soma-maker-workshop",
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site"
       ]
     },
     {
@@ -554,7 +564,74 @@
       "parish": "sf-bayview",
       "sites": [
         "port-southern-terminals",
-        "yosemite-slough-restoration"
+        "yosemite-slough-restoration",
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-rain-garden-block",
+        "om-street-tree-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "port-truck-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "laney-college-campus",
+        "lake-merritt-boating-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "brooklyn-basin-marina",
+        "embarcadero-metal-workshop",
+        "san-leandro-bay-shoreline-crew",
+        "alameda-estuary-boatyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection"
       ]
     }
   ],
@@ -652,7 +729,7 @@
     "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management"
   },
   "version": "1.0.0",
-  "contentHash": "771ac4e1",
+  "contentHash": "62e45fed",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

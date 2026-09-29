@@ -7,6 +7,7 @@
   "summary": "Every station the platform ties to SEIU 1021: the programmes whose union line names it and the stations whose own certification does.",
   "certification": null,
   "programmes": [
+    "bay-program-projects",
     "first-responders",
     "marine-ecology-and-restoration"
   ],
@@ -14,6 +15,22 @@
     {
       "app": "smartcity",
       "id": "triage-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -77,6 +94,34 @@
     },
     {
       "app": "smartcity",
+      "id": "br-trash-capture-device-service"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-fish-screen-maintenance"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-culvert-retrofit-for-fish-passage"
+    },
+    {
+      "app": "smartcity",
       "id": "or-wildland-fireline-construction-and-lookout"
     },
     {
@@ -126,6 +171,7 @@
         "estuary-research-dock",
         "fruitvale-fire-station",
         "north-shoreline-field-lab",
+        "south-treatment-plant",
         "ridge-fire-lookout",
         "channel-buoy-tender-pier"
       ]
@@ -136,15 +182,19 @@
         "eelgrass-transplant-plots",
         "eelgrass-fish-census-line",
         "marsh-mouth-tide-gate",
+        "marsh-mouth-culvert",
         "kelp-transect-start",
         "flats-sediment-core-site",
         "reef-ball-monitoring-plot",
+        "mud-plain-hotspot-survey",
+        "mud-plain-trash-capture",
         "seamount-capstone-survey"
       ]
     },
     {
       "world": "summit",
       "sites": [
+        "water-plant",
         "ranger-station",
         "pass-road"
       ]
@@ -154,6 +204,7 @@
       "sites": [
         "fire-station",
         "lookout",
+        "restoration",
         "nursery",
         "estuary"
       ]
@@ -163,14 +214,21 @@
       "parish": "orleans",
       "sites": [
         "hospital-district",
-        "wetland-restoration"
+        "wetland-restoration",
+        "no-sw-mid-city-fire-station",
+        "no-sw-lower-ninth-ward-fire-station",
+        "no-sw-algiers-fire-station",
+        "no-sw-eastern-lakefront-marsh-restoration-camp",
+        "no-sw-mid-city-community-clinic"
       ]
     },
     {
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-causeway-yard"
+        "jf-causeway-yard",
+        "jf-sw-west-bank-waterfront-boat-harbour",
+        "jf-sw-kenner-fire-station"
       ]
     },
     {
@@ -180,16 +238,21 @@
         "sb-central-wetlands",
         "sb-shell-beach",
         "sb-hospital",
-        "sb-fire-station"
+        "sb-fire-station",
+        "sb-sw-arabi-and-chalmette-community-clinic",
+        "sb-sw-shell-beach-boat-harbour",
+        "sb-sw-refinery-corridor-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "plaquemines",
       "sites": [
+        "pq-myrtle-grove-diversion",
         "pq-empire-harbour",
         "pq-venice-marina",
-        "pq-belle-chasse-fire"
+        "pq-belle-chasse-fire",
+        "pq-sw-scarsdale-and-braithwaite-fire-station"
       ]
     },
     {
@@ -198,21 +261,31 @@
       "sites": [
         "st-causeway-north",
         "st-slidell-staging",
-        "st-big-branch"
+        "st-big-branch",
+        "st-sw-piney-woods-east-fire-station",
+        "st-sw-slidell-community-clinic",
+        "st-sw-lacombe-fire-station",
+        "st-sw-piney-woods-west-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "cathedral-hill-hospital"
+        "cathedral-hill-hospital",
+        "dt-sw-mission-dolores-fire-station",
+        "dt-sw-russian-hill-fire-station",
+        "dt-sw-western-addition-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "potrero-hospital-campus"
+        "potrero-hospital-campus",
+        "mi-sw-noe-valley-fire-station",
+        "mi-sw-bernal-heights-fire-station",
+        "mi-sw-mission-community-clinic"
       ]
     },
     {
@@ -221,12 +294,86 @@
       "sites": [
         "ocean-beach-lifeguard-station",
         "parnassus-hospital-campus",
-        "richmond-fire-station"
+        "richmond-fire-station",
+        "gg-sw-inner-richmond-fire-station",
+        "gg-sw-sunset-community-clinic",
+        "gg-sw-outer-richmond-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-inner-richmond-fire-station",
+        "ma-sw-western-addition-community-clinic",
+        "ma-sw-presidio-fire-station",
+        "ma-sw-western-addition-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-visitacion-valley-fire-station",
+        "bv-sw-portola-fire-station",
+        "bv-sw-excelsior-community-clinic",
+        "bv-sw-bayview-fire-station",
+        "bv-sw-excelsior-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lakeside-park-grounds-crew",
+        "lake-merritt-boating-dock",
+        "downtown-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-fire-station",
+        "fruitvale-bridge-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-tidal-channel-excavation",
+        "sme-sediment-reuse-placement",
+        "sme-slough-culvert-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point"
       ]
     }
   ],
   "stationNames": {
     "triage-point": "Triage Point",
+    "chlorine-room": "Chlorine Room",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "ambulance-scene-safety": "Ambulance Scene Safety",
     "overdose-response-naloxone": "Overdose Response — Naloxone",
     "cardiac-arrest-pit-crew": "Cardiac Arrest — Pit Crew",
@@ -242,6 +389,13 @@
     "psychological-first-aid": "Psychological First Aid",
     "damage-assessment-team": "Damage Assessment Team",
     "shelter-intake-operations": "Shelter Intake Operations",
+    "br-trash-capture-device-service": "Trash Capture Device Service",
+    "br-legacy-mercury-and-pcb-hotspot-handling": "Legacy Mercury & PCB Hotspot Handling",
+    "br-sediment-chain-of-custody-and-lab-prep": "Sediment Chain of Custody & Lab Prep",
+    "br-dredge-spoils-dewatering-pad": "Dredge Spoils Dewatering Pad",
+    "br-tidal-marsh-grading-amphibious-excavator": "Tidal Marsh Grading — Amphibious Excavator",
+    "br-fish-screen-maintenance": "Fish Screen Maintenance",
+    "br-culvert-retrofit-for-fish-passage": "Culvert Retrofit For Fish Passage",
     "or-wildland-fireline-construction-and-lookout": "Wildland Fireline Construction",
     "me-invasive-species-identification-and-reporting": "Invasive Species Identification & Reporting",
     "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
@@ -253,7 +407,7 @@
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats"
   },
   "version": "1.0.0",
-  "contentHash": "c6b44b43",
+  "contentHash": "9d6ffe3f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

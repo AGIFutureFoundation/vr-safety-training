@@ -160,6 +160,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "west-oakland-rail-yard",
@@ -181,6 +188,13 @@
         "fruitvale-transit-station",
         "high-street-warehouse-yard"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-industrial-frontage-yard"
+      ]
     }
   ],
   "stationNames": {
@@ -201,7 +215,7 @@
     "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals"
   },
   "version": "1.0.0",
-  "contentHash": "6c32aed8",
+  "contentHash": "9ab2f6fa",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

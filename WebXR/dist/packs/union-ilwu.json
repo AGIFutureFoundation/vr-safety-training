@@ -61,18 +61,6 @@
     },
     {
       "app": "smartcity",
-      "id": "cp-zero-emission-terminal-equipment-pre-use"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
-    },
-    {
-      "app": "smartcity",
       "id": "br-benthic-grab-and-invertebrate-sorting"
     },
     {
@@ -542,6 +530,18 @@
     {
       "app": "smartcity",
       "id": "uw-rov-pre-dive-and-tether-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     }
   ],
   "unions": [
@@ -637,7 +637,9 @@
         "canal-lock",
         "lakefront-levee",
         "ferry-landing",
-        "bridge-crew"
+        "bridge-crew",
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-eastern-lakefront-marsh-restoration-camp"
       ]
     },
     {
@@ -650,7 +652,10 @@
         "jf-elmwood-freight",
         "jf-harvey-canal-yard",
         "jf-gretna-landing",
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-west-bank-waterfront-workboat-landing",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-west-bank-waterfront-cargo-terminal"
       ]
     },
     {
@@ -662,7 +667,8 @@
         "sb-violet-floodgate",
         "sb-shell-beach",
         "sb-chalmette-ferry",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -676,7 +682,8 @@
         "pq-pointe-a-la-hache-ferry",
         "pq-port-sulphur-terminal",
         "pq-empire-harbour",
-        "pq-pipeline-yard"
+        "pq-pipeline-yard",
+        "pq-sw-myrtle-grove-levee-maintenance-yard"
       ]
     },
     {
@@ -699,7 +706,9 @@
         "ferry-building-landing",
         "market-street-union-hall",
         "financial-district-high-rise",
-        "bay-bridge-crew-yard"
+        "bay-bridge-crew-yard",
+        "dt-sw-south-of-market-distribution-warehouse",
+        "dt-sw-south-of-market-fabrication-shop"
       ]
     },
     {
@@ -708,7 +717,10 @@
       "sites": [
         "china-basin-stadium-district",
         "soma-maker-workshop",
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site"
       ]
     },
     {
@@ -733,7 +745,79 @@
       "sites": [
         "port-southern-terminals",
         "shipyard-shoreline-crew",
-        "yosemite-slough-restoration"
+        "yosemite-slough-restoration",
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-rain-garden-block",
+        "om-street-tree-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "port-truck-staging-yard",
+        "mandela-parkway-union-hall",
+        "mandela-parkway-warehouse-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "uptown-theatre-stage-crew",
+        "laney-college-campus",
+        "lake-merritt-boating-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "brooklyn-basin-marina",
+        "embarcadero-metal-workshop",
+        "san-leandro-bay-shoreline-crew",
+        "alameda-estuary-boatyard",
+        "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection"
       ]
     }
   ],
@@ -749,9 +833,6 @@
     "forklift-dock": "Forklift Dock",
     "fly-system": "Fly System",
     "bunkering-watch": "Bunkering Watch",
-    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
-    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
-    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "br-benthic-grab-and-invertebrate-sorting": "Benthic Grab & Invertebrate Sorting",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
@@ -869,10 +950,13 @@
     "uw-intake-screen-cleaning-with-lockout": "Intake Screen Cleaning With Lockout",
     "uw-underwater-concrete-and-bag-placement": "Underwater Concrete & Bag Placement",
     "uw-pipeline-crossing-inspection-dive": "Pipeline Crossing Inspection Dive",
-    "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management"
+    "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "e9dacc81",
+  "contentHash": "7bec3e8d",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

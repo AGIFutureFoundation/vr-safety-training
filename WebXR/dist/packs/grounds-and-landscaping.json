@@ -96,28 +96,39 @@
       "world": "parishes",
       "parish": "orleans",
       "sites": [
-        "lakefront-levee"
+        "lakefront-levee",
+        "no-sw-lakeview-and-gentilly-park-grounds-yard",
+        "no-sw-mid-city-park-grounds-yard",
+        "no-sw-uptown-park-grounds-yard",
+        "no-sw-lower-ninth-ward-park-grounds-yard",
+        "no-sw-algiers-park-grounds-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-lafreniere-park"
+        "jf-lafreniere-park",
+        "jf-sw-kenner-park-grounds-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "st-bernard",
       "sites": [
-        "sb-battlefield-park"
+        "sb-battlefield-park",
+        "sb-sw-violet-and-poydras-park-grounds-yard",
+        "sb-sw-chalmette-park-grounds-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "plaquemines",
       "sites": [
-        "pq-fort-jackson"
+        "pq-fort-jackson",
+        "pq-sw-empire-and-buras-park-grounds-yard",
+        "pq-sw-belle-chasse-park-grounds-yard",
+        "pq-sw-myrtle-grove-trailhead-yard"
       ]
     },
     {
@@ -127,7 +138,32 @@
         "st-slidell-staging",
         "st-fontainebleau",
         "st-timber-yard",
-        "st-tammany-trace"
+        "st-tammany-trace",
+        "st-sw-piney-woods-east-park-grounds-yard",
+        "st-sw-piney-woods-west-park-grounds-yard",
+        "st-sw-piney-woods-east-plant-nursery",
+        "st-sw-slidell-park-grounds-yard",
+        "st-sw-old-mandeville-park-grounds-yard",
+        "st-sw-piney-woods-east-west-park-grounds-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-russian-hill-park-grounds-yard",
+        "dt-sw-western-addition-park-grounds-yard",
+        "dt-sw-mission-dolores-park-grounds-yard",
+        "dt-sw-russian-hill-plant-nursery"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mi-sw-potrero-hill-park-grounds-yard",
+        "mi-sw-noe-valley-park-grounds-yard",
+        "mi-sw-bernal-heights-park-grounds-yard"
       ]
     },
     {
@@ -135,7 +171,10 @@
       "parish": "sf-golden-gate-park",
       "sites": [
         "golden-gate-park-crew-yard",
-        "park-nursery"
+        "park-nursery",
+        "gg-sw-lake-merced-park-grounds-yard",
+        "gg-sw-inner-richmond-park-grounds-yard",
+        "gg-sw-outer-richmond-park-grounds-yard"
       ]
     },
     {
@@ -143,14 +182,50 @@
       "parish": "sf-marina",
       "sites": [
         "presidio-crew-yard",
-        "presidio-forestry"
+        "presidio-forestry",
+        "ma-sw-inner-richmond-park-grounds-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-bayview",
       "sites": [
-        "india-basin-park-crew"
+        "india-basin-park-crew",
+        "bv-sw-visitacion-valley-park-grounds-yard",
+        "bv-sw-portola-park-grounds-yard",
+        "bv-sw-bayview-park-grounds-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "defremery-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lakeside-park-grounds-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-shoreline-park-crew",
+        "slb-corporation-yard"
       ]
     }
   ],
@@ -169,7 +244,7 @@
     "gk-greenhouse-nursery-chemical-storage-and-eyewash": "Greenhouse & Nursery Chemical Storage and Eyewash"
   },
   "version": "1.0.0",
-  "contentHash": "571ec42e",
+  "contentHash": "1947ca0a",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

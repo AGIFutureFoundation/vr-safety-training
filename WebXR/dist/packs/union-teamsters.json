@@ -61,30 +61,6 @@
     },
     {
       "app": "smartcity",
-      "id": "cp-zero-emission-drayage-truck-pre-trip"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-zero-emission-terminal-equipment-pre-use"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-battery-energy-storage-site-awareness"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-charging-yard-connectors-and-e-stops"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
-    },
-    {
-      "app": "smartcity",
       "id": "wp-graduation-and-alumni-mentors"
     },
     {
@@ -474,6 +450,30 @@
     {
       "app": "smartcity",
       "id": "tw-amr-traffic-zone-entry-and-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     }
   ],
   "unions": [
@@ -544,7 +544,9 @@
         "wetland-restoration",
         "canal-lock",
         "lakefront-levee",
-        "ferry-landing"
+        "ferry-landing",
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-eastern-lakefront-marsh-restoration-camp"
       ]
     },
     {
@@ -553,7 +555,9 @@
       "sites": [
         "jf-elmwood-freight",
         "jf-harvey-canal-yard",
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-west-bank-waterfront-workboat-landing",
+        "jf-sw-west-bank-waterfront-distribution-warehouse"
       ]
     },
     {
@@ -565,7 +569,8 @@
         "sb-shell-beach",
         "sb-chalmette-ferry",
         "sb-fire-station",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -594,7 +599,8 @@
       "sites": [
         "embarcadero-piers",
         "ferry-building-landing",
-        "market-street-union-hall"
+        "market-street-union-hall",
+        "dt-sw-south-of-market-distribution-warehouse"
       ]
     },
     {
@@ -625,6 +631,64 @@
         "herons-head-wetland",
         "yosemite-slough-restoration"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-truck-staging-yard",
+        "mandela-parkway-union-hall",
+        "mandela-parkway-warehouse-row",
+        "west-oakland-air-monitoring-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "oakland-civic-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "san-leandro-bay-shoreline-crew",
+        "high-street-warehouse-yard",
+        "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-monitoring-station",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-levee-inspection"
+      ]
     }
   ],
   "stationNames": {
@@ -639,12 +703,6 @@
     "forklift-dock": "Forklift Dock",
     "bunkering-watch": "Bunkering Watch",
     "stormwater-outfall": "Stormwater Outfall",
-    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
-    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
-    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
-    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
-    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
-    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "wp-graduation-and-alumni-mentors": "Graduation and Alumni-Mentor Day",
     "wp-first-paycheck-coaching": "First-Paycheck Coaching",
     "wp-apprenticeship-enrollment-day": "Apprenticeship Enrollment Day",
@@ -742,10 +800,16 @@
     "tw-dock-leveler-and-trailer-restraint-check": "Dock Leveler & Trailer Restraint Check",
     "tw-high-bay-order-picker-fall-protection": "High-Bay Order Picker Fall Protection",
     "tw-conveyor-jam-clearing-and-loto": "Conveyor Jam Clearing & LOTO",
-    "tw-amr-traffic-zone-entry-and-lockout": "AMR Traffic-Zone Entry & Lockout"
+    "tw-amr-traffic-zone-entry-and-lockout": "AMR Traffic-Zone Entry & Lockout",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "57b6c5b9",
+  "contentHash": "946ac315",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

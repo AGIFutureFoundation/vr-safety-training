@@ -37,6 +37,10 @@
     {
       "app": "smartcity",
       "id": "k12-by-a-family-readiness-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-who-does-this-work"
     }
   ],
   "unions": [],
@@ -75,7 +79,16 @@
       "world": "parishes",
       "parish": "orleans",
       "sites": [
-        "university-campus"
+        "university-campus",
+        "no-sw-algiers-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-kenner-school-campus",
+        "jf-sw-old-gretna-school-campus"
       ]
     },
     {
@@ -88,16 +101,56 @@
     },
     {
       "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-sw-scarsdale-and-braithwaite-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "st-tammany",
       "sites": [
-        "st-covington-campus"
+        "st-covington-campus",
+        "st-sw-piney-woods-west-school-campus",
+        "st-sw-piney-woods-east-school-campus"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "market-street-union-hall"
+        "market-street-union-hall",
+        "dt-sw-mission-dolores-school-campus",
+        "dt-sw-western-addition-school-campus",
+        "dt-sw-nob-hill-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mi-sw-noe-valley-school-campus",
+        "mi-sw-bernal-heights-school-campus",
+        "mi-sw-potrero-hill-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-inner-richmond-school-campus",
+        "ma-sw-western-addition-school-campus",
+        "ma-sw-pacific-heights-school-campus",
+        "ma-sw-russian-hill-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-visitacion-valley-school-campus",
+        "bv-sw-portola-school-campus",
+        "bv-sw-excelsior-school-campus"
       ]
     }
   ],
@@ -108,10 +161,11 @@
     "k12-public-speaking-at-the-hall": "Public Speaking at the Hall",
     "k12-digital-citizenship-and-online-safety": "Digital Citizenship and Online Safety",
     "k12-teamwork-and-feedback": "Teamwork and Feedback",
-    "k12-by-a-family-readiness-plan": "A Family Readiness Plan"
+    "k12-by-a-family-readiness-plan": "A Family Readiness Plan",
+    "k12-es-who-does-this-work": "Who Does This Work"
   },
   "version": "1.0.0",
-  "contentHash": "00e9e19d",
+  "contentHash": "0edca43f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

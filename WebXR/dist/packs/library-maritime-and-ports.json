@@ -38,22 +38,6 @@
     },
     {
       "app": "smartcity",
-      "id": "cp-zero-emission-terminal-equipment-pre-use"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-charging-yard-connectors-and-e-stops"
-    },
-    {
-      "app": "smartcity",
-      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
-    },
-    {
-      "app": "smartcity",
       "id": "yc-shore-power-connection-and-in-water-electrical-safety"
     },
     {
@@ -323,6 +307,22 @@
     {
       "app": "smartcity",
       "id": "cd-underwater-wet-welding-and-cutting"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     }
   ],
   "unions": [],
@@ -387,7 +387,8 @@
       "sites": [
         "port-terminal",
         "canal-lock",
-        "ferry-landing"
+        "ferry-landing",
+        "no-sw-industrial-canal-boat-repair-yard"
       ]
     },
     {
@@ -396,7 +397,11 @@
       "sites": [
         "jf-causeway-yard",
         "jf-harvey-canal-yard",
-        "jf-gretna-landing"
+        "jf-gretna-landing",
+        "jf-sw-west-bank-waterfront-boat-harbour",
+        "jf-sw-west-bank-waterfront-workboat-landing",
+        "jf-sw-west-bank-waterfront-cargo-terminal",
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
       ]
     },
     {
@@ -406,7 +411,10 @@
         "sb-violet-floodgate",
         "sb-shell-beach",
         "sb-chalmette-ferry",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-boat-repair-yard",
+        "sb-sw-shell-beach-boat-harbour",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -444,7 +452,8 @@
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-dogpatch-boat-repair-yard"
       ]
     },
     {
@@ -469,6 +478,47 @@
         "port-southern-terminals",
         "shipyard-shoreline-crew"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "port-truck-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lake-merritt-boating-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "brooklyn-basin-marina",
+        "alameda-estuary-boatyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-levee-road-patrol",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-levee-inspection"
+      ]
     }
   ],
   "stationNames": {
@@ -476,10 +526,6 @@
     "container-lashing": "Container Lashing",
     "mooring-line": "Mooring Line",
     "bunkering-watch": "Bunkering Watch",
-    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
-    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
-    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
-    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "yc-shore-power-connection-and-in-water-electrical-safety": "Shore Power Connection & In-Water Electrical Safety",
     "yc-tender-launch-and-guest-transfer": "Tender Launch & Guest Transfer",
     "yc-galley-fire-and-fixed-system": "Galley Fire & Fixed System",
@@ -547,10 +593,14 @@
     "cd-decompression-chamber-operations-and-post-dive": "Decompression Chamber Operations & Post-Dive",
     "cd-rov-launch-recovery-and-tether-management": "ROV Launch, Recovery & Tether Management",
     "cd-pier-piling-inspection-and-wrap-repair": "Pier Piling Inspection & Wrap Repair",
-    "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side"
+    "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "31c55fdf",
+  "contentHash": "255b8fcf",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

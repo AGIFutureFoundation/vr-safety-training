@@ -9,6 +9,7 @@
   "programmes": [],
   "relatedProgrammes": [
     "bay-area-union-edition",
+    "bay-program-projects",
     "bridge-and-structural",
     "builders-trades",
     "cement-masons-and-plasterers",
@@ -39,6 +40,10 @@
     {
       "app": "smartcity",
       "id": "concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -348,7 +353,8 @@
       "world": "parishes",
       "parish": "plaquemines",
       "sites": [
-        "pq-river-road-levee"
+        "pq-river-road-levee",
+        "pq-sw-myrtle-grove-levee-maintenance-yard"
       ]
     },
     {
@@ -356,7 +362,10 @@
       "parish": "st-tammany",
       "sites": [
         "st-causeway-north",
-        "st-timber-yard"
+        "st-timber-yard",
+        "st-sw-piney-woods-east-renovation-site",
+        "st-sw-piney-woods-west-renovation-site",
+        "st-sw-piney-woods-east-west-renovation-site"
       ]
     },
     {
@@ -364,14 +373,26 @@
       "parish": "sf-downtown",
       "sites": [
         "financial-district-high-rise",
-        "bay-bridge-crew-yard"
+        "bay-bridge-crew-yard",
+        "dt-sw-russian-hill-renovation-site",
+        "dt-sw-western-addition-renovation-site"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "mission-bay-construction-site"
+        "mission-bay-construction-site",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-mission-renovation-site",
+        "mi-sw-potrero-hill-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "gg-sw-sunset-housing-construction-site"
       ]
     },
     {
@@ -379,7 +400,63 @@
       "parish": "sf-marina",
       "sites": [
         "bridge-yard",
-        "chestnut-construction"
+        "chestnut-construction",
+        "ma-sw-western-addition-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-excelsior-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-underground-infiltration-site",
+        "om-utility-locate-crew",
+        "om-bioretention-soil-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-bridge-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-corporation-yard"
       ]
     }
   ],
@@ -389,6 +466,7 @@
     "trench-box": "Trench Box",
     "scaffold-erection": "Scaffold Erection",
     "concrete-pour": "Concrete Pour",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "leading-edge-and-horizontal-lifeline": "Leading Edge & Horizontal Lifeline",
     "gg-pile-driver-fender-repair": "Pile Driver Fender Repair",
     "gg-fog-and-wind-work-stop": "Fog & Wind Work Stop",
@@ -449,7 +527,7 @@
     "rf-torch-applied-membrane-and-fire-watch": "Torch-Applied Membrane & Fire Watch"
   },
   "version": "1.0.0",
-  "contentHash": "7872fe04",
+  "contentHash": "becaf94f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
