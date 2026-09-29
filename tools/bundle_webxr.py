@@ -780,6 +780,8 @@ APPS = {
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "np-world.js",
+            # RELIEF: Mapbox Terrain-RGB relief and the tier-capped drape for any map's box, token-gated (docs/mapbox.md).
+            SHARED / "rl-relief.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
             SHARED / "tf-water.js",
             SHARED / "tf-terraform.js",

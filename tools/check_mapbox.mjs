@@ -479,6 +479,177 @@ await check("world.js applies the ground texture only when it resolves; app.js r
   assert(/atlas:\s*"bayworld\/atlas\.html"/.test(gen) && /atlas:\s*"atlas\.html"/.test(gen), "gen_home.mjs's layouts carry no atlas entry");
 });
 
+// ------------------------------------------------ 6. RELIEF: Mapbox relief under the parish maps (docs/consoles/RELIEF.md)
+
+const RL = await import("../WebXR/shared/rl-relief.js");
+const NPE = await import("../WebXR/shared/np-parish.js");
+const NPG = await import("../WebXR/shared/np-geo.js");
+const NPR = await import("../WebXR/shared/np-parishes.js");
+const rlStats = { requests: 0, tiles: 0, maps: 0, chunks: 0, cap: 0, flat: 0, water: 0 };
+
+// A stub Terrain-RGB service: every tile's pixels encode `terrain(lon, lat)` metres exactly as Mapbox does, so decoding
+// must give the same heights back. Nothing leaves the process; every URL asked for is recorded.
+function rlEncode(m) { const v = Math.round((m + 10000) * 10); return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; }
+function rlStubService(terrain, { failOne = false } = {}) {
+  const urls = [];
+  const fetch = async (url) => {
+    urls.push(url);
+    const m = /\/(\d+)\/(\d+)\/(\d+)\.pngraw\?access_token=/.exec(url);
+    if (!m || (failOne && urls.length === 2)) return { ok: false, status: 404 };
+    return { ok: true, status: 200, tile: { z: +m[1], x: +m[2], y: +m[3] } };
+  };
+  const decodeImage = async (res) => {
+    const { z, x, y } = res.tile, w = 64, h = 64, data = new Uint8ClampedArray(w * h * 4), n = 2 ** z;
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+      const gx = x + (i + 0.5) / w, gy = y + (j + 0.5) / h;
+      const lon = (gx / n) * 360 - 180, lat = (Math.atan(Math.sinh(Math.PI * (1 - (2 * gy) / n))) * 180) / Math.PI;
+      const [r, g, b] = rlEncode(terrain(lon, lat)), k = (j * w + i) * 4;
+      data[k] = r; data[k + 1] = g; data[k + 2] = b; data[k + 3] = 255;
+    }
+    return { width: w, height: h, data };
+  };
+  return { urls, fetch, decodeImage };
+}
+
+await check("RELIEF: Terrain-RGB decodes Mapbox's encoding exactly (known pixels)", () => {
+  for (const [rgb, m] of [[[0, 0, 0], -10000], [[1, 134, 160], 0], [[1, 135, 4], 10], [[1, 146, 152], 306.4], [[255, 255, 255], 1667721.5]]) {
+    const got = RL.rlDecodeTerrainRgb(...rgb);
+    assert(Math.abs(got - m) < 1e-6, `rgb(${rgb}) decodes to ${got}, expected ${m}`);
+  }
+  const px = RL.rlDecodePixels({ width: 2, height: 1, data: new Uint8ClampedArray([1, 134, 160, 255, 1, 135, 4, 255]) });
+  assert(Math.abs(px[0]) < 1e-6 && Math.abs(px[1] - 10) < 1e-6, `a two-pixel tile decodes to ${[...px]}`);
+  for (const m of [-12.3, 0, 4.5, 281.7]) assert(Math.abs(RL.rlDecodeTerrainRgb(...rlEncode(m)) - m) < 0.051, `${m} m round-trips`);
+});
+
+await check("RELIEF: no token, no request — rlLoadRelief/rlPrepareRelief resolve null, no drape or tile URL, the engine untouched", async () => {
+  const p = NPR.npParish("sf-mission");
+  const svc = rlStubService(() => 100);
+  for (const token of [null, undefined, "", "not-a-token", ["sk", "s".repeat(20), "a".repeat(8)].join(".")]) {
+    eq(await RL.rlLoadRelief(p, { token, fetch: svc.fetch, decodeImage: svc.decodeImage }), null, `rlLoadRelief with token ${JSON.stringify(token)}`);
+    eq(await RL.rlPrepareRelief(p, { token, fetch: svc.fetch, decodeImage: svc.decodeImage }), null, `rlPrepareRelief with token ${JSON.stringify(token)}`);
+    eq(RL.rlDrapeUrl(p, token), null, "rlDrapeUrl without a token");
+    eq(RL.rlTileUrl({ z: 12, x: 655, y: 1583 }, token), null, "rlTileUrl without a token");
+  }
+  eq(svc.urls.length, 0, "requests made without a token");
+  eq(NPE.NP_TERRAIN_HOOKS.relief, null, "NP_TERRAIN_HOOKS.relief without a token");
+  // the phone tier asks for nothing even with a token
+  eq(await RL.rlLoadRelief(p, { token: FAKE_TOKEN, tier: "low", fetch: svc.fetch, decodeImage: svc.decodeImage }), null, "phone-tier relief");
+  eq(svc.urls.length, 0, "requests made on the phone tier");
+});
+
+await check("RELIEF: every map's box fits the tile budget per tier (any map, by its lon/lat box); drapes are capped", () => {
+  for (const p of NPR.NP_PARISHES) {
+    const box = NPG.npBounds(p);
+    const zh = RL.rlReliefZoom(box, "high"), zb = RL.rlReliefZoom(box, "balanced");
+    assert(zh != null && RL.rlTilesForBox(box, zh).length <= RL.RL_BUDGET.high.maxTiles, `${p.id}: high tier ${zh} → ${zh == null ? "none" : RL.rlTilesForBox(box, zh).length} tiles`);
+    assert(zb != null && RL.rlTilesForBox(box, zb).length <= RL.RL_BUDGET.balanced.maxTiles, `${p.id}: balanced tier over budget`);
+    eq(RL.rlReliefZoom(box, "low"), null, `${p.id}: phone-tier zoom`);
+    for (const [tier, side] of [["high", 1280], ["balanced", 1024], ["low", 640]]) {
+      const url = RL.rlDrapeUrl(p, FAKE_TOKEN, tier), m = /\/(\d+)x(\d+)\?/.exec(url ?? "");
+      assert(url?.startsWith(mb.MAPBOX_STATIC_BASE) && m && Math.max(+m[1], +m[2]) <= side, `${p.id}/${tier}: drape ${url?.slice(0, 60)} capped at ${side}`);
+    }
+    rlStats.maps++;
+  }
+});
+
+await check("RELIEF: with a token the stub service is asked for Terrain-RGB tiles only, covering the box; decoded relief shapes the ground inside the schematic range", async () => {
+  const p = NPR.npParish("sf-mission");
+  // A synthetic ridge (sea level elsewhere), placed well clear of the named hills.
+  const ridge = NPG.npToGeo(p, [-900, -300]);
+  const terrain = (lon, lat) => 240 * Math.exp(-(((lon - ridge[0]) / 0.006) ** 2 + ((lat - ridge[1]) / 0.005) ** 2));
+  const svc = rlStubService(terrain);
+  const sampler = await RL.rlLoadRelief(p, { token: FAKE_TOKEN, tier: "high", fetch: svc.fetch, decodeImage: svc.decodeImage });
+  assert(sampler, "no sampler with a token");
+  const box = NPG.npBounds(p), tiles = RL.rlTilesForBox(box, sampler.stats.zoom);
+  eq(svc.urls.length, tiles.length, "requests (one per tile)");
+  assert(svc.urls.every((u) => u.startsWith(`${RL.RL_TERRAIN_BASE}/${sampler.stats.zoom}/`) && u.includes(".pngraw?access_token=")), "a request went somewhere other than the Terrain-RGB endpoint");
+  const keys = new Set(tiles.map((t) => `${t.x},${t.y}`));
+  for (const [lon, lat] of [[box.minLon, box.minLat], [box.maxLon, box.maxLat], [box.minLon, box.maxLat], [box.maxLon, box.minLat]]) {
+    const [gx, gy] = RL.rlLonLatToPixel(lon, lat, sampler.stats.zoom).map((v) => Math.floor(v / RL.RL_TILE_PX));
+    assert(keys.has(`${gx},${gy}`), `the box corner ${lon},${lat} is outside the fetched tiles`);
+  }
+  // decoded real heights come back through the sampler within a pixel's worth
+  assert(Math.abs(sampler.real(...ridge) - 240) < 8, `real height at the ridge ${sampler.real(...ridge).toFixed(1)}, expected about 240`);
+  const cap = RL.rlReliefCap(p);
+  eq(sampler.stats.cap, cap, "the relief cap is the map's tallest hill");
+  let top = 0;
+  for (let z = -700; z <= 100; z += 40) for (let x = -1300; x <= -500; x += 40) top = Math.max(top, sampler.at(x, z)); // around the ridge
+  assert(top <= cap + 1e-6 && top > cap * 0.5, `relief peaks at ${top.toFixed(1)} m (cap ${cap})`);
+  rlStats.requests = svc.urls.length; rlStats.tiles = tiles.length; rlStats.cap = cap;
+  // mounted: the ground rises on the ridge, above the named hills there
+  const base = NPE.npHeightAt(p, -900, -300);
+  RL.rlMountRelief(p, sampler);
+  try {
+    const lifted = NPE.npHeightAt(p, -900, -300);
+    assert(lifted > base + cap * 0.5, `the ridge lifts the ground from ${base.toFixed(1)} to ${lifted.toFixed(1)} m`);
+    assert(NPE.npGroundRise(p, -900, -300) >= NPE.npHillRise(p, -900, -300), "the relief never lowers a named hill");
+    // another map reads no relief from this one's sampler
+    const other = NPR.npParish("orleans");
+    assert(NPE.NP_TERRAIN_HOOKS.relief(other, 0, 0) === 0, "another map reads this map's relief");
+  } finally { RL.rlUnmountRelief(); }
+  eq(NPE.npHeightAt(p, -900, -300), base, "unmounted, the height field is the schematic one again");
+});
+
+await check("RELIEF: the blend keeps every pad flat (a terrace at the ground's rise) and every water body level", async () => {
+  for (const id of ["sf-golden-gate-park", "oak-downtown-lake", "orleans"]) {
+    const p = NPR.npParish(id);
+    if (!p) continue;
+    // rough real ground everywhere: several ridges plus noise, so pads and shores sit on slopes
+    const terrain = (lon, lat) => 60 + 120 * Math.sin(lon * 900) * Math.cos(lat * 700) + 40 * Math.sin((lon + lat) * 3100);
+    const svc = rlStubService(terrain);
+    const sampler = await RL.rlLoadRelief(p, { token: FAKE_TOKEN, tier: "balanced", fetch: svc.fetch, decodeImage: svc.decodeImage });
+    assert(sampler, `${id}: no sampler`);
+    const waterPts = [];
+    for (let z = -2000; z <= 2000; z += 131) for (let x = -2000; x <= 2000; x += 131) { const w = NPE.npWaterAt(p, x, z); if (w && w.kind !== "wetland" && !p.sites.some((s) => Math.hypot(s.position[0] - x, s.position[1] - z) < NPE.NP_PAD * 1.8)) waterPts.push([x, z, NPE.npHeightAt(p, x, z)]); } // a pad's own blend owns the water at its edge
+    RL.rlMountRelief(p, sampler);
+    try {
+      for (const s of p.sites) {
+        const [sx, sz] = s.position, c = NPE.npHeightAt(p, sx, sz);
+        assert(Math.abs(c - (NPE.NP_GROUND + NPE.npGroundRise(p, sx, sz))) < 0.5, `${id}/${s.id}: the pad is not a terrace at the ground's rise`);
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2, r = NPE.NP_PAD * 0.7, h = NPE.npHeightAt(p, sx + Math.cos(a) * r, sz + Math.sin(a) * r);
+          assert(Math.abs(h - c) < 0.05, `${id}/${s.id}: the pad tilts (${(h - c).toFixed(2)} m across it)`);
+        }
+        rlStats.flat++;
+      }
+      for (const [x, z, h0] of waterPts) { assert(NPE.npHeightAt(p, x, z) === h0, `${id}: the water bed at ${x},${z} moved with the relief`); rlStats.water++; }
+      // cached per chunk: sampling one chunk again builds nothing new, and never more grids than chunks
+      const before = sampler.cachedChunks();
+      for (let i = 0; i < 50; i++) sampler.at(100 + i, 100 + i);
+      const once = sampler.cachedChunks();
+      for (let i = 0; i < 50; i++) sampler.at(100 + i, 100 + i);
+      assert(sampler.cachedChunks() === once && once >= before && once <= (4096 / NPE.NP_CHUNK) ** 2, `${id}: the per-chunk cache grew on a repeat (${once} → ${sampler.cachedChunks()})`);
+      rlStats.chunks = Math.max(rlStats.chunks, once);
+      // beside open water the relief has faded to nothing, so the shore meets the water line
+      for (const [x, z] of waterPts.slice(0, 40)) assert(RL.rlShoreFade(p, x, z) === 0 && sampler.at(x, z) < 0.1 * RL.rlReliefCap(p), `${id}: relief ${sampler.at(x, z).toFixed(2)} m on the water at ${x},${z} (only a grid cell's leak is allowed; the bed ignores it)`);
+    } finally { RL.rlUnmountRelief(); }
+  }
+});
+
+await check("RELIEF: all tiles or none — a failed tile or a timeout leaves the schematic ground", async () => {
+  const p = NPR.npParish("oak-fruitvale-estuary");
+  const bad = rlStubService(() => 50, { failOne: true });
+  eq(await RL.rlPrepareRelief(p, { token: FAKE_TOKEN, fetch: bad.fetch, decodeImage: bad.decodeImage }), null, "relief with a failed tile");
+  eq(NPE.NP_TERRAIN_HOOKS.relief, null, "the hook after a failed tile");
+  const never = { fetch: () => new Promise(() => {}), decodeImage: async () => null };
+  eq(await RL.rlPrepareRelief(p, { token: FAKE_TOKEN, timeoutMs: 30, ...never }), null, "relief after a timeout");
+  eq(NPE.NP_TERRAIN_HOOKS.relief, null, "the hook after a timeout");
+});
+
+await check("RELIEF: the parishes app awaits relief only with a token, before the world is built; the bundle carries rl-relief.js; docs say so", () => {
+  const app = read("WebXR", "parishes", "js", "app.js");
+  assert(/import \{[^}]*rlPrepareRelief[^}]*\} from "\.\.\/\.\.\/shared\/rl-relief\.js"/.test(app), "app.js does not import rlPrepareRelief");
+  const gate = app.indexOf("mapboxToken() ? await rlPrepareRelief(parish"), build = app.indexOf("npBuildParish(root, THREE, parish");
+  assert(gate > 0 && build > gate, "the relief is not token-gated before the world is built");
+  assert(/RL_BUDGET\[npTierName\]/.test(app), "the drape is not capped by tier");
+  assert(read("tools", "bundle_webxr.py").includes('SHARED / "rl-relief.js"'), "the parishes bundle does not list rl-relief.js");
+  const src = read("WebXR", "shared", "rl-relief.js");
+  assert(!/access_token=pk\./.test(src) && (src.match(/https:\/\/[^"`\s]+/g) ?? []).every((u) => u.startsWith("https://api.mapbox.com/")), "rl-relief.js names a host other than Mapbox's API, or carries a token");
+  const doc = read("docs", "mapbox.md");
+  for (const needle of ["Terrain-RGB", "rl-relief.js", "pads", "phone"]) assert(doc.includes(needle), `docs/mapbox.md does not mention ${needle}`);
+  assert(read("docs", "parishes.md").includes("approximate position"), "docs/parishes.md does not say hills sit at an approximate position");
+});
+
 await check("docs/mapbox.md says how to get a token, where to put it and where it works; check_all runs this checker", () => {
   const doc = read("docs", "mapbox.md");
   for (const needle of ["auth-config.json", "smartciti.mapboxToken", "?mapbox=", "GitHub Pages", "content policy", "public", "SVG", "Static Images", "cdnjs"]) {
@@ -491,5 +662,6 @@ await check("docs/mapbox.md says how to get a token, where to put it and where i
 const residual = bayGeoResidual();
 console.log(failures
   ? `\n${failures} Bay Atlas / Mapbox problem(s) found.`
-  : `\nBay Atlas: ${BAY_GEO_ANCHORS.length} approximate anchors round-trip exactly (anchor residual ≤ ${residual.max.toFixed(0)} m), ${BAY_SITES.length} sites and ${BAY_LANDMARKS.length} landmarks inside the lon/lat box; no token-shaped string in the repository; nothing reaches Mapbox without a token, and with one the loader inserts the pinned cdnjs URL once; the atlas renders headlessly with one marker per site; auth-config.json ships mapboxToken: null.`);
+  : `\nBay Atlas: ${BAY_GEO_ANCHORS.length} approximate anchors round-trip exactly (anchor residual ≤ ${residual.max.toFixed(0)} m), ${BAY_SITES.length} sites and ${BAY_LANDMARKS.length} landmarks inside the lon/lat box; no token-shaped string in the repository; nothing reaches Mapbox without a token, and with one the loader inserts the pinned cdnjs URL once; the atlas renders headlessly with one marker per site; auth-config.json ships mapboxToken: null.`
+    + `\nRELIEF: Terrain-RGB decodes exactly; no token (or the phone tier) makes no request; ${rlStats.maps} maps fit the tile budget by their lon/lat box; with a stub service ${rlStats.requests} tile requests, relief capped at ${rlStats.cap} m; ${rlStats.flat} pads stay flat and ${rlStats.water} water samples stay level under relief; ≤ ${rlStats.chunks} chunk grids cached.`);
 process.exit(failures ? 1 : 0);

@@ -18,6 +18,7 @@ import { slGamesFor, slResolveSite, slMountPathBoard } from "../../shared/sl-par
 import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npRegionGroups } from "../../shared/np-parishes.js";
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
+import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
@@ -93,6 +94,11 @@ const npStart = npPlace(parish, npReturnSiteId ?? npParams.get("site") ?? "") ??
 np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
+// RELIEF (docs/consoles/RELIEF.md, docs/mapbox.md): with a viewer's Mapbox token, real relief from Terrain-RGB tiles of this
+// map's lon/lat box, scaled into its schematic range, is handed to npHeightAt before the world is built, so every feature
+// seats on the same ground (pads terraced, water level). No token: no await, no request, the schematic ground unchanged.
+// The phone tier asks for none; a failed or slow tile (bounded wait) leaves the schematic ground.
+const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierName }) : null;
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
@@ -140,13 +146,13 @@ const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and wa
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
 {
   const token = mapboxToken();
-  const url = token ? npSatelliteUrl(parish, token) : null;
+  const url = token ? npSatelliteUrl(parish, token, { longSide: (RL_BUDGET[npTierName] ?? RL_BUDGET.balanced).drapeSide }) : null; // RELIEF: capped by tier
   if (url) {
     const loader = new THREE.TextureLoader(); loader.setCrossOrigin?.("anonymous");
     loader.load(url, (tex) => {
       if (!tex) return;
       tex.colorSpace = THREE.SRGBColorSpace; tex.matrixAutoUpdate = false; tex.matrix.set(...npGroundUvMatrix(parish));
-      world.setGroundTexture(tex); npToast("Satellite ground: a Mapbox image of the parish's box.", 4000);
+      world.setGroundTexture(tex); npToast(rlRelief ? "Satellite ground and relief: Mapbox imagery and terrain of the map's box, relief scaled to the map." : "Satellite ground: a Mapbox image of the parish's box.", 4000);
     }, undefined, () => {});
   }
 }

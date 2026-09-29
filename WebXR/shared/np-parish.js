@@ -68,9 +68,12 @@ export const NP_TRI = {
 /**
  * Terrain hooks another module may set (console TERRAFORM): `cut(parish, x, z, h, water) -> h` carves channels and banks
  * into the ground before the levees and pads, `wet(parish, x, z) -> 0..1` marks the shoreline strip for the ground colour.
+ * Console RELIEF: `relief(parish, x, z) -> metres` is real-ground relief already scaled into the map's schematic range
+ * (shared/rl-relief.js, from Mapbox Terrain-RGB, only with a viewer's token); the dry ground rises by the higher of it and
+ * the named hills, pads terrace at that height and water beds ignore it, so water stays level.
  * Unset (null), the height field is exactly the delta above.
  */
-export const NP_TERRAIN_HOOKS = { cut: null, wet: null };
+export const NP_TERRAIN_HOOKS = { cut: null, wet: null, relief: null };
 
 // ------------------------------------------------------------------ maths
 
@@ -363,10 +366,21 @@ export function npHillAt(parish, x, z) {
   return best;
 }
 
+/**
+ * The ground's rise over the flat field at (x, z): the named hills, or — when RELIEF's hook carries a viewer's Mapbox
+ * relief — the higher of the hills and that relief. Exactly npHillRise when the hook is unset.
+ */
+export function npGroundRise(parish, x, z) {
+  const hill = npHillRise(parish, x, z);
+  if (!NP_TERRAIN_HOOKS.relief) return hill;
+  const rel = NP_TERRAIN_HOOKS.relief(parish, x, z);
+  return rel > hill ? rel : hill;
+}
+
 /** The dry ground before levees and water: a flat delta with a gentle rise beside each river, and any hills. */
 function npBaseGround(parish, x, z) {
   const { rivers, seed } = npPrepare(parish);
-  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npHillRise(parish, x, z);
+  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npGroundRise(parish, x, z);
   for (const r of rivers) {
     const bank = r.width / 2;
     if (npOutside(npPtsBox(r.centre), x, z, bank + 320)) continue; // beyond the natural levee (REACTOR)
@@ -404,7 +418,7 @@ export function npHeightAt(parish, x, z) {
   h += lv;
   for (const s of prep.sites) {
     const d = Math.hypot(x - s.position[0], z - s.position[1]);
-    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length ? npHillRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
+    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length || NP_TERRAIN_HOOKS.relief ? npGroundRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
   }
   return h;
 }

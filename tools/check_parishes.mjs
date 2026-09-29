@@ -387,7 +387,7 @@ const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 check(/gdMount\(\)/.test(app) && /ctlMount\(/.test(app), "the page mounts the Guide and the control grammar");
 check(/lkStationLink\(id, \{ runner: NP_RUNNER, from: "parishes"/.test(app), "job boards route through lkStationLink");
 check(/ppReturnSite\(location\.hash, location\.search\)/.test(app), "a return from a station lands at its site");
-check(/mapboxToken\(\)/.test(app) && /npSatelliteUrl\(parish, token\)/.test(app) && !/access_token=pk\./.test(app), "the satellite ground needs the viewer's token and ships none");
+check(/mapboxToken\(\)/.test(app) && /npSatelliteUrl\(parish, token[,)]/.test(app) && !/access_token=pk\./.test(app), "the satellite ground needs the viewer's token and ships none");
 check(/kind: "egrets"/.test(app) && /kind: "pelicans"/.test(app) && /kind: "herons"/.test(app), "egrets, pelicans and herons come from the shared wildlife module");
 check(/menu-parishes/.test(app) && /\?parish=/.test(app), "the parish selector is drawn");
 check(readFileSync(join(WEBXR, "shared", "passport.js"), "utf8").includes('parishes: "the Parishes"'), "the runner can say Back to the Parishes");
