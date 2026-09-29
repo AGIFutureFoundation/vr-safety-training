@@ -520,72 +520,76 @@ export const NP_PLAQUEMINES = {
    "id": "west-bank-river-levee",
    "pts": [
     [
-     -1549,
-     -1736
+     -1568,
+     -1728
     ],
     [
-     -1331,
-     -1625
+     -1447,
+     -1673
+    ],
+    [
+     -1335,
+     -1622
     ],
     [
      -1259,
-     -1355
+     -1535
     ],
     [
-     -1394,
-     -1133
+     -1277,
+     -1398
     ],
     [
-     -1394,
-     -940
+     -1400,
+     -1173
+    ],
+    [
+     -1400,
+     -925
     ],
     [
      -1249,
-     -691
+     -696
     ],
     [
-     -1104,
-     -415
+     -1102,
+     -416
     ],
     [
-     -862,
+     -854,
      -133
     ],
     [
-     -620,
-     39
+     -607,
+     36
     ],
     [
-     -329,
-     260
+     -321,
+     254
     ],
     [
-     -87,
-     531
+     -82,
+     528
     ],
     [
-     155,
-     807
+     160,
+     804
     ],
     [
-     349,
-     1028
+     357,
+     1029
     ],
     [
-     591,
-     1194
+     609,
+     1202
     ],
     [
-     929,
-     1305
+     949,
+     1313
     ],
     [
-     1317,
-     1526
-    ],
-    [
-     1559,
-     1692
+     1331,
+     1531
     ]
    ],
    "height": 6
@@ -594,56 +598,64 @@ export const NP_PLAQUEMINES = {
    "id": "east-bank-river-levee",
    "pts": [
     [
-     -1186,
-     -1576
+     -1279,
+     -1696
     ],
     [
-     -1089,
-     -1548
+     -1161,
+     -1561
     ],
     [
-     -1113,
-     -1272
+     -1191,
+     -1366
     ],
     [
-     -1162,
-     -829
+     -1310,
+     -1149
     ],
     [
-     -968,
-     -387
+     -1310,
+     -955
     ],
     [
-     -726,
-     -111
+     -1171,
+     -742
     ],
     [
-     -436,
-     111
+     -1028,
+     -468
     ],
     [
-     -194,
-     332
+     -792,
+     -199
     ],
     [
-     48,
-     608
+     -555,
+     -36
     ],
     [
-     290,
-     885
+     -259,
+     188
     ],
     [
-     484,
-     1106
+     -14,
+     468
     ],
     [
-     775,
-     1244
+     228,
+     744
     ],
     [
-     1113,
-     1382
+     417,
+     961
+    ],
+    [
+     649,
+     1120
+    ],
+    [
+     987,
+     1231
     ]
    ],
    "height": 6
@@ -693,64 +705,76 @@ export const NP_PLAQUEMINES = {
    "kind": "riverroad",
    "pts": [
     [
-     -1646,
-     -1742
+     -1581,
+     -1698
     ],
     [
-     -1515,
-     -1576
+     -1460,
+     -1643
     ],
     [
      -1355,
-     -1272
+     -1595
     ],
     [
-     -1331,
-     -940
+     -1294,
+     -1526
     ],
     [
-     -1186,
-     -663
+     -1309,
+     -1410
     ],
     [
-     -1041,
-     -387
+     -1432,
+     -1182
     ],
     [
-     -823,
-     -138
+     -1433,
+     -914
     ],
     [
-     -654,
-     28
+     -1278,
+     -680
     ],
     [
-     -387,
-     249
+     -1129,
+     -397
     ],
     [
-     -48,
-     498
+     -876,
+     -108
     ],
     [
-     194,
-     774
+     -627,
+     63
     ],
     [
-     387,
-     1023
+     -344,
+     278
     ],
     [
-     726,
-     1216
+     -107,
+     549
     ],
     [
-     1089,
-     1244
+     135,
+     825
     ],
     [
-     1355,
-     1493
+     335,
+     1054
+    ],
+    [
+     595,
+     1232
+    ],
+    [
+     935,
+     1343
+    ],
+    [
+     1314,
+     1559
     ],
     [
      1549,
@@ -763,40 +787,44 @@ export const NP_PLAQUEMINES = {
    "kind": "riverroad",
    "pts": [
     [
-     -1089,
-     -1576
+     -1126,
+     -1570
     ],
     [
-     -1138,
-     -1272
+     -1159,
+     -1354
     ],
     [
-     -1186,
-     -857
+     -1278,
+     -1140
     ],
     [
-     -992,
-     -415
+     -1277,
+     -966
     ],
     [
-     -750,
-     -138
+     -1142,
+     -758
     ],
     [
-     -557,
-     -17
+     -1001,
+     -487
     ],
     [
-     -460,
-     83
+     -770,
+     -224
     ],
     [
-     -218,
-     304
+     -535,
+     -63
     ],
     [
-     24,
-     581
+     -236,
+     164
+    ],
+    [
+     11,
+     447
     ]
    ]
   },
@@ -837,12 +865,12 @@ export const NP_PLAQUEMINES = {
    "kind": "ferry",
    "pts": [
     [
-     -654,
-     28
+     -627,
+     63
     ],
     [
-     -523,
-     -33
+     -535,
+     -63
     ]
    ]
   },
@@ -851,16 +879,16 @@ export const NP_PLAQUEMINES = {
    "kind": "avenue",
    "pts": [
     [
-     -1428,
-     -1758
-    ],
-    [
-     -1452,
-     -1659
-    ],
-    [
      -1477,
      -1592
+    ],
+    [
+     -1560,
+     -1655
+    ],
+    [
+     -1650,
+     -1690
     ]
    ]
   },
@@ -1063,6 +1091,148 @@ export const NP_PLAQUEMINES = {
     ]
    ],
    "character": "wetland"
+  },
+  {
+   "id": "west-bank-marsh",
+   "name": "the West Bank marsh",
+   "poly": [
+    [
+     -2033,
+     -1603
+    ],
+    [
+     -1598,
+     -1603
+    ],
+    [
+     -1380,
+     -1050
+    ],
+    [
+     -1259,
+     -498
+    ],
+    [
+     -968,
+     -55
+    ],
+    [
+     -581,
+     332
+    ],
+    [
+     -194,
+     774
+    ],
+    [
+     97,
+     1161
+    ],
+    [
+     339,
+     1382
+    ],
+    [
+     -97,
+     1050
+    ],
+    [
+     -1065,
+     276
+    ],
+    [
+     -2033,
+     -276
+    ]
+   ],
+   "character": "wetland"
+  },
+  {
+   "id": "east-bank-marsh",
+   "name": "the East Bank marsh",
+   "poly": [
+    [
+     -1089,
+     -1548
+    ],
+    [
+     -1113,
+     -1272
+    ],
+    [
+     -1162,
+     -829
+    ],
+    [
+     -968,
+     -387
+    ],
+    [
+     -726,
+     -111
+    ],
+    [
+     -436,
+     111
+    ],
+    [
+     -194,
+     332
+    ],
+    [
+     48,
+     608
+    ],
+    [
+     290,
+     885
+    ],
+    [
+     484,
+     1106
+    ],
+    [
+     775,
+     1244
+    ],
+    [
+     1113,
+     1382
+    ],
+    [
+     1452,
+     1603
+    ],
+    [
+     1694,
+     1161
+    ],
+    [
+     1113,
+     719
+    ],
+    [
+     629,
+     276
+    ],
+    [
+     145,
+     -276
+    ],
+    [
+     -194,
+     -719
+    ],
+    [
+     -484,
+     -1272
+    ],
+    [
+     -823,
+     -1603
+    ]
+   ],
+   "character": "wetland"
   }
  ],
  "sites": [
@@ -1071,8 +1241,8 @@ export const NP_PLAQUEMINES = {
    "name": "Intracoastal Lock & Tunnel Crew",
    "kind": "lock",
    "position": [
-    -1530,
-    -1631
+    -1450,
+    -1640
    ],
    "trades": [
     "iuoe",
@@ -1165,8 +1335,8 @@ export const NP_PLAQUEMINES = {
    "name": "Pointe à la Hache Ferry",
    "kind": "ferry",
    "position": [
-    -557,
-    -17
+    -534,
+    -65
    ],
    "trades": [
     "ibu",
@@ -1352,7 +1522,7 @@ export const NP_PLAQUEMINES = {
    "name": "Belle Chasse tunnel and bridge",
    "position": [
     -1539,
-    -1648
+    -1600
    ],
    "kind": "bridge"
   },
@@ -1378,8 +1548,8 @@ export const NP_PLAQUEMINES = {
    "id": "pointe-a-la-hache-landing",
    "name": "Pointe à la Hache ferry landing",
    "position": [
-    -542,
-    -28
+    -516,
+    -79
    ],
    "kind": "ferry"
   },
@@ -1584,7 +1754,7 @@ export const NP_PLAQUEMINES = {
   {
    "id": "pq-gate-transfer-watch",
    "kind": "quest",
-   "world": "plaquemines",
+   "world": "parishes",
    "title": "Oil Transfer Watch at the River Terminal",
    "site": "pq-port-sulphur-terminal",
    "siteName": "River Terminal at Port Sulphur",
@@ -1595,12 +1765,13 @@ export const NP_PLAQUEMINES = {
     ],
     "note": "The bunkering watch and the transfer watch before you take the person-in-charge role."
    },
-   "summary": "Stand the person-in-charge watch for a transfer at the river terminal."
+   "summary": "Stand the person-in-charge watch for a transfer at the river terminal.",
+   "parish": "plaquemines"
   },
   {
    "id": "pq-gate-storm-line-restoration",
    "kind": "quest",
-   "world": "plaquemines",
+   "world": "parishes",
    "title": "Storm Line Restoration Down the Road",
    "site": "pq-buras-substation",
    "siteName": "Buras Substation & Line Crew",
@@ -1617,7 +1788,10 @@ export const NP_PLAQUEMINES = {
     ],
     "note": "The line truck and substation switching before a storm restoration run."
    },
-   "summary": "Restore the line down the last road after a storm with the crew."
+   "summary": "Restore the line down the last road after a storm with the crew.",
+   "parish": "plaquemines"
   }
- ]
+ ],
+ "scale": 20,
+ "blurb": "The long parish along the river to the Gulf: the lock and the ferry at Belle Chasse, the river road on both banks, the diversion at Myrtle Grove, the ferry at Pointe à la Hache, the terminal at Port Sulphur, the harbour at Empire, the substation at Buras, the fort park and the marina at Venice."
 };

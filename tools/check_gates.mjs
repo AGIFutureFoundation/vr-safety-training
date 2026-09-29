@@ -219,7 +219,7 @@ for (const it of items) {
     const again = MX.qmMechanicSteps(it);
     if (JSON.stringify(again) !== JSON.stringify(steps)) fail("mechanics", `${it.id}: ${key} is not deterministic`); else ok();
     const run = MX.qmPlaySteps(it, SG.qmRounds(it));
-    if (run.length !== steps.length + (it.practices ?? []).length) fail("mechanics", `${it.id}: the run does not carry the mechanic steps plus the practice calls`); else ok();
+    if (run.length !== steps.length + (it.practices ?? []).length + (it.calls ?? []).length) fail("mechanics", `${it.id}: the run does not carry the mechanic steps plus the practice calls and its own calls`); else ok();
     if (!it.practices) continue; // a gated quest is not scored here
     // a run with every safe move is clean; one unsafe move is a practice run
     globalThis.localStorage.clear(); G.qmInvalidate();

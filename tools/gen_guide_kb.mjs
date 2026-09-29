@@ -169,6 +169,21 @@ async function build() {
   ];
   for (const [key, name, page, text] of apps) add({ id: `world:${key}`, kind: "world", title: name, src: "WebXR/smartcity/catalog.json and tools/bundle_webxr.py", text, links: [{ label: `Open ${name.replace(/^The /, "the ")}`, href: page }] });
 
+  // San Francisco on the parish engine (GOLDEN-B, docs/parishes.md): the districts with region "san-francisco",
+  // their sites, and the Bay Bridge's way out to Bay World (shared/sg-ways.js).
+  {
+    const NPR = await imp("WebXR/shared/np-parishes.js");
+    const SGW = await imp("WebXR/shared/sg-ways.js");
+    const sf = NPR.NP_PARISHES.filter((p) => p.region === "san-francisco");
+    if (sf.length) {
+      const ways = SGW.SG_WAYS.map((w) => `${w.name} leaves ${NPR.npParish(w.from.parish)?.name ?? "Downtown"} for ${w.to.name}, and Bay World's Atlas and map carry the way back`);
+      add({ id: "world:san-francisco", kind: "world", title: "San Francisco districts", src: "WebXR/shared/np-parishes.js",
+        keys: "san francisco sf district marina presidio golden gate bayview hunters point shipyard bay bridge",
+        text: `San Francisco's districts are streamed four-kilometre worlds on the parishes page: ${sf.map((p) => `${p.name} (${p.sites.map((s) => s.name).join(", ")})`).join("; ")}. Every job board opens real stations and brings you back to the site. ${ways.join(". ")}.`,
+        links: sf.map((p) => ({ label: `Open ${p.name}`, href: `parishes.html?parish=${p.id}` })) });
+    }
+  }
+
   // Controls.
   const { ctlVerbs } = await imp("WebXR/shared/controls.js");
   for (const v of ctlVerbs) {

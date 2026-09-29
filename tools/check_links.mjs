@@ -604,6 +604,42 @@ for (const rec of [{ app: "trades", simId: "kitchen" }, { app: "smartcity", simI
 
 lkDescriptionChecks();
 
+// ------------------------------------------------------------ 9. the Bay Bridge (GOLDEN-B)
+// The San Francisco districts' world way: the parishes page crosses to Bay World at a West Oakland site
+// (shared/sg-ways.js, with the way home on the link), and Bay World's Atlas and map carry the way back to
+// Downtown. Both links resolve in both layouts; the crossing lands on the named site; each page opens clean.
+{
+  const SG = await imp("shared/sg-ways.js");
+  const bb = SG.SG_WAYS.find((w) => w.id === "sf-bay-bridge");
+  check(!!bb && BAY_SITES.some((s) => s.id === bb.to.site && s.zone === "west-oakland"), "the Bay Bridge names a West Oakland site in Bay World", bb?.to.site ?? "");
+  const [flatWay, flatBack] = lkFlatten([bb.to.href, SG.SG_WAY_BACK.href]);
+  const cases = [
+    ["repo", "/WebXR/parishes/parishes.html", bb.to.href, "the Bay Bridge"], ["flat", "/parishes.html", flatWay, "the Bay Bridge"],
+    ["repo", "/WebXR/bayworld/atlas.html", SG.SG_WAY_BACK.href, "the way back"], ["flat", "/atlas.html", flatBack, "the way back"],
+    ["repo", "/WebXR/bayworld/index.html", SG.SG_WAY_BACK.href, "the map's way back"], ["flat", "/bayworld.html", flatBack, "the map's way back"],
+  ];
+  for (const [layout, from, href, what] of cases) {
+    const u = new URL(href, originOf(layout) + from);
+    check(!!lkFileFor(layout, u.pathname), `${what} (${layout}) resolves from ${from}`, u.pathname);
+    bump("the Bay Bridge");
+  }
+  for (const [file, html] of [["WebXR/dist/atlas.html", readFileSync(join(DIST, "atlas.html"), "utf8")], ["WebXR/dist/bayworld.html", readFileSync(join(DIST, "bayworld.html"), "utf8")]]) check(html.includes(`href="${flatBack}"`), `${file} carries the way back to San Francisco`);
+  check(readFileSync(join(DIST, "parishes.html"), "utf8").includes(`"${flatWay}"`), "WebXR/dist/parishes.html carries the Bay Bridge to Bay World");
+  // The crossing as the app builds it (lkWorldLink, the way home encoded), loaded: Bay World opens at the site.
+  const cross = new URL(LK.lkWorldLink(flatWay, { from: "parishes", page: "/parishes.html", siteId: "sf-downtown/ferry-building" }), originOf("flat") + "/parishes.html").href;
+  const site = BAY_SITES.find((s) => s.id === bb.to.site);
+  try {
+    await lkVisit(cross, { settle: 200 });
+    await page.waitForFunction((t) => (document.getElementById("menu-start")?.textContent ?? "").includes(t), `Start the shift at ${site.name}`, { timeout: 15000 })
+      .then(() => check(true, ""), () => check(false, "across the Bay Bridge, Bay World's menu names the West Oakland site"));
+    check(!visitErrors.length, "across the Bay Bridge, Bay World opens without a page error", visitErrors.join(" | "));
+    await lkVisit(`${originOf("flat")}/parishes.html?parish=sf-marina`, { settle: 200 });
+    await page.waitForFunction(() => (document.getElementById("menu-parish")?.textContent ?? "").includes("Marina"), null, { timeout: 20000 })
+      .then(() => check(true, ""), () => check(false, "the parishes page opens Marina & Presidio from ?parish=sf-marina"));
+    check(!visitErrors.length, "Marina & Presidio opens without a page error", visitErrors.join(" | "));
+  } catch (e) { check(false, "the Bay Bridge loads", String(e.message).split("\n")[0]); }
+}
+
 await browser.close();
 for (const s of Object.values(servers)) s.server.close();
 for (const p of pending) console.log(`… pending (tools/gen_home.mjs, team MARQUEE): ${p}`);

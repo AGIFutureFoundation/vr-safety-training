@@ -734,6 +734,13 @@ APPS = {
             SHARED / "np-data-st-bernard.js",
             SHARED / "np-data-plaquemines.js",
             SHARED / "np-data-st-tammany.js",
+            SHARED / "np-data-sf-downtown.js",
+            SHARED / "np-data-sf-mission.js",
+            SHARED / "np-data-sf-golden-gate-park.js",
+            # San Francisco (GOLDEN-B): two districts and the world ways (the Bay Bridge to Bay World).
+            SHARED / "np-data-sf-marina.js",
+            SHARED / "np-data-sf-bayview.js",
+            SHARED / "sg-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "np-world.js",
             SHARED / "game.js",
@@ -748,6 +755,17 @@ APPS = {
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             SHARED / "sl-parish-play.js",
+            # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
+            # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
+            SHARED / "crew.js",
+            SHARED / "npc-data.js",
+            SHARED / "npc.js",
+            SHARED / "drivables-data.js",
+            SHARED / "drivables-board.js",
+            # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
+            SHARED / "kw-play-data.js",
+            SHARED / "kw-place.js",
+            SHARED / "kw-kits.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",

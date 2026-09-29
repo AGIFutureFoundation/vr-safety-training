@@ -681,9 +681,11 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
-      "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep"
+      "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep",
+      "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours",
+      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps"
     ],
-    require: 4,
+    require: 6,
   },
   {
     id: "k12-science",
@@ -692,9 +694,11 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm",
-      "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment"
+      "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment",
+      "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-by-the-water-cycle-from-lake-to-tap"
     ],
-    require: 4,
+    require: 6,
   },
   {
     id: "k12-history-and-civics",
@@ -714,9 +718,9 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help", "k12-public-speaking-at-the-hall",
-      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback"
+      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "bay-restoration-maritime-underwater",

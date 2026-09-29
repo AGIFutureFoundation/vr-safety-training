@@ -145,11 +145,17 @@ function qmFill(s, game) { return s.replace(/\{task\}/g, game.task ?? "job").rep
 export function qmRounds(game) {
   let h = 0;
   for (const ch of game.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return (game.practices ?? []).map((key, i) => {
+  const rounds = (game.practices ?? []).map((key, i) => {
     const p = QM_SAFE_PRACTICES[key];
     const safe = { text: qmFill(p.safe, game), safe: true };
     const unsafe = { text: qmFill(p.unsafe, game), safe: false };
     const flip = ((h >> i) & 1) === 1;
     return { key, prompt: qmFill(p.prompt, game), options: flip ? [unsafe, safe] : [safe, unsafe] };
   });
+  // A game's own calls (KREWE's kiosks: `calls: [{ prompt, safe, unsafe }]`), after the shared practices.
+  for (const [i, c] of (game.calls ?? []).entries()) {
+    const safe = { text: c.safe, safe: true }, unsafe = { text: c.unsafe, safe: false };
+    rounds.push({ key: `call-${i}`, prompt: c.prompt, options: ((h >> (i + 5)) & 1) === 1 ? [unsafe, safe] : [safe, unsafe] });
+  }
+  return rounds;
 }

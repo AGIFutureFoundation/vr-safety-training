@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "map-key-reader",
+    "name": "Map Key Reader",
+    "note": "Read a practice flood map through its key and scale, told low ground from high and planned a route to higher ground"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "KEYS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Looker",
+      "Key Reader",
+      "Scale Reader",
+      "Route Planner",
+      "Planner"
+    ],
+    "system": "Map Board"
+  },
+  "hazards": {
+    "colours-without-the-key": "You guessed what the colours mean. Different maps use colours differently, so the key is the only honest guide. Read the key first, then the map; a colour means exactly what the key says and nothing else.",
+    "ignore-the-scale": "You judged the distance by eye. Maps are drawn smaller than real life, and the scale bar tells you by how much. Measure along the route and use the scale bar, or your plan could be far longer or shorter than you think.",
+    "map-shows-today": "You said the map shows today's water. A flood map shows which ground is lower or more likely to hold water in heavy rain, so people can plan ahead. It is a planning tool, not a live picture of the streets.",
+    "no-plan-needed": "You said families on higher ground need no plan. Every family benefits from a plan: roads you use may cross low ground, and neighbours may need help. The map helps everyone plan, wherever they live."
+  },
+  "id": "k12-by-reading-a-flood-maps-colours",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "keep-your-finger-on-the-school",
+      "alert": "The practice map starts to roll up and the group's markers slide off.",
+      "cue": "Put the weights on the map's corners so it lies flat again.",
+      "delay": 3,
+      "id": "the-map-starts-to-roll-up",
+      "kind": "Map slipping",
+      "missNote": "Nobody weighted the corners, and the markers slid into the wrong places as the map kept rolling up.",
+      "seconds": 12,
+      "target": "bym-weight-corners",
+      "why": "A map that keeps moving is hard to read accurately, and markers end up in the wrong place. Weighting the corners fixes the map so everyone reads the same spot. Planners do this before every meeting for exactly this reason.",
+      "wrongNote": "That does not hold the map flat. Put the weights on the corners. Choose the response that deals with it now."
+    },
+    {
+      "after": "trace-the-route-along-the-streets",
+      "alert": "The planner points to a colour on the map and asks what it means.",
+      "cue": "Check the key and say what that colour stands for.",
+      "delay": 3,
+      "id": "the-planner-asks-about-a-colour",
+      "kind": "Planner question",
+      "missNote": "You guessed the colour's meaning without checking the key, and the planner had to show you the key before the group could go on.",
+      "seconds": 12,
+      "target": "bym-read-key",
+      "why": "Going to the key, rather than guessing, is the habit the whole lesson teaches. Saying what the key says shows you read the map honestly. The planner asks because a wrong guess can lead to a poor plan.",
+      "wrongNote": "That is a guess. Check the key first. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "bym-checkin": "The check-in comes at the very end of the session.",
+    "bym-map-log": "The map reading is recorded once the route is chosen — nothing to record yet."
+  },
+  "name": "Reading a Flood Map's Colours",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bym-checkin",
+      "bym-finger",
+      "bym-high-ground",
+      "bym-key",
+      "bym-map-dial",
+      "bym-map-log",
+      "bym-meet-pin",
+      "bym-mn-date",
+      "bym-mn-flip",
+      "bym-mn-guess",
+      "bym-mn-key",
+      "bym-north",
+      "bym-ord-colours",
+      "bym-ord-key",
+      "bym-ord-title",
+      "bym-ord-where",
+      "bym-read-key",
+      "bym-route-card",
+      "bym-route-meter",
+      "bym-scale",
+      "bym-scale-meter",
+      "bym-share-board",
+      "bym-table-card",
+      "bym-title-art",
+      "bym-weight-corners",
+      "colours-without-the-key",
+      "ignore-the-scale",
+      "map-shows-today",
+      "no-plan-needed"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts of the practice map you read before looking at any colours.",
+      "decoyNotes": {
+        "bym-title-art": "Nice to look at, but it tells you nothing about the ground."
+      },
+      "id": "find-the-three-tools-on-the",
+      "itemNames": {
+        "bym-key": "the colour key",
+        "bym-north": "the north arrow",
+        "bym-scale": "the scale bar"
+      },
+      "itemNotes": {
+        "bym-key": "It says what each colour means.",
+        "bym-north": "It shows which way the map faces.",
+        "bym-scale": "It turns map distance into real distance."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts of the practice map you read before looking at any colours.",
+      "targets": [
+        "bym-key",
+        "bym-scale",
+        "bym-north"
+      ],
+      "title": "Find the three tools on the map",
+      "why": "Every good map carries three tools. The key tells you what each colour means, the scale bar tells you how map distance turns into real distance, and the north arrow tells you which way the map faces. Reading those first is the difference between looking at a pretty picture and actually reading a map."
+    },
+    {
+      "cue": "Take your seat at the planner's table before the practice map is unrolled.",
+      "id": "sit-at-the-planning-table",
+      "kind": "select",
+      "prompt": "Take your seat at the planner's table before the practice map is unrolled.",
+      "target": "bym-table-card",
+      "title": "Sit at the planning table",
+      "why": "The planner's table is where the levee district lays out its maps and talks through plans. Sitting there means everyone can see the whole map at once and point to what they mean. Planners work round a shared table for the same reason: a plan made together is understood together."
+    },
+    {
+      "cue": "Read the title, read the key, find where you are, then read the colours around you.",
+      "id": "put-the-map-reading-steps-in",
+      "itemNames": {
+        "bym-ord-colours": "4 · read the colours around you",
+        "bym-ord-key": "2 · read the colour key",
+        "bym-ord-title": "1 · read the map's title",
+        "bym-ord-where": "3 · find where you are"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Read the map's title and key before you look at any colours.",
+      "prompt": "Read the title, read the key, find where you are, then read the colours around you.",
+      "targets": [
+        "bym-ord-title",
+        "bym-ord-key",
+        "bym-ord-where",
+        "bym-ord-colours"
+      ],
+      "title": "Put the map-reading steps in order",
+      "why": "The title tells you what the map is about, the key tells you how to read it, finding yourself anchors the map to the real world, and only then do the colours around you make sense. Reading in that order stops you jumping to a conclusion before you know what the colours mean."
+    },
+    {
+      "cue": "Hold your finger on the school's symbol while your partner reads the colour around it.",
+      "holdBreakNote": "Your finger slid off the school. Find its symbol again and hold it there.",
+      "id": "keep-your-finger-on-the-school",
+      "kind": "hold",
+      "prompt": "Hold your finger on the school's symbol while your partner reads the colour around it.",
+      "seconds": 6,
+      "target": "bym-finger",
+      "title": "Keep your finger on the school",
+      "why": "On a busy map it is easy to lose the spot you were reading. Holding your place while a partner reads the colour against the key means you both talk about the same place. Planners pin a marker to the map in the same way, so the conversation stays on the spot that matters."
+    },
+    {
+      "cue": "Turn the map dial until the north arrow points the same way as the compass on the table.",
+      "id": "turn-the-map-to-face-north",
+      "kind": "turn",
+      "prompt": "Turn the map dial until the north arrow points the same way as the compass on the table.",
+      "target": "bym-map-dial",
+      "title": "Turn the map to face north",
+      "turn": {
+        "axis": "y",
+        "label": "NORTH",
+        "turns": 0.5
+      },
+      "why": "When a map faces the same way as the real world, left on the map is left outside and routes are easier to follow. Lining the north arrow up with a compass is called setting the map. Crews set their maps before every job in the field so no one heads off the wrong way."
+    },
+    {
+      "cue": "Commit when the measuring strip matches the length of the route on the scale bar.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SCALE",
+        "missNote": "Not matched yet. Line the strip up against the scale bar carefully.",
+        "speed": 0.6
+      },
+      "id": "measure-the-route-with-the-scale",
+      "kind": "gauge",
+      "prompt": "Commit when the measuring strip matches the length of the route on the scale bar.",
+      "target": "bym-scale-meter",
+      "title": "Measure the route with the scale bar",
+      "why": "The scale bar is a ruler for the map. Laying your strip along the route and then against the scale bar turns a map length into a real distance. Knowing the real distance lets a family judge whether a route is a short walk or needs a car, which is the kind of choice a good plan makes early."
+    },
+    {
+      "cue": "Drag the meeting pin to a place the key shows as higher ground.",
+      "drag": {
+        "missNote": "That spot is not higher ground on the key. Check the key and try again.",
+        "radius": 0.45,
+        "to": "bym-high-ground"
+      },
+      "id": "place-the-meeting-pin-on-higher",
+      "kind": "drag",
+      "prompt": "Drag the meeting pin to a place the key shows as higher ground.",
+      "target": "bym-meet-pin",
+      "title": "Place the meeting pin on higher ground",
+      "why": "A family meeting place works best somewhere easy to reach and on higher ground. Using the key to choose it, rather than guessing, means the choice is based on the map's evidence. Planners choose staging areas and shelters in the same careful way, colour by colour."
+    },
+    {
+      "cue": "Choose the route from school to the meeting pin that crosses the least low ground.",
+      "id": "choose-the-route-that-stays-on",
+      "kind": "select",
+      "prompt": "Choose the route from school to the meeting pin that crosses the least low ground.",
+      "target": "bym-route-card",
+      "title": "Choose the route that stays on higher ground",
+      "why": "Two routes can be the same length but cross very different ground. Reading the colours along each route and choosing the one that stays higher is using the map as intended: to make a calm, sensible plan ahead of time. That is exactly how the planner helps crews choose their roads."
+    },
+    {
+      "cue": "Look at another group's notes on the map and mark each mistake.",
+      "decoyNotes": {
+        "bym-mn-date": "Good practice. Keep it."
+      },
+      "id": "spot-the-mistakes-in-a-sample",
+      "itemNames": {
+        "bym-mn-flip": "a map read upside down",
+        "bym-mn-guess": "a distance guessed by eye",
+        "bym-mn-key": "a colour read without checking the key"
+      },
+      "itemNotes": {
+        "bym-mn-flip": "Set it to north first.",
+        "bym-mn-guess": "Use the scale bar.",
+        "bym-mn-key": "Always check the key."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at another group's notes on the map and mark each mistake.",
+      "targets": [
+        "bym-mn-key",
+        "bym-mn-guess",
+        "bym-mn-flip"
+      ],
+      "title": "Spot the mistakes in a sample map reading",
+      "why": "Map readings go wrong in familiar ways: a colour read without the key, a distance guessed instead of measured, or a map that was upside down. Finding these in someone else's notes trains the careful habits that make your own reading trustworthy."
+    },
+    {
+      "cue": "Keep the marker on your chosen route as you trace it along the streets on the map.",
+      "holdBreakNote": "The marker left the route. Find the street again and keep tracing.",
+      "id": "trace-the-route-along-the-streets",
+      "kind": "track",
+      "prompt": "Keep the marker on your chosen route as you trace it along the streets on the map.",
+      "seconds": 8,
+      "target": "bym-route-meter",
+      "title": "Trace the route along the streets",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ROUTE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Tracing the route slowly shows every turn and every change of colour along the way. You might notice a stretch that dips into low ground or a bridge you had not seen. Planners trace routes the same way before a crew sets off, so there are no surprises on the road."
+    },
+    {
+      "cue": "Write what the key says, your meeting place, your route and its real distance.",
+      "id": "record-your-map-reading",
+      "kind": "select",
+      "prompt": "Write what the key says, your meeting place, your route and its real distance.",
+      "target": "bym-map-log",
+      "title": "Record your map reading",
+      "why": "Written notes turn a map reading into a plan anyone can follow. Recording what the key says beside your choices shows your reasons, so a grown-up can check them. The levee district keeps notes like these with every map it uses, so plans can be shared and improved."
+    },
+    {
+      "cue": "Show the planner your route and meeting place and ask if they would choose the same.",
+      "id": "check-your-plan-with-the-planner",
+      "kind": "select",
+      "prompt": "Show the planner your route and meeting place and ask if they would choose the same.",
+      "target": "bym-share-board",
+      "title": "Check your plan with the planner",
+      "why": "The planner knows the parish's roads and the map's details well. Checking your plan with someone who uses these maps every day tests your reading. If they suggest a change, it is usually because of something on the ground the map alone cannot show."
+    },
+    {
+      "cue": "What did the key help you see? How could a map like this help your family plan?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What did the key help you see? How could a map like this help your family plan?",
+      "target": "bym-checkin",
+      "title": "Check in at the planning table",
+      "why": "The planner closes each meeting by asking what everyone will do next, so the class closes the same way. Each learner names one thing the key showed and one way a family could use a map to plan calmly. Anyone who found the map worrying can say so, and the group talks about how planning helps."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Key first, then colours — a flood map shows low and high ground so a family can plan calmly",
+  "title": "SmartCiti.X~ Reading a Flood Map's Colours VR",
+  "trade": "Maths and map class with the levee district's planner — learner and levee district planner",
+  "underwater": null,
+  "weather": "clear"
+}

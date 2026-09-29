@@ -1,0 +1,146 @@
+{
+  "id": "k12-by-wetlands-as-a-storms-speed-bump",
+  "index": "831",
+  "prefix": "byw",
+  "accent": "#7aa84e",
+  "floor": ["#6e6a52", "#615d48"],
+  "wall": ["#e0e4d0", "#d0d6bc"],
+  "trade": "Science class on the restoration crew's boat at the wetlands — learner and restoration crew lead",
+  "header": "Lower-secondary science at the Central Wetlands Restoration site in St. Bernard Parish: how marsh grass and shallow water take energy out of waves, tested fairly in a wave tank with and without plants, and how the restoration crew replants the marsh, using only what the tank and the marsh in the scene show.",
+  "name": "Wetlands as a Storm's Speed Bump",
+  "tagline": "Grass, mud and shallow water slow a wave down — test it fairly, then help the crew plant",
+  "badge": { "id": "marsh-maker", "name": "Marsh Maker", "note": "Ran a fair wave-tank test with and without marsh plants, explained where the wave's energy went and planted with the crew" },
+  "board": { "name": "Marsh Board", "currency": "STEMS", "ranks": ["Seedling", "Sprout", "Stem", "Clump", "Marsh Keeper"] },
+  "hazards": [
+    { "id": "plants-stop-all-water", "label": "Say the marsh stops the water completely?", "face": "STOPS\nALL?", "text": "You said the marsh stops storm water completely. A marsh slows water and takes energy out of waves, like a speed bump slows a car. It does not stop the water, which is why a parish uses wetlands, levees and pumps together." },
+    { "id": "change-two-things", "label": "Add plants and make the waves smaller in the same run?", "face": "TWO\nCHANGES", "text": "You added plants and turned the wave maker down in the same run. With two changes you cannot tell which one made the waves smaller. A fair test changes one thing, the plants, and keeps the wave maker the same." },
+    { "id": "step-off-the-boat", "label": "Step off the boat onto the soft marsh to look closer?", "face": "STEP\nOFF", "text": "You stepped off the boat onto the marsh. Marsh mud is soft and can hold a boot fast, and trampling kills young plants. The crew plants from the boat or from mats laid down for the job, and visitors stay aboard." },
+    { "id": "pull-up-a-plant", "label": "Pull up a marsh plant to take home?", "face": "PULL\nUP", "text": "You pulled up a marsh plant. Every stem helps hold the mud together, and the crew planted each one by hand. Look, sketch and photograph; the plants stay where they are." }
+  ],
+  "find1": {
+    "title": "Find what slows the water in the marsh",
+    "cue": "Mark the three parts of the marsh that take energy out of a wave.",
+    "why": "A wave carries energy. When it moves over a marsh, grass stems rub against the water, shallow mud drags on the bottom of the wave, and a wide stretch of marsh gives the water a long way to travel. Each of these takes a little energy away, and together they make the wave smaller before it reaches land.",
+    "items": [
+      ["stems", "the grass stems standing in the water", "Stems rub against the moving water."],
+      ["mud", "the shallow mud floor", "Shallow bottoms drag on the wave."],
+      ["width", "the wide stretch of marsh", "A longer path takes away more energy."]
+    ],
+    "decoy": ["heron", "a heron standing in the shallows", "Lovely to see, but it is not what slows the wave."]
+  },
+  "select1": {
+    "title": "Sit down in the boat before it moves",
+    "cue": "Take your seat and put on your life jacket before the crew lead starts the engine.",
+    "why": "A boat in a marsh channel can turn and stop suddenly around bends and shallow spots. Sitting down low with a life jacket fastened keeps everyone steady and ready if the boat rocks. The crew does the same before every trip, because a calm start makes the whole visit calm.",
+    "key": "seat-card",
+    "label": "Seated with a life jacket",
+    "face": "SEAT AND\nJACKET"
+  },
+  "seq": {
+    "title": "Put the wave-tank test in order",
+    "cue": "Run waves with no plants, measure them, add the plants, then run the same waves again.",
+    "why": "Running the tank first with no plants gives you something to compare against, called a control. Measuring before you add the plants, then keeping the wave maker exactly the same for the second run, means the plants are the only difference. Then any change you see belongs to the plants.",
+    "oon": "Out of order. Run and measure the waves with no plants first, as your control.",
+    "items": [
+      ["ord-bare", "run waves over the bare tank"],
+      ["ord-measure", "measure the waves at the far end"],
+      ["ord-plant", "add the model marsh plants"],
+      ["ord-again", "run the same waves again"]
+    ]
+  },
+  "turn": {
+    "title": "Set the wave maker and leave it",
+    "cue": "Turn the wave maker dial to the teacher's setting and do not touch it again.",
+    "why": "The wave maker must stay on the same setting for both runs. If the waves are different sizes each time, you cannot tell whether the plants did anything. Setting it once and leaving it is how scientists control a variable, the thing they keep the same on purpose.",
+    "key": "wave-dial",
+    "label": "Wave maker setting",
+    "dial": "WAVES"
+  },
+  "gauge": {
+    "title": "Read the wave height at the far end",
+    "cue": "Commit when the marker sits at the top of the wave on the far ruler.",
+    "why": "To compare the two runs, you read the wave at the same place each time, on the ruler at the land end of the tank. Reading at the top of the wave, and at eye level, makes your reading one that a classmate would agree with. Careful reading is what makes the comparison honest.",
+    "key": "wave-meter",
+    "label": "Wave height",
+    "meter": "WAVE",
+    "miss": "Not at the top of the wave. Read where the crest meets the ruler."
+  },
+  "hold": {
+    "title": "Hold the model plants in place",
+    "cue": "Hold the plant mat flat on the tank floor until its weights settle.",
+    "why": "If the plant mat lifts or slides, the test changes halfway through. Holding it flat until the weights settle keeps the plants standing where you put them. Real marsh grass is held in place by its roots, which is exactly what the weights stand in for in the model.",
+    "brk": "The mat lifted before the weights settled. Hold it flat again until it stays.",
+    "key": "mat-hold",
+    "label": "Hold the plant mat"
+  },
+  "drag": {
+    "title": "Set the plant mat in the middle of the tank",
+    "cue": "Drag the plant mat to the marked strip between the wave maker and the shore.",
+    "why": "A real marsh lies between open water and the land. Putting the plant mat in the same place in the tank means the waves must cross it to reach the model shore, just as storm waves cross a marsh. The position matters, because plants behind the shore would not slow anything.",
+    "key": "plant-mat",
+    "label": "Plant mat",
+    "spot": "marsh-strip",
+    "spotLabel": "The marsh strip",
+    "miss": "Not on the marsh strip yet. Place it between the waves and the shore."
+  },
+  "find2": {
+    "title": "Spot what the restoration crew is doing",
+    "cue": "Look across the marsh from the boat and mark each part of the crew's work.",
+    "why": "Restoring a marsh is patient work. The crew plants young grass in rows, lays mats that stop the mud washing away, and places fences that trap sediment so the ground can build up again. Seeing each job helps you understand that a marsh can be helped to grow back, and that people do that work.",
+    "items": [
+      ["cr-rows", "rows of young grass plants", "New plants will spread and knit the mud."],
+      ["cr-mats", "mats laid over bare mud", "Mats stop the mud washing away."],
+      ["cr-fence", "a low fence that traps sediment", "It helps the ground build up again."]
+    ],
+    "decoy": ["cr-cooler", "the crew's lunch cooler", "Important to the crew, but not part of the restoration."]
+  },
+  "select2": {
+    "title": "Say what the plants did to the waves",
+    "cue": "Choose the sentence that says what your two runs showed.",
+    "why": "Your control run and your plant run used the same waves. If the waves were smaller at the shore with plants, the plants took energy out of them. A good conclusion says only that, with your readings as the evidence, and does not claim more than the test showed.",
+    "key": "result-card",
+    "label": "State the result",
+    "face": "WHAT DID\nPLANTS DO?"
+  },
+  "track": {
+    "title": "Follow a wave across the marsh strip",
+    "cue": "Keep the marker on one wave as it travels over the plants and shrinks.",
+    "why": "Watching one wave from start to finish shows the change happening, not just the result. You see it lose height as it pushes through the stems and over the shallow floor. That picture, energy being taken away step by step, is the heart of why wetlands act like a speed bump.",
+    "brk": "The marker lost the wave. Find the same wave again and follow it to the shore.",
+    "key": "wave-track",
+    "label": "Wave followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record both runs side by side",
+    "cue": "Write the wave height for the control run and the plant run in a two-column table.",
+    "why": "Two columns side by side make the comparison easy to see and easy to check. Anyone reading your table can see the setting, the two readings and the one thing that changed. That is how a test result travels from your bench to someone else's, and how it can be repeated.",
+    "key": "tank-log",
+    "label": "Wave-tank record",
+    "done": "Both runs recorded"
+  },
+  "share": {
+    "title": "Compare with another group",
+    "cue": "Put your table next to another group's and look for the same pattern.",
+    "why": "One test can be a fluke. If another group, with its own tank, sees waves shrink over plants too, the result is much stronger. Comparing results is how scientists build confidence, and it is why the crew shares its marsh surveys with other crews along the coast.",
+    "key": "share-board",
+    "label": "Compare with a group",
+    "done": "Results compared"
+  },
+  "checkin": {
+    "title": "Check in before the boat heads back",
+    "cue": "What did the tank show you? What is one way people help a marsh grow back?",
+    "why": "The restoration crew talks over each day's planting on the ride back, so the class does the same before the engine starts. Each learner says what the plants did to the waves and names one job they saw the crew doing. If anyone thinks the marsh stops all water, the group sorts that out together now.",
+    "label": "End-of-trip check-in"
+  },
+  "interrupts": [
+    { "id": "a-boat-wake-rocks-the-deck", "kind": "Boat wake", "key": "hold-rail", "label": "Sit low and hold the handrail", "alert": "A passing work boat's wake rocks the deck and the tank sloshes.", "cue": "Sit low, hold the handrail and wait for the rocking to stop.", "why": "A wake can tip a standing person off balance. Sitting low and holding on keeps everyone safe until the water is calm again. The test can be run again afterwards; a slip on a wet deck cannot be undone.", "miss": "Nobody sat down, and a classmate lost their balance on the wet deck as the boat rocked from side to side.", "wrong": "That leaves you standing on a rocking deck. Sit low and hold the rail. Choose the response that deals with it now.", "done": "Group seated and holding on, the wake passed. The lesson carries on." },
+    { "id": "the-crew-lead-asks-about-the-control", "kind": "Crew question", "key": "name-control", "label": "Say which run was the control", "alert": "The crew lead asks which run you are comparing the plant run against.", "cue": "Say that the bare-tank run is the control, with the same waves and no plants.", "why": "Naming the control shows you understand why the test is fair. Without it, a smaller wave means nothing, because you have nothing to compare it with. The crew compares restored marsh with bare mud in exactly the same way.", "miss": "You could not say which run was the control, and the crew lead had to explain the comparison before the group could go on.", "wrong": "That does not name the control run. Say which run had no plants. Choose the response that deals with it now.", "done": "Control named. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Restoration crew lead", "Boat deckhand"],
+  "guide": { "start": "Control first, then plants.", "after": "Smaller waves: energy taken away.", "hazard": "Stop. One change only — and stay aboard." },
+  "lateRecord": "The wave-tank record is written once both runs are done — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the trip.",
+  "scene": "deck",
+  "order": "c"
+}

@@ -450,40 +450,40 @@ export const NP_ST_BERNARD = {
    "kind": "riverroad",
    "pts": [
     [
-     -1833,
-     -581
+     -1738,
+     -702
     ],
     [
-     -1568,
-     -387
+     -1474,
+     -521
     ],
     [
-     -1327,
-     -207
+     -1281,
+     -299
     ],
     [
-     -1025,
-     0
+     -1034,
+     -15
     ],
     [
-     -844,
-     207
+     -918,
+     182
     ],
     [
-     -724,
-     442
+     -736,
+     321
     ],
     [
-     -603,
-     691
+     -595,
+     566
     ],
     [
-     -724,
-     898
+     -517,
+     829
     ],
     [
-     -844,
-     1037
+     -599,
+     1110
     ]
    ]
   },
@@ -588,12 +588,12 @@ export const NP_ST_BERNARD = {
    "kind": "avenue",
    "pts": [
     [
-     -1990,
-     -663
+     -2044,
+     -816
     ],
     [
-     -1833,
-     -581
+     -1738,
+     -702
     ]
    ]
   }
@@ -1075,8 +1075,8 @@ export const NP_ST_BERNARD = {
    "id": "caernarvon-bend",
    "name": "The river road bend at Caernarvon",
    "position": [
-    -724,
-    898
+    -574,
+    829
    ],
    "kind": "river"
   },
@@ -1253,7 +1253,7 @@ export const NP_ST_BERNARD = {
   {
    "id": "sb-gate-turnaround-night",
    "kind": "quest",
-   "world": "st-bernard",
+   "world": "parishes",
    "title": "Turnaround Night Shift",
    "site": "sb-refinery",
    "siteName": "Refinery Corridor Turnaround",
@@ -1264,12 +1264,13 @@ export const NP_ST_BERNARD = {
     ],
     "note": "Vessel entry and the attendant's duties before a turnaround shift."
    },
-   "summary": "Work a turnaround night shift on the refinery corridor with the crew."
+   "summary": "Work a turnaround night shift on the refinery corridor with the crew.",
+   "parish": "st-bernard"
   },
   {
    "id": "sb-gate-high-river-patrol",
    "kind": "quest",
-   "world": "st-bernard",
+   "world": "parishes",
    "title": "High River Patrol",
    "site": "sb-river-road",
    "siteName": "River Road Levee Crew",
@@ -1282,7 +1283,10 @@ export const NP_ST_BERNARD = {
     ],
     "note": "Levee inspection and the pressure lesson before the high river patrol."
    },
-   "summary": "Walk the river levee at high water and report every seep."
+   "summary": "Walk the river levee at high water and report every seep.",
+   "parish": "st-bernard"
   }
- ]
+ ],
+ "scale": 8,
+ "blurb": "The parish down river from the city: the river road and the refinery at Chalmette, the ferry landing, the battlefield park, the floodgate on the Violet Canal, the surge barrier across the wetlands, and the road out through the marsh to the harbour at Shell Beach."
 };

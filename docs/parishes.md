@@ -15,7 +15,7 @@ the parish, not a survey: real places appear only by their public names *as plac
 | Jefferson Parish | `jefferson` | `np-data-jefferson.js` | `NP_JEFFERSON` | 8 m | 10 | 12 | 4 |
 | St. Bernard Parish | `st-bernard` | `np-data-st-bernard.js` | `NP_ST_BERNARD` | 8 m | 10 | 11 | 3 |
 | Plaquemines Parish | `plaquemines` | `np-data-plaquemines.js` | `NP_PLAQUEMINES` | 20 m | 10 | 12 | 3 |
-| St. Tammany Parish | `st-tammany` | `np-data-st-tammany.js` | `NP_ST_TAMMANY` | 10 m | 11 | 12 | 2 |
+| St. Tammany Parish | `st-tammany` | `np-data-st-tammany.js` | `NP_ST_TAMMANY` | 10 m | 10 | 12 | 2 |
 
 DELTA's four modules are pure literals (no imports, no helpers, nothing for the bundler to erase) written once by a
 generator from approximate public lon/lat through one north-up uniform scale per parish (x east, +z south, like Bay
@@ -29,11 +29,39 @@ Schema notes beyond the brief's printout:
   are existing catalog stations only (DELTA added no station).
 - `fieldLessons[]` follow `RW_FIELD_LESSONS` (`id` with `-fl-`, `title`, `site`, optional `landmark`, `k12`, `trade`,
   `tradeLine`, `minutes` 2–4, `steps[3]`, `check { q, options, answer, why }`) with no digits in the text.
-- `gated[]` follow the gate contract and also carry `world` (the parish id), `siteName` and `summary`, ready for the
-  shared lock UI. They are *not* exported as a top-level `*GATED*` array, so `check_gates.mjs` does not discover them
+- `gated[]` follow the gate contract and also carry `world: "parishes"` with `parish` (the parish id), `siteName` and
+  `summary`, ready for the shared lock UI (ASSAYER moved them from `world: "<parish id>"` onto the engine's contract). They are *not* exported as a top-level `*GATED*` array, so `check_gates.mjs` does not discover them
   twice; PARISH's engine can aggregate `NP_*.gated` into one `NP_GATED` export when it mounts the lock UI.
 - `connectors[]` carry two extra optional fields, `lonlat` (the agreed crossing point, approximate) and
   `approximate: true`. See below.
+
+## The stylised scale — a recorded decision (console ASSAYER, the Bayou run)
+
+The engine's rule holds a parish between one half and six real metres per map metre, the scale at which Orleans's
+streets, pads and massing read at walking pace. DELTA's four parishes are drawn smaller than that on purpose: a whole
+parish in one 4096 m field means one map metre stands for several on the ground. That is a decision, not a fault, so
+each module declares it in a top-level `scale` (real metres per map metre) and `check_parishes.mjs` holds the fit to the
+declared figure within 15 % (and the declared figure between one half and twenty-five) instead of the half-to-six rule:
+
+- `jefferson` (Jefferson Parish): 8 real metres per map metre — both banks from the lake to the West Bank canals.
+- `st-bernard` (St. Bernard Parish): 8 real metres per map metre — the river road to the marsh and Shell Beach.
+- `plaquemines` (Plaquemines Parish): 20 real metres per map metre — the long river parish from Belle Chasse to Venice;
+  at this scale the river is a forty-metre ribbon, so each bank is drawn as levee at 45 m and river road at 78 m from the
+  river's centre line (the roads were re-derived from the river so they no longer cross it).
+- `st-tammany` (St. Tammany Parish): 10 real metres per map metre — the north shore from Madisonville to Slidell.
+- `orleans` declares none and stays under the half-to-six rule.
+
+What the scale costs: walking distances are compressed (a site five hundred map metres away is kilometres on the
+ground), building massing reads as district texture rather than blocks, and narrow rivers (the Tchefuncte, the Bogue
+Falaya, Bayou Lacombe) are a few metres wide, so a site pad beside one is kept far enough back that the bed stays under
+the water line. A new map (the San Francisco districts) declares `scale` the same way when it departs from the rule.
+
+The engine geometry that was deferred at the Crescent gate and fixed here: roads that sampled a river or lake
+(Westbank Expressway, Williams Boulevard, St. Bernard Highway, St. Claude Avenue, the Plaquemines river roads and
+Woodland Highway, Highway 190, Highway 22, Lakeshore Drive, the Tammany Trace) now run on land; landmarks of kind
+`bridge` or `river` stand at a bank or landing (the Huey P. Long Bridge, Caernarvon's bend, the Belle Chasse tunnel, the
+twin spans); St. Tammany keeps ten anchors (Big Branch Marsh dropped — the marsh has no single point); the gated items
+carry `world: "parishes"`. All five parishes are now in `NP_ENGINE_STRICT`.
 
 ## Connectors — the rule and how a long crossing meets it
 
@@ -102,3 +130,93 @@ is meant to absorb it — the checker reads the modules directly and needs nothi
 ## Orleans-side connector ids (console PARISH)
 
 The Orleans module lists every crossing back under its own ids: `conn-i10-17th-street-canal` and `conn-lakefront-17th-street-canal` (Jefferson, paired with `jf-interstate-orleans` and `jf-lakefront-orleans`), `conn-westbank-expressway` (`jf-westbank-expressway-orleans`), `conn-st-claude-avenue-east` (`sb-st-claude-orleans`), `conn-chalmette-ferry` (`sb-chalmette-ferry`), `conn-twin-spans-east` (`st-twin-spans-orleans`). The Woodland Highway crossing into Plaquemines lies south of the Orleans box and is not a connector; Plaquemines instead carries its own river ferry, `pq-pointe-a-la-hache-crossing`. The Canal Street ferry to Algiers Point stays inside Orleans and is drawn as a ferry road, not a connector.
+
+## San Francisco — the second region (console GOLDEN-A)
+
+The engine carries regions: `np-parishes.js` lists `NP_REGIONS` (`new-orleans` "New Orleans Parishes", a map is a
+*parish*; `san-francisco` "San Francisco Districts", a map is a *district*), and each map may name its `region` (a map
+without one is a New Orleans parish, so the five parish modules are unchanged). The selector draws each region, then its
+maps; the page title is `<map> — <region title>`. The same 4096 m schema holds, plus two additions:
+
+- `hills: [{ id, name, center: [x, z], radius, height }]` — a gentle procedural mound (a raised cosine) that
+  `npHeightAt` adds over the flat field before the water cut; a site on a hill flattens to a terrace at the hill's height.
+  Hills carry public names only (Twin Peaks, Nob Hill, Russian Hill, Telegraph Hill, Bernal Heights, Potrero Hill); a
+  `height` is a map number, never an elevation.
+- Water kinds `bay` and `ocean` (open water: no site inside), and the district character `park` (trees, no buildings).
+
+Each SF map was written once by a scratch generator from approximate public lon/lat through one north-up uniform scale of
+about 2.2 real metres per map metre (a 9 km box), with one shared coastline clipped to each field, so the districts agree
+on the shore; the three boxes overlap, as the parishes do.
+
+| district | id | module | export | sites | hills | connectors |
+|---|---|---|---|---|---|---|
+| Downtown & Embarcadero | `sf-downtown` | `np-data-sf-downtown.js` | `NP_SF_DOWNTOWN` | 9 | Nob Hill, Russian Hill, Telegraph Hill, Twin Peaks | 5 |
+| Mission & SoMa | `sf-mission` | `np-data-sf-mission.js` | `NP_SF_MISSION` | 9 | Potrero Hill, Bernal Heights, Twin Peaks | 5 |
+| Golden Gate Park, the Richmond & the Sunset | `sf-golden-gate-park` | `np-data-sf-golden-gate-park.js` | `NP_SF_GOLDEN_GATE_PARK` | 9 | Twin Peaks | 3 |
+
+**Downtown & Embarcadero** — the Embarcadero piers, the Ferry Building landing, the Transbay transit hub, a hospital
+campus on Cathedral Hill, a union hall off Market Street, the cable car barn on Nob Hill, a Financial District high-rise,
+the Bay Bridge crew yard, the Fisherman's Wharf kitchens. **Mission & SoMa** — the King Street rail yard, a Mission Bay
+construction site, a Mission school campus, the China Basin stadium district, a South of Market maker workshop, the
+Potrero Avenue hospital, the Potrero bus yard, the Dogpatch shipyard, the Islais Creek pump station. **Golden Gate Park**
+— the park's grounds crew yard and nursery, the Ocean Beach lifeguard station and streetcar terminal, the Parnassus
+hospital campus, the university on Lone Mountain, the Sunset Reservoir pump house, a Sunset school, a Richmond firehouse;
+the Dutch and Murphy windmills, Stow Lake, Spreckels Lake and Lake Merced.
+
+### SF connectors
+
+The ids and points agreed with GOLDEN-B (Marina & Presidio, Bayview & Hunters Point) are fixed; the far end ships
+`to.position: null` with the `lonlat` until that district is in the tree. Between GOLDEN-A's own districts each side lists
+the crossing under its own id at the same `lonlat`.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Van Ness Avenue north | road | sf-downtown ↔ sf-marina | -122.424, 37.795 | `sf-dt-van-ness-north`, `sf-ma-van-ness-north` |
+| The Embarcadero north | road | sf-downtown ↔ sf-marina | -122.415, 37.806 | `sf-dt-embarcadero-north`, `sf-ma-embarcadero-north` |
+| Park Presidio Boulevard | road | sf-golden-gate-park ↔ sf-marina | -122.472, 37.782 | `sf-gp-park-presidio`, `sf-ma-park-presidio` |
+| Third Street south | road | sf-mission ↔ sf-bayview | -122.389, 37.755 | `sf-mi-third-street-south`, `sf-bv-third-street-south` |
+| The Bayshore Freeway south | road | sf-mission ↔ sf-bayview | -122.404, 37.735 | `sf-mi-bayshore-south`, `sf-bv-bayshore-south` |
+| The Bay Bridge to Bay World | world (GOLDEN-B) | sf-downtown → Bay World | -122.387, 37.790 | `sf-bay-bridge` |
+| Market Street | road | sf-downtown ↔ sf-mission | -122.419, 37.775 | `sf-dt-market-street`, `sf-mi-market-street` |
+| The Embarcadero at King Street | road | sf-downtown ↔ sf-mission | -122.391, 37.777 | `sf-dt-king-street`, `sf-mi-king-street` |
+| Geary Boulevard | road | sf-downtown ↔ sf-golden-gate-park | -122.446, 37.782 | `sf-dt-geary-boulevard`, `sf-gp-geary-boulevard` |
+| Oak Street at the Panhandle | road | sf-mission ↔ sf-golden-gate-park | -122.447, 37.772 | `sf-mi-oak-street`, `sf-gp-oak-street` |
+
+The Bay Bridge point sits on dry land at the anchorage in the Downtown map, so a learner can walk to GOLDEN-B's way out.
+
+## San Francisco districts (region `san-francisco`)
+
+The parish engine also carries San Francisco as districts on the same schema, each with `region: "san-francisco"`
+and a `hills` array (`{ id, name, center, radius, height }` — gentle procedural mounds, names only). Console GOLDEN-A
+owns sf-downtown, sf-mission and sf-golden-gate-park; console GOLDEN-B (docs/consoles/GOLDEN-B.md) owns:
+
+**sf-marina — Marina & Presidio** (`np-data-sf-marina.js`, about two real metres per map metre) — the Marina yacht
+harbour, a rescue station at Crissy Field run the coast guard way, the Golden Gate Bridge maintenance yard, the
+Presidio's park crew yard and forestry crew, the Crissy Field marsh crew, the Fort Mason piers, the Marina seawall and
+storm drain crew, a Chestnut Street building site and a trolley bus yard. The Golden Gate Bridge is a bridge landmark,
+a bridge deck and a way out north with no map beyond it yet.
+
+**sf-bayview — Bayview & Hunters Point** (`np-data-sf-bayview.js`, about two real metres per map metre) — the port's
+southern terminals, the Islais Creek rail yard, the Third Street light-rail barn, the Hunters Point shipyard and the
+C.L.E.A.R. clean-up programme's sites (the soil excavation cell, the groundwater treatment yard, the shoreline and
+sediment crew — every station of `hunters-point-bay-restoration` is worked at one of them), the Heron's Head and
+Yosemite Slough wetland restoration sites, the Bayview recreation centre and the India Basin park crew.
+
+| Crossing | kind | joins | approx. lon, lat | id (both ends) |
+|---|---|---|---|---|
+| Van Ness Avenue | road | sf-marina ↔ sf-downtown | -122.424, 37.795 | `sf-ma-van-ness-north` |
+| Bay Street to the Embarcadero | road | sf-marina ↔ sf-downtown | -122.415, 37.806 | `sf-ma-embarcadero-north` |
+| Park Presidio Boulevard | road | sf-marina ↔ sf-golden-gate-park | -122.472, 37.782 | `sf-ma-park-presidio` |
+| The Golden Gate Bridge | bridge | sf-marina → marin-headlands (no map yet) | -122.478, 37.829 | `sf-golden-gate-bridge` |
+| Third Street | road | sf-bayview ↔ sf-mission | -122.389, 37.755 | `sf-bv-third-street-south` |
+| Bayshore Boulevard | road | sf-bayview ↔ sf-mission | -122.404, 37.735 | `sf-bv-bayshore-south` |
+| The Bay Bridge | world | sf-downtown → Bay World (West Oakland) | -122.387, 37.790 | `sf-bay-bridge` |
+
+**A `world` connector** leaves a district for another world's page: `to: { world, site, name, href }` with
+`href` the other world's page and `?site=` in the source layout (`../bayworld/index.html?site=west-oakland-union-hall`,
+flattened by the bundler to `./bayworld.html?site=…`). World ways live in `shared/sg-ways.js` keyed by the district
+they leave; `npResolveConnectors` appends them and projects the `from` end through that district's fit, so a district's
+module is never edited to carry one. The parishes app draws a world way as a way out (a tall gold post and a map
+label) and crosses with `lkWorldLink` (`&from=parishes&return=<page>#site=<district>/<site>`, encoded); the passport
+lives in the origin's storage and crosses with the learner. Bay World's Atlas and its map carry the way back,
+`../parishes/parishes.html?parish=sf-downtown`.
