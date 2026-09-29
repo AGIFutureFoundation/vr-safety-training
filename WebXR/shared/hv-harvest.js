@@ -45,6 +45,7 @@ export const HV_AGENCY = {
 // Louisiana maps outside the five parishes (the development sites, growth-city and neighbourhood districts) are Louisiana waters too.
 export const HV_LOUISIANA_REGIONS = ["new-orleans", "louisiana-sites", "louisiana-cities", "new-orleans-districts"];
 export const hvFamily = (parish) => (HV_LOUISIANA_REGIONS.includes(npRegionOf(parish)) ? "new-orleans" : "bay");
+export const HV_GULF_REGIONS = HV_LOUISIANA_REGIONS;
 
 /** Water classes: the engine's water kind read by region (San Francisco Bay is drawn as `gulf` on the Marina map). */
 export function hvWaterClass(parish, w) {

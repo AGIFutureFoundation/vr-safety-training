@@ -54,6 +54,11 @@ import { NP_LA_AVEX_NEW_IBERIA } from "./np-data-la-avex-new-iberia.js";
 import { NP_LA_META_RICHLAND } from "./np-data-la-meta-richland.js";
 import { NP_LA_DELTA_FORGE_RAPIDES } from "./np-data-la-delta-forge-rapides.js";
 import { NP_LA_SHINTECH_PLAQUEMINE } from "./np-data-la-shintech-plaquemine.js";
+// SOUTHWEST (docs/consoles/SOUTHWEST.md): Lake Charles and Calcasieu Parish — the lakefront and downtown, the ship channel's
+// industrial reach (Woodside Louisiana LNG's site area, layout illustrative) and the Port of Vinton (a FastSites site area).
+import { NP_LC_LAKEFRONT_DOWNTOWN } from "./np-data-lc-lakefront-downtown.js";
+import { NP_LC_CALCASIEU_CHANNEL } from "./np-data-lc-calcasieu-channel.js";
+import { NP_LC_PORT_OF_VINTON } from "./np-data-lc-port-of-vinton.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -71,6 +76,7 @@ export const NP_PARISHES = [
   NP_LA_STARBASE_VERMILION, NP_LA_BLACK_BAYOU_CAMERON, NP_LA_SARONIC_FRANKLIN, NP_LA_AVEX_NEW_IBERIA,
   NP_SM_UNSPOKEN_SMILES,
   NP_LA_META_RICHLAND, NP_LA_DELTA_FORGE_RAPIDES, NP_LA_SHINTECH_PLAQUEMINE,
+  NP_LC_LAKEFRONT_DOWNTOWN, NP_LC_CALCASIEU_CHANNEL, NP_LC_PORT_OF_VINTON,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
@@ -82,6 +88,7 @@ export const NP_REGIONS = [
   { id: "south-bay", name: "South Bay", title: "South Bay Districts", noun: "district", nouns: "districts" },
   { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
   { id: "louisiana-sites", name: "Louisiana Development Sites", title: "Louisiana Development Sites", noun: "site area", nouns: "site areas" },
+  { id: "louisiana-cities", name: "Louisiana Growth Cities", title: "Louisiana Growth City Districts", noun: "district", nouns: "districts" },
   { id: "programmes", name: "Programme Worlds", title: "Programme Worlds (procedural)", noun: "world", nouns: "worlds" },
 ];
 

@@ -199,7 +199,8 @@ const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 check(/import \{[^}]*paMount[^}]*\} from "\.\.\/\.\.\/shared\/pa-palette\.js"/.test(app), "the parishes app imports paMount");
 check(app.indexOf("paMount(") > 0 && app.indexOf("paMount(") < app.indexOf("npBuildParish(root"), "the parishes app mounts PALETTE before it builds the world");
 const worldSrc = readFileSync(join(WEBXR, "shared", "np-world.js"), "utf8");
-check(worldSrc.includes("export const NP_MASSING_HOOKS = { material: null, details: null };"), "the hook definition is unchanged");
+// DETAIL (docs/consoles/DETAIL.md) added the streaming hooks; material and details must still start unset.
+check(/export const NP_MASSING_HOOKS = \{ material: null, details: null(, [a-zA-Z]+: null)* \};/.test(worldSrc), "the hook definition keeps material and details unset");
 
 console.log(`check_palette: ${passes} passed, ${failures} failed (${Date.now() - t0} ms)`);
 process.exit(failures ? 1 : 0);

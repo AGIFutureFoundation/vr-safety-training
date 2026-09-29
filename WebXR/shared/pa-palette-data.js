@@ -122,6 +122,8 @@ export const PA_REGION_CHARACTERS = {
   "bay-program": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   // Louisiana development sites (SITES-NORTH / SITES-COAST): small river and farm towns around big industrial builds.
   "louisiana-sites": { quarter: "creole-cottage-pastels", garden: "craftsman-shingle", suburb: "shotgun-brights", industrial: "port-steel", downtown: "riverfront-brick", campus: "campus-stucco", refinery: "refinery-whites" },
+  "louisiana-cities": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "new-orleans-districts": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
 };
 /** A district's own override (map id -> character -> category id), where its character differs from its region's. */
 export const PA_PARISH_CHARACTERS = {
