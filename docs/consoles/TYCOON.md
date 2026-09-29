@@ -54,3 +54,14 @@ imports or names TILL's payments modules, `workers/payments` or billing. `tools/
   `tySignsFor(parishId) -> [{ site, text }]`.
 - Mounted in `WebXR/parishes/js/app.js` (menu button, L key, HUD line, board rows, signs) and bundled in the parishes
   entry of `tools/bundle_webxr.py`.
+
+## What shipped
+
+- `WebXR/shared/ty-economy.js`: 218 procedural listings across the ten maps (a room and a shop per site, a waterside
+  shop on every map), five businesses on five real stations with 35 verbatim checklist items, ten crew from GRIOT's
+  parish characters, weekly rent/upkeep/wages in play time, the passport's zero-credit `tycoon` milestones.
+- Parishes app: "Crew Credits" in the menu and L, a HUD line, "To rent here" rows on every job board, the ledger with
+  the inspection checklist and crew, signs on rented buildings, a settle on load that pays each passed shift once.
+- `tools/check_tycoon.mjs` (1,570 checks, ~0.44 s) in `check_all` and `docs/perf/checkers-baseline.json`.
+- Not done here: the flat bundle (`WebXR/dist`, `WebXR/parishes/dist`) is rebuilt at the gate — `bundle_webxr.py`
+  already lists `ty-economy.js` in the parishes entry.
