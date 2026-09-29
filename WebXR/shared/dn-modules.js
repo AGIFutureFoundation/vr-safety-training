@@ -76,7 +76,7 @@ function dnSave(s) {
 export function dnClear() { try { dnStore()?.removeItem(DN_KEY); } catch (_) { /* ignore */ } }
 
 const dnId = (p) => `${p}-${Math.random().toString(36).slice(2, 8)}${Date.now().toString(36).slice(-4)}`;
-const dnText = (v, n = 120) => String(v ?? "").replace(/[\u0000-\u001f]/g, " ").trim().slice(0, n);
+const dnText = (v, max = 120) => String(v ?? "").replace(/[\u0000-\u001f]/g, " ").trim().slice(0, max);
 const dnList = (v, allowed = null) => (Array.isArray(v) ? [...new Set(v.map((x) => dnText(x, 80)).filter((x) => /^[a-z0-9-]{1,80}$/.test(x) && (!allowed || allowed.includes(x))))] : null);
 const dnCode = (v) => String(v ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/^(.{4})(.{4})$/, "$1-$2");
 

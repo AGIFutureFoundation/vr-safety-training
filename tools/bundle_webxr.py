@@ -267,6 +267,11 @@ APPS = {
             SHARED / "np-geo.js",
             *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]],
             SHARED / "sg-ways.js",
+            # BAYMAP's Oakland districts and their ways: np-parishes.js registers them, so every app that bundles it carries them.
+            SHARED / "np-data-oak-west-oakland.js",
+            SHARED / "np-data-oak-downtown-lake.js",
+            SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "links.js",
             SHARED / "side-game-mechanics.js",
@@ -677,6 +682,12 @@ APPS = {
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
+            # COGNITION: the Cognition.X learning-module runner and what it imports (flowhub, BAYOU's flow agent, the units).
+            SHARED / "flowhub.js",
+            SHARED / "by-parish-lessons.js",
+            SHARED / "by-flow-agent.js",
+            SHARED / "cg-units.js",
+            SHARED / "cg-runner.js",
             WEBXR / "redwood/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -835,6 +846,11 @@ APPS = {
             SHARED / "controls.js",
             # DEAN (docs/modules.md): versions and assigned modules applied at load (after org.js, which account.js brings).
             SHARED / "dn-modules.js",
+            # COGNITION: the Cognition.X learning-module runner and what it imports (flowhub, BAYOU's flow agent, the units).
+            SHARED / "flowhub.js",
+            SHARED / "by-flow-agent.js",
+            SHARED / "cg-units.js",
+            SHARED / "cg-runner.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
