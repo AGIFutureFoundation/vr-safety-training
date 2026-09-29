@@ -27,6 +27,11 @@ import { NP_SF_BAYVIEW } from "./np-data-sf-bayview.js";
 import { NP_OAK_WEST_OAKLAND } from "./np-data-oak-west-oakland.js";
 import { NP_OAK_DOWNTOWN_LAKE } from "./np-data-oak-downtown-lake.js";
 import { NP_OAK_FRUITVALE_ESTUARY } from "./np-data-oak-fruitvale-estuary.js";
+// More of the Bay Area (console EASTBAY, docs/consoles/EASTBAY.md): Emeryville & Berkeley (Oakland), Downtown San Jose
+// (South Bay) and San Pablo & Richmond (North East Bay).
+import { NP_OAK_EMERYVILLE_BERKELEY } from "./np-data-oak-emeryville-berkeley.js";
+import { NP_BAY_SAN_JOSE } from "./np-data-bay-san-jose.js";
+import { NP_BAY_SAN_PABLO } from "./np-data-bay-san-pablo.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -37,7 +42,8 @@ import { npGeoToXz, npToGeo } from "./np-geo.js";
 export const NP_PARISHES = [
   NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY,
   NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW,
-  NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY,
+  NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY, NP_OAK_EMERYVILLE_BERKELEY,
+  NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
@@ -45,6 +51,8 @@ export const NP_REGIONS = [
   { id: "new-orleans", name: "New Orleans", title: "New Orleans Parishes", noun: "parish", nouns: "parishes" },
   { id: "san-francisco", name: "San Francisco", title: "San Francisco Districts", noun: "district", nouns: "districts" },
   { id: "oakland", name: "Oakland & the East Bay", title: "Oakland & East Bay Districts", noun: "district", nouns: "districts" },
+  { id: "north-east-bay", name: "North East Bay", title: "North East Bay Districts", noun: "district", nouns: "districts" },
+  { id: "south-bay", name: "South Bay", title: "South Bay Districts", noun: "district", nouns: "districts" },
 ];
 
 /** The region id a map belongs to: its `region`, else New Orleans (the parish modules predate regions). */
