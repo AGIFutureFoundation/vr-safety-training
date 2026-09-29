@@ -63,6 +63,15 @@ domain) and NASA GIBS daily VIIRS true colour (yesterday's pass, for weather and
 map's box as plain images (`referrerPolicy: no-referrer`); a failed tile (offline, or a viewer that blocks the host) leaves
 a note and the baked backdrop in place. Nothing is requested before the press.
 
+## 4. Real relief from USGS 3DEP (proof, one map)
+
+`python3 tools/geo_relief.py maps.json la-shintech-plaquemine` reads the USGS 3DEP 1/3 arc-second DEM (public domain,
+cloud-optimised GeoTIFF on AWS `prd-tnm`) over the Plaquemine map's box and writes a 65 x 65 height grid in the map's scene
+frame to `WebXR/assets/geo/la-shintech-plaquemine.relief.json` (integer decimetres, with the source tiles and the credit
+"Heights: USGS 3D Elevation Program, 1/3 arc-second (public domain)"). The river levees and the town's higher ground show
+in it. It is not wired into the engine yet: the next step is a hook that hands it to `NP_TERRAIN_HOOKS.relief`, scaled into
+the map's schematic range exactly as RELIEF's Mapbox relief is (pads terraced, water level). No figure is quoted from it.
+
 ## What is proved (`node tools/check_geo.mjs`)
 
 No position without a trusted gesture (untrusted and missing events, mounting, a scripted click); one press asks exactly
@@ -72,12 +81,12 @@ is off and only the teacher's literal `true` opens it; the nearest-map arithmeti
 and pins at the origin; outside, the distance equals an independent haversine to the clamped point; corners; far away);
 the live layer requests nothing until switched on, then only the GEO_LIVE hosts, within 16 tiles; every Louisiana backdrop
 is 512 px, quality at most 80, at most 90 KB, with its sidecar and credit; the total stays inside the budget; the credit sits
-under the canvas; the satellite ground starts off; the bundler lists the module.
+under the canvas; the satellite ground starts off; the bundler lists the module; the 3DEP relief proof is a real 65 x 65
+integer grid with its source and credit.
 
 ## Not done yet
 
-- Real relief from USGS 3DEP (`prd-tnm` on AWS) for hills and levees, as a baked height grid handed to
-  `NP_TERRAIN_HOOKS.relief` the way RELIEF's Mapbox relief is — listing works from the build machine; not wired.
+- Wiring the 3DEP relief into the engine (below): the grid exists for one map, the hook does not.
 - Backdrops for the New Orleans parishes, the Bay Area maps and the Bay Program maps (run `geo_bake.py --regions ...`;
   the budget has room for about 7 more at the current sizes, or raise it).
 - Overture footprints (licence decision pending, see the GEO findings).

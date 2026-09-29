@@ -11,7 +11,8 @@ reference is [docs/geo.md](../geo.md); this page is the console's log.
 | The teacher's switch (`geolocation` on a DEAN version, false unless literally true) | `WebXR/shared/dn-modules.js`, `WebXR/instructor/js/dean.js` |
 | **Baked Sentinel-2 backdrop** for the 17 Louisiana maps, in each map's scene frame, as the parish map backdrop and an optional satellite ground (off by default), with the credit line | `tools/geo_maps.mjs`, `tools/geo_bake.py`, `WebXR/assets/geo/<map>.jpg` + `.json` |
 | **Live satellite layer** (USGS National Map, NASA GIBS daily), off by default, one URL block, fails gracefully | `geo-locate.js` (`GEO_LIVE`, `geoMountLive`), the map screen |
-| Checker | `tools/check_geo.mjs` (83 checks) |
+| Real relief proof: a USGS 3DEP height grid for Plaquemine in the scene frame (not wired into the engine) | `tools/geo_relief.py`, `WebXR/assets/geo/la-shintech-plaquemine.relief.json` |
+| Checker | `tools/check_geo.mjs` (86 checks) |
 | Bundler | `geo-locate.js` listed for the parishes app in `tools/bundle_webxr.py` (dist not committed) |
 
 Budget: 1600 KB for all baked backdrops; the 17 Louisiana maps use 1007 KB (16â€“80 KB each, 512 px, JPEG q80).
@@ -46,6 +47,11 @@ Budget: 1600 KB for all baked backdrops; the 17 Louisiana maps use 1007 KB (16â€
    satellite ground toggled on with its credit; switching the USGS layer on made 16 tile requests, all blocked from this
    machine, and the note said so while the backdrop stayed. No page errors.
 
+7. Reason: item 4 as a proof without moving anyone's terrain in the last round. Act: `tools/geo_relief.py` reads the
+   3DEP 1/3 arc-second COG (tile n31w092) over the Plaquemine box and writes a 65 x 65 grid in the scene frame; three
+   checks in check_geo. Observe: the COG read works from the build machine (EPSG:4269, overviews present), 12 KB grid;
+   check_geo 86 pass, 0 fail. Not wired to NP_TERRAIN_HOOKS.relief, so no map's ground or baselines changed.
+
 ## Checkers (single runs; check_all never run)
 
 See the hand-back for the counts of `check_geo`, `check_mapbox`, `check_dean` and the parish-page checkers run after the
@@ -53,6 +59,6 @@ change.
 
 ## Left
 
-- Real relief from USGS 3DEP for one Louisiana map (item 4): not started.
+- Item 4: wire the Plaquemine 3DEP grid into NP_TERRAIN_HOOKS.relief (scaled like RELIEF), then re-measure DETAIL baselines.
 - Backdrops for the New Orleans parishes and the Bay Area maps (the budget has room for about seven more at current sizes).
 - The dist bundles are rebuilt locally but not committed; the next full bundle run carries `geo-locate.js`.

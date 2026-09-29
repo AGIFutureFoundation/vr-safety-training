@@ -216,6 +216,14 @@ check(/id="geo-ground" type="button" aria-pressed="false">Satellite ground: off/
 check(/let geoBackdrop = null, geoPin = null, geoGroundOn = false/.test(app) && !/geoGroundOn = true/.test(app), "the app starts with the satellite ground off");
 check(/\$\("geo-credit"\)\.hidden = !geoSat/.test(app), "the credit shows whenever the backdrop is drawn");
 check(html.includes('id="geo-find"') && html.includes('id="geo-live"'), "Find me is in the Map tab and the live layer in the map screen");
+// Item 4 proof: one map's real relief from USGS 3DEP, baked in the scene frame (not wired into the engine yet).
+{
+  const rp = join(GEO_DIR, "la-shintech-plaquemine.relief.json");
+  const rel = existsSync(rp) ? JSON.parse(readFileSync(rp, "utf8")) : null;
+  check(rel && rel.grid === 65 && rel.heights.length === 65 * 65 && rel.heights.every(Number.isInteger) && rel.units === "decimetres", "the 3DEP relief proof: a 65 x 65 integer grid in the scene frame");
+  check(rel && /USGS 3D Elevation Program/.test(rel.credit) && /public domain/.test(rel.credit) && rel.tiles.every((t) => /^n\d{2}w\d{3}$/.test(t)), "the relief names its source, credit and 3DEP tiles");
+  check(rel && new Set(rel.heights).size > 20, "the relief is real data, not a flat fill");
+}
 const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 check(/SHARED \/ "geo-locate\.js"/.test(bundler), "the bundler lists geo-locate.js");
 check(!/claude-|opus|sonnet|haiku/i.test(src + readFileSync(join(ROOT, "tools", "geo_bake.py"), "utf8")), "no model identifier in the GEO files");
