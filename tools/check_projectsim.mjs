@@ -42,9 +42,10 @@ const simSteps = new Map();
 const stepsOf = (id) => {
   if (!simSteps.has(id)) {
     const f = join(W, "smartcity", "js", "sims", `${id}.js`);
-    // A step is an `id:` whose object carries a title and a cue (hazards and awards carry neither) — DRILLS' reading.
+    // A step is an `id:` whose object carries a title and a cue (hazards and awards carry neither) — DRILLS' reading. The keys
+    // may be written bare (`id: "…"`) or JSON-quoted (`"id": "…"`, as CLEANPORTS' generated stations write them).
     const src = existsSync(f) ? readFileSync(f, "utf8") : null;
-    simSteps.set(id, src ? new Set([...src.matchAll(/\bid: "([^"]+)"/g)].filter((m) => { const w = src.slice(m.index, m.index + 1500); const end = w.indexOf("\n    },"); const body = end > 0 ? w.slice(0, end) : w; return /\btitle: "/.test(body) && /\bcue: "/.test(body); }).map((m) => m[1])) : null);
+    simSteps.set(id, src ? new Set([...src.matchAll(/\b"?id"?: "([^"]+)"/g)].filter((m) => { const w = src.slice(m.index, m.index + 1500); const end = w.indexOf("\n    },"); const body = end > 0 ? w.slice(0, end) : w; return /\b"?title"?: "/.test(body) && /\b"?cue"?: "/.test(body); }).map((m) => m[1])) : null);
   }
   return simSteps.get(id);
 };

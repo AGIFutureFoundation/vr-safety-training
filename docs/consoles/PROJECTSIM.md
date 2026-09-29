@@ -54,8 +54,10 @@ coordinator swaps in `bk-*`/`cp-*` step ids when they land (one `station`/`step`
 
 ## Left for the coordinator
 
-- Swap steps to BAYKEEPER `bk-*` / CLEANPORTS `cp-*` station steps when those land (one `station`/`step` pair per step).
+- Done (BAYSEAMS): the trash-capture sim's lane, air and vacuum steps are `bk-street-drain-trash-capture-cleanout` steps; the green
+  stormwater sim's locate, marks, pothole, layers, planting and drawdown steps are `bk-bioretention-rain-garden-excavation` steps;
+  the charging yard's lockout and e-stop are `cp-charging-yard-connectors-and-e-stops` steps and its storage-site read is
+  `cp-battery-energy-storage-site-awareness`. check_projectsim reads JSON-quoted step keys too (CLEANPORTS' station format).
 - The guarded placements resolve on their own when BAYMAP's `oak-west-oakland` and TIDELANDS' `bp-*` / `sf-outer-mission` merge.
 - DEAN: `psDeanModules()` is in DEAN's module shape; register it in `dnModules()` when dn-modules.js lands.
-- The charging-yard e-stop step uses the AMR fleet station's e-stop drill (the only catalog e-stop drill step); a charger e-stop
-  step from CLEANPORTS should replace it.
+- The charging-yard e-stop step is CLEANPORTS' `test-yard-e-stop` (was the AMR fleet drill).
