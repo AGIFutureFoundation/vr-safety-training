@@ -6,7 +6,7 @@
  *   2. v1 compatibility: every v1 field is present and identical to DEAN's v1 build, and v2 validates against the v1 schema
  *   3. every section's source resolves (ready/partial) or is marked pending with the sources it looked for
  *   4. the guard: owner modules appearing later fill their sections with no code change; a throwing module stays pending
- *   5. the maps section: 22 maps, regions, sites with stations, landmarks with lm kinds, hills by name
+ *   5. the maps section: every registered map, regions, sites with stations, landmarks with lm kinds, hills by name
  *   6. the adapter: shape, determinism, the station index, v1 input, refusal, dependency-free
  *   7. the size budget (raw and gzip) and no learner data
  *   8. the contract doc names every section and registry
@@ -17,6 +17,8 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { gzipSync } from "node:zlib";
+// The registry is the count: every map and region the parish engine lists (22 maps and six regions when v2 was written).
+const { NP_PARISHES: BR_MAPS, NP_REGIONS: BR_REGIONS } = await import(new URL("../WebXR/shared/np-parishes.js", import.meta.url).href);
 
 const T0 = Date.now();
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -104,10 +106,10 @@ await section(4, "the guard: owners that merge later fill in with no code change
 
 await section(5, "the maps section", () => {
   const m = doc.maps.data;
-  ok(m.maps.length === 22, `${m.maps.length} maps`);
+  ok(m.maps.length === BR_MAPS.length, `${m.maps.length} maps`);
   ok(m.maps.length === doc.parishes.length && m.maps.every((x, i) => x.id === doc.parishes[i].id), "the same maps, in the same order, as v1's parishes");
   const regions = new Set(m.regions.map((r) => r.id));
-  ok(regions.size === 6 && m.maps.every((x) => regions.has(x.region)), `${regions.size} regions: ${[...regions].join(", ")}`);
+  ok(regions.size === BR_REGIONS.length && m.maps.every((x) => regions.has(x.region)), `${regions.size} regions: ${[...regions].join(", ")}`);
   ok(m.regions.every((r) => r.maps.every((id) => m.maps.find((x) => x.id === id)?.region === r.id)), "each region lists its own maps");
   const sites = m.maps.flatMap((x) => x.sites);
   ok(sites.length === doc.parishes.reduce((a, p) => a + p.sites.length, 0), `${sites.length} sites`);
@@ -131,14 +133,14 @@ await section(6, "the TradeQuest adapter", () => {
   const map = { finishes: "palette", kit: "facades", fleet: "vehicles", scenarios: "robotics", dataset: "dataset", places: "maps" };
   ok(Object.entries(map).every(([r, s]) => t.registries[r].status === onDisk[s].status), "each registry's status is its section's");
   ok(JSON.stringify(t.pending) === JSON.stringify(ad.TQ_REGISTRIES.filter((k) => t.registries[k].status === "pending")), `pending: ${t.pending.join(", ") || "none"}`);
-  ok(t.registries.places.items.length === 22 && t.registries.places.items.every((p) => p.frame && p.frame.centre.length === 2), "22 places with their frames");
+  ok(t.registries.places.items.length === BR_MAPS.length && t.registries.places.items.every((p) => p.frame && p.frame.centre.length === 2), `${BR_MAPS.length} places with their frames`);
   ok(t.registries.places.items.every((p) => p.campus === null || ["new-orleans", "treasure-island", "oakland"].includes(p.campus)), "campus routing uses the site's campus ids");
   const every = onDisk.maps.data.maps.flatMap((m) => m.sites.flatMap((s) => s.stations));
   ok(every.every((id) => t.stationIndex[id]?.length), `the station index covers every site station (${Object.keys(t.stationIndex).length} stations)`);
   ok(t.registries.courses.items.length === onDisk.packs.length && t.registries.paths.items.length === onDisk.paths.length, `${t.registries.courses.items.length} courses, ${t.registries.paths.items.length} paths`);
   ok(t.registries.fleet.items.every((v) => v.gatedOn.length > 0), `${t.registries.fleet.items.length} fleet vehicles, every one gated`);
   const fromV1 = ad.tqAdapt(v1);
-  ok(fromV1.registries.places.items.length === 22 && fromV1.registries.places.status === "partial" && fromV1.pending.includes("fleet"), "a v1 document adapts: places from parishes, v2-only registries pending");
+  ok(fromV1.registries.places.items.length === BR_MAPS.length && fromV1.registries.places.status === "partial" && fromV1.pending.includes("fleet"), "a v1 document adapts: places from parishes, v2-only registries pending");
   let threw = false; try { ad.tqAdapt({ contract: "other", version: "2.0.0" }); } catch (_) { threw = true; }
   ok(threw && !ad.tqAccepts({ contract: ad.TQ_CONTRACT, version: "3.0.0" }).ok, "another contract or a future major is refused");
   const src = readFileSync(join(ROOT, "exports/shared/tradequest-adapter.js"), "utf8").replace(/\/\/.*$/gm, "");
