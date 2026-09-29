@@ -27254,6 +27254,177 @@ function textureStats() {
 /** Empties the pattern cache and the stats — test harnesses only. */
 function txResetTextures() { _txCanvases.clear(); _txTiled.clear(); _txPixels.clear(); _txSharedMats.clear(); _txHits = 0; _txMisses = 0; }
 
+// ---------------------------------------------- pixel painters (PALETTE)
+//
+// Grayscale DETAIL painters that write straight into an RGBA byte buffer
+// (w * h * 4) instead of a 2D context: no canvas is needed, so a browser, a
+// worker and a headless checker get the same exact pixels (seeded integer
+// hashing, no Math.random()). PALETTE's per-region massing atlas
+// (shared/pa-palette.js) packs them; the colour comes from the building's
+// category, the texture only says "clapboard" or "Spanish tile". Every one
+// tiles by construction: each period (boards, courses, columns) divides the
+// tile, and the grain is a lattice noise whose lattice index wraps, so the
+// right edge continues into the left and the bottom into the top. Values sit
+// about a mid-high grey (a mean near 200/255), so a material multiplies its
+// own colour by `TX_PX_GAIN * detail`. The canvas-facing wrappers
+// (txClapboardFace, …) put the same pixels on a 2D context for any other
+// world, in this library's (g, w, h, o) convention.
+
+/** The multiplier that brings a pixel painter's mean detail back to about 1. */
+const TX_PX_GAIN = 1.28;
+/** A 32-bit integer hash of (i, j, seed) -> [0, 1). */
+function txPxHash(i, j, seed) {
+  let h = Math.imul(i | 0, 0x27d4eb2d) ^ Math.imul(j | 0, 0x165667b1) ^ Math.imul(seed | 0, 0x9e3779b9);
+  h = Math.imul(h ^ (h >>> 15), 0x85ebca6b); h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+/** Tileable lattice value noise at pixel (x, y) of a w×h tile: `cx`×`cy` cells that wrap. [0, 1). */
+function txPxNoise(x, y, w, h, cx, cy, seed) {
+  const fx = (x / w) * cx, fy = (y / h) * cy;
+  const i0 = Math.floor(fx), j0 = Math.floor(fy), tx = fx - i0, ty = fy - j0;
+  const a = i0 % cx, b = j0 % cy, i1 = (i0 + 1) % cx, j1 = (j0 + 1) % cy;
+  const sx = tx * tx * (3 - 2 * tx), sy = ty * ty * (3 - 2 * ty);
+  const top = txPxHash(a, b, seed) * (1 - sx) + txPxHash(i1, b, seed) * sx;
+  const bot = txPxHash(a, j1, seed) * (1 - sx) + txPxHash(i1, j1, seed) * sx;
+  return top * (1 - sy) + bot * sy;
+}
+function txPxPut(buf, w, x, y, v) {
+  const k = (y * w + x) * 4, c = v < 0 ? 0 : v > 255 ? 255 : Math.round(v);
+  buf[k] = c; buf[k + 1] = c; buf[k + 2] = c; buf[k + 3] = 255;
+}
+/** Lap siding: `boards` horizontal boards, each lit at its top and shadowed under the lap, with a long grain. */
+function txPxClapboard(buf, w, h, o = {}) {
+  const rows = o.boards ?? 8, seed = o.seed ?? 11;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const t = ((y * rows) / h) % 1;
+    let v = 222 - 28 * t + (txPxNoise(x, y, w, h, 16, rows * 4, seed) - 0.5) * 18;
+    if (t > 0.86) v = 150 + (1 - t) * 120;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Wood or asphalt shingles: `rows` staggered courses of `cols` shingles, each its own tone, gaps and course shadows. */
+function txPxShingle(buf, w, h, o = {}) {
+  const rows = o.rows ?? 10, cols = o.cols ?? 8, seed = o.seed ?? 23;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fy = (y * rows) / h, r = Math.floor(fy), t = fy - r;
+    const fx = (x * cols) / w + (r % 2) * 0.5, c = Math.floor(fx) % cols, u = fx - Math.floor(fx);
+    let v = 178 + txPxHash(c, r % rows, seed) * 44 + (txPxNoise(x, y, w, h, cols * 2, rows * 3, seed + 1) - 0.5) * 16;
+    if (u < 0.05) v -= 60;
+    if (t > 0.84) v -= 48;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Hand-trowelled stucco: two octaves of wrapping grain and a sparse speckle. */
+function txPxStucco(buf, w, h, o = {}) {
+  const seed = o.seed ?? 37;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    let v = 204 + (txPxNoise(x, y, w, h, 6, 6, seed) - 0.5) * 30 + (txPxNoise(x, y, w, h, 24, 24, seed + 1) - 0.5) * 26;
+    if (txPxHash(x, y, seed + 2) > 0.985) v -= 34;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Spanish (barrel) tile: `cols` rounded columns lit on their crown, `rows` overlapping courses, a tone per tile. */
+function txPxSpanishTile(buf, w, h, o = {}) {
+  const rows = o.rows ?? 6, cols = o.cols ?? 8, seed = o.seed ?? 41;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fx = (x * cols) / w, c = Math.floor(fx), u = fx - c;
+    const fy = (y * rows) / h, r = Math.floor(fy), t = fy - r;
+    let v = (150 + 88 * Math.sin(Math.PI * u)) * (0.9 + txPxHash(c % cols, r % rows, seed) * 0.14);
+    if (t > 0.88) v *= 0.68;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Running-bond brick: `rows` courses of `cols` bricks, alternate courses offset half a brick, light mortar. */
+function txPxBrick(buf, w, h, o = {}) {
+  const rows = o.rows ?? 16, cols = o.cols ?? 8, seed = o.seed ?? 53;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fy = (y * rows) / h, r = Math.floor(fy), t = fy - r;
+    const fx = (x * cols) / w + (r % 2) * 0.5, c = Math.floor(fx) % cols, u = fx - Math.floor(fx);
+    let v = 170 + txPxHash(c, r % rows, seed) * 40 + (txPxNoise(x, y, w, h, 32, 32, seed + 1) - 0.5) * 14;
+    if (t > 0.82 || u > 0.94) v = 236;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Corrugated sheet: `cols` vertical ridges and a faint wrapping streak. */
+function txPxCorrugated(buf, w, h, o = {}) {
+  const cols = o.cols ?? 16, seed = o.seed ?? 67;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const v = 196 + 40 * Math.cos((2 * Math.PI * x * cols) / w) + (txPxNoise(x, y, w, h, cols, 3, seed) - 0.5) * 22;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Precast concrete panels: a `cols`×`rows` grid with dark joints and a mottled face. */
+function txPxConcretePanel(buf, w, h, o = {}) {
+  const cols = o.cols ?? 2, rows = o.rows ?? 4, seed = o.seed ?? 79;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const u = ((x * cols) / w) % 1, t = ((y * rows) / h) % 1;
+    let v = 206 + (txPxNoise(x, y, w, h, 8, 8, seed) - 0.5) * 30 + (txPxHash(x, y, seed) - 0.5) * 10;
+    if (u < 0.02 || t < 0.02) v -= 70;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** A curtain of windows: `cols`×`rows` dark panes in a light frame, a few panes a shade lighter. */
+function txPxWindowGrid(buf, w, h, o = {}) {
+  const cols = o.cols ?? 6, rows = o.rows ?? 8, seed = o.seed ?? 83;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fx = (x * cols) / w, fy = (y * rows) / h, u = fx - Math.floor(fx), t = fy - Math.floor(fy);
+    const pane = u > 0.14 && u < 0.86 && t > 0.2 && t < 0.9;
+    const v = pane ? 96 + txPxHash(Math.floor(fx) % cols, Math.floor(fy) % rows, seed) * 50 : 224;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** The pixel painters by id (PALETTE's atlas reads these). */
+const TX_PX_PAINTERS = {
+  clapboard: txPxClapboard, shingle: txPxShingle, stucco: txPxStucco, spanishTile: txPxSpanishTile,
+  brick: txPxBrick, corrugated: txPxCorrugated, concretePanel: txPxConcretePanel, windowGrid: txPxWindowGrid,
+};
+const TX_PX_PAINTER_IDS = Object.keys(TX_PX_PAINTERS);
+/** One pixel painter's tile: a fresh Uint8ClampedArray of px*px*4. */
+function txPxTile(id, px, o = {}) {
+  const paint = TX_PX_PAINTERS[id];
+  if (!paint) throw new Error(`textures: unknown pixel painter "${id}"`);
+  const buf = new Uint8ClampedArray(px * px * 4);
+  paint(buf, px, px, o);
+  return buf;
+}
+/**
+ * Pack pixel painters into one atlas: `ids` in row-major square cells of `cell`
+ * px, `cols` per row (the height rounded up to a power of two of rows), each
+ * tile painted at `cell - 2*pad` and wrapped `pad` pixels into its gutter so
+ * bilinear filtering at a cell's edge reads its own tile. Returns
+ * `{ data, width, height, cells: { id: [u, v, du, dv] } }` (the uv of the
+ * tile's interior, v counted from the first row).
+ */
+function txPxAtlas(ids, { cell = 128, cols = 4, pad = 4, seed = 0 } = {}) {
+  const n = Math.max(1, ids.length), rowsN = Math.ceil(n / cols);
+  const width = cell * Math.min(cols, n), height = cell * 2 ** Math.ceil(Math.log2(rowsN));
+  const data = new Uint8ClampedArray(width * height * 4), inner = cell - 2 * pad, cells = {};
+  ids.forEach((id, k) => {
+    const cx = (k % cols) * cell, cy = Math.floor(k / cols) * cell;
+    const tile = txPxTile(id, inner, seed ? { seed: seed + k } : {});
+    for (let y = 0; y < cell; y++) for (let x = 0; x < cell; x++) {
+      const sx = (x - pad + inner) % inner, sy = (y - pad + inner) % inner, s = (sy * inner + sx) * 4, d = ((cy + y) * width + cx + x) * 4;
+      data[d] = tile[s]; data[d + 1] = tile[s + 1]; data[d + 2] = tile[s + 2]; data[d + 3] = 255;
+    }
+    cells[id] = [(cx + pad) / width, (cy + pad) / height, inner / width, inner / height];
+  });
+  return { data, width, height, cells };
+}
+function txPxOnCanvas(paint, g, w, h, o) {
+  const img = g?.createImageData?.(w, h);
+  if (!img?.data) return;
+  paint(img.data, w, h, o);
+  g.putImageData(img, 0, 0);
+}
+/** Lap siding on a 2D context (the pixel painter txPxClapboard). */
+function txClapboardFace(g, w, h, o = {}) { txPxOnCanvas(txPxClapboard, g, w, h, o); }
+/** Shingles on a 2D context (txPxShingle). */
+function txShingleFace(g, w, h, o = {}) { txPxOnCanvas(txPxShingle, g, w, h, o); }
+/** Stucco on a 2D context (txPxStucco). */
+function txStuccoFace(g, w, h, o = {}) { txPxOnCanvas(txPxStucco, g, w, h, o); }
+/** Spanish tile on a 2D context (txPxSpanishTile). */
+function txSpanishTileFace(g, w, h, o = {}) { txPxOnCanvas(txPxSpanishTile, g, w, h, o); }
+
 
 /* ===== shared/perf.js ===== */
 // Headset-pass instrument. `?perf=1` on any app turns it on: it keeps the
@@ -43784,6 +43955,13 @@ function qmMountSideGames({ world, worldName = world, items, from = world, page 
     close() { panel.hidden = true; },
     refresh: render,
     toast: (item) => qmLockToast(item, opts),
+    /** Open one game by id (a classroom's robotics bay, say): plays it if its gate is open, else the lock toast. */
+    playById(id) {
+      const it = items.find((x) => x.id === id);
+      if (!it) return false;
+      if (!qmIsOpen(it.gate, qmSnapshot(storage))) { qmLockToast(it, opts); return true; }
+      render(); panel.hidden = false; play(it); return true;
+    },
   };
 }
 
