@@ -101,6 +101,9 @@ export const IX_KIND_STYLE = {
   planning: "civic-lobby", "boat-landing": "port-shed", "mat-crossing": "port-shed",
   // SMILES' community-health district.
   outreach: "clinic", plaza: "civic-lobby", office: "civic-lobby",
+  // SITES-COAST's Louisiana project sites (docs/consoles/SITES-COAST.md).
+  "tank-farm": "plant-room", compressor: "plant-room", wellpad: "plant-room", pipeline: "workshop", dredge: "port-shed", slip: "port-shed",
+  hangar: "warehouse", "paint-shop": "workshop", "fuel-farm": "plant-room",
 };
 
 /**
