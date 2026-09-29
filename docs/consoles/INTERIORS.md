@@ -85,10 +85,13 @@ bays, programme rooms) through `ixRegisterDresser`; these styles stay generic.
 5. Reason: make room for CLASSROOMS' dressers and keep tall fittings solid. Act: `room.budgetLeft()` / `room.shellMeshes`
    before dressers run; free-standing floor-reaching fittings (the apparatus bay's pole, the lobby's queue posts) join the
    colliders; checker asserts headroom ≥ 100 meshes and that no room animates. Observe: check_interiors 507 passed, 0 failed.
+6. Reason: nothing outside may act on the learner while they are in a room. Act: fast travel (map) exits the room first;
+   B (Motor Pool) inside says "Step outside first"; the touch hint names building doors; checker asserts both guards and
+   that the world's streaming updates are skipped inside. Observe: check_interiors 509 passed, 0 failed.
 
 ## Checkers (last lines)
 
-- `node tools/check_interiors.mjs` → PASS check_interiors: 507 passed, 0 failed (under a second).
+- `node tools/check_interiors.mjs` → PASS check_interiors: 509 passed, 0 failed (under a second).
 - `node tools/check_interiors.mjs --browser` (port 9001) adds the real-page round trip (~40 s).
 
 ## Left

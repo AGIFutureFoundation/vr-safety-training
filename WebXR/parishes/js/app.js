@@ -284,6 +284,7 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyE") npUse();
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
+  if (e.code === "KeyB" && ixWorld.inside()) { npToast("Step outside first: the Motor Pool is out on the street."); return; } // INTERIORS
   if (e.code === "KeyB") asOpenMotorPool();
   if (e.code === "KeyL") tyOpenLedger();
   if (e.code === "KeyT") { const wasNight = NP_TIMES[np.timeIdx] === "night"; np.timeIdx = (np.timeIdx + 1) % NP_TIMES.length; npApplySky(); if (wasNight !== (NP_TIMES[np.timeIdx] === "night")) mgRemount(); }
@@ -395,7 +396,7 @@ function npRenderMap() {
   const sc = npScale(parish);
   $("map-scale").textContent = `One map metre is about ${sc.x.toFixed(1)} real metres east–west and ${sc.z.toFixed(1)} north–south (a stylised map, not a survey).`;
 }
-function npTravel(s) { np.x = s.position[0]; np.z = s.position[1] + 16; np.yaw = 0; world.update(np.x, np.z, 999); npToast(`Fast travel: ${s.name}.`); }
+function npTravel(s) { if (ixWorld.inside()) ixWorld.exit(); /* INTERIORS: fast travel leaves the room first */ np.x = s.position[0]; np.z = s.position[1] + 16; np.yaw = 0; world.update(np.x, np.z, 999); npToast(`Fast travel: ${s.name}.`); }
 
 // ------------------------------------------------------------ parish selector
 
@@ -626,7 +627,7 @@ document.title = `${parish.name} — ${npRegionHere.title}`;
 let npTouch = null;
 try {
   npTouch = tcMountTouch({
-    hint: "Drag the stick to walk; drag the view to look; tap Use at a board, a sign or a way out.",
+    hint: "Drag the stick to walk; drag the view to look; tap Use at a board, a building door, a sign or a way out.",
     buttons: [
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },

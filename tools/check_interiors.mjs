@@ -161,6 +161,8 @@ const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 const src = readFileSync(join(WEBXR, "shared", "ix-interiors.js"), "utf8");
 check(/ixMountInteriors\(/.test(app) && /go inside/.test(app), "the parishes app mounts the interiors and prompts 'go inside'");
+check(/function npTravel\(s\) \{ if \(ixWorld\.inside\(\)\) ixWorld\.exit\(\)/.test(app) && /KeyB" && ixWorld\.inside\(\)/.test(app), "fast travel leaves the room first; the Motor Pool waits until the learner is outside");
+check(/if \(!ixCam\) \{\s*world\.update\(/.test(app), "the app skips the world's streaming updates while inside");
 check(/ix-interiors\.js/.test(bundler), "tools/bundle_webxr.py lists shared/ix-interiors.js");
 check(/not a model of the real building/.test(src), "every room says it is generic, not the real building");
 check(!/NP_MASSING_HOOKS/.test(src), "INTERIORS does not touch NP_MASSING_HOOKS");
