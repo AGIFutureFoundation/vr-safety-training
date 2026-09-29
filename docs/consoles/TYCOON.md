@@ -58,7 +58,7 @@ imports or names TILL's payments modules, `workers/payments` or billing. `tools/
 ## What shipped
 
 - `WebXR/shared/ty-economy.js`: 218 procedural listings across the ten maps (a room and a shop per site, a waterside
-  shop on every map), five businesses on five real stations with 35 verbatim checklist items, ten crew from GRIOT's
+  shop on every map), five businesses on five real stations with 29 verbatim checklist items, ten crew from GRIOT's
   parish characters, weekly rent/upkeep/wages in play time, the passport's zero-credit `tycoon` milestones.
 - Parishes app: "Crew Credits" in the menu and L, a HUD line, "To rent here" rows on every job board, the ledger with
   the inspection checklist and crew, signs on rented buildings, a settle on load that pays each passed shift once.
