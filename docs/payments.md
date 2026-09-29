@@ -134,7 +134,7 @@ level lives in their private profile (`vr-membership-v1`, a `GT_PROFILE_KEYS` en
 `pmSetLevel(id)`, `pmHas(entitlement, config, value?)` — with no levels configured everything is granted, so the public
 platform gates nothing. `pmMembershipQuote(adapter, levelId)` is a quote of one membership for its period; a paid
 receipt whose quote is `kind: "membership"` sets the level through the hook `pmOnMembership` (no seat licence is
-written). The public build ships no `levels`, so the platform stays free until a deployment configures them; the
+written). The public build ships `levels: null` (and `applePay`, `googlePay` null), so the platform stays free until a deployment configures them; the
 "Upgrade" view reached from the account chip is the next phase (`tools/briefs/next/till-next.md`).
 
 ## 8. Wallet checkout — the W3C Payment Request API

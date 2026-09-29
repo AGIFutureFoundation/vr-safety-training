@@ -660,8 +660,9 @@ window.__parishTest = {
   cityworks: cwStreetsMount,
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  krewe: kwDress, begin: npBegin, dean: () => dnHere, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
+  // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
+  dean: () => dnHere,
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
