@@ -13902,6 +13902,58 @@
     },
     {
       "app": "smartcity",
+      "id": "us-treatment-plant-process-pump-lockout",
+      "name": "Treatment Plant Process Pump Lockout",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9200000000000002,
+          "medianWhy": 234,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 256,
+          "materials": 101,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5330170777988615,
+          "nearest": "ad-robot-cell-lockout-and-safe-reentry",
+          "similarity": 0.2333965844402277
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "bk-street-drain-trash-capture-cleanout",
       "name": "Street Drain Trash Capture Cleanout",
       "category": "Environmental Monitoring",
@@ -18517,7 +18569,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 252,
+          "meshes": 266,
           "materials": 92,
           "interactables": 29
         },
@@ -23725,6 +23777,58 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "us-regulated-soil-haul-load-tarp-and-manifest",
+      "name": "Regulated Soil Haul: Load, Tarp and Manifest",
+      "category": "Environmental Monitoring",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9299999999999999,
+          "medianWhy": 236,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 232,
+          "materials": 101,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6405204460966544,
+          "nearest": "us-vacuum-truck-operator-hookup-and-offload",
+          "similarity": 0.21189591078066913
         }
       }
     },
@@ -31525,6 +31629,58 @@
           "score": 0.6482200647249192,
           "nearest": "press-brake",
           "similarity": 0.21035598705501618
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "us-vacuum-truck-operator-hookup-and-offload",
+      "name": "Vacuum Truck Operator Hookup and Offload",
+      "category": "Environmental Monitoring",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 244,
+          "materials": 103,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.548396501457726,
+          "nearest": "bk-street-drain-trash-capture-cleanout",
+          "similarity": 0.2303206997084548
         }
       }
     },
