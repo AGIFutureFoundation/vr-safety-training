@@ -42,10 +42,10 @@ export const TQ_CHANGELOG = [
 export const TQ_SECTIONS = {
   maps: { owner: "PARISH engine (np-*) + LANDMARKS (lm-*)", files: ["np-parishes.js"], exports: ["NP_PARISHES"] },
   palette: { owner: "PALETTE", files: ["pa-palette.js", /^pa-.*\.js$/], exports: ["PA_SHARED", "PA_CATEGORIES"] },
-  facades: { owner: "FACADES", files: ["fc-facades.js", /^fc-.*\.js$/], exports: ["FC_SHARED", "FC_DETAIL_KINDS", "FC_KINDS", "FC_DETAILS", "FC_SIGN_TRADES", "FC_SIGNS", "FC_GENERIC_SIGNS"] },
-  vehicles: { owner: "Motor Pool (drivables-data) + MOTORWORKS (mv-*)", files: ["drivables-data.js", /^mv-.*\.js$/], exports: ["MV_SHARED", "MV_CLASSES", "MV_VEHICLE_CLASSES", "MV_HANDLING", "DV_DRIVABLES"] },
-  robotics: { owner: "ROBOTICS", files: [/^rb-.*\.js$/], exports: ["RB_SHARED", "RB_SCENARIOS", "rbScenarios"] },
-  dataset: { owner: "dataset layer (episodes, robot-embodiment) + DATAWORKS (dx-*)", files: ["episodes.js", "robot-embodiment.js", /^dx-.*\.js$/], exports: ["DX_SHARED", "DX_EPISODE_SCHEMA", "DX_DATASET_CARD", "DX_DATASET_CARD_TEMPLATE", "dxDatasetCardTemplate", "EPISODE_SCHEMA_VERSION", "observationSchema", "actionSpace"] },
+  facades: { owner: "FACADES", files: ["fc-facades.js", /^fc-.*\.js$/], exports: ["FC_SHARED", "FC_DETAIL_KINDS", "FC_KINDS", "FC_DETAILS", "FC_SIGN_WORDS", "FC_SIGN_TRADES", "FC_SIGNS", "FC_GENERIC_SIGNS", "FC_KITS"] },
+  vehicles: { owner: "Motor Pool (drivables-data) + MOTORWORKS (mv-*)", files: ["drivables-data.js", /^mv-.*\.js$/], exports: ["MV_SHARED", "MV_CLASSES", "MV_VEHICLE_CLASSES", "MV_HANDLING", "MV_SITE_RULES", "DV_DRIVABLES"] },
+  robotics: { owner: "ROBOTICS", files: [/^rb-.*\.js$/], exports: ["RB_SHARED", "rbSharedData", "RB_SCENARIOS", "rbScenarios"] },
+  dataset: { owner: "dataset layer (episodes, robot-embodiment) + DATAWORKS (dx-*)", files: ["episodes.js", "robot-embodiment.js", /^dx-.*\.js$/], exports: ["DX_SHARED", "DX_EPISODE_SCHEMA", "DX_SCHEMA", "DX_DATASET_CARD", "DX_DATASET_CARD_TEMPLATE", "dxDatasetCardTemplate", "dxDatasetCard", "DX_CARD_SECTIONS", "EPISODE_SCHEMA_VERSION", "observationSchema", "actionSpace"] },
 };
 
 /** Plain JSON copy (drops functions, THREE objects, cycles → throws, caught by the caller). */
@@ -110,10 +110,12 @@ async function tqFacades(shared) {
   const { found, sources } = await tqReadSection(shared, "facades");
   const S = found.FC_SHARED ? call(found.FC_SHARED) : null;
   const kinds = S?.detailKinds ?? S?.kinds ?? found.FC_DETAIL_KINDS ?? found.FC_KINDS ?? found.FC_DETAILS;
-  const signs = S?.signs ?? S?.genericSigns ?? found.FC_GENERIC_SIGNS ?? found.FC_SIGN_TRADES ?? found.FC_SIGNS;
+  const signs = S?.signs ?? S?.genericSigns ?? found.FC_GENERIC_SIGNS ?? found.FC_SIGN_WORDS ?? found.FC_SIGN_TRADES ?? found.FC_SIGNS;
+  const kits = S?.kits ?? found.FC_KITS;
   if (kinds === undefined && signs === undefined) return section("facades", "pending", sources, null);
   try {
     const data = { detailKinds: kinds === undefined ? null : plain(call(kinds)), signs: signs === undefined ? null : plain(call(signs)) };
+    if (kits !== undefined) data.kits = plain(call(kits));
     return section("facades", data.detailKinds && data.signs ? "ready" : "partial", sources, data, { note: "Sign text is generic trades only — never a real business name or brand." });
   } catch (e) { return section("facades", "pending", [...sources, { error: String(e.message).slice(0, 160) }], null); }
 }
@@ -132,7 +134,8 @@ async function tqVehicles(shared) {
     const M = found.MV_SHARED ? call(found.MV_SHARED) : null;
     const classes = M?.classes ?? found.MV_CLASSES ?? found.MV_VEHICLE_CLASSES;
     const handling = M?.handling ?? found.MV_HANDLING;
-    if (classes !== undefined || handling !== undefined) mv = { classes: classes === undefined ? null : plain(call(classes)), handling: handling === undefined ? null : plain(call(handling)) };
+    const rules = M?.siteRules ?? found.MV_SITE_RULES;
+    if (classes !== undefined || handling !== undefined) mv = { classes: classes === undefined ? (handling === undefined ? null : Object.keys(call(handling))) : plain(call(classes)), handling: handling === undefined ? null : plain(call(handling)), siteRules: rules === undefined ? null : plain(call(rules)) };
   } catch (_) { mv = null; }
   return section("vehicles", mv ? "ready" : "partial", sources, {
     drivables,
@@ -143,13 +146,15 @@ async function tqVehicles(shared) {
 
 async function tqRobotics(shared) {
   const { found, sources } = await tqReadSection(shared, "robotics");
-  const S = found.RB_SHARED ? call(found.RB_SHARED) : null;
+  let S = null;
+  try { S = found.RB_SHARED ? call(found.RB_SHARED) : found.rbSharedData ? plain(found.rbSharedData()) : null; } catch (_) { S = null; }
   const v = S?.scenarios ?? found.RB_SCENARIOS ?? found.rbScenarios;
   if (v === undefined) return section("robotics", "pending", sources, null);
   try {
     const list = plain(call(v));
     const scenarios = (Array.isArray(list) ? list : Object.entries(list).map(([id, s]) => ({ id, ...s })));
-    return section("robotics", "ready", sources, { scenarios, api: S?.api ?? "rbEnv(scenarioId) → { reset(seed), step(action) → { observation, reward, done, info } }" });
+    const { scenarios: _s, ...rest } = S ?? {};
+    return section("robotics", "ready", sources, { scenarios, api: S?.api ?? "rbEnv(scenarioId) → { reset(seed), step(action) → { observation, reward, done, info } }", ...rest });
   } catch (e) { return section("robotics", "pending", [...sources, { error: String(e.message).slice(0, 160) }], null); }
 }
 
@@ -160,8 +165,9 @@ async function tqDataset(shared) {
   try {
     if (found.EPISODE_SCHEMA_VERSION !== undefined) data.episodes = { schemaVersion: found.EPISODE_SCHEMA_VERSION, source: "WebXR/shared/episodes.js", doc: "docs/robot-datasets.md" };
     if (found.observationSchema || found.actionSpace) data.embodiment = { observation: found.observationSchema ? plain(found.observationSchema()) : null, action: found.actionSpace ? plain(found.actionSpace()) : null };
-    const schema = S?.episodeSchema ?? found.DX_EPISODE_SCHEMA;
-    const card = S?.datasetCard ?? found.DX_DATASET_CARD_TEMPLATE ?? found.DX_DATASET_CARD ?? found.dxDatasetCardTemplate;
+    const schema = S?.episodeSchema ?? found.DX_EPISODE_SCHEMA ?? found.DX_SCHEMA;
+    const card = S?.datasetCard ?? found.DX_DATASET_CARD_TEMPLATE ?? found.DX_DATASET_CARD ?? found.dxDatasetCardTemplate ?? found.dxDatasetCard ?? (found.DX_CARD_SECTIONS ? { sections: found.DX_CARD_SECTIONS } : undefined);
+    if (found.DX_CARD_SECTIONS) data.cardSections = plain(found.DX_CARD_SECTIONS);
     data.episodeSchema = schema === undefined ? null : plain(call(schema));
     data.datasetCard = card === undefined ? null : plain(call(card));
   } catch (e) { sources.push({ error: String(e.message).slice(0, 160) }); }
