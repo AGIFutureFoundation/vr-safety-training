@@ -77,6 +77,7 @@ genMs.sort((a, b) => a - b);
 // The worst chunk, noise-robust: the slowest chunks are timed three more times and each keeps its median (shared machine).
 const slow = genAll.sort((a, b) => b.ms - a.ms).slice(0, 8).map(({ p, cx, cz }) => { const t = [0, 1, 2].map(() => { const t0 = performance.now(); D.dtDetailForChunk(p, cx, cz, "high"); return performance.now() - t0; }).sort((a, b) => a - b); return t[1]; });
 const med = genMs[genMs.length >> 1], worst = Math.max(...slow), rawWorst = genMs[genMs.length - 1], p95 = genMs[Math.floor(genMs.length * 0.95)];
+note(`generation per chunk at high: median ${med.toFixed(1)} ms, p95 ${p95.toFixed(1)} ms, worst (re-timed) ${worst.toFixed(1)} ms, single-run max ${rawWorst.toFixed(1)} ms`);
 check(med <= D.DT_BUDGET.genMs, `generation per chunk at high: median ${med.toFixed(1)} ms (≤ ${D.DT_BUDGET.genMs} ms) over ${genMs.length} chunks`);
 check(worst <= D.DT_BUDGET.genWorstMs, `generation per chunk at high: worst ${worst.toFixed(1)} ms (≤ ${D.DT_BUDGET.genWorstMs} ms, median of 3 re-timings of the 8 slowest; single-run max ${rawWorst.toFixed(1)} ms, p95 ${p95.toFixed(1)} ms)`);
 
