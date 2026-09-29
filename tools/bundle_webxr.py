@@ -265,7 +265,7 @@ APPS = {
             # DEAN (docs/modules.md): the lesson index across worlds (the parish maps, field and parish lessons)
             # and the Versions & modules tab, after org.js.
             SHARED / "np-geo.js",
-            *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]],
+            *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "sf-north-beach", "sf-haight-castro", "sf-sunset-south"]],
             SHARED / "sg-ways.js",
             # BAYMAP's Oakland districts and their ways: np-parishes.js registers them, so every app that bundles it carries them.
             SHARED / "np-data-oak-west-oakland.js",
@@ -776,6 +776,10 @@ APPS = {
             # San Francisco (GOLDEN-B): two districts and the world ways (the Bay Bridge to Bay World).
             SHARED / "np-data-sf-marina.js",
             SHARED / "np-data-sf-bayview.js",
+            # NEIGHBORHOODS: the walkable San Francisco districts.
+            SHARED / "np-data-sf-north-beach.js",
+            SHARED / "np-data-sf-haight-castro.js",
+            SHARED / "np-data-sf-sunset-south.js",
             SHARED / "sg-ways.js",
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",

@@ -311,3 +311,54 @@ union hall; the Guadalupe River (a channel), Los Gatos Creek and Coyote Creek ar
 | The Eastshore Freeway at Albany | road | oak-emeryville-berkeley ↔ bay-san-pablo | -122.311, 37.899 | `eb-em-eastshore-north`, `eb-sp-eastshore-south` |
 | The Alameda toward Santa Clara | road | bay-san-jose → bay-santa-clara (no map yet) | -121.930, 37.342 | `eb-sj-alameda-north` |
 | The Bayshore Freeway toward the Peninsula | road | bay-san-jose → bay-peninsula (no map yet) | -121.933, 37.371 | `eb-sj-bayshore-north` |
+
+## San Francisco, walkable — three more districts (console NEIGHBORHOODS)
+
+Three districts on the same schema in region `san-francisco`, drawn at a walkable scale so the 4096 m field is the
+walk (docs/consoles/NEIGHBORHOODS.md). Each declares its `scale` (real metres per map metre), which check_parishes
+holds the fit to within 15 % and check_parish_data uses for the field's ground width:
+
+- `sf-north-beach` (North Beach, Chinatown & Fisherman's Wharf): 1 real metres per map metre — one to one.
+- `sf-haight-castro` (Haight, Castro & Twin Peaks): 1 real metres per map metre — one to one.
+- `sf-sunset-south` (the Sunset & Ocean Beach south): 1.2 real metres per map metre — so Ocean Beach and the
+  university campus fit one field.
+
+Hills are placed where they are in the city: each `center` is the named hill's approximate lon/lat projected through
+the district's own fit, the radius follows the hill's footprint, the height is schematic (a map number). Written once
+by `tools/gen_sn_districts.mjs`; the modules are the source afterwards.
+
+| district | id | module | export | sites | hills | connectors |
+|---|---|---|---|---|---|---|
+| North Beach, Chinatown & Fisherman's Wharf | `sf-north-beach` | `np-data-sf-north-beach.js` | `NP_SF_NORTH_BEACH` | 14 | Telegraph Hill, Russian Hill, Nob Hill | 3 |
+| Haight, Castro & Twin Peaks | `sf-haight-castro` | `np-data-sf-haight-castro.js` | `NP_SF_HAIGHT_CASTRO` | 14 | Twin Peaks, Mount Sutro, Corona Heights, Buena Vista, Tank Hill, Alamo Square | 4 |
+| the Sunset & Ocean Beach South | `sf-sunset-south` | `np-data-sf-sunset-south.js` | `NP_SF_SUNSET_SOUTH` | 14 | Merced Heights | 3 |
+
+**Why not SoMa & Mission Bay.** `npBounds(sf-mission)` is lon −122.459 … −122.357, lat 37.722 … 37.804: SoMa and
+Mission Bay lie inside it (sf-mission already holds the King Street rail yard, a Mission Bay construction site and the
+China Basin stadium district), so the third district is the Sunset & Ocean Beach south instead — south of the coarse
+fields' 37.722° edge on the ocean side and west of the incoming `sf-outer-mission` (south of sf-mission's 37.722° edge).
+
+**Overlap.** The five coarse SF fields already cover the whole city north of 37.722° and overlap each other, so a
+walkable North Beach or Haight/Castro lies inside them by construction. The rule held by check_parishes: the walkable
+fields never overlap each other; none reaches into the sf-outer-mission area (south of 37.722°, east of −122.459°)
+beyond a connector margin; and no walkable site duplicates a coarse site on the ground.
+
+**Landmarks** are named places whose `kind` is LANDMARKS' registry name where one exists — Coit Tower
+(`coit-tower`), the Transamerica Pyramid (`transamerica-pyramid`), the cable car turntables at Hyde Street and Powell
+Street (`cable-car-turntable`), Pier Thirty-Nine (`wharf-pier-shed`), the Ferry Building (`ferry-building`), the
+Painted Ladies (`painted-ladies`), a Victorian house in the Haight (`victorian-house`) — plus Lombard Street's
+switchbacks, the Castro's theatre marquee, Sutro Tower, Twin Peaks, Lake Merced, Fort Funston and Ocean Beach. Until
+`lm-landmarks.js` merges the engine draws its generic landmark.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| The Embarcadero at the Ferry Building | road | sf-north-beach ↔ sf-downtown | -122.391, 37.788 | `sf-nb-embarcadero-south`, `sf-dt-north-beach-embarcadero` |
+| Powell Street at Union Square | road | sf-north-beach ↔ sf-downtown | -122.408, 37.785 | `sf-nb-powell-south`, `sf-dt-north-beach-powell` |
+| Bay Street at Fort Mason | road | sf-north-beach ↔ sf-marina | -122.432, 37.805 | `sf-nb-bay-street-west`, `sf-ma-north-beach-bay-street` |
+| Fell Street at Golden Gate Park | road | sf-haight-castro ↔ sf-golden-gate-park | -122.454, 37.772 | `sf-hc-fell-street-west`, `sf-gp-haight-castro-fell` |
+| Market Street toward Church Street | road | sf-haight-castro ↔ sf-mission | -122.422, 37.772 | `sf-hc-market-street-east`, `sf-mi-haight-castro-market` |
+| Seventeenth Street | road | sf-haight-castro ↔ sf-mission | -122.421, 37.763 | `sf-hc-seventeenth-street-east`, `sf-mi-haight-castro-seventeenth` |
+| Divisadero Street at Geary | road | sf-haight-castro ↔ sf-downtown | -122.439, 37.781 | `sf-hc-divisadero-north`, `sf-dt-haight-castro-divisadero` |
+| The Great Highway along Ocean Beach | road | sf-sunset-south ↔ sf-golden-gate-park | -122.505, 37.743 | `sf-ss-great-highway-north`, `sf-gp-sunset-great-highway` |
+| Nineteenth Avenue | road | sf-sunset-south ↔ sf-golden-gate-park | -122.475, 37.743 | `sf-ss-nineteenth-avenue-north`, `sf-gp-sunset-nineteenth` |
+| Ocean Avenue to the Outer Mission | road | sf-sunset-south → sf-outer-mission (TIDELANDS, merging) | -122.458, 37.721 | `sf-ss-ocean-avenue-east` (`to.position: null` until sf-outer-mission pairs it) |
