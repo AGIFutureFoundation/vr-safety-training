@@ -1,0 +1,111 @@
+{
+  "id": "bridge-and-structural",
+  "kind": "programme",
+  "name": "Bridge and Structural Trades",
+  "title": "SmartCiti.X Bridge and Structural Trades — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
+  "certification": "OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan",
+  "programmes": [
+    "bridge-and-structural"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "steel-erector"
+    },
+    {
+      "app": "smartcity",
+      "id": "bridge-cable-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "bridge-lead-containment"
+    },
+    {
+      "app": "smartcity",
+      "id": "deck-joint-replacement"
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-structural-bolting-and-torque"
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-tandem-lift-girder-set"
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-bearing-replacement-and-jacking"
+    }
+  ],
+  "unions": [
+    "ironworkers",
+    "iupat",
+    "iuoe",
+    "liuna"
+  ],
+  "unionLine": "Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-tower-site",
+        "bridge-approach-toll-plaza"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "channel-scour-survey"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "bridge-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-causeway-yard",
+        "jf-river-bridge"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-causeway-north"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "financial-district-high-rise",
+        "bay-bridge-crew-yard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "steel-erector": "Steel Erector",
+    "bridge-cable-inspection": "Bridge Cable Inspection",
+    "bridge-lead-containment": "Bridge Lead Containment",
+    "deck-joint-replacement": "Deck Joint Replacement",
+    "bs-structural-bolting-and-torque": "Structural Bolting & Torque",
+    "bs-tandem-lift-girder-set": "Tandem Lift & Girder Set",
+    "bs-bearing-replacement-and-jacking": "Bearing Replacement & Jacking"
+  },
+  "version": "1.0.0",
+  "contentHash": "b4b9abb0",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

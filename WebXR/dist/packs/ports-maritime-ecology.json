@@ -1,0 +1,162 @@
+{
+  "id": "ports-maritime-ecology",
+  "kind": "programme",
+  "name": "Ports, Maritime and Bay Ecology",
+  "title": "SmartCiti.X Ports, Maritime and Bay Ecology — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
+  "certification": "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "container-lashing"
+    },
+    {
+      "app": "smartcity",
+      "id": "shore-power-hookup"
+    },
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch"
+    },
+    {
+      "app": "smartcity",
+      "id": "ballast-water-sampling"
+    },
+    {
+      "app": "smartcity",
+      "id": "spill-boom-deploy"
+    },
+    {
+      "app": "smartcity",
+      "id": "pilot-transfer"
+    },
+    {
+      "app": "smartcity",
+      "id": "mooring-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "reefer-yard-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "straddle-carrier-ops"
+    },
+    {
+      "app": "smartcity",
+      "id": "hazmat-container-inspection"
+    }
+  ],
+  "unions": [
+    "ilwu",
+    "ibu",
+    "ibew",
+    "liuna"
+  ],
+  "unionLine": "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "estuary-research-dock",
+        "island-yacht-harbor",
+        "north-marina-pier",
+        "south-shoreline-marina",
+        "channel-buoy-tender-pier"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "approach-buoy-tender-station",
+        "reef-ball-monitoring-plot",
+        "reef-ball-placement-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "port-terminal",
+        "canal-lock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-harvey-canal-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-shell-beach",
+        "sb-chalmette-ferry"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-intracoastal-lock",
+        "pq-belle-chasse-ferry",
+        "pq-port-sulphur-terminal",
+        "pq-empire-harbour"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "embarcadero-piers",
+        "ferry-building-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "dogpatch-shipyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "port-southern-terminals"
+      ]
+    }
+  ],
+  "stationNames": {
+    "dock-crane": "Dock Crane",
+    "container-lashing": "Container Lashing",
+    "shore-power-hookup": "Shore Power Hookup",
+    "bunkering-watch": "Bunkering Watch",
+    "ballast-water-sampling": "Ballast Water Sampling",
+    "spill-boom-deploy": "Spill Boom Deploy",
+    "pilot-transfer": "Pilot Transfer",
+    "mooring-line": "Mooring Line",
+    "reefer-yard-monitoring": "Reefer Yard Monitoring",
+    "straddle-carrier-ops": "Straddle Carrier Ops",
+    "hazmat-container-inspection": "Hazmat Container Inspection"
+  },
+  "version": "1.0.0",
+  "contentHash": "5925f826",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

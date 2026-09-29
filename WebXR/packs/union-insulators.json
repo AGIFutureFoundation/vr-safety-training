@@ -1,0 +1,103 @@
+{
+  "id": "union-insulators",
+  "kind": "union",
+  "name": "IAHFIAW Union Package",
+  "title": "SmartCiti.X IAHFIAW Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Association of Heat and Frost Insulators and Allied Workers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ib-spray-foam-and-respirator-fit"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-hydrostatic-test-and-inspector-witness"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-refractory-and-castable-installation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-pressure-vessel-confined-entry-and-hot-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-boiler-tube-replacement-and-rolling"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-asbestos-glovebag-removal-on-a-pipe"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-firestop-and-fire-wrap-installation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-mechanical-insulation-pipe-and-jacketing"
+    }
+  ],
+  "unions": [
+    "insulators"
+  ],
+  "unionLine": "International Association of Heat and Frost Insulators and Allied Workers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-maintenance-shop"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "dam"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-harvey-canal-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-refinery"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "dogpatch-shipyard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ib-spray-foam-and-respirator-fit": "Spray Foam and Respirator Fit",
+    "ib-hydrostatic-test-and-inspector-witness": "Hydrostatic Test and Inspector Witness",
+    "ib-refractory-and-castable-installation": "Refractory and Castable Installation",
+    "ib-pressure-vessel-confined-entry-and-hot-work": "Pressure Vessel Confined Entry and Hot Work",
+    "ib-boiler-tube-replacement-and-rolling": "Boiler Tube Replacement and Rolling",
+    "ib-asbestos-glovebag-removal-on-a-pipe": "Asbestos Glovebag Removal on a Pipe",
+    "ib-firestop-and-fire-wrap-installation": "Firestop and Fire Wrap Installation",
+    "ib-mechanical-insulation-pipe-and-jacketing": "Mechanical Insulation, Pipe and Jacketing"
+  },
+  "version": "1.0.0",
+  "contentHash": "42bb71a8",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

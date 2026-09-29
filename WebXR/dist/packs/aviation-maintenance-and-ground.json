@@ -1,0 +1,85 @@
+{
+  "id": "aviation-maintenance-and-ground",
+  "kind": "programme",
+  "name": "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+  "title": "SmartCiti.X Aviation Maintenance and Ground — IAM/TWU Ramp and Line — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs an IAM or TWU ramp and line crew actually rotates through: an aircraft marshalled into a tight hangar bay on two wing-walkers and one shared stop signal, a pushback tug and towbar connected with the steering bypass pin seated before any load, ground power and static bonding proven before a drop of fuel moves, a hold built to the load plan with the hazmat bag segregated on its own, a de-icing pass run top-down and checked clean before the holdover clock starts, a jet raised on three jacks brought up together and locked, a borescope inspection tool-controlled end to end against a shadow board, and a lavatory and potable water service worked on two carts that never share a hose. Every station ends on a proof — a gauge, a confirmed count, a signed log — rather than on how the job looked going together.",
+  "certification": "IAM and TWU ramp and maintenance training; FAA 14 CFR Part 139 movement-area operations, Part 43 maintenance, Part 121 air carrier operations and Part 145 repair stations; NFPA 407 aircraft fuel servicing and NFPA 77 static electricity; OSHA 29 CFR 1910.132, 1910.147, 1910.178, 1910.1200 and 1910.23; ANSI/ISEA 107 high-visibility apparel across eight distinct ramp and line jobs",
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation"
+    }
+  ],
+  "unions": [
+    "iam",
+    "twu"
+  ],
+  "unionLine": "IAM and TWU",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "coliseum-airfield-apron",
+        "island-airfield-park"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-airport-ramp"
+      ]
+    }
+  ],
+  "stationNames": {
+    "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
+    "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+    "av-ground-power-and-static-bonding-before-fuel": "Ground Power & Static Bonding Before Fuel",
+    "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+    "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+    "av-hangar-jacking-and-stands": "Hangar Jacking & Stands",
+    "av-borescope-and-tool-control-inventory": "Borescope & Tool-Control Inventory",
+    "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation"
+  },
+  "version": "1.0.0",
+  "contentHash": "d2fcba8e",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

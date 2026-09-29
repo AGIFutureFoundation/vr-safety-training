@@ -1,0 +1,101 @@
+{
+  "id": "library-trade-skills-simulator",
+  "kind": "library",
+  "name": "Trade Skills Simulator Station Library",
+  "title": "SmartCiti.X Trade Skills Simulator Station Library — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every Trade Skills Simulator station in the catalog in one pack — including stations no programme lists yet.",
+  "certification": null,
+  "programmes": [],
+  "relatedProgrammes": [
+    "bartending-course",
+    "culinary-kitchen",
+    "dental-hygiene-unspoken-smiles",
+    "electrical-first-period",
+    "sewing-garment-trades",
+    "situational-awareness"
+  ],
+  "stations": [
+    {
+      "app": "trades",
+      "id": "electrical"
+    },
+    {
+      "app": "trades",
+      "id": "salon"
+    },
+    {
+      "app": "trades",
+      "id": "kitchen"
+    },
+    {
+      "app": "trades",
+      "id": "phlebotomy"
+    },
+    {
+      "app": "trades",
+      "id": "welding"
+    },
+    {
+      "app": "trades",
+      "id": "devops"
+    },
+    {
+      "app": "trades",
+      "id": "plumbing"
+    }
+  ],
+  "unions": [],
+  "unionLine": null,
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "uptown-restaurant-row",
+        "lake-loop-boathouse",
+        "west-oakland-substation-yard",
+        "west-oakland-warehouse-district",
+        "fruitvale-community-college"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "hospitality-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "fishermans-wharf-kitchens"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "dogpatch-shipyard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "electrical": "Isolation Bay",
+    "salon": "Colour Studio",
+    "kitchen": "Hot Line",
+    "phlebotomy": "Draw Station",
+    "welding": "Weld Bay",
+    "devops": "Deploy Bay",
+    "plumbing": "Rough-In Bay"
+  },
+  "version": "1.0.0",
+  "contentHash": "5c825292",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

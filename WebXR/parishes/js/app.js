@@ -31,6 +31,7 @@ import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
+import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -554,3 +555,30 @@ var stWorld = stMountPaths({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.storyline = stWorld;
+// PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
+npMountPacks($("menu-packs"), parish.id);
+function npMountPacks(el, parishId) {
+  if (!el) return;
+  const PK_PAGE = "../packs/index.html";
+  // STORYLINE's chosen path (st-paths.js) orders the packs: that path's packs first.
+  const chosen = (() => { try { return stChosenPath() ?? null; } catch { return null; } })();
+  const packs = pkPacksAt(`parishes:${parishId}`).filter((p) => p.kind !== "library");
+  const first = (p) => (chosen && (p.path === chosen || p.alsoPaths.includes(chosen)) ? 0 : 1);
+  packs.sort((a, b) => first(a) - first(b) || a.name.localeCompare(b.name));
+  el.textContent = "";
+  if (!packs.length) return;
+  const head = document.createElement("p");
+  head.className = "eyebrow"; head.style.marginTop = "16px";
+  head.textContent = `Holodeck Packs that play here · ${packs.length}`;
+  const row = document.createElement("div");
+  row.className = "row"; row.style.flexWrap = "wrap";
+  for (const p of packs.slice(0, 8)) {
+    const a = document.createElement("a");
+    a.className = "btn"; a.href = PK_PAGE + "?pack=" + encodeURIComponent(p.id);
+    a.textContent = p.name; a.title = p.title;
+    row.appendChild(a);
+  }
+  const brand = document.createElement("p");
+  brand.className = "note"; brand.textContent = packs.length > 8 ? `${PK_BRAND_LINE} — and ${packs.length - 8} more on the Packs page.` : PK_BRAND_LINE;
+  el.append(head, row, brand);
+}

@@ -1,0 +1,129 @@
+{
+  "id": "union-ibb",
+  "kind": "union",
+  "name": "IBB Union Package",
+  "title": "SmartCiti.X IBB Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "shipyard-hotwork"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-spray-foam-and-respirator-fit"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-hydrostatic-test-and-inspector-witness"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-refractory-and-castable-installation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-pressure-vessel-confined-entry-and-hot-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-boiler-tube-replacement-and-rolling"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-asbestos-glovebag-removal-on-a-pipe"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-firestop-and-fire-wrap-installation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ib-mechanical-insulation-pipe-and-jacketing"
+    },
+    {
+      "app": "trades",
+      "id": "welding"
+    }
+  ],
+  "unions": [
+    "ibb"
+  ],
+  "unionLine": "International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-maintenance-shop",
+        "lake-loop-boathouse"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "dam"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-harvey-canal-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-refinery"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-pipeline-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-madisonville-boatyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "dogpatch-shipyard"
+      ]
+    }
+  ],
+  "stationNames": {
+    "shipyard-hotwork": "Shipyard Hot Work",
+    "ib-spray-foam-and-respirator-fit": "Spray Foam and Respirator Fit",
+    "ib-hydrostatic-test-and-inspector-witness": "Hydrostatic Test and Inspector Witness",
+    "ib-refractory-and-castable-installation": "Refractory and Castable Installation",
+    "ib-pressure-vessel-confined-entry-and-hot-work": "Pressure Vessel Confined Entry and Hot Work",
+    "ib-boiler-tube-replacement-and-rolling": "Boiler Tube Replacement and Rolling",
+    "ib-asbestos-glovebag-removal-on-a-pipe": "Asbestos Glovebag Removal on a Pipe",
+    "ib-firestop-and-fire-wrap-installation": "Firestop and Fire Wrap Installation",
+    "ib-mechanical-insulation-pipe-and-jacketing": "Mechanical Insulation, Pipe and Jacketing",
+    "welding": "Weld Bay"
+  },
+  "version": "1.0.0",
+  "contentHash": "cee0c19c",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

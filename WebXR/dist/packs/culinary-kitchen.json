@@ -1,0 +1,133 @@
+{
+  "id": "culinary-kitchen",
+  "kind": "programme",
+  "name": "Culinary — The Working Kitchen",
+  "title": "SmartCiti.X Culinary — The Working Kitchen — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "One kitchen, station by station, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
+  "certification": "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "stations": [
+    {
+      "app": "trades",
+      "id": "kitchen"
+    },
+    {
+      "app": "smartcity",
+      "id": "knife-skills"
+    },
+    {
+      "app": "smartcity",
+      "id": "slicer-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "bakery-mixer"
+    },
+    {
+      "app": "smartcity",
+      "id": "fryer-oil-change"
+    },
+    {
+      "app": "smartcity",
+      "id": "hood-suppression"
+    },
+    {
+      "app": "smartcity",
+      "id": "kitchen-gas-shutoff"
+    },
+    {
+      "app": "smartcity",
+      "id": "walk-in-cooler"
+    },
+    {
+      "app": "smartcity",
+      "id": "receiving-dock-food"
+    },
+    {
+      "app": "smartcity",
+      "id": "prep-cooling"
+    },
+    {
+      "app": "smartcity",
+      "id": "dish-pit"
+    },
+    {
+      "app": "smartcity",
+      "id": "grease-trap"
+    },
+    {
+      "app": "smartcity",
+      "id": "allergen-control"
+    },
+    {
+      "app": "smartcity",
+      "id": "banquet-hot-hold"
+    },
+    {
+      "app": "smartcity",
+      "id": "cafeteria-serving"
+    },
+    {
+      "app": "smartcity",
+      "id": "grill-line-burns"
+    }
+  ],
+  "unions": [
+    "unite-here",
+    "afscme",
+    "seiu"
+  ],
+  "unionLine": "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "uptown-restaurant-row",
+        "uptown-hotel-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "hospitality-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "fishermans-wharf-kitchens"
+      ]
+    }
+  ],
+  "stationNames": {
+    "kitchen": "Hot Line",
+    "knife-skills": "Knife Skills",
+    "slicer-lockout": "Slicer Lockout",
+    "bakery-mixer": "Bakery Mixer",
+    "fryer-oil-change": "Fryer Oil Change",
+    "hood-suppression": "Hood Suppression",
+    "kitchen-gas-shutoff": "Kitchen Gas Shutoff",
+    "walk-in-cooler": "Walk-In Cooler",
+    "receiving-dock-food": "Receiving Dock Food",
+    "prep-cooling": "Prep Cooling",
+    "dish-pit": "Dish Pit",
+    "grease-trap": "Grease Trap",
+    "allergen-control": "Allergen Control",
+    "banquet-hot-hold": "Banquet Hot Hold",
+    "cafeteria-serving": "Cafeteria Serving",
+    "grill-line-burns": "Grill Line Burns"
+  },
+  "version": "1.0.0",
+  "contentHash": "09fd5a20",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

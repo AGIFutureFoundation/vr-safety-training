@@ -1,0 +1,71 @@
+{
+  "id": "airline-cabin-and-flight-crew",
+  "kind": "programme",
+  "name": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+  "title": "SmartCiti.X Airline Cabin and Flight Crew — AFA-CWA and ALPA — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain's own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.",
+  "certification": "AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs",
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-preflight-safety-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-galley-and-cart-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-medical-event-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-unruly-passenger-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-decompression-and-oxygen-masks"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-door-evacuation-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-flight-deck-crew-resource-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-fatigue-and-duty-time-self-check"
+    }
+  ],
+  "unions": [
+    "afa-cwa",
+    "cwa",
+    "alpa"
+  ],
+  "unionLine": "AFA-CWA and ALPA",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [],
+  "stationNames": {
+    "ca-cabin-preflight-safety-check": "Cabin Pre-Flight Safety Check",
+    "ca-galley-and-cart-safety": "Galley and Cart Safety",
+    "ca-cabin-medical-event-response": "Cabin Medical Event Response",
+    "ca-unruly-passenger-deescalation": "Unruly Passenger De-escalation",
+    "ca-cabin-decompression-and-oxygen-masks": "Cabin Decompression and Oxygen Mask Drill",
+    "ca-door-evacuation-drill": "Door Evacuation Drill",
+    "ca-flight-deck-crew-resource-management": "Flight Deck Crew Resource Management Briefing",
+    "ca-fatigue-and-duty-time-self-check": "Fatigue and Duty-Time Self-Check"
+  },
+  "version": "1.0.0",
+  "contentHash": "3918bb9f",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

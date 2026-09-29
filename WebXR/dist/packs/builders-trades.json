@@ -1,0 +1,119 @@
+{
+  "id": "builders-trades",
+  "kind": "programme",
+  "name": "Builders — Carpenters, Laborers and Masons",
+  "title": "SmartCiti.X Builders — Carpenters, Laborers and Masons — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
+  "certification": "OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings",
+  "programmes": [
+    "builders-trades"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "formwork-shoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "mass-timber-panel-set"
+    },
+    {
+      "app": "smartcity",
+      "id": "masonry-silica-scaffold"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-formwork-stripping-and-reshoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-rebar-tying-and-impalement-protection"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-masonry-wall-layout-and-mortar"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-ranch-road-grading-and-culvert"
+    }
+  ],
+  "unions": [
+    "carpenters",
+    "liuna",
+    "bac",
+    "iuoe"
+  ],
+  "unionLine": "UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "uptown-construction-site"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "pass-road"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "equipment-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "levee-floodwall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-surge-barrier"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-bay-construction-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "chestnut-construction"
+      ]
+    }
+  ],
+  "stationNames": {
+    "concrete-pour": "Concrete Pour",
+    "formwork-shoring": "Formwork Shoring",
+    "mass-timber-panel-set": "Mass Timber Panel Set",
+    "masonry-silica-scaffold": "Masonry Silica Scaffold",
+    "bt-formwork-stripping-and-reshoring": "Formwork Stripping & Reshoring",
+    "bt-rebar-tying-and-impalement-protection": "Rebar Tying & Impalement Protection",
+    "bt-masonry-wall-layout-and-mortar": "Masonry Wall Layout & Mortar",
+    "or-ranch-road-grading-and-culvert": "Ranch Road Grading & Culvert"
+  },
+  "version": "1.0.0",
+  "contentHash": "a8f2344e",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

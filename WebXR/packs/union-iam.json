@@ -1,0 +1,240 @@
+{
+  "id": "union-iam",
+  "kind": "union",
+  "name": "IAM Union Package",
+  "title": "SmartCiti.X IAM Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to International Association of Machinists and Aerospace Workers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "aerospace-defense-and-robotics",
+    "aviation-maintenance-and-ground",
+    "transit-ramp"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "signal-cabinet"
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access"
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake"
+    },
+    {
+      "app": "smartcity",
+      "id": "conveyor-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift"
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "cnc-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline"
+    }
+  ],
+  "unions": [
+    "iam"
+  ],
+  "unionLine": "International Association of Machinists and Aerospace Workers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-truck-yard",
+        "west-oakland-robotics-centre",
+        "west-oakland-union-hall",
+        "coliseum-elevated-transit-station",
+        "coliseum-airfield-apron",
+        "island-ferry-landing",
+        "island-airfield-park"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "streetcar-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-airport-ramp",
+        "jf-elmwood-freight",
+        "jf-transit-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-timber-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "transbay-transit-hub",
+        "cable-car-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop",
+        "potrero-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-streetcar-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "cow-hollow-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "third-street-rail-barn"
+      ]
+    }
+  ],
+  "stationNames": {
+    "signal-cabinet": "Signal Cabinet",
+    "track-access": "Track Access",
+    "press-brake": "Press Brake",
+    "conveyor-guard": "Conveyor Guard",
+    "bus-depot-lift": "Bus Depot Lift",
+    "forklift-dock": "Forklift Dock",
+    "airport-ramp": "Airport Ramp",
+    "cnc-cell": "CNC Cell",
+    "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
+    "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus",
+    "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation",
+    "av-borescope-and-tool-control-inventory": "Borescope & Tool-Control Inventory",
+    "av-hangar-jacking-and-stands": "Hangar Jacking & Stands",
+    "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+    "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+    "av-ground-power-and-static-bonding-before-fuel": "Ground Power & Static Bonding Before Fuel",
+    "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+    "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals",
+    "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation",
+    "ad-payload-crane-lift-with-a-lift-plan": "Payload Crane Lift with a Lift Plan",
+    "ad-test-stand-exclusion-zone-and-holds": "Test Stand Exclusion Zone & Holds",
+    "ad-hazardous-fluid-servicing-with-a-buddy": "Hazardous Fluid Servicing with a Buddy",
+    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
+    "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
+    "ad-cleanroom-gowning-and-esd-discipline": "Cleanroom Gowning & ESD Discipline"
+  },
+  "version": "1.0.0",
+  "contentHash": "5581f3e2",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

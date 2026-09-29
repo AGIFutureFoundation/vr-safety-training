@@ -1,0 +1,100 @@
+{
+  "id": "library-connectivity-and-telecom",
+  "kind": "library",
+  "name": "Connectivity & Telecom Station Library",
+  "title": "SmartCiti.X Connectivity & Telecom Station Library — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every Connectivity & Telecom station in the catalog in one pack — including stations no programme lists yet.",
+  "certification": null,
+  "programmes": [],
+  "relatedProgrammes": [
+    "energy-transition",
+    "fall-protection",
+    "situational-awareness",
+    "wind-and-data-infrastructure"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "splice-node"
+    },
+    {
+      "app": "smartcity",
+      "id": "tower-climb"
+    },
+    {
+      "app": "smartcity",
+      "id": "cell-site-battery"
+    },
+    {
+      "app": "smartcity",
+      "id": "microwave-backhaul"
+    },
+    {
+      "app": "smartcity",
+      "id": "aerial-lashing"
+    },
+    {
+      "app": "smartcity",
+      "id": "data-hall"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-ocean-pod-retrieval-and-hatch-opening"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-crah-alarm-response-in-a-live-hall"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-raised-floor-tile-lift-and-cable-tray-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-data-hall-busway-install-and-torque-signoff"
+    }
+  ],
+  "unions": [],
+  "unionLine": null,
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "emery-data-center-campus"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "mud-plain-data-pod-skid"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "ridge-line"
+      ]
+    }
+  ],
+  "stationNames": {
+    "splice-node": "Splice Node",
+    "tower-climb": "Tower Climb",
+    "cell-site-battery": "Cell Site Battery",
+    "microwave-backhaul": "Microwave Backhaul",
+    "aerial-lashing": "Aerial Lashing",
+    "data-hall": "Data Hall",
+    "ws-ocean-pod-retrieval-and-hatch-opening": "Ocean Pod Retrieval & Hatch Opening",
+    "ws-crah-alarm-response-in-a-live-hall": "CRAH Alarm Response in a Live Hall",
+    "ws-raised-floor-tile-lift-and-cable-tray-safety": "Raised-Floor Tile Lift & Cable Tray Safety",
+    "ws-data-hall-busway-install-and-torque-signoff": "Data-Hall Busway Install & Torque Sign-Off"
+  },
+  "version": "1.0.0",
+  "contentHash": "fc63d1af",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

@@ -1,0 +1,139 @@
+{
+  "id": "port-operations",
+  "kind": "programme",
+  "name": "Port and Terminal Operations",
+  "title": "SmartCiti.X Port and Terminal Operations — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "A ship comes alongside, is secured, is fuelled, is worked and leaves. Its stations follow that order, each with a different way to put oil or steel where it should not be.",
+  "certification": "USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals",
+  "programmes": [
+    "port-operations"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "mooring-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch"
+    },
+    {
+      "app": "smartcity",
+      "id": "container-lashing"
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "vessel-gangway-and-hatch-cover-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "po-lashing-gear-inspection-and-tagging"
+    },
+    {
+      "app": "smartcity",
+      "id": "po-yard-hostler-and-pedestrian-separation"
+    }
+  ],
+  "unions": [
+    "ilwu",
+    "meba",
+    "siu",
+    "teamsters"
+  ],
+  "unionLine": "ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-container-terminal",
+        "estuary-research-dock",
+        "island-yacht-harbor",
+        "south-shoreline-marina",
+        "channel-buoy-tender-pier"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "approach-buoy-tender-station",
+        "reef-ball-placement-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "port-terminal",
+        "canal-lock",
+        "ferry-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-harvey-canal-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-chalmette-ferry"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-intracoastal-lock",
+        "pq-belle-chasse-ferry",
+        "pq-port-sulphur-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "embarcadero-piers",
+        "ferry-building-landing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "dogpatch-shipyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "port-southern-terminals"
+      ]
+    }
+  ],
+  "stationNames": {
+    "mooring-line": "Mooring Line",
+    "bunkering-watch": "Bunkering Watch",
+    "container-lashing": "Container Lashing",
+    "dock-crane": "Dock Crane",
+    "vessel-gangway-and-hatch-cover-safety": "Vessel Gangway & Hatch Cover Safety",
+    "po-lashing-gear-inspection-and-tagging": "Lashing Gear Inspection & Tagging",
+    "po-yard-hostler-and-pedestrian-separation": "Yard Hostler & Pedestrian Separation"
+  },
+  "version": "1.0.0",
+  "contentHash": "fcdb0dca",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

@@ -1,0 +1,133 @@
+{
+  "id": "union-aft",
+  "kind": "union",
+  "name": "AFT Union Package",
+  "title": "SmartCiti.X AFT Union Package — Powered by AGI Corp",
+  "audience": "school-staff",
+  "summary": "Every station the platform ties to American Federation of Teachers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "education-support-staff"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ed-boiler-room-filter-change-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-kitchen-receiving-and-warewash-sanitizing"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-science-lab-chemical-storage-and-eyewash"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-paraeducator-safe-lift-and-transfer"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-crossing-guard-intersection-control"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-bus-pretrip-and-loading-zone"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-playground-equipment-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-custodial-chemical-dilution-and-floor-machine"
+    }
+  ],
+  "unions": [
+    "aft"
+  ],
+  "unionLine": "American Federation of Teachers",
+  "k12Bands": [],
+  "path": "teachers",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "fruitvale-elementary-school"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "campground"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "university-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-lafreniere-park"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-covington-campus",
+        "st-tammany-trace"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "lone-mountain-university-campus",
+        "sunset-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bayview-rec-centre"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ed-boiler-room-filter-change-lockout": "Boiler Room & HVAC Filter Change with Lockout",
+    "ed-kitchen-receiving-and-warewash-sanitizing": "Kitchen Receiving & Warewash Sanitizing",
+    "ed-science-lab-chemical-storage-and-eyewash": "Science Lab Chemical Storage & Eyewash Check",
+    "ed-paraeducator-safe-lift-and-transfer": "Paraeducator Safe Lift & Transfer",
+    "ed-crossing-guard-intersection-control": "Crossing Guard Intersection Control",
+    "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
+    "ed-playground-equipment-inspection": "Playground Equipment Inspection",
+    "ed-custodial-chemical-dilution-and-floor-machine": "Custodial Chemical Dilution & Floor Machine"
+  },
+  "version": "1.0.0",
+  "contentHash": "30a0467c",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

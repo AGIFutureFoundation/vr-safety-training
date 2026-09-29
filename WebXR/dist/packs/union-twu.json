@@ -1,0 +1,181 @@
+{
+  "id": "union-twu",
+  "kind": "union",
+  "name": "TWU Union Package",
+  "title": "SmartCiti.X TWU Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to Transport Workers Union of America: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "aviation-maintenance-and-ground",
+    "transit-ramp"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "signal-cabinet"
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift"
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals"
+    }
+  ],
+  "unions": [
+    "twu"
+  ],
+  "unionLine": "Transport Workers Union of America",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-truck-yard",
+        "coliseum-elevated-transit-station",
+        "coliseum-airfield-apron",
+        "island-ferry-landing",
+        "island-airfield-park"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "streetcar-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-airport-ramp",
+        "jf-elmwood-freight",
+        "jf-transit-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-timber-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "transbay-transit-hub",
+        "cable-car-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "potrero-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-streetcar-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "cow-hollow-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "third-street-rail-barn"
+      ]
+    }
+  ],
+  "stationNames": {
+    "signal-cabinet": "Signal Cabinet",
+    "track-access": "Track Access",
+    "bus-depot-lift": "Bus Depot Lift",
+    "forklift-dock": "Forklift Dock",
+    "airport-ramp": "Airport Ramp",
+    "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
+    "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus",
+    "av-lavatory-and-potable-water-separation": "Lavatory & Potable Water Separation",
+    "av-borescope-and-tool-control-inventory": "Borescope & Tool-Control Inventory",
+    "av-hangar-jacking-and-stands": "Hangar Jacking & Stands",
+    "av-deicing-truck-boom-operations": "De-icing Truck Boom Operations",
+    "av-baggage-belt-loader-and-hold-loading": "Baggage Belt-Loader & Hold Loading",
+    "av-ground-power-and-static-bonding-before-fuel": "Ground Power & Static Bonding Before Fuel",
+    "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
+    "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals"
+  },
+  "version": "1.0.0",
+  "contentHash": "3b43ae9b",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

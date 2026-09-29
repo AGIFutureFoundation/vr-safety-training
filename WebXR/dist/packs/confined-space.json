@@ -1,0 +1,142 @@
+{
+  "id": "confined-space",
+  "kind": "programme",
+  "name": "Confined Space — Entry and Rescue",
+  "title": "SmartCiti.X Confined Space — Entry and Rescue — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Four spaces and the rescue. The first three build the permit, the atmosphere and the attendant; the last one is what happens when all of that failed for somebody else.",
+  "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with NFPA 1006 rescue technician for the last station",
+  "programmes": [
+    "confined-space"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "valve-vault"
+    },
+    {
+      "app": "smartcity",
+      "id": "lift-station"
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "confined-rescue"
+    },
+    {
+      "app": "smartcity",
+      "id": "manhole-entry-and-atmospheric-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-permit-entry-and-attendant-duties"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-ventilation-and-air-monitoring-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-non-entry-retrieval-and-tripod"
+    }
+  ],
+  "unions": [
+    "liuna",
+    "ua",
+    "iuoe",
+    "iaff"
+  ],
+  "unionLine": "LIUNA, UA, IUOE and IAFF technical rescue",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-utility-yard",
+        "south-treatment-plant"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "outfall-intake-lockout-site"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "water-plant",
+        "dam"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "pumping-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-pump-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-refinery"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-intracoastal-lock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "islais-creek-pump-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "sunset-reservoir-pump-house"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "marina-seawall-crew"
+      ]
+    }
+  ],
+  "stationNames": {
+    "valve-vault": "Valve Vault",
+    "lift-station": "Lift Station",
+    "chlorine-room": "Chlorine Room",
+    "confined-rescue": "Confined Rescue",
+    "manhole-entry-and-atmospheric-monitoring": "Manhole Entry & Atmospheric Monitoring",
+    "cs-permit-entry-and-attendant-duties": "Permit Entry & Attendant Duties",
+    "cs-ventilation-and-air-monitoring-plan": "Ventilation & Air Monitoring Plan",
+    "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod"
+  },
+  "version": "1.0.0",
+  "contentHash": "535783e1",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

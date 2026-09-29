@@ -1,0 +1,92 @@
+{
+  "id": "library-sewing-and-garment-trades",
+  "kind": "library",
+  "name": "Sewing & Garment Trades Station Library",
+  "title": "SmartCiti.X Sewing & Garment Trades Station Library — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every Sewing & Garment Trades station in the catalog in one pack.",
+  "certification": null,
+  "programmes": [],
+  "relatedProgrammes": [
+    "sewing-garment-trades"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "industrial-press-steam"
+    },
+    {
+      "app": "smartcity",
+      "id": "hem-and-buttonhole"
+    },
+    {
+      "app": "smartcity",
+      "id": "pattern-marking-layout"
+    },
+    {
+      "app": "smartcity",
+      "id": "garment-inspection-finish"
+    },
+    {
+      "app": "smartcity",
+      "id": "alteration-repair-ticket"
+    },
+    {
+      "app": "smartcity",
+      "id": "sewing-ergonomics-shift"
+    },
+    {
+      "app": "smartcity",
+      "id": "cutting-table-rotary"
+    },
+    {
+      "app": "smartcity",
+      "id": "serger-overlock"
+    },
+    {
+      "app": "smartcity",
+      "id": "lockstitch-seam-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "machine-threading-needle"
+    }
+  ],
+  "unions": [],
+  "unionLine": null,
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-warehouse-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop"
+      ]
+    }
+  ],
+  "stationNames": {
+    "industrial-press-steam": "Industrial Press & Steam",
+    "hem-and-buttonhole": "Hem & Buttonhole",
+    "pattern-marking-layout": "Pattern Marking & Layout",
+    "garment-inspection-finish": "Garment Inspection & Finish",
+    "alteration-repair-ticket": "Alteration Repair Ticket",
+    "sewing-ergonomics-shift": "Sewing Ergonomics",
+    "cutting-table-rotary": "Cutting Table and Rotary Knife",
+    "serger-overlock": "Serger and Overlock",
+    "lockstitch-seam-guard": "Lockstitch Seam Behind the Guard",
+    "machine-threading-needle": "Machine Threading and Needle"
+  },
+  "version": "1.0.0",
+  "contentHash": "e2512955",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

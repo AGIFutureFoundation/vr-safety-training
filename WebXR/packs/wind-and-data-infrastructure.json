@@ -1,0 +1,87 @@
+{
+  "id": "wind-and-data-infrastructure",
+  "kind": "programme",
+  "name": "Wind & Data Infrastructure",
+  "title": "SmartCiti.X Wind & Data Infrastructure — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.",
+  "certification": "Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan",
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ws-turbine-climb-and-rescue-kit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-nacelle-lockout-and-yaw-brake-fault"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-blade-inspection-from-a-platform"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-substation-switching-under-a-permit"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-data-hall-busway-install-and-torque-signoff"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-raised-floor-tile-lift-and-cable-tray-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-crah-alarm-response-in-a-live-hall"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-ocean-pod-retrieval-and-hatch-opening"
+    }
+  ],
+  "unions": [
+    "ibew",
+    "iuoe",
+    "ironworkers",
+    "ua",
+    "smart"
+  ],
+  "unionLine": "IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "ridge-wind-farm",
+        "emery-data-center-campus"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "mud-plain-data-pod-skid"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check",
+    "ws-nacelle-lockout-and-yaw-brake-fault": "Nacelle Lockout & Yaw-Brake Fault",
+    "ws-blade-inspection-from-a-platform": "Blade Inspection from a Platform",
+    "ws-substation-switching-under-a-permit": "Collector Substation Switching Under a Permit",
+    "ws-data-hall-busway-install-and-torque-signoff": "Data-Hall Busway Install & Torque Sign-Off",
+    "ws-raised-floor-tile-lift-and-cable-tray-safety": "Raised-Floor Tile Lift & Cable Tray Safety",
+    "ws-crah-alarm-response-in-a-live-hall": "CRAH Alarm Response in a Live Hall",
+    "ws-ocean-pod-retrieval-and-hatch-opening": "Ocean Pod Retrieval & Hatch Opening"
+  },
+  "version": "1.0.0",
+  "contentHash": "c80ca042",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

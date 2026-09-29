@@ -1,0 +1,84 @@
+{
+  "id": "k12-history-and-civics",
+  "kind": "k12",
+  "name": "K-12 History and Civics",
+  "title": "SmartCiti.X K-12 History and Civics — Powered by AGI Corp",
+  "audience": "classroom",
+  "summary": "History taught as method, not as contested claims: sources questioned, a timeline built from the lesson's own fictional archive, an oral history interview, a council meeting, guilds as research prompts and maps across eras. Where the evidence runs out, the learner says so.",
+  "certification": "No certificate: a completion record for the class. The lesson is aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance, to the INEE Minimum Standards for learning in low-resource and emergency settings and to the national curriculum framework the school itself follows; none of them certifies it, and no grade-level code is claimed",
+  "programmes": [
+    "k12-history-and-civics"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "k12-primary-and-secondary-sources"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-building-a-timeline-from-documents"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-how-a-local-council-meeting-works"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-oral-history-interview-skills"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-guilds-and-the-history-of-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-map-literacy-across-eras"
+    }
+  ],
+  "unions": [],
+  "unionLine": "AFT and the National Education Association as the teachers' own training bodies; the programme is a classroom resource, not a union apprenticeship",
+  "k12Bands": [
+    "lower to upper secondary"
+  ],
+  "path": "k12",
+  "alsoPaths": [
+    "teachers"
+  ],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-civic-center",
+        "west-oakland-union-hall",
+        "fruitvale-elementary-school"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-battlefield-park"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-fort-jackson"
+      ]
+    }
+  ],
+  "stationNames": {
+    "k12-primary-and-secondary-sources": "Primary and Secondary Sources",
+    "k12-building-a-timeline-from-documents": "Building a Timeline from Documents",
+    "k12-how-a-local-council-meeting-works": "How a Local Council Meeting Works",
+    "k12-oral-history-interview-skills": "Oral History Interview Skills",
+    "k12-guilds-and-the-history-of-work": "Guilds and the History of Work",
+    "k12-map-literacy-across-eras": "Map Literacy Across Eras"
+  },
+  "version": "1.0.0",
+  "contentHash": "b5ca88ea",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

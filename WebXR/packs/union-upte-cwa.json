@@ -1,0 +1,127 @@
+{
+  "id": "union-upte-cwa",
+  "kind": "union",
+  "name": "UPTE-CWA Union Package",
+  "title": "SmartCiti.X UPTE-CWA Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to University Professional and Technical Employees, CWA Local 9119: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "me-invasive-species-identification-and-reporting"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-shoreline-debris-and-microplastics-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-fish-visual-census-and-data-sheet"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-tidal-marsh-channel-restoration-day"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-water-column-sampling-from-a-small-boat"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-eelgrass-seed-collection-and-nursery"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-oyster-reef-monitoring-and-settlement-tiles"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-kelp-transect-survey-and-photo-quadrats"
+    }
+  ],
+  "unions": [
+    "upte-cwa"
+  ],
+  "unionLine": "University Professional and Technical Employees, CWA Local 9119",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "estuary-research-dock",
+        "north-shoreline-field-lab",
+        "channel-buoy-tender-pier"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "eelgrass-transplant-plots",
+        "eelgrass-fish-census-line",
+        "marsh-mouth-tide-gate",
+        "kelp-transect-start",
+        "flats-sediment-core-site",
+        "reef-ball-monitoring-plot",
+        "seamount-capstone-survey"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "nursery",
+        "estuary"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "wetland-restoration"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-central-wetlands",
+        "sb-shell-beach"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-empire-harbour",
+        "pq-venice-marina"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-big-branch"
+      ]
+    }
+  ],
+  "stationNames": {
+    "me-invasive-species-identification-and-reporting": "Invasive Species Identification & Reporting",
+    "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
+    "me-fish-visual-census-and-data-sheet": "Fish Visual Census & Data Sheet",
+    "me-tidal-marsh-channel-restoration-day": "Tidal Marsh Channel Restoration Day",
+    "me-water-column-sampling-from-a-small-boat": "Water Column Sampling From A Small Boat",
+    "me-eelgrass-seed-collection-and-nursery": "Eelgrass Seed Collection & Nursery",
+    "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
+    "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats"
+  },
+  "version": "1.0.0",
+  "contentHash": "33c40f08",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

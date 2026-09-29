@@ -1,0 +1,100 @@
+{
+  "id": "sewing-garment-trades",
+  "kind": "programme",
+  "name": "Sewing and Garment Trades",
+  "title": "SmartCiti.X Sewing and Garment Trades — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.",
+  "certification": "OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators",
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "stations": [
+    {
+      "app": "trades",
+      "id": "salon"
+    },
+    {
+      "app": "smartcity",
+      "id": "machine-threading-needle"
+    },
+    {
+      "app": "smartcity",
+      "id": "lockstitch-seam-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "serger-overlock"
+    },
+    {
+      "app": "smartcity",
+      "id": "cutting-table-rotary"
+    },
+    {
+      "app": "smartcity",
+      "id": "pattern-marking-layout"
+    },
+    {
+      "app": "smartcity",
+      "id": "hem-and-buttonhole"
+    },
+    {
+      "app": "smartcity",
+      "id": "industrial-press-steam"
+    },
+    {
+      "app": "smartcity",
+      "id": "sewing-ergonomics-shift"
+    },
+    {
+      "app": "smartcity",
+      "id": "alteration-repair-ticket"
+    },
+    {
+      "app": "smartcity",
+      "id": "garment-inspection-finish"
+    }
+  ],
+  "unions": [
+    "workers-united",
+    "seiu",
+    "unite-here"
+  ],
+  "unionLine": "Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-warehouse-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "soma-maker-workshop"
+      ]
+    }
+  ],
+  "stationNames": {
+    "salon": "Colour Studio",
+    "machine-threading-needle": "Machine Threading and Needle",
+    "lockstitch-seam-guard": "Lockstitch Seam Behind the Guard",
+    "serger-overlock": "Serger and Overlock",
+    "cutting-table-rotary": "Cutting Table and Rotary Knife",
+    "pattern-marking-layout": "Pattern Marking & Layout",
+    "hem-and-buttonhole": "Hem & Buttonhole",
+    "industrial-press-steam": "Industrial Press & Steam",
+    "sewing-ergonomics-shift": "Sewing Ergonomics",
+    "alteration-repair-ticket": "Alteration Repair Ticket",
+    "garment-inspection-finish": "Garment Inspection & Finish"
+  },
+  "version": "1.0.0",
+  "contentHash": "e8972f12",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

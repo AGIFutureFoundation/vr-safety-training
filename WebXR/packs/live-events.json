@@ -1,0 +1,92 @@
+{
+  "id": "live-events",
+  "kind": "programme",
+  "name": "Live Events Production",
+  "title": "SmartCiti.X Live Events Production — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "A load-in from the truck to the house lights, in the order a call actually runs, with the two things that kill on a stage: what is overhead and what is energised.",
+  "certification": "ETCP Certified Rigger and Certified Entertainment Electrician, ANSI E1.4-1 counterweight rigging and NFPA 70E for the power tie-in",
+  "programmes": [
+    "live-events"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "stage-power"
+    },
+    {
+      "app": "smartcity",
+      "id": "fly-system"
+    },
+    {
+      "app": "smartcity",
+      "id": "rigging-loft"
+    },
+    {
+      "app": "smartcity",
+      "id": "chain-hoist"
+    },
+    {
+      "app": "smartcity",
+      "id": "stage-load-in-and-truss-rigging"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-followspot-and-truss-access-at-height"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-crowd-barricade-and-show-stop-call"
+    }
+  ],
+  "unions": [
+    "iatse"
+  ],
+  "unionLine": "IATSE — International Alliance of Theatrical Stage Employees",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "coliseum-stadium"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "stadium-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "china-basin-stadium-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "fort-mason-piers"
+      ]
+    }
+  ],
+  "stationNames": {
+    "stage-power": "Stage Power",
+    "fly-system": "Fly System",
+    "rigging-loft": "Rigging Loft",
+    "chain-hoist": "Chain Hoist",
+    "stage-load-in-and-truss-rigging": "Stage Load-In & Truss Rigging",
+    "le-followspot-and-truss-access-at-height": "Followspot & Truss Access at Height",
+    "le-crowd-barricade-and-show-stop-call": "Crowd Barricade & Show-Stop Call"
+  },
+  "version": "1.0.0",
+  "contentHash": "12683ace",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

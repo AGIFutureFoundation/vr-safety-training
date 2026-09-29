@@ -1,0 +1,134 @@
+{
+  "id": "education-support-staff",
+  "kind": "programme",
+  "name": "Education Support Staff — Custodial, Grounds, Transport and Classroom",
+  "title": "SmartCiti.X Education Support Staff — Custodial, Grounds, Transport and Classroom — Powered by AGI Corp",
+  "audience": "school-staff",
+  "summary": "Eight jobs a school's classified staff actually rotate through: a custodial chemical metered through the wall dispenser instead of eyeballed and a floor machine walked for defects before it's plugged in, a playground walked and its climbing structure checked close up before the gate opens, a school bus pre-tripped and driven to a curb stop where the stop arm and crossing gate come out together, a crossing guard judging a real gap in traffic rather than guessing one, a paraeducator's two-person transfer run to the student's own plan, a science lab's chemical storage checked against its compatibility chart with the eyewash and drench shower proven together, a kitchen's delivery probed and its sanitizer tested to the strip rather than by eye, and a boiler room's air handler locked, tagged and proven dead before its filter panel ever comes off. Every station ends on a proof — a gauge, a test strip, a signed log — rather than on how routine the job looked going in.",
+  "certification": "AFT and CSEA training for classified school employees, tested against OSHA's hazard communication, PPE, control-of-hazardous-energy and bloodborne-pathogens standards, ANSI/ISEA Z358.1, FMCSA's school-bus inspection and driving rules, the MUTCD, the California Retail Food Code and NFPA 85 across eight distinct classified-staff jobs",
+  "programmes": [
+    "education-support-staff"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ed-custodial-chemical-dilution-and-floor-machine"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-playground-equipment-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-bus-pretrip-and-loading-zone"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-crossing-guard-intersection-control"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-paraeducator-safe-lift-and-transfer"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-science-lab-chemical-storage-and-eyewash"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-kitchen-receiving-and-warewash-sanitizing"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-boiler-room-filter-change-lockout"
+    }
+  ],
+  "unions": [
+    "aft",
+    "csea"
+  ],
+  "unionLine": "AFT and CSEA",
+  "k12Bands": [],
+  "path": "teachers",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "fruitvale-elementary-school"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "campground"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "university-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-lafreniere-park"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-covington-campus",
+        "st-tammany-trace"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mission-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "lone-mountain-university-campus",
+        "sunset-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bayview-rec-centre"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ed-custodial-chemical-dilution-and-floor-machine": "Custodial Chemical Dilution & Floor Machine",
+    "ed-playground-equipment-inspection": "Playground Equipment Inspection",
+    "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
+    "ed-crossing-guard-intersection-control": "Crossing Guard Intersection Control",
+    "ed-paraeducator-safe-lift-and-transfer": "Paraeducator Safe Lift & Transfer",
+    "ed-science-lab-chemical-storage-and-eyewash": "Science Lab Chemical Storage & Eyewash Check",
+    "ed-kitchen-receiving-and-warewash-sanitizing": "Kitchen Receiving & Warewash Sanitizing",
+    "ed-boiler-room-filter-change-lockout": "Boiler Room & HVAC Filter Change with Lockout"
+  },
+  "version": "1.0.0",
+  "contentHash": "02002e4a",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

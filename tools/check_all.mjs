@@ -66,6 +66,8 @@ const CHECKERS = [
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
   "check_newton.mjs",
   "check_unity_export.mjs",
+  // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
+  "check_packs.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",

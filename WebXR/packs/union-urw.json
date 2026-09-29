@@ -1,0 +1,76 @@
+{
+  "id": "union-urw",
+  "kind": "union",
+  "name": "URW Union Package",
+  "title": "SmartCiti.X URW Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to United Union of Roofers, Waterproofers and Allied Workers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "rf-green-roof-and-overburden-placement"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-skylight-and-hatch-guarding"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-roof-tear-off-and-debris-chute"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-below-grade-waterproofing-and-drainage-board"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-standing-seam-metal-panel-and-clip"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-hot-asphalt-kettle-and-mop"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-single-ply-tpo-heat-welding-and-seam-probe"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-torch-applied-membrane-and-fire-watch"
+    }
+  ],
+  "unions": [
+    "urw"
+  ],
+  "unionLine": "United Union of Roofers, Waterproofers and Allied Workers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-housing-block"
+      ]
+    }
+  ],
+  "stationNames": {
+    "rf-green-roof-and-overburden-placement": "Green Roof & Overburden Placement",
+    "rf-skylight-and-hatch-guarding": "Skylight & Hatch Guarding",
+    "rf-roof-tear-off-and-debris-chute": "Roof Tear-Off & Debris Chute",
+    "rf-below-grade-waterproofing-and-drainage-board": "Below-Grade Waterproofing & Drainage Board",
+    "rf-standing-seam-metal-panel-and-clip": "Standing-Seam Metal Panel & Clip",
+    "rf-hot-asphalt-kettle-and-mop": "Hot Asphalt Kettle & Mop",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe": "Single-Ply TPO Heat Welding & Seam Probe",
+    "rf-torch-applied-membrane-and-fire-watch": "Torch-Applied Membrane & Fire Watch"
+  },
+  "version": "1.0.0",
+  "contentHash": "3020a72d",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}
