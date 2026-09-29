@@ -37,6 +37,10 @@ import { IX_STYLES, IX_KIND_STYLE, IX_BUDGET, ixStyleFor, ixBuild, ixRegisterDre
   width/depth), drawn as one InstancedMesh; a free-standing one that reaches the floor is also a collider.
 - **TYCOON.** `ixTycoonStyle(listing, business)`: a rented room opens `rented-room`, a rented shop `shop`, and a shop with
   the learner's play business the style of its trade (`IX_BUSINESS_STYLE`); the app passes `{ style, title }` to `enter`.
+- **Single-site styles (LA-ROOMS).** `IX_SITE_STYLE` (site id → style id) is read before the kind by `ixStyleFor(kind, siteId)`
+  and by `enter`. It lets one site whose kind is generic ("office", "substation", "campus") open a room of its own. The
+  one-argument `ixStyleFor(kind)` is unchanged. The six Louisiana styles (`lar-*`) and their dressers are in
+  `docs/consoles/LA-ROOMS.md`.
 - **Plain data for TradeQuest.** `IX_STYLES`, `IX_KIND_STYLE`, `IX_FEATURES`, `IX_BUSINESS_STYLE` and `IX_BUDGET` are
   dependency-free data (numbers and strings) BRIDGE can export as they are.
 - **Mount.** `ixMountInteriors({ three, scene, hide: [objects], tier, onBoard, onLaunch, onToast })` →

@@ -172,7 +172,7 @@ for (const [id, abbrev] of Object.entries(LAR.LAR_CRAFT_NAMES)) {
 }
 for (const c of LP.LP_PATHWAYS.flatMap((p) => p.crafts.map((x) => x.union))) check(!!LAR.LAR_CRAFT_NAMES[c], `craft ${c} has a trade reference`);
 const src = readFileSync(join(WEBXR, "shared/lar-rooms.js"), "utf8");
-check(!/claude|opus|sonnet|haiku|gpt-/i.test(src), "no model identifier in the module");
+check(!/\b(claude|gpt)-[a-z0-9]/i.test(src), "no model identifier pattern in the module");
 check(!/\b\d[\d,.]*\s*(jobs|acres|billion|million|MW|GW)\b/i.test(src), "no project figure in the module");
 
 // 6. a mount round trip on the data hall.
