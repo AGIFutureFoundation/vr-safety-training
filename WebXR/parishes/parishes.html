@@ -94,6 +94,9 @@
   @media (pointer:coarse){.ux-menu-btn{display:none}.home-chip{min-height:44px;padding:0 14px}}
   @media (pointer:coarse) and (max-width:760px){#hud-where{top:calc(60px + env(safe-area-inset-top,0px))}}
   @media (max-width:760px){#hud-keys{display:none}#hud-where{left:10px;top:calc(50px + env(safe-area-inset-top,0px));transform:none;min-width:0;max-width:46vw;text-align:left}#hud-where b{font-size:16px}#hud-stats{max-width:46vw}}
+.wk-atlas .wk-region { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:6px 0; }
+.wk-atlas .wk-region .eyebrow { flex-basis:100%; margin:4px 0 0; }
+.wk-atlas .wk-map.on { outline:2px solid currentColor; }
 </style>
 </head>
 <body>
@@ -151,6 +154,8 @@
       </div>
       <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
       <div class="row" id="menu-parishes"></div>
+      <p class="eyebrow" style="margin-top:16px">Region atlas: the maps joined by their crossings, and the worlds beyond</p>
+      <div id="wk-atlas" class="wk-atlas"></div>
     </div>
     <div class="ux-panel" role="tabpanel" id="ux-panel-me" aria-labelledby="ux-tab-me" tabindex="0" hidden>
       <p class="ux-sub">Passport, scoreboard and settings</p>
@@ -245,6 +250,7 @@
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="wk-fade" hidden aria-hidden="true" style="position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:60"></div>
 <script>
 // INTERFACE: the Me tab's reduced-motion choice (localStorage "ux-reduced"), applied before any module reads
 // prefers-reduced-motion, so every module's own still-world path runs. The system setting always wins.

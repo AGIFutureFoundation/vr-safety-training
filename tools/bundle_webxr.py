@@ -865,6 +865,8 @@ APPS = {
             SHARED / "mv-world.js",
             # INTERIORS: walk-in generic rooms for the site buildings (after nw-physics.js).
             SHARED / "ix-interiors.js",
+            # WALKABLE: walk-through connectors, soft edges, the region atlas (after np-parishes.js and np-parish.js).
+            SHARED / "wk-walkable.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
             # CLEANPORTS: the zero-emission port stations keyed to BAYMAP's West Oakland sites (pure data, guarded).

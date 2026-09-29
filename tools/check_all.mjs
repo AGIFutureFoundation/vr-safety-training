@@ -78,6 +78,8 @@ const CHECKERS = [
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
   "check_newton.mjs",
   "check_motorworks.mjs",
+  // WALKABLE: walk-through connectors round-trip, soft edges, the region atlas (docs/consoles/WALKABLE.md).
+  "check_walkable.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
   // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).

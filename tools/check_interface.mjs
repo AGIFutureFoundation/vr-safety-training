@@ -39,7 +39,7 @@ export const UX_HEADER = ["menu", "menu-eyebrow", "menu-parish", "menu-blurb", "
 export const UX_TAB_MOUNTS = {
   learn: ["menu-storyline", "menu-dean", "menu-paths", "menu-cognition", "menu-drills", "menu-sims", "menu-ps", "menu-packs"],
   play: ["menu-ledger", "menu-motorpool", "menu-krewe", "menu-bayquest", "bq-board"],
-  map: ["menu-parishes"],
+  map: ["menu-parishes", "wk-atlas"],
   me: ["menu-passport", "menu-dataworks", "menu-sound"],
 };
 const UX_TABS = ["learn", "play", "map", "me"];
