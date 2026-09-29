@@ -223,4 +223,4 @@ if (mapRows.length) {
 await browser.close();
 server.close();
 if (failures) { console.log(`check_mobile: ${failures} failed, ${passes} passed`); process.exit(1); }
-console.log(`check_mobile: ${passes} checks pass — ${covered.length} page sizes (${GAMES.map((g) => g.page).join(", ")} at 360x640 and 640x360${MAPS.length ? `; ${MAPS.length} Louisiana maps at 360x640, tier low` : ""})`);
+console.log(`check_mobile: ${passes} checks pass — ${covered.length} page sizes (${[GAMES.length ? `${GAMES.map((g) => g.page).join(", ")} at 360x640 and 640x360` : "", MAPS.length ? `${MAPS.length} Louisiana maps at 360x640, tier low` : ""].filter(Boolean).join("; ")})`);
