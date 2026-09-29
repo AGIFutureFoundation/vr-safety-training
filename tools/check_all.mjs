@@ -110,6 +110,7 @@ const CHECKERS = [
   "check_landmarks.mjs",
   // INTERIORS: every room style builds in budget, every site kind maps to a style, enter/exit round-trips, stations launch inside (docs/consoles/INTERIORS.md).
   "check_interiors.mjs",
+  "check_la_rooms.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
   // SMILES: the Unspoken Smiles District — stations resolve, game lines trace to the stations, K-12 only in K-12 spots (docs/consoles/SMILES.md).
