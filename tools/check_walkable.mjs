@@ -9,10 +9,14 @@
  *   - no crossing lands on water or on a road centreline (every landing dry and off the carriageway);
  *   - edges: the soft band always pushes inward, names a way on, and a walker pinned at the rim is never trapped;
  *   - atlas: every map, every region and every standalone world, each world with a way in;
- *   - solids: parked-vehicle boxes contain their vehicle; the app wires crossing, edge, atlas and the guarded import.
+ *   - solids: parked-vehicle boxes contain their vehicle; the app wires crossing, edge, atlas and the guarded import;
+ *   - browser (skip with --no-browser; WK_PORT=9003): open a map by a carry URL, check the landing, facing and carried
+ *     time/weather, walk into the paired connector and ride back, landing within a pad of the start; reduced motion
+ *     crosses with no fade; no page errors.
  */
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { readFileSync, existsSync, statSync } from "node:fs";
+import { createServer } from "node:http";
+import { dirname, join, extname, normalize } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -124,6 +128,69 @@ check("app", /import\("\.\.\/\.\.\/shared\/mv-world\.js"\)[^;]*\.catch\(/.test(a
 check("app", /npCrossWorld\(c\)/.test(app) && /location\.href = `\?parish=/.test(app), "the existing ways out still work (E at a way out)");
 check("html", /id="ux-panel-map"[\s\S]*?id="wk-atlas"[\s\S]*?<\/div>\s*<div class="ux-panel" role="tabpanel" id="ux-panel-me"/.test(html), "the region atlas mounts inside the Map tab");
 check("html", html.includes('id="wk-fade"'), "the crossing fade layer is on the page");
+
+// ------------------------------------------------------------ the browser round trip
+if (!process.argv.includes("--no-browser")) {
+  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
+  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".mjs": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" }); res.end(readFileSync(file));
+  });
+  await new Promise((r) => { server.once("error", () => server.listen(0, "127.0.0.1", r)); server.listen(Number(process.env.WK_PORT || 9003), "127.0.0.1", r); });
+  const origin = `http://127.0.0.1:${server.address().port}`;
+  const base = `${origin}/parishes/parishes.html`;
+  const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
+  let browser = null;
+  try { const { chromium } = await import(PW); browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] }); }
+  catch (e) { check("browser", false, `could not launch headless Chromium: ${String(e.message).split("\n")[0]}`); }
+  if (browser) {
+    // Jefferson's crossing into Orleans: open Orleans as the carry URL does, then walk back into the crossing.
+    const pr = pairs.find((p) => p.from === "jefferson" && p.to.id === "orleans" && p.dry) ?? pairs[0];
+    const A = NP_PARISHES.find((p) => p.id === pr.from);
+    for (const reduced of [false, true]) {
+      const ctx = await browser.newContext({ viewport: { width: 1000, height: 700 }, reducedMotion: reduced ? "reduce" : "no-preference" });
+      await ctx.route("**/*", (route) => {
+        const u = route.request().url();
+        if (u.startsWith(origin)) return route.continue();
+        if (/three(\.module)?(\.min)?\.js$/.test(u)) return route.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC });
+        return route.abort();
+      });
+      const page = await ctx.newPage();
+      const errors = []; page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+      const tag = reduced ? "reduced motion" : "full motion";
+      try {
+        await page.goto(`${base}${W.wkCarry(pr, { time: 3, weather: 2 })}`);
+        await page.waitForFunction(() => !!window.__parishTest?.walkable, null, { timeout: 90000 });
+        const got = await page.evaluate(() => { const t = window.__parishTest; return { x: t.np.x, z: t.np.z, yaw: t.np.yaw, time: t.np.timeIdx, wx: t.np.weatherIdx, parish: t.parish.id, armed: t.walkable.armed(), url: location.search }; });
+        check("browser", got.parish === pr.to.id && Math.hypot(got.x - pr.landing[0], got.z - pr.landing[1]) < 2, `${tag}: arrives on ${got.parish} at (${got.x.toFixed(0)}, ${got.z.toFixed(0)}), the paired spot (${pr.landing})`);
+        check("browser", got.time === 3 && got.wx === 2, `${tag}: time of day and weather carried (${got.time}, ${got.wx})`);
+        check("browser", !got.armed && !/wkvia/.test(got.url), `${tag}: trigger disarmed on arrival, the URL tidied (${got.url})`);
+        // Walk out of the trigger (re-arm), then into the far connector: the page carries us back to A.
+        await page.evaluate(() => window.__parishTest.begin?.());
+        await page.evaluate(([x, z]) => window.__parishTest.teleport(x, z), [pr.landing[0] + (pr.landing[0] - pr.back.from.position[0]), pr.landing[1] + (pr.landing[1] - pr.back.from.position[1])]);
+        await page.waitForFunction(() => window.__parishTest.walkable.armed(), null, { timeout: 15000 });
+        const t0 = Date.now();
+        const nav = page.waitForURL((u) => u.searchParams.get("parish") === A.id, { timeout: 30000 });
+        await page.evaluate(([x, z]) => window.__parishTest.teleport(x, z), pr.back.from.position);
+        await nav;
+        await page.waitForFunction(() => !!window.__parishTest?.walkable, null, { timeout: 90000 });
+        const home = await page.evaluate(() => { const t = window.__parishTest; return { x: t.np.x, z: t.np.z, parish: t.parish.id, time: t.np.timeIdx, wx: t.np.weatherIdx }; });
+        const err = Math.hypot(home.x - pr.conn.from.position[0], home.z - pr.conn.from.position[1]);
+        check("browser", home.parish === A.id && err <= W.WK_PAD + W.WK_TRIGGER, `${tag}: walking into ${pr.back.name} rides back to ${home.parish}, ${err.toFixed(1)} m from the start`);
+        check("browser", home.time === 3 && home.wx === 2, `${tag}: state survives the round trip in the page (${home.time}, ${home.wx})`);
+        check("browser", !errors.length, `${tag}: no page errors (${errors.slice(0, 2).join(" | ")})`);
+        say(`browser (${tag}): ${pr.from}:${pr.conn.id} -> ${pr.to.id} -> walked back -> ${home.parish}, round trip ${err.toFixed(1)} m, state ${home.time}/${home.wx}, crossing ${((Date.now() - t0) / 1000).toFixed(1)} s incl. load`);
+      } catch (e) { check("browser", false, `${tag}: ${String(e.message).split("\n")[0]} ${errors.slice(0, 2).join(" | ")}`); }
+      await ctx.close();
+    }
+    await browser.close();
+  }
+  server.close();
+}
 
 console.log(`\ncheck_walkable: ${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

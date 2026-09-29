@@ -803,6 +803,7 @@ window.__parishTest = {
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   projectsim: psWorld,
   openBoard(siteId) { const s = parish.sites.find((x) => x.id === siteId); if (s) npOpenBoard(s); return !!s; },
+  walkable: { armed: () => wkArmed, arrive: wkArrive, parked: () => wkParked.length, driveId: () => wkDriveId },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
   // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
   // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
