@@ -6,7 +6,8 @@ import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { gtStorage } from "../../shared/profiles.js";
-import { ppCompleteReturns, ppHerePage, ppReturnSite } from "../../shared/passport.js";
+import { ppCompleteReturns, ppHerePage, ppReturnSite, ppAward, ppAwarded } from "../../shared/passport.js";
+import { scMountSession } from "../../shared/sc-session-ui.js";
 import { qmMissing, qmCachedSnapshot, qmInvalidate } from "../../shared/skill-gates.js";
 import { lkStationLink, lkRenderStations, lkSiteHeading, lkStationLabel } from "../../shared/links.js";
 // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
@@ -373,6 +374,11 @@ function rwWaypoint(act, w) {
 // Redwood's lessons in the shared K-12 shape: one passport award kind and one
 // Field Notes badge across every world (WebXR/shared/field-kiosk.js).
 const RW_K2 = RW_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "redwood"));
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson (L opens it).
+const rwScholar = scMountSession({
+  world: "redwood", lessons: RW_FIELD_LESSONS, siteAt: (_p, siteId) => rwSite(siteId)?.position ?? null,
+  stationHref: (l) => lkStationLink(l.k12, { runner: RW_RUNNER, from: "redwood", page: ppHerePage(), siteId: l.site }), award: ppAward, awarded: ppAwarded,
+});
 function rwRunLesson(fl) {
   let i = 0;
   const next = () => {
@@ -571,6 +577,7 @@ function rwTick(dt) {
   const near = rwNearest();
   rwApp.near = near;
   rwQmApproach(near);
+  rwScholar.tick(rwApp.x, rwApp.z);
   const prompt = $("hud-prompt");
   if (near) {
     prompt.hidden = false;
