@@ -45,3 +45,8 @@ Progress (`dnProgress(moduleId, classCode)`) reads consented cohort snapshots an
 station ids by world, every parish/district id with its lat/lng frame (centre and bounds of the approximate fit), and
 provenance — including the Trade Craft Academy's procedural street fabric (AUTHORED, not the real grid) that CITYWORKS
 reuses. Ids and frames only: no learner data.
+
+**v2 (TQ-BRIDGE):** the file is now v2 — every v1 field above unchanged, plus `maps`, `palette`, `facades`, `vehicles`,
+`robotics`, `dataset` (each read from its owner behind a guard, `pending` until it exists), `sections`, `changelog`
+and a size budget; SmartCiti.X TradeQuest reads it through `exports/shared/tradequest-adapter.js`. The contract is
+`docs/tradequest-bridge.md`; the proof is `node tools/check_bridge.mjs`.
