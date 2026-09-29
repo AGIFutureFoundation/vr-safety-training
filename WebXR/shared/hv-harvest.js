@@ -36,6 +36,14 @@ export const HV_FIND_RADIUS = 30;
 export const HV_BESIDE = 18;
 export const HV_SPACING = 320;
 export const HV_MAX_SPOTS = 6;
+/**
+ * LA-PLAY (docs/consoles/LA-PLAY.md): the city district maps — the growth-city districts and the New Orleans
+ * neighbourhood districts, keyed by region so a later district map is held too — get a lighter table: fewer spots, no
+ * rice-and-crawfish field unless the map declares farmland, no shrimp or oyster, crab only off a pier or a beach, and gator
+ * watch only by a bayou or a marsh (not a drainage canal downtown). The activities, games, lines and seasons are unchanged.
+ */
+export const HV_CITY_REGIONS = ["louisiana-cities", "new-orleans-districts"];
+export const HV_CITY_MAX_SPOTS = 4;
 
 /** The state agency per region family (a real agency, named; its current rules are the only rules). */
 export const HV_AGENCY = {
@@ -44,6 +52,8 @@ export const HV_AGENCY = {
 };
 // Every Louisiana region (the parishes, the New Orleans neighbourhood districts, the Louisiana maps) is the Louisiana family.
 export const hvFamily = (parish) => (/^(new-orleans|louisiana)/.test(npRegionOf(parish)) ? "new-orleans" : "bay");
+/** A city district map (LA-PLAY's lighter table), by region. */
+export const hvCityDistrict = (parish) => HV_CITY_REGIONS.includes(npRegionOf(parish));
 export const HV_LOUISIANA_REGIONS = ["new-orleans", "louisiana-sites", "louisiana-cities", "new-orleans-districts"];
 export const HV_GULF_REGIONS = HV_LOUISIANA_REGIONS;
 
@@ -214,7 +224,11 @@ function hvActivitiesFor(parish, cls, kind) {
   if ((npRegionOf(parish) === "bay-program" && cls === "bay") || (fam === "new-orleans" && cls === "gulf")) a.push("oyster");
   if (fam === "new-orleans" && (cls === "bayou" || cls === "marsh" || cls === "canal")) a.push("gator");
   // The inland growth cities (Lafayette, Carencro, Monroe) are fresh water far from the coast: no crab, shrimp or oyster.
-  if (npRegionOf(parish) === "louisiana-cities") return a.filter((x) => x === "fish" || x === "gator");
+  // LA-PLAY: every city district map takes the lighter table (see HV_CITY_REGIONS).
+  if (hvCityDistrict(parish)) {
+    const inland = npRegionOf(parish) === "louisiana-cities";
+    return a.filter((x) => x === "fish" || (x === "crab" && !inland && (kind === "pier" || kind === "shore")) || (x === "gator" && (cls === "bayou" || cls === "marsh")));
+  }
   return a;
 }
 
@@ -254,11 +268,12 @@ export function hvSpotsFor(parish) {
   const far = (x, z) => spots.every((s) => Math.hypot(s.position[0] - x, s.position[1] - z) >= HV_SPACING);
   // Round-robin by water feature so each lake, bayou and pier edge gets its turn before any gets a second spot.
   const fishCount = () => spots.filter((s) => s.kind !== "field" && s.water.cls !== "marsh").length;
+  const maxSpots = hvCityDistrict(parish) ? HV_CITY_MAX_SPOTS : HV_MAX_SPOTS;
   for (let pass = 0; pass < 2; pass++) for (const c of cands) {
-    if (spots.length >= HV_MAX_SPOTS + 2) break;
+    if (spots.length >= maxSpots + 2) break;
     const n = perWater.get(c.w) ?? 0;
     if (n > pass) continue;
-    if (c.cls !== "marsh" && fishCount() >= HV_MAX_SPOTS) continue;
+    if (c.cls !== "marsh" && fishCount() >= maxSpots) continue;
     if (c.cls === "marsh" && spots.some((s) => s.water.cls === "marsh")) continue;
     if (!far(c.x, c.z)) continue;
     const kind = c.cls === "marsh" ? "bank" : hvKindFor(c.cls, null, c.x, c.z, parish);
@@ -267,8 +282,9 @@ export function hvSpotsFor(parish) {
     perWater.set(c.w, n + 1);
   }
   // The rice-and-crawfish field (procedural) on a rural New Orleans parish: dry ground a little back from a bayou or marsh.
-  // A growth-city map gets the field only where it declares farmland (Carencro's cane and rice country), not downtown.
-  if (fam === "new-orleans" && parish.id !== "orleans" && (npRegionOf(parish) !== "louisiana-cities" || parish.farmland === true)) {
+  // A city district map (growth city or New Orleans neighbourhood) gets the field only where it declares farmland
+  // (Carencro's cane and rice country), never downtown.
+  if (fam === "new-orleans" && parish.id !== "orleans" && (!hvCityDistrict(parish) || parish.farmland === true)) {
     const fc = cands.filter((c) => c.cls === "bayou" || c.cls === "marsh" || c.cls === "canal");
     for (const c of fc) {
       let done = false;

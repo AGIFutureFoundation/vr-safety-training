@@ -65,6 +65,22 @@ const act = (a) => all.filter((s) => s.activities.includes(a));
 console.log(`    activities: fish ${act("fish").length}, crab ${act("crab").length}, shrimp ${act("shrimp").length}, oyster ${act("oyster").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length}`);
 check(act("crawfish").length >= 3 && act("rice").length >= 3, "rice-and-crawfish fields on the rural New Orleans maps");
 check(act("gator").every((s) => s.family === "new-orleans"), "gator spots only on New Orleans maps");
+// LA-PLAY: the city district maps (growth cities, New Orleans neighbourhoods) take the lighter table, keyed by region.
+{
+  const city = NP_PARISHES.filter((p) => H.hvCityDistrict(p));
+  const heavy = [];
+  for (const p of city) {
+    const sp = perMap[p.id];
+    if (sp.some((s) => s.kind === "field") && p.farmland !== true) heavy.push(`${p.id}: a rice field downtown`);
+    if (sp.some((s) => s.activities.includes("shrimp") || s.activities.includes("oyster"))) heavy.push(`${p.id}: shrimp or oyster`);
+    if (sp.some((s) => s.activities.includes("crab") && s.kind !== "pier" && s.kind !== "shore")) heavy.push(`${p.id}: crab off a bank`);
+    if (sp.some((s) => s.activities.includes("gator") && s.water.cls !== "bayou" && s.water.cls !== "marsh")) heavy.push(`${p.id}: gator watch by a canal`);
+    if (sp.filter((s) => s.kind !== "field" && s.water.cls !== "marsh").length > H.HV_CITY_MAX_SPOTS) heavy.push(`${p.id}: more than ${H.HV_CITY_MAX_SPOTS} fishing spots`);
+  }
+  check(city.length >= 8 && heavy.length === 0, `the city district maps (${city.length}) take the lighter table: no rice field without farmland, no shrimp or oyster, crab off piers only, gator by bayou or marsh, at most ${H.HV_CITY_MAX_SPOTS} spots`, heavy.slice(0, 5).join("; "));
+  const sites = NP_PARISHES.filter((p) => p.region === "louisiana-sites" && perMap[p.id].some((s) => s.kind === "field"));
+  check(sites.length >= 3, `the rural development-site maps keep the full table (${sites.length} with a rice-and-crawfish field)`);
+}
 check(act("shrimp").length >= 3 && act("oyster").length >= 3 && act("oyster").every((s) => s.water.cls === "bay" || s.water.cls === "gulf"), "shrimp from New Orleans docks and oyster-reef surveys on Bay Program and Gulf shores");
 
 // 2. Species regional to the water.

@@ -45,7 +45,23 @@ import { lkStationLink } from "./links.js";
 export const PL_WORLD = "parishes";
 export const PL_PAGE = "parishes.html";
 /** The Bay Area regions of the parish engine (np-parishes.js `region`). */
-export const PL_REGIONS = ["san-francisco", "oakland", "north-east-bay", "south-bay", "bay-program"];
+export const PL_BAY_REGIONS = ["san-francisco", "oakland", "north-east-bay", "south-bay", "bay-program"];
+/**
+ * LA-PLAY (docs/consoles/LA-PLAY.md): the Louisiana regions ride the same layer —
+ * the development-site maps, the growth-city districts and the New Orleans
+ * neighbourhood districts. Keyed by region, not by a list of map ids, so a map
+ * added to one of these regions later is on the play layer the moment it is
+ * registered. The shapes, quests, boards and treasure readers are unchanged.
+ */
+export const PL_LA_REGIONS = ["louisiana-sites", "louisiana-cities", "new-orleans-districts"];
+/** Every region on this play layer (the checkers and the treasure generator read this list). */
+export const PL_REGIONS = [...PL_BAY_REGIONS, ...PL_LA_REGIONS];
+
+/** The hint a crew kit gives (the treasure layer's proximity finds off every site of these maps). */
+export const PL_TREASURE_HINT = "Crews keep a kit near every Bay Area site. Walk the sites.";
+/** The same find on the Louisiana maps (LA-PLAY). */
+export const PL_LA_TREASURE_HINT = "Crews keep a kit near every Louisiana site. Walk the sites.";
+
 
 /** Short names for set titles and the board ("<short> Crew Kits"). Names only, as places. */
 const PL_SHORT = {
@@ -54,15 +70,28 @@ const PL_SHORT = {
   "oak-west-oakland": "West Oakland", "oak-downtown-lake": "Lake Merritt", "oak-fruitvale-estuary": "Fruitvale", "oak-emeryville-berkeley": "Emeryville",
   "bay-san-pablo": "San Pablo", "bay-san-jose": "San Jose", "bp-strip-marsh-east": "Strip Marsh", "bp-san-leandro-bay": "San Leandro Bay",
   "bp-san-mateo-shoreline": "San Mateo Bayside", "bp-nutrient-pilot": "Nutrient Pilot Plant", "sm-unspoken-smiles": "Unspoken Smiles",
+  // Louisiana (LA-PLAY): places named as places only.
+  "la-starbase-vermilion": "Vermilion Marsh", "la-black-bayou-cameron": "Black Bayou", "la-saronic-franklin": "Franklin Shipyard",
+  "la-avex-new-iberia": "New Iberia Airport", "la-meta-richland": "Richland", "la-delta-forge-rapides": "Rapides", "la-shintech-plaquemine": "Plaquemine",
+  "lc-calcasieu-channel": "Calcasieu Channel", "lc-port-of-vinton": "Port of Vinton", "lc-lakefront-downtown": "Lake Charles Lakefront",
+  "laf-downtown": "Downtown Lafayette", "laf-carencro-north": "Carencro", "monroe-west-monroe": "Monroe",
+  "nola-french-quarter-cbd": "French Quarter", "nola-uptown-garden": "Uptown", "nola-mid-city-gentilly": "Mid-City", "nola-bywater-lower-ninth": "Bywater",
 };
+
+/** The crew-kit hint per region family (the treasure layer reads `hint` off each district row). */
+const plHintFor = (region) => PL_LA_REGIONS.includes(region) ? PL_LA_TREASURE_HINT : PL_TREASURE_HINT;
 
 const plSgIds = new Set(SG_DISTRICTS.map((d) => d.id));
 const plSiteRow = (s) => ({ id: s.id, name: s.name, kind: s.kind, stations: s.stations, programmes: s.programmes });
 
 /** Every Bay Area map on the parish engine (GOLDEN-B's two included), for the boards and quests. */
+// PL_BAY_MAPS keeps its first name for its readers; it now holds every map of PL_REGIONS (Bay Area and Louisiana).
 export const PL_BAY_MAPS = NP_PARISHES.filter((p) => PL_REGIONS.includes(p.region)).map((p) => ({
   id: p.id, name: p.name, region: p.region, short: PL_SHORT[p.id] ?? p.name, file: `WebXR/shared/np-data-${p.id}.js`, data: p, sites: p.sites.map(plSiteRow),
+  hint: plHintFor(p.region), la: PL_LA_REGIONS.includes(p.region),
 }));
+/** The Louisiana maps on the layer (LA-PLAY). */
+export const PL_LA_MAPS = PL_BAY_MAPS.filter((d) => d.la);
 
 /** The Bay Area maps this module adds to the play layer (not GOLDEN-B's), in SG_DISTRICTS' shape. */
 export const PL_DISTRICTS = PL_BAY_MAPS.filter((d) => !plSgIds.has(d.id));
@@ -73,8 +102,6 @@ export const PL_FIELD_LESSONS = PL_DISTRICTS.flatMap((d) => (d.data.fieldLessons
   trade: l.trade, tradeLine: l.tradeLine, title: l.title, minutes: l.minutes, steps: l.steps, check: l.check, file: d.file,
 })));
 
-/** The hint a crew kit gives (the treasure layer's proximity finds off every site of these maps). */
-export const PL_TREASURE_HINT = "Crews keep a kit near every Bay Area site. Walk the sites.";
 
 export function plDistrict(id) { return PL_DISTRICTS.find((d) => d.id === id) ?? null; }
 export function plBayMap(id) { return PL_BAY_MAPS.find((d) => d.id === id) ?? null; }
@@ -180,5 +207,5 @@ export function plMountPathBoard(el, parishId, opts = {}) {
 
 /** Counts for the console log and the hand-back. */
 export function plCounts() {
-  return { maps: PL_BAY_MAPS.length, districts: PL_DISTRICTS.length, lessons: PL_FIELD_LESSONS.length, bayLessons: PL_BAY_MAPS.reduce((n, d) => n + plBayLessons(d.id).length, 0), quests: PL_QUESTS.length };
+  return { maps: PL_BAY_MAPS.length, laMaps: PL_LA_MAPS.length, districts: PL_DISTRICTS.length, lessons: PL_FIELD_LESSONS.length, bayLessons: PL_BAY_MAPS.reduce((n, d) => n + plBayLessons(d.id).length, 0), quests: PL_QUESTS.length };
 }

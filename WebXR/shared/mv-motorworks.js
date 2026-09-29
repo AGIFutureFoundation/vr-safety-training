@@ -67,6 +67,18 @@ export const MV_SITE_RULES = [
   { kinds: ["school", "campus"], drivables: ["school-bus"], why: "a school bus at a school" },
   { kinds: ["park", "recreation", "nursery", "trail", "forestry"], drivables: ["utv", "ride-on-mower"], why: "a grounds vehicle in a park" },
   { kinds: ["airport"], drivables: ["pushback-tug"], why: "a pushback tug at the airport" },
+  // LA-PLAY (docs/consoles/LA-PLAY.md): the Louisiana maps' own site kinds — the energy, marsh, shipyard, hangar and
+  // river sites the round-one maps added. Every drivable is an existing gated Motor Pool land entry.
+  { kinds: ["fuel-farm"], drivables: ["fuel-truck", "tractor-tanker"], why: "a fuel truck at the airport's fuel farm" },
+  { kinds: ["tank-farm", "compressor", "wellpad", "pipeline", "chemical", "refinery", "hazmat"], drivables: ["tractor-tanker", "crew-pickup"], why: "a tanker at a tank farm or a plant's truck rack" },
+  { kinds: ["hangar", "paint-shop"], drivables: ["pushback-tug", "boom-lift"], why: "a tug and a boom lift at a hangar or paint bay" },
+  { kinds: ["slip", "dredge"], drivables: ["telehandler", "flatbed-truck"], why: "a telehandler at a shipyard slip or a dredge yard" },
+  { kinds: ["excavation", "mat-crossing"], drivables: ["backhoe", "skid-steer"], why: "a backhoe at an excavation or a marsh mat crossing" },
+  { kinds: ["energy-storage"], drivables: ["bucket-truck", "digger-derrick"], why: "a line truck at a battery yard" },
+  { kinds: ["streetcar"], drivables: ["bucket-truck"], why: "a bucket truck for the streetcar wire" },
+  { kinds: ["office", "union-hall"], drivables: ["pool-sedan", "crew-pickup"], why: "a pool car at a site office or hall" },
+  { kinds: ["landing", "ferry", "marina", "lock", "shoreline"], drivables: ["utility-van", "crew-pickup"], why: "a crew van at a landing, ferry or lock" },
+  { kinds: ["wetland", "monitoring", "survey"], drivables: ["utv", "crew-pickup"], why: "a UTV for a marsh monitoring or survey crew" },
 ];
 
 /** Parked vehicles per map (phone tier fewer), the near-ring radius (m) and the drawn meshes they may add. */
