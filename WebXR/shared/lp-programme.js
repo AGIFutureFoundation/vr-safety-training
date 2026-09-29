@@ -16,9 +16,9 @@
 // Only competency.js is imported, so the page and the checker load this without the engine.
 
 import { COMPETENCY_BY_ID } from "./competency.js";
-import { LP_NAME, LP_TRACKS, LP_PATHWAYS, LP_LEVELS, LP_SIMS, LP_SIM_PLACES } from "./lp-programme-data.js";
+import { LP_NAME, LP_NO_PARTNERSHIP, LP_SOURCES, LP_TRACKS, LP_PATHWAYS, LP_LEVELS, LP_SIMS, LP_SIM_PLACES } from "./lp-programme-data.js";
 
-export { LP_NAME, LP_TRACKS, LP_PATHWAYS, LP_LEVELS, LP_SIMS, LP_SIM_PLACES };
+export { LP_NAME, LP_NO_PARTNERSHIP, LP_SOURCES, LP_TRACKS, LP_PATHWAYS, LP_LEVELS, LP_SIMS, LP_SIM_PLACES };
 export function lpTracks() { return LP_TRACKS; }
 export function lpTrack(id) { return LP_TRACKS.find((t) => t.id === id || t.short === id) ?? null; }
 export function lpPathway(id) { return LP_PATHWAYS.find((p) => p.id === id) ?? null; }
