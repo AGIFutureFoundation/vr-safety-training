@@ -47,3 +47,17 @@ silhouette beside it. Optional `"lmYaw": <radians>` turns the silhouette.
   `typeof lmBuild === "function"` until merged, and fall back to the engine's generic landmark.
 
 ## Cycles
+1. Reason: publish the kind ids first so NEIGHBORHOODS and EASTBAY can code against them. Act: this doc's table and the `lm`
+   field convention. Observe: committed at minute 8 (1d57472). PASS.
+2. Reason: every kind builds headlessly as one mesh within a per-kind budget with a phone tier. Act: `lm-landmarks.js` (14 kinds,
+   merged parts; the Painted Ladies and the cranes one InstancedMesh each). Observe (scratch probe): 12 of 14 inside the first
+   guesses; `bay-bridge-east-tower` 1488 > 1400 and `lake-merritt-pergola` 1588 > 1000 on the desktop tier → budgets set from
+   the measured builds with a margin (1600/900, 1700/600). PASS after the fix.
+3. Reason: np-world.js draws a registry-kind landmark with `lmBuild` (bridges fitted to the bridge road), the SF and Oakland
+   maps tag theirs, and the budgets hold. Act: np-world wiring, `lm` tags on 8 existing landmarks plus 3 named places in
+   sf-downtown (the Transamerica Pyramid, the Powell Street turntable, the Painted Ladies at Alamo Square), `check_landmarks.mjs`.
+   Observe: `check_landmarks: 14 kinds, 4 maps draw landmarks with the kit — 522 passed, 1 failed` (the baseline entry was
+   missing) → added → see cycle 4.
+4. Reason: the shared engine checks still pass with the kit in and the bundle carries it. Act: baseline entry, bundle rebuilt.
+   Observe: `check_parish_data: … 128 landmarks … 12019 checks pass, 0 fail`; `[parishes] wrote … (3632 KB, 99 modules)`;
+   `check_parishes: 19103 passed, 0 failed`; worst sf-downtown/high 157 meshes (was 150) / 71481 triangles of 260 / 400000. PASS.

@@ -25,6 +25,7 @@ import {
   npHeightAt, npCoverAt, npChunksAround, npMassingForChunk, npPrepare, npTriangulate, npRoadSurfaceAt, npPolyLength, npPointsAlong,
   npPolyPointAt, npDeckHeightAt, npStripFromCentreline, NP_TERRAIN_HOOKS,
 } from "./np-parish.js";
+import { lmBuild, lmKindOf, LM_BRIDGES } from "./lm-landmarks.js";
 
 const NP_COL = {
   water: [0.16, 0.22, 0.2], wetland: [0.36, 0.45, 0.3], levee: [0.5, 0.62, 0.34], road: [0.24, 0.25, 0.27], pad: [0.62, 0.58, 0.5],
@@ -181,6 +182,27 @@ function npSignGeometry(THREE, boardColour, tall = false) {
 }
 
 /**
+ * Fit a bridge kit to the map's nearest bridge or causeway road (within 800 m of the landmark or its `lmAt`): the kit's centre
+ * sits `lmAlong` (0..1) along the road, else one half-span plus a margin past the landmark's nearest point; the span is `lmSpan`,
+ * else half the road (at most 800 m); the deck is the road's deck height there. Null when no bridge road is near.
+ */
+function npLmFitBridge(roads, l) {
+  const at = Array.isArray(l.lmAt) ? l.lmAt : l.position;
+  let best = null;
+  for (const r of roads) {
+    if (!NP_ROAD_KINDS[r.kind]?.clearance) continue;
+    const L = npPolyLength(r.pts);
+    for (let d = 0; d <= L; d += 10) { const p = npPolyPointAt(r.pts, d / L), dd = Math.hypot(p.x - at[0], p.z - at[1]); if (!best || dd < best.dd) best = { r, L, d, dd }; }
+  }
+  if (!best || best.dd > 800) return null;
+  const span = Number.isFinite(l.lmSpan) ? l.lmSpan : Math.min(800, best.L / 2);
+  const lo = Math.min(span / 2 + 20, best.L / 2), hi = Math.max(lo, best.L - span / 2 - 20);
+  const dc = Number.isFinite(l.lmAlong) ? l.lmAlong * best.L : Math.min(hi, Math.max(lo, best.d + span / 2 + 40));
+  const t = dc / best.L, p = npPolyPointAt(best.r.pts, t);
+  return { x: p.x, z: p.z, yaw: p.yaw, span, deck: npDeckHeightAt(best.r, t), road: best.r.id };
+}
+
+/**
  * Build the parish under `root`. opts: { tier: "low"|"balanced"|"high", start: [x, z], massFilter?: (spot) => bool }.
  * massFilter (CITYWORKS's cwMassFilter) drops massing spots that would stand on a street; without it nothing changes.
  * Returns { update(x, z, budget), animate(dt), stats(), setGroundTexture(tex), siteBoards, lessonSigns, … }.
@@ -281,8 +303,29 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
 
   // Landmarks (green signs), connectors (tall white signposts at the way out) and field lessons (blue signs): instanced.
   const landmarks = parish.landmarks ?? [];
+  // LANDMARKS' kit (shared/lm-landmarks.js, docs/consoles/LANDMARKS.md): a landmark whose `lm` field (or `kind`) names a
+  // registry kind draws its schematic silhouette, one mesh each, under "parish-lm-kit"; its green name sign moves to the
+  // kit's front edge. A bridge kind is fitted to the nearest bridge road (span, deck, heading). Anything else: the sign alone.
+  const lmKitRoot = new THREE.Group(); lmKitRoot.name = "parish-lm-kit"; fixed.add(lmKitRoot);
+  const lmKits = [], lmSignAt = new Map();
+  for (const l of landmarks) {
+    const kind = typeof lmKindOf === "function" ? lmKindOf(l) : null;
+    if (!kind || typeof lmBuild !== "function") continue;
+    const fit = LM_BRIDGES?.has(kind) ? npLmFitBridge(prep.roads, l) : null;
+    const at = Array.isArray(l.lmAt) ? l.lmAt : l.position;
+    const g = lmBuild(kind, { three: THREE, tier: tier === "low" ? "low" : "high", span: fit?.span, deck: fit?.deck });
+    if (!g) continue;
+    const x = fit ? fit.x : at[0], z = fit ? fit.z : at[1], yaw = fit ? fit.yaw : Number.isFinite(l.lmYaw) ? l.lmYaw : 0;
+    g.position.set(x, fit ? NP_WATER_Y : npHeightAt(parish, x, z) - 0.1, z); g.rotation.y = yaw; g.name = `lm-${l.id}`;
+    lmKitRoot.add(g);
+    lmKits.push({ id: l.id, kind, x, z, triangles: g.userData.triangles, group: g });
+    if (!fit && !Array.isArray(l.lmAt)) {
+      const box = new THREE.Box3().setFromObject(g), r = Math.max(box.max.x - box.min.x, box.max.z - box.min.z) / 2;
+      lmSignAt.set(l.id, [x + Math.sin(yaw) * (r + 3), z + Math.cos(yaw) * (r + 3)]);
+    }
+  }
   const lmMesh = new THREE.InstancedMesh(npSignGeometry(THREE, 0x2e8b57), flatMat, Math.max(1, landmarks.length));
-  landmarks.forEach((l, i) => { m4.makeTranslation(l.position[0], npHeightAt(parish, l.position[0], l.position[1]), l.position[1]); lmMesh.setMatrixAt(i, m4); });
+  landmarks.forEach((l, i) => { const [sx, sz] = lmSignAt.get(l.id) ?? l.position; m4.makeTranslation(sx, npHeightAt(parish, sx, sz), sz); lmMesh.setMatrixAt(i, m4); });
   lmMesh.name = "parish-landmarks"; fixed.add(lmMesh);
   const conns = parish.connectors ?? [];
   const cnMesh = new THREE.InstancedMesh(npSignGeometry(THREE, 0xf2f2f2, true), flatMat, Math.max(1, conns.length));
@@ -386,7 +429,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
   }
 
   update(opts.start?.[0] ?? 0, opts.start?.[1] ?? 0, 999);
-  return { parish, update, animate, stats, setGroundTexture, siteBoards, lessonSigns, backdrop, waters, roadMeshes, piers, ferryBoat, groundMat, treeMaterial: treeMat, loaded };
+  return { parish, update, animate, stats, setGroundTexture, siteBoards, lessonSigns, lmKits, backdrop, waters, roadMeshes, piers, ferryBoat, groundMat, treeMaterial: treeMat, loaded };
 }
 
 /** A parish's water strips (for a map): the river and canals widened, the polygons as they are. */

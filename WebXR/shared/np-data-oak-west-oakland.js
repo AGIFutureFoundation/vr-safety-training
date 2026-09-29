@@ -81,11 +81,11 @@ export const NP_OAK_WEST_OAKLAND = {
     {"id":"bay-bridge-toll-plaza-yard","name":"Bay Bridge Toll Plaza Crew Yard","kind":"bridge","position":[356,-500],"trades":["ironworkers","iupat","iuoe"],"programmes":["bridge-and-structural","first-responders"],"stations":["bridge-cable-inspection","deck-joint-replacement","bs-structural-bolting-and-torque","traffic-incident-management"],"blurb":"The crew yard beside the toll plaza: the ironworkers and painters of the eastern span, and the incident crews who clear a lane safely."},
   ],
   landmarks: [
-    {"id":"bay-bridge-toll-plaza","name":"the Bay Bridge toll plaza","position":[377,-737],"kind":"bridge"},
+    {"id":"bay-bridge-toll-plaza","name":"the Bay Bridge toll plaza","position":[377,-737],"kind":"bridge","lm":"bay-bridge-east-tower","lmAlong":0.85,"lmSpan":420},
     {"id":"defremery-park","name":"deFremery Park","position":[1173,53],"kind":"park"},
     {"id":"middle-harbor-shoreline-park","name":"Middle Harbor Shoreline Park","position":[-335,448],"kind":"shore"},
     {"id":"west-oakland-station","name":"West Oakland Station","position":[712,369],"kind":"station"},
-    {"id":"the-port-cranes","name":"the port's container cranes","position":[-335,-53],"kind":"port"},
+    {"id":"the-port-cranes","name":"the port's container cranes","position":[-335,-53],"kind":"port","lm":"container-cranes"},
     {"id":"mandela-parkway","name":"Mandela Parkway","position":[859,-158],"kind":"street"},
     {"id":"emeryville-marina-shore","name":"the Emeryville shore","position":[544,-1580],"kind":"shore"},
   ],

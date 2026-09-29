@@ -85,6 +85,7 @@ const CHECKERS = [
   "check_summit.mjs",
   // The New Orleans parish worlds: every parish's data validates, the terrain builds headless in budget, connectors pair (docs/consoles/PARISH.md).
   "check_parishes.mjs",
+  "check_landmarks.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
   // TERRAFORM: channels below their banks, rivers flowing downstream, deterministic wind, cover off roads/water/pads, budgets (docs/consoles/TERRAFORM.md).
