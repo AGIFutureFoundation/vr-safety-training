@@ -24,6 +24,7 @@ LOUISIANA = "louisiana-sites,louisiana-cities,new-orleans-districts"
 PX = 512            # output side, pixels
 MAX_BYTES = 90_000  # per image
 MAX_Q = 80          # JPEG quality ceiling
+TRY = 5             # scenes previewed per tile for local cloud
 
 
 def scenes_for(tile, months):
@@ -46,8 +47,19 @@ def geo_mosaic(w, s, e, n, gpx, months):
     m = mgrs.MGRS()
     tiles = {m.toMGRS(s + (n - s) * fy, w + (e - w) * fx, MGRSPrecision=0) for fx in np.linspace(0, 1, 5) for fy in np.linspace(0, 1, 5)}
     acc = np.zeros((3, gpx, gpx), np.float32); cnt = np.zeros((gpx, gpx), np.float32); used = []
+    def read(sp, px):
+        with rasterio.open(f"{B}/{sp}TCI.tif") as ds, WarpedVRT(ds, crs="EPSG:4326", transform=from_bounds(w, s, e, n, px, px), width=px, height=px, nodata=0, resampling=Resampling.bilinear) as v:
+            return v.read().astype(np.float32)
+
+    def local_cloud(arr):
+        """Over THIS box, not the whole 110 km tile: the share of bright-white (cloud) pixels, plus half the no-data share."""
+        valid = arr.sum(0) > 0
+        if not valid.any(): return 2.0, 0.0
+        white = (arr.min(0) > 170) & valid
+        return float(white.sum() / valid.sum()) + 0.5 * float(1 - valid.mean()), float(white.sum() / valid.sum())
+
     for t in sorted(tiles):
-        best = None
+        cands = []
         for sp in scenes_for(t, months):
             name = sp.rstrip("/").split("/")[-1]
             try: meta = json.load(urllib.request.urlopen(f"{B}/{sp}{name}.json", timeout=30))
@@ -56,14 +68,22 @@ def geo_mosaic(w, s, e, n, gpx, months):
             if bb[2] < w or bb[0] > e or bb[3] < s or bb[1] > n: continue
             p = meta["properties"]
             score = p.get("eo:cloud_cover", 100) + 0.5 * p.get("s2:nodata_pixel_percentage", 0)
-            if best is None or score < best[0]: best = (score, sp, name, p.get("datetime"), p.get("eo:cloud_cover"))
-        if not best: continue
-        _, sp, name, dt, cc = best
-        with rasterio.open(f"{B}/{sp}TCI.tif") as ds, WarpedVRT(ds, crs="EPSG:4326", transform=from_bounds(w, s, e, n, gpx, gpx), width=gpx, height=gpx, nodata=0, resampling=Resampling.bilinear) as v:
-            arr = v.read().astype(np.float32)
+            cands.append((score, sp, name, p.get("datetime"), p.get("eo:cloud_cover")))
+        if not cands: continue
+        # The tile's cloud figure says little about a small box: preview the best few scenes over the box itself.
+        cands.sort(key=lambda c: c[0])
+        ranked = []
+        for c in cands[:TRY]:
+            try: sc, lc = local_cloud(read(c[1], max(48, gpx // 8)))
+            except Exception: continue
+            ranked.append((sc, lc, c))
+        if not ranked: continue
+        ranked.sort(key=lambda r: r[0])
+        _, lc, (_, sp, name, dt, cc) = ranked[0]
+        arr = read(sp, gpx)
         valid = arr.sum(0) > 0
         acc[:, valid] += arr[:, valid]; cnt[valid] += 1
-        used.append({"tile": t, "scene": name, "datetime": dt, "cloud_cover": cc})
+        used.append({"tile": t, "scene": name, "datetime": dt, "cloud_cover": cc, "local_cloud": round(lc, 3)})
     return acc / np.maximum(cnt, 1), cnt > 0, used
 
 
@@ -107,12 +127,12 @@ def bake(mp, out_dir, months):
         "frame": "scene: column = x, row = z, over the map's whole field (not north-up)",
         "bbox": [round(v, 5) for v in (w, s, e, n)], "px": PX, "quality": q, "bytes": len(data),
         "scenes": used, "date": dates[-1] if dates else None,
-        "cloud_cover": max((u["cloud_cover"] or 0) for u in used), "coverage": round(cov, 3),
+        "cloud_cover": max((u["cloud_cover"] or 0) for u in used), "local_cloud": max(u["local_cloud"] for u in used), "coverage": round(cov, 3),
         "attribution": ATTRIBUTION, "source": "Copernicus Sentinel-2 L2A, AWS Open Data (sentinel-cogs), true colour",
         "licence": "free and open (Copernicus); credit line required",
     }
     with open(os.path.join(out_dir, f"{mp['id']}.json"), "w") as fh: json.dump(side, fh, indent=1); fh.write("\n")
-    print(f"[geo] {mp['id']}: {len(data) // 1024} KB q{q} scenes {len(used)} date {side['date']} cloud {side['cloud_cover']} cov {cov:.2f} ({time.time() - t0:.0f}s)", flush=True)
+    print(f"[geo] {mp['id']}: {len(data) // 1024} KB q{q} scenes {len(used)} date {side['date']} cloud {side['cloud_cover']}, local {side['local_cloud']} cov {cov:.2f} ({time.time() - t0:.0f}s)", flush=True)
     return side
 
 
