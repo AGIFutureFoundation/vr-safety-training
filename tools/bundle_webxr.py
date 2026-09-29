@@ -539,6 +539,9 @@ APPS = {
             SHARED / "side-game-stage.js",
             SHARED / "side-game-cosmetics.js",
             SHARED / "k12-gates-data.js",
+            # MENAGERIE: street life (docs/consoles/MENAGERIE.md) over the parish engine's pure answers.
+            SHARED / "np-parish.js",
+            SHARED / "mg-life.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -783,6 +786,8 @@ APPS = {
             SHARED / "kw-play-data.js",
             SHARED / "kw-place.js",
             SHARED / "kw-kits.js",
+            # MENAGERIE: pets, animals and passers-by, one InstancedMesh per kind (after np-parish.js).
+            SHARED / "mg-life.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",
