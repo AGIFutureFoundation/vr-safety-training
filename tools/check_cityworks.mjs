@@ -162,6 +162,7 @@ for (const p of maps) {
 // Mounts and the bundle.
 const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 check(/cwMountStreets\(/.test(app) && /massFilter:\s*cwMassFilter\(parish\)/.test(app) && /cwBlockWalk\(/.test(app) && /setNight\(/.test(app), "the parishes app mounts the streets, the mass filter, the walls and the night lights");
+check(/NP_LAYERS\.streets/.test(app) && /procedural fabric, not the real grid/.test(app), "the parish map draws the fabric as its own layer, captioned procedural, not the real grid");
 const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 check(["cw-streets-orleans.js", "cw-cityworks.js", "cw-streets-world.js"].every((f) => bundler.includes(f)), "the bundler carries the cw modules in the parishes page");
 const reduced = readFileSync(join(WEBXR, "shared", "cw-streets-world.js"), "utf8");

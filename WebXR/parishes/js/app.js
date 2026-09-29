@@ -17,7 +17,7 @@ import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npReg
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
-import { cwMassFilter, cwBlockWalk } from "../../shared/cw-cityworks.js";
+import { cwMassFilter, cwBlockWalk, cwStreets } from "../../shared/cw-cityworks.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
@@ -206,7 +206,7 @@ function npOpenLesson(l) {
 // --------------------------------------------------------------------- map
 
 const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480", park: "#3f7a3a" };
-const NP_LAYERS = { districts: true, water: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
+const NP_LAYERS = { districts: true, water: true, streets: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
 function npMapXY(x, z, W) { return [(x + NP_SIZE / 2) / NP_SIZE * W, (z + NP_SIZE / 2) / NP_SIZE * W]; }
 function npRenderMap() {
   const cv = $("map-canvas"), W = cv.width, o = cv.getContext("2d");
@@ -216,6 +216,13 @@ function npRenderMap() {
   if (NP_LAYERS.districts) for (const d of parish.districts) poly(d.poly, NP_DISTRICT_FILL[d.character] ?? "#666", "rgba(255,255,255,.18)");
   if (NP_LAYERS.water) for (const w of npWaterShapes(parish)) poly(w.shape, w.kind === "wetland" ? "rgba(90,140,110,.8)" : "#3f7fa0", null);
   if (NP_LAYERS.levees) for (const l of parish.levees) line(l.pts, "#e8dfb0", 2);
+  // CITYWORKS: the AUTHORED procedural street fabric under the named roads, captioned as such (not the real grid).
+  const cwFabric = cwStreets(parish);
+  if (NP_LAYERS.streets && cwFabric.length) {
+    for (const st of cwFabric) line(st.pts, "rgba(34,36,40,.6)", st.cls === "arterial" ? 1.8 : st.cls === "collector" ? 1.2 : 0.7);
+    o.font = "11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3;
+    o.strokeText("Streets: procedural fabric, not the real grid", 8, W - 10); o.fillText("Streets: procedural fabric, not the real grid", 8, W - 10);
+  }
   if (NP_LAYERS.roads) for (const r of parish.roads) { const k = NP_ROAD_KINDS[r.kind]; line(r.pts, r.kind === "ferry" ? "#dff3ff" : r.kind === "bridge" || r.kind === "causeway" ? "#c9ccd2" : r.kind === "interstate" ? "#1d1f22" : r.kind === "riverroad" ? "#9a8a66" : "#3a3c40", Math.max(1, (k?.width ?? 8) / 6), r.kind === "ferry" ? [3, 3] : []); }
   const dot = (x, z, col, r, label, small = false) => { const [px, pz] = npMapXY(x, z, W); o.fillStyle = col; o.beginPath(); o.arc(px, pz, r, 0, Math.PI * 2); o.fill(); if (label) { o.font = `${small ? 10 : 11}px system-ui`; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText(label, px + r + 2, pz + 4); o.fillText(label, px + r + 2, pz + 4); } };
   if (NP_LAYERS.landmarks) for (const l of parish.landmarks) dot(l.position[0], l.position[1], "#8fd6a8", 2.5, l.name, true);
