@@ -1042,7 +1042,7 @@ export const NP_SF_BAYVIEW = {
     "air-monitor",
     "pcb-equipment-removal"
    ],
-   "blurb": "The shipyard site where the clean-up programme starts: the record read first, then the survey walked, buildings scanned and the fence-line air watched."
+   "blurb": "The shipyard site where the clean-up programme starts: the site file read first, then the survey walked, buildings scanned and the fence-line air watched."
   },
   {
    "id": "shipyard-soil-cell",
