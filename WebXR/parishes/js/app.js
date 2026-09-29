@@ -22,6 +22,8 @@ import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 // FACADES: exterior detail and generic storefront signs on the massing (sets NP_MASSING_HOOKS.details; docs/consoles/FACADES.md).
 import { fcDetails } from "../../shared/fc-facades.js";
+// DETAIL: seeded instanced scatter (street kit, yards, roofs, vegetation, marsh, farm, industry, site clutter), one pool.
+import { dtMountDetail } from "../../shared/dt-detail.js";
 import { paMount } from "../../shared/pa-palette.js";
 import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
 // LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
@@ -144,6 +146,7 @@ const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierNam
 void fcDetails; // registered on import, before the first chunk builds
 // PALETTE (docs/consoles/PALETTE.md): colour categories and one textured material per building kind (none on the phone).
 const paPalette = paMount({ tier: npTierName });
+const dtPool = dtMountDetail(root, THREE, parish, { tier: npTierName });
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // LANDMARKS-2: doors at walk-in kit landmarks; INTERIORS' shell (globalThis.IX_INTERIORS) is used when it lands, guarded.
 const lxDoors = typeof lxWalkinDoors === "function" ? lxWalkinDoors(world.lmKits ?? []) : [];

@@ -42,7 +42,7 @@ export const TQ_CHANGELOG = [
 export const TQ_SECTIONS = {
   maps: { owner: "PARISH engine (np-*) + LANDMARKS (lm-*)", files: ["np-parishes.js"], exports: ["NP_PARISHES"] },
   palette: { owner: "PALETTE", files: ["pa-palette.js", /^pa-.*\.js$/], exports: ["PA_SHARED", "PA_CATEGORIES"] },
-  facades: { owner: "FACADES", files: ["fc-facades.js", /^fc-.*\.js$/], exports: ["FC_SHARED", "FC_DETAIL_KINDS", "FC_KINDS", "FC_DETAILS", "FC_SIGN_WORDS", "FC_SIGN_TRADES", "FC_SIGNS", "FC_GENERIC_SIGNS", "FC_KITS"] },
+  facades: { owner: "FACADES + DETAIL (dt-detail.js: generator parameters only)", files: ["fc-facades.js", /^fc-.*\.js$/, "dt-detail.js"], exports: ["dtExportParams", "FC_SHARED", "FC_DETAIL_KINDS", "FC_KINDS", "FC_DETAILS", "FC_SIGN_WORDS", "FC_SIGN_TRADES", "FC_SIGNS", "FC_GENERIC_SIGNS", "FC_KITS"] },
   vehicles: { owner: "Motor Pool (drivables-data) + MOTORWORKS (mv-*)", files: ["drivables-data.js", /^mv-.*\.js$/], exports: ["MV_SHARED", "MV_CLASSES", "MV_VEHICLE_CLASSES", "MV_HANDLING", "MV_SITE_RULES", "DV_DRIVABLES"] },
   robotics: { owner: "ROBOTICS", files: [/^rb-.*\.js$/], exports: ["RB_SHARED", "rbSharedData", "RB_SCENARIOS", "rbScenarios"] },
   dataset: { owner: "dataset layer (episodes, robot-embodiment) + DATAWORKS (dx-*)", files: ["episodes.js", "robot-embodiment.js", /^dx-.*\.js$/], exports: ["DX_SHARED", "DX_EPISODE_SCHEMA", "DX_SCHEMA", "DX_DATASET_CARD", "DX_DATASET_CARD_TEMPLATE", "dxDatasetCardTemplate", "dxDatasetCard", "DX_CARD_SECTIONS", "EPISODE_SCHEMA_VERSION", "observationSchema", "actionSpace"] },
@@ -116,6 +116,8 @@ async function tqFacades(shared) {
   try {
     const data = { detailKinds: kinds === undefined ? null : plain(call(kinds)), signs: signs === undefined ? null : plain(call(signs)) };
     if (kits !== undefined) data.kits = plain(call(kits));
+    // DETAIL: the scatter generator's parameters (seed rule, density table, families) — never instances.
+    if (found.dtExportParams !== undefined) data.detail = plain(call(found.dtExportParams));
     return section("facades", data.detailKinds && data.signs ? "ready" : "partial", sources, data, { note: "Sign text is generic trades only — never a real business name or brand." });
   } catch (e) { return section("facades", "pending", [...sources, { error: String(e.message).slice(0, 160) }], null); }
 }

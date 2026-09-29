@@ -123,8 +123,11 @@ function npMassingGeometries(THREE) {
  * massing kind (PALETTE: textures and colour categories) or null to keep the flat one; `details({ THREE, parish, chunk,
  * spots, tier })` returns one Object3D of instanced exterior detail and signs for a chunk (FACADES) or null. Unset, the
  * engine builds exactly what it built before.
+ * Streaming callbacks (DETAIL, shared/dt-detail.js's pool): `chunkLoaded({ THREE, parish, chunk: { cx, cz, key, ring, lod },
+ * spots, tier })` after every chunk is built (spots is null outside the massing ring), `chunkUnloaded({ parish, key })` when
+ * one is disposed, and `streamed({ parish })` once at the end of every update() — a pool refills there, once a stream step.
  */
-export const NP_MASSING_HOOKS = { material: null, details: null };
+export const NP_MASSING_HOOKS = { material: null, details: null, chunkLoaded: null, chunkUnloaded: null, streamed: null };
 
 /** Which kinds scale their height by the spot's `h` (unit-height geometries) and which scale uniformly. */
 const NP_UNIT_HEIGHT = new Set(["shed", "tower", "campusBlock", "tank", "stack"]);
@@ -356,6 +359,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
   function disposeChunk(c) {
     chunkRoot.remove(c.mesh); c.mesh.geometry.dispose();
     for (const m of c.mass) { chunkRoot.remove(m); m.dispose?.(); }
+    NP_MASSING_HOOKS.chunkUnloaded?.({ parish, key: c.key });
   }
   function buildChunk(ch) {
     const x0 = -NP_SIZE / 2 + ch.cx * NP_CHUNK, z0 = -NP_SIZE / 2 + ch.cz * NP_CHUNK;
@@ -363,8 +367,9 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
     mesh.name = `chunk-${ch.key}`;
     chunkRoot.add(mesh);
     const mass = [];
+    let spots = null;
     if (ch.ring <= massR) {
-      const spots = opts.massFilter ? npMassingForChunk(parish, ch.cx, ch.cz).filter(opts.massFilter) : npMassingForChunk(parish, ch.cx, ch.cz);
+      spots = opts.massFilter ? npMassingForChunk(parish, ch.cx, ch.cz).filter(opts.massFilter) : npMassingForChunk(parish, ch.cx, ch.cz);
       const groups = {};
       for (const s of spots) (groups[s.kind] ??= []).push(s);
       for (const [kind, list] of Object.entries(groups)) {
@@ -387,7 +392,8 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
       const extra = NP_MASSING_HOOKS.details?.({ THREE, parish, chunk: ch, spots, tier }) ?? null;
       if (extra) { extra.name ||= `mass-details-${ch.key}`; chunkRoot.add(extra); mass.push(extra); }
     }
-    return { mesh, mass, lod: ch.lod, massRing: ch.ring <= massR };
+    NP_MASSING_HOOKS.chunkLoaded?.({ THREE, parish, chunk: ch, spots, tier });
+    return { key: ch.key, mesh, mass, lod: ch.lod, massRing: ch.ring <= massR };
   }
   /** Stream around (x, z). Builds at most `budget` chunks per call so a frame never stalls. */
   function update(x, z, budget = 3) {
@@ -407,6 +413,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
       built++;
     }
     lastKey = key;
+    NP_MASSING_HOOKS.streamed?.({ parish });
     return built;
   }
 
@@ -431,15 +438,16 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
   }
 
   function stats() {
-    let meshes = 0, triangles = 0, instances = 0;
+    let meshes = 0, triangles = 0, instances = 0, detailInstances = 0;
     root.traverse((o) => {
       if (!(o.isMesh || o.isLine || o.isLineSegments)) return;
       meshes++;
       const g = o.geometry; const tri = g.index ? g.index.count / 3 : g.attributes.position.count / 3;
       triangles += o.isInstancedMesh ? tri * o.count : tri;
       if (o.isInstancedMesh && o.name.startsWith("mass-")) instances += o.count;
+      if (o.isInstancedMesh && o.name.startsWith("detail-")) detailInstances += o.count;
     });
-    return { chunks: loaded.size, meshes, triangles: Math.round(triangles), instances, key: lastKey };
+    return { chunks: loaded.size, meshes, triangles: Math.round(triangles), instances, detailInstances, key: lastKey };
   }
 
   update(opts.start?.[0] ?? 0, opts.start?.[1] ?? 0, 999);
