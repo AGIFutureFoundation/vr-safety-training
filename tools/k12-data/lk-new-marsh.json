@@ -1,0 +1,146 @@
+{
+  "id": "k12-lk-building-new-marsh-on-the-coast",
+  "index": "964",
+  "prefix": "lkm",
+  "accent": "#6f9a58",
+  "floor": ["#66604c", "#5a5442"],
+  "wall": ["#e0e4cc", "#ccd4b4"],
+  "trade": "Science walk with a coastal marsh restoration crew — learner and restoration crew lead",
+  "header": "Upper-primary science on the Louisiana coast of Vermilion and Cameron Parishes: how a marsh loses ground to waves and sinking mud, and how a restoration crew builds new marsh by pumping mud into a walled cell and planting it, observed from a dike and a model cell, using only what the marsh and the model in the scene show.",
+  "name": "Building New Marsh on the Coast",
+  "tagline": "Mud, water and grass make a marsh — watch the crew fill a cell, then help plant it",
+  "badge": { "id": "marsh-builder", "name": "Marsh Builder", "note": "Found why a coastal marsh shrinks, watched mud settle in a model cell and helped the crew plant the new edge" },
+  "board": { "name": "Marsh Board", "currency": "SPRIGS", "ranks": ["Mud Pie", "Seedling", "Grass Clump", "Marsh Edge", "Marsh Keeper"] },
+  "hazards": [
+    { "id": "walk-on-new-mud", "label": "Walk out onto the new mud?", "face": "WALK\nOUT", "text": "You stepped toward the new mud. Freshly pumped mud is still soft like pudding and can hold a boot fast. The crew stays on the dike and the boardwalk until the mud has settled and firmed up, and so does the class." },
+    { "id": "touch-the-pipe", "label": "Climb on the mud pipe?", "face": "CLIMB\nPIPE", "text": "You reached for the mud pipe. The pipe carries mud and water pushed hard by a pump, and it can shift and shake. Only the crew works beside it, so the class watches it from the dike." },
+    { "id": "marsh-grows-back-alone", "label": "Say the marsh will grow back by itself?", "face": "GROWS\nBACK?", "text": "You said the marsh will fix itself. Here the ground sinks slowly and waves chew at the edge, and the river no longer spreads new mud across the land as it once did. Without new mud the marsh keeps shrinking, which is why crews build new marsh." },
+    { "id": "pull-up-a-plant", "label": "Pull up a young plant to look at it?", "face": "PULL\nIT", "text": "You went to pull up a young plant. Its roots are just starting to grip the soft mud and hold it in place. Look at the plant where it grows, and leave it to do its job." }
+  ],
+  "find1": {
+    "title": "Find what makes a marsh lose ground",
+    "cue": "Mark the three things that wear the marsh away along this coast.",
+    "why": "A coastal marsh is land made of mud held together by grass roots. Waves break against its edge and carry mud away. The mud underneath slowly packs down and sinks. Long channels let salty water reach deep into the marsh and harm the grass. When less new mud arrives than is lost, the marsh turns into open water bit by bit.",
+    "items": [
+      ["waves", "the waves at the marsh edge", "Waves carry mud away."],
+      ["sinking", "the sinking ground", "Old mud packs down and sinks."],
+      ["channel", "the long cut channel", "Salty water reaches the grass."]
+    ],
+    "decoy": ["heron", "a heron fishing", "A marsh visitor, not a cause of loss."]
+  },
+  "select1": {
+    "title": "Stay on the dike with the crew lead",
+    "cue": "Walk with the crew lead along the top of the dike and stop at the viewing spot.",
+    "why": "The dike is a wall of firm earth built around the new marsh area, and it is the safe place to stand. The mud inside is still soft, and the pipe and machines are working nearby. Staying on the dike lets the class see everything while the crew keeps working without having to stop.",
+    "key": "dike-card",
+    "label": "Stay on the dike",
+    "face": "STAY ON\nTHE DIKE"
+  },
+  "seq": {
+    "title": "Put the marsh-building steps in order",
+    "cue": "Order the steps the crew follows to build a new piece of marsh.",
+    "why": "Building marsh follows an order. First the crew builds the dike so the mud stays where it is wanted. Then a pipe brings mud and water from the bottom of a nearby waterway. The water drains away and the mud settles. Last, the crew plants grass so roots can hold the new ground together.",
+    "oon": "Out of order. The dike comes first, so the mud has a place to stay.",
+    "items": [
+      ["ord-dike", "build the dike around the cell"],
+      ["ord-pump", "pump mud and water into the cell"],
+      ["ord-settle", "let the water drain and the mud settle"],
+      ["ord-plant", "plant grass on the new mud"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the jar still while the mud settles",
+    "cue": "Hold the jar of muddy water still until the mud sinks to the bottom.",
+    "why": "Mud carried in water sinks when the water is calm. Holding the jar still lets the tiny bits of mud fall and form a layer at the bottom. The same thing happens inside the marsh cell: the water slows down, the mud drops out, and a new layer of ground builds up where there was water before.",
+    "brk": "The jar was shaken and the mud clouded up again. Hold it still and wait.",
+    "key": "jar-hold",
+    "label": "Hold the jar"
+  },
+  "select2": {
+    "title": "Say how the new marsh helps the coast",
+    "cue": "Choose the sentence that says what the new marsh does for the land behind it.",
+    "why": "You saw grass and shallow mud slow the waves in the model. A good answer says that a marsh acts like a speed bump for waves and storm water, taking away some of their push before they reach the land and the towns behind it. It says what the model showed and nothing more.",
+    "key": "result-card",
+    "label": "State what it does",
+    "face": "WHAT DOES\nIT DO?"
+  },
+  "find2": {
+    "title": "Spot the signs of a healthy new marsh",
+    "cue": "Look across the older finished cell and mark the signs that the marsh is working.",
+    "why": "A new marsh is working when life moves in. Grass spreading across the mud shows roots are holding the ground. Small crabs in the mud show there is food. Wading birds feeding show the marsh has become a place animals use. Crews look for signs like these to know the new marsh is on its way.",
+    "items": [
+      ["grass", "grass spreading over the mud", "Roots are holding the ground."],
+      ["crabs", "small crabs in the mud", "Food for birds and fish."],
+      ["birds", "wading birds feeding", "Animals are using the marsh."]
+    ],
+    "decoy": ["truck", "a crew truck on the dike", "Useful for the crew, but not a sign of marsh life."]
+  },
+  "turn": {
+    "title": "Turn the valve to slow the pipe",
+    "cue": "Turn the model valve until the mud flow into the cell is gentle.",
+    "why": "If the mud comes in too fast it rushes straight across the cell and spills out the far side. A gentle flow gives the mud time to spread and settle evenly. The crew watches the flow closely and adjusts it for the same reason, so the new ground ends up level and firm.",
+    "key": "flow-valve",
+    "label": "Pipe valve",
+    "dial": "FLOW"
+  },
+  "gauge": {
+    "title": "Read the mud height on the marker post",
+    "cue": "Commit when the marker sits at the top of the mud on the post in the cell.",
+    "why": "The crew wants the new mud to reach the same height as a healthy marsh nearby, not higher and not lower. Too low and it stays under water; too high and marsh grass will not grow well. Reading the mud height on the marker post tells the crew when the cell is full enough.",
+    "key": "mud-meter",
+    "label": "Mud height",
+    "meter": "MUD",
+    "miss": "Not at the mud top yet. Read where the mud meets the post."
+  },
+  "drag": {
+    "title": "Plant a grass clump on the new edge",
+    "cue": "Drag the model grass clump to the bare edge of the new mud.",
+    "why": "Planting grass along the bare edge is how the crew protects new marsh. Roots spread through the mud and hold it together, and the leaves slow the water. Each clump you place in the model shows how one plant starts to guard the ground, and many plants together make the edge strong.",
+    "key": "grass-clump",
+    "label": "Grass clump",
+    "spot": "edge-spot",
+    "spotLabel": "The bare new edge",
+    "miss": "Not on the bare edge yet. Place it where the new mud has no grass."
+  },
+  "track": {
+    "title": "Follow the water as it drains away",
+    "cue": "Keep the marker on the draining water as it leaves the cell through the outlet.",
+    "why": "The water that carried the mud has to leave the cell, but the mud has to stay. Following the water to the outlet shows how the crew lets clearer water out while the mud stays behind. It is the same idea as the jar: calm water drops its mud, and then it can go.",
+    "brk": "The marker lost the water. Find the flow again and follow it to the outlet.",
+    "key": "water-track",
+    "label": "Water followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record what you saw at each part of the cell",
+    "cue": "Write one line for the dike, the pipe and the new mud.",
+    "why": "A short note for each part shows how the pieces of the job fit together. Anyone reading your notes can see what the dike holds, what the pipe brings and what the mud becomes. Restoration crews keep records the same way, so they can compare the marsh as it grows over the seasons.",
+    "key": "marsh-log",
+    "label": "Marsh record",
+    "done": "Marsh recorded"
+  },
+  "share": {
+    "title": "Compare notes with another group",
+    "cue": "Put your notes next to another group's and look for anything they saw that you missed.",
+    "why": "Two groups standing on the same dike may notice different things. Comparing notes gives a fuller picture of how the marsh is built. Scientists and crews share what they see for the same reason, because several careful watchers see more than one person alone.",
+    "key": "share-board",
+    "label": "Compare notes",
+    "done": "Notes compared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the dike",
+    "cue": "Why does this coast need new marsh? What holds the new mud in place?",
+    "why": "The crew talks through the day before leaving, and the class does the same. Each learner says one reason the marsh shrinks and one thing that holds the new mud in place. If anyone thinks the marsh will simply grow back by itself, the group sorts it out now.",
+    "label": "End-of-walk check-in"
+  },
+  "interrupts": [
+    { "id": "the-pump-crew-calls-a-pause", "kind": "Crew signal", "key": "step-back", "label": "Step back from the rail and wait", "alert": "The pump crew signals a pause while they move the end of the pipe.", "cue": "Step back from the dike rail and wait until the crew lead says to go on.", "why": "When the crew moves the pipe, everyone nearby steps back and waits. A pause keeps people clear while heavy gear moves. Good crews stop and listen to a signal straight away, and a class does too.", "miss": "The class stayed at the rail, and the crew had to wait before they could move the pipe.", "wrong": "That does not answer the signal. Step back from the rail and wait. Choose the response that deals with it now.", "done": "Class stepped back, the pipe moved. The lesson carries on." },
+    { "id": "the-crew-lead-asks-about-the-roots", "kind": "Crew question", "key": "name-roots", "label": "Say the roots hold the mud", "alert": "The crew lead asks why they plant grass as soon as the mud firms up.", "cue": "Say the roots grip the mud and hold it together against the waves.", "why": "Knowing why the grass matters shows you understand how a marsh stays put. Roots are like a net inside the mud. That is why the crew plants the new ground quickly once it can take a plant.", "miss": "You could not say why the grass matters, and the crew lead had to explain before the class went on.", "wrong": "That does not explain the grass. Say what the roots do to the mud. Choose the response that deals with it now.", "done": "Roots explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Restoration crew lead", "Pump crew member"],
+  "guide": { "start": "Stay on the dike with the crew.", "after": "New mud, new grass, new marsh.", "hazard": "Stop. The new mud is soft." },
+  "lateRecord": "The marsh record is written once you have seen each part of the cell — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the walk.",
+  "scene": "deck",
+  "order": "b"
+}

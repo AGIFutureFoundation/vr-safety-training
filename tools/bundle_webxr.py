@@ -897,6 +897,7 @@ APPS = {
             SHARED / "sc-scholar.js",
             SHARED / "sc-session-ui.js",
             SHARED / "es-bay-lessons.js",  # ESTUARY: the Bay ecology lessons the SCHOLAR panel mounts
+            SHARED / "lk-la-lessons.js",  # LA-K12: the Louisiana K-12 lessons the SCHOLAR panel mounts
             SHARED / "dw-regions.js",  # DEEPWATER: the shoreline dive entries and their in-world markers
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
@@ -1438,6 +1439,8 @@ DIST_SHARED = [
     "dx-consent-ui.js",
     # ESTUARY's Bay ecology lessons, which the scoreboard's lesson index reads.
     "es-bay-lessons.js",
+    # LA-K12's Louisiana K-12 lessons, which the scoreboard's lesson index reads.
+    "lk-la-lessons.js",
     # The treasure ledger account.js and guide.js import, and the Treasure Map
     # page (WebXR/treasures.html, copied beside the homepage) that reads it;
     # the gate engine treasures.js answers its locks through.

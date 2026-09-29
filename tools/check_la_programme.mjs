@@ -32,6 +32,7 @@ const check = (ok, area, msg) => { checks++; if (!ok) fails.push(`[${area}] ${ms
 const lp = await imp("WebXR/shared/lp-programme.js");
 const data = await imp("WebXR/shared/lp-programme-data.js");
 const { COMPETENCY_BY_ID } = await imp("WebXR/shared/competency.js");
+const { LK_LESSONS } = await imp("WebXR/shared/lk-la-lessons.js"); // LA-K12: the awareness level's Louisiana lessons
 const catalog = JSON.parse(readFileSync(join(W, "smartcity/catalog.json"), "utf8"));
 const stations = new Map(catalog.stations.map((s) => [s.id, s]));
 const unions = new Set(JSON.parse(readFileSync(join(ROOT, "tools/unions.json"), "utf8")).unions.map((u) => u.id));
@@ -119,6 +120,13 @@ check(lp.LP_PATHWAYS.length === 6, "pathways", `expected 6 role pathways, found 
 let levels = 0;
 for (const p of lp.LP_PATHWAYS) {
   for (const s of [...p.stations, ...p.k12]) check(stations.has(s), "pathways", `${p.id}: station ${s} is not in the catalog`);
+  // LA-K12: the awareness level's Louisiana lessons resolve in lk-la-lessons.js and their stations sit in the pathway's K-12 list
+  for (const id of lp.LP_K12_LESSONS?.[p.id] ?? []) {
+    const lk = LK_LESSONS.find((x) => x.id === id);
+    check(!!lk, "pathways", `${p.id}: K-12 lesson ${id} is not in lk-la-lessons.js`);
+    check(!!lk && p.k12.includes(lk.station), "pathways", `${p.id}: K-12 lesson ${id}'s station is not in the pathway's K-12 list`);
+  }
+  check((lp.LP_K12_LESSONS?.[p.id] ?? []).length > 0, "pathways", `${p.id}: no Louisiana K-12 lesson at the awareness level`);
   for (const c of p.crafts) check(unions.has(c.union), "pathways", `${p.id}: union ${c.union} is not in tools/unions.json`);
   for (const t of p.tracks) check(!!lp.lpTrack(t), "pathways", `${p.id}: track ${t} missing`);
   const ls = lp.lpPathways(p.id, opts);

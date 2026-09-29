@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 715
+      "stations": 721
     },
     "trades": {
       "entry": "trades/index.html",
@@ -555,6 +555,12 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-lk-the-crews-behind-a-big-build",
+        "k12-lk-why-a-steel-boat-floats",
+        "k12-lk-how-a-wing-lifts-an-aircraft",
+        "k12-lk-where-a-data-center-gets-its-power",
+        "k12-lk-how-a-lock-lifts-a-boat",
+        "k12-lk-building-new-marsh-on-the-coast",
         "k12-by-wetlands-as-a-storms-speed-bump",
         "k12-by-the-water-cycle-from-lake-to-tap",
         "k12-by-a-streetcar-timetable",
@@ -5844,6 +5850,11 @@
           "app": "smartcity",
           "id": "k12-es-measure-a-rain-garden",
           "why": "A rain garden bed measured from zero with a tape, length times width for the area, and the bed drawn to scale on a grid for the crew."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-lk-how-a-lock-lifts-a-boat",
+          "why": "Learners read water levels on a gauge and work a model lock in order, the measuring behind every lock and levee on the Mississippi."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -5978,6 +5989,26 @@
           "app": "smartcity",
           "id": "k12-es-clean-air-at-the-port",
           "why": "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-lk-building-new-marsh-on-the-coast",
+          "why": "Learners see why a coastal marsh shrinks and how a restoration crew builds new marsh from mud, water and grass, the science behind the coast's restoration work."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-lk-where-a-data-center-gets-its-power",
+          "why": "Learners follow energy from a store to a generator, through a substation to computers and out as heat, general science for the power and cooling trades."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-lk-how-a-wing-lifts-an-aircraft",
+          "why": "Learners balance the four forces and find the wing tilt that gives lift, the science an aircraft mechanic checks on every walk-round."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-lk-why-a-steel-boat-floats",
+          "why": "Learners shape a hull that floats, load it to its mark and launch it down a slip, the science behind a bayou shipyard's work."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -6096,6 +6127,11 @@
           "app": "smartcity",
           "id": "k12-es-who-does-this-work",
           "why": "The trades behind Bay restoration and clean port work matched job by job, the path from pre-apprenticeship to crew, and what the EPA and the Port of Oakland say, with each source named."
+        },
+        {
+          "app": "smartcity",
+          "id": "k12-lk-the-crews-behind-a-big-build",
+          "why": "Learners match trades to each stage of a big build and plan a path into an apprenticeship, careers awareness about kinds of work, never about any one employer."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -10228,6 +10264,504 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-the-crews-behind-a-big-build",
+      "name": "The Crews Behind a Big Build",
+      "title": "SmartCiti.X~ The Crews Behind a Big Build VR",
+      "tagline": "Surveyors to electricians, operators to painters — match the crews to the work and plan a path into a trade",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Careers awareness at a workforce centre beside a large Louisiana development site — learner and apprenticeship coordinator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#c77a3c",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "crew-matcher",
+        "name": "Crew Matcher",
+        "note": "Matched trades to each stage of a big build, sorted the tools each trade uses and planned a path into an apprenticeship"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "969",
+      "flat": false,
+      "system": "Workforce Board",
+      "currency": "HARD HATS",
+      "ranks": [
+        "Visitor",
+        "Explorer",
+        "Pre-Apprentice",
+        "Apprentice",
+        "Crew Matcher"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-the-crews-behind-a-big-build"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-why-a-steel-boat-floats",
+      "name": "Why a Steel Boat Floats",
+      "title": "SmartCiti.X~ Why a Steel Boat Floats VR",
+      "tagline": "A lump of steel sinks, a steel hull floats — shape it, load it and launch it down the slip",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science and making lesson with a shipyard crew on a Louisiana bayou — learner and shipfitter",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#3f8f9a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "hull-shaper",
+        "name": "Hull Shaper",
+        "note": "Shaped a hull that floats, loaded it to its mark and watched a model hull launch down the slip"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "968",
+      "flat": false,
+      "system": "Shipyard Board",
+      "currency": "RIVETS",
+      "ranks": [
+        "Raft",
+        "Skiff",
+        "Tug",
+        "Workboat",
+        "Hull Shaper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-why-a-steel-boat-floats"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-how-a-wing-lifts-an-aircraft",
+      "name": "How a Wing Lifts an Aircraft",
+      "title": "SmartCiti.X~ How a Wing Lifts an Aircraft VR",
+      "tagline": "Lift, weight, thrust and drag — tilt the wing, feel the air push and see why mechanics check every hinge",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science lesson on flight with an aircraft maintenance crew at a regional airport — learner and aircraft mechanic",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5a8fd0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "wing-reader",
+        "name": "Wing Reader",
+        "note": "Balanced the four forces, found the angle that gives lift in the wind tunnel and walked round a parked aircraft with the mechanic"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "967",
+      "flat": false,
+      "system": "Flight Board",
+      "currency": "UPDRAFTS",
+      "ranks": [
+        "Paper Plane",
+        "Glider",
+        "Trainer",
+        "Airliner",
+        "Wing Reader"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-how-a-wing-lifts-an-aircraft"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-where-a-data-center-gets-its-power",
+      "name": "Where a Data Center Gets Its Power",
+      "title": "SmartCiti.X~ Where a Data Center Gets Its Power VR",
+      "tagline": "Energy changes form but never vanishes — follow it from stored gas to hot chips and back out as heat",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science lesson on energy and electricity with a power and cooling crew — learner and electrician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#d8a33a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "energy-tracker",
+        "name": "Energy Tracker",
+        "note": "Followed energy from a store to a spinning generator, through a substation to computer chips and out through the cooling plant"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "966",
+      "flat": false,
+      "system": "Energy Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Spark",
+        "Current",
+        "Circuit",
+        "Grid",
+        "Power Tracker"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-where-a-data-center-gets-its-power"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-how-a-lock-lifts-a-boat",
+      "name": "How a Lock Lifts a Boat",
+      "title": "SmartCiti.X~ How a Lock Lifts a Boat VR",
+      "tagline": "Two water levels, two gates and one chamber — fill it, empty it and see the boat rise",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science and measuring lesson with a lock and levee crew on the Mississippi — learner and lock operator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4f86b8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "lock-keeper",
+        "name": "Lock Keeper",
+        "note": "Worked a model lock in the right order, read the water levels and found how a levee holds the river back"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "965",
+      "flat": false,
+      "system": "Lock Board",
+      "currency": "RIPPLES",
+      "ranks": [
+        "Puddle",
+        "Bayou",
+        "Canal",
+        "River",
+        "Lock Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-how-a-lock-lifts-a-boat"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-building-new-marsh-on-the-coast",
+      "name": "Building New Marsh on the Coast",
+      "title": "SmartCiti.X~ Building New Marsh on the Coast VR",
+      "tagline": "Mud, water and grass make a marsh — watch the crew fill a cell, then help plant it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science walk with a coastal marsh restoration crew — learner and restoration crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#6f9a58",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "marsh-builder",
+        "name": "Marsh Builder",
+        "note": "Found why a coastal marsh shrinks, watched mud settle in a model cell and helped the crew plant the new edge"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "964",
+      "flat": false,
+      "system": "Marsh Board",
+      "currency": "SPRIGS",
+      "ranks": [
+        "Mud Pie",
+        "Seedling",
+        "Grass Clump",
+        "Marsh Edge",
+        "Marsh Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-building-new-marsh-on-the-coast"
     },
     {
       "app": "smartcity",
@@ -36860,7 +37394,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 253,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
