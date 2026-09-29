@@ -23,6 +23,10 @@ import { NP_SF_MISSION } from "./np-data-sf-mission.js";
 import { NP_SF_GOLDEN_GATE_PARK } from "./np-data-sf-golden-gate-park.js";
 import { NP_SF_MARINA } from "./np-data-sf-marina.js";
 import { NP_SF_BAYVIEW } from "./np-data-sf-bayview.js";
+// The Bay Program project areas (console TIDELANDS): the 2026 EPA awards' named projects as walkable maps.
+import { NP_SF_OUTER_MISSION } from "./np-data-sf-outer-mission.js";
+import { NP_BP_STRIP_MARSH_EAST } from "./np-data-bp-strip-marsh-east.js";
+import { NP_BP_SAN_LEANDRO_BAY } from "./np-data-bp-san-leandro-bay.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 import { npGeoToXz, npToGeo } from "./np-geo.js";
@@ -30,13 +34,15 @@ import { npGeoToXz, npToGeo } from "./np-geo.js";
 /** Every parish, in the selector's order. */
 export const NP_PARISHES = [
   NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY,
-  NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW,
+  NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW, NP_SF_OUTER_MISSION,
+  NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
 export const NP_REGIONS = [
   { id: "new-orleans", name: "New Orleans", title: "New Orleans Parishes", noun: "parish", nouns: "parishes" },
   { id: "san-francisco", name: "San Francisco", title: "San Francisco Districts", noun: "district", nouns: "districts" },
+  { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
 ];
 
 /** The region id a map belongs to: its `region`, else New Orleans (the parish modules predate regions). */

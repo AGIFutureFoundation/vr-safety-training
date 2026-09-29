@@ -745,6 +745,9 @@ APPS = {
             # San Francisco (GOLDEN-B): two districts and the world ways (the Bay Bridge to Bay World).
             SHARED / "np-data-sf-marina.js",
             SHARED / "np-data-sf-bayview.js",
+            SHARED / "np-data-sf-outer-mission.js",
+            SHARED / "np-data-bp-strip-marsh-east.js",
+            SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "sg-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "np-world.js",

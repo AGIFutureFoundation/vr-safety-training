@@ -220,3 +220,42 @@ module is never edited to carry one. The parishes app draws a world way as a way
 label) and crosses with `lkWorldLink` (`&from=parishes&return=<page>#site=<district>/<site>`, encoded); the passport
 lives in the origin's storage and crosses with the learner. Bay World's Atlas and its map carry the way back,
 `../parishes/parishes.html?parish=sf-downtown`.
+
+## Bay Program project areas (region `bay-program`, console TIDELANDS)
+
+The 2026 EPA San Francisco Bay Program awards name eight projects (the facts file, `epa-2026-facts.md`, is the only source);
+three of their places are walkable here, each a strict-engine 4096 m map at about 2.2 real metres per map metre. Every map is
+laid out from the place's approximate lon/lat frame, the shoreline's general orientation, the named water, highways and creeks,
+and the land-use character — **procedural in detail**, never a survey, and no place is described with a figure. The region's
+noun is "site area". sf-mission's field ends at about 37.722 N (from its fit); the Outer Mission lies south of that, so it is its
+own district in the San Francisco region (every `sf-` map names that region).
+
+| map | id | module | export | region | sites | connectors |
+|---|---|---|---|---|---|---|
+| Strip Marsh East | `bp-strip-marsh-east` | `np-data-bp-strip-marsh-east.js` | `NP_BP_STRIP_MARSH_EAST` | bay-program | 10 | 2 |
+| San Leandro Bay & San Leandro Creek | `bp-san-leandro-bay` | `np-data-bp-san-leandro-bay.js` | `NP_BP_SAN_LEANDRO_BAY` | bay-program | 10 | 2 |
+| Outer Mission & Excelsior | `sf-outer-mission` | `np-data-sf-outer-mission.js` | `NP_SF_OUTER_MISSION` | san-francisco | 10 | 2 |
+
+**Strip Marsh East** (ABAG's project: sediment reused from excavating new tidal channels and lowering berms) — San Pablo Bay,
+the strip marsh and the Napa-Sonoma Marshes as wetland, Sonoma Creek and Dutchman Slough, two procedural new tidal channels,
+the highway levee and the bay-front berm; sites for tidal channel excavation, berm lowering, sediment reuse placement, a
+monitoring station, a staging yard, a levee patrol point, a slough culvert crew, a planting crew, a nesting-season watch and a
+sediment sampling station. **San Leandro Bay** (the City of San Leandro's two large trash capture devices) — San Leandro Bay,
+San Francisco Bay, Arrowhead Marsh, San Leandro Creek and a procedural storm drain channel; the two trash capture device
+sites, the storm drain crew, the creek mouth restoration, the shoreline park, industrial frontage, outfall monitoring, a tide
+line clean-up point, the shoreline levee and the corporation yard. **Outer Mission** (the SFPUC's green stormwater
+infrastructure) — planted sidewalk filtration, a rain garden block, the underground infiltration site, a school campus, the
+Mission Street transit corridor, a sewer crew yard, a locate crew, a soil yard, a planting crew and a maintenance crew.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Mission Street | road | sf-outer-mission ↔ sf-mission | -122.426, 37.730 | `sf-om-mission-street`, `sf-mi-outer-mission-street` |
+| Alemany Boulevard at the Bayshore Freeway | road | sf-outer-mission ↔ sf-mission | -122.405, 37.725 | `sf-om-alemany`, `sf-mi-outer-alemany` |
+| The Nimitz Freeway | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary (BAYMAP, pending) | -122.195, 37.750 | `bp-sl-nimitz-fruitvale`, mirror to be listed by BAYMAP |
+| International Boulevard | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary (BAYMAP, pending) | -122.182, 37.751 | `bp-sl-international-fruitvale`, mirror to be listed by BAYMAP |
+| Highway Thirty-Seven west | road | bp-strip-marsh-east → Sears Point (no map yet) | -122.397, 38.149 | `bp-sm-highway-37-west` |
+| Highway Thirty-Seven east | road | bp-strip-marsh-east → Vallejo (no map yet) | -122.294, 38.140 | `bp-sm-highway-37-east` |
+
+The Fruitvale crossings: Fruitvale's field reaches San Leandro Bay (its Nimitz Freeway ends at about -122.195, 37.750), so
+BAYMAP's `oak-fruitvale-estuary` should list both crossings back under its own ids at the same `lonlat` when the Oakland region
+merges; until then the far end ships `to.position: null` and `npResolveConnectors` fills it.
