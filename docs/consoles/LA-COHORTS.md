@@ -48,3 +48,9 @@ figure, company name or employer's hiring; places are named as places.
    paragraph of `docs/flowhub.md` (the ESTUARY precedent) → check_cognition 558 passed, 0 failed; check_flowhub all pass;
    check_k12 all pass (3217 checks); check_classrooms 1933/0; check_la_programme ok 1618; check_dean 3359/3359;
    check_imports "All 1070 modules call only what they declare or import"; check_storyline all pass; check_la_cohorts ok 2037.
+6. Reason: the guides page works in a browser and a teacher can set up a classroom from it. Act: headless Chromium on port
+   9024 at 360 px and 1280 px over `louisiana/cohorts.html`, `louisiana/index.html` and Home. Observe: 0 page errors and
+   0 px overflow on all five loads; the form made "Class code … · 30 seats · module mod-lco-la-k12 (6 lessons) due
+   2026-10-19" at both widths; Home's Louisiana line links `louisiana/index.html` and `louisiana/cohorts.html`; the only 404s
+   are the shared Guide's `backgrounds.json` probe on the older pages. Screenshot showed the pathway lines starting
+   lower-case → capitalised in the generator, check_la_cohorts ok 2037.

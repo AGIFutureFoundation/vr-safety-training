@@ -61,7 +61,7 @@ function guideHtml(g) {
 
 const byPath = lp.LP_PATHWAYS.map((p) => `
   <section aria-labelledby="h-${esc(p.id)}" id="path-${esc(p.id)}">
-    <div class="at-section-head"><div><h2 id="h-${esc(p.id)}">${esc(p.title)}</h2><p>${esc(p.kinds)}. One run sheet per level.</p></div></div>
+    <div class="at-section-head"><div><h2 id="h-${esc(p.id)}">${esc(p.title)}</h2><p>${esc(p.kinds.charAt(0).toUpperCase() + p.kinds.slice(1))}. One run sheet per level.</p></div></div>
     ${sheets.filter((g) => g.pathway === p.id).map(guideHtml).join("")}
   </section>`).join("");
 
