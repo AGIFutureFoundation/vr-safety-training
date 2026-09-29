@@ -41,10 +41,12 @@ function dnVersionPanel() {
   for (const v of dnVersions()) {
     const row = dnEl("div", "dn-row");
     const hidden = dnHidden(v);
-    row.append(dnEl("strong", null, v.name), dnEl("span", "muted", ` · ${v.scope.kind}${v.scope.id ? ` ${v.scope.id}` : ""} · ${hidden.worlds.size} world(s) off · ${hidden.packs.size} pack(s) off · ${v.locked ? `locked to ${v.lockedPath ?? "its paths"}` : "paths open"}${active === v.id ? " · applied on this device" : ""} `));
+    row.append(dnEl("strong", null, v.name), dnEl("span", "muted", ` · ${v.scope.kind}${v.scope.id ? ` ${v.scope.id}` : ""} · ${hidden.worlds.size} world(s) off · ${hidden.packs.size} pack(s) off · ${v.locked ? `locked to ${v.lockedPath ?? "its paths"}` : "paths open"} · Find me ${v.geolocation ? "on" : "off"}${active === v.id ? " · applied on this device" : ""} `));
     row.append(
       dnBtn(v.locked ? "Unlock" : "Lock", () => { dnLockVersion(v.id, !v.locked, v.lockedPath ?? (v.paths?.[0] ?? "union-trades")); dnRender(); }),
       dnBtn(active === v.id ? "Stop applying here" : "Apply on this device", () => { dnSetActive(active === v.id ? null : v.id); dnRender(); }),
+      // GEO (docs/geo.md): the teacher's switch for Find me in this class; off unless turned on here.
+      dnBtn(v.geolocation ? "Turn Find me off" : "Turn Find me on", () => { dnSaveVersion({ ...v, geolocation: !v.geolocation }); dnRender(); }),
       dnBtn("Export", () => dnDownload(`${v.id}.json`, dnExport(v.id))),
       dnBtn("Delete", () => { dnDeleteVersion(v.id); dnRender(); }),
     );
@@ -62,11 +64,12 @@ function dnVersionPanel() {
   packBox.classList.add("dn-scroll");
   const lock = dnEl("select"); lock.append(dnEl("option", null, "paths open")); lock.firstChild.value = "";
   for (const id of DN_PATHS) { const o = dnEl("option", null, `lock to ${id}`); o.value = id; lock.append(o); }
-  form.append(name, scope, worlds, paths, packBox, lock, dnBtn("Save version", () => form.requestSubmit?.() ?? form.dispatchEvent(new Event("submit")), "primary"));
+  const geoLab = dnEl("label"); const geoBox = dnEl("input"); geoBox.type = "checkbox"; geoBox.checked = false; geoLab.append(geoBox, " Allow Find me (the learner's location, asked on a press, kept in memory only; off by default)");
+  form.append(name, scope, worlds, paths, packBox, lock, geoLab, dnBtn("Save version", () => form.requestSubmit?.() ?? form.dispatchEvent(new Event("submit")), "primary"));
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const [kind, id] = scope.value.includes(":") ? scope.value.split(":") : ["org", null];
-    dnSaveVersion({ name: name.value, scope: { kind, id }, worlds: worlds.values(), paths: paths.values(), packs: packBox.values(), locked: !!lock.value, lockedPath: lock.value || null });
+    dnSaveVersion({ name: name.value, scope: { kind, id }, worlds: worlds.values(), paths: paths.values(), packs: packBox.values(), locked: !!lock.value, lockedPath: lock.value || null, geolocation: geoBox.checked === true });
     dnSay("Version saved."); dnRender();
   });
   p.append(form);
