@@ -71,6 +71,24 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     writeFileSync(join(ROOT, "tools", "detail-baseline.json"), JSON.stringify(out, null, 1) + "\n");
     console.log(`wrote tools/detail-baseline.json (${Object.keys(maps).length} maps)`);
   }
+  if (args.has("--missing")) {
+    // DETAIL-2: measure only the maps with no row yet (maps merged after the baseline) on the same unmodified path
+    // (massing + FACADES, no DETAIL hooks set) and merge them in; existing rows are left as they were measured.
+    // --engine=<hash> records the tree the new rows were measured on (per row, so the old rows keep theirs).
+    const file = join(ROOT, "tools", "detail-baseline.json");
+    const out = JSON.parse(readFileSync(file, "utf8"));
+    const engine = [...args].find((a) => a.startsWith("--engine="))?.slice(9) ?? "unknown";
+    if (W.NP_MASSING_HOOKS.chunkLoaded || W.NP_MASSING_HOOKS.streamed) throw new Error("the engine hooks are set: not the unmodified path");
+    let added = 0;
+    for (const p of R.NP_PARISHES) {
+      if (out.maps[p.id]) continue;
+      out.maps[p.id] = { ...dtBaselineMap(p), engine };
+      added++;
+      console.log(`${p.id}: ${DT_TIERS.map((t) => `${t} ${out.maps[p.id][t].instances}`).join(", ")}`);
+      writeFileSync(file, JSON.stringify(out, null, 1) + "\n");
+    }
+    console.log(`added ${added} rows; tools/detail-baseline.json has ${Object.keys(out.maps).length} maps`);
+  }
   if (args.has("--table")) {
     const base = JSON.parse(readFileSync(join(ROOT, "tools", "detail-baseline.json"), "utf8")).maps;
     const worst5 = Object.entries(base).sort((a, b) => b[1].high.instances - a[1].high.instances).slice(0, 5).map(([id]) => id);
