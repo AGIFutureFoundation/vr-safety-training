@@ -67,6 +67,8 @@ const NPC = await imp("shared/npc.js");
 const SL = await imp("shared/sl-parish-play.js");
 // GOLDEN-B's San Francisco half of the play layer (its lessons ride the parishes page's lesson finds and treasures) — REACTOR.
 const SGP = await imp("shared/sg-sf-play.js");
+// PLAYLAYER's Bay Area half (the other SF, Oakland, East Bay, South Bay and Bay Program maps, same shape as SGP).
+const PLP = await imp("shared/pl-bay-play.js");
 const PM = await imp("shared/payments.js");
 const PA = await imp("shared/pm-agent.js");
 const PMM = await imp("shared/pm-membership.js");
@@ -114,7 +116,7 @@ for (const p of R.NP_PARISHES) {
   const l = (p.fieldLessons ?? [])[0];
   sj.check("completable", !!l, `${p.id}: has a field lesson to complete`, "SECONDLINE → BAYOU");
   if (l) sj.check("completable", S.npAnswerLesson(st, l, l.check.answer).ok && st.lessons.includes(l.id), `${p.id}: the lesson ${l.id} completes headless`);
-  const sl = [...SL.slLessonsFor(p.id), ...SGP.sgLessonsFor(p.id)];
+  const sl = [...SL.slLessonsFor(p.id), ...SGP.sgLessonsFor(p.id), ...PLP.plLessonsFor(p.id)];
   sj.check("completable", sl.length >= 3, `${p.id}: the play layer offers three or more field lessons (${sl.length})`, "SECONDLINE → BAYOU");
   sj.check("completable", S.npVisit(st, p.id, p.sites[0].id), `${p.id}: a site visit is recorded`);
   // budget: the triangle estimate and one real build at the start site and the densest site

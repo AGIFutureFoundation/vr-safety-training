@@ -57,7 +57,9 @@ const G = await imp("shared/skill-gates.js");
 const TZ = await imp("shared/treasures-data.js");
 // The San Francisco districts ride the parishes page (GOLDEN-B, shared/sg-sf-play.js): their caches and lesson finds share the surface.
 const SGP = await imp("shared/sg-sf-play.js");
-const sgSiteDef = (parish, site) => SGP.sgDistrict(parish)?.sites.find((x) => x.id === site) ?? null;
+// PLAYLAYER's Bay Area maps (shared/pl-bay-play.js) share the surface too, on SG's shapes.
+const PLP = await imp("shared/pl-bay-play.js");
+const sgSiteDef = (parish, site) => (SGP.sgDistrict(parish) ?? PLP.plDistrict(parish))?.sites.find((x) => x.id === site) ?? null;
 const SRC = rd("WebXR/shared/sl-parish-play.js");
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 const K12 = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));
@@ -264,8 +266,10 @@ for (const p of SL.SL_PARISHES) for (const s of p.sites) { if (!SL.slLessonsFor(
   if (caches.length < 40) fail("treasures", `${caches.length} storm kit caches, fewer than forty`); else ok();
   for (const p of SL.SL_PARISHES) for (const s of p.sites) { if (!caches.some((t) => t.id === `tz-parish-${p.id}-${s.id}`)) fail("treasures", `${p.id}/${s.id} has no cache`); else ok(); }
   for (const t of caches) { if ("x" in t.trigger || "z" in t.trigger || !(SL.slSiteDef(t.trigger.parish, t.trigger.site) || sgSiteDef(t.trigger.parish, t.trigger.site))) fail("treasures", `${t.id}: not a site-relative trigger`); else ok(); }
-  if (finds.length !== SL.SL_FIELD_LESSONS.length + SGP.SG_FIELD_LESSONS.length) fail("treasures", `${finds.length} quiet lesson finds for ${SL.SL_FIELD_LESSONS.length + SGP.SG_FIELD_LESSONS.length} lessons`); else ok();
+  const nLessons = SL.SL_FIELD_LESSONS.length + SGP.SG_FIELD_LESSONS.length + PLP.PL_FIELD_LESSONS.length;
+  if (finds.length !== nLessons) fail("treasures", `${finds.length} quiet lesson finds for ${nLessons} lessons`); else ok();
   for (const d of SGP.SG_DISTRICTS) for (const x of d.sites) { if (!caches.some((t) => t.id === `tz-parish-${d.id}-${x.id}`)) fail("treasures", `${d.id}/${x.id} has no fog-day kit`); else ok(); }
+  for (const d of PLP.PL_DISTRICTS) for (const x of d.sites) { if (!caches.some((t) => t.id === `tz-parish-${d.id}-${x.id}`)) fail("treasures", `${d.id}/${x.id} has no crew kit`); else ok(); }
   if (!/\blonlat\b|\bposition: \[|\bxz: \[|\bapproximate: true\b/.test(SRC)) ok(); else fail("facts", "sl-parish-play.js carries a coordinate or a position");
   if (!SL.slSitePlay("orleans", "port-terminal").arc.includes("sl-main-03-tie-down-the-port")) fail("treasures", "slSitePlay does not list the arc quest at the port"); else ok();
 }

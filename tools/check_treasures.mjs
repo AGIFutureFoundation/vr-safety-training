@@ -55,7 +55,9 @@ const { PP_PROGRAMMES } = await import(join(WEBXR, "shared/passport-programmes.j
 const SLP = await import(join(WEBXR, "shared/sl-parish-play.js"));
 // The San Francisco districts on the parishes page (GOLDEN-B): their lessons and sites ride the same surface.
 const SGP = await import(join(WEBXR, "shared/sg-sf-play.js"));
-const sgSiteDef = (parish, site) => SGP.sgDistrict(parish)?.sites.find((s) => s.id === site) ?? null;
+// PLAYLAYER's Bay Area maps (shared/pl-bay-play.js) ride the same surface on SG's shapes.
+const PLP = await import("../WebXR/shared/pl-bay-play.js");
+const sgSiteDef = (parish, site) => (SGP.sgDistrict(parish) ?? PLP.plDistrict(parish))?.sites.find((s) => s.id === site) ?? null;
 const T = D.TZ_TREASURES;
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 
@@ -115,7 +117,7 @@ await check("themed lessons: a station lesson's programme is one of its place's;
   const lessons = T.filter((t) => t.how === "lesson");
   assert(lessons.length >= 20, `only ${lessons.length} field-lesson treasures`);
   for (const t of lessons) {
-    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : t.trigger.world === "parishes" ? [...SLP.SL_FIELD_LESSONS, ...SGP.SG_FIELD_LESSONS] : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
+    const l = (t.trigger.world === "summit" ? SM_FIELD_LESSONS : t.trigger.world === "parishes" ? [...SLP.SL_FIELD_LESSONS, ...SGP.SG_FIELD_LESSONS, ...PLP.PL_FIELD_LESSONS] : RW_FIELD_LESSONS).find((x) => x.id === t.trigger.lesson);
     assert(l, `${t.id} names unknown field lesson ${t.trigger.lesson} in ${t.trigger.world}`);
     assert(t.lesson === (l.tradeLine ?? l.trade), `${t.id}'s lesson is not the field lesson's trade line`);
     assert(t.set === "field-scholar" && t.place?.id, `${t.id} is not in the Field Scholar set with a place`);
@@ -331,6 +333,7 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
   assert(D.TZ_SURFACES.some((x) => x.id === "parishes" && x.count >= 40), "the Treasure Map has no parishes count");
   for (const p of SLP.SL_PARISHES) { const set = D.TZ_SETS.find((s) => s.id === `storm-kits-${p.id}`); assert(set && set.members.length === p.sites.length, `${p.id} has no complete storm-kit set`); }
   for (const d of SGP.SG_DISTRICTS) { const set = D.TZ_SETS.find((s) => s.id === `fog-kits-${d.id}`); assert(set && set.members.length === d.sites.length, `${d.id} has no complete fog-day kit set`); }
+  for (const d of PLP.PL_DISTRICTS) { const set = D.TZ_SETS.find((s) => s.id === `bay-kits-${d.id}`); assert(set && set.members.length === d.sites.length, `${d.id} has no complete crew kit set`); }
   // tzWatchWorld takes the resolver and plants only what it can place (a headless three.js stand-in).
   {
     const src = rd("WebXR/shared/treasures.js");
