@@ -84,6 +84,8 @@ const CHECKERS = [
   "check_terraform.mjs",
   // CITYWORKS: street fabric in the field and off water, road graph components, sidewalks dry, a collider per building, budgets (docs/consoles/CITYWORKS.md).
   "check_cityworks.mjs",
+  // ATMOS: deterministic weather, lamps at dusk/dawn, fog never hides a board, a silent-by-default synth soundscape, budgets (docs/consoles/ATMOS.md).
+  "check_atmos.mjs",
   // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).
   "check_npc.mjs",
   "check_investor.mjs",

@@ -97,9 +97,11 @@
     "check_terraform.mjs": 30000,
     "check_cityworks.mjs": 58400,
     "check_packs.mjs": 1100,
-    "check_tycoon.mjs": 440
+    "check_tycoon.mjs": 440,
+    "check_atmos.mjs": 52000
   },
   "notes": {
+    "check_atmos.mjs": "2026-09-29 02:10 UTC: new (console ATMOS). 52 s wall under the third wave's load: pure weather/fog/light/sound checks over ten maps plus a headless engine + CITYWORKS + TERRAFORM + ATMOS build at four sites of every map on two tiers.",
     "check_terraform.mjs": "2026-09-29 01:32 UTC: new (console TERRAFORM). 25 s of CPU (69 s wall under seven consoles' load): the pure checks over ten maps plus a headless build of the engine with TERRAFORM at every site on two tiers.",
     "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression.",
     "check_parishes.mjs": "2026-09-29 01:10 UTC: rebaselined 11.0 s -> 17.7 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the engine checks ten maps (five New Orleans parishes and five San Francisco districts, all strict) instead of five.",
