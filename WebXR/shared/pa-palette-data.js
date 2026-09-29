@@ -120,6 +120,11 @@ export const PA_REGION_CHARACTERS = {
   // The programme worlds (SMILES: a procedural community-health district) read as a bright small town.
   programmes: { quarter: "creole-cottage-pastels", garden: "craftsman-shingle", suburb: "sunset-pastels", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "bay-program": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  // Louisiana (the development wave): project site areas read as marsh and port steel; the growth cities and New Orleans's
+  // neighbourhood districts as the New Orleans parishes do.
+  "louisiana-sites": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "louisiana-cities": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "new-orleans-districts": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
 };
 /** A district's own override (map id -> character -> category id), where its character differs from its region's. */
 export const PA_PARISH_CHARACTERS = {

@@ -504,7 +504,7 @@ no city growth figure is stated. Before the maps were written each box was check
 | map | id | module | export | region | sites | connectors |
 |---|---|---|---|---|---|---|
 | Lake Charles Lakefront & Downtown | `lc-lakefront-downtown` | `np-data-lc-lakefront-downtown.js` | `NP_LC_LAKEFRONT_DOWNTOWN` | louisiana-cities | 20 | 3 |
-| the Calcasieu Ship Channel | `lc-calcasieu-channel` | `np-data-lc-calcasieu-channel.js` | `NP_LC_CALCASIEU_CHANNEL` | louisiana-sites | 19 | 2 |
+| the Calcasieu Ship Channel | `lc-calcasieu-channel` | `np-data-lc-calcasieu-channel.js` | `NP_LC_CALCASIEU_CHANNEL` | louisiana-sites | 20 | 2 |
 | the Port of Vinton | `lc-port-of-vinton` | `np-data-lc-port-of-vinton.js` | `NP_LC_PORT_OF_VINTON` | louisiana-sites | 18 | 2 |
 
 **Lake Charles Lakefront & Downtown** — the lake with the interstate along its north shore and its high bridge over the river,
@@ -517,8 +517,8 @@ substation, a trades hall, a storm roof crew, the university grounds crew and th
 along the south, marsh on the east bank, farm roads and fields; the project site area (illustrative) on the east bank: module
 sets, the marine offload berth, the pipe rack, heavy-haul road, tank foundation, piling, laydown, the crane pad, hydrotest,
 insulation, the site substation, the control building, the flare area, the berth dredge, a marsh mat road, the gate and fire
-water (every project site `precinct: true`), plus a waterway crew landing. No facility visible on the ground is part of a lesson.
-**The Port of Vinton** — Vinton on Interstate Ten and US Highway Ninety, the port's barge waterway and turning basin (procedural),
+water (every project site `precinct: true`), plus an east bank marsh crew and a waterway crew landing. No facility visible on the ground is part of a lesson.
+**The Port of Vinton** — Vinton between US Highway Ninety and Interstate Ten (which runs south-west to north-east past the town), the port's waterway south to the port, a pond,
 the new berth's bulkhead, rice fields and marsh; the berth build, site preparation, rail and road, the sheet-pile wall, dredging,
 mooring dolphins, the crane pad, culverts, the environmental survey, laydown, utilities, the port office (start), the truck gate,
 a warehouse, Vinton's main street, a fire station, a school and a rice field drainage crew.
@@ -529,5 +529,5 @@ a warehouse, Vinton's main street, a fire station, a school and a rice field dra
 | Interstate Ten west | road | lc-lakefront-downtown → lc-sulphur (no map yet) | -93.272, 30.240 | `sw-ld-i10-west` |
 | Interstate Ten east | road | lc-lakefront-downtown → lc-east-calcasieu (no map yet) | -93.178, 30.234 | `sw-ld-i10-east` |
 | The farm road east | road | lc-calcasieu-channel → lc-east-calcasieu-south (no map yet) | -93.253, 30.139 | `sw-cc-farm-road-east` |
-| Interstate Ten west toward Texas | road | lc-port-of-vinton → sabine-texas-line (no map yet) | -93.622, 30.202 | `sw-pv-i10-west` |
-| Interstate Ten east toward Sulphur | road | lc-port-of-vinton → lc-sulphur (no map yet) | -93.538, 30.199 | `sw-pv-i10-east` |
+| Interstate Ten west toward Texas | road | lc-port-of-vinton → sabine-texas-line (no map yet) | -93.622, 30.162 | `sw-pv-i10-west` |
+| Interstate Ten east toward Sulphur | road | lc-port-of-vinton → lc-sulphur (no map yet) | -93.538, 30.191 | `sw-pv-i10-east` |

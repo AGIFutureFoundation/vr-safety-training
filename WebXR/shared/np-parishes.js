@@ -78,7 +78,6 @@ export const NP_REGIONS = [
   { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
   { id: "louisiana-sites", name: "Louisiana Development Sites", title: "Louisiana Development Sites", noun: "site area", nouns: "site areas" },
   { id: "louisiana-cities", name: "Louisiana Growth Cities", title: "Louisiana Growth City Districts", noun: "district", nouns: "districts" },
-  { id: "new-orleans-districts", name: "New Orleans Neighbourhoods", title: "New Orleans Neighbourhood Districts", noun: "district", nouns: "districts" },
   { id: "programmes", name: "Programme Worlds", title: "Programme Worlds (procedural)", noun: "world", nouns: "worlds" },
 ];
 
