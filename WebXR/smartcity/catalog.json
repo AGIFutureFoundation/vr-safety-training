@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 712
+      "stations": 715
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,8 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "lp-gas-storage-wellpad-awareness",
+        "lp-cryogenic-propellant-awareness",
         "battery-storage-container-commissioning",
         "temporary-site-power",
         "arc-flash-label-study",
@@ -439,6 +441,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "lp-marine-vessel-electrical-safety",
         "yc-shore-power-connection-and-in-water-electrical-safety",
         "yc-tender-launch-and-guest-transfer",
         "yc-galley-fire-and-fixed-system",
@@ -10225,6 +10228,237 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-marine-vessel-electrical-safety",
+      "name": "Marine Vessel Electrical Safety",
+      "title": "SmartCiti.X~ Marine Vessel Electrical Safety VR",
+      "tagline": "Isolating a new-build vessel's switchboard at the outfitting pier when power can arrive from more than one place: the single-line drawing read, every source found — shore pedestal, generator, battery bank — each one opened, locked and proven dead, temporary cables kept out of the water, and the tester proven before and after",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Marine electrician, new-build vessel outfitting — IBEW",
+      "union": null,
+      "certification": "IBEW inside wireman training as a body; NFPA 70E standard for electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.333 selection and use of work practices and 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1915 shipyard employment; the vessel's single-line drawing and the yard's electrical work permit",
+      "accent": "#5fd0b8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "every-source",
+        "name": "Every Source",
+        "note": "Found every source on the drawing, locked each one, proved the tester and never worked a live board"
+      },
+      "meshes": 204,
+      "lights": 0,
+      "overBudget": false,
+      "index": "lp-3",
+      "flat": false,
+      "system": "Every Source",
+      "currency": "kA",
+      "ranks": [
+        "Helper",
+        "Board Inducted",
+        "Marine Electrician",
+        "Lead Electrician",
+        "Every Source Certified"
+      ],
+      "awards": [
+        {
+          "id": "drawing-first",
+          "name": "Drawing First",
+          "note": "Read the single-line drawing before opening a panel"
+        },
+        {
+          "id": "never-live",
+          "name": "Never Live",
+          "note": "Never touched a conductor before it was proven dead"
+        },
+        {
+          "id": "steady-megger",
+          "name": "Steady Megger",
+          "note": "Held the insulation test near band centre"
+        },
+        {
+          "id": "quick-board",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-board",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=lp-marine-vessel-electrical-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-gas-storage-wellpad-awareness",
+      "name": "Gas Storage Well Pad Safety",
+      "title": "SmartCiti.X~ Gas Storage Well Pad Safety VR",
+      "tagline": "A contractor crew on a natural gas storage well pad while the operator runs the wells: the pad permit read, the gas monitor bump-tested, flame-resistant clothing on, every ignition source left at the gate, a weeping flange reported rather than tightened, hot work only inside a tested boundary, and a personal lock on the group box before anyone touches isolated pipe",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Gas storage contractor crew, well pad safety — USW",
+      "union": null,
+      "certification": "USW health and safety training as a body; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals, 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.252 welding and cutting and 29 CFR 1910.132 personal protective equipment; NFPA 51B fire prevention during hot work; the operator's pad work permit and isolation list",
+      "accent": "#f2b84b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "pad-discipline",
+        "name": "Pad Discipline",
+        "note": "Read the pad permit, left the ignition sources at the gate, tested before hot work and locked on before touching isolated pipe"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "lp-2",
+      "flat": false,
+      "system": "Pad Discipline",
+      "currency": "LEL",
+      "ranks": [
+        "Visitor",
+        "Pad Inducted",
+        "Contractor Hand",
+        "Contractor Lead",
+        "Pad Discipline Certified"
+      ],
+      "awards": [
+        {
+          "id": "permit-first-pad",
+          "name": "Permit First",
+          "note": "Read the pad permit before driving past the gate"
+        },
+        {
+          "id": "no-ignition",
+          "name": "Nothing Lit",
+          "note": "Never carried an ignition source onto the pad"
+        },
+        {
+          "id": "steady-test",
+          "name": "Steady Test",
+          "note": "Held the continuous gas test near band centre"
+        },
+        {
+          "id": "quick-pad",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-pad",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=lp-gas-storage-wellpad-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-cryogenic-propellant-awareness",
+      "name": "Cryogenic Propellant Awareness",
+      "title": "SmartCiti.X~ Cryogenic Propellant Awareness VR",
+      "tagline": "Working beside a cryogenic storage area without being part of it: the area permit and the safety data sheet read, an oxygen monitor bump-tested, loose insulated gloves and a face shield, an upwind escape planned, frost and trapped lines recognised, and a vapour cloud answered by walking upwind and calling it in",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Launch-site support crew, cryogenic-safety awareness — UA",
+      "union": null,
+      "certification": "UA pipe trades training as a body; NFPA 55 Compressed Gases and Cryogenic Fluids Code; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the cryogenic liquid the area permit names",
+      "accent": "#7fd6ff",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "upwind",
+        "name": "Upwind",
+        "note": "Read the permit and the SDS, proved the oxygen monitor, planned the upwind route and never walked into the vapour"
+      },
+      "meshes": 221,
+      "lights": 0,
+      "overBudget": false,
+      "index": "lp-1",
+      "flat": false,
+      "system": "Upwind",
+      "currency": "O2",
+      "ranks": [
+        "Visitor",
+        "Area Inducted",
+        "Support Crew",
+        "Crew Lead",
+        "Upwind Certified"
+      ],
+      "awards": [
+        {
+          "id": "permit-first",
+          "name": "Permit First",
+          "note": "Read the area permit before crossing the fence line"
+        },
+        {
+          "id": "never-in-cloud",
+          "name": "Never in the Cloud",
+          "note": "Answered every vapour release from upwind"
+        },
+        {
+          "id": "steady-sample",
+          "name": "Steady Sample",
+          "note": "Held the oxygen sample near band centre"
+        },
+        {
+          "id": "quick-induction",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-induction",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=lp-cryogenic-propellant-awareness"
     },
     {
       "app": "smartcity",
@@ -36626,7 +36860,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 268,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -37286,7 +37520,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

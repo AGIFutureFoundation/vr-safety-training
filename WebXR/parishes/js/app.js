@@ -73,9 +73,13 @@ cpPlaceInParish(npParish);
 import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
 import { bqGamesFor } from "../../shared/bq-games-data.js";
 import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
-import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
+import { psMountProjectSim, psSetRecorder, psRegisterSims } from "../../shared/ps-projectsim.js";
 // UNIONSIMS: the craft simulations register with PROJECTSIM's boards on import (docs/consoles/UNIONSIMS.md).
 import { usSims } from "../../shared/us-unionsims.js";
+// LA-PROGRAMME: the Louisiana programme's simulations join PROJECTSIM's boards at their fixed sites — guarded: a place counts only
+// when its map is in this tree and the site is on it (docs/consoles/LA-PROGRAMME.md).
+import { lpRegisterSims } from "../../shared/lp-programme.js";
+lpRegisterSims({ psRegisterSims, lookup: npParish });
 import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
 import { hvMount } from "../../shared/hv-harvest.js";
 import { smilesMount } from "../../shared/sm-smiles.js";

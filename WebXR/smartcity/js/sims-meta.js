@@ -30184,5 +30184,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "lp-cryogenic-propellant-awareness",
+    "index": "lp-1",
+    "domain": "Energy",
+    "trade": "Launch-site support crew, cryogenic-safety awareness — UA",
+    "category": "Energy & Power",
+    "certification": "UA pipe trades training as a body; NFPA 55 Compressed Gases and Cryogenic Fluids Code; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the cryogenic liquid the area permit names",
+    "name": "Cryogenic Propellant Awareness",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Cryogenic Propellant Awareness VR",
+    "tagline": "Working beside a cryogenic storage area without being part of it: the area permit and the safety data sheet read, an oxygen monitor bump-tested, loose insulated gloves and a face shield, an upwind escape planned, frost and trapped lines recognised, and a vapour cloud answered by walking upwind and calling it in",
+    "accent": 8378111,
+    "accentCss": "#7fd6ff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "upwind",
+      "name": "Upwind",
+      "note": "Read the permit and the SDS, proved the oxygen monitor, planned the upwind route and never walked into the vapour"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Upwind",
+      "currency": "O2",
+      "ranks": [
+        "Visitor",
+        "Area Inducted",
+        "Support Crew",
+        "Crew Lead",
+        "Upwind Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "lp-gas-storage-wellpad-awareness",
+    "index": "lp-2",
+    "domain": "Energy",
+    "trade": "Gas storage contractor crew, well pad safety — USW",
+    "category": "Energy & Power",
+    "certification": "USW health and safety training as a body; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals, 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.252 welding and cutting and 29 CFR 1910.132 personal protective equipment; NFPA 51B fire prevention during hot work; the operator's pad work permit and isolation list",
+    "name": "Gas Storage Well Pad Safety",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Gas Storage Well Pad Safety VR",
+    "tagline": "A contractor crew on a natural gas storage well pad while the operator runs the wells: the pad permit read, the gas monitor bump-tested, flame-resistant clothing on, every ignition source left at the gate, a weeping flange reported rather than tightened, hot work only inside a tested boundary, and a personal lock on the group box before anyone touches isolated pipe",
+    "accent": 15906891,
+    "accentCss": "#f2b84b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "pad-discipline",
+      "name": "Pad Discipline",
+      "note": "Read the pad permit, left the ignition sources at the gate, tested before hot work and locked on before touching isolated pipe"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pad Discipline",
+      "currency": "LEL",
+      "ranks": [
+        "Visitor",
+        "Pad Inducted",
+        "Contractor Hand",
+        "Contractor Lead",
+        "Pad Discipline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "lp-marine-vessel-electrical-safety",
+    "index": "lp-3",
+    "domain": "Maritime",
+    "trade": "Marine electrician, new-build vessel outfitting — IBEW",
+    "category": "Maritime & Ports",
+    "certification": "IBEW inside wireman training as a body; NFPA 70E standard for electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.333 selection and use of work practices and 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1915 shipyard employment; the vessel's single-line drawing and the yard's electrical work permit",
+    "name": "Marine Vessel Electrical Safety",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Marine Vessel Electrical Safety VR",
+    "tagline": "Isolating a new-build vessel's switchboard at the outfitting pier when power can arrive from more than one place: the single-line drawing read, every source found — shore pedestal, generator, battery bank — each one opened, locked and proven dead, temporary cables kept out of the water, and the tester proven before and after",
+    "accent": 6279352,
+    "accentCss": "#5fd0b8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "every-source",
+      "name": "Every Source",
+      "note": "Found every source on the drawing, locked each one, proved the tester and never worked a live board"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Every Source",
+      "currency": "kA",
+      "ranks": [
+        "Helper",
+        "Board Inducted",
+        "Marine Electrician",
+        "Lead Electrician",
+        "Every Source Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
