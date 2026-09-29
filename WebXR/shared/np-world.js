@@ -181,7 +181,8 @@ function npSignGeometry(THREE, boardColour, tall = false) {
 }
 
 /**
- * Build the parish under `root`. opts: { tier: "low"|"balanced"|"high", start: [x, z] }.
+ * Build the parish under `root`. opts: { tier: "low"|"balanced"|"high", start: [x, z], massFilter?: (spot) => bool }.
+ * massFilter (CITYWORKS's cwMassFilter) drops massing spots that would stand on a street; without it nothing changes.
  * Returns { update(x, z, budget), animate(dt), stats(), setGroundTexture(tex), siteBoards, lessonSigns, … }.
  */
 export function npBuildParish(root, THREE, parish, opts = {}) {
@@ -303,7 +304,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
     chunkRoot.add(mesh);
     const mass = [];
     if (ch.ring <= massR) {
-      const spots = npMassingForChunk(parish, ch.cx, ch.cz);
+      const spots = opts.massFilter ? npMassingForChunk(parish, ch.cx, ch.cz).filter(opts.massFilter) : npMassingForChunk(parish, ch.cx, ch.cz);
       const groups = {};
       for (const s of spots) (groups[s.kind] ??= []).push(s);
       for (const [kind, list] of Object.entries(groups)) {

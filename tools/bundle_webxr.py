@@ -748,6 +748,15 @@ APPS = {
             SHARED / "tf-water.js",
             SHARED / "tf-terraform.js",
             SHARED / "tf-world.js",
+            # CITYWORKS (the Packs run): the generated street fabric per New Orleans parish, the pure streets/solids module
+            # and its three.js builder (after np-parish.js and np-parishes.js).
+            SHARED / "cw-streets-orleans.js",
+            SHARED / "cw-streets-jefferson.js",
+            SHARED / "cw-streets-st-bernard.js",
+            SHARED / "cw-streets-plaquemines.js",
+            SHARED / "cw-streets-st-tammany.js",
+            SHARED / "cw-cityworks.js",
+            SHARED / "cw-streets-world.js",
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",

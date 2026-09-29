@@ -20,6 +20,8 @@ import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
+import { cwMassFilter, cwBlockWalk, cwStreets } from "../../shared/cw-cityworks.js";
+import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
@@ -73,7 +75,11 @@ const npStart = npPlace(parish, npReturnSiteId ?? npParams.get("site") ?? "") ??
 np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
-const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z] });
+const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
+// CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
+// site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
+const cwStreetsMount = cwMountStreets({ THREE, root, parish, tier: npTierName });
+cwStreetsMount.update(np.x, np.z, 999);
 // KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
 const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 // TERRAFORM: streams, ditches and culverts, animated water, wind-swayed grass, bushes and litter per chunk (docs/consoles/TERRAFORM.md).
@@ -109,6 +115,7 @@ function npApplySky() {
   const night = NP_TIMES[np.timeIdx] === "night";
   sun.intensity = night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6;
   hemi.intensity = night ? 0.25 : 0.95;
+  cwStreetsMount.setNight(night || NP_TIMES[np.timeIdx] === "dusk");
   $("hud-clock").textContent = NP_TIMES[np.timeIdx];
   $("hud-weather").textContent = NP_WEATHERS[np.weatherIdx];
   tfRain?.set(NP_WEATHERS[np.weatherIdx] === "storm");
@@ -207,7 +214,7 @@ function npOpenLesson(l) {
 // --------------------------------------------------------------------- map
 
 const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480", park: "#3f7a3a" };
-const NP_LAYERS = { districts: true, water: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
+const NP_LAYERS = { districts: true, water: true, streets: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
 function npMapXY(x, z, W) { return [(x + NP_SIZE / 2) / NP_SIZE * W, (z + NP_SIZE / 2) / NP_SIZE * W]; }
 function npRenderMap() {
   const cv = $("map-canvas"), W = cv.width, o = cv.getContext("2d");
@@ -217,6 +224,13 @@ function npRenderMap() {
   if (NP_LAYERS.districts) for (const d of parish.districts) poly(d.poly, NP_DISTRICT_FILL[d.character] ?? "#666", "rgba(255,255,255,.18)");
   if (NP_LAYERS.water) for (const w of npWaterShapes(parish)) poly(w.shape, w.kind === "wetland" ? "rgba(90,140,110,.8)" : "#3f7fa0", null);
   if (NP_LAYERS.levees) for (const l of parish.levees) line(l.pts, "#e8dfb0", 2);
+  // CITYWORKS: the AUTHORED procedural street fabric under the named roads, captioned as such (not the real grid).
+  const cwFabric = cwStreets(parish);
+  if (NP_LAYERS.streets && cwFabric.length) {
+    for (const st of cwFabric) line(st.pts, "rgba(34,36,40,.6)", st.cls === "arterial" ? 1.8 : st.cls === "collector" ? 1.2 : 0.7);
+    o.font = "11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3;
+    o.strokeText("Streets: procedural fabric, not the real grid", 8, W - 10); o.fillText("Streets: procedural fabric, not the real grid", 8, W - 10);
+  }
   if (NP_LAYERS.roads) for (const r of parish.roads) { const k = NP_ROAD_KINDS[r.kind]; line(r.pts, r.kind === "ferry" ? "#dff3ff" : r.kind === "bridge" || r.kind === "causeway" ? "#c9ccd2" : r.kind === "interstate" ? "#1d1f22" : r.kind === "riverroad" ? "#9a8a66" : "#3a3c40", Math.max(1, (k?.width ?? 8) / 6), r.kind === "ferry" ? [3, 3] : []); }
   const dot = (x, z, col, r, label, small = false) => { const [px, pz] = npMapXY(x, z, W); o.fillStyle = col; o.beginPath(); o.arc(px, pz, r, 0, Math.PI * 2); o.fill(); if (label) { o.font = `${small ? 10 : 11}px system-ui`; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText(label, px + r + 2, pz + 4); o.fillText(label, px + r + 2, pz + 4); } };
   if (NP_LAYERS.landmarks) for (const l of parish.landmarks) dot(l.position[0], l.position[1], "#8fd6a8", 2.5, l.name, true);
@@ -358,12 +372,13 @@ function frame(now) {
     nx = Math.max(-NP_SIZE / 2 + 5, Math.min(NP_SIZE / 2 - 5, nx)); nz = Math.max(-NP_SIZE / 2 + 5, Math.min(NP_SIZE / 2 - 5, nz));
     // Water stops the walk unless a bridge or a ferry carries the learner; a wetland is wadeable.
     const wet = npWaterAt(parish, nx, nz);
-    if (!wet || wet.kind === "wetland" || npHeightAt(parish, nx, nz) > 0.3) { np.x = nx; np.z = nz; }
+    if (!wet || wet.kind === "wetland" || npHeightAt(parish, nx, nz) > 0.3) [np.x, np.z] = cwBlockWalk(parish, np.x, np.z, nx, nz);
   }
   const gy = Math.max(npHeightAt(parish, np.x, np.z), 0.2);
   camera.position.set(np.x, gy + NP_EYE, np.z);
   camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   world.update(np.x, np.z, 2);
+  cwStreetsMount.update(np.x, np.z, 1);
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
@@ -453,8 +468,9 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
+  cityworks: cwStreetsMount,
   krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
