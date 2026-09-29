@@ -1,0 +1,3832 @@
+{
+ "contract": "smartcitix-holodeck-shared",
+ "version": "1.0.0",
+ "generatedBy": "tools/export_shared.mjs (console DEAN)",
+ "note": "SmartCiti.X · Powered by AGI Corp. Ids and frames only: no learner data, no real addresses or figures. Parish and district frames are approximate affine fits of stylised maps (docs/parishes.md), not survey data.",
+ "packsSource": "fallback-programmes",
+ "packs": [
+  {
+   "id": "electrical-first-period",
+   "title": "Inside Wireman — First Period",
+   "programmes": [
+    "electrical-first-period"
+   ],
+   "stations": [
+    "electrical",
+    "charge-point",
+    "substation-switching",
+    "line-truck",
+    "battery-yard",
+    "motor-control-center",
+    "arc-flash-label-study",
+    "temporary-site-power"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "confined-space",
+   "title": "Confined Space — Entry and Rescue",
+   "programmes": [
+    "confined-space"
+   ],
+   "stations": [
+    "valve-vault",
+    "lift-station",
+    "chlorine-room",
+    "confined-rescue",
+    "manhole-entry-and-atmospheric-monitoring",
+    "cs-permit-entry-and-attendant-duties",
+    "cs-ventilation-and-air-monitoring-plan",
+    "cs-non-entry-retrieval-and-tripod"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "fall-protection",
+   "title": "Working at Height — Fall Protection",
+   "programmes": [
+    "fall-protection"
+   ],
+   "stations": [
+    "scaffold-erection",
+    "steel-erector",
+    "tower-climb",
+    "microwave-backhaul",
+    "aerial-ladder",
+    "leading-edge-and-horizontal-lifeline",
+    "fp-anchor-selection-and-rescue-plan"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "hazmat-environmental",
+   "title": "Hazmat and Environmental Response",
+   "programmes": [
+    "hazmat-environmental"
+   ],
+   "stations": [
+    "hunters-point",
+    "abatement-chamber",
+    "decon-line",
+    "air-monitor",
+    "stormwater-outfall",
+    "pressure-washer",
+    "drum-sampling-and-overpack",
+    "hz-level-b-entry-and-scba-change-out",
+    "hz-drum-staging-and-compatibility-segregation",
+    "hz-decon-corridor-for-a-mass-casualty-drill"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "rigging-lifting",
+   "title": "Rigging and Lifting",
+   "programmes": [
+    "rigging-lifting"
+   ],
+   "stations": [
+    "crane-yard",
+    "dock-crane",
+    "chain-hoist",
+    "rigging-loft",
+    "fly-system",
+    "rl-critical-lift-plan-and-signalperson"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "stationary-engineer",
+   "title": "Stationary Engineer — Building Plant",
+   "programmes": [
+    "stationary-engineer"
+   ],
+   "stations": [
+    "boiler-room",
+    "chiller-plant",
+    "cooling-tower",
+    "fire-pump",
+    "elevator-pit",
+    "se-steam-trap-survey-and-condensate-return",
+    "se-building-automation-alarm-triage"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "port-operations",
+   "title": "Port and Terminal Operations",
+   "programmes": [
+    "port-operations"
+   ],
+   "stations": [
+    "mooring-line",
+    "bunkering-watch",
+    "container-lashing",
+    "dock-crane",
+    "vessel-gangway-and-hatch-cover-safety",
+    "po-lashing-gear-inspection-and-tagging",
+    "po-yard-hostler-and-pedestrian-separation"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "transit-ramp",
+   "title": "Transit and Ramp Operations",
+   "programmes": [
+    "transit-ramp"
+   ],
+   "stations": [
+    "track-access",
+    "signal-cabinet",
+    "bus-depot-lift",
+    "airport-ramp",
+    "forklift-dock",
+    "bus-yard-fuelling-and-brake-check",
+    "tr-wheelchair-lift-and-securement-on-a-bus"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "energy-transition",
+   "title": "Energy Transition Systems",
+   "programmes": [
+    "energy-transition"
+   ],
+   "stations": [
+    "solar-deck",
+    "battery-yard",
+    "charge-point",
+    "substation-switching",
+    "cell-site-battery",
+    "battery-storage-container-commissioning",
+    "et-ev-fleet-depot-charging-and-arc-flash",
+    "or-transmission-line-right-of-way-patrol",
+    "or-solar-farm-tracker-row-maintenance"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "live-events",
+   "title": "Live Events Production",
+   "programmes": [
+    "live-events"
+   ],
+   "stations": [
+    "stage-power",
+    "fly-system",
+    "rigging-loft",
+    "chain-hoist",
+    "stage-load-in-and-truss-rigging",
+    "le-followspot-and-truss-access-at-height",
+    "le-crowd-barricade-and-show-stop-call"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "hunters-point-bay-restoration",
+   "title": "Hunters Point Clean-up and Bay Restoration",
+   "programmes": [
+    "hunters-point-bay-restoration"
+   ],
+   "stations": [
+    "hunters-point",
+    "rad-survey",
+    "building-rad-scan",
+    "air-monitor",
+    "soil-loadout",
+    "haul-road-dust",
+    "pcb-equipment-removal",
+    "transite-pipe-removal",
+    "ust-removal",
+    "decon-line",
+    "sampling-well",
+    "well-install",
+    "pump-and-treat",
+    "vapor-mitigation",
+    "isco-injection",
+    "stormwater-outfall",
+    "bioswale-build",
+    "dredge-barge",
+    "oyster-reef-monitoring",
+    "marsh-transect-survey",
+    "sediment-cap",
+    "creosote-pile-removal",
+    "tide-gate",
+    "living-shoreline",
+    "spartina-removal",
+    "eelgrass-transplant"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "culinary-kitchen",
+   "title": "Culinary — The Working Kitchen",
+   "programmes": [
+    "culinary-kitchen"
+   ],
+   "stations": [
+    "kitchen",
+    "knife-skills",
+    "slicer-lockout",
+    "bakery-mixer",
+    "fryer-oil-change",
+    "hood-suppression",
+    "kitchen-gas-shutoff",
+    "walk-in-cooler",
+    "receiving-dock-food",
+    "prep-cooling",
+    "dish-pit",
+    "grease-trap",
+    "allergen-control",
+    "banquet-hot-hold",
+    "cafeteria-serving",
+    "grill-line-burns"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "dental-hygiene-unspoken-smiles",
+   "title": "Dental Hygiene — Unspoken Smiles",
+   "programmes": [
+    "dental-hygiene-unspoken-smiles"
+   ],
+   "stations": [
+    "phlebotomy",
+    "operatory-turnover",
+    "instrument-reprocessing",
+    "sharps-exposure-response",
+    "patient-intake-screening",
+    "radiograph-safety",
+    "periodontal-charting",
+    "ultrasonic-scaling",
+    "aerosol-management",
+    "fluoride-and-sealants",
+    "nitrous-oxide-monitoring",
+    "chairside-emergency",
+    "amalgam-waste-handling",
+    "mobile-dental-outreach",
+    "pediatric-visit",
+    "oral-cancer-screening",
+    "dn-medical-history-and-medication-review",
+    "dn-oral-hygiene-instruction-and-motivational-interviewing",
+    "dn-public-health-dentistry-and-fluoridation-advocacy"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "dental-careers-unspoken-smiles",
+   "title": "Dental Careers — Unspoken Smiles",
+   "programmes": [
+    "dental-careers-unspoken-smiles"
+   ],
+   "stations": [
+    "patient-intake-screening",
+    "dental-careers-pathway",
+    "four-handed-dentistry",
+    "dental-radiography-fmx",
+    "sterilisation-technician-cycle",
+    "dental-lab-bench",
+    "orthodontic-assisting",
+    "oral-surgery-assisting",
+    "front-office-treatment-coordination",
+    "infection-control-audit",
+    "school-screening-outreach",
+    "implant-surgery-assisting",
+    "endodontic-assisting",
+    "denture-delivery-and-adjustment",
+    "special-needs-and-geriatric-dentistry",
+    "teledentistry-and-triage",
+    "dn-digital-intraoral-scanning-and-cad-cam",
+    "dn-dental-trauma-and-avulsed-tooth-response",
+    "dn-dental-coding-billing-and-preauthorisation"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "civic-leadership-and-ei",
+   "title": "Civic Leadership and Emotional Intelligence",
+   "programmes": [
+    "civic-leadership-and-ei"
+   ],
+   "stations": [
+    "public-comment-prep",
+    "civic-principles-briefing",
+    "public-meeting-chair",
+    "constituent-service-desk",
+    "coalition-building-table",
+    "budget-tradeoff-hearing",
+    "ethics-and-conflict-of-interest",
+    "crisis-communication-podium",
+    "community-listening-session",
+    "conflict-mediation-room",
+    "mentorship-and-succession",
+    "cv-open-meeting-law-and-agenda-notice",
+    "cv-voter-registration-drive-and-nonpartisan-conduct",
+    "cv-neighborhood-emergency-block-captain",
+    "cv-restorative-justice-circle-facilitation",
+    "cv-grant-application-and-nonprofit-compliance",
+    "cv-difficult-conversation-across-difference",
+    "ei-conflict-on-the-crew",
+    "ei-giving-and-taking-feedback",
+    "ei-leading-under-pressure"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "property-management",
+   "title": "Property Management — Twenty Zones",
+   "programmes": [
+    "property-management"
+   ],
+   "stations": [
+    "boiler-room",
+    "pm-lobby-and-front-desk",
+    "pm-leasing-office-fair-housing",
+    "pm-unit-turnover",
+    "pm-trash-and-recycling-room",
+    "pm-fire-alarm-panel-room",
+    "pm-sprinkler-riser-room",
+    "pm-elevator-machine-room",
+    "pm-parking-garage",
+    "pm-roof-and-drains",
+    "pm-electrical-room",
+    "pm-domestic-water-and-backflow",
+    "pm-laundry-room",
+    "pm-pool-and-spa-chemistry",
+    "pm-fitness-room-and-gym",
+    "pm-community-room-and-events",
+    "pm-mail-and-package-room",
+    "pm-loading-dock-and-moves",
+    "pm-landscaping-and-irrigation",
+    "pm-playground-and-courtyard",
+    "pm-storage-and-bike-room"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "outbreak-response-who",
+   "title": "Outbreak and Disease Response — WHO and UN Practice",
+   "programmes": [
+    "outbreak-response-who"
+   ],
+   "stations": [
+    "decon-line",
+    "who-surveillance-and-case-definition",
+    "who-ppe-donning-and-doffing",
+    "who-isolation-ward-setup",
+    "who-contact-tracing-visit",
+    "who-treatment-centre-triage",
+    "who-water-sanitation-and-hygiene",
+    "who-vaccination-line",
+    "who-risk-communication-and-community-engagement",
+    "who-safe-and-dignified-burial",
+    "who-after-action-review"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "job-readiness-edition",
+   "title": "Job Readiness Edition — wojrc.org programmes",
+   "programmes": [
+    "job-readiness-edition"
+   ],
+   "stations": [
+    "forklift-dock",
+    "tdl-pallet-jack-and-racking",
+    "tdl-pick-pack-and-scan",
+    "tdl-trailer-loading-and-dock-plate",
+    "tdl-hazmat-labeling-and-segregation",
+    "tdl-lifting-and-ergonomics",
+    "tdl-pretrip-inspection",
+    "tdl-air-brake-test",
+    "tdl-coupling-and-uncoupling",
+    "tdl-backing-and-docking",
+    "tdl-cargo-securement-and-hours",
+    "drive-city-route-and-turns",
+    "drive-freeway-merge-and-following-distance",
+    "drive-mountain-grade-and-engine-brake",
+    "drive-night-fog-and-rail-crossing",
+    "drive-backing-serpentine-and-alley-dock",
+    "drive-light-vehicle-fleet-and-forklift-course",
+    "apprenticeship-standards-reading",
+    "apprenticeship-application-and-test",
+    "jobsite-orientation-and-osha-10",
+    "union-hall-and-dispatch",
+    "first-period-evaluation",
+    "credit-report-reading",
+    "debt-reduction-plan",
+    "pay-stub-and-withholding",
+    "budget-with-irregular-income",
+    "emergency-savings-and-predatory-lending",
+    "trades-lineage-briefing",
+    "wellness-shift-work-sleep-and-stress",
+    "wellness-peer-support-conversation",
+    "wellness-substance-use-and-the-job",
+    "wellness-asking-for-help-and-resources"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "bay-area-union-edition",
+   "title": "Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine",
+   "programmes": [
+    "bay-area-union-edition"
+   ],
+   "stations": [
+    "press-brake",
+    "sm-shop-layout-and-shear",
+    "sm-duct-fabrication-and-seams",
+    "sm-plasma-table-and-fume",
+    "sm-tig-and-spot-welding",
+    "sm-duct-hanging-and-seismic-bracing",
+    "sm-architectural-panels-at-height",
+    "sm-air-balancing-and-testing",
+    "sm-kitchen-exhaust-and-fire-wrap",
+    "steel-erector",
+    "gg-tower-climb-and-tie-off",
+    "gg-main-cable-band-inspection",
+    "gg-suspender-rope-replacement",
+    "gg-deck-lane-closure-and-traveller",
+    "gg-paint-containment-on-the-deck",
+    "gg-international-orange-recoat",
+    "gg-fog-and-wind-work-stop",
+    "gg-pile-driver-fender-repair",
+    "container-lashing",
+    "pt-spreader-and-twistlock-inspection",
+    "pt-crane-boom-hoist-brake-service",
+    "pt-straddle-carrier-hydraulics",
+    "pt-reefer-plug-and-power-panel",
+    "pt-dock-fender-and-bollard-inspection",
+    "pt-terminal-lighting-mast-service",
+    "pt-stormwater-at-the-terminal",
+    "pt-chassis-and-genset-yard",
+    "mooring-line",
+    "mw-ferry-deckhand-and-passenger-safety",
+    "mw-workboat-towing-and-line-handling",
+    "mw-oil-transfer-watch-and-boom",
+    "mw-dive-supervisor-and-dive-plan",
+    "mw-pier-pile-inspection-dive",
+    "mw-hull-inspection-and-cleaning-dive",
+    "mw-underwater-welding-and-cutting",
+    "mw-diver-emergency-and-recovery",
+    "uw-rov-pre-dive-and-tether-management",
+    "uw-pipeline-crossing-inspection-dive",
+    "uw-underwater-concrete-and-bag-placement",
+    "uw-intake-screen-cleaning-with-lockout",
+    "uw-bridge-pier-scour-survey",
+    "uw-lift-bag-rigging-and-object-recovery"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "bartending-course",
+   "title": "Bartending — Behind the Bar",
+   "programmes": [
+    "bartending-course"
+   ],
+   "stations": [
+    "kitchen",
+    "bar-well-setup",
+    "id-check-underage",
+    "jigger-pour-spec",
+    "cutoff-overservice",
+    "spiked-drink-response",
+    "patron-deescalation",
+    "keg-cellar-co2",
+    "ice-well-breakage",
+    "draught-line-cleaning",
+    "till-drop-robbery",
+    "allergen-cocktail",
+    "last-call-lockup",
+    "tip-pool-labor",
+    "wvpp-panic-button",
+    "rbs-service-capstone"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "hunters-point-can-we-live",
+   "title": "Hunters Point Edition — Can We Live?",
+   "programmes": [
+    "hunters-point-can-we-live"
+   ],
+   "stations": [
+    "can-we-live-story",
+    "air-sensor-install",
+    "sensor-colocation-check",
+    "air-network-data-qa",
+    "odor-complaint-log",
+    "biomonitoring-consent",
+    "sample-kit-shipping",
+    "results-return-visit",
+    "smoke-day-outreach",
+    "fenceline-dust-monitor",
+    "haul-route-observation",
+    "met-station-siting",
+    "dust-plan-review",
+    "community-soil-split",
+    "garden-soil-screen",
+    "shoreline-sediment-grab",
+    "discharge-photo-doc",
+    "rad-meter-basics",
+    "parcel-status-walk",
+    "retest-witnessing",
+    "abatement-perimeter-awareness",
+    "hazwoper-site-orientation",
+    "decon-support-laborer",
+    "public-comment-prep",
+    "youth-patrol-training",
+    "shelter-in-place-drill"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "sewing-garment-trades",
+   "title": "Sewing and Garment Trades",
+   "programmes": [
+    "sewing-garment-trades"
+   ],
+   "stations": [
+    "salon",
+    "machine-threading-needle",
+    "lockstitch-seam-guard",
+    "serger-overlock",
+    "cutting-table-rotary",
+    "pattern-marking-layout",
+    "hem-and-buttonhole",
+    "industrial-press-steam",
+    "sewing-ergonomics-shift",
+    "alteration-repair-ticket",
+    "garment-inspection-finish"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "bridge-and-structural",
+   "title": "Bridge and Structural Trades",
+   "programmes": [
+    "bridge-and-structural"
+   ],
+   "stations": [
+    "steel-erector",
+    "bridge-cable-inspection",
+    "bridge-lead-containment",
+    "deck-joint-replacement",
+    "bs-structural-bolting-and-torque",
+    "bs-tandem-lift-girder-set",
+    "bs-bearing-replacement-and-jacking"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "hotel-workers",
+   "title": "Hotel Workers — Back of House",
+   "programmes": [
+    "hotel-workers"
+   ],
+   "stations": [
+    "banquet-hot-hold",
+    "housekeeping-room-turn",
+    "laundry-plant-chemicals",
+    "banquet-setup-lift",
+    "hw-housekeeping-cart-and-chemical-safety",
+    "hw-banquet-room-flip-and-staging",
+    "hw-flatwork-ironer-and-folder-guarding"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "builders-trades",
+   "title": "Builders — Carpenters, Laborers and Masons",
+   "programmes": [
+    "builders-trades"
+   ],
+   "stations": [
+    "concrete-pour",
+    "formwork-shoring",
+    "mass-timber-panel-set",
+    "masonry-silica-scaffold",
+    "bt-formwork-stripping-and-reshoring",
+    "bt-rebar-tying-and-impalement-protection",
+    "bt-masonry-wall-layout-and-mortar",
+    "or-ranch-road-grading-and-culvert"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "first-responders",
+   "title": "First Responders — Fire, EMS, Police, Crisis and Relief",
+   "programmes": [
+    "first-responders"
+   ],
+   "stations": [
+    "triage-point",
+    "structure-fire-sizeup",
+    "firefighter-rehab-sector",
+    "wildland-urban-interface",
+    "cardiac-arrest-pit-crew",
+    "overdose-response-naloxone",
+    "ambulance-scene-safety",
+    "crisis-intervention-call",
+    "critical-incident-debrief",
+    "traffic-incident-management",
+    "trauma-informed-intake",
+    "crisis-line-shift",
+    "home-visit-safety",
+    "shelter-intake-operations",
+    "damage-assessment-team",
+    "psychological-first-aid",
+    "or-wildland-fireline-construction-and-lookout"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "situational-awareness",
+   "title": "Situational Awareness — Interruption Drill",
+   "programmes": [
+    "situational-awareness"
+   ],
+   "stations": [
+    "electrical",
+    "welding",
+    "trench-box",
+    "crane-yard",
+    "chlorine-room",
+    "confined-rescue",
+    "substation-switching",
+    "airport-ramp",
+    "fire-pump",
+    "tower-climb",
+    "elevator-pit",
+    "boiler-room",
+    "forklift-dock",
+    "phlebotomy",
+    "transformer-vault",
+    "wind-nacelle",
+    "digester-gas",
+    "data-hall",
+    "steel-erector",
+    "triage-point",
+    "dock-crane",
+    "press-brake"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "ports-maritime-ecology",
+   "title": "Ports, Maritime and Bay Ecology",
+   "programmes": [
+    "ports-maritime-ecology"
+   ],
+   "stations": [
+    "dock-crane",
+    "container-lashing",
+    "shore-power-hookup",
+    "bunkering-watch",
+    "ballast-water-sampling",
+    "spill-boom-deploy",
+    "pilot-transfer",
+    "mooring-line",
+    "reefer-yard-monitoring",
+    "straddle-carrier-ops",
+    "hazmat-container-inspection"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "air-quality-monitoring",
+   "title": "Air Quality — Monitoring and Control",
+   "programmes": [
+    "air-quality-monitoring"
+   ],
+   "stations": [
+    "air-monitor",
+    "mobile-air-lab",
+    "opacity-reading",
+    "stack-test",
+    "landfill-gas",
+    "soil-loadout"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "basketball-fundamentals",
+   "title": "Basketball Fundamentals",
+   "programmes": [
+    "basketball-fundamentals"
+   ],
+   "stations": [
+    "bb-warmup-injury-prevention-and-hydration",
+    "bb-stance-and-ball-handling",
+    "bb-footwork-pivots-and-jump-stops",
+    "bb-passing-and-catching",
+    "bb-shooting-form-and-arc",
+    "bb-free-throw-routine",
+    "bb-defensive-stance-and-closeouts",
+    "bb-rebounding-and-boxing-out",
+    "bb-team-offense-spacing-and-screens",
+    "bb-scrimmage-and-sportsmanship-debrief",
+    "bb-reset-routine-after-a-miss",
+    "bb-pre-game-routine-and-visualisation",
+    "bb-composure-with-a-hostile-crowd-and-officials",
+    "bb-teammate-conflict-and-accountability",
+    "bb-coach-feedback-and-growth-mindset",
+    "bb-final-possession-decision-under-pressure",
+    "bb-layups-and-finishing-at-the-rim",
+    "bb-dribble-moves-and-change-of-pace",
+    "bb-pick-and-roll-communication",
+    "bb-help-defense-rotations",
+    "bb-transition-spacing-and-roles",
+    "bb-timeout-huddle-and-adjustment",
+    "bb-losing-well-and-film-review"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "bay-restoration-maritime-underwater",
+   "title": "SF Bay Restoration & Cleanup — Maritime and Underwater",
+   "programmes": [
+    "bay-restoration-maritime-underwater"
+   ],
+   "stations": [
+    "br-dive-site-hazard-assessment-and-jsa",
+    "br-surface-supplied-dive-station-setup",
+    "br-underwater-debris-survey-and-mapping",
+    "br-underwater-sediment-core-sampling",
+    "br-derelict-gear-recovery-dive",
+    "br-hyperbaric-chamber-standby",
+    "br-dive-tender-and-umbilical-management",
+    "br-derelict-vessel-salvage-rigging",
+    "br-workboat-crane-lift-from-water",
+    "br-debris-skimmer-vessel-operations",
+    "br-boom-towing-between-two-vessels",
+    "br-barge-loading-of-contaminated-sediment",
+    "br-cold-water-immersion-and-mob-recovery",
+    "br-vhf-and-navigation-in-a-work-zone",
+    "br-dredge-spoils-dewatering-pad",
+    "br-turbidity-curtain-deployment",
+    "br-sediment-chain-of-custody-and-lab-prep",
+    "br-water-quality-sonde-calibration-and-deploy",
+    "br-legacy-mercury-and-pcb-hotspot-handling",
+    "br-trash-capture-device-service",
+    "br-dredge-material-screening-and-disposal-decision",
+    "br-marine-mammal-observer-during-pile-driving",
+    "br-bird-nesting-buffer-and-work-window",
+    "br-tidal-marsh-grading-amphibious-excavator",
+    "br-native-planting-and-erosion-mats",
+    "br-culvert-retrofit-for-fish-passage",
+    "br-shoreline-cleanup-sharps-and-hazardous-debris",
+    "br-intertidal-invasive-removal-by-hand-crew",
+    "br-levee-inspection-and-seepage",
+    "br-fish-screen-maintenance",
+    "br-drone-shoreline-survey",
+    "br-volunteer-cleanup-day-safety-lead",
+    "br-restoration-data-qa-and-public-reporting",
+    "br-beach-seine-fish-survey-and-handling",
+    "br-benthic-grab-and-invertebrate-sorting"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "railroad-crafts",
+   "title": "Railroad Crafts — Track, Car and Cab",
+   "programmes": [
+    "railroad-crafts"
+   ],
+   "stations": [
+    "ra-roadway-worker-protection-and-job-briefing",
+    "ra-tie-and-rail-replacement-with-track-machines",
+    "ra-switch-inspection-and-lubrication",
+    "ra-air-brake-test-and-train-inspection",
+    "ra-hand-brake-and-securement-on-a-grade",
+    "ra-crossing-signal-maintenance-and-flagging",
+    "ra-locomotive-cab-startup-and-alerter",
+    "ra-blue-flag-protection-in-the-yard"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "heavy-equipment-operators",
+   "title": "Heavy Equipment Operators — IUOE Local 3",
+   "programmes": [
+    "heavy-equipment-operators"
+   ],
+   "stations": [
+    "op-excavator-trench-and-utility-locate",
+    "op-dozer-slope-work-and-rollover-protection",
+    "op-loader-truck-loading-and-blind-spots",
+    "op-grader-fine-grade-and-crown",
+    "op-compactor-lift-thickness-and-edge",
+    "op-crawler-crane-assembly-and-load-chart",
+    "op-pile-driving-rig-and-lead-setup",
+    "op-equipment-daily-walkaround-and-fluids"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "plumbers-and-pipefitters",
+   "title": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
+   "programmes": [
+    "plumbers-and-pipefitters"
+   ],
+   "stations": [
+    "pl-medical-gas-brazing-and-purge",
+    "pl-hydronic-boiler-piping-and-hydrotest",
+    "pl-underground-sewer-lateral-and-trench-shoring",
+    "pl-fire-sprinkler-riser-and-flow-test",
+    "pl-copper-press-and-solder-rough-in",
+    "pl-steam-trap-and-condensate-line-repair",
+    "pl-water-heater-and-tpr-valve-replacement",
+    "pl-natural-gas-pressure-test-and-leak-check"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "glaziers-and-architectural-metal",
+   "title": "Glaziers and Architectural Metal",
+   "programmes": [
+    "glaziers-and-architectural-metal"
+   ],
+   "stations": [
+    "gl-curtain-wall-unit-setting-from-the-floor",
+    "gl-storefront-frame-and-glass-set-with-cups",
+    "gl-glass-handling-cart-and-crane-vacuum-lifter",
+    "gl-swing-stage-glazing-and-sealant",
+    "gl-skylight-glass-replacement-and-fall-protection",
+    "gl-tempered-glass-breakage-and-cleanup",
+    "gl-aluminium-panel-fabrication-and-brake",
+    "gl-shop-drawing-takeoff-and-field-measure"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "elevator-constructors",
+   "title": "Elevator Constructor — IUEC Core Skills",
+   "programmes": [
+    "elevator-constructors"
+   ],
+   "stations": [
+    "ew-hoistway-false-car-and-rail-setting",
+    "ew-machine-room-lockout-and-brake-test",
+    "ew-pit-work-and-buffer-inspection",
+    "ew-car-top-inspection-station-and-ride",
+    "ew-door-operator-adjustment-and-gap",
+    "ew-escalator-step-chain-and-comb-plate",
+    "ew-rope-inspection-and-sheave-wear",
+    "ew-elevator-entrapment-and-rescue-with-fire-service"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "insulators-and-boilermakers",
+   "title": "Insulators and Boilermakers — Building Systems",
+   "programmes": [
+    "insulators-and-boilermakers"
+   ],
+   "stations": [
+    "ib-mechanical-insulation-pipe-and-jacketing",
+    "ib-firestop-and-fire-wrap-installation",
+    "ib-asbestos-glovebag-removal-on-a-pipe",
+    "ib-boiler-tube-replacement-and-rolling",
+    "ib-pressure-vessel-confined-entry-and-hot-work",
+    "ib-refractory-and-castable-installation",
+    "ib-hydrostatic-test-and-inspector-witness",
+    "ib-spray-foam-and-respirator-fit"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "cement-masons-and-plasterers",
+   "title": "Cement Masons and Plasterers",
+   "programmes": [
+    "cement-masons-and-plasterers"
+   ],
+   "stations": [
+    "cm-slab-screed-bull-float-and-trowel",
+    "cm-power-trowel-operation-and-guarding",
+    "cm-curb-and-gutter-forms-and-finish",
+    "cm-exterior-plaster-scratch-brown-and-finish-coats",
+    "cm-shotcrete-nozzle-and-rebound",
+    "cm-concrete-saw-cutting-with-water-and-silica-control",
+    "cm-epoxy-floor-coating-and-ventilation",
+    "cm-cold-weather-curing-and-blankets"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "healthcare-support",
+   "title": "Healthcare Support",
+   "programmes": [
+    "healthcare-support"
+   ],
+   "stations": [
+    "hc-environmental-services-isolation-room-turnover",
+    "hc-sterile-processing-decontamination-and-assembly",
+    "hc-patient-transport-and-safe-handling",
+    "hc-dietary-tray-line-and-allergy-flags",
+    "hc-linen-and-regulated-waste-handling",
+    "hc-code-response-support-and-crash-cart-check",
+    "hc-workplace-violence-deescalation-at-the-desk",
+    "hc-hazardous-drug-spill-kit-response"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "roofers-and-waterproofers",
+   "title": "Roofers and Waterproofers",
+   "programmes": [
+    "roofers-and-waterproofers"
+   ],
+   "stations": [
+    "rf-torch-applied-membrane-and-fire-watch",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe",
+    "rf-hot-asphalt-kettle-and-mop",
+    "rf-standing-seam-metal-panel-and-clip",
+    "rf-below-grade-waterproofing-and-drainage-board",
+    "rf-roof-tear-off-and-debris-chute",
+    "rf-skylight-and-hatch-guarding",
+    "rf-green-roof-and-overburden-placement"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "water-and-gas-utility-crews",
+   "title": "Water and Gas Utility Crews — Distribution Authority",
+   "programmes": [
+    "water-and-gas-utility-crews"
+   ],
+   "stations": [
+    "ut-water-main-break-emergency-shutdown-and-excavation",
+    "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+    "ut-service-line-locate-and-hand-dig-near-gas-main",
+    "ut-gas-meter-set-and-regulator-vent",
+    "ut-cathodic-protection-test-station-reading",
+    "ut-pe-pipe-fusion-and-squeeze-off",
+    "ut-water-treatment-chemical-delivery-unloading",
+    "ut-night-storm-response-crew-and-portable-generator"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "aviation-maintenance-and-ground",
+   "title": "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+   "programmes": [
+    "aviation-maintenance-and-ground"
+   ],
+   "stations": [
+    "av-marshalling-and-wingwalker-signals",
+    "av-pushback-tug-and-towbar-connection",
+    "av-ground-power-and-static-bonding-before-fuel",
+    "av-baggage-belt-loader-and-hold-loading",
+    "av-deicing-truck-boom-operations",
+    "av-hangar-jacking-and-stands",
+    "av-borescope-and-tool-control-inventory",
+    "av-lavatory-and-potable-water-separation"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "warehouse-and-logistics-automation",
+   "title": "Warehouse and Logistics Automation — Teamsters Distribution Floor",
+   "programmes": [
+    "warehouse-and-logistics-automation"
+   ],
+   "stations": [
+    "tw-amr-traffic-zone-entry-and-lockout",
+    "tw-conveyor-jam-clearing-and-loto",
+    "tw-high-bay-order-picker-fall-protection",
+    "tw-dock-leveler-and-trailer-restraint-check",
+    "tw-battery-change-and-charging-bay-safety",
+    "tw-palletizer-cell-fenced-access-permit",
+    "tw-cold-storage-ppe-and-rotation",
+    "tw-pick-to-light-ergonomics-and-rotation"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "education-support-staff",
+   "title": "Education Support Staff — Custodial, Grounds, Transport and Classroom",
+   "programmes": [
+    "education-support-staff"
+   ],
+   "stations": [
+    "ed-custodial-chemical-dilution-and-floor-machine",
+    "ed-playground-equipment-inspection",
+    "ed-bus-pretrip-and-loading-zone",
+    "ed-crossing-guard-intersection-control",
+    "ed-paraeducator-safe-lift-and-transfer",
+    "ed-science-lab-chemical-storage-and-eyewash",
+    "ed-kitchen-receiving-and-warewash-sanitizing",
+    "ed-boiler-room-filter-change-lockout"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "grounds-and-landscaping",
+   "title": "Grounds & Landscaping Crew",
+   "programmes": [
+    "grounds-and-landscaping"
+   ],
+   "stations": [
+    "gk-ride-on-mower-pre-start-and-slope-work",
+    "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+    "gk-irrigation-controller-valve-box-and-backflow-check",
+    "gk-pesticide-and-fertilizer-application-per-the-label",
+    "gk-tree-work-pole-saw-and-drop-zone",
+    "gk-chainsaw-start-and-limbing-on-the-ground",
+    "gk-bunker-renovation-and-drainage",
+    "gk-greens-mowing-and-hole-changing",
+    "gk-sports-field-line-marking-and-goal-anchoring",
+    "gk-storm-cleanup-chipper-and-traffic-control",
+    "gk-hardscape-paver-base-and-compaction",
+    "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "wojrc-pathway-edition",
+   "title": "Pathway Edition — wojrc.org",
+   "programmes": [
+    "wojrc-pathway-edition"
+   ],
+   "stations": [
+    "wp-intake-and-pathway-planning",
+    "wp-mock-interview-and-resume",
+    "wp-employer-meet-and-greet",
+    "wp-warehouse-ride-along",
+    "wp-permit-study-and-knowledge-test",
+    "wp-apprenticeship-enrollment-day",
+    "wp-first-paycheck-coaching",
+    "wp-graduation-and-alumni-mentors",
+    "forklift-dock",
+    "tdl-pallet-jack-and-racking",
+    "tdl-pick-pack-and-scan",
+    "tdl-trailer-loading-and-dock-plate",
+    "tdl-hazmat-labeling-and-segregation",
+    "tdl-lifting-and-ergonomics",
+    "tdl-pretrip-inspection",
+    "tdl-air-brake-test",
+    "tdl-coupling-and-uncoupling",
+    "tdl-backing-and-docking",
+    "tdl-cargo-securement-and-hours",
+    "drive-city-route-and-turns",
+    "drive-freeway-merge-and-following-distance",
+    "drive-mountain-grade-and-engine-brake",
+    "drive-night-fog-and-rail-crossing",
+    "drive-backing-serpentine-and-alley-dock",
+    "drive-light-vehicle-fleet-and-forklift-course",
+    "apprenticeship-standards-reading",
+    "apprenticeship-application-and-test",
+    "jobsite-orientation-and-osha-10",
+    "union-hall-and-dispatch",
+    "first-period-evaluation",
+    "trades-lineage-briefing",
+    "credit-report-reading",
+    "debt-reduction-plan",
+    "pay-stub-and-withholding",
+    "budget-with-irregular-income",
+    "emergency-savings-and-predatory-lending",
+    "wellness-shift-work-sleep-and-stress",
+    "wellness-peer-support-conversation",
+    "wellness-substance-use-and-the-job",
+    "wellness-asking-for-help-and-resources"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "grocery-and-meatpacking",
+   "title": "Grocery and Meatpacking — UFCW Store and Plant Floor",
+   "programmes": [
+    "grocery-and-meatpacking"
+   ],
+   "stations": [
+    "gr-meat-dept-band-saw-and-grinder-lockout",
+    "gr-deli-slicer-sanitation-and-allergen-line",
+    "gr-produce-receiving-cold-chain-and-pallet-jack",
+    "gr-night-stocking-baler-and-compactor-lockout",
+    "gr-checkstand-ergonomics-and-robbery-prevention",
+    "gr-meatpacking-line-knife-work-and-ppe-rotation",
+    "gr-ammonia-leak-alarm-response-cold-plant",
+    "gr-pharmacy-floral-chemical-handling-and-sds"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "airline-cabin-and-flight-crew",
+   "title": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+   "programmes": [
+    "airline-cabin-and-flight-crew"
+   ],
+   "stations": [
+    "ca-cabin-preflight-safety-check",
+    "ca-galley-and-cart-safety",
+    "ca-cabin-medical-event-response",
+    "ca-unruly-passenger-deescalation",
+    "ca-cabin-decompression-and-oxygen-masks",
+    "ca-door-evacuation-drill",
+    "ca-flight-deck-crew-resource-management",
+    "ca-fatigue-and-duty-time-self-check"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "mill-and-mine",
+   "title": "Mill and Mine",
+   "programmes": [
+    "mill-and-mine"
+   ],
+   "stations": [
+    "mm-hot-strip-mill-stand",
+    "mm-ladle-pour",
+    "mm-coke-oven-heat-rotation",
+    "mm-paper-machine-dryer",
+    "mm-continuous-miner-face",
+    "mm-mine-escapeway-drill",
+    "mm-haul-truck-berm",
+    "mm-conveyor-fire-and-gas-monitoring"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "screen-and-media-crafts",
+   "title": "Screen & Media Crafts",
+   "programmes": [
+    "screen-and-media-crafts"
+   ],
+   "stations": [
+    "md-set-safety-meeting-and-stunt-go-no-go",
+    "md-camera-dolly-and-crane-track",
+    "md-location-shoot-traffic-control-and-heat-hydration",
+    "md-sound-stage-electrical-distribution-and-cable-crossings",
+    "md-recording-studio-hearing-conservation-and-load-in",
+    "md-theatre-fly-floor-and-quick-change-lane",
+    "md-newsroom-storm-scene-and-live-truck-mast",
+    "md-intimacy-and-conduct-coordination-briefing"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "postal-and-mail-processing",
+   "title": "Postal & Mail Processing Crew",
+   "programmes": [
+    "postal-and-mail-processing"
+   ],
+   "stations": [
+    "ml-delivery-van-pretrip-and-route-loading",
+    "ml-dog-and-hazard-awareness-on-route",
+    "ml-heat-and-cold-stress-on-route",
+    "ml-flat-sorter-guarding-and-lockout",
+    "ml-mail-handler-forklift-and-container-dock",
+    "ml-parcel-sorter-conveyor-jam-and-loto",
+    "ml-suspicious-package-protocol",
+    "ml-retail-counter-deescalation"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "yacht-and-charter-crew",
+   "title": "Yacht & Charter Crew",
+   "programmes": [
+    "yacht-and-charter-crew"
+   ],
+   "stations": [
+    "yc-pre-departure-safety-briefing-and-guest-count",
+    "yc-line-handling-and-docking-in-crosswind",
+    "yc-fuel-dock-transfer-and-spill-kit",
+    "yc-engine-room-pre-start-and-bilge-check",
+    "yc-man-overboard-recovery-drill",
+    "yc-galley-fire-and-fixed-system",
+    "yc-tender-launch-and-guest-transfer",
+    "yc-shore-power-connection-and-in-water-electrical-safety"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "marine-ecology-and-restoration",
+   "title": "Marine Ecology & Restoration — Survey and Restoration Crews",
+   "programmes": [
+    "marine-ecology-and-restoration"
+   ],
+   "stations": [
+    "me-kelp-transect-survey-and-photo-quadrats",
+    "me-oyster-reef-monitoring-and-settlement-tiles",
+    "me-eelgrass-seed-collection-and-nursery",
+    "me-water-column-sampling-from-a-small-boat",
+    "me-tidal-marsh-channel-restoration-day",
+    "me-fish-visual-census-and-data-sheet",
+    "me-shoreline-debris-and-microplastics-survey",
+    "me-invasive-species-identification-and-reporting"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "commercial-diving-and-scientific-scuba",
+   "title": "Commercial Diving & Scientific Scuba",
+   "programmes": [
+    "commercial-diving-and-scientific-scuba"
+   ],
+   "stations": [
+    "cd-underwater-wet-welding-and-cutting",
+    "cd-pier-piling-inspection-and-wrap-repair",
+    "cd-rov-launch-recovery-and-tether-management",
+    "cd-decompression-chamber-operations-and-post-dive",
+    "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+    "cd-low-visibility-and-night-dive-line-work",
+    "cd-hydraulic-tools-and-suction-hazards-underwater",
+    "cd-dive-records-and-incident-review"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "aerospace-defense-and-robotics",
+   "title": "Aerospace Depot and Robotics — IAM and UAW Skilled Trades",
+   "programmes": [
+    "aerospace-defense-and-robotics"
+   ],
+   "stations": [
+    "ad-cleanroom-gowning-and-esd-discipline",
+    "ad-payload-crane-lift-with-a-lift-plan",
+    "ad-hazardous-fluid-servicing-with-a-buddy",
+    "ad-depot-tool-control-and-fod-walk",
+    "ad-test-stand-exclusion-zone-and-holds",
+    "ad-robot-cell-lockout-and-safe-reentry",
+    "ad-amr-fleet-traffic-and-estop-drill",
+    "ad-cobot-risk-assessment-and-speed-separation"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "wind-and-data-infrastructure",
+   "title": "Wind & Data Infrastructure",
+   "programmes": [
+    "wind-and-data-infrastructure"
+   ],
+   "stations": [
+    "ws-turbine-climb-and-rescue-kit-check",
+    "ws-nacelle-lockout-and-yaw-brake-fault",
+    "ws-blade-inspection-from-a-platform",
+    "ws-substation-switching-under-a-permit",
+    "ws-data-hall-busway-install-and-torque-signoff",
+    "ws-raised-floor-tile-lift-and-cable-tray-safety",
+    "ws-crah-alarm-response-in-a-live-hall",
+    "ws-ocean-pod-retrieval-and-hatch-opening"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "k12-practical-math",
+   "title": "K-12 Practical Maths",
+   "programmes": [
+    "k12-practical-math"
+   ],
+   "stations": [
+    "k12-measuring-and-scaling-the-court",
+    "k12-household-budget-and-first-paycheck",
+    "k12-reading-a-map-scale-in-bay-world",
+    "k12-fractions-in-the-kitchen",
+    "k12-slope-and-angles-on-a-ramp",
+    "k12-graphing-tide-readings-at-the-pier",
+    "k12-probability-with-a-fair-spinner",
+    "k12-geometry-of-a-turbine-blade-sweep",
+    "k12-by-a-streetcar-timetable",
+    "k12-by-a-ferry-timetable-and-the-tide",
+    "k12-by-a-shrimp-boats-fair-count",
+    "k12-by-reading-a-flood-maps-colours",
+    "k12-by-sorting-containers-at-the-port",
+    "k12-by-measuring-a-floodwall-in-steps"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "k12-science",
+   "title": "K-12 Science",
+   "programmes": [
+    "k12-science"
+   ],
+   "stations": [
+    "k12-water-cycle-and-filtration",
+    "k12-buoyancy-and-pressure-in-the-deep",
+    "k12-circuits-at-the-electrical-bench",
+    "k12-energy-transfer-at-the-wind-farm",
+    "k12-ecosystems-at-the-kelp-transect",
+    "k12-weather-and-the-sky",
+    "k12-simple-machines-at-a-crane",
+    "k12-a-controlled-experiment",
+    "k12-by-how-a-levee-holds-water-back",
+    "k12-by-what-a-pump-station-does-in-the-rain",
+    "k12-by-wetlands-as-a-storms-speed-bump",
+    "k12-by-the-rivers-current-and-a-pilots-job",
+    "k12-by-the-water-cycle-from-lake-to-tap"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "k12-history-and-civics",
+   "title": "K-12 History and Civics",
+   "programmes": [
+    "k12-history-and-civics"
+   ],
+   "stations": [
+    "k12-primary-and-secondary-sources",
+    "k12-building-a-timeline-from-documents",
+    "k12-how-a-local-council-meeting-works",
+    "k12-oral-history-interview-skills",
+    "k12-guilds-and-the-history-of-work",
+    "k12-map-literacy-across-eras"
+   ],
+   "worlds": null,
+   "path": null
+  },
+  {
+   "id": "k12-literacy-and-life-skills",
+   "title": "K-12 Literacy and Life Skills",
+   "programmes": [
+    "k12-literacy-and-life-skills"
+   ],
+   "stations": [
+    "k12-reading-instructions-and-safety-labels",
+    "k12-writing-a-clear-incident-report",
+    "k12-first-aid-awareness-call-for-help",
+    "k12-public-speaking-at-the-hall",
+    "k12-digital-citizenship-and-online-safety",
+    "k12-teamwork-and-feedback",
+    "k12-by-a-family-readiness-plan"
+   ],
+   "worlds": null,
+   "path": null
+  }
+ ],
+ "paths": [
+  "union-trades",
+  "k12",
+  "first-responders",
+  "un-training",
+  "disaster-relief",
+  "teachers",
+  "roam"
+ ],
+ "schemas": {
+  "module": {
+   "v": 1,
+   "kind": "module",
+   "id": "mod-…",
+   "title": "string",
+   "lessons": [
+    {
+     "kind": [
+      "station",
+      "field",
+      "parish-lesson"
+     ],
+     "id": "string",
+     "world": "string|null"
+    }
+   ],
+   "due": "YYYY-MM-DD|null",
+   "requiredScore": "0..100",
+   "assign": [
+    {
+     "classCode": "XXXX-XXXX",
+     "at": "ISO"
+    }
+   ],
+   "doc": "docs/modules.md"
+  },
+  "version": {
+   "v": 1,
+   "kind": "version",
+   "id": "ver-…",
+   "name": "string",
+   "scope": {
+    "kind": [
+     "class",
+     "org",
+     "device"
+    ],
+    "id": "string|null"
+   },
+   "packs": "string[]|null",
+   "worlds": [
+    "bayworld",
+    "regatta",
+    "underwater",
+    "summit",
+    "parishes",
+    "fairway",
+    "redwood",
+    "atlas",
+    "smartcity",
+    "holodeck"
+   ],
+   "paths": [
+    "union-trades",
+    "k12",
+    "first-responders",
+    "un-training",
+    "disaster-relief",
+    "teachers",
+    "roam"
+   ],
+   "programmes": "string[]|null",
+   "locked": "boolean",
+   "lockedPath": "path id|null",
+   "doc": "docs/modules.md"
+  }
+ },
+ "worlds": {
+  "parishes": {
+   "station": [
+    "ad-cobot-risk-assessment-and-speed-separation",
+    "aerial-ladder",
+    "air-monitor",
+    "airport-ramp",
+    "allergen-control",
+    "ambulance-scene-safety",
+    "apprenticeship-application-and-test",
+    "arc-flash-label-study",
+    "arena-rigging",
+    "av-borescope-and-tool-control-inventory",
+    "av-hangar-jacking-and-stands",
+    "av-marshalling-and-wingwalker-signals",
+    "av-pushback-tug-and-towbar-connection",
+    "banquet-setup-lift",
+    "bb-scrimmage-and-sportsmanship-debrief",
+    "bb-warmup-injury-prevention-and-hydration",
+    "bioswale-build",
+    "boiler-room",
+    "br-cold-water-immersion-and-mob-recovery",
+    "br-derelict-vessel-salvage-rigging",
+    "br-dredge-material-screening-and-disposal-decision",
+    "br-levee-inspection-and-seepage",
+    "br-marine-mammal-observer-during-pile-driving",
+    "br-native-planting-and-erosion-mats",
+    "br-shoreline-cleanup-sharps-and-hazardous-debris",
+    "br-tidal-marsh-grading-amphibious-excavator",
+    "br-vhf-and-navigation-in-a-work-zone",
+    "br-water-quality-sonde-calibration-and-deploy",
+    "br-workboat-crane-lift-from-water",
+    "bridge-cable-inspection",
+    "bridge-lead-containment",
+    "broadcast-truck",
+    "bs-bearing-replacement-and-jacking",
+    "bs-structural-bolting-and-torque",
+    "bt-rebar-tying-and-impalement-protection",
+    "building-rad-scan",
+    "bunkering-watch",
+    "bus-depot-lift",
+    "bus-yard-fuelling-and-brake-check",
+    "cardiac-arrest-pit-crew",
+    "cath-lab",
+    "cd-rov-launch-recovery-and-tether-management",
+    "chain-hoist",
+    "chiller-plant",
+    "cnc-cell",
+    "concrete-pour",
+    "container-lashing",
+    "creosote-pile-removal",
+    "cs-permit-entry-and-attendant-duties",
+    "cs-ventilation-and-air-monitoring-plan",
+    "damage-assessment-team",
+    "deck-joint-replacement",
+    "decon-line",
+    "digester-gas",
+    "dock-crane",
+    "dredge-barge",
+    "drive-night-fog-and-rail-crossing",
+    "ed-boiler-room-filter-change-lockout",
+    "ed-bus-pretrip-and-loading-zone",
+    "ed-crossing-guard-intersection-control",
+    "ed-custodial-chemical-dilution-and-floor-machine",
+    "ed-kitchen-receiving-and-warewash-sanitizing",
+    "ed-paraeducator-safe-lift-and-transfer",
+    "ed-playground-equipment-inspection",
+    "ed-science-lab-chemical-storage-and-eyewash",
+    "eelgrass-transplant",
+    "et-ev-fleet-depot-charging-and-arc-flash",
+    "ev-extrication",
+    "ew-hoistway-false-car-and-rail-setting",
+    "fire-pump",
+    "firefighter-rehab-sector",
+    "forklift-dock",
+    "formwork-shoring",
+    "fryer-oil-change",
+    "gg-deck-lane-closure-and-traveller",
+    "gg-fog-and-wind-work-stop",
+    "gg-international-orange-recoat",
+    "gg-main-cable-band-inspection",
+    "gg-paint-containment-on-the-deck",
+    "gg-suspender-rope-replacement",
+    "gg-tower-climb-and-tie-off",
+    "gk-chainsaw-start-and-limbing-on-the-ground",
+    "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+    "gk-hardscape-paver-base-and-compaction",
+    "gk-irrigation-controller-valve-box-and-backflow-check",
+    "gk-pesticide-and-fertilizer-application-per-the-label",
+    "gk-ride-on-mower-pre-start-and-slope-work",
+    "gk-storm-cleanup-chipper-and-traffic-control",
+    "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+    "gk-tree-work-pole-saw-and-drop-zone",
+    "gl-curtain-wall-unit-setting-from-the-floor",
+    "gl-swing-stage-glazing-and-sealant",
+    "haul-road-dust",
+    "hazmat-container-inspection",
+    "hazwoper-site-orientation",
+    "hc-code-response-support-and-crash-cart-check",
+    "hc-dietary-tray-line-and-allergy-flags",
+    "hc-environmental-services-isolation-room-turnover",
+    "hc-hazardous-drug-spill-kit-response",
+    "hc-linen-and-regulated-waste-handling",
+    "hc-patient-transport-and-safe-handling",
+    "hc-sterile-processing-decontamination-and-assembly",
+    "housekeeping-room-turn",
+    "hunters-point",
+    "hw-banquet-room-flip-and-staging",
+    "hw-housekeeping-cart-and-chemical-safety",
+    "hz-decon-corridor-for-a-mass-casualty-drill",
+    "ib-boiler-tube-replacement-and-rolling",
+    "ib-pressure-vessel-confined-entry-and-hot-work",
+    "ib-refractory-and-castable-installation",
+    "isco-injection",
+    "jobsite-orientation-and-osha-10",
+    "k12-a-controlled-experiment",
+    "k12-building-a-timeline-from-documents",
+    "k12-digital-citizenship-and-online-safety",
+    "k12-first-aid-awareness-call-for-help",
+    "k12-map-literacy-across-eras",
+    "k12-primary-and-secondary-sources",
+    "k12-public-speaking-at-the-hall",
+    "k12-reading-a-map-scale-in-bay-world",
+    "k12-weather-and-the-sky",
+    "k12-writing-a-clear-incident-report",
+    "kitchen",
+    "le-crowd-barricade-and-show-stop-call",
+    "le-followspot-and-truss-access-at-height",
+    "leading-edge-and-horizontal-lifeline",
+    "lift-station",
+    "line-truck",
+    "living-shoreline",
+    "manhole-entry-and-atmospheric-monitoring",
+    "marsh-transect-survey",
+    "masonry-silica-scaffold",
+    "me-oyster-reef-monitoring-and-settlement-tiles",
+    "me-shoreline-debris-and-microplastics-survey",
+    "me-tidal-marsh-channel-restoration-day",
+    "me-water-column-sampling-from-a-small-boat",
+    "mooring-line",
+    "motor-control-center",
+    "mw-ferry-deckhand-and-passenger-safety",
+    "mw-hull-inspection-and-cleaning-dive",
+    "mw-oil-transfer-watch-and-boom",
+    "mw-workboat-towing-and-line-handling",
+    "op-compactor-lift-thickness-and-edge",
+    "op-crawler-crane-assembly-and-load-chart",
+    "op-dozer-slope-work-and-rollover-protection",
+    "op-excavator-trench-and-utility-locate",
+    "op-grader-fine-grade-and-crown",
+    "op-loader-truck-loading-and-blind-spots",
+    "op-pile-driving-rig-and-lead-setup",
+    "or-transmission-line-right-of-way-patrol",
+    "oyster-reef-monitoring",
+    "pcb-equipment-removal",
+    "pl-medical-gas-brazing-and-purge",
+    "pl-natural-gas-pressure-test-and-leak-check",
+    "pl-underground-sewer-lateral-and-trench-shoring",
+    "pm-community-room-and-events",
+    "pm-electrical-room",
+    "pm-fire-alarm-panel-room",
+    "pm-landscaping-and-irrigation",
+    "pm-pool-and-spa-chemistry",
+    "po-lashing-gear-inspection-and-tagging",
+    "po-yard-hostler-and-pedestrian-separation",
+    "pt-dock-fender-and-bollard-inspection",
+    "public-meeting-chair",
+    "pump-and-treat",
+    "ra-air-brake-test-and-train-inspection",
+    "ra-blue-flag-protection-in-the-yard",
+    "ra-hand-brake-and-securement-on-a-grade",
+    "ra-locomotive-cab-startup-and-alerter",
+    "ra-roadway-worker-protection-and-job-briefing",
+    "ra-switch-inspection-and-lubrication",
+    "ra-tie-and-rail-replacement-with-track-machines",
+    "rad-survey",
+    "rcl-switching",
+    "sampling-well",
+    "scaffold-erection",
+    "se-building-automation-alarm-triage",
+    "sediment-cap",
+    "serger-overlock",
+    "shelter-intake-operations",
+    "shipyard-hotwork",
+    "signal-cabinet",
+    "sm-plasma-table-and-fume",
+    "sm-shop-layout-and-shear",
+    "soil-loadout",
+    "spartina-removal",
+    "spill-boom-deploy",
+    "stage-load-in-and-truss-rigging",
+    "stage-power",
+    "steel-erector",
+    "stormwater-outfall",
+    "structure-fire-sizeup",
+    "substation-switching",
+    "tank-lining",
+    "tdl-backing-and-docking",
+    "tdl-cargo-securement-and-hours",
+    "tdl-pretrip-inspection",
+    "tide-gate",
+    "tr-wheelchair-lift-and-securement-on-a-bus",
+    "track-access",
+    "traffic-incident-management",
+    "transformer-vault",
+    "transite-pipe-removal",
+    "trench-box",
+    "triage-point",
+    "tw-dock-leveler-and-trailer-restraint-check",
+    "union-hall-and-dispatch",
+    "ust-removal",
+    "ut-cathodic-protection-test-station-reading",
+    "ut-night-storm-response-crew-and-portable-generator",
+    "ut-water-treatment-chemical-delivery-unloading",
+    "uw-bridge-pier-scour-survey",
+    "uw-pipeline-crossing-inspection-dive",
+    "valve-vault",
+    "vapor-mitigation",
+    "vessel-gangway-and-hatch-cover-safety",
+    "welding",
+    "well-install",
+    "who-ppe-donning-and-doffing",
+    "who-treatment-centre-triage",
+    "who-vaccination-line",
+    "yc-engine-room-pre-start-and-bilge-check",
+    "yc-fuel-dock-transfer-and-spill-kit",
+    "yc-line-handling-and-docking-in-crosswind",
+    "yc-man-overboard-recovery-drill",
+    "yc-pre-departure-safety-briefing-and-guest-count",
+    "yc-shore-power-connection-and-in-water-electrical-safety",
+    "yc-tender-launch-and-guest-transfer"
+   ],
+   "field": [
+    "jf-fl-causeway-as-a-ruler",
+    "jf-fl-pumps-lift-the-rain",
+    "jf-fl-ramp-hand-signals",
+    "np-orleans-fl-crane-lever",
+    "np-orleans-fl-levee-cross-section",
+    "np-orleans-fl-map-of-the-crescent",
+    "np-orleans-fl-pump-lifts-water",
+    "np-orleans-fl-weather-on-the-lake",
+    "np-orleans-fl-wetland-buffer",
+    "pq-fl-a-timeline-with-gaps",
+    "pq-fl-chart-scale-at-the-end-of-the-road",
+    "pq-fl-where-a-river-drops-its-soil",
+    "sb-fl-battlefield-sources",
+    "sb-fl-high-river-seepage",
+    "sb-fl-tags-before-entry",
+    "sf-downtown-fl-cable-grip",
+    "sf-downtown-fl-ferry-tide-and-timetable",
+    "sf-downtown-fl-speak-at-the-hall",
+    "sf-downtown-fl-steep-street",
+    "sf-golden-gate-park-fl-lake-water-cycle",
+    "sf-golden-gate-park-fl-lifeguard-call",
+    "sf-golden-gate-park-fl-windmill-energy",
+    "sf-mission-fl-blue-flag",
+    "sf-mission-fl-crane-pulleys",
+    "sf-mission-fl-crossing-guard",
+    "sg-fl-bridge-cable-machine",
+    "sg-fl-clean-up-experiment",
+    "sg-fl-court-measuring",
+    "sg-fl-fog-weather-call",
+    "sg-fl-forest-map-scale",
+    "sg-fl-marsh-ecosystem",
+    "sg-fl-rescue-call-for-help",
+    "sg-fl-safety-labels",
+    "sg-fl-tide-graph-harbour",
+    "sg-fl-water-cycle-slough",
+    "st-fl-clouds-over-the-lake",
+    "st-fl-one-change-in-the-marsh",
+    "st-fl-questions-at-the-briefing"
+   ],
+   "parish-lesson": [
+    "by-lesson-catch",
+    "by-lesson-containers",
+    "by-lesson-family-plan",
+    "by-lesson-ferry",
+    "by-lesson-flood-map",
+    "by-lesson-floodwall",
+    "by-lesson-levee",
+    "by-lesson-pump",
+    "by-lesson-river",
+    "by-lesson-streetcar",
+    "by-lesson-water-cycle",
+    "by-lesson-wetlands"
+   ]
+  },
+  "smartcity": {
+   "station": [
+    "abatement-chamber",
+    "abatement-perimeter-awareness",
+    "ad-amr-fleet-traffic-and-estop-drill",
+    "ad-cleanroom-gowning-and-esd-discipline",
+    "ad-cobot-risk-assessment-and-speed-separation",
+    "ad-depot-tool-control-and-fod-walk",
+    "ad-hazardous-fluid-servicing-with-a-buddy",
+    "ad-payload-crane-lift-with-a-lift-plan",
+    "ad-robot-cell-lockout-and-safe-reentry",
+    "ad-test-stand-exclusion-zone-and-holds",
+    "aerial-ladder",
+    "aerial-lashing",
+    "aerosol-management",
+    "air-monitor",
+    "air-network-data-qa",
+    "air-sensor-install",
+    "airport-ramp",
+    "allergen-cocktail",
+    "allergen-control",
+    "alteration-repair-ticket",
+    "amalgam-waste-handling",
+    "ambulance-scene-safety",
+    "ammonia-plant",
+    "apprenticeship-application-and-test",
+    "apprenticeship-standards-reading",
+    "arc-flash-label-study",
+    "arena-rigging",
+    "av-baggage-belt-loader-and-hold-loading",
+    "av-borescope-and-tool-control-inventory",
+    "av-deicing-truck-boom-operations",
+    "av-ground-power-and-static-bonding-before-fuel",
+    "av-hangar-jacking-and-stands",
+    "av-lavatory-and-potable-water-separation",
+    "av-marshalling-and-wingwalker-signals",
+    "av-pushback-tug-and-towbar-connection",
+    "backflow-test",
+    "bakery-mixer",
+    "ballast-water-sampling",
+    "banquet-hot-hold",
+    "banquet-setup-lift",
+    "bar-well-setup",
+    "battery-storage-container-commissioning",
+    "battery-yard",
+    "bb-coach-feedback-and-growth-mindset",
+    "bb-composure-with-a-hostile-crowd-and-officials",
+    "bb-defensive-stance-and-closeouts",
+    "bb-dribble-moves-and-change-of-pace",
+    "bb-final-possession-decision-under-pressure",
+    "bb-footwork-pivots-and-jump-stops",
+    "bb-free-throw-routine",
+    "bb-help-defense-rotations",
+    "bb-layups-and-finishing-at-the-rim",
+    "bb-losing-well-and-film-review",
+    "bb-passing-and-catching",
+    "bb-pick-and-roll-communication",
+    "bb-pre-game-routine-and-visualisation",
+    "bb-rebounding-and-boxing-out",
+    "bb-reset-routine-after-a-miss",
+    "bb-scrimmage-and-sportsmanship-debrief",
+    "bb-shooting-form-and-arc",
+    "bb-stance-and-ball-handling",
+    "bb-team-offense-spacing-and-screens",
+    "bb-teammate-conflict-and-accountability",
+    "bb-timeout-huddle-and-adjustment",
+    "bb-transition-spacing-and-roles",
+    "bb-warmup-injury-prevention-and-hydration",
+    "biomonitoring-consent",
+    "bioswale-build",
+    "boiler-room",
+    "br-barge-loading-of-contaminated-sediment",
+    "br-beach-seine-fish-survey-and-handling",
+    "br-benthic-grab-and-invertebrate-sorting",
+    "br-bird-nesting-buffer-and-work-window",
+    "br-boom-towing-between-two-vessels",
+    "br-cold-water-immersion-and-mob-recovery",
+    "br-culvert-retrofit-for-fish-passage",
+    "br-debris-skimmer-vessel-operations",
+    "br-derelict-gear-recovery-dive",
+    "br-derelict-vessel-salvage-rigging",
+    "br-dive-site-hazard-assessment-and-jsa",
+    "br-dive-tender-and-umbilical-management",
+    "br-dredge-material-screening-and-disposal-decision",
+    "br-dredge-spoils-dewatering-pad",
+    "br-drone-shoreline-survey",
+    "br-fish-screen-maintenance",
+    "br-hyperbaric-chamber-standby",
+    "br-intertidal-invasive-removal-by-hand-crew",
+    "br-legacy-mercury-and-pcb-hotspot-handling",
+    "br-levee-inspection-and-seepage",
+    "br-marine-mammal-observer-during-pile-driving",
+    "br-native-planting-and-erosion-mats",
+    "br-restoration-data-qa-and-public-reporting",
+    "br-sediment-chain-of-custody-and-lab-prep",
+    "br-shoreline-cleanup-sharps-and-hazardous-debris",
+    "br-surface-supplied-dive-station-setup",
+    "br-tidal-marsh-grading-amphibious-excavator",
+    "br-trash-capture-device-service",
+    "br-turbidity-curtain-deployment",
+    "br-underwater-debris-survey-and-mapping",
+    "br-underwater-sediment-core-sampling",
+    "br-vhf-and-navigation-in-a-work-zone",
+    "br-volunteer-cleanup-day-safety-lead",
+    "br-water-quality-sonde-calibration-and-deploy",
+    "br-workboat-crane-lift-from-water",
+    "bridge-blast",
+    "bridge-cable-inspection",
+    "bridge-lead-containment",
+    "broadcast-truck",
+    "bs-bearing-replacement-and-jacking",
+    "bs-structural-bolting-and-torque",
+    "bs-tandem-lift-girder-set",
+    "bt-formwork-stripping-and-reshoring",
+    "bt-masonry-wall-layout-and-mortar",
+    "bt-rebar-tying-and-impalement-protection",
+    "budget-tradeoff-hearing",
+    "budget-with-irregular-income",
+    "building-rad-scan",
+    "bunkering-watch",
+    "bus-depot-lift",
+    "bus-yard-fuelling-and-brake-check",
+    "ca-cabin-decompression-and-oxygen-masks",
+    "ca-cabin-medical-event-response",
+    "ca-cabin-preflight-safety-check",
+    "ca-door-evacuation-drill",
+    "ca-fatigue-and-duty-time-self-check",
+    "ca-flight-deck-crew-resource-management",
+    "ca-galley-and-cart-safety",
+    "ca-unruly-passenger-deescalation",
+    "cafeteria-serving",
+    "can-we-live-story",
+    "cardiac-arrest-pit-crew",
+    "cath-lab",
+    "cd-decompression-chamber-operations-and-post-dive",
+    "cd-dive-records-and-incident-review",
+    "cd-hydraulic-tools-and-suction-hazards-underwater",
+    "cd-low-visibility-and-night-dive-line-work",
+    "cd-pier-piling-inspection-and-wrap-repair",
+    "cd-rov-launch-recovery-and-tether-management",
+    "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+    "cd-underwater-wet-welding-and-cutting",
+    "cell-site-battery",
+    "chain-hoist",
+    "chairside-emergency",
+    "charge-point",
+    "chiller-plant",
+    "chlorine-room",
+    "civic-principles-briefing",
+    "cm-cold-weather-curing-and-blankets",
+    "cm-concrete-saw-cutting-with-water-and-silica-control",
+    "cm-curb-and-gutter-forms-and-finish",
+    "cm-epoxy-floor-coating-and-ventilation",
+    "cm-exterior-plaster-scratch-brown-and-finish-coats",
+    "cm-power-trowel-operation-and-guarding",
+    "cm-shotcrete-nozzle-and-rebound",
+    "cm-slab-screed-bull-float-and-trowel",
+    "cnc-cell",
+    "coalition-building-table",
+    "community-listening-session",
+    "community-soil-split",
+    "concrete-pour",
+    "confined-rescue",
+    "conflict-mediation-room",
+    "constituent-service-desk",
+    "container-lashing",
+    "conveyor-guard",
+    "cooling-tower",
+    "crane-yard",
+    "credit-report-reading",
+    "creosote-pile-removal",
+    "crisis-communication-podium",
+    "crisis-intervention-call",
+    "crisis-line-shift",
+    "critical-incident-debrief",
+    "cs-non-entry-retrieval-and-tripod",
+    "cs-permit-entry-and-attendant-duties",
+    "cs-ventilation-and-air-monitoring-plan",
+    "cutoff-overservice",
+    "cutting-table-rotary",
+    "cv-difficult-conversation-across-difference",
+    "cv-grant-application-and-nonprofit-compliance",
+    "cv-neighborhood-emergency-block-captain",
+    "cv-open-meeting-law-and-agenda-notice",
+    "cv-restorative-justice-circle-facilitation",
+    "cv-voter-registration-drive-and-nonpartisan-conduct",
+    "damage-assessment-team",
+    "data-hall",
+    "debt-reduction-plan",
+    "deck-joint-replacement",
+    "decon-line",
+    "decon-support-laborer",
+    "dental-careers-pathway",
+    "dental-lab-bench",
+    "dental-radiography-fmx",
+    "denture-delivery-and-adjustment",
+    "devops",
+    "digester-gas",
+    "discharge-photo-doc",
+    "dish-pit",
+    "dn-dental-coding-billing-and-preauthorisation",
+    "dn-dental-trauma-and-avulsed-tooth-response",
+    "dn-digital-intraoral-scanning-and-cad-cam",
+    "dn-medical-history-and-medication-review",
+    "dn-oral-hygiene-instruction-and-motivational-interviewing",
+    "dn-public-health-dentistry-and-fluoridation-advocacy",
+    "dock-crane",
+    "draught-line-cleaning",
+    "dredge-barge",
+    "drive-backing-serpentine-and-alley-dock",
+    "drive-city-route-and-turns",
+    "drive-freeway-merge-and-following-distance",
+    "drive-light-vehicle-fleet-and-forklift-course",
+    "drive-mountain-grade-and-engine-brake",
+    "drive-night-fog-and-rail-crossing",
+    "drum-sampling-and-overpack",
+    "dust-plan-review",
+    "ed-boiler-room-filter-change-lockout",
+    "ed-bus-pretrip-and-loading-zone",
+    "ed-crossing-guard-intersection-control",
+    "ed-custodial-chemical-dilution-and-floor-machine",
+    "ed-kitchen-receiving-and-warewash-sanitizing",
+    "ed-paraeducator-safe-lift-and-transfer",
+    "ed-playground-equipment-inspection",
+    "ed-science-lab-chemical-storage-and-eyewash",
+    "eelgrass-transplant",
+    "ei-conflict-on-the-crew",
+    "ei-giving-and-taking-feedback",
+    "ei-leading-under-pressure",
+    "electrical",
+    "elevator-pit",
+    "emergency-savings-and-predatory-lending",
+    "endodontic-assisting",
+    "et-ev-fleet-depot-charging-and-arc-flash",
+    "ethics-and-conflict-of-interest",
+    "ev-extrication",
+    "ew-car-top-inspection-station-and-ride",
+    "ew-door-operator-adjustment-and-gap",
+    "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "ew-escalator-step-chain-and-comb-plate",
+    "ew-hoistway-false-car-and-rail-setting",
+    "ew-machine-room-lockout-and-brake-test",
+    "ew-pit-work-and-buffer-inspection",
+    "ew-rope-inspection-and-sheave-wear",
+    "fenceline-dust-monitor",
+    "fire-pump",
+    "firefighter-rehab-sector",
+    "first-period-evaluation",
+    "flight-deck",
+    "fluoride-and-sealants",
+    "fly-system",
+    "forklift-dock",
+    "formwork-shoring",
+    "four-handed-dentistry",
+    "fp-anchor-selection-and-rescue-plan",
+    "front-office-treatment-coordination",
+    "fryer-oil-change",
+    "garden-soil-screen",
+    "garment-inspection-finish",
+    "gas-leak-survey",
+    "gg-deck-lane-closure-and-traveller",
+    "gg-fog-and-wind-work-stop",
+    "gg-international-orange-recoat",
+    "gg-main-cable-band-inspection",
+    "gg-paint-containment-on-the-deck",
+    "gg-pile-driver-fender-repair",
+    "gg-suspender-rope-replacement",
+    "gg-tower-climb-and-tie-off",
+    "gk-bunker-renovation-and-drainage",
+    "gk-chainsaw-start-and-limbing-on-the-ground",
+    "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+    "gk-greens-mowing-and-hole-changing",
+    "gk-hardscape-paver-base-and-compaction",
+    "gk-irrigation-controller-valve-box-and-backflow-check",
+    "gk-pesticide-and-fertilizer-application-per-the-label",
+    "gk-ride-on-mower-pre-start-and-slope-work",
+    "gk-sports-field-line-marking-and-goal-anchoring",
+    "gk-storm-cleanup-chipper-and-traffic-control",
+    "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+    "gk-tree-work-pole-saw-and-drop-zone",
+    "gl-aluminium-panel-fabrication-and-brake",
+    "gl-curtain-wall-unit-setting-from-the-floor",
+    "gl-glass-handling-cart-and-crane-vacuum-lifter",
+    "gl-shop-drawing-takeoff-and-field-measure",
+    "gl-skylight-glass-replacement-and-fall-protection",
+    "gl-storefront-frame-and-glass-set-with-cups",
+    "gl-swing-stage-glazing-and-sealant",
+    "gl-tempered-glass-breakage-and-cleanup",
+    "gr-ammonia-leak-alarm-response-cold-plant",
+    "gr-checkstand-ergonomics-and-robbery-prevention",
+    "gr-deli-slicer-sanitation-and-allergen-line",
+    "gr-meat-dept-band-saw-and-grinder-lockout",
+    "gr-meatpacking-line-knife-work-and-ppe-rotation",
+    "gr-night-stocking-baler-and-compactor-lockout",
+    "gr-pharmacy-floral-chemical-handling-and-sds",
+    "gr-produce-receiving-cold-chain-and-pallet-jack",
+    "grain-bin",
+    "grease-trap",
+    "grill-line-burns",
+    "haul-road-dust",
+    "haul-route-observation",
+    "hazmat-container-inspection",
+    "hazmat-entry",
+    "hazwoper-site-orientation",
+    "hc-code-response-support-and-crash-cart-check",
+    "hc-dietary-tray-line-and-allergy-flags",
+    "hc-environmental-services-isolation-room-turnover",
+    "hc-hazardous-drug-spill-kit-response",
+    "hc-linen-and-regulated-waste-handling",
+    "hc-patient-transport-and-safe-handling",
+    "hc-sterile-processing-decontamination-and-assembly",
+    "hc-workplace-violence-deescalation-at-the-desk",
+    "hem-and-buttonhole",
+    "home-visit-safety",
+    "hood-suppression",
+    "hot-tap",
+    "housekeeping-room-turn",
+    "hunters-point",
+    "hw-banquet-room-flip-and-staging",
+    "hw-flatwork-ironer-and-folder-guarding",
+    "hw-housekeeping-cart-and-chemical-safety",
+    "hz-decon-corridor-for-a-mass-casualty-drill",
+    "hz-drum-staging-and-compatibility-segregation",
+    "hz-level-b-entry-and-scba-change-out",
+    "ib-asbestos-glovebag-removal-on-a-pipe",
+    "ib-boiler-tube-replacement-and-rolling",
+    "ib-firestop-and-fire-wrap-installation",
+    "ib-hydrostatic-test-and-inspector-witness",
+    "ib-mechanical-insulation-pipe-and-jacketing",
+    "ib-pressure-vessel-confined-entry-and-hot-work",
+    "ib-refractory-and-castable-installation",
+    "ib-spray-foam-and-respirator-fit",
+    "ice-well-breakage",
+    "id-check-underage",
+    "implant-surgery-assisting",
+    "industrial-press-steam",
+    "infection-control-audit",
+    "instrument-reprocessing",
+    "isco-injection",
+    "jigger-pour-spec",
+    "jobsite-orientation-and-osha-10",
+    "k12-a-controlled-experiment",
+    "k12-building-a-timeline-from-documents",
+    "k12-buoyancy-and-pressure-in-the-deep",
+    "k12-by-a-family-readiness-plan",
+    "k12-by-a-ferry-timetable-and-the-tide",
+    "k12-by-a-shrimp-boats-fair-count",
+    "k12-by-a-streetcar-timetable",
+    "k12-by-how-a-levee-holds-water-back",
+    "k12-by-measuring-a-floodwall-in-steps",
+    "k12-by-reading-a-flood-maps-colours",
+    "k12-by-sorting-containers-at-the-port",
+    "k12-by-the-rivers-current-and-a-pilots-job",
+    "k12-by-the-water-cycle-from-lake-to-tap",
+    "k12-by-wetlands-as-a-storms-speed-bump",
+    "k12-by-what-a-pump-station-does-in-the-rain",
+    "k12-circuits-at-the-electrical-bench",
+    "k12-digital-citizenship-and-online-safety",
+    "k12-ecosystems-at-the-kelp-transect",
+    "k12-energy-transfer-at-the-wind-farm",
+    "k12-first-aid-awareness-call-for-help",
+    "k12-fractions-in-the-kitchen",
+    "k12-geometry-of-a-turbine-blade-sweep",
+    "k12-graphing-tide-readings-at-the-pier",
+    "k12-guilds-and-the-history-of-work",
+    "k12-household-budget-and-first-paycheck",
+    "k12-how-a-local-council-meeting-works",
+    "k12-map-literacy-across-eras",
+    "k12-measuring-and-scaling-the-court",
+    "k12-oral-history-interview-skills",
+    "k12-primary-and-secondary-sources",
+    "k12-probability-with-a-fair-spinner",
+    "k12-public-speaking-at-the-hall",
+    "k12-reading-a-map-scale-in-bay-world",
+    "k12-reading-instructions-and-safety-labels",
+    "k12-simple-machines-at-a-crane",
+    "k12-slope-and-angles-on-a-ramp",
+    "k12-teamwork-and-feedback",
+    "k12-water-cycle-and-filtration",
+    "k12-weather-and-the-sky",
+    "k12-writing-a-clear-incident-report",
+    "keg-cellar-co2",
+    "kitchen",
+    "kitchen-gas-shutoff",
+    "knife-skills",
+    "landfill-gas",
+    "last-call-lockup",
+    "laundry-plant-chemicals",
+    "le-crowd-barricade-and-show-stop-call",
+    "le-followspot-and-truss-access-at-height",
+    "leading-edge-and-horizontal-lifeline",
+    "lift-station",
+    "line-truck",
+    "living-shoreline",
+    "lockstitch-seam-guard",
+    "machine-threading-needle",
+    "manhole-entry-and-atmospheric-monitoring",
+    "marsh-transect-survey",
+    "masonry-silica-scaffold",
+    "mass-timber-panel-set",
+    "mast-climber",
+    "md-camera-dolly-and-crane-track",
+    "md-intimacy-and-conduct-coordination-briefing",
+    "md-location-shoot-traffic-control-and-heat-hydration",
+    "md-newsroom-storm-scene-and-live-truck-mast",
+    "md-recording-studio-hearing-conservation-and-load-in",
+    "md-set-safety-meeting-and-stunt-go-no-go",
+    "md-sound-stage-electrical-distribution-and-cable-crossings",
+    "md-theatre-fly-floor-and-quick-change-lane",
+    "me-eelgrass-seed-collection-and-nursery",
+    "me-fish-visual-census-and-data-sheet",
+    "me-invasive-species-identification-and-reporting",
+    "me-kelp-transect-survey-and-photo-quadrats",
+    "me-oyster-reef-monitoring-and-settlement-tiles",
+    "me-shoreline-debris-and-microplastics-survey",
+    "me-tidal-marsh-channel-restoration-day",
+    "me-water-column-sampling-from-a-small-boat",
+    "mentorship-and-succession",
+    "met-station-siting",
+    "microwave-backhaul",
+    "ml-delivery-van-pretrip-and-route-loading",
+    "ml-dog-and-hazard-awareness-on-route",
+    "ml-flat-sorter-guarding-and-lockout",
+    "ml-heat-and-cold-stress-on-route",
+    "ml-mail-handler-forklift-and-container-dock",
+    "ml-parcel-sorter-conveyor-jam-and-loto",
+    "ml-retail-counter-deescalation",
+    "ml-suspicious-package-protocol",
+    "mm-coke-oven-heat-rotation",
+    "mm-continuous-miner-face",
+    "mm-conveyor-fire-and-gas-monitoring",
+    "mm-haul-truck-berm",
+    "mm-hot-strip-mill-stand",
+    "mm-ladle-pour",
+    "mm-mine-escapeway-drill",
+    "mm-paper-machine-dryer",
+    "mobile-air-lab",
+    "mobile-dental-outreach",
+    "mooring-line",
+    "motor-control-center",
+    "mw-dive-supervisor-and-dive-plan",
+    "mw-diver-emergency-and-recovery",
+    "mw-ferry-deckhand-and-passenger-safety",
+    "mw-hull-inspection-and-cleaning-dive",
+    "mw-oil-transfer-watch-and-boom",
+    "mw-pier-pile-inspection-dive",
+    "mw-underwater-welding-and-cutting",
+    "mw-workboat-towing-and-line-handling",
+    "nitrous-oxide-monitoring",
+    "odor-complaint-log",
+    "op-compactor-lift-thickness-and-edge",
+    "op-crawler-crane-assembly-and-load-chart",
+    "op-dozer-slope-work-and-rollover-protection",
+    "op-equipment-daily-walkaround-and-fluids",
+    "op-excavator-trench-and-utility-locate",
+    "op-grader-fine-grade-and-crown",
+    "op-loader-truck-loading-and-blind-spots",
+    "op-pile-driving-rig-and-lead-setup",
+    "opacity-reading",
+    "operatory-turnover",
+    "or-ranch-road-grading-and-culvert",
+    "or-solar-farm-tracker-row-maintenance",
+    "or-transmission-line-right-of-way-patrol",
+    "or-wildland-fireline-construction-and-lookout",
+    "oral-cancer-screening",
+    "oral-surgery-assisting",
+    "orthodontic-assisting",
+    "overdose-response-naloxone",
+    "oyster-reef-monitoring",
+    "paint-sprayer",
+    "parcel-status-walk",
+    "patient-intake-screening",
+    "patron-deescalation",
+    "pattern-marking-layout",
+    "pay-stub-and-withholding",
+    "pcb-equipment-removal",
+    "pediatric-visit",
+    "periodontal-charting",
+    "phlebotomy",
+    "pilot-transfer",
+    "pl-copper-press-and-solder-rough-in",
+    "pl-fire-sprinkler-riser-and-flow-test",
+    "pl-hydronic-boiler-piping-and-hydrotest",
+    "pl-medical-gas-brazing-and-purge",
+    "pl-natural-gas-pressure-test-and-leak-check",
+    "pl-steam-trap-and-condensate-line-repair",
+    "pl-underground-sewer-lateral-and-trench-shoring",
+    "pl-water-heater-and-tpr-valve-replacement",
+    "plumbing",
+    "pm-community-room-and-events",
+    "pm-domestic-water-and-backflow",
+    "pm-electrical-room",
+    "pm-elevator-machine-room",
+    "pm-fire-alarm-panel-room",
+    "pm-fitness-room-and-gym",
+    "pm-landscaping-and-irrigation",
+    "pm-laundry-room",
+    "pm-leasing-office-fair-housing",
+    "pm-loading-dock-and-moves",
+    "pm-lobby-and-front-desk",
+    "pm-mail-and-package-room",
+    "pm-parking-garage",
+    "pm-playground-and-courtyard",
+    "pm-pool-and-spa-chemistry",
+    "pm-roof-and-drains",
+    "pm-sprinkler-riser-room",
+    "pm-storage-and-bike-room",
+    "pm-trash-and-recycling-room",
+    "pm-unit-turnover",
+    "po-lashing-gear-inspection-and-tagging",
+    "po-yard-hostler-and-pedestrian-separation",
+    "post-tension",
+    "prep-cooling",
+    "press-brake",
+    "pressure-washer",
+    "psychological-first-aid",
+    "pt-chassis-and-genset-yard",
+    "pt-crane-boom-hoist-brake-service",
+    "pt-dock-fender-and-bollard-inspection",
+    "pt-reefer-plug-and-power-panel",
+    "pt-spreader-and-twistlock-inspection",
+    "pt-stormwater-at-the-terminal",
+    "pt-straddle-carrier-hydraulics",
+    "pt-terminal-lighting-mast-service",
+    "public-comment-prep",
+    "public-meeting-chair",
+    "pump-and-treat",
+    "pyro-cue",
+    "ra-air-brake-test-and-train-inspection",
+    "ra-blue-flag-protection-in-the-yard",
+    "ra-crossing-signal-maintenance-and-flagging",
+    "ra-hand-brake-and-securement-on-a-grade",
+    "ra-locomotive-cab-startup-and-alerter",
+    "ra-roadway-worker-protection-and-job-briefing",
+    "ra-switch-inspection-and-lubrication",
+    "ra-tie-and-rail-replacement-with-track-machines",
+    "rad-meter-basics",
+    "rad-survey",
+    "radiograph-safety",
+    "rbs-service-capstone",
+    "rcl-switching",
+    "receiving-dock-food",
+    "reefer-yard-monitoring",
+    "results-return-visit",
+    "retest-witnessing",
+    "rf-below-grade-waterproofing-and-drainage-board",
+    "rf-green-roof-and-overburden-placement",
+    "rf-hot-asphalt-kettle-and-mop",
+    "rf-roof-tear-off-and-debris-chute",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe",
+    "rf-skylight-and-hatch-guarding",
+    "rf-standing-seam-metal-panel-and-clip",
+    "rf-torch-applied-membrane-and-fire-watch",
+    "rigging-loft",
+    "rl-critical-lift-plan-and-signalperson",
+    "robot-cell",
+    "salon",
+    "sample-kit-shipping",
+    "sampling-well",
+    "scaffold-erection",
+    "school-screening-outreach",
+    "se-building-automation-alarm-triage",
+    "se-steam-trap-survey-and-condensate-return",
+    "sediment-cap",
+    "sensor-colocation-check",
+    "serger-overlock",
+    "sewing-ergonomics-shift",
+    "sharps-exposure-response",
+    "shelter-in-place-drill",
+    "shelter-intake-operations",
+    "shipyard-hotwork",
+    "shore-power-hookup",
+    "shoreline-sediment-grab",
+    "signal-cabinet",
+    "slicer-lockout",
+    "sm-air-balancing-and-testing",
+    "sm-architectural-panels-at-height",
+    "sm-duct-fabrication-and-seams",
+    "sm-duct-hanging-and-seismic-bracing",
+    "sm-kitchen-exhaust-and-fire-wrap",
+    "sm-plasma-table-and-fume",
+    "sm-shop-layout-and-shear",
+    "sm-tig-and-spot-welding",
+    "smoke-day-outreach",
+    "soil-loadout",
+    "solar-deck",
+    "spartina-removal",
+    "special-needs-and-geriatric-dentistry",
+    "spiked-drink-response",
+    "spill-boom-deploy",
+    "splice-node",
+    "stack-test",
+    "stage-load-in-and-truss-rigging",
+    "stage-power",
+    "steel-erector",
+    "sterilisation-technician-cycle",
+    "stormwater-outfall",
+    "straddle-carrier-ops",
+    "structure-fire-sizeup",
+    "substation-switching",
+    "tank-lining",
+    "tdl-air-brake-test",
+    "tdl-backing-and-docking",
+    "tdl-cargo-securement-and-hours",
+    "tdl-coupling-and-uncoupling",
+    "tdl-hazmat-labeling-and-segregation",
+    "tdl-lifting-and-ergonomics",
+    "tdl-pallet-jack-and-racking",
+    "tdl-pick-pack-and-scan",
+    "tdl-pretrip-inspection",
+    "tdl-trailer-loading-and-dock-plate",
+    "teledentistry-and-triage",
+    "temporary-site-power",
+    "tide-gate",
+    "till-drop-robbery",
+    "tip-pool-labor",
+    "tower-climb",
+    "tr-wheelchair-lift-and-securement-on-a-bus",
+    "track-access",
+    "trades-lineage-briefing",
+    "traffic-incident-management",
+    "transformer-vault",
+    "transite-pipe-removal",
+    "trauma-informed-intake",
+    "trench-box",
+    "triage-point",
+    "tw-amr-traffic-zone-entry-and-lockout",
+    "tw-battery-change-and-charging-bay-safety",
+    "tw-cold-storage-ppe-and-rotation",
+    "tw-conveyor-jam-clearing-and-loto",
+    "tw-dock-leveler-and-trailer-restraint-check",
+    "tw-high-bay-order-picker-fall-protection",
+    "tw-palletizer-cell-fenced-access-permit",
+    "tw-pick-to-light-ergonomics-and-rotation",
+    "ultrasonic-scaling",
+    "union-hall-and-dispatch",
+    "ust-removal",
+    "ut-cathodic-protection-test-station-reading",
+    "ut-gas-meter-set-and-regulator-vent",
+    "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+    "ut-night-storm-response-crew-and-portable-generator",
+    "ut-pe-pipe-fusion-and-squeeze-off",
+    "ut-service-line-locate-and-hand-dig-near-gas-main",
+    "ut-water-main-break-emergency-shutdown-and-excavation",
+    "ut-water-treatment-chemical-delivery-unloading",
+    "uw-bridge-pier-scour-survey",
+    "uw-intake-screen-cleaning-with-lockout",
+    "uw-lift-bag-rigging-and-object-recovery",
+    "uw-pipeline-crossing-inspection-dive",
+    "uw-rov-pre-dive-and-tether-management",
+    "uw-underwater-concrete-and-bag-placement",
+    "valve-vault",
+    "vapor-mitigation",
+    "vessel-gangway-and-hatch-cover-safety",
+    "walk-in-cooler",
+    "welding",
+    "well-install",
+    "wellness-asking-for-help-and-resources",
+    "wellness-peer-support-conversation",
+    "wellness-shift-work-sleep-and-stress",
+    "wellness-substance-use-and-the-job",
+    "who-after-action-review",
+    "who-contact-tracing-visit",
+    "who-isolation-ward-setup",
+    "who-ppe-donning-and-doffing",
+    "who-risk-communication-and-community-engagement",
+    "who-safe-and-dignified-burial",
+    "who-surveillance-and-case-definition",
+    "who-treatment-centre-triage",
+    "who-vaccination-line",
+    "who-water-sanitation-and-hygiene",
+    "wildland-urban-interface",
+    "wind-nacelle",
+    "wp-apprenticeship-enrollment-day",
+    "wp-employer-meet-and-greet",
+    "wp-first-paycheck-coaching",
+    "wp-graduation-and-alumni-mentors",
+    "wp-intake-and-pathway-planning",
+    "wp-mock-interview-and-resume",
+    "wp-permit-study-and-knowledge-test",
+    "wp-warehouse-ride-along",
+    "ws-blade-inspection-from-a-platform",
+    "ws-crah-alarm-response-in-a-live-hall",
+    "ws-data-hall-busway-install-and-torque-signoff",
+    "ws-nacelle-lockout-and-yaw-brake-fault",
+    "ws-ocean-pod-retrieval-and-hatch-opening",
+    "ws-raised-floor-tile-lift-and-cable-tray-safety",
+    "ws-substation-switching-under-a-permit",
+    "ws-turbine-climb-and-rescue-kit-check",
+    "wvpp-panic-button",
+    "yc-engine-room-pre-start-and-bilge-check",
+    "yc-fuel-dock-transfer-and-spill-kit",
+    "yc-galley-fire-and-fixed-system",
+    "yc-line-handling-and-docking-in-crosswind",
+    "yc-man-overboard-recovery-drill",
+    "yc-pre-departure-safety-briefing-and-guest-count",
+    "yc-shore-power-connection-and-in-water-electrical-safety",
+    "yc-tender-launch-and-guest-transfer",
+    "youth-patrol-training"
+   ],
+   "field": [],
+   "parish-lesson": []
+  },
+  "bayworld": {
+   "station": [],
+   "field": [
+    "bw-fl-blade-sweep-circle",
+    "bw-fl-budget-at-the-market",
+    "bw-fl-council-agenda",
+    "bw-fl-court-area",
+    "bw-fl-crane-load-chart-ratio",
+    "bw-fl-digital-at-the-college",
+    "bw-fl-ferry-map-scale",
+    "bw-fl-first-aid-call",
+    "bw-fl-guild-apprentices",
+    "bw-fl-kitchen-fractions",
+    "bw-fl-reading-a-safety-sign",
+    "bw-fl-slope-of-the-access-ramp",
+    "bw-fl-teamwork-at-the-stadium",
+    "bw-fl-timeline-in-the-tower",
+    "bw-fl-union-hall-oral-history",
+    "bw-fl-water-cycle-at-the-plant",
+    "bw-fl-wind-energy-chain"
+   ],
+   "parish-lesson": []
+  },
+  "deep": {
+   "station": [],
+   "field": [
+    "dp-fl-buoyancy-at-the-anchor",
+    "dp-fl-channel-marker-map",
+    "dp-fl-holdfast-ecosystem",
+    "dp-fl-kelp-food-web",
+    "dp-fl-outfall-water-cycle",
+    "dp-fl-pressure-at-the-trench",
+    "dp-fl-reef-ball-count",
+    "dp-fl-sonde-controlled-test",
+    "dp-fl-tide-gauge-reading",
+    "dp-fl-wreck-primary-source"
+   ],
+   "parish-lesson": []
+  },
+  "regatta": {
+   "station": [],
+   "field": [
+    "rg-fl-buoyancy-of-a-hull",
+    "rg-fl-course-map-scale",
+    "rg-fl-incident-report-afloat",
+    "rg-fl-probability-of-a-wind-shift",
+    "rg-fl-public-speaking-briefing",
+    "rg-fl-speed-distance-time",
+    "rg-fl-teamwork-on-deck",
+    "rg-fl-wind-direction-at-the-start"
+   ],
+   "parish-lesson": []
+  },
+  "fairway": {
+   "station": [],
+   "field": [
+    "fw-fl-controlled-test-on-turf",
+    "fw-fl-fuel-cabinet-label",
+    "fw-fl-probability-on-the-tee",
+    "fw-fl-slope-on-the-green",
+    "fw-fl-teamwork-at-the-court",
+    "fw-fl-track-perimeter",
+    "fw-fl-weather-mast"
+   ],
+   "parish-lesson": []
+  }
+ },
+ "parishes": [
+  {
+   "id": "orleans",
+   "name": "Orleans Parish",
+   "region": "new-orleans",
+   "size": 4096,
+   "fips": "22071",
+   "centre": [
+    -90.052499,
+    29.975007
+   ],
+   "bounds": {
+    "minLng": -90.124998,
+    "minLat": 29.911897,
+    "maxLng": -89.98,
+    "maxLat": 30.038117
+   },
+   "sites": [
+    {
+     "id": "port-terminal",
+     "stations": [
+      "dock-crane",
+      "container-lashing",
+      "mooring-line",
+      "po-yard-hostler-and-pedestrian-separation",
+      "po-lashing-gear-inspection-and-tagging",
+      "vessel-gangway-and-hatch-cover-safety"
+     ]
+    },
+    {
+     "id": "levee-floodwall",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "op-dozer-slope-work-and-rollover-protection",
+      "op-compactor-lift-thickness-and-edge",
+      "op-grader-fine-grade-and-crown",
+      "formwork-shoring",
+      "concrete-pour"
+     ]
+    },
+    {
+     "id": "pumping-station",
+     "stations": [
+      "lift-station",
+      "ut-night-storm-response-crew-and-portable-generator",
+      "motor-control-center",
+      "cs-permit-entry-and-attendant-duties",
+      "valve-vault"
+     ]
+    },
+    {
+     "id": "streetcar-barn",
+     "stations": [
+      "bus-depot-lift",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "track-access",
+      "ra-hand-brake-and-securement-on-a-grade"
+     ]
+    },
+    {
+     "id": "rail-yard",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "rcl-switching",
+      "ra-switch-inspection-and-lubrication",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "ra-air-brake-test-and-train-inspection"
+     ]
+    },
+    {
+     "id": "hospital-district",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-environmental-services-isolation-room-turnover",
+      "hc-sterile-processing-decontamination-and-assembly",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "university-campus",
+     "stations": [
+      "chiller-plant",
+      "pm-fire-alarm-panel-room",
+      "ed-science-lab-chemical-storage-and-eyewash",
+      "k12-public-speaking-at-the-hall",
+      "pm-electrical-room"
+     ]
+    },
+    {
+     "id": "stadium-district",
+     "stations": [
+      "arena-rigging",
+      "le-crowd-barricade-and-show-stop-call",
+      "le-followspot-and-truss-access-at-height",
+      "stage-power",
+      "chain-hoist",
+      "broadcast-truck"
+     ]
+    },
+    {
+     "id": "hospitality-row",
+     "stations": [
+      "housekeeping-room-turn",
+      "hw-banquet-room-flip-and-staging",
+      "hw-housekeeping-cart-and-chemical-safety",
+      "banquet-setup-lift",
+      "allergen-control",
+      "kitchen"
+     ]
+    },
+    {
+     "id": "wetland-restoration",
+     "stations": [
+      "br-native-planting-and-erosion-mats",
+      "br-tidal-marsh-grading-amphibious-excavator",
+      "me-tidal-marsh-channel-restoration-day",
+      "living-shoreline",
+      "br-water-quality-sonde-calibration-and-deploy"
+     ]
+    },
+    {
+     "id": "canal-lock",
+     "stations": [
+      "mw-workboat-towing-and-line-handling",
+      "br-vhf-and-navigation-in-a-work-zone",
+      "dredge-barge",
+      "mooring-line",
+      "pt-dock-fender-and-bollard-inspection"
+     ]
+    },
+    {
+     "id": "lakefront-levee",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "tide-gate",
+      "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "gk-ride-on-mower-pre-start-and-slope-work"
+     ]
+    },
+    {
+     "id": "ferry-landing",
+     "stations": [
+      "mw-ferry-deckhand-and-passenger-safety",
+      "yc-man-overboard-recovery-drill",
+      "vessel-gangway-and-hatch-cover-safety"
+     ]
+    },
+    {
+     "id": "bridge-crew",
+     "stations": [
+      "bridge-cable-inspection",
+      "deck-joint-replacement",
+      "bridge-lead-containment",
+      "gg-deck-lane-closure-and-traveller",
+      "gg-fog-and-wind-work-stop"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "jefferson",
+   "name": "Jefferson Parish",
+   "region": "new-orleans",
+   "size": 4096,
+   "fips": "22051",
+   "centre": [
+    -90.140003,
+    30.030007
+   ],
+   "bounds": {
+    "minLng": -90.309992,
+    "minLat": 29.881792,
+    "maxLng": -89.970014,
+    "maxLat": 30.178221
+   },
+   "sites": [
+    {
+     "id": "jf-airport-ramp",
+     "stations": [
+      "airport-ramp",
+      "av-pushback-tug-and-towbar-connection",
+      "av-marshalling-and-wingwalker-signals",
+      "av-hangar-jacking-and-stands",
+      "av-borescope-and-tool-control-inventory"
+     ]
+    },
+    {
+     "id": "jf-lakefront-levee",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "op-compactor-lift-thickness-and-edge",
+      "op-grader-fine-grade-and-crown"
+     ]
+    },
+    {
+     "id": "jf-pump-station",
+     "stations": [
+      "lift-station",
+      "ut-night-storm-response-crew-and-portable-generator",
+      "motor-control-center",
+      "cs-ventilation-and-air-monitoring-plan"
+     ]
+    },
+    {
+     "id": "jf-causeway-yard",
+     "stations": [
+      "deck-joint-replacement",
+      "bs-bearing-replacement-and-jacking",
+      "bs-structural-bolting-and-torque",
+      "gg-deck-lane-closure-and-traveller",
+      "uw-bridge-pier-scour-survey",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "jf-river-bridge",
+     "stations": [
+      "bridge-lead-containment",
+      "bs-structural-bolting-and-torque",
+      "gg-fog-and-wind-work-stop",
+      "gg-tower-climb-and-tie-off"
+     ]
+    },
+    {
+     "id": "jf-elmwood-freight",
+     "stations": [
+      "tdl-pretrip-inspection",
+      "tdl-backing-and-docking",
+      "tw-dock-leveler-and-trailer-restraint-check",
+      "forklift-dock"
+     ]
+    },
+    {
+     "id": "jf-harvey-canal-yard",
+     "stations": [
+      "shipyard-hotwork",
+      "mw-workboat-towing-and-line-handling",
+      "mooring-line",
+      "ib-pressure-vessel-confined-entry-and-hot-work"
+     ]
+    },
+    {
+     "id": "jf-gretna-landing",
+     "stations": [
+      "mw-ferry-deckhand-and-passenger-safety",
+      "br-vhf-and-navigation-in-a-work-zone",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "jf-hospital",
+     "stations": [
+      "cath-lab",
+      "pl-medical-gas-brazing-and-purge",
+      "se-building-automation-alarm-triage",
+      "who-ppe-donning-and-doffing"
+     ]
+    },
+    {
+     "id": "jf-lafreniere-park",
+     "stations": [
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "gk-ride-on-mower-pre-start-and-slope-work",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "ed-playground-equipment-inspection"
+     ]
+    },
+    {
+     "id": "jf-transit-yard",
+     "stations": [
+      "bus-yard-fuelling-and-brake-check",
+      "bus-depot-lift",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+     ]
+    },
+    {
+     "id": "jf-kenner-rail",
+     "stations": [
+      "ra-roadway-worker-protection-and-job-briefing",
+      "ra-tie-and-rail-replacement-with-track-machines",
+      "drive-night-fog-and-rail-crossing"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st-bernard",
+   "name": "St. Bernard Parish",
+   "region": "new-orleans",
+   "size": 4096,
+   "fips": "22087",
+   "centre": [
+    -89.844992,
+    29.920005
+   ],
+   "bounds": {
+    "minLng": -90.014807,
+    "minLat": 29.771787,
+    "maxLng": -89.675177,
+    "maxLat": 30.068224
+   },
+   "sites": [
+    {
+     "id": "sb-river-road",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "op-compactor-lift-thickness-and-edge",
+      "op-excavator-trench-and-utility-locate"
+     ]
+    },
+    {
+     "id": "sb-refinery",
+     "stations": [
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "ib-refractory-and-castable-installation",
+      "ib-boiler-tube-replacement-and-rolling",
+      "tank-lining",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "sb-battlefield-park",
+     "stations": [
+      "k12-primary-and-secondary-sources",
+      "k12-building-a-timeline-from-documents",
+      "k12-map-literacy-across-eras",
+      "gk-ride-on-mower-pre-start-and-slope-work"
+     ]
+    },
+    {
+     "id": "sb-central-wetlands",
+     "stations": [
+      "marsh-transect-survey",
+      "br-tidal-marsh-grading-amphibious-excavator",
+      "me-tidal-marsh-channel-restoration-day",
+      "living-shoreline"
+     ]
+    },
+    {
+     "id": "sb-violet-floodgate",
+     "stations": [
+      "tide-gate",
+      "mw-workboat-towing-and-line-handling",
+      "br-vhf-and-navigation-in-a-work-zone"
+     ]
+    },
+    {
+     "id": "sb-shell-beach",
+     "stations": [
+      "oyster-reef-monitoring",
+      "me-oyster-reef-monitoring-and-settlement-tiles",
+      "br-cold-water-immersion-and-mob-recovery",
+      "spill-boom-deploy"
+     ]
+    },
+    {
+     "id": "sb-chalmette-ferry",
+     "stations": [
+      "mw-ferry-deckhand-and-passenger-safety",
+      "mooring-line"
+     ]
+    },
+    {
+     "id": "sb-hospital",
+     "stations": [
+      "ambulance-scene-safety",
+      "cardiac-arrest-pit-crew",
+      "who-treatment-centre-triage",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "sb-fire-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "hz-decon-corridor-for-a-mass-casualty-drill",
+      "decon-line",
+      "k12-first-aid-awareness-call-for-help"
+     ]
+    },
+    {
+     "id": "sb-surge-barrier",
+     "stations": [
+      "tide-gate",
+      "op-pile-driving-rig-and-lead-setup",
+      "uw-bridge-pier-scour-survey",
+      "concrete-pour"
+     ]
+    },
+    {
+     "id": "sb-school-campus",
+     "stations": [
+      "ed-bus-pretrip-and-loading-zone",
+      "ed-kitchen-receiving-and-warewash-sanitizing",
+      "k12-writing-a-clear-incident-report",
+      "ed-playground-equipment-inspection"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "plaquemines",
+   "name": "Plaquemines Parish",
+   "region": "new-orleans",
+   "size": 4096,
+   "fips": "22075",
+   "centre": [
+    -89.680003,
+    29.570008
+   ],
+   "bounds": {
+    "minLng": -90.103132,
+    "minLat": 29.199487,
+    "maxLng": -89.256874,
+    "maxLat": 29.940529
+   },
+   "sites": [
+    {
+     "id": "pq-intracoastal-lock",
+     "stations": [
+      "mooring-line",
+      "mw-workboat-towing-and-line-handling",
+      "motor-control-center",
+      "cs-ventilation-and-air-monitoring-plan"
+     ]
+    },
+    {
+     "id": "pq-belle-chasse-ferry",
+     "stations": [
+      "mw-ferry-deckhand-and-passenger-safety",
+      "mooring-line",
+      "br-vhf-and-navigation-in-a-work-zone"
+     ]
+    },
+    {
+     "id": "pq-river-road-levee",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "op-dozer-slope-work-and-rollover-protection",
+      "op-grader-fine-grade-and-crown",
+      "ut-night-storm-response-crew-and-portable-generator"
+     ]
+    },
+    {
+     "id": "pq-myrtle-grove-diversion",
+     "stations": [
+      "br-tidal-marsh-grading-amphibious-excavator",
+      "dredge-barge",
+      "br-dredge-material-screening-and-disposal-decision",
+      "marsh-transect-survey",
+      "br-marine-mammal-observer-during-pile-driving"
+     ]
+    },
+    {
+     "id": "pq-pointe-a-la-hache-ferry",
+     "stations": [
+      "mw-ferry-deckhand-and-passenger-safety",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "pq-port-sulphur-terminal",
+     "stations": [
+      "mooring-line",
+      "bunkering-watch",
+      "mw-oil-transfer-watch-and-boom",
+      "hazmat-container-inspection",
+      "pt-dock-fender-and-bollard-inspection"
+     ]
+    },
+    {
+     "id": "pq-empire-harbour",
+     "stations": [
+      "me-oyster-reef-monitoring-and-settlement-tiles",
+      "oyster-reef-monitoring",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "spill-boom-deploy",
+      "br-derelict-vessel-salvage-rigging"
+     ]
+    },
+    {
+     "id": "pq-buras-substation",
+     "stations": [
+      "substation-switching",
+      "line-truck",
+      "transformer-vault",
+      "ut-night-storm-response-crew-and-portable-generator"
+     ]
+    },
+    {
+     "id": "pq-fort-jackson",
+     "stations": [
+      "k12-primary-and-secondary-sources",
+      "k12-map-literacy-across-eras",
+      "k12-building-a-timeline-from-documents",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+     ]
+    },
+    {
+     "id": "pq-venice-marina",
+     "stations": [
+      "yc-pre-departure-safety-briefing-and-guest-count",
+      "yc-man-overboard-recovery-drill",
+      "yc-line-handling-and-docking-in-crosswind",
+      "cd-rov-launch-recovery-and-tether-management",
+      "me-water-column-sampling-from-a-small-boat"
+     ]
+    },
+    {
+     "id": "pq-pipeline-yard",
+     "stations": [
+      "shipyard-hotwork",
+      "uw-pipeline-crossing-inspection-dive",
+      "pl-natural-gas-pressure-test-and-leak-check",
+      "tank-lining",
+      "ut-cathodic-protection-test-station-reading"
+     ]
+    },
+    {
+     "id": "pq-belle-chasse-fire",
+     "stations": [
+      "structure-fire-sizeup",
+      "ambulance-scene-safety",
+      "ev-extrication",
+      "shelter-intake-operations"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st-tammany",
+   "name": "St. Tammany Parish",
+   "region": "new-orleans",
+   "size": 4096,
+   "fips": "22103",
+   "centre": [
+    -89.954995,
+    30.330002
+   ],
+   "bounds": {
+    "minLng": -90.168161,
+    "minLat": 30.144752,
+    "maxLng": -89.741829,
+    "maxLat": 30.515253
+   },
+   "sites": [
+    {
+     "id": "st-causeway-north",
+     "stations": [
+      "deck-joint-replacement",
+      "bs-bearing-replacement-and-jacking",
+      "traffic-incident-management",
+      "uw-bridge-pier-scour-survey",
+      "gg-fog-and-wind-work-stop"
+     ]
+    },
+    {
+     "id": "st-slidell-staging",
+     "stations": [
+      "ut-night-storm-response-crew-and-portable-generator",
+      "line-truck",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "shelter-intake-operations",
+      "damage-assessment-team",
+      "tdl-cargo-securement-and-hours"
+     ]
+    },
+    {
+     "id": "st-hospital",
+     "stations": [
+      "cath-lab",
+      "pl-medical-gas-brazing-and-purge",
+      "who-vaccination-line",
+      "fire-pump"
+     ]
+    },
+    {
+     "id": "st-mandeville-harbour",
+     "stations": [
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-shore-power-connection-and-in-water-electrical-safety",
+      "yc-pre-departure-safety-briefing-and-guest-count",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "st-fontainebleau",
+     "stations": [
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-ride-on-mower-pre-start-and-slope-work",
+      "k12-weather-and-the-sky"
+     ]
+    },
+    {
+     "id": "st-big-branch",
+     "stations": [
+      "marsh-transect-survey",
+      "me-shoreline-debris-and-microplastics-survey",
+      "br-water-quality-sonde-calibration-and-deploy",
+      "k12-a-controlled-experiment"
+     ]
+    },
+    {
+     "id": "st-covington-campus",
+     "stations": [
+      "ed-science-lab-chemical-storage-and-eyewash",
+      "ed-boiler-room-filter-change-lockout",
+      "k12-digital-citizenship-and-online-safety",
+      "k12-public-speaking-at-the-hall"
+     ]
+    },
+    {
+     "id": "st-timber-yard",
+     "stations": [
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "op-loader-truck-loading-and-blind-spots",
+      "tdl-cargo-securement-and-hours",
+      "forklift-dock"
+     ]
+    },
+    {
+     "id": "st-lacombe-substation",
+     "stations": [
+      "substation-switching",
+      "line-truck",
+      "or-transmission-line-right-of-way-patrol",
+      "arc-flash-label-study"
+     ]
+    },
+    {
+     "id": "st-madisonville-boatyard",
+     "stations": [
+      "shipyard-hotwork",
+      "mw-hull-inspection-and-cleaning-dive",
+      "yc-engine-room-pre-start-and-bilge-check"
+     ]
+    },
+    {
+     "id": "st-slidell-rail",
+     "stations": [
+      "ra-locomotive-cab-startup-and-alerter",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "ra-tie-and-rail-replacement-with-track-machines"
+     ]
+    },
+    {
+     "id": "st-tammany-trace",
+     "stations": [
+      "k12-reading-a-map-scale-in-bay-world",
+      "gk-hardscape-paver-base-and-compaction",
+      "ed-crossing-guard-intersection-control"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-downtown",
+   "name": "Downtown & Embarcadero",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.403997,
+    37.79
+   ],
+   "bounds": {
+    "minLng": -122.45523,
+    "minLat": 37.749254,
+    "maxLng": -122.352765,
+    "maxLat": 37.830746
+   },
+   "sites": [
+    {
+     "id": "embarcadero-piers",
+     "stations": [
+      "dock-crane",
+      "container-lashing",
+      "mooring-line",
+      "vessel-gangway-and-hatch-cover-safety",
+      "pt-dock-fender-and-bollard-inspection"
+     ]
+    },
+    {
+     "id": "ferry-building-landing",
+     "stations": [
+      "mw-ferry-deckhand-and-passenger-safety",
+      "yc-man-overboard-recovery-drill",
+      "vessel-gangway-and-hatch-cover-safety",
+      "mooring-line"
+     ]
+    },
+    {
+     "id": "transbay-transit-hub",
+     "stations": [
+      "bus-depot-lift",
+      "signal-cabinet",
+      "track-access",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "bus-yard-fuelling-and-brake-check"
+     ]
+    },
+    {
+     "id": "cathedral-hill-hospital",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-environmental-services-isolation-room-turnover",
+      "pl-medical-gas-brazing-and-purge",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "market-street-union-hall",
+     "stations": [
+      "union-hall-and-dispatch",
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-application-and-test",
+      "public-meeting-chair",
+      "k12-public-speaking-at-the-hall"
+     ]
+    },
+    {
+     "id": "cable-car-barn",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-hand-brake-and-securement-on-a-grade",
+      "motor-control-center"
+     ]
+    },
+    {
+     "id": "financial-district-high-rise",
+     "stations": [
+      "steel-erector",
+      "leading-edge-and-horizontal-lifeline",
+      "gl-curtain-wall-unit-setting-from-the-floor",
+      "gl-swing-stage-glazing-and-sealant",
+      "ew-hoistway-false-car-and-rail-setting"
+     ]
+    },
+    {
+     "id": "bay-bridge-crew-yard",
+     "stations": [
+      "bridge-cable-inspection",
+      "deck-joint-replacement",
+      "bridge-lead-containment",
+      "gg-fog-and-wind-work-stop"
+     ]
+    },
+    {
+     "id": "fishermans-wharf-kitchens",
+     "stations": [
+      "kitchen",
+      "allergen-control",
+      "fryer-oil-change",
+      "hw-banquet-room-flip-and-staging"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-mission",
+   "name": "Mission & SoMa",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.408,
+    37.762999
+   ],
+   "bounds": {
+    "minLng": -122.4592,
+    "minLat": 37.722236,
+    "maxLng": -122.3568,
+    "maxLat": 37.803762
+   },
+   "sites": [
+    {
+     "id": "king-street-rail-yard",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "rcl-switching",
+      "ra-switch-inspection-and-lubrication",
+      "ra-air-brake-test-and-train-inspection",
+      "ra-locomotive-cab-startup-and-alerter"
+     ]
+    },
+    {
+     "id": "mission-bay-construction-site",
+     "stations": [
+      "concrete-pour",
+      "formwork-shoring",
+      "bt-rebar-tying-and-impalement-protection",
+      "scaffold-erection",
+      "op-crawler-crane-assembly-and-load-chart",
+      "trench-box"
+     ]
+    },
+    {
+     "id": "mission-school-campus",
+     "stations": [
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "ed-kitchen-receiving-and-warewash-sanitizing",
+      "ed-bus-pretrip-and-loading-zone"
+     ]
+    },
+    {
+     "id": "china-basin-stadium-district",
+     "stations": [
+      "arena-rigging",
+      "le-crowd-barricade-and-show-stop-call",
+      "stage-power",
+      "chain-hoist",
+      "broadcast-truck"
+     ]
+    },
+    {
+     "id": "soma-maker-workshop",
+     "stations": [
+      "cnc-cell",
+      "welding",
+      "sm-plasma-table-and-fume",
+      "sm-shop-layout-and-shear",
+      "ad-cobot-risk-assessment-and-speed-separation",
+      "serger-overlock"
+     ]
+    },
+    {
+     "id": "potrero-hospital-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-sterile-processing-decontamination-and-assembly",
+      "hc-linen-and-regulated-waste-handling",
+      "ambulance-scene-safety",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "potrero-bus-yard",
+     "stations": [
+      "bus-depot-lift",
+      "bus-yard-fuelling-and-brake-check",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "et-ev-fleet-depot-charging-and-arc-flash"
+     ]
+    },
+    {
+     "id": "dogpatch-shipyard",
+     "stations": [
+      "welding",
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "dock-crane",
+      "pt-dock-fender-and-bollard-inspection"
+     ]
+    },
+    {
+     "id": "islais-creek-pump-station",
+     "stations": [
+      "lift-station",
+      "digester-gas",
+      "cs-permit-entry-and-attendant-duties",
+      "valve-vault",
+      "stormwater-outfall"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-golden-gate-park",
+   "name": "Golden Gate Park, the Richmond & the Sunset",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.478,
+    37.762999
+   ],
+   "bounds": {
+    "minLng": -122.5292,
+    "minLat": 37.722242,
+    "maxLng": -122.4268,
+    "maxLat": 37.803756
+   },
+   "sites": [
+    {
+     "id": "golden-gate-park-crew-yard",
+     "stations": [
+      "gk-ride-on-mower-pre-start-and-slope-work",
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+     ]
+    },
+    {
+     "id": "park-nursery",
+     "stations": [
+      "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+      "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-hardscape-paver-base-and-compaction",
+      "gk-storm-cleanup-chipper-and-traffic-control"
+     ]
+    },
+    {
+     "id": "ocean-beach-lifeguard-station",
+     "stations": [
+      "br-cold-water-immersion-and-mob-recovery",
+      "yc-man-overboard-recovery-drill",
+      "cardiac-arrest-pit-crew",
+      "ambulance-scene-safety"
+     ]
+    },
+    {
+     "id": "parnassus-hospital-campus",
+     "stations": [
+      "hc-patient-transport-and-safe-handling",
+      "hc-code-response-support-and-crash-cart-check",
+      "hc-dietary-tray-line-and-allergy-flags",
+      "hc-hazardous-drug-spill-kit-response",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "lone-mountain-university-campus",
+     "stations": [
+      "chiller-plant",
+      "boiler-room",
+      "ed-science-lab-chemical-storage-and-eyewash",
+      "pm-fire-alarm-panel-room",
+      "pm-electrical-room"
+     ]
+    },
+    {
+     "id": "ocean-beach-streetcar-terminal",
+     "stations": [
+      "track-access",
+      "signal-cabinet",
+      "ra-hand-brake-and-securement-on-a-grade",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+     ]
+    },
+    {
+     "id": "sunset-reservoir-pump-house",
+     "stations": [
+      "valve-vault",
+      "lift-station",
+      "ut-water-treatment-chemical-delivery-unloading",
+      "cs-permit-entry-and-attendant-duties",
+      "motor-control-center"
+     ]
+    },
+    {
+     "id": "sunset-school-campus",
+     "stations": [
+      "ed-crossing-guard-intersection-control",
+      "ed-bus-pretrip-and-loading-zone",
+      "ed-paraeducator-safe-lift-and-transfer",
+      "ed-boiler-room-filter-change-lockout"
+     ]
+    },
+    {
+     "id": "richmond-fire-station",
+     "stations": [
+      "structure-fire-sizeup",
+      "firefighter-rehab-sector",
+      "ambulance-scene-safety",
+      "aerial-ladder"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-marina",
+   "name": "Marina & Presidio",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.45,
+    37.797998
+   ],
+   "bounds": {
+    "minLng": -122.497749,
+    "minLat": 37.760032,
+    "maxLng": -122.402251,
+    "maxLat": 37.835964
+   },
+   "sites": [
+    {
+     "id": "marina-harbour",
+     "stations": [
+      "yc-line-handling-and-docking-in-crosswind",
+      "yc-fuel-dock-transfer-and-spill-kit",
+      "yc-shore-power-connection-and-in-water-electrical-safety",
+      "yc-engine-room-pre-start-and-bilge-check",
+      "yc-pre-departure-safety-briefing-and-guest-count"
+     ]
+    },
+    {
+     "id": "crissy-rescue-station",
+     "stations": [
+      "yc-man-overboard-recovery-drill",
+      "mw-workboat-towing-and-line-handling",
+      "br-workboat-crane-lift-from-water",
+      "yc-tender-launch-and-guest-transfer"
+     ]
+    },
+    {
+     "id": "bridge-yard",
+     "stations": [
+      "gg-tower-climb-and-tie-off",
+      "gg-main-cable-band-inspection",
+      "gg-suspender-rope-replacement",
+      "gg-international-orange-recoat",
+      "gg-paint-containment-on-the-deck",
+      "gg-deck-lane-closure-and-traveller",
+      "gg-fog-and-wind-work-stop"
+     ]
+    },
+    {
+     "id": "presidio-crew-yard",
+     "stations": [
+      "gk-ride-on-mower-pre-start-and-slope-work",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-hardscape-paver-base-and-compaction"
+     ]
+    },
+    {
+     "id": "presidio-forestry",
+     "stations": [
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+     ]
+    },
+    {
+     "id": "crissy-marsh-crew",
+     "stations": [
+      "marsh-transect-survey",
+      "spartina-removal",
+      "living-shoreline",
+      "br-shoreline-cleanup-sharps-and-hazardous-debris"
+     ]
+    },
+    {
+     "id": "fort-mason-piers",
+     "stations": [
+      "stage-load-in-and-truss-rigging",
+      "stage-power",
+      "arena-rigging",
+      "pm-community-room-and-events"
+     ]
+    },
+    {
+     "id": "marina-seawall-crew",
+     "stations": [
+      "stormwater-outfall",
+      "pl-underground-sewer-lateral-and-trench-shoring",
+      "manhole-entry-and-atmospheric-monitoring",
+      "ut-night-storm-response-crew-and-portable-generator"
+     ]
+    },
+    {
+     "id": "chestnut-construction",
+     "stations": [
+      "scaffold-erection",
+      "masonry-silica-scaffold",
+      "op-excavator-trench-and-utility-locate",
+      "op-loader-truck-loading-and-blind-spots"
+     ]
+    },
+    {
+     "id": "cow-hollow-bus-yard",
+     "stations": [
+      "bus-depot-lift",
+      "bus-yard-fuelling-and-brake-check",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "signal-cabinet"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf-bayview",
+   "name": "Bayview & Hunters Point",
+   "region": "san-francisco",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -122.381999,
+    37.733001
+   ],
+   "bounds": {
+    "minLng": -122.429688,
+    "minLat": 37.695037,
+    "maxLng": -122.33431,
+    "maxLat": 37.770965
+   },
+   "sites": [
+    {
+     "id": "port-southern-terminals",
+     "stations": [
+      "dock-crane",
+      "container-lashing",
+      "mooring-line",
+      "po-yard-hostler-and-pedestrian-separation",
+      "po-lashing-gear-inspection-and-tagging",
+      "pt-dock-fender-and-bollard-inspection"
+     ]
+    },
+    {
+     "id": "islais-rail-yard",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "ra-switch-inspection-and-lubrication",
+      "ra-air-brake-test-and-train-inspection",
+      "ra-hand-brake-and-securement-on-a-grade",
+      "ra-roadway-worker-protection-and-job-briefing"
+     ]
+    },
+    {
+     "id": "third-street-rail-barn",
+     "stations": [
+      "bus-depot-lift",
+      "signal-cabinet",
+      "tr-wheelchair-lift-and-securement-on-a-bus",
+      "substation-switching"
+     ]
+    },
+    {
+     "id": "hunters-point-shipyard",
+     "stations": [
+      "hunters-point",
+      "hazwoper-site-orientation",
+      "rad-survey",
+      "building-rad-scan",
+      "air-monitor",
+      "pcb-equipment-removal"
+     ]
+    },
+    {
+     "id": "shipyard-soil-cell",
+     "stations": [
+      "soil-loadout",
+      "haul-road-dust",
+      "transite-pipe-removal",
+      "ust-removal",
+      "decon-line"
+     ]
+    },
+    {
+     "id": "shipyard-groundwater-yard",
+     "stations": [
+      "sampling-well",
+      "well-install",
+      "pump-and-treat",
+      "isco-injection",
+      "vapor-mitigation"
+     ]
+    },
+    {
+     "id": "shipyard-shoreline-crew",
+     "stations": [
+      "dredge-barge",
+      "sediment-cap",
+      "creosote-pile-removal",
+      "tide-gate"
+     ]
+    },
+    {
+     "id": "herons-head-wetland",
+     "stations": [
+      "marsh-transect-survey",
+      "living-shoreline",
+      "spartina-removal",
+      "oyster-reef-monitoring"
+     ]
+    },
+    {
+     "id": "yosemite-slough-restoration",
+     "stations": [
+      "stormwater-outfall",
+      "bioswale-build",
+      "eelgrass-transplant",
+      "br-shoreline-cleanup-sharps-and-hazardous-debris"
+     ]
+    },
+    {
+     "id": "bayview-rec-centre",
+     "stations": [
+      "bb-warmup-injury-prevention-and-hydration",
+      "bb-scrimmage-and-sportsmanship-debrief",
+      "pm-pool-and-spa-chemistry",
+      "pm-community-room-and-events",
+      "ed-playground-equipment-inspection"
+     ]
+    },
+    {
+     "id": "india-basin-park-crew",
+     "stations": [
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-ride-on-mower-pre-start-and-slope-work",
+      "gk-hardscape-paver-base-and-compaction",
+      "pm-landscaping-and-irrigation"
+     ]
+    }
+   ]
+  }
+ ],
+ "provenance": [
+  {
+   "what": "procedural street fabric of the five New Orleans parishes",
+   "source": "SmartCiti.X Trade Craft Academy artifact, parishes/maps/streets/<fips>.json",
+   "provenance": "AUTHORED — procedural polylines in local metres around each parish's frame origin; not the real street grid",
+   "files": [
+    {
+     "parish": "orleans",
+     "fips": "22071",
+     "sourceStamp": "d51bb450837b78d7",
+     "frameOrigin": [
+      -89.927224,
+      30.070098
+     ]
+    },
+    {
+     "parish": "jefferson",
+     "fips": "22051",
+     "sourceStamp": "d51bb450837b78d7",
+     "frameOrigin": [
+      -90.112935,
+      29.741878
+     ]
+    },
+    {
+     "parish": "st-bernard",
+     "fips": "22087",
+     "sourceStamp": "d51bb450837b78d7",
+     "frameOrigin": [
+      -89.541465,
+      29.875819
+     ]
+    },
+    {
+     "parish": "plaquemines",
+     "fips": "22075",
+     "sourceStamp": "d51bb450837b78d7",
+     "frameOrigin": [
+      -89.623085,
+      29.433573
+     ]
+    },
+    {
+     "parish": "st-tammany",
+     "fips": "22103",
+     "sourceStamp": "d51bb450837b78d7",
+     "frameOrigin": [
+      -89.957388,
+      30.410254
+     ]
+    }
+   ]
+  },
+  {
+   "what": "parish and district maps, sites and lessons",
+   "source": "WebXR/shared/np-data-*.js, field-lessons.js, by-parish-lessons.js",
+   "provenance": "authored for this platform; places named only as places"
+  },
+  {
+   "what": "stations and programmes",
+   "source": "WebXR/smartcity/catalog.json, WebXR/shared/passport-programmes.js",
+   "provenance": "generated from SmartCiti.X curricula"
+  }
+ ]
+}

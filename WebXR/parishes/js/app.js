@@ -33,6 +33,8 @@ import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+import { Auth } from "../../shared/auth.js";
+import { dnApplyModule, dnSetEnterprise } from "../../shared/dn-modules.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -224,7 +226,9 @@ function npOpenBoard(site) {
   $("board-blurb").textContent = site.blurb ?? "";
   const ul = $("board-stations"); ul.textContent = "";
   for (const id of site.stations) {
+    if (dnHere.hidden.stations.has(id)) continue; // DEAN: a station only switched-off packs carry leaves the board
     const li = document.createElement("li");
+    if (dnHere.glow.stations.has(id)) li.className = "dn-assigned";
     const name = document.createElement("span"); name.textContent = `${ppCompleted(id) ? "✓ " : ""}${lkStationLabel(id)}`;
     if (ppCompleted(id)) name.className = "done";
     const a = document.createElement("a"); a.className = "btn primary"; a.href = npLink(id, site.id); a.dataset.station = id; a.textContent = "Start";
@@ -574,6 +578,30 @@ function tyAfterTick(events) {
   tyRefresh();
 }
 $("menu-ledger").addEventListener("click", tyOpenLedger);
+// DEAN (docs/modules.md): the class's version and assigned modules, applied at load. Assigned lessons glow on their
+// boards (the board's material is swapped for a brighter one — no new mesh), stations only switched-off packs carry
+// leave the boards, and the menu names the module and its due date. The enterprise block is the stricter side.
+function dnApplyHere() {
+  try { dnSetEnterprise(Auth.config?.enterprise ?? null); } catch (_) { /* no config yet */ }
+  const a = dnApplyModule("parishes", { sites: parish.sites });
+  const glowMat = new THREE.MeshLambertMaterial({ color: 0xffe066, emissive: 0x8a6a00 });
+  for (const b of world.siteBoards) {
+    const board = root.getObjectByName(`site-${b.site.id}`)?.children?.[1];
+    if (!board) continue;
+    board.userData.dnBase ??= board.material;
+    board.material = a.glow.sites.has(b.site.id) ? glowMat : board.userData.dnBase;
+  }
+  const line = $("menu-dean");
+  if (line) {
+    line.hidden = !a.modules.length && a.allowed;
+    line.textContent = !a.allowed ? "Your class's version does not include this world; ask your teacher which worlds are on."
+      : a.modules.map((m) => `Assigned: ${m.title}${m.due ? ` · due ${m.due}` : ""} · ${m.lessons.length} lesson(s) · glowing boards: ${a.glow.sites.size}`).join(" · ");
+  }
+  return a;
+}
+let dnHere = { hidden: { stations: new Set() }, glow: { stations: new Set(), sites: new Set() }, modules: [] };
+try { dnHere = dnApplyHere(); } catch (_) { /* DEAN is optional */ }
+addEventListener("gt:profile", () => { try { dnHere = dnApplyHere(); } catch (_) { /* keep */ } });
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
@@ -582,6 +610,8 @@ window.__parishTest = {
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
+  krewe: kwDress, begin: npBegin, dean: () => dnHere, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */

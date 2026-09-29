@@ -262,6 +262,19 @@ APPS = {
             SHARED / "payments.js",
             SHARED / "pm-agent.js",
             WEBXR / "instructor/js/billing.js",
+            # DEAN (docs/modules.md): the lesson index across worlds (the parish maps, field and parish lessons)
+            # and the Versions & modules tab, after org.js.
+            SHARED / "np-geo.js",
+            *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]],
+            SHARED / "sg-ways.js",
+            SHARED / "np-parishes.js",
+            SHARED / "links.js",
+            SHARED / "side-game-mechanics.js",
+            SHARED / "field-lessons.js",
+            SHARED / "by-parish-lessons.js",
+            SHARED / "dn-modules.js",
+            SHARED / "dn-index.js",
+            WEBXR / "instructor/js/dean.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -806,6 +819,8 @@ APPS = {
             SHARED / "auth.js",
             SHARED / "account.js",
             SHARED / "controls.js",
+            # DEAN (docs/modules.md): versions and assigned modules applied at load (after org.js, which account.js brings).
+            SHARED / "dn-modules.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
