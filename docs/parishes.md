@@ -421,3 +421,22 @@ Mission Street transit corridor, a sewer crew yard, a locate crew, a soil yard, 
 The Fruitvale crossings: Fruitvale's field reaches San Leandro Bay (its Nimitz Freeway ends at about -122.195, 37.750), so
 BAYMAP's `oak-fruitvale-estuary` should list both crossings back under its own ids at the same `lonlat` when the Oakland region
 merges; until then the far end ships `to.position: null` and `npResolveConnectors` fills it.
+
+## Programme Worlds (region `programmes`, console SMILES)
+
+A programme world is a **procedural** district built for one programme — **not a real place**. It sits on the parish engine
+(strict, same budgets, chunks and schema) so the site boards, field lessons, gated items and side games all work as on a parish.
+
+- `sm-unspoken-smiles` — **Unspoken Smiles District** (`WebXR/shared/np-data-sm-unspoken-smiles.js`), for
+  `dental-hygiene-unspoken-smiles` and `dental-careers-unspoken-smiles`. Fifteen procedural sites carrying the real dental
+  stations: the community dental clinic, its sterilisation centre, surgical suite, front office and service yard (adult
+  training only), the school tooth-brushing station, the mobile dental van stop, the community centre, the healthy-food
+  market, the water fountain plaza, Smile Park, the dental-careers training centre, the dental laboratory workshop, the health
+  fair screening tent and the senior centre. Five K-12 field lessons (`sm-fl-*`), two gated side quests (`sm-gated-*`).
+- **The geo frame is nominal.** The engine needs anchors, so this world's anchors sit on a nominal frame at zero longitude and
+  zero latitude (open ocean): they assert no place. Declared scale: **1.1 real metres** per map metre (a walkable 4 km
+  district). No satellite ground is loaded for it.
+- Connectors `sm-way-west` and `sm-way-south` are ways out toward future programme worlds (`programme-worlds-west`,
+  `programme-worlds-south`); they stay pending until such a world is registered.
+- Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
+  `tools/check_smiles.mjs`.
