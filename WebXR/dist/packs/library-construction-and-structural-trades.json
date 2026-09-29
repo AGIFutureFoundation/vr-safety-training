@@ -348,7 +348,8 @@
       "world": "parishes",
       "parish": "plaquemines",
       "sites": [
-        "pq-river-road-levee"
+        "pq-river-road-levee",
+        "pq-sw-myrtle-grove-levee-maintenance-yard"
       ]
     },
     {
@@ -356,7 +357,10 @@
       "parish": "st-tammany",
       "sites": [
         "st-causeway-north",
-        "st-timber-yard"
+        "st-timber-yard",
+        "st-sw-piney-woods-east-renovation-site",
+        "st-sw-piney-woods-west-renovation-site",
+        "st-sw-piney-woods-east-west-renovation-site"
       ]
     },
     {
@@ -364,14 +368,26 @@
       "parish": "sf-downtown",
       "sites": [
         "financial-district-high-rise",
-        "bay-bridge-crew-yard"
+        "bay-bridge-crew-yard",
+        "dt-sw-russian-hill-renovation-site",
+        "dt-sw-western-addition-renovation-site"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "mission-bay-construction-site"
+        "mission-bay-construction-site",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-mission-renovation-site",
+        "mi-sw-potrero-hill-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "gg-sw-sunset-housing-construction-site"
       ]
     },
     {
@@ -379,7 +395,36 @@
       "parish": "sf-marina",
       "sites": [
         "bridge-yard",
-        "chestnut-construction"
+        "chestnut-construction",
+        "ma-sw-western-addition-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-excelsior-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-bridge-crew"
       ]
     }
   ],
@@ -449,7 +494,7 @@
     "rf-torch-applied-membrane-and-fire-watch": "Torch-Applied Membrane & Fire Watch"
   },
   "version": "1.0.0",
-  "contentHash": "7872fe04",
+  "contentHash": "bf790073",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

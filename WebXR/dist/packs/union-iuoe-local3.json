@@ -366,7 +366,8 @@
         "levee-floodwall",
         "wetland-restoration",
         "canal-lock",
-        "lakefront-levee"
+        "lakefront-levee",
+        "no-sw-eastern-lakefront-marsh-restoration-camp"
       ]
     },
     {
@@ -374,7 +375,8 @@
       "parish": "jefferson",
       "sites": [
         "jf-lakefront-levee",
-        "jf-gretna-landing"
+        "jf-gretna-landing",
+        "jf-sw-west-bank-waterfront-workboat-landing"
       ]
     },
     {
@@ -397,7 +399,8 @@
         "pq-river-road-levee",
         "pq-myrtle-grove-diversion",
         "pq-pointe-a-la-hache-ferry",
-        "pq-empire-harbour"
+        "pq-empire-harbour",
+        "pq-sw-myrtle-grove-levee-maintenance-yard"
       ]
     },
     {
@@ -444,6 +447,29 @@
         "shipyard-shoreline-crew",
         "herons-head-wetland",
         "yosemite-slough-restoration"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-air-monitoring-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lake-merritt-boating-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "san-leandro-bay-shoreline-crew",
+        "alameda-estuary-boatyard",
+        "sausal-creek-storm-drain-crew"
       ]
     }
   ],
@@ -519,7 +545,7 @@
     "op-excavator-trench-and-utility-locate": "Excavator Trench & Utility Locate"
   },
   "version": "1.0.0",
-  "contentHash": "6f44f677",
+  "contentHash": "7f9210c6",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

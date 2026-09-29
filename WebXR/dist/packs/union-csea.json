@@ -67,21 +67,38 @@
       "world": "parishes",
       "parish": "orleans",
       "sites": [
-        "university-campus"
+        "university-campus",
+        "no-sw-algiers-school-campus",
+        "no-sw-lakeview-and-gentilly-recreation-centre",
+        "no-sw-lower-ninth-ward-park-grounds-yard",
+        "no-sw-mid-city-recreation-centre"
       ]
     },
     {
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-lafreniere-park"
+        "jf-lafreniere-park",
+        "jf-sw-kenner-school-campus",
+        "jf-sw-metairie-recreation-centre",
+        "jf-sw-kenner-park-grounds-yard",
+        "jf-sw-old-gretna-school-campus"
       ]
     },
     {
       "world": "parishes",
       "parish": "st-bernard",
       "sites": [
-        "sb-school-campus"
+        "sb-school-campus",
+        "sb-sw-violet-and-poydras-recreation-centre",
+        "sb-sw-chalmette-park-grounds-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-sw-scarsdale-and-braithwaite-school-campus"
       ]
     },
     {
@@ -89,14 +106,38 @@
       "parish": "st-tammany",
       "sites": [
         "st-covington-campus",
-        "st-tammany-trace"
+        "st-tammany-trace",
+        "st-sw-piney-woods-west-school-campus",
+        "st-sw-piney-woods-west-park-grounds-yard",
+        "st-sw-slidell-park-grounds-yard",
+        "st-sw-piney-woods-east-recreation-centre",
+        "st-sw-old-mandeville-park-grounds-yard",
+        "st-sw-piney-woods-east-school-campus",
+        "st-sw-slidell-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-mission-dolores-school-campus",
+        "dt-sw-western-addition-school-campus",
+        "dt-sw-russian-hill-park-grounds-yard",
+        "dt-sw-western-addition-park-grounds-yard",
+        "dt-sw-nob-hill-school-campus"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "mission-school-campus"
+        "mission-school-campus",
+        "mi-sw-noe-valley-school-campus",
+        "mi-sw-bernal-heights-school-campus",
+        "mi-sw-potrero-hill-school-campus",
+        "mi-sw-noe-valley-park-grounds-yard",
+        "mi-sw-bernal-heights-park-grounds-yard",
+        "mi-sw-mission-bay-research-lab-building"
       ]
     },
     {
@@ -104,14 +145,56 @@
       "parish": "sf-golden-gate-park",
       "sites": [
         "lone-mountain-university-campus",
-        "sunset-school-campus"
+        "sunset-school-campus",
+        "gg-sw-sunset-recreation-centre",
+        "gg-sw-lake-merced-park-grounds-yard",
+        "gg-sw-inner-richmond-park-grounds-yard",
+        "gg-sw-inner-richmond-recreation-centre",
+        "gg-sw-golden-gate-park-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-inner-richmond-school-campus",
+        "ma-sw-western-addition-school-campus",
+        "ma-sw-pacific-heights-school-campus",
+        "ma-sw-inner-richmond-recreation-centre",
+        "ma-sw-russian-hill-school-campus"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-bayview",
       "sites": [
-        "bayview-rec-centre"
+        "bayview-rec-centre",
+        "bv-sw-visitacion-valley-school-campus",
+        "bv-sw-portola-school-campus",
+        "bv-sw-excelsior-school-campus",
+        "bv-sw-portola-park-grounds-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "mcclymonds-school-campus",
+        "defremery-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "laney-college-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-school-campus"
       ]
     }
   ],
@@ -126,7 +209,7 @@
     "ed-custodial-chemical-dilution-and-floor-machine": "Custodial Chemical Dilution & Floor Machine"
   },
   "version": "1.0.0",
-  "contentHash": "31018273",
+  "contentHash": "e54aecdd",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

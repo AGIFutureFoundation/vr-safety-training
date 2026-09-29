@@ -151,14 +151,27 @@
       "world": "parishes",
       "parish": "orleans",
       "sites": [
-        "pumping-station"
+        "pumping-station",
+        "no-sw-lakeview-and-gentilly-substation",
+        "no-sw-lakeview-and-gentilly-pumping-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-pump-station"
+        "jf-pump-station",
+        "jf-sw-kenner-airport-side-substation",
+        "jf-sw-metairie-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-refinery-corridor-substation",
+        "sb-sw-arabi-and-chalmette-substation",
+        "sb-sw-violet-and-poydras-substation"
       ]
     },
     {
@@ -167,7 +180,8 @@
       "sites": [
         "pq-intracoastal-lock",
         "pq-buras-substation",
-        "pq-pipeline-yard"
+        "pq-pipeline-yard",
+        "pq-sw-myrtle-grove-pumping-station"
       ]
     },
     {
@@ -196,7 +210,17 @@
       "world": "parishes",
       "parish": "sf-golden-gate-park",
       "sites": [
-        "sunset-reservoir-pump-house"
+        "sunset-reservoir-pump-house",
+        "gg-sw-sunset-substation",
+        "gg-sw-sunset-pumping-station",
+        "gg-sw-sunset-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-inner-richmond-substation"
       ]
     },
     {
@@ -205,6 +229,20 @@
       "sites": [
         "third-street-rail-barn",
         "hunters-point-shipyard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "emeryville-shoreline-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "uptown-bus-operations-yard"
       ]
     }
   ],
@@ -235,7 +273,7 @@
     "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check"
   },
   "version": "1.0.0",
-  "contentHash": "b114ebb7",
+  "contentHash": "76163191",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
