@@ -40,6 +40,9 @@ import { NP_BAY_SAN_PABLO } from "./np-data-bay-san-pablo.js";
 import { NP_SF_OUTER_MISSION } from "./np-data-sf-outer-mission.js";
 import { NP_BP_STRIP_MARSH_EAST } from "./np-data-bp-strip-marsh-east.js";
 import { NP_BP_SAN_LEANDRO_BAY } from "./np-data-bp-san-leandro-bay.js";
+// PROJECTLANDS (docs/consoles/PROJECTLANDS.md): representative project areas for C/CAG (San Mateo County) and BACWA (a procedural plant).
+import { NP_BP_SAN_MATEO_SHORELINE } from "./np-data-bp-san-mateo-shoreline.js";
+import { NP_BP_NUTRIENT_PILOT } from "./np-data-bp-nutrient-pilot.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -53,7 +56,7 @@ export const NP_PARISHES = [
   NP_SF_NORTH_BEACH, NP_SF_HAIGHT_CASTRO, NP_SF_SUNSET_SOUTH,
   NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY, NP_OAK_EMERYVILLE_BERKELEY,
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
-  NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY,
+  NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY, NP_BP_SAN_MATEO_SHORELINE, NP_BP_NUTRIENT_PILOT,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
