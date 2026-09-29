@@ -271,6 +271,9 @@ APPS = {
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",
             SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "np-data-sf-outer-mission.js",
+            SHARED / "np-data-bp-strip-marsh-east.js",
+            SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "links.js",
@@ -815,6 +818,8 @@ APPS = {
             SHARED / "by-parish-lessons.js",
             SHARED / "sc-scholar.js",
             SHARED / "sc-session-ui.js",
+            SHARED / "es-bay-lessons.js",  # ESTUARY: the Bay ecology lessons the SCHOLAR panel mounts
+            SHARED / "dw-regions.js",  # DEEPWATER: the shoreline dive entries and their in-world markers
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
             SHARED / "crew.js",

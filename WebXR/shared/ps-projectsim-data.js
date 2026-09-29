@@ -11,7 +11,7 @@
 // Bay Program areas) — used only when `npParish(map)?.sites.find(...)` resolves. No injury is shown or described.
 // Every top-level name is prefixed ps/PS_ (the bundler shares one scope).
 
-const psStep = (id, title, station, step, practice, safe, unsafe, extra = {}) => ({ id, title, station, step, practice, safe, unsafe, requires: [], ...extra });
+const psStep = (id, title, station, step, practice, safe, unsafe, psExtra = {}) => ({ id, title, station, step, practice, safe, unsafe, requires: [], ...psExtra });
 
 export const PS_SIMS = [
   {
