@@ -898,6 +898,8 @@ APPS = {
             # PROJECTSIM: the Bay Program project simulations (data, then the mount; after np-parishes, tf-terraform, nw-physics, ty-economy).
             SHARED / "ps-projectsim-data.js",
             SHARED / "ps-projectsim.js", SHARED / "us-unionsims-data.js", SHARED / "us-unionsims.js",
+            # LA-PROGRAMME: the Louisiana programme (data, then the functions; its simulations register with PROJECTSIM, guarded).
+            SHARED / "lp-programme-data.js", SHARED / "lp-programme.js",
             # SMILES: the Unspoken Smiles District's dental-health games (pure; mounted in the Play tab on that map only).
             SHARED / "sm-smiles.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.

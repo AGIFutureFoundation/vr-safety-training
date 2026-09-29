@@ -132,9 +132,12 @@ export function lpSetUpCohort({ en, dn, stationIds = null, simIds = null }, { or
   const p = lpPathway(pathwayId);
   const tpl = lpTemplates({ stationIds, simIds }).find((x) => x.pathway === p?.id && x.level === level);
   if (!p || !tpl || !orgName) return null;
-  const org = en.enOrgs().find((o) => o.name === orgName) ?? en.enCreateOrg({ name: orgName, programmes: ["louisiana-programme"] });
+  // The org layer accepts only its registered programmes: the pathway's own competency programmes, apprentice level first.
+  const programmes = lpUniq([...(p.credentials.appr ?? []), ...(p.credentials.lead ?? []), ...(p.credentials[level] ?? [])]);
+  const org = en.enOrgs().find((o) => o.name === orgName) ?? en.enCreateOrg({ name: orgName, programmes });
   if (!org) return null;
-  const cohort = en.enCreateCohort({ orgId: org.id, name: `${p.title} · ${lpLevel(level).title}`, programme: "louisiana-programme", edition: LP_NAME, startDate, seats });
+  let cohort = null;
+  for (const programme of programmes) { cohort = en.enCreateCohort({ orgId: org.id, name: `${p.title} · ${lpLevel(level).title}`, programme, edition: LP_NAME, startDate, seats }); if (cohort) break; }
   if (!cohort) return null;
   const due = lpDueDate(cohort.startDate, tpl.dueDays);
   const module = dn.dnSaveModule({ ...tpl.module, due });

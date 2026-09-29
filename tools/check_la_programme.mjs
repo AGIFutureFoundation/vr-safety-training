@@ -184,6 +184,16 @@ for (const t of tpls) {
   check(DOC.includes(`\`${t.module.id}\``), "templates", `${t.module.id}: missing from the handbook`);
 }
 
+// cohort on the org layer + DEAN module for every pathway and level
+globalThis.window ??= globalThis;
+const en = await imp("WebXR/shared/org.js");
+let cohorts = 0;
+for (const p of lp.LP_PATHWAYS) for (const l of LEVELS) {
+  let r = null; try { r = lp.lpSetUpCohort({ en, dn, ...opts }, { orgName: "LA Check Hall", pathwayId: p.id, level: l, seats: 12, startDate: "2026-10-05" }); } catch (e) { r = null; }
+  check(!!r && r.cohort.seats === 12 && r.module?.id === `mod-lp-${p.id}-${l}` && /^\d{4}-\d{2}-\d{2}$/.test(r.due) && r.classCode, "templates", `${p.id}/${l}: cohort set-up failed`);
+  if (r) cohorts++;
+}
+
 // ---------------------------------------------------------------- 7 page
 check(PAGE.length > 0 && DOC.length > 0, "page", "run node tools/gen_la_programme.mjs");
 check(/shared\/design\.css/.test(PAGE) && /class="home-chip"/.test(PAGE) && /gdMount/.test(PAGE), "page", "design system, Home chip or Guide missing");
@@ -196,4 +206,4 @@ for (const [k, v] of Object.entries(files)) check(!/claude-(opus|sonnet|haiku)|\
 check(files.console.includes("## Cycles"), "page", "docs/consoles/LA-PROGRAMME.md has no Cycles section");
 
 if (fails.length) { for (const f of fails.slice(0, 40)) console.log("FAIL", f); console.log(`check_la_programme: FAILED ${fails.length} of ${checks} checks`); process.exit(1); }
-console.log(`check_la_programme: ok — ${checks} checks · ${lp.LP_TRACKS.length} tracks (${figures} quoted figures, all in the facts file) · ${lp.LP_PATHWAYS.length} pathways × ${LEVELS.length} levels (${levels}, all earnable) · ${tpls.length} DEAN templates · ${cells} matrix links · ${lp.LP_SIMS.length} simulations (${simSteps} steps, all real station steps) · places ${livePlaces} live / ${placeCount - livePlaces} pending (guarded; ${mapsInTree.size} programme maps in this tree; ${idsFiles} ids files read)`);
+console.log(`check_la_programme: ok — ${checks} checks · ${lp.LP_TRACKS.length} tracks (${figures} quoted figures, all in the facts file) · ${lp.LP_PATHWAYS.length} pathways × ${LEVELS.length} levels (${levels}, all earnable) · ${tpls.length} DEAN templates (${cohorts} cohorts set up) · ${cells} matrix links · ${lp.LP_SIMS.length} simulations (${simSteps} steps, all real station steps) · places ${livePlaces} live / ${placeCount - livePlaces} pending (guarded; ${mapsInTree.size} programme maps in this tree; ${idsFiles} ids files read)`);
