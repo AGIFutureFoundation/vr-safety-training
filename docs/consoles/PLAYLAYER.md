@@ -26,7 +26,27 @@ maps have no kiosks); the board follows `sl-parish-play.js`'s `slPathBoard` shap
    Area map has ≥3 play-layer lessons (`plCounts`). Observed: 17 maps, 49 new + 10 GOLDEN-B = 59 lessons, 3–5 per map.
 3. Reason: KREWE-style quests (one per lesson, ending at the lesson sign) and the path board, mounted in the parishes app as the
    fallback when SECONDLINE's / KREWE's boards are empty. Check: `check_playlayer` quest, board and mount lines. Observed:
-   59 quests, 17 boards, mounts found; only the treasure lines and registration failed (next cycles).
+   59 quests, 17 boards, mounts found; only the treasure lines and registration failed (next cycles). Registered in
+   `check_all`'s list and the checkers baseline (not run).
+4. Reason: the treasure readers changed — `gen_treasures` adds a Crew Kit off every site of the fifteen maps (`bay-kits-<map>`
+   sets) and a quiet find per lesson; `check_treasures` / `check_parish_play` read PL beside SG. Check: those two checkers and
+   `check_playlayer`'s treasure lines. Observed: `All checks pass: 618 treasures on 14 surfaces, 39 sets, 54 gated, nothing
+   leaked.`; `All parish play checks pass.` (4505); `check_playlayer: all 1320 checks pass`; `check_npc` and `check_bayquest`
+   still clean (they read treasures-data).
+5. Reason: the boards are in the page, not only in the model. Check: `SV_PORT=18990 node tools/sv_survey.mjs --only
+   sf-downtown,oak-west-oakland,bp-san-leandro-bay --no-stills` (8990 was held by another console's eval). Observed: 6/6
+   views without a page error; `krewe` and `paths` mount true on all three (as Orleans); #menu-paths 5389 / 3140 / 2316 chars.
+   (`docs/evals/platform-review.json` restored afterwards — SURVEYOR's file.)
+6. Reason: the eval should see the Bay Area at the parishes' score. Check: `node tools/eval_worlds.mjs --no-browser`.
+   Observed: all 17 Bay Area maps 95 → 100 (Marina and Bayview were already 100); mean 97 → 100; findings 18 → 3 (none
+   PLAYLAYER's).
+
+## Eval (`node tools/eval_worlds.mjs`, headless — the browser pass could not bind 8990 in either run)
+
+| | Mean | Bay Area maps at 100 | Findings |
+|---|---:|---:|---:|
+| Before (9914455) | 97 | 2 of 17 (15 at 95: "the play layer offers three or more field lessons (0)") | 18 |
+| After | 100 | 17 of 17 | 3 |
 
 ## Seams
 
