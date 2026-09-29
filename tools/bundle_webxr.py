@@ -1412,6 +1412,10 @@ def build_combined() -> int:
     # SCHOLAR's scoreboard (WebXR/scholar/index.html): its ../shared/ imports resolve against DIST/shared.
     (DIST / "scholar").mkdir(parents=True, exist_ok=True)
     (DIST / "scholar" / "index.html").write_bytes((WEBXR / "scholar" / "index.html").read_bytes())
+    # sc-lessons.js reads Redwood Reach's site and field-lesson data from ../redwood/js/ (pure data, no imports of their own).
+    (DIST / "redwood" / "js").mkdir(parents=True, exist_ok=True)
+    for _rw in ("rw-data.js", "rw-lore-data.js"):
+        (DIST / "redwood" / "js" / _rw).write_bytes((WEBXR / "redwood" / "js" / _rw).read_bytes())
     (DIST / "packs").mkdir(parents=True, exist_ok=True)
     (DIST / "packs" / "index.html").write_bytes((packs / "flat" / "index.html").read_bytes())
     copied += 1
