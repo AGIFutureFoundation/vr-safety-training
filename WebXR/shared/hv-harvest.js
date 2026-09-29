@@ -480,5 +480,5 @@ export function hvMount({ THREE = null, root = null, parish, el = null, pos = ()
   }
   const timer = typeof setInterval === "function" && el ? setInterval(tick, 1000) : null;
   render();
-  return { spots, tick, refresh: render, play, discovered: () => spots.filter((s) => hvLoad().found[s.id]).map((s) => s.id), stop: () => timer && clearInterval(timer), state: () => ({ playing: playing ? { spot: playing.spot.id, activity: playing.activity, step: playing.moves.length, of: playing.steps.length } : null }) };
+  return { spots, tick, refresh: render, play, discovered: () => spots.filter((s) => hvLoad().found[s.id]).map((s) => s.id), stop: () => timer && clearInterval(timer), state: () => ({ playing: playing ? { spot: playing.spot.id, activity: playing.activity, step: playing.moves.length, of: playing.steps.length, safeIndex: playing.steps[playing.moves.length]?.options.findIndex((o) => o.safe) ?? -1 } : null }) };
 }

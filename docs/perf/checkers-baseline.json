@@ -109,9 +109,11 @@
     "check_interface.mjs": 73000,
     "check_bayprogram.mjs": 4700,
     "check_bayquest.mjs": 500,
-    "check_projectsim.mjs": 300
+    "check_projectsim.mjs": 300,
+    "check_harvest.mjs": 1200
   },
   "notes": {
+    "check_harvest.mjs": "2026-09-29 08:05 UTC: new (console HARVEST). 1.1 s standalone: spot placement over 22 maps, catches, lines, the adult gate, the play calendar and pay-once; --live adds one headless Orleans load (not in check_all).",
     "check_interface.mjs": "2026-09-29 03:31 UTC: new (console INTERFACE). 49-73 s wall under the review wave load: three headless loads of the Orleans map (desktop, 390x844 touch, first visit) with the full world build.",
     "check_cognition.mjs": "2026-09-29 02:20 UTC: new (console COGNITION). 2.9 s standalone: the generator --check (headless rooms load), 40 flows validated, 28 adaptive walks and 40 headless runner finishes.",
     "check_terraform.mjs": "2026-09-29 01:32 UTC: new (console TERRAFORM). 25 s of CPU (69 s wall under seven consoles' load): the pure checks over ten maps plus a headless build of the engine with TERRAFORM at every site on two tiers.",

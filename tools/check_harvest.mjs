@@ -180,5 +180,61 @@ check(/"menu-harvest"/.test(ux), "check_interface lists menu-harvest");
 check(/SHARED \/ "hv-harvest\.js"/.test(bundle), "the bundler lists hv-harvest.js for the parishes app");
 check(!/\bfetch\(|XMLHttpRequest|WebSocket/.test(src), "no network at runtime");
 
+// 8. Live (--live, one headless Chromium on port 9005): the parishes page mounts HARVEST, walking to a spot finds it,
+// and a fishing run played through the Play tab's buttons logs a catch and pays Crew Credits once.
+if (process.argv.includes("--live")) {
+  console.log("Live");
+  const { createServer } = await import("node:http");
+  const { existsSync, statSync } = await import("node:fs");
+  const { extname, normalize } = await import("node:path");
+  const WEBXR = join(ROOT, "WebXR");
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml" };
+  const server = createServer((req, res) => {
+    const p = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const f = join(WEBXR, p);
+    if (!f.startsWith(WEBXR) || !existsSync(f) || statSync(f).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(f)] ?? "application/octet-stream" }); res.end(readFileSync(f));
+  });
+  await new Promise((r) => { server.once("error", () => server.listen(0, "127.0.0.1", r)); server.listen(Number(process.env.HV_PORT || 9005), "127.0.0.1", r); });
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
+  const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs");
+  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium", args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+  const runFish = async (page, id) => {
+    await page.evaluate((sid) => window.__parishTest.harvest.play(sid, "fish"), id);
+    for (let i = 0; i < 10; i++) {
+      const st = await page.evaluate(() => window.__parishTest.harvest.state().playing);
+      if (!st || st.step >= st.of) break;
+      await page.locator("#menu-harvest button").nth(st.safeIndex).click();
+    }
+    return page.textContent("#menu-harvest");
+  };
+  try {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    await ctx.addInitScript(() => { try { localStorage.setItem("ux-onboarded-v1", "1"); } catch { /* blocked */ } });
+    await ctx.route("**/*", (route) => { const u = route.request().url(); if (u.startsWith(base)) return route.continue(); if (/three(\.module)?(\.min)?\.js$/.test(u)) return route.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC }); return route.abort(); });
+    const page = await ctx.newPage();
+    const errors = []; page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+    await page.goto(`${base}/parishes/parishes.html?parish=orleans`, { waitUntil: "load" });
+    await page.waitForFunction(() => !!window.__parishTest?.harvest && !!window.__parishTest?.ux, null, { timeout: 90000 });
+    const info = await page.evaluate(() => { const h = window.__parishTest.harvest; return { n: h.spots.length, first: h.spots.find((s) => s.activities.includes("fish")), mesh: !!window.__parishTest.scene.getObjectByName("hv-spots") }; });
+    check(info.n === perMap.orleans.length && info.mesh, `the live page mounts ${info.n} spots and their sign posts (one InstancedMesh)`);
+    await page.evaluate((p) => { const t = window.__parishTest; t.begin(); t.teleport(p[0], p[1]); }, info.first.position);
+    await page.waitForFunction((id) => window.__parishTest.harvest.discovered().includes(id), info.first.id, { timeout: 8000 }).catch(() => {});
+    check(await page.evaluate((id) => window.__parishTest.harvest.discovered().includes(id), info.first.id), `walking to ${info.first.id} finds it`);
+    await page.evaluate(() => { window.__parishTest.ux.open(); window.__parishTest.ux.select("play"); });
+    const rowBtn = await page.$$eval("#menu-harvest button", (bs) => bs.map((b) => b.textContent));
+    check(rowBtn.includes("Fish"), "the Play tab lists the found spot with a Fish button", rowBtn.join(" | "));
+    const out = await runFish(page, info.first.id);
+    check(/Clean run · 100%/.test(out) && /caught and logged/.test(out) && /\+\d+ Crew Credits/.test(out), "a fishing run clicked through the Play tab is clean, logs a catch and pays", out.slice(0, 200));
+    const log = await page.evaluate(() => JSON.parse(localStorage.getItem("hv-harvest-v1") ?? "null"));
+    check(log?.log?.length === 1 && Object.keys(log.album).length === 1, "the catch log and album persist in the browser");
+    await page.locator("#menu-harvest button", { hasText: "Back" }).click();
+    const out2 = await runFish(page, info.first.id);
+    check(/Clean run/.test(out2) && !/\+\d+ Crew Credits/.test(out2), "a second clean run pays nothing", out2.slice(0, 200));
+    check(errors.length === 0, "no page errors", errors.slice(0, 3).join(" | "));
+  } finally { await browser.close(); server.close(); }
+}
+
 console.log(`\ncheck_harvest: ${failures ? "FAIL" : "OK"} — ${passes} passed, ${failures} failed · ${all.length} spots on ${NP_PARISHES.filter((p) => perMap[p.id].length).length} maps (fish ${act("fish").length}, crab ${act("crab").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length})`);
 process.exit(failures ? 1 : 0);

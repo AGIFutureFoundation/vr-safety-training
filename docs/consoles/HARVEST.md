@@ -54,3 +54,10 @@ Module: `WebXR/shared/hv-harvest.js` (data, pure logic and the parish mount in o
 4. Reason: mount in the parishes app's Play tab without breaking the menu → Act: one import, one mount, `menu-harvest`
    in the Play panel and in check_interface's list, the bundler's parishes list → Observe: check_interface OK 21/21, no
    page errors.
+5. Reason: "a few treasures" through the treasure rules → Act: `how: "harvest"` treasures (one per activity, Harvest
+   Hands set) in `gen_treasures.mjs`, `tzHarvestRun` in `treasures.js`, lessons re-read verbatim from `HV_TREASURE_LINES`
+   → Observe: check_treasures "All checks pass: 344 treasures on 14 surfaces, 25 sets"; check_harvest: first clean
+   fishing run finds the Tackle Box.
+6. Reason: prove the loop in the real page, not only headless → Act: `check_harvest.mjs --live` (port 9005): load Orleans,
+   walk to a spot, open Play, click a fishing run through → Observe: 7/7 live checks — found, clean, catch logged,
+   paid once, second run pays nothing, no page errors. check_parishes 30924 passed, 0 failed; check_parish_play 0 failed.
