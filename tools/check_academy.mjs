@@ -82,7 +82,8 @@ section(2, "one track per named project plus Clean Ports", () => {
 
 // 3. Matrix cells resolve; simulations are live or pending UNIONSIMS ids.
 const idsFile = join(dirname(factsPath), "..", "restoration", "unionsims-ids.md");
-const usListed = existsSync(idsFile) ? new Set([...readFileSync(idsFile, "utf8").matchAll(/\b(us-[a-z0-9-]+)/g)].map((m) => m[1])) : null;
+// UNIONSIMS' published ids: every us- id on a line that is not a DROPPED / REPLACED note.
+const usListed = existsSync(idsFile) ? new Set(readFileSync(idsFile, "utf8").split("\n").filter((l) => !/DROPPED|REPLACED|was planned and/i.test(l)).flatMap((l) => [...l.matchAll(/\b(us-[a-z0-9-]+)/g)].map((m) => m[1]))) : null;
 let pendingAll = [];
 section(3, "every matrix cell resolves to a real station and union", () => {
   const matrix = ea.eaMatrix(opts);
@@ -105,6 +106,59 @@ section(3, "every matrix cell resolves to a real station and union", () => {
   const cells = new Set(matrix.map((r) => `${r.track}|${r.workType}|${r.union}`));
   line(`matrix: ${cells.size} work type × craft cells, ${matrix.length} station links — every station in the catalog, every union in the registry`);
   line(`UNIONSIMS guard: ${usNamed.length - pendingAll.length} of ${usNamed.length} us- ids resolve in this tree, ${pendingAll.length} pending${usListed ? " (each listed in its ids file)" : ""}`);
+});
+
+// 3b. The guard works both ways: a us- id that lands joins its work type, pathways and templates; one that does not stays out.
+section("3b", "a UNIONSIMS id joins its pathways the moment it exists in the tree", () => {
+  const landed = { stationIds: new Set([...opts.stationIds, "us-vacuum-truck-operator-hookup-and-offload"]), simIds: new Set([...opts.simIds, "us-sim-drayage-pre-trip"]) };
+  const cpT = ea.eaResolve(ea.eaTrack("clean-ports"), landed);
+  ok(cpT.workTypes.find((w) => w.id === "drayage").sims.includes("us-sim-drayage-pre-trip") && !cpT.pending.includes("us-sim-drayage-pre-trip"), "a landed us- simulation does not join its work type");
+  ok(ea.eaPathways(ea.eaTrack("clean-ports"), landed).find((p) => p.role === "appr").sims.includes("us-sim-drayage-pre-trip"), "a landed us- simulation does not join the apprentice pathway");
+  const tpl = ea.eaTemplates(landed).find((x) => x.module.id === "mod-ea-sanleandro-appr");
+  ok(tpl?.module.lessons.some((l) => l.id === "us-vacuum-truck-operator-hookup-and-offload"), "a landed us- station does not join its DEAN template");
+  ok(!ea.eaTemplates(opts).some((x) => x.module.lessons.some((l) => l.id.startsWith("us-") && !opts.stationIds.has(l.id))), "a pending us- station reached a DEAN template");
+  line("guard: a landed us- simulation joins its work type and the apprentice pathway, a landed us- station joins its DEAN template; pending ids reach no template");
+  // UNIONSIMS' seams (usSimsFor, usDeanModules): the real module when it is in the tree, else a stub of the same shape.
+  const us = tree.us ?? { usSimsFor: (p) => (p === "clean-ports" ? [{ id: "us-sim-drayage-pre-trip" }, { id: "us-sim-fixture-extra" }] : []), usDeanModules: () => [{ id: "unionsims:us-sim-drayage-pre-trip", kind: "projectsim", minutes: 14 }] };
+  const seamOpts = { stationIds: opts.stationIds, simIds: new Set([...opts.simIds, "us-sim-drayage-pre-trip", "us-sim-fixture-extra"]), us };
+  let placed = 0, extra = 0;
+  for (const t of ea.EA_TRACKS) {
+    const r = ea.eaResolve(t, seamOpts);
+    const want = us.usSimsFor(t.usProject).map((x) => x.id);
+    const has = new Set([...r.workTypes.flatMap((w) => w.sims), ...t.workTypes.flatMap((w) => w.sims), ...r.usExtra]);
+    for (const id of want) ok(has.has(id) || (t.usExclude ?? []).includes(id), `${t.id}: usSimsFor(${t.usProject}) lists ${id}, which the track neither names, adds nor excludes`);
+    for (const id of t.usExclude ?? []) ok(!r.usExtra.includes(id), `${t.id}: excluded ${id} was added`);
+    placed += want.length; extra += r.usExtra.length;
+    const appr = ea.eaPathways(t, seamOpts).find((p) => p.role === "appr");
+    for (const id of r.usExtra) ok(appr.sims.includes(id), `${t.id}: usExtra ${id} not in the apprentice pathway`);
+  }
+  const mods = new Set(us.usDeanModules().map((m) => m.id));
+  const withMod = ea.eaTemplates(seamOpts).flatMap((x) => x.guide.simulations).filter((s) => s.sim.startsWith("us-"));
+  for (const s of withMod) if (mods.has(`unionsims:${s.sim}`)) ok(s.deanModule?.id === `unionsims:${s.sim}` && s.launch === `unionsims:${s.sim}`, `${s.sim}: template does not carry its UNIONSIMS DEAN module`);
+  line(`UNIONSIMS seams (${tree.us ? "us-unionsims.js in the tree" : "stub of its shape — module not merged here"}): usSimsFor places ${placed} simulations across the tracks (${extra} added as extras), ${withMod.filter((s) => s.deanModule).length} template launches carry their usDeanModules() entry`);
+  // The three UNIONSIMS stations the coordinator names sit in tracks.
+  if (existsSync(idsFile)) {
+    const md = readFileSync(idsFile, "utf8");
+    const stSec = (md.split(/^## Stations/m)[1] ?? "").split(/^## /m)[0];
+    const usStations = stSec.split("\n").filter((l) => /^us-/.test(l)).map((l) => l.split(" ")[0]);
+    const named = new Set(ea.EA_TRACKS.flatMap((t) => t.workTypes.flatMap((w) => w.stations)));
+    for (const id of usStations) ok(named.has(id), `UNIONSIMS station ${id} is in no track`);
+    line(`UNIONSIMS stations in tracks: ${usStations.join(", ")}`);
+  }
+});
+
+// 3c. Gaps stay honest: listed as pending in the matrix, never filled.
+section("3c", "work the sources state with no station yet is pending in the matrix, not filled", () => {
+  const page = readFileSync(join(ROOT, "WebXR/bayprogram/academy.html"), "utf8");
+  const gaps = ea.EA_TRACKS.flatMap((t) => (t.gaps ?? []).map((g) => ({ t, g })));
+  for (const { t, g } of gaps) {
+    ok(g.practice && g.note && !g.stations?.length, `${t.id}: gap "${g.practice}" is not a bare pending entry`);
+    ok(page.includes(`data-ea-gapcell="${t.id}"`), `${t.id}: gap "${g.practice}" is not a pending row in the matrix`);
+  }
+  const sj = ea.eaTrack("san-jose-gsi-plan");
+  ok(sj.gaps.some((g) => /survey and assessment/.test(g.practice)), "San Jose's survey-and-assessment gap is not listed");
+  ok(!sj.workTypes.some((w) => /survey|assessment/.test(w.practice)), "San Jose's survey-and-assessment work is filled with a station");
+  line(`${gaps.length} gaps pending in the matrix: ${gaps.map(({ t, g }) => `${t.short} — ${g.practice}`).join("; ")}`);
 });
 
 // 4. Pathways end in an earnable credential.

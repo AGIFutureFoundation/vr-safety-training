@@ -24,7 +24,8 @@
   .ea-steps { counter-reset: s; list-style: none; padding: 0; display: grid; gap: var(--at-sp-3); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   .ea-steps li { background: var(--at-surface); border: 1px solid var(--at-border); border-radius: var(--at-r-md); padding: var(--at-sp-3) var(--at-sp-4); }
   .ea-form { display: flex; flex-wrap: wrap; gap: var(--at-sp-3); align-items: end; }
-  .ea-form label { display: grid; gap: var(--at-sp-1); font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); }
+  .ea-form label { display: grid; gap: var(--at-sp-1); font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); min-width: 0; max-width: 100%; }
+  .ea-form select { width: 100%; max-width: 100%; text-overflow: ellipsis; }
   .ea-form input, .ea-form select { font: inherit; min-height: 44px; padding: 0 var(--at-sp-3); border-radius: var(--at-r-md); border: 1px solid var(--at-border-strong); background: var(--at-surface-2); color: var(--at-on-surface); }
   .ea-out { margin-top: var(--at-sp-3); padding: var(--at-sp-3) var(--at-sp-4); border-radius: var(--at-r-md); background: var(--at-surface-2); }
   main a { color: var(--at-primary); }
@@ -200,20 +201,20 @@
     </details>
 
     <details class="ea-track" id="track-san-jose-gsi-plan" data-ea-track="san-jose-gsi-plan">
-      <summary><strong>City of San Jose</strong> <span class="ea-muted">1 work types · 3 stations · 0 simulations</span></summary>
+      <summary><strong>City of San Jose</strong> <span class="ea-muted">1 work types · 2 stations · 0 simulations</span></summary>
       <div class="ea-scroll"><table class="ea-table">
         <thead><tr><th scope="col">Work type (the sources' words) and what we teach</th><th scope="col">Crafts (trade reference)</th><th scope="col">Stations</th><th scope="col">Simulations</th><th scope="col">K-12 lessons</th></tr></thead>
         <tbody>
-        <tr data-ea-worktype="san-jose-gsi-plan/plan-survey">
-          <td><q data-ea-facts>develop a green stormwater infrastructure implementation plan</q><div class="ea-muted">survey, assessment and locates for a plan: outfall sampling, marked utilities, measuring a site</div></td>
-          <td><span class="at-chip ea-chip" data-ea-union="uwua" title="Utility Workers Union of America">UWUA</span> <span class="ea-muted">utility crews on locates</span><br><span class="at-chip ea-chip" data-ea-union="iuoe-local3" title="International Union of Operating Engineers Local 3">IUOE Local 3</span> <span class="ea-muted">operating engineers potholing inside the tolerance zone</span><br><span class="at-chip ea-chip" data-ea-union="liuna" title="Laborers' International Union of North America">LIUNA</span> <span class="ea-muted">laborers on the survey crew's traffic control</span></td>
-          <td><ul class="ea-list"><li><a href="../smartcity/index.html?sim=stormwater-outfall&amp;from=academy" data-ea-station="stormwater-outfall">Stormwater Outfall</a></li><li><a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a></li><li><a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></li></ul></td>
+        <tr data-ea-worktype="san-jose-gsi-plan/plan-locates">
+          <td><q data-ea-facts>develop a green stormwater infrastructure implementation plan</q><div class="ea-muted">utility locates and potholing before any field check a plan needs</div></td>
+          <td><span class="at-chip ea-chip" data-ea-union="uwua" title="Utility Workers Union of America">UWUA</span> <span class="ea-muted">utility crews on locates and hand digs</span><br><span class="at-chip ea-chip" data-ea-union="iuoe-local3" title="International Union of Operating Engineers Local 3">IUOE Local 3</span> <span class="ea-muted">operating engineers potholing inside the tolerance zone</span></td>
+          <td><ul class="ea-list"><li><a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a></li><li><a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></li></ul></td>
           <td>—</td>
           <td><ul class="ea-list"><li><a href="../smartcity/index.html?sim=k12-es-measure-a-rain-garden&amp;from=academy" data-ea-station="k12-es-measure-a-rain-garden">Measure a Rain Garden</a></li><li><a href="../smartcity/index.html?sim=k12-es-count-it-a-fair-survey&amp;from=academy" data-ea-station="k12-es-count-it-a-fair-survey">Count It: a Fair Survey</a></li></ul></td>
         </tr>
         </tbody>
       </table></div>
-      
+      <p class="ea-muted" data-ea-gap>Not taught yet — survey and assessment for the plan (<q>develop a green stormwater infrastructure implementation plan</q>): no station teaches site survey and assessment for a green stormwater infrastructure plan yet (UNIONSIMS reports the same gap); pending, not filled with an unrelated station.</p>
       <h4>Role pathways</h4>
       <div class="ea-scroll"><table class="ea-table">
         <thead><tr><th scope="col">Role</th><th scope="col" class="num">Stations</th><th scope="col" class="num">Capstone</th><th scope="col" class="num">Simulations</th><th scope="col">Credential</th><th scope="col">DEAN template</th></tr></thead>
@@ -232,20 +233,20 @@
           </tr>
           <tr data-ea-pathway="san-jose-gsi-plan/appr">
             <th scope="row">Apprentice</th>
-            <td class="num">3</td><td class="num">3</td><td class="num">0</td>
+            <td class="num">2</td><td class="num">3</td><td class="num">0</td>
             <td><span data-ea-credential="heavy-equipment-operators">heavy-equipment-operators</span> <span class="ea-muted">4/4 mastery runs in the module</span></td>
             <td><code data-ea-module>mod-ea-sanjose-appr</code></td>
           </tr>
           <tr data-ea-pathway="san-jose-gsi-plan/jw">
             <th scope="row">Journeyworker refresher</th>
-            <td class="num">1</td><td class="num">4</td><td class="num">0</td>
-            <td><span data-ea-credential="hazmat-environmental">hazmat-environmental</span> <span class="ea-muted">5/5 mastery runs in the module</span></td>
+            <td class="num">1</td><td class="num">2</td><td class="num">0</td>
+            <td><span data-ea-credential="core-trenching">core-trenching</span> <span class="ea-muted">2/2 mastery runs in the module</span></td>
             <td><code data-ea-module>mod-ea-sanjose-jw</code></td>
           </tr>
           <tr data-ea-pathway="san-jose-gsi-plan/lead">
             <th scope="row">Supervisor / crew lead</th>
-            <td class="num">3</td><td class="num">4</td><td class="num">0</td>
-            <td><span data-ea-credential="hazmat-environmental">hazmat-environmental</span> <span class="ea-muted">5/5 mastery runs in the module</span></td>
+            <td class="num">2</td><td class="num">6</td><td class="num">0</td>
+            <td><span data-ea-credential="situational-awareness">situational-awareness</span> <span class="ea-muted">6/6 mastery runs in the module</span></td>
             <td><code data-ea-module>mod-ea-sanjose-lead</code></td>
           </tr>
         </tbody>
@@ -594,7 +595,7 @@
         </tr>
         </tbody>
       </table></div>
-      <p class="ea-muted" data-ea-gap>Not taught yet: <q>scrappage of a portion of the existing diesel fleet</q> — no station teaches fleet scrappage yet; the Academy lists it and links nothing.</p>
+      <p class="ea-muted" data-ea-gap>Not taught yet — retiring diesel equipment from the fleet (<q>scrappage of a portion of the existing diesel fleet</q>): no station teaches fleet scrappage yet; the Academy lists it and links nothing.</p>
       <h4>Role pathways</h4>
       <div class="ea-scroll"><table class="ea-table">
         <thead><tr><th scope="col">Role</th><th scope="col" class="num">Stations</th><th scope="col" class="num">Capstone</th><th scope="col" class="num">Simulations</th><th scope="col">Credential</th><th scope="col">DEAN template</th></tr></thead>
@@ -646,7 +647,7 @@
   </section>
 
   <section aria-labelledby="h-matrix">
-    <div class="at-section-head"><div><h2 id="h-matrix">Competency matrix</h2><p>Work type × craft → station: 49 cells, 126 station links, every one a live catalog station.</p></div></div>
+    <div class="at-section-head"><div><h2 id="h-matrix">Competency matrix</h2><p>Work type × craft → station: 48 cells, 121 station links, every one a live catalog station.</p></div></div>
     <div class="ea-scroll"><table class="ea-table">
       <thead><tr><th scope="col">Track</th><th scope="col">Work type</th><th scope="col">Craft</th><th scope="col">Stations</th></tr></thead>
       <tbody>
@@ -664,9 +665,8 @@
         <tr data-ea-cell="bacwa-nutrient-pilots/plant-rounds/uwua"><td>bacwa</td><td>plant-rounds</td><td><span class="at-chip ea-chip" data-ea-union="uwua" title="Utility Workers Union of America">UWUA</span></td><td><a href="../smartcity/index.html?sim=bk-wastewater-nutrient-chemical-feed&amp;from=academy" data-ea-station="bk-wastewater-nutrient-chemical-feed">Nutrient Reduction Chemical Feed and Aeration</a>, <a href="../smartcity/index.html?sim=chlorine-room&amp;from=academy" data-ea-station="chlorine-room">Chlorine Room</a></td></tr>
         <tr data-ea-cell="bacwa-nutrient-pilots/process-lockout/iuoe"><td>bacwa</td><td>process-lockout</td><td><span class="at-chip ea-chip" data-ea-union="iuoe" title="International Union of Operating Engineers">IUOE</span></td><td><a href="../smartcity/index.html?sim=digester-gas&amp;from=academy" data-ea-station="digester-gas">Digester Gas</a>, <a href="../smartcity/index.html?sim=lift-station&amp;from=academy" data-ea-station="lift-station">Lift Station</a></td></tr>
         <tr data-ea-cell="bacwa-nutrient-pilots/process-lockout/afscme"><td>bacwa</td><td>process-lockout</td><td><span class="at-chip ea-chip" data-ea-union="afscme" title="American Federation of State, County and Municipal Employees">AFSCME</span></td><td><a href="../smartcity/index.html?sim=digester-gas&amp;from=academy" data-ea-station="digester-gas">Digester Gas</a>, <a href="../smartcity/index.html?sim=lift-station&amp;from=academy" data-ea-station="lift-station">Lift Station</a></td></tr>
-        <tr data-ea-cell="san-jose-gsi-plan/plan-survey/uwua"><td>sanjose</td><td>plan-survey</td><td><span class="at-chip ea-chip" data-ea-union="uwua" title="Utility Workers Union of America">UWUA</span></td><td><a href="../smartcity/index.html?sim=stormwater-outfall&amp;from=academy" data-ea-station="stormwater-outfall">Stormwater Outfall</a>, <a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a>, <a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></td></tr>
-        <tr data-ea-cell="san-jose-gsi-plan/plan-survey/iuoe-local3"><td>sanjose</td><td>plan-survey</td><td><span class="at-chip ea-chip" data-ea-union="iuoe-local3" title="International Union of Operating Engineers Local 3">IUOE Local 3</span></td><td><a href="../smartcity/index.html?sim=stormwater-outfall&amp;from=academy" data-ea-station="stormwater-outfall">Stormwater Outfall</a>, <a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a>, <a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></td></tr>
-        <tr data-ea-cell="san-jose-gsi-plan/plan-survey/liuna"><td>sanjose</td><td>plan-survey</td><td><span class="at-chip ea-chip" data-ea-union="liuna" title="Laborers' International Union of North America">LIUNA</span></td><td><a href="../smartcity/index.html?sim=stormwater-outfall&amp;from=academy" data-ea-station="stormwater-outfall">Stormwater Outfall</a>, <a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a>, <a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></td></tr>
+        <tr data-ea-cell="san-jose-gsi-plan/plan-locates/uwua"><td>sanjose</td><td>plan-locates</td><td><span class="at-chip ea-chip" data-ea-union="uwua" title="Utility Workers Union of America">UWUA</span></td><td><a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a>, <a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></td></tr>
+        <tr data-ea-cell="san-jose-gsi-plan/plan-locates/iuoe-local3"><td>sanjose</td><td>plan-locates</td><td><span class="at-chip ea-chip" data-ea-union="iuoe-local3" title="International Union of Operating Engineers Local 3">IUOE Local 3</span></td><td><a href="../smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main&amp;from=academy" data-ea-station="ut-service-line-locate-and-hand-dig-near-gas-main">Service-Line Locate &amp; Hand-Dig Near a Marked Gas Main</a>, <a href="../smartcity/index.html?sim=op-excavator-trench-and-utility-locate&amp;from=academy" data-ea-station="op-excavator-trench-and-utility-locate">Excavator Trench &amp; Utility Locate</a></td></tr>
         <tr data-ea-cell="san-pablo-gsi/gsi-build/liuna"><td>sanpablo</td><td>gsi-build</td><td><span class="at-chip ea-chip" data-ea-union="liuna" title="Laborers' International Union of North America">LIUNA</span></td><td><a href="../smartcity/index.html?sim=bk-bioretention-rain-garden-excavation&amp;from=academy" data-ea-station="bk-bioretention-rain-garden-excavation">Bioretention Rain Garden Excavation</a>, <a href="../smartcity/index.html?sim=trench-box&amp;from=academy" data-ea-station="trench-box">Trench Box</a>, <a href="../smartcity/index.html?sim=pl-underground-sewer-lateral-and-trench-shoring&amp;from=academy" data-ea-station="pl-underground-sewer-lateral-and-trench-shoring">Underground Sewer Lateral &amp; Trench Shoring</a></td></tr>
         <tr data-ea-cell="san-pablo-gsi/gsi-build/iuoe-local3"><td>sanpablo</td><td>gsi-build</td><td><span class="at-chip ea-chip" data-ea-union="iuoe-local3" title="International Union of Operating Engineers Local 3">IUOE Local 3</span></td><td><a href="../smartcity/index.html?sim=bk-bioretention-rain-garden-excavation&amp;from=academy" data-ea-station="bk-bioretention-rain-garden-excavation">Bioretention Rain Garden Excavation</a>, <a href="../smartcity/index.html?sim=trench-box&amp;from=academy" data-ea-station="trench-box">Trench Box</a>, <a href="../smartcity/index.html?sim=pl-underground-sewer-lateral-and-trench-shoring&amp;from=academy" data-ea-station="pl-underground-sewer-lateral-and-trench-shoring">Underground Sewer Lateral &amp; Trench Shoring</a></td></tr>
         <tr data-ea-cell="san-pablo-gsi/gsi-build/ua"><td>sanpablo</td><td>gsi-build</td><td><span class="at-chip ea-chip" data-ea-union="ua" title="United Association of Journeymen and Apprentices of the Plumbing and Pipe Fitting Industry of the United States and Canada">UA</span></td><td><a href="../smartcity/index.html?sim=bk-bioretention-rain-garden-excavation&amp;from=academy" data-ea-station="bk-bioretention-rain-garden-excavation">Bioretention Rain Garden Excavation</a>, <a href="../smartcity/index.html?sim=trench-box&amp;from=academy" data-ea-station="trench-box">Trench Box</a>, <a href="../smartcity/index.html?sim=pl-underground-sewer-lateral-and-trench-shoring&amp;from=academy" data-ea-station="pl-underground-sewer-lateral-and-trench-shoring">Underground Sewer Lateral &amp; Trench Shoring</a></td></tr>
@@ -699,6 +699,8 @@
         <tr data-ea-cell="clean-ports/charging/ilwu"><td>cleanports</td><td>charging</td><td><span class="at-chip ea-chip" data-ea-union="ilwu" title="International Longshore and Warehouse Union">ILWU</span></td><td><a href="../smartcity/index.html?sim=cp-charging-yard-connectors-and-e-stops&amp;from=academy" data-ea-station="cp-charging-yard-connectors-and-e-stops">Charging Yard: Connectors, E-Stops and Cable Management</a>, <a href="../smartcity/index.html?sim=et-ev-fleet-depot-charging-and-arc-flash&amp;from=academy" data-ea-station="et-ev-fleet-depot-charging-and-arc-flash">EV Fleet Depot Charging &amp; Arc Flash</a>, <a href="../smartcity/index.html?sim=charge-point&amp;from=academy" data-ea-station="charge-point">Charge Point</a></td></tr>
         <tr data-ea-cell="clean-ports/bess/ibew"><td>cleanports</td><td>bess</td><td><span class="at-chip ea-chip" data-ea-union="ibew" title="International Brotherhood of Electrical Workers">IBEW</span></td><td><a href="../smartcity/index.html?sim=cp-battery-energy-storage-site-awareness&amp;from=academy" data-ea-station="cp-battery-energy-storage-site-awareness">Battery Energy Storage Site Awareness</a>, <a href="../smartcity/index.html?sim=battery-yard&amp;from=academy" data-ea-station="battery-yard">Battery Yard</a>, <a href="../smartcity/index.html?sim=battery-storage-container-commissioning&amp;from=academy" data-ea-station="battery-storage-container-commissioning">Battery Storage Container Commissioning</a></td></tr>
         <tr data-ea-cell="clean-ports/bess/ilwu"><td>cleanports</td><td>bess</td><td><span class="at-chip ea-chip" data-ea-union="ilwu" title="International Longshore and Warehouse Union">ILWU</span></td><td><a href="../smartcity/index.html?sim=cp-battery-energy-storage-site-awareness&amp;from=academy" data-ea-station="cp-battery-energy-storage-site-awareness">Battery Energy Storage Site Awareness</a>, <a href="../smartcity/index.html?sim=battery-yard&amp;from=academy" data-ea-station="battery-yard">Battery Yard</a>, <a href="../smartcity/index.html?sim=battery-storage-container-commissioning&amp;from=academy" data-ea-station="battery-storage-container-commissioning">Battery Storage Container Commissioning</a></td></tr>
+        <tr data-ea-gapcell="san-jose-gsi-plan"><td>sanjose</td><td>survey and assessment for the plan</td><td>—</td><td><em>pending — no station yet</em></td></tr>
+        <tr data-ea-gapcell="clean-ports"><td>cleanports</td><td>retiring diesel equipment from the fleet</td><td>—</td><td><em>pending — no station yet</em></td></tr>
       </tbody>
     </table></div>
   </section>
@@ -717,8 +719,8 @@
   </section>
 
   <section aria-labelledby="h-pending">
-    <div class="at-section-head"><div><h2 id="h-pending">Coming from UNIONSIMS</h2><p>Craft stations and simulations the tracks name that are not in this build yet (24). They join their pathways when they land; until then nothing links to them.</p></div></div>
-    <p class="ea-muted" data-ea-pending><code>us-regulated-soil-haul-load-tarp-and-manifest</code> <code>us-sim-battery-electric-lockout</code> <code>us-sim-charging-yard-electrical</code> <code>us-sim-chemical-feed</code> <code>us-sim-drayage-pre-trip</code> <code>us-sim-gsi-excavation-and-shoring</code> <code>us-sim-gsi-soil-and-planting</code> <code>us-sim-gsi-underdrain-piping</code> <code>us-sim-gsi-utility-locate</code> <code>us-sim-levee-laborer</code> <code>us-sim-pcb-chain-of-custody</code> <code>us-sim-pcb-sampling-decon</code> <code>us-sim-plant-operator-rounds</code> <code>us-sim-process-lockout</code> <code>us-sim-regulated-soil-haul</code> <code>us-sim-regulated-waste-haul</code> <code>us-sim-small-boat-crew</code> <code>us-sim-tidal-operator-on-mats</code> <code>us-sim-trash-capture-surface-cleanout</code> <code>us-sim-vacuum-truck-operator</code> <code>us-sim-water-control-structure</code> <code>us-sim-ze-equipment-pre-use</code> <code>us-vacuum-truck-operator-hookup-and-offload</code> <code>us-wastewater-plant-operator-rounds</code></p>
+    <div class="at-section-head"><div><h2 id="h-pending">Coming from UNIONSIMS</h2><p>Craft stations and simulations the tracks name that are not in this build yet (22). They join their pathways when they land; until then nothing links to them.</p></div></div>
+    <p class="ea-muted" data-ea-pending><code>us-regulated-soil-haul-load-tarp-and-manifest</code> <code>us-sim-battery-electric-lockout</code> <code>us-sim-charging-yard-electrical</code> <code>us-sim-drayage-pre-trip</code> <code>us-sim-gsi-excavation-and-shoring</code> <code>us-sim-gsi-soil-and-planting</code> <code>us-sim-gsi-underdrain-piping</code> <code>us-sim-gsi-utility-locate</code> <code>us-sim-levee-laborer</code> <code>us-sim-pcb-chain-of-custody</code> <code>us-sim-plant-operator-rounds</code> <code>us-sim-process-lockout</code> <code>us-sim-regulated-soil-haul</code> <code>us-sim-regulated-waste-haul</code> <code>us-sim-small-boat-crew</code> <code>us-sim-tidal-operator-on-mats</code> <code>us-sim-trash-capture-surface-cleanout</code> <code>us-sim-vacuum-truck-operator</code> <code>us-sim-water-control-structure</code> <code>us-sim-ze-equipment-pre-use</code> <code>us-treatment-plant-process-pump-lockout</code> <code>us-vacuum-truck-operator-hookup-and-offload</code></p>
   </section>
   <p class="ea-muted">SmartCiti.X · Powered by AGI Corp</p>
 </main>

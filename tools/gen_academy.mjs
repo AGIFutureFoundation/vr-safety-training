@@ -20,13 +20,22 @@ export async function eaTreeIds() {
   const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json"), "utf8"));
   const { PS_SIMS } = await imp("WebXR/shared/ps-projectsim-data.js");
   const sims = new Map(PS_SIMS.map((s) => [s.id, s]));
+  // UNIONSIMS' seams (us-unionsims.js: usSimsFor, usDeanModules), guarded: absent until its branch merges.
+  let us = null;
+  if (existsSync(join(ROOT, "WebXR/shared/us-unionsims.js"))) {
+    try {
+      const m = await imp("WebXR/shared/us-unionsims.js");
+      if (typeof m.usSimsFor === "function") us = { usSimsFor: m.usSimsFor, usDeanModules: typeof m.usDeanModules === "function" ? m.usDeanModules : () => [] };
+      for (const s of m.usSims?.() ?? []) if (s?.id && Array.isArray(s.steps)) sims.set(s.id, s);
+    } catch (_) { us = null; }
+  }
   if (existsSync(join(ROOT, "WebXR/shared/us-unionsims-data.js"))) {
     try {
       const us = await imp("WebXR/shared/us-unionsims-data.js");
       for (const v of Object.values(us)) if (Array.isArray(v)) for (const s of v) if (s?.id && Array.isArray(s.steps)) sims.set(s.id, s);
     } catch (_) { /* guarded: UNIONSIMS' module shape may differ; its ids stay pending */ }
   }
-  return { catalog, stations: new Map(catalog.stations.map((s) => [s.id, s])), sims };
+  return { catalog, stations: new Map(catalog.stations.map((s) => [s.id, s])), sims, us };
 }
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -36,7 +45,7 @@ async function main() {
   const { COMPETENCY_BY_ID } = await imp("WebXR/shared/competency.js");
   const unions = JSON.parse(readFileSync(join(ROOT, "tools/unions.json"), "utf8")).unions;
   const tree = await eaTreeIds();
-  const opts = { stationIds: new Set(tree.stations.keys()), simIds: new Set(tree.sims.keys()) };
+  const opts = { stationIds: new Set(tree.stations.keys()), simIds: new Set(tree.sims.keys()), us: tree.us };
   const sName = (id) => tree.stations.get(id)?.name ?? id;
   const simName = (id) => tree.sims.get(id)?.name ?? id;
   const uAbbrev = (id) => unions.find((u) => u.id === id)?.abbrev ?? id;
@@ -70,7 +79,8 @@ async function main() {
             <td>${cred(p.credential)} <span class="ea-muted">${p.credential.overlap + p.capstone.length}/${p.credential.require} mastery runs in the module</span></td>
             <td><code data-ea-module>mod-ea-${esc(t.short)}-${esc(p.role)}</code></td>
           </tr>`).join("");
-    const gaps = (ea.eaTrack(t.id).gaps ?? []).map((g) => `<p class="ea-muted" data-ea-gap>Not taught yet: <q>${esc(g.facts)}</q> — ${esc(g.note)}.</p>`).join("");
+    const gaps = (ea.eaTrack(t.id).gaps ?? []).map((g) => `<p class="ea-muted" data-ea-gap>Not taught yet — ${esc(g.practice)} (<q>${esc(g.facts)}</q>): ${esc(g.note)}.</p>`).join("")
+      + (t.usExtra.length ? `<p class="ea-muted" data-ea-usextra>More UNIONSIMS simulations for this kind of work (apprentice and crew-lead pathways): ${t.usExtra.map(simTag).join(" ")}</p>` : "");
     return `
     <details class="ea-track" id="track-${esc(t.id)}" data-ea-track="${esc(t.id)}">
       <summary><strong>${esc(t.recipient)}</strong> <span class="ea-muted">${t.workTypes.length} work types · ${new Set(t.workTypes.flatMap((w) => w.stations)).size} stations · ${new Set(t.workTypes.flatMap((w) => w.sims)).size} simulations</span></summary>
@@ -92,6 +102,8 @@ async function main() {
   // ---------------------------------------------------------------- matrix (work type × craft → stations)
   const byCell = new Map();
   for (const r of matrix) { const k = `${r.track}|${r.workType}|${r.union}`; (byCell.get(k) ?? byCell.set(k, { ...r, stations: [] }).get(k)).stations.push(r.station); }
+  const gapRows = ea.EA_TRACKS.flatMap((t) => (t.gaps ?? []).map((g) => `
+        <tr data-ea-gapcell="${esc(t.id)}"><td>${esc(t.short)}</td><td>${esc(g.practice)}</td><td>—</td><td><em>pending — no station yet</em></td></tr>`)).join("");
   const matrixHtml = [...byCell.values()].map((c) => `
         <tr data-ea-cell="${esc(c.track)}/${esc(c.workType)}/${esc(c.union)}"><td>${esc(ea.eaTrack(c.track).short)}</td><td>${esc(c.workType)}</td><td>${uChip(c.union)}</td><td>${c.stations.map(sLink).join(", ")}</td></tr>`).join("");
 
@@ -131,7 +143,8 @@ async function main() {
   .ea-steps { counter-reset: s; list-style: none; padding: 0; display: grid; gap: var(--at-sp-3); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   .ea-steps li { background: var(--at-surface); border: 1px solid var(--at-border); border-radius: var(--at-r-md); padding: var(--at-sp-3) var(--at-sp-4); }
   .ea-form { display: flex; flex-wrap: wrap; gap: var(--at-sp-3); align-items: end; }
-  .ea-form label { display: grid; gap: var(--at-sp-1); font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); }
+  .ea-form label { display: grid; gap: var(--at-sp-1); font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); min-width: 0; max-width: 100%; }
+  .ea-form select { width: 100%; max-width: 100%; text-overflow: ellipsis; }
   .ea-form input, .ea-form select { font: inherit; min-height: 44px; padding: 0 var(--at-sp-3); border-radius: var(--at-r-md); border: 1px solid var(--at-border-strong); background: var(--at-surface-2); color: var(--at-on-surface); }
   .ea-out { margin-top: var(--at-sp-3); padding: var(--at-sp-3) var(--at-sp-4); border-radius: var(--at-r-md); background: var(--at-surface-2); }
   main a { color: var(--at-primary); }
@@ -185,7 +198,7 @@ async function main() {
     <div class="at-section-head"><div><h2 id="h-matrix">Competency matrix</h2><p>Work type × craft → station: ${byCell.size} cells, ${matrix.length} station links, every one a live catalog station.</p></div></div>
     <div class="ea-scroll"><table class="ea-table">
       <thead><tr><th scope="col">Track</th><th scope="col">Work type</th><th scope="col">Craft</th><th scope="col">Stations</th></tr></thead>
-      <tbody>${matrixHtml}
+      <tbody>${matrixHtml}${gapRows}
       </tbody>
     </table></div>
   </section>
@@ -248,7 +261,8 @@ $("ea-form").addEventListener("submit", (e) => {
     md.push(`## Track: ${t.recipient}`, "");
     md.push("| Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |", "|---|---|---|---|---|---|");
     for (const w of t.workTypes) md.push(`| "${w.facts}" | ${w.practice} | ${w.crafts.map((c) => `${uAbbrev(c.union)} (${c.role})`).join("; ")} | ${w.stations.map((id) => `\`${id}\``).join(", ")} | ${w.sims.map((id) => `\`${id}\``).join(", ") || "—"} | ${w.k12.map((id) => `\`${id}\``).join(", ") || "—"} |`);
-    for (const g of src.gaps ?? []) md.push("", `Not taught yet: "${g.facts}" — ${g.note}.`);
+    for (const g of src.gaps ?? []) md.push("", `Not taught yet — ${g.practice} ("${g.facts}"): ${g.note}. The matrix lists it as pending.`);
+    if (t.usExtra.length) md.push("", `More UNIONSIMS simulations for this kind of work (apprentice and crew-lead pathways): ${t.usExtra.map((id) => `\`${id}\``).join(", ")}.`);
     if (t.pending.length) md.push("", `Pending (UNIONSIMS, not in this tree yet): ${t.pending.map((id) => `\`${id}\``).join(", ")}.`);
     md.push("", "### Instructor guides", "");
     for (const tpl of templates.filter((x) => x.track === t.id)) {
@@ -256,7 +270,7 @@ $("ea-form").addEventListener("submit", (e) => {
       md.push(`- **Due:** ${tpl.dueDays} days after the cohort starts · **required score:** ${tpl.module.requiredScore} · **credential:** \`${tpl.credential.id}\` (${COMPETENCY_BY_ID[tpl.credential.id].title})`);
       md.push("- **Objectives:**", ...tpl.guide.objectives.map((o) => `  - ${o}`));
       md.push("- **The practice (each station's cited standards):**", ...tpl.guide.practice.map((p) => `  - \`${p.station}\` ${sName(p.station)}${p.capstone ? " (capstone)" : ""} — ${(tree.stations.get(p.station)?.certification ?? "").split(";")[0].trim()}`));
-      if (tpl.guide.simulations.length) md.push("- **Simulations:** " + tpl.guide.simulations.map((s) => `\`${s.sim}\` (pass ${s.passMark}, order gates enforced)`).join(", "));
+      if (tpl.guide.simulations.length) md.push("- **Simulations:** " + tpl.guide.simulations.map((s) => `\`${s.launch}\` (pass ${s.passMark}, order gates enforced${s.deanModule ? `, UNIONSIMS DEAN module ${s.deanModule.minutes ?? "?"} min` : ""})`).join(", "));
       md.push("- **Debrief prompts:**", ...tpl.guide.debrief.map((d) => `  - ${d}`));
       md.push(`- **Assessment:** ${tpl.guide.assessment}`, "");
     }

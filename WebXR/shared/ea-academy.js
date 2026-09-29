@@ -21,6 +21,10 @@
 //   eaPathways(track, { stationIds, simIds }) -> [{ role, title, stations, sims, credential: { id, overlap, require } }]
 //   eaMatrix({ stationIds, simIds }) -> [{ track, workType, union, station }] (live cells only)
 //   eaTemplates({ stationIds, simIds }) -> [{ module: DEAN module doc (dnCleanModule shape), sims, dueDays, track, role, guide }]
+//   opts.us = { usSimsFor(project) -> [{ id }], usDeanModules() -> [{ id: "unionsims:<sim>", ... }] } — UNIONSIMS'
+//     us-unionsims.js seams, passed in when that module is in the tree (guarded): a simulation usSimsFor lists for a
+//     track's project that the track does not name yet joins the track (`usExtra`) and its apprentice and crew-lead
+//     pathways; each template's us- simulation carries its usDeanModules() entry.
 //   eaSetUpCohort({ en, dn }, { orgName, trackId, role, seats, startDate }) -> { org, cohort, module, classCode, due }
 //   eaCredentials(records) -> { status, badges, xapi } for the Academy's credential ids (competency.js)
 
@@ -68,7 +72,7 @@ const EA_GSI_K12 = ["k12-es-rain-gardens-a-sponge-in-the-sidewalk", "k12-es-meas
  */
 export const EA_TRACKS = [
   {
-    id: "abag-strip-marsh-east", short: "abag", project: "abag-strip-marsh-east", recipient: "Association of Bay Area Governments (ABAG)", programme: "bay-program-projects", prefer: ["bay-restoration-maritime-underwater", "marine-ecology-and-restoration", "heavy-equipment-operators", "core-trenching"],
+    id: "abag-strip-marsh-east", short: "abag", usProject: "tidal-channel", project: "abag-strip-marsh-east", recipient: "Association of Bay Area Governments (ABAG)", programme: "bay-program-projects", prefer: ["bay-restoration-maritime-underwater", "marine-ecology-and-restoration", "heavy-equipment-operators", "core-trenching"],
     workTypes: [
       { id: "tidal-channels", facts: "excavating new tidal channels", practice: "machine work on soft marsh from mats, hand-crew channel opening, water-control structures",
         crafts: [{ union: "iuoe-local3", role: "operating engineers on the amphibious excavator" }, { union: "liuna", role: "laborers on the hand crew and the mats" }],
@@ -90,31 +94,31 @@ export const EA_TRACKS = [
     gaps: [],
   },
   {
-    id: "bacwa-nutrient-pilots", short: "bacwa", project: "bacwa-nutrient-pilots", recipient: "Bay Area Clean Water Agencies (BACWA)", programme: "bay-program-projects", prefer: ["core-confined-space", "core-lockout-tagout", "water-and-gas-utility-crews"],
+    id: "bacwa-nutrient-pilots", short: "bacwa", usProject: "nutrient-reduction", project: "bacwa-nutrient-pilots", recipient: "Bay Area Clean Water Agencies (BACWA)", programme: "bay-program-projects", prefer: ["core-confined-space", "core-lockout-tagout", "water-and-gas-utility-crews"],
     workTypes: [
       { id: "plant-rounds", facts: "reducing nutrient inputs to San Francisco Bay", practice: "treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one)",
         crafts: [{ union: "iuoe", role: "operating and stationary engineers" }, { union: "afscme", role: "public-service plant staff" }, { union: "uwua", role: "water utility crews" }],
-        stations: ["bk-wastewater-nutrient-chemical-feed", "chlorine-room", "us-wastewater-plant-operator-rounds"],
-        sims: ["us-sim-plant-operator-rounds", "us-sim-chemical-feed"], k12: ["k12-es-too-much-of-a-good-thing"] },
+        stations: ["bk-wastewater-nutrient-chemical-feed", "chlorine-room"],
+        sims: ["us-sim-plant-operator-rounds"], k12: ["k12-es-too-much-of-a-good-thing"] },
       { id: "process-lockout", facts: "five pilot projects", practice: "lockout and confined-space entry on process equipment while a pilot is installed or changed",
         crafts: [{ union: "iuoe", role: "stationary engineers on process equipment" }, { union: "afscme", role: "public-service plant staff" }],
-        stations: ["digester-gas", "lift-station"],
+        stations: ["digester-gas", "lift-station", "us-treatment-plant-process-pump-lockout"],
         sims: ["us-sim-process-lockout"], k12: [] },
     ],
     gaps: [],
   },
   {
-    id: "san-jose-gsi-plan", short: "sanjose", project: "san-jose-gsi-plan", recipient: "City of San Jose", programme: "bay-program-projects", prefer: ["core-trenching", "heavy-equipment-operators", "water-and-gas-utility-crews"],
+    id: "san-jose-gsi-plan", short: "sanjose", usProject: "green-stormwater", usExclude: ["us-sim-gsi-excavation-and-shoring", "us-sim-gsi-underdrain-piping", "us-sim-gsi-soil-and-planting"] /* the award is a plan, not a build: UNIONSIMS' construction sims stay on the building tracks */, project: "san-jose-gsi-plan", recipient: "City of San Jose", programme: "bay-program-projects", prefer: ["core-trenching", "heavy-equipment-operators", "water-and-gas-utility-crews"],
     workTypes: [
-      { id: "plan-survey", facts: "develop a green stormwater infrastructure implementation plan", practice: "survey, assessment and locates for a plan: outfall sampling, marked utilities, measuring a site",
-        crafts: [{ union: "uwua", role: "utility crews on locates" }, { union: "iuoe-local3", role: "operating engineers potholing inside the tolerance zone" }, { union: "liuna", role: "laborers on the survey crew's traffic control" }],
-        stations: ["stormwater-outfall", "ut-service-line-locate-and-hand-dig-near-gas-main", "op-excavator-trench-and-utility-locate"],
+      { id: "plan-locates", facts: "develop a green stormwater infrastructure implementation plan", practice: "utility locates and potholing before any field check a plan needs",
+        crafts: [{ union: "uwua", role: "utility crews on locates and hand digs" }, { union: "iuoe-local3", role: "operating engineers potholing inside the tolerance zone" }],
+        stations: ["ut-service-line-locate-and-hand-dig-near-gas-main", "op-excavator-trench-and-utility-locate"],
         sims: ["us-sim-gsi-utility-locate"], k12: ["k12-es-measure-a-rain-garden", "k12-es-count-it-a-fair-survey"] },
     ],
-    gaps: [],
+    gaps: [{ facts: "develop a green stormwater infrastructure implementation plan", practice: "survey and assessment for the plan", note: "no station teaches site survey and assessment for a green stormwater infrastructure plan yet (UNIONSIMS reports the same gap); pending, not filled with an unrelated station" }],
   },
   {
-    id: "san-pablo-gsi", short: "sanpablo", project: "san-pablo-gsi", recipient: "City of San Pablo", programme: "bay-program-projects", prefer: ["core-trenching", "heavy-equipment-operators", "water-and-gas-utility-crews"],
+    id: "san-pablo-gsi", short: "sanpablo", usProject: "green-stormwater", project: "san-pablo-gsi", recipient: "City of San Pablo", programme: "bay-program-projects", prefer: ["core-trenching", "heavy-equipment-operators", "water-and-gas-utility-crews"],
     workTypes: [
       { id: "gsi-build", facts: "construct and monitor green stormwater infrastructure", practice: "excavation and shoring, underdrain piping, soil and planting",
         crafts: [...EA_GSI_CRAFTS.dig, ...EA_GSI_CRAFTS.pipe.slice(0, 1)],
@@ -128,7 +132,7 @@ export const EA_TRACKS = [
     gaps: [],
   },
   {
-    id: "sfpuc-outer-mission-gsi", short: "sfpuc", project: "sfpuc-outer-mission-gsi", recipient: "San Francisco Public Utilities Commission (SFPUC)", programme: "bay-program-projects", prefer: ["core-trenching", "heavy-equipment-operators", "water-and-gas-utility-crews"],
+    id: "sfpuc-outer-mission-gsi", short: "sfpuc", usProject: "green-stormwater", project: "sfpuc-outer-mission-gsi", recipient: "San Francisco Public Utilities Commission (SFPUC)", programme: "bay-program-projects", prefer: ["core-trenching", "heavy-equipment-operators", "water-and-gas-utility-crews"],
     workTypes: [
       { id: "rain-gardens", facts: "rain gardens", practice: "a bioretention cell cut into a sidewalk: locate, cut, layers, plants",
         crafts: [...EA_GSI_CRAFTS.dig, ...EA_GSI_CRAFTS.plant],
@@ -146,7 +150,7 @@ export const EA_TRACKS = [
     gaps: [],
   },
   {
-    id: "san-leandro-trash-capture", short: "sanleandro", project: "san-leandro-trash-capture", recipient: "City of San Leandro", programme: "bay-program-projects", prefer: ["core-confined-space", "bay-program-projects", "core-lockout-tagout"],
+    id: "san-leandro-trash-capture", short: "sanleandro", usProject: "trash-capture", project: "san-leandro-trash-capture", recipient: "City of San Leandro", programme: "bay-program-projects", prefer: ["core-confined-space", "bay-program-projects", "core-lockout-tagout"],
     workTypes: [
       { id: "device-cleanout", facts: "two large trash capture devices in stormwater drains", practice: "cleanout from the surface: traffic control, lockout, air monitoring, debris handling",
         crafts: EA_TRASH_CRAFTS.clean,
@@ -160,7 +164,7 @@ export const EA_TRACKS = [
     gaps: [],
   },
   {
-    id: "port-of-oakland-trash-capture", short: "oakport", project: "port-of-oakland-trash-capture", recipient: "Port of Oakland", programme: "bay-program-projects", prefer: ["core-confined-space", "bay-program-projects", "core-lockout-tagout"],
+    id: "port-of-oakland-trash-capture", short: "oakport", usProject: "trash-capture", project: "port-of-oakland-trash-capture", recipient: "Port of Oakland", programme: "bay-program-projects", prefer: ["core-confined-space", "bay-program-projects", "core-lockout-tagout"],
     workTypes: [
       { id: "device-cleanout", facts: "four large trash capture devices collecting stormwater", practice: "cleanout on port property: terminal stormwater, lockout, air monitoring, debris handling",
         crafts: [...EA_TRASH_CRAFTS.clean.slice(0, 1), { union: "ilwu", role: "longshore maintenance on terminal stormwater (trained jointly with the PMA, per the registry)" }],
@@ -174,12 +178,12 @@ export const EA_TRACKS = [
     gaps: [],
   },
   {
-    id: "ccag-pcb-source-control", short: "ccag", project: "ccag-pcb-source-control", recipient: "City/County Association of Governments of San Mateo County (C/CAG)", programme: "bay-program-projects", prefer: ["hazmat-environmental", "core-respiratory-protection"],
+    id: "ccag-pcb-source-control", short: "ccag", usProject: "pcb-source-control", project: "ccag-pcb-source-control", recipient: "City/County Association of Governments of San Mateo County (C/CAG)", programme: "bay-program-projects", prefer: ["hazmat-environmental", "core-respiratory-protection"],
     workTypes: [
       { id: "pcb-monitor", facts: "monitor and control PCB sources", practice: "sampling with PPE and decontamination, chain of custody (at a representative area, never a named property)",
         crafts: [{ union: "liuna", role: "hazardous-waste laborers and sample custodians" }, { union: "seiu-1021", role: "public-sector employees (the registry's description)" }],
         stations: ["br-legacy-mercury-and-pcb-hotspot-handling", "br-sediment-chain-of-custody-and-lab-prep", "decon-support-laborer", "stormwater-outfall"],
-        sims: ["ps-pcb-sampling", "us-sim-pcb-sampling-decon", "us-sim-pcb-chain-of-custody"], k12: ["k12-es-too-much-of-a-good-thing"] },
+        sims: ["ps-pcb-sampling", "us-sim-pcb-chain-of-custody"], k12: ["k12-es-too-much-of-a-good-thing"] },
       { id: "pcb-control", facts: "control PCB sources", practice: "removing PCB-containing equipment, regulated-soil handling and haul",
         crafts: [{ union: "ibew-local6", role: "electricians (the registry's San Francisco local) on equipment removal" }, { union: "liuna", role: "hazardous-waste laborers" }, { union: "teamsters", role: "regulated-soil haul" }],
         stations: ["pcb-equipment-removal", "us-regulated-soil-haul-load-tarp-and-manifest", "decon-line"],
@@ -188,7 +192,7 @@ export const EA_TRACKS = [
     gaps: [],
   },
   {
-    id: "clean-ports", short: "cleanports", project: "clean-ports", recipient: "Port of Oakland (Clean Ports)", programme: "wojrc-pathway-edition", prefer: ["core-lockout-tagout", "energy-transition", "wojrc-pathway-edition"],
+    id: "clean-ports", short: "cleanports", usProject: "clean-ports", project: "clean-ports", recipient: "Port of Oakland (Clean Ports)", programme: "wojrc-pathway-edition", prefer: ["core-lockout-tagout", "energy-transition", "wojrc-pathway-edition"],
     workTypes: [
       { id: "cargo-equipment", facts: "electric and hydrogen cargo handling equipment", practice: "zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout",
         crafts: [{ union: "ilwu", role: "longshore equipment operators and mechanics" }, { union: "iam", role: "machinists" }],
@@ -207,7 +211,7 @@ export const EA_TRACKS = [
         stations: ["cp-battery-energy-storage-site-awareness", "battery-yard", "battery-storage-container-commissioning"],
         sims: ["ps-zero-emission-charging-yard"], k12: [] },
     ],
-    gaps: [{ facts: "scrappage of a portion of the existing diesel fleet", note: "no station teaches fleet scrappage yet; the Academy lists it and links nothing" }],
+    gaps: [{ facts: "scrappage of a portion of the existing diesel fleet", practice: "retiring diesel equipment from the fleet", note: "no station teaches fleet scrappage yet; the Academy lists it and links nothing" }],
   },
 ];
 
@@ -229,11 +233,14 @@ export function eaIdsOf(track) {
 }
 
 /** Split a track's ids into what resolves in this tree and what is pending (UNIONSIMS' us- ids until they land). */
-export function eaResolve(track, { stationIds = null, simIds = null } = {}) {
+export function eaResolve(track, { stationIds = null, simIds = null, us = null } = {}) {
   const pending = [];
   const live = (ids, set) => ids.filter((id) => (eaHas(set, id) ? true : (pending.push(id), false)));
   const workTypes = track.workTypes.map((w) => ({ ...w, stations: live(w.stations, stationIds), sims: live(w.sims, simIds), k12: live(w.k12, stationIds) }));
-  return { ...track, workTypes, pending: eaUniq(pending) };
+  const named = new Set(track.workTypes.flatMap((w) => w.sims));
+  let usExtra = [];
+  try { usExtra = (us?.usSimsFor?.(track.usProject) ?? []).map((x) => x?.id ?? x).filter((id) => typeof id === "string" && !named.has(id) && !(track.usExclude ?? []).includes(id)); } catch (_) { usExtra = []; }
+  return { ...track, workTypes, usExtra, pending: eaUniq(pending) };
 }
 
 /** The competency among `candidates` that shares the most stations with `stations` (ties: the order given — the track's preference first). */
@@ -276,9 +283,9 @@ export function eaPathways(track, opts = {}) {
   const build = {
     aware: { stations: eaUniq([...all.k12, "k12-es-who-does-this-work"]).filter((id) => eaHas(opts.stationIds, id)), sims: [] },
     entry: { stations: firsts, sims: all.sims.slice(0, 1) },
-    appr: { stations: all.stations, sims: all.sims },
+    appr: { stations: all.stations, sims: eaUniq([...all.sims, ...t.usExtra]) },
     jw: { stations: firsts, sims: all.sims },
-    lead: { stations: all.stations, sims: all.sims },
+    lead: { stations: all.stations, sims: eaUniq([...all.sims, ...t.usExtra]) },
   };
   return EA_ROLES.map((r) => {
     const p = build[r.id];
@@ -316,6 +323,8 @@ function eaDebrief(w) {
  */
 export function eaTemplates(opts = {}) {
   const out = [];
+  let usMods = new Map();
+  try { usMods = new Map((opts.us?.usDeanModules?.() ?? []).map((m) => [m.id, m])); } catch (_) { usMods = new Map(); }
   for (const tr of EA_TRACKS) {
     const t = eaResolve(tr, opts);
     for (const p of eaPathways(tr, opts)) {
@@ -325,7 +334,7 @@ export function eaTemplates(opts = {}) {
       const guide = {
         objectives: t.workTypes.filter((w) => w.stations.some((s) => p.stations.includes(s)) || p.role === "aware").map((w) => `Explain and practise ${w.practice} — work the sources describe as "${w.facts}".`),
         practice: [...p.stations, ...p.capstone].map((id) => ({ station: id, capstone: p.capstone.includes(id) })), // the generator joins each station's cited standards (catalog `certification`)
-        simulations: p.sims.map((id) => ({ sim: id, launch: `projectsim:${id}`, passMark: 80 })),
+        simulations: p.sims.map((id) => ({ sim: id, launch: `${id.startsWith("us-") ? "unionsims" : "projectsim"}:${id}`, passMark: 80, deanModule: usMods.get(`unionsims:${id}`) ?? null })),
         debrief: t.workTypes.flatMap(eaDebrief).slice(0, 4),
         assessment: `Every station passed with a module score of ${role.requiredScore} or more${p.sims.length ? `; every simulation at 80 or more with no order-gate penalty` : ""}. The pathway ends in the ${p.credential?.id ?? "—"} competency — ${p.credential?.require ?? 0} mastery runs from its list, ${p.credential?.overlap ?? 0} in the track's stations${p.capstone.length ? ` and ${p.capstone.length} in the capstone` : ""} — and the cohort certificate.`,
       };
