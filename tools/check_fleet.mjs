@@ -180,6 +180,8 @@ const KITS = [
   // The Motor Pool kit (console MOTORPOOL): its own builders, after the kits it dispatches to.
   { file: "shared/drivables-data.js", budget: null, builders: null },
   { file: "shared/drivables.js", budget: "DV_BUDGET", builders: "DV_BUILDERS" },
+  // The parish kits (console KREWE): streetcar, pump house, floodwall, floodgate, two hulls, shotgun block, live oak, bandstand, barriers, ferry landing.
+  { file: "shared/kw-kits.js", budget: "KW_BUDGET", builders: "KW_KIT_BUILDERS" },
 ];
 // The class ceilings the assets brief sets, whatever a table declares.
 const CEILING = {

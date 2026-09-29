@@ -752,6 +752,10 @@ APPS = {
             SHARED / "npc.js",
             SHARED / "drivables-data.js",
             SHARED / "drivables-board.js",
+            # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
+            SHARED / "kw-play-data.js",
+            SHARED / "kw-place.js",
+            SHARED / "kw-kits.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",

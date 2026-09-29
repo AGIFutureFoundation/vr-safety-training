@@ -19,6 +19,8 @@ import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.j
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
+import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
+import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
@@ -69,6 +71,8 @@ np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z] });
+// KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
+const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 const connectors = npResolveConnectors(parish);
 
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
@@ -415,7 +419,7 @@ ctlMount({
 // site of its kind (npc.js's GR_PARISH_KIND_ALIAS reads the parish modules' spellings); a kind no site carries places
 // no one. G talks.
 const asNpc = grMount(`parish:${parish.id}`, {
-  three: THREE, root, sites: parish.sites,
+  three: THREE, root, sites: [...kwGriotSites(parish), ...parish.sites], // KREWE: a character stands at each kiosk first
   groundAt: (x, z) => npHeightAt(parish, x, z), from: "parishes", page: ppHerePage(),
   pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
   openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); },
@@ -439,12 +443,14 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...slGamesFor(parish.id).map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
-qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
+const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
+// KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
+kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() });

@@ -44,6 +44,7 @@ export const QM_STATION_NAMES = {
   "container-lashing": "Container Lashing",
   "crane-yard": "Crane Yard",
   "creosote-pile-removal": "Creosote Pile Removal",
+  "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod",
   "cs-permit-entry-and-attendant-duties": "Permit Entry & Attendant Duties",
   "cs-ventilation-and-air-monitoring-plan": "Ventilation & Air Monitoring Plan",
   "decon-support-laborer": "Decon Support Laborer",
