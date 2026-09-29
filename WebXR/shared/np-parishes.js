@@ -59,6 +59,12 @@ import { NP_LA_SHINTECH_PLAQUEMINE } from "./np-data-la-shintech-plaquemine.js";
 import { NP_LC_LAKEFRONT_DOWNTOWN } from "./np-data-lc-lakefront-downtown.js";
 import { NP_LC_CALCASIEU_CHANNEL } from "./np-data-lc-calcasieu-channel.js";
 import { NP_LC_PORT_OF_VINTON } from "./np-data-lc-port-of-vinton.js";
+// New Orleans neighbourhood districts (console NOLA-DISTRICTS, docs/consoles/NOLA-DISTRICTS.md): near-true-scale children
+// of the Orleans map, each declaring `parent: "orleans"` (the parent/child "zoom in" pattern, docs/parishes.md).
+import { NP_NOLA_FRENCH_QUARTER_CBD } from "./np-data-nola-french-quarter-cbd.js";
+import { NP_NOLA_UPTOWN_GARDEN } from "./np-data-nola-uptown-garden.js";
+import { NP_NOLA_MID_CITY_GENTILLY } from "./np-data-nola-mid-city-gentilly.js";
+import { NP_NOLA_BYWATER_LOWER_NINTH } from "./np-data-nola-bywater-lower-ninth.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -77,6 +83,7 @@ export const NP_PARISHES = [
   NP_SM_UNSPOKEN_SMILES,
   NP_LA_META_RICHLAND, NP_LA_DELTA_FORGE_RAPIDES, NP_LA_SHINTECH_PLAQUEMINE,
   NP_LC_LAKEFRONT_DOWNTOWN, NP_LC_CALCASIEU_CHANNEL, NP_LC_PORT_OF_VINTON,
+  NP_NOLA_FRENCH_QUARTER_CBD, NP_NOLA_UPTOWN_GARDEN, NP_NOLA_MID_CITY_GENTILLY, NP_NOLA_BYWATER_LOWER_NINTH,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
@@ -89,6 +96,7 @@ export const NP_REGIONS = [
   { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
   { id: "louisiana-sites", name: "Louisiana Development Sites", title: "Louisiana Development Sites", noun: "site area", nouns: "site areas" },
   { id: "louisiana-cities", name: "Louisiana Growth Cities", title: "Louisiana Growth City Districts", noun: "district", nouns: "districts" },
+  { id: "new-orleans-districts", name: "New Orleans Neighbourhoods", title: "New Orleans Neighbourhood Districts", noun: "district", nouns: "districts" },
   { id: "programmes", name: "Programme Worlds", title: "Programme Worlds (procedural)", noun: "world", nouns: "worlds" },
 ];
 
@@ -105,6 +113,25 @@ export function npRegionGroups(parishes = NP_PARISHES) {
 
 /** A parish by id, or null. */
 export function npParish(id) { return NP_PARISHES.find((p) => p.id === id) ?? null; }
+
+// Parent and child maps (console NOLA-DISTRICTS, docs/parishes.md "Districts inside a parish"): a map may declare
+// `parent: "<map id>"` — a near-true-scale "zoom in" on part of a coarser map. The overlap rule: a child's field lies
+// inside its parent's and overlaps only its parent (plus whatever the parent's own field already shares with its
+// neighbours, inherited); it never overlaps a sibling or any other child. Children are one level deep.
+
+/** The parent map of a child map, or null (a map without `parent` is a top-level map). */
+export function npParentOf(parish, parishes = NP_PARISHES) { return parish?.parent ? parishes.find((p) => p.id === parish.parent) ?? null : null; }
+
+/** The child maps that declare `id` as their parent, in registry order. */
+export function npChildrenOf(id, parishes = NP_PARISHES) { return parishes.filter((p) => p.parent === id); }
+
+/** Whether two maps' fields may overlap under the parent/child rule (the lon/lat boxes are the caller's to test). */
+export function npMayOverlap(a, b) {
+  if (!a || !b || a.id === b.id) return true;
+  if (a.parent === b.id || b.parent === a.id) return true; // a child and its own parent
+  if (a.parent || b.parent) return false; // never a sibling, another child or a stranger (inherited overlaps are the checker's)
+  return true; // two top-level maps keep their own rules (the parishes' boxes already overlap at parish scale)
+}
 
 /** The ids in order (the selector, `?parish=`). */
 export function npParishIds() { return NP_PARISHES.map((p) => p.id); }

@@ -117,8 +117,9 @@ export const TQ_SHARED_SCHEMA_V2 = tqSchemaV2(DN_SHARED_SCHEMA);
 /** Build the v2 document: v1 + the TQ-BRIDGE sections (tools/tq_bridge.mjs). */
 export async function dnBuildSharedV2() { return tqExtend(await dnBuildShared(), { shared: SHARED }); }
 
-/** The file as written (and as the size budget measures it). */
-export const dnSharedText = (doc) => `${JSON.stringify(doc, null, 1)}\n`;
+/** The file as written (and as the size budget measures it): compact JSON, one top-level section per line, so readers
+ * (TradeQuest) parse every field as before, the whitespace no longer spends the budget, and diffs stay per section. */
+export const dnSharedText = (doc) => `{\n${Object.entries(doc).map(([k, v]) => `${JSON.stringify(k)}:${JSON.stringify(v)}`).join(",\n")}\n}\n`;
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const doc = await dnBuildSharedV2();

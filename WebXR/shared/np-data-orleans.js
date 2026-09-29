@@ -2716,6 +2716,230 @@ export const NP_ORLEANS = {
     30.175
    ],
    "approximate": true
+  },
+  {
+   "id": "conn-nd-french-quarter-canal",
+   "kind": "road",
+   "name": "Canal Street into the French Quarter and the CBD (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     -664,
+     558
+    ]
+   },
+   "to": {
+    "parish": "nola-french-quarter-cbd",
+    "position": [
+     -1150,
+     -492
+    ],
+    "lonlat": [
+     -90.076,
+     29.9578
+    ]
+   },
+   "lonlat": [
+    -90.076,
+    29.9578
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-french-quarter-esplanade",
+   "kind": "road",
+   "name": "Esplanade Avenue into the French Quarter (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     -268,
+     364
+    ]
+   },
+   "to": {
+    "parish": "nola-french-quarter-cbd",
+    "position": [
+     1447,
+     -1777
+    ],
+    "lonlat": [
+     -90.062,
+     29.9638
+    ]
+   },
+   "lonlat": [
+    -90.062,
+    29.9638
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-uptown-st-charles",
+   "kind": "road",
+   "name": "St. Charles Avenue into the Garden District and Uptown (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     -1624,
+     1509
+    ]
+   },
+   "to": {
+    "parish": "nola-uptown-garden",
+    "position": [
+     -1126,
+     37
+    ],
+    "lonlat": [
+     -90.11,
+     29.9285
+    ]
+   },
+   "lonlat": [
+    -90.11,
+    29.9285
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-uptown-claiborne",
+   "kind": "road",
+   "name": "South Claiborne Avenue into Uptown (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     -1059,
+     1071
+    ]
+   },
+   "to": {
+    "parish": "nola-uptown-garden",
+    "position": [
+     1018,
+     -1633
+    ],
+    "lonlat": [
+     -90.09,
+     29.942
+    ]
+   },
+   "lonlat": [
+    -90.09,
+    29.942
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-mid-city-carrollton",
+   "kind": "road",
+   "name": "North Carrollton Avenue into Mid-City and City Park (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     -1271,
+     -146
+    ]
+   },
+   "to": {
+    "parish": "nola-mid-city-gentilly",
+    "position": [
+     -450,
+     1039
+    ],
+    "lonlat": [
+     -90.0975,
+     29.9795
+    ]
+   },
+   "lonlat": [
+    -90.0975,
+    29.9795
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-mid-city-gentilly",
+   "kind": "road",
+   "name": "Gentilly Boulevard into Gentilly (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     -438,
+     -688
+    ]
+   },
+   "to": {
+    "parish": "nola-mid-city-gentilly",
+    "position": [
+     1446,
+     -200
+    ],
+    "lonlat": [
+     -90.068,
+     29.9962
+    ]
+   },
+   "lonlat": [
+    -90.068,
+    29.9962
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-bywater-st-claude",
+   "kind": "road",
+   "name": "St. Claude Avenue into the Bywater (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     551,
+     279
+    ]
+   },
+   "to": {
+    "parish": "nola-bywater-lower-ninth",
+    "position": [
+     -88,
+     -303
+    ],
+    "lonlat": [
+     -90.033,
+     29.9664
+    ]
+   },
+   "lonlat": [
+    -90.033,
+    29.9664
+   ],
+   "approximate": true
+  },
+  {
+   "id": "conn-nd-lower-ninth-claiborne",
+   "kind": "road",
+   "name": "North Claiborne Avenue into the Lower Ninth Ward (zoom in)",
+   "from": {
+    "parish": "orleans",
+    "position": [
+     1059,
+     195
+    ]
+   },
+   "to": {
+    "parish": "nola-bywater-lower-ninth",
+    "position": [
+     1301,
+     -534
+    ],
+    "lonlat": [
+     -90.015,
+     29.969
+    ]
+   },
+   "lonlat": [
+    -90.015,
+    29.969
+   ],
+   "approximate": true
   }
  ],
  "fieldLessons": [

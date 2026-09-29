@@ -113,6 +113,7 @@ export const PA_CHARACTERS = ["quarter", "garden", "suburb", "industrial", "down
 /** Region -> character -> category id: every character in every region maps to a category. */
 export const PA_REGION_CHARACTERS = {
   "new-orleans": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "new-orleans-districts": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "san-francisco": { quarter: "painted-victorian", garden: "painted-victorian", suburb: "sunset-pastels", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   oakland: { quarter: "oakland-brick", garden: "painted-victorian", suburb: "craftsman-shingle", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "north-east-bay": { quarter: "oakland-brick", garden: "craftsman-shingle", suburb: "valley-ranch", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
