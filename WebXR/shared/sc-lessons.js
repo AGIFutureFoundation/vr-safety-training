@@ -4,7 +4,7 @@
 // data); this index reads them all for the scoreboard page (WebXR/scholar/index.html) and
 // tools/check_scholar.mjs: the shared field lessons (Bay World, the Deep, the Regatta, Fairway Park),
 // Sierra Summit's and Redwood Reach's own, the ten parish and district maps' field lessons and
-// BAYOU's parish lessons. Each entry is in sc-scholar.js's session shape with its world, its site and
+// BAYOU's parish lessons and ESTUARY's Bay ecology lessons (San Francisco and West Oakland anchors). Each entry is in sc-scholar.js's session shape with its world, its site and
 // a position (the site's own when the lesson carries none).
 //
 // Every top-level name carries the `sc`/`SC_` prefix (the bundler shares one scope).
@@ -16,6 +16,7 @@ import { RW_SITES, RW_LANDMARKS } from "../redwood/js/rw-data.js";
 import { RW_FIELD_LESSONS } from "../redwood/js/rw-lore-data.js";
 import { NP_PARISHES } from "./np-parishes.js";
 import { BY_LESSONS } from "./by-parish-lessons.js";
+import { esSessionLessons } from "./es-bay-lessons.js";
 
 /** Where each world's page lives, relative to WebXR/ (the scoreboard links a lesson back to its world). */
 export const SC_WORLD_PAGES = {
@@ -54,6 +55,7 @@ function scBuild() {
     for (const l of p.fieldLessons ?? []) push({ ...l, parish: p.id }, { world: "parishes", parish: p.id, sites, source: "parish-map" });
   }
   for (const l of BY_LESSONS) push(l, { world: "parishes", parish: l.parish, sites: scSitesOf("parishes", l.parish), source: "bayou" });
+  for (const p of NP_PARISHES) for (const l of esSessionLessons(p.id)) push(l, { world: "parishes", parish: p.id, sites: scSitesOf("parishes", p.id), source: "estuary" });
   return out;
 }
 

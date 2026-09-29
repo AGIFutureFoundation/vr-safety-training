@@ -70,6 +70,8 @@ Registry module: `WebXR/shared/es-bay-lessons.js` (`ES_LESSONS`, `ES_APPLY_STEPS
 - `esOaklandSite(lesson, { npParish })` resolves the BAYMAP site once `np-data-oak-*` merges (null until then).
 
 ## Left
-- Not mounted in the parishes app yet (the lessons launch from their station links and flows; a site-board mount like
-  BAYOU's is the next step). BAYOU's `by-flow-agent.js` is tied to BY_* apply games, so ESTUARY flows run on flowhub only.
+- Mounted (BAYSEAMS): `esSessionLessons(parishId)` feeds the parishes app's SCHOLAR panel (`scMountSession`) and SCHOLAR's
+  index (`sc-lessons.js`, source "estuary"), so each lesson starts a session at its San Francisco site; the three West Oakland
+  anchors are unguarded (`esOaklandSite` throws on a miss) and play as `<id>-oakland` on `oak-west-oakland`. COGNITION's runner is
+  not used: its units are generated from K-12 flows, and ESTUARY's flows already run on flowhub.
 - Headless drive of each station and screenshots not done; eval_worlds not run.

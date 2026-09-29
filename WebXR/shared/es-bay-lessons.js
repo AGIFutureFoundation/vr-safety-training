@@ -9,15 +9,19 @@
 //   ES_BQ_GAMES      BAYQUEST's published game ids ($SP/epa/bayquest-ids.md); a lesson runs one when
 //                    bqGame(id) resolves, else its own fallback
 //   esApplyFor(l)    the apply step a lesson runs now
-//   esStartLesson(id, where)   SCHOLAR's scStartSession(lessonId, where), guarded
+//   esStartLesson(id, where)   SCHOLAR's scStartSession(lessonId, where)
+//   esSessionLessons(parishId) the lessons that start a SCHOLAR session on that map (mounted in the parishes app)
 //   esModule()       a DEAN-assignable module shape ({ id, title, lessons: [{ lessonId, station, flow }] })
-//   esOaklandSite(l) the lesson's BAYMAP site when np-data-oak-* is merged (npParish(id)?.sites.find)
+//   esOaklandSite(l) the lesson's BAYMAP West Oakland site (throws on an anchor that names no real site)
 //
 // Kids rule: one idea per step, the band's reading ceiling, no fear framing, no digit in learner text.
 // Facts rule: program facts ($SP/epa/epa-2026-facts.md) only in the careers and clean-air lessons.
 // Every top-level name is prefixed `es`/`ES_` (the bundler shares one scope). No three.js here.
 
 import { QM_MECHANICS } from "./side-game-mechanics.js";
+
+import { scStartSession as esScStart } from "./sc-scholar.js";
+import { npParish as esNpParish } from "./np-parishes.js";
 
 export const ES_APPLY_MINUTES = 2;
 export const ES_BAND_CEILING = { "early primary": 6, "upper primary": 8, "lower secondary": 10, "upper secondary": 11 };
@@ -198,17 +202,39 @@ export function esApplyFor(lesson, { bqGame = (typeof globalThis.bqGame === "fun
   return game ? { kind: "mini-game", id: game.id, game, minutes: ES_APPLY_MINUTES } : null;
 }
 
-/** The lesson's BAYMAP Oakland site once np-data-oak-* is merged; null until then. */
-export function esOaklandSite(lesson, { npParish = (typeof globalThis.npParish === "function" ? globalThis.npParish : null) } = {}) {
+/** The lesson's BAYMAP Oakland site (np-data-oak-*, in the tree): the site object, or null when the lesson has no
+ *  Oakland anchor. An anchor that names no real site is an error. */
+export function esOaklandSite(lesson, { npParish = esNpParish } = {}) {
   const o = lesson?.oakland;
-  return o ? npParish?.(o.parish)?.sites?.find((s) => s.id === o.site) ?? null : null;
+  if (!o) return null;
+  const site = npParish(o.parish)?.sites.find((s) => s.id === o.site);
+  if (!site) throw new Error(`esOaklandSite: ${lesson.id} anchors on ${o.parish}/${o.site}, which is not a site of that map`);
+  return site;
 }
 
-/** SCHOLAR's session hook (scStartSession(lessonId, where)), guarded: null when SCHOLAR is absent. */
-export function esStartLesson(id, where = null, { scStartSession = (typeof globalThis.scStartSession === "function" ? globalThis.scStartSession : null) } = {}) {
-  const l = esLessonById(id);
+/** The Oakland copy of a lesson carries its own id (SCHOLAR's index keeps one entry per id). */
+export const esOaklandLessonId = (lesson) => `${lesson.id}-oakland`;
+
+/** The lessons that start a SCHOLAR session on one parish or district map, in the raw shape scMountSession /
+ *  scNormalise read: the San Francisco anchor (`district`/`site`) and the West Oakland anchor (`oakland`). */
+export function esSessionLessons(parishId) {
+  const out = [];
+  for (const l of ES_LESSONS) {
+    const base = { title: l.title, k12: l.station, band: l.band, minutes: l.minutes, steps: l.steps, check: l.check, trade: l.trade ?? "", tradeLine: l.programmeWhy ?? "" };
+    if (l.district === parishId) out.push({ ...base, id: l.id, parish: l.district, site: l.site });
+    if (l.oakland?.parish === parishId) out.push({ ...base, id: esOaklandLessonId(l), parish: l.oakland.parish, site: l.oakland.site });
+  }
+  return out;
+}
+
+/** SCHOLAR's session hook: scStartSession(lessonId, where) at the lesson's anchor (the Oakland one when `where`
+ *  names oak-west-oakland). SCHOLAR's own hook by default; a caller that passes `scStartSession: null` gets null. */
+export function esStartLesson(id, where = null, { scStartSession = esScStart } = {}) {
+  const l = esLessonById(id) ?? ES_LESSONS.find((x) => esOaklandLessonId(x) === id) ?? null;
   if (!l) return null;
-  return scStartSession?.(l.id, where ?? { world: "parishes", district: l.district, site: l.site }) ?? null;
+  const oak = l.oakland && (where?.parish === l.oakland.parish || id === esOaklandLessonId(l));
+  const lessonId = oak ? esOaklandLessonId(l) : l.id;
+  return scStartSession?.(lessonId, where ?? (oak ? { world: "parishes", parish: l.oakland.parish, site: l.oakland.site } : { world: "parishes", parish: l.district, site: l.site })) ?? null;
 }
 
 /** A DEAN-assignable module (dnModules() shape: id, title, audience, lessons). */
