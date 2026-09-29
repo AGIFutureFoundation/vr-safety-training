@@ -368,6 +368,20 @@ for (const id of ["sf-north-beach", "sf-haight-castro", "sf-sunset-south"]) {
   const coarse = new Set((p.connectors ?? []).map((c) => c.to?.parish).filter((t) => ndParishes.has(t) && !["sf-north-beach", "sf-haight-castro", "sf-sunset-south"].includes(t)));
   ndCheck(coarse.size >= 1 && (p.connectors ?? []).every((c) => c.id.startsWith("sf-") && c.kind === "road"), `${id}: road connectors paired with the coarse districts (${[...coarse].join(", ")})`);
 }
+// Every announced project, walkable (console PROJECTLANDS, docs/consoles/PROJECTLANDS.md): a representative map says so in
+// its data and its docs row; precinct sites are flagged, carry two or more stations and a trade, and state no figure.
+for (const [pid, p] of ndParishes) {
+  if (p.representative !== undefined) {
+    ndCheck(p.representative === true && p.region === "bay-program" && /representative/.test(p.name), `${pid}: a representative map is flagged, in bay-program, and names itself representative`);
+    ndCheck(readFileSync(join(ROOT, "docs", "parishes.md"), "utf8").split("\n").some((l) => l.includes(`\`${pid}\``) && /representative/.test(l)), `${pid}: its docs/parishes.md row says representative`);
+    ndCheck((p.fieldLessons ?? []).every((l) => l.id.startsWith("pj-")) && (p.gated ?? []).every((g) => g.id.startsWith("bp-")), `${pid}: pj- field lessons and bp- gated items`);
+  }
+  for (const s of (p.sites ?? []).filter((x) => x.precinct)) {
+    ndCheck(s.precinct === true && s.stations.length >= 2 && s.trades.length >= 1 && !ndDigits(`${s.name} ${s.blurb}`) && !/\$|million|acres|gallons|partner/i.test(s.blurb ?? ""), `${pid}: precinct site ${s.id} is flagged, staffed and states no figure or partnership`);
+  }
+}
+ndCheck(["bp-san-mateo-shoreline", "bp-nutrient-pilot"].every((id) => ndParishes.get(id)?.representative === true), "PROJECTLANDS: bp-san-mateo-shoreline and bp-nutrient-pilot are in the tree, representative");
+ndCheck([...ndParishes.values()].reduce((n, p) => n + (p.sites ?? []).filter((s) => s.precinct).length, 0) >= 15, "PROJECTLANDS: fifteen or more precinct sites on the maps that already held a project");
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "causeway")), "a causeway connector exists");
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "ferry")), "a ferry connector exists");
 ndCheck([...ndParishes.values()].some((p) => (p.connectors ?? []).some((c) => c.kind === "bridge")), "a bridge connector exists");

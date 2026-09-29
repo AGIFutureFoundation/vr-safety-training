@@ -421,3 +421,51 @@ Mission Street transit corridor, a sewer crew yard, a locate crew, a soil yard, 
 The Fruitvale crossings: Fruitvale's field reaches San Leandro Bay (its Nimitz Freeway ends at about -122.195, 37.750), so
 BAYMAP's `oak-fruitvale-estuary` should list both crossings back under its own ids at the same `lonlat` when the Oakland region
 merges; until then the far end ships `to.position: null` and `npResolveConnectors` fills it.
+
+## Every announced project, walkable (console PROJECTLANDS)
+Console PROJECTLANDS (docs/consoles/PROJECTLANDS.md) gives each project named in the facts file (`epa-2026-facts.md`) and the
+Port of Oakland's Clean Ports award a walkable place on the parish engine. Two new strict-engine 4096 m maps in region
+`bay-program` at about 2.2 real metres per map metre, and **project precincts** (sites marked `"precinct": true`) on the maps
+that already hold a project. Before either map was written its lon/lat box was checked against all 22 existing maps' `npBounds`:
+neither overlaps any (the nearest, sf-outer-mission, ends at 37.676 N; bay-san-pablo at 37.972 N; bp-strip-marsh-east begins at
+38.095 N). **Representative** maps carry `representative: true`, say so in their name, blurb, header and on a sign landmark, and
+never imply that a real plant, property or facility is part of a project.
+
+| map | id | module | export | region | sites | connectors |
+| San Mateo County Bayside (representative) | `bp-san-mateo-shoreline` | `np-data-bp-san-mateo-shoreline.js` | `NP_BP_SAN_MATEO_SHORELINE` | bay-program | 13 | 2 |
+| A Nutrient Pilot Plant on San Pablo Bay (procedural, representative) | `bp-nutrient-pilot` | `np-data-bp-nutrient-pilot.js` | `NP_BP_NUTRIENT_PILOT` | bay-program | 13 | 2 |
+
+**San Mateo County Bayside** (C/CAG: monitor and control PCB sources; the project's sites are not named) — a representative
+bayside industrial area on the county's shore of San Francisco Bay: the bay to the north-east, the Bayshore Freeway, a procedural
+tidal slough and flood control channel, the bayfront levee and marsh edge, and the Peninsula hills at the field's south-west
+corner. Sites: a soil sampling grid, the decontamination line, storm drain sediment sampling, regulated soil load-out, old
+electrical equipment removal, a drum staging yard, the channel mouth monitoring point, a marsh edge sediment survey, a street
+drain clean-out crew, the sample intake desk, the levee patrol, perimeter air monitoring and an excavation cell.
+**The nutrient pilot plant** (BACWA: five pilot projects aimed at reducing nutrient inputs to San Francisco Bay; where they run
+is not stated) — a procedural wastewater treatment plant on a stretch of San Pablo Bay's southern shore that no map covers; only
+the water body is named. Sites: operator rounds, the chemical feed building, the aeration basin deck, a pilot process skid, the
+digester complex, the plant laboratory, the outfall monitoring landing, the chemical delivery dock, the plant substation, the
+pump and blower shop, the shoreline marsh crew, the solids load-out and the shoreline levee walk; hills rise behind the shore.
+
+**The Port of Oakland: a precinct, not a new map.** `npBounds(oak-west-oakland)` is lon −122.361 … −122.263, lat 37.773 … 37.851:
+the Outer Harbor, the Middle Harbor and the Seventh Street terminals all lie inside it, so the seaport gets a project precinct
+there — two trash capture device sites (the release says four devices on port property but not where; the placement is
+procedural and the sites say so), the seaport charging yard, the battery energy storage site, zero-emission drayage staging and
+the zero-emission cargo equipment yard (the Clean Ports activities, as the facts file states them).
+
+**Precincts on the other project maps.** `bay-san-jose` — the street survey crew, a site assessment and the planning studio (the
+kinds of work a green stormwater infrastructure implementation plan rests on; the City's project is still told once, at the
+stormwater crew yard). `bay-san-pablo` — a bioretention build site, a stormwater monitoring point and an underdrain and piping
+crew (building and monitoring green stormwater infrastructure). `bp-strip-marsh-east` — a small-boat crew landing, a
+water-control structure crew and a swamp mat crossing. `bp-san-leandro-bay` — vacuum truck staging and a debris haul transfer
+point. `sf-outer-mission` — an underdrain piping crew and a green infrastructure monitoring crew. The precincts are written once
+by `tools/gen_pj_precincts.py`; the modules are the source afterwards. UNIONSIMS' `us-` stations and simulations are listed per
+precinct in `shared/pj-precincts.js` behind a guard (an id counts only once it is in the catalog).
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| The Bayshore Freeway north-west | road | bp-san-mateo-shoreline → bay-peninsula (no map yet) | -122.295, 37.527 | `bp-smc-bayshore-north-west` |
+| The Bayshore Freeway south-east | road | bp-san-mateo-shoreline → bay-peninsula-south (no map yet) | -122.209, 37.481 | `bp-smc-bayshore-south-east` |
+| The shoreline road west | road | bp-nutrient-pilot → bay-north-shore-west (no map yet) | -122.320, 38.035 | `bp-npp-shoreline-west` |
+| The shoreline road east | road | bp-nutrient-pilot → bay-north-shore-east (no map yet) | -122.220, 38.027 | `bp-npp-shoreline-east` |
+Neither new map meets another map, so both carry pending ways out only (no pair to write).
