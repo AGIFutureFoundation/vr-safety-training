@@ -606,3 +606,38 @@ export function dxAnalyze(episodes) {
     split: { ...split, sessionOverlap: overlap, key: "sessionHash", validationPercent: DX_VALIDATION_PERCENT },
   };
 }
+
+// ======================================================================= synthetic fixture
+
+/**
+ * A deterministic synthetic fixture (source "synthetic", no consent, no person): the checker's analysis
+ * ground truth, the page's "sample" view and `tools/dx_analyze.mjs --fixture`. Episode i plays scenario
+ * i % 3; every 4th episode has a hazard (unsafe, not a success); every 5th answers an interruption in 4 s;
+ * episode 7 is truncated, episode 9 idles 90 s mid-run and episode 11 is a duplicate of episode 10.
+ */
+export function dxSyntheticFixture(n = 12, { seed = 7, createdAt = "2026-01-01T00:00:00.000Z" } = {}) {
+  const scen = ["rb-amr-fleet-routing", "ad-robot-cell-lockout-and-safe-reentry", "parish-lesson-levee"];
+  const worlds = ["robotics", "smartcity", "parishes"];
+  const out = [];
+  for (let i = 0; i < n; i += 1) {
+    if (i === 11 && out[10]) { out.push({ ...JSON.parse(JSON.stringify(out[10])), episodeId: "fx-11" }); continue; }
+    const hazard = i % 4 === 3, late = i % 5 === 4;
+    const steps = [];
+    let t = 0;
+    for (let k = 0; k < 4; k += 1) {
+      t += 1 + (k % 2) * 0.5 + (i === 9 && k === 2 ? 90 : 0);
+      const info = k === 2 && hazard ? { outcome: "hazard", hazard: true, clean: false }
+        : k === 1 && late ? { outcome: "ok", clean: true, interrupt: { id: "radio-call", outcome: "answered", responseS: 4 } }
+        : { outcome: "ok", clean: true };
+      steps.push({ t, observation: { stepIndex: k, pos: [k, 0, -k] }, action: { type: k === 3 ? "commit" : k === 2 ? "press" : "select", id: `s${k}` }, reward: info.hazard ? -50 : 100, info });
+    }
+    out.push(dxMakeEpisode({
+      source: "synthetic", episodeId: `fx-${i}`, sessionHash: `fx-session-${Math.floor(i / 2)}`,
+      world: worlds[i % 3], kind: i % 3 === 2 ? "lesson" : i % 3 === 0 ? "robot-game" : "station", scenario: scen[i % 3],
+      startedAt: `2026-01-01T00:${String(i).padStart(2, "0")}:00.000Z`, endedAt: `2026-01-01T00:${String(i).padStart(2, "0")}:30.000Z`,
+      truncated: i === 7, seed: seed * 1000 + i, policy: "fixture", generator: "dxSyntheticFixture", recordedWith: "headless", createdAt,
+      summary: { success: !hazard, safePractice: !hazard, hazardHits: hazard ? 1 : 0, errors: hazard ? 1 : 0, interrupts: late ? { answered: 1, missed: 0, wrong: 0 } : { answered: 0, missed: i % 6 === 5 ? 1 : 0, wrong: 0 } },
+    }, steps));
+  }
+  return out;
+}
