@@ -44,6 +44,7 @@ import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atS
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
+import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -123,9 +124,11 @@ let atWeatherNow = null, atSoundT = 1, atMix = null;
   const b = document.createElement("button");
   b.id = "at-sound"; b.type = "button"; b.setAttribute("aria-pressed", "false"); b.textContent = "Sound: off";
   b.title = tfReducedMotion() ? "Sound stays off while reduced motion is set" : "Turn the synthesised soundscape on or off";
-  b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui";
   b.addEventListener("click", () => { const on = atSound.setEnabled(!atSound.enabled()); b.textContent = on ? "Sound: on" : "Sound: off"; b.setAttribute("aria-pressed", String(on)); });
-  document.body.appendChild(b);
+  // INTERFACE: the sound toggle lives in the menu's Me tab (settings), not floating over the world.
+  const mount = document.getElementById("menu-sound");
+  if (mount) { b.className = "btn"; mount.appendChild(b); }
+  else { b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui"; document.body.appendChild(b); }
 }
 
 // NEWTON's physics (docs/consoles/NEWTON.md): gravity, walls, wading and swimming for the walk, props that tumble,
@@ -221,7 +224,9 @@ const npKeys = new Set();
 addEventListener("keydown", (e) => {
   if (e.target?.tagName === "INPUT") return;
   if (e.code === "Escape" && np.modal) { npClose(); return; }
+  if (e.code === "Escape" && !np.playing && uxBegun && !$("menu").hidden && !uxOb?.shown) { npBegin(); return; } // INTERFACE: Esc resumes
   if (!np.playing) return;
+  if (e.code === "Escape") { uxOpenMenu(); return; } // INTERFACE: Esc opens the in-world menu
   if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) e.preventDefault();
   npKeys.add(e.code);
   if (e.repeat) return;
@@ -378,9 +383,9 @@ function npQmApproach(near) {
 
 function npNearest() {
   let best = null, bd = 9;
-  for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site }; } }
-  for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson }; } }
-  for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c }; } }
+  for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
+  for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
+  for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   return best;
 }
 
@@ -439,6 +444,7 @@ function npHud() {
 let last = performance.now(), npHudT = 0, npVisitT = 0;
 function frame(now) {
   const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now;
+  uxPadMenu();
   if (np.playing && !np.modal) {
     let f = 0, s = 0, turn = 0;
     if (npKeys.has("KeyW") || npKeys.has("ArrowUp")) f += 1;
@@ -510,6 +516,7 @@ function frame(now) {
   }
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
   npRenderer.render(scene, camera);
+  uxAnchorPrompt();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -525,6 +532,8 @@ window.scSessionPanel = scSession; // the headless session test drives it (docs/
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;
   npHud();
+  if (uxBegun) return; // INTERFACE: a resume from the in-world menu says nothing
+  uxBegun = true; $("menu-start").textContent = "Resume";
   if (npReturnSiteId) npToast(`Back at ${npStart.name}.`);
   else if (!stPromptsOn()) npToast(`${parish.name}: just roam. No prompts; every board, lesson and kiosk opens when you reach it.`);
   else if (!(stChosenPath() && stWorld?.greet())) npToast(`Welcome to ${parish.name}. Walk to the orange job board (E), or open the map (M).`);
@@ -549,6 +558,7 @@ try {
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },
       { id: "np-parishes", label: "Maps", aria: `${npRegionHere.title} and other regions`, onDown: () => npToggle("parishes") },
+      { id: "np-menu", label: "Menu", aria: "Open the menu", onDown: () => uxOpenMenu() },
     ],
   });
 } catch { /* no touch layer */ }
@@ -723,4 +733,85 @@ function npMountPacks(el, parishId) {
   const brand = document.createElement("p");
   brand.className = "note"; brand.textContent = packs.length > 8 ? `${PK_BRAND_LINE} — and ${packs.length - 8} more on the Packs page.` : PK_BRAND_LINE;
   el.append(head, row, brand);
+}
+
+// ------------------------------------------------------------------ INTERFACE: the in-world menu (docs/consoles/INTERFACE.md)
+// Four tabs — Learn, Play, Map, Me — hold every mount the consoles write into (moved, never deleted). The menu reopens
+// in-world (Esc, the Menu button, gamepad Start) and "Start walking" becomes "Resume". Gamepad: LB/RB switch tabs,
+// the d-pad walks the focus, A presses. A first-visit onboarding (three cards, skippable, remembered).
+var uxBegun = uxBegun ?? false;
+const uxTabs = uxMountTabs($("menu"), { storageKey: "ux-menu-tab" });
+function uxPassport() {
+  const el = $("menu-passport"); if (!el) return;
+  const visited = (np.state.visited[parish.id] ?? []).length, lessons = (parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length;
+  let records = 0; try { records = ppRecords().length; } catch { /* no passport yet */ }
+  el.textContent = `Passport: ${visited}/${parish.sites.length} sites visited here · ${lessons}/${(parish.fieldLessons ?? []).length} field lessons · ${records} station record${records === 1 ? "" : "s"} in this browser · ${tyBalance} ${TY_CURRENCY}.`;
+}
+function uxOpenMenu() {
+  if (!np.playing) return;
+  npClose(); np.playing = false; npKeys.clear();
+  $("hud").hidden = true; $("menu").hidden = false; uxPassport();
+  $("menu-start").focus();
+}
+uxPassport();
+$("ux-menu-open").addEventListener("click", uxOpenMenu);
+$("ux-open-map").addEventListener("click", () => npToggle("map"));
+$("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
+{
+  const sg = $("ux-sidegames");
+  if (npSideGames?.open) sg.addEventListener("click", () => npSideGames.open()); else sg.hidden = true;
+}
+{
+  // Reduced motion: the system setting wins; otherwise a per-browser choice applied at load (parishes.html patches
+  // matchMedia before any module reads it), so every module's own reduced-motion path runs unchanged.
+  const b = $("ux-reduced");
+  const sys = (() => { try { return !!window.__uxSystemReduced; } catch { return false; } })();
+  let on = false; try { on = localStorage.getItem("ux-reduced") === "1"; } catch { /* blocked */ }
+  const paint = () => { b.textContent = sys ? "Reduced motion: on (system)" : `Reduced motion: ${on ? "on" : "off"}`; b.setAttribute("aria-pressed", String(sys || on)); };
+  paint(); if (sys) b.disabled = true;
+  b.addEventListener("click", () => { on = !on; try { localStorage.setItem("ux-reduced", on ? "1" : "0"); } catch { /* blocked */ } paint(); npToast(`Reduced motion ${on ? "on" : "off"}: reloading the world still${on ? "" : " off"}…`); setTimeout(() => location.reload(), 600); });
+}
+const uxOb = npReturnSiteId ? null : uxOnboarding({
+  el: $("ux-onboard"), key: "ux-onboarded-v1", force: npParams.get("onboard") === "1",
+  onDone: () => $("menu-start")?.focus(),
+  cards: [
+    { title: "Walk a real map", body: `${parish.name} is a 4 km world. WASD or the stick walks, drag to look, E or Use opens what is near you.` },
+    { title: "Four tabs", body: "Learn holds paths, lessons, drills and packs. Play holds quests, games and Crew Credits. Map holds the map and the ways out. Me holds your passport and settings." },
+    { title: "Come back any time", body: "Press Esc, Start on a gamepad or the Menu button to open this menu again. Your progress stays in this browser." },
+  ],
+});
+$("ux-replay").addEventListener("click", () => uxOb?.show());
+const uxPadPrev = {};
+function uxPadMenu() {
+  let pad = null; try { pad = navigator.getGamepads?.()?.[0] ?? null; } catch { pad = null; }
+  if (!pad) return;
+  const edge = (i) => { const on = !!pad.buttons?.[i]?.pressed, was = uxPadPrev[i]; uxPadPrev[i] = on; return on && !was; };
+  const start = edge(9), lb = edge(4), rb = edge(5), up = edge(12), down = edge(13), a = edge(0), bBtn = edge(1);
+  if (np.playing) { if (start && !np.modal) uxOpenMenu(); return; }
+  if ($("menu").hidden) return;
+  if (start || bBtn) { if (uxBegun || start) npBegin(); return; }
+  if (lb) uxTabs.step(-1);
+  if (rb) uxTabs.step(1);
+  if (up || down) {
+    const card = uxOb?.shown ? $("ux-onboard") : $("menu");
+    const list = [...card.querySelectorAll('button:not([disabled]),a[href],[tabindex="0"]')].filter((x) => x.offsetParent !== null);
+    const i = list.indexOf(document.activeElement);
+    list[(i + (down ? 1 : -1) + list.length) % list.length]?.focus();
+  }
+  if (a && document.activeElement && document.activeElement !== document.body) document.activeElement.click();
+}
+window.__parishTest.ux = { tabs: uxTabs.ids, select: (t) => uxTabs.select(t), current: () => uxTabs.current(), open: () => uxOpenMenu(), resume: () => npBegin(), onboarding: uxOb };
+
+// INTERFACE: the contextual prompt sits over what it names (the board, the sign, the way out), projected each frame;
+// off screen or behind the camera it falls back to its bottom-centre place.
+const uxV = new THREE.Vector3();
+function uxAnchorPrompt() {
+  const p = $("hud-prompt");
+  const at = np.playing && !np.modal && np.near?.at;
+  if (!at || p.hidden) { if (p.dataset.uxAnchor) { p.style.left = p.style.top = p.style.bottom = p.style.transform = ""; delete p.dataset.uxAnchor; } return; }
+  uxV.set(at[0], Math.max(npHeightAt(parish, at[0], at[1]), 0) + 3.2, at[1]).project(camera);
+  const x = (uxV.x + 1) / 2 * innerWidth, y = (1 - uxV.y) / 2 * innerHeight;
+  if (uxV.z > 1 || x < 40 || x > innerWidth - 40 || y < 90 || y > innerHeight - 160) { if (p.dataset.uxAnchor) { p.style.left = p.style.top = p.style.bottom = p.style.transform = ""; delete p.dataset.uxAnchor; } return; }
+  p.style.left = `${Math.round(x)}px`; p.style.top = `${Math.round(y)}px`; p.style.bottom = "auto"; p.style.transform = "translate(-50%, -100%)";
+  p.dataset.uxAnchor = np.near.kind;
 }

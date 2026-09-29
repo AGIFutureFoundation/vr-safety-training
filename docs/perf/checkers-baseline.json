@@ -104,9 +104,11 @@
     "check_tycoon.mjs": 440,
     "check_cognition.mjs": 2900,
     "check_atmos.mjs": 52000,
-    "check_reactor.mjs": 35809
+    "check_reactor.mjs": 35809,
+    "check_interface.mjs": 73000
   },
   "notes": {
+    "check_interface.mjs": "2026-09-29 03:31 UTC: new (console INTERFACE). 49-73 s wall under the review wave load: three headless loads of the Orleans map (desktop, 390x844 touch, first visit) with the full world build.",
     "check_cognition.mjs": "2026-09-29 02:20 UTC: new (console COGNITION). 2.9 s standalone: the generator --check (headless rooms load), 40 flows validated, 28 adaptive walks and 40 headless runner finishes.",
     "check_terraform.mjs": "2026-09-29 01:32 UTC: new (console TERRAFORM). 25 s of CPU (69 s wall under seven consoles' load): the pure checks over ten maps plus a headless build of the engine with TERRAFORM at every site on two tiers.",
     "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression.",
