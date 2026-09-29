@@ -440,3 +440,13 @@ frame; robot values in the robot base frame (`robot-embodiment.js`).
 
 Legacy `shared/episodes.js` episodes (schema 1) convert with
 `dxFromLegacy()` in `shared/dx-capture.js`.
+
+### Consent, capture, storage, export, analysis
+
+* **Consent** — `dxEligibility()` refuses demo, signed-out, K-12/classroom and any unknown signal; `dxOptIn({ licence, adult })` needs `CC0-1.0` or `CC-BY-4.0` and the learner's own 18+ confirmation, and writes only to this browser. The panel (`dxMountConsent`, `shared/dx-consent-ui.js`) sits in the parishes Me tab (`#menu-dataworks`) and on the analysis page. `dxRevoke()` is one tap: consent, salt, every episode and the legacy episode log are deleted.
+* **Capture** — `dxRecorder(meta)` buffers steps in memory and writes on an idle callback; inert when not collecting, and re-checks consent at finish. Parish field lessons and drills (`shared/dx-world.js`), shared/game.js sessions (`dxAttachSession`, `shared/dx-capture.js`) and browser robot games (`dxCaptureRollout`).
+* **Storage** — IndexedDB (one database per profile), localStorage fallback through `gtStorage()`, memory headlessly; `DX_MAX_BYTES` 4 MB / `DX_MAX_BYTES_LS` 1 MB / `DX_MAX_EPISODES` 600, oldest first.
+* **Export** — `dxExportFiles(episodes)` → `data/train-00000-of-0000N.jsonl`, `data/validation-…jsonl`, `manifest.json` (schema, units, frames, counts, split, licences, shards with size and hash) and `DATASET_CARD.md` with every `DX_CARD_SECTIONS` datasheet section.
+* **Analysis** — `dxAnalyze()` in the page (`WebXR/data/index.html`) and `node tools/dx_analyze.mjs <export-dir|shard.jsonl|episodes.json> [--json] [--export dir]` (or `--fixture`): success and safe-practice rates by scenario/world/kind, step durations, interruptions, error taxonomy, action mix, quality flags (truncated, idle, duplicate) and the session-hash split.
+* **The upload hook** — none ships. `DX_UPLOAD_HOOK` documents the contract: a deployment adds `{ "dataworks": { "upload": { "endpoint": "https://…" } } }` to its own config (the `tools/seo-config.json` style), writes its own uploader over `dxExportFiles()`, sends only on an explicit button press and refuses when `dxCollecting()` is false. `dxUploadEndpoint(config)` validates an https URL and sends nothing.
+* **Checker** — `node tools/check_dataworks.mjs`.
