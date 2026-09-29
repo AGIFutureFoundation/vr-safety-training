@@ -43,11 +43,13 @@ import { buildSuite, WEBXR } from "./lib/headless.mjs";
 
 const MODULES = [
   "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js",
-  "smartcity/js/citykit.js", "shared/bayworld-data.js", "shared/underwater-data.js", "shared/underwater.js",
+  "smartcity/js/citykit.js", "shared/bayworld-data.js", "shared/underwater-data.js", "shared/underwater.js", "shared/dw-regions.js",
 ];
 const HARNESS = `export {
   DEEP_BOUNDS, DEEP_DEPTH_RANGE, DEEP_ZONES, DEEP_LANDMARKS, DEEP_LINES, DEEP_SITES, DEEP_MESH_BUDGET,
   deepDepthAt, deepZoneAt, deepLineAt, deepBandAt, deepLighting, buildUnderwater, BAY_SITES, THREE,
+  DW_REGIONS, DW_FIELD, DW_REGION_MESH_BUDGET, DW_SHORE_ENTRIES, dwZoneAtRegion, dwDepthAtRegion, dwTideAt, dwConditionsAt,
+  dwShoreEntriesFor, dwRegionFromSearch, dwBuildRegion, dwSite,
 };`;
 const S = await buildSuite(MODULES, HARNESS, "underwater");
 
@@ -308,7 +310,111 @@ for (const zone of DEEP_ZONES) {
   }
 }
 
+// ------------------------------------------------------------------ regions
+// DEEPWATER (docs/consoles/DEEPWATER.md): the Bay Program regions in
+// shared/dw-regions.js — each region's zones tile its own field, every
+// landmark and dive site sits in its own zone, sites name real programmes and
+// stations (commercial-diving and bay-restoration packs among them), the guide
+// lines connect, visibility and current change with the schematic tide (the
+// flood clearer than the ebb), every shoreline entry resolves to a region and
+// a site and opens it with a way back, the build stays inside
+// DW_REGION_MESH_BUDGET at both tiers, and no figure is stated for depth,
+// visibility, current or water quality.
+const DW = { regions: 0, zones: 0, sites: 0, stations: new Set(), entries: 0, meshes: {} };
+{
+  const { DW_REGIONS, DW_FIELD, DW_REGION_MESH_BUDGET, DW_SHORE_ENTRIES, dwZoneAtRegion, dwDepthAtRegion, dwTideAt, dwConditionsAt,
+    dwShoreEntriesFor, dwRegionFromSearch, dwBuildRegion, dwSite } = S;
+  const need = ["dw-san-pablo-shallows", "dw-san-leandro-bay", "dw-oakland-middle-harbor"];
+  for (const id of need) if (!DW_REGIONS.find((r) => r.id === id)) fail("regions", `missing region ${id}`);
+  const inField = (x, z) => x >= DW_FIELD.minX && x <= DW_FIELD.maxX && z >= DW_FIELD.minZ && z <= DW_FIELD.maxZ;
+  const PACKS = new Set(["commercial-diving-and-scientific-scuba", "bay-restoration-maritime-underwater"]);
+  for (const r of DW_REGIONS) {
+    const rid = `region ${r.id}`;
+    DW.regions += 1; DW.zones += r.zones.length; DW.sites += r.sites.length;
+    if (r.zones.length < 3) fail(rid, `has ${r.zones.length} zones, expected at least 3`);
+    const zids = new Set(r.zones.map((z) => z.id));
+    const hit = new Set();
+    for (let x = DW_FIELD.minX; x <= DW_FIELD.maxX; x += 40) for (let z = DW_FIELD.minZ; z <= DW_FIELD.maxZ; z += 40) {
+      const zone = dwZoneAtRegion(r.id, x, z);
+      if (!zone || !zids.has(zone.id)) fail(rid, `no zone at (${x}, ${z})`); else hit.add(zone.id);
+      const d = dwDepthAtRegion(r.id, x, z);
+      if (!(d >= 0 && d <= 1)) fail(rid, `schematic depth ${d} outside 0..1 at (${x}, ${z})`);
+    }
+    for (const z of zids) if (!hit.has(z)) fail(rid, `zone ${z} covers nothing`);
+    for (const l of [...r.landmarks, ...r.sites]) {
+      if (!inField(...l.position)) fail(rid, `${l.id} is outside the region's field`);
+      const found = dwZoneAtRegion(r.id, ...l.position);
+      if (found?.id !== l.zone) fail(rid, `${l.id} sits nearer "${found?.id}" than its declared zone "${l.zone}"`);
+      if (/\b\d+(\.\d+)?\s*(m|metres?|meters?|ft|feet|NTU|mg\/L|ppt|psu|knots?|%)\b/i.test(l.blurb ?? "")) fail(rid, `${l.id}'s blurb states a figure`);
+    }
+    if (r.sites.length < 3) fail(rid, `has ${r.sites.length} dive sites, expected at least 3`);
+    if (!r.sites.some((s) => s.programmes.some((p) => PACKS.has(p)))) fail(rid, "no site anchors the diving packs");
+    for (const s of r.sites) {
+      for (const p of s.programmes) if (!PROGRAMMES.has(p)) fail(rid, `${s.id} names programme "${p}" not in curricula.js`);
+      if (!s.stations.length) fail(rid, `${s.id} lists no stations`);
+      for (const st of s.stations) { DW.stations.add(st); if (!existsSync(join(WEBXR, "smartcity/js/sims", `${st}.js`))) fail(rid, `${s.id} names station "${st}" with no sim`); }
+      if (dwSite(s.id)?.region.id !== r.id) fail(rid, `dwSite(${s.id}) does not read back its region`);
+    }
+    // guide lines: one connected network by shared vertices
+    const key = (p) => `${p[0]},${p[1]}`;
+    const parent = r.lines.map((_, i) => i);
+    const root = (i) => (parent[i] === i ? i : (parent[i] = root(parent[i])));
+    for (let i = 0; i < r.lines.length; i++) for (let j = i + 1; j < r.lines.length; j++) {
+      const a = new Set(r.lines[i].points.map(key));
+      if (r.lines[j].points.some((p) => a.has(key(p)))) parent[root(i)] = root(j);
+    }
+    const comps = new Set(r.lines.map((_, i) => root(i))).size;
+    if (comps !== 1) fail(rid, `guide lines form ${comps} networks, expected 1`);
+    // tide: conditions change with the tide; words, a dive call and the schematic label
+    let floodH = null, ebbH = null;
+    for (let h = 0; h < 12.4; h += 0.1) { const t = dwTideAt(h); if (t.stage === "flood" && t.flow > 0.9) floodH ??= h; if (t.stage === "ebb" && t.flow > 0.9) ebbH ??= h; }
+    if (floodH === null || ebbH === null) fail(rid, "the tide clock never runs a full flood and a full ebb");
+    else {
+      const z0 = r.zones[0].centre;
+      const f = dwConditionsAt(r.id, ...z0, floodH), e = dwConditionsAt(r.id, ...z0, ebbH), s = dwConditionsAt(r.id, ...z0, 12.4 / 4);
+      if (!(f.visibility > e.visibility)) fail(rid, `visibility on the flood (${f.visibility.toFixed(2)}) is not better than on the ebb (${e.visibility.toFixed(2)})`);
+      if (!(f.current > s.current)) fail(rid, "current at full flood is not stronger than at slack");
+      for (const c of [f, e, s]) if (!c.schematic || !c.words?.visibility || !c.words?.current || !c.call) fail(rid, "conditions lack words, a dive call or the schematic label");
+      DW.tide = DW.tide ?? {};
+      DW.tide[r.id.replace("dw-", "")] = `${e.words.visibility}->${f.words.visibility}`;
+    }
+    // build at both tiers, inside the budget, deterministic
+    for (const tier of ["high", "phone"]) {
+      try {
+        const a = dwBuildRegion(THREE, new THREE.Group(), r.id, { tier }), b = dwBuildRegion(THREE, new THREE.Group(), r.id, { tier });
+        const n = countMeshes(a.group);
+        DW.meshes[`${r.id.replace("dw-", "")}:${tier}`] = n;
+        if (n !== a.meshCount) fail(rid, `build reports ${a.meshCount} meshes, tree holds ${n}`);
+        if (n > DW_REGION_MESH_BUDGET[tier]) fail(rid, `${tier} build ${n} meshes > budget ${DW_REGION_MESH_BUDGET[tier]}`);
+        if (countMeshes(b.group) !== n) fail(rid, `${tier} build is not deterministic`);
+        a.animate(1, dwConditionsAt(r.id, 0, 0, 3));
+        if (!(a.fogFor({ visibility: 0.1 }).density > a.fogFor({ visibility: 0.9 }).density)) fail(rid, "poorer visibility does not thicken the fog");
+      } catch (err) { fail(rid, `build threw at tier ${tier} — ${err.message}`); }
+    }
+  }
+  // shoreline entries: each names a region and a site in it, and opens it with a way back
+  for (const e of DW_SHORE_ENTRIES) {
+    const r = DW_REGIONS.find((x) => x.id === e.region);
+    if (!r) { fail(`entry ${e.id}`, `names unknown region ${e.region}`); continue; }
+    if (!r.sites.find((s) => s.id === e.site)) fail(`entry ${e.id}`, `names site ${e.site} not in ${e.region}`);
+    const fake = { id: e.parish, water: (e.waterIds ?? []).map((w) => ({ id: w, poly: [[-200, 300], [100, 250], [300, 600]] })) };
+    const got = dwShoreEntriesFor(fake)[0];
+    if (!got?.position || !got.url) { fail(`entry ${e.id}`, "does not resolve on a map that has its water"); continue; }
+    const back = dwRegionFromSearch(got.url.slice(got.url.indexOf("?")));
+    if (back?.region.id !== e.region || back?.entry?.id !== e.id || back?.site.id !== e.site || !back?.from) fail(`entry ${e.id}`, "its URL does not open the region at its site with a way back");
+    DW.entries += 1;
+  }
+  if (dwShoreEntriesFor("no-such-map").length !== 0) fail("entries", "a map with no entry returned entries");
+  if (dwShoreEntriesFor({ id: "bp-strip-marsh-east", water: [] }).length !== 0) fail("entries", "an entry stood on a map without its water");
+  // no figures: the words never sit beside a number with a unit
+  const src = readFileSync(join(WEBXR, "shared/dw-regions.js"), "utf8");
+  const FIG = /\b(depth|deep|visibility|current|turbidity|salinity|oxygen|temperature)\b[^.\n]{0,30}\b\d+(\.\d+)?\s*(m|metres?|meters?|ft|feet|NTU|mg\/L|ppt|psu|knots?|°C|°F)\b/i;
+  const m = src.match(FIG);
+  if (m) fail("shared/dw-regions.js", `states a figure: "${m[0]}"`);
+}
+console.log(`  regions: ${DW.regions} regions, ${DW.zones} zones, ${DW.sites} dive sites with ${DW.stations.size} real stations, ${DW.entries} shoreline entries; visibility ebb->flood ${Object.entries(DW.tide ?? {}).map(([k, v]) => `${k} ${v}`).join(", ")}; meshes ${Object.entries(DW.meshes).map(([k, v]) => `${k} ${v}`).join(", ")}`);
+
 console.log(failures
   ? `\n${failures} Deep problem(s) found.`
-  : `\nThe Deep: ${DEEP_ZONES.length} zones tile ${DEEP_BOUNDS.maxX - DEEP_BOUNDS.minX}×${DEEP_BOUNDS.maxZ - DEEP_BOUNDS.minZ}m of seabed, ${DEEP_LANDMARKS.length} landmarks and ${DEEP_SITES.length} sites each inside their own zone with real programmes and stations, every curriculum programme anchored in the Deep or Bay World, ${DEEP_LINES.length} dive lines in one connected network, deepDepthAt bounded to [${DEEP_DEPTH_RANGE[0]}, ${DEEP_DEPTH_RANGE[1]}]m and continuous, three lighting bands, both detail levels and every zone build under budget (low ${counts.low} ≤ ${DEEP_MESH_BUDGET.low}, high ${counts.high} ≤ ${DEEP_MESH_BUDGET.high} meshes) and deterministically.`);
+  : `\nThe Deep: ${DEEP_ZONES.length} zones tile ${DEEP_BOUNDS.maxX - DEEP_BOUNDS.minX}×${DEEP_BOUNDS.maxZ - DEEP_BOUNDS.minZ}m of seabed, ${DEEP_LANDMARKS.length} landmarks and ${DEEP_SITES.length} sites each inside their own zone with real programmes and stations, every curriculum programme anchored in the Deep or Bay World, ${DEEP_LINES.length} dive lines in one connected network, deepDepthAt bounded to [${DEEP_DEPTH_RANGE[0]}, ${DEEP_DEPTH_RANGE[1]}]m and continuous, three lighting bands, both detail levels and every zone build under budget (low ${counts.low} ≤ ${DEEP_MESH_BUDGET.low}, high ${counts.high} ≤ ${DEEP_MESH_BUDGET.high} meshes) and deterministically; ${DW.regions} Bay Program regions with ${DW.zones} zones, ${DW.sites} dive sites and ${DW.entries} shoreline entries, each region build under budget.`);
 process.exit(failures ? 1 : 0);
