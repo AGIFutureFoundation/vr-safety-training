@@ -1,0 +1,101 @@
+{
+  "id": "es-rain-garden",
+  "title": "Bay Lesson — Rain Gardens: a Sponge in the Sidewalk",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at the Mission District School Campus, upper primary.",
+    "why": "One idea about the Bay taught at a mapped site, checked with one question, then used straight away in a two-minute game.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the host runs BAYQUEST's game when present, else ESTUARY's fallback, and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "estuary": {
+      "lesson": "es-lesson-rain-garden",
+      "district": "sf-mission",
+      "site": "mission-school-campus",
+      "band": "upper primary",
+      "oakland": null
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+      "title": "Pre-brief — Rain Gardens: a Sponge in the Sidewalk",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+      "title": "Rain Gardens: a Sponge in the Sidewalk",
+      "why": "The K-12 station itself, launched from its mapped site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — Rain Gardens: a Sponge in the Sidewalk",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "What does a rain garden do with the rain?",
+          "options": [
+            "It soaks it into the ground",
+            "It keeps it like a pond"
+          ],
+          "answer": 0,
+          "why": "A rain garden holds rain for a short time and lets it soak down into the soil."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "bq-rain-garden-build",
+      "title": "Apply it — Garden Layers",
+      "why": "A two-minute game that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "district": "sf-mission",
+        "site": "mission-school-campus",
+        "minutes": 2,
+        "fallback": "es-apply-garden-layers"
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}

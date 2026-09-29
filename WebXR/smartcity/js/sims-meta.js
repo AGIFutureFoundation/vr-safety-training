@@ -29260,5 +29260,425 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+    "index": "873",
+    "domain": "Education",
+    "trade": "Science class with the green infrastructure crew at a school rain garden — learner and landscape crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Rain Gardens: a Sponge in the Sidewalk",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Rain Gardens: a Sponge in the Sidewalk VR",
+    "tagline": "Loose soil and plants soak up the rain that a hard sidewalk sends away — test it, then help the crew plant",
+    "accent": 6986314,
+    "accentCss": "#6a9a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sponge-builder",
+      "name": "Sponge Builder",
+      "note": "Compared how fast water soaks through garden soil and packed ground, explained what a rain garden does and helped the crew plant one"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Garden Board",
+      "currency": "SOAKS",
+      "ranks": [
+        "Seed",
+        "Shoot",
+        "Leaf",
+        "Bloom",
+        "Garden Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-the-tidal-marsh-nursery",
+    "index": "874",
+    "domain": "Education",
+    "trade": "Science walk with the wetland restoration crew at a tidal marsh — learner and restoration crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Tidal Marsh Nursery",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Tidal Marsh Nursery VR",
+    "tagline": "Shallow channels, food and hiding places make the marsh a nursery — look closely, then help the crew",
+    "accent": 8036448,
+    "accentCss": "#7aa060",
+    "parSeconds": 330,
+    "badge": {
+      "id": "nursery-watcher",
+      "name": "Nursery Watcher",
+      "note": "Found what makes a marsh a safe nursery, watched young fish in a model channel and helped the crew keep the boardwalk quiet"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nursery Board",
+      "currency": "SPROUTS",
+      "ranks": [
+        "Egg",
+        "Hatchling",
+        "Fledgling",
+        "Swimmer",
+        "Marsh Friend"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-mud-on-the-move",
+    "index": "875",
+    "domain": "Education",
+    "trade": "Science class with the tidal restoration crew at a slough — learner and restoration crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Mud on the Move",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Mud on the Move VR",
+    "tagline": "Tides carry mud in and drop it where water slows — test it in a tray, then see why marshes need it",
+    "accent": 10127962,
+    "accentCss": "#9a8a5a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "mud-mover",
+      "name": "Mud Mover",
+      "note": "Showed in a tide tray where moving water drops its mud, explained why a marsh needs that mud and watched the crew work from mats"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Mud Board",
+      "currency": "GRAINS",
+      "ranks": [
+        "Grain",
+        "Silt",
+        "Layer",
+        "Bank",
+        "Marsh Builder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-clean-air-at-the-port",
+    "index": "876",
+    "domain": "Education",
+    "trade": "Science visit with the terminal equipment crew at a container port — learner and equipment crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Clean Air at the Port",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Clean Air at the Port VR",
+    "tagline": "Electric trucks and cranes make no exhaust where they work — see why that matters to the air people breathe",
+    "accent": 4889264,
+    "accentCss": "#4a9ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "clean-air-scout",
+      "name": "Clean Air Scout",
+      "note": "Compared exhaust from a diesel and an electric model truck, explained why cleaner air near a port matters and learned what the port's conversion plans to change"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Air Board",
+      "currency": "BREATHS",
+      "ranks": [
+        "Breeze",
+        "Gust",
+        "Wind",
+        "Clear Sky",
+        "Air Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-who-does-this-work",
+    "index": "877",
+    "domain": "Education",
+    "trade": "Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Who Does This Work",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Who Does This Work VR",
+    "tagline": "Every clean drain, rain garden and marsh is built by a crew — meet the trades and match the jobs",
+    "accent": 11565642,
+    "accentCss": "#b07a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "crew-finder",
+      "name": "Crew Finder",
+      "note": "Matched Bay restoration and clean port jobs to the crews who do them, and learned how people train for that work"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crew Board",
+      "currency": "HARD HATS",
+      "ranks": [
+        "Visitor",
+        "Helper",
+        "Apprentice",
+        "Crew Member",
+        "Crew Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-count-it-a-fair-survey",
+    "index": "878",
+    "domain": "Education",
+    "trade": "Maths class with the shoreline park crew on a bird count — learner and park survey lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Count It: a Fair Survey",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Count It: a Fair Survey VR",
+    "tagline": "Same box, same time, same rules — count the shorebirds fairly so the numbers mean something",
+    "accent": 9075376,
+    "accentCss": "#8a7ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "fair-counter",
+      "name": "Fair Counter",
+      "note": "Ran a fair shorebird count with a survey box and fixed rules, tallied without counting twice and compared with another group"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Count Board",
+      "currency": "TALLIES",
+      "ranks": [
+        "Spotter",
+        "Counter",
+        "Tallier",
+        "Surveyor",
+        "Survey Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-too-much-of-a-good-thing",
+    "index": "879",
+    "domain": "Education",
+    "trade": "Science class with the marsh crew at a lagoon — learner and water quality crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Too Much of a Good Thing",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Too Much of a Good Thing VR",
+    "tagline": "Nutrients feed plants, but too many feed a bloom of algae — test it in jars, then check the water with the crew",
+    "accent": 5939322,
+    "accentCss": "#5aa07a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "balance-keeper",
+      "name": "Balance Keeper",
+      "note": "Ran a fair jar test on nutrients and algae, explained why too much of a good thing clouds the water and helped the crew take a water reading"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Balance Board",
+      "currency": "LEAVES",
+      "ranks": [
+        "Drop",
+        "Ripple",
+        "Pool",
+        "Lagoon",
+        "Water Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-the-bay-food-web",
+    "index": "880",
+    "domain": "Education",
+    "trade": "Science class with the pier crew and a naturalist at a Bay pier — learner and naturalist",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Bay Food Web",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Bay Food Web VR",
+    "tagline": "Tiny plants feed tiny animals, which feed fish, which feed birds and seals — build the web and see the links",
+    "accent": 4881072,
+    "accentCss": "#4a7ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "web-weaver",
+      "name": "Web Weaver",
+      "note": "Built a Bay food web with arrows that point the right way, explained what happens when one link changes and spotted the web from the pier"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Web Board",
+      "currency": "LINKS",
+      "ranks": [
+        "Strand",
+        "Thread",
+        "Knot",
+        "Net",
+        "Web Weaver"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-plastics-and-the-bay",
+    "index": "881",
+    "domain": "Education",
+    "trade": "Science class with the beach crew on a shoreline sweep — learner and beach crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Plastics and the Bay",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Plastics and the Bay VR",
+    "tagline": "Plastic breaks into smaller pieces but does not go away — test which pieces float, then sweep the shore safely",
+    "accent": 4890784,
+    "accentCss": "#4aa0a0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "shore-sweeper",
+      "name": "Shore Sweeper",
+      "note": "Sorted plastics in a float test, explained why plastic breaks up but stays, and swept a shoreline strip safely with the beach crew"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sweep Board",
+      "currency": "PIECES",
+      "ranks": [
+        "Spotter",
+        "Picker",
+        "Sorter",
+        "Sweeper",
+        "Shore Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-measure-a-rain-garden",
+    "index": "882",
+    "domain": "Education",
+    "trade": "Maths class with the school garden crew sizing a rain garden — learner and garden crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Measure a Rain Garden",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Measure a Rain Garden VR",
+    "tagline": "Length times width gives the area — measure the bed with the crew, then draw it to scale",
+    "accent": 9085002,
+    "accentCss": "#8aa04a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "garden-measurer",
+      "name": "Garden Measurer",
+      "note": "Measured a rain garden bed with a tape, worked out its area on a grid and drew it to scale for the crew"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Measure Board",
+      "currency": "SQUARES",
+      "ranks": [
+        "Mark",
+        "Line",
+        "Edge",
+        "Area",
+        "Garden Planner"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

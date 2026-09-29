@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 690
+      "stations": 700
     },
     "trades": {
       "entry": "trades/index.html",
@@ -540,6 +540,16 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-es-measure-a-rain-garden",
+        "k12-es-plastics-and-the-bay",
+        "k12-es-the-bay-food-web",
+        "k12-es-too-much-of-a-good-thing",
+        "k12-es-count-it-a-fair-survey",
+        "k12-es-who-does-this-work",
+        "k12-es-clean-air-at-the-port",
+        "k12-es-mud-on-the-move",
+        "k12-es-the-tidal-marsh-nursery",
+        "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
         "k12-es-what-a-trash-capture-device-does",
         "k12-es-where-the-storm-drain-goes",
         "k12-by-wetlands-as-a-storms-speed-bump",
@@ -10047,6 +10057,836 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-measure-a-rain-garden",
+      "name": "Measure a Rain Garden",
+      "title": "SmartCiti.X~ Measure a Rain Garden VR",
+      "tagline": "Length times width gives the area — measure the bed with the crew, then draw it to scale",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class with the school garden crew sizing a rain garden — learner and garden crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#8aa04a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "garden-measurer",
+        "name": "Garden Measurer",
+        "note": "Measured a rain garden bed with a tape, worked out its area on a grid and drew it to scale for the crew"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "882",
+      "flat": false,
+      "system": "Measure Board",
+      "currency": "SQUARES",
+      "ranks": [
+        "Mark",
+        "Line",
+        "Edge",
+        "Area",
+        "Garden Planner"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-measure-a-rain-garden"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-plastics-and-the-bay",
+      "name": "Plastics and the Bay",
+      "title": "SmartCiti.X~ Plastics and the Bay VR",
+      "tagline": "Plastic breaks into smaller pieces but does not go away — test which pieces float, then sweep the shore safely",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class with the beach crew on a shoreline sweep — learner and beach crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4aa0a0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "shore-sweeper",
+        "name": "Shore Sweeper",
+        "note": "Sorted plastics in a float test, explained why plastic breaks up but stays, and swept a shoreline strip safely with the beach crew"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "881",
+      "flat": false,
+      "system": "Sweep Board",
+      "currency": "PIECES",
+      "ranks": [
+        "Spotter",
+        "Picker",
+        "Sorter",
+        "Sweeper",
+        "Shore Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-plastics-and-the-bay"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-the-bay-food-web",
+      "name": "The Bay Food Web",
+      "title": "SmartCiti.X~ The Bay Food Web VR",
+      "tagline": "Tiny plants feed tiny animals, which feed fish, which feed birds and seals — build the web and see the links",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class with the pier crew and a naturalist at a Bay pier — learner and naturalist",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4a7ab0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "web-weaver",
+        "name": "Web Weaver",
+        "note": "Built a Bay food web with arrows that point the right way, explained what happens when one link changes and spotted the web from the pier"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "880",
+      "flat": false,
+      "system": "Web Board",
+      "currency": "LINKS",
+      "ranks": [
+        "Strand",
+        "Thread",
+        "Knot",
+        "Net",
+        "Web Weaver"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-the-bay-food-web"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-too-much-of-a-good-thing",
+      "name": "Too Much of a Good Thing",
+      "title": "SmartCiti.X~ Too Much of a Good Thing VR",
+      "tagline": "Nutrients feed plants, but too many feed a bloom of algae — test it in jars, then check the water with the crew",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class with the marsh crew at a lagoon — learner and water quality crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#5aa07a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "balance-keeper",
+        "name": "Balance Keeper",
+        "note": "Ran a fair jar test on nutrients and algae, explained why too much of a good thing clouds the water and helped the crew take a water reading"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "879",
+      "flat": false,
+      "system": "Balance Board",
+      "currency": "LEAVES",
+      "ranks": [
+        "Drop",
+        "Ripple",
+        "Pool",
+        "Lagoon",
+        "Water Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-too-much-of-a-good-thing"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-count-it-a-fair-survey",
+      "name": "Count It: a Fair Survey",
+      "title": "SmartCiti.X~ Count It: a Fair Survey VR",
+      "tagline": "Same box, same time, same rules — count the shorebirds fairly so the numbers mean something",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Maths class with the shoreline park crew on a bird count — learner and park survey lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#8a7ab0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "fair-counter",
+        "name": "Fair Counter",
+        "note": "Ran a fair shorebird count with a survey box and fixed rules, tallied without counting twice and compared with another group"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "878",
+      "flat": false,
+      "system": "Count Board",
+      "currency": "TALLIES",
+      "ranks": [
+        "Spotter",
+        "Counter",
+        "Tallier",
+        "Surveyor",
+        "Survey Lead"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-count-it-a-fair-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-who-does-this-work",
+      "name": "Who Does This Work",
+      "title": "SmartCiti.X~ Who Does This Work VR",
+      "tagline": "Every clean drain, rain garden and marsh is built by a crew — meet the trades and match the jobs",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#b07a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "crew-finder",
+        "name": "Crew Finder",
+        "note": "Matched Bay restoration and clean port jobs to the crews who do them, and learned how people train for that work"
+      },
+      "meshes": 297,
+      "lights": 0,
+      "overBudget": false,
+      "index": "877",
+      "flat": false,
+      "system": "Crew Board",
+      "currency": "HARD HATS",
+      "ranks": [
+        "Visitor",
+        "Helper",
+        "Apprentice",
+        "Crew Member",
+        "Crew Leader"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-who-does-this-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-clean-air-at-the-port",
+      "name": "Clean Air at the Port",
+      "title": "SmartCiti.X~ Clean Air at the Port VR",
+      "tagline": "Electric trucks and cranes make no exhaust where they work — see why that matters to the air people breathe",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science visit with the terminal equipment crew at a container port — learner and equipment crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4a9ab0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "clean-air-scout",
+        "name": "Clean Air Scout",
+        "note": "Compared exhaust from a diesel and an electric model truck, explained why cleaner air near a port matters and learned what the port's conversion plans to change"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "876",
+      "flat": false,
+      "system": "Air Board",
+      "currency": "BREATHS",
+      "ranks": [
+        "Breeze",
+        "Gust",
+        "Wind",
+        "Clear Sky",
+        "Air Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-clean-air-at-the-port"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-mud-on-the-move",
+      "name": "Mud on the Move",
+      "title": "SmartCiti.X~ Mud on the Move VR",
+      "tagline": "Tides carry mud in and drop it where water slows — test it in a tray, then see why marshes need it",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class with the tidal restoration crew at a slough — learner and restoration crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#9a8a5a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "mud-mover",
+        "name": "Mud Mover",
+        "note": "Showed in a tide tray where moving water drops its mud, explained why a marsh needs that mud and watched the crew work from mats"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "875",
+      "flat": false,
+      "system": "Mud Board",
+      "currency": "GRAINS",
+      "ranks": [
+        "Grain",
+        "Silt",
+        "Layer",
+        "Bank",
+        "Marsh Builder"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-mud-on-the-move"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-the-tidal-marsh-nursery",
+      "name": "The Tidal Marsh Nursery",
+      "title": "SmartCiti.X~ The Tidal Marsh Nursery VR",
+      "tagline": "Shallow channels, food and hiding places make the marsh a nursery — look closely, then help the crew",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science walk with the wetland restoration crew at a tidal marsh — learner and restoration crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#7aa060",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "nursery-watcher",
+        "name": "Nursery Watcher",
+        "note": "Found what makes a marsh a safe nursery, watched young fish in a model channel and helped the crew keep the boardwalk quiet"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "874",
+      "flat": false,
+      "system": "Nursery Board",
+      "currency": "SPROUTS",
+      "ranks": [
+        "Egg",
+        "Hatchling",
+        "Fledgling",
+        "Swimmer",
+        "Marsh Friend"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-the-tidal-marsh-nursery"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+      "name": "Rain Gardens: a Sponge in the Sidewalk",
+      "title": "SmartCiti.X~ Rain Gardens: a Sponge in the Sidewalk VR",
+      "tagline": "Loose soil and plants soak up the rain that a hard sidewalk sends away — test it, then help the crew plant",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science class with the green infrastructure crew at a school rain garden — learner and landscape crew lead",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#6a9a4a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "sponge-builder",
+        "name": "Sponge Builder",
+        "note": "Compared how fast water soaks through garden soil and packed ground, explained what a rain garden does and helped the crew plant one"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "873",
+      "flat": false,
+      "system": "Garden Board",
+      "currency": "SOAKS",
+      "ranks": [
+        "Seed",
+        "Shoot",
+        "Leaf",
+        "Bloom",
+        "Garden Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-es-rain-gardens-a-sponge-in-the-sidewalk"
     },
     {
       "app": "smartcity",
@@ -36132,7 +36972,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 253,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -1381,6 +1381,8 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-by-reading-a-flood-maps-colours", why: "A practice flood map read through its key, scale bar and north arrow, low ground told from high, and a route and meeting place planned calmly from the evidence." },
       { app: "smartcity", id: "k12-by-sorting-containers-at-the-port", why: "Model containers sorted by a rule, grouped by destination, stacked so the first to leave sits on top and the heaviest sit low, and the sort checked in a table." },
       { app: "smartcity", id: "k12-by-measuring-a-floodwall-in-steps", why: "A stretch of floodwall measured by pacing, a pace measured against the crew's tape, steps turned into length and the answer checked against the wall's panels." },
+      { app: "smartcity", id: "k12-es-count-it-a-fair-survey", why: "A shorebird count with a marked box, a timer and a rule card, one sweep and one tally per bird, compared with another group's count." },
+      { app: "smartcity", id: "k12-es-measure-a-rain-garden", why: "A rain garden bed measured from zero with a tape, length times width for the area, and the bed drawn to scale on a grid for the crew." },
     ],
   },
   {
@@ -1410,6 +1412,13 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-by-the-water-cycle-from-lake-to-tap", why: "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe." },
       { app: "smartcity", id: "k12-es-where-the-storm-drain-goes", why: "Rain traced from a roof to the gutter, the drain and the Bay on a street model and the crew's drain map, and why only rain belongs in a storm drain." },
       { app: "smartcity", id: "k12-es-what-a-trash-capture-device-does", why: "A fair test with a model screen in a drain, a bottle cap followed to the screen, and the crew's safe cleanout of a real device watched from behind the barrier." },
+      { app: "smartcity", id: "k12-es-rain-gardens-a-sponge-in-the-sidewalk", why: "Garden soil and packed ground compared in a fair soak test, water followed from the kerb gap into a school rain garden, and the crew's pipe marks checked before any digging." },
+      { app: "smartcity", id: "k12-es-the-tidal-marsh-nursery", why: "Channels, grass and mud found as the food and shelter that make a tidal marsh a nursery, young fish watched in a model channel, and the boardwalk kept quiet with the crew." },
+      { app: "smartcity", id: "k12-es-mud-on-the-move", why: "A tide tray run slow and fast with the same mud, the layer each leaves, why a marsh needs that mud to keep up with the water, and the crew working from mats." },
+      { app: "smartcity", id: "k12-es-too-much-of-a-good-thing", why: "Two jars of the same pond water in the same light, plant food in one, the green that follows, and the crew's careful water sample from the dock." },
+      { app: "smartcity", id: "k12-es-the-bay-food-web", why: "A Bay food web built on a board with arrows that follow the food energy, and the links spotted live from behind the pier rail." },
+      { app: "smartcity", id: "k12-es-plastics-and-the-bay", why: "A float test in salty water, plastics sorted into floaters and sinkers, and a paired shoreline sweep with gloves, tongs and a sharps tub." },
+      { app: "smartcity", id: "k12-es-clean-air-at-the-port", why: "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for." },
     ],
   },
   {
@@ -1451,6 +1460,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-digital-citizenship-and-online-safety", why: "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told." },
       { app: "smartcity", id: "k12-teamwork-and-feedback", why: "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations." },
       { app: "smartcity", id: "k12-by-a-family-readiness-plan", why: "A readiness plan a family makes together before storm season — who helps, what goes in the go-bag, where to meet and where to go — written down, shared and practised." },
+      { app: "smartcity", id: "k12-es-who-does-this-work", why: "The trades behind Bay restoration and clean port work matched job by job, the path from pre-apprenticeship to crew, and what the EPA and the Port of Oakland say, with each source named." },
     ],
   },
 ];

@@ -1,0 +1,146 @@
+{
+  "id": "k12-es-the-bay-food-web",
+  "index": "880",
+  "prefix": "esf",
+  "accent": "#4a7ab0",
+  "floor": ["#5a6068", "#4e545c"],
+  "wall": ["#dce2ea", "#c8d2de"],
+  "trade": "Science class with the pier crew and a naturalist at a Bay pier — learner and naturalist",
+  "header": "Upper-primary science at the Fort Mason Piers site in San Francisco: how plants, tiny animals, fish, birds and seals in the Bay are linked by who eats what, built as a food web on a board and seen from the pier, using only what the board and the water in the scene show.",
+  "name": "The Bay Food Web",
+  "tagline": "Tiny plants feed tiny animals, which feed fish, which feed birds and seals — build the web and see the links",
+  "badge": { "id": "web-weaver", "name": "Web Weaver", "note": "Built a Bay food web with arrows that point the right way, explained what happens when one link changes and spotted the web from the pier" },
+  "board": { "name": "Web Board", "currency": "LINKS", "ranks": ["Strand", "Thread", "Knot", "Net", "Web Weaver"] },
+  "hazards": [
+    { "id": "arrow-points-to-the-eater", "label": "Point the arrow from the seal to the fish?", "face": "WRONG\nWAY?", "text": "You pointed the arrow from the seal to the fish. In a food web the arrow shows where the food energy goes, so it points from the fish to the seal that eats it." },
+    { "id": "one-animal-does-not-matter", "label": "Say one small animal does not matter to the web?", "face": "DOES NOT\nMATTER?", "text": "You said one small animal does not matter. Tiny animals feed many fish, so a change to them reaches the birds and seals too. Every link holds the web together." },
+    { "id": "lean-over-the-rail", "label": "Lean over the pier rail to see the fish?", "face": "LEAN\nOVER", "text": "You leaned over the pier rail. Stay behind the rail and use the viewer on the deck. The pier crew keeps everyone behind the rail at all times." },
+    { "id": "feed-the-gulls", "label": "Throw a snack to the gulls?", "face": "FEED\nGULLS", "text": "You threw a snack to the gulls. Human food is not part of the Bay food web and is not good for birds. Watch the gulls find their own food instead." }
+  ],
+  "find1": {
+    "title": "Find the living things in the Bay",
+    "cue": "Mark the three living things you can see from the pier.",
+    "why": "A food web starts with living things. Tiny floating plants make food from sunlight, small fish eat the tiny animals that eat those plants, and birds and seals eat the fish. Seeing each one from the pier helps you notice that they all live in the same water and depend on each other.",
+    "items": [
+      ["plankton", "the green tint of tiny floating plants", "They make food from sunlight."],
+      ["fish", "a school of small fish", "They eat tiny animals."],
+      ["pelican", "a pelican diving", "It eats the small fish."]
+    ],
+    "decoy": ["buoy", "a red buoy", "It marks the water, but it is not alive."]
+  },
+  "select1": {
+    "title": "Stay behind the pier rail",
+    "cue": "Stand behind the rail on the pier deck with the naturalist.",
+    "why": "The pier is a great place to watch the Bay, and the rail is there to keep everyone safely on the deck. Standing behind it lets you see the water without leaning out. The pier crew and the naturalist keep every group behind the rail.",
+    "key": "rail-card",
+    "label": "Behind the rail",
+    "face": "BEHIND\nTHE RAIL"
+  },
+  "seq": {
+    "title": "Put one food chain in order",
+    "cue": "Put the tiny plants, tiny animals, small fish and seal in order of who eats whom.",
+    "why": "A food chain shows one path the food energy takes. Tiny plants are eaten by tiny animals, which are eaten by small fish, which are eaten by a seal. Putting them in order shows how energy from the sun reaches a big animal in steps.",
+    "oon": "Out of order. Start with the tiny plants that make food from sunlight.",
+    "items": [
+      ["ord-plants", "tiny floating plants"],
+      ["ord-animals", "tiny floating animals"],
+      ["ord-fish", "small fish"],
+      ["ord-seal", "a harbour seal"]
+    ]
+  },
+  "turn": {
+    "title": "Turn the arrow to point the right way",
+    "cue": "Turn the arrow on the board so it points from the fish to the pelican.",
+    "why": "Arrows in a food web point the way the food energy moves. The fish is eaten, so its energy goes to the pelican, and the arrow points to the pelican. Getting the arrows right is what turns a picture into a web that explains something.",
+    "key": "arrow-dial",
+    "label": "Arrow direction",
+    "dial": "ARROW"
+  },
+  "gauge": {
+    "title": "Count the links for the small fish",
+    "cue": "Commit when the marker shows how many arrows touch the small fish.",
+    "why": "The small fish has arrows coming in from what it eats and going out to what eats it. Counting them shows how important it is to the web. Animals with many links hold the web together, which is why scientists watch them closely.",
+    "key": "link-meter",
+    "label": "Links on the fish",
+    "meter": "LINKS",
+    "miss": "Not matched yet. Count every arrow that touches the fish."
+  },
+  "hold": {
+    "title": "Hold the viewer steady over the water",
+    "cue": "Hold the pier viewer steady on the school of fish.",
+    "why": "A steady view lets you watch the fish long enough to see them feed. Moving the viewer around makes it hard to follow them. Naturalists watch patiently in one spot, because the most interesting moments happen when you keep still.",
+    "brk": "The viewer drifted off the fish. Hold it steady on the school again.",
+    "key": "viewer-hold",
+    "label": "Hold the viewer"
+  },
+  "drag": {
+    "title": "Place the seal card on the web",
+    "cue": "Drag the seal card to its place at the top of the web.",
+    "why": "The seal eats fish and is not eaten by anything else in this web, so it sits at the top. Placing it there shows how energy flows up to it. Every card in its right place makes the web easier to read.",
+    "key": "seal-card",
+    "label": "Seal card",
+    "spot": "top-spot",
+    "spotLabel": "The top of the web",
+    "miss": "Not at the top yet. Place the seal where nothing eats it."
+  },
+  "find2": {
+    "title": "Spot the web at work from the pier",
+    "cue": "Watch the water and mark each moment of feeding you see.",
+    "why": "The food web is happening in front of you. A pelican dives for fish, a seal pops up with a fish, and small fish flash at the surface as they feed. Spotting these moments shows that the web on the board is a picture of the real Bay.",
+    "items": [
+      ["dive", "a pelican diving for fish", "A fish-to-bird link."],
+      ["seal", "a seal with a fish", "A fish-to-seal link."],
+      ["flash", "small fish feeding at the surface", "A tiny-animal-to-fish link."]
+    ],
+    "decoy": ["boat", "a sailboat passing", "A fine sight, but not part of the web."]
+  },
+  "select2": {
+    "title": "Say what happens if the small fish go away",
+    "cue": "Choose the sentence that says what would change if the small fish became fewer.",
+    "why": "The small fish link the tiny animals to the birds and seals. If there were fewer of them, the birds and seals would have less to eat. A good answer follows the arrows on your web and does not guess beyond them.",
+    "key": "result-card",
+    "label": "Follow the arrows",
+    "face": "WHAT\nCHANGES?"
+  },
+  "track": {
+    "title": "Follow a pelican as it hunts",
+    "cue": "Keep the marker on the pelican as it circles and dives.",
+    "why": "Following a pelican shows a link in action. It circles, spots the fish from above and dives in. Watching it helps you remember that each arrow on the board is a real animal finding its food.",
+    "brk": "The marker lost the pelican. Find it again and follow it to the dive.",
+    "key": "pelican-track",
+    "label": "Pelican followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record the links you saw",
+    "cue": "Write each feeding link you saw from the pier with an arrow.",
+    "why": "Writing the links with arrows turns what you saw into a small food web of your own. Anyone reading it can follow the energy from plant to fish to bird. Naturalists record sightings the same way to learn how the Bay changes through the year.",
+    "key": "link-log",
+    "label": "Links record",
+    "done": "Links recorded"
+  },
+  "share": {
+    "title": "Compare webs with another group",
+    "cue": "Put your web next to another group's and look for the same links.",
+    "why": "Two groups may see different links from the same pier. Comparing webs makes a bigger, fuller picture. Scientists build food webs by putting together many people's observations in exactly this way.",
+    "key": "share-board",
+    "label": "Compare webs",
+    "done": "Webs compared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the pier",
+    "cue": "Which way do the arrows point? Why does every link matter?",
+    "why": "The naturalist checks what each group learned before they leave the pier. Each learner says which way the arrows point and why a small animal matters. If anyone has arrows pointing the wrong way, the group sorts it out now.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "a-boat-docks-at-the-pier", "kind": "Boat docking", "key": "stand-back", "label": "Stand back from the landing", "alert": "A work boat comes in to dock at the pier's landing.", "cue": "Stand back from the landing so the crew can tie up.", "why": "Docking crews need room to throw and tie lines. Standing back from the landing keeps everyone clear of the ropes. The class can watch from the deck once the boat is tied.", "miss": "The class stayed by the landing, and the crew had to wait before tying up.", "wrong": "That keeps you by the landing. Stand back. Choose the response that deals with it now.", "done": "Landing clear, the boat tied up. The lesson carries on." },
+    { "id": "the-naturalist-asks-about-the-arrows", "kind": "Naturalist question", "key": "name-arrow", "label": "Say which way the arrows point", "alert": "The naturalist asks which way the arrow between the fish and the seal points.", "cue": "Say it points from the fish to the seal, the way the food energy goes.", "why": "Knowing the arrow direction shows you understand the web. Arrows follow the energy, not the hunter. That rule works for every food web anywhere.", "miss": "You could not say which way the arrow points, and the naturalist had to explain before the class could go on.", "wrong": "That points the arrow the wrong way. Choose the response that deals with it now.", "done": "Arrow explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Naturalist", "Pier crew member"],
+  "guide": { "start": "Arrows follow the food energy.", "after": "Every link matters.", "hazard": "Stop. Stay behind the rail." },
+  "lateRecord": "The links record is written after you watch the water — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "deck",
+  "order": "b"
+}
