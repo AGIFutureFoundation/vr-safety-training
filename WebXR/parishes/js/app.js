@@ -20,10 +20,11 @@ import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
-import { cwMassFilter, cwBlockWalk, cwStreets } from "../../shared/cw-cityworks.js";
+import { cwMassFilter, cwBlockWalk, cwStreets, cwColliders, cwSidewalkAt } from "../../shared/cw-cityworks.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
+import { nwMountPhysics } from "../../shared/nw-drive.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
@@ -88,6 +89,21 @@ tfLand.update(np.x, np.z, 99);
 const tfRain = tfMountRain({ THREE, root, tier: npTierName, reduced: tfReducedMotion() });
 const connectors = npResolveConnectors(parish);
 
+// NEWTON's physics (docs/consoles/NEWTON.md): gravity, walls, wading and swimming for the walk, props that tumble,
+// and the Motor Pool's drive mode with crash response. TERRAFORM's water and flow and CITYWORKS' colliders are read
+// when their modules are on the page (the coordinator passes them in here); the parish's own ground, water and
+// building footprints stand in until then.
+const npReduced = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+const nwPhys = nwMountPhysics({
+  three: THREE, root, parish, tier: npTierName, reduced: npReduced,
+  seams: { tfWaterDepthAt, tfFlowAt, cwColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders
+  link: (id) => npLink(id, null),
+  onCard: () => npKeys.clear(),
+});
+nwPhys.place(np.x, np.z);
+let nwMode = "walk";
+const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and watch the current.", swim: "Swimming: slower, and the current carries you. The breath meter is a readiness cue — head for the shore to rest." };
+
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
 {
   const token = mapboxToken();
@@ -145,6 +161,7 @@ addEventListener("keydown", (e) => {
   if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) e.preventDefault();
   npKeys.add(e.code);
   if (e.repeat) return;
+  if (e.code === "KeyQ" && nwPhys.driving()) { const out = nwPhys.exitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
   if (e.code === "KeyE") npUse();
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
@@ -300,6 +317,8 @@ function npNearest() {
 }
 
 function npUse() {
+  // In the drive mode, Use (E, the touch Use button, the pad's A) steps out of the vehicle, like Q.
+  if (nwPhys.driving()) { const out = nwPhys.exitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
   const n = np.near;
   if (!n) return;
   if (n.kind === "board") npOpenBoard(n.site);
@@ -368,15 +387,31 @@ function frame(now) {
     const run = npKeys.has("ShiftLeft") || npKeys.has("ShiftRight") || !!snap?.buttons?.[10]?.pressed;
     const speed = run ? 14 : 5;
     const fx = -Math.sin(np.yaw), fz = -Math.cos(np.yaw);
-    let nx = np.x + (fx * f - fz * s) * speed * dt, nz = np.z + (fz * f + fx * s) * speed * dt;
-    nx = Math.max(-NP_SIZE / 2 + 5, Math.min(NP_SIZE / 2 - 5, nx)); nz = Math.max(-NP_SIZE / 2 + 5, Math.min(NP_SIZE / 2 - 5, nz));
-    // Water stops the walk unless a bridge or a ferry carries the learner; a wetland is wadeable.
-    const wet = npWaterAt(parish, nx, nz);
-    if (!wet || wet.kind === "wetland" || npHeightAt(parish, nx, nz) > 0.3) [np.x, np.z] = cwBlockWalk(parish, np.x, np.z, nx, nz);
+    if (nwPhys.driving()) {
+      // Drive mode: W/S throttle, A/D steer, Space brakes; the crash response is nw-drive.js's.
+      nwPhys.animate(dt, { throttle: Math.max(-1, Math.min(1, f)), steer: Math.max(-1, Math.min(1, turn - s)), brake: npKeys.has("Space") });
+      const v = nwPhys.vehicle; np.x = v.x; np.z = v.z;
+    } else {
+      // The walk through NEWTON's physics: off an edge it falls, walls stop it, water is waded or swum and its flow carries.
+      if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
+      const av = nwPhys.walk({ vx: (fx * f - fz * s) * speed, vz: (fz * f + fx * s) * speed }, dt);
+      np.x = av.x; np.z = av.z;
+      if (av.mode !== nwMode && NW_MODE_TOAST[av.mode] && nwMode !== "fall") npToast(NW_MODE_TOAST[av.mode], 4200);
+      nwMode = av.mode;
+      nwPhys.animate(dt, null);
+    }
+  } else nwPhys.animate(dt, null);
+  if (np.playing && nwPhys.driving()) {
+    const cam = nwPhys.cameraPose(NP_EYE);
+    camera.position.set(cam.x, cam.y, cam.z);
+    camera.lookAt(cam.look[0], cam.look[1], cam.look[2]);
+  } else {
+    // A teleport or fast travel moved np.x/np.z: the avatar stands up on the ground there.
+    if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
+    const gy = np.playing ? nwPhys.cameraPose(NP_EYE).y : Math.max(npHeightAt(parish, np.x, np.z), 0.2) + NP_EYE;
+    camera.position.set(np.x, gy, np.z);
+    camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   }
-  const gy = Math.max(npHeightAt(parish, np.x, np.z), 0.2);
-  camera.position.set(np.x, gy + NP_EYE, np.z);
-  camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   world.update(np.x, np.z, 2);
   cwStreetsMount.update(np.x, np.z, 1);
   world.animate(dt);
@@ -457,7 +492,11 @@ let asMotorPool = null;
 function asOpenMotorPool() {
   if (!asMotorPool) asMotorPool = dvMountMotorPool({
     el: $("dv-board"), world: "parishes", page: ppHerePage(), regatta: "../regatta/regatta.html",
-    onDrive: (entry) => npToast(`${entry.name}: pre-trip done. Driving on the parish roads comes next; Bay World's Motor Pool drives it today.`, 6000),
+    // NEWTON: a finished pre-trip (the gate contract, as today) drives the vehicle on the parish roads.
+    onDrive: (entry) => {
+      if (nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q or Use steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
+      else npToast(`${entry.name}: pre-trip done. It runs on rails, so Bay World's Motor Pool drives it today.`, 6000);
+    },
   });
   else asMotorPool.refresh();
   npOpen("motorpool");
@@ -471,7 +510,7 @@ window.__parishTest = {
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
-  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */

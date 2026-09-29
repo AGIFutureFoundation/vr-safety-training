@@ -59,6 +59,8 @@ const CHECKERS = [
   "check_krewe.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
+  // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
+  "check_newton.mjs",
   "check_unity_export.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
