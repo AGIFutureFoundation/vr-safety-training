@@ -448,3 +448,11 @@ the closing check-in, with the **adaptive step**: a missed check takes the fallb
 `WebXR/shared/cg-runner.js` plays any lesson's flow through a GRIOT character (rendered by `by-flow-agent.js`'s
 `byMountFlowAgent`) and reports the finished lesson to SCHOLAR's session and DEAN's module-progress shapes, guarded.
 `node tools/check_cognition.mjs` is its gate. As everywhere in this document, this is the SmartCiti.X side of the contract only.
+## The Bay ecology lesson flows (ESTUARY)
+One flow per K-12 Bay ecology lesson, generated from `ES_LESSONS` in `WebXR/shared/es-bay-lessons.js` by
+`node tools/gen_es_flows.mjs`: `es-storm-drain.json`, `es-trash-capture.json`, `es-rain-garden.json`,
+`es-marsh-nursery.json`, `es-mud-on-the-move.json`, `es-nutrients.json`, `es-food-web.json`, `es-plastics.json`,
+`es-clean-air-port.json`, `es-who-does-this-work.json`, `es-count-it.json` and `es-measure-rain-garden.json`. Same shape as the parish flows: pre-brief → the station (back to the brief
+until passed) → a check question (`checkin` with `params.check`) → the hand-off to the two-minute apply step (an
+`external` node whose `ref` is a BAYQUEST `bq-` game id with ESTUARY's `es-apply-` fallback in `params`, or the fallback
+alone) → the closing check-in. SmartCiti.X side of the contract only.

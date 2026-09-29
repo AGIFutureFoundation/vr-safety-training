@@ -67,7 +67,7 @@ const BRANDS = /\b(caterpillar|cat\b|deere|komatsu|volvo|kenworth|peterbilt|frei
 // ------------------------------------------------------------ registry
 const all = D.DV_DRIVABLES;
 const road = all.filter((d) => d.kind !== "water"), water = all.filter((d) => d.kind === "water");
-if (road.length !== 50) fail("count", `${road.length} road/site/rail drivables (need 50)`); else ok();
+if (road.length !== 55) fail("count", `${road.length} road/site/rail drivables (need 55: MOTORPOOL's 50 and CLEANPORTS' five zero-emission machines)`); else ok();
 if (water.length !== 20) fail("count", `${water.length} watercraft (need 20)`); else ok();
 if (D.DV_ROAD_COUNT !== road.length || D.DV_WATER_COUNT !== water.length) fail("count", "DV_ROAD_COUNT / DV_WATER_COUNT disagree with the registry"); else ok();
 const ids = new Set();

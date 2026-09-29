@@ -1,0 +1,359 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cpdt-badge",
+    "name": "Rolled Out Ready",
+    "note": "The report read, the charge matched to the turns and the chassis locked to the box before the first turn"
+  },
+  "category": "Mobility & Transit",
+  "certification": "Teamsters driver training; FMCSA 49 CFR 396 inspection, repair and maintenance, including reviewing the last driver vehicle inspection report and writing your own; 49 CFR 393 parts and accessories necessary for safe operation; 49 CFR 392 driving of commercial motor vehicles; ANSI Z535.4 for the high-voltage warning labels on the battery system; OSHA 29 CFR 1910.132 for the gloves and high-visibility vest worn on the walk-around; NFPA 70E for the high-voltage components a driver recognises and does not touch; and the tractor maker's own pre-trip items for its battery system",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z535.4",
+        "id": "ansi-z535-4",
+        "title": "ANSI Z535.4 — Product safety signs and labels"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mobility",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cpdt-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "cpdt-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "cpdt-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cpdt-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cpdt-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Zero-Emission Crew",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Rolled Out Ready"
+  },
+  "hazards": {
+    "grab-orange-cable": "You reached up to move the orange cable yourself. High-voltage cables are for qualified technicians only — a driver looks and reports.",
+    "leave-twistlock-open": "You went to pull out with a chassis twistlock unlocked. An unlocked twistlock can let the container shift or lift on a turn.",
+    "roll-with-cable-plugged": "You went to release the brakes with the charge cable still connected. Driving off pulls the connector and damages the dispenser and cable.",
+    "skip-dvir-review": "You went straight to the truck without reading last night's report. A defect the last driver wrote up may still be there."
+  },
+  "id": "cp-zero-emission-drayage-truck-pre-trip",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "build-air-pressure",
+      "alert": "A yard spotter has walked behind the tractor to check a chassis number while the compressor runs.",
+      "cue": "Sound the horn and wave them clear of the rear before anything else — the gauge can wait.",
+      "delay": 2,
+      "id": "yard-spotter-waves",
+      "kind": "A yard spotter walks behind the tractor",
+      "missNote": "You kept watching the gauge while the spotter stood behind the tractor; the brake test would have started with them between tractor and chassis.",
+      "seconds": 12,
+      "target": "stop-spotter",
+      "why": "An electric tractor gives no engine sound to warn someone behind it, and a driver about to test the brakes and couplings needs everyone clear of the rear first.",
+      "wrongNote": "The spotter first — a person behind the rig is answered before the test goes on."
+    },
+    {
+      "after": "check-fifth-wheel",
+      "alert": "The dash has popped a battery temperature warning: the pack is too warm for a fast charge at the terminal later.",
+      "cue": "Note the warning on the report for the shop — the twistlocks wait.",
+      "delay": 2,
+      "id": "charge-warning-pops",
+      "kind": "The dash warns the battery is too warm to fast-charge",
+      "missNote": "You finished the twistlocks and forgot the warning; the truck arrived at the terminal charger unable to take the charge its turns depended on.",
+      "seconds": 12,
+      "target": "battery-temp-note",
+      "why": "A battery thermal warning is something the shop needs to know about before the truck relies on a mid-day charge, and writing it down now keeps it from becoming a surprise at the terminal charger.",
+      "wrongNote": "Note the warning first — a battery warning goes on the report while it is in front of you."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Zero-Emission Drayage Truck Pre-Trip",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "air-pressure-gauge",
+      "alert-sound-test",
+      "battery-temp-note",
+      "brake-pedal",
+      "cable-hanger-post",
+      "depot-charge-cable",
+      "dispatch-radio",
+      "fifth-wheel-release",
+      "front-twistlock",
+      "grab-orange-cable",
+      "last-dvir",
+      "leave-twistlock-open",
+      "low-chassis-tyre",
+      "own-dvir",
+      "range-display",
+      "rear-twistlock",
+      "roll-with-cable-plugged",
+      "skip-dvir-review",
+      "stop-spotter",
+      "under-cab-cables"
+    ],
+    "meshes": 229
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the last driver's vehicle inspection report and the mechanic's sign-off for anything they wrote up.",
+      "id": "read-last-dvir",
+      "kind": "select",
+      "prompt": "Read the last driver's vehicle inspection report and the mechanic's sign-off for anything they wrote up.",
+      "target": "last-dvir",
+      "title": "Read last night's inspection report",
+      "why": "49 CFR 396 has a driver review the last inspection report and sign it where defects were repaired, because a defect the last driver wrote up is either fixed and signed for or still there; starting the day without reading it means inheriting a problem blind."
+    },
+    {
+      "cue": "Unlatch the charge connector, carry the cable back to its hanger, then close the tractor's charge port door.",
+      "drag": {
+        "missNote": "Not stowed — carry the cable all the way back to the hanger so nothing is left on the ground behind the tractor.",
+        "radius": 0.5,
+        "to": "cable-hanger-post"
+      },
+      "id": "stow-charge-cable",
+      "kind": "drag",
+      "prompt": "Unlatch the charge connector, carry the cable back to its hanger, then close the tractor's charge port door.",
+      "target": "depot-charge-cable",
+      "title": "Unplug and stow the charge cable, shut the port door",
+      "why": "A charge cable left connected is pulled from the dispenser when the tractor moves, and an open charge port lets water and road grime into the inlet; stowing both is the first item because it is the one a battery-electric truck adds to the walk-around."
+    },
+    {
+      "cue": "Read the charge and estimated range and commit once they settle in the band your turns need, with a margin for queues.",
+      "gauge": {
+        "green": [
+          0.7,
+          1
+        ],
+        "label": "RANGE",
+        "missNote": "Not settled in the band — wait for the display; too little margin means a charge before the first turn.",
+        "speed": 0.6
+      },
+      "id": "read-state-of-charge",
+      "kind": "gauge",
+      "prompt": "Read the charge and estimated range and commit once they settle in the band your turns need, with a margin for queues.",
+      "target": "range-display",
+      "title": "Read the state of charge against the day's turns",
+      "why": "Terminal queues and traffic both use charge, and a truck that runs short between the terminal and the warehouse becomes a breakdown in a lane; matching the charge to the day's turns, with a margin, is the drayage version of checking the fuel."
+    },
+    {
+      "cue": "Look under the cab at the orange high-voltage cables and their clips for damage, and report anything you see.",
+      "id": "look-at-orange-cables",
+      "kind": "select",
+      "prompt": "Look under the cab at the orange high-voltage cables and their clips for damage, and report anything you see.",
+      "target": "under-cab-cables",
+      "title": "Look at the orange cables — do not touch",
+      "why": "The orange cables carry the battery's high voltage and are for qualified technicians only under NFPA 70E, but a driver's eyes on the walk-around are often the first to spot a cable hanging from a broken clip or rubbing on the frame; look, report, never handle."
+    },
+    {
+      "cue": "Run the electric air compressor and keep the pressure inside the band while you watch for leaks.",
+      "holdBreakNote": "The pressure fell out of band while you watched — find the leak before the truck moves; air brakes that lose pressure fail safe only if the driver catches it.",
+      "id": "build-air-pressure",
+      "kind": "track",
+      "prompt": "Run the electric air compressor and keep the pressure inside the band while you watch for leaks.",
+      "seconds": 6,
+      "target": "air-pressure-gauge",
+      "title": "Build air on the electric compressor and hold it",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.27,
+        "green": [
+          0.38,
+          0.66
+        ],
+        "label": "AIR PSI",
+        "rise": 0.3,
+        "start": 0.45
+      },
+      "why": "A battery-electric tractor's air brakes are fed by an electric compressor instead of an engine-driven one, but 49 CFR 393 air brake requirements are the same; building pressure and watching it hold is how a leak in the lines or a weak compressor is found before the brakes need it."
+    },
+    {
+      "cue": "With the air built, hold a full service brake application and watch the gauge stay steady.",
+      "holdBreakNote": "You released before the check was complete — hold the application so the gauge can show whether the system leaks.",
+      "id": "hold-brake-application",
+      "kind": "hold",
+      "prompt": "With the air built, hold a full service brake application and watch the gauge stay steady.",
+      "seconds": 5,
+      "target": "brake-pedal",
+      "title": "Hold a full brake application",
+      "why": "A full application held for a minute shows whether the brake system leaks under pressure, and on an electric truck it proves the friction brakes on their own, since regenerative braking does much of the everyday slowing and can hide a weak service brake."
+    },
+    {
+      "cue": "Pull the release handle to test it, then confirm the jaws are closed round the kingpin and the handle is back in.",
+      "id": "check-fifth-wheel",
+      "kind": "turn",
+      "prompt": "Pull the release handle to test it, then confirm the jaws are closed round the kingpin and the handle is back in.",
+      "target": "fifth-wheel-release",
+      "title": "Check the fifth wheel is locked",
+      "turn": {
+        "label": "FIFTH WHEEL",
+        "turns": 0.8
+      },
+      "why": "The fifth wheel is the only connection between tractor and chassis, and a jaw not fully closed round the kingpin can let a loaded chassis separate on the road; 49 CFR 393 sets the coupling requirements and the driver's look confirms them every trip."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check every chassis twistlock is turned and locked into the container's corner castings.",
+      "id": "lock-chassis-twistlocks",
+      "itemNames": {
+        "front-twistlock": "front chassis twistlocks",
+        "rear-twistlock": "rear chassis twistlocks"
+      },
+      "kind": "sequence",
+      "prompt": "Check every chassis twistlock is turned and locked into the container's corner castings.",
+      "targets": [
+        "front-twistlock",
+        "rear-twistlock"
+      ],
+      "title": "Lock the container to the chassis",
+      "why": "A container rides on a chassis held only by its twistlocks, and one left unlocked can let the box shift or lift on a turn; 49 CFR 393 cargo securement covers intermodal containers, and the driver checks the locks each time a box is loaded."
+    },
+    {
+      "cue": "With the tractor on and rolling slowly in the yard, confirm the pedestrian alert sound is audible from outside.",
+      "id": "test-alert-sound",
+      "kind": "select",
+      "prompt": "With the tractor on and rolling slowly in the yard, confirm the pedestrian alert sound is audible from outside.",
+      "target": "alert-sound-test",
+      "title": "Check the pedestrian alert sound",
+      "why": "An electric drayage tractor is very quiet at terminal speeds, where people on foot are most common, and the alert sound is what lets them hear it coming; a silent truck in a busy yard is a hazard its driver cannot see."
+    },
+    {
+      "cue": "Look at every chassis tyre, including the inside duals, for pressure, cuts and tread.",
+      "id": "find-flat-chassis-tyre",
+      "itemNames": {
+        "low-chassis-tyre": "low tyre on the chassis's rear axle"
+      },
+      "itemNotes": {
+        "low-chassis-tyre": "The chassis's rear inside tyre is visibly low — easy to miss from outside the dual, and a tyre that overheats on the road."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at every chassis tyre, including the inside duals, for pressure, cuts and tread.",
+      "targets": [
+        "low-chassis-tyre"
+      ],
+      "title": "Walk the chassis tyres",
+      "why": "Chassis come to a driver from a pool and are often the least looked-after part of the rig, and an under-inflated inside dual can overheat and fail on the freeway; finding it at the terminal means a chassis swap instead of a roadside repair."
+    },
+    {
+      "cue": "Write the low chassis tyre and anything else found on today's report, and sign it.",
+      "id": "write-own-dvir",
+      "kind": "select",
+      "prompt": "Write the low chassis tyre and anything else found on today's report, and sign it.",
+      "target": "own-dvir",
+      "title": "Write your own inspection report",
+      "why": "49 CFR 396 requires a driver's written report of defects that would affect safe operation, and writing today's up is how the chassis pool and the shop hear about the tyre; the report also shows the tractor was inspected before it left."
+    },
+    {
+      "cue": "Radio dispatch: tractor ready, chassis tyre low, need a swap before the first turn.",
+      "id": "swap-chassis-and-call",
+      "kind": "select",
+      "prompt": "Radio dispatch: tractor ready, chassis tyre low, need a swap before the first turn.",
+      "target": "dispatch-radio",
+      "title": "Call dispatch for a chassis swap",
+      "why": "Dispatch books the terminal appointment, and a truck that arrives with a defective chassis is turned away or delayed at the gate; calling now gets the swap done before the appointment rather than at it."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A battery-electric drayage tractor before the day's port turns: last night's inspection report read, the charge cable stowed and the port door shut, the state of charge read against the turns, the orange cables under the cab looked at and left alone, the air pressure built and held on an electric compressor, the brakes tested, the fifth wheel and the chassis twistlocks locked, a flat chassis tyre found, the pedestrian alert heard, and your own report written",
+  "title": "SmartCiti.X~ Zero-Emission Drayage Truck Pre-Trip VR VR",
+  "trade": "Teamsters drayage driver doing the pre-trip inspection on a battery-electric drayage tractor and container chassis before the first port turn",
+  "underwater": null,
+  "weather": "overcast"
+}

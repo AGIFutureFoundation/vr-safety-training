@@ -66,17 +66,25 @@ const CHECKERS = [
   // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
   "check_storyline.mjs",
   "check_drills.mjs",
+  // BAYQUEST: the Bay Program play layer: the Bay Keeper's Trail, four gated games, Crew Credits, stories (docs/consoles/BAYQUEST.md).
+  "check_bayquest.mjs",
+  // PROJECTSIM: the Bay Program project simulations (docs/consoles/PROJECTSIM.md).
+  "check_projectsim.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
   "check_newton.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
+  // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).
+  "check_cleanports.mjs",
   "check_unity_export.mjs",
   // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
   "check_packs.mjs",
   // COGNITION: the K-12 learning module — unit -> lesson -> flow, adaptive re-teach, the in-world runner (docs/consoles/COGNITION.md).
   "check_cognition.mjs",
+  // BAYKEEPER: the Bay Program hub — figures vs the facts, project→station links, union tags, stations 95+ (docs/consoles/BAYKEEPER.md).
+  "check_bayprogram.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",

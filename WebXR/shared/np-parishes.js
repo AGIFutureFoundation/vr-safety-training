@@ -36,6 +36,10 @@ import { NP_OAK_FRUITVALE_ESTUARY } from "./np-data-oak-fruitvale-estuary.js";
 import { NP_OAK_EMERYVILLE_BERKELEY } from "./np-data-oak-emeryville-berkeley.js";
 import { NP_BAY_SAN_JOSE } from "./np-data-bay-san-jose.js";
 import { NP_BAY_SAN_PABLO } from "./np-data-bay-san-pablo.js";
+// The Bay Program project areas (console TIDELANDS): the 2026 EPA awards' named projects as walkable maps.
+import { NP_SF_OUTER_MISSION } from "./np-data-sf-outer-mission.js";
+import { NP_BP_STRIP_MARSH_EAST } from "./np-data-bp-strip-marsh-east.js";
+import { NP_BP_SAN_LEANDRO_BAY } from "./np-data-bp-san-leandro-bay.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -45,10 +49,11 @@ import { npGeoToXz, npToGeo } from "./np-geo.js";
 /** Every parish, in the selector's order. */
 export const NP_PARISHES = [
   NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY,
-  NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW,
+  NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW, NP_SF_OUTER_MISSION,
   NP_SF_NORTH_BEACH, NP_SF_HAIGHT_CASTRO, NP_SF_SUNSET_SOUTH,
   NP_OAK_WEST_OAKLAND, NP_OAK_DOWNTOWN_LAKE, NP_OAK_FRUITVALE_ESTUARY, NP_OAK_EMERYVILLE_BERKELEY,
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
+  NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
@@ -58,6 +63,7 @@ export const NP_REGIONS = [
   { id: "oakland", name: "Oakland & the East Bay", title: "Oakland & East Bay Districts", noun: "district", nouns: "districts" },
   { id: "north-east-bay", name: "North East Bay", title: "North East Bay Districts", noun: "district", nouns: "districts" },
   { id: "south-bay", name: "South Bay", title: "South Bay Districts", noun: "district", nouns: "districts" },
+  { id: "bay-program", name: "Bay Program Project Areas", title: "Bay Program Project Areas", noun: "site area", nouns: "site areas" },
 ];
 
 /** The region id a map belongs to: its `region`, else New Orleans (the parish modules predate regions). */

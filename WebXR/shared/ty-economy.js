@@ -94,12 +94,13 @@ const TY_KIND_WORDS = {
   wetland: "the marsh edge", lock: "the lock", ferry: "the ferry landing", bridge: "the bridge approach", "bridge-yard": "the bridge yard",
   airport: "the airfield", warehouse: "the warehouses", shipyard: "the shipyard", landing: "the landing", park: "the park", transit: "the bus depot",
   refinery: "the plant gate", floodgate: "the floodgate", harbour: "the harbour", "fire-station": "the firehouse", floodwall: "the floodwall",
-  substation: "the substation", marina: "the boat slips", staging: "the staging yard", "timber-yard": "the timber yard", trail: "the trailhead",
+  substation: "the substation", marina: "the boat slips", staging: "the marshalling ground", "timber-yard": "the timber yard", trail: "the trailhead",
   "union-hall": "the union hall", construction: "the building site", workshop: "the workshop", nursery: "the plant nursery", lifeguard: "the lifeguard post",
   fire: "the firehouse", "rescue-station": "the rescue station", forestry: "the forestry yard", events: "the events ground", seawall: "the seawall",
   "transit-barn": "the transit barn", remediation: "the cleanup site", shoreline: "the shoreline", recreation: "the recreation ground",
   boating: "the boating dock", boatyard: "the boatyard", civic: "the civic centre", clinic: "the clinic", hotel: "the hotel", market: "the market hall",
   monitoring: "the monitoring station", plant: "the plant room", theatre: "the theatre", trucking: "the truck yard", utility: "the utility yard",
+  stormwater: "the rain gardens", yard: "the works yard", "trash-capture": "the drain inlet", industrial: "the loading docks", shore: "the waterline",
 };
 const TY_ROOM_WORDS = ["Upstairs room", "Back room", "Corner room", "Loft room", "Garden room"];
 const TY_SHOP_WORDS = ["Shopfront", "Ground-floor shop", "Corner unit", "Workshop bay", "Kiosk unit"];
@@ -149,7 +150,10 @@ export function tyListing(id) {
   return tyListings(parishId).find((l) => l.id === id) ?? null;
 }
 
-export function tyBusiness(id) { return TY_BUSINESSES.find((b) => b.id === id) ?? null; }
+export function tyBusiness(id) { return TY_BUSINESSES.find((b) => b.id === id) ?? TY_EXTRA_BUSINESSES.find((b) => b.id === id) ?? null; }
+/** Seam for other consoles' businesses (BAYQUEST): same shape as TY_BUSINESSES, tied to a real station; the five stay the five. */
+export const TY_EXTRA_BUSINESSES = [];
+export function tyAddBusinesses(list = []) { for (const b of list) if (b?.id && !tyBusiness(b.id)) TY_EXTRA_BUSINESSES.push(b); return TY_EXTRA_BUSINESSES.length; }
 export function tyCrewMember(id) { return TY_CREW.find((c) => c.id === id) ?? null; }
 /** What one pass pays at a learner level (clamped one to five). */
 export function tyPayFor(level) { const n = Math.max(1, Math.min(TY_LEVELS, Math.round(Number(level) || 1))); return TY_PAY_BASE + TY_PAY_STEP * (n - 1); }
@@ -423,7 +427,7 @@ export function tyMountLedger(el, { parishId = null, completed = () => false, to
       go.addEventListener("click", () => act(tyInspect(boxes.map((c) => c.checked)), `${b.name}: inspection passed — open for two play weeks.`));
       el.appendChild(go);
     } else if (shop) {
-      for (const b of TY_BUSINESSES) {
+      for (const b of [...TY_BUSINESSES, ...TY_EXTRA_BUSINESSES]) {
         const row = tyEl("div", "quest"); row.appendChild(tyEl("b", null, b.name)); row.appendChild(tyEl("small", null, `${b.trade} · opens for ${b.open} ${TY_SHORT} · station: ${b.station.replace(/-/g, " ")}${completed(b.station) ? " (passed)" : ""}${b.water ? " · waterside shops only" : ""}`));
         const open = tyEl("button", "btn", "Open here"); open.type = "button";
         open.addEventListener("click", () => act(tyOpen(b.id, shop.listing, { completed }), `${b.name} opened. Pass its safety inspection to start trading.`));

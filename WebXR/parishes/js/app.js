@@ -29,6 +29,7 @@ import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { nwMountPhysics } from "../../shared/nw-drive.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
+import { cpPlaceInParish } from "../../shared/cp-cleanports.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
@@ -39,12 +40,21 @@ import { dnApplyModule, dnSetEnterprise, dnUsePacks, dnUseSessions } from "../..
 import { scSessions } from "../../shared/sc-scholar.js";
 import { byLessonsFor } from "../../shared/by-parish-lessons.js";
 import { scMountSession } from "../../shared/sc-session-ui.js";
+import { esSessionLessons } from "../../shared/es-bay-lessons.js";
 import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
+// CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
+cpPlaceInParish(npParish);
+// BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
+// registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
+import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
+import { bqGamesFor } from "../../shared/bq-games-data.js";
+import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
+import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -279,6 +289,8 @@ function npOpenBoard(site) {
   }
   $("board-side").textContent = "";
   qmBoardRows($("board-side"), npPlayItems().filter((g) => g.site === site.id), { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` }, heading: "Skill locks here", done: () => false });
+  // PROJECTSIM: a Bay Program project simulation starts at its site's board (docs/consoles/PROJECTSIM.md).
+  psWorld?.boardRows($("board-ps"), site.id);
   tyBoardRows($("board-ty"), parish.id, site.id, { toast: npToast, onChange: tyRefresh });
   npOpen("board");
 }
@@ -506,6 +518,7 @@ function frame(now) {
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
+  if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -521,9 +534,9 @@ function frame(now) {
 }
 requestAnimationFrame(frame);
 
-// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson or a BAYOU lesson.
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson, a BAYOU lesson or an ESTUARY lesson.
 const scSession = scMountSession({
-  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id)],
+  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id), ...esSessionLessons(parish.id)],
   siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
   stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
 });
@@ -627,7 +640,24 @@ function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();
+  bqOpenBoard();
   npOpen("tycoon");
+}
+var bqBoard = null;
+/** The Bay Keeper's Trail on the San Francisco maps: a treasure within reach is found once and teaches its line. */
+function bqTrailTick() {
+  const t = bqNear("parishes", parish.id, np.x, np.z);
+  if (!t) return;
+  const r = bqFind(t.id);
+  if (r.first) { npToast(`Bay Keeper's Trail: a ${t.reveal} near ${t.siteName}. ${r.lesson}`, 7000); bqBoard?.refresh(); }
+}
+function bqOpenBoard() {
+  const ledgerEl = $("ty-ledger");
+  if (!ledgerEl) return;
+  let el = document.getElementById("bq-board");
+  if (!el) { el = document.createElement("div"); el.id = "bq-board"; ledgerEl.after(el); }
+  if (!bqBoard) bqBoard = bqMount({ el, world: null, toast: npToast, completed: ppCompleted });
+  else bqBoard.refresh();
 }
 function tyAfterTick(events) {
   if (!events.length) return;
@@ -668,6 +698,16 @@ let dnHere = { hidden: { stations: new Set() }, glow: { stations: new Set(), sit
 try { dnHere = dnApplyHere(); } catch (_) { /* DEAN is optional */ }
 addEventListener("gt:profile", () => { try { dnHere = dnApplyHere(); } catch (_) { /* keep */ } });
 
+// PROJECTSIM (docs/consoles/PROJECTSIM.md): full-procedure Bay Program project simulations at their sites' boards and in the
+// menu; each step is a real station's step, the order gates (permit, lockout, locate, mats, PPE) are scored, the award goes to the
+// passport and a pass pays Crew Credits through TYCOON's tyEarn.
+psSetRecorder(ppAward);
+var psWorld = psMountProjectSim({
+  three: THREE, root, parish, el: $("menu-ps"), tier: npTierName,
+  reducedMotion: (() => { try { return !!matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } })(),
+  toast: npToast, stationHref: (id, siteId) => npLink(id, siteId), onOpen: () => npClose(),
+});
+
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
@@ -675,6 +715,8 @@ window.__parishTest = {
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
+  projectsim: psWorld,
+  openBoard(siteId) { const s = parish.sites.find((x) => x.id === siteId); if (s) npOpenBoard(s); return !!s; },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
   // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
   // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
@@ -683,7 +725,7 @@ window.__parishTest = {
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
@@ -709,6 +751,28 @@ window.__parishTest.drills = drWorld;
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
 window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast) });
+// DEEPWATER: shoreline dive entries on this map (docs/consoles/DEEPWATER.md) open the Deep at a Bay Program region, with a way back.
+npMountDiveEntries($("menu-packs"), parish);
+function npMountDiveEntries(el, p) {
+  const entries = (() => { try { return dwShoreEntriesFor(p, { from: `../parishes/parishes.html?parish=${encodeURIComponent(p.id)}` }); } catch { return []; } })();
+  window.__parishTest.diveEntries = entries.map((e) => e.id);
+  // In-world: a dive-flag post at each entry — one InstancedMesh for all of this map's entries (one draw call).
+  if (entries.length) {
+    const flag = new THREE.InstancedMesh(new THREE.BoxGeometry(0.6, 9, 3.2), new THREE.MeshLambertMaterial({ color: 0xd8322a }), entries.length);
+    const m4 = new THREE.Matrix4();
+    entries.forEach((e, i) => { const [x, z] = e.position; m4.makeTranslation(x, Math.max(npHeightAt(p, x, z), 0) + 4.5, z); flag.setMatrixAt(i, m4); });
+    flag.instanceMatrix.needsUpdate = true; flag.name = "dw-dive-entries"; root.add(flag);
+    window.__parishTest.diveMarkers = flag.count;
+  }
+  if (!el?.parentNode || !entries.length) return;
+  const box = document.createElement("div");
+  const head = document.createElement("p");
+  head.className = "eyebrow"; head.style.marginTop = "16px"; head.textContent = "Dive entries from this shore";
+  const row = document.createElement("div"); row.className = "row"; row.style.flexWrap = "wrap";
+  for (const e of entries) { const a = document.createElement("a"); a.className = "btn"; a.href = e.url; a.textContent = e.label; row.appendChild(a); }
+  box.append(head, row);
+  el.parentNode.insertBefore(box, el.nextSibling);
+}
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";

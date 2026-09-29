@@ -1,0 +1,157 @@
+{
+  "id": "bay-program-projects",
+  "kind": "programme",
+  "name": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+  "title": "SmartCiti.X SF Bay Program Projects — Stormwater, Marsh and Source Control — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The kinds of work the U.S. EPA's San Francisco Bay Program awards of September 2026 pay for — trash capture devices, green stormwater infrastructure, tidal channels and sediment reuse, nutrient reduction at treatment plants, PCB source control and fish habitat — taught as the trade practice each job needs. The stations are generic and sited nowhere real; the Bay Program hub (WebXR/bayprogram/) links each named project to the stations that teach its work.",
+  "certification": "Programme completion record; each station rehearses the practice its own bodies set — OSHA 29 CFR 1926 Subpart P for every cut, OSHA 29 CFR 1910.146 for any permit space, the MUTCD for work in the street and on the sidewalk, OSHA 1910.120 HAZWOPER inside any contaminated-sediment zone, and the Section 404/401 and BCDC permit conditions for work at the shoreline",
+  "programmes": [
+    "bay-program-projects"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-trash-capture-device-service"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-culvert-retrofit-for-fish-passage"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-fish-screen-maintenance"
+    }
+  ],
+  "unions": [
+    "liuna",
+    "iuoe",
+    "iuoe-local3",
+    "afscme",
+    "seiu",
+    "seiu-1021"
+  ],
+  "unionLine": "LIUNA laborers and LIUNA Local 261 shoreline crews, IUOE Local 3 operating engineers, AFSCME and SEIU 1021 public-agency operators and scientists",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "south-treatment-plant"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "marsh-mouth-culvert",
+        "flats-sediment-core-site",
+        "mud-plain-hotspot-survey",
+        "mud-plain-trash-capture"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "water-plant"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "restoration"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "wetland-restoration"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-central-wetlands"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-myrtle-grove-diversion"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-tidal-channel-excavation",
+        "sme-sediment-reuse-placement",
+        "sme-slough-culvert-crew",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration"
+      ]
+    }
+  ],
+  "stationNames": {
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "br-trash-capture-device-service": "Trash Capture Device Service",
+    "br-tidal-marsh-grading-amphibious-excavator": "Tidal Marsh Grading — Amphibious Excavator",
+    "br-dredge-spoils-dewatering-pad": "Dredge Spoils Dewatering Pad",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "chlorine-room": "Chlorine Room",
+    "br-legacy-mercury-and-pcb-hotspot-handling": "Legacy Mercury & PCB Hotspot Handling",
+    "br-sediment-chain-of-custody-and-lab-prep": "Sediment Chain of Custody & Lab Prep",
+    "br-culvert-retrofit-for-fish-passage": "Culvert Retrofit For Fish Passage",
+    "br-fish-screen-maintenance": "Fish Screen Maintenance"
+  },
+  "version": "1.0.0",
+  "contentHash": "e8709edf",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

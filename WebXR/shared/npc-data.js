@@ -1383,7 +1383,7 @@ export const GR_ROSTER = [
     "topic": "Chlorine Room"
    },
    {
-    "text": "Why: A space you do not enter blind: the monitor and the air pack are read and staged from outside the door Part of Confined Space, Situational Awareness.",
+    "text": "Why: A space you do not enter blind: the monitor and the air pack are read and staged from outside the door Part of Confined Space, Situational Awareness, SF Bay Program Projects.",
     "src": {
      "kb": "station:chlorine-room"
     },

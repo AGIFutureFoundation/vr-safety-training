@@ -274,6 +274,9 @@ APPS = {
             SHARED / "np-data-oak-emeryville-berkeley.js",
             SHARED / "np-data-bay-san-jose.js",
             SHARED / "np-data-bay-san-pablo.js",
+            SHARED / "np-data-sf-outer-mission.js",
+            SHARED / "np-data-bp-strip-marsh-east.js",
+            SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "links.js",
@@ -780,6 +783,9 @@ APPS = {
             SHARED / "np-data-sf-north-beach.js",
             SHARED / "np-data-sf-haight-castro.js",
             SHARED / "np-data-sf-sunset-south.js",
+            SHARED / "np-data-sf-outer-mission.js",
+            SHARED / "np-data-bp-strip-marsh-east.js",
+            SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "sg-ways.js",
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",
@@ -826,6 +832,8 @@ APPS = {
             SHARED / "by-parish-lessons.js",
             SHARED / "sc-scholar.js",
             SHARED / "sc-session-ui.js",
+            SHARED / "es-bay-lessons.js",  # ESTUARY: the Bay ecology lessons the SCHOLAR panel mounts
+            SHARED / "dw-regions.js",  # DEEPWATER: the shoreline dive entries and their in-world markers
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
             SHARED / "crew.js",
@@ -840,6 +848,8 @@ APPS = {
             SHARED / "nw-drive.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
+            # CLEANPORTS: the zero-emission port stations keyed to BAYMAP's West Oakland sites (pure data, guarded).
+            SHARED / "cp-cleanports.js",
             SHARED / "kw-place.js",
             SHARED / "kw-kits.js",
             # MENAGERIE: pets, animals and passers-by, one InstancedMesh per kind (after np-parish.js).
@@ -851,6 +861,14 @@ APPS = {
             # DRILLS: the scenario drills (data, then the registry and mount; after st-paths.js and npc-data.js).
             SHARED / "dr-drills-data.js",
             SHARED / "dr-drills.js",
+            # BAYQUEST: the Bay Program play layer (after ty-economy.js, st-stories.js, nw-physics.js, tf-terraform.js).
+            SHARED / "bq-facts.js",
+            SHARED / "bq-games-data.js",
+            SHARED / "bq-trail-data.js",
+            SHARED / "bq-bayquest.js",
+            # PROJECTSIM: the Bay Program project simulations (data, then the mount; after np-parishes, tf-terraform, nw-physics, ty-economy).
+            SHARED / "ps-projectsim-data.js",
+            SHARED / "ps-projectsim.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",

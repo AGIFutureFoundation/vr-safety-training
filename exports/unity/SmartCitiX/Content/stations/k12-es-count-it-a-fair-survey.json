@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fair-counter",
+    "name": "Fair Counter",
+    "note": "Ran a fair shorebird count with a survey box and fixed rules, tallied without counting twice and compared with another group"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TALLIES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Spotter",
+      "Counter",
+      "Tallier",
+      "Surveyor",
+      "Survey Lead"
+    ],
+    "system": "Count Board"
+  },
+  "hazards": {
+    "change-the-rules-halfway": "You added gulls halfway through the count. Changing the rules during a count means the start and end do not match. Decide what counts before you begin, and keep it.",
+    "count-only-the-busy-spot": "You chose the busiest spot to count. Picking the best spot makes the shore look busier than it is. Count in the box the survey lead marked, busy or quiet.",
+    "count-the-same-bird-twice": "You counted the same bird twice when it flew back. A fair count gives each bird one tally. Sweep the box once from left to right and count only what you see on that sweep.",
+    "walk-to-the-waterline": "You started down to the waterline. The shore can be slippery, and walking close sends the birds away, which spoils the count. Count from the path with binoculars."
+  },
+  "id": "k12-es-count-it-a-fair-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-binoculars-steady-through-the",
+      "alert": "A cyclist rings a bell coming along the shoreline path.",
+      "cue": "Move to the side of the path and let the cyclist pass.",
+      "delay": 3,
+      "id": "a-cyclist-rings-a-bell",
+      "kind": "Cyclist",
+      "missNote": "The class blocked the path, and the cyclist had to stop and wait.",
+      "seconds": 12,
+      "target": "esc-move-in",
+      "why": "The shoreline path is shared. Moving to one side lets the cyclist pass safely. Surveyors choose spots at the edge of paths so they can keep counting without blocking anyone.",
+      "wrongNote": "That leaves you in the cyclist's way. Move to the side. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-one-bird-as-it-moves",
+      "alert": "The survey lead asks how you avoid counting the same bird twice.",
+      "cue": "Say you sweep the box once from left to right and count each bird once.",
+      "delay": 3,
+      "id": "the-survey-lead-asks-about-double-counts",
+      "kind": "Survey question",
+      "missNote": "You could not say how to avoid double counts, and the survey lead had to explain before the class went on.",
+      "seconds": 12,
+      "target": "esc-name-sweep",
+      "why": "A single sweep is the main way surveyors avoid double counts. Knowing it shows you understand what makes a count fair. The same rule works for counting anything that moves.",
+      "wrongNote": "That does not explain the sweep. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esc-checkin": "The check-in comes at the very end of the survey.",
+    "esc-tally-log": "The totals are written once the sweep is done — nothing to record yet."
+  },
+  "name": "Count It: a Fair Survey",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-the-rules-halfway",
+      "count-only-the-busy-spot",
+      "count-the-same-bird-twice",
+      "esc-bird-track",
+      "esc-box",
+      "esc-checkin",
+      "esc-dog",
+      "esc-duck",
+      "esc-egret",
+      "esc-focus-dial",
+      "esc-kite",
+      "esc-move-in",
+      "esc-name-sweep",
+      "esc-ord-rules",
+      "esc-ord-sweep",
+      "esc-ord-timer",
+      "esc-ord-total",
+      "esc-result-card",
+      "esc-rule-card",
+      "esc-rules",
+      "esc-sand-col",
+      "esc-sandpiper",
+      "esc-share-board",
+      "esc-sweep-hold",
+      "esc-tally",
+      "esc-tally-log",
+      "esc-timer",
+      "esc-timer-meter",
+      "walk-to-the-waterline"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things that make the count fair.",
+      "decoyNotes": {
+        "esc-kite": "Fun to watch, but not part of the survey."
+      },
+      "id": "find-the-parts-of-a-fair",
+      "itemNames": {
+        "esc-box": "the marked survey box on the shore",
+        "esc-rules": "the rule card",
+        "esc-timer": "the survey timer"
+      },
+      "itemNotes": {
+        "esc-box": "Count only inside it.",
+        "esc-rules": "It says which birds to count.",
+        "esc-timer": "Everyone counts for the same time."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things that make the count fair.",
+      "targets": [
+        "esc-box",
+        "esc-timer",
+        "esc-rules"
+      ],
+      "title": "Find the parts of a fair survey",
+      "why": "A fair survey follows fixed rules so anyone can repeat it. The survey box marks exactly where to count, the timer sets how long to count, and the rule card says which birds count. When the place, the time and the rules stay the same, counts from different days can be compared honestly."
+    },
+    {
+      "cue": "Read the rule card aloud with your group before the timer starts.",
+      "id": "agree-on-the-rules-before-you",
+      "kind": "select",
+      "prompt": "Read the rule card aloud with your group before the timer starts.",
+      "target": "esc-rule-card",
+      "title": "Agree on the rules before you start",
+      "why": "Agreeing on the rules first means everyone counts the same way. If one person counts gulls and another does not, the totals cannot be added or compared. Survey leads always read the rules together at the start, because a count is only as good as its rules."
+    },
+    {
+      "cue": "Put the steps of a fair count in order.",
+      "id": "put-the-survey-steps-in-order",
+      "itemNames": {
+        "esc-ord-rules": "1 · agree on the rules",
+        "esc-ord-sweep": "3 · sweep the box once from left to right",
+        "esc-ord-timer": "2 · start the survey timer",
+        "esc-ord-total": "4 · stop and add up the tallies"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start by agreeing on the rules.",
+      "prompt": "Put the steps of a fair count in order.",
+      "targets": [
+        "esc-ord-rules",
+        "esc-ord-timer",
+        "esc-ord-sweep",
+        "esc-ord-total"
+      ],
+      "title": "Put the survey steps in order",
+      "why": "A survey has a fixed order so it can be repeated. You agree on the rules, start the timer, sweep the box once from left to right, and then stop and add up. Doing it the same way every time is what lets a count from this week be compared with one from next month."
+    },
+    {
+      "cue": "Hold the binoculars steady while you sweep the box slowly.",
+      "holdBreakNote": "The binoculars jumped. Hold them steady and carry on the sweep.",
+      "id": "hold-the-binoculars-steady-through-the",
+      "kind": "hold",
+      "prompt": "Hold the binoculars steady while you sweep the box slowly.",
+      "seconds": 6,
+      "target": "esc-sweep-hold",
+      "title": "Hold the binoculars steady through the sweep",
+      "why": "A steady sweep means each bird passes through your view once. Jerky movement makes birds jump in and out of view, and that leads to double counts. Careful, slow sweeping is the skill real surveyors practise most. Surveyors often practise sweeping on an empty stretch first, so their movement is smooth when the birds are there."
+    },
+    {
+      "cue": "Turn the focus wheel until the birds in the survey box are sharp.",
+      "id": "focus-the-binoculars-on-the-survey",
+      "kind": "turn",
+      "prompt": "Turn the focus wheel until the birds in the survey box are sharp.",
+      "target": "esc-focus-dial",
+      "title": "Focus the binoculars on the survey box",
+      "turn": {
+        "axis": "y",
+        "label": "FOCUS",
+        "turns": 0.5
+      },
+      "why": "Sharp binoculars help you tell one kind of bird from another and see birds that are close together. A blurry view leads to missed birds or double counts. Setting the focus before the timer starts means your count begins cleanly."
+    },
+    {
+      "cue": "Commit when the timer marker reaches the end of the counting time.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TIME",
+        "missNote": "Not at the end yet. Stop when the timer reaches the mark.",
+        "speed": 0.6
+      },
+      "id": "read-the-survey-timer",
+      "kind": "gauge",
+      "prompt": "Commit when the timer marker reaches the end of the counting time.",
+      "target": "esc-timer-meter",
+      "title": "Read the survey timer",
+      "why": "Stopping exactly when the timer ends keeps every count the same length. Counting longer would find more birds even if the shore had not changed. Reading the timer carefully is a small step that keeps the whole survey fair. Counts of different lengths cannot be compared, just like races of different lengths cannot."
+    },
+    {
+      "cue": "Drag the tally for the sandpiper into the sandpiper column.",
+      "drag": {
+        "missNote": "Not in the sandpiper column yet. Check the heading and place it there.",
+        "radius": 0.45,
+        "to": "esc-sand-col"
+      },
+      "id": "place-the-tally-mark-in-the",
+      "kind": "drag",
+      "prompt": "Drag the tally for the sandpiper into the sandpiper column.",
+      "target": "esc-tally",
+      "title": "Place the tally mark in the right column",
+      "why": "Each kind of bird has its own column on the survey sheet. Putting each tally in the right place keeps the totals correct for every kind. Survey sheets are laid out this way so that anyone can add them up and check them. A tally in the wrong column makes one kind of bird look common and another look rare."
+    },
+    {
+      "cue": "Choose the sentence that explains why your count can be compared.",
+      "id": "say-why-the-count-is-fair",
+      "kind": "select",
+      "prompt": "Choose the sentence that explains why your count can be compared.",
+      "target": "esc-result-card",
+      "title": "Say why the count is fair",
+      "why": "Your count used the same box, the same time and the same rules as the other group. That is why the two counts can be compared. A good answer names those three things and does not claim the count shows more than it does. When the place, the time and the rules match, a difference in the count is more likely to be real."
+    },
+    {
+      "cue": "Look through the binoculars and mark each kind on the rule card.",
+      "decoyNotes": {
+        "esc-dog": "A friendly visitor, but not on the rule card."
+      },
+      "id": "spot-the-kinds-of-shorebirds-in",
+      "itemNames": {
+        "esc-duck": "a duck floating near the shore",
+        "esc-egret": "a tall white egret",
+        "esc-sandpiper": "a small sandpiper at the edge"
+      },
+      "itemNotes": {
+        "esc-duck": "Counts if it is inside the box.",
+        "esc-egret": "Stands still in the shallows.",
+        "esc-sandpiper": "Quick and small; count it once."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look through the binoculars and mark each kind on the rule card.",
+      "targets": [
+        "esc-sandpiper",
+        "esc-egret",
+        "esc-duck"
+      ],
+      "title": "Spot the kinds of shorebirds in the box",
+      "why": "Knowing the kinds on the rule card helps you count only what the survey asks for. A small sandpiper running at the edge, a tall egret standing still and a duck floating nearby are each counted in their own column. Telling them apart is the first skill of any bird survey."
+    },
+    {
+      "cue": "Keep the marker on the egret as it walks across the survey box.",
+      "holdBreakNote": "The marker lost the egret. Find it again and follow it across the box.",
+      "id": "follow-one-bird-as-it-moves",
+      "kind": "track",
+      "prompt": "Keep the marker on the egret as it walks across the survey box.",
+      "seconds": 8,
+      "target": "esc-bird-track",
+      "title": "Follow one bird as it moves in the box",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following one bird shows why counting in a single sweep matters. The egret walks from one side to the other, so a careless counter might count it twice. Watching it helps you see how surveyors avoid double counts. The same idea works for counting cars, people or trees: count each one once, on one pass."
+    },
+    {
+      "cue": "Write the total for each kind of bird at the bottom of its column.",
+      "id": "record-the-tally-totals",
+      "kind": "select",
+      "prompt": "Write the total for each kind of bird at the bottom of its column.",
+      "target": "esc-tally-log",
+      "title": "Record the tally totals",
+      "why": "Adding each column gives the totals that the survey reports. Writing them neatly lets another person check your adding. The park crew keeps these totals from every survey, so changes on the shore can be seen over time. Clear totals let the park crew see whether more or fewer birds use the shore as the seasons change."
+    },
+    {
+      "cue": "Put your totals next to another group's and talk about any difference.",
+      "id": "compare-totals-with-another-group",
+      "kind": "select",
+      "prompt": "Put your totals next to another group's and talk about any difference.",
+      "target": "esc-share-board",
+      "title": "Compare totals with another group",
+      "why": "If two groups counted the same box at the same time, their totals should be close. A big difference means someone missed birds or counted twice. Comparing is how surveyors check their counts, and it is why fair rules matter so much."
+    },
+    {
+      "cue": "What three things keep a count fair? Why does that matter?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What three things keep a count fair? Why does that matter?",
+      "target": "esc-checkin",
+      "title": "Check in before leaving the path",
+      "why": "The survey lead checks each group's understanding before the count is filed. Each learner names the box, the time and the rules. If anyone counted a bird twice, the group sorts out how to avoid it next time. Understanding why the rules matter is what lets you run a fair survey anywhere, not just on this shore."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Same box, same time, same rules — count the shorebirds fairly so the numbers mean something",
+  "title": "SmartCiti.X~ Count It: a Fair Survey VR",
+  "trade": "Maths class with the shoreline park crew on a bird count — learner and park survey lead",
+  "underwater": null,
+  "weather": "clear"
+}

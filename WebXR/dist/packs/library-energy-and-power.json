@@ -13,7 +13,8 @@
     "hunters-point-bay-restoration",
     "situational-awareness",
     "water-and-gas-utility-crews",
-    "wind-and-data-infrastructure"
+    "wind-and-data-infrastructure",
+    "wojrc-pathway-edition"
   ],
   "stations": [
     {
@@ -111,6 +112,10 @@
     {
       "app": "smartcity",
       "id": "ws-turbine-climb-and-rescue-kit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
     }
   ],
   "unions": [],
@@ -122,6 +127,7 @@
     {
       "world": "bayworld",
       "sites": [
+        "port-maintenance-shop",
         "west-oakland-substation-yard",
         "hills-transmission-corridor",
         "ridge-reservoir-yard",
@@ -233,6 +239,14 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-rain-garden-block",
+        "om-utility-locate-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "emeryville-shoreline-substation"
@@ -270,10 +284,11 @@
     "ws-substation-switching-under-a-permit": "Collector Substation Switching Under a Permit",
     "ws-blade-inspection-from-a-platform": "Blade Inspection from a Platform",
     "ws-nacelle-lockout-and-yaw-brake-fault": "Nacelle Lockout & Yaw-Brake Fault",
-    "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check"
+    "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness"
   },
   "version": "1.0.0",
-  "contentHash": "76163191",
+  "contentHash": "cdd59bb8",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

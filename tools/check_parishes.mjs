@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -331,7 +331,7 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 // engine, the brief's kinds of site and water, named hills, paired connectors, the Bay Bridge to Downtown and the ways to Bay World.
 {
   const BM = await imp("shared/bm-ways.js");
-  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).slice(0, 3).join() === "new-orleans,san-francisco,oakland", "regions: Oakland & the East Bay follows San Francisco (districts)");
+  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).slice(0, 3).join() === "new-orleans,san-francisco,oakland" && R.NP_REGIONS.some((r) => r.id === "bay-program"), "regions: Oakland & the East Bay follows San Francisco (districts); the Bay Program project areas are registered");
   const oak = R.npRegionGroups().find((g) => g.region.id === "oakland")?.parishes ?? [];
   const bmKinds = { "oak-west-oakland": ["port", "rail", "union-hall", "school", "recreation", "transit"], "oak-downtown-lake": ["construction", "hospital", "campus", "civic", "theatre"], "oak-fruitvale-estuary": ["marina", "market", "school", "workshop", "park"] };
   const bmWaters = { "oak-west-oakland": ["bay"], "oak-downtown-lake": ["lake"], "oak-fruitvale-estuary": ["canal", "bay"] };
@@ -453,6 +453,35 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   }
 }
 
+// The Bay Program project areas (console TIDELANDS, docs/consoles/TIDELANDS.md): region bay-program, strict engine, the
+// brief's kinds of site, the named water and roads, sf-mission's southern edge north of the Outer Mission, no figures.
+{
+  const bp = R.npRegion("bay-program");
+  check(!!bp && bp.noun === "site area" && bp.title === "Bay Program Project Areas", "regions: Bay Program Project Areas (site areas)");
+  const want = { "bp-strip-marsh-east": { region: "bay-program", kinds: ["wetland", "levee", "monitoring", "staging"], water: ["san-pablo-bay", "strip-marsh", "sonoma-creek"], roads: ["highway-37", "levee-road"] }, "bp-san-leandro-bay": { region: "bay-program", kinds: ["trash-capture", "utility", "park", "industrial", "wetland"], water: ["san-leandro-bay", "san-leandro-creek"], roads: ["nimitz-freeway"] }, "sf-outer-mission": { region: "san-francisco", kinds: ["stormwater", "school", "transit"], water: ["lake-merced"], roads: ["mission-street", "geneva-avenue"] } };
+  for (const [id, w] of Object.entries(want)) {
+    const p = R.npParish(id);
+    check(!!p && p.region === w.region && NP_ENGINE_STRICT.has(id), `${id}: registered in ${w.region} and held to the strict engine`);
+    if (!p) continue;
+    check(p.sites.length >= 10, `${id}: ten or more sites (${p.sites.length})`);
+    for (const k of w.kinds) check(p.sites.some((s) => s.kind === k), `${id}: a ${k} site`);
+    for (const x of w.water) check(p.water.some((v) => v.id === x), `${id}: water ${x}`);
+    for (const x of w.roads) check(p.roads.some((v) => v.id === x), `${id}: road ${x}`);
+    check(p.levees.length >= 2 && p.connectors.length >= 2, `${id}: levees and paired or pending connectors`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb}`;
+    check(!/\d/.test(text), `${id}: no figure in a site, landmark, district or hill name or blurb`);
+    check(readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8").includes("PROCEDURAL"), `${id}: the module labels its detail procedural`);
+  }
+  const slb = R.npParish("bp-san-leandro-bay");
+  check(slb?.sites.filter((s) => s.kind === "trash-capture").length === 2, "bp-san-leandro-bay: the two trash capture device sites (the facts file's two devices)");
+  check(slb?.connectors.every((c) => c.to.parish === "oak-fruitvale-estuary"), "bp-san-leandro-bay: its connectors reach BAYMAP's oak-fruitvale-estuary");
+  const mi = R.npParish("sf-mission"), om = R.npParish("sf-outer-mission");
+  if (mi && om) {
+    const edge = G.npBounds(mi).minLat, omLat = G.npToGeo(om, om.sites.find((s) => s.id === "om-rain-garden-block").position)[1];
+    check(edge > 37.72 && edge < 37.725 && omLat < edge, `sf-mission's field ends at ${edge.toFixed(3)} N, north of the Outer Mission's blocks (${omLat.toFixed(3)} N)`);
+    for (const cid of ["sf-om-mission-street", "sf-om-alemany"]) check(om.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission"), `sf-outer-mission: ${cid} pairs with sf-mission`);
+  }
+}
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
 // 3. the ledger
 {

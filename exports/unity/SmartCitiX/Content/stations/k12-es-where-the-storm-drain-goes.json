@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "drain-tracer",
+    "name": "Drain Tracer",
+    "note": "Traced rain from a street to the Bay, explained why only rain belongs in a drain and helped the crew mark a drain"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "DROPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Drop",
+      "Trickle",
+      "Stream",
+      "Creek",
+      "Drain Keeper"
+    ],
+    "system": "Drain Board"
+  },
+  "hazards": {
+    "drain-goes-to-a-cleaner": "You said the storm drain water gets cleaned first. On many streets the storm drain runs straight to a creek or the Bay. What goes down the drain is what the fish and birds get, so only rain belongs in it.",
+    "lift-the-grate": "You reached for the drain grate. Grates are heavy and the drain below is a space only trained crew enter. Look through the grate from the kerb, and let the crew open it with the right tools.",
+    "pour-it-in-the-drain": "You poured soapy water into the storm drain. Soap and dirt go with it to the Bay. The crew tips wash water onto grass or into a sink, so the drain carries only rain.",
+    "step-into-the-street": "You stepped off the kerb to follow the water. Cars use the street. Follow the water with your eyes from the sidewalk, and the crew sets cones before anyone works in the gutter."
+  },
+  "id": "k12-es-where-the-storm-drain-goes",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-watering-can-steady-over",
+      "alert": "A street sweeper rolls along the gutter towards the class.",
+      "cue": "Step back behind the cones and let the sweeper pass.",
+      "delay": 3,
+      "id": "a-street-sweeper-comes-along",
+      "kind": "Street sweeper",
+      "missNote": "Nobody stepped back, and the sweeper had to stop and wait for the class to clear the gutter.",
+      "seconds": 12,
+      "target": "esd-step-back",
+      "why": "A sweeper needs the whole gutter. Stepping back behind the cones gives the driver room and keeps everyone clear. The sweeper is also a drain helper: it picks up litter before the rain can carry it away.",
+      "wrongNote": "That leaves you in the sweeper's path. Step back behind the cones. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-drain-line-on-the",
+      "alert": "The crew lead asks why the water ran to the drain and not the other way.",
+      "cue": "Say that the street slopes down to the drain, and water runs downhill.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-the-slope",
+      "kind": "Crew question",
+      "missNote": "You could not say why the water ran to the drain, and the crew lead had to explain the slope before the class could go on.",
+      "seconds": 12,
+      "target": "esd-name-slope",
+      "why": "Knowing about the slope shows you understand the whole idea. Water only runs downhill, so builders slope every street towards a drain. The crew checks the slope when a street floods, because a low spot in the wrong place makes a puddle.",
+      "wrongNote": "That does not explain the slope. Say which way the street tilts. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esd-checkin": "The check-in comes at the very end of the walk.",
+    "esd-drain-log": "The trip record is written once the water has reached the Bay jar — nothing to record yet."
+  },
+  "name": "Where the Storm Drain Goes",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drain-goes-to-a-cleaner",
+      "esd-bay-meter",
+      "esd-bench",
+      "esd-can-hold",
+      "esd-checkin",
+      "esd-cone-card",
+      "esd-drain-log",
+      "esd-drain-spot",
+      "esd-drip",
+      "esd-gutter",
+      "esd-inlet",
+      "esd-leaf-screen",
+      "esd-leaves",
+      "esd-map-track",
+      "esd-name-slope",
+      "esd-ord-bay",
+      "esd-ord-drain",
+      "esd-ord-gutter",
+      "esd-ord-roof",
+      "esd-puddle",
+      "esd-result-card",
+      "esd-roof",
+      "esd-share-board",
+      "esd-step-back",
+      "esd-tilt-dial",
+      "esd-wrapper",
+      "lift-the-grate",
+      "pour-it-in-the-drain",
+      "step-into-the-street"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three places the rain runs on its way to the drain.",
+      "decoyNotes": {
+        "esd-bench": "A good place to sit, but water does not run through it."
+      },
+      "id": "find-where-the-rain-goes-on",
+      "itemNames": {
+        "esd-gutter": "the gutter by the kerb",
+        "esd-inlet": "the storm drain grate",
+        "esd-roof": "the roof and its downspout"
+      },
+      "itemNotes": {
+        "esd-gutter": "The gutter carries water along the street.",
+        "esd-inlet": "The drain takes the water under the street.",
+        "esd-roof": "Rain runs off the roof and down the pipe."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three places the rain runs on its way to the drain.",
+      "targets": [
+        "esd-roof",
+        "esd-gutter",
+        "esd-inlet"
+      ],
+      "title": "Find where the rain goes on the street",
+      "why": "Rain that lands on a roof, a sidewalk or a road cannot soak in, so it runs downhill. It runs off the roof into a downspout, across the sidewalk into the gutter, and along the gutter to the drain. Seeing each part shows that a whole street is one big path for water."
+    },
+    {
+      "cue": "Stand behind the cones on the sidewalk before the crew lead starts.",
+      "id": "stay-on-the-sidewalk-with-the",
+      "kind": "select",
+      "prompt": "Stand behind the cones on the sidewalk before the crew lead starts.",
+      "target": "esd-cone-card",
+      "title": "Stay on the sidewalk with the crew",
+      "why": "The street is for cars and the crew's truck. Standing on the sidewalk behind the cones keeps the whole class out of the way of traffic. The crew does the same every time, and only steps into the gutter once cones and a sign warn drivers to slow down."
+    },
+    {
+      "cue": "Put the steps of the rain's trip from the roof to the Bay in order.",
+      "id": "put-the-waters-trip-in-order",
+      "itemNames": {
+        "esd-ord-bay": "4 · the pipe carries it to the Bay",
+        "esd-ord-drain": "3 · it drops into the storm drain",
+        "esd-ord-gutter": "2 · it runs along the gutter",
+        "esd-ord-roof": "1 · rain lands on the roof"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start with the rain landing on the roof.",
+      "prompt": "Put the steps of the rain's trip from the roof to the Bay in order.",
+      "targets": [
+        "esd-ord-roof",
+        "esd-ord-gutter",
+        "esd-ord-drain",
+        "esd-ord-bay"
+      ],
+      "title": "Put the water's trip in order",
+      "why": "Water always moves downhill, so its trip has an order. It lands, runs off, joins the gutter, drops into the drain and flows through a pipe to the Bay. Putting the steps in order helps you see that the drain is not the end of the trip, only the middle."
+    },
+    {
+      "cue": "Hold the watering can over the model roof until the rain stops.",
+      "holdBreakNote": "The can moved off the roof. Hold it over the roof again until the rain stops.",
+      "id": "hold-the-watering-can-steady-over",
+      "kind": "hold",
+      "prompt": "Hold the watering can over the model roof until the rain stops.",
+      "seconds": 6,
+      "target": "esd-can-hold",
+      "title": "Hold the watering can steady over the roof",
+      "why": "A steady rain gives a fair test. If the can shakes or moves, some water misses the roof and the reading changes. Holding it steady over the same spot means the only thing you are watching is where the water goes once it lands."
+    },
+    {
+      "cue": "Turn the dial to tilt the model street towards the model Bay.",
+      "id": "tilt-the-model-street-downhill",
+      "kind": "turn",
+      "prompt": "Turn the dial to tilt the model street towards the model Bay.",
+      "target": "esd-tilt-dial",
+      "title": "Tilt the model street downhill",
+      "turn": {
+        "axis": "y",
+        "label": "SLOPE",
+        "turns": 0.5
+      },
+      "why": "A real street is built with a gentle slope so water runs to the drain and does not pool. Tilting the model the same way lets you watch water choose the downhill path every time. The slope is the reason drains sit at the low end of the gutter."
+    },
+    {
+      "cue": "Commit when the marker sits at the water line in the model Bay jar.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "BAY",
+        "missNote": "Not at the water line. Read where the water meets the jar.",
+        "speed": 0.6
+      },
+      "id": "read-how-much-water-reaches-the",
+      "kind": "gauge",
+      "prompt": "Commit when the marker sits at the water line in the model Bay jar.",
+      "target": "esd-bay-meter",
+      "title": "Read how much water reaches the model Bay",
+      "why": "Reading the water line tells you how much of the rain ran off the street. Read it at eye level, where the water meets the side of the jar, so a classmate would read the same. It shows that almost all the rain on a hard street ends up in the Bay."
+    },
+    {
+      "cue": "Drag the model leaf screen onto the model drain.",
+      "drag": {
+        "missNote": "Not on the drain yet. Place the screen right over the grate.",
+        "radius": 0.45,
+        "to": "esd-drain-spot"
+      },
+      "id": "place-the-leaf-screen-over-the",
+      "kind": "drag",
+      "prompt": "Drag the model leaf screen onto the model drain.",
+      "target": "esd-leaf-screen",
+      "title": "Place the leaf screen over the drain",
+      "why": "Leaves and litter ride the water to the drain. A screen over the drain catches them before they reach the Bay. Putting it exactly on the drain shows why crews keep grates clear: a blocked grate makes the street pool, and an open one lets litter through."
+    },
+    {
+      "cue": "Choose the sentence that says where the storm drain water goes.",
+      "id": "say-where-the-drain-water-goes",
+      "kind": "select",
+      "prompt": "Choose the sentence that says where the storm drain water goes.",
+      "target": "esd-result-card",
+      "title": "Say where the drain water goes",
+      "why": "Your model showed the water leaving the street and reaching the Bay. A good answer says that the storm drain carries rain to the Bay, so what we drop on the street can end up there too. It does not say more than your test and the crew's map showed."
+    },
+    {
+      "cue": "Look along the real gutter and mark each thing that should not reach the Bay.",
+      "decoyNotes": {
+        "esd-puddle": "Just rain. That is what the drain is for."
+      },
+      "id": "spot-what-does-not-belong-in",
+      "itemNames": {
+        "esd-drip": "an oil drip under a parked car",
+        "esd-leaves": "a heap of leaves at the grate",
+        "esd-wrapper": "a snack wrapper by the kerb"
+      },
+      "itemNotes": {
+        "esd-drip": "Rain will wash it along.",
+        "esd-leaves": "It can block the drain.",
+        "esd-wrapper": "It will float to the drain."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the real gutter and mark each thing that should not reach the Bay.",
+      "targets": [
+        "esd-wrapper",
+        "esd-drip",
+        "esd-leaves"
+      ],
+      "title": "Spot what does not belong in the gutter",
+      "why": "Anything in the gutter can ride the next rain to the Bay. A wrapper, a drip of oil under a car and a pile of leaves are all on their way. Spotting them helps you see how people on a street can keep the Bay clean before it even rains."
+    },
+    {
+      "cue": "Keep the marker on the blue drain line from the street to the shore.",
+      "holdBreakNote": "The marker left the drain line. Find the line again and follow it to the shore.",
+      "id": "follow-the-drain-line-on-the",
+      "kind": "track",
+      "prompt": "Keep the marker on the blue drain line from the street to the shore.",
+      "seconds": 8,
+      "target": "esd-map-track",
+      "title": "Follow the drain line on the crew's map",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PIPE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The crew's map shows pipes you cannot see under the street. Following the line from the drain to the shore shows the path the water takes underground. Crews use maps like this to find each pipe when they clean it or check it after a storm."
+    },
+    {
+      "cue": "Write one line for the roof, the gutter, the drain and the Bay.",
+      "id": "record-what-you-saw-at-each",
+      "kind": "select",
+      "prompt": "Write one line for the roof, the gutter, the drain and the Bay.",
+      "target": "esd-drain-log",
+      "title": "Record what you saw at each part",
+      "why": "A short record for each part of the trip helps you remember the whole path. Anyone reading it can follow the water from the roof to the Bay. It is also how the crew keeps notes, so the next crew knows which drains need a clean."
+    },
+    {
+      "cue": "Tell another group one thing a family can do to keep the drain clean.",
+      "id": "share-one-way-to-keep-the",
+      "kind": "select",
+      "prompt": "Tell another group one thing a family can do to keep the drain clean.",
+      "target": "esd-share-board",
+      "title": "Share one way to keep the drain clean",
+      "why": "Many people live on one street, so keeping a drain clean is a team job. Sharing ideas, like putting litter in a bin or washing a car on the grass, spreads good habits. The crew says the drains they clean least are on the streets where neighbours help."
+    },
+    {
+      "cue": "Where does the storm drain go? What is one thing that should never go in it?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Where does the storm drain go? What is one thing that should never go in it?",
+      "target": "esd-checkin",
+      "title": "Check in before the walk ends",
+      "why": "The crew talks over each job before it packs up, so the class does the same. Each learner says where the drain water goes and names one thing that should stay out of it. If anyone thinks the drain water gets cleaned first, the group sorts it out now."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Rain on the street runs to the drain, and the drain runs to the Bay — trace it, then keep it clean",
+  "title": "SmartCiti.X~ Where the Storm Drain Goes VR",
+  "trade": "Science walk with the storm drain crew on a street by the Bay — learner and storm drain crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

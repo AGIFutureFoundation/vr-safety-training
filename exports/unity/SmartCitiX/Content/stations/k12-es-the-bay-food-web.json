@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "web-weaver",
+    "name": "Web Weaver",
+    "note": "Built a Bay food web with arrows that point the right way, explained what happens when one link changes and spotted the web from the pier"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LINKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Strand",
+      "Thread",
+      "Knot",
+      "Net",
+      "Web Weaver"
+    ],
+    "system": "Web Board"
+  },
+  "hazards": {
+    "arrow-points-to-the-eater": "You pointed the arrow from the seal to the fish. In a food web the arrow shows where the food energy goes, so it points from the fish to the seal that eats it.",
+    "feed-the-gulls": "You threw a snack to the gulls. Human food is not part of the Bay food web and is not good for birds. Watch the gulls find their own food instead.",
+    "lean-over-the-rail": "You leaned over the pier rail. Stay behind the rail and use the viewer on the deck. The pier crew keeps everyone behind the rail at all times.",
+    "one-animal-does-not-matter": "You said one small animal does not matter. Tiny animals feed many fish, so a change to them reaches the birds and seals too. Every link holds the web together."
+  },
+  "id": "k12-es-the-bay-food-web",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-viewer-steady-over-the",
+      "alert": "A work boat comes in to dock at the pier's landing.",
+      "cue": "Stand back from the landing so the crew can tie up.",
+      "delay": 3,
+      "id": "a-boat-docks-at-the-pier",
+      "kind": "Boat docking",
+      "missNote": "The class stayed by the landing, and the crew had to wait before tying up.",
+      "seconds": 12,
+      "target": "esf-stand-back",
+      "why": "Docking crews need room to throw and tie lines. Standing back from the landing keeps everyone clear of the ropes. The class can watch from the deck once the boat is tied.",
+      "wrongNote": "That keeps you by the landing. Stand back. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-a-pelican-as-it-hunts",
+      "alert": "The naturalist asks which way the arrow between the fish and the seal points.",
+      "cue": "Say it points from the fish to the seal, the way the food energy goes.",
+      "delay": 3,
+      "id": "the-naturalist-asks-about-the-arrows",
+      "kind": "Naturalist question",
+      "missNote": "You could not say which way the arrow points, and the naturalist had to explain before the class could go on.",
+      "seconds": 12,
+      "target": "esf-name-arrow",
+      "why": "Knowing the arrow direction shows you understand the web. Arrows follow the energy, not the hunter. That rule works for every food web anywhere.",
+      "wrongNote": "That points the arrow the wrong way. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esf-checkin": "The check-in comes at the very end of the visit.",
+    "esf-link-log": "The links record is written after you watch the water — nothing to record yet."
+  },
+  "name": "The Bay Food Web",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arrow-points-to-the-eater",
+      "esf-arrow-dial",
+      "esf-boat",
+      "esf-buoy",
+      "esf-checkin",
+      "esf-dive",
+      "esf-fish",
+      "esf-flash",
+      "esf-link-log",
+      "esf-link-meter",
+      "esf-name-arrow",
+      "esf-ord-animals",
+      "esf-ord-fish",
+      "esf-ord-plants",
+      "esf-ord-seal",
+      "esf-pelican",
+      "esf-pelican-track",
+      "esf-plankton",
+      "esf-rail-card",
+      "esf-result-card",
+      "esf-seal",
+      "esf-seal-card",
+      "esf-share-board",
+      "esf-stand-back",
+      "esf-top-spot",
+      "esf-viewer-hold",
+      "feed-the-gulls",
+      "lean-over-the-rail",
+      "one-animal-does-not-matter"
+    ],
+    "meshes": 233
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three living things you can see from the pier.",
+      "decoyNotes": {
+        "esf-buoy": "It marks the water, but it is not alive."
+      },
+      "id": "find-the-living-things-in-the",
+      "itemNames": {
+        "esf-fish": "a school of small fish",
+        "esf-pelican": "a pelican diving",
+        "esf-plankton": "the green tint of tiny floating plants"
+      },
+      "itemNotes": {
+        "esf-fish": "They eat tiny animals.",
+        "esf-pelican": "It eats the small fish.",
+        "esf-plankton": "They make food from sunlight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three living things you can see from the pier.",
+      "targets": [
+        "esf-plankton",
+        "esf-fish",
+        "esf-pelican"
+      ],
+      "title": "Find the living things in the Bay",
+      "why": "A food web starts with living things. Tiny floating plants make food from sunlight, small fish eat the tiny animals that eat those plants, and birds and seals eat the fish. Seeing each one from the pier helps you notice that they all live in the same water and depend on each other."
+    },
+    {
+      "cue": "Stand behind the rail on the pier deck with the naturalist.",
+      "id": "stay-behind-the-pier-rail",
+      "kind": "select",
+      "prompt": "Stand behind the rail on the pier deck with the naturalist.",
+      "target": "esf-rail-card",
+      "title": "Stay behind the pier rail",
+      "why": "The pier is a great place to watch the Bay, and the rail is there to keep everyone safely on the deck. Standing behind it lets you see the water without leaning out. The pier crew and the naturalist keep every group behind the rail."
+    },
+    {
+      "cue": "Put the tiny plants, tiny animals, small fish and seal in order of who eats whom.",
+      "id": "put-one-food-chain-in-order",
+      "itemNames": {
+        "esf-ord-animals": "2 · tiny floating animals",
+        "esf-ord-fish": "3 · small fish",
+        "esf-ord-plants": "1 · tiny floating plants",
+        "esf-ord-seal": "4 · a harbour seal"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start with the tiny plants that make food from sunlight.",
+      "prompt": "Put the tiny plants, tiny animals, small fish and seal in order of who eats whom.",
+      "targets": [
+        "esf-ord-plants",
+        "esf-ord-animals",
+        "esf-ord-fish",
+        "esf-ord-seal"
+      ],
+      "title": "Put one food chain in order",
+      "why": "A food chain shows one path the food energy takes. Tiny plants are eaten by tiny animals, which are eaten by small fish, which are eaten by a seal. Putting them in order shows how energy from the sun reaches a big animal in steps."
+    },
+    {
+      "cue": "Hold the pier viewer steady on the school of fish.",
+      "holdBreakNote": "The viewer drifted off the fish. Hold it steady on the school again.",
+      "id": "hold-the-viewer-steady-over-the",
+      "kind": "hold",
+      "prompt": "Hold the pier viewer steady on the school of fish.",
+      "seconds": 6,
+      "target": "esf-viewer-hold",
+      "title": "Hold the viewer steady over the water",
+      "why": "A steady view lets you watch the fish long enough to see them feed. Moving the viewer around makes it hard to follow them. Naturalists watch patiently in one spot, because the most interesting moments happen when you keep still. Watching for a whole minute often shows more than looking quickly at many places."
+    },
+    {
+      "cue": "Choose the sentence that says what would change if the small fish became fewer.",
+      "id": "say-what-happens-if-the-small",
+      "kind": "select",
+      "prompt": "Choose the sentence that says what would change if the small fish became fewer.",
+      "target": "esf-result-card",
+      "title": "Say what happens if the small fish go away",
+      "why": "The small fish link the tiny animals to the birds and seals. If there were fewer of them, the birds and seals would have less to eat. A good answer follows the arrows on your web and does not guess beyond them. Thinking through what happens when one link changes is how scientists predict changes in real places."
+    },
+    {
+      "cue": "Watch the water and mark each moment of feeding you see.",
+      "decoyNotes": {
+        "esf-boat": "A fine sight, but not part of the web."
+      },
+      "id": "spot-the-web-at-work-from",
+      "itemNames": {
+        "esf-dive": "a pelican diving for fish",
+        "esf-flash": "small fish feeding at the surface",
+        "esf-seal": "a seal with a fish"
+      },
+      "itemNotes": {
+        "esf-dive": "A fish-to-bird link.",
+        "esf-flash": "A tiny-animal-to-fish link.",
+        "esf-seal": "A fish-to-seal link."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the water and mark each moment of feeding you see.",
+      "targets": [
+        "esf-dive",
+        "esf-seal",
+        "esf-flash"
+      ],
+      "title": "Spot the web at work from the pier",
+      "why": "The food web is happening in front of you. A pelican dives for fish, a seal pops up with a fish, and small fish flash at the surface as they feed. Spotting these moments shows that the web on the board is a picture of the real Bay."
+    },
+    {
+      "cue": "Turn the arrow on the board so it points from the fish to the pelican.",
+      "id": "turn-the-arrow-to-point-the",
+      "kind": "turn",
+      "prompt": "Turn the arrow on the board so it points from the fish to the pelican.",
+      "target": "esf-arrow-dial",
+      "title": "Turn the arrow to point the right way",
+      "turn": {
+        "axis": "y",
+        "label": "ARROW",
+        "turns": 0.5
+      },
+      "why": "Arrows in a food web point the way the food energy moves. The fish is eaten, so its energy goes to the pelican, and the arrow points to the pelican. Getting the arrows right is what turns a picture into a web that explains something."
+    },
+    {
+      "cue": "Commit when the marker shows how many arrows touch the small fish.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "LINKS",
+        "missNote": "Not matched yet. Count every arrow that touches the fish.",
+        "speed": 0.6
+      },
+      "id": "count-the-links-for-the-small",
+      "kind": "gauge",
+      "prompt": "Commit when the marker shows how many arrows touch the small fish.",
+      "target": "esf-link-meter",
+      "title": "Count the links for the small fish",
+      "why": "The small fish has arrows coming in from what it eats and going out to what eats it. Counting them shows how important it is to the web. Animals with many links hold the web together, which is why scientists watch them closely. An animal with lots of links is a bit like a busy crossroads: many paths run through it."
+    },
+    {
+      "cue": "Drag the seal card to its place at the top of the web.",
+      "drag": {
+        "missNote": "Not at the top yet. Place the seal where nothing eats it.",
+        "radius": 0.45,
+        "to": "esf-top-spot"
+      },
+      "id": "place-the-seal-card-on-the",
+      "kind": "drag",
+      "prompt": "Drag the seal card to its place at the top of the web.",
+      "target": "esf-seal-card",
+      "title": "Place the seal card on the web",
+      "why": "The seal eats fish and is not eaten by anything else in this web, so it sits at the top. Placing it there shows how energy flows up to it. Every card in its right place makes the web easier to read. Animals near the top of a web depend on every link below them, so a change lower down reaches them too."
+    },
+    {
+      "cue": "Keep the marker on the pelican as it circles and dives.",
+      "holdBreakNote": "The marker lost the pelican. Find it again and follow it to the dive.",
+      "id": "follow-a-pelican-as-it-hunts",
+      "kind": "track",
+      "prompt": "Keep the marker on the pelican as it circles and dives.",
+      "seconds": 8,
+      "target": "esf-pelican-track",
+      "title": "Follow a pelican as it hunts",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following a pelican shows a link in action. It circles, spots the fish from above and dives in. Watching it helps you remember that each arrow on the board is a real animal finding its food. Pelicans, gulls and seals all hunt the same small fish, which is why those fish sit in the middle of so many links."
+    },
+    {
+      "cue": "Write each feeding link you saw from the pier with an arrow.",
+      "id": "record-the-links-you-saw",
+      "kind": "select",
+      "prompt": "Write each feeding link you saw from the pier with an arrow.",
+      "target": "esf-link-log",
+      "title": "Record the links you saw",
+      "why": "Writing the links with arrows turns what you saw into a small food web of your own. Anyone reading it can follow the energy from plant to fish to bird. Naturalists record sightings the same way to learn how the Bay changes through the year."
+    },
+    {
+      "cue": "Put your web next to another group's and look for the same links.",
+      "id": "compare-webs-with-another-group",
+      "kind": "select",
+      "prompt": "Put your web next to another group's and look for the same links.",
+      "target": "esf-share-board",
+      "title": "Compare webs with another group",
+      "why": "Two groups may see different links from the same pier. Comparing webs makes a bigger, fuller picture. Scientists build food webs by putting together many people's observations in exactly this way. Putting many small webs together is how scientists see the whole Bay and not just one corner of it."
+    },
+    {
+      "cue": "Which way do the arrows point? Why does every link matter?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Which way do the arrows point? Why does every link matter?",
+      "target": "esf-checkin",
+      "title": "Check in before leaving the pier",
+      "why": "The naturalist checks what each group learned before they leave the pier. Each learner says which way the arrows point and why a small animal matters. If anyone has arrows pointing the wrong way, the group sorts it out now. Getting the arrows right is the key idea, because it shows where the energy from the sun ends up."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Tiny plants feed tiny animals, which feed fish, which feed birds and seals — build the web and see the links",
+  "title": "SmartCiti.X~ The Bay Food Web VR",
+  "trade": "Science class with the pier crew and a naturalist at a Bay pier — learner and naturalist",
+  "underwater": null,
+  "weather": "clear"
+}

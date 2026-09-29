@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "garden-measurer",
+    "name": "Garden Measurer",
+    "note": "Measured a rain garden bed with a tape, worked out its area on a grid and drew it to scale for the crew"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SQUARES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Mark",
+      "Line",
+      "Edge",
+      "Area",
+      "Garden Planner"
+    ],
+    "system": "Measure Board"
+  },
+  "hazards": {
+    "add-instead-of-multiply": "You added the length and the width. Adding them gives half the distance round the edge, not the area. Area counts the squares inside, so multiply the length by the width.",
+    "step-into-the-bed": "You stepped into the garden bed. Feet pack the soil hard so it cannot soak up rain. Hold the tape from the path edge, and let the stakes mark the corners.",
+    "stretch-across-the-path": "You stretched the tape across the path where people walk. A tape at ankle height is a tripping line. Ask the crew lead to hold people back, and measure quickly, then reel it in.",
+    "tape-not-at-zero": "You started from the tape case instead of the zero mark. The zero is at the hook end. Hold the hook on the edge of the bed and read where the other edge meets the tape."
+  },
+  "id": "k12-es-measure-a-rain-garden",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-tape-hook-on-the",
+      "alert": "A classmate walks along the path towards the stretched tape.",
+      "cue": "Lower the tape to the ground and wait for them to pass.",
+      "delay": 3,
+      "id": "someone-walks-towards-the-tape",
+      "kind": "Walker",
+      "missNote": "The tape stayed stretched, and the classmate had to stop short before stepping over it.",
+      "seconds": 12,
+      "target": "esg-lower-tape",
+      "why": "A stretched tape is easy to trip over. Lowering it to the ground and waiting lets people pass safely. Crews do the same with any line or hose across a path.",
+      "wrongNote": "That leaves the tape stretched across the path. Lower it. Choose the response that deals with it now."
+    },
+    {
+      "after": "trace-the-edge-of-the-bed",
+      "alert": "The crew lead asks how you will work out the area.",
+      "cue": "Say you multiply the length by the width and write square units.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-area",
+      "kind": "Crew question",
+      "missNote": "You could not say how to find the area, and the crew lead had to explain before the class went on.",
+      "seconds": 12,
+      "target": "esg-name-area",
+      "why": "Knowing the rule shows you can plan the garden. The area tells the crew how much soil and how many plants they need. Getting it right saves time and materials.",
+      "wrongNote": "That does not give the area rule. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esg-checkin": "The check-in comes at the very end of the lesson.",
+    "esg-measure-log": "The measurements are written once you have read the tape — nothing to record yet."
+  },
+  "name": "Measure a Rain Garden",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "add-instead-of-multiply",
+      "esg-checkin",
+      "esg-cloud",
+      "esg-edge-track",
+      "esg-gap",
+      "esg-grid-spot",
+      "esg-hook-hold",
+      "esg-hose",
+      "esg-long",
+      "esg-low",
+      "esg-lower-tape",
+      "esg-measure-log",
+      "esg-name-area",
+      "esg-ord-length",
+      "esg-ord-multiply",
+      "esg-ord-unit",
+      "esg-ord-width",
+      "esg-outline",
+      "esg-path",
+      "esg-scale-dial",
+      "esg-share-board",
+      "esg-short",
+      "esg-stakes",
+      "esg-sum-card",
+      "esg-tape-meter",
+      "esg-zero-card",
+      "step-into-the-bed",
+      "stretch-across-the-path",
+      "tape-not-at-zero"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things that tell you the size of the bed.",
+      "decoyNotes": {
+        "esg-hose": "Useful for watering, but not for measuring."
+      },
+      "id": "find-what-you-need-to-measure",
+      "itemNames": {
+        "esg-long": "the long side of the bed",
+        "esg-short": "the short side of the bed",
+        "esg-stakes": "the four corner stakes"
+      },
+      "itemNotes": {
+        "esg-long": "This is the length.",
+        "esg-short": "This is the width.",
+        "esg-stakes": "They mark where the bed ends."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things that tell you the size of the bed.",
+      "targets": [
+        "esg-stakes",
+        "esg-long",
+        "esg-short"
+      ],
+      "title": "Find what you need to measure",
+      "why": "To size a rectangle-shaped bed you need its length, its width and a way to see its corners. The corner stakes show where the bed begins and ends, the long side is the length, and the short side is the width. Once you have those, you can find the area and draw it on paper."
+    },
+    {
+      "cue": "Put the steps for finding the bed's area in order.",
+      "id": "put-the-measuring-steps-in-order",
+      "itemNames": {
+        "esg-ord-length": "1 · measure the length",
+        "esg-ord-multiply": "3 · multiply length by width",
+        "esg-ord-unit": "4 · write the answer with square units",
+        "esg-ord-width": "2 · measure the width"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Measure the length first.",
+      "prompt": "Put the steps for finding the bed's area in order.",
+      "targets": [
+        "esg-ord-length",
+        "esg-ord-width",
+        "esg-ord-multiply",
+        "esg-ord-unit"
+      ],
+      "title": "Put the measuring steps in order",
+      "why": "Finding an area has a clear order. You measure the length, measure the width, multiply them, and write the answer with its unit. Following the order means nothing gets missed and anyone can check your working. Writing each step down as you go also leaves a trail that a partner can follow to check your answer."
+    },
+    {
+      "cue": "Point to the zero mark at the hook end of the tape before you start.",
+      "id": "check-the-tape-starts-at-zero",
+      "kind": "select",
+      "prompt": "Point to the zero mark at the hook end of the tape before you start.",
+      "target": "esg-zero-card",
+      "title": "Check the tape starts at zero",
+      "why": "Every measurement starts from zero. The hook end of the tape is the zero mark, so it goes on the edge you measure from. Checking it first stops a very common mistake, and crews check it every time before they cut or dig."
+    },
+    {
+      "cue": "Turn the scale dial so one grid square stands for one step of the tape.",
+      "id": "set-the-scale-on-the-drawing",
+      "kind": "turn",
+      "prompt": "Turn the scale dial so one grid square stands for one step of the tape.",
+      "target": "esg-scale-dial",
+      "title": "Set the scale on the drawing grid",
+      "turn": {
+        "axis": "y",
+        "label": "SCALE",
+        "turns": 0.5
+      },
+      "why": "A scale drawing uses small squares on paper to stand for real distances. Choosing the scale first means every side of the drawing matches the real bed. Garden planners draw to scale so they can plan plants before anyone digs."
+    },
+    {
+      "cue": "Commit when the marker sits where the far stake meets the tape.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TAPE",
+        "missNote": "Not at the far stake. Read where the stake meets the tape.",
+        "speed": 0.6
+      },
+      "id": "read-the-length-on-the-tape",
+      "kind": "gauge",
+      "prompt": "Commit when the marker sits where the far stake meets the tape.",
+      "target": "esg-tape-meter",
+      "title": "Read the length on the tape",
+      "why": "Reading the tape exactly where the far stake stands gives the true length. Read straight down, not from the side, so the line you see is the right one. A careful reading here makes the area correct later. If two readers disagree, they read again together until they agree, because one wrong length makes the whole area wrong."
+    },
+    {
+      "cue": "Hold the hook against the corner stake while your partner reads the tape.",
+      "holdBreakNote": "The hook slipped off the stake. Hold it on the corner again.",
+      "id": "hold-the-tape-hook-on-the",
+      "kind": "hold",
+      "prompt": "Hold the hook against the corner stake while your partner reads the tape.",
+      "seconds": 6,
+      "target": "esg-hook-hold",
+      "title": "Hold the tape hook on the corner stake",
+      "why": "If the hook slips, the reading is too short. Holding it firmly against the stake keeps zero exactly on the corner. Measuring is a two-person job, one holding and one reading, just as the crew does it. The partner reading the tape calls the number out loud, and the holder repeats it, so nothing is misheard."
+    },
+    {
+      "cue": "Drag the bed outline onto the grid so its corners sit on grid points.",
+      "drag": {
+        "missNote": "Not on the grid points yet. Line the corners up with the grid.",
+        "radius": 0.45,
+        "to": "esg-grid-spot"
+      },
+      "id": "place-the-bed-on-the-drawing",
+      "kind": "drag",
+      "prompt": "Drag the bed outline onto the grid so its corners sit on grid points.",
+      "target": "esg-outline",
+      "title": "Place the bed on the drawing grid",
+      "why": "Putting the corners on grid points makes the scale drawing accurate. Then you can count the squares inside to check your multiplying. When the count and the sum match, you know your area is right. A drawing that matches the real bed lets the crew count how many plants fit before they buy a single one."
+    },
+    {
+      "cue": "Look at the real garden and mark each part the plan should show.",
+      "decoyNotes": {
+        "esg-cloud": "Rain may come from it, but it does not go on the plan."
+      },
+      "id": "spot-the-parts-to-add-to",
+      "itemNames": {
+        "esg-gap": "the kerb gap where water enters",
+        "esg-low": "the low middle of the bed",
+        "esg-path": "the path around the bed"
+      },
+      "itemNotes": {
+        "esg-gap": "Show where the water comes in.",
+        "esg-low": "Thirsty plants go here.",
+        "esg-path": "Feet stay on this side."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the real garden and mark each part the plan should show.",
+      "targets": [
+        "esg-gap",
+        "esg-low",
+        "esg-path"
+      ],
+      "title": "Spot the parts to add to the plan",
+      "why": "A good plan shows more than the edges. The kerb gap where water enters, the low middle where water collects and the path around the bed all matter to the crew. Adding them helps the crew plant the right things in the right places."
+    },
+    {
+      "cue": "Choose the sum that gives the area of the bed.",
+      "id": "choose-the-right-area-sum",
+      "kind": "select",
+      "prompt": "Choose the sum that gives the area of the bed.",
+      "target": "esg-sum-card",
+      "title": "Choose the right area sum",
+      "why": "The area of a rectangle is its length multiplied by its width. A sum that adds them gives part of the distance round the edge instead. Choosing the multiply sum shows you know the difference between area and perimeter. Picturing the squares inside the bed is a good way to remember that area means counting space, not edges."
+    },
+    {
+      "cue": "Keep the marker on the edge as you trace all the way round the bed.",
+      "holdBreakNote": "The marker left the edge. Find the edge again and keep tracing.",
+      "id": "trace-the-edge-of-the-bed",
+      "kind": "track",
+      "prompt": "Keep the marker on the edge as you trace all the way round the bed.",
+      "seconds": 8,
+      "target": "esg-edge-track",
+      "title": "Trace the edge of the bed on the grid",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "EDGE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Tracing the edge shows the perimeter, the distance all the way round. It is different from the area, which is the space inside. Tracing both on the same drawing helps you see why they are measured differently. Crews use the perimeter to work out how much edging they need, and the area to work out how much soil."
+    },
+    {
+      "cue": "Write the length, the width and the area with their units on the plan.",
+      "id": "record-the-measurements-and-the-area",
+      "kind": "select",
+      "prompt": "Write the length, the width and the area with their units on the plan.",
+      "target": "esg-measure-log",
+      "title": "Record the measurements and the area",
+      "why": "Writing every measurement with its unit lets anyone check your work. The crew uses these numbers to order soil and plants. A missing unit can cause a big mix-up, so units always go with the numbers. Numbers without units are like a recipe that says three without saying cups or spoons."
+    },
+    {
+      "cue": "Compare your area with another pair who measured the same bed.",
+      "id": "check-your-area-with-another-pair",
+      "kind": "select",
+      "prompt": "Compare your area with another pair who measured the same bed.",
+      "target": "esg-share-board",
+      "title": "Check your area with another pair",
+      "why": "Two pairs measuring the same bed should get about the same answer. If not, someone may have missed zero or added instead of multiplied. Checking with others is how crews catch mistakes before they order materials. Checking against another pair is quick, and it is much easier than fixing a wrong order of soil later."
+    },
+    {
+      "cue": "How do you find the area of the bed? Why do units matter?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How do you find the area of the bed? Why do units matter?",
+      "target": "esg-checkin",
+      "title": "Check in before handing the plan over",
+      "why": "The crew lead checks the plan before using it, and the class checks its understanding too. Each learner explains length times width and why units go with numbers. If anyone added instead of multiplying, the group sorts it out now."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Length times width gives the area — measure the bed with the crew, then draw it to scale",
+  "title": "SmartCiti.X~ Measure a Rain Garden VR",
+  "trade": "Maths class with the school garden crew sizing a rain garden — learner and garden crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

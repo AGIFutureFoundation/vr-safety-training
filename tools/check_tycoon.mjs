@@ -41,6 +41,7 @@ const { SIMS_META } = await import(pathToFileURL(join(WEBXR, "smartcity/js/sims-
 const { CURRICULA } = await import(pathToFileURL(join(WEBXR, "smartcity/js/curricula.js")).href);
 const { GR_ROSTER } = await import(pathToFileURL(join(WEBXR, "shared/npc-data.js")).href);
 const { NP_PARISHES } = await import(pathToFileURL(join(WEBXR, "shared/np-parishes.js")).href);
+const { npWaterAt } = await import(pathToFileURL(join(WEBXR, "shared/np-parish.js")).href);
 const { LK_TRADES_ROOMS } = await import(pathToFileURL(join(WEBXR, "shared/links.js")).href);
 const META = new Map(SIMS_META.map((s) => [s.id, s]));
 const CATALOG = new Set(CURRICULA.flatMap((c) => (c.stations ?? []).map((s) => s.id)));
@@ -176,7 +177,14 @@ function invariant(tag) {
     check([b.open, b.upkeep, b.perVisit].every((v) => Number.isInteger(v) && v > 0), "businesses", `${b.id}: whole positive play figures`);
   }
   check(T.tyBusiness("boat-charter").water === true && T.TY_BUSINESSES.filter((b) => b.water).length === 1, "businesses", "only the boat charter needs water");
-  for (const p of NP_PARISHES) check(T.tyListings(p.id).some((l) => l.type === "shop" && l.waterside), "businesses", `${p.id}: a waterside shop for the boat charter`);
+  // An inland map (no site within 400 m of open water) has no boat charter to open; every other map needs a waterside shop.
+  const inland = [];
+  for (const p of NP_PARISHES) {
+    const open = p.sites.some((s) => { const [x, z] = s.position ?? [0, 0]; for (let r = 120; r <= 400; r += 140) for (let i = 0; i < 8; i++) { const a = (i / 8) * Math.PI * 2, w = npWaterAt(p, x + Math.cos(a) * r, z + Math.sin(a) * r); if (w && w.kind !== "wetland" && !((w.width ?? w.body?.width ?? 99) < 10)) return true; } return false; });
+    if (!open) { inland.push(p.id); continue; }
+    check(T.tyListings(p.id).some((l) => l.type === "shop" && l.waterside), "businesses", `${p.id}: a waterside shop for the boat charter`);
+  }
+  if (inland.length) console.log(`  inland maps (no boat charter): ${inland.join(", ")}`);
 }
 
 // ------------------------------------------------------------------- crew

@@ -1,0 +1,450 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sponge-in-the-sidewalk",
+    "name": "Sponge In The Sidewalk",
+    "note": "The cell dug to grade over a located line, layered in order and planted, with the walk kept open for everyone who needed it"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "LIUNA Training and Education Fund construction craft laborer training for the ground crew; IUOE Local 3 operating engineer apprenticeship for the excavator; OSHA 29 CFR 1926 Subpart P Excavations for the cut, its spoil, its egress and the competent person's inspection; 29 CFR 1926.602 for the earthmoving machine; the California excavation notice law (Government Code 4216, the 811 call) for the locate ticket and the tolerance zone; the MUTCD for the sidewalk closure and the pedestrian detour; ANSI/ISEA 107 high-visibility garments; 29 CFR 1926.21 safety training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.602",
+        "id": "osha-1926-602",
+        "title": "OSHA 29 CFR 1926.602 Material handling equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart P Excavations",
+        "id": "osha-1926-subpart-p",
+        "title": "OSHA 29 CFR 1926 Subpart P Excavations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ticket-matched",
+        "name": "Ticket Matched",
+        "note": "The locate ticket read and every mark checked against it before a shovel went in"
+      },
+      {
+        "id": "outside-the-swing",
+        "name": "Outside The Swing",
+        "note": "Never inside the swing, never spoil on the edge, never down into the cut without the ladder, never the bucket in the tolerance zone"
+      },
+      {
+        "id": "on-grade",
+        "name": "On Grade",
+        "note": "The rod and the drawdown gauge both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cell",
+        "name": "Clean Cell",
+        "note": "No corrections from the plan to the check-in"
+      },
+      {
+        "id": "steady-signals",
+        "name": "Steady Signals",
+        "note": "Kept the operator in band for the whole dig"
+      },
+      {
+        "id": "before-the-rain",
+        "name": "Before The Rain",
+        "note": "Cell logged inside 80% of par"
+      }
+    ],
+    "currency": "CELL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Planting Hand",
+      "Pothole Hand",
+      "Grade Checker",
+      "Cell Foreman",
+      "Rain Garden Certified"
+    ],
+    "system": "Rain Garden Build"
+  },
+  "hazards": {
+    "dig-past-marks": "You waved the operator to keep the bucket going inside the tolerance zone of the marked line. Inside that zone the line is found by hand or vacuum, never by the bucket, because the paint shows roughly where a line runs and not how deep. A bucket tooth through a gas service in a sidewalk is a fire in a street full of people.",
+    "jump-in-cut": "You hopped down into the excavation to clear a root instead of using the ladder. A cut into sidewalk fill has soft walls and sharp edges of old concrete, and a jump down onto uneven ground is how ankles and backs are hurt before the wall ever moves. The ladder goes in first and is the way in and out, and nobody goes in until the competent person has looked at the walls today.",
+    "spoil-at-edge": "You started piling the dug soil right on the lip of the cut. Spoil on the edge is weight on exactly the ground that holds the wall up, and it can roll back in on anyone below; OSHA's excavation rule keeps it at least two feet back from the edge. The spoil goes in the truck or onto the tarp set back on the far side of the walk.",
+    "swing-radius": "You stepped inside the excavator's swing radius to point at the grade stake. The counterweight of a compact machine swings round behind the operator where the cab cannot see, and 29 CFR 1926.602 practice keeps the ground crew out of that circle entirely. Grade is pointed at from outside the barricaded swing, and the operator stops the house before anyone comes closer."
+  },
+  "id": "bk-bioretention-rain-garden-excavation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pothole",
+      "alert": "A parent pushing a stroller has come past the SIDEWALK CLOSED sign and is squeezing between the cones and the open pothole.",
+      "cue": "Stop the vacuum and set the detour ramp so they can go round safely on the ramp.",
+      "delay": 2,
+      "id": "stroller-squeeze",
+      "kind": "Pedestrian past the closure",
+      "missNote": "The vacuum kept running while the stroller squeezed by; a wheel dropped into the edge of the pothole and the parent had to wrench it out beside the hose.",
+      "seconds": 12,
+      "target": "detour-ramp",
+      "why": "A closure only works if the detour is easier than squeezing past, and the moment someone is in the work zone the work stops, not the person. Setting the detour ramp in front of them gives a level route round the cut that a stroller or a wheelchair can use, which is what the MUTCD's pedestrian provisions ask the traffic control to provide.",
+      "wrongNote": "The detour ramp — stop, and give them a level way round the cut."
+    },
+    {
+      "after": "dig-signal",
+      "alert": "A crack has opened in the sidewalk slab along the edge of the cut, and a sliver of fill is dropping off the wall.",
+      "cue": "Give the operator the all-stop signal and keep everyone back from the edge.",
+      "delay": 3,
+      "id": "edge-crack",
+      "kind": "Crack at the cut's edge",
+      "missNote": "The bucket kept biting beside the crack; the slab edge broke off and slid into the cut, taking the grade stake with it.",
+      "seconds": 12,
+      "target": "all-stop",
+      "why": "A crack running parallel to a cut is the ground telling you the wall is starting to move, and Subpart P expects the competent person to stop the work and get people clear when they see signs of a possible cave-in. The machine's weight and vibration are part of what is loading that edge, so stopping the bucket is the first control, before anyone decides on shoring or a flatter slope.",
+      "wrongNote": "The all-stop signal — stop the machine first, then keep everyone back from the edge."
+    }
+  ],
+  "lateNotes": {
+    "cleanout-cap": "The cleanout is capped once the underdrain is bedded and the soil media is over it — a cap on a loose pipe just marks where it used to be.",
+    "drawdown-gauge": "Read the drawdown once the plants are in and the cell has been test-flooded — before that there is nothing on the gauge to read.",
+    "maintenance-log": "The log is written after the final walk — it records the edge and the inlet as well as the dig.",
+    "vac-wand": "Expose the marked line by vacuum only once the paint has been checked against the ticket — potholing the wrong mark proves nothing about the right one."
+  },
+  "name": "Bioretention Rain Garden Excavation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-program-projects"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "all-stop",
+      "cleanout-cap",
+      "closure-mark",
+      "crew-radio",
+      "detour-ramp",
+      "dig-past-marks",
+      "dig-signal",
+      "drawdown-gauge",
+      "edge-open",
+      "grade-rod",
+      "gravel-bed",
+      "inlet-blocked",
+      "jump-in-cut",
+      "maintenance-log",
+      "paint-faded",
+      "plant-mark",
+      "plant-plug",
+      "ppe-boots",
+      "ppe-gloves",
+      "ppe-hardhat",
+      "ppe-vest",
+      "soil-media",
+      "spoil-at-edge",
+      "swing-radius",
+      "underdrain-pipe",
+      "vac-wand",
+      "valve-unmarked",
+      "walk-closure",
+      "work-plan"
+    ],
+    "meshes": 271
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: the cell's outline and layers, the locate ticket's number and its expiry, which utilities answered, the traffic control plan for the walk, and who signals the operator.",
+      "id": "work-plan",
+      "kind": "select",
+      "prompt": "At the board: the cell's outline and layers, the locate ticket's number and its expiry, which utilities answered, the traffic control plan for the walk, and who signals the operator.",
+      "target": "work-plan",
+      "title": "Read the cell's plan and the locate ticket",
+      "why": "A rain garden is a hole dug on purpose into the one strip of a street where every utility likes to run, so the plan and the locate ticket are read together before anything else happens. A ticket that has expired, or a utility that never responded, means the marks on the ground cannot be trusted, and the call goes back in rather than the crew guessing. The plan also carries the layers, which cannot be put back in the right order once they are mixed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "The high-visibility vest for a crew working beside traffic, the hard hat under the bucket, safety-toe boots for concrete and tools, and gloves for broken edges.",
+      "id": "gear",
+      "itemNames": {
+        "ppe-boots": "safety-toe boots",
+        "ppe-gloves": "work gloves",
+        "ppe-hardhat": "hard hat",
+        "ppe-vest": "ANSI/ISEA 107 vest"
+      },
+      "kind": "sequence",
+      "prompt": "The high-visibility vest for a crew working beside traffic, the hard hat under the bucket, safety-toe boots for concrete and tools, and gloves for broken edges.",
+      "targets": [
+        "ppe-vest",
+        "ppe-hardhat",
+        "ppe-boots",
+        "ppe-gloves"
+      ],
+      "title": "Gear up for a street job",
+      "why": "The crew works a metre from moving traffic and under a swinging bucket, so being seen and having a hard hat on are the first two controls, not extras. Old sidewalk concrete breaks into slabs with edges like a blade and heavy corners that land on feet, which is what the boots and gloves are for — the injuries on a job like this are usually the ordinary ones, not the dramatic ones."
+    },
+    {
+      "cue": "Carry the SIDEWALK CLOSED sign to its mark at the end of the work zone, where the detour ramp leads people round.",
+      "drag": {
+        "missNote": "Not on the mark — the closure sign stands where the detour ramp starts, before anyone reaches the cut.",
+        "radius": 0.5,
+        "to": "closure-mark"
+      },
+      "id": "close-walk",
+      "kind": "drag",
+      "prompt": "Carry the SIDEWALK CLOSED sign to its mark at the end of the work zone, where the detour ramp leads people round.",
+      "target": "walk-closure",
+      "title": "Close the sidewalk and open the detour",
+      "why": "The MUTCD treats the sidewalk as a travel lane too: when the work takes it, a closure goes at the point where someone can still choose another route, with a detour that a wheelchair, a stroller or a person who cannot see the cones can actually use. A sign dropped halfway along the work zone leaves people already committed to a walk that ends at an open hole."
+    },
+    {
+      "cue": "Look along the cell's outline: the paint and flags on the ground, the covers and boxes in the walk, and whether each one is on the ticket.",
+      "id": "paint-check",
+      "itemNames": {
+        "paint-faded": "yellow gas paint washed almost away at the kerb",
+        "valve-unmarked": "a water valve box inside the outline with no blue mark"
+      },
+      "itemNotes": {
+        "paint-faded": "The yellow gas mark has washed nearly off where the run crosses the kerb. Nobody digs off a mark they can barely see: the utility is called back to re-mark before the cut reaches it.",
+        "valve-unmarked": "A water valve box sits inside the cell's outline, but no blue paint leads to or from it. A valve box means a pipe, whatever the paint says; the water utility is asked to mark it before the dig goes near."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the cell's outline: the paint and flags on the ground, the covers and boxes in the walk, and whether each one is on the ticket.",
+      "targets": [
+        "paint-faded",
+        "valve-unmarked"
+      ],
+      "title": "Walk the outline and check every mark against the ticket",
+      "why": "Locate marks are the utilities' answer to the ticket, and they can be washed out by rain, missed by a locator or never painted at all. A valve box or a meter lid inside the outline is the street telling you there is a pipe underneath whatever the paint says, and it is found now, on foot, when the answer is a phone call rather than a broken main filling the hole."
+    },
+    {
+      "cue": "In the tolerance zone either side of the yellow mark, hold the vacuum wand steady until the line shows at the bottom of the pothole.",
+      "holdBreakNote": "The wand came off before the line showed. Hold it steady in the pothole until the pipe is visible at the bottom.",
+      "id": "pothole",
+      "kind": "hold",
+      "prompt": "In the tolerance zone either side of the yellow mark, hold the vacuum wand steady until the line shows at the bottom of the pothole.",
+      "seconds": 6,
+      "target": "vac-wand",
+      "title": "Expose the marked gas line by vacuum",
+      "why": "Inside the tolerance zone the line is located by hand or by vacuum excavation, so its actual position and depth are seen rather than inferred from paint on the surface. Holding the wand steady and letting the air and suction do the work keeps the nozzle from gouging a plastic service; once the line shows, the operator knows exactly where the bucket must not go."
+    },
+    {
+      "cue": "From outside the swing, keep the hand signal steady so the bucket takes even bites down toward the grade stake.",
+      "holdBreakNote": "The signal went ragged and the operator stopped to guess. Bring it back to steady from outside the swing.",
+      "id": "dig-signal",
+      "kind": "track",
+      "prompt": "From outside the swing, keep the hand signal steady so the bucket takes even bites down toward the grade stake.",
+      "seconds": 7,
+      "target": "dig-signal",
+      "title": "Signal the operator down to grade",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "HAND SIGNAL",
+        "rise": 0.54,
+        "start": 0.18
+      },
+      "why": "The operator cannot see the bottom of the cut from the seat, so the ground signaller is their eyes, and one agreed signaller is the rule for a reason — two people waving is no one signalling. Steady signals give steady bites; a hurried wave digs past grade, and over-dug native soil under a rain garden is compacted, loosened ground that changes how the cell drains."
+    },
+    {
+      "cue": "With the machine stopped and the house swung away, read the rod on the cut's bottom against the grade stake's mark.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "ROD vs STAKE",
+        "missNote": "Outside the band — plumb the rod on the bottom of the cut and read it against the stake again.",
+        "speed": 0.68
+      },
+      "id": "grade-check",
+      "kind": "gauge",
+      "prompt": "With the machine stopped and the house swung away, read the rod on the cut's bottom against the grade stake's mark.",
+      "target": "grade-rod",
+      "title": "Read the bottom of the cut on the grade rod",
+      "why": "The plan's layers only fit if the bottom of the cut is where the plan puts it, and the rod read against the stake is the only honest answer. It is read with the machine stopped and the bucket swung away, from the ladder, because standing in a cut beside a working bucket to read a number is exactly the position the swing hazard describes."
+    },
+    {
+      "cue": "Drain rock first, then the perforated underdrain bedded on it, then the engineered soil media over the top.",
+      "id": "layers",
+      "itemNames": {
+        "gravel-bed": "drain rock bed",
+        "soil-media": "engineered soil media over it",
+        "underdrain-pipe": "perforated underdrain on the rock"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the drain rock goes down first, the underdrain is bedded on it, and the soil media goes over the top.",
+      "prompt": "Drain rock first, then the perforated underdrain bedded on it, then the engineered soil media over the top.",
+      "targets": [
+        "gravel-bed",
+        "underdrain-pipe",
+        "soil-media"
+      ],
+      "title": "Place the layers in the plan's order",
+      "why": "A bioretention cell works because water soaks down through the soil media into the drain rock and the underdrain carries away what the ground cannot take. Put in the wrong order — soil under the rock, or a pipe laid on bare subgrade — the cell ponds on the sidewalk or pipes dirty water straight to the drain, and there is no fixing it without digging it all out again."
+    },
+    {
+      "cue": "Turn the cleanout cap down onto its riser until it seats flush with the finished grade.",
+      "id": "cap-cleanout",
+      "kind": "turn",
+      "prompt": "Turn the cleanout cap down onto its riser until it seats flush with the finished grade.",
+      "target": "cleanout-cap",
+      "title": "Thread the cap onto the underdrain cleanout",
+      "turn": {
+        "label": "CLEANOUT CAP",
+        "turns": 1.25
+      },
+      "why": "The cleanout is how the maintenance crew will flush the underdrain for the life of the cell, and an uncapped riser fills with soil and litter on the first storm. Threaded down flush, it stays open for a jetting hose and does not become a trip edge sticking up out of the planting on a sidewalk full of people."
+    },
+    {
+      "cue": "Carry the plug tray to the planting mark in the cell's bottom, where the plan's wetter-tolerant plants go.",
+      "drag": {
+        "missNote": "Not on the mark — the bottom of the cell takes the plants the plan puts there; set the tray on the planting mark.",
+        "radius": 0.5,
+        "to": "plant-mark"
+      },
+      "id": "planting",
+      "kind": "drag",
+      "prompt": "Carry the plug tray to the planting mark in the cell's bottom, where the plan's wetter-tolerant plants go.",
+      "target": "plant-plug",
+      "title": "Set the plants where the plan puts them",
+      "why": "A rain garden's plants are chosen by where they sit: the bottom floods and dries, the side slopes stay drier, and a plant set in the wrong zone drowns or dries out and leaves bare soil that washes into the underdrain. Setting them where the plan says also keeps the crew's boots off the soil media they have just placed, because trampled media stops soaking."
+    },
+    {
+      "cue": "After the test flood from the water truck, read the ponding level on the gauge against the plan's drawdown band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PONDING vs BAND",
+        "missNote": "Outside the band — let the water settle on the gauge and read the ponding level again.",
+        "speed": 0.72
+      },
+      "id": "drawdown",
+      "kind": "gauge",
+      "prompt": "After the test flood from the water truck, read the ponding level on the gauge against the plan's drawdown band.",
+      "target": "drawdown-gauge",
+      "title": "Read the drawdown gauge after the test flood",
+      "why": "The test flood proves the cell drains the way the design intends before it is handed over, and it is read on the gauge rather than judged by eye from the kerb. A cell that holds water too long breeds mosquitoes and kills its plants; one that empties at once means water is short-circuiting down the side of the underdrain and not being treated at all."
+    },
+    {
+      "cue": "Look along the cell's edges where people will walk and at the kerb-cut inlet where the street's water comes in.",
+      "id": "final-walk",
+      "itemNames": {
+        "edge-open": "a drop from the walk into the cell with no edge",
+        "inlet-blocked": "the kerb-cut inlet clogged with spoil"
+      },
+      "itemNotes": {
+        "edge-open": "One side of the cell drops straight off the walk with nothing to stop a foot or a cane. The plan's kerb edge or a temporary barrier goes in before the walk reopens.",
+        "inlet-blocked": "Spoil from the dig has washed into the kerb-cut inlet. A blocked inlet means the street's water runs past the rain garden to the drain; it is cleared by hand before the crew leaves."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the cell's edges where people will walk and at the kerb-cut inlet where the street's water comes in.",
+      "targets": [
+        "edge-open",
+        "inlet-blocked"
+      ],
+      "title": "Walk the finished cell before the sidewalk reopens",
+      "why": "The finished cell is a planted hole beside a busy walk, and it only opens back to the public once the edges are safe for someone who cannot see them. The inlet is the whole point of the cell: blocked by the job's own spoil, the first storm runs straight past it into the drain the project was built to spare."
+    },
+    {
+      "cue": "Log the re-marked gas line and the valve box, the pothole, the grade read, the layers placed, the cleanout capped, the plants, the drawdown read, the edge barrier and the inlet cleared, and the pedestrian and the edge crack.",
+      "id": "maintenance-log",
+      "kind": "select",
+      "prompt": "Log the re-marked gas line and the valve box, the pothole, the grade read, the layers placed, the cleanout capped, the plants, the drawdown read, the edge barrier and the inlet cleared, and the pedestrian and the edge crack.",
+      "target": "maintenance-log",
+      "title": "Write the installation log",
+      "why": "The log becomes the cell's first maintenance record, and the crew who will look after it for years start from it: where the gas line actually runs, where the cleanout is, how it drained on day one. Writing down the crack at the edge and the pedestrian at the closure is how the next job's traffic plan and shoring decision get better."
+    },
+    {
+      "cue": "On the radio: the walk reopened and the log done, the re-mark request closed, and how the operator and the crew are after a crack at the edge and a close pass by the closure.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the walk reopened and the log done, the re-mark request closed, and how the operator and the crew are after a crack at the edge and a close pass by the closure.",
+      "target": "crew-radio",
+      "title": "Check in with the operator and the crew",
+      "why": "A wall starting to move and a person squeezing past the cones are both near misses, and the check-in names them while everyone is still together. It also closes the day's open items out loud; the member assistance line is there for anything still sitting with someone once the truck has left."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA or IUOE Local 3 — with the employer's employee assistance line behind it",
+  "tagline": "A rain garden cut into a city sidewalk: the plan and the locate ticket read, the walk closed with a detour, the paint checked, the marked line exposed by vacuum, the cut signalled to grade and read on the rod, the gravel, underdrain and soil placed in order, the cleanout capped, the plants set, the inlet and the edge checked, logged and the crew checked in",
+  "title": "SmartCiti.X~ Bioretention Rain Garden Excavation VR",
+  "trade": "LIUNA laborer crew lead on a sidewalk bioretention cell, with an IUOE Local 3 operating engineer on the compact excavator",
+  "underwater": null,
+  "weather": "overcast"
+}

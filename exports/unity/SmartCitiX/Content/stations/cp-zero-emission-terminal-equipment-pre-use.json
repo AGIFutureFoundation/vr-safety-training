@@ -1,0 +1,356 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cpte-badge",
+    "name": "Checked Before It Rolled",
+    "note": "Every machine walked, every warning read and the quiet ones heard before they moved"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU operator training; OSHA 29 CFR 1917 marine terminals, including powered industrial truck inspection before use; 29 CFR 1910.178 powered industrial trucks; ANSI B56.1 for lift truck operator checks; NFPA 70E for the high-voltage warnings an operator must recognise and not touch; and each machine's posted operator's checklist",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B56.1",
+        "id": "ansi-b56-1",
+        "title": "ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cpte-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "cpte-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "cpte-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cpte-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cpte-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Zero-Emission Crew",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Checked Before It Rolled"
+  },
+  "hazards": {
+    "drive-with-cable-connected": "You reached for the drive control with the charge cable still connected. Driving off pulls the connector and can leave damaged, live pins on the ground.",
+    "open-hv-cover": "You went to open the high-voltage cover to see what the warning meant. Only a qualified mechanic works on those conductors — the operator tags and reports.",
+    "run-hand-along-hose": "You ran your hand along the hydraulic hose to find the leak. A pinhole leak can inject fluid through skin; look for wet fittings, never feel for them.",
+    "skip-alert-test": "You skipped the pedestrian alert test. On a machine this quiet, the alert is often the only warning people on foot get."
+  },
+  "id": "cp-zero-emission-terminal-equipment-pre-use",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-straddle-carrier",
+      "alert": "A lasher has walked in between the straddle carrier's legs to take a shortcut while you are checking its cameras.",
+      "cue": "Call them out from between the legs and walk them to the walkway — the cameras wait.",
+      "delay": 2,
+      "id": "walker-in-blind-spot",
+      "kind": "A lasher walks into the carrier's blind spot",
+      "missNote": "You kept checking the camera images while the lasher stood between the legs; the carrier's next operator would not have seen them from the cab.",
+      "seconds": 12,
+      "target": "stop-lasher",
+      "why": "The area between and behind a straddle carrier's legs is its largest blind spot, and a person cutting through there is invisible from the cab; getting them out now is what keeps a later move from finding them.",
+      "wrongNote": "The lasher first — a person in a blind spot is moved before the inspection goes on."
+    },
+    {
+      "after": "hold-brake-test",
+      "alert": "The foreman is on the radio asking you to just send the warning-lit tractor to the berth because the ship is early.",
+      "cue": "Answer on the radio: the tractor stays tagged, the spare is going — the write-up waits.",
+      "delay": 2,
+      "id": "radio-rushes-machine",
+      "kind": "The foreman pushes to send the tractor out",
+      "missNote": "You carried on writing while the call went unanswered; someone else took the tagged tractor's key off the board because nobody had said why it was tagged.",
+      "seconds": 12,
+      "target": "radio-reply",
+      "why": "A high-voltage warning is not a judgement call to be made under schedule pressure, and answering clearly — the tag stays, here is the spare — is how the operator keeps the machine off the berth without leaving the foreman guessing.",
+      "wrongNote": "Answer the foreman first — pressure to use tagged equipment is answered straight away."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Zero-Emission Terminal Equipment Pre-Use",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "alert-sound-button",
+      "brake-test-pedal",
+      "cracked-camera",
+      "defect-report",
+      "defect-tag",
+      "dispenser-hanger",
+      "drive-with-cable-connected",
+      "hv-warning-lamp",
+      "open-hv-cover",
+      "operator-checklist",
+      "radio-reply",
+      "run-hand-along-hose",
+      "skip-alert-test",
+      "soc-display",
+      "spreader-hose",
+      "stop-lasher",
+      "straddle-legs",
+      "straddle-mirrors",
+      "straddle-tyres",
+      "terminal-radio",
+      "tractor-charge-cable",
+      "twistlock-switch"
+    ],
+    "meshes": 233
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the yard tractor's, the top pick's and the straddle carrier's posted checklists before walking to the first one.",
+      "id": "read-operator-checklist",
+      "kind": "select",
+      "prompt": "Read the yard tractor's, the top pick's and the straddle carrier's posted checklists before walking to the first one.",
+      "target": "operator-checklist",
+      "title": "Read each machine's posted checklist",
+      "why": "Each type of equipment has its own items — twistlocks on a top pick, leg sensors on a straddle carrier, fifth wheel on a tractor — and 29 CFR 1917 expects powered equipment inspected before use; the posted list is what makes the walk the same whoever does it."
+    },
+    {
+      "cue": "Unlatch the yard tractor's charge connector and carry the cable back to the dispenser's hanger.",
+      "drag": {
+        "missNote": "The cable is not on its hanger — carry it all the way back so nothing is left across the lane.",
+        "radius": 0.5,
+        "to": "dispenser-hanger"
+      },
+      "id": "unplug-and-hang-cable",
+      "kind": "drag",
+      "prompt": "Unlatch the yard tractor's charge connector and carry the cable back to the dispenser's hanger.",
+      "target": "tractor-charge-cable",
+      "title": "Unplug the charge cable and hang it up",
+      "why": "Driving off with a charge cable still connected pulls the connector, damages the cable and the dispenser, and can leave live pins on the ground; the machine's interlock should stop it, but the operator's own check is the one that does not depend on a sensor."
+    },
+    {
+      "cue": "Read the tractor's state of charge and commit once it settles in the band the shift plan needs.",
+      "gauge": {
+        "green": [
+          0.7,
+          1
+        ],
+        "label": "CHARGE %",
+        "missNote": "Not settled in the band — wait for the display to steady; a low charge goes back on the charger, not out to the ship.",
+        "speed": 0.6
+      },
+      "id": "read-state-of-charge",
+      "kind": "gauge",
+      "prompt": "Read the tractor's state of charge and commit once it settles in the band the shift plan needs.",
+      "target": "soc-display",
+      "title": "Read the state of charge against the shift",
+      "why": "A battery-electric tractor that runs short mid-shift stops in a lane where it becomes an obstruction, and matching the charge to the shift's moves before you start is the operator's part of keeping the terminal flowing and the lanes clear."
+    },
+    {
+      "cue": "Switch on and read every warning on the tractor's dash before releasing the brake.",
+      "id": "find-hv-warning",
+      "itemNames": {
+        "hv-warning-lamp": "high-voltage system warning on the tractor's dash"
+      },
+      "itemNotes": {
+        "hv-warning-lamp": "The dash shows the high-voltage system warning — an isolation fault the machine has detected; the tractor is tagged and reported, not driven or opened by the operator."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Switch on and read every warning on the tractor's dash before releasing the brake.",
+      "targets": [
+        "hv-warning-lamp"
+      ],
+      "title": "Read the dash for any warning",
+      "why": "The high-voltage system checks its own insulation and warns when it finds current leaking toward the frame; NFPA 70E keeps anyone who is not qualified away from those conductors, so the operator's job is to read the warning, tag the machine and let a qualified mechanic take it."
+    },
+    {
+      "cue": "Hang the do-not-operate tag on the tractor's wheel and key out; take the spare tractor on the board.",
+      "id": "tag-tractor",
+      "kind": "select",
+      "prompt": "Hang the do-not-operate tag on the tractor's wheel and key out; take the spare tractor on the board.",
+      "target": "defect-tag",
+      "title": "Tag the tractor out and take the spare",
+      "why": "A tagged machine with its key taken cannot be picked up by the next operator in a hurry, and taking the spare keeps your shift's work moving without anyone deciding a warning light is probably nothing."
+    },
+    {
+      "cue": "Turn the twistlock switch through locked and unlocked and watch every indicator on the spreader follow.",
+      "id": "cycle-twistlocks",
+      "kind": "turn",
+      "prompt": "Turn the twistlock switch through locked and unlocked and watch every indicator on the spreader follow.",
+      "target": "twistlock-switch",
+      "title": "Cycle the top pick's twistlocks",
+      "turn": {
+        "label": "TWISTLOCKS",
+        "turns": 1
+      },
+      "why": "The top pick lifts a container only by its four twistlocks, and the indicators tell the operator each one has turned fully; a twistlock that sticks or an indicator that lies is how a container comes loose in the air, so both are proven before the first lift."
+    },
+    {
+      "cue": "Look along the hoses to the spreader for wet fittings, rubbing or bulges — look, never run a hand along them.",
+      "id": "check-hydraulic-line",
+      "kind": "select",
+      "prompt": "Look along the hoses to the spreader for wet fittings, rubbing or bulges — look, never run a hand along them.",
+      "target": "spreader-hose",
+      "title": "Look along the spreader's hydraulic lines",
+      "why": "Electric top picks still move their mast and spreader hydraulically, and a pinhole leak can inject fluid through skin; looking for a wet fitting or a rubbed cover, and reporting it, is the operator's check without putting a hand where the pressure is."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Frame and legs, then tyres and wheel nuts, then mirrors and cameras, in that order.",
+      "id": "walk-straddle-carrier",
+      "itemNames": {
+        "straddle-legs": "legs and spreader frame",
+        "straddle-mirrors": "mirrors and cameras",
+        "straddle-tyres": "tyres and wheel nuts"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Walk the carrier from the top down — frame first, then tyres, then the mirrors you will drive by.",
+      "prompt": "Frame and legs, then tyres and wheel nuts, then mirrors and cameras, in that order.",
+      "targets": [
+        "straddle-legs",
+        "straddle-tyres",
+        "straddle-mirrors"
+      ],
+      "title": "Walk the straddle carrier",
+      "why": "A straddle carrier's operator sits high above a machine that spans a container, and the blind spots around its legs are large; the walk-around finds structural damage and tyre problems before the machine is loaded, and proves the mirrors and cameras that cover those blind spots."
+    },
+    {
+      "cue": "Look at each camera's image on the cab screen and each camera housing on the legs.",
+      "id": "find-broken-camera",
+      "itemNames": {
+        "cracked-camera": "cracked rear leg camera"
+      },
+      "itemNotes": {
+        "cracked-camera": "The rear leg camera's housing is cracked and its image is fogged — the operator would lose sight of the ground behind that leg."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at each camera's image on the cab screen and each camera housing on the legs.",
+      "targets": [
+        "cracked-camera"
+      ],
+      "title": "Check every camera image",
+      "why": "Cameras cover what the mirrors cannot on a machine this tall, and a fogged or cracked one leaves a blind zone exactly where people and other machines pass; a camera fault is a defect that keeps the carrier off the berth until it is fixed."
+    },
+    {
+      "cue": "Test the travel alarm and the pedestrian alert: you should hear both from the ground.",
+      "id": "test-pedestrian-alert",
+      "kind": "select",
+      "prompt": "Test the travel alarm and the pedestrian alert: you should hear both from the ground.",
+      "target": "alert-sound-button",
+      "title": "Test the pedestrian alert sound",
+      "why": "Battery-electric machines make little noise at low speed, so the travel alarm and the pedestrian alert are what tell people on foot that a machine is moving; an alert that does not sound makes a quiet machine an unannounced one."
+    },
+    {
+      "cue": "On the test roll, apply the service brake and hold it until the machine is fully stopped and the regen gauge reads zero.",
+      "holdBreakNote": "You let off the brake before the machine was stopped — hold it through the stop so the test proves the service brakes, not regen.",
+      "id": "hold-brake-test",
+      "kind": "hold",
+      "prompt": "On the test roll, apply the service brake and hold it until the machine is fully stopped and the regen gauge reads zero.",
+      "seconds": 5,
+      "target": "brake-test-pedal",
+      "title": "Hold the service brake test",
+      "why": "Electric machines slow partly through regenerative braking, which can mask a weak service brake in normal driving; holding a proper brake test on the test roll proves the friction brakes alone can stop the machine when regen cannot, such as with a full battery."
+    },
+    {
+      "cue": "Write up the tractor's high-voltage warning, the carrier's cracked camera and anything else found, one line each.",
+      "id": "write-up-defects",
+      "kind": "select",
+      "prompt": "Write up the tractor's high-voltage warning, the carrier's cracked camera and anything else found, one line each.",
+      "target": "defect-report",
+      "title": "Write up every defect",
+      "why": "The written defect report is how the maintenance shop learns which machines to take first and why, and it protects the operator who refused a machine; a defect told only to the next operator in the canteen is not reported."
+    },
+    {
+      "cue": "Radio the foreman: spare tractor out, top pick ready, carrier tagged for its camera.",
+      "id": "radio-foreman",
+      "kind": "select",
+      "prompt": "Radio the foreman: spare tractor out, top pick ready, carrier tagged for its camera.",
+      "target": "terminal-radio",
+      "title": "Tell the foreman which machines are ready",
+      "why": "The foreman assigns machines to the vessel gangs, and a shift planned around a machine that is tagged loses time at the berth; telling them straight away lets the plan change before the ship's first move."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "Three battery-electric machines before a vessel shift: the operator's checklist read, the charge cable unplugged and hung before anything moves, the yard tractor's state of charge read against the shift, a lit high-voltage warning on its dash found and the tractor tagged, the top pick's twistlocks and spreader cycled, its hydraulic line checked, the straddle carrier's legs, tyres and mirrors walked, the pedestrian alert tested on a machine that is otherwise silent, a brake test held, a broken camera found, and the defects written up",
+  "title": "SmartCiti.X~ Zero-Emission Terminal Equipment Pre-Use VR VR",
+  "trade": "ILWU equipment operator doing the pre-use inspection on a battery-electric yard tractor, top pick and straddle carrier before a vessel shift",
+  "underwater": null,
+  "weather": "overcast"
+}
