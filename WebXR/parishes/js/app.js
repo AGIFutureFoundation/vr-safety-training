@@ -24,7 +24,7 @@ import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
 import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwDoorOf } from "../../shared/cw-cityworks.js";
-import { ixMountInteriors } from "../../shared/ix-interiors.js";
+import { ixMountInteriors, ixTycoonStyle, ixDoorSpot } from "../../shared/ix-interiors.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
@@ -161,12 +161,11 @@ let nwMode = "walk";
 // interior): the world root (sky, chunks, streets, water, atmosphere) is hidden and stops updating, the walk runs on
 // NEWTON's avatar step against the room's walls, the site's board and stations open from inside, and the door returns the
 // learner to the exact outdoor pose they entered from.
-const IX_DOOR_OUT = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
 const ixDoors = parish.sites.map((s0, i) => {
   try {
-    const b = cwSiteBuilding(parish, i), d = cwDoorOf(parish, b), o = IX_DOOR_OUT[d.face] ?? [0, 1];
+    const b = cwSiteBuilding(parish, i), spot = ixDoorSpot(cwDoorOf(parish, b));
     const site = parish.sites.find((s) => s.id === b.site.id) ?? s0;
-    return { site, x: d.x + o[0] * 1.4, z: d.z + o[1] * 1.4 };
+    return { site, ...spot };
   } catch { return null; }
 }).filter(Boolean);
 const ixWorld = ixMountInteriors({
@@ -175,6 +174,25 @@ const ixWorld = ixMountInteriors({
   onLaunch: (id, s) => { location.href = npLink(id, s.id); },
   onToast: (m) => npToast(m, 5200),
 });
+// TYCOON: a rented room or shop has its own door 4 or 7 m along the same face, opening into a matching interior.
+let ixRentals = [], ixRentalsT = -1e9;
+function ixRentalDoors() {
+  const now = performance.now();
+  if (now - ixRentalsT < 2000) return ixRentals;
+  ixRentalsT = now;
+  const led = tyLedger();
+  const biz = led.business ? { id: led.business.id, listing: led.business.listing, name: led.business.name } : null;
+  ixRentals = led.rentals.filter((r) => r.parish === parish.id).map((r) => {
+    const d = ixDoors.find((x) => x.site.id === r.site);
+    if (!d) return null;
+    const along = d.face === "e" || d.face === "w" ? [0, 1] : [1, 0]; // along the face the site door is on
+    const here = biz?.listing === r.id ? biz : null;
+    const shift = r.type === "shop" ? 7 : 4;
+    return { site: d.site, x: d.x + along[0] * shift, z: d.z + along[1] * shift, style: ixTycoonStyle(r, here),
+      title: here ? `${here.name} — ${TY_CURRENCY} play business` : `${r.type === "room" ? "Your room" : "Your shop"} — rented in ${TY_CURRENCY}` };
+  }).filter(Boolean);
+  return ixRentals;
+}
 window.ixWorld = ixWorld; // the headless round-trip test drives it (docs/consoles/INTERIORS.md)
 const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and watch the current.", swim: "Swimming: slower, and the current carries you. The breath meter is a readiness cue — head for the shore to rest." };
 
@@ -419,6 +437,7 @@ function npNearest() {
   let best = null, bd = 9;
   for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
   for (const dd of ixDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z] }; } }
+  for (const dd of ixRentalDoors()) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.2)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } }
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   return best;
@@ -435,7 +454,7 @@ function npUse() {
   }
   const n = np.near;
   if (!n) return;
-  if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }); np.near = null; }
+  if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: n.style, title: n.title }); np.near = null; }
   else if (n.kind === "board") npOpenBoard(n.site);
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
   else if (n.kind === "connector") {
@@ -478,7 +497,7 @@ function npHud() {
   $("hud-credits").textContent = String(tyBalance);
   const p = $("hud-prompt");
   if (ixWorld.inside()) { const a = ixWorld.near(); p.hidden = !a; if (a) p.textContent = `E — ${a.label}`; }
-  else if (np.near) { p.hidden = false; p.textContent = np.near.kind === "door" ? `E — go inside: ${np.near.site.name}` : np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : `E — ${np.near.conn.name}`; }
+  else if (np.near) { p.hidden = false; p.textContent = np.near.kind === "door" ? `E — go inside: ${np.near.title ?? np.near.site.name}` : np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : `E — ${np.near.conn.name}`; }
   else p.hidden = true;
 }
 
@@ -677,7 +696,7 @@ function tyHangSigns() {
     m.position.set(x, npHeightAt(parish, x, z) + 5.5, z); m.name = `ty-sign-${sg.site}-${sg.type}`; tySigns.add(m);
   }
 }
-function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi?.render(); if (np.playing) npHud(); }
+function tyRefresh() { ixRentalsT = -1e9; tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi?.render(); if (np.playing) npHud(); }
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();

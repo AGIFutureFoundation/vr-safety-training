@@ -121,7 +121,37 @@ const cr = IX.ixBuild("classroom", { three: THREE, site: { name: "S", stations: 
 check(cr.actions.some((a) => a.id === "cr-test") && cr.meshes() <= IX.IX_BUDGET.meshes, "a registered dresser adds meshes and an action within budget");
 IX.IX_DRESSERS.classroom.length = 0;
 
-// 5. Wiring: the parishes app mounts it, the bundler lists it, the honesty line is on the room.
+// 5. Door spots: every site building on the 22 maps has one, outside the building's footprint (WALKABLE makes the buildings
+// solid), clear of every other site building, and the TYCOON rental doors (4 and 7 m along the face) are outside it too.
+const CW = await imp("shared/cw-cityworks.js");
+let doors = 0, inFoot = [], rentIn = [];
+for (const p of R.NP_PARISHES) {
+  const blds = p.sites.map((_, i) => CW.cwSiteBuilding(p, i));
+  const inside = (x, z, r = 0.35) => blds.find((b) => Math.abs(x - b.cx) < b.w / 2 + r && Math.abs(z - b.cz) < b.d / 2 + r);
+  blds.forEach((b) => {
+    const spot = IX.ixDoorSpot(CW.cwDoorOf(p, b)); doors++;
+    if (inside(spot.x, spot.z)) inFoot.push(`${p.id}/${b.site.id}`);
+    const along = spot.face === "e" || spot.face === "w" ? [0, 1] : [1, 0];
+    for (const k of [4, 7]) if (inside(spot.x + along[0] * k, spot.z + along[1] * k)) rentIn.push(`${p.id}/${b.site.id}+${k}`);
+  });
+}
+check(inFoot.length === 0, `every site door spot (${doors}) stands outside every site footprint${inFoot.length ? `: ${inFoot.slice(0, 6).join(", ")}` : ""}`);
+check(rentIn.length <= Math.ceil(doors * 0.02), `rental door spots clear of site footprints (${rentIn.length} of ${doors * 2} inside${rentIn.length ? `: ${rentIn.slice(0, 4).join(", ")}` : ""})`);
+
+// 6. TYCOON: every listing type and every business opens into an existing style, with the rental's title on the room.
+const TY = await imp("shared/ty-economy.js");
+for (const b of TY.TY_BUSINESSES) check(!!IX.IX_STYLES[IX.ixTycoonStyle({ type: "shop" }, b)], `business ${b.id} opens into ${IX.ixTycoonStyle({ type: "shop" }, b)}`);
+for (const t of ["room", "shop"]) check(!!IX.IX_STYLES[IX.ixTycoonStyle({ type: t })], `a rented ${t} opens into ${IX.ixTycoonStyle({ type: t })}`);
+{
+  const L = TY.tyListings(P.id).find((l) => l.site === site.id && l.type === "room");
+  const m2 = IX.ixMountInteriors({ three: THREE, scene, hide: [worldRoot] });
+  const r2 = m2.enter(site, outdoor, { style: IX.ixTycoonStyle(L), title: "Your room — rented in Crew Credits" });
+  check(r2?.id === "rented-room" && worldRoot.visible === false, "a rented room enters its own interior and hides the world");
+  const o2 = m2.exit();
+  check(o2.x === outdoor.x && worldRoot.visible === true, "the rented room exits to the same outdoor pose");
+}
+
+// 7. Wiring: the parishes app mounts it, the bundler lists it, the honesty line is on the room.
 const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 const src = readFileSync(join(WEBXR, "shared", "ix-interiors.js"), "utf8");

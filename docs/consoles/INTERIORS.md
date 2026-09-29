@@ -57,3 +57,9 @@ bays, programme rooms) through `ixRegisterDresser`; these styles stay generic.
    `ix-interiors.js` (11 styles landed with the shell since they are data on one builder), `check_interiors.mjs`, app mount,
    bundler. Observe: check_interiors 344 passed, 0 failed (every style 16–17 meshes, ≤ 2 lights; 62 kinds → 11 styles; exact
    pose round trip; hidden stays hidden); check_parishes 30924 passed, 0 failed.
+2. Reason: TYCOON's rented rooms and shops open into a matching interior, and door spots must stay off WALKABLE's solid
+   footprints. Act: `rented-room` and `shop` styles, `ixTycoonStyle(listing, business)` (a business's trade picks kitchen /
+   workshop / shop / port-shed), `enter(site, pose, { style, title })`, a rental door 4 m (room) or 7 m (shop) along the site
+   door's face in the app; `ixDoorSpot` shared by the app and the checker. Observe: check_interiors 403 passed, 0 failed
+   (428 door spots all outside every site footprint; rental doors clear; every business and listing type maps; rented-room
+   round trip exact).

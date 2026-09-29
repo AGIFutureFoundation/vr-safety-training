@@ -12,8 +12,10 @@
 //                                   adds its meshes to `group` and calls room.addAction(...) for anything the learner can use.
 //                                   It runs after the shell, before the budget is counted (IX_BUDGET holds for the total).
 //   ixWalk(room, pose, { vx, vz }, dt)  -> new pose: NEWTON's avatar step against the room's wall colliders (the room collider)
+//   ixTycoonStyle(listing, business)  -> the style a TYCOON rental opens into (a business's trade, else "rented-room" / "shop")
+//   ixDoorSpot(cwDoor, out = 1.4)   -> { x, z, face }: the prompt spot outside a site building's door (off the footprint)
 //   ixMountInteriors({ three, scene, hide = [], tier, reduced, onBoard(site), onLaunch(stationId, site), onToast(msg) })
-//                                   -> { enter(site, outdoorPose), exit() -> outdoorPose, inside(), room, pose, walk(input, dt),
+//                                   -> { enter(site, outdoorPose, { style?, title? }), exit() -> outdoorPose, inside(), room, pose, walk(input, dt),
 //                                        near() -> action|null, use(), camera(eye) -> {x, y, z, yaw, pitch} }
 //
 // The rooms are GENERIC BY KIND. No real building's interior is modelled: a map's site is a real, named place, but the room behind
@@ -62,7 +64,19 @@ export const IX_STYLES = {
     dress: [["crate", "grid:3x4"], ["machine", "row:3"], ["rack", "back:3"], ["bench", "wall:2"]] },
   "civic-lobby":  { label: "Civic lobby", w: 14, d: 12, h: 4.5, wall: 0xe9e2d6, floor: 0x8a8378, ceiling: 0xf1ede6, trim: 0xb08a5a, accent: 0x37d6c0, lamp: 0xffe6c0,
     dress: [["counter", "front"], ["bench", "wall:4"], ["chair", "row:6"]] },
+  // TYCOON's rentals (Crew Credits, a play currency): a rented room and a rented shop, generic and procedural like the listings.
+  "rented-room":  { label: "Rented room", w: 8, d: 7, h: 3, wall: 0xe8e0d0, floor: 0x7d6450, ceiling: 0xf2eee6, trim: 0x8a6a48, accent: 0x37d6c0, lamp: 0xffe6c0,
+    dress: [["bed", "back:1"], ["desk", "wall:1"], ["locker", "back:2"], ["chair", "front"]] },
+  "shop":         { label: "Rented shop", w: 11, d: 9, h: 3.6, wall: 0xf0ebe0, floor: 0x9a8f80, ceiling: 0xf4f1ea, trim: 0x2f6f8c, accent: 0xf2c14b, lamp: 0xfff4e0,
+    dress: [["counter", "front"], ["rack", "wall:4"], ["crate", "row:2"]] },
 };
+
+/** TYCOON: the room a rental opens into — a business's trade picks a matching style; otherwise the generic room or shop. */
+export const IX_BUSINESS_STYLE = { "food-truck": "kitchen", "tool-rental": "workshop", "bike-repair": "workshop", "corner-shop": "shop", "boat-charter": "port-shed" };
+export function ixTycoonStyle(listing, business = null) {
+  if (business?.id && IX_BUSINESS_STYLE[business.id]) return IX_BUSINESS_STYLE[business.id];
+  return listing?.type === "shop" ? "shop" : "rented-room";
+}
 
 /** Every site kind on the 22 maps -> a generic style. Outdoor kinds (parks, levees, wetlands) get the field office they would have. */
 export const IX_KIND_STYLE = {
@@ -82,6 +96,13 @@ export const IX_KIND_STYLE = {
 };
 
 export function ixStyleFor(kind) { return IX_KIND_STYLE[kind] ?? "civic-lobby"; }
+
+/** The door spot of a site building: `out` metres outside CITYWORKS' door (cwDoorOf) on its face, clear of the footprint. */
+export const IX_DOOR_OUT = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
+export function ixDoorSpot(door, out = 1.4) {
+  const o = IX_DOOR_OUT[door?.face] ?? [0, 1];
+  return { x: door.x + o[0] * out, z: door.z + o[1] * out, face: door?.face ?? "s" };
+}
 
 /** Other consoles' furnishers per style (CLASSROOMS). */
 export const IX_DRESSERS = {};
@@ -125,7 +146,7 @@ function ixSignMaterial(THREE, lines, bg = "#101820") {
 }
 
 /** Build one room (see the header). */
-export function ixBuild(styleId, { three: THREE, tier = "high", site = null, dressers = IX_DRESSERS } = {}) {
+export function ixBuild(styleId, { three: THREE, tier = "high", site = null, title = null, dressers = IX_DRESSERS } = {}) {
   const style = IX_STYLES[styleId];
   if (!style || !THREE) return null;
   const low = tier === "low";
@@ -185,7 +206,7 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, dre
   boxMesh(1.6, 1.1, 0.08, boardX, 1.6, d / 2 - 0.08, ixSignMaterial(THREE, [site?.name ?? style.label, "Job board — E to open"], "#c0561f"), "ix-board");
   room.addAction({ id: "board", kind: "board", x: boardX, z: d / 2 - 1.1, label: `${site?.name ?? style.label} job board` });
   boxMesh(3.6, 1.2, 0.05, 0, Math.min(h - 0.9, 2.8), -d / 2 + 0.03,
-    ixSignMaterial(THREE, [style.label.toUpperCase(), "A generic room for this kind of site —", "not a model of the real building."]), "ix-label");
+    ixSignMaterial(THREE, [(title ?? style.label).toUpperCase(), "A generic room for this kind of site —", "not a model of the real building."]), "ix-label");
   room.addAction({ id: "exit", kind: "exit", x: door.x, z: door.z, label: "Go back outside" });
   // The site's stations: one lit pad each along the door-side row (instanced), each launching its station.
   const stations = (site?.stations ?? []).slice(0, low ? 4 : 8);
@@ -227,16 +248,16 @@ export function ixMountInteriors({ three, scene, hide = [], tier = "high", onBoa
     get room() { return room; },
     get pose() { return pose; },
     inside: () => !!room,
-    enter(site, outdoor) {
+    enter(site, outdoor, { style = null, title = null } = {}) {
       if (room) return room;
-      const styleId = ixStyleFor(site?.kind);
-      room = ixBuild(styleId, { three, tier, site });
+      const styleId = style && IX_STYLES[style] ? style : ixStyleFor(site?.kind);
+      room = ixBuild(styleId, { three, tier, site, title });
       if (!room) return null;
       saved = { pose: { ...outdoor }, vis: hide.map((o) => (o ? o.visible : null)), fog: scene?.fog ?? null };
       for (const o of hide) if (o) o.visible = false;
       if (scene) { scene.fog = null; room.group.position.set(IX_ORIGIN[0], IX_ORIGIN[1], IX_ORIGIN[2]); scene.add(room.group); }
       pose = { x: room.door.x, z: room.door.z - 0.8, yaw: 0, pitch: 0 };
-      onToast?.(`Inside: ${room.style.label} at ${site?.name ?? "this site"} — a generic room, not the real building. Walk to the door to leave.`);
+      onToast?.(`Inside: ${title ?? room.style.label} at ${site?.name ?? "this site"} — a generic room, not the real building. Walk to the door to leave.`);
       return room;
     },
     exit() {
