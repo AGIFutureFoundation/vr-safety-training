@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -321,6 +321,42 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   check(readFileSync(join(WEBXR, "bayworld", "index.html"), "utf8").includes(`id="map-way-sf" data-way="sf-bay-bridge" href="${SG.SG_WAY_BACK.href}"`), "Bay World's map links the way back to San Francisco");
   check(/c\.world\) \{ npCrossWorld\(c\)/.test(app) && /lkWorldLink\(c\.to\.href, \{ from: "parishes"/.test(app), "the parishes app crosses a world way with lkWorldLink");
   check(bundler.includes('SHARED / "sg-ways.js"'), "sg-ways.js is in the parishes bundle");
+}
+
+// Oakland & the East Bay (console BAYMAP, docs/consoles/BAYMAP.md): the third region, its three districts on the strict
+// engine, the brief's kinds of site and water, named hills, paired connectors, the Bay Bridge to Downtown and the ways to Bay World.
+{
+  const BM = await imp("shared/bm-ways.js");
+  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).join() === "new-orleans,san-francisco,oakland", "regions: Oakland & the East Bay follows San Francisco (districts)");
+  const oak = R.npRegionGroups().find((g) => g.region.id === "oakland")?.parishes ?? [];
+  const bmKinds = { "oak-west-oakland": ["port", "rail", "union-hall", "school", "recreation", "transit"], "oak-downtown-lake": ["construction", "hospital", "campus", "civic", "theatre"], "oak-fruitvale-estuary": ["marina", "market", "school", "workshop", "park"] };
+  const bmWaters = { "oak-west-oakland": ["bay"], "oak-downtown-lake": ["lake"], "oak-fruitvale-estuary": ["canal", "bay"] };
+  check(Object.keys(bmKinds).every((id) => oak.some((p) => p.id === id)), `Oakland: the three districts are registered (${oak.map((p) => p.id).join(", ")})`);
+  for (const p of oak) {
+    check(p.id.startsWith("oak-") && p.region === "oakland" && NP_ENGINE_STRICT.has(p.id), `${p.id}: an oak- id in region oakland, held strict`);
+    check(p.sites.length >= 10, `${p.id}: ten or more sites (${p.sites.length})`);
+    for (const k of bmKinds[p.id] ?? []) check(p.sites.some((s) => s.kind === k), `${p.id}: a ${k} site`);
+    for (const k of bmWaters[p.id] ?? []) check(p.water.some((w) => w.kind === k), `${p.id}: ${k} water`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${p.id}/${s.id}: the pad sits clear of ${h.name}`);
+    check((p.fieldLessons ?? []).length >= 3 && p.fieldLessons.every((l) => /^bm-fl-/.test(l.id) && ctx.k12.has(l.k12) && ctx.stations.has(l.station)), `${p.id}: three or more bm-fl- field lessons, each on a K-12 station with a trade station`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${p.id}.js`), "utf8");
+    check(!/population|founded|built in|opened in|census|since \d|\best\.|\bcirca\b|elevation|feet high|metres high|meters high/i.test(src), `${p.id}: no history, statistics or elevations`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb ?? ""}`;
+    check(!/\d/.test(text), `${p.id}: no figure in a name or blurb`);
+    const pairs = p.connectors.filter((c) => c.to.parish !== p.id);
+    check(pairs.length >= 2 && pairs.every((c) => /^bm-(wo|dl|fe)-/.test(c.id)), `${p.id}: two or more bm- connectors`);
+    const way = R.npResolveConnectors(p).find((c) => c.kind === "world");
+    check(!!way && way.world === "bayworld" && WORLD_SITES.bayworld.has(way.to.site) && G.npInField(p, way.from.position) && !E.npWaterAt(p, ...way.from.position), `${p.id}: a way into Bay World (${way?.to.site}) from dry ground inside the field`);
+  }
+  check(oak.find((p) => p.id === "oak-downtown-lake")?.landmarks.some((l) => /Theat/.test(l.name) && l.kind === "place"), "oak-downtown-lake: a theatre stands as a place");
+  const wo = R.npParish("oak-west-oakland"), dt = R.npParish("sf-downtown");
+  const bbW = wo?.connectors.find((c) => c.id === "bm-wo-bay-bridge-west"), bbE = dt?.connectors.find((c) => c.id === "sf-dt-bay-bridge-east");
+  check(!!bbW && !!bbE && bbW.kind === "bridge" && bbE.kind === "bridge" && bbW.lonlat.join() === bbE.lonlat.join() && bbW.to.parish === "sf-downtown" && bbE.to.parish === "oak-west-oakland", "the Bay Bridge pairs West Oakland and Downtown (bm-wo-bay-bridge-west, sf-dt-bay-bridge-east) at one mid-crossing");
+  if (bbW && bbE) check(!E.npWaterAt(wo, ...bbW.from.position) && !E.npWaterAt(dt, ...bbE.from.position), "both Bay Bridge ends leave from dry ground");
+  check(wo?.roads.some((r) => r.kind === "bridge" && r.id === "bay-bridge"), "oak-west-oakland: the Bay Bridge is a bridge deck");
+  check(BM.BM_WAYS.every((w) => w.kind === "world" && w.id.startsWith("bm-") && w.to.href === `../bayworld/index.html?site=${w.to.site}`), "every Oakland way opens Bay World's page with ?site=");
+  check(BAY_SITES.find((s) => s.id === BM.BM_WAYS.find((w) => w.id === "bm-wo-bay-world")?.to.site)?.zone === "west-oakland", "West Oakland's way lands at a West Oakland site in Bay World");
+  check(readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8").includes('SHARED / "bm-ways.js"'), "bm-ways.js is in the parishes bundle");
 }
 
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);

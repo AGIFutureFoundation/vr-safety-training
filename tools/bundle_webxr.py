@@ -746,6 +746,10 @@ APPS = {
             SHARED / "np-data-sf-marina.js",
             SHARED / "np-data-sf-bayview.js",
             SHARED / "sg-ways.js",
+            SHARED / "np-data-oak-west-oakland.js",
+            SHARED / "np-data-oak-downtown-lake.js",
+            SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "np-world.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
