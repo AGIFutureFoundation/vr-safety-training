@@ -8,7 +8,7 @@
 // lights on, and the "after a collision" card from a catalog station.
 //
 //   nwMountPhysics({ three, root, parish, seams, tier, reduced, link, onCard })
-//     -> { world, avatar, place(x, z), walk(input, dt), drive(entry, x, z, heading),
+//     -> { world, avatar, place(x, z), walk(input, dt), drive(entry, x, z, heading, { snap }),
 //          exitDrive(), driving(), animate(dt, input), cameraPose(), counts(), card }
 //
 // `three` is the page's three.js namespace (passed in, so this module names no
@@ -185,11 +185,12 @@ export function nwMountPhysics({ three, root, parish, seams = {}, tier = "balanc
     if (veh) { veh = { ...veh, crashed: false, hazards: false }; }
   }
 
-  function drive(entry, x, z, heading = 0) {
+  function drive(entry, x, z, heading = 0, { snap = true } = {}) {
     if (!entry || entry.kind === "water" || entry.kind === "rail") return false;
     exitDrive();
-    // Start on the nearest road when one is close, else where the learner stands.
-    const near = npNearestRoad(parish, x, z);
+    // Start on the nearest road when one is close, else where the learner stands (MOTORWORKS: a parked vehicle
+    // passes snap: false and pulls away from where it is parked).
+    const near = snap ? npNearestRoad(parish, x, z) : { road: null, d: Infinity };
     let sx = x, sz = z;
     if (near.road && near.d < 60 && near.road.kind !== "ferry") {
       const p = npPolyPointAt(near.road.pts, npPolyDistance(x, z, near.road.pts).t);

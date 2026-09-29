@@ -278,6 +278,8 @@ export const DV_GATED = DV_DRIVABLES.map((d) => ({
 // profile: a hard cap, grip that falls with speed, no drift, a refused move
 // when `env.blocked(x, z)` says so. `state`: { x, z, heading, speed };
 // `input`: { throttle, steer, brake } (shared/input.js's driveInputFrom).
+// Optional profile fields (MOTORWORKS, mv-motorworks.js): `brake` m/s² and
+// `minRadius` m — absent, the handling is exactly as before.
 // `env`: { cap?, bounds?: { minX, maxX, minZ, maxZ }, blocked?(x, z) → bool,
 // rails?: [[x, z]…] (a rail vehicle follows the polyline, steer ignored) }.
 const dvClamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
@@ -289,7 +291,9 @@ export function dvStepDrive(state, input, dt, profile, env = {}) {
   const target = throttle >= 0 ? throttle * top : throttle * top * 0.5;
   if (speed < target) speed = Math.min(target, speed + profile.accel * dt);
   else speed = Math.max(target, speed - profile.accel * 1.6 * dt);
-  if (input.brake) speed = speed > 0 ? Math.max(0, speed - profile.accel * 2.4 * dt) : Math.min(0, speed + profile.accel * 2.4 * dt);
+  // MOTORWORKS: a profile may carry its own brake deceleration (m/s²); the default stays accel × 2.4.
+  const brake = profile.brake ?? profile.accel * 2.4;
+  if (input.brake) speed = speed > 0 ? Math.max(0, speed - brake * dt) : Math.min(0, speed + brake * dt);
   let heading = state.heading;
   let x, z;
   if (env.rails?.length > 1) {
@@ -301,7 +305,10 @@ export function dvStepDrive(state, input, dt, profile, env = {}) {
   }
   const steer = dvClamp(input.steer ?? 0, -1, 1);
   const grip = 1 - 0.55 * Math.min(1, Math.abs(speed) / (top || 1));
-  heading = state.heading + steer * profile.turn * grip * Math.sign(speed || 1) * dt;
+  let yaw = steer * profile.turn * grip * Math.sign(speed || 1) * dt;
+  // MOTORWORKS: a profile with a turning radius (m) never turns tighter than it: yaw rate ≤ |speed| / radius.
+  if (profile.minRadius > 0) { const cap = (Math.abs(speed) / profile.minRadius) * dt; yaw = dvClamp(yaw, -cap, cap); }
+  heading = state.heading + yaw;
   x = state.x + Math.sin(heading) * speed * dt; z = state.z + Math.cos(heading) * speed * dt;
   let collided = false;
   if (env.blocked && env.blocked(x, z)) { collided = true; x = state.x; z = state.z; speed *= -0.15; }

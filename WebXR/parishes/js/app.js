@@ -30,6 +30,7 @@ import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { nwMountPhysics } from "../../shared/nw-drive.js";
+import { mvMountMotorworks, mvDriveEntry } from "../../shared/mv-world.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
 import { cpPlaceInParish } from "../../shared/cp-cleanports.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
@@ -156,6 +157,24 @@ const nwPhys = nwMountPhysics({
   onCard: () => { npKeys.clear(); drWorld?.offer("dr-traffic"); }, // DRILLS: the card becomes the traffic incident drill
 });
 nwPhys.place(np.x, np.z);
+// MOTORWORKS (docs/consoles/MOTORWORKS.md): parked Motor Pool vehicles of fitting classes at fitting sites, two
+// instanced meshes per map; E at one walks its pre-trip on the board (the gate contract) and drives it from its bay
+// with its class's handling. PALETTE's colour categories give the liveries when that module is on the page (guarded).
+const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName });
+let mvPending = null, mvDriving = null;
+function mvExitDrive() {
+  const out = nwPhys.exitDrive();
+  if (mvDriving) { mvPark.show(mvDriving.id); mvDriving = null; }
+  return out;
+}
+function mvUse(p) {
+  const pr = mvPark.prompt(p);
+  if (!pr.open) npToast(`${p.entry.name}: locked. Qualify at ${pr.missing.map((m) => m.label ?? m.id).join(", ")} — the Motor Pool board links the station.`, 6000);
+  mvPending = pr.open ? p : null;
+  asOpenMotorPool();
+  const row = $("dv-board")?.querySelector(`[data-dv-id="${p.drivable}"]`);
+  if (row) { row.querySelector(`[data-dv-open="${p.drivable}"]`)?.click(); row.scrollIntoView?.({ block: "center" }); }
+}
 let nwMode = "walk";
 const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and watch the current.", swim: "Swimming: slower, and the current carries you. The breath meter is a readiness cue — head for the shore to rest." };
 
@@ -243,7 +262,7 @@ addEventListener("keydown", (e) => {
   if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) e.preventDefault();
   npKeys.add(e.code);
   if (e.repeat) return;
-  if (e.code === "KeyQ" && nwPhys.driving()) { const out = nwPhys.exitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
+  if (e.code === "KeyQ" && nwPhys.driving()) { const out = mvExitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
   if (e.code === "KeyE") npUse();
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
@@ -401,16 +420,19 @@ function npNearest() {
   for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
+  const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
+  if (mv && (!best || Math.hypot(np.x - mv.x, np.z - mv.z) < bd)) best = { kind: "vehicle", park: mv, at: [mv.x, mv.z] };
   return best;
 }
 
 function npUse() {
   // In the drive mode, Use (E, the touch Use button, the pad's A) steps out of the vehicle, like Q.
-  if (nwPhys.driving()) { const out = nwPhys.exitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
+  if (nwPhys.driving()) { const out = mvExitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
   const n = np.near;
   if (!n) return;
   if (n.kind === "board") npOpenBoard(n.site);
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
+  else if (n.kind === "vehicle") mvUse(n.park);
   else if (n.kind === "connector") {
     const c = n.conn;
     if (c.world) { npCrossWorld(c); return; }
@@ -450,7 +472,7 @@ function npHud() {
   $("hud-visited").textContent = `${(np.state.visited[parish.id] ?? []).length}/${parish.sites.length}`;
   $("hud-credits").textContent = String(tyBalance);
   const p = $("hud-prompt");
-  if (np.near) { p.hidden = false; p.textContent = np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : `E — ${np.near.conn.name}`; }
+  if (np.near) { p.hidden = false; p.textContent = np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : np.near.kind === "vehicle" ? mvPark.prompt(np.near.park).text : `E — ${np.near.conn.name}`; }
   else p.hidden = true;
 }
 
@@ -611,7 +633,8 @@ function asOpenMotorPool() {
     el: $("dv-board"), world: "parishes", page: ppHerePage(), regatta: "../regatta/regatta.html",
     // NEWTON: a finished pre-trip (the gate contract, as today) drives the vehicle on the parish roads.
     onDrive: (entry) => {
-      if (nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q or Use steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
+      const mvP = mvPending?.drivable === entry.id ? mvPending : null; mvPending = null; // MOTORWORKS: from its bay
+      if (nwPhys.drive(mvP ? mvP.drive : mvDriveEntry(entry, { region: parish.region }), mvP?.x ?? np.x, mvP?.z ?? np.z, mvP ? mvP.heading : np.yaw + Math.PI, { snap: !mvP })) { if (mvP) { mvPark.hide(mvP.id); mvDriving = mvP; } npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q or Use steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
       else npToast(`${entry.name}: pre-trip done. It runs on rails, so Bay World's Motor Pool drives it today.`, 6000);
     },
   });
