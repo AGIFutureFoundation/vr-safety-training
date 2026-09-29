@@ -61,3 +61,5 @@ Crew Credits stay a play currency (TYCOON's ledger); nothing here touches billin
    once-a-second trail tick in the parishes app, rebundled. Observe: "bayquest: 4 games, 28 treasures, 2 businesses,
    6 stories · 331 checks · 0 failed"; headless on :8973 at sf-mission, teleport to (539, 912) -> toast "Bay Keeper's
    Trail: a crab tag near Islais Creek Pump Station. Rain followed from a roof to the pump station, ..." and the find stored.
+8. Reason: the worlds eval must hold. Act: `node tools/eval_worlds.mjs` after the work (no before run this hour; the
+   first-wave figure at 039f09e was mean 98). Observe: "eval_worlds: 15 subjects, mean 98, 10 findings" (none BAYQUEST's).
