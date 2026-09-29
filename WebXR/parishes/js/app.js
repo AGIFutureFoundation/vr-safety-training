@@ -739,6 +739,14 @@ npMountDiveEntries($("menu-packs"), parish);
 function npMountDiveEntries(el, p) {
   const entries = (() => { try { return dwShoreEntriesFor(p, { from: `../parishes/parishes.html?parish=${encodeURIComponent(p.id)}` }); } catch { return []; } })();
   window.__parishTest.diveEntries = entries.map((e) => e.id);
+  // In-world: a dive-flag post at each entry — one InstancedMesh for all of this map's entries (one draw call).
+  if (entries.length) {
+    const flag = new THREE.InstancedMesh(new THREE.BoxGeometry(0.6, 9, 3.2), new THREE.MeshLambertMaterial({ color: 0xd8322a }), entries.length);
+    const m4 = new THREE.Matrix4();
+    entries.forEach((e, i) => { const [x, z] = e.position; m4.makeTranslation(x, Math.max(npHeightAt(p, x, z), 0) + 4.5, z); flag.setMatrixAt(i, m4); });
+    flag.instanceMatrix.needsUpdate = true; flag.name = "dw-dive-entries"; root.add(flag);
+    window.__parishTest.diveMarkers = flag.count;
+  }
   if (!el?.parentNode || !entries.length) return;
   const box = document.createElement("div");
   const head = document.createElement("p");

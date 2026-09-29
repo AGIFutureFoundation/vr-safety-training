@@ -35,3 +35,10 @@ these regions is a **schematic** relative range (words and a 0..1 fraction), lab
 1. Regions data + builder + checker section — reason: three regions (dw-san-pablo-shallows, dw-san-leandro-bay, dw-oakland-middle-harbor) with zones tiling, sites on real stations, tide-driven conditions, shore entries, builds under DW_REGION_MESH_BUDGET. Check: check_underwater "regions:" line. Observed: first run FAIL (headless stub lacks computeVertexNormals / Lambert / LineSegments; meshCount missed Points/Lines) → fixed → PASS: 3 regions, 12 zones, 9 dive sites, 28 real stations, 3 shoreline entries; visibility ebb→flood poor→good (San Pablo, San Leandro), fair→good (Oakland); meshes 12–14 high / 11–13 phone ≤ 24/16; main Deep still 1056 ≤ 1400.
 2. Region page + entries — reason: a dive entry opens the Deep at its region with the passport and a way back. Act: underwater/region.html + js/dw-region-app.js (tide clock, conditions in words, site boards with real station links, ppAward('dw-region') once per site, Back to shore), underwater.html?region= forwards, menu link, parishes app 'Dive entries from this shore' row (guarded, window.__parishTest.diveEntries). Check: node --check, check_underwater_game, check_dive_quests, check_imports. Observed: PASS all four (68 dives register; 945 modules call only what they import).
 Left: in-world shore buoy marker on the parish maps (entries only show on bp-strip-marsh-east, bp-san-leandro-bay, oak-west-oakland once TIDELANDS/BAYMAP merge); headless browser run of region.html; eval_worlds not run.
+
+## Shoreline entries on the merged maps (BAYSEAMS)
+- All three entries resolve: `dw-entry-strip-marsh-east` on TIDELANDS' San Pablo Bay shore, `dw-entry-san-leandro-bay` at San Leandro
+  Creek, `dw-entry-middle-harbor` on BAYMAP's West Oakland at the Middle Harbor edge beside `middle-harbor-shoreline-park` (was
+  60 m inland beside a landmark id the map does not carry).
+- The parishes app draws a dive-flag post at each entry: one InstancedMesh per map (`dw-dive-entries`, one draw call).
+- `bay-program-projects` is anchored at Bay World's `port-container-terminal` (check_underwater: every programme anchored).

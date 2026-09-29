@@ -225,7 +225,7 @@ export const DW_SHORE_ENTRIES = [
   { id: "dw-entry-san-leandro-bay", parish: "bp-san-leandro-bay", region: "dw-san-leandro-bay", site: "dw-sl-outfall-debris-survey",
     label: "Dive entry — San Leandro Bay", waterIds: ["san-leandro-bay", "san-leandro-creek"], position: null },
   { id: "dw-entry-middle-harbor", parish: "oak-west-oakland", region: "dw-oakland-middle-harbor", site: "dw-oh-wharf-piling-inspection",
-    label: "Dive entry — Middle Harbor", waterIds: ["middle-harbor"], near: "middle-harbor-bulkhead", position: [-100, 440] },
+    label: "Dive entry — Middle Harbor", waterIds: ["middle-harbor"], near: "middle-harbor-shoreline-park", position: [-335, 494] },
 ];
 
 // ------------------------------------------------------------------ lookups
