@@ -885,6 +885,8 @@ APPS = {
             SHARED / "by-flow-agent.js",
             SHARED / "cg-units.js",
             SHARED / "cg-runner.js",
+            # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
+            SHARED / "cr-classrooms.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
