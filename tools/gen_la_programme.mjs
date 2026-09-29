@@ -210,7 +210,7 @@ async function main() {
       <button class="at-btn at-btn--primary" type="submit">Create the cohort</button>
     </form>
     <div class="lp-out" id="lp-out" role="status" hidden></div>
-    <p class="lp-muted">Instructor guides for all ${templates.length} DEAN templates are in the <a href="../../docs/louisiana-programme.md">handbook</a>.</p>
+    <p class="lp-muted">Instructor guides for all ${templates.length} DEAN templates are in the <a href="../../docs/louisiana-programme.md">handbook</a>; <a href="cohorts.html" data-lco-guides>the cohort guides</a> turn each into a session-by-session run sheet a teacher or a union hall can follow, with a K-12 classroom guide for the six Louisiana lessons (LA-COHORTS).</p>
   </section>
   <p class="lp-muted">SmartCiti.X · Powered by AGI Corp</p>
 </main>

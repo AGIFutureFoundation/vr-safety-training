@@ -31,3 +31,13 @@ figure, company name or employer's hiring; places are named as places.
    lessons' K-12 stations as flow launches), check_la_cohorts section 2. Observe: check_classrooms ok — 1933 passed, 0 failed
    (410 launches resolved, worst room 13 meshes); check_la_cohorts ok — 275 checks, 12 classrooms on 12 Louisiana maps
    carry the board (21 lesson launches, 51 station launches), none off the Louisiana maps.
+3. Reason: Home links the Louisiana programme page (and the guides) on both layouts. Act: `aside.louisiana` / `aside.cohorts`
+   in both layouts of `gen_home.mjs` (the flat layout names the pages where they live, as it does for the portal), a
+   Louisiana line in the programme finder and the "Also here" line; the programme page links the guides. Observe:
+   check_home 1 failed first — `WebXR/dist/index.html is stale`; copied `WebXR/home.html` to `dist/index.html` exactly as
+   `bundle_webxr.py build_combined` does → "All homepage and sign-in checks pass" (33 ✓).
+4. Reason: a teacher or a union hall can run every DEAN template from a run sheet whose every block launches something real.
+   Act: `lco-cohorts.js` (`lcoRunSheets`, `lcoClassroomGuide`, `lcoClassroomModule`, `lcoSetUpClassroom`), `gen_lco_guides.mjs`
+   → `WebXR/louisiana/cohorts.html` + `docs/louisiana-cohorts.md`, check_la_cohorts sections 3–5. Observe: FAILED 8 of 2037 —
+   my own prep line said "hiring" (the K-12 project rule) and my link regex kept the `?sim=` query; reworded, fixed →
+   ok 2037 checks: 31 guides, 147 sessions, 612 timed blocks, every launch resolves, a classroom set up with a class code.
