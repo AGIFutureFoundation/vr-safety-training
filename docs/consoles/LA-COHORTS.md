@@ -41,3 +41,10 @@ figure, company name or employer's hiring; places are named as places.
    → `WebXR/louisiana/cohorts.html` + `docs/louisiana-cohorts.md`, check_la_cohorts sections 3–5. Observe: FAILED 8 of 2037 —
    my own prep line said "hiring" (the K-12 project rule) and my link regex kept the `?sim=` query; reworded, fixed →
    ok 2037 checks: 31 guides, 147 sessions, 612 timed blocks, every launch resolves, a classroom set up with a class code.
+5. Reason: nothing else broke, and the checker is registered. Act: `check_la_cohorts.mjs` in check_all's list (edited, not
+   run) and `checkers-baseline.json` (318 ms measured); single checkers. Observe: check_cognition FAILED 1 — `gen_cg_units`
+   stale: it generates a flow only for a K-12 station no other flow runs, and the `lk-*` flows now run the six Louisiana
+   stations. Regenerated (28 generated flows, 58 embedded), removed the six superseded `cg-lk-*` files, rewrote the COGNITION
+   paragraph of `docs/flowhub.md` (the ESTUARY precedent) → check_cognition 558 passed, 0 failed; check_flowhub all pass;
+   check_k12 all pass (3217 checks); check_classrooms 1933/0; check_la_programme ok 1618; check_dean 3359/3359;
+   check_imports "All 1070 modules call only what they declare or import"; check_storyline all pass; check_la_cohorts ok 2037.
