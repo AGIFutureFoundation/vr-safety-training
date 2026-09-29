@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 688
+      "stations": 689
     },
     "trades": {
       "entry": "trades/index.html",
@@ -344,6 +344,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "bk-bioretention-rain-garden-excavation",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
         "gg-fog-and-wind-work-stop",
@@ -3909,6 +3910,72 @@
         "levels": 20,
         "lessons": 1641,
         "tasks": 117,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "bay-program-projects",
+      "name": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+      "union": "LIUNA laborers and LIUNA Local 261 shoreline crews, IUOE Local 3 operating engineers, AFSCME and SEIU 1021 public-agency operators and scientists",
+      "certification": "Programme completion record; each station rehearses the practice its own bodies set — OSHA 29 CFR 1926 Subpart P for every cut, OSHA 29 CFR 1910.146 for any permit space, the MUTCD for work in the street and on the sidewalk, OSHA 1910.120 HAZWOPER inside any contaminated-sediment zone, and the Section 404/401 and BCDC permit conditions for work at the shoreline",
+      "summary": "The kinds of work the U.S. EPA's San Francisco Bay Program awards of September 2026 pay for — trash capture devices, green stormwater infrastructure, tidal channels and sediment reuse, nutrient reduction at treatment plants, PCB source control and fish habitat — taught as the trade practice each job needs. The stations are generic and sited nowhere real; the Bay Program hub (WebXR/bayprogram/) links each named project to the stations that teach its work.",
+      "accent": "#6fae4a",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "bk-bioretention-rain-garden-excavation",
+          "why": "Green stormwater infrastructure starts as a hole in the sidewalk: the locate ticket matched to the paint, the marked line exposed by vacuum, the cut signalled to grade and the layers placed in the order that makes the cell soak."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-trash-capture-device-service",
+          "why": "A large trash capture device only keeps trash out of the Bay while it is serviced, and emptying one means a crane lift with nobody under the bag and nothing shaken back into the channel."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-tidal-marsh-grading-amphibious-excavator",
+          "why": "Cutting new tidal channels and lowering berms is heavy equipment on soft ground at the water's edge, worked from the machine with the tide, the permit window and the ground crew all in the operator's picture."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-dredge-spoils-dewatering-pad",
+          "why": "Sediment dug out for reuse comes ashore wet, and its decant goes back to the Bay only through the filter train under the pad's discharge conditions."
+        },
+        {
+          "app": "smartcity",
+          "id": "chlorine-room",
+          "why": "Treatment plant operators work beside chemical feed every shift, and the room monitor, respirator and leak test come before any cylinder is touched."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+          "why": "PCB source control ends in contaminated material dug in thin cuts, read for vapour and doffed through decon in order."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-sediment-chain-of-custody-and-lab-prep",
+          "why": "A PCB sampling result is only as defensible as the custody record signed at every hand-off between the field and the laboratory."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-culvert-retrofit-for-fish-passage",
+          "why": "Fish habitat work means a dry, fish-excluded channel and a culvert set to a laser-checked invert rather than a grade that looks about right."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-fish-screen-maintenance",
+          "why": "A fish screen's drive is locked out before any hand goes near the drum, and the lock stays until the headcount says every hand is clear."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1664,
+        "tasks": 120,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -10035,6 +10102,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation",
+      "name": "Bioretention Rain Garden Excavation",
+      "title": "SmartCiti.X~ Bioretention Rain Garden Excavation VR",
+      "tagline": "A rain garden cut into a city sidewalk: the plan and the locate ticket read, the walk closed with a detour, the paint checked, the marked line exposed by vacuum, the cut signalled to grade and read on the rod, the gravel, underdrain and soil placed in order, the cleanout capped, the plants set, the inlet and the edge checked, logged and the crew checked in",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "LIUNA laborer crew lead on a sidewalk bioretention cell, with an IUOE Local 3 operating engineer on the compact excavator",
+      "union": null,
+      "certification": "LIUNA Training and Education Fund construction craft laborer training for the ground crew; IUOE Local 3 operating engineer apprenticeship for the excavator; OSHA 29 CFR 1926 Subpart P Excavations for the cut, its spoil, its egress and the competent person's inspection; 29 CFR 1926.602 for the earthmoving machine; the California excavation notice law (Government Code 4216, the 811 call) for the locate ticket and the tolerance zone; the MUTCD for the sidewalk closure and the pedestrian detour; ANSI/ISEA 107 high-visibility garments; 29 CFR 1926.21 safety training",
+      "accent": "#6fae4a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "hold",
+        "track",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "sponge-in-the-sidewalk",
+        "name": "Sponge In The Sidewalk",
+        "note": "The cell dug to grade over a located line, layered in order and planted, with the walk kept open for everyone who needed it"
+      },
+      "meshes": 271,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BK-1",
+      "flat": false,
+      "system": "Rain Garden Build",
+      "currency": "CELL",
+      "ranks": [
+        "Planting Hand",
+        "Pothole Hand",
+        "Grade Checker",
+        "Cell Foreman",
+        "Rain Garden Certified"
+      ],
+      "awards": [
+        {
+          "id": "ticket-matched",
+          "name": "Ticket Matched",
+          "note": "The locate ticket read and every mark checked against it before a shovel went in"
+        },
+        {
+          "id": "outside-the-swing",
+          "name": "Outside The Swing",
+          "note": "Never inside the swing, never spoil on the edge, never down into the cut without the ladder, never the bucket in the tolerance zone"
+        },
+        {
+          "id": "on-grade",
+          "name": "On Grade",
+          "note": "The rod and the drawdown gauge both committed inside their bands"
+        },
+        {
+          "id": "clean-cell",
+          "name": "Clean Cell",
+          "note": "No corrections from the plan to the check-in"
+        },
+        {
+          "id": "steady-signals",
+          "name": "Steady Signals",
+          "note": "Kept the operator in band for the whole dig"
+        },
+        {
+          "id": "before-the-rain",
+          "name": "Before The Rain",
+          "note": "Cell logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -35954,7 +36104,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -36614,7 +36764,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

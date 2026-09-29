@@ -29176,5 +29176,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bk-bioretention-rain-garden-excavation",
+    "index": "BK-1",
+    "domain": "Construction",
+    "trade": "LIUNA laborer crew lead on a sidewalk bioretention cell, with an IUOE Local 3 operating engineer on the compact excavator",
+    "category": "Construction & Structural Trades",
+    "certification": "LIUNA Training and Education Fund construction craft laborer training for the ground crew; IUOE Local 3 operating engineer apprenticeship for the excavator; OSHA 29 CFR 1926 Subpart P Excavations for the cut, its spoil, its egress and the competent person's inspection; 29 CFR 1926.602 for the earthmoving machine; the California excavation notice law (Government Code 4216, the 811 call) for the locate ticket and the tolerance zone; the MUTCD for the sidewalk closure and the pedestrian detour; ANSI/ISEA 107 high-visibility garments; 29 CFR 1926.21 safety training",
+    "name": "Bioretention Rain Garden Excavation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bioretention Rain Garden Excavation VR",
+    "tagline": "A rain garden cut into a city sidewalk: the plan and the locate ticket read, the walk closed with a detour, the paint checked, the marked line exposed by vacuum, the cut signalled to grade and read on the rod, the gravel, underdrain and soil placed in order, the cleanout capped, the plants set, the inlet and the edge checked, logged and the crew checked in",
+    "accent": 7319114,
+    "accentCss": "#6fae4a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "sponge-in-the-sidewalk",
+      "name": "Sponge In The Sidewalk",
+      "note": "The cell dug to grade over a located line, layered in order and planted, with the walk kept open for everyone who needed it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rain Garden Build",
+      "currency": "CELL",
+      "ranks": [
+        "Planting Hand",
+        "Pothole Hand",
+        "Grade Checker",
+        "Cell Foreman",
+        "Rain Garden Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
