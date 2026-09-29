@@ -996,8 +996,8 @@ export const NP_SF_HAIGHT_CASTRO = {
    "name": "the Laguna Honda Reservoir Valve House",
    "kind": "pump",
    "position": [
-    -1056,
-    1225
+    -1197,
+    1269
    ],
    "trades": [
     "uwua",

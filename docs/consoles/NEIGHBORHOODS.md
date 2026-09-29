@@ -39,6 +39,29 @@ coarse site (none within a pad's reach on the ground). `check_parishes` prints e
 
 (reason → act → observe; one line each, result on the same line)
 
+1. Reason: is SoMa & Mission Bay free? Check `npBounds(sf-mission)`. Act: print every SF field's bounds. Observe: sf-mission
+   is lon −122.459 … −122.357, lat 37.722 … 37.804 — it covers both, so the third district is `sf-sunset-south`.
+2. Reason: three districts pass check_parish_data. Act: `tools/gen_sn_districts.mjs` writes the modules and the mirror
+   connectors; registry, bundler, docs table. Observe: 26 fails (the eight-kilometre width floor, a site id shared with
+   oak-downtown-lake, the docs table) → declared walkable `scale` honoured, `nb-chinatown-kitchens`, docs section →
+   `check_parish_data: 16 parishes, 359 sites … 13639 checks pass, 0 fail`.
+3. Reason: the strict engine holds the new maps. Act: add the three ids to `NP_ENGINE_STRICT`. Observe: every engine
+   check passed first time (worst high tier 134 meshes / 83 388 triangles, inside 260 / 400 000); 3 fails were the facts
+   regex on the header's own word "elevations" → reworded → pass.
+4. Reason: check_parishes proves the brief (kinds, hills where they are, named landmarks, pairing, overlap). Act: the
+   NEIGHBORHOODS block. Observe: 1 fail — the fleet berths sat within reach of sf-downtown's wharf kitchens → moved
+   west → `check_parishes: 23163 passed, 0 failed`.
+5. Reason: landmarks draw with LANDMARKS' kit once merged. Act: tag them `lm` with its published kind ids (coit-tower,
+   transamerica-pyramid, cable-car-turntable, cable-car, wharf-pier-shed, ferry-building, painted-ladies,
+   victorian-house); add a cable car and a second Victorian. Observe: check_parish_data 13645 pass, 0 fail; the kit
+   check notes "pending lm-landmarks.js" until the merge.
+6. Reason: the consoles that iterate every map still pass. Act: run them singly. Observe: tycoon 1 fail (no waterside
+   shop in sf-haight-castro) → the valve house moved beside Laguna Honda Reservoir → `check_tycoon: 4588 passed, 0
+   failed`; storyline 19 fails and cognition 4 (no stories or K-12 lessons on the new maps) → re-ran `gen_st_stories`
+   and `gen_cg_units` → `All storyline checks pass.`, `check_cognition: 346 passed, 0 failed`; drills, cityworks
+   (2903, 0 failed), terraform (204142, 0 failed), menagerie (17 maps, 0 failed), parish_play, treasures, npc, k12,
+   krewe pass; check_parishes 23163 passed, 0 failed.
+
 ## Seams
 
 - Data only: `WebXR/shared/np-data-sf-north-beach.js`, `np-data-sf-haight-castro.js`, `np-data-sf-sunset-south.js`,
