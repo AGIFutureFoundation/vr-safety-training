@@ -19,7 +19,7 @@ import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.j
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
-import { tfMountTerraform } from "../../shared/tf-world.js";
+import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
@@ -77,8 +77,9 @@ const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.
 // KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
 const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 // TERRAFORM: streams, ditches and culverts, animated water, wind-swayed grass, bushes and litter per chunk (docs/consoles/TERRAFORM.md).
-const tfLand = tfMountTerraform({ THREE, root, parish, tier: npTierName, reduced: tfReducedMotion(), waters: world.waters });
+const tfLand = tfMountTerraform({ THREE, root, parish, tier: npTierName, reduced: tfReducedMotion(), waters: world.waters, trees: world.treeMaterial });
 tfLand.update(np.x, np.z, 99);
+const tfRain = tfMountRain({ THREE, root, tier: npTierName, reduced: tfReducedMotion() });
 const connectors = npResolveConnectors(parish);
 
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
@@ -110,6 +111,7 @@ function npApplySky() {
   hemi.intensity = night ? 0.25 : 0.95;
   $("hud-clock").textContent = NP_TIMES[np.timeIdx];
   $("hud-weather").textContent = NP_WEATHERS[np.weatherIdx];
+  tfRain?.set(NP_WEATHERS[np.weatherIdx] === "storm");
 }
 npApplySky();
 
@@ -365,6 +367,7 @@ function frame(now) {
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
+  tfRain.animate(now / 1000, dt, camera.position.x, camera.position.y, camera.position.z);
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
@@ -451,7 +454,7 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); },
-  terraform: { land: tfLand, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
+  terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 

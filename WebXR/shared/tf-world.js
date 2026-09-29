@@ -4,14 +4,15 @@
 // ripple that scrolls downstream. Under reduced motion the world holds still.
 //
 // Seams:
-//   tfMountTerraform({ THREE, root, parish, tier, reduced, waters }) -> { update(x, z, budget), animate(t, dt), counts(), litter() }
+//   tfMountTerraform({ THREE, root, parish, tier, reduced, waters, trees }) -> { update(x, z, budget), animate(t, dt), counts(), litter() }
+//   tfMountRain({ THREE, root, tier, reduced }) -> { set(on), animate(t, dt, x, y, z), count() }   streaks slanted by the wind
 //   (tfAnimateWater, the reusable water ripple, lives in shared/tf-water.js; Redwood Reach mounts it on its river)
 //
 // Every top-level name is prefixed tf/TF_; three.js comes from the caller.
 
 import { NP_CHUNK, npHeightAt, npChunksAround } from "./np-parish.js";
 import { tfWind, tfMotion, tfAnimateWater, tfReducedMotion } from "./tf-water.js";
-import { TF_BUDGET, tfStreams, tfCulverts, tfCoverForChunk, tfCoverTriangles, tfNearest, TF_FLOW_SPEED } from "./tf-terraform.js";
+import { TF_BUDGET, tfStreams, tfCulverts, tfCoverForChunk, tfCoverTriangles, tfNearest, tfRoadKeep, TF_FLOW_SPEED } from "./tf-terraform.js";
 
 /** A wind-swayed vertex-coloured material: vertices move downwind by their `tfSway` weight, the gust and a travelling wave. */
 function tfSwayMaterial(THREE) {
@@ -28,6 +29,24 @@ function tfSwayMaterial(THREE) {
   return mat;
 }
 
+/**
+ * Sway an instanced tree material (np-world.js `world.treeMaterial`): the canopy leans downwind with height, the
+ * trunk's foot stays put. The wind is turned into each instance's own frame so every tree leans the same way.
+ */
+export function tfSwayTrees(THREE, material) {
+  const uniforms = { uTfTime: { value: 0 }, uTfWind: { value: new THREE.Vector2(1, 0) }, uTfGust: { value: 0 }, uTfSway: { value: 1 } };
+  material.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform float uTfTime;\nuniform vec2 uTfWind;\nuniform float uTfGust;\nuniform float uTfSway;")
+      .replace("#include <begin_vertex>", "#include <begin_vertex>\n#ifdef USE_INSTANCING\n{ mat3 m = mat3(instanceMatrix); float s2 = max(dot(m[0], m[0]), 1e-6);\n  vec3 wl = transpose(m) * vec3(uTfWind.x, 0.0, uTfWind.y) / s2;\n  float lean = max(0.0, position.y - 1.5) * 0.018 * uTfSway * (0.3 + 0.7 * uTfGust) * (0.7 + 0.3 * sin(uTfTime * 1.3 + instanceMatrix[3].x * 0.05 + instanceMatrix[3].z * 0.04));\n  transformed += wl * lean * sqrt(s2); }\n#endif");
+  };
+  material.customProgramCacheKey = () => "tf-trees";
+  material.needsUpdate = true;
+  material.userData.tf = uniforms;
+  return uniforms;
+}
+
 /** The cover templates: [positions (x, y, z)...], colour, a sway weight per vertex (by height). */
 function tfTemplates(THREE) {
   const take = (geo, colour, swayK, lift = 0) => {
@@ -40,7 +59,7 @@ function tfTemplates(THREE) {
   };
   // A tuft: three blades crossing (one triangle each), 1 m tall before scaling.
   const blade = [];
-  for (let k = 0; k < 3; k++) { const a = (k * Math.PI) / 3, cx = Math.cos(a) * 0.12, cz = Math.sin(a) * 0.12; blade.push(-cx, 0, -cz, cx, 0, cz, cx * 0.3, 1, cz * 0.3); }
+  for (let k = 0; k < 3; k++) { const a = (k * Math.PI) / 3, cx = Math.cos(a) * 0.2, cz = Math.sin(a) * 0.2; blade.push(-cx, 0, -cz, cx, 0, cz, cx * 0.3, 1, cz * 0.3); }
   const tuftGeo = new THREE.BufferGeometry(); tuftGeo.setAttribute("position", new THREE.Float32BufferAttribute(blade, 3));
   return {
     tuft: take(tuftGeo, 0x6f8f3a, 0.35),
@@ -55,7 +74,7 @@ function tfTemplates(THREE) {
 /** One chunk's cover as a single merged geometry (position, colour, tfSway), plus its counts. */
 function tfCoverGeometry(THREE, T, cover) {
   const parts = [];
-  for (const t of cover.tufts) parts.push([T.tuft, t.x, t.y, t.z, t.rot, 0.6, t.h, 0.6]);
+  for (const t of cover.tufts) parts.push([T.tuft, t.x, t.y, t.z, t.rot, 0.9, t.h, 0.9]);
   for (const b of cover.bushes) parts.push([T.bush, b.x, b.y, b.z, b.rot, b.s, b.s, b.s]);
   for (const l of cover.litter) parts.push([T[l.kind] ?? T.can, l.x, l.y, l.z, l.rot, 1, 1, 1]);
   const n = parts.reduce((s, [t]) => s + t.p.length / 3, 0);
@@ -84,7 +103,7 @@ function tfCoverGeometry(THREE, T, cover) {
  * Mount TERRAFORM on a parish world. `waters` are the engine's water meshes (np-world.js `world.waters`), animated in
  * place. Returns { update(x, z, budget), animate(t, dt), counts(), litter(), streams, culverts, root }.
  */
-export function tfMountTerraform({ THREE, root, parish, tier = "high", reduced = tfReducedMotion(), waters = [], seed = 1 } = {}) {
+export function tfMountTerraform({ THREE, root, parish, tier = "high", reduced = tfReducedMotion(), waters = [], trees = null, seed = 1 } = {}) {
   const group = new THREE.Group(); group.name = "tf-terraform"; root.add(group);
   const streams = tfStreams(parish), culverts = tfCulverts(parish);
   const waterUniforms = [];
@@ -113,6 +132,7 @@ export function tfMountTerraform({ THREE, root, parish, tier = "high", reduced =
         const [x, z] = pts[i], n = tfNearest(x, z, s.pts), hw = s.width / 2;
         const y = npHeightAt(parish, x, z) + s.water;
         const l = [x - n.dir[1] * hw, y, z + n.dir[0] * hw], r = [x + n.dir[1] * hw, y, z - n.dir[0] * hw];
+        if (tfRoadKeep(s, x, z) < 0.5) { prev = null; continue; } // the culvert: no water drawn over the road
         if (prev) { pos.push(...prev.l, ...prev.r, ...l, ...l, ...prev.r, ...r); for (let k = 0; k < 6; k++) flow.push(n.dir[0] * s.speed, n.dir[1] * s.speed); }
         prev = { l, r };
       }
@@ -159,10 +179,14 @@ export function tfMountTerraform({ THREE, root, parish, tier = "high", reduced =
     }
     return built;
   }
+  const treeUniforms = trees ? tfSwayTrees(THREE, trees) : null;
   function animate(t) {
     const m = tfMotion(reduced, t);
-    const w = tfWind(m.t, seed), u = swayMat.userData.tf;
-    u.uTfTime.value = m.t; u.uTfWind.value.set(w.dir[0], w.dir[1]); u.uTfGust.value = w.gust; u.uTfSway.value = m.sway;
+    const w = tfWind(m.t, seed);
+    for (const u of [swayMat.userData.tf, treeUniforms]) {
+      if (!u) continue;
+      u.uTfTime.value = m.t; u.uTfWind.value.set(w.dir[0], w.dir[1]); u.uTfGust.value = w.gust; u.uTfSway.value = m.sway;
+    }
     for (const wu of waterUniforms) wu.uTfTime.value = m.t * m.flow;
   }
   function counts() {
@@ -172,5 +196,43 @@ export function tfMountTerraform({ THREE, root, parish, tier = "high", reduced =
   }
   const litter = () => [...loaded.values()].flatMap((c) => c.cover.litter);
   animate(0);
-  return { root: group, update, animate, counts, litter, streams, culverts, swayMaterial: swayMat, waterUniforms };
+  return { root: group, update, animate, counts, litter, streams, culverts, swayMaterial: swayMat, waterUniforms, treeUniforms };
+}
+
+/** Rain streaks per tier (one LineSegments mesh around the eye; none at all under reduced motion). */
+export const TF_RAIN = { low: 250, balanced: 700, high: 1200, box: 50, fall: 11 };
+
+/**
+ * Rain that reads the wind: streaks fall through a box around the eye, slanted and carried downwind by tfWind. One
+ * mesh, shown only while `set(true)` (a storm) and never under reduced motion (a still world has no rain).
+ */
+export function tfMountRain({ THREE, root, tier = "high", reduced = tfReducedMotion(), seed = 1 } = {}) {
+  const n = TF_RAIN[tier] ?? TF_RAIN.high, B = TF_RAIN.box;
+  const base = new Float32Array(n * 3);
+  let a = 0x9e3779b9 ^ seed;
+  const rnd = () => { a = (Math.imul(a ^ (a >>> 15), 0x2c1b3c6d) + 0x6d2b79f5) >>> 0; return a / 4294967296; };
+  for (let i = 0; i < n; i++) { base[i * 3] = (rnd() - 0.5) * B; base[i * 3 + 1] = rnd() * B; base[i * 3 + 2] = (rnd() - 0.5) * B; }
+  const pos = new Float32Array(n * 6);
+  const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  const mesh = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0xb8c8d8, transparent: true, opacity: 0.55 }));
+  mesh.name = "tf-rain"; mesh.frustumCulled = false; mesh.visible = false; root.add(mesh);
+  let on = false;
+  return {
+    mesh,
+    set(v) { on = !!v && !reduced; mesh.visible = on; },
+    count() { return on ? n : 0; },
+    animate(t, dt, x, y, z) {
+      if (!on) return;
+      const w = tfWind(t, seed), drift = w.speed * 0.9, fall = TF_RAIN.fall;
+      const sx = w.dir[0] * drift * 0.06, sz = w.dir[1] * drift * 0.06;
+      for (let i = 0; i < n; i++) {
+        const h = ((base[i * 3 + 1] - t * fall) % B + B) % B;
+        const px = ((base[i * 3] + w.dir[0] * drift * t * 0.2) % B + B * 1.5) % B - B / 2, pz = ((base[i * 3 + 2] + w.dir[1] * drift * t * 0.2) % B + B * 1.5) % B - B / 2;
+        const k = i * 6;
+        pos[k] = x + px; pos[k + 1] = y - 8 + h; pos[k + 2] = z + pz;
+        pos[k + 3] = x + px - sx * 6; pos[k + 4] = y - 8 + h + 0.7; pos[k + 5] = z + pz - sz * 6;
+      }
+      g.attributes.position.needsUpdate = true;
+    },
+  };
 }

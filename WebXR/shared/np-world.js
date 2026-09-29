@@ -120,6 +120,8 @@ function npMassingGeometries(THREE) {
 /** Which kinds scale their height by the spot's `h` (unit-height geometries) and which scale uniformly. */
 const NP_UNIT_HEIGHT = new Set(["shed", "tower", "campusBlock", "tank", "stack"]);
 const NP_UNIFORM_BY_H = { cypress: 12.5, liveOak: 10, reed: 1.8 };
+/** The massing kinds that sway in the wind (their material is `world.treeMaterial`). */
+const NP_SWAYING = new Set(["liveOak", "cypress", "reed"]);
 
 /** A flat ribbon on a surface function along a polyline, wound with the face normal up (SUMMIT-3's lesson). */
 function npRibbon(THREE, pts, width, colour, surfaceAt, { stepLen = 8 } = {}) {
@@ -189,6 +191,8 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
   const prep = npPrepare(parish);
   const groundMat = new THREE.MeshLambertMaterial({ vertexColors: true });
   const flatMat = new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+  // The trees and reeds get their own material so a wind module (TERRAFORM's tf-world.js) can sway them alone.
+  const treeMat = new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true });
   const fixed = new THREE.Group(); fixed.name = "parish-fixed"; root.add(fixed);
   const chunkRoot = new THREE.Group(); chunkRoot.name = "parish-chunks"; root.add(chunkRoot);
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), v3 = new THREE.Vector3();
@@ -305,7 +309,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
       for (const [kind, list] of Object.entries(groups)) {
         const geo = massGeo[kind]; if (!geo) continue;
         const keep = tier === "low" ? list.filter((_, i) => i % 5 !== 4) : list;
-        const im = new THREE.InstancedMesh(geo, flatMat, keep.length);
+        const im = new THREE.InstancedMesh(geo, NP_SWAYING.has(kind) ? treeMat : flatMat, keep.length);
         keep.forEach((s, i) => {
           q.setFromAxisAngle(up, s.rot);
           const sc = NP_UNIT_HEIGHT.has(kind) ? v3.set(s.s, s.h, s.s) : NP_UNIFORM_BY_H[kind] ? v3.set(s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind]) : v3.set(s.s, s.s, s.s);
@@ -372,7 +376,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
   }
 
   update(opts.start?.[0] ?? 0, opts.start?.[1] ?? 0, 999);
-  return { parish, update, animate, stats, setGroundTexture, siteBoards, lessonSigns, backdrop, waters, roadMeshes, piers, ferryBoat, groundMat, loaded };
+  return { parish, update, animate, stats, setGroundTexture, siteBoards, lessonSigns, backdrop, waters, roadMeshes, piers, ferryBoat, groundMat, treeMaterial: treeMat, loaded };
 }
 
 /** A parish's water strips (for a map): the river and canals widened, the polygons as they are. */

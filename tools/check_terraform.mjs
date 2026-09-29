@@ -11,7 +11,8 @@
  *   - grass, bushes and litter never on a road, water or a pad (the engine's own npCoverAt / npWaterAt), sampled over
  *     the chunks around every site and a seeded spread of others;
  *   - counts inside TF_BUDGET per chunk, the phone tier (`low`) fewer and without bushes;
- *   - reduced motion is still (tfMotion zeroes time, sway and flow); determinism of streams, cover and litter.
+ *   - reduced motion is still (tfMotion zeroes time, sway and flow; no rain); determinism of streams, cover and litter;
+ *   - a headless build (vendored three.js) of the engine with TERRAFORM at every site inside the parish budget.
  * Prints one line per claim and "check_terraform: N checks, M failed".
  */
 import { dirname, join } from "node:path";
@@ -109,6 +110,7 @@ for (const parish of NP_PARISHES) {
   }
   for (const c of culverts) {
     ok(tf.tfStreamCut(parish, c.x, c.z).cut < 1e-6, `${parish.id}: ${c.id} cuts the road at the culvert`);
+    ok(tf.tfWaterDepthAt(parish, c.x, c.z) === 0 && Math.hypot(...tf.tfFlowAt(parish, c.x, c.z)) === 0, `${parish.id}: ${c.id} shows water on the road`);
   }
   // Levees respected: no cut where a levee rises.
   let leveeN = 0;
@@ -162,12 +164,16 @@ ok(totalRibbons > 0 && totalStreams > 0, "no rivers or streams at all");
   const TW = await S("tf-world.js");
   let worstMesh = 0, worstTri = 0, worstMap = "";
   for (const parish of NP_PARISHES) {
-    const coverTri = {};
+    const coverTri = {}, rainN = {};
     for (const tier of ["low", "high"]) {
       const root = new THREE.Group();
       const start = np.npStartSite(parish);
       const world = W.npBuildParish(root, THREE, parish, { tier, start: start.position });
-      const land = TW.tfMountTerraform({ THREE, root, parish, tier, reduced: false, waters: world.waters });
+      const land = TW.tfMountTerraform({ THREE, root, parish, tier, reduced: false, waters: world.waters, trees: world.treeMaterial });
+      const rain = TW.tfMountRain({ THREE, root, tier, reduced: false });
+      rain.set(true); rain.animate(3, 0.016, 0, 2, 0);
+      ok(rain.count() === TW.TF_RAIN[tier] && rain.mesh.visible, `${parish.id}/${tier}: the storm's rain does not show`);
+      rainN[tier] = rain.count();
       let wm = 0, wt = 0, ct = 0;
       for (const s of [start, ...parish.sites]) {
         world.update(s.position[0], s.position[1], 999); land.update(s.position[0], s.position[1], 99);
@@ -183,16 +189,21 @@ ok(totalRibbons > 0 && totalStreams > 0, "no rivers or streams at all");
       land.animate(42.5);
       const u = land.swayMaterial.userData.tf;
       ok(u.uTfTime.value === 42.5 && u.uTfSway.value === 1, `${parish.id}/${tier}: the grass does not sway`);
+      ok(land.treeUniforms && land.treeUniforms.uTfTime.value === 42.5 && land.treeUniforms.uTfSway.value === 1, `${parish.id}/${tier}: the trees do not sway`);
       ok(land.waterUniforms.length >= world.waters.length && land.waterUniforms.every((wu) => wu.uTfTime.value === 42.5), `${parish.id}/${tier}: a water surface is not animated`);
       // Reduced motion: the same mount holds still.
       const still = TW.tfMountTerraform({ THREE, root: new THREE.Group(), parish, tier, reduced: true, waters: [] });
       still.update(start.position[0], start.position[1], 99); still.animate(42.5);
       const su = still.swayMaterial.userData.tf;
       ok(su.uTfTime.value === 0 && su.uTfSway.value === 0 && still.waterUniforms.every((wu) => wu.uTfTime.value === 0), `${parish.id}/${tier}: reduced motion still moves`);
+      const dry = TW.tfMountRain({ THREE, root: new THREE.Group(), tier, reduced: true });
+      dry.set(true);
+      ok(dry.count() === 0 && !dry.mesh.visible, `${parish.id}/${tier}: rain falls under reduced motion`);
     }
     ok(coverTri.low < coverTri.high || coverTri.high === 0, `${parish.id}: the phone tier's cover is not lighter (${coverTri.low} vs ${coverTri.high})`);
+    ok(rainN.low < rainN.high, `${parish.id}: the phone tier's rain is not lighter`);
   }
-  console.log(`headless build: engine + TERRAFORM at every site of ${NP_PARISHES.length} maps, worst ${worstMesh} meshes (${worstMap}) / ${worstTri} triangles of ${np.NP_BUDGET.drawCalls} / ${np.NP_BUDGET.triangles}; the phone tier's cover lighter on every map; reduced motion holds sway and water at zero`);
+  console.log(`headless build: engine + TERRAFORM at every site of ${NP_PARISHES.length} maps, worst ${worstMesh} meshes (${worstMap}) / ${worstTri} triangles of ${np.NP_BUDGET.drawCalls} / ${np.NP_BUDGET.triangles}; the phone tier's cover and rain lighter on every map; grass and trees sway, the storm rains; reduced motion holds sway and water at zero and shows no rain`);
 }
 console.log(`budget: worst chunk ${worstTufts} tufts / ${worstTri} triangles of ${tf.TF_BUDGET.tuftsPerChunk} / ${tf.TF_BUDGET.trianglesPerChunk}; one merged cover mesh per chunk, radius ${JSON.stringify(tf.TF_BUDGET.radius)}; phone tier without bushes`);
 console.log(`totals: ${NP_PARISHES.length} maps, ${totalRibbons} ribbons, ${totalStreams} streams/ditches, ${totalCulverts} culverts, ${totalChunks} chunks sampled, ${totalTufts} tufts, ${totalLitter} litter`);

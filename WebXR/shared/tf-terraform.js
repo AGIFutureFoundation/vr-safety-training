@@ -167,7 +167,7 @@ export function tfStreams(parish) { return tfPrep(parish).streams; }
 export function tfCulverts(parish) { return tfPrep(parish).culverts; }
 
 /** How much of a stream's cut survives at (x, z): 0 on and just beside a road (the culvert), 1 away from roads. */
-function tfRoadKeep(s, x, z) {
+export function tfRoadKeep(s, x, z) {
   let keep = 1;
   for (const r of s.roads) {
     if (!tfInBox(r.box, x, z)) continue;
@@ -245,6 +245,7 @@ export function tfWaterDepthAt(parish, x, z) {
     if (!tfInBox(s.box, x, z)) continue;
     const n = tfNearest(x, z, s.pts);
     if (n.d > s.width / 2) continue;
+    if (tfRoadKeep(s, x, z) < 0.5) return 0; // at a culvert the water runs in the pipe under the road
     return Math.max(0, npHeightAt(parish, n.x, n.z) + s.water - g);
   }
   return 0;
