@@ -1321,7 +1321,7 @@ export const NP_SF_BAYVIEW = {
    "kind": "hill"
   },
   {
-   "id": "third-street-light-rail",
+   "id": "third-street-light-rail", "lm": "streetcar",
    "name": "the Third Street light rail",
    "position": [
     -322,

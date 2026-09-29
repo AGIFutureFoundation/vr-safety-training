@@ -73,8 +73,8 @@ export const NP_BAY_SAN_JOSE = {
     {"id":"sj-gsi-planning-studio","name":"Green Stormwater Planning Studio","kind":"planning","position":[-1300,-700],"trades":["ifpte","afscme"],"programmes":["bay-program-projects","civic-leadership-and-ei"],"stations":["br-restoration-data-qa-and-public-reporting","public-comment-prep","public-meeting-chair","cv-open-meeting-law-and-agenda-notice"],"blurb":"Where survey data becomes a draft plan and the public is heard on it: the data checked before it is reported, the meeting noticed and chaired fairly, the kind of field work a green stormwater infrastructure implementation plan rests on (a procedural site; the City of San Jose's project is told at the downtown stormwater crew yard).","precinct":true},
   ],
   landmarks: [
-    {"id":"diridon-station","name":"Diridon Station","position":[-575,249],"kind":"station"},
-    {"id":"san-jose-city-hall","name":"San José City Hall","position":[221,-138],"kind":"tower"},
+    {"id":"diridon-station", "lm": "transit-station","name":"Diridon Station","position":[-575,249],"kind":"station"},
+    {"id":"san-jose-city-hall", "lm": "civic-tower","name":"San José City Hall","position":[221,-138],"kind":"tower"},
     {"id":"plaza-de-cesar-chavez","name":"Plaza de César Chávez","position":[0,166],"kind":"park"},
     {"id":"cathedral-basilica","name":"the Cathedral Basilica of St. Joseph","position":[22,55],"kind":"place"},
     {"id":"st-james-park","name":"St. James Park","position":[-44,-221],"kind":"park"},

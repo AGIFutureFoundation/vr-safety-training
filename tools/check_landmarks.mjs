@@ -70,8 +70,11 @@ check(/SCHEMATIC SILHOUETTES/.test(src) && /no shape claims to be\s*\n?\/\/?\s*a
 check(!/\bimport\b/.test(src.split("\n").filter((l) => !l.trim().startsWith("//")).join("\n")), "the kit imports nothing (three.js comes from the caller)");
 
 // 3. every SF and Oakland map landmark of a registry kind draws with the kit; budgets hold
-const bay = R.NP_PARISHES.filter((p) => /^(sf|oak)-/.test(p.id));
-check(bay.length >= 8, `the San Francisco and Oakland maps are in the tree (${bay.length})`);
+// LANDMARKS-2: every map now (22), not only San Francisco and Oakland
+const bay = R.NP_PARISHES;
+check(bay.length >= 22, `the 22 parish-engine maps are in the tree (${bay.length})`);
+const LX_WET = new Set(["wharf-pier-shed", "container-cranes", "canal-lock", "levee-pump-station", "marsh-boardwalk", "tide-gate"]);
+const worstChunk = [];
 const drawn = [];
 for (const p of bay) {
   const kitLms = p.landmarks.filter((l) => L.lmKindOf(l));
@@ -91,7 +94,7 @@ for (const p of bay) {
         check(onRoad, `${p.id}/${tier}/${l.id}: the bridge kit stands on a bridge road`);
       } else {
         const wet = E.npWaterAt(p, k.x, k.z);
-        check(!wet || wet.kind === "wetland" || kind === "wharf-pier-shed" || kind === "container-cranes", `${p.id}/${tier}/${l.id}: a ground kit stands on dry ground`);
+        check(!wet || wet.kind === "wetland" || LX_WET.has(kind), `${p.id}/${tier}/${l.id}: a ground kit stands on dry ground`);
         const near = Math.min(...p.sites.map((s) => Math.hypot(s.position[0] - k.x, s.position[1] - k.z)));
         check(near >= 30, `${p.id}/${tier}/${l.id}: clear of the sites' pads (nearest site ${Math.round(near)} m)`);
       }
@@ -103,6 +106,7 @@ for (const p of bay) {
     check(worstMesh <= E.NP_BUDGET.drawCalls, `${p.id}/${tier}: at most ${E.NP_BUDGET.drawCalls} meshes at every site with the kit (worst ${worstMesh})`);
     check(worstTri <= E.NP_BUDGET.triangles, `${p.id}/${tier}: at most ${E.NP_BUDGET.triangles} triangles at every site with the kit (worst ${worstTri})`);
     check(kitTri <= (tier === "low" ? 6000 : 12000), `${p.id}/${tier}: the kit adds ${world.lmKits.length} mesh(es) and ${kitTri} triangles (map cap ${tier === "low" ? 6000 : 12000})`);
+    if (tier === "high" && world.lmKits.length) worstChunk.push(`${p.id} ${worstMesh}`);
     if (tier === "high") drawn.push(`${p.id} ${world.lmKits.length} (${world.lmKits.map((k) => k.kind).join(", ") || "none"})`);
     note(`${p.id}/${tier}: ${world.lmKits.length} kit landmarks, +${kitTri} triangles; worst ${worstMesh} meshes / ${worstTri} triangles`);
   }
@@ -112,17 +116,70 @@ check(withKit.length >= 4, `four or more Bay Area maps draw landmarks with the k
 for (const [pid, lid, kind] of [["sf-marina", "golden-gate-bridge", "golden-gate-bridge"], ["sf-downtown", "coit-tower", "coit-tower"], ["sf-downtown", "the-ferry-building", "ferry-building"], ["oak-west-oakland", "the-port-cranes", "container-cranes"], ["oak-downtown-lake", "lake-merritt-pergola", "lake-merritt-pergola"]])
   check(L.lmKindOf(R.npParish(pid)?.landmarks.find((l) => l.id === lid)) === kind, `${pid}/${lid} draws as ${kind}`);
 
+// 3b. LANDMARKS-2: walk-in landmark interiors (WebXR/shared/lx-walkin.js)
+const X = await imp("shared/lx-walkin.js");
+const styles = Object.keys(X.LX_STYLES);
+check(styles.length >= 3 && styles.length <= 4, `three or four walk-in styles (${styles.join(", ")})`);
+const walkLine = [];
+for (const st of styles) {
+  for (const k of X.LX_STYLES[st].kinds) check(L.lmHas(k) && X.lxWalkinStyleOf(k) === st, `walk-in ${st}: opens from the kit kind ${k}`);
+  check(/generic, schematic/.test(X.LX_STYLES[st].label), `walk-in ${st}: its label says it is generic and schematic`);
+  for (const tier of ["high", "low"]) {
+    const r = X.lxBuildRoom(st, { three: THREE, tier });
+    check(r && r.group.isGroup && r.via === "lx", `walk-in ${st}/${tier}: builds its own minimal room (no ix yet)`);
+    check(r.meshes <= X.LX_BUDGET.meshes && r.triangles <= (tier === "low" ? X.LX_BUDGET.trianglesLow : X.LX_BUDGET.trianglesHigh), `walk-in ${st}/${tier}: ${r.meshes} meshes, ${r.triangles} triangles within ${X.LX_BUDGET.meshes} / ${tier === "low" ? X.LX_BUDGET.trianglesLow : X.LX_BUDGET.trianglesHigh}`);
+    if (tier === "high") walkLine.push(`${st} ${r.meshes}m/${r.triangles}t`);
+  }
+  // enter and exit: the outdoor world hides and comes back, the player returns to the door, the collider keeps them in
+  const scene = new THREE.Scene(), outdoor = new THREE.Group(); scene.add(outdoor);
+  const door = { id: "t", kind: X.LX_STYLES[st].kinds[0], style: st, x: 120, z: -40, yaw: 0 };
+  const ctl = X.lxWalkin({ three: THREE, scene, outdoor, tier: "high" });
+  const p = ctl.enter(door, { x: 118, z: -39 });
+  check(ctl.inside && outdoor.visible === false && scene.getObjectByName(`lx-room-${st}`) && Number.isFinite(p.x), `walk-in ${st}: enter hides the outdoor world and adds the room`);
+  const c = ctl.clamp(999, -999);
+  check(Math.abs(c.x) <= ctl.room.hw && Math.abs(c.z) <= ctl.room.hd, `walk-in ${st}: the room collider keeps the player in (${c.x.toFixed(1)}, ${c.z.toFixed(1)})`);
+  check(ctl.eyeY(1.6) < -100, `walk-in ${st}: the room stands below the map`);
+  const back = ctl.exit();
+  check(!ctl.inside && outdoor.visible === true && !scene.getObjectByName(`lx-room-${st}`) && back.x === 120 && back.z === -40, `walk-in ${st}: exit restores the world and returns the player to the door`);
+  check(ctl.exit() === null && ctl.enter({ style: "nowhere" }) === null, `walk-in ${st}: a second exit or an unknown style does nothing`);
+}
+// the guarded INTERIORS import: a working ix shell is used; a throwing or unknown one falls back
+const fake = { ixBuildRoom: (style, o) => { const g = new o.three.Group(); g.add(new o.three.Mesh(new o.three.BoxGeometry(1, 1, 1))); return g; } };
+check(X.lxBuildRoom("pier-shed", { three: THREE, ix: fake }).via === "ix", "walk-in: INTERIORS' ixBuildRoom is used when it returns a group");
+check(X.lxBuildRoom("pier-shed", { three: THREE, ix: { ixBuildRoom: () => { throw new Error("x"); } } }).via === "lx" && X.lxBuildRoom("pier-shed", { three: THREE, ix: { ixBuildRoom: () => null } }).via === "lx", "walk-in: a throwing or empty ix falls back to the minimal room");
+const wsrc = readFileSync(join(WEBXR, "shared", "lx-walkin.js"), "utf8");
+check(!/Math\.random|Date\.now|requestAnimationFrame/.test(wsrc) && !/^\s*import\b/m.test(wsrc), "walk-in: still, deterministic, imports nothing (ix is passed in, guarded)");
+// every walk-in kit on the 22 maps gets a door
+let doorCount = 0;
+for (const p of R.NP_PARISHES) {
+  const wk = p.landmarks.filter((l) => X.lxWalkinStyleOf(L.lmKindOf(l)));
+  if (!wk.length) continue;
+  const root = new THREE.Group(), world = W.npBuildParish(root, THREE, p, { tier: "low", start: E.npStartSite(p).position });
+  const doors = X.lxWalkinDoors(world.lmKits);
+  check(doors.length === wk.length, `${p.id}: ${doors.length} walk-in door(s) for ${wk.length} walk-in landmark(s)`);
+  for (const d of doors) { const wet = E.npWaterAt(p, d.x, d.z); check(!wet || wet.kind === "wetland" || d.style === "pier-shed", `${p.id}/${d.id}: the ${d.style} door stands on dry ground`); }
+  doorCount += doors.length;
+}
+check(doorCount >= 6, `walk-in doors on the maps (${doorCount})`);
+const appSrc = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
+check(/import \{ lxWalkinDoors, lxWalkin \} from "\.\.\/\.\.\/shared\/lx-walkin\.js"/.test(appSrc) && /E — go inside/.test(appSrc) && /if \(!lxRoom\?\.inside\) \{ world\.update/.test(appSrc), "the parishes app mounts the walk-ins (door prompt, streaming stops inside)");
+note(`walk-in rooms (desktop): ${walkLine.join("; ")}; ${doorCount} doors on the maps`);
+
 // 4. wiring
-const world = readFileSync(join(WEBXR, "shared", "np-world.js"), "utf8");
+const world =readFileSync(join(WEBXR, "shared", "np-world.js"), "utf8");
 check(/import \{ lmBuild, lmKindOf, LM_BRIDGES \} from "\.\/lm-landmarks\.js"/.test(world) && /typeof lmBuild !== "function"/.test(world), "np-world.js imports the kit and guards the call");
 const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 check(/SHARED \/ "lm-landmarks\.js",[\s\S]{0,40}SHARED \/ "np-world\.js"/.test(bundler), "the parishes bundle lists lm-landmarks.js before np-world.js");
 check(readFileSync(join(ROOT, "tools", "check_all.mjs"), "utf8").includes('"check_landmarks.mjs"'), "check_all runs this checker");
 check(JSON.parse(readFileSync(join(ROOT, "docs", "perf", "checkers-baseline.json"), "utf8")).checkers?.["check_landmarks.mjs"] > 0, "checkers-baseline.json records this checker");
-const doc = readFileSync(join(ROOT, "docs", "consoles", "LANDMARKS.md"), "utf8");
-for (const k of kinds) check(doc.includes(`\`${k}\``), `docs/consoles/LANDMARKS.md lists ${k}`);
+const doc = readFileSync(join(ROOT, "docs", "consoles", "LANDMARKS.md"), "utf8") + readFileSync(join(ROOT, "docs", "consoles", "LANDMARKS-2.md"), "utf8");
+for (const k of kinds) check(doc.includes(`\`${k}\``), `docs/consoles/LANDMARKS(-2).md lists ${k}`);
 
 note(`kinds (desktop/phone triangles): ${budgetLine.join("; ")}`);
 note(`maps drawing the kit: ${drawn.join("; ")}`);
-console.log(`check_landmarks: ${kinds.length} kinds, ${withKit.length} maps draw landmarks with the kit — ${passes} passed, ${failures} failed (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+note(`worst chunk meshes (full build, desktop) on maps with kit landmarks: ${worstChunk.join("; ")}`);
+const kitCount = R.NP_PARISHES.reduce((s, p) => s + p.landmarks.filter((l) => L.lmKindOf(l)).length, 0), lmTotal = R.NP_PARISHES.reduce((s, p) => s + p.landmarks.length, 0);
+check(kitCount >= 59, `59 or more landmarks draw with the kit (${kitCount} of ${lmTotal})`);
+check(kinds.length >= 35, `35 or more kinds (${kinds.length})`);
+console.log(`check_landmarks: ${kinds.length} kinds, ${kitCount} of ${lmTotal} landmarks on ${withKit.length} maps draw with the kit — ${passes} passed, ${failures} failed (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
 process.exit(failures ? 1 : 0);

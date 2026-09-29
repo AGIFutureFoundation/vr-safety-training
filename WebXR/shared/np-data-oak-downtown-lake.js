@@ -93,13 +93,13 @@ export const NP_OAK_DOWNTOWN_LAKE = {
   ],
   landmarks: [
     {"id":"lake-merritt-shore","name":"Lake Merritt","position":[-84,263],"kind":"shore"},
-    {"id":"fox-theater","name":"the Fox Theater","position":[-343,-111],"kind":"place"},
-    {"id":"paramount-theatre","name":"the Paramount Theatre","position":[-230,-200],"kind":"place"},
+    {"id":"fox-theater", "lm": "theatre-marquee","name":"the Fox Theater","position":[-343,-111],"kind":"place"},
+    {"id":"paramount-theatre", "lm": "theatre-marquee","name":"the Paramount Theatre","position":[-230,-200],"kind":"place"},
     {"id":"frank-ogawa-plaza","name":"Frank Ogawa Plaza","position":[-419,26],"kind":"plaza"},
     {"id":"jack-london-square","name":"Jack London Square","position":[-670,553],"kind":"wharf"},
     {"id":"lake-merritt-pergola","name":"the pergola at the lake","position":[595,-274],"kind":"place","lm":"lake-merritt-pergola"},
     {"id":"oakland-chinatown","name":"Oakland Chinatown","position":[-419,342],"kind":"neighbourhood"},
-    {"id":"grand-lake-theatre","name":"the Grand Lake Theatre","position":[607,-290],"kind":"place"},
+    {"id":"grand-lake-theatre", "lm": "theatre-marquee","name":"the Grand Lake Theatre","position":[607,-290],"kind":"place"},
   ],
   connectors: [
     {"id":"bm-dl-west-grand","kind":"road","name":"Grand Avenue west into West Oakland","from":{"parish":"oak-downtown-lake","position":[-796,-474]},"to":{"parish":"oak-west-oakland","position":[1298,-158],"lonlat":[-122.281,37.815]},"lonlat":[-122.281,37.815],"approximate":true},

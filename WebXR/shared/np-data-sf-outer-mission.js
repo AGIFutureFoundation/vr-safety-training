@@ -65,7 +65,7 @@ export const NP_SF_OUTER_MISSION = {
     {"id":"om-gsi-monitoring-crew","name":"Green Infrastructure Monitoring Crew","kind":"monitoring","position":[700,600],"trades":["afscme","ifpte"],"programmes":["bay-program-projects","hazmat-environmental"],"stations":["stormwater-outfall","br-water-quality-sonde-calibration-and-deploy","br-restoration-data-qa-and-public-reporting"],"blurb":"The crew that checks the planted filters and rain gardens after a storm: ponding, inlets and water samples, the data checked before it is reported.","precinct":true},
   ],
   landmarks: [
-    {"id":"balboa-park-station","name":"Balboa Park Station","position":[-280,-253],"kind":"station"},
+    {"id":"balboa-park-station", "lm": "transit-station","name":"Balboa Park Station","position":[-280,-253],"kind":"station"},
     {"id":"mount-davidson-place","name":"Mount Davidson","position":[-560,-1113],"kind":"park"},
     {"id":"mclaren-park-place","name":"McLaren Park","position":[801,-101],"kind":"park"},
     {"id":"lake-merced-shore","name":"the Lake Merced shore","position":[-1480,-150],"kind":"shore"},

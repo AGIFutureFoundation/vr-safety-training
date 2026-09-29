@@ -24,6 +24,8 @@ import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { fcDetails } from "../../shared/fc-facades.js";
 import { paMount } from "../../shared/pa-palette.js";
 import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
+// LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
+import { lxWalkinDoors, lxWalkin } from "../../shared/lx-walkin.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
@@ -141,6 +143,10 @@ void fcDetails; // registered on import, before the first chunk builds
 // PALETTE (docs/consoles/PALETTE.md): colour categories and one textured material per building kind (none on the phone).
 const paPalette = paMount({ tier: npTierName });
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
+// LANDMARKS-2: doors at walk-in kit landmarks; INTERIORS' shell (globalThis.IX_INTERIORS) is used when it lands, guarded.
+const lxDoors = typeof lxWalkinDoors === "function" ? lxWalkinDoors(world.lmKits ?? []) : [];
+const npLandmarkName = (id) => (parish.landmarks ?? []).find((l) => l.id === id)?.name ?? "the landmark";
+const lxRoom = typeof lxWalkin === "function" ? lxWalkin({ three: THREE, scene, outdoor: root, tier: npTierName, ix: globalThis.IX_INTERIORS }) : null;
 // CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
 const cwStreetsMount = cwMountStreets({ THREE, root, parish, tier: npTierName });
@@ -496,6 +502,8 @@ function npNearest() {
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
   if (mv && (!best || Math.hypot(np.x - mv.x, np.z - mv.z) < bd)) best = { kind: "vehicle", park: mv, at: [mv.x, mv.z] };
+  if (lxRoom?.inside) return { kind: "walkout", at: [0, 0] };
+  for (const w of lxDoors) { const d = Math.hypot(np.x - w.x, np.z - w.z); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "walkin", door: w, at: [w.x, w.z] }; } }
   return best;
 }
 
@@ -508,11 +516,14 @@ function npUse() {
     npHud();
     return;
   }
+  // LANDMARKS-2: E goes into a walk-in landmark (the outdoor world hides and stops streaming) and E again comes back out.
+  if (lxRoom?.inside) { const p = lxRoom.exit(); np.x = p.x; np.z = p.z; np.near = null; world.update(np.x, np.z, 999); npToast("Back outside."); npHud(); return; }
   // CLASSROOMS: inside a room E uses the nearest fixture (or goes out at the door); at a room's door E goes in.
   if (crWorld?.inside()) { const r = crWorld.useNear(np.x, np.z); if (r && typeof r === "object") { np.x = r.x; np.z = r.z; } return; }
   if (crWorld?.near()) { const at = crWorld.enter(crWorld.near().id, [np.x, np.z]); if (at) { np.x = at.x; np.z = at.z; np.yaw = 0; } return; }
   const n = np.near;
   if (!n) return;
+  if (n.kind === "walkin") { const p = lxRoom?.enter(n.door, { x: np.x, z: np.z }); if (p) { np.x = p.x; np.z = p.z; np.yaw = 0; np.near = { kind: "walkout", at: [0, 0] }; npToast(`${lxRoom.room.label}. E: go back outside.`, 5000); } return; }
   if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: n.style, title: n.title }); np.near = null; }
   else if (n.kind === "board") npOpenBoard(n.site);
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
@@ -620,7 +631,7 @@ function npHud() {
   $("hud-credits").textContent = String(tyBalance);
   const p = $("hud-prompt");
   if (ixWorld.inside()) { const a = ixWorld.near(); p.hidden = !a; if (a) p.textContent = `E — ${a.label}`; }
-  else if (np.near) { p.hidden = false; p.textContent = np.near.kind === "door" ? `E — go inside: ${np.near.title ?? np.near.site.name}` : np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : np.near.kind === "vehicle" ? mvPark.prompt(np.near.park).text : `E — ${np.near.conn.name}`; }
+  else if (np.near) { p.hidden = false; p.textContent = np.near.kind === "door" ? `E — go inside: ${np.near.title ?? np.near.site.name}` : np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : np.near.kind === "vehicle" ? mvPark.prompt(np.near.park).text : np.near.kind === "walkin" ? `E — go inside ${npLandmarkName(np.near.door.id)}` : np.near.kind === "walkout" ? "E — go back outside" : `E — ${np.near.conn.name}`; }
   else p.hidden = true;
 }
 
@@ -655,6 +666,9 @@ function frame(now) {
       nwPhys.animate(dt, { throttle: Math.max(-1, Math.min(1, f)), steer: Math.max(-1, Math.min(1, turn - s)), brake: npKeys.has("Space") });
       const v = nwPhys.vehicle; np.x = v.x; np.z = v.z;
       { const wkE = wkEdge(parish, np.x, np.z); if (wkE.soft) wkEdgeHint(wkE); }
+    } else if (lxRoom?.inside) {
+      // LANDMARKS-2: inside a walk-in room the walk is the room's box collider (no terrain, no water).
+      const p = lxRoom.clamp(np.x + (fx * f - fz * s) * speed * dt, np.z + (fz * f + fx * s) * speed * dt); np.x = p.x; np.z = p.z;
     } else {
       // The walk through NEWTON's physics: off an edge it falls, walls stop it, water is waded or swum and its flow carries.
       if (crWorld?.inside()) { const c = crWorld.clamp(np.x, np.z); np.x = c.x; np.z = c.z; } // CLASSROOMS: the room's walls
@@ -680,8 +694,8 @@ function frame(now) {
     camera.lookAt(cam.look[0], cam.look[1], cam.look[2]);
   } else {
     // A teleport or fast travel moved np.x/np.z: the avatar stands up on the ground there.
-    if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
-    const gy = np.playing ? nwPhys.cameraPose(NP_EYE).y : Math.max(npHeightAt(parish, np.x, np.z), 0.2) + NP_EYE;
+    if (!lxRoom?.inside && Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
+    const gy = lxRoom?.inside ? lxRoom.eyeY(NP_EYE) : np.playing ? nwPhys.cameraPose(NP_EYE).y : Math.max(npHeightAt(parish, np.x, np.z), 0.2) + NP_EYE;
     camera.position.set(np.x, gy, np.z);
     camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   }
@@ -689,6 +703,7 @@ function frame(now) {
   if (!ixCam) {
   world.update(np.x, np.z, 2);
   cwStreetsMount.update(np.x, np.z, 1);
+  if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); }
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
@@ -920,6 +935,8 @@ var crWorld = crMountClassrooms({
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
+  // LANDMARKS-2: the walk-in doors and room controller, and Use (E), for headless tests.
+  walkin: { doors: lxDoors, room: lxRoom, use: () => npUse(), near: () => npNearest() },
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,

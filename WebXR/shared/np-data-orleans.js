@@ -2410,7 +2410,7 @@ export const NP_ORLEANS = {
  ],
  "landmarks": [
   {
-   "id": "jackson-square",
+   "id": "jackson-square", "lm": "church-towers",
    "name": "Jackson Square",
    "position": [
     -297,
@@ -2437,7 +2437,7 @@ export const NP_ORLEANS = {
    "kind": "point"
   },
   {
-   "id": "crescent-city-connection",
+   "id": "crescent-city-connection", "lm": "truss-bridge",
    "name": "Crescent City Connection",
    "position": [
     -212,
@@ -2491,7 +2491,7 @@ export const NP_ORLEANS = {
    "kind": "shore"
   },
   {
-   "id": "seventeenth-street-canal",
+   "id": "seventeenth-street-canal", "lm": "levee-pump-station",
    "name": "the Seventeenth Street Canal",
    "position": [
     -1977,
@@ -2500,7 +2500,7 @@ export const NP_ORLEANS = {
    "kind": "canal"
   },
   {
-   "id": "london-avenue-canal",
+   "id": "london-avenue-canal", "lm": "levee-pump-station",
    "name": "the London Avenue Canal",
    "position": [
     -198,
@@ -2509,7 +2509,7 @@ export const NP_ORLEANS = {
    "kind": "canal"
   },
   {
-   "id": "industrial-canal-lock",
+   "id": "industrial-canal-lock", "lm": "canal-lock",
    "name": "the Industrial Canal lock",
    "position": [
     692,
@@ -2527,7 +2527,7 @@ export const NP_ORLEANS = {
    "kind": "levee"
   },
   {
-   "id": "bayou-bienvenue-platform",
+   "id": "bayou-bienvenue-platform", "lm": "marsh-boardwalk",
    "name": "the Bayou Bienvenue viewing platform",
    "position": [
     1144,
@@ -2545,7 +2545,7 @@ export const NP_ORLEANS = {
    "kind": "neighbourhood"
   },
   {
-   "id": "bywater",
+   "id": "bywater", "lm": "shotgun-row",
    "name": "Bywater",
    "position": [
     466,

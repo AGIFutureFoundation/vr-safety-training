@@ -1204,7 +1204,7 @@ export const NP_SF_MARINA = {
    "lm": "golden-gate-bridge"
   },
   {
-   "id": "fort-point",
+   "id": "fort-point", "lm": "masonry-fort",
    "name": "Fort Point",
    "position": [
     -1150,
@@ -1213,7 +1213,7 @@ export const NP_SF_MARINA = {
    "kind": "point"
   },
   {
-   "id": "palace-of-fine-arts",
+   "id": "palace-of-fine-arts", "lm": "rotunda-colonnade",
    "name": "the Palace of Fine Arts",
    "position": [
     64,

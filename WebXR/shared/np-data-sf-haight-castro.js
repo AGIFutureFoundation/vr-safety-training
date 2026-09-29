@@ -1047,7 +1047,7 @@ export const NP_SF_HAIGHT_CASTRO = {
    "kind": "hill"
   },
   {
-   "id": "sutro-tower",
+   "id": "sutro-tower", "lm": "lattice-mast",
    "name": "Sutro Tower",
    "position": [
     -862,
