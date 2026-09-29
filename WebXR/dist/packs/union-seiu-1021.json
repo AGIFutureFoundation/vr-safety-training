@@ -323,6 +323,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-underdrain-piping-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "chinatown-community-clinic",
@@ -353,7 +360,9 @@
       "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
-        "bay-bridge-toll-plaza-yard"
+        "bay-bridge-toll-plaza-yard",
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -388,7 +397,8 @@
       "sites": [
         "san-pablo-hospital-campus",
         "downtown-richmond-fire-station",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-bioretention-build"
       ]
     },
     {
@@ -396,7 +406,8 @@
       "parish": "bay-san-jose",
       "sites": [
         "valley-medical-campus",
-        "east-side-fire-station"
+        "east-side-fire-station",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -407,7 +418,10 @@
         "sme-sediment-reuse-placement",
         "sme-slough-culvert-crew",
         "sme-bird-window-watch",
-        "sme-sediment-sampling-station"
+        "sme-sediment-sampling-station",
+        "sme-small-boat-landing",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -418,7 +432,30 @@
         "slb-trash-capture-device-south",
         "slb-creek-mouth-restoration",
         "slb-outfall-monitoring",
-        "slb-shoreline-cleanup-point"
+        "slb-shoreline-cleanup-point",
+        "slb-vacuum-truck-staging"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-storm-drain-sediment-sampling",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-drain-cleanout-crew",
+        "smc-lab-intake"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-pilot-process-skid",
+        "npp-outfall-monitoring"
       ]
     }
   ],
@@ -461,7 +498,7 @@
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats"
   },
   "version": "1.0.0",
-  "contentHash": "7378ad96",
+  "contentHash": "930e1476",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

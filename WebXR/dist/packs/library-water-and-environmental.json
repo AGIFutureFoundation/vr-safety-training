@@ -41,6 +41,10 @@
     },
     {
       "app": "smartcity",
+      "id": "us-treatment-plant-process-pump-lockout"
+    },
+    {
+      "app": "smartcity",
       "id": "bk-wastewater-nutrient-chemical-feed"
     },
     {
@@ -340,7 +344,8 @@
         "om-underground-infiltration-site",
         "om-sewer-crew-yard",
         "om-utility-locate-crew",
-        "om-street-tree-crew"
+        "om-street-tree-crew",
+        "om-underdrain-piping-crew"
       ]
     },
     {
@@ -363,6 +368,14 @@
       "sites": [
         "fort-funston-dune-crew",
         "lake-merced-pump-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -395,14 +408,17 @@
       "sites": [
         "refinery-turnaround-yard",
         "san-pablo-stormwater-crew",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
       "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "downtown-stormwater-crew-yard"
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-street-survey",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -415,7 +431,10 @@
         "sme-levee-road-patrol",
         "sme-slough-culvert-crew",
         "sme-native-planting-crew",
-        "sme-bird-window-watch"
+        "sme-bird-window-watch",
+        "sme-small-boat-landing",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -431,6 +450,33 @@
         "slb-shoreline-cleanup-point",
         "slb-levee-inspection"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-storm-drain-sediment-sampling",
+        "smc-pcb-equipment-removal",
+        "smc-outfall-monitoring",
+        "smc-drain-cleanout-crew",
+        "smc-levee-patrol"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-pilot-process-skid",
+        "npp-digester-complex",
+        "npp-outfall-monitoring",
+        "npp-chemical-delivery-dock",
+        "npp-maintenance-shop",
+        "npp-shoreline-marsh-crew",
+        "npp-shoreline-levee-walk"
+      ]
     }
   ],
   "stationNames": {
@@ -439,6 +485,7 @@
     "lift-station": "Lift Station",
     "chlorine-room": "Chlorine Room",
     "backflow-test": "Backflow Test",
+    "us-treatment-plant-process-pump-lockout": "Treatment Plant Process Pump Lockout",
     "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-volunteer-cleanup-day-safety-lead": "Volunteer Cleanup Day Safety Lead",
@@ -479,7 +526,7 @@
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats"
   },
   "version": "1.0.0",
-  "contentHash": "07778291",
+  "contentHash": "e5fcb94b",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

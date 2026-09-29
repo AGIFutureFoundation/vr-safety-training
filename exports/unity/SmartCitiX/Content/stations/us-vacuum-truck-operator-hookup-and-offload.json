@@ -1,0 +1,391 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "usvt-badge",
+    "name": "Steady Suction",
+    "note": "The truck set up, the vacuum held in band and the load decanted only where it may go"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training; OSHA 29 CFR 1926.601 motor vehicles on a work site; OSHA 29 CFR 1910.146 permit-required confined spaces (the service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the truck's power take-off before any hand clears the tube; the MUTCD Part 6 for the lane closure; OSHA 29 CFR 1910.95 for hearing protection near the blower; ANSI/ISEA 107 high-visibility garments and 29 CFR 1910.132 PPE; the NPDES stormwater rules, 40 CFR 122.26, and the municipal stormwater permit for where collected debris and water may be decanted",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 122.26",
+        "id": "epa-40-cfr-122-26",
+        "title": "40 CFR 122.26 — Storm water discharges under the NPDES permit programme"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.601",
+        "id": "osha-1926-601",
+        "title": "OSHA 29 CFR 1926.601 Motor vehicles"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "usvt-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "usvt-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "usvt-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "usvt-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "usvt-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Crew Hand",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Steady Suction"
+  },
+  "hazards": {
+    "boom-into-service-drop": "You raised the boom without looking up. The service drop is inside the swing — the boom stays below and clear of overhead lines.",
+    "drain-at-kerb": "You reached to open the drain valve at the kerb. Collected water and debris go only to the approved decant site.",
+    "operator-enters-opening": "You went to climb down into the opening to clear the tube. The operator never enters a permit space; the tube is cleared from the surface.",
+    "skip-outriggers": "You went to swing the boom with the outriggers up. Set the chocks and outriggers first."
+  },
+  "id": "us-vacuum-truck-operator-hookup-and-offload",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "swing-boom-clear",
+      "alert": "A cyclist has ridden past the taper into the coned lane and is heading for the hose run.",
+      "cue": "Stop the boom and call the cyclist clear round the cones before anything else — the swing can wait.",
+      "delay": 2,
+      "id": "cyclist-in-lane",
+      "kind": "A cyclist rides into the coned lane",
+      "missNote": "You kept swinging while the cyclist rode through the hose run; the boom moved with a person under its path.",
+      "seconds": 12,
+      "target": "stop-cyclist",
+      "why": "A person inside the work zone near a moving boom and a live hose is answered first; the swing restarts only once the lane is clear again.",
+      "wrongNote": "The cyclist first — a person in the lane is answered before the boom moves again."
+    },
+    {
+      "after": "hold-vacuum-band",
+      "alert": "A mat of leaves has plugged the tube and the vacuum is climbing toward the relief.",
+      "cue": "Open the vacuum relief at the truck to break the vacuum before the laborer touches the tube.",
+      "delay": 2,
+      "id": "tube-plugs",
+      "kind": "The tube plugs and the vacuum climbs",
+      "missNote": "The vacuum stayed on the plugged tube; the laborer reached for a tube still gripping under full suction.",
+      "seconds": 12,
+      "target": "relief-break-lever",
+      "why": "A plugged tube under full vacuum grips whatever is at its mouth; breaking the vacuum at the truck before anyone reaches the tube is the only safe way to clear it.",
+      "wrongNote": "Break the vacuum first — nobody touches a plugged tube while it is under suction."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Vacuum Truck Operator Hookup and Offload",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "advance-sign",
+      "body-level-gauge",
+      "boom-control",
+      "boom-into-service-drop",
+      "decant-site-plan",
+      "drain-at-kerb",
+      "ear-defenders",
+      "hose-rack",
+      "inspection-record",
+      "operator-enters-opening",
+      "operator-report-card",
+      "outrigger-pads",
+      "overhead-service-drop",
+      "rear-door-seal",
+      "relief-break-lever",
+      "skip-outriggers",
+      "stop-cyclist",
+      "suction-hose",
+      "taper-cones",
+      "truck-cones",
+      "vacuum-gauge",
+      "vacuum-relief-valve",
+      "wheel-chocks"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the last inspection report for the truck, its vacuum system and its boom, and any repair sign-off.",
+      "id": "read-last-inspection",
+      "kind": "select",
+      "prompt": "Read the last inspection report for the truck, its vacuum system and its boom, and any repair sign-off.",
+      "target": "inspection-record",
+      "title": "Read yesterday's truck inspection report",
+      "why": "The operator reviews the last written inspection report before operating, because a leaking debris-body seal or a boom hydraulic weep written up yesterday is either signed off as repaired or still there; starting without reading it means taking an unknown truck to a live street."
+    },
+    {
+      "cue": "Place the advance warning sign up the lane first, then the taper, then cone round the truck and the hose run.",
+      "id": "cone-the-lane",
+      "itemNames": {
+        "advance-sign": "advance warning sign",
+        "taper-cones": "lane taper cones",
+        "truck-cones": "cones round the truck"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the advance sign goes up first, then the taper, then the truck's cones; a taper with no sign ahead surprises drivers.",
+      "prompt": "Place the advance warning sign up the lane first, then the taper, then cone round the truck and the hose run.",
+      "targets": [
+        "advance-sign",
+        "taper-cones",
+        "truck-cones"
+      ],
+      "title": "Set the sign, the taper, then the truck's cones",
+      "why": "MUTCD Part 6 sets up temporary traffic control from the approaching driver's side first, because a crew placing the taper with no sign ahead is itself the unexpected obstruction; the truck's own cones then keep traffic off the hose and the laborer at the opening."
+    },
+    {
+      "cue": "Chock the rear wheels, then lower each outrigger onto its pad before the boom leaves its cradle.",
+      "id": "chock-and-outriggers",
+      "itemNames": {
+        "outrigger-pads": "outrigger pads",
+        "wheel-chocks": "wheel chocks"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — chock the wheels before the outriggers take the truck's weight.",
+      "prompt": "Chock the rear wheels, then lower each outrigger onto its pad before the boom leaves its cradle.",
+      "targets": [
+        "wheel-chocks",
+        "outrigger-pads"
+      ],
+      "title": "Chock the wheels and set the outriggers on pads",
+      "why": "A boom loaded with a full tube of water and debris shifts the truck's weight toward the opening, and 29 CFR 1926.601 expects vehicles parked on a work site to be secured against movement; pads spread the outrigger load so it does not punch through a gutter edge or a soft verge."
+    },
+    {
+      "cue": "Work the vacuum relief valve through its travel and confirm it returns and seats.",
+      "id": "check-relief-valve",
+      "kind": "turn",
+      "prompt": "Work the vacuum relief valve through its travel and confirm it returns and seats.",
+      "target": "vacuum-relief-valve",
+      "title": "Check the vacuum relief valve moves freely",
+      "turn": {
+        "label": "RELIEF VALVE",
+        "turns": 0.8
+      },
+      "why": "The relief valve is what lets air into the system when the tube is blocked, so the vacuum cannot pull the debris body past its rating; a relief that sticks is found at the truck, not when a plug of leaves seals the tube over the sump."
+    },
+    {
+      "cue": "Look round the rear door seal for cuts and debris, and confirm every door lock is closed before the pump starts.",
+      "id": "check-body-seals",
+      "kind": "select",
+      "prompt": "Look round the rear door seal for cuts and debris, and confirm every door lock is closed before the pump starts.",
+      "target": "rear-door-seal",
+      "title": "Look at the debris-body door seal and locks",
+      "why": "A rear door that is not locked and sealed can let the loaded body leak water and fine sediment onto the street, which is exactly what the capture device exists to keep out of the storm drain, and a door that lets go under load releases its contents at once."
+    },
+    {
+      "cue": "Put on the ear defenders and hand a set to the laborer at the opening before starting the vacuum blower.",
+      "id": "hearing-protection",
+      "kind": "select",
+      "prompt": "Put on the ear defenders and hand a set to the laborer at the opening before starting the vacuum blower.",
+      "target": "ear-defenders",
+      "title": "Put on hearing protection before the blower starts",
+      "why": "The positive-displacement blower on a vacuum truck is loud enough at the controls to call for hearing protection under 29 CFR 1910.95, and the laborer beside the opening is closer to the tube inlet noise than the operator; both put it on before the noise starts."
+    },
+    {
+      "cue": "Look up along the whole swing path of the boom for overhead lines, branches and signs before the boom leaves the cradle.",
+      "id": "find-overhead-line",
+      "itemNames": {
+        "overhead-service-drop": "overhead service drop over the boom's swing"
+      },
+      "itemNotes": {
+        "overhead-service-drop": "A service drop crosses the street above the boom's swing path — the boom stays below and clear of it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look up along the whole swing path of the boom for overhead lines, branches and signs before the boom leaves the cradle.",
+      "targets": [
+        "overhead-service-drop"
+      ],
+      "title": "Look up along the boom's swing before raising it",
+      "why": "A boom raised into an overhead line energises the whole truck and anyone touching it or its hose, and the employer's procedure keeps the boom well clear of energised lines; the look up comes first because the operator's eyes are on the opening once suction starts."
+    },
+    {
+      "cue": "Hold the swing control at a slow rate, keeping the boom low and under the service drop until the tube is over the opening.",
+      "holdBreakNote": "You let go mid-swing — the tube swung on. Hold the control steady until the tube is over the opening.",
+      "id": "swing-boom-clear",
+      "kind": "hold",
+      "prompt": "Hold the swing control at a slow rate, keeping the boom low and under the service drop until the tube is over the opening.",
+      "seconds": 5,
+      "target": "boom-control",
+      "title": "Swing the boom over the opening, below the line",
+      "why": "A slow, low swing keeps the tube's weight under control and the boom well clear of the overhead line; a fast swing makes the dangling tube pendulum toward the laborer standing at the opening."
+    },
+    {
+      "cue": "Keep the vacuum inside the band on the gauge while the laborer guides the tube over the sump, easing off when it climbs.",
+      "holdBreakNote": "The vacuum left the band — ease off before the tube grabs the screen or the relief blows.",
+      "id": "hold-vacuum-band",
+      "kind": "track",
+      "prompt": "Keep the vacuum inside the band on the gauge while the laborer guides the tube over the sump, easing off when it climbs.",
+      "seconds": 7,
+      "target": "vacuum-gauge",
+      "title": "Hold the vacuum in band while the laborer guides the tube",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.27,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "VACUUM",
+        "rise": 0.3,
+        "start": 0.45
+      },
+      "why": "Too much vacuum slams the tube onto the device's screen and can collapse a hose or draw the relief, and too little leaves water and fines behind; holding the band keeps the laborer's guide job steady and the device's screen undamaged."
+    },
+    {
+      "cue": "Carry the spare hose section along the kerb line to its rack, out of the pedestrian path.",
+      "drag": {
+        "missNote": "Not on the rack — carry the hose the whole way so nothing lies across the walkway.",
+        "radius": 0.5,
+        "to": "hose-rack"
+      },
+      "id": "route-hose-clear",
+      "kind": "drag",
+      "prompt": "Carry the spare hose section along the kerb line to its rack, out of the pedestrian path.",
+      "target": "suction-hose",
+      "title": "Lay the spare hose along the kerb, out of the walkway",
+      "why": "A hose left across the sidewalk is a trip hazard to people walking past a street job, and a hose run inside the coned area stays where traffic cannot drive over it and where the crew can see it."
+    },
+    {
+      "cue": "Watch the body level indicator and commit when it settles in the band that leaves room below the shut-off.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "BODY LEVEL",
+        "missNote": "Not in the band — too high risks carry-over into the blower; stop in the band.",
+        "speed": 0.6
+      },
+      "id": "read-body-level",
+      "kind": "gauge",
+      "prompt": "Watch the body level indicator and commit when it settles in the band that leaves room below the shut-off.",
+      "target": "body-level-gauge",
+      "title": "Read the debris body's fill level",
+      "why": "A debris body filled past its shut-off float carries water into the blower and ruins it, and an overfull body also puts the truck over its axle weights for the drive to the decant site; the operator stops loading in the band, not at the top."
+    },
+    {
+      "cue": "Check the plan's decant site and drive the load there — never open the door or drain water at the street or into another inlet.",
+      "id": "decant-approved-site",
+      "kind": "select",
+      "prompt": "Check the plan's decant site and drive the load there — never open the door or drain water at the street or into another inlet.",
+      "target": "decant-site-plan",
+      "title": "Offload only at the approved decant site",
+      "why": "Collected stormwater debris and water are discharged only where the stormwater permit and the facility allow, because draining the tank at the kerb puts the trash and sediment straight back into the storm drain the crew has just cleaned; the plan names the site."
+    },
+    {
+      "cue": "Write today's defects — anything seen on the seal, the boom or the relief — and sign the report.",
+      "id": "write-own-report",
+      "kind": "select",
+      "prompt": "Write today's defects — anything seen on the seal, the boom or the relief — and sign the report.",
+      "target": "operator-report-card",
+      "title": "Write your own inspection report",
+      "why": "A written report of defects that affect safe operation at the end of the day is the only way tomorrow's operator and the shop learn about a weeping seal or a sticky relief valve found today."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A combination vacuum truck at a street trash capture device: yesterday's report read, the truck set up past the opening with the lane coned, the outriggers and chocks down, the vacuum relief and the debris-body seals checked, the boom swung clear of the overhead line, the vacuum held in band while the laborer guides the tube, the hose kept out of the walkway, the full-body gauge read, the offload done only at the approved decant site, and the report written",
+  "title": "SmartCiti.X~ Vacuum Truck Operator Hookup and Offload VR VR",
+  "trade": "Vacuum truck operator on a stormwater maintenance crew, setting up, running and offloading a combination vacuum truck at a street trash capture device with a laborer at the opening",
+  "underwater": null,
+  "weather": "overcast"
+}

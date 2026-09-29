@@ -290,7 +290,8 @@
       "parish": "sf-outer-mission",
       "sites": [
         "om-rain-garden-block",
-        "om-street-tree-crew"
+        "om-street-tree-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -298,6 +299,14 @@
       "parish": "sf-sunset-south",
       "sites": [
         "ocean-beach-south-lifeguards"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -328,14 +337,18 @@
       "parish": "bay-san-pablo",
       "sites": [
         "san-pablo-stormwater-crew",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-monitoring-point"
       ]
     },
     {
       "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "downtown-stormwater-crew-yard"
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-street-survey",
+        "sj-gsi-site-assessment",
+        "sj-gsi-planning-studio"
       ]
     },
     {
@@ -351,7 +364,10 @@
         "sme-slough-culvert-crew",
         "sme-native-planting-crew",
         "sme-bird-window-watch",
-        "sme-sediment-sampling-station"
+        "sme-sediment-sampling-station",
+        "sme-small-boat-landing",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -365,6 +381,29 @@
         "slb-outfall-monitoring",
         "slb-shoreline-cleanup-point",
         "slb-levee-inspection"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-storm-drain-sediment-sampling",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-lab-intake",
+        "smc-levee-patrol"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-aeration-basin-deck",
+        "npp-plant-lab",
+        "npp-outfall-monitoring",
+        "npp-shoreline-marsh-crew",
+        "npp-shoreline-levee-walk"
       ]
     }
   ],
@@ -406,7 +445,7 @@
     "br-benthic-grab-and-invertebrate-sorting": "Benthic Grab & Invertebrate Sorting"
   },
   "version": "1.0.0",
-  "contentHash": "c7115b4c",
+  "contentHash": "3bcb3d06",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

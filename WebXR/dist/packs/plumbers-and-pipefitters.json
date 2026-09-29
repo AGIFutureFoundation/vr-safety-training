@@ -122,6 +122,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-underdrain-piping-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "jackson-square-renovation",
@@ -154,7 +161,8 @@
       "world": "parishes",
       "parish": "bay-san-pablo",
       "sites": [
-        "san-pablo-hospital-campus"
+        "san-pablo-hospital-campus",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
@@ -162,6 +170,13 @@
       "parish": "bay-san-jose",
       "sites": [
         "valley-medical-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-maintenance-shop"
       ]
     }
   ],
@@ -176,7 +191,7 @@
     "pl-natural-gas-pressure-test-and-leak-check": "Natural Gas Pressure Test & Leak Check"
   },
   "version": "1.0.0",
-  "contentHash": "ab7a6d15",
+  "contentHash": "2f216d3e",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

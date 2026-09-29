@@ -134,6 +134,14 @@
     },
     {
       "app": "smartcity",
+      "id": "us-regulated-soil-haul-load-tarp-and-manifest"
+    },
+    {
+      "app": "smartcity",
+      "id": "us-vacuum-truck-operator-hookup-and-offload"
+    },
+    {
+      "app": "smartcity",
       "id": "bk-wastewater-nutrient-chemical-feed"
     },
     {
@@ -1185,7 +1193,9 @@
         "om-underground-infiltration-site",
         "om-sewer-crew-yard",
         "om-street-tree-crew",
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-underdrain-piping-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -1242,7 +1252,10 @@
         "mandela-parkway-warehouse-row",
         "west-oakland-air-monitoring-station",
         "emeryville-shoreline-substation",
-        "bay-bridge-toll-plaza-yard"
+        "bay-bridge-toll-plaza-yard",
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor",
+        "oak-port-ze-equipment-yard"
       ]
     },
     {
@@ -1298,7 +1311,10 @@
         "san-pablo-hospital-campus",
         "downtown-richmond-fire-station",
         "annex-substation",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-bioretention-build",
+        "sp-gsi-monitoring-point",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
@@ -1312,7 +1328,10 @@
         "valley-medical-campus",
         "airport-ramp-crew",
         "east-side-fire-station",
-        "japantown-union-hall"
+        "japantown-union-hall",
+        "sj-gsi-street-survey",
+        "sj-gsi-site-assessment",
+        "sj-gsi-planning-studio"
       ]
     },
     {
@@ -1328,7 +1347,10 @@
         "sme-slough-culvert-crew",
         "sme-native-planting-crew",
         "sme-bird-window-watch",
-        "sme-sediment-sampling-station"
+        "sme-sediment-sampling-station",
+        "sme-small-boat-landing",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -1344,7 +1366,54 @@
         "slb-outfall-monitoring",
         "slb-shoreline-cleanup-point",
         "slb-levee-inspection",
-        "slb-corporation-yard"
+        "slb-corporation-yard",
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-regulated-soil-loadout",
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-drain-cleanout-crew",
+        "smc-lab-intake",
+        "smc-levee-patrol",
+        "smc-air-monitoring",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-pilot-process-skid",
+        "npp-digester-complex",
+        "npp-plant-lab",
+        "npp-outfall-monitoring",
+        "npp-chemical-delivery-dock",
+        "npp-electrical-substation",
+        "npp-maintenance-shop",
+        "npp-shoreline-marsh-crew",
+        "npp-solids-loadout",
+        "npp-shoreline-levee-walk"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-clinic-service-yard"
       ]
     }
   ],
@@ -1376,6 +1445,8 @@
     "confined-rescue": "Confined Rescue",
     "airport-ramp": "Airport Ramp",
     "concrete-pour": "Concrete Pour",
+    "us-regulated-soil-haul-load-tarp-and-manifest": "Regulated Soil Haul: Load, Tarp and Manifest",
+    "us-vacuum-truck-operator-hookup-and-offload": "Vacuum Truck Operator Hookup and Offload",
     "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
     "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
     "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
@@ -1555,7 +1626,7 @@
     "paint-sprayer": "Coatings Bay"
   },
   "version": "1.0.0",
-  "contentHash": "5ada0413",
+  "contentHash": "f739a8ac",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

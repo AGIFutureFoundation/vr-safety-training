@@ -534,7 +534,9 @@
         "om-rain-garden-block",
         "om-underground-infiltration-site",
         "om-sewer-crew-yard",
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-underdrain-piping-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -571,7 +573,9 @@
         "outer-harbor-container-terminal",
         "mandela-parkway-warehouse-row",
         "west-oakland-air-monitoring-station",
-        "emeryville-shoreline-substation"
+        "emeryville-shoreline-substation",
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -614,7 +618,10 @@
         "san-pablo-stormwater-crew",
         "san-pablo-hospital-campus",
         "annex-substation",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-bioretention-build",
+        "sp-gsi-monitoring-point",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
@@ -624,7 +631,8 @@
         "university-campus-plant-sj",
         "downtown-stormwater-crew-yard",
         "valley-medical-campus",
-        "airport-ramp-crew"
+        "airport-ramp-crew",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -633,7 +641,8 @@
       "sites": [
         "sme-monitoring-station",
         "sme-slough-culvert-crew",
-        "sme-native-planting-crew"
+        "sme-native-planting-crew",
+        "sme-water-control-structure"
       ]
     },
     {
@@ -647,7 +656,48 @@
         "slb-shoreline-park-crew",
         "slb-industrial-frontage-yard",
         "slb-outfall-monitoring",
-        "slb-levee-inspection"
+        "slb-levee-inspection",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-regulated-soil-loadout",
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-drain-cleanout-crew",
+        "smc-levee-patrol",
+        "smc-air-monitoring",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-digester-complex",
+        "npp-electrical-substation",
+        "npp-maintenance-shop",
+        "npp-shoreline-marsh-crew",
+        "npp-solids-loadout",
+        "npp-shoreline-levee-walk"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-clinic-service-yard"
       ]
     }
   ],
@@ -729,7 +779,7 @@
     "plumbing": "Rough-In Bay"
   },
   "version": "1.0.0",
-  "contentHash": "68161162",
+  "contentHash": "2505e06e",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

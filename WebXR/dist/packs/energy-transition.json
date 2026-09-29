@@ -147,7 +147,9 @@
       "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
-        "emeryville-shoreline-substation"
+        "emeryville-shoreline-substation",
+        "oak-port-charging-yard",
+        "oak-port-battery-storage-site"
       ]
     },
     {
@@ -163,6 +165,13 @@
       "sites": [
         "annex-substation"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-electrical-substation"
+      ]
     }
   ],
   "stationNames": {
@@ -177,7 +186,7 @@
     "or-solar-farm-tracker-row-maintenance": "Solar Tracker Row Maintenance"
   },
   "version": "1.0.0",
-  "contentHash": "ac45ae86",
+  "contentHash": "a83a8e38",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

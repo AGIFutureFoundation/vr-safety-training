@@ -118,12 +118,43 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-underdrain-piping-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "sp-gsi-bioretention-build"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "sj-gsi-site-assessment"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "bp-strip-marsh-east",
       "sites": [
         "sme-tidal-channel-excavation",
         "sme-sediment-reuse-placement",
         "sme-slough-culvert-crew",
-        "sme-sediment-sampling-station"
+        "sme-sediment-sampling-station",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -132,7 +163,28 @@
       "sites": [
         "slb-trash-capture-device-north",
         "slb-trash-capture-device-south",
-        "slb-creek-mouth-restoration"
+        "slb-creek-mouth-restoration",
+        "slb-vacuum-truck-staging"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-storm-drain-sediment-sampling",
+        "smc-marsh-sediment-coring",
+        "smc-drain-cleanout-crew",
+        "smc-lab-intake"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-pilot-process-skid"
       ]
     }
   ],
@@ -150,7 +202,7 @@
     "br-fish-screen-maintenance": "Fish Screen Maintenance"
   },
   "version": "1.0.0",
-  "contentHash": "e8709edf",
+  "contentHash": "58816c00",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -1294,7 +1294,9 @@
         "om-rain-garden-block",
         "om-sewer-crew-yard",
         "om-street-tree-crew",
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-underdrain-piping-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -1347,7 +1349,13 @@
         "defremery-recreation-centre",
         "mandela-parkway-warehouse-row",
         "west-oakland-air-monitoring-station",
-        "bay-bridge-toll-plaza-yard"
+        "bay-bridge-toll-plaza-yard",
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor",
+        "oak-port-charging-yard",
+        "oak-port-battery-storage-site",
+        "oak-port-drayage-staging",
+        "oak-port-ze-equipment-yard"
       ]
     },
     {
@@ -1396,7 +1404,10 @@
         "san-pablo-stormwater-crew",
         "san-pablo-hospital-campus",
         "downtown-richmond-fire-station",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-bioretention-build",
+        "sp-gsi-monitoring-point",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
@@ -1409,7 +1420,10 @@
         "san-jose-high-rise-site",
         "valley-medical-campus",
         "east-side-fire-station",
-        "japantown-union-hall"
+        "japantown-union-hall",
+        "sj-gsi-street-survey",
+        "sj-gsi-site-assessment",
+        "sj-gsi-planning-studio"
       ]
     },
     {
@@ -1425,7 +1439,10 @@
         "sme-slough-culvert-crew",
         "sme-native-planting-crew",
         "sme-bird-window-watch",
-        "sme-sediment-sampling-station"
+        "sme-sediment-sampling-station",
+        "sme-small-boat-landing",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -1441,7 +1458,65 @@
         "slb-outfall-monitoring",
         "slb-shoreline-cleanup-point",
         "slb-levee-inspection",
-        "slb-corporation-yard"
+        "slb-corporation-yard",
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-regulated-soil-loadout",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-drain-cleanout-crew",
+        "smc-lab-intake",
+        "smc-levee-patrol",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-pilot-process-skid",
+        "npp-digester-complex",
+        "npp-plant-lab",
+        "npp-outfall-monitoring",
+        "npp-chemical-delivery-dock",
+        "npp-maintenance-shop",
+        "npp-shoreline-marsh-crew",
+        "npp-solids-loadout",
+        "npp-shoreline-levee-walk"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-community-dental-clinic",
+        "sm-sterilisation-centre",
+        "sm-school-brushing-station",
+        "sm-mobile-van-stop",
+        "sm-community-centre",
+        "sm-healthy-food-market",
+        "sm-water-fountain-plaza",
+        "sm-smile-park",
+        "sm-careers-training-centre",
+        "sm-dental-lab-workshop",
+        "sm-surgical-suite",
+        "sm-front-office",
+        "sm-health-fair-tent",
+        "sm-clinic-service-yard",
+        "sm-senior-centre"
       ]
     }
   ],
@@ -1689,7 +1764,7 @@
     "phlebotomy": "Draw Station"
   },
   "version": "1.0.0",
-  "contentHash": "80ab0d35",
+  "contentHash": "c0234e91",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

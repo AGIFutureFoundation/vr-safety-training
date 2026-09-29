@@ -261,7 +261,8 @@
       "sites": [
         "om-planted-sidewalk-filtration",
         "om-underground-infiltration-site",
-        "om-sewer-crew-yard"
+        "om-sewer-crew-yard",
+        "om-underdrain-piping-crew"
       ]
     },
     {
@@ -326,7 +327,8 @@
       "parish": "bay-san-pablo",
       "sites": [
         "san-pablo-hospital-campus",
-        "annex-substation"
+        "annex-substation",
+        "sp-gsi-bioretention-build"
       ]
     },
     {
@@ -343,6 +345,33 @@
       "sites": [
         "slb-storm-drain-crew",
         "slb-industrial-frontage-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-drum-staging-yard",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-digester-complex",
+        "npp-electrical-substation",
+        "npp-maintenance-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-clinic-service-yard"
       ]
     }
   ],
@@ -371,7 +400,7 @@
     "press-brake": "Press Brake"
   },
   "version": "1.0.0",
-  "contentHash": "586adc7f",
+  "contentHash": "3cc179df",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

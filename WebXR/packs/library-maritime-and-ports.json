@@ -501,7 +501,10 @@
         "outer-harbor-container-terminal",
         "seventh-street-marine-terminal",
         "port-maintenance-shop",
-        "port-truck-staging-yard"
+        "port-truck-staging-yard",
+        "oak-port-charging-yard",
+        "oak-port-drayage-staging",
+        "oak-port-ze-equipment-yard"
       ]
     },
     {
@@ -541,7 +544,9 @@
       "sites": [
         "sme-staging-yard",
         "sme-levee-road-patrol",
-        "sme-sediment-sampling-station"
+        "sme-sediment-sampling-station",
+        "sme-small-boat-landing",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -549,6 +554,23 @@
       "parish": "bp-san-leandro-bay",
       "sites": [
         "slb-levee-inspection"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-marsh-sediment-coring",
+        "smc-levee-patrol"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-aeration-basin-deck",
+        "npp-outfall-monitoring",
+        "npp-shoreline-levee-walk"
       ]
     }
   ],
@@ -631,7 +653,7 @@
     "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "080aabfe",
+  "contentHash": "d80226c9",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

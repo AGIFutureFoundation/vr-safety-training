@@ -157,6 +157,14 @@
     },
     {
       "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-fruitvale-estuary",
       "sites": [
         "sausal-creek-storm-drain-crew"
@@ -181,7 +189,8 @@
       "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "downtown-stormwater-crew-yard"
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -191,6 +200,25 @@
         "slb-trash-capture-device-north",
         "slb-trash-capture-device-south",
         "slb-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-storm-drain-sediment-sampling",
+        "smc-drain-cleanout-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-digester-complex",
+        "npp-maintenance-shop"
       ]
     }
   ],
@@ -205,7 +233,7 @@
     "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod"
   },
   "version": "1.0.0",
-  "contentHash": "bd24fd20",
+  "contentHash": "2b59f277",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

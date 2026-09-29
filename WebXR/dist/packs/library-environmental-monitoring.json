@@ -4,7 +4,7 @@
   "name": "Environmental Monitoring Station Library",
   "title": "SmartCiti.X Environmental Monitoring Station Library — Powered by AGI Corp",
   "audience": "trades",
-  "summary": "Every Environmental Monitoring station in the catalog in one pack.",
+  "summary": "Every Environmental Monitoring station in the catalog in one pack — including stations no programme lists yet.",
   "certification": null,
   "programmes": [],
   "relatedProgrammes": [
@@ -30,6 +30,14 @@
     {
       "app": "smartcity",
       "id": "stormwater-outfall"
+    },
+    {
+      "app": "smartcity",
+      "id": "us-regulated-soil-haul-load-tarp-and-manifest"
+    },
+    {
+      "app": "smartcity",
+      "id": "us-vacuum-truck-operator-hookup-and-offload"
     },
     {
       "app": "smartcity",
@@ -232,7 +240,8 @@
       "world": "parishes",
       "parish": "sf-outer-mission",
       "sites": [
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -253,7 +262,9 @@
       "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
-        "west-oakland-air-monitoring-station"
+        "west-oakland-air-monitoring-station",
+        "oak-port-trash-capture-outer-harbor",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -284,14 +295,18 @@
       "parish": "bay-san-pablo",
       "sites": [
         "san-pablo-stormwater-crew",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-monitoring-point"
       ]
     },
     {
       "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "downtown-stormwater-crew-yard"
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-street-survey",
+        "sj-gsi-site-assessment",
+        "sj-gsi-planning-studio"
       ]
     },
     {
@@ -315,7 +330,37 @@
         "slb-creek-mouth-restoration",
         "slb-shoreline-park-crew",
         "slb-industrial-frontage-yard",
-        "slb-outfall-monitoring"
+        "slb-outfall-monitoring",
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-regulated-soil-loadout",
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-drain-cleanout-crew",
+        "smc-lab-intake",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-plant-lab",
+        "npp-outfall-monitoring",
+        "npp-chemical-delivery-dock",
+        "npp-shoreline-marsh-crew",
+        "npp-solids-loadout"
       ]
     }
   ],
@@ -324,6 +369,8 @@
     "air-monitor": "Perimeter Air",
     "sampling-well": "Sampling Well",
     "stormwater-outfall": "Stormwater Outfall",
+    "us-regulated-soil-haul-load-tarp-and-manifest": "Regulated Soil Haul: Load, Tarp and Manifest",
+    "us-vacuum-truck-operator-hookup-and-offload": "Vacuum Truck Operator Hookup and Offload",
     "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
     "br-drone-shoreline-survey": "Drone Shoreline Survey",
@@ -351,7 +398,7 @@
     "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window"
   },
   "version": "1.0.0",
-  "contentHash": "4412bf7d",
+  "contentHash": "01d71610",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

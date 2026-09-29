@@ -523,7 +523,8 @@
         "om-underground-infiltration-site",
         "om-transit-corridor",
         "om-sewer-crew-yard",
-        "om-utility-locate-crew"
+        "om-utility-locate-crew",
+        "om-underdrain-piping-crew"
       ]
     },
     {
@@ -566,7 +567,10 @@
         "west-oakland-rail-yard",
         "west-oakland-transit-station",
         "mandela-parkway-warehouse-row",
-        "emeryville-shoreline-substation"
+        "emeryville-shoreline-substation",
+        "oak-port-charging-yard",
+        "oak-port-battery-storage-site",
+        "oak-port-ze-equipment-yard"
       ]
     },
     {
@@ -609,7 +613,8 @@
         "richmond-harbour-terminal",
         "san-pablo-hospital-campus",
         "richmond-rail-yard",
-        "annex-substation"
+        "annex-substation",
+        "sp-gsi-bioretention-build"
       ]
     },
     {
@@ -619,14 +624,16 @@
         "diridon-transit-hub",
         "valley-medical-campus",
         "airport-ramp-crew",
-        "north-first-rail-barn"
+        "north-first-rail-barn",
+        "sj-gsi-street-survey"
       ]
     },
     {
       "world": "parishes",
       "parish": "bp-strip-marsh-east",
       "sites": [
-        "sme-staging-yard"
+        "sme-staging-yard",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -636,6 +643,36 @@
         "slb-trash-capture-device-north",
         "slb-storm-drain-crew",
         "slb-industrial-frontage-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-operator-rounds",
+        "npp-chemical-feed-building",
+        "npp-aeration-basin-deck",
+        "npp-pilot-process-skid",
+        "npp-digester-complex",
+        "npp-chemical-delivery-dock",
+        "npp-electrical-substation",
+        "npp-maintenance-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-clinic-service-yard"
       ]
     }
   ],
@@ -716,7 +753,7 @@
     "welding": "Weld Bay"
   },
   "version": "1.0.0",
-  "contentHash": "017e9688",
+  "contentHash": "3d1ed1af",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -228,7 +228,8 @@
       "sites": [
         "om-planted-sidewalk-filtration",
         "om-rain-garden-block",
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -249,7 +250,8 @@
       "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
-        "west-oakland-air-monitoring-station"
+        "west-oakland-air-monitoring-station",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -273,14 +275,17 @@
       "parish": "bay-san-pablo",
       "sites": [
         "san-pablo-stormwater-crew",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-monitoring-point",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
       "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "downtown-stormwater-crew-yard"
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -289,7 +294,8 @@
       "sites": [
         "sme-monitoring-station",
         "sme-slough-culvert-crew",
-        "sme-native-planting-crew"
+        "sme-native-planting-crew",
+        "sme-water-control-structure"
       ]
     },
     {
@@ -301,7 +307,32 @@
         "slb-shoreline-park-crew",
         "slb-industrial-frontage-yard",
         "slb-outfall-monitoring",
-        "slb-levee-inspection"
+        "slb-levee-inspection",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-regulated-soil-loadout",
+        "smc-pcb-equipment-removal",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-levee-patrol",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-shoreline-marsh-crew",
+        "npp-solids-loadout",
+        "npp-shoreline-levee-walk"
       ]
     }
   ],
@@ -334,7 +365,7 @@
     "eelgrass-transplant": "Eelgrass Transplant"
   },
   "version": "1.0.0",
-  "contentHash": "bcdf2efb",
+  "contentHash": "ab2260a7",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

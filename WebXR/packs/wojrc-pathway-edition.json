@@ -272,7 +272,11 @@
       "sites": [
         "port-truck-staging-yard",
         "mandela-parkway-union-hall",
-        "mandela-parkway-warehouse-row"
+        "mandela-parkway-warehouse-row",
+        "oak-port-charging-yard",
+        "oak-port-battery-storage-site",
+        "oak-port-drayage-staging",
+        "oak-port-ze-equipment-yard"
       ]
     },
     {
@@ -302,7 +306,25 @@
       "world": "parishes",
       "parish": "bp-san-leandro-bay",
       "sites": [
-        "slb-industrial-frontage-yard"
+        "slb-industrial-frontage-yard",
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-regulated-soil-loadout",
+        "smc-drum-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-chemical-delivery-dock",
+        "npp-solids-loadout"
       ]
     }
   ],
@@ -355,7 +377,7 @@
     "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness"
   },
   "version": "1.0.0",
-  "contentHash": "35d94d34",
+  "contentHash": "70e62974",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

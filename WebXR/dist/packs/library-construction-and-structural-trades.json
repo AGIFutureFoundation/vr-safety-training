@@ -418,7 +418,8 @@
         "om-planted-sidewalk-filtration",
         "om-underground-infiltration-site",
         "om-utility-locate-crew",
-        "om-bioretention-soil-yard"
+        "om-bioretention-soil-yard",
+        "om-underdrain-piping-crew"
       ]
     },
     {
@@ -474,9 +475,17 @@
     },
     {
       "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "sp-gsi-bioretention-build"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "san-jose-high-rise-site"
+        "san-jose-high-rise-site",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -486,14 +495,32 @@
         "sme-staging-yard",
         "sme-tidal-channel-excavation",
         "sme-berm-lowering",
-        "sme-sediment-reuse-placement"
+        "sme-sediment-reuse-placement",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
       "world": "parishes",
       "parish": "bp-san-leandro-bay",
       "sites": [
-        "slb-corporation-yard"
+        "slb-corporation-yard",
+        "slb-vacuum-truck-staging"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-regulated-soil-loadout",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-maintenance-shop",
+        "npp-solids-loadout"
       ]
     }
   ],
@@ -564,7 +591,7 @@
     "rf-torch-applied-membrane-and-fire-watch": "Torch-Applied Membrane & Fire Watch"
   },
   "version": "1.0.0",
-  "contentHash": "85527a10",
+  "contentHash": "bd260631",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

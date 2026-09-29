@@ -215,7 +215,8 @@
       "sites": [
         "port-truck-staging-yard",
         "mandela-parkway-union-hall",
-        "mandela-parkway-warehouse-row"
+        "mandela-parkway-warehouse-row",
+        "oak-port-drayage-staging"
       ]
     },
     {
@@ -245,7 +246,25 @@
       "world": "parishes",
       "parish": "bp-san-leandro-bay",
       "sites": [
-        "slb-industrial-frontage-yard"
+        "slb-industrial-frontage-yard",
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-regulated-soil-loadout",
+        "smc-drum-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-chemical-delivery-dock",
+        "npp-solids-loadout"
       ]
     }
   ],
@@ -284,7 +303,7 @@
     "wellness-asking-for-help-and-resources": "Wellness — Asking for Help and Resources"
   },
   "version": "1.0.0",
-  "contentHash": "03660363",
+  "contentHash": "0b2b9be6",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

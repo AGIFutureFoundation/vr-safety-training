@@ -249,7 +249,9 @@
       "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
-        "emeryville-shoreline-substation"
+        "emeryville-shoreline-substation",
+        "oak-port-charging-yard",
+        "oak-port-battery-storage-site"
       ]
     },
     {
@@ -263,7 +265,32 @@
       "world": "parishes",
       "parish": "bay-san-pablo",
       "sites": [
-        "annex-substation"
+        "annex-substation",
+        "sp-gsi-bioretention-build"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "sj-gsi-street-survey"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-equipment-removal",
+        "smc-excavation-cell"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-aeration-basin-deck",
+        "npp-pilot-process-skid",
+        "npp-electrical-substation"
       ]
     }
   ],
@@ -295,7 +322,7 @@
     "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness"
   },
   "version": "1.0.0",
-  "contentHash": "49128904",
+  "contentHash": "a9cfce01",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -433,7 +433,8 @@
         "west-oakland-rail-yard",
         "mcclymonds-school-campus",
         "west-oakland-transit-station",
-        "mandela-parkway-warehouse-row"
+        "mandela-parkway-warehouse-row",
+        "oak-port-drayage-staging"
       ]
     },
     {
@@ -479,6 +480,29 @@
         "airport-ramp-crew",
         "north-first-rail-barn",
         "willow-glen-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-regulated-soil-loadout"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-chemical-delivery-dock",
+        "npp-solids-loadout"
       ]
     }
   ],
@@ -544,7 +568,7 @@
     "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip"
   },
   "version": "1.0.0",
-  "contentHash": "cdeba219",
+  "contentHash": "45b8537f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

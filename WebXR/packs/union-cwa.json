@@ -434,7 +434,10 @@
         "sme-levee-road-patrol",
         "sme-slough-culvert-crew",
         "sme-native-planting-crew",
-        "sme-bird-window-watch"
+        "sme-bird-window-watch",
+        "sme-small-boat-landing",
+        "sme-water-control-structure",
+        "sme-marsh-mat-crossing"
       ]
     },
     {
@@ -445,6 +448,23 @@
         "slb-outfall-monitoring",
         "slb-shoreline-cleanup-point",
         "slb-levee-inspection"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-outfall-monitoring",
+        "smc-levee-patrol"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-outfall-monitoring",
+        "npp-shoreline-marsh-crew",
+        "npp-shoreline-levee-walk"
       ]
     }
   ],
@@ -499,7 +519,7 @@
     "devops": "Deploy Bay"
   },
   "version": "1.0.0",
-  "contentHash": "ce49baeb",
+  "contentHash": "2ad2481b",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

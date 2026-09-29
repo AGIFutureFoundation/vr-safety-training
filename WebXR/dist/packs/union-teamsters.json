@@ -638,7 +638,8 @@
       "sites": [
         "om-planted-sidewalk-filtration",
         "om-rain-garden-block",
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -667,7 +668,12 @@
         "port-truck-staging-yard",
         "mandela-parkway-union-hall",
         "mandela-parkway-warehouse-row",
-        "west-oakland-air-monitoring-station"
+        "west-oakland-air-monitoring-station",
+        "oak-port-trash-capture-middle-harbor",
+        "oak-port-charging-yard",
+        "oak-port-battery-storage-site",
+        "oak-port-drayage-staging",
+        "oak-port-ze-equipment-yard"
       ]
     },
     {
@@ -704,7 +710,9 @@
         "richmond-civic-centre",
         "richmond-harbour-terminal",
         "san-pablo-stormwater-crew",
-        "point-isabel-shoreline-crew"
+        "point-isabel-shoreline-crew",
+        "sp-gsi-monitoring-point",
+        "sp-gsi-underdrain-crew"
       ]
     },
     {
@@ -714,7 +722,9 @@
         "san-jose-civic-centre",
         "downtown-stormwater-crew-yard",
         "san-jose-high-rise-site",
-        "japantown-union-hall"
+        "japantown-union-hall",
+        "sj-gsi-site-assessment",
+        "sj-gsi-planning-studio"
       ]
     },
     {
@@ -723,7 +733,8 @@
       "sites": [
         "sme-monitoring-station",
         "sme-slough-culvert-crew",
-        "sme-native-planting-crew"
+        "sme-native-planting-crew",
+        "sme-water-control-structure"
       ]
     },
     {
@@ -735,7 +746,37 @@
         "slb-shoreline-park-crew",
         "slb-industrial-frontage-yard",
         "slb-outfall-monitoring",
-        "slb-levee-inspection"
+        "slb-levee-inspection",
+        "slb-vacuum-truck-staging",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-regulated-soil-loadout",
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-marsh-sediment-coring",
+        "smc-lab-intake",
+        "smc-levee-patrol",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-plant-lab",
+        "npp-chemical-delivery-dock",
+        "npp-shoreline-marsh-crew",
+        "npp-solids-loadout",
+        "npp-shoreline-levee-walk"
       ]
     }
   ],
@@ -857,7 +898,7 @@
     "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "48f391ea",
+  "contentHash": "3f366852",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -111,7 +111,8 @@
       "world": "parishes",
       "parish": "sf-outer-mission",
       "sites": [
-        "om-maintenance-crew"
+        "om-maintenance-crew",
+        "om-gsi-monitoring-crew"
       ]
     },
     {
@@ -132,7 +133,8 @@
       "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
-        "west-oakland-air-monitoring-station"
+        "west-oakland-air-monitoring-station",
+        "oak-port-trash-capture-middle-harbor"
       ]
     },
     {
@@ -153,14 +155,16 @@
       "world": "parishes",
       "parish": "bay-san-pablo",
       "sites": [
-        "san-pablo-stormwater-crew"
+        "san-pablo-stormwater-crew",
+        "sp-gsi-monitoring-point"
       ]
     },
     {
       "world": "parishes",
       "parish": "bay-san-jose",
       "sites": [
-        "downtown-stormwater-crew-yard"
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-site-assessment"
       ]
     },
     {
@@ -169,7 +173,28 @@
       "sites": [
         "slb-trash-capture-device-south",
         "slb-industrial-frontage-yard",
-        "slb-outfall-monitoring"
+        "slb-outfall-monitoring",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-chemical-delivery-dock"
       ]
     }
   ],
@@ -186,7 +211,7 @@
     "hz-decon-corridor-for-a-mass-casualty-drill": "Decon Corridor for a Mass-Casualty Drill"
   },
   "version": "1.0.0",
-  "contentHash": "3f0cdea5",
+  "contentHash": "1625822e",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

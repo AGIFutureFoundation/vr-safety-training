@@ -1,0 +1,391 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "uspl-badge",
+    "name": "Zero Energy Proven",
+    "note": "Every source isolated, bled and tried before a hand went inside the pump"
+  },
+  "category": "Water & Environmental",
+  "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.147 control of hazardous energy, including the energy-control procedure, the group lockout and the verification of isolation; 29 CFR 1910.146 permit-required confined spaces for the wet well the pump draws from; 29 CFR 1910.132 for the PPE at the motor control centre; 29 CFR 1910.22 walking-working surfaces in the pump gallery; ANSI Z358.1 for the eyewash beside the seal-water chemical tank; NFPA 820 for the plant's classified areas; OSHA 29 CFR 1910.1200 hazard communication for the seal-water chemicals; NIOSH findings on deaths of workers servicing machinery that was not locked out",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z358.1",
+        "id": "ansi-z358-1",
+        "title": "ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 820",
+        "id": "nfpa-820",
+        "title": "NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "uspl-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "uspl-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "uspl-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "uspl-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "uspl-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Crew Hand",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Zero Energy Proven"
+  },
+  "hazards": {
+    "leave-standby-in-auto": "You left the standby in auto. On level control it can start itself and push flow into the header.",
+    "open-casing-under-pressure": "You went to loosen the casing bolts before bleeding. Bleed to zero and prove it first.",
+    "remove-anothers-lock": "You reached to remove another worker's lock from the box. Only the person who applied a lock removes it.",
+    "skip-try-start": "You reached for the coupling guard without a try-start. Verify isolation before anyone touches the pump."
+  },
+  "id": "us-treatment-plant-process-pump-lockout",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bleed-to-zero",
+      "alert": "The wet well's high-level alarm is sounding while one pump is locked out.",
+      "cue": "Radio the control room to bring the other duty pump on — never pull a lock to answer a level alarm.",
+      "delay": 2,
+      "id": "high-level-alarm",
+      "kind": "The wet well high-level alarm sounds",
+      "missNote": "You kept bleeding while the alarm sounded; the wet well rose with nobody bringing the duty pump on.",
+      "seconds": 12,
+      "target": "level-alarm-panel",
+      "why": "The level is answered by the pumps that are not locked out, from the control room; the lockout stays on because a pump under repair is not a pump the plant has.",
+      "wrongNote": "The alarm first — call the control room to bring the duty pump on; the lock stays."
+    },
+    {
+      "after": "try-start",
+      "alert": "A coworker has reached for the coupling guard before putting a personal lock on the box.",
+      "cue": "Stop them and have them lock the box first — the try-start can finish after.",
+      "delay": 2,
+      "id": "coworker-reaches-guard",
+      "kind": "A coworker reaches for the coupling guard",
+      "missNote": "You finished the try-start while the coworker's hands were at the guard with no lock of their own on the box.",
+      "seconds": 12,
+      "target": "stop-coworker",
+      "why": "A worker whose own lock is not on the box has no protection if the lead releases the lockout; stopping them costs seconds.",
+      "wrongNote": "The coworker first — nobody's hands near the pump without their own lock on the box."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Treatment Plant Process Pump Lockout",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "casing-pressure-gauge",
+      "control-room-radio",
+      "discharge-valve-chain",
+      "energy-control-plan",
+      "group-box-hasp",
+      "group-lock-box",
+      "header-vent-valve",
+      "leave-standby-in-auto",
+      "level-alarm-panel",
+      "local-start-button",
+      "local-stop-button",
+      "mcc-breaker-lock",
+      "open-casing-under-pressure",
+      "operator-log",
+      "personal-lock-rack",
+      "release-checklist",
+      "remove-anothers-lock",
+      "seal-water-solenoid",
+      "skip-try-start",
+      "standby-hand-off-auto",
+      "stop-coworker",
+      "suction-valve-chain",
+      "wet-well-gas-meter"
+    ],
+    "meshes": 256
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work order and the pump's own energy-control procedure: every source, every isolation point and how isolation is verified.",
+      "id": "read-energy-procedure",
+      "kind": "select",
+      "prompt": "Read the work order and the pump's own energy-control procedure: every source, every isolation point and how isolation is verified.",
+      "target": "energy-control-plan",
+      "title": "Read the pump's energy-control procedure",
+      "why": "29 CFR 1910.147 requires a written procedure for each machine listing its energy sources, because a process pump has more than the motor: pressure in the line, flow from the wet well and a standby pump that can start on level; reading it first is how none of them is missed."
+    },
+    {
+      "cue": "Radio the control room: which pump, why, and that its standby will be out of auto while the work is done.",
+      "id": "tell-control-room",
+      "kind": "select",
+      "prompt": "Radio the control room: which pump, why, and that its standby will be out of auto while the work is done.",
+      "target": "control-room-radio",
+      "title": "Tell the control room before anything is stopped",
+      "why": "The control room runs the process on the pumps it can see, and a pump that disappears without warning can back up a channel or starve a basin; 1910.147 also requires affected employees to be told before a lockout is applied."
+    },
+    {
+      "cue": "Stop the pump at its local station, then turn the standby's hand-off-auto switch to off.",
+      "id": "stop-and-hand",
+      "itemNames": {
+        "local-stop-button": "pump local stop",
+        "standby-hand-off-auto": "standby pump hand-off-auto switch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — stop the running pump at its local station first, then take the standby out of auto.",
+      "prompt": "Stop the pump at its local station, then turn the standby's hand-off-auto switch to off.",
+      "targets": [
+        "local-stop-button",
+        "standby-hand-off-auto"
+      ],
+      "title": "Stop the pump in local, take the standby out of auto",
+      "why": "Stopping at the local station before opening the breaker avoids breaking load current, and taking the standby out of auto matters because a standby on level control starts itself when the wet well rises and pushes flow back through a shared header."
+    },
+    {
+      "cue": "Open the pump's breaker at the motor control centre, apply the lead's lock and tag, then drop the key into the group lock box.",
+      "id": "lock-group-box",
+      "itemNames": {
+        "group-lock-box": "group lock box",
+        "mcc-breaker-lock": "breaker lock at the motor control centre"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the breaker is opened and locked before its key goes in the group box.",
+      "prompt": "Open the pump's breaker at the motor control centre, apply the lead's lock and tag, then drop the key into the group lock box.",
+      "targets": [
+        "mcc-breaker-lock",
+        "group-lock-box"
+      ],
+      "title": "Open and lock the breaker, key into the group box",
+      "why": "A group lockout under 1910.147 puts one set of locks on the isolation points and the keys in a box that every worker locks, so no isolation can be removed while anyone's lock is still on the box; the breaker is opened in the PPE the plant's electrical programme requires under 29 CFR 1910.132."
+    },
+    {
+      "cue": "Look over the pump, its seal-water line and the local panel for any energy source still live with the breaker locked.",
+      "id": "find-seal-water-feed",
+      "itemNames": {
+        "seal-water-solenoid": "seal-water solenoid on its own circuit"
+      },
+      "itemNotes": {
+        "seal-water-solenoid": "The seal-water solenoid is fed from a lighting panel, not the pump's breaker — it is a separate source the procedure lists."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the pump, its seal-water line and the local panel for any energy source still live with the breaker locked.",
+      "targets": [
+        "seal-water-solenoid"
+      ],
+      "title": "Find the source the breaker does not cover",
+      "why": "A process pump's seal-water solenoid, heater or instrument is often fed from a different panel than the motor, and 29 CFR 1910.147 requires every source to be isolated; the one missed is the one a mechanic finds with a hand inside the casing."
+    },
+    {
+      "cue": "Close the suction valve, then the discharge valve, and chain and lock each handwheel.",
+      "id": "close-and-chain-valves",
+      "itemNames": {
+        "discharge-valve-chain": "discharge valve chain lock",
+        "suction-valve-chain": "suction valve chain lock"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — close the suction side first, then the discharge, so the casing is never left open to the header alone.",
+      "prompt": "Close the suction valve, then the discharge valve, and chain and lock each handwheel.",
+      "targets": [
+        "suction-valve-chain",
+        "discharge-valve-chain"
+      ],
+      "title": "Close and chain the suction and discharge valves",
+      "why": "A stopped pump still has the wet well's head on its suction and the header's pressure on its discharge, and opening the casing with either valve open floods the gallery; chaining the handwheels makes the valves part of the lockout, not a courtesy."
+    },
+    {
+      "cue": "Open the casing bleed slowly and keep the gauge in the zero band while the trapped pressure drains to the floor sump.",
+      "holdBreakNote": "The casing pressure left the band — a valve may be passing; hold the bleed until it stays at zero.",
+      "id": "bleed-to-zero",
+      "kind": "track",
+      "prompt": "Open the casing bleed slowly and keep the gauge in the zero band while the trapped pressure drains to the floor sump.",
+      "seconds": 6,
+      "target": "casing-pressure-gauge",
+      "title": "Bleed the casing and hold it at zero",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.27,
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "CASING",
+        "rise": 0.3,
+        "start": 0.55
+      },
+      "why": "The water trapped between two closed valves stays under pressure, and 1910.147 requires stored energy to be relieved before work begins; bleeding slowly into the sump keeps the release controlled and shows whether a valve is passing."
+    },
+    {
+      "cue": "Open the vent on the blower-fed header branch that feeds the pump's seal water tank until it stops hissing.",
+      "id": "vent-air-header",
+      "kind": "turn",
+      "prompt": "Open the vent on the blower-fed header branch that feeds the pump's seal water tank until it stops hissing.",
+      "target": "header-vent-valve",
+      "title": "Vent the stored air in the aeration header",
+      "turn": {
+        "label": "HEADER VENT",
+        "turns": 0.8
+      },
+      "why": "The aeration blowers keep air in the header under pressure, and a branch that feeds the pump's seal system holds that energy after the pump stops; venting it is the stored-energy step a procedure lists and a hurried lockout skips."
+    },
+    {
+      "cue": "Clear everyone from the coupling guard, then hold the local start and confirm the pump does not turn.",
+      "holdBreakNote": "You let go before the try was complete — hold the start long enough to prove the pump cannot turn.",
+      "id": "try-start",
+      "kind": "hold",
+      "prompt": "Clear everyone from the coupling guard, then hold the local start and confirm the pump does not turn.",
+      "seconds": 4,
+      "target": "local-start-button",
+      "title": "Try-start the pump and confirm nothing moves",
+      "why": "The try-start is the verification 1910.147 requires, because a lock on the wrong breaker looks exactly like a lock on the right one until the start button is pressed; the pump must not turn, and the switch goes back to off afterwards."
+    },
+    {
+      "cue": "Read oxygen, flammables and hydrogen sulfide at the hatch beside the pump before the gallery work starts, and commit when all read clear.",
+      "gauge": {
+        "green": [
+          0.6,
+          0.9
+        ],
+        "label": "GAS",
+        "missNote": "Not settled — wait for every sensor to read clear before committing.",
+        "speed": 0.6
+      },
+      "id": "read-gas-at-wet-well",
+      "kind": "gauge",
+      "prompt": "Read oxygen, flammables and hydrogen sulfide at the hatch beside the pump before the gallery work starts, and commit when all read clear.",
+      "target": "wet-well-gas-meter",
+      "title": "Read the air at the wet well hatch",
+      "why": "A pump gallery beside a wet well can collect hydrogen sulfide when the flow stops, and 29 CFR 1910.146 treats a wet well as a permit space; reading the air at the hatch before the casing opens is how the crew knows the gallery is still safe to work in."
+    },
+    {
+      "cue": "Have the mechanic and each helper put their own lock and tag on the group lock box before they touch the pump.",
+      "drag": {
+        "missNote": "Not on the box — carry the personal lock all the way to the group box hasp and close it.",
+        "radius": 0.5,
+        "to": "group-box-hasp"
+      },
+      "id": "each-worker-locks",
+      "kind": "drag",
+      "prompt": "Have the mechanic and each helper put their own lock and tag on the group lock box before they touch the pump.",
+      "target": "personal-lock-rack",
+      "title": "Each worker puts a personal lock on the box",
+      "why": "Under a group lockout each worker's own lock on the box is their protection, because the box cannot open until the last of them removes theirs; a worker who relies on the lead's lock alone has no say over when the pump is released."
+    },
+    {
+      "cue": "When the job is done: guards on, tools out, everyone clear and accounted for, personal locks off, then valves, header and breaker restored in order.",
+      "id": "release-by-procedure",
+      "kind": "select",
+      "prompt": "When the job is done: guards on, tools out, everyone clear and accounted for, personal locks off, then valves, header and breaker restored in order.",
+      "target": "release-checklist",
+      "title": "Release the pump by the procedure",
+      "why": "1910.147 sets the release: the work area checked, everyone clear and told, then each lock removed by the person who applied it; restoring valves before the breaker keeps the pump from starting dry against a closed discharge."
+    },
+    {
+      "cue": "Return the standby's switch to auto, tell the control room both pumps are available, and log the lockout and its release.",
+      "id": "log-and-return-auto",
+      "kind": "select",
+      "prompt": "Return the standby's switch to auto, tell the control room both pumps are available, and log the lockout and its release.",
+      "target": "operator-log",
+      "title": "Return the standby to auto and log the job",
+      "why": "A standby left in off after the job is a plant with no backup for the next high flow, and the log is how the next shift knows what was isolated, for how long and that it was released by the procedure."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A process pump at a treatment plant: the work order and the pump's energy-control procedure read, the control room told, the pump stopped in local and the standby taken out of auto, the breaker opened and locked with a group box, the suction and discharge valves closed and chained, the line bled to zero, the stored air in the aeration header vented, the try-start tried, each worker's lock on the box, the job done and the pump released by the procedure",
+  "title": "SmartCiti.X~ Treatment Plant Process Pump Lockout VR VR",
+  "trade": "Wastewater treatment plant operator and mechanic locking out a process pump and its blower-fed aeration line before a mechanic opens the pump",
+  "underwater": null,
+  "weather": "overcast"
+}
