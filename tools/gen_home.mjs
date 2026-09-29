@@ -239,7 +239,7 @@ const LAYOUTS = {
     // The Guide's links point into the published folder (console COMPASS).
     guideRoot: "./dist/",
     app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", regatta: "regatta/regatta.html", underwater: "underwater/underwater.html", redwood: "redwood/redwood.html", summit: "summit/index.html", parishes: "parishes/parishes.html" },
-    aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
+    aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html", scholar: "scholar/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
     catalog: "smartcity/catalog.json",
@@ -254,7 +254,7 @@ const LAYOUTS = {
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
-    aside: { atlas: "atlas.html", portal: `${REPO}/tree/main/WebXR/portal`, verify: `${REPO}/tree/main/WebXR/verify`, campus: `${REPO}/tree/main/WebXR/campus` },
+    aside: { atlas: "atlas.html", portal: `${REPO}/tree/main/WebXR/portal`, verify: `${REPO}/tree/main/WebXR/verify`, campus: `${REPO}/tree/main/WebXR/campus`, scholar: `${REPO}/tree/main/WebXR/scholar` },
     doc: (name) => `${REPO}/blob/main/docs/${name}`,
     accessibility: `${REPO}/blob/main/WebXR/ACCESSIBILITY.md`,
     catalog: `${REPO}/blob/main/WebXR/smartcity/catalog.json`,
@@ -1629,7 +1629,8 @@ ${moreApps}
     </div>
     <p class="aside">Also here: <a href="${layout.aside.atlas}">the Bay Atlas</a>, every Bay World site and landmark with its programmes over a map (a real-world one when you bring your own Mapbox token),
     <a href="${layout.aside.portal}">the app map</a>,
-    <a href="${layout.aside.verify}">the credential verifier</a> for an exported badge, and
+    <a href="${layout.aside.verify}">the credential verifier</a> for an exported badge,
+    <a href="${layout.aside.scholar}">the K-12 lesson scoreboard</a>, stars and badges by subject and world with a class board, and
     <a href="${layout.aside.campus}">Safety Campus</a>, the hazard-spotting web companion to the Unity headset build.</p>
   </section>
 

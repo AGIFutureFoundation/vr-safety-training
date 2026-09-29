@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-12 Lesson Scoreboard</title>
+<meta name="description" content="Your K-12 lesson sessions from the SmartCiti.X worlds: stars, first-try runs and badges by subject and by world, and a class board with first names or nicknames only. Everything stays in this browser.">
+<link rel="stylesheet" href="../shared/design.css">
+<style>
+  body { margin: 0; background: var(--at-bg); }
+  main { max-width: var(--at-container); margin: 0 auto; padding: var(--at-sp-6) 16px var(--at-sp-12); }
+  section { margin-top: var(--at-sp-10); }
+  .sc-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--at-sp-3); margin-top: var(--at-sp-6); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--at-fs-sm); }
+  th, td { text-align: left; padding: var(--at-sp-2) var(--at-sp-3); border-bottom: 1px solid var(--at-border); vertical-align: top; }
+  th { color: var(--at-primary); font-weight: var(--at-fw-semibold); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .sc-stars { color: var(--at-warning); letter-spacing: 2px; white-space: nowrap; }
+  .sc-badges { display: flex; flex-wrap: wrap; gap: var(--at-sp-2); }
+  .sc-form { display: flex; flex-wrap: wrap; gap: var(--at-sp-3); align-items: end; margin: var(--at-sp-4) 0; }
+  .sc-form label { display: grid; gap: var(--at-sp-1); font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); }
+  .sc-form input[type=text] { font: inherit; min-height: 44px; padding: 0 var(--at-sp-3); border-radius: var(--at-r-md); border: 1px solid var(--at-border-strong); background: var(--at-surface-2); color: var(--at-on-surface); }
+  .sc-form .sc-check { display: flex; gap: var(--at-sp-2); align-items: center; min-height: 44px; }
+  .sc-note { font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); max-width: var(--at-measure); }
+  .sc-you { margin-top: var(--at-sp-3); padding: var(--at-sp-3) var(--at-sp-4); border-radius: var(--at-r-md); background: var(--at-surface-2); }
+  tr.is-you td { background: var(--at-raised); }
+  .sc-scroll { overflow-x: auto; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="at-root">
+<main>
+  <p class="at-breadcrumb"><a href="../index.html">Home</a> · <a href="../k12/teacher.html">K-12 teacher view</a></p>
+  <header class="at-hero">
+    <div>
+      <p class="at-eyebrow">K-12 · SmartCiti.X</p>
+      <h1 class="at-hero__title">Your lesson scoreboard</h1>
+      <p class="at-hero__lead">Walk up to a site in any world and a short lesson starts there. Every lesson you finish shows here: stars for first-try answers, your first-try run, and a badge for each set of three.</p>
+      <div class="at-hero__actions">
+        <a class="at-btn at-btn--primary" href="../parishes/parishes.html">Explore the Parishes</a>
+        <a class="at-btn at-btn--secondary" href="../redwood/redwood.html">Explore Redwood Reach</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="sc-stats" id="sc-stats" aria-live="polite"></div>
+
+  <section aria-labelledby="h-badges">
+    <div class="at-section-head"><div><h2 id="h-badges">Badges</h2><p>Three lessons in one subject, or in one world, earn a badge.</p></div></div>
+    <div class="sc-badges" id="sc-badges"></div>
+  </section>
+
+  <section aria-labelledby="h-subject">
+    <div class="at-section-head"><div><h2 id="h-subject">By subject</h2><p>Lessons done in each classroom programme.</p></div></div>
+    <div class="sc-scroll"><table id="sc-subjects"><thead><tr><th>Subject</th><th class="num">Lessons done</th><th class="num">Stars</th><th class="num">Sessions</th><th>Badge</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-world">
+    <div class="at-section-head"><div><h2 id="h-world">By world</h2><p>Where your lessons happened, and how many are still waiting there.</p></div></div>
+    <div class="sc-scroll"><table id="sc-worlds"><thead><tr><th>World</th><th class="num">Lessons done</th><th class="num">Stars</th><th class="num">Still to find</th><th></th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-sessions">
+    <div class="at-section-head"><div><h2 id="h-sessions">Your sessions</h2><p>The newest first.</p></div></div>
+    <div class="sc-scroll"><table id="sc-sessions"><thead><tr><th>Lesson</th><th>Where</th><th>Stars</th><th>When</th></tr></thead><tbody></tbody></table></div>
+    <div class="at-empty" id="sc-empty" hidden><p class="at-empty__title">No lessons yet</p><p>Walk up to a site in a world. When a lesson chip appears, press L or tap it.</p></div>
+  </section>
+
+  <section aria-labelledby="h-class">
+    <div class="at-section-head"><div><h2 id="h-class">Class board</h2><p>For a class code from your teacher. First names or nicknames only.</p></div></div>
+    <p class="sc-note">The board ranks the top ten. Everyone else sees their own best, with no number. Turn on "Keep me off the board" and your name is hidden from everyone. Nothing leaves this browser unless your teacher moves the board file.</p>
+    <form class="sc-form" id="sc-form">
+      <label>Class code<input type="text" id="sc-code" autocomplete="off" placeholder="ABCD-EFGH" maxlength="12"></label>
+      <label>Nickname (one word)<input type="text" id="sc-nick" autocomplete="off" maxlength="16"></label>
+      <label class="sc-check"><input type="checkbox" id="sc-optout"> Keep me off the board</label>
+      <button class="at-btn at-btn--primary" type="submit">Show my stars on this board</button>
+    </form>
+    <p class="sc-note" id="sc-msg" role="status"></p>
+    <div class="sc-scroll"><table id="sc-board" hidden><thead><tr><th class="num">Place</th><th>Name</th><th class="num">Stars</th><th class="num">Sessions</th></tr></thead><tbody></tbody></table></div>
+    <div class="sc-you" id="sc-you" hidden></div>
+    <div class="sc-form">
+      <button class="at-btn at-btn--secondary" type="button" id="sc-export">Save the board file</button>
+      <label class="at-btn at-btn--ghost">Open a board file<input type="file" id="sc-import" accept="application/json" hidden></label>
+    </div>
+  </section>
+</main>
+<footer class="at-footer"><p>SmartCiti.X · Powered by AGI Corp — K-12 lessons as you explore. Lesson sessions and the class board are kept in this browser only.</p></footer>
+<script type="module">
+import { scSessions, scSummary, scBoard, scShareToClass, scSetNick, scSetOptOut, scLoad, scNormaliseCode, scExportBoard, scImportBoard, scWorldKey, scWorldName, SC_SUBJECTS, SC_SET_SIZE } from "../shared/sc-scholar.js";
+import { SC_LESSONS, SC_WORLD_PAGES } from "../shared/sc-lessons.js";
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const stars = (n) => "★".repeat(n) + "☆".repeat(Math.max(0, 3 - n));
+const byId = new Map(SC_LESSONS.map((l) => [l.id, l]));
+
+function render() {
+  const sessions = scSessions();
+  const sum = scSummary(sessions);
+  const st = $("sc-stats"); st.textContent = "";
+  for (const [v, label] of [[sum.stars, "Stars"], [sum.sessions, "Sessions"], [`${sum.lessons} of ${SC_LESSONS.length}`, "Lessons done"], [sum.streak, "First-try run now"], [sum.bestStreak, "Best first-try run"], [sum.badges.length, "Badges"]]) {
+    const d = el("div", null, "at-stat"); d.append(el("span", String(v), "at-stat__value"), el("span", label, "at-stat__label")); st.appendChild(d);
+  }
+  const bd = $("sc-badges"); bd.textContent = "";
+  if (!sum.badges.length) bd.appendChild(el("p", `Your first badge comes after ${SC_SET_SIZE} lessons in one subject or one world.`, "sc-note"));
+  for (const b of sum.badges) bd.appendChild(el("span", b.name, `at-badge ${b.kind === "subject" ? "at-badge--primary" : "at-badge--success"}`));
+
+  const tb = $("sc-subjects").tBodies[0]; tb.textContent = "";
+  for (const [id, s] of Object.entries(SC_SUBJECTS)) {
+    const v = sum.subjects[id] ?? { lessons: 0, stars: 0, sessions: 0 };
+    const tr = el("tr"); tr.append(el("td", s.name), el("td", `${v.lessons} of ${SC_LESSONS.filter((l) => l.subject === id).length}`, "num"), el("td", String(v.stars), "num"), el("td", String(v.sessions), "num"), el("td", v.lessons >= SC_SET_SIZE ? s.badge : `${Math.min(v.lessons, SC_SET_SIZE)} of ${SC_SET_SIZE}`));
+    tb.appendChild(tr);
+  }
+  const done = new Set(sessions.map((s) => s.lessonId));
+  const worlds = new Map();
+  for (const l of SC_LESSONS) { const k = scWorldKey(l); const w = worlds.get(k) ?? { total: 0, left: 0, page: SC_WORLD_PAGES[l.world] }; w.total += 1; if (!done.has(l.id)) w.left += 1; worlds.set(k, w); }
+  const tw = $("sc-worlds").tBodies[0]; tw.textContent = "";
+  for (const [k, w] of worlds) {
+    const v = sum.worlds[k] ?? { lessons: 0, stars: 0 };
+    const tr = el("tr"); const go = el("td"); const a = el("a", "Go"); a.href = `../${w.page}`; go.appendChild(a);
+    tr.append(el("td", scWorldName(k)), el("td", String(v.lessons), "num"), el("td", String(v.stars), "num"), el("td", String(w.left), "num"), go);
+    tw.appendChild(tr);
+  }
+  const ts = $("sc-sessions").tBodies[0]; ts.textContent = "";
+  $("sc-empty").hidden = sessions.length > 0;
+  for (const s of sessions.slice().reverse().slice(0, 30)) {
+    const l = byId.get(s.lessonId);
+    const tr = el("tr"); tr.append(el("td", l?.title ?? s.lessonId), el("td", scWorldName(scWorldKey(s))), el("td", stars(s.stars), "sc-stars"), el("td", new Date(s.at).toLocaleDateString()));
+    ts.appendChild(tr);
+  }
+  const me = scLoad();
+  $("sc-nick").value = me.nick; $("sc-optout").checked = me.optOut;
+}
+
+function renderBoard(code) {
+  const b = scBoard(code);
+  const t = $("sc-board"), you = $("sc-you");
+  if (!b) { t.hidden = true; you.hidden = true; return; }
+  const tb = t.tBodies[0]; tb.textContent = "";
+  for (const r of b.top) { const tr = el("tr", null, r.you ? "is-you" : ""); tr.append(el("td", String(r.rank), "num"), el("td", r.name), el("td", String(r.stars), "num"), el("td", String(r.sessions), "num")); tb.appendChild(tr); }
+  t.hidden = !b.top.length;
+  you.hidden = !b.you;
+  if (b.you) you.textContent = b.you.optOut ? `You are off the board. Your best: ${b.you.stars} stars over ${b.you.sessions} sessions.` : b.you.rank ? `Your best: ${b.you.stars} stars, place ${b.you.rank}. Best first-try run: ${b.you.bestStreak}.` : `Your best: ${b.you.stars} stars over ${b.you.sessions} sessions. Best first-try run: ${b.you.bestStreak}. Keep going.`;
+  $("sc-msg").textContent = `${b.cohort ? `${b.cohort} · ` : ""}Class ${b.code}: ${b.total} on the board${b.hidden ? `, ${b.hidden} kept off` : ""}.`;
+}
+
+$("sc-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const code = scNormaliseCode($("sc-code").value);
+  if (!code) { $("sc-msg").textContent = "A class code has eight letters and digits, like ABCD-EFGH."; return; }
+  scSetNick($("sc-nick").value); scSetOptOut($("sc-optout").checked);
+  scShareToClass(code);
+  try { localStorage.setItem("sc-last-code", code); } catch (_) { /* private mode */ }
+  renderBoard(code); render();
+});
+$("sc-optout").addEventListener("change", () => { scSetOptOut($("sc-optout").checked); const c = scNormaliseCode($("sc-code").value); if (c) renderBoard(c); });
+$("sc-export").addEventListener("click", () => {
+  const code = scNormaliseCode($("sc-code").value);
+  if (!code) { $("sc-msg").textContent = "Type the class code first."; return; }
+  const blob = new Blob([JSON.stringify(scExportBoard(code), null, 2)], { type: "application/json" });
+  const a = el("a"); a.href = URL.createObjectURL(blob); a.download = `class-board-${code}.json`; a.click(); URL.revokeObjectURL(a.href);
+});
+$("sc-import").addEventListener("change", async (e) => {
+  const f = e.target.files?.[0]; if (!f) return;
+  let r; try { r = scImportBoard(JSON.parse(await f.text())); } catch (_) { r = { ok: false, reason: "That file could not be read." }; }
+  $("sc-msg").textContent = r.ok ? `Board file opened: ${r.merged} entries merged.` : r.reason;
+  if (r.ok) { $("sc-code").value = r.code; renderBoard(r.code); }
+});
+let last = null; try { last = localStorage.getItem("sc-last-code"); } catch (_) { last = null; }
+if (last) { $("sc-code").value = last; renderBoard(last); }
+render();
+</script>
+</body>
+</html>
