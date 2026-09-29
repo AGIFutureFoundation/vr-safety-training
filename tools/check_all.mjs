@@ -95,6 +95,8 @@ const CHECKERS = [
   "check_summit.mjs",
   // The New Orleans parish worlds: every parish's data validates, the terrain builds headless in budget, connectors pair (docs/consoles/PARISH.md).
   "check_parishes.mjs",
+  // PALETTE: colour categories, pixel painters and the massing material hook (docs/consoles/PALETTE.md).
+  "check_palette.mjs",
   "check_landmarks.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
