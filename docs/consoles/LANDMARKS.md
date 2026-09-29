@@ -43,8 +43,11 @@ silhouette beside it. Optional `"lmYaw": <radians>` turns the silhouette.
 - `lmKinds() -> string[]`, `lmHas(kind) -> bool`, `lmKindOf(landmark) -> kind | null`, `LM_BUDGET` (per-kind meshes and triangles
   by tier).
 - `WebXR/shared/np-world.js` draws every kit landmark through `lmBuild` (in `npBuildParish`, under `parish-lm-kit`), guarded.
-- Consumers on another branch: `globalThis.lmBuild ?? import` is not needed — import `lmBuild` from `./lm-landmarks.js`; guard with
-  `typeof lmBuild === "function"` until merged, and fall back to the engine's generic landmark.
+- Consumers on another branch (NEIGHBORHOODS, EASTBAY): nothing to call — tag the landmark with `"lm": "<kind id>"` and the engine
+  draws it once this branch merges; until then the tag is ignored and the generic sign stands. A module that builds a kit itself
+  imports `lmBuild` from `./lm-landmarks.js` and guards with `typeof lmBuild === "function"`.
+- Bridge kinds: the engine fits them to the nearest bridge/causeway road within 800 m; `"lmAlong": 0..1` places the kit's centre
+  along that road and `"lmSpan"` sets the distance between towers. `"lmAt": [x, z]` moves a ground kit off its sign.
 
 ## Cycles
 1. Reason: publish the kind ids first so NEIGHBORHOODS and EASTBAY can code against them. Act: this doc's table and the `lm`
@@ -61,3 +64,9 @@ silhouette beside it. Optional `"lmYaw": <radians>` turns the silhouette.
 4. Reason: the shared engine checks still pass with the kit in and the bundle carries it. Act: baseline entry, bundle rebuilt.
    Observe: `check_parish_data: … 128 landmarks … 12019 checks pass, 0 fail`; `[parishes] wrote … (3632 KB, 99 modules)`;
    `check_parishes: 19103 passed, 0 failed`; worst sf-downtown/high 157 meshes (was 150) / 71481 triangles of 260 / 400000. PASS.
+5. Reason: the shared contracts hold with the new module (imports, phone pages). Observe: `check_imports: All 961 modules call
+   only what they declare or import.`; `check_mobile: 158 checks pass — 12 page sizes …`. PASS.
+6. Reason: the real page draws the kit with no page or GL errors (headless Chromium on 8964, dist bundle). Act: scratch probe
+   `$SP/packs/landmarks/live.mjs`. Observe: sf-downtown 7 kits (`lm-the-ferry-building` … `lm-painted-ladies`), sf-marina
+   `lm-golden-gate-bridge` (towers and cables over the bridge road), oak-west-oakland 2 kits; stills rendered; 0 page errors,
+   0 GL errors on all three maps. PASS.
