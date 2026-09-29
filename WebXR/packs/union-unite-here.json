@@ -315,14 +315,43 @@
       "parish": "orleans",
       "sites": [
         "university-campus",
-        "hospitality-row"
+        "hospitality-row",
+        "no-sw-lakeview-and-gentilly-recreation-centre",
+        "no-sw-treme-restaurant-kitchen",
+        "no-sw-mid-city-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-metairie-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-arabi-and-chalmette-recreation-centre",
+        "sb-sw-violet-and-poydras-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-sw-covington-restaurant-kitchen",
+        "st-sw-piney-woods-east-recreation-centre",
+        "st-sw-slidell-recreation-centre"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "fishermans-wharf-kitchens"
+        "fishermans-wharf-kitchens",
+        "dt-sw-north-beach-restaurant-kitchen",
+        "dt-sw-mission-dolores-recreation-centre"
       ]
     },
     {
@@ -336,14 +365,24 @@
       "world": "parishes",
       "parish": "sf-golden-gate-park",
       "sites": [
-        "lone-mountain-university-campus"
+        "lone-mountain-university-campus",
+        "gg-sw-sunset-recreation-centre",
+        "gg-sw-lone-mountain-campus-central-plant",
+        "gg-sw-inner-richmond-recreation-centre",
+        "gg-sw-golden-gate-park-recreation-centre",
+        "gg-sw-outer-richmond-recreation-centre"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-marina",
       "sites": [
-        "fort-mason-piers"
+        "fort-mason-piers",
+        "ma-sw-western-addition-restaurant-kitchen",
+        "ma-sw-russian-hill-restaurant-kitchen",
+        "ma-sw-western-addition-hotel-service-floor",
+        "ma-sw-inner-richmond-recreation-centre",
+        "ma-sw-western-addition-garment-workshop"
       ]
     },
     {
@@ -351,7 +390,27 @@
       "parish": "sf-bayview",
       "sites": [
         "bayview-rec-centre",
-        "india-basin-park-crew"
+        "india-basin-park-crew",
+        "bv-sw-excelsior-restaurant-kitchen",
+        "bv-sw-excelsior-hotel-service-floor",
+        "bv-sw-excelsior-garment-workshop",
+        "bv-sw-visitacion-valley-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "chinatown-kitchens",
+        "jack-london-hotel-row",
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-public-market"
       ]
     }
   ],
@@ -427,7 +486,7 @@
     "kitchen": "Hot Line"
   },
   "version": "1.0.0",
-  "contentHash": "09595e89",
+  "contentHash": "ff400dd9",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

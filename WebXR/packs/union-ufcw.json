@@ -226,9 +226,28 @@
     },
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-almonaster-corridor-distribution-warehouse",
+        "no-sw-lakeview-and-gentilly-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-elmwood-freight"
+        "jf-elmwood-freight",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-metairie-grocery-distribution-centre",
+        "jf-sw-kenner-airport-side-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-arabi-and-chalmette-grocery-distribution-centre",
+        "sb-sw-violet-and-poydras-grocery-distribution-centre"
       ]
     },
     {
@@ -236,6 +255,29 @@
       "parish": "st-tammany",
       "sites": [
         "st-timber-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "gg-sw-sunset-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "mandela-parkway-warehouse-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-public-market",
+        "high-street-warehouse-yard",
+        "fruitvale-community-clinic"
       ]
     }
   ],
@@ -289,7 +331,7 @@
     "phlebotomy": "Draw Station"
   },
   "version": "1.0.0",
-  "contentHash": "3850f052",
+  "contentHash": "450db2b0",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

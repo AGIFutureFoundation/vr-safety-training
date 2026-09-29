@@ -127,14 +127,19 @@
       "world": "parishes",
       "parish": "orleans",
       "sites": [
-        "hospital-district"
+        "hospital-district",
+        "no-sw-mid-city-fire-station",
+        "no-sw-lower-ninth-ward-fire-station",
+        "no-sw-algiers-fire-station",
+        "no-sw-mid-city-community-clinic"
       ]
     },
     {
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-causeway-yard"
+        "jf-causeway-yard",
+        "jf-sw-kenner-fire-station"
       ]
     },
     {
@@ -142,14 +147,17 @@
       "parish": "st-bernard",
       "sites": [
         "sb-hospital",
-        "sb-fire-station"
+        "sb-fire-station",
+        "sb-sw-arabi-and-chalmette-community-clinic",
+        "sb-sw-refinery-corridor-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "plaquemines",
       "sites": [
-        "pq-belle-chasse-fire"
+        "pq-belle-chasse-fire",
+        "pq-sw-scarsdale-and-braithwaite-fire-station"
       ]
     },
     {
@@ -157,21 +165,31 @@
       "parish": "st-tammany",
       "sites": [
         "st-causeway-north",
-        "st-slidell-staging"
+        "st-slidell-staging",
+        "st-sw-piney-woods-east-fire-station",
+        "st-sw-slidell-community-clinic",
+        "st-sw-lacombe-fire-station",
+        "st-sw-piney-woods-west-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "cathedral-hill-hospital"
+        "cathedral-hill-hospital",
+        "dt-sw-mission-dolores-fire-station",
+        "dt-sw-russian-hill-fire-station",
+        "dt-sw-western-addition-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "potrero-hospital-campus"
+        "potrero-hospital-campus",
+        "mi-sw-noe-valley-fire-station",
+        "mi-sw-bernal-heights-fire-station",
+        "mi-sw-mission-community-clinic"
       ]
     },
     {
@@ -180,7 +198,53 @@
       "sites": [
         "ocean-beach-lifeguard-station",
         "parnassus-hospital-campus",
-        "richmond-fire-station"
+        "richmond-fire-station",
+        "gg-sw-inner-richmond-fire-station",
+        "gg-sw-sunset-community-clinic",
+        "gg-sw-outer-richmond-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-inner-richmond-fire-station",
+        "ma-sw-western-addition-community-clinic",
+        "ma-sw-presidio-fire-station",
+        "ma-sw-western-addition-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-visitacion-valley-fire-station",
+        "bv-sw-portola-fire-station",
+        "bv-sw-excelsior-community-clinic",
+        "bv-sw-bayview-fire-station",
+        "bv-sw-excelsior-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "bay-bridge-toll-plaza-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-fire-station",
+        "fruitvale-bridge-crew"
       ]
     }
   ],
@@ -204,7 +268,7 @@
     "or-wildland-fireline-construction-and-lookout": "Wildland Fireline Construction"
   },
   "version": "1.0.0",
-  "contentHash": "700f6899",
+  "contentHash": "d9309a74",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

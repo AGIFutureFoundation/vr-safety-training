@@ -52,7 +52,15 @@
   "k12Bands": [],
   "path": "union-trades",
   "alsoPaths": [],
-  "worlds": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-kenner-airport-side-mail-processing-plant"
+      ]
+    }
+  ],
   "stationNames": {
     "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
     "ml-dog-and-hazard-awareness-on-route": "Dog & Hazard Awareness on Route",
@@ -64,7 +72,7 @@
     "ml-retail-counter-deescalation": "Retail Counter De-escalation"
   },
   "version": "1.0.0",
-  "contentHash": "88f11f79",
+  "contentHash": "ea35afc0",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

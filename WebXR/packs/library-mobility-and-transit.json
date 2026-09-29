@@ -284,7 +284,9 @@
       "parish": "orleans",
       "sites": [
         "streetcar-barn",
-        "rail-yard"
+        "rail-yard",
+        "no-sw-algiers-school-campus",
+        "no-sw-almonaster-corridor-distribution-warehouse"
       ]
     },
     {
@@ -294,7 +296,12 @@
         "jf-airport-ramp",
         "jf-elmwood-freight",
         "jf-transit-yard",
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-kenner-school-campus",
+        "jf-sw-kenner-airport-side-rail-siding",
+        "jf-sw-west-bank-waterfront-distribution-warehouse",
+        "jf-sw-kenner-airport-side-mail-processing-plant",
+        "jf-sw-old-gretna-school-campus"
       ]
     },
     {
@@ -306,12 +313,21 @@
     },
     {
       "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-sw-scarsdale-and-braithwaite-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "st-tammany",
       "sites": [
         "st-slidell-staging",
         "st-timber-yard",
         "st-slidell-rail",
-        "st-tammany-trace"
+        "st-tammany-trace",
+        "st-sw-piney-woods-west-school-campus",
+        "st-sw-piney-woods-east-school-campus"
       ]
     },
     {
@@ -319,7 +335,12 @@
       "parish": "sf-downtown",
       "sites": [
         "transbay-transit-hub",
-        "cable-car-barn"
+        "cable-car-barn",
+        "dt-sw-mission-dolores-school-campus",
+        "dt-sw-western-addition-school-campus",
+        "dt-sw-south-of-market-distribution-warehouse",
+        "dt-sw-nob-hill-school-campus",
+        "dt-sw-south-of-market-rail-siding"
       ]
     },
     {
@@ -328,7 +349,12 @@
       "sites": [
         "king-street-rail-yard",
         "mission-school-campus",
-        "potrero-bus-yard"
+        "potrero-bus-yard",
+        "mi-sw-noe-valley-school-campus",
+        "mi-sw-bernal-heights-school-campus",
+        "mi-sw-potrero-hill-school-campus",
+        "mi-sw-islais-creek-rail-siding",
+        "mi-sw-south-of-market-rail-siding"
       ]
     },
     {
@@ -336,14 +362,18 @@
       "parish": "sf-golden-gate-park",
       "sites": [
         "ocean-beach-streetcar-terminal",
-        "sunset-school-campus"
+        "sunset-school-campus",
+        "gg-sw-sunset-bus-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-marina",
       "sites": [
-        "cow-hollow-bus-yard"
+        "cow-hollow-bus-yard",
+        "ma-sw-inner-richmond-school-campus",
+        "ma-sw-western-addition-school-campus",
+        "ma-sw-russian-hill-school-campus"
       ]
     },
     {
@@ -351,7 +381,37 @@
       "parish": "sf-bayview",
       "sites": [
         "islais-rail-yard",
-        "third-street-rail-barn"
+        "third-street-rail-barn",
+        "bv-sw-visitacion-valley-school-campus",
+        "bv-sw-portola-school-campus",
+        "bv-sw-excelsior-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "port-truck-staging-yard",
+        "west-oakland-rail-yard",
+        "mcclymonds-school-campus",
+        "west-oakland-transit-station",
+        "mandela-parkway-warehouse-row"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "uptown-bus-operations-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-transit-station",
+        "fruitvale-school-campus",
+        "high-street-warehouse-yard"
       ]
     }
   ],
@@ -416,7 +476,7 @@
     "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk"
   },
   "version": "1.0.0",
-  "contentHash": "c15b19c9",
+  "contentHash": "fac03e68",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

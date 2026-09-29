@@ -319,7 +319,9 @@
         "jf-river-bridge",
         "jf-harvey-canal-yard",
         "jf-gretna-landing",
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-kenner-airport-side-rail-siding",
+        "jf-sw-west-bank-waterfront-workboat-landing"
       ]
     },
     {
@@ -328,7 +330,8 @@
       "sites": [
         "sb-violet-floodgate",
         "sb-chalmette-ferry",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -359,7 +362,9 @@
         "ferry-building-landing",
         "cable-car-barn",
         "financial-district-high-rise",
-        "bay-bridge-crew-yard"
+        "bay-bridge-crew-yard",
+        "dt-sw-south-of-market-fabrication-shop",
+        "dt-sw-south-of-market-rail-siding"
       ]
     },
     {
@@ -368,7 +373,12 @@
       "sites": [
         "king-street-rail-yard",
         "soma-maker-workshop",
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-islais-creek-fabrication-shop",
+        "mi-sw-south-of-market-fabrication-shop",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-islais-creek-rail-siding",
+        "mi-sw-south-of-market-rail-siding"
       ]
     },
     {
@@ -391,7 +401,35 @@
       "parish": "sf-bayview",
       "sites": [
         "port-southern-terminals",
-        "islais-rail-yard"
+        "islais-rail-yard",
+        "bv-sw-islais-creek-fabrication-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "west-oakland-rail-yard",
+        "west-oakland-transit-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "laney-college-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "embarcadero-metal-workshop",
+        "alameda-estuary-boatyard"
       ]
     }
   ],
@@ -457,7 +495,7 @@
     "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check"
   },
   "version": "1.0.0",
-  "contentHash": "18cb5641",
+  "contentHash": "4f328a5f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
