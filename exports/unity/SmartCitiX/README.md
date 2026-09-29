@@ -4,7 +4,7 @@ The SmartCiti.X ~Holodeck procedures, exported for a Unity runtime by `tools/exp
 
 ## What is here
 
-- `Content/stations/*.json` — 721 procedures: the ordered steps (kind, target, prompt, why), the hazards, the interruptions, the citations, the support line, the scene's hit ids and the equipment builders it places.
+- `Content/stations/*.json` — 724 procedures: the ordered steps (kind, target, prompt, why), the hazards, the interruptions, the citations, the support line, the scene's hit ids and the equipment builders it places.
 - `Content/programmes/*.json` — 61 curricula with their ladders, competencies and world anchors.
 - `Content/worlds/*.json` — the Bay World and Fairway Park layout data (and the underwater world when it exists).
 - `Content/index.json` — the file list, the nine step kinds and the pass rule.

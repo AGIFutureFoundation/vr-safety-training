@@ -21,6 +21,10 @@
     },
     {
       "app": "smartcity",
+      "id": "lp-gas-storage-wellpad-awareness"
+    },
+    {
+      "app": "smartcity",
       "id": "mobile-air-lab"
     },
     {
@@ -151,11 +155,27 @@
       "sites": [
         "npp-solids-loadout"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-black-bayou-cameron",
+      "sites": [
+        "lbb-salt-dome-wellpad",
+        "lbb-metering-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-utility-locate"
+      ]
     }
   ],
   "stationNames": {
     "air-monitor": "Perimeter Air",
     "cnc-cell": "CNC Cell",
+    "lp-gas-storage-wellpad-awareness": "Gas Storage Well Pad Safety",
     "mobile-air-lab": "Mobile Air Lab",
     "opacity-reading": "Opacity Reading",
     "soil-loadout": "Soil Loadout",
@@ -172,7 +192,7 @@
     "mm-hot-strip-mill-stand": "Hot-Strip Mill Stand"
   },
   "version": "1.0.0",
-  "contentHash": "75e407c7",
+  "contentHash": "62c531d6",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
