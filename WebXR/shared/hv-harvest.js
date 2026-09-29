@@ -42,13 +42,16 @@ export const HV_AGENCY = {
   "new-orleans": "the Louisiana Department of Wildlife and Fisheries",
   bay: "the California Department of Fish and Wildlife",
 };
-export const hvFamily = (parish) => (npRegionOf(parish) === "new-orleans" ? "new-orleans" : "bay");
+// Every Louisiana region (the Louisiana wave's site areas, growth cities and New Orleans districts) plays by the Louisiana
+// family: its agency, species and the rice-and-crawfish field (console ACADIANA).
+export const HV_LOUISIANA_REGIONS = ["new-orleans", "louisiana-sites", "louisiana-cities", "new-orleans-districts"];
+export const hvFamily = (parish) => (HV_LOUISIANA_REGIONS.includes(npRegionOf(parish)) ? "new-orleans" : "bay");
 
 /** Water classes: the engine's water kind read by region (San Francisco Bay is drawn as `gulf` on the Marina map). */
 export function hvWaterClass(parish, w) {
   if (!w) return null;
   const fam = hvFamily(parish), name = String(w.name ?? "");
-  if (/procedural|swale|storm drain/i.test(name)) return null;
+  if (/procedural|swale|storm drain|on the campus/i.test(name)) return null;
   if (fam === "new-orleans") {
     if (w.kind === "wetland") return "marsh";
     return ["river", "lake", "canal", "bayou", "gulf"].includes(w.kind) ? w.kind : null;
@@ -208,6 +211,8 @@ function hvActivitiesFor(parish, cls, kind) {
   if (fam === "new-orleans" && (cls === "lake" || cls === "gulf")) a.push("shrimp");
   if ((npRegionOf(parish) === "bay-program" && cls === "bay") || (fam === "new-orleans" && cls === "gulf")) a.push("oyster");
   if (fam === "new-orleans" && (cls === "bayou" || cls === "marsh" || cls === "canal")) a.push("gator");
+  // The inland growth cities (Lafayette, Carencro, Monroe) are fresh water far from the coast: no crab, shrimp or oyster.
+  if (npRegionOf(parish) === "louisiana-cities") return a.filter((x) => x === "fish" || x === "gator");
   return a;
 }
 
@@ -259,7 +264,8 @@ export function hvSpotsFor(parish) {
     perWater.set(c.w, n + 1);
   }
   // The rice-and-crawfish field (procedural) on a rural New Orleans parish: dry ground a little back from a bayou or marsh.
-  if (fam === "new-orleans" && parish.id !== "orleans") {
+  // A growth-city map gets the field only where it declares farmland (Carencro's cane and rice country), not downtown.
+  if (fam === "new-orleans" && parish.id !== "orleans" && (npRegionOf(parish) !== "louisiana-cities" || parish.farmland === true)) {
     const fc = cands.filter((c) => c.cls === "bayou" || c.cls === "marsh" || c.cls === "canal");
     for (const c of fc) {
       let done = false;

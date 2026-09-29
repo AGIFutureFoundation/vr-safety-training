@@ -104,7 +104,7 @@ export const PA_CATEGORIES = {
   "acadian-cypress": {
     id: "acadian-cypress", name: "Acadian cypress and tin", wall: "clapboard", roof: "corrugated",
     walls: [0xc9a878, 0xe8dcc0, 0x9fb59a, 0xd9b48f, 0xa9c2c9, 0xefe6d2],
-    sign: { ground: 0x3b2a1c, ink: 0xf6efe0 }, note: "Cypress-toned and whitewashed clapboard cottages under tin roofs, the Cajun and Creole prairie's look; procedural.",
+    sign: { ground: 0x3b2a1c, ink: 0xedf6fb }, note: "Cypress-toned and whitewashed clapboard cottages under tin roofs, the Cajun and Creole prairie's look; procedural.",
   },
 };
 

@@ -26,12 +26,12 @@ export const NP_LAF_DOWNTOWN = {
   hills: [
   ],
   water: [
-    {"id":"vermilion-river","name":"the Vermilion River","kind":"river","width":24,"poly":[[2046,-139],[1866,-83],[1337,178],[895,178],[572,267],[457,395],[308,568],[164,829],[164,1091],[-14,1263],[-337,1308],[-659,1436],[-952,1525],[-1303,1787],[-1597,2004],[-2046,2046]]},
+    {"id":"vermilion-river","name":"the Vermilion River","kind":"bayou","width":30,"poly":[[2046,-139],[1866,-83],[1337,178],[895,178],[572,267],[457,395],[308,568],[164,829],[164,1091],[-14,1263],[-337,1308],[-659,1436],[-952,1525],[-1303,1787],[-1597,2004],[-2046,2046]]},
     {"id":"cypress-lake","name":"Cypress Lake on the campus","kind":"lake","poly":[[-553,512],[-457,512],[-457,590],[-553,590]]},
     {"id":"coulee-procedural","name":"a coulee (procedural drainage)","kind":"canal","width":8,"poly":[[-2046,-501],[-1731,-390],[-1251,-223],[-866,-28]]},
   ],
   levees: [
-    {"id":"vermilion-west-bank-procedural","name":"the Vermilion's west bank protection (procedural)","height":1.6,"pts":[[58,724],[48,1058],[-87,1180]]},
+    {"id":"vermilion-west-bank-procedural","name":"the Vermilion's west bank protection (procedural)","height":3.6,"pts":[[58,724],[48,1058],[-87,1180]]},
     {"id":"vermilion-east-bank-procedural","name":"the Vermilion's east bank by the airport (procedural)","height":1.6,"pts":[[673,28],[962,28],[1299,0]]},
   ],
   roads: [
@@ -89,7 +89,7 @@ export const NP_LAF_DOWNTOWN = {
     {"id":"girard-park-lm","name":"Girard Park","position":[-962,278],"kind":"park"},
     {"id":"cypress-lake-lm","name":"Cypress Lake","position":[-601,551],"kind":"shore"},
     {"id":"vermilionville-lm","name":"Vermilionville","position":[409,1419],"kind":"place"},
-    {"id":"vermilion-bridge","name":"the Pinhook Road bridge over the Vermilion","position":[-120,1269],"kind":"bridge"},
+    {"id":"vermilion-bridge","name":"the Pinhook Road bridge over the Vermilion","position":[-120,1169],"kind":"bridge"},
   ],
   connectors: [
     {"id":"ac-lafd-i49-north","kind":"road","name":"The interstate north toward Carencro","from":{"parish":"laf-downtown","position":[-216,-2046]},"to":{"parish":"laf-carencro-north","position":[1562,2046]},"lonlat":[-92.0145,30.2572],"approximate":true},

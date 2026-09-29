@@ -5,7 +5,7 @@
 // general shape of the real ones; blocks, massing, pads and every site are PROCEDURAL training places, and every site
 // layout is the platform's illustration (the city, its waterways and its roads are real). No growth figure is stated.
 // Water and road layout checked against Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026).
-// The coulee is procedural (drainage of the kind the prairie has); the cane and rice fields are open ground.
+// Bayou Carencro follows an approximate course; the canal, pond and pit are procedural; the cane and rice fields are open ground.
 // Generated from lon/lat by the ACADIANA layout script; pure data, no imports.
 export const NP_LAF_CARENCRO_NORTH = {
   id: "laf-carencro-north",
@@ -13,6 +13,7 @@ export const NP_LAF_CARENCRO_NORTH = {
   region: "louisiana-cities",
   size: 4096,
   scale: 2,
+  farmland: true,
   blurb: "Carencro and north Lafayette along the interstate, in Cajun and Creole prairie country: an industrial park by the interchange, tilt-up warehouses, a pipe yard and a fabrication shop, a substation tie-in, a rail siding, cane haul roads and the crawfish and rice fields around Carencro. The site layouts are illustrative; the towns, the interstates and the roads are real.",
   start: "lafc-workforce-trailer",
   anchors: [
@@ -26,12 +27,13 @@ export const NP_LAF_CARENCRO_NORTH = {
   hills: [
   ],
   water: [
-    {"id":"carencro-coulee-procedural","name":"a coulee (procedural drainage)","kind":"bayou","width":10,"poly":[[-2018,-139],[-1298,28],[-625,223],[-48,529],[336,863],[865,1085],[1394,1308],[2018,1419]]},
+    {"id":"bayou-carencro","name":"Bayou Carencro (approximate course)","kind":"bayou","width":10,"poly":[[-2018,-139],[-1298,28],[-625,223],[-48,529],[336,863],[865,1085],[1394,1308],[2018,1419]]},
     {"id":"field-pond-procedural","name":"a crawfish pond (procedural)","kind":"wetland","poly":[[1682,-1364],[1922,-1364],[1922,-1141],[1682,-1141]]},
     {"id":"rice-canal-procedural","name":"a rice field irrigation canal (procedural)","kind":"canal","width":6,"poly":[[-1826,-1531],[-1586,-807],[-1538,28]]},
+    {"id":"borrow-pit-pond-procedural","name":"a borrow pit pond by the interstate (procedural)","kind":"lake","poly":[[1634,-640],[1874,-640],[1874,-417],[1634,-417]]},
   ],
   levees: [
-    {"id":"coulee-spoil-bank-procedural","name":"the coulee's spoil bank (procedural)","height":1.2,"pts":[[-1298,-39],[-625,150],[-96,445]]},
+    {"id":"coulee-spoil-bank-procedural","name":"Bayou Carencro's flood bank (procedural)","height":3.6,"pts":[[-1394,-67],[-1057,-67],[-721,-67]]},
     {"id":"crawfish-pond-levee-procedural","name":"the crawfish pond levees (procedural)","height":0.8,"pts":[[1634,-1430],[1970,-1430]]},
   ],
   roads: [
@@ -74,7 +76,7 @@ export const NP_LAF_CARENCRO_NORTH = {
     {"id":"carencro-town-lm","name":"Carencro","position":[-144,-1141],"kind":"place"},
     {"id":"interchange-lm","name":"the interstates' interchange","position":[1394,1865],"kind":"bridge"},
     {"id":"cane-fields-lm","name":"the cane and rice fields east of Carencro","position":[1682,-1642],"kind":"park"},
-    {"id":"coulee-bridge-lm","name":"the interstate bridge over the coulee","position":[1274,1208],"kind":"bridge"},
+    {"id":"coulee-bridge-lm","name":"the interstate bridge over Bayou Carencro","position":[1274,1208],"kind":"bridge"},
     {"id":"rail-line-lm","name":"the main rail line through Carencro","position":[-360,-306],"kind":"place"},
   ],
   connectors: [

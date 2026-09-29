@@ -27,7 +27,7 @@ export const NP_MONROE_WEST_MONROE = {
   ],
   water: [
     {"id":"ouachita-river","name":"the Ouachita River","kind":"river","width":50,"poly":[[-1505,-2046],[-958,-1651],[-1042,-1269],[-1211,-931],[-1295,-635],[-1189,-212],[-958,126],[-745,338],[-620,594],[-535,931],[-704,1035],[-998,805],[-1189,846],[-1230,1098],[-1042,1228],[-745,1269],[-660,1521],[-704,2046]]},
-    {"id":"bayou-desiard","name":"Bayou DeSiard","kind":"bayou","width":10,"poly":[[-767,-1651],[-407,-1481],[-69,-1733],[16,-1440],[269,-1143],[523,-1058],[732,-1228],[817,-720],[1114,-846],[1367,-805],[1533,-594],[1621,-1058],[2046,-1098]]},
+    {"id":"bayou-desiard","name":"Bayou DeSiard","kind":"bayou","width":10,"poly":[[-767,-1651],[-407,-1481],[-69,-1733],[16,-1440],[269,-1143],[523,-1058],[817,-720],[1114,-846],[1367,-805],[1533,-594],[1621,-1058],[2046,-1098]]},
     {"id":"south-monroe-drainage-procedural","name":"a drainage canal in south Monroe (procedural)","kind":"canal","width":6,"poly":[[-156,1855],[0,1484],[156,1113]]},
   ],
   levees: [
@@ -35,12 +35,15 @@ export const NP_MONROE_WEST_MONROE = {
     {"id":"west-monroe-levee","name":"the West Monroe levee","height":3.2,"pts":[[-1389,-635],[-1289,-186],[-1064,167],[-861,390]]},
   ],
   roads: [
-    {"id":"interstate-twenty","name":"Interstate Twenty","kind":"interstate","pts":[[-2046,126],[-1252,464],[-745,486],[-238,330],[397,360],[1283,594],[2046,657]]},
+    {"id":"interstate-twenty-west","name":"Interstate Twenty through West Monroe","kind":"interstate","pts":[[-2046,126],[-1252,464],[-892,479]]},
+    {"id":"interstate-twenty-bridge","name":"the interstate bridge over the Ouachita","kind":"bridge","pts":[[-892,479],[-688,464],[-485,419]]},
+    {"id":"interstate-twenty","name":"Interstate Twenty","kind":"interstate","pts":[[-485,419],[-238,330],[397,360],[1283,594],[2046,657]]},
     {"id":"us-highway-165","name":"the north-south US highway","kind":"interstate","pts":[[607,-2046],[460,-508],[397,338],[354,2046]]},
     {"id":"louisville-avenue","name":"Louisville Avenue","kind":"avenue","pts":[[-657,-468],[-313,-872],[16,-1269],[313,-1596]]},
-    {"id":"desiard-street","name":"DeSiard Street","kind":"avenue","pts":[[-673,56],[-156,-111],[407,-297],[1095,-371],[1658,-297]]},
-    {"id":"cypress-street","name":"Cypress Street","kind":"avenue","pts":[[-2034,-223],[-1565,-148],[-1158,-37],[-814,37]]},
+    {"id":"desiard-street","name":"DeSiard Street","kind":"avenue","pts":[[-923,7],[-673,56],[-156,-111],[407,-297],[1095,-371],[1658,-297]]},
+    {"id":"cypress-street","name":"Cypress Street","kind":"avenue","pts":[[-2034,-223],[-1565,-148],[-1189,-56]]},
     {"id":"trenton-street","name":"Trenton Street","kind":"street","pts":[[-1408,-445],[-1283,0],[-1158,371]]},
+    {"id":"endom-bridge","name":"the Endom Bridge","kind":"bridge","pts":[[-1189,-56],[-1058,-22],[-923,7]]},
   ],
   districts: [
     {"id":"downtown-monroe","name":"Downtown Monroe","character":"downtown","poly":[[-782,-148],[-282,-148],[-282,297],[-782,297]]},
@@ -70,9 +73,9 @@ export const NP_MONROE_WEST_MONROE = {
     {"id":"mon-school-renovation","name":"School Renovation","kind":"school","position":[-31,816],"trades":["aft","seiu","carpenters"],"programmes":["education-support-staff","k12-literacy-and-life-skills"],"stations":["ed-custodial-chemical-dilution-and-floor-machine","ed-playground-equipment-inspection","ed-crossing-guard-intersection-control"],"blurb":"A procedural school under renovation in south Monroe: the custodians' chemical room, the playground and the crossing guard."},
     {"id":"mon-transit-shelters","name":"Transit Shelters and Bus Yard","kind":"transit","position":[-250,-260],"trades":["atu","iam"],"programmes":["transit-ramp"],"stations":["bus-yard-fuelling-and-brake-check","bus-depot-lift","tr-wheelchair-lift-and-securement-on-a-bus"],"blurb":"A procedural bus yard and new shelters: fuelling and the brake check, the depot lift and the ramp for every rider."},
     {"id":"mon-downtown-facade","name":"Downtown Facade Restoration","kind":"construction","position":[-626,-74],"trades":["bac","opcmia","carpenters"],"programmes":["builders-trades"],"stations":["masonry-silica-scaffold","bt-masonry-wall-layout-and-mortar","scaffold-erection"],"blurb":"A procedural downtown storefront restored: the scaffold, silica dust controlled and the masonry relaid."},
-    {"id":"mon-boat-launch-rebuild","name":"Boat Launch Rebuild","kind":"landing","position":[-1127,-482],"trades":["ibu","liuna","iuoe"],"programmes":["port-operations","heavy-equipment-operators"],"stations":["br-cold-water-immersion-and-mob-recovery","op-pile-driving-rig-and-lead-setup","mw-workboat-towing-and-line-handling"],"blurb":"A procedural boat launch being rebuilt on the Ouachita's bank: piles driven, the workboat's lines and the person-overboard drill."},
     {"id":"mon-fire-station","name":"West Monroe Fire Station","kind":"fire-station","position":[-1596,371],"trades":["iaff","naemt"],"programmes":["first-responders"],"stations":["ambulance-scene-safety","traffic-incident-management","aerial-ladder"],"blurb":"A procedural fire station in West Monroe: the ambulance scene, a lane of the interstate cleared safely and the ladder check."},
     {"id":"mon-west-monroe-warehouse","name":"West Monroe Distribution Dock","kind":"warehouse","position":[-1909,37],"trades":["teamsters"],"programmes":["warehouse-and-logistics-automation"],"stations":["forklift-dock","tdl-trailer-loading-and-dock-plate","tw-high-bay-order-picker-fall-protection"],"blurb":"A procedural distribution dock in West Monroe: the forklift at the dock, the dock plate and the order picker's harness."},
+    {"id":"mon-boat-launch-rebuild","name":"Boat Launch Rebuild","kind":"landing","position":[-1127,-482],"trades":["ibu","liuna","iuoe"],"programmes":["port-operations","heavy-equipment-operators"],"stations":["br-cold-water-immersion-and-mob-recovery","op-pile-driving-rig-and-lead-setup","mw-workboat-towing-and-line-handling"],"blurb":"A procedural boat launch being rebuilt on the Ouachita's bank: piles driven, the workboat's lines and the person-overboard drill."},
   ],
   landmarks: [
     {"id":"mon-sign","name":"a sign: the site layouts are illustrative; the cities, the river and the roads are real","position":[-391,241],"kind":"place"},
