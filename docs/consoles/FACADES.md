@@ -52,7 +52,7 @@ different chunk. Engine limits: 260 meshes, 400,000 triangles. Measured with `$S
 ## Eval
 - Before (9914455, browser leg on): `eval_worlds: 27 subjects, mean 98, 18 findings` (parishes 100, Bay Area maps 97 on the field-lesson finding, PLAYLAYER's).
 - After #1 (411d445): `eval_worlds: 27 subjects, mean 97, 18 findings` — the browser leg was skipped (EADDRINUSE 127.0.0.1:8990, another console's server), so "loads" read "—"; every non-browser leg matched the before run's rows (parishes 100, Bay Area 97, same findings).
-- After #2 (cccf5a8, `AS_PORT=8991`): still running at hand-back; output at `$SP/packs/facades/eval-after2.txt`.
+- After #2 (cccf5a8, `AS_PORT=8991`, browser leg on): `eval_worlds: 27 subjects, mean 98, 18 findings` (loads 2/2 on 26 subjects) — unchanged from before.
 
 ## Left
 - A browser look at the atlas signs and kits (headless only so far; the canvas atlas path runs only with a `document`).
