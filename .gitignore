@@ -32,3 +32,7 @@ tools/out/
 .claude/worktrees/
 # One Holodeck Pack exported alone (tools/export_pack.mjs) — rebuilt on demand, never committed.
 exports/packs/
+
+# Python bytecode (rewritten on every bundle run)
+__pycache__/
+*.pyc
