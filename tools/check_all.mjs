@@ -85,6 +85,7 @@ const CHECKERS = [
   "check_cognition.mjs",
   // BAYKEEPER: the Bay Program hub — figures vs the facts, project→station links, union tags, stations 95+ (docs/consoles/BAYKEEPER.md).
   "check_bayprogram.mjs",
+  "check_academy.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",
