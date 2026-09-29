@@ -20,6 +20,8 @@ import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, 
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
+// LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
+import { lxWalkinDoors, lxWalkin } from "../../shared/lx-walkin.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
@@ -111,6 +113,10 @@ if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 // The phone tier asks for none; a failed or slow tile (bounded wait) leaves the schematic ground.
 const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierName }) : null;
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
+// LANDMARKS-2: doors at walk-in kit landmarks; INTERIORS' shell (globalThis.IX_INTERIORS) is used when it lands, guarded.
+const lxDoors = typeof lxWalkinDoors === "function" ? lxWalkinDoors(world.lmKits ?? []) : [];
+const npLandmarkName = (id) => (parish.landmarks ?? []).find((l) => l.id === id)?.name ?? "the landmark";
+const lxRoom = typeof lxWalkin === "function" ? lxWalkin({ three: THREE, scene, outdoor: root, tier: npTierName, ix: globalThis.IX_INTERIORS }) : null;
 // CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
 const cwStreetsMount = cwMountStreets({ THREE, root, parish, tier: npTierName });
@@ -398,14 +404,19 @@ function npNearest() {
   for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
+  if (lxRoom?.inside) return { kind: "walkout", at: [0, 0] };
+  for (const w of lxDoors) { const d = Math.hypot(np.x - w.x, np.z - w.z); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "walkin", door: w, at: [w.x, w.z] }; } }
   return best;
 }
 
 function npUse() {
   // In the drive mode, Use (E, the touch Use button, the pad's A) steps out of the vehicle, like Q.
   if (nwPhys.driving()) { const out = nwPhys.exitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
+  // LANDMARKS-2: E goes into a walk-in landmark (the outdoor world hides and stops streaming) and E again comes back out.
+  if (lxRoom?.inside) { const p = lxRoom.exit(); np.x = p.x; np.z = p.z; np.near = null; world.update(np.x, np.z, 999); npToast("Back outside."); npHud(); return; }
   const n = np.near;
   if (!n) return;
+  if (n.kind === "walkin") { const p = lxRoom?.enter(n.door, { x: np.x, z: np.z }); if (p) { np.x = p.x; np.z = p.z; np.yaw = 0; np.near = { kind: "walkout", at: [0, 0] }; npToast(`${lxRoom.room.label}. E: go back outside.`, 5000); } return; }
   if (n.kind === "board") npOpenBoard(n.site);
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
   else if (n.kind === "connector") {
@@ -447,7 +458,7 @@ function npHud() {
   $("hud-visited").textContent = `${(np.state.visited[parish.id] ?? []).length}/${parish.sites.length}`;
   $("hud-credits").textContent = String(tyBalance);
   const p = $("hud-prompt");
-  if (np.near) { p.hidden = false; p.textContent = np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : `E — ${np.near.conn.name}`; }
+  if (np.near) { p.hidden = false; p.textContent = np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : np.near.kind === "walkin" ? `E — go inside ${npLandmarkName(np.near.door.id)}` : np.near.kind === "walkout" ? "E — go back outside" : `E — ${np.near.conn.name}`; }
   else p.hidden = true;
 }
 
@@ -478,6 +489,9 @@ function frame(now) {
       // Drive mode: W/S throttle, A/D steer, Space brakes; the crash response is nw-drive.js's.
       nwPhys.animate(dt, { throttle: Math.max(-1, Math.min(1, f)), steer: Math.max(-1, Math.min(1, turn - s)), brake: npKeys.has("Space") });
       const v = nwPhys.vehicle; np.x = v.x; np.z = v.z;
+    } else if (lxRoom?.inside) {
+      // LANDMARKS-2: inside a walk-in room the walk is the room's box collider (no terrain, no water).
+      const p = lxRoom.clamp(np.x + (fx * f - fz * s) * speed * dt, np.z + (fz * f + fx * s) * speed * dt); np.x = p.x; np.z = p.z;
     } else {
       // The walk through NEWTON's physics: off an edge it falls, walls stop it, water is waded or swum and its flow carries.
       if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
@@ -494,13 +508,12 @@ function frame(now) {
     camera.lookAt(cam.look[0], cam.look[1], cam.look[2]);
   } else {
     // A teleport or fast travel moved np.x/np.z: the avatar stands up on the ground there.
-    if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
-    const gy = np.playing ? nwPhys.cameraPose(NP_EYE).y : Math.max(npHeightAt(parish, np.x, np.z), 0.2) + NP_EYE;
+    if (!lxRoom?.inside && Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
+    const gy = lxRoom?.inside ? lxRoom.eyeY(NP_EYE) : np.playing ? nwPhys.cameraPose(NP_EYE).y : Math.max(npHeightAt(parish, np.x, np.z), 0.2) + NP_EYE;
     camera.position.set(np.x, gy, np.z);
     camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   }
-  world.update(np.x, np.z, 2);
-  cwStreetsMount.update(np.x, np.z, 1);
+  if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); }
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);

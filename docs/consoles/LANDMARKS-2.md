@@ -39,9 +39,26 @@ in San José (its towers do not read as `church-towers`), Tower Hall, the twin s
 
 ## Walk-in landmark interiors
 
-See "Seams" below — `WebXR/shared/lx-walkin.js`.
+`WebXR/shared/lx-walkin.js`: four public places open into a generic, schematic room — no real building's interior is modelled.
+
+| style | opens from | room |
+|---|---|---|
+| `market-hall` | `ferry-building` (sf-downtown, sf-north-beach) | a long hall with two rows of stalls under a clock tower |
+| `lamp-room` | `lighthouse` (st-tammany) | a small glazed room round a lamp on its pedestal |
+| `pier-shed` | `wharf-pier-shed` (Fisherman's Wharf, Pier Thirty-Nine) | a long shed with stacked crates |
+| `glasshouse` | `glasshouse` (the Conservatory of Flowers) | a glazed hall with rows of planters |
+
+At a walk-in kit the parishes app offers "E — go inside <name>"; inside, the outdoor root is hidden and does not stream, the room
+stands below the map (y −400) with its own lights, the player walks a box collider, and E returns them to the door. Each room is
+7 meshes (floor, ceiling, four walls, one InstancedMesh of dressing), ≤ 648 triangles; the phone tier thins the dressing.
 
 ## Seams
+
+- `lxWalkinStyleOf(kind)`, `lxWalkinDoors(lmKits)`, `lxBuildRoom(style, { three, tier, ix })`, `lxWalkin({ three, scene, outdoor, tier, ix })`
+  → `{ enter(door, at), exit(), clamp(x, z), eyeY(eye), inside }` (`WebXR/shared/lx-walkin.js`, mounted in `WebXR/parishes/js/app.js`).
+- INTERIORS seam (guarded): when `shared/ix-interiors.js` lands, pass it as `ix` (the app passes `globalThis.IX_INTERIORS`);
+  `ix.ixBuildRoom(style, { three, tier, w, d, h })` returning a THREE.Group (or `{ group }`) replaces the minimal room. The
+  coordinator can switch the app to a static import once both branches merge.
 
 - `lmBuild(kind, …)` gains the 21 kinds above; `LM_BUDGET` carries their budgets; `LM_BRIDGES` gains `truss-bridge`.
 - `tools/check_landmarks.mjs` now walks all 22 maps (was San Francisco and Oakland only), prints the worst chunk's meshes per
@@ -57,3 +74,8 @@ See "Seams" below — `WebXR/shared/lx-walkin.js`.
    (33 tags), checker over all maps with the worst chunk's meshes. Observe: 60 of 197 on 19 maps; 2 FAIL — fort-jackson sits
    on a site pad with water round it → left generic. Worst chunk (desktop, full build) 107–174 meshes (orleans 174) ≤ 260. PASS
    after the fix (59 of 197).
+4. Reason: three or four walk-in landmark interiors, generic and schematic, guarding INTERIORS' shell. Act:
+   `WebXR/shared/lx-walkin.js` (market hall, lamp room, pier shed, glasshouse; `ix.ixBuildRoom` tried first, guarded) and the
+   parishes app (door prompt "E — go inside …", the outdoor root hidden and streaming stopped inside, a box collider, E to come
+   out at the door). Observe: check_landmarks 1515 passed, 0 failed; rooms 7 meshes / 128–648 triangles (≤ 120 / 4000); 7 doors
+   on the maps; a fake ix is used, a throwing one falls back. PASS.
