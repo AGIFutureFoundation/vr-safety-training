@@ -23,62 +23,62 @@
 
 export const SMILES_MAP = "sm-unspoken-smiles";
 
-const OHI = "dn-oral-hygiene-instruction-and-motivational-interviewing";
-const PED = "pediatric-visit";
-const ICA = "infection-control-audit";
-const IRP = "instrument-reprocessing";
+const SMILES_OHI = "dn-oral-hygiene-instruction-and-motivational-interviewing";
+const SMILES_PED = "pediatric-visit";
+const SMILES_ICA = "infection-control-audit";
+const SMILES_IRP = "instrument-reprocessing";
 
 /** The teaching lines. `quote` re-reads verbatim in the station's sim file; `text` is what the player sees. */
 export const SMILES_LINES = [
   // brushing coverage
-  { id: "brush-tongue-side", station: OHI, band: "k12", quote: "a thick band on the tongue side of the lower front teeth — the spot a rushed brush in the car never reaches", text: "The tongue side of the lower front teeth is the spot a rushed brush never reaches." },
-  { id: "brush-back-molars", station: OHI, band: "k12", quote: "plaque along the upper back molars", text: "Plaque can sit along the upper back molars, so the brush goes there too." },
-  { id: "brush-soft", station: OHI, band: "k12", quote: "A soft brush, because the bleeding gums need cleaning without being scrubbed", text: "A soft brush, because gums need cleaning without being scrubbed." },
+  { id: "brush-tongue-side", station: SMILES_OHI, band: "k12", quote: "a thick band on the tongue side of the lower front teeth — the spot a rushed brush in the car never reaches", text: "The tongue side of the lower front teeth is the spot a rushed brush never reaches." },
+  { id: "brush-back-molars", station: SMILES_OHI, band: "k12", quote: "plaque along the upper back molars", text: "Plaque can sit along the upper back molars, so the brush goes there too." },
+  { id: "brush-soft", station: SMILES_OHI, band: "k12", quote: "A soft brush, because the bleeding gums need cleaning without being scrubbed", text: "A soft brush, because gums need cleaning without being scrubbed." },
   // floss the gaps
-  { id: "floss-between", station: OHI, band: "k12", quote: "show the in-and-out movement between two teeth", text: "Use the in-and-out movement between two teeth." },
-  { id: "floss-model", station: OHI, band: "k12", quote: "technique is shown on the model", text: "The technique is shown on the model first." },
-  { id: "floss-goal", station: OHI, band: "k12", quote: "A goal he sets is a goal he owns", text: "A goal you set is a goal you own." },
+  { id: "floss-between", station: SMILES_OHI, band: "k12", quote: "show the in-and-out movement between two teeth", text: "Use the in-and-out movement between two teeth." },
+  { id: "floss-model", station: SMILES_OHI, band: "k12", quote: "technique is shown on the model", text: "The technique is shown on the model first." },
+  { id: "floss-goal", station: SMILES_OHI, band: "k12", quote: "A goal he sets is a goal he owns", text: "A goal you set is a goal you own." },
   // sugar sort
-  { id: "sugar-chart", station: PED, band: "k12", quote: "Snacking: frequent", text: "Snacking often goes on the caries risk chart." },
-  { id: "sugar-diet-talk", station: PED, band: "k12", quote: "Score the caries-risk chart with the parent, then go through the diet handout together", text: "The hygienist and the parent go through the diet handout together." },
-  { id: "sugar-soft-foods", station: PED, band: "k12", quote: "Walk the parent through soft foods and no brushing until the next morning", text: "After the varnish: soft foods and no brushing until the next morning." },
+  { id: "sugar-chart", station: SMILES_PED, band: "k12", quote: "Snacking: frequent", text: "Snacking often goes on the caries risk chart." },
+  { id: "sugar-diet-talk", station: SMILES_PED, band: "k12", quote: "Score the caries-risk chart with the parent, then go through the diet handout together", text: "The hygienist and the parent go through the diet handout together." },
+  { id: "sugar-soft-foods", station: SMILES_PED, band: "k12", quote: "Walk the parent through soft foods and no brushing until the next morning", text: "After the varnish: soft foods and no brushing until the next morning." },
   // plaque attack
-  { id: "plaque-dye", station: OHI, band: "k12", quote: "The disclosing dye makes plaque visible", text: "The disclosing dye makes plaque visible." },
-  { id: "plaque-gumline", station: OHI, band: "k12", quote: "plaque at the gumline is what makes it bleed", text: "Look for plaque at the gumline." },
+  { id: "plaque-dye", station: SMILES_OHI, band: "k12", quote: "The disclosing dye makes plaque visible", text: "The disclosing dye makes plaque visible." },
+  { id: "plaque-gumline", station: SMILES_OHI, band: "k12", quote: "plaque at the gumline is what makes it bleed", text: "Look for plaque at the gumline." },
   // handwashing
-  { id: "hands-soiled", station: ICA, band: "k12", quote: "handwashing rather than an alcohol rub is what is required when hands are visibly soiled", text: "Handwashing is what is required when hands are visibly soiled." },
-  { id: "hands-towel", station: ICA, band: "k12", quote: "The towel is part of the hand hygiene procedure", text: "The towel is part of the hand hygiene procedure." },
-  { id: "hands-dispenser", station: ICA, band: "k12", quote: "An empty dispenser is a hand hygiene station that does not exist", text: "An empty dispenser is a hand hygiene station that does not exist." },
+  { id: "hands-soiled", station: SMILES_ICA, band: "k12", quote: "handwashing rather than an alcohol rub is what is required when hands are visibly soiled", text: "Handwashing is what is required when hands are visibly soiled." },
+  { id: "hands-towel", station: SMILES_ICA, band: "k12", quote: "The towel is part of the hand hygiene procedure", text: "The towel is part of the hand hygiene procedure." },
+  { id: "hands-dispenser", station: SMILES_ICA, band: "k12", quote: "An empty dispenser is a hand hygiene station that does not exist", text: "An empty dispenser is a hand hygiene station that does not exist." },
   // the sterilisation order (adult only): the station's own step titles, in the station's order
-  { id: "st-gloves", station: IRP, band: "adult", quote: "Don utility gloves for the dirty zone", text: "Don utility gloves for the dirty zone" },
-  { id: "st-receive", station: IRP, band: "adult", quote: "Receive the cassette in the dirty zone", text: "Receive the cassette in the dirty zone" },
-  { id: "st-clean", station: IRP, band: "adult", quote: "Clean instruments in the ultrasonic", text: "Clean instruments in the ultrasonic" },
-  { id: "st-rinse", station: IRP, band: "adult", quote: "Rinse the cleaned instruments", text: "Rinse the cleaned instruments" },
-  { id: "st-inspect", station: IRP, band: "adult", quote: "Inspect every instrument under magnification", text: "Inspect every instrument under magnification" },
-  { id: "st-dry", station: IRP, band: "adult", quote: "Dry instruments completely before packaging", text: "Dry instruments completely before packaging" },
-  { id: "st-package", station: IRP, band: "adult", quote: "Package with an internal indicator, then seal and date", text: "Package with an internal indicator, then seal and date" },
-  { id: "st-load", station: IRP, band: "adult", quote: "Load the autoclave without overlapping packs", text: "Load the autoclave without overlapping packs" },
-  { id: "st-run", station: IRP, band: "adult", quote: "Run the cycle", text: "Run the cycle" },
-  { id: "st-printout", station: IRP, band: "adult", quote: "Read the printout", text: "Read the printout" },
-  { id: "st-external", station: IRP, band: "adult", quote: "Check the external indicator", text: "Check the external indicator" },
-  { id: "st-log", station: IRP, band: "adult", quote: "Log the cycle and the spore test result", text: "Log the cycle and the spore test result" },
-  { id: "st-storage", station: IRP, band: "adult", quote: "Rotate sterile storage first-in-first-out", text: "Rotate sterile storage first-in-first-out" },
+  { id: "st-gloves", station: SMILES_IRP, band: "adult", quote: "Don utility gloves for the dirty zone", text: "Don utility gloves for the dirty zone" },
+  { id: "st-receive", station: SMILES_IRP, band: "adult", quote: "Receive the cassette in the dirty zone", text: "Receive the cassette in the dirty zone" },
+  { id: "st-clean", station: SMILES_IRP, band: "adult", quote: "Clean instruments in the ultrasonic", text: "Clean instruments in the ultrasonic" },
+  { id: "st-rinse", station: SMILES_IRP, band: "adult", quote: "Rinse the cleaned instruments", text: "Rinse the cleaned instruments" },
+  { id: "st-inspect", station: SMILES_IRP, band: "adult", quote: "Inspect every instrument under magnification", text: "Inspect every instrument under magnification" },
+  { id: "st-dry", station: SMILES_IRP, band: "adult", quote: "Dry instruments completely before packaging", text: "Dry instruments completely before packaging" },
+  { id: "st-package", station: SMILES_IRP, band: "adult", quote: "Package with an internal indicator, then seal and date", text: "Package with an internal indicator, then seal and date" },
+  { id: "st-load", station: SMILES_IRP, band: "adult", quote: "Load the autoclave without overlapping packs", text: "Load the autoclave without overlapping packs" },
+  { id: "st-run", station: SMILES_IRP, band: "adult", quote: "Run the cycle", text: "Run the cycle" },
+  { id: "st-printout", station: SMILES_IRP, band: "adult", quote: "Read the printout", text: "Read the printout" },
+  { id: "st-external", station: SMILES_IRP, band: "adult", quote: "Check the external indicator", text: "Check the external indicator" },
+  { id: "st-log", station: SMILES_IRP, band: "adult", quote: "Log the cycle and the spore test result", text: "Log the cycle and the spore test result" },
+  { id: "st-storage", station: SMILES_IRP, band: "adult", quote: "Rotate sterile storage first-in-first-out", text: "Rotate sterile storage first-in-first-out" },
 ];
 const smilesLine = (id) => SMILES_LINES.find((l) => l.id === id);
 
 /** The games: where each sits, who it is for, the station it pays through and the lines it teaches. */
 export const SMILES_GAMES = [
-  { id: "smiles-brushing-coverage", title: "Every Surface", site: "sm-school-brushing-station", audience: "k12", station: OHI,
+  { id: "smiles-brushing-coverage", title: "Every Surface", site: "sm-school-brushing-station", audience: "k12", station: SMILES_OHI,
     blurb: "Brush every surface: find the spot the brush has missed.", lines: ["brush-tongue-side", "brush-back-molars", "brush-soft"] },
-  { id: "smiles-floss-the-gaps", title: "Floss the Gaps", site: "sm-community-centre", audience: "k12", station: OHI,
+  { id: "smiles-floss-the-gaps", title: "Floss the Gaps", site: "sm-community-centre", audience: "k12", station: SMILES_OHI,
     blurb: "Clean between the teeth the way the hygienist shows on the model.", lines: ["floss-model", "floss-between", "floss-goal"] },
-  { id: "smiles-sugar-sort", title: "Snack Sort", site: "sm-healthy-food-market", audience: "k12", station: PED,
+  { id: "smiles-sugar-sort", title: "Snack Sort", site: "sm-healthy-food-market", audience: "k12", station: SMILES_PED,
     blurb: "Sort the cards the hygienist reads onto the caries risk chart.", lines: ["sugar-chart", "sugar-diet-talk", "sugar-soft-foods"] },
-  { id: "smiles-plaque-attack", title: "Plaque Attack", site: "sm-smile-park", audience: "k12", station: OHI,
+  { id: "smiles-plaque-attack", title: "Plaque Attack", site: "sm-smile-park", audience: "k12", station: SMILES_OHI,
     blurb: "The dye shows the plaque: tap the coloured spots.", lines: ["plaque-dye", "plaque-gumline", "brush-back-molars"] },
-  { id: "smiles-handwashing", title: "Clean Hands", site: "sm-water-fountain-plaza", audience: "k12", station: ICA,
+  { id: "smiles-handwashing", title: "Clean Hands", site: "sm-water-fountain-plaza", audience: "k12", station: SMILES_ICA,
     blurb: "Check the hand hygiene station before anyone uses it.", lines: ["hands-soiled", "hands-towel", "hands-dispenser"] },
-  { id: "smiles-sterilisation-order", title: "The Sterilisation Order", site: "sm-sterilisation-centre", audience: "adult", station: IRP,
+  { id: "smiles-sterilisation-order", title: "The Sterilisation Order", site: "sm-sterilisation-centre", audience: "adult", station: SMILES_IRP,
     blurb: "Adult training: put the reprocessing steps in the station's order, from the dirty zone to sterile storage.",
     lines: ["st-gloves", "st-receive", "st-clean", "st-rinse", "st-inspect", "st-dry", "st-package", "st-load", "st-run", "st-printout", "st-external", "st-log", "st-storage"] },
 ];

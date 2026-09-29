@@ -27,3 +27,15 @@ line is quoted from, or traced word by word to, a dental station's own text. Not
    `check_treasures` taught to resolve the programme world's sites. Observe: check_treasures "All checks pass: 345 treasures
    on 14 surfaces, 25 sets"; check_smiles 315 pass / 5 fail — my own fear-word list caught "Lost" in "Lost Toothbrush"
    (misplaced, not a fear line) → dropped `lost` from the list → 320 pass / 0 fail. check_k12: all pass.
+5. Reason: the bundle shares one scope — prove sm-smiles.js adds no clashing top-level name, and extend check_parishes for
+   the programme world. Act: prefixed four bare constants (`OHI` → `SMILES_OHI` …); a SMILES block in check_parishes (region
+   last, strict, procedural label, nominal frame, required site kinds, no figures); check_smiles in check_all's list and the
+   baseline. Observe: `bundle_webxr.py parishes` wrote the page (121 modules) and `node --check` on its module script passes
+   (dist not committed); check_parishes first showed only +2 checks — its `check()` returns nothing, so my `if (check(…))`
+   skipped the block → fixed → 32201 pass / 0 fail; check_smiles 320 / 0.
+
+## Seams (continued)
+- Games: `smilesGamesFor(parishId, { k12 })`, `smilesSteps(id)`, `smilesScore(id, picks)`, `smilesPay(id, picks, earn)`,
+  `smilesMount({ el, parish, k12, toast, earn })` — mounted once in `WebXR/parishes/js/app.js` into `#menu-smiles` (Play tab),
+  `earn` = TYCOON's `tyEarn(stationId, { recordId })`; `?k12=1` hides the adult game.
+- Treasures: `tools/gen_treasures.mjs` SMILES section, set `smile-toothbrushes`.

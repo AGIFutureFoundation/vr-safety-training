@@ -489,6 +489,24 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     for (const cid of ["sf-om-mission-street", "sf-om-alemany"]) check(om.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission"), `sf-outer-mission: ${cid} pairs with sf-mission`);
   }
 }
+// The programme worlds (console SMILES, docs/consoles/SMILES.md): procedural districts, region `programmes`, held strict,
+// labelled procedural and not a real place, on a nominal geo frame; the Unspoken Smiles District's required places.
+{
+  const pw = R.npRegion("programmes");
+  check(!!pw && pw.name === "Programme Worlds" && R.NP_REGIONS[R.NP_REGIONS.length - 1] === pw, "regions: Programme Worlds come last (procedural worlds)");
+  const sm = R.npParish("sm-unspoken-smiles");
+  check(!!sm, "sm-unspoken-smiles: registered");
+  if (sm) {
+    check(sm.region === "programmes" && NP_ENGINE_STRICT.has(sm.id) && sm.procedural === true, "sm-unspoken-smiles: region programmes, held strict, flagged procedural");
+    const src = readFileSync(join(WEBXR, "shared", "np-data-sm-unspoken-smiles.js"), "utf8");
+    check(src.includes("PROCEDURAL") && src.includes("NOT A REAL PLACE") && /not a real place/i.test(sm.blurb), "sm-unspoken-smiles: the module and the blurb say procedural, not a real place");
+    check(sm.anchors.every((a) => /nominal/.test(a.name)) && Math.abs(G.npToGeo(sm, [0, 0])[0]) < 0.01 && Math.abs(G.npToGeo(sm, [0, 0])[1]) < 0.01, "sm-unspoken-smiles: anchored on the nominal frame, asserting no place");
+    for (const kind of ["clinic", "school", "outreach", "civic", "market", "plaza", "park", "campus"]) check(sm.sites.some((s) => s.kind === kind), `sm-unspoken-smiles: a ${kind} site`);
+    check(sm.sites.length >= 12, `sm-unspoken-smiles: twelve or more sites (${sm.sites.length})`);
+    const text = [...sm.sites, ...sm.landmarks, ...sm.districts, ...(sm.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${sm.name} ${sm.blurb}`;
+    check(!/\d/.test(text), "sm-unspoken-smiles: no figure in a site, landmark, district or hill name or blurb");
+  }
+}
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
 // 3. the ledger
 {
