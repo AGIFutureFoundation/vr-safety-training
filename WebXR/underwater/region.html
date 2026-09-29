@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Deep — Bay Program Regions</title>
+<meta name="description" content="Dive the waters three Bay Program projects drain to — San Pablo Bay's shallows, San Leandro Bay and Oakland's Middle Harbor — with tide-driven schematic visibility and current and real dive stations.">
+<link rel="stylesheet" href="../shared/design.css">
+<style>
+  :root { --dw-panel: rgba(8, 24, 30, 0.82); --dw-ink: #e8f4f2; --dw-accent: #ffd23f; }
+  body { margin: 0; background: #0a2230; color: var(--dw-ink); overflow: hidden; }
+  #stage { position: fixed; inset: 0; }
+  .dw-panel { position: fixed; background: var(--dw-panel); border-radius: 10px; padding: 10px 14px; max-width: min(360px, calc(100vw - 32px)); font-size: 14px; line-height: 1.4; }
+  #dw-info { top: 16px; left: 16px; }
+  #dw-hud { bottom: 16px; left: 16px; }
+  #dw-board { top: 16px; right: 16px; max-height: 60vh; overflow: auto; }
+  #dw-board ul { padding-left: 18px; margin: 4px 0 8px; }
+  #dw-regions a { display: inline-block; margin: 2px 6px 2px 0; color: var(--dw-ink); }
+  #dw-regions a.on { color: var(--dw-accent); font-weight: 700; }
+  a { color: var(--dw-accent); }
+  .dw-note { opacity: 0.8; font-size: 12px; }
+  @media (max-width: 700px) { #dw-board { top: auto; bottom: 150px; max-height: 30vh; } }
+</style>
+</head>
+<body>
+<div id="stage" aria-label="Region seabed"></div>
+<div class="dw-panel" id="dw-info" role="main">
+  <h1 id="dw-title" style="font-size:18px;margin:0 0 4px">Bay Program region</h1>
+  <p id="dw-frame" class="dw-note"></p>
+  <p id="dw-project" class="dw-note"></p>
+  <nav id="dw-regions" aria-label="Regions"></nav>
+  <p><a id="dw-back" href="./underwater.html">Back to the Deep</a></p>
+</div>
+<div class="dw-panel" id="dw-hud" role="status">
+  <div><b id="dw-zone"></b></div>
+  <div id="dw-cond"></div>
+  <div id="dw-call"></div>
+  <label>Tide clock <input id="dw-tide" type="range" min="0" max="12.4" step="0.1" value="3"></label>
+  <p class="dw-note">Schematic: visibility and current are relative ranges for this region, not measurements or a tide table. The dive goes per the dive plan and the supervisor's call. W/S swim, A/D turn, E/Q up/down, drag to look.</p>
+</div>
+<aside class="dw-panel" id="dw-board" aria-label="Dive sites">
+  <b>Dive sites</b>
+  <ul id="dw-sites"></ul>
+</aside>
+<script type="module" src="./js/dw-region-app.js"></script>
+</body>
+</html>

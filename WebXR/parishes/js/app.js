@@ -49,6 +49,7 @@ cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
 // registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
 import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
+import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -716,6 +717,20 @@ window.__parishTest.drills = drWorld;
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
 window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast) });
+// DEEPWATER: shoreline dive entries on this map (docs/consoles/DEEPWATER.md) open the Deep at a Bay Program region, with a way back.
+npMountDiveEntries($("menu-packs"), parish);
+function npMountDiveEntries(el, p) {
+  const entries = (() => { try { return dwShoreEntriesFor(p, { from: `../parishes/parishes.html?parish=${encodeURIComponent(p.id)}` }); } catch { return []; } })();
+  window.__parishTest.diveEntries = entries.map((e) => e.id);
+  if (!el?.parentNode || !entries.length) return;
+  const box = document.createElement("div");
+  const head = document.createElement("p");
+  head.className = "eyebrow"; head.style.marginTop = "16px"; head.textContent = "Dive entries from this shore";
+  const row = document.createElement("div"); row.className = "row"; row.style.flexWrap = "wrap";
+  for (const e of entries) { const a = document.createElement("a"); a.className = "btn"; a.href = e.url; a.textContent = e.label; row.appendChild(a); }
+  box.append(head, row);
+  el.parentNode.insertBefore(box, el.nextSibling);
+}
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";
