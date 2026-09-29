@@ -61,10 +61,20 @@ coarse site (none within a pad's reach on the ground). `check_parishes` prints e
    and `gen_cg_units` → `All storyline checks pass.`, `check_cognition: 346 passed, 0 failed`; drills, cityworks
    (2903, 0 failed), terraform (204142, 0 failed), menagerie (17 maps, 0 failed), parish_play, treasures, npc, k12,
    krewe pass; check_parishes 23163 passed, 0 failed.
+7. Reason: the generated pages follow the new maps. Act: `gen_packs`, `gen_home`, `bundle_webxr.py`. Observe: check_packs
+   99 stale → `all 30343 checks pass`; check_home 1 → `All homepage and sign-in checks pass.`; `eval_worlds: 21
+   subjects, mean 98, 14 findings` — each new district loses only the play layer's field-lesson count (the finding the
+   Oakland maps share; the districts' own sn-fl- lessons are not in that layer's view). No before-run (time).
+
+## Left
+
+- Wire the sn-fl- lessons into the play layer's view (SECONDLINE/BAYOU) so eval_worlds counts them (the −3 each).
+- Pair `sf-ss-ocean-avenue-east` when TIDELANDS' sf-outer-mission merges (its mirror at -122.458, 37.721).
+- The kit silhouettes appear once LANDMARKS' lm-landmarks.js merges (check_parishes then checks every `lm`).
 
 ## Seams
 
 - Data only: `WebXR/shared/np-data-sf-north-beach.js`, `np-data-sf-haight-castro.js`, `np-data-sf-sunset-south.js`,
-  registered in `np-parishes.js`; landmark `kind`s name LANDMARKS' registry (`lmBuild(kind, opts)`), guarded.
+  registered in `np-parishes.js`; landmarks carry `lm: <LANDMARKS kit kind>` (drawn by `lmBuild` once merged), guarded.
 - Mirror connectors added to sf-downtown, sf-mission, sf-marina and sf-golden-gate-park; `sf-ss-ocean-avenue-east`
   ships `to.position: null` for TIDELANDS' sf-outer-mission to pair.
