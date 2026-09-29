@@ -66,3 +66,45 @@ Format: reason (the change and the check that proves it) → observed result.
    CPU (budget 14); the re-timed worst 101.8 ms against 90 at load 9.5 (84.3 ms on the first run at a lower load); the
    gallery maps' warm worst chunks are 17–53 ms (nola-french-quarter-cbd 17.4), so the worst chunk is not a gallery
    chunk. Noise at load; see Left.
+5. Reason: the platform eval for the presentation; proof = eval.json and survey.md by minute 30. Act: eval_worlds once
+   with the browser (AS_PORT=9025), `mk_eval` into `$SP/loop3/eval.json` (means per region), the walker on six Louisiana
+   maps. Observed: 51 subjects, mean 100, 5 findings; every region 100 except programmes 97 (sm-unspoken-smiles) and the
+   platform subjects 99.6 (billing 98); walker 12/12 views without a page error, desktop 167k–246k triangles (2.6–3.8×
+   Orleans' earlier walk), phone 39k–54k. Written at 17:25. Pass. The rubric scored 100 on both maps whose defects were
+   fixed here, so it cannot see the picture (survey step 1).
+6. Reason: give the walker eyes; proof = it flags the old la-avex placement and passes the fixed one. Act: sv_survey
+   raycasts 28 rays through the upper half of the frame at arrival; under 2 m blocks. Observed: old placement → la-avex
+   BLOCKED by mv-parked-cab at 0.8 m (desktop) and 0.77 m (phone); fixed → 0 of 4 views blocked. Pass.
+
+7. Reason: re-run the generator's time gate; proof = check_detail green. Observed: 469 pass, 0 fail at load 11–12;
+   median 11.7 ms CPU (budget 14), re-timed worst 51.3 ms (budget 90). The worst-chunk figure ranged 51–102 ms across
+   three runs on the same code, so cycle 4's fail was load noise. Hammond's moved sites: check_harvest, check_walkable,
+   check_parish_play, check_drills and check_treasures all green. Pass.
+
+## Checkers (single checkers only; check_all never run or imported)
+
+| checker | result |
+|---|---|
+| `check_detail.mjs` | **469 pass, 0 fail** (final, load 11–12); median 11.7 ms CPU, re-timed worst 51.3 ms |
+| `check_parish_data.mjs` | 30,820 pass, 0 fail |
+| `check_parishes.mjs` | 62,985 passed, 0 failed |
+| `check_geo.mjs` | 90 passed, 0 failed |
+| `check_motorworks.mjs` | 37 checks, 0 failed |
+| `check_harvest.mjs` | 107 passed, 0 failed |
+| `check_walkable.mjs` | 2,732 passed, 0 failed |
+| `check_parish_play.mjs` | all pass |
+| `check_drills.mjs` | all pass |
+| `check_treasures.mjs` | all pass (1,120 treasures) |
+| `eval_worlds.mjs` (once, browser) | 51 subjects, mean 100, 5 findings |
+| `sv_survey.mjs` (6 + 2 maps) | 12/12 and 4/4 views without a page error; 0 eyes blocked after the fix |
+
+## Left
+
+- Fold the walker's eye check into eval_worlds' "loads" criterion and walk all 46 maps with it (this loop walked 8).
+- FACADES' storefront pieces (signs, awnings, shutters, its gallery railing) still hang on the local +z face; the better
+  fix is to turn the massing to its street (`np-parish.js` `rot`), then re-measure detail baselines (survey step 2).
+- The other set-down points (walkable landings, interior exits, leaving a vehicle, drills, project sims) have no
+  clearance check against placed objects (survey step 3).
+- `$SP/geo/s2view.py` should rank scenes by cover of the box (the copy is `$SP/loop3/sv2/s2cover.py`).
+- Hammond's creek and canal are procedural. The imagery shows no river in the box, so they were left alone.
+- The committed dist was not rebuilt (the integration gate does that).
