@@ -59,3 +59,11 @@ port 8965. Two parts:
 - `rlDrapeUrl(parish, token, tier)`, `rlTilesForBox(box, z)`, `rlReliefZoom(box, tier)`, `rlDecodeTerrainRgb(r, g, b)`,
   `rlMountRelief(parish, sampler)`, `rlUnmountRelief()`, `RL_BUDGET`.
 - Mounted in `WebXR/parishes/js/app.js` (token-gated await before the world is built; drape capped by tier).
+
+## Evals
+
+- Before (793d16d, browser pass on): `eval_worlds: 18 subjects, mean 98, 11 findings` (SF/Oakland districts 97–100).
+- After (twice): `eval_worlds: 18 subjects, mean 97, 11 findings`, but both runs printed `browser pass skipped: listen
+  EADDRINUSE … 8990` (another console's eval held the shared port), so every subject lost its loads column; with the
+  browser pass off no subject lost a resolves, budget or facts point, and the findings list is unchanged. Re-run on a
+  quiet machine at integration.
