@@ -281,7 +281,7 @@ function hvStep(key, i, board, prompt, good, bad) {
   const a = { text: good, safe: true }, b = { text: bad, safe: false };
   return { board, prompt, options: flip ? [b, a] : [a, b] };
 }
-const HV_KIND_WORD = { bank: "bank", levee: "levee path", pier: "pier", shore: "beach", field: "field edge" };
+const HV_KIND_WORD = { bank: "bank", levee: "levee path", pier: "waterfront edge", shore: "beach", field: "field edge" };
 /** The best bait for the spot's water (the first species' first bait by the hash) and a bait that fits nothing there. */
 function hvBaits(spot, fam) {
   const sp = HV_SPECIES.filter((s) => s.family === fam && s.waters.includes(spot.water.cls));
@@ -302,7 +302,7 @@ export function hvGameSteps(spot, activity, { adult = false, season = "summer", 
     const wrong = HV_RODS.find((r) => !r.fits.includes(spot.water.cls) || !r.kinds.includes(spot.kind)) ?? HV_RODS[0];
     const { good, bad } = hvBaits(spot, fam);
     S.push(hvStep(k, 0, [`You are on ${where}.`, "The rack holds a cane pole, a spinning rod and a surf rod."], "Which rod fits this water?", `${rod.name}: it suits ${where}`, `${wrong.name}: it does not suit this spot`));
-    S.push(hvStep(k, 1, [spot.kind === "pier" || spot.kind === "levee" ? "The deck is wet near the edge." : "The bank slopes to the water.", "A life jacket hangs on the post."], "Before you fish:", "Put the life jacket on and check your footing", "Leave it on the post and step to the edge"));
+    S.push(hvStep(k, 1, [spot.kind === "pier" || spot.kind === "levee" ? "The edge is wet and the water is deep." : "The bank slopes to the water.", "A life jacket hangs on the post."], "Before you fish:", "Put the life jacket on and check your footing", "Leave it on the post and step to the edge"));
     S.push(hvStep(k, 2, ["The bait box is open."], "Which bait?", `${HV_BAITS.find((b) => b.id === good).name}: what fish here take`, bad ? `${HV_BAITS.find((b) => b.id === bad).name}: nothing here takes it` : "No bait at all"));
     S.push(hvStep(k, 3, ["A friend stands a little behind you."], "Ready to cast:", "Look behind you, call out, then cast", "Cast straight away"));
     S.push(hvStep(k, 4, ["A bite! The line is tight and the rod bends hard."], "Reel:", "Keep the rod up, ease off and let the drag work", "Crank as hard as you can"));
