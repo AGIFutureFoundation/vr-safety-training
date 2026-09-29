@@ -45,6 +45,10 @@ const T = await imp("WebXR/shared/ty-economy.js");
 const B = await imp("WebXR/shared/bq-bayquest.js");
 const S = await imp("WebXR/shared/st-stories.js");
 const DV = await imp("WebXR/shared/drivables-data.js");
+const NPS = await imp("WebXR/shared/np-parishes.js");
+const NP = await imp("WebXR/shared/np-parish.js");
+const TF = await imp("WebXR/shared/tf-terraform.js");
+const CW = await imp("WebXR/shared/cw-cityworks.js");
 
 // ------------------------------------------------------------ facts
 const FACTS_FILE = "/tmp/claude-0/-home-user-vr-safety-training/a03145a7-edb6-5a38-ad6a-02d8825a11f7/scratchpad/epa/epa-2026-facts.md";
@@ -65,20 +69,33 @@ const fold = (s) => s.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
   check(up, "trail", "bq-trail-data.js is up to date with gen_bq_trail.mjs");
   check(TR.BQ_TRAIL.id === "bq-bay-keepers-trail" && TR.BQ_TRAIL.total === TR.BQ_TREASURES.length, "trail", "the set id and its total");
   check(TR.BQ_TREASURES.length >= 20, "trail", `${TR.BQ_TREASURES.length} treasures (need 20+)`);
-  const others = TZ_TREASURES.filter((t) => t.trigger?.world === "bayworld").map((t) => [t.trigger.x, t.trigger.z]);
+  const others = TZ_TREASURES.filter((t) => t.trigger?.world === "bayworld").map((t) => ["bayworld", t.trigger.x, t.trigger.z]);
+  for (const t of TZ_TREASURES.filter((t) => t.trigger?.world === "parishes")) {
+    const s = NPS.npParish(t.trigger.parish)?.sites.find((x) => x.id === t.trigger.site);
+    if (s) others.push([t.trigger.parish, s.position[0] + (t.trigger.dx ?? 0), s.position[1] + (t.trigger.dz ?? 0)]);
+  }
   const mine = [];
   const ids = new Set();
   for (const t of TR.BQ_TREASURES) {
     check(!ids.has(t.id) && /^bq-t-/.test(t.id), "trail", `${t.id}: a unique bq-t- id`); ids.add(t.id);
-    check(!!BW.BAY_SITES.find((s) => s.id === t.site), "trail", `${t.id}: at a real Bay World site`);
+    const parish = t.world === "parishes" ? NPS.npParish(t.parish) : null;
+    check(t.world === "bayworld" ? !!BW.BAY_SITES.find((s) => s.id === t.site) : !!parish?.sites.find((s) => s.id === t.site), "trail", `${t.id}: at a real ${t.world} site`);
     if (t.source.station) check(WHY.get(t.source.station) === t.lesson && CURR_SRC.includes(JSON.stringify(t.lesson)), "sourced", `${t.id}: lesson verbatim from ${t.source.station}'s why`);
     else { const f = F.bqFact(t.source.fact); check(!!f && f.text === t.lesson && t.source.page === f.source, "sourced", `${t.id}: lesson is facts line ${t.source.fact} with its page`); }
     const { x, z } = t.trigger;
-    const water = BW.txWaterTopAt(x, z) !== null && BW.txQuayAt(x, z, 2) < 0;
-    check(!water, "placement", `${t.id}: not on water (${x}, ${z})`);
-    check(![[0, 0], [3, 0], [-3, 0], [0, 3], [0, -3]].some(([dx, dz]) => BW.bayRoadAt(x + dx, z + dz)), "placement", `${t.id}: not on a road (${x}, ${z})`);
-    check([...others, ...mine].every(([ox, oz]) => Math.hypot(ox - x, oz - z) >= 15), "placement", `${t.id}: 15 m clear of every other treasure`);
-    mine.push([x, z]);
+    const key = parish ? parish.id : "bayworld";
+    if (parish) {
+      check(!NP.npWaterAt(parish, x, z) && TF.tfWaterDepthAt(parish, x, z) === 0 && NP.npCoverAt(parish, x, z) !== "water", "placement", `${t.id}: not on water (${t.parish} ${x}, ${z})`);
+      const { road, d } = NP.npNearestRoad(parish, x, z);
+      check(NP.npCoverAt(parish, x, z) !== "road" && (!road || d >= (NP.NP_ROAD_KINDS[road.kind]?.width ?? 16) / 2 + 4), "placement", `${t.id}: not on a road (${t.parish} ${x}, ${z})`);
+      check(!CW.cwColliders(parish, CW.cwChunkKey(x, z)).some((b) => x >= b.min[0] && x <= b.max[0] && z >= b.min[2] && z <= b.max[2]), "placement", `${t.id}: not inside a building`);
+    } else {
+      const water = BW.txWaterTopAt(x, z) !== null && BW.txQuayAt(x, z, 2) < 0;
+      check(!water, "placement", `${t.id}: not on water (${x}, ${z})`);
+      check(![[0, 0], [3, 0], [-3, 0], [0, 3], [0, -3]].some(([dx, dz]) => BW.bayRoadAt(x + dx, z + dz)), "placement", `${t.id}: not on a road (${x}, ${z})`);
+    }
+    check([...others, ...mine].every(([k, ox, oz]) => k !== key || Math.hypot(ox - x, oz - z) >= 15), "placement", `${t.id}: 15 m clear of every other treasure`);
+    mine.push([key, x, z]);
   }
   // the rule itself bites: open water and a road centreline are both refused
   const wet = BW.TX_BAY_WATER.map(([cx, cz]) => [cx, cz]).find(([x, z]) => BW.txQuayAt(x, z, 2) < 0);
@@ -90,7 +107,10 @@ const fold = (s) => s.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
   localStorage.clear();
   const first = B.bqFind(TR.BQ_TREASURES[0].id), again = B.bqFind(TR.BQ_TREASURES[0].id);
   check(first.ok && first.first && again.ok && !again.first && B.bqTrail().count === 1, "trail", "a find is recorded once");
-  console.log(`  trail: ${TR.BQ_TREASURES.length} treasures (${stations.length} station lines, ${TR.BQ_TREASURES.length - stations.length} facts lines), none on water or a road`);
+  const sf = TR.BQ_TREASURES.find((t) => t.world === "parishes");
+  check(B.bqNear("parishes", sf.parish, sf.trigger.x + 1, sf.trigger.z)?.id === sf.id && !B.bqNear("parishes", sf.parish, sf.trigger.x + 40, sf.trigger.z + 40), "trail", "bqNear finds a San Francisco treasure within reach and not from afar");
+  check(/bqTrailTick\(\)/.test(rd("WebXR/parishes/js/app.js")) && /bqNear\("parishes"/.test(rd("WebXR/parishes/js/app.js")), "wiring", "the parishes app watches the trail");
+  console.log(`  trail: ${TR.BQ_TREASURES.length} treasures (${TR.BQ_TREASURES.filter((t) => t.world === "bayworld").length} in Bay World, ${TR.BQ_TREASURES.filter((t) => t.world === "parishes").length} on San Francisco creeks and shorelines; ${stations.length} station lines, ${TR.BQ_TREASURES.length - stations.length} facts lines), none on water or a road`);
 }
 
 // ------------------------------------------------------------ games
@@ -200,7 +220,7 @@ const fold = (s) => s.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
 // ------------------------------------------------------------ wiring
 {
   const app = rd("WebXR/parishes/js/app.js");
-  check(/import \{ bqMount \} from "..\/..\/shared\/bq-bayquest.js"/.test(app) && /bqMount\(\{ el/.test(app), "wiring", "the parishes app mounts the Bay Program board");
+  check(/import \{[^}]*bqMount[^}]*\} from "..\/..\/shared\/bq-bayquest.js"/.test(app) && /bqMount\(\{ el/.test(app), "wiring", "the parishes app mounts the Bay Program board");
   const bundler = rd("tools/bundle_webxr.py");
   for (const f of ["bq-facts.js", "bq-games-data.js", "bq-trail-data.js", "bq-bayquest.js"]) check(bundler.indexOf(`SHARED / "${f}"`) > bundler.indexOf(`SHARED / "st-stories.js"`), "wiring", `the parishes bundle lists ${f} after st-stories.js`);
   const dist = path.join(ROOT, "WebXR/parishes/dist/parishes.html");

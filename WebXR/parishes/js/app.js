@@ -35,7 +35,7 @@ import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
 // registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
-import { bqMount } from "../../shared/bq-bayquest.js";
+import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -455,6 +455,7 @@ function frame(now) {
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
+  if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -567,6 +568,13 @@ function tyOpenLedger() {
   npOpen("tycoon");
 }
 var bqBoard = null;
+/** The Bay Keeper's Trail on the San Francisco maps: a treasure within reach is found once and teaches its line. */
+function bqTrailTick() {
+  const t = bqNear("parishes", parish.id, np.x, np.z);
+  if (!t) return;
+  const r = bqFind(t.id);
+  if (r.first) { npToast(`Bay Keeper's Trail: a ${t.reveal} near ${t.siteName}. ${r.lesson}`, 7000); bqBoard?.refresh(); }
+}
 function bqOpenBoard() {
   const ledgerEl = $("ty-ledger");
   if (!ledgerEl) return;

@@ -6,4 +6,5 @@
 - Seams added to other consoles' modules: ty-economy.js `tyAddBusinesses`/`TY_EXTRA_BUSINESSES` (tyBusiness finds them;
   the ledger lists them); st-stories.js `stAddStories`/`ST_EXTRA_STORIES` (stQuestsFor appends; Just Roam sees roam-only).
 - Gates use stations in this tree; BAYKEEPER/CLEANPORTS ids sit in `pendingStations` / guarded chain items.
-- Checker: tools/check_bayquest.mjs (287 checks, 0 failed).
+- Trail: 22 Bay World + 6 San Francisco (sf-mission, sf-bayview) treasures; parishes app finds them via bqNear.
+- Checker: tools/check_bayquest.mjs (331 checks, 0 failed).

@@ -8,7 +8,7 @@ export const BQ_TRAIL = {
   "badge": "Bay Keeper",
   "world": "bayworld",
   "storageKey": "bq-trail-v1",
-  "total": 22
+  "total": 28
 };
 
 export const BQ_TREASURES = [
@@ -498,6 +498,150 @@ export const BQ_TREASURES = [
     "source": {
       "file": "WebXR/smartcity/js/curricula.js",
       "station": "eelgrass-transplant"
+    }
+  },
+  {
+    "id": "bq-t-23-islais-creek-pump-station",
+    "set": "bq-bay-keepers-trail",
+    "world": "parishes",
+    "parish": "sf-mission",
+    "site": "islais-creek-pump-station",
+    "siteName": "Islais Creek Pump Station",
+    "zone": "sf-mission",
+    "category": "Stormwater",
+    "reveal": "crab tag",
+    "hint": "Look near Islais Creek Pump Station, off the road and above the waterline.",
+    "trigger": {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "x": 539,
+      "z": 912,
+      "r": 6
+    },
+    "lesson": "Rain followed from a roof to the pump station, the reason low ground needs a lift, and a model pump started in order with its screen kept clear.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "k12-by-what-a-pump-station-does-in-the-rain"
+    }
+  },
+  {
+    "id": "bq-t-24-dogpatch-shipyard",
+    "set": "bq-bay-keepers-trail",
+    "world": "parishes",
+    "parish": "sf-mission",
+    "site": "dogpatch-shipyard",
+    "siteName": "Dogpatch Waterfront Shipyard",
+    "zone": "sf-mission",
+    "category": "PCB source control",
+    "reveal": "heron print",
+    "hint": "Look near Dogpatch Waterfront Shipyard, off the road and above the waterline.",
+    "trigger": {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "x": 847,
+      "z": 258,
+      "r": 6
+    },
+    "lesson": "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "pcb-equipment-removal"
+    }
+  },
+  {
+    "id": "bq-t-25-herons-head-wetland",
+    "set": "bq-bay-keepers-trail",
+    "world": "parishes",
+    "parish": "sf-bayview",
+    "site": "herons-head-wetland",
+    "siteName": "Heron's Head Wetland Restoration",
+    "zone": "sf-bayview",
+    "category": "Tidal marsh",
+    "reveal": "river otter token",
+    "hint": "Look near Heron's Head Wetland Restoration, off the road and above the waterline.",
+    "trigger": {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "x": 257,
+      "z": -370,
+      "r": 6
+    },
+    "lesson": "The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the control crew, and the transect stopped cold the moment a listed bird flushes near it.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "marsh-transect-survey"
+    }
+  },
+  {
+    "id": "bq-t-26-yosemite-slough-restoration",
+    "set": "bq-bay-keepers-trail",
+    "world": "parishes",
+    "parish": "sf-bayview",
+    "site": "yosemite-slough-restoration",
+    "siteName": "Yosemite Slough Restoration Site",
+    "zone": "sf-bayview",
+    "category": "Tidal marsh",
+    "reveal": "egret feather",
+    "hint": "Look near Yosemite Slough Restoration Site, off the road and above the waterline.",
+    "trigger": {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "x": -150,
+      "z": 923,
+      "r": 6
+    },
+    "lesson": "With no sprayer on this crew at all, every plant comes out whole on a wrench, every root fragment gets hunted out of the disturbed soil, and boots get brushed clean at the buffer so nothing this crew pulls ever gets a second chance to spread.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-intertidal-invasive-removal-by-hand-crew"
+    }
+  },
+  {
+    "id": "bq-t-27-shipyard-shoreline-crew",
+    "set": "bq-bay-keepers-trail",
+    "world": "parishes",
+    "parish": "sf-bayview",
+    "site": "shipyard-shoreline-crew",
+    "siteName": "Shipyard Shoreline and Sediment Crew",
+    "zone": "sf-bayview",
+    "category": "Sediment",
+    "reveal": "oyster shell",
+    "hint": "Look near Shipyard Shoreline and Sediment Crew, off the road and above the waterline.",
+    "trigger": {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "x": 711,
+      "z": 611,
+      "r": 6
+    },
+    "lesson": "The bay's edge gets the same discipline as the fenced parcel: a tide window read like a clock, a grab from the top two centimetres, and a transect that moves the moment a listed bird says it should.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "shoreline-sediment-grab"
+    }
+  },
+  {
+    "id": "bq-t-28-india-basin-park-crew",
+    "set": "bq-bay-keepers-trail",
+    "world": "parishes",
+    "parish": "sf-bayview",
+    "site": "india-basin-park-crew",
+    "siteName": "India Basin Shoreline Park Crew",
+    "zone": "sf-bayview",
+    "category": "Wetlands",
+    "reveal": "eelgrass sprig",
+    "hint": "Look near India Basin Shoreline Park Crew, off the road and above the waterline.",
+    "trigger": {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "x": 23,
+      "z": 34,
+      "r": 6
+    },
+    "lesson": "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "k12-by-wetlands-as-a-storms-speed-bump"
     }
   }
 ];

@@ -56,3 +56,8 @@ Crew Credits stay a play currency (TYCOON's ledger); nothing here touches billin
    (three.js served from vendor) showed no page errors and the ledger's "Bay Program play" board listing the four games, locked.
 6. Reason: the checker must bite and cover the wiring. Act: self-tests (open water and a road centreline refused), wiring
    checks (app import, bundle order, dist carries bqMount). Observe: "287 checks · 0 failed"; check_gates still "0 failed".
+7. Reason: the trail should run along San Francisco creeks and shorelines too, and be findable in play. Act: six parish
+   treasures in gen_bq_trail.mjs (npWaterAt, tfWaterDepthAt, npCoverAt, npNearestRoad, cwColliders), `bqNear` + a
+   once-a-second trail tick in the parishes app, rebundled. Observe: "bayquest: 4 games, 28 treasures, 2 businesses,
+   6 stories · 331 checks · 0 failed"; headless on :8973 at sf-mission, teleport to (539, 912) -> toast "Bay Keeper's
+   Trail: a crab tag near Islais Creek Pump Station. Rain followed from a roof to the pump station, ..." and the find stored.

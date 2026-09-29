@@ -5,6 +5,7 @@
 //   bqGames() -> BQ_GAMES (bq-games-data.js);  bqGame(id)
 //   bqTrail() -> { set: BQ_TRAIL, treasures: BQ_TREASURES, found: [id], count }   the Bay Keeper's Trail
 //   bqFind(treasureId) -> { ok, first, lesson, source }   records a find (per-viewer localStorage, guarded)
+//   bqNear(world, parishId, x, z) -> the nearest unfound treasure within its trigger radius, or null
 //   bqEarnStation(stationId, { level }) -> tyEarn's { paid, amount, duplicate }   a Bay Program station pass
 //   bqEarnGame(gameId, score) -> { paid, amount, duplicate }   a game run: clean (100) pays tyPayFor(3), a pass
 //        (60+) pays tyPayFor(1), less pays nothing; once per game (record `bq-game:<id>`). Crew Credits only —
@@ -39,6 +40,12 @@ export function bqGames() { return BQ_GAMES; }
 function bqStore() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
 function bqLoadFound() { try { return JSON.parse(bqStore()?.getItem(BQ_TRAIL.storageKey) ?? "[]"); } catch (_) { return []; } }
 export function bqTrail() { const found = bqLoadFound(); return { set: BQ_TRAIL, treasures: BQ_TREASURES, found, count: found.length }; }
+/** The first treasure not yet found within its trigger radius of (x, z) on this world (and parish), or null. */
+export function bqNear(world, parishId, x, z) {
+  const found = new Set(bqLoadFound());
+  return BQ_TREASURES.find((t) => t.trigger.world === world && (world !== "parishes" || t.trigger.parish === parishId)
+    && !found.has(t.id) && Math.hypot(t.trigger.x - x, t.trigger.z - z) <= t.trigger.r) ?? null;
+}
 export function bqFind(treasureId) {
   const t = BQ_TREASURES.find((x) => x.id === treasureId);
   if (!t) return { ok: false };
