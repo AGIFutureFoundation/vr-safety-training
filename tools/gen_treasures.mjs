@@ -497,7 +497,7 @@ SGP.SG_FIELD_LESSONS.forEach((l) => {
 // once (tzHarvestRun); the lesson is the activity's own treasure line, re-read verbatim from the module.
 const HV = await imp("WebXR/shared/hv-harvest.js");
 const HV_SRC = rd("WebXR/shared/hv-harvest.js");
-const HV_T = [["fish", "Tackle Box", "hook"], ["crab", "Crab Line Float", "chest"], ["crawfish", "Crawfish Trap Tag", "chest"], ["rice", "Rice Field Gate Key", "chest"], ["gator-watch", "Gator Watch Log", "scroll"]];
+const HV_T = [["fish", "Tackle Box", "hook"], ["crab", "Crab Line Float", "chest"], ["crawfish", "Crawfish Trap Tag", "chest"], ["rice", "Rice Field Gate Key", "chest"], ["gator-watch", "Gator Watch Log", "scroll"], ["shrimp", "Cast Net Weight", "coin"], ["oyster", "Reef Survey Frame", "scroll"]];
 for (const [activity, name, reveal] of HV_T) {
   const lesson = HV.HV_TREASURE_LINES[activity];
   if (!lesson || !HV_SRC.includes(`"${lesson}"`)) throw new Error(`harvest ${activity}'s line does not re-read verbatim`);

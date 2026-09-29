@@ -12,7 +12,7 @@
 //
 // Seams (exported, documented shapes):
 //   hvSpotsFor(parish) -> [{ id, parish, kind: "bank"|"levee"|"pier"|"shore"|"field", water: { name, kind, cls },
-//                             position: [x, z], activities: ["fish"|"crab"|"gator"|"crawfish"|"rice"], procedural: true }]
+//                             position: [x, z], activities: ["fish"|"crab"|"shrimp"|"oyster"|"gator"|"crawfish"|"rice"], procedural: true }]
 //   hvSeasonAt(ms) -> { day, season, index }   (the play calendar: pure in ms, one play season per TYCOON week)
 //   hvActivityOpen(activity, season) -> bool
 //   hvGameSteps(spot, activity, { adult, season, hour }) -> [{ board, prompt, options: [{ text, safe }] }]
@@ -94,6 +94,15 @@ export const HV_CRABS = [
   { id: "red-rock-crab", name: "Red rock crab", family: "bay", waters: ["bay"] },
 ];
 export const HV_CRAWFISH = [{ id: "red-swamp-crawfish", name: "Red swamp crawfish", family: "new-orleans", waters: ["field"] }];
+export const HV_SHRIMP = [
+  { id: "white-shrimp", name: "White shrimp", family: "new-orleans", waters: ["lake", "gulf"] },
+  { id: "brown-shrimp", name: "Brown shrimp", family: "new-orleans", waters: ["lake", "gulf"] },
+];
+/** Oyster reefs are surveyed, never taken: the album logs what the survey saw. */
+export const HV_OYSTERS = [
+  { id: "olympia-oyster", name: "Olympia oyster (native)", family: "bay", waters: ["bay"] },
+  { id: "eastern-oyster", name: "Eastern oyster", family: "new-orleans", waters: ["gulf"] },
+];
 
 /** Rods and poles and baits (general gear, no sizes). */
 export const HV_RODS = [
@@ -111,6 +120,8 @@ export const HV_LINES = {
   crab: { text: "Keep steady footing on a dock or pier, keep fingers clear of claws, and keep your catch cool and shaded. Seasons, licences and limits are set by {agency}; check the current rules.", source: "general practice" },
   crawfish: { text: "Many Louisiana crawfish are raised in rice fields: after the rice is harvested the field is flooded again and the crawfish grow there, a rotation farmers use.", source: "LSU AgCenter, rice and crawfish production (named public source)" },
   rice: { text: "Stay clear of moving farm machinery and its blind spots, and in the heat take water, rest and shade.", source: "OSHA heat illness prevention campaign: Water. Rest. Shade. (named public source)" },
+  shrimp: { text: "Throw a cast net from steady footing, keep the hand line from wrapping round your fingers, and keep shrimp on ice. Seasons, licences and limits are set by {agency}; check the current rules.", source: "general practice" },
+  oyster: { text: "A reef survey looks and counts without taking: wear gloves and sturdy shoes on sharp shell, watch the tide, and leave every oyster where it lies.", source: "general practice" },
   gator: { text: "Alligator hunting is done by licensed hunters with tags, only in the season {agency} sets; a nuisance alligator is handled by the agency's licensed agents, so call the agency and never approach.", source: "general practice", adult: true },
   "gator-watch": { text: "Watch alligators from a safe distance, never feed them, and tell {agency} about an alligator where people are.", source: "general practice" },
 };
@@ -120,6 +131,8 @@ export const HV_TREASURE_LINES = {
   crab: "Keep steady footing on a dock or pier, keep fingers clear of claws, and keep your catch cool and shaded.",
   crawfish: "Many Louisiana crawfish are raised in rice fields: after the rice is harvested the field is flooded again and the crawfish grow there, a rotation farmers use.",
   rice: "Stay clear of moving farm machinery and its blind spots, and in the heat take water, rest and shade.",
+  shrimp: "Throw a cast net from steady footing, keep the hand line from wrapping round your fingers, and keep shrimp on ice.",
+  oyster: "A reef survey looks and counts without taking: wear gloves and sturdy shoes on sharp shell, watch the tide, and leave every oyster where it lies.",
   "gator-watch": "Watch alligators from a safe distance and never feed them or any wild animal.",
 };
 export const HV_PROCEDURAL = "Spot placement is procedural: a play sign by the water, not a claim about the real place.";
@@ -134,6 +147,8 @@ export const HV_OPEN = {
   fish: ["winter", "spring", "summer", "fall"],
   crab: ["spring", "summer", "fall"],
   crawfish: ["winter", "spring"],
+  shrimp: ["spring", "summer", "fall"],
+  oyster: ["winter", "spring", "fall"],
   rice: ["spring", "summer", "fall"],
   gator: ["fall"],
   "gator-watch": ["spring", "summer", "fall"],
@@ -190,6 +205,8 @@ function hvActivitiesFor(parish, cls, kind) {
   const fam = hvFamily(parish), a = [];
   if (cls !== "marsh") a.push("fish");
   if (HV_CRABS.some((c) => c.family === fam && c.waters.includes(cls)) && (kind === "pier" || kind === "shore" || cls === "lake" || cls === "bayou")) a.push("crab");
+  if (fam === "new-orleans" && (cls === "lake" || cls === "gulf")) a.push("shrimp");
+  if ((npRegionOf(parish) === "bay-program" && cls === "bay") || (fam === "new-orleans" && cls === "gulf")) a.push("oyster");
   if (fam === "new-orleans" && (cls === "bayou" || cls === "marsh" || cls === "canal")) a.push("gator");
   return a;
 }
@@ -295,6 +312,16 @@ export function hvGameSteps(spot, activity, { adult = false, season = "summer", 
     S.push(hvStep(k, 1, ["The line goes slack, then tugs."], "Bring it up:", "Pull slowly and steadily with the basket under it", "Yank it up fast"));
     S.push(hvStep(k, 2, ["A crab is in the basket, claws up."], "Handle it:", "Pick it up from behind, fingers clear of the claws", "Grab it from the front"));
     S.push(hvStep(k, 3, ["It is warm and sunny."], "Your catch:", "Measure it against the current rules and keep it cool and shaded, or let it go", "Leave it in the sun in a bucket"));
+  } else if (activity === "shrimp") {
+    S.push(hvStep(k, 0, [`You are on ${where}.`, "A cast net, a bucket and a cooler with ice."], "Before you throw:", "Check your footing and wear the life jacket", "Stand on the wet edge to reach further"));
+    S.push(hvStep(k, 1, ["The hand line is loose on the deck."], "The hand line:", "Hold it in a loose coil, never wrapped round your fingers", "Wrap it tight round your hand"));
+    S.push(hvStep(k, 2, ["The net is full and heavy."], "Bring it in:", "Pull it in hand over hand and empty it in the bucket", "Lean out and lift it by the lead line"));
+    S.push(hvStep(k, 3, ["It is warm and sunny."], "Your catch:", "Check it against the current rules and put it on ice", "Leave the bucket in the sun"));
+  } else if (activity === "oyster") {
+    S.push(hvStep(k, 0, [`You join a reef survey by ${spot.water.name}.`, "The tide is going out."], "Before you step onto the reef:", "Gloves, sturdy shoes, and a check of when the tide turns", "Bare feet; the shell looks smooth"));
+    S.push(hvStep(k, 1, ["A patch of oysters sits inside the survey frame."], "The survey:", "Count and note what is in the frame, then move on", "Pry some loose to take home"));
+    S.push(hvStep(k, 2, ["The water is rising round your boots."], "The tide:", "Walk back to shore with the team now", "Finish the last frame first"));
+    S.push(hvStep(k, 3, ["The survey is done."], "Before you eat:", "Wash your hands with soap and water", "Skip it; you wore gloves"));
   } else if (activity === "crawfish") {
     S.push(hvStep(k, 0, [`You are at ${spot.water.name}.`, "Rows of traps stand in the shallow water."], "Getting to the traps:", "Wear boots, walk the levee path and watch your step", "Wade in anywhere in sneakers"));
     S.push(hvStep(k, 1, ["A trap is full of crawfish."], "Empty it:", "Wear gloves and shake it into the sack", "Reach in bare-handed"));
@@ -327,7 +354,7 @@ export function hvGameSteps(spot, activity, { adult = false, season = "summer", 
 /** The catch (deterministic): a species of the spot's water and region, weighted by the bait, night-biting fish at dusk and night. */
 export function hvCatch(spot, { bait = null, hour = 12, attempt = 0, activity = "fish" } = {}) {
   const fam = spot.family ?? "bay";
-  const pool = activity === "crab" ? HV_CRABS : activity === "crawfish" ? HV_CRAWFISH : HV_SPECIES;
+  const pool = activity === "crab" ? HV_CRABS : activity === "crawfish" ? HV_CRAWFISH : activity === "shrimp" ? HV_SHRIMP : activity === "oyster" ? HV_OYSTERS : HV_SPECIES;
   const list = pool.filter((s) => s.family === fam && s.waters.includes(spot.water.cls));
   if (!list.length) return null;
   const band = atBand(hour);
@@ -364,7 +391,7 @@ export function hvFinish(spot, activity, moves = [], { adult = false, season = "
   const fam = spot.family ?? "bay";
   let bait = null;
   if (activity === "fish") { const i = steps[2]?.options[moves[2]]; bait = i?.safe ? hvBaits(spot, fam).good : null; }
-  const caught = clean && (activity === "fish" || activity === "crab" || activity === "crawfish") ? hvCatch(spot, { bait, hour, attempt, activity }) : null;
+  const caught = clean && ["fish", "crab", "crawfish", "shrimp", "oyster"].includes(activity) ? hvCatch(spot, { bait, hour, attempt, activity }) : null;
   const s = hvLoad();
   const key = `${spot.id}:${activity}`;
   s.runs[key] = (s.runs[key] ?? 0) + 1;
@@ -381,7 +408,7 @@ export function hvAlbum() { return hvLoad().album; }
 export function hvLog() { return hvLoad().log; }
 
 /** Every species and crab the album can hold for a region family. */
-export function hvAlbumFor(fam) { return [...HV_SPECIES, ...HV_CRABS, ...HV_CRAWFISH].filter((s) => s.family === fam); }
+export function hvAlbumFor(fam) { return [...HV_SPECIES, ...HV_CRABS, ...HV_CRAWFISH, ...HV_SHRIMP, ...HV_OYSTERS].filter((s) => s.family === fam); }
 
 // ------------------------------------------------------------------ the parish mount
 
@@ -403,7 +430,7 @@ export function hvMount({ THREE = null, root = null, parish, el = null, pos = ()
     try { path = stChosenPath() ?? null; } catch { /* no path */ }
     return hvAdultAllowed({ profileKind: kind, path, confirmed: hvLoad().adult === true });
   };
-  const actName = (a, adult) => ({ fish: "Fish", crab: "Crab line", crawfish: "Run the crawfish traps", rice: "Rice season", gator: adult ? "Alligator season (licensed hunters and agents)" : "Gator watch" }[a] ?? a);
+  const actName = (a, adult) => ({ fish: "Fish", crab: "Crab line", crawfish: "Run the crawfish traps", shrimp: "Cast net for shrimp", oyster: "Oyster reef survey", rice: "Rice season", gator: adult ? "Alligator season (licensed hunters and agents)" : "Gator watch" }[a] ?? a);
   function render() {
     if (!el) return;
     const st = hvLoad(), season = hvSeasonAt(now()).season, adult = adultNow();
@@ -444,7 +471,7 @@ export function hvMount({ THREE = null, root = null, parish, el = null, pos = ()
     if (i >= steps.length) {
       const r = hvFinish(spot, activity, moves, { adult: adultNow(), season: hvSeasonAt(now()).season, hour: hour(), attempt: hvSeasonAt(now()).day });
       const p = document.createElement("p");
-      p.textContent = `${r.clean ? "Clean run" : "Run finished"} · ${r.score}%${r.catch ? ` · caught and logged: ${r.catch.name}${activity === "fish" ? " (released)" : ""}` : ""}${r.paid ? ` · +${r.amount} ${TY_CURRENCY}` : ""}. ${r.line}`;
+      p.textContent = `${r.clean ? "Clean run" : "Run finished"} · ${r.score}%${r.catch ? ` · ${activity === "oyster" ? "surveyed and logged" : "caught and logged"}: ${r.catch.name}${activity === "fish" ? " (released)" : ""}` : ""}${r.paid ? ` · +${r.amount} ${TY_CURRENCY}` : ""}. ${r.line}`;
       const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = "Back";
       b.addEventListener("click", () => { playing = null; render(); });
       box.append(p, b);

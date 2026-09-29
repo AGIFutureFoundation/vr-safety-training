@@ -61,3 +61,7 @@ Module: `WebXR/shared/hv-harvest.js` (data, pure logic and the parish mount in o
 6. Reason: prove the loop in the real page, not only headless → Act: `check_harvest.mjs --live` (port 9005): load Orleans,
    walk to a spot, open Play, click a fishing run through → Observe: 7/7 live checks — found, clean, catch logged,
    paid once, second run pays nothing, no page errors. check_parishes 30924 passed, 0 failed; check_parish_play 0 failed.
+7. Reason: widen to more regional tasks where they fit the map → Act: shrimp (cast net from New Orleans lake and Gulf
+   docks: white and brown shrimp) and an oyster-reef survey (look and count, never take: Olympia oyster on the Bay
+   Program maps' Bay shores, eastern oyster on the Gulf), their lines, play seasons and treasures → Observe:
+   check_harvest 80/80 (shrimp 8 spots, oyster 11); check_treasures "346 treasures on 14 surfaces, 25 sets".

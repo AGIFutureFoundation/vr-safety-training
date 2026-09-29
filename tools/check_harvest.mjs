@@ -61,14 +61,15 @@ const fishable = NP_PARISHES.filter((p) => (p.water ?? []).some((w) => { const c
 const lacking = fishable.filter((p) => perMap[p.id].filter((s) => s.activities.includes("fish")).length < 2);
 check(lacking.length === 0, `every map with fishable water (${fishable.length}) has two or more fishing spots`, lacking.map((p) => p.id).join(", "));
 const act = (a) => all.filter((s) => s.activities.includes(a));
-console.log(`    activities: fish ${act("fish").length}, crab ${act("crab").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length}`);
+console.log(`    activities: fish ${act("fish").length}, crab ${act("crab").length}, shrimp ${act("shrimp").length}, oyster ${act("oyster").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length}`);
 check(act("crawfish").length >= 3 && act("rice").length >= 3, "rice-and-crawfish fields on the rural New Orleans maps");
 check(act("gator").every((s) => s.family === "new-orleans"), "gator spots only on New Orleans maps");
+check(act("shrimp").length >= 3 && act("oyster").length >= 3 && act("oyster").every((s) => s.water.cls === "bay" || s.water.cls === "gulf"), "shrimp from New Orleans docks and oyster-reef surveys on Bay Program and Gulf shores");
 
 // 2. Species regional to the water.
 console.log("Species");
 const wrong = [];
-for (const s of all) for (const a of s.activities.filter((x) => ["fish", "crab", "crawfish"].includes(x))) {
+for (const s of all) for (const a of s.activities.filter((x) => ["fish", "crab", "crawfish", "shrimp", "oyster"].includes(x))) {
   const seen = new Set();
   for (const bait of [null, ...H.HV_BAITS.map((b) => b.id)]) for (const hour of [6.5, 12, 19, 23]) for (let attempt = 0; attempt < 6; attempt++) {
     const c = H.hvCatch(s, { bait, hour, attempt, activity: a });
@@ -78,7 +79,7 @@ for (const s of all) for (const a of s.activities.filter((x) => ["fish", "crab",
   }
 }
 check(wrong.length === 0, "every catch is regional to its spot's water", [...new Set(wrong)].slice(0, 5).join("; "));
-const orphan = [...H.HV_SPECIES, ...H.HV_CRABS].filter((sp) => !all.some((s) => s.family === sp.family && sp.waters.includes(s.water.cls)));
+const orphan = [...H.HV_SPECIES, ...H.HV_CRABS, ...H.HV_SHRIMP, ...H.HV_OYSTERS].filter((sp) => !all.some((s) => s.family === sp.family && sp.waters.includes(s.water.cls)));
 check(orphan.length === 0, `every species (${H.HV_SPECIES.length} fish, ${H.HV_CRABS.length} crabs) has a spot to be caught at`, orphan.map((s) => s.id).join(", "));
 
 // 3. Lines: sourced or figure-free, no graphic words.
@@ -90,7 +91,7 @@ for (const [k, l] of Object.entries(H.HV_LINES)) {
   check(!!l.source && typeof l.source === "string", `line ${k} names its source (${l.source})`);
   texts.push([`line ${k}`, l.text]);
 }
-for (const k of ["fish", "crab"]) check(/check the current rules/.test(H.HV_LINES[k].text), `the ${k} line says "check the current rules"`);
+for (const k of ["fish", "crab", "shrimp"]) check(/check the current rules/.test(H.HV_LINES[k].text), `the ${k} line says "check the current rules"`);
 check(/set by \{agency\}/.test(H.HV_LINES.fish.text) && Object.values(H.HV_AGENCY).every((a) => /Department of (Wildlife and Fisheries|Fish and Wildlife)/.test(a)), "seasons and limits are pointed to the state agency");
 texts.push(["calendar", H.HV_CALENDAR_NOTE], ["procedural", H.HV_PROCEDURAL]);
 const seasonsFor = (a) => H.HV_SEASONS.filter((se) => H.hvActivityOpen(a, se));
@@ -146,7 +147,7 @@ check(r2.clean && !r2.paid && tyLedger().balance === b0 + r1.amount, "a second c
 const r3 = H.hvFinish(act("fish")[1], "fish", worstMoves(act("fish")[1], "fish"));
 check(!r3.clean && r3.score === 0 && !r3.paid && !r3.catch, "an unsafe run scores low, catches nothing and pays nothing");
 check(H.hvLog().length === 2 && Object.values(H.hvAlbum()).reduce((a, b) => a + b, 0) === 2, "the catch log and album hold both catches");
-for (const a of ["crab", "crawfish", "rice", "gator"]) {
+for (const a of ["crab", "crawfish", "rice", "gator", "shrimp", "oyster"]) {
   const s = act(a)[0];
   const r = H.hvFinish(s, a, bestMoves(s, a, { season: "fall" }), { season: "fall" });
   const again = H.hvFinish(s, a, bestMoves(s, a, { season: "fall" }), { season: "fall" });
@@ -236,5 +237,5 @@ if (process.argv.includes("--live")) {
   } finally { await browser.close(); server.close(); }
 }
 
-console.log(`\ncheck_harvest: ${failures ? "FAIL" : "OK"} — ${passes} passed, ${failures} failed · ${all.length} spots on ${NP_PARISHES.filter((p) => perMap[p.id].length).length} maps (fish ${act("fish").length}, crab ${act("crab").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length})`);
+console.log(`\ncheck_harvest: ${failures ? "FAIL" : "OK"} — ${passes} passed, ${failures} failed · ${all.length} spots on ${NP_PARISHES.filter((p) => perMap[p.id].length).length} maps (fish ${act("fish").length}, crab ${act("crab").length}, shrimp ${act("shrimp").length}, oyster ${act("oyster").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length})`);
 process.exit(failures ? 1 : 0);
