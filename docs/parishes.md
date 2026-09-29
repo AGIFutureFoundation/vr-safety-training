@@ -488,3 +488,56 @@ A programme world is a **procedural** district built for one programme — **not
   `programme-worlds-south`); they stay pending until such a world is registered.
 - Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
   `tools/check_smiles.mjs`.
+
+## Baton Rouge in districts, RiverPlex and Hammond (regions `louisiana-cities` and `louisiana-sites`, console CAPITAL)
+
+Console CAPITAL (docs/consoles/CAPITAL.md) breaks Baton Rouge into district maps at street scale and adds Hammond and the
+RiverPlex MegaPark site, each a strict-engine 4096 m map written once by `tools/gen_cap_capital.py` from approximate public
+lon/lat through one north-up uniform scale (x east, +z south). Water and road layout checked against Copernicus Sentinel-2
+imagery (Contains modified Copernicus Sentinel data 2026) for the three Baton Rouge-area maps; the Hammond view returned no
+scene this round, so Hammond is laid out from general geography only. The facts are only the facts file's
+(`la-facts.md`): no city growth figure is stated; RiverPlex is "a ~17,000-acre site, 10 miles of river frontage" on the
+Mississippi's west bank in Ascension Parish. **Every site layout is illustrative**: each map's blurb and a sign landmark say
+so ("the project layout is illustrative; the parish, waterways and towns are real"). The north corridor names only public
+roads, the river, the levees and the Huey P. Long Bridge; no private plant is named or part of any lesson, and no investor
+or employer is.
+
+| map | id | module | export | region | scale | sites | connectors |
+|---|---|---|---|---|---|---|---|
+| Baton Rouge — Downtown & Riverfront | `br-downtown-riverfront` | `np-data-br-downtown-riverfront.js` | `NP_BR_DOWNTOWN_RIVERFRONT` | louisiana-cities | 1.5 real metres per map metre | 18 | 2 |
+| Baton Rouge — North River Industry Corridor | `br-north-industrial` | `np-data-br-north-industrial.js` | `NP_BR_NORTH_INDUSTRIAL` | louisiana-cities | 1.5 real metres per map metre | 16 | 2 |
+| RiverPlex MegaPark — Ascension Parish West Bank | `br-riverplex-ascension` | `np-data-br-riverplex-ascension.js` | `NP_BR_RIVERPLEX_ASCENSION` | louisiana-sites | 3.5 real metres per map metre | 16 | 2 |
+| Hammond — Downtown & the Interstates | `hammond-downtown` | `np-data-hammond-downtown.js` | `NP_HAMMOND_DOWNTOWN` | louisiana-cities | 2 real metres per map metre | 16 | 2 |
+
+**Downtown & Riverfront** — the State Capitol and its grounds, Capitol Lake, the Old State Capitol, Spanish Town and
+Beauregard Town, the riverfront and the east bank levee path, the interstate bridge to Port Allen on the west bank, River
+Road, Interstate One-Ten, North Boulevard, Florida and Government Streets. Sites: the workforce centre (start), riverfront
+crane work, high-rise steel, streetscape, water main replacement, the Capitol grounds crew, the levee path crew, bridge
+painting, parking deck concrete, a hospital fit-out, a substation, storm drains, a fire station, a transit stop, roofing,
+traffic signals, a west bank landing and a school renovation. **North River Industry Corridor** — the Mississippi's bend,
+both levees, River Road, Scenic Highway, Interstate One-Ten, Plank Road, Highway One-Ninety and the Huey P. Long Bridge, a
+procedural rail line and procedural river terminals, shops and yards: turnaround staging, a pipe fabrication shop, a scaffold
+yard, a rail yard, a river terminal, tank maintenance, an insulation shop, a crane yard, a substation, a levee patrol, a
+truck gate, a hydrotest crew, a welding training bay, a fire training ground, the workforce trailer (start) and storm drains.
+**RiverPlex** — the river bend, the west and east bank levees and River Roads, Highway One and Highway Seventy,
+Donaldsonville and the head of Bayou Lafourche, cane fields; illustrative site-readiness work: site clearing, a rail spur, a
+river dock, the access road, a levee crossing, a utility corridor, a substation, a laydown yard, a drainage canal, an
+environmental survey, a crane pad, the workforce trailer (start), a river water intake, geotechnical drilling, a fire water
+station and a Donaldsonville streetscape. **Hammond** — Interstates Fifty-Five and Twelve and their interchange, Highway
+Fifty-One, Thomas Street, the rail line through downtown, the university district and Hammond Northshore Regional Airport;
+sites for interchange work, a rail crossing, facade restoration, the airport apron and a hangar, a water tower, campus and
+hospital fit-outs, warehouse steel, streetscape, a substation, a fire station, a school, a drainage canal, a truck yard and
+the workforce centre (start).
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Interstate One-Ten | road | br-downtown-riverfront ↔ br-north-industrial | -91.166, 30.478 (the seam) | `cap-bd-interstate-one-ten-north`, `cap-bn-interstate-one-ten-south` |
+| River Road along the levee | road | br-downtown-riverfront ↔ br-north-industrial | -91.190, 30.478 (the seam) | `cap-bd-river-road-north`, `cap-bn-river-road-south` |
+| Highway One north-west | road | br-riverplex-ascension → iberville-west-bank (no map yet) | -91.095, 30.143 | `cap-br-highway-one-north-west` |
+| Highway Seventy east | road | br-riverplex-ascension → ascension-east-bank (no map yet) | -90.945, 30.092 | `cap-br-highway-seventy-east` |
+| Interstate Twelve west | road | hammond-downtown → livingston-interstate-twelve (no map yet) | -90.498, 30.479 | `cap-ha-interstate-twelve-west` |
+| Interstate Fifty-Five south | road | hammond-downtown → tangipahoa-south (no map yet) | -90.479, 30.463 | `cap-ha-interstate-fifty-five-south` |
+
+The downtown and north fields share an edge at about 30.4777 N (downtown's frame ends there and the north map's begins a few
+metres beyond, so they never overlap); each crossing's far end sits just inside the neighbour's field and both are written
+with positions from the neighbour's own frame.

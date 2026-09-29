@@ -48,6 +48,8 @@ import { NP_SM_UNSPOKEN_SMILES } from "./np-data-sm-unspoken-smiles.js";
 // CAPITAL (docs/consoles/CAPITAL.md): Baton Rouge at district scale, in region louisiana-cities.
 import { NP_BR_DOWNTOWN_RIVERFRONT } from "./np-data-br-downtown-riverfront.js";
 import { NP_BR_NORTH_INDUSTRIAL } from "./np-data-br-north-industrial.js";
+import { NP_BR_RIVERPLEX_ASCENSION } from "./np-data-br-riverplex-ascension.js";
+import { NP_HAMMOND_DOWNTOWN } from "./np-data-hammond-downtown.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -63,7 +65,7 @@ export const NP_PARISHES = [
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
   NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY, NP_BP_SAN_MATEO_SHORELINE, NP_BP_NUTRIENT_PILOT,
   NP_SM_UNSPOKEN_SMILES,
-  NP_BR_DOWNTOWN_RIVERFRONT, NP_BR_NORTH_INDUSTRIAL,
+  NP_BR_DOWNTOWN_RIVERFRONT, NP_BR_NORTH_INDUSTRIAL, NP_BR_RIVERPLEX_ASCENSION, NP_HAMMOND_DOWNTOWN,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */
