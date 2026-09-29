@@ -28919,8 +28919,8 @@ const NP_SF_DOWNTOWN = {
     {"id":"lombard-street-crooked-block","name":"Lombard Street's crooked block","position":[-588,-608],"kind":"street"},
   ],
   connectors: [
-    {"id":"sf-van-ness-north","kind":"road","name":"Van Ness Avenue north to the Marina","from":{"parish":"sf-downtown","position":[-800,-251]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.424,37.795]},"lonlat":[-122.424,37.795],"approximate":true},
-    {"id":"sf-embarcadero-north","kind":"road","name":"The Embarcadero north past the wharf","from":{"parish":"sf-downtown","position":[-440,-804]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.415,37.806]},"lonlat":[-122.415,37.806],"approximate":true},
+    {"id":"sf-dt-van-ness-north","kind":"road","name":"Van Ness Avenue north to the Marina","from":{"parish":"sf-downtown","position":[-800,-251]},"to":{"parish":"sf-marina","position": [1116, 162],"lonlat":[-122.424,37.795]},"lonlat":[-122.424,37.795],"approximate":true},
+    {"id":"sf-dt-embarcadero-north","kind":"road","name":"The Embarcadero north past the wharf","from":{"parish":"sf-downtown","position":[-440,-804]},"to":{"parish":"sf-marina","position": [1502, -432],"lonlat":[-122.415,37.806]},"lonlat":[-122.415,37.806],"approximate":true},
     {"id":"sf-dt-market-street","kind":"road","name":"Market Street south-west into the Mission","from":{"parish":"sf-downtown","position":[-600,754]},"to":{"parish":"sf-mission","position":[-440,-603],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
     {"id":"sf-dt-king-street","kind":"road","name":"The Embarcadero at King Street","from":{"parish":"sf-downtown","position":[520,653]},"to":{"parish":"sf-mission","position":[680,-704],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
     {"id":"sf-dt-geary-boulevard","kind":"road","name":"Geary Boulevard west to the Richmond","from":{"parish":"sf-downtown","position":[-1679,402]},"to":{"parish":"sf-golden-gate-park","position":[1280,-955],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
@@ -29029,8 +29029,8 @@ const NP_SF_MISSION = {
     {"id":"islais-creek-bank","name":"the Islais Creek bank","position":[800,955],"kind":"canal"},
   ],
   connectors: [
-    {"id":"sf-third-street-south","kind":"road","name":"Third Street south to Bayview","from":{"parish":"sf-mission","position":[760,402]},"to":{"parish":"sf-bayview","position":null,"lonlat":[-122.389,37.755]},"lonlat":[-122.389,37.755],"approximate":true},
-    {"id":"sf-bayshore-south","kind":"road","name":"The Bayshore Freeway south to Bayview","from":{"parish":"sf-mission","position":[160,1407]},"to":{"parish":"sf-bayview","position":null,"lonlat":[-122.404,37.735]},"lonlat":[-122.404,37.735],"approximate":true},
+    {"id":"sf-mi-third-street-south","kind":"road","name":"Third Street south to Bayview","from":{"parish":"sf-mission","position":[760,402]},"to":{"parish":"sf-bayview","position": [-301, -1187],"lonlat":[-122.389,37.755]},"lonlat":[-122.389,37.755],"approximate":true},
+    {"id":"sf-mi-bayshore-south","kind":"road","name":"The Bayshore Freeway south to Bayview","from":{"parish":"sf-mission","position":[160,1407]},"to":{"parish":"sf-bayview","position": [-945, -108],"lonlat":[-122.404,37.735]},"lonlat":[-122.404,37.735],"approximate":true},
     {"id":"sf-mi-market-street","kind":"road","name":"Market Street north-east downtown","from":{"parish":"sf-mission","position":[-440,-603]},"to":{"parish":"sf-downtown","position":[-600,754],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
     {"id":"sf-mi-king-street","kind":"road","name":"King Street to the Embarcadero","from":{"parish":"sf-mission","position":[680,-704]},"to":{"parish":"sf-downtown","position":[520,653],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
     {"id":"sf-mi-oak-street","kind":"road","name":"Oak Street west along the Panhandle","from":{"parish":"sf-mission","position":[-1560,-452]},"to":{"parish":"sf-golden-gate-park","position":[1240,-452],"lonlat":[-122.447,37.772]},"lonlat":[-122.447,37.772],"approximate":true},
@@ -29135,7 +29135,7 @@ const NP_SF_GOLDEN_GATE_PARK = {
     {"id":"kezar-stadium","name":"Kezar Stadium","position":[900,-211],"kind":"stadium"},
   ],
   connectors: [
-    {"id":"sf-park-presidio","kind":"road","name":"Park Presidio Boulevard north to the Presidio","from":{"parish":"sf-golden-gate-park","position":[240,-955]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.472,37.782]},"lonlat":[-122.472,37.782],"approximate":true},
+    {"id":"sf-gp-park-presidio","kind":"road","name":"Park Presidio Boulevard north to the Presidio","from":{"parish":"sf-golden-gate-park","position":[240,-955]},"to":{"parish":"sf-marina","position": [-944, 863],"lonlat":[-122.472,37.782]},"lonlat":[-122.472,37.782],"approximate":true},
     {"id":"sf-gp-geary-boulevard","kind":"road","name":"Geary Boulevard east downtown","from":{"parish":"sf-golden-gate-park","position":[1280,-955]},"to":{"parish":"sf-downtown","position":[-1679,402],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
     {"id":"sf-gp-oak-street","kind":"road","name":"Oak Street east from the Panhandle","from":{"parish":"sf-golden-gate-park","position":[1240,-452]},"to":{"parish":"sf-mission","position":[-1560,-452],"lonlat":[-122.447,37.772]},"lonlat":[-122.447,37.772],"approximate":true},
   ],
@@ -30409,7 +30409,7 @@ const NP_SF_MARINA = {
  ],
  "connectors": [
   {
-   "id": "sf-van-ness-north",
+   "id": "sf-ma-van-ness-north",
    "kind": "road",
    "name": "Van Ness Avenue south to Downtown",
    "from": {
@@ -30421,7 +30421,7 @@ const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-downtown",
-    "position": null,
+    "position": [-800, -251],
     "lonlat": [
      -122.424,
      37.795
@@ -30434,7 +30434,7 @@ const NP_SF_MARINA = {
    "approximate": true
   },
   {
-   "id": "sf-embarcadero-north",
+   "id": "sf-ma-embarcadero-north",
    "kind": "road",
    "name": "Bay Street east to the Embarcadero",
    "from": {
@@ -30446,7 +30446,7 @@ const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-downtown",
-    "position": null,
+    "position": [-440, -804],
     "lonlat": [
      -122.415,
      37.806
@@ -30459,7 +30459,7 @@ const NP_SF_MARINA = {
    "approximate": true
   },
   {
-   "id": "sf-park-presidio",
+   "id": "sf-ma-park-presidio",
    "kind": "road",
    "name": "Park Presidio Boulevard south to Golden Gate Park",
    "from": {
@@ -30471,7 +30471,7 @@ const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-golden-gate-park",
-    "position": null,
+    "position": [240, -955],
     "lonlat": [
      -122.472,
      37.782
@@ -31988,7 +31988,7 @@ const NP_SF_BAYVIEW = {
  ],
  "connectors": [
   {
-   "id": "sf-third-street-south",
+   "id": "sf-bv-third-street-south",
    "kind": "road",
    "name": "Third Street north to the Mission and SoMa",
    "from": {
@@ -32000,7 +32000,7 @@ const NP_SF_BAYVIEW = {
    },
    "to": {
     "parish": "sf-mission",
-    "position": null,
+    "position": [760, 402],
     "lonlat": [
      -122.389,
      37.755
@@ -32013,7 +32013,7 @@ const NP_SF_BAYVIEW = {
    "approximate": true
   },
   {
-   "id": "sf-bayshore-south",
+   "id": "sf-bv-bayshore-south",
    "kind": "road",
    "name": "Bayshore Boulevard north to the Mission",
    "from": {
@@ -32025,7 +32025,7 @@ const NP_SF_BAYVIEW = {
    },
    "to": {
     "parish": "sf-mission",
-    "position": null,
+    "position": [160, 1407],
     "lonlat": [
      -122.404,
      37.735
