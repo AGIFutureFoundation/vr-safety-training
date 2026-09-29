@@ -663,7 +663,7 @@ function dnApplyHere() {
   const a = dnApplyModule("parishes", { sites: parish.sites });
   const glowMat = new THREE.MeshLambertMaterial({ color: 0xffe066, emissive: 0x8a6a00 });
   for (const b of world.siteBoards) {
-    const board = root.getObjectByName(`site-${b.site.id}`)?.children?.[1];
+    const board = root.getObjectByName(`site-${b.site.id}`)?.getObjectByName("site-board");
     if (!board) continue;
     board.userData.dnBase ??= board.material;
     board.material = a.glow.sites.has(b.site.id) ? glowMat : board.userData.dnBase;

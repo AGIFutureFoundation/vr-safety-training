@@ -975,7 +975,7 @@ APPS = {
 # "flows" is not an app but is reached the same way: the instructor console
 # fetches "../flows/index.json", which needs the same one-level fixup in dist.
 SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs"]
-SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "scholar"]  # scholar: the K-12 scoreboard (SCHOLAR)
+SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs", "scholar"]  # scholar: the K-12 scoreboard (SCHOLAR)
 AUTH_CONFIG = "auth-config.json"
 # The apps whose bundle reads the sign-in configuration, and therefore need a
 # copy of it beside the bundle. A deployment edits the copy it serves.
@@ -1273,8 +1273,23 @@ DIST_SHARED = [
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
     "controls.js", "account.js", "profiles.js",
-    # STORYLINE: the homepage world cards' path chip (st-paths.js imports only profiles.js).
+    # STORYLINE: the homepage world cards' path chip. st-paths.js honours a teacher's locked version (DEAN's dn-modules.js,
+    # which reads profiles.js, passport-programmes.js and org.js), so the chip needs DEAN's module beside it.
     "st-paths.js",
+    # SCHOLAR's scoreboard page (WebXR/scholar/, copied beside the homepage) and what its lessons index imports:
+    # the parish registry and every district map (np-data-*.js, added below by glob so a new map cannot be missed).
+    "dn-modules.js",
+    "sc-scholar.js",
+    "field-lessons.js",
+    "summit-data.js",
+    "sg-ways.js",
+    "bm-ways.js",
+    "np-geo.js",
+    "np-parishes.js",
+    "links.js",
+    "side-game-mechanics.js",
+    "by-parish-lessons.js",
+    "sc-lessons.js",
     # The treasure ledger account.js and guide.js import, and the Treasure Map
     # page (WebXR/treasures.html, copied beside the homepage) that reads it;
     # the gate engine treasures.js answers its locks through.
@@ -1304,6 +1319,8 @@ DIST_SHARED = [
     # the sign-in backdrop.
     "cinema.js",
 ]
+# Every parish-engine map module ships beside np-parishes.js (the scoreboard and any page that reads the registry import them all).
+DIST_SHARED += sorted(p.name for p in (Path(__file__).resolve().parent.parent / "WebXR" / "shared").glob("np-data-*.js") if p.name not in DIST_SHARED)
 
 
 def combined_fixup(html: str) -> str:
@@ -1410,6 +1427,9 @@ def build_combined() -> int:
     if not (packs / "flat" / "index.html").exists():
         print("[dist] WebXR/packs/flat/index.html is missing — run tools/gen_packs.mjs before bundling.", file=sys.stderr)
         return 1
+    # SCHOLAR's scoreboard (WebXR/scholar/index.html): its ../shared/ imports resolve against DIST/shared.
+    (DIST / "scholar").mkdir(parents=True, exist_ok=True)
+    (DIST / "scholar" / "index.html").write_bytes((WEBXR / "scholar" / "index.html").read_bytes())
     (DIST / "packs").mkdir(parents=True, exist_ok=True)
     (DIST / "packs" / "index.html").write_bytes((packs / "flat" / "index.html").read_bytes())
     copied += 1

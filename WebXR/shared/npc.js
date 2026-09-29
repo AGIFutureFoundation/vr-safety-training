@@ -191,8 +191,9 @@ export function grSiteOf(s) {
  * `pump`, `streetcar`, `rail`; DELTA's parishes say `pumping-station`. A kind maps to itself when it is not listed.
  */
 export const GR_PARISH_KIND_ALIAS = { pump: "pump-station", "pumping-station": "pump-station", streetcar: "streetcar-barn", rail: "rail-yard", events: "stadium", seawall: "levee",
-  // BAYMAP's Oakland kinds: a K-12 school is the teacher's campus, a community clinic the nurse's hospital, a restored shoreline the ranger's wetland.
-  school: "campus", clinic: "hospital", shoreline: "wetland" };
+  // BAYMAP's Oakland kinds: a K-12 school is the teacher's campus, a community clinic the nurse's hospital, a shoreline
+  // the ranger's wetland, and the storm-drain utility yard (stormwater outfalls) the drainage pump operator's station.
+  school: "campus", clinic: "hospital", shoreline: "wetland", utility: "pump-station" };
 
 /** The site a character stands at among `sites` (by id, or by kind for a parish character), or null. */
 export function grSiteFor(ch, sites) {
