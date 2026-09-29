@@ -66,7 +66,7 @@ export function stPathKiosks(pathId, parishId) {
   return KW_KIOSKS.filter((k) => k.parish === parishId && p.kiosks.includes(k.id)).map((k) => k.id);
 }
 
-const stEsc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const stHtml = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 /** The stories panel for one path and parish (DOM only). */
 function stRenderStories(box, parish, { openLesson, stationHref }) {
@@ -77,11 +77,11 @@ function stRenderStories(box, parish, { openLesson, stationHref }) {
   if (!p.prompts) { box.innerHTML = `<p class="note">Just Roam: no prompts, no stories offered. Walk anywhere; every board, lesson and kiosk still opens when you reach it.</p>`; return; }
   const list = stQuestsFor(pid, parish.id);
   const kiosks = stPathKiosks(pid, parish.id);
-  box.innerHTML = `<p class="eyebrow">${stEsc(p.label)} · side stories here</p>${kiosks.length ? `<p class="note">Kiosks that count on this path here: ${kiosks.map(stEsc).join(", ")}</p>` : ""}` + list.map((s) => {
+  box.innerHTML = `<p class="eyebrow">${stHtml(p.label)} · side stories here</p>${kiosks.length ? `<p class="note">Kiosks that count on this path here: ${kiosks.map(stHtml).join(", ")}</p>` : ""}` + list.map((s) => {
     const chosen = stBranchChosen(s.id);
-    return `<div class="quest st-story" data-st-story="${stEsc(s.id)}"><b>${stEsc(s.characterName)}, ${stEsc(s.role.toLowerCase())} — ${stEsc(s.siteName)}</b>
-<small>“${stEsc(s.line.text)}”</small><small>${stEsc(s.prompt)}</small><div class="row">${s.branches.map((b) =>
-      `<button type="button" class="btn${chosen === b.id ? " on" : ""}" data-st-branch="${stEsc(b.id)}" title="${stEsc(b.practice)}">${stEsc(b.label)}: ${stEsc(b.title)}</button>`).join("")}</div>${chosen ? `<small>You chose: ${stEsc(s.branches.find((b) => b.id === chosen)?.practice ?? "")}</small>` : ""}</div>`;
+    return `<div class="quest st-story" data-st-story="${stHtml(s.id)}"><b>${stHtml(s.characterName)}, ${stHtml(s.role.toLowerCase())} — ${stHtml(s.siteName)}</b>
+<small>“${stHtml(s.line.text)}”</small><small>${stHtml(s.prompt)}</small><div class="row">${s.branches.map((b) =>
+      `<button type="button" class="btn${chosen === b.id ? " on" : ""}" data-st-branch="${stHtml(b.id)}" title="${stHtml(b.practice)}">${stHtml(b.label)}: ${stHtml(b.title)}</button>`).join("")}</div>${chosen ? `<small>You chose: ${stHtml(s.branches.find((b) => b.id === chosen)?.practice ?? "")}</small>` : ""}</div>`;
   }).join("");
   for (const btn of box.querySelectorAll("[data-st-branch]")) btn.addEventListener("click", () => {
     const storyId = btn.closest("[data-st-story]").getAttribute("data-st-story");

@@ -1177,6 +1177,8 @@ DIST_SHARED = [
     # bundle's panel.
     "guide.js", "voice-assist.js", "guide-kb.js",
     "controls.js", "account.js", "profiles.js",
+    # STORYLINE: the homepage world cards' path chip (st-paths.js imports only profiles.js).
+    "st-paths.js",
     # The treasure ledger account.js and guide.js import, and the Treasure Map
     # page (WebXR/treasures.html, copied beside the homepage) that reads it;
     # the gate engine treasures.js answers its locks through.

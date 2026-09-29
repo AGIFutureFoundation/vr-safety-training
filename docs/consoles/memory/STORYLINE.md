@@ -9,4 +9,6 @@
 - Mounted: parishes app `#menu-storyline` (+ lock toasts and the welcome toast obey `stPromptsOn()`), homepage chip via
   gen_home.mjs (`[data-st-chip]`), bundler list after kw-kits.js.
 - Checker `tools/check_storyline.mjs` (in check_all, baseline 320 ms): 2,885 checks, 0 failed.
+- Browser smoke (port 8984, bundled and source pages): Disaster Relief → 3 stories, 6 glow rings (Orleans), survives reload;
+  Just Roam → 0 stories, 0 glow; homepage chips shown; 0 page errors. eval_worlds mean 97 before → 98 after.
 - Regenerate stories after catalog / GRIOT / parish-data changes: `node tools/gen_st_stories.mjs` (the checker runs `--check`).

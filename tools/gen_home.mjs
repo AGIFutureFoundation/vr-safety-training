@@ -1358,7 +1358,7 @@ function appCard(layout, { href, tint: t, count, name, blurb, go, shot }) {
     return `      <a class="app world" style="--tint:${t}" href="${href}">
         <span class="shot">${img}${hmCardVideo(layout, shot)}</span>
         <span class="body">
-          <span class="count">${esc(count)}</span>${String(href).startsWith("parishes/") ? `
+          <span class="count">${esc(count)}</span>${/parishes\.html/.test(String(href)) ? `
           <span class="st-chip" data-st-chip hidden style="display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--tint);margin:4px 0">Pick a path</span>` : ""}
           <h2>${esc(name)}</h2>
           <p>${esc(blurb)}</p>
