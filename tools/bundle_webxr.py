@@ -846,6 +846,8 @@ APPS = {
             # NEWTON (the Packs run): the pure physics (after np-parish.js and drivables-data.js) and its parish mount.
             SHARED / "nw-physics.js",
             SHARED / "nw-drive.js",
+            # INTERIORS: walk-in generic rooms for the site buildings (after nw-physics.js).
+            SHARED / "ix-interiors.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
             # CLEANPORTS: the zero-emission port stations keyed to BAYMAP's West Oakland sites (pure data, guarded).

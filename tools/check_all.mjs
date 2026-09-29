@@ -94,6 +94,8 @@ const CHECKERS = [
   // The New Orleans parish worlds: every parish's data validates, the terrain builds headless in budget, connectors pair (docs/consoles/PARISH.md).
   "check_parishes.mjs",
   "check_landmarks.mjs",
+  // INTERIORS: every room style builds in budget, every site kind maps to a style, enter/exit round-trips, stations launch inside (docs/consoles/INTERIORS.md).
+  "check_interiors.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
   // TERRAFORM: channels below their banks, rivers flowing downstream, deterministic wind, cover off roads/water/pads, budgets (docs/consoles/TERRAFORM.md).
