@@ -494,6 +494,8 @@ SGP.SG_FIELD_LESSONS.forEach((l) => {
 });
 // The rest of the Bay Area (PLAYLAYER, WebXR/shared/pl-bay-play.js): the other San Francisco, Oakland, East Bay,
 // South Bay and Bay Program maps on the same shapes — a Crew Kit off every site and each lesson's check as a quiet find.
+// LA-PLAY adds the Louisiana regions (PL_LA_REGIONS: development sites, growth cities, New Orleans districts) to the
+// same list, so their kits and lesson finds come from this loop too (set ids keep the `bay-kits-` prefix the readers key on).
 const PLP = await imp("WebXR/shared/pl-bay-play.js");
 let plIndex = 0;
 for (const d of PLP.PL_DISTRICTS) {
@@ -505,15 +507,17 @@ for (const d of PLP.PL_DISTRICTS) {
     plIndex += 1;
     add({ id: `tz-parish-${d.id}-${s.id}`, name: `Crew Kit: ${s.name}`, surface: "parishes", world: "The Parishes", area: d.name,
       set: `bay-kits-${d.id}`, how: "proximity", trigger: { world: "parishes", parish: d.id, site: s.id, dx, dz, r: 7 },
-      hint: PLP.PL_TREASURE_HINT, reveal: "chest", lesson: L.lesson, source: L.source, place: L.place ?? null,
+      hint: d.hint ?? PLP.PL_TREASURE_HINT, reveal: "chest", lesson: L.lesson, source: L.source, place: L.place ?? null,
       gate: i % 4 === 2 && L.own ? { stations: [L.station], note: `The ${s.name} crew keeps this kit for people who have done the job there.` } : null });
   });
 }
+// LA-PLAY: the Louisiana maps (PL_LA_REGIONS) ride the same loop; their lesson hint names Louisiana.
+const plLaIds = new Set((PLP.PL_LA_MAPS ?? []).map((d) => d.id));
 PLP.PL_FIELD_LESSONS.forEach((l) => {
   if (!rd(l.file).includes(`"${l.tradeLine}"`)) throw new Error(`${l.id}'s trade line does not re-read verbatim from ${l.file}`);
   add({ id: `tz-lesson-${l.id}`, name: `Field Lesson: ${l.title}`, surface: "parishes", world: "The Parishes", area: "Field lessons",
     set: "field-scholar", how: "lesson", trigger: { world: "parishes", lesson: l.id },
-    hint: "Take a field lesson at a Bay Area site and answer its check question.", reveal: "scroll", lesson: l.tradeLine, source: { file: l.file, text: true, lesson: l.id },
+    hint: `Take a field lesson at a ${plLaIds.has(l.parish) ? "Louisiana" : "Bay Area"} site and answer its check question.`, reveal: "scroll", lesson: l.tradeLine, source: { file: l.file, text: true, lesson: l.id },
     place: { id: l.site, stations: [l.k12, l.station] } });
 });
 

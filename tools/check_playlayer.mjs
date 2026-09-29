@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * The Bay Area play layer (console PLAYLAYER, docs/consoles/PLAYLAYER.md):
+ * The Bay Area play layer (console PLAYLAYER, docs/consoles/PLAYLAYER.md), and
+ * since LA-PLAY (docs/consoles/LA-PLAY.md) the Louisiana maps on it too:
  *
  *     node tools/check_playlayer.mjs
  *
@@ -55,6 +56,11 @@ const factsClean = (where, text) => {
 // ---- the maps
 const bay = R.NP_PARISHES.filter((p) => PL.PL_REGIONS.includes(p.region));
 if (bay.length < 13) fail("maps", `${bay.length} Bay Area maps, fewer than thirteen`); else ok();
+// LA-PLAY: every map of the three Louisiana regions is on the layer (keyed by region, so a later map is held too).
+const laMaps = R.NP_PARISHES.filter((p) => (PL.PL_LA_REGIONS ?? []).includes(p.region));
+if (laMaps.length < 17) fail("maps", `${laMaps.length} Louisiana maps on the play layer, fewer than seventeen`); else ok();
+for (const p of laMaps) if (!PL.PL_LA_MAPS.some((d) => d.id === p.id)) fail("maps", `${p.id} (Louisiana) is not on the play layer`); else ok();
+for (const d of PL.PL_LA_MAPS) if (!/Louisiana/.test(d.hint)) fail("maps", `${d.id}: the crew-kit hint does not name Louisiana`); else ok();
 if (PL.PL_BAY_MAPS.length !== bay.length) fail("maps", `PL_BAY_MAPS has ${PL.PL_BAY_MAPS.length} of ${bay.length} Bay Area maps`); else ok();
 const sgIds = new Set(SGP.SG_DISTRICTS.map((d) => d.id));
 if (PL.PL_DISTRICTS.some((d) => sgIds.has(d.id))) fail("maps", "PL_DISTRICTS repeats a GOLDEN-B district (its lessons would count twice)"); else ok();
@@ -120,6 +126,6 @@ if (/-?\d+\.\d+\s*,\s*-?\d+\.\d+/.test(src.replace(/\/\/.*$/gm, ""))) fail("hygi
 if (!rd("tools/check_all.mjs").includes('"check_playlayer.mjs"')) fail("hygiene", "not in check_all"); else ok();
 if (!rd("docs/perf/checkers-baseline.json").includes('"check_playlayer.mjs"')) fail("hygiene", "not in the checkers baseline"); else ok();
 
-console.log(`  · ${bay.length} Bay Area maps · ${lessonsN} play-layer field lessons · ${questsN} side quests · ${bay.length} path boards · ${Date.now() - t0} ms`);
+console.log(`  · ${bay.length} maps (${bay.length - laMaps.length} Bay Area, ${laMaps.length} Louisiana) · ${lessonsN} play-layer field lessons · ${questsN} side quests · ${bay.length} path boards · ${Date.now() - t0} ms`);
 console.log(failed ? `check_playlayer: ${failed} FAILED, ${passed} passed` : `check_playlayer: all ${passed} checks pass`);
 process.exit(failed ? 1 : 0);
