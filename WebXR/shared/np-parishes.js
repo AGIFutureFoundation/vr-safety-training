@@ -65,6 +65,10 @@ import { NP_NOLA_FRENCH_QUARTER_CBD } from "./np-data-nola-french-quarter-cbd.js
 import { NP_NOLA_UPTOWN_GARDEN } from "./np-data-nola-uptown-garden.js";
 import { NP_NOLA_MID_CITY_GENTILLY } from "./np-data-nola-mid-city-gentilly.js";
 import { NP_NOLA_BYWATER_LOWER_NINTH } from "./np-data-nola-bywater-lower-ninth.js";
+// Louisiana growth-city districts (console ACADIANA, docs/consoles/ACADIANA.md): Lafayette, Carencro and Monroe.
+import { NP_LAF_DOWNTOWN } from "./np-data-laf-downtown.js";
+import { NP_LAF_CARENCRO_NORTH } from "./np-data-laf-carencro-north.js";
+import { NP_MONROE_WEST_MONROE } from "./np-data-monroe-west-monroe.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -80,6 +84,7 @@ export const NP_PARISHES = [
   NP_BAY_SAN_PABLO, NP_BAY_SAN_JOSE,
   NP_BP_STRIP_MARSH_EAST, NP_BP_SAN_LEANDRO_BAY, NP_BP_SAN_MATEO_SHORELINE, NP_BP_NUTRIENT_PILOT,
   NP_LA_STARBASE_VERMILION, NP_LA_BLACK_BAYOU_CAMERON, NP_LA_SARONIC_FRANKLIN, NP_LA_AVEX_NEW_IBERIA,
+  NP_LAF_DOWNTOWN, NP_LAF_CARENCRO_NORTH, NP_MONROE_WEST_MONROE,
   NP_SM_UNSPOKEN_SMILES,
   NP_LA_META_RICHLAND, NP_LA_DELTA_FORGE_RAPIDES, NP_LA_SHINTECH_PLAQUEMINE,
   NP_LC_LAKEFRONT_DOWNTOWN, NP_LC_CALCASIEU_CHANNEL, NP_LC_PORT_OF_VINTON,

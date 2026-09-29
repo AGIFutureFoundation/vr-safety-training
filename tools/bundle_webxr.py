@@ -296,6 +296,10 @@ APPS = {
             SHARED / "np-data-nola-uptown-garden.js",
             SHARED / "np-data-nola-mid-city-gentilly.js",
             SHARED / "np-data-nola-bywater-lower-ninth.js",
+            # ACADIANA (docs/consoles/ACADIANA.md): Lafayette, Carencro and Monroe (region louisiana-cities).
+            SHARED / "np-data-laf-downtown.js",
+            SHARED / "np-data-laf-carencro-north.js",
+            SHARED / "np-data-monroe-west-monroe.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "links.js",
@@ -822,6 +826,10 @@ APPS = {
             SHARED / "np-data-nola-uptown-garden.js",
             SHARED / "np-data-nola-mid-city-gentilly.js",
             SHARED / "np-data-nola-bywater-lower-ninth.js",
+            # ACADIANA (docs/consoles/ACADIANA.md): Lafayette, Carencro and Monroe (region louisiana-cities).
+            SHARED / "np-data-laf-downtown.js",
+            SHARED / "np-data-laf-carencro-north.js",
+            SHARED / "np-data-monroe-west-monroe.js",
             SHARED / "sg-ways.js",
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",

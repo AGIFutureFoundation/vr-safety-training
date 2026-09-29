@@ -109,7 +109,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** the Site Investment and Infrastructure Fund. **The sources say:** "created by the Legislature in 2025 with $150 million; $50 million added in 2026, for $200 million total"; "awards from $500,000 to $25 million"; "$10 million to extend road access at the ~1,000-acre Esperanza site (St. Charles Parish)"; "$1.4 million for McLeod Business Park (Lafourche Parish)"; "$5.9 million at the Port of Vinton (Calcasieu Parish: a 600 ft × 50 ft barge berth)" (sources: opportunitylouisiana.gov/fastsites; kedm.org 2026-09-16; kplctv.com 2026-05-21).
 
-**Walkable:** `lc-port-of-vinton` (`lpv-barge-berth-build`, `lpv-site-prep`, `lpv-rail-and-road`) — 0 live, 3 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `lc-port-of-vinton` (`lpv-barge-berth-build`, `lpv-site-prep`, `lpv-rail-and-road`) — 3 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -123,7 +123,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Baton Rouge, Lake Charles, Lafayette and Carencro, Monroe, Hammond — named as places only, with no growth figures. **The sources say:** "2.01 million nonfarm jobs"; "the Baton Rouge metro added about 7,900 nonfarm jobs May 2025 – May 2026"; "$17.5 billion final investment decision"; "a ~17,000-acre site, 10 miles of river frontage" (sources: louisianaradionetwork.com 2026-07-15; wbrz.com; brla.gov newsflash 1738; kplctv.com 2025-04-29; woodside.com; businessreport.com; ascensionedc.com).
 
-**Walkable:** `br-downtown-riverfront` (`brd-workforce-centre`, `brd-riverfront-crane-work`); `br-north-industrial` (`brn-turnaround-staging`, `brn-pipe-fab-shop`); `br-riverplex-ascension` (`brr-site-clearing`, `brr-rail-spur`, `brr-river-dock`); `hammond-downtown` (`ham-workforce-centre`); `lc-lakefront-downtown` (`lcd-workforce-centre`, `lcd-bridge-work`); `lc-calcasieu-channel` (`lcc-lng-module-set`, `lcc-marine-offload`, `lcc-pipe-rack`); `laf-downtown` (`lafd-workforce-centre`); `laf-carencro-north` (`lafc-industrial-park`); `monroe-west-monroe` (`mon-workforce-centre`, `mon-river-bridge-work`) — 0 live, 17 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `br-downtown-riverfront` (`brd-workforce-centre`, `brd-riverfront-crane-work`); `br-north-industrial` (`brn-turnaround-staging`, `brn-pipe-fab-shop`); `br-riverplex-ascension` (`brr-site-clearing`, `brr-rail-spur`, `brr-river-dock`); `hammond-downtown` (`ham-workforce-centre`); `lc-lakefront-downtown` (`lcd-workforce-centre`, `lcd-bridge-work`); `lc-calcasieu-channel` (`lcc-lng-module-set`, `lcc-marine-offload`, `lcc-pipe-rack`); `laf-downtown` (`lafd-workforce-centre`); `laf-carencro-north` (`lafc-industrial-park`); `monroe-west-monroe` (`mon-workforce-centre`, `mon-river-bridge-work`) — 9 live, 8 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
