@@ -245,8 +245,8 @@ class DtBuf {
 const dtFree = [];
 function dtAcquire() { const b = dtFree.pop() ?? DT_FAMILIES.map(() => new DtBuf()); for (const x of b) x.n = 0; return b; }
 function dtRelease(b) { if (dtFree.length < 4) dtFree.push(b); }
-/** Work units between clock reads in a sliced generation (a unit is one candidate or one grid sample). */
-const DT_CHECK_EVERY = 48;
+/** Work units between clock reads in a sliced generation (a unit is one candidate or one road sample; the height and cover grids read the clock every sample). */
+const DT_CHECK_EVERY = 16;
 
 /** One chunk's detail, in one go. See the header for the shape. */
 export function dtDetailForChunk(parish, cx, cz, tier = "high", opts = {}) {
@@ -271,7 +271,7 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
   const prep = npPrepare(parish);
   // Checkpoints: every DT_CHECK_EVERY work units, a sliced generation reads the clock and yields past its deadline.
   let work = 0;
-  const clock = typeof performance !== "undefined" ? performance : Date;
+  const clock = slice?.clock ?? (typeof performance !== "undefined" ? performance : Date);
   const keepP = (DT_DENSITY[tier] ?? 1) * ((DT_FADE[tier] ?? DT_FADE.high)[ring] ?? 0);
   // tally: also count what every tier would keep at this ring, in the same pass (the checker's ratio walk).
   // (Flat arrays, not [tier, p] pairs: this runs once per candidate — DETAIL-2 cut its allocations.)
@@ -285,8 +285,11 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
   // Heights on a 16 m grid, bilinear between (the nearest ring's terrain uses the same step).
   const hn = NP_CHUNK / DT_HGRID + 1, H = new Float32Array(hn * hn);
   for (let j = 0; j < hn; j++) {
-    for (let i = 0; i < hn; i++) H[j * hn + i] = npHeightAt(parish, x0 + i * DT_HGRID, z0 + j * DT_HGRID);
-    if (slice && (work += hn * 2) >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
+    for (let i = 0; i < hn; i++) {
+      H[j * hn + i] = npHeightAt(parish, x0 + i * DT_HGRID, z0 + j * DT_HGRID);
+      // (a clock read per sample: a height inside a large water polygon measures its whole shoreline)
+      if (slice && clock.now() >= slice.deadline) yield;
+    }
   }
   const hAt = (x, z) => {
     const fx = Math.min(hn - 1.0001, Math.max(0, (x - x0) / DT_HGRID)), fz = Math.min(hn - 1.0001, Math.max(0, (z - z0) / DT_HGRID));
@@ -298,7 +301,7 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
   for (let j = 0; j < DT_CELLS; j++) {
     for (let i = 0; i < DT_CELLS; i++) {
       cover[j * DT_CELLS + i] = npCoverAt(parish, x0 + (i + 0.5) * DT_CELL, z0 + (j + 0.5) * DT_CELL);
-      if (slice && (work += 2) >= DT_CHECK_EVERY) { work = 0; if (clock.now() >= slice.deadline) yield; }
+      if (slice && clock.now() >= slice.deadline) yield;
     }
   }
   const isWet = (c) => c === "water";
@@ -490,7 +493,7 @@ export function dtGeometries(THREE) {
 }
 
 /** Mount the pool. See the header. */
-export function dtMountDetail(root, THREE, parish, { tier = "high", hooks = null, frameMs = DT_BUDGET.frameMs[tier] ?? DT_BUDGET.frameMs.high } = {}) {
+export function dtMountDetail(root, THREE, parish, { tier = "high", hooks = null, frameMs = DT_BUDGET.frameMs[tier] ?? DT_BUDGET.frameMs.high, clock: clockOpt = null } = {}) {
   const h = hooks ?? NP_MASSING_HOOKS;
   const cap = DT_CAPACITY[tier] ?? DT_CAPACITY.high;
   const geos = dtGeometries(THREE);
@@ -510,10 +513,12 @@ export function dtMountDetail(root, THREE, parish, { tier = "high", hooks = null
   // the next frame. The map keeps load order (a finished chunk fills the slot it was queued in), so once the queue is
   // empty the pool holds exactly what the one-shot fill held. frameMs: Infinity is the one-shot fill (every queued chunk
   // generated in the update that streamed it).
-  const clock = typeof performance !== "undefined" ? performance : Date;
+  // `clock` ({ now() } in ms, performance by default) is injectable: tools/check_detail.mjs drives the pool with a
+  // virtual clock to prove the scheduler never overruns its budget, independent of the machine's load.
+  const clock = clockOpt ?? (typeof performance !== "undefined" ? performance : Date);
   const chunks = new Map(); // key -> { key, ring, cx, cz, spots, det (null while queued) }
   const queue = [];         // keys waiting, in load order
-  const slice = { deadline: Infinity };
+  const slice = { deadline: Infinity, clock };
   let job = null;           // { c, gen, ms } the generation in flight
   let dirty = false, genMs = [], overflow = 0, frames = [], flushMs = [], slices = 0, stepWorst = 0;
   const fade = DT_FADE[tier] ?? DT_FADE.high;

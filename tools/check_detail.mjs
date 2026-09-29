@@ -189,6 +189,7 @@ for (const id of worst5) for (const tier of TIERS) {
     let wm = 0, wt = 0, wd = 0, wdi = 0;
     for (const s of [start, ...p.sites.slice(0, 2)]) {
       world.update(s.position[0], s.position[1], 999);
+      pool.drain(); // SMOOTH: generation is time-sliced across frames; finish it for the measurement
       const st = world.stats(), ps = pool.stats();
       wm = Math.max(wm, st.meshes); wt = Math.max(wt, st.triangles); wd = Math.max(wd, ps.triangles); wdi = Math.max(wdi, st.detailInstances);
     }
@@ -201,8 +202,92 @@ for (const id of worst5) for (const tier of TIERS) {
 }
 note(`full builds (${worst5.join(", ")}): ${((performance.now() - tBuild) / 1000).toFixed(1)} s`);
 
+// 7. SMOOTH: generation off the frame. (a) The resumable generator yielding at every checkpoint (deadline 0) returns
+// exactly the one-shot chunk. (b) A walk on the densest map (start -> two sites, 6 m a frame, the app's two chunk builds
+// a frame) with the one-shot pool and with the time-sliced pool: once the queue is empty the sliced pool holds the same
+// instances (counts, matrices, colours), and no frame's pool exceeds its capacity. (c) No frame spends more than
+// DT_BUDGET.frameMs[tier] on detail, proven twice: on a virtual clock (every clock read costs 10 µs, so time is the
+// work done between checkpoints — deterministic, whatever the machine's load), the worst frame is inside the budget;
+// on the real clock, three runs, each frame's wall time less any garbage-collector pause inside it (node's gc entries),
+// the median run's 99th-percentile frame is inside the budget, and the worst frames are reported (the machine is
+// shared: a preempted frame stretches the wall clock by the scheduler's slice, which no budget can prevent).
+const tSmooth = performance.now();
+{
+  let chunksChecked = 0, yields = 0, same = 0;
+  for (const p of R.NP_PARISHES.filter((_, i) => i % 4 === 0)) for (const [cx, cz] of [[8, 8], [5, 11]]) {
+    const one = D.dtDetailForChunk(p, cx, cz, "high");
+    const g = D.dtDetailSteps(p, cx, cz, "high", { slice: { deadline: 0 } });
+    let r = g.next(), y = 0; while (!r.done) { y++; r = g.next(); }
+    chunksChecked++; yields += y; if (D.dtDigest(r.value) === D.dtDigest(one) && r.value.count === one.count) same++;
+  }
+  check(same === chunksChecked && yields > chunksChecked * 10, `sliced generation: ${same}/${chunksChecked} chunks identical to the one-shot, yielding ${yields} times (${(yields / chunksChecked).toFixed(0)} a chunk)`);
+}
+const { PerformanceObserver } = await import("node:perf_hooks");
+const { loadavg, availableParallelism } = await import("node:os");
+const gcs = [];
+const gcObs = new PerformanceObserver((list) => { for (const e of list.getEntries()) gcs.push([e.startTime, e.startTime + e.duration]); });
+gcObs.observe({ entryTypes: ["gc"] });
+function smoothWalk(p, tier, frameMs, vclock = null) {
+  const root = new THREE.Group();
+  const pool = D.dtMountDetail(root, THREE, p, { tier, frameMs, clock: vclock });
+  const inner = W.NP_MASSING_HOOKS.streamed, rec = [];
+  W.NP_MASSING_HOOKS.streamed = vclock
+    ? (a) => { const v0 = vclock.t; inner(a); rec.push([0, 0, vclock.t - v0]); }
+    : (a) => { const t0 = performance.now(); inner(a); const t1 = performance.now(); rec.push([t0, t1, t1 - t0]); };
+  const start = E.npStartSite(p) ?? p.sites[0];
+  const world = W.npBuildParish(root, THREE, p, { tier, start: start.position });
+  let capOk = true, x = start.position[0], z = start.position[1];
+  for (const s of p.sites.slice(0, 2)) {
+    const [tx, tz] = s.position, n = Math.max(1, Math.ceil(Math.hypot(tx - x, tz - z) / 6)), x0 = x, z0 = z;
+    for (let i = 1; i <= n; i++) { x = x0 + (tx - x0) * i / n; z = z0 + (tz - z0) * i / n; world.update(x, z, 2); capOk &&= pool.capacityOk(); }
+  }
+  let idle = 0;
+  while ((world.update(x, z, 2) > 0 || pool.stats().pending) && idle < 20000) { idle++; capOk &&= pool.capacityOk(); }
+  pool.flush(); capOk &&= pool.capacityOk();
+  const st = pool.stats();
+  const snap = pool.meshes.map((m) => ({ n: m.count, mats: m.instanceMatrix.array.slice(0, m.count * 16), cols: m.instanceColor.array.slice(0, m.count * 3) }));
+  pool.dispose();
+  return { st, snap, rec, capOk, idle };
+}
+const sameSnap = (a, b) => a.every((s, i) => s.n === b[i].n && s.mats.every((v, k) => v === b[i].mats[k]) && s.cols.every((v, k) => v === b[i].cols[k]));
+const pct = (xs, f) => { const v = [...xs].sort((u, w) => u - w); return v[Math.min(v.length - 1, Math.floor(v.length * f))]; };
+const smoothWorst = {};
+for (const tier of ["high", "low"]) {
+  const id = worst5[0], p = R.npParish(id), budget = D.DT_BUDGET.frameMs[tier];
+  check(budget > 0 && budget <= 4, `${tier}: the detail frame budget is ${budget} ms (0 < ms ≤ 4)`);
+  const ref = smoothWalk(p, tier, Infinity);
+  // (c1) the virtual clock
+  const vclock = { t: 0, now() { this.t += 0.01; return this.t; } };
+  const virt = smoothWalk(p, tier, budget, vclock);
+  const vWorst = Math.max(...virt.rec.slice(1).map((r) => r[2]));
+  // (c2) the real clock, three runs
+  const runs = [];
+  for (let k = 0; k < 3; k++) {
+    gcs.length = 0;
+    const run = smoothWalk(p, tier, budget);
+    await new Promise((r) => setImmediate(r)); // gc entries arrive asynchronously
+    const frames = run.rec.slice(1).map(([a, b]) => Math.max(0, b - a - gcs.reduce((s, [g0, g1]) => s + Math.max(0, Math.min(b, g1) - Math.max(a, g0)), 0)));
+    runs.push({ run, worst: Math.max(...frames), p99: pct(frames, 0.99), p50: pct(frames, 0.5), over: frames.filter((f) => f > budget).length, n: frames.length });
+  }
+  const all = [virt, ...runs.map((r) => r.run)];
+  check(all.every((r) => sameSnap(ref.snap, r.snap)), `${id}/${tier}: the time-sliced pool ends identical to the one-shot fill (${ref.st.instances} instances in ${ref.st.chunks} chunks; every family's count, matrices and colours; 4 sliced runs)`);
+  check(all.every((r) => r.capOk) && ref.capOk, `${id}/${tier}: no frame's pool exceeds its capacity (every family ≤ DT_CAPACITY on every one of ${all.reduce((s, r) => s + r.rec.length, 0)} sliced frames)`);
+  check(vWorst <= budget, `${id}/${tier}: on the virtual clock no frame spends more than ${budget} ms on detail (worst ${vWorst.toFixed(2)} ms over ${virt.rec.length - 1} frames; the one-shot fill's worst ${Math.max(...ref.rec.slice(1).map((r) => r[2])).toFixed(1)} ms real)`);
+  const p99s = runs.map((r) => r.p99), medP99 = pct(p99s, 0.5);
+  smoothWorst[tier] = { budget, vWorst, p99s, worsts: runs.map((r) => r.worst), p50s: runs.map((r) => r.p50), over: runs.map((r) => r.over), n: runs.map((r) => r.n), gen: runs[0].run.st.genMedianMs, slices: runs[0].run.st.slices / Math.max(1, ref.st.chunks), flush: runs[0].run.st.flushWorstMs };
+  const W7 = smoothWorst[tier];
+  // Judged only on a quiet machine (load average at or under the core count, PROVING's rule); under contention reported.
+  const load = loadavg()[0], quiet = load <= availableParallelism();
+  const realMsg = `${id}/${tier}: on the real clock the 99th-percentile frame is ${medP99.toFixed(2)} ms (≤ ${budget} ms; median of 3 runs: ${p99s.map((v) => v.toFixed(2)).join(" / ")} ms, gc pauses excluded; load ${load.toFixed(1)} on ${availableParallelism()} cores)`;
+  if (quiet) check(medP99 <= budget, realMsg); else note(`reported, not judged (contended): ${realMsg}`);
+  note(`${id}/${tier}: real frames median ${W7.p50s.map((v) => v.toFixed(2)).join(" / ")} ms, worst ${W7.worsts.map((v) => v.toFixed(1)).join(" / ")} ms (preemption on a shared machine), over budget ${W7.over.join(" / ")} of ${W7.n.join(" / ")}; a chunk ${W7.gen.toFixed(1)} ms over ${W7.slices.toFixed(1)} slices; refill pass worst ${W7.flush.toFixed(2)} ms (split across frames by family)`);
+}
+gcObs.disconnect();
+note(`smooth walks: ${((performance.now() - tSmooth) / 1000).toFixed(1)} s`);
+
 // 5. wiring
 const app = readFileSync(join(ROOT, "WebXR", "parishes", "js", "app.js"), "utf8");
+check((app.match(/world\.update\(np\.x, np\.z, 2\)/g) ?? []).length === 1, "the parishes app streams once a frame (one world.update(np.x, np.z, 2); a second one doubled the detail budget)");
 check(/import \{[^}]*dtMountDetail[^}]*\} from "\.\.\/\.\.\/shared\/dt-detail\.js"/.test(app) && /dtMountDetail\(/.test(app), "the parishes app mounts the detail pool");
 check(app.indexOf("dtMountDetail(") > -1 && app.indexOf("dtMountDetail(") < app.indexOf("npBuildParish(root"), "the pool is mounted before the parish builds");
 const bundle = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");

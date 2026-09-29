@@ -13,7 +13,17 @@
  * three URL is answered from WebXR/vendor/three/dist/. Fonts are stubbed.
  * If no browser can be launched this checker FAILS with a clear message.
  *
+ * The Louisiana maps at the phone tier (SMOOTH): every map in the Louisiana regions (louisiana-sites, louisiana-cities,
+ * new-orleans-districts — 21 at the time of writing) opens in the parishes page (its source, parishes/parishes.html, so
+ * the check sees the tree, not the last bundle) at 360 x 640 on the phone context; after the world settles it asserts
+ * the low tier, no page error, the engine's meshes and triangles inside NP_BUDGET (260 / 400,000), the draw calls the
+ * renderer actually made inside the mesh budget, the detail pool inside DT_BUDGET.triangles.low, the pool's median
+ * detail frame inside DT_BUDGET.frameMs.low, and that frames keep coming (at least 10 in the sampling window). Frame
+ * times are recorded, not judged: headless Chromium draws with SwiftShader on a shared CPU, so they are relative.
+ * The numbers go to docs/perf/phone-maps.json.
+ *
  *     node tools/check_mobile.mjs
+ *     TC_ONLY=maps node tools/check_mobile.mjs     # only the Louisiana maps;  TC_MAPS=0 skips them
  */
 import { createServer } from "node:http";
 import { readFileSync, existsSync, statSync } from "node:fs";
@@ -41,6 +51,12 @@ const GAMES_ALL = [
 ];
 GAMES_ALL.push({ name: "Sierra Summit", page: "summit.html", start: ["#menu-start"], panels: ["#hud-where", "#hud-stats"] });
 const GAMES = process.env.TC_ONLY ? GAMES_ALL.filter((g) => g.page === process.env.TC_ONLY) : GAMES_ALL;
+// The Louisiana maps at the phone tier (SMOOTH), from the registry by region.
+const { NP_PARISHES, npRegionOf } = await import("../WebXR/shared/np-parishes.js");
+const { NP_BUDGET } = await import("../WebXR/shared/np-parish.js");
+const { DT_BUDGET } = await import("../WebXR/shared/dt-detail.js");
+const LA_REGIONS = ["louisiana-sites", "louisiana-cities", "new-orleans-districts"];
+const MAPS = process.env.TC_MAPS === "0" || (process.env.TC_ONLY && process.env.TC_ONLY !== "maps") ? [] : NP_PARISHES.filter((p) => LA_REGIONS.includes(npRegionOf(p))).map((p) => p.id);
 const SIZES = [{ label: "360x640", width: 360, height: 640 }, { label: "640x360", width: 640, height: 360 }];
 
 let failures = 0, passes = 0;
@@ -145,7 +161,66 @@ for (const g of GAMES) {
     await context.close();
   }
 }
+// The Louisiana maps at the phone tier (SMOOTH).
+const mapRows = [];
+for (const id of MAPS) {
+  const tag = `${id} 360x640`;
+  const context = await browser.newContext({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2,
+    userAgent: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36" });
+  await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+  await context.route("**/cdnjs.cloudflare.com/ajax/libs/three.js/**", (r) => r.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC }));
+  await context.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: "text/css", body: "" }));
+  const page = await context.newPage();
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+  try {
+    const t0 = Date.now();
+    await page.goto(`${base}/parishes/parishes.html?parish=${id}`, { waitUntil: "load", timeout: 60000 });
+    await page.waitForFunction(() => !!window.__parishTest?.world, null, { timeout: 60000 });
+    const bootMs = Date.now() - t0;
+    // Let the stream and the sliced detail settle, then sample frames for 3 s.
+    const m = await page.evaluate(async () => {
+      const T = window.__parishTest, pool = T.detail;
+      for (let k = 0; k < 400 && pool?.stats().pending; k++) await new Promise((r) => requestAnimationFrame(r));
+      const gaps = []; let last = performance.now(), worstMeshes = 0, worstTris = 0, calls = 0, drawTris = 0;
+      const end = last + 3000;
+      while (performance.now() < end) {
+        await new Promise((r) => requestAnimationFrame(r));
+        const now = performance.now(); gaps.push(now - last); last = now;
+        const st = T.stats(); worstMeshes = Math.max(worstMeshes, st.meshes); worstTris = Math.max(worstTris, st.triangles);
+        const info = T.npRenderer.info.render; calls = Math.max(calls, info.calls); drawTris = Math.max(drawTris, info.triangles);
+      }
+      gaps.sort((a, b) => a - b);
+      const ps = pool?.stats() ?? null;
+      return { tier: document.documentElement.dataset.tier ?? null, frames: gaps.length, frameMedianMs: gaps[gaps.length >> 1] ?? null, frameP95Ms: gaps[Math.floor(gaps.length * 0.95)] ?? null,
+        meshes: worstMeshes, triangles: worstTris, drawCalls: calls, drawTriangles: drawTris,
+        detail: ps && { instances: ps.instances, triangles: ps.triangles, pending: ps.pending, frameMedianMs: ps.frameMedianMs, frameWorstMs: ps.frameWorstMs, frameMs: ps.frameMs, genMedianMs: ps.genMedianMs } };
+    });
+    mapRows.push({ id, bootMs, ...m, errors: errors.length });
+    check(m.tier === "low", `${tag}: the low tier was picked on a phone`, `tier ${m.tier}`);
+    check(m.meshes <= NP_BUDGET.drawCalls, `${tag}: ${m.meshes} meshes (≤ ${NP_BUDGET.drawCalls})`);
+    check(m.triangles <= NP_BUDGET.triangles, `${tag}: ${m.triangles} triangles (≤ ${NP_BUDGET.triangles})`);
+    check(m.drawCalls <= NP_BUDGET.drawCalls, `${tag}: ${m.drawCalls} draw calls rendered (≤ ${NP_BUDGET.drawCalls})`);
+    check(!!m.detail && m.detail.triangles <= DT_BUDGET.triangles.low && m.detail.instances > 0, `${tag}: the detail pool drew ${m.detail?.instances} instances, ${m.detail?.triangles} triangles (≤ ${DT_BUDGET.triangles.low})`);
+    check(!!m.detail && m.detail.frameMedianMs <= DT_BUDGET.frameMs.low, `${tag}: the detail pool's median frame ${m.detail?.frameMedianMs?.toFixed(2)} ms (≤ ${DT_BUDGET.frameMs.low} ms; worst ${m.detail?.frameWorstMs?.toFixed(1)} ms)`);
+    check(m.frames >= 10, `${tag}: frames keep coming (${m.frames} in 3 s, median ${m.frameMedianMs?.toFixed(0)} ms under SwiftShader)`);
+    check(errors.length === 0, `${tag}: no page error`, errors.slice(0, 3).join(" | "));
+    covered.push(tag);
+  } catch (e) {
+    check(false, `${tag}: the page ran`, `${String(e.message).split("\n")[0]} ${errors.slice(0, 3).join(" | ")}`);
+  }
+  await context.close();
+}
+if (mapRows.length) {
+  const { writeFileSync } = await import("node:fs");
+  const { loadavg, availableParallelism } = await import("node:os");
+  writeFileSync(join(here, "..", "docs", "perf", "phone-maps.json"), JSON.stringify({
+    at: new Date().toISOString(), tool: "tools/check_mobile.mjs (SMOOTH)", viewport: "360x640 phone context (touch, DPR 2), tier low",
+    note: "Headless Chromium with SwiftShader on a shared CPU: frame times are relative, not a phone's. Meshes and triangles are the engine's worst over the sampling window; drawCalls/drawTriangles are what the renderer drew.",
+    load: loadavg()[0], cores: availableParallelism(), budgets: { meshes: NP_BUDGET.drawCalls, triangles: NP_BUDGET.triangles, detailTriangles: DT_BUDGET.triangles.low, detailFrameMs: DT_BUDGET.frameMs.low },
+    maps: mapRows }, null, 1) + "\n");
+}
 await browser.close();
 server.close();
 if (failures) { console.log(`check_mobile: ${failures} failed, ${passes} passed`); process.exit(1); }
-console.log(`check_mobile: ${passes} checks pass — ${covered.length} page sizes (${GAMES.map((g) => g.page).join(", ")} at 360x640 and 640x360)`);
+console.log(`check_mobile: ${passes} checks pass — ${covered.length} page sizes (${GAMES.map((g) => g.page).join(", ")} at 360x640 and 640x360${MAPS.length ? `; ${MAPS.length} Louisiana maps at 360x640, tier low` : ""})`);
