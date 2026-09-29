@@ -48,7 +48,7 @@ export const FC_DETAIL_KINDS = [
  * A kind's shed kit also varies by character ("port" adds the loading dock).
  */
 export const FC_KITS = {
-  quarterBlock: { "new-orleans": ["cornice", "awning", "windowGrid", "shutters", "gallery"], bay: ["cornice", "awning", "windowGrid", "bayWindow", "fireEscape", "roofTank"] },
+  quarterBlock: { "new-orleans": ["cornice", "awning", "windowGrid", "shutters", "gallery"], bay: ["cornice", "awning", "windowGrid", "bayWindow", "fireEscape"] },
   gardenHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "porch"] },
   suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "balcony"] },
   shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"] },
@@ -135,7 +135,7 @@ function fcDetailParts(THREE, id, kind, b) {
     P.push([a, FC_C.awning, M(-3.5, 2.7, fd + 0.8)]);
   } else if (id === "fireEscape") {
     if (b.unit) { // up the lower two thirds of a tower's side wall, in unit-height space
-      for (let i = 1; i <= 7; i++) box(3.4, 0.004, 1.3, FC_C.iron, 0, i * 0.085, fd + 0.65);
+      for (let i = 1; i <= 4; i++) box(3.4, 0.004, 1.3, FC_C.iron, 0, i * 0.14, fd + 0.65);
       box(0.1, 0.62, 0.1, FC_C.iron, -1.65, 0.33, fd + 1.25); box(0.1, 0.62, 0.1, FC_C.iron, 1.65, 0.33, fd + 1.25);
     } else {
       for (const y of [3.6, 6.4]) box(3.4, 0.12, 1.3, FC_C.iron, 0, y, -fd - 0.65);

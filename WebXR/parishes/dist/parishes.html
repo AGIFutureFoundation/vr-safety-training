@@ -39997,9 +39997,9 @@ const FC_DETAIL_KINDS = [
  * A kind's shed kit also varies by character ("port" adds the loading dock).
  */
 const FC_KITS = {
-  quarterBlock: { "new-orleans": ["windowGrid", "cornice", "shutters", "awning", "gallery"], bay: ["windowGrid", "cornice", "awning", "bayWindow", "fireEscape", "roofTank"] },
-  gardenHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "stoop", "bayWindow", "porch"] },
-  suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "stoop", "bayWindow", "balcony"] },
+  quarterBlock: { "new-orleans": ["cornice", "awning", "windowGrid", "shutters", "gallery"], bay: ["cornice", "awning", "windowGrid", "bayWindow", "fireEscape"] },
+  gardenHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "porch"] },
+  suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "balcony"] },
   shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"] },
   tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"] },
   campusBlock: { "new-orleans": ["windowBand", "cornice", "parapet"], bay: ["windowBand", "cornice", "parapet"] },
@@ -40084,7 +40084,7 @@ function fcDetailParts(THREE, id, kind, b) {
     P.push([a, FC_C.awning, M(-3.5, 2.7, fd + 0.8)]);
   } else if (id === "fireEscape") {
     if (b.unit) { // up the lower two thirds of a tower's side wall, in unit-height space
-      for (let i = 1; i <= 7; i++) box(3.4, 0.004, 1.3, FC_C.iron, 0, i * 0.085, fd + 0.65);
+      for (let i = 1; i <= 4; i++) box(3.4, 0.004, 1.3, FC_C.iron, 0, i * 0.14, fd + 0.65);
       box(0.1, 0.62, 0.1, FC_C.iron, -1.65, 0.33, fd + 1.25); box(0.1, 0.62, 0.1, FC_C.iron, 1.65, 0.33, fd + 1.25);
     } else {
       for (const y of [3.6, 6.4]) box(3.4, 0.12, 1.3, FC_C.iron, 0, y, -fd - 0.65);
@@ -40103,7 +40103,7 @@ function fcDetailParts(THREE, id, kind, b) {
     for (const f of faces.slice(0, 2)) for (const y of ys) onFace(f, 0, y, f[3] - 3, hh, FC_C.glass);
   } else if (id === "rollUpDoor") {
     const f = faces[0];
-    for (const u of [-12, 0, 12]) { onFace(f, u, 0.28, 4.2, 0.56, FC_C.door); box(4.8, 0.04, 0.3, FC_C.stone, u, 0.585, fd + 0.15); }
+    for (const u of [-12, 0, 12]) onFace(f, u, 0.28, 4.2, 0.56, FC_C.door);
   } else if (id === "loadingDock") {
     box(34, 0.13, 3, FC_C.dock, 0, 0.065, fd + 1.5);
   } else if (id === "tankRail") { // unit-height space on the unit cylinder of radius 9
