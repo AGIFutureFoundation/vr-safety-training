@@ -37,12 +37,10 @@ Each pathway ends in an existing competency; where the track's stations do not m
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "excavating new tidal channels" | machine work on soft marsh from mats, hand-crew channel opening, water-control structures | IUOE Local 3 (operating engineers on the amphibious excavator); LIUNA (laborers on the hand crew and the mats) | `br-tidal-marsh-grading-amphibious-excavator`, `me-tidal-marsh-channel-restoration-day`, `tide-gate` | `ps-tidal-channel-dig` | `k12-es-mud-on-the-move` |
-| "lowering berms" | levee and berm work: seepage, footing and the machine at the crest | LIUNA (laborers on the levee); IUOE Local 3 (operating engineers on the berm) | `br-levee-inspection-and-seepage`, `br-tidal-marsh-grading-amphibious-excavator` | — | `k12-by-how-a-levee-holds-water-back` |
-| "reusing sediment" | dewatering pads, turbidity control, planting and erosion mats on placed sediment | LIUNA (laborers on the pad, the curtain and the planting crew); IUOE Local 3 (operating engineers rehandling material); IBU (workboat crews (the ILWU's marine division)) | `br-dredge-spoils-dewatering-pad`, `br-turbidity-curtain-deployment`, `br-native-planting-and-erosion-mats` | — | `k12-es-the-tidal-marsh-nursery` |
+| "excavating new tidal channels" | machine work on soft marsh from mats, hand-crew channel opening, water-control structures | IUOE Local 3 (operating engineers on the amphibious excavator); LIUNA (laborers on the hand crew and the mats) | `br-tidal-marsh-grading-amphibious-excavator`, `me-tidal-marsh-channel-restoration-day`, `tide-gate` | `ps-tidal-channel-dig`, `us-sim-tidal-operator-on-mats`, `us-sim-water-control-structure` | `k12-es-mud-on-the-move` |
+| "lowering berms" | levee and berm work: seepage, footing and the machine at the crest | LIUNA (laborers on the levee); IUOE Local 3 (operating engineers on the berm) | `br-levee-inspection-and-seepage`, `br-tidal-marsh-grading-amphibious-excavator` | `us-sim-levee-laborer` | `k12-by-how-a-levee-holds-water-back` |
+| "reusing sediment" | dewatering pads, turbidity control, planting and erosion mats on placed sediment | LIUNA (laborers on the pad, the curtain and the planting crew); IUOE Local 3 (operating engineers rehandling material); IBU (workboat crews (the ILWU's marine division)) | `br-dredge-spoils-dewatering-pad`, `br-turbidity-curtain-deployment`, `br-native-planting-and-erosion-mats` | `us-sim-small-boat-crew` | `k12-es-the-tidal-marsh-nursery` |
 | "a report on how sediment moves through the Bay-Delta estuary" | field sampling from a small boat and at the bed, the kind of data work such a study draws on (taught generically) | IBU (workboat crews); UBC (pile drivers (the registry's note) on commercial dive sampling) | `me-water-column-sampling-from-a-small-boat`, `br-underwater-sediment-core-sampling`, `marsh-transect-survey` | — | `k12-es-mud-on-the-move`, `k12-es-count-it-a-fair-survey` |
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-tidal-operator-on-mats`, `us-sim-water-control-structure`, `us-sim-levee-laborer`, `us-sim-small-boat-crew`.
 
 ### Instructor guides
 
@@ -112,7 +110,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-tidal-operator-on-mats`, `us-
   - `me-water-column-sampling-from-a-small-boat` Water Column Sampling From A Small Boat — AFSCME and LIUNA monitoring crews as training bodies
   - `br-underwater-sediment-core-sampling` Underwater Sediment Core Sampling — Pile Drivers Local 34 commercial diver training under the UBC International Training Fund
   - `marsh-transect-survey` Marsh Transect Survey — Environmental monitoring technicians (AFSCME in public agencies)
-- **Simulations:** `projectsim:ps-tidal-channel-dig` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-tidal-channel-dig` (pass 80, order gates enforced), `unionsims:us-sim-tidal-operator-on-mats` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-water-control-structure` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-levee-laborer` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-small-boat-crew` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "machine work on soft marsh from mats, hand-crew channel opening, water-control structures" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -135,7 +133,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-tidal-operator-on-mats`, `us-
   - `me-water-column-sampling-from-a-small-boat` Water Column Sampling From A Small Boat — AFSCME and LIUNA monitoring crews as training bodies
   - `trench-box` Trench Box (capstone) — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
   - `ust-removal` UST Removal (capstone) — EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks
-- **Simulations:** `projectsim:ps-tidal-channel-dig` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-tidal-channel-dig` (pass 80, order gates enforced), `unionsims:us-sim-tidal-operator-on-mats` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-water-control-structure` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-levee-laborer` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-small-boat-crew` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "machine work on soft marsh from mats, hand-crew channel opening, water-control structures" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -166,7 +164,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-tidal-operator-on-mats`, `us-
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout (capstone) — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
   - `br-trash-capture-device-service` Trash Capture Device Service (capstone) — LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew
   - `bk-wastewater-nutrient-chemical-feed` Nutrient Reduction Chemical Feed and Aeration (capstone) — California State Water Resources Control Board wastewater treatment plant operator certification practice
-- **Simulations:** `projectsim:ps-tidal-channel-dig` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-tidal-channel-dig` (pass 80, order gates enforced), `unionsims:us-sim-tidal-operator-on-mats` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-water-control-structure` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-levee-laborer` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-small-boat-crew` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "machine work on soft marsh from mats, hand-crew channel opening, water-control structures" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -178,10 +176,8 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-tidal-operator-on-mats`, `us-
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "reducing nutrient inputs to San Francisco Bay" | treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one) | IUOE (operating and stationary engineers); AFSCME (public-service plant staff); UWUA (water utility crews) | `bk-wastewater-nutrient-chemical-feed`, `chlorine-room` | — | `k12-es-too-much-of-a-good-thing` |
-| "five pilot projects" | lockout and confined-space entry on process equipment while a pilot is installed or changed | IUOE (stationary engineers on process equipment); AFSCME (public-service plant staff) | `digester-gas`, `lift-station` | — | — |
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-plant-operator-rounds`, `us-treatment-plant-process-pump-lockout`, `us-sim-process-lockout`.
+| "reducing nutrient inputs to San Francisco Bay" | treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one) | IUOE (operating and stationary engineers); AFSCME (public-service plant staff); UWUA (water utility crews) | `bk-wastewater-nutrient-chemical-feed`, `chlorine-room` | `us-sim-plant-operator-rounds` | `k12-es-too-much-of-a-good-thing` |
+| "five pilot projects" | lockout and confined-space entry on process equipment while a pilot is installed or changed | IUOE (stationary engineers on process equipment); AFSCME (public-service plant staff) | `digester-gas`, `lift-station`, `us-treatment-plant-process-pump-lockout` | `us-sim-process-lockout` | — |
 
 ### Instructor guides
 
@@ -217,12 +213,13 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-plant-operator-rounds`, `us-t
   - `digester-gas` Digester Gas — UA / AFSCME — wastewater treatment operator and plant pipefitter
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
   - `chlorine-room` Chlorine Room (capstone) — State / AWWA Water Treatment Operator Grade II
+- **Simulations:** `unionsims:us-sim-plant-operator-rounds` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
   - Which step of "lockout and confined-space entry on process equipment while a pilot is installed or changed" did the crew have to do before anything else, and why?
-- **Assessment:** Every station passed with a module score of 70 or more. The pathway ends in the core-confined-space competency — 3 mastery runs from its list, 1 in the track's stations and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 70 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the core-confined-space competency — 3 mastery runs from its list, 1 in the track's stations and 2 in the capstone — and the cohort certificate.
 
 #### `mod-ea-bacwa-appr` — Apprentice
 
@@ -235,16 +232,18 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-plant-operator-rounds`, `us-t
   - `chlorine-room` Chlorine Room — State / AWWA Water Treatment Operator Grade II
   - `digester-gas` Digester Gas — UA / AFSCME — wastewater treatment operator and plant pipefitter
   - `lift-station` Lift Station — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
+  - `us-treatment-plant-process-pump-lockout` Treatment Plant Process Pump Lockout — California State Water Resources Control Board wastewater treatment plant operator certification practice
   - `bk-bioretention-rain-garden-excavation` Bioretention Rain Garden Excavation (capstone) — LIUNA Training and Education Fund construction craft laborer training for the ground crew
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout (capstone) — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
   - `br-trash-capture-device-service` Trash Capture Device Service (capstone) — LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew
   - `br-tidal-marsh-grading-amphibious-excavator` Tidal Marsh Grading — Amphibious Excavator (capstone) — IUOE Local 3 operating engineer — amphibious excavator
+- **Simulations:** `unionsims:us-sim-plant-operator-rounds` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-process-lockout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
   - Which step of "lockout and confined-space entry on process equipment while a pilot is installed or changed" did the crew have to do before anything else, and why?
-- **Assessment:** Every station passed with a module score of 80 or more. The pathway ends in the bay-program-projects competency — 6 mastery runs from its list, 2 in the track's stations and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 80 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the bay-program-projects competency — 6 mastery runs from its list, 2 in the track's stations and 4 in the capstone — and the cohort certificate.
 
 #### `mod-ea-bacwa-jw` — Journeyworker refresher
 
@@ -257,12 +256,13 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-plant-operator-rounds`, `us-t
   - `digester-gas` Digester Gas — UA / AFSCME — wastewater treatment operator and plant pipefitter
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
   - `chlorine-room` Chlorine Room (capstone) — State / AWWA Water Treatment Operator Grade II
+- **Simulations:** `unionsims:us-sim-plant-operator-rounds` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-process-lockout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
   - Which step of "lockout and confined-space entry on process equipment while a pilot is installed or changed" did the crew have to do before anything else, and why?
-- **Assessment:** Every station passed with a module score of 85 or more. The pathway ends in the core-confined-space competency — 3 mastery runs from its list, 1 in the track's stations and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 85 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the core-confined-space competency — 3 mastery runs from its list, 1 in the track's stations and 2 in the capstone — and the cohort certificate.
 
 #### `mod-ea-bacwa-lead` — Supervisor / crew lead
 
@@ -275,26 +275,26 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-plant-operator-rounds`, `us-t
   - `chlorine-room` Chlorine Room — State / AWWA Water Treatment Operator Grade II
   - `digester-gas` Digester Gas — UA / AFSCME — wastewater treatment operator and plant pipefitter
   - `lift-station` Lift Station — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
+  - `us-treatment-plant-process-pump-lockout` Treatment Plant Process Pump Lockout — California State Water Resources Control Board wastewater treatment plant operator certification practice
   - `trench-box` Trench Box (capstone) — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
   - `electrical` Isolation Bay (capstone) — NFPA 70E electrical safety in the workplace
   - `welding` Weld Bay (capstone) — AWS D1.1 welder performance qualification
   - `crane-yard` Crane Yard (capstone) — IUOE — NCCCO Mobile Crane Operator certified
+- **Simulations:** `unionsims:us-sim-plant-operator-rounds` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-process-lockout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "treatment plant operator rounds, chemical feed and aeration (at a procedural plant, never a named one)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
   - Which step of "lockout and confined-space entry on process equipment while a pilot is installed or changed" did the crew have to do before anything else, and why?
-- **Assessment:** Every station passed with a module score of 90 or more. The pathway ends in the situational-awareness competency — 6 mastery runs from its list, 2 in the track's stations and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 90 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the situational-awareness competency — 6 mastery runs from its list, 2 in the track's stations and 4 in the capstone — and the cohort certificate.
 
 ## Track: City of San Jose
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "develop a green stormwater infrastructure implementation plan" | utility locates and potholing before any field check a plan needs | UWUA (utility crews on locates and hand digs); IUOE Local 3 (operating engineers potholing inside the tolerance zone) | `ut-service-line-locate-and-hand-dig-near-gas-main`, `op-excavator-trench-and-utility-locate` | — | `k12-es-measure-a-rain-garden`, `k12-es-count-it-a-fair-survey` |
+| "develop a green stormwater infrastructure implementation plan" | utility locates and potholing before any field check a plan needs | UWUA (utility crews on locates and hand digs); IUOE Local 3 (operating engineers potholing inside the tolerance zone) | `ut-service-line-locate-and-hand-dig-near-gas-main`, `op-excavator-trench-and-utility-locate` | `us-sim-gsi-utility-locate` | `k12-es-measure-a-rain-garden`, `k12-es-count-it-a-fair-survey` |
 
 Not taught yet — survey and assessment for the plan ("develop a green stormwater infrastructure implementation plan"): no station teaches site survey and assessment for a green stormwater infrastructure plan yet (UNIONSIMS reports the same gap); pending, not filled with an unrelated station. The matrix lists it as pending.
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-utility-locate`.
 
 ### Instructor guides
 
@@ -326,11 +326,12 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-utility-locate`.
   - `ut-service-line-locate-and-hand-dig-near-gas-main` Service-Line Locate & Hand-Dig Near a Marked Gas Main — UWUA / IBEW gas-utility locate and damage-prevention training
   - `trench-box` Trench Box (capstone) — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
   - `ust-removal` UST Removal (capstone) — EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks
+- **Simulations:** `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min)
 - **Debrief prompts:**
   - Which step of "utility locates and potholing before any field check a plan needs" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 70 or more. The pathway ends in the core-trenching competency — 2 mastery runs from its list, 0 in the track's stations and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 70 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the core-trenching competency — 2 mastery runs from its list, 0 in the track's stations and 2 in the capstone — and the cohort certificate.
 
 #### `mod-ea-sanjose-appr` — Apprentice
 
@@ -343,11 +344,12 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-utility-locate`.
   - `op-dozer-slope-work-and-rollover-protection` Dozer Slope Work & Rollover Protection (capstone) — IUOE Local 3 operating engineer training
   - `op-loader-truck-loading-and-blind-spots` Loader Truck Loading & Blind Spots (capstone) — IUOE Local 3 operating engineer training
   - `op-grader-fine-grade-and-crown` Grader Fine Grade & Crown (capstone) — IUOE Local 3 operating engineer training
+- **Simulations:** `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min)
 - **Debrief prompts:**
   - Which step of "utility locates and potholing before any field check a plan needs" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 80 or more. The pathway ends in the heavy-equipment-operators competency — 4 mastery runs from its list, 1 in the track's stations and 3 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 80 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the heavy-equipment-operators competency — 4 mastery runs from its list, 1 in the track's stations and 3 in the capstone — and the cohort certificate.
 
 #### `mod-ea-sanjose-jw` — Journeyworker refresher
 
@@ -358,11 +360,12 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-utility-locate`.
   - `ut-service-line-locate-and-hand-dig-near-gas-main` Service-Line Locate & Hand-Dig Near a Marked Gas Main — UWUA / IBEW gas-utility locate and damage-prevention training
   - `trench-box` Trench Box (capstone) — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
   - `ust-removal` UST Removal (capstone) — EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks
+- **Simulations:** `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min)
 - **Debrief prompts:**
   - Which step of "utility locates and potholing before any field check a plan needs" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 85 or more. The pathway ends in the core-trenching competency — 2 mastery runs from its list, 0 in the track's stations and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 85 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the core-trenching competency — 2 mastery runs from its list, 0 in the track's stations and 2 in the capstone — and the cohort certificate.
 
 #### `mod-ea-sanjose-lead` — Supervisor / crew lead
 
@@ -378,20 +381,21 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-utility-locate`.
   - `electrical` Isolation Bay (capstone) — NFPA 70E electrical safety in the workplace
   - `welding` Weld Bay (capstone) — AWS D1.1 welder performance qualification
   - `crane-yard` Crane Yard (capstone) — IUOE — NCCCO Mobile Crane Operator certified
+- **Simulations:** `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min)
 - **Debrief prompts:**
   - Which step of "utility locates and potholing before any field check a plan needs" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 90 or more. The pathway ends in the situational-awareness competency — 6 mastery runs from its list, 0 in the track's stations and 6 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 90 or more; every simulation at 80 or more with no order-gate penalty. The pathway ends in the situational-awareness competency — 6 mastery runs from its list, 0 in the track's stations and 6 in the capstone — and the cohort certificate.
 
 ## Track: City of San Pablo
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "construct and monitor green stormwater infrastructure" | excavation and shoring, underdrain piping, soil and planting | LIUNA (construction craft laborers on the cut, the shoring and the backfill); IUOE Local 3 (operating engineers on the compact excavator); UA (pipelayers on underdrain and infiltration piping) | `bk-bioretention-rain-garden-excavation`, `trench-box`, `pl-underground-sewer-lateral-and-trench-shoring` | `ps-green-stormwater-build` | `k12-es-rain-gardens-a-sponge-in-the-sidewalk`, `k12-es-measure-a-rain-garden`, `k12-es-where-the-storm-drain-goes` |
+| "construct and monitor green stormwater infrastructure" | excavation and shoring, underdrain piping, soil and planting | LIUNA (construction craft laborers on the cut, the shoring and the backfill); IUOE Local 3 (operating engineers on the compact excavator); UA (pipelayers on underdrain and infiltration piping) | `bk-bioretention-rain-garden-excavation`, `trench-box`, `pl-underground-sewer-lateral-and-trench-shoring` | `ps-green-stormwater-build`, `us-sim-gsi-excavation-and-shoring`, `us-sim-gsi-underdrain-piping`, `us-sim-gsi-soil-and-planting` | `k12-es-rain-gardens-a-sponge-in-the-sidewalk`, `k12-es-measure-a-rain-garden`, `k12-es-where-the-storm-drain-goes` |
 | "capture and treat stormwater runoff" | monitoring what the facility captures: outfall sampling and the drawdown check | LIUNA (laborers on the monitoring round); AFSCME (public-service monitoring staff) | `stormwater-outfall`, `bk-bioretention-rain-garden-excavation` | — | `k12-es-where-the-storm-drain-goes` |
 
-Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-excavation-and-shoring`, `us-sim-gsi-underdrain-piping`, `us-sim-gsi-soil-and-planting`.
+More UNIONSIMS simulations for this kind of work (apprentice and crew-lead pathways): `us-sim-gsi-utility-locate`.
 
 ### Instructor guides
 
@@ -452,7 +456,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-excavation-and-shoring`, 
   - `br-tidal-marsh-grading-amphibious-excavator` Tidal Marsh Grading — Amphibious Excavator (capstone) — IUOE Local 3 operating engineer — amphibious excavator
   - `br-dredge-spoils-dewatering-pad` Dredge Spoils Dewatering Pad (capstone) — LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund)
   - `bk-wastewater-nutrient-chemical-feed` Nutrient Reduction Chemical Feed and Aeration (capstone) — California State Water Resources Control Board wastewater treatment plant operator certification practice
-- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced), `unionsims:us-sim-gsi-excavation-and-shoring` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-underdrain-piping` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-soil-and-planting` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min)
 - **Debrief prompts:**
   - Which step of "excavation and shoring, underdrain piping, soil and planting" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -473,7 +477,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-excavation-and-shoring`, 
   - `hunters-point` Hunters Point Briefing (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher
   - `abatement-chamber` Abatement Chamber (capstone) — LIUNA abatement workers
   - `air-monitor` Perimeter Air (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120)
-- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced), `unionsims:us-sim-gsi-excavation-and-shoring` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-underdrain-piping` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-soil-and-planting` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "excavation and shoring, underdrain piping, soil and planting" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -497,7 +501,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-excavation-and-shoring`, 
   - `electrical` Isolation Bay (capstone) — NFPA 70E electrical safety in the workplace
   - `welding` Weld Bay (capstone) — AWS D1.1 welder performance qualification
   - `crane-yard` Crane Yard (capstone) — IUOE — NCCCO Mobile Crane Operator certified
-- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced), `unionsims:us-sim-gsi-excavation-and-shoring` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-underdrain-piping` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-soil-and-planting` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min)
 - **Debrief prompts:**
   - Which step of "excavation and shoring, underdrain piping, soil and planting" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -509,11 +513,9 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-excavation-and-shoring`, 
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "rain gardens" | a bioretention cell cut into a sidewalk: locate, cut, layers, plants | LIUNA (construction craft laborers on the cut, the shoring and the backfill); IUOE Local 3 (operating engineers on the compact excavator); LIUNA (laborers placing soil, mulch and plants) | `bk-bioretention-rain-garden-excavation`, `br-native-planting-and-erosion-mats` | `ps-green-stormwater-build` | `k12-es-rain-gardens-a-sponge-in-the-sidewalk`, `k12-es-measure-a-rain-garden`, `k12-es-where-the-storm-drain-goes` |
-| "planted sidewalk filtration systems" | utility locates and a shallow cut beside live traffic and pedestrians | IUOE Local 3 (operating engineers digging inside the tolerance zone); UWUA (utility crews on locates and hand digs) | `op-excavator-trench-and-utility-locate`, `ut-service-line-locate-and-hand-dig-near-gas-main`, `bk-bioretention-rain-garden-excavation` | — | `k12-es-rain-gardens-a-sponge-in-the-sidewalk` |
-| "an underground infiltration system" | a deeper excavation with a protective system and underground piping | UA (pipelayers on underdrain and infiltration piping); LIUNA (laborers in the trench); IUOE Local 3 (operating engineers on the compact excavator) | `trench-box`, `pl-underground-sewer-lateral-and-trench-shoring` | — | `k12-es-where-the-storm-drain-goes` |
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-soil-and-planting`, `us-sim-gsi-utility-locate`, `us-sim-gsi-excavation-and-shoring`, `us-sim-gsi-underdrain-piping`.
+| "rain gardens" | a bioretention cell cut into a sidewalk: locate, cut, layers, plants | LIUNA (construction craft laborers on the cut, the shoring and the backfill); IUOE Local 3 (operating engineers on the compact excavator); LIUNA (laborers placing soil, mulch and plants) | `bk-bioretention-rain-garden-excavation`, `br-native-planting-and-erosion-mats` | `ps-green-stormwater-build`, `us-sim-gsi-soil-and-planting` | `k12-es-rain-gardens-a-sponge-in-the-sidewalk`, `k12-es-measure-a-rain-garden`, `k12-es-where-the-storm-drain-goes` |
+| "planted sidewalk filtration systems" | utility locates and a shallow cut beside live traffic and pedestrians | IUOE Local 3 (operating engineers digging inside the tolerance zone); UWUA (utility crews on locates and hand digs) | `op-excavator-trench-and-utility-locate`, `ut-service-line-locate-and-hand-dig-near-gas-main`, `bk-bioretention-rain-garden-excavation` | `us-sim-gsi-utility-locate` | `k12-es-rain-gardens-a-sponge-in-the-sidewalk` |
+| "an underground infiltration system" | a deeper excavation with a protective system and underground piping | UA (pipelayers on underdrain and infiltration piping); LIUNA (laborers in the trench); IUOE Local 3 (operating engineers on the compact excavator) | `trench-box`, `pl-underground-sewer-lateral-and-trench-shoring` | `us-sim-gsi-excavation-and-shoring`, `us-sim-gsi-underdrain-piping` | `k12-es-where-the-storm-drain-goes` |
 
 ### Instructor guides
 
@@ -577,7 +579,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-soil-and-planting`, `us-s
   - `op-dozer-slope-work-and-rollover-protection` Dozer Slope Work & Rollover Protection (capstone) — IUOE Local 3 operating engineer training
   - `op-loader-truck-loading-and-blind-spots` Loader Truck Loading & Blind Spots (capstone) — IUOE Local 3 operating engineer training
   - `op-grader-fine-grade-and-crown` Grader Fine Grade & Crown (capstone) — IUOE Local 3 operating engineer training
-- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced), `unionsims:us-sim-gsi-soil-and-planting` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min), `unionsims:us-sim-gsi-excavation-and-shoring` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-underdrain-piping` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "a bioretention cell cut into a sidewalk: locate, cut, layers, plants" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -597,7 +599,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-soil-and-planting`, `us-s
   - `op-excavator-trench-and-utility-locate` Excavator Trench & Utility Locate — IUOE Local 3 operating engineer training
   - `trench-box` Trench Box — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
   - `ust-removal` UST Removal (capstone) — EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks
-- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced), `unionsims:us-sim-gsi-soil-and-planting` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min), `unionsims:us-sim-gsi-excavation-and-shoring` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-underdrain-piping` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "a bioretention cell cut into a sidewalk: locate, cut, layers, plants" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -624,7 +626,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-soil-and-planting`, `us-s
   - `electrical` Isolation Bay (capstone) — NFPA 70E electrical safety in the workplace
   - `welding` Weld Bay (capstone) — AWS D1.1 welder performance qualification
   - `crane-yard` Crane Yard (capstone) — IUOE — NCCCO Mobile Crane Operator certified
-- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-green-stormwater-build` (pass 80, order gates enforced), `unionsims:us-sim-gsi-soil-and-planting` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-utility-locate` (pass 80, order gates enforced, UNIONSIMS DEAN module 12 min), `unionsims:us-sim-gsi-excavation-and-shoring` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-gsi-underdrain-piping` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "a bioretention cell cut into a sidewalk: locate, cut, layers, plants" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -636,10 +638,8 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-gsi-soil-and-planting`, `us-s
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "two large trash capture devices in stormwater drains" | cleanout from the surface: traffic control, lockout, air monitoring, debris handling | LIUNA (construction craft laborers on the surface cleanout); AFSCME (public-works members on collection-system entry) | `bk-street-drain-trash-capture-cleanout`, `br-trash-capture-device-service`, `manhole-entry-and-atmospheric-monitoring` | `ps-trash-capture-cleanout` | `k12-es-what-a-trash-capture-device-does`, `k12-es-where-the-storm-drain-goes`, `k12-es-plastics-and-the-bay` |
-| "reduce trash and pollutants entering San Leandro Bay" | vacuum truck hook-up and offload, regulated-waste haul | IBT (driving and regulated-soil haul); LIUNA (laborers on the hose) | `br-shoreline-cleanup-sharps-and-hazardous-debris` | — | `k12-es-plastics-and-the-bay` |
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanout`, `us-vacuum-truck-operator-hookup-and-offload`, `us-regulated-soil-haul-load-tarp-and-manifest`, `us-sim-vacuum-truck-operator`, `us-sim-regulated-waste-haul`.
+| "two large trash capture devices in stormwater drains" | cleanout from the surface: traffic control, lockout, air monitoring, debris handling | LIUNA (construction craft laborers on the surface cleanout); AFSCME (public-works members on collection-system entry) | `bk-street-drain-trash-capture-cleanout`, `br-trash-capture-device-service`, `manhole-entry-and-atmospheric-monitoring` | `ps-trash-capture-cleanout`, `us-sim-trash-capture-surface-cleanout` | `k12-es-what-a-trash-capture-device-does`, `k12-es-where-the-storm-drain-goes`, `k12-es-plastics-and-the-bay` |
+| "reduce trash and pollutants entering San Leandro Bay" | vacuum truck hook-up and offload, regulated-waste haul | IBT (driving and regulated-soil haul); LIUNA (laborers on the hose) | `us-vacuum-truck-operator-hookup-and-offload`, `us-regulated-soil-haul-load-tarp-and-manifest`, `br-shoreline-cleanup-sharps-and-hazardous-debris` | `us-sim-vacuum-truck-operator`, `us-sim-regulated-waste-haul` | `k12-es-plastics-and-the-bay` |
 
 ### Instructor guides
 
@@ -672,7 +672,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - Explain and practise vacuum truck hook-up and offload, regulated-waste haul — work the sources describe as "reduce trash and pollutants entering San Leandro Bay".
 - **The practice (each station's cited standards):**
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
-  - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
   - `chlorine-room` Chlorine Room (capstone) — State / AWWA Water Treatment Operator Grade II
   - `digester-gas` Digester Gas (capstone) — UA / AFSCME — wastewater treatment operator and plant pipefitter
@@ -694,12 +694,14 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
   - `br-trash-capture-device-service` Trash Capture Device Service — LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew
   - `manhole-entry-and-atmospheric-monitoring` Manhole Entry & Atmospheric Monitoring — OSHA 29 CFR 1910.146 permit-required confined spaces, with the ANSI Z117.1 confined-space practice standard and the NIOSH confined-space criteria behind the testing order
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
+  - `us-regulated-soil-haul-load-tarp-and-manifest` Regulated Soil Haul: Load, Tarp and Manifest — LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad
   - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
   - `bk-bioretention-rain-garden-excavation` Bioretention Rain Garden Excavation (capstone) — LIUNA Training and Education Fund construction craft laborer training for the ground crew
   - `br-tidal-marsh-grading-amphibious-excavator` Tidal Marsh Grading — Amphibious Excavator (capstone) — IUOE Local 3 operating engineer — amphibious excavator
   - `br-dredge-spoils-dewatering-pad` Dredge Spoils Dewatering Pad (capstone) — LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund)
   - `bk-wastewater-nutrient-chemical-feed` Nutrient Reduction Chemical Feed and Aeration (capstone) — California State Water Resources Control Board wastewater treatment plant operator certification practice
-- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced), `unionsims:us-sim-trash-capture-surface-cleanout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-vacuum-truck-operator` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-waste-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "cleanout from the surface: traffic control, lockout, air monitoring, debris handling" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -715,11 +717,11 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - Explain and practise vacuum truck hook-up and offload, regulated-waste haul — work the sources describe as "reduce trash and pollutants entering San Leandro Bay".
 - **The practice (each station's cited standards):**
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
-  - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
   - `chlorine-room` Chlorine Room (capstone) — State / AWWA Water Treatment Operator Grade II
   - `digester-gas` Digester Gas (capstone) — UA / AFSCME — wastewater treatment operator and plant pipefitter
-- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced), `unionsims:us-sim-trash-capture-surface-cleanout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-vacuum-truck-operator` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-waste-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "cleanout from the surface: traffic control, lockout, air monitoring, debris handling" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -737,12 +739,14 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
   - `br-trash-capture-device-service` Trash Capture Device Service — LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew
   - `manhole-entry-and-atmospheric-monitoring` Manhole Entry & Atmospheric Monitoring — OSHA 29 CFR 1910.146 permit-required confined spaces, with the ANSI Z117.1 confined-space practice standard and the NIOSH confined-space criteria behind the testing order
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
+  - `us-regulated-soil-haul-load-tarp-and-manifest` Regulated Soil Haul: Load, Tarp and Manifest — LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad
   - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
   - `bk-bioretention-rain-garden-excavation` Bioretention Rain Garden Excavation (capstone) — LIUNA Training and Education Fund construction craft laborer training for the ground crew
   - `br-tidal-marsh-grading-amphibious-excavator` Tidal Marsh Grading — Amphibious Excavator (capstone) — IUOE Local 3 operating engineer — amphibious excavator
   - `br-dredge-spoils-dewatering-pad` Dredge Spoils Dewatering Pad (capstone) — LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund)
   - `bk-wastewater-nutrient-chemical-feed` Nutrient Reduction Chemical Feed and Aeration (capstone) — California State Water Resources Control Board wastewater treatment plant operator certification practice
-- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced), `unionsims:us-sim-trash-capture-surface-cleanout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-vacuum-truck-operator` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-waste-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "cleanout from the surface: traffic control, lockout, air monitoring, debris handling" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -754,10 +758,8 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "four large trash capture devices collecting stormwater" | cleanout on port property: terminal stormwater, lockout, air monitoring, debris handling | LIUNA (construction craft laborers on the surface cleanout); ILWU (longshore maintenance on terminal stormwater (trained jointly with the PMA, per the registry)) | `bk-street-drain-trash-capture-cleanout`, `br-trash-capture-device-service`, `pt-stormwater-at-the-terminal` | `ps-trash-capture-cleanout` | `k12-es-what-a-trash-capture-device-does`, `k12-es-where-the-storm-drain-goes`, `k12-es-plastics-and-the-bay` |
-| "reducing more than 4,700 gallons of trash from entering San Francisco Bay" | vacuum truck hook-up and offload, regulated-waste haul | IBT (driving and regulated-soil haul); LIUNA (laborers on the hose) | `br-shoreline-cleanup-sharps-and-hazardous-debris` | — | `k12-es-plastics-and-the-bay` |
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanout`, `us-vacuum-truck-operator-hookup-and-offload`, `us-regulated-soil-haul-load-tarp-and-manifest`, `us-sim-vacuum-truck-operator`, `us-sim-regulated-waste-haul`.
+| "four large trash capture devices collecting stormwater" | cleanout on port property: terminal stormwater, lockout, air monitoring, debris handling | LIUNA (construction craft laborers on the surface cleanout); ILWU (longshore maintenance on terminal stormwater (trained jointly with the PMA, per the registry)) | `bk-street-drain-trash-capture-cleanout`, `br-trash-capture-device-service`, `pt-stormwater-at-the-terminal` | `ps-trash-capture-cleanout`, `us-sim-trash-capture-surface-cleanout` | `k12-es-what-a-trash-capture-device-does`, `k12-es-where-the-storm-drain-goes`, `k12-es-plastics-and-the-bay` |
+| "reducing more than 4,700 gallons of trash from entering San Francisco Bay" | vacuum truck hook-up and offload, regulated-waste haul | IBT (driving and regulated-soil haul); LIUNA (laborers on the hose) | `us-vacuum-truck-operator-hookup-and-offload`, `us-regulated-soil-haul-load-tarp-and-manifest`, `br-shoreline-cleanup-sharps-and-hazardous-debris` | `us-sim-vacuum-truck-operator`, `us-sim-regulated-waste-haul` | `k12-es-plastics-and-the-bay` |
 
 ### Instructor guides
 
@@ -790,7 +792,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - Explain and practise vacuum truck hook-up and offload, regulated-waste haul — work the sources describe as "reducing more than 4,700 gallons of trash from entering San Francisco Bay".
 - **The practice (each station's cited standards):**
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
-  - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
   - `chlorine-room` Chlorine Room (capstone) — State / AWWA Water Treatment Operator Grade II
   - `digester-gas` Digester Gas (capstone) — UA / AFSCME — wastewater treatment operator and plant pipefitter
@@ -812,12 +814,14 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
   - `br-trash-capture-device-service` Trash Capture Device Service — LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew
   - `pt-stormwater-at-the-terminal` Stormwater at the Terminal — ILWU maintenance and repair with the PMA training programme
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
+  - `us-regulated-soil-haul-load-tarp-and-manifest` Regulated Soil Haul: Load, Tarp and Manifest — LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad
   - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
   - `bk-bioretention-rain-garden-excavation` Bioretention Rain Garden Excavation (capstone) — LIUNA Training and Education Fund construction craft laborer training for the ground crew
   - `br-tidal-marsh-grading-amphibious-excavator` Tidal Marsh Grading — Amphibious Excavator (capstone) — IUOE Local 3 operating engineer — amphibious excavator
   - `br-dredge-spoils-dewatering-pad` Dredge Spoils Dewatering Pad (capstone) — LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund)
   - `bk-wastewater-nutrient-chemical-feed` Nutrient Reduction Chemical Feed and Aeration (capstone) — California State Water Resources Control Board wastewater treatment plant operator certification practice
-- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced), `unionsims:us-sim-trash-capture-surface-cleanout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-vacuum-truck-operator` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-waste-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "cleanout on port property: terminal stormwater, lockout, air monitoring, debris handling" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -833,11 +837,11 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - Explain and practise vacuum truck hook-up and offload, regulated-waste haul — work the sources describe as "reducing more than 4,700 gallons of trash from entering San Francisco Bay".
 - **The practice (each station's cited standards):**
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
-  - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
   - `chlorine-room` Chlorine Room (capstone) — State / AWWA Water Treatment Operator Grade II
   - `digester-gas` Digester Gas (capstone) — UA / AFSCME — wastewater treatment operator and plant pipefitter
-- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced), `unionsims:us-sim-trash-capture-surface-cleanout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-vacuum-truck-operator` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-waste-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "cleanout on port property: terminal stormwater, lockout, air monitoring, debris handling" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -855,12 +859,14 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
   - `bk-street-drain-trash-capture-cleanout` Street Drain Trash Capture Cleanout — LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew
   - `br-trash-capture-device-service` Trash Capture Device Service — LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew
   - `pt-stormwater-at-the-terminal` Stormwater at the Terminal — ILWU maintenance and repair with the PMA training programme
+  - `us-vacuum-truck-operator-hookup-and-offload` Vacuum Truck Operator Hookup and Offload — LIUNA Training and Education Fund confined space awareness for the laborer at the opening, with the employer's vacuum truck operator training
+  - `us-regulated-soil-haul-load-tarp-and-manifest` Regulated Soil Haul: Load, Tarp and Manifest — LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad
   - `br-shoreline-cleanup-sharps-and-hazardous-debris` Shoreline Cleanup — Sharps And Hazardous Debris — LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew
   - `bk-bioretention-rain-garden-excavation` Bioretention Rain Garden Excavation (capstone) — LIUNA Training and Education Fund construction craft laborer training for the ground crew
   - `br-tidal-marsh-grading-amphibious-excavator` Tidal Marsh Grading — Amphibious Excavator (capstone) — IUOE Local 3 operating engineer — amphibious excavator
   - `br-dredge-spoils-dewatering-pad` Dredge Spoils Dewatering Pad (capstone) — LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund)
   - `bk-wastewater-nutrient-chemical-feed` Nutrient Reduction Chemical Feed and Aeration (capstone) — California State Water Resources Control Board wastewater treatment plant operator certification practice
-- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-trash-capture-cleanout` (pass 80, order gates enforced), `unionsims:us-sim-trash-capture-surface-cleanout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-vacuum-truck-operator` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-waste-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "cleanout on port property: terminal stormwater, lockout, air monitoring, debris handling" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -872,10 +878,8 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-trash-capture-surface-cleanou
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "monitor and control PCB sources" | sampling with PPE and decontamination, chain of custody (at a representative area, never a named property) | LIUNA (hazardous-waste laborers and sample custodians); SEIU 1021 (public-sector employees (the registry's description)) | `br-legacy-mercury-and-pcb-hotspot-handling`, `br-sediment-chain-of-custody-and-lab-prep`, `decon-support-laborer`, `stormwater-outfall` | `ps-pcb-sampling` | `k12-es-too-much-of-a-good-thing` |
-| "control PCB sources" | removing PCB-containing equipment, regulated-soil handling and haul | IBEW Local 6 (electricians (the registry's San Francisco local) on equipment removal); LIUNA (hazardous-waste laborers); IBT (regulated-soil haul) | `pcb-equipment-removal`, `decon-line` | — | — |
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-pcb-chain-of-custody`, `us-regulated-soil-haul-load-tarp-and-manifest`, `us-sim-regulated-soil-haul`.
+| "monitor and control PCB sources" | sampling with PPE and decontamination, chain of custody (at a representative area, never a named property) | LIUNA (hazardous-waste laborers and sample custodians); SEIU 1021 (public-sector employees (the registry's description)) | `br-legacy-mercury-and-pcb-hotspot-handling`, `br-sediment-chain-of-custody-and-lab-prep`, `decon-support-laborer`, `stormwater-outfall` | `ps-pcb-sampling`, `us-sim-pcb-chain-of-custody` | `k12-es-too-much-of-a-good-thing` |
+| "control PCB sources" | removing PCB-containing equipment, regulated-soil handling and haul | IBEW Local 6 (electricians (the registry's San Francisco local) on equipment removal); LIUNA (hazardous-waste laborers); IBT (regulated-soil haul) | `pcb-equipment-removal`, `us-regulated-soil-haul-load-tarp-and-manifest`, `decon-line` | `us-sim-regulated-soil-haul` | — |
 
 ### Instructor guides
 
@@ -932,11 +936,12 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-pcb-chain-of-custody`, `us-re
   - `decon-support-laborer` Decon Support Laborer — LIUNA hazmat and environmental laborer, decon-line support role
   - `stormwater-outfall` Stormwater Outfall — Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge)
   - `pcb-equipment-removal` PCB Equipment Removal — IBEW Local 6 electricians and LIUNA hazmat laborers
+  - `us-regulated-soil-haul-load-tarp-and-manifest` Regulated Soil Haul: Load, Tarp and Manifest — LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad
   - `decon-line` Decon Line — IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency)
   - `hunters-point` Hunters Point Briefing (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher
   - `abatement-chamber` Abatement Chamber (capstone) — LIUNA abatement workers
   - `air-monitor` Perimeter Air (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120)
-- **Simulations:** `projectsim:ps-pcb-sampling` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-pcb-sampling` (pass 80, order gates enforced), `unionsims:us-sim-pcb-chain-of-custody` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-soil-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "sampling with PPE and decontamination, chain of custody (at a representative area, never a named property)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -958,7 +963,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-pcb-chain-of-custody`, `us-re
   - `hunters-point` Hunters Point Briefing (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher
   - `abatement-chamber` Abatement Chamber (capstone) — LIUNA abatement workers
   - `air-monitor` Perimeter Air (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120)
-- **Simulations:** `projectsim:ps-pcb-sampling` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-pcb-sampling` (pass 80, order gates enforced), `unionsims:us-sim-pcb-chain-of-custody` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-soil-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "sampling with PPE and decontamination, chain of custody (at a representative area, never a named property)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -978,11 +983,12 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-pcb-chain-of-custody`, `us-re
   - `decon-support-laborer` Decon Support Laborer — LIUNA hazmat and environmental laborer, decon-line support role
   - `stormwater-outfall` Stormwater Outfall — Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge)
   - `pcb-equipment-removal` PCB Equipment Removal — IBEW Local 6 electricians and LIUNA hazmat laborers
+  - `us-regulated-soil-haul-load-tarp-and-manifest` Regulated Soil Haul: Load, Tarp and Manifest — LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120) at the load-out and the decontamination pad
   - `decon-line` Decon Line — IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency)
   - `hunters-point` Hunters Point Briefing (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher
   - `abatement-chamber` Abatement Chamber (capstone) — LIUNA abatement workers
   - `air-monitor` Perimeter Air (capstone) — LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120)
-- **Simulations:** `projectsim:ps-pcb-sampling` (pass 80, order gates enforced)
+- **Simulations:** `projectsim:ps-pcb-sampling` (pass 80, order gates enforced), `unionsims:us-sim-pcb-chain-of-custody` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-regulated-soil-haul` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "sampling with PPE and decontamination, chain of custody (at a representative area, never a named property)" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -994,14 +1000,12 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-pcb-chain-of-custody`, `us-re
 
 | Work type (the sources' words) | What we teach | Crafts | Stations | Simulations | K-12 |
 |---|---|---|---|---|---|
-| "electric and hydrogen cargo handling equipment" | zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout | ILWU (longshore equipment operators and mechanics); IAM (machinists) | `cp-zero-emission-terminal-equipment-pre-use`, `cp-hydrogen-fuel-cell-equipment-and-fuelling`, `cp-high-voltage-lockout-on-electric-cargo-equipment`, `straddle-carrier-ops` | — | `k12-es-clean-air-at-the-port` |
-| "drayage trucks" | the zero-emission drayage pre-trip | IBT (drayage drivers) | `cp-zero-emission-drayage-truck-pre-trip` | — | `k12-es-who-does-this-work` |
-| "charging infrastructure" | charging-yard connectors, e-stops and electrical work | IBEW (electricians); ILWU (equipment operators at the charger) | `cp-charging-yard-connectors-and-e-stops`, `et-ev-fleet-depot-charging-and-arc-flash`, `charge-point` | `ps-zero-emission-charging-yard` | `k12-es-clean-air-at-the-port` |
+| "electric and hydrogen cargo handling equipment" | zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout | ILWU (longshore equipment operators and mechanics); IAM (machinists) | `cp-zero-emission-terminal-equipment-pre-use`, `cp-hydrogen-fuel-cell-equipment-and-fuelling`, `cp-high-voltage-lockout-on-electric-cargo-equipment`, `straddle-carrier-ops` | `us-sim-ze-equipment-pre-use`, `us-sim-battery-electric-lockout` | `k12-es-clean-air-at-the-port` |
+| "drayage trucks" | the zero-emission drayage pre-trip | IBT (drayage drivers) | `cp-zero-emission-drayage-truck-pre-trip` | `us-sim-drayage-pre-trip` | `k12-es-who-does-this-work` |
+| "charging infrastructure" | charging-yard connectors, e-stops and electrical work | IBEW (electricians); ILWU (equipment operators at the charger) | `cp-charging-yard-connectors-and-e-stops`, `et-ev-fleet-depot-charging-and-arc-flash`, `charge-point` | `ps-zero-emission-charging-yard`, `us-sim-charging-yard-electrical` | `k12-es-clean-air-at-the-port` |
 | "a battery energy storage system" | who may enter a battery energy storage site, and the lockout at it | IBEW (electricians); ILWU (port workers inducted to the site) | `cp-battery-energy-storage-site-awareness`, `battery-yard`, `battery-storage-container-commissioning` | `ps-zero-emission-charging-yard` | — |
 
 Not taught yet — retiring diesel equipment from the fleet ("scrappage of a portion of the existing diesel fleet"): no station teaches fleet scrappage yet; the Academy lists it and links nothing. The matrix lists it as pending.
-
-Pending (UNIONSIMS, not in this tree yet): `us-sim-ze-equipment-pre-use`, `us-sim-battery-electric-lockout`, `us-sim-drayage-pre-trip`, `us-sim-charging-yard-electrical`.
 
 ### Instructor guides
 
@@ -1043,7 +1047,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-ze-equipment-pre-use`, `us-si
   - `cp-battery-energy-storage-site-awareness` Battery Energy Storage Site Awareness — IBEW/NECA JATC training for qualified electrical workers
   - `cp-high-voltage-lockout-on-electric-cargo-equipment` High-Voltage Lockout on Electric Cargo Equipment (capstone) — ILWU maintenance and repair training
   - `cp-hydrogen-fuel-cell-equipment-and-fuelling` Hydrogen Fuel Cell Equipment and Fuelling (capstone) — ILWU operator training
-- **Simulations:** `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced)
+- **Simulations:** `unionsims:us-sim-ze-equipment-pre-use` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -1072,7 +1076,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-ze-equipment-pre-use`, `us-si
   - `battery-yard` Battery Yard — IBEW outside construction and utility locals
   - `battery-storage-container-commissioning` Battery Storage Container Commissioning — IBEW/NECA JATC training
   - `solar-deck` Solar Deck (capstone) — IBEW — NABCEP PV Installation Professional certified
-- **Simulations:** `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced)
+- **Simulations:** `unionsims:us-sim-ze-equipment-pre-use` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-battery-electric-lockout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-drayage-pre-trip` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced), `unionsims:us-sim-charging-yard-electrical` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -1096,7 +1100,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-ze-equipment-pre-use`, `us-si
   - `charge-point` Charge Point (capstone) — IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician
   - `battery-yard` Battery Yard (capstone) — IBEW outside construction and utility locals
   - `lift-station` Lift Station (capstone) — AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent)
-- **Simulations:** `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced)
+- **Simulations:** `unionsims:us-sim-ze-equipment-pre-use` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-battery-electric-lockout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-drayage-pre-trip` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced), `unionsims:us-sim-charging-yard-electrical` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -1125,7 +1129,7 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-ze-equipment-pre-use`, `us-si
   - `battery-yard` Battery Yard — IBEW outside construction and utility locals
   - `battery-storage-container-commissioning` Battery Storage Container Commissioning — IBEW/NECA JATC training
   - `solar-deck` Solar Deck (capstone) — IBEW — NABCEP PV Installation Professional certified
-- **Simulations:** `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced)
+- **Simulations:** `unionsims:us-sim-ze-equipment-pre-use` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-battery-electric-lockout` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `unionsims:us-sim-drayage-pre-trip` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min), `projectsim:ps-zero-emission-charging-yard` (pass 80, order gates enforced), `unionsims:us-sim-charging-yard-electrical` (pass 80, order gates enforced, UNIONSIMS DEAN module 14 min)
 - **Debrief prompts:**
   - Which step of "zero-emission cargo handling equipment: pre-use, hydrogen fuelling, high-voltage lockout" did the crew have to do before anything else, and why?
   - Where did an interruption on the station change the plan, and who had the authority to stop the work?
@@ -1135,4 +1139,4 @@ Pending (UNIONSIMS, not in this tree yet): `us-sim-ze-equipment-pre-use`, `us-si
 
 ## Pending UNIONSIMS ids
 
-`us-regulated-soil-haul-load-tarp-and-manifest`, `us-sim-battery-electric-lockout`, `us-sim-charging-yard-electrical`, `us-sim-drayage-pre-trip`, `us-sim-gsi-excavation-and-shoring`, `us-sim-gsi-soil-and-planting`, `us-sim-gsi-underdrain-piping`, `us-sim-gsi-utility-locate`, `us-sim-levee-laborer`, `us-sim-pcb-chain-of-custody`, `us-sim-plant-operator-rounds`, `us-sim-process-lockout`, `us-sim-regulated-soil-haul`, `us-sim-regulated-waste-haul`, `us-sim-small-boat-crew`, `us-sim-tidal-operator-on-mats`, `us-sim-trash-capture-surface-cleanout`, `us-sim-vacuum-truck-operator`, `us-sim-water-control-structure`, `us-sim-ze-equipment-pre-use`, `us-treatment-plant-process-pump-lockout`, `us-vacuum-truck-operator-hookup-and-offload`
+None — every id resolves.
