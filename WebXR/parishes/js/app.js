@@ -57,6 +57,7 @@ import { scSessions } from "../../shared/sc-scholar.js";
 import { byLessonsFor } from "../../shared/by-parish-lessons.js";
 import { scMountSession } from "../../shared/sc-session-ui.js";
 import { esSessionLessons } from "../../shared/es-bay-lessons.js";
+import { lkSessionLessons } from "../../shared/lk-la-lessons.js"; // LA-K12: Louisiana K-12 lessons at the Louisiana map sites
 import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
@@ -753,7 +754,7 @@ requestAnimationFrame(frame);
 
 // SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson, a BAYOU lesson or an ESTUARY lesson.
 const scSession = scMountSession({
-  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id), ...esSessionLessons(parish.id)],
+  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id), ...esSessionLessons(parish.id), ...lkSessionLessons(parish.id)],
   siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
   stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
 });
