@@ -3,30 +3,86 @@
   "index": "875",
   "prefix": "esm",
   "accent": "#9a8a5a",
-  "floor": ["#6e6450", "#625846"],
-  "wall": ["#e6e2d0", "#d6d0b8"],
+  "floor": [
+    "#6e6450",
+    "#625846"
+  ],
+  "wall": [
+    "#e6e2d0",
+    "#d6d0b8"
+  ],
   "trade": "Science class with the tidal restoration crew at a slough — learner and restoration crew lead",
   "header": "Lower-secondary science at the Yosemite Slough Restoration Site in San Francisco: how tides carry mud into a marsh and drop it where the water slows, why a marsh needs that mud to keep up with the water, tested in a tide tray and seen on the crew's mats, using only what the tray and the slough in the scene show.",
   "name": "Mud on the Move",
   "tagline": "Tides carry mud in and drop it where water slows — test it in a tray, then see why marshes need it",
-  "badge": { "id": "mud-mover", "name": "Mud Mover", "note": "Showed in a tide tray where moving water drops its mud, explained why a marsh needs that mud and watched the crew work from mats" },
-  "board": { "name": "Mud Board", "currency": "GRAINS", "ranks": ["Grain", "Silt", "Layer", "Bank", "Marsh Builder"] },
+  "badge": {
+    "id": "mud-mover",
+    "name": "Mud Mover",
+    "note": "Showed in a tide tray where moving water drops its mud, explained why a marsh needs that mud and watched the crew work from mats"
+  },
+  "board": {
+    "name": "Mud Board",
+    "currency": "GRAINS",
+    "ranks": [
+      "Grain",
+      "Silt",
+      "Layer",
+      "Bank",
+      "Marsh Builder"
+    ]
+  },
   "hazards": [
-    { "id": "mud-is-dirt-to-remove", "label": "Say the mud in the water is dirt to get rid of?", "face": "JUST\nDIRT?", "text": "You said the mud in the water is dirt to get rid of. Marshes are built from that mud. Each tide leaves a thin layer, and over time the layers raise the marsh so it can keep up with the water." },
-    { "id": "walk-on-soft-mud", "label": "Walk out onto the soft mud at low tide?", "face": "WALK\nOUT", "text": "You started out onto the soft mud. Tidal mud can hold a boot fast, and the tide comes back in. The crew works from wide mats and boardwalks, and visitors stay on the firm path." },
-    { "id": "change-two-things", "label": "Make the water faster and add more mud in the same run?", "face": "TWO\nCHANGES", "text": "You changed the water speed and the amount of mud in the same run. With two changes you cannot tell which one made the difference. Change one thing, the speed, and keep the mud the same." },
-    { "id": "ignore-the-tide-board", "label": "Ignore the crew's tide board?", "face": "NO\nBOARD", "text": "You skipped the tide board. The crew plans every job around the tide, because rising water changes where it is safe to stand. Read the board first, like the crew does." }
+    {
+      "id": "mud-is-dirt-to-remove",
+      "label": "Say the mud in the water is dirt to get rid of?",
+      "face": "JUST\nDIRT?",
+      "text": "You said the mud in the water is dirt to get rid of. Marshes are built from that mud. Each tide leaves a thin layer, and over time the layers raise the marsh so it can keep up with the water."
+    },
+    {
+      "id": "walk-on-soft-mud",
+      "label": "Walk out onto the soft mud at low tide?",
+      "face": "WALK\nOUT",
+      "text": "You started out onto the soft mud. Tidal mud can hold a boot fast, and the tide comes back in. The crew works from wide mats and boardwalks, and visitors stay on the firm path."
+    },
+    {
+      "id": "change-two-things",
+      "label": "Make the water faster and add more mud in the same run?",
+      "face": "TWO\nCHANGES",
+      "text": "You changed the water speed and the amount of mud in the same run. With two changes you cannot tell which one made the difference. Change one thing, the speed, and keep the mud the same."
+    },
+    {
+      "id": "ignore-the-tide-board",
+      "label": "Ignore the crew's tide board?",
+      "face": "NO\nBOARD",
+      "text": "You skipped the tide board. The crew plans every job around the tide, because rising water changes where it is safe to stand. Read the board first, like the crew does."
+    }
   ],
   "find1": {
     "title": "Find where the water slows in the slough",
     "cue": "Mark the three places where moving water slows down and drops its mud.",
     "why": "Moving water can carry tiny grains of mud. When it slows down, it cannot hold them any longer, so the grains settle to the bottom. Water slows among the marsh plants, on the inside of a channel bend and where a channel spreads onto flat ground. Those are the places where new mud builds up.",
     "items": [
-      ["plants", "among the marsh plants", "Stems slow the water, and mud drops."],
-      ["bend", "the inside of the channel bend", "Slow water on the inside leaves mud."],
-      ["flat", "where the channel spreads out", "Spreading water slows and settles."]
+      [
+        "plants",
+        "among the marsh plants",
+        "Stems slow the water, and mud drops."
+      ],
+      [
+        "bend",
+        "the inside of the channel bend",
+        "Slow water on the inside leaves mud."
+      ],
+      [
+        "flat",
+        "where the channel spreads out",
+        "Spreading water slows and settles."
+      ]
     ],
-    "decoy": ["sign", "the slough's welcome sign", "Useful for visitors, but water does not slow there."]
+    "decoy": [
+      "sign",
+      "the slough's welcome sign",
+      "Useful for visitors, but water does not slow there."
+    ]
   },
   "select1": {
     "title": "Read the tide board with the crew",
@@ -39,13 +95,25 @@
   "seq": {
     "title": "Put the tide tray test in order",
     "cue": "Stir in the mud, run slow water, look, then run fast water with the same mud.",
-    "why": "A fair test changes only one thing. You mix the same mud into the water each time and change only the speed. Running slow water first and fast water second, and looking closely after each, shows how speed decides where the mud settles.",
+    "why": "A fair test changes only one thing. You mix the same mud into the water each time and change only the speed. Running slow water first and fast water second, and looking closely after each, shows how speed decides where the mud settles. Looking closely after each run, before changing anything, is what keeps the two results apart.",
     "oon": "Out of order. Stir in the mud first, then run the slow water.",
     "items": [
-      ["ord-stir", "stir the same scoop of mud into the water"],
-      ["ord-slow", "run the water slowly across the tray"],
-      ["ord-look", "look where the mud settled"],
-      ["ord-fast", "run the same muddy water fast"]
+      [
+        "ord-stir",
+        "stir the same scoop of mud into the water"
+      ],
+      [
+        "ord-slow",
+        "run the water slowly across the tray"
+      ],
+      [
+        "ord-look",
+        "look where the mud settled"
+      ],
+      [
+        "ord-fast",
+        "run the same muddy water fast"
+      ]
     ]
   },
   "turn": {
@@ -68,7 +136,7 @@
   "hold": {
     "title": "Hold the plant strip in the tray",
     "cue": "Hold the model plant strip in place until the water settles.",
-    "why": "The plant strip stands for the marsh grass. If it lifts, the water runs under it and the test changes. Holding it steady lets you see how stems slow the water and make mud settle right among them, just as it does in a real marsh.",
+    "why": "The plant strip stands for the marsh grass. If it lifts, the water runs under it and the test changes. Holding it steady lets you see how stems slow the water and make mud settle right among them, just as it does in a real marsh. Keeping the strip in place means the slow and fast runs both meet the same model plants.",
     "brk": "The strip lifted before the water settled. Hold it in place again.",
     "key": "strip-hold",
     "label": "Hold the plant strip"
@@ -88,16 +156,32 @@
     "cue": "Look across the slough and mark each part of the crew's work.",
     "why": "Restoration crews help the tide bring mud where the marsh needs it. They open channels so tides can reach the marsh, lower old banks so water spreads out, and reuse dug mud to raise low spots. Each job helps the marsh gain height with the help of the water itself.",
     "items": [
-      ["channel", "a newly opened tidal channel", "Tides can reach the marsh again."],
-      ["low-bank", "a lowered old bank", "Water spreads out and slows down."],
-      ["reuse", "a pile of dug mud being reused", "Low spots get raised with it."]
+      [
+        "channel",
+        "a newly opened tidal channel",
+        "Tides can reach the marsh again."
+      ],
+      [
+        "low-bank",
+        "a lowered old bank",
+        "Water spreads out and slows down."
+      ],
+      [
+        "reuse",
+        "a pile of dug mud being reused",
+        "Low spots get raised with it."
+      ]
     ],
-    "decoy": ["truck", "the crew's parked truck", "It brings tools, but it is not part of the mud work."]
+    "decoy": [
+      "truck",
+      "the crew's parked truck",
+      "It brings tools, but it is not part of the mud work."
+    ]
   },
   "select2": {
     "title": "Say where the mud settled",
     "cue": "Choose the sentence that says what your two runs showed.",
-    "why": "Your two runs used the same mud but different speeds. More mud settled when the water was slow. A good answer says that slow water drops more mud, which is why calm marshes build up. It uses your layer readings as the evidence.",
+    "why": "Your two runs used the same mud but different speeds. More mud settled when the water was slow. A good answer says that slow water drops more mud, which is why calm marshes build up. It uses your layer readings as the evidence. A careful conclusion sticks to the evidence in the table and leaves out guesses.",
     "key": "result-card",
     "label": "State the result",
     "face": "WHERE DID\nIT SETTLE?"
@@ -105,7 +189,7 @@
   "track": {
     "title": "Follow a cloud of mud across the tray",
     "cue": "Keep the marker on the cloud of mud as it drifts and settles.",
-    "why": "Following one cloud of mud shows the process as it happens. It drifts with the water, spreads out among the plants and slowly sinks to the bottom. Seeing it settle helps you explain why marshes need muddy water, not only clear water.",
+    "why": "Following one cloud of mud shows the process as it happens. It drifts with the water, spreads out among the plants and slowly sinks to the bottom. Seeing it settle helps you explain why marshes need muddy water, not only clear water. In the real slough, each tide brings a new cloud of fine mud into the marsh.",
     "brk": "The marker lost the mud cloud. Find it again and follow it until it settles.",
     "key": "cloud-track",
     "label": "Mud cloud followed",
@@ -130,15 +214,46 @@
   "checkin": {
     "title": "Check in before the tide turns",
     "cue": "Where does moving water drop its mud? Why does a marsh need it?",
-    "why": "The crew finishes before the tide turns, and the class checks its ideas in time too. Each learner says where mud settles and why the marsh needs it. If anyone thinks the mud is only dirt, the group sorts it out now.",
+    "why": "The crew finishes before the tide turns, and the class checks its ideas in time too. Each learner says where mud settles and why the marsh needs it. If anyone thinks the mud is only dirt, the group sorts it out now. Understanding moving mud helps everyone see a marsh as a living place that grows with each tide.",
     "label": "End-of-lesson check-in"
   },
   "interrupts": [
-    { "id": "the-tide-starts-to-turn", "kind": "Tide turning", "key": "move-up", "label": "Move back up the firm path", "alert": "The crew lead calls that the tide has turned and water is creeping up the channel.", "cue": "Move back up the firm path with the crew and watch from higher ground.", "why": "A rising tide can cover low mud quickly. Moving up the firm path early keeps everyone dry and steady. The crew plans every job to finish before the tide returns and never waits until the water arrives.", "miss": "The class stayed by the channel edge, and the crew lead had to call everyone back up as the water reached the path.", "wrong": "That keeps you low by the channel. Move up the firm path. Choose the response that deals with it now.", "done": "Class on higher ground, the tide coming in. The lesson carries on." },
-    { "id": "the-crew-lead-asks-about-the-mats", "kind": "Crew question", "key": "name-mats", "label": "Say why the crew uses mats", "alert": "The crew lead asks why the crew stands on wide mats.", "cue": "Say the mats spread weight so people and machines do not sink.", "why": "Knowing about the mats shows you understand soft ground. A wide mat spreads weight over more mud, so nobody sinks. It also protects the marsh plants below.", "miss": "You could not say why the crew uses mats, and the crew lead had to explain before the class could go on.", "wrong": "That does not explain the mats. Say what they do to weight. Choose the response that deals with it now.", "done": "Mats explained. The lesson carries on." }
+    {
+      "id": "the-tide-starts-to-turn",
+      "kind": "Tide turning",
+      "key": "move-up",
+      "label": "Move back up the firm path",
+      "alert": "The crew lead calls that the tide has turned and water is creeping up the channel.",
+      "cue": "Move back up the firm path with the crew and watch from higher ground.",
+      "why": "A rising tide can cover low mud quickly. Moving up the firm path early keeps everyone dry and steady. The crew plans every job to finish before the tide returns and never waits until the water arrives.",
+      "miss": "The class stayed by the channel edge, and the crew lead had to call everyone back up as the water reached the path.",
+      "wrong": "That keeps you low by the channel. Move up the firm path. Choose the response that deals with it now.",
+      "done": "Class on higher ground, the tide coming in. The lesson carries on."
+    },
+    {
+      "id": "the-crew-lead-asks-about-the-mats",
+      "kind": "Crew question",
+      "key": "name-mats",
+      "label": "Say why the crew uses mats",
+      "alert": "The crew lead asks why the crew stands on wide mats.",
+      "cue": "Say the mats spread weight so people and machines do not sink.",
+      "why": "Knowing about the mats shows you understand soft ground. A wide mat spreads weight over more mud, so nobody sinks. It also protects the marsh plants below.",
+      "miss": "You could not say why the crew uses mats, and the crew lead had to explain before the class could go on.",
+      "wrong": "That does not explain the mats. Say what they do to weight. Choose the response that deals with it now.",
+      "done": "Mats explained. The lesson carries on."
+    }
   ],
-  "crew": ["Science teacher", "Classmate", "Restoration crew lead", "Crew member on the mats"],
-  "guide": { "start": "Same mud, change only speed.", "after": "Slow water drops mud.", "hazard": "Stop. Firm path and tide board first." },
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Restoration crew lead",
+    "Crew member on the mats"
+  ],
+  "guide": {
+    "start": "Same mud, change only speed.",
+    "after": "Slow water drops mud.",
+    "hazard": "Stop. Firm path and tide board first."
+  },
   "lateRecord": "The tray record is written once both runs are done — nothing to record yet.",
   "lateCheckin": "The check-in comes at the very end of the lesson.",
   "scene": "bench",

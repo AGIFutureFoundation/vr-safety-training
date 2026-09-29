@@ -41,3 +41,35 @@ Registry module: `WebXR/shared/es-bay-lessons.js` (`ES_LESSONS`, `ES_APPLY_STEPS
    drain 4.4), both stations 95; check_k12 all pass (2,522 checks).
 4. Reason: flows documented → check_flowhub passes. Observe: failed ("docs/flowhub.md does not describe es-storm-drain.json"),
    section added, "All FlowHub checks pass".
+5. Reason: ten more stations + lessons + fallback games → check_k12 all pass, eval 95+. Observe: check_k12 all pass
+   (2,955 checks); eval 93–97 — seven stations under 95 on explanation (median why under 250 chars).
+6. Reason: add one reasoned sentence to the shortest whys of those seven → all twelve 95+. Observe: 95 ×8, 96 ×3, 97 ×1;
+   check_k12, check_flowhub, check_smartcity ("All 700 simulators pass") all pass.
+
+## Stations (eval · band · Flesch–Kincaid station / lesson lines · anchor · apply)
+| Station | Eval | Band | Reading | Anchor (Oakland, guarded) | Apply (fallback) |
+| --- | --- | --- | --- | --- | --- |
+| where-the-storm-drain-goes | 95 | upper primary | 4.4 / 1.1 | sf-marina/marina-seawall-crew | es-apply-drain-trace |
+| what-a-trash-capture-device-does | 95 | upper primary | 4.9 / 2.0 | sf-mission/islais-creek-pump-station (oak-west-oakland/outer-harbor-container-terminal) | bq-trash-capture-cleanout (es-apply-screen-sort) |
+| rain-gardens-a-sponge-in-the-sidewalk | 95 | upper primary | 5.0 / 2.0 | sf-mission/mission-school-campus | bq-rain-garden-build (es-apply-garden-layers) |
+| the-tidal-marsh-nursery | 95 | upper primary | 5.1 / 2.9 | sf-bayview/herons-head-wetland | es-apply-nursery-spotting |
+| mud-on-the-move | 95 | lower secondary | 4.8 / 2.3 | sf-bayview/yosemite-slough-restoration | bq-tidal-channel-dig (es-apply-sediment-path) |
+| too-much-of-a-good-thing | 95 | lower secondary | 5.2 / 2.9 | sf-marina/crissy-marsh-crew | es-apply-nutrient-balance |
+| the-bay-food-web | 96 | upper primary | 5.2 / 2.7 | sf-marina/fort-mason-piers | es-apply-food-web-links |
+| plastics-and-the-bay | 96 | upper primary | 4.6 / 2.9 | sf-golden-gate-park/ocean-beach-lifeguard-station | es-apply-shoreline-sweep |
+| clean-air-at-the-port | 97 | lower secondary | 6.5 / 2.3 | sf-bayview/port-southern-terminals (oak-west-oakland/west-oakland-air-monitoring-station) | bq-zero-emission-yard-shuffle (es-apply-yard-route) |
+| who-does-this-work | 95 | lower secondary | 6.1 / 2.3 | sf-downtown/market-street-union-hall (oak-west-oakland/mandela-parkway-union-hall) | es-apply-crew-match |
+| count-it-a-fair-survey | 96 | upper primary | 5.2 / 1.1 | sf-bayview/india-basin-park-crew | es-apply-bird-tally |
+| measure-a-rain-garden | 95 | upper primary | 5.1 / 2.0 | sf-golden-gate-park/sunset-school-campus | es-apply-garden-pacing |
+
+
+## Seams
+- `esStartLesson(id, where)` → SCHOLAR `scStartSession(lessonId, where)` (guarded). `esModule()` → DEAN module shape
+  `{ id: "es-bay-ecology", title, audience: "classroom", lessons: [{ lessonId, station, flow, band, minutes }] }`.
+- `esApplyFor(lesson, { bqGame })` prefers BAYQUEST's `bqGame(id)` when present, else the ESTUARY fallback.
+- `esOaklandSite(lesson, { npParish })` resolves the BAYMAP site once `np-data-oak-*` merges (null until then).
+
+## Left
+- Not mounted in the parishes app yet (the lessons launch from their station links and flows; a site-board mount like
+  BAYOU's is the next step). BAYOU's `by-flow-agent.js` is tied to BY_* apply games, so ESTUARY flows run on flowhub only.
+- Headless drive of each station and screenshots not done; eval_worlds not run.

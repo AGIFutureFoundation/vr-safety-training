@@ -3,30 +3,86 @@
   "index": "881",
   "prefix": "esp",
   "accent": "#4aa0a0",
-  "floor": ["#6a665a", "#5e5a4e"],
-  "wall": ["#e6e6da", "#d6d6c4"],
+  "floor": [
+    "#6a665a",
+    "#5e5a4e"
+  ],
+  "wall": [
+    "#e6e6da",
+    "#d6d6c4"
+  ],
   "trade": "Science class with the beach crew on a shoreline sweep — learner and beach crew lead",
   "header": "Upper-primary science at the Ocean Beach Lifeguard Station site in San Francisco: how plastic breaks into smaller and smaller pieces but does not go away, which pieces float and which sink, tested with a float tray and seen on a careful shoreline sweep with the beach crew, using only what the tray and the beach in the scene show.",
   "name": "Plastics and the Bay",
   "tagline": "Plastic breaks into smaller pieces but does not go away — test which pieces float, then sweep the shore safely",
-  "badge": { "id": "shore-sweeper", "name": "Shore Sweeper", "note": "Sorted plastics in a float test, explained why plastic breaks up but stays, and swept a shoreline strip safely with the beach crew" },
-  "board": { "name": "Sweep Board", "currency": "PIECES", "ranks": ["Spotter", "Picker", "Sorter", "Sweeper", "Shore Keeper"] },
+  "badge": {
+    "id": "shore-sweeper",
+    "name": "Shore Sweeper",
+    "note": "Sorted plastics in a float test, explained why plastic breaks up but stays, and swept a shoreline strip safely with the beach crew"
+  },
+  "board": {
+    "name": "Sweep Board",
+    "currency": "PIECES",
+    "ranks": [
+      "Spotter",
+      "Picker",
+      "Sorter",
+      "Sweeper",
+      "Shore Keeper"
+    ]
+  },
   "hazards": [
-    { "id": "plastic-melts-away", "label": "Say plastic melts away in sea water?", "face": "MELTS\nAWAY?", "text": "You said plastic melts away in the water. Sun and waves break plastic into smaller and smaller pieces, but the pieces stay. That is why keeping plastic out of the water in the first place matters most." },
-    { "id": "pick-up-sharp-things", "label": "Pick up broken glass with your hand?", "face": "GRAB\nGLASS", "text": "You reached for broken glass. Sharp things are picked up only with tongs and go into the crew's sharps tub. Call the crew lead if you see anything sharp." },
-    { "id": "turn-your-back-on-waves", "label": "Turn your back on the waves while you sweep?", "face": "BACK TO\nWAVES", "text": "You turned your back on the waves. Waves can run up the beach further than you expect. Sweep above the wet sand line and face the water whenever you are near it." },
-    { "id": "sweep-alone", "label": "Wander off to sweep on your own?", "face": "ON YOUR\nOWN", "text": "You wandered off on your own. The crew sweeps in pairs inside the flagged strip so everyone stays in sight. Stay with your partner and inside the flags." }
+    {
+      "id": "plastic-melts-away",
+      "label": "Say plastic melts away in sea water?",
+      "face": "MELTS\nAWAY?",
+      "text": "You said plastic melts away in the water. Sun and waves break plastic into smaller and smaller pieces, but the pieces stay. That is why keeping plastic out of the water in the first place matters most."
+    },
+    {
+      "id": "pick-up-sharp-things",
+      "label": "Pick up broken glass with your hand?",
+      "face": "GRAB\nGLASS",
+      "text": "You reached for broken glass. Sharp things are picked up only with tongs and go into the crew's sharps tub. Call the crew lead if you see anything sharp."
+    },
+    {
+      "id": "turn-your-back-on-waves",
+      "label": "Turn your back on the waves while you sweep?",
+      "face": "BACK TO\nWAVES",
+      "text": "You turned your back on the waves. Waves can run up the beach further than you expect. Sweep above the wet sand line and face the water whenever you are near it."
+    },
+    {
+      "id": "sweep-alone",
+      "label": "Wander off to sweep on your own?",
+      "face": "ON YOUR\nOWN",
+      "text": "You wandered off on your own. The crew sweeps in pairs inside the flagged strip so everyone stays in sight. Stay with your partner and inside the flags."
+    }
   ],
   "find1": {
     "title": "Find the kinds of plastic on the beach",
     "cue": "Mark the three kinds of plastic you can see in the sweep strip.",
     "why": "Plastic reaches the shore in many forms. A bottle cap arrives whole, a bag gets torn into strips, and tiny coloured bits are what is left after sun and waves break bigger pieces apart. Seeing all three shows that plastic changes shape but does not disappear.",
     "items": [
-      ["cap", "a whole bottle cap", "Still in one piece."],
-      ["strip", "a torn strip of plastic bag", "Breaking into smaller parts."],
-      ["bits", "tiny coloured plastic bits", "What is left after breaking up."]
+      [
+        "cap",
+        "a whole bottle cap",
+        "Still in one piece."
+      ],
+      [
+        "strip",
+        "a torn strip of plastic bag",
+        "Breaking into smaller parts."
+      ],
+      [
+        "bits",
+        "tiny coloured plastic bits",
+        "What is left after breaking up."
+      ]
     ],
-    "decoy": ["shell", "a shell on the sand", "It belongs on the beach. Leave it."]
+    "decoy": [
+      "shell",
+      "a shell on the sand",
+      "It belongs on the beach. Leave it."
+    ]
   },
   "select1": {
     "title": "Put on gloves and pick up the tongs",
@@ -42,16 +98,28 @@
     "why": "The float test shows which plastics ride on the surface and which sink. Filling the tray first, dropping each piece in and watching it before sorting keeps the test tidy. Knowing which pieces float explains why some plastic washes up on beaches and some ends up in the mud.",
     "oon": "Out of order. Fill the tray with water first.",
     "items": [
-      ["ord-fill", "fill the tray with salty water"],
-      ["ord-drop", "drop in one piece at a time"],
-      ["ord-watch", "watch whether it floats or sinks"],
-      ["ord-sort", "sort floaters and sinkers into two piles"]
+      [
+        "ord-fill",
+        "fill the tray with salty water"
+      ],
+      [
+        "ord-drop",
+        "drop in one piece at a time"
+      ],
+      [
+        "ord-watch",
+        "watch whether it floats or sinks"
+      ],
+      [
+        "ord-sort",
+        "sort floaters and sinkers into two piles"
+      ]
     ]
   },
   "turn": {
     "title": "Set the salt level in the tray",
     "cue": "Turn the salt dial to the teacher's setting to make Bay-like water.",
-    "why": "Salty water holds things up a little more than fresh water. Setting the salt level like Bay water makes the float test closer to what happens in the real Bay. Keeping the same salt level for every piece keeps the test fair.",
+    "why": "Salty water holds things up a little more than fresh water. Setting the salt level like Bay water makes the float test closer to what happens in the real Bay. Keeping the same salt level for every piece keeps the test fair. Scientists try to make a model as close to the real place as they can, so the results mean more.",
     "key": "salt-dial",
     "label": "Salt level",
     "dial": "SALT"
@@ -76,7 +144,7 @@
   "drag": {
     "title": "Put the sharp piece in the sharps tub",
     "cue": "Use the tongs to drag the broken glass into the sharps tub.",
-    "why": "Sharp things never go in the soft bag, where they could cut someone later. The sharps tub has hard sides and a lid. Putting sharp pieces there straight away keeps the whole crew safe while they carry the bags.",
+    "why": "Sharp things never go in the soft bag, where they could cut someone later. The sharps tub has hard sides and a lid. Putting sharp pieces there straight away keeps the whole crew safe while they carry the bags. Hard sides and a lid mean nobody gets a surprise cut when the bags are lifted into the truck.",
     "key": "glass",
     "label": "Broken glass",
     "spot": "sharps-tub",
@@ -88,16 +156,32 @@
     "cue": "Look along the beach and mark each way plastic reaches the shore.",
     "why": "Plastic reaches the beach from many places. Wind blows it from bins, storm drains carry it from streets, and waves bring it in from the water. Knowing where it comes from helps people stop it at the start, which works better than cleaning it up later.",
     "items": [
-      ["bin", "an overflowing bin by the path", "Wind blows plastic out."],
-      ["outfall", "a storm drain pipe onto the beach", "It carries street litter."],
-      ["tideline", "the line of litter the tide left", "Waves bring it in."]
+      [
+        "bin",
+        "an overflowing bin by the path",
+        "Wind blows plastic out."
+      ],
+      [
+        "outfall",
+        "a storm drain pipe onto the beach",
+        "It carries street litter."
+      ],
+      [
+        "tideline",
+        "the line of litter the tide left",
+        "Waves bring it in."
+      ]
     ],
-    "decoy": ["tower", "the lifeguard tower", "Important for safety, but not a plastic source."]
+    "decoy": [
+      "tower",
+      "the lifeguard tower",
+      "Important for safety, but not a plastic source."
+    ]
   },
   "select2": {
     "title": "Say what happens to plastic in the water",
     "cue": "Choose the sentence that says what your test and sweep showed.",
-    "why": "Your tray showed many plastics float, and the beach showed pieces of every size, from whole caps to tiny bits. A good answer says plastic breaks into smaller pieces but stays in the water. It does not claim more than you saw.",
+    "why": "Your tray showed many plastics float, and the beach showed pieces of every size, from whole caps to tiny bits. A good answer says plastic breaks into smaller pieces but stays in the water. It does not claim more than you saw. Keeping to what you saw, and not guessing, is what makes a conclusion strong.",
     "key": "result-card",
     "label": "State the result",
     "face": "WHERE DOES\nIT GO?"
@@ -105,7 +189,7 @@
   "track": {
     "title": "Follow a floating bag on the waves",
     "cue": "Keep the marker on the floating bag as the waves carry it to the shore.",
-    "why": "Following one bag shows how plastic travels. It rides on the surface, drifts with the wind and waves, and lands on the beach at the tide line. Seeing that path helps you understand why beaches collect so much floating plastic.",
+    "why": "Following one bag shows how plastic travels. It rides on the surface, drifts with the wind and waves, and lands on the beach at the tide line. Seeing that path helps you understand why beaches collect so much floating plastic. The tide line on a beach is often where the most floating plastic gathers, which is why sweeps start there.",
     "brk": "The marker lost the bag. Find it again and follow it to the shore.",
     "key": "bag-track",
     "label": "Bag followed",
@@ -114,7 +198,7 @@
   "record": {
     "title": "Record what you collected",
     "cue": "Tally the caps, strips and bits your pair collected on the sweep sheet.",
-    "why": "A tally of what was collected shows which kinds of plastic are most common. Beach crews keep these records from every sweep, so they can tell people which items to stop using. Your tally joins theirs.",
+    "why": "A tally of what was collected shows which kinds of plastic are most common. Beach crews keep these records from every sweep, so they can tell people which items to stop using. Your tally joins theirs. Totals from many sweeps show whether fewer caps and bags are reaching the shore over the months.",
     "key": "sweep-log",
     "label": "Sweep tally",
     "done": "Sweep recorded"
@@ -122,7 +206,7 @@
   "share": {
     "title": "Share one way to use less plastic",
     "cue": "Tell another group one swap that means less plastic reaches the Bay.",
-    "why": "Stopping plastic at the start works best. Sharing swaps like a refillable bottle or a cloth bag spreads good ideas. Beach crews say the best sweep is the one that finds less than last time.",
+    "why": "Stopping plastic at the start works best. Sharing swaps like a refillable bottle or a cloth bag spreads good ideas. Beach crews say the best sweep is the one that finds less than last time. A swap that a whole class makes adds up to a lot of plastic that never reaches the beach at all.",
     "key": "share-board",
     "label": "Share a swap",
     "done": "Swap shared"
@@ -130,15 +214,46 @@
   "checkin": {
     "title": "Check in before leaving the beach",
     "cue": "What happens to plastic in the water? What is one way to keep it out?",
-    "why": "The crew counts the bags and checks everyone is back before leaving. Each learner says what happens to plastic and one way to keep it out. If anyone thinks plastic melts away, the group sorts it out now.",
+    "why": "The crew counts the bags and checks everyone is back before leaving. Each learner says what happens to plastic and one way to keep it out. If anyone thinks plastic melts away, the group sorts it out now. The crew also checks that every tong and glove comes back, so the kit is ready for the next sweep.",
     "label": "End-of-sweep check-in"
   },
   "interrupts": [
-    { "id": "a-big-wave-runs-up-the-sand", "kind": "Wave run-up", "key": "move-up-beach", "label": "Move up the beach with your partner", "alert": "A bigger wave runs up the sand towards the sweep strip.", "cue": "Move up the beach with your partner, facing the water.", "why": "Waves sometimes run further up the beach than the others. Moving up with your partner, facing the water, keeps you dry and steady. The lifeguards and the crew watch the waves the whole time.", "miss": "The pair kept sweeping with their backs to the water, and the crew lead had to call them up the beach.", "wrong": "That keeps you by the water's edge. Move up the beach. Choose the response that deals with it now.", "done": "Pair up the beach, the wave ran back. The lesson carries on." },
-    { "id": "the-crew-lead-asks-about-sharps", "kind": "Crew question", "key": "name-sharps", "label": "Say where sharp pieces go", "alert": "The crew lead asks where broken glass goes.", "cue": "Say sharp pieces go in the sharps tub, picked up with tongs.", "why": "Knowing the sharps rule shows you can sweep safely. Tongs and a hard tub keep hands safe now and later. Every crew uses the same rule.", "miss": "You could not say where sharp pieces go, and the crew lead had to explain before the sweep went on.", "wrong": "That does not say where sharp pieces go. Choose the response that deals with it now.", "done": "Sharps rule explained. The lesson carries on." }
+    {
+      "id": "a-big-wave-runs-up-the-sand",
+      "kind": "Wave run-up",
+      "key": "move-up-beach",
+      "label": "Move up the beach with your partner",
+      "alert": "A bigger wave runs up the sand towards the sweep strip.",
+      "cue": "Move up the beach with your partner, facing the water.",
+      "why": "Waves sometimes run further up the beach than the others. Moving up with your partner, facing the water, keeps you dry and steady. The lifeguards and the crew watch the waves the whole time.",
+      "miss": "The pair kept sweeping with their backs to the water, and the crew lead had to call them up the beach.",
+      "wrong": "That keeps you by the water's edge. Move up the beach. Choose the response that deals with it now.",
+      "done": "Pair up the beach, the wave ran back. The lesson carries on."
+    },
+    {
+      "id": "the-crew-lead-asks-about-sharps",
+      "kind": "Crew question",
+      "key": "name-sharps",
+      "label": "Say where sharp pieces go",
+      "alert": "The crew lead asks where broken glass goes.",
+      "cue": "Say sharp pieces go in the sharps tub, picked up with tongs.",
+      "why": "Knowing the sharps rule shows you can sweep safely. Tongs and a hard tub keep hands safe now and later. Every crew uses the same rule.",
+      "miss": "You could not say where sharp pieces go, and the crew lead had to explain before the sweep went on.",
+      "wrong": "That does not say where sharp pieces go. Choose the response that deals with it now.",
+      "done": "Sharps rule explained. The lesson carries on."
+    }
   ],
-  "crew": ["Science teacher", "Classmate", "Beach crew lead", "Lifeguard"],
-  "guide": { "start": "Gloves, tongs and a partner.", "after": "Smaller pieces, still there.", "hazard": "Stop. Face the waves, tongs for sharps." },
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Beach crew lead",
+    "Lifeguard"
+  ],
+  "guide": {
+    "start": "Gloves, tongs and a partner.",
+    "after": "Smaller pieces, still there.",
+    "hazard": "Stop. Face the waves, tongs for sharps."
+  },
   "lateRecord": "The sweep tally is written after the sweep — nothing to record yet.",
   "lateCheckin": "The check-in comes at the very end of the sweep.",
   "scene": "bench",

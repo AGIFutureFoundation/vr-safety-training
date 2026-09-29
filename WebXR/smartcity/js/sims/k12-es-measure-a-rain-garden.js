@@ -106,7 +106,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       },
       title: "Put the measuring steps in order",
       cue: "Put the steps for finding the bed's area in order.",
-      why: "Finding an area has a clear order. You measure the length, measure the width, multiply them, and write the answer with its unit. Following the order means nothing gets missed and anyone can check your working.",
+      why: "Finding an area has a clear order. You measure the length, measure the width, multiply them, and write the answer with its unit. Following the order means nothing gets missed and anyone can check your working. Writing each step down as you go also leaves a trail that a partner can follow to check your answer.",
       outOfOrderNote: "Out of order. Measure the length first."
     },
     {
@@ -145,7 +145,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       },
       title: "Read the length on the tape",
       cue: "Commit when the marker sits where the far stake meets the tape.",
-      why: "Reading the tape exactly where the far stake stands gives the true length. Read straight down, not from the side, so the line you see is the right one. A careful reading here makes the area correct later."
+      why: "Reading the tape exactly where the far stake stands gives the true length. Read straight down, not from the side, so the line you see is the right one. A careful reading here makes the area correct later. If two readers disagree, they read again together until they agree, because one wrong length makes the whole area wrong."
     },
     {
       id: "hold-the-tape-hook-on-the",
@@ -154,7 +154,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       seconds: 6,
       title: "Hold the tape hook on the corner stake",
       cue: "Hold the hook against the corner stake while your partner reads the tape.",
-      why: "If the hook slips, the reading is too short. Holding it firmly against the stake keeps zero exactly on the corner. Measuring is a two-person job, one holding and one reading, just as the crew does it.",
+      why: "If the hook slips, the reading is too short. Holding it firmly against the stake keeps zero exactly on the corner. Measuring is a two-person job, one holding and one reading, just as the crew does it. The partner reading the tape calls the number out loud, and the holder repeats it, so nothing is misheard.",
       holdBreakNote: "The hook slipped off the stake. Hold it on the corner again."
     },
     {
@@ -168,7 +168,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       },
       title: "Place the bed on the drawing grid",
       cue: "Drag the bed outline onto the grid so its corners sit on grid points.",
-      why: "Putting the corners on grid points makes the scale drawing accurate. Then you can count the squares inside to check your multiplying. When the count and the sum match, you know your area is right."
+      why: "Putting the corners on grid points makes the scale drawing accurate. Then you can count the squares inside to check your multiplying. When the count and the sum match, you know your area is right. A drawing that matches the real bed lets the crew count how many plants fit before they buy a single one."
     },
     {
       id: "spot-the-parts-to-add-to",
@@ -202,7 +202,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       target: "esg-sum-card",
       title: "Choose the right area sum",
       cue: "Choose the sum that gives the area of the bed.",
-      why: "The area of a rectangle is its length multiplied by its width. A sum that adds them gives part of the distance round the edge instead. Choosing the multiply sum shows you know the difference between area and perimeter."
+      why: "The area of a rectangle is its length multiplied by its width. A sum that adds them gives part of the distance round the edge instead. Choosing the multiply sum shows you know the difference between area and perimeter. Picturing the squares inside the bed is a good way to remember that area means counting space, not edges."
     },
     {
       id: "trace-the-edge-of-the-bed",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       },
       title: "Trace the edge of the bed on the grid",
       cue: "Keep the marker on the edge as you trace all the way round the bed.",
-      why: "Tracing the edge shows the perimeter, the distance all the way round. It is different from the area, which is the space inside. Tracing both on the same drawing helps you see why they are measured differently.",
+      why: "Tracing the edge shows the perimeter, the distance all the way round. It is different from the area, which is the space inside. Tracing both on the same drawing helps you see why they are measured differently. Crews use the perimeter to work out how much edging they need, and the area to work out how much soil.",
       holdBreakNote: "The marker left the edge. Find the edge again and keep tracing."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       doneLine: "Measurements recorded",
       title: "Record the measurements and the area",
       cue: "Write the length, the width and the area with their units on the plan.",
-      why: "Writing every measurement with its unit lets anyone check your work. The crew uses these numbers to order soil and plants. A missing unit can cause a big mix-up, so units always go with the numbers."
+      why: "Writing every measurement with its unit lets anyone check your work. The crew uses these numbers to order soil and plants. A missing unit can cause a big mix-up, so units always go with the numbers. Numbers without units are like a recipe that says three without saying cups or spoons."
     },
     {
       id: "check-your-area-with-another-pair",
@@ -241,7 +241,7 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
       doneLine: "Areas compared",
       title: "Check your area with another pair",
       cue: "Compare your area with another pair who measured the same bed.",
-      why: "Two pairs measuring the same bed should get about the same answer. If not, someone may have missed zero or added instead of multiplied. Checking with others is how crews catch mistakes before they order materials."
+      why: "Two pairs measuring the same bed should get about the same answer. If not, someone may have missed zero or added instead of multiplied. Checking with others is how crews catch mistakes before they order materials. Checking against another pair is quick, and it is much easier than fixing a wrong order of soil later."
     },
     {
       id: "crew-check-in",

@@ -138,7 +138,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       },
       title: "Set the lamp to the same brightness",
       cue: "Turn the lamp dial until both jars get the teacher's brightness.",
-      why: "Algae need light to grow, so both jars must get the same light. If one jar gets more, it might go greener for that reason alone. Setting the lamp once for both jars keeps light out of the question, so only the plant food changes."
+      why: "Algae need light to grow, so both jars must get the same light. If one jar gets more, it might go greener for that reason alone. Setting the lamp once for both jars keeps light out of the question, so only the plant food changes. In a fair test, anything you are not testing on purpose must stay exactly the same for both jars."
     },
     {
       id: "read-the-colour-of-each-jar",
@@ -155,7 +155,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       },
       title: "Read the colour of each jar",
       cue: "Commit when the marker matches the jar's colour on the green scale.",
-      why: "Matching each jar to a colour scale turns what you see into a reading you can compare. The greener the jar, the more algae have grown. Crews use meters that measure cloudiness to do the same job at the lagoon."
+      why: "Matching each jar to a colour scale turns what you see into a reading you can compare. The greener the jar, the more algae have grown. Crews use meters that measure cloudiness to do the same job at the lagoon. Scientists always compare against a scale so that two people looking at the same jar record the same result."
     },
     {
       id: "place-the-sample-jar-in-the",
@@ -168,7 +168,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       },
       title: "Place the sample jar in the cool box",
       cue: "Drag the labelled sample jar into the cool box.",
-      why: "A water sample can change if it gets warm, because algae keep growing. Putting it straight into the cool box keeps it the same until it is tested. The label tells the lab where and when it was taken."
+      why: "A water sample can change if it gets warm, because algae keep growing. Putting it straight into the cool box keeps it the same until it is tested. The label tells the lab where and when it was taken. Samples that sit in the sun for too long give a reading that no longer matches the lagoon they came from."
     },
     {
       id: "say-what-the-jars-showed",
@@ -176,7 +176,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       target: "esu-result-card",
       title: "Say what the jars showed",
       cue: "Choose the sentence that says what your two jars showed.",
-      why: "Both jars had the same water and light. The jar with plant food turned greener. A good answer says that extra nutrients fed more algae, and it uses your colour readings as the evidence without claiming anything else."
+      why: "Both jars had the same water and light. The jar with plant food turned greener. A good answer says that extra nutrients fed more algae, and it uses your colour readings as the evidence without claiming anything else. Saying only what your evidence shows is what makes a conclusion something other people can trust."
     },
     {
       id: "spot-how-people-keep-nutrients-out",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       },
       title: "Follow runoff from the lawn to the lagoon",
       cue: "Keep the marker on the runoff as it flows from the lawn into the water.",
-      why: "Following runoff shows how nutrients travel. Rain picks up plant food from the lawn, runs across the path and reaches the lagoon. Seeing the path helps explain why what people do on land changes the water.",
+      why: "Following runoff shows how nutrients travel. Rain picks up plant food from the lawn, runs across the path and reaches the lagoon. Seeing the path helps explain why what people do on land changes the water. Every garden and path that drains towards the water is part of the lagoon's story, even far from the edge.",
       holdBreakNote: "The marker lost the runoff. Find it on the lawn and follow it again."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       doneLine: "Both jars recorded",
       title: "Record both jars side by side",
       cue: "Write the colour reading for the plain jar and the plant food jar.",
-      why: "Two columns make the difference clear and easy to check. Anyone reading your table can see what changed and what stayed the same. Water crews keep records like this to see whether the water is getting clearer over time."
+      why: "Two columns make the difference clear and easy to check. Anyone reading your table can see what changed and what stayed the same. Water crews keep records like this to see whether the water is getting clearer over time. A table also makes it easy to spot if you forgot a reading, because an empty box stands out straight away."
     },
     {
       id: "share-one-way-to-keep-the",
@@ -241,7 +241,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       doneLine: "Idea shared",
       title: "Share one way to keep the balance",
       cue: "Tell another group one thing people can do to keep extra nutrients out.",
-      why: "Everyone who lives near water can help keep the balance. Sharing ideas like picking up pet waste or using less lawn fertiliser spreads good habits. Crews say small changes by many people add up to clearer water."
+      why: "Everyone who lives near water can help keep the balance. Sharing ideas like picking up pet waste or using less lawn fertiliser spreads good habits. Crews say small changes by many people add up to clearer water. Many small habits around one lagoon can make as much difference as one big project."
     },
     {
       id: "crew-check-in",
@@ -250,7 +250,7 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
       doneLine: "Checked in",
       title: "Check in before leaving the dock",
       cue: "Why can too many nutrients be a problem? What is one way to keep the balance?",
-      why: "The crew goes over the day's samples before leaving the dock. Each learner explains what too many nutrients do and one way to help. If anyone thinks more is always better, the group sorts it out now."
+      why: "The crew goes over the day's samples before leaving the dock. Each learner explains what too many nutrients do and one way to help. If anyone thinks more is always better, the group sorts it out now. Talking it through together helps everyone leave with the same clear idea of balance."
     }
   ],
 

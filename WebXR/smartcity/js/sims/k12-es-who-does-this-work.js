@@ -95,7 +95,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       target: "esw-greet-card",
       title: "Greet the crew mentor",
       cue: "Shake hands and introduce yourself to the crew mentor.",
-      why: "Meeting a crew mentor is a first step into any trade. A clear greeting and your name show respect and interest. Mentors help new people learn the job, and many say the best apprentices start by asking good questions."
+      why: "Meeting a crew mentor is a first step into any trade. A clear greeting and your name show respect and interest. Mentors help new people learn the job, and many say the best apprentices start by asking good questions. Asking the mentor how they started in their trade is often the most useful question of the visit."
     },
     {
       id: "put-the-path-into-a-trade",
@@ -124,7 +124,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       seconds: 6,
       title: "Hold up the safety gear while the mentor explains",
       cue: "Hold up the display hard hat while the mentor explains each piece of gear.",
-      why: "Safety gear is part of every trade. Holding up each piece while the mentor explains it helps you remember what it is for. Crews check their gear at the start of every shift, and learning that habit early is part of training.",
+      why: "Safety gear is part of every trade. Holding up each piece while the mentor explains it helps you remember what it is for. Crews check their gear at the start of every shift, and learning that habit early is part of training. Each piece of gear has one job, and together they protect the head, eyes, hands and feet.",
       holdBreakNote: "The hard hat went down before the mentor finished. Hold it up again."
     },
     {
@@ -172,7 +172,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       },
       title: "Turn the job wheel to your favourite",
       cue: "Turn the job wheel until it points at the job you would most like to try.",
-      why: "Choosing a favourite job helps you notice what you enjoy, like working outdoors, running machines or caring for plants. There is no wrong choice. Careers advisers say knowing what you like is the best starting point for finding a trade that fits."
+      why: "Choosing a favourite job helps you notice what you enjoy, like working outdoors, running machines or caring for plants. There is no wrong choice. Careers advisers say knowing what you like is the best starting point for finding a trade that fits. Many people try more than one kind of work before they find the trade that suits them best."
     },
     {
       id: "rate-how-much-each-job-uses",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       },
       title: "Follow one project from plan to crew",
       cue: "Keep the marker on the rain garden project as it moves from plan to build.",
-      why: "A project moves through many hands. Planners draw it, a locate crew marks pipes, operators dig, and landscape crews plant. Following one project shows how every step needs trained people, and how each crew hands on to the next.",
+      why: "A project moves through many hands. Planners draw it, a locate crew marks pipes, operators dig, and landscape crews plant. Following one project shows how every step needs trained people, and how each crew hands on to the next. A project goes well when each crew finishes its part safely and passes on clear notes to the next.",
       holdBreakNote: "The marker lost the project. Find it again and follow it to the planting."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       doneLine: "Trades recorded",
       title: "Record the trades you met",
       cue: "Write one line for each trade you met and what it does on a Bay project.",
-      why: "A list of trades and their jobs is a map of possible careers. Reading it later helps you remember which work sounded interesting. Careers advisers ask students to keep lists like this when they explore pathways."
+      why: "A list of trades and their jobs is a map of possible careers. Reading it later helps you remember which work sounded interesting. Careers advisers ask students to keep lists like this when they explore pathways. Looking back at a list later often reminds people of a job they had forgotten they liked."
     },
     {
       id: "share-one-job-you-would-try",
@@ -241,7 +241,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       doneLine: "Job shared",
       title: "Share one job you would try",
       cue: "Tell another group one Bay job you would like to try and why.",
-      why: "Saying a goal out loud makes it real. Hearing others' choices shows how many kinds of work there are. The Port of Oakland says its clean port work will create hundreds of green jobs, with priority for people who live nearby."
+      why: "Saying a goal out loud makes it real. Hearing others' choices shows how many kinds of work there are. The Port of Oakland says its clean port work will create hundreds of green jobs, with priority for people who live nearby. Hearing why a classmate likes a job can open up an idea you had not thought of yourself."
     },
     {
       id: "crew-check-in",
@@ -250,7 +250,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       doneLine: "Checked in",
       title: "Check in before leaving the hall",
       cue: "Name two crews who work on Bay projects. How do people train for them?",
-      why: "The mentor checks what the class learned before they leave. Each learner names two crews and one way people train. If anyone thinks only scientists do the work, the group sorts it out now."
+      why: "The mentor checks what the class learned before they leave. Each learner names two crews and one way people train. If anyone thinks only scientists do the work, the group sorts it out now. Knowing two crews and one training path gives every learner a real starting point for their own plans."
     }
   ],
 

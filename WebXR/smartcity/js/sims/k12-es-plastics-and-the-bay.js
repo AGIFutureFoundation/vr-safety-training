@@ -128,7 +128,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       },
       title: "Set the salt level in the tray",
       cue: "Turn the salt dial to the teacher's setting to make Bay-like water.",
-      why: "Salty water holds things up a little more than fresh water. Setting the salt level like Bay water makes the float test closer to what happens in the real Bay. Keeping the same salt level for every piece keeps the test fair."
+      why: "Salty water holds things up a little more than fresh water. Setting the salt level like Bay water makes the float test closer to what happens in the real Bay. Keeping the same salt level for every piece keeps the test fair. Scientists try to make a model as close to the real place as they can, so the results mean more."
     },
     {
       id: "read-how-many-pieces-floated",
@@ -168,7 +168,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       },
       title: "Put the sharp piece in the sharps tub",
       cue: "Use the tongs to drag the broken glass into the sharps tub.",
-      why: "Sharp things never go in the soft bag, where they could cut someone later. The sharps tub has hard sides and a lid. Putting sharp pieces there straight away keeps the whole crew safe while they carry the bags."
+      why: "Sharp things never go in the soft bag, where they could cut someone later. The sharps tub has hard sides and a lid. Putting sharp pieces there straight away keeps the whole crew safe while they carry the bags. Hard sides and a lid mean nobody gets a surprise cut when the bags are lifted into the truck."
     },
     {
       id: "spot-where-plastic-comes-from",
@@ -202,7 +202,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       target: "esp-result-card",
       title: "Say what happens to plastic in the water",
       cue: "Choose the sentence that says what your test and sweep showed.",
-      why: "Your tray showed many plastics float, and the beach showed pieces of every size, from whole caps to tiny bits. A good answer says plastic breaks into smaller pieces but stays in the water. It does not claim more than you saw."
+      why: "Your tray showed many plastics float, and the beach showed pieces of every size, from whole caps to tiny bits. A good answer says plastic breaks into smaller pieces but stays in the water. It does not claim more than you saw. Keeping to what you saw, and not guessing, is what makes a conclusion strong."
     },
     {
       id: "follow-a-floating-bag-on-the",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       },
       title: "Follow a floating bag on the waves",
       cue: "Keep the marker on the floating bag as the waves carry it to the shore.",
-      why: "Following one bag shows how plastic travels. It rides on the surface, drifts with the wind and waves, and lands on the beach at the tide line. Seeing that path helps you understand why beaches collect so much floating plastic.",
+      why: "Following one bag shows how plastic travels. It rides on the surface, drifts with the wind and waves, and lands on the beach at the tide line. Seeing that path helps you understand why beaches collect so much floating plastic. The tide line on a beach is often where the most floating plastic gathers, which is why sweeps start there.",
       holdBreakNote: "The marker lost the bag. Find it again and follow it to the shore."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       doneLine: "Sweep recorded",
       title: "Record what you collected",
       cue: "Tally the caps, strips and bits your pair collected on the sweep sheet.",
-      why: "A tally of what was collected shows which kinds of plastic are most common. Beach crews keep these records from every sweep, so they can tell people which items to stop using. Your tally joins theirs."
+      why: "A tally of what was collected shows which kinds of plastic are most common. Beach crews keep these records from every sweep, so they can tell people which items to stop using. Your tally joins theirs. Totals from many sweeps show whether fewer caps and bags are reaching the shore over the months."
     },
     {
       id: "share-one-way-to-use-less",
@@ -241,7 +241,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       doneLine: "Swap shared",
       title: "Share one way to use less plastic",
       cue: "Tell another group one swap that means less plastic reaches the Bay.",
-      why: "Stopping plastic at the start works best. Sharing swaps like a refillable bottle or a cloth bag spreads good ideas. Beach crews say the best sweep is the one that finds less than last time."
+      why: "Stopping plastic at the start works best. Sharing swaps like a refillable bottle or a cloth bag spreads good ideas. Beach crews say the best sweep is the one that finds less than last time. A swap that a whole class makes adds up to a lot of plastic that never reaches the beach at all."
     },
     {
       id: "crew-check-in",
@@ -250,7 +250,7 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
       doneLine: "Checked in",
       title: "Check in before leaving the beach",
       cue: "What happens to plastic in the water? What is one way to keep it out?",
-      why: "The crew counts the bags and checks everyone is back before leaving. Each learner says what happens to plastic and one way to keep it out. If anyone thinks plastic melts away, the group sorts it out now."
+      why: "The crew counts the bags and checks everyone is back before leaving. Each learner says what happens to plastic and one way to keep it out. If anyone thinks plastic melts away, the group sorts it out now. The crew also checks that every tong and glove comes back, so the kit is ready for the next sweep."
     }
   ],
 

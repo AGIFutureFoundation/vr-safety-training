@@ -114,7 +114,7 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
       },
       title: "Put the tide tray test in order",
       cue: "Stir in the mud, run slow water, look, then run fast water with the same mud.",
-      why: "A fair test changes only one thing. You mix the same mud into the water each time and change only the speed. Running slow water first and fast water second, and looking closely after each, shows how speed decides where the mud settles.",
+      why: "A fair test changes only one thing. You mix the same mud into the water each time and change only the speed. Running slow water first and fast water second, and looking closely after each, shows how speed decides where the mud settles. Looking closely after each run, before changing anything, is what keeps the two results apart.",
       outOfOrderNote: "Out of order. Stir in the mud first, then run the slow water."
     },
     {
@@ -124,7 +124,7 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
       seconds: 6,
       title: "Hold the plant strip in the tray",
       cue: "Hold the model plant strip in place until the water settles.",
-      why: "The plant strip stands for the marsh grass. If it lifts, the water runs under it and the test changes. Holding it steady lets you see how stems slow the water and make mud settle right among them, just as it does in a real marsh.",
+      why: "The plant strip stands for the marsh grass. If it lifts, the water runs under it and the test changes. Holding it steady lets you see how stems slow the water and make mud settle right among them, just as it does in a real marsh. Keeping the strip in place means the slow and fast runs both meet the same model plants.",
       holdBreakNote: "The strip lifted before the water settled. Hold it in place again."
     },
     {
@@ -133,7 +133,7 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
       target: "esm-result-card",
       title: "Say where the mud settled",
       cue: "Choose the sentence that says what your two runs showed.",
-      why: "Your two runs used the same mud but different speeds. More mud settled when the water was slow. A good answer says that slow water drops more mud, which is why calm marshes build up. It uses your layer readings as the evidence."
+      why: "Your two runs used the same mud but different speeds. More mud settled when the water was slow. A good answer says that slow water drops more mud, which is why calm marshes build up. It uses your layer readings as the evidence. A careful conclusion sticks to the evidence in the table and leaves out guesses."
     },
     {
       id: "spot-how-the-crew-helps-mud",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
       },
       title: "Follow a cloud of mud across the tray",
       cue: "Keep the marker on the cloud of mud as it drifts and settles.",
-      why: "Following one cloud of mud shows the process as it happens. It drifts with the water, spreads out among the plants and slowly sinks to the bottom. Seeing it settle helps you explain why marshes need muddy water, not only clear water.",
+      why: "Following one cloud of mud shows the process as it happens. It drifts with the water, spreads out among the plants and slowly sinks to the bottom. Seeing it settle helps you explain why marshes need muddy water, not only clear water. In the real slough, each tide brings a new cloud of fine mud into the marsh.",
       holdBreakNote: "The marker lost the mud cloud. Find it again and follow it until it settles."
     },
     {
@@ -250,7 +250,7 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
       doneLine: "Checked in",
       title: "Check in before the tide turns",
       cue: "Where does moving water drop its mud? Why does a marsh need it?",
-      why: "The crew finishes before the tide turns, and the class checks its ideas in time too. Each learner says where mud settles and why the marsh needs it. If anyone thinks the mud is only dirt, the group sorts it out now."
+      why: "The crew finishes before the tide turns, and the class checks its ideas in time too. Each learner says where mud settles and why the marsh needs it. If anyone thinks the mud is only dirt, the group sorts it out now. Understanding moving mud helps everyone see a marsh as a living place that grows with each tide."
     }
   ],
 

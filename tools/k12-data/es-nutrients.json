@@ -3,30 +3,86 @@
   "index": "879",
   "prefix": "esu",
   "accent": "#5aa07a",
-  "floor": ["#5e6660", "#525a54"],
-  "wall": ["#dee8e2", "#cadcd2"],
+  "floor": [
+    "#5e6660",
+    "#525a54"
+  ],
+  "wall": [
+    "#dee8e2",
+    "#cadcd2"
+  ],
   "trade": "Science class with the marsh crew at a lagoon — learner and water quality crew lead",
   "header": "Lower-secondary science at the Crissy Field Marsh Crew site in San Francisco: how nutrients help plants grow, how too many can feed a bloom of algae that clouds the water, tested with jars of pond water and seen in the crew's water checks, using only what the jars and the lagoon in the scene show.",
   "name": "Too Much of a Good Thing",
   "tagline": "Nutrients feed plants, but too many feed a bloom of algae — test it in jars, then check the water with the crew",
-  "badge": { "id": "balance-keeper", "name": "Balance Keeper", "note": "Ran a fair jar test on nutrients and algae, explained why too much of a good thing clouds the water and helped the crew take a water reading" },
-  "board": { "name": "Balance Board", "currency": "LEAVES", "ranks": ["Drop", "Ripple", "Pool", "Lagoon", "Water Keeper"] },
+  "badge": {
+    "id": "balance-keeper",
+    "name": "Balance Keeper",
+    "note": "Ran a fair jar test on nutrients and algae, explained why too much of a good thing clouds the water and helped the crew take a water reading"
+  },
+  "board": {
+    "name": "Balance Board",
+    "currency": "LEAVES",
+    "ranks": [
+      "Drop",
+      "Ripple",
+      "Pool",
+      "Lagoon",
+      "Water Keeper"
+    ]
+  },
   "hazards": [
-    { "id": "more-food-is-always-better", "label": "Say more nutrients are always better?", "face": "ALWAYS\nMORE?", "text": "You said more nutrients are always better. Some nutrients help plants grow, but too many feed so much algae that the water turns cloudy and green. Balance is the goal, not the most." },
-    { "id": "taste-the-water", "label": "Taste the lagoon water to test it?", "face": "TASTE\nIT", "text": "You went to taste the water. Water tests use kits and meters, never tasting. Wear gloves when you handle sample jars and wash hands afterwards." },
-    { "id": "change-two-things", "label": "Add plant food and move a jar to the window in one go?", "face": "TWO\nCHANGES", "text": "You added plant food and moved the jar into the sun at the same time. With two changes you cannot tell which one made the algae grow. Keep the light the same and change only the plant food." },
-    { "id": "lean-over-the-edge", "label": "Lean over the lagoon edge to fill the jar?", "face": "LEAN\nOVER", "text": "You leaned over the lagoon edge. Edges can be slippery. The crew fills sample jars with a long-handled sampler from the dock, and visitors stay back from the edge." }
+    {
+      "id": "more-food-is-always-better",
+      "label": "Say more nutrients are always better?",
+      "face": "ALWAYS\nMORE?",
+      "text": "You said more nutrients are always better. Some nutrients help plants grow, but too many feed so much algae that the water turns cloudy and green. Balance is the goal, not the most."
+    },
+    {
+      "id": "taste-the-water",
+      "label": "Taste the lagoon water to test it?",
+      "face": "TASTE\nIT",
+      "text": "You went to taste the water. Water tests use kits and meters, never tasting. Wear gloves when you handle sample jars and wash hands afterwards."
+    },
+    {
+      "id": "change-two-things",
+      "label": "Add plant food and move a jar to the window in one go?",
+      "face": "TWO\nCHANGES",
+      "text": "You added plant food and moved the jar into the sun at the same time. With two changes you cannot tell which one made the algae grow. Keep the light the same and change only the plant food."
+    },
+    {
+      "id": "lean-over-the-edge",
+      "label": "Lean over the lagoon edge to fill the jar?",
+      "face": "LEAN\nOVER",
+      "text": "You leaned over the lagoon edge. Edges can be slippery. The crew fills sample jars with a long-handled sampler from the dock, and visitors stay back from the edge."
+    }
   ],
   "find1": {
     "title": "Find where the nutrients come from",
     "cue": "Mark the three places nutrients can wash into the lagoon.",
     "why": "Nutrients are the food that plants need to grow. Rain can wash them into the water from fertiliser on lawns, from pet waste on paths and from rotting leaves. A little helps water plants, but when a lot arrives at once the algae in the water grow very fast and cloud it.",
     "items": [
-      ["lawn", "a fertilised lawn by the path", "Rain washes plant food off it."],
-      ["pet", "pet waste left on the path", "It adds nutrients when it rains."],
-      ["leaves", "piles of rotting leaves", "They release nutrients as they rot."]
+      [
+        "lawn",
+        "a fertilised lawn by the path",
+        "Rain washes plant food off it."
+      ],
+      [
+        "pet",
+        "pet waste left on the path",
+        "It adds nutrients when it rains."
+      ],
+      [
+        "leaves",
+        "piles of rotting leaves",
+        "They release nutrients as they rot."
+      ]
     ],
-    "decoy": ["rock", "a big rock by the water", "Nice to sit on, but it adds no nutrients."]
+    "decoy": [
+      "rock",
+      "a big rock by the water",
+      "Nice to sit on, but it adds no nutrients."
+    ]
   },
   "select1": {
     "title": "Put on gloves before handling samples",
@@ -42,16 +98,28 @@
     "why": "A fair test changes only one thing. Both jars get the same pond water and sit in the same light, but only one gets plant food. After a few days, any difference in the green colour belongs to the plant food, because nothing else was different.",
     "oon": "Out of order. Fill both jars with the same pond water first.",
     "items": [
-      ["ord-fill", "fill both jars with the same pond water"],
-      ["ord-food", "add plant food to one jar only"],
-      ["ord-light", "set both jars in the same light"],
-      ["ord-compare", "wait and compare the colour"]
+      [
+        "ord-fill",
+        "fill both jars with the same pond water"
+      ],
+      [
+        "ord-food",
+        "add plant food to one jar only"
+      ],
+      [
+        "ord-light",
+        "set both jars in the same light"
+      ],
+      [
+        "ord-compare",
+        "wait and compare the colour"
+      ]
     ]
   },
   "turn": {
     "title": "Set the lamp to the same brightness",
     "cue": "Turn the lamp dial until both jars get the teacher's brightness.",
-    "why": "Algae need light to grow, so both jars must get the same light. If one jar gets more, it might go greener for that reason alone. Setting the lamp once for both jars keeps light out of the question, so only the plant food changes.",
+    "why": "Algae need light to grow, so both jars must get the same light. If one jar gets more, it might go greener for that reason alone. Setting the lamp once for both jars keeps light out of the question, so only the plant food changes. In a fair test, anything you are not testing on purpose must stay exactly the same for both jars.",
     "key": "lamp-dial",
     "label": "Lamp brightness",
     "dial": "LIGHT"
@@ -59,7 +127,7 @@
   "gauge": {
     "title": "Read the colour of each jar",
     "cue": "Commit when the marker matches the jar's colour on the green scale.",
-    "why": "Matching each jar to a colour scale turns what you see into a reading you can compare. The greener the jar, the more algae have grown. Crews use meters that measure cloudiness to do the same job at the lagoon.",
+    "why": "Matching each jar to a colour scale turns what you see into a reading you can compare. The greener the jar, the more algae have grown. Crews use meters that measure cloudiness to do the same job at the lagoon. Scientists always compare against a scale so that two people looking at the same jar record the same result.",
     "key": "green-meter",
     "label": "Jar colour",
     "meter": "GREEN",
@@ -76,7 +144,7 @@
   "drag": {
     "title": "Place the sample jar in the cool box",
     "cue": "Drag the labelled sample jar into the cool box.",
-    "why": "A water sample can change if it gets warm, because algae keep growing. Putting it straight into the cool box keeps it the same until it is tested. The label tells the lab where and when it was taken.",
+    "why": "A water sample can change if it gets warm, because algae keep growing. Putting it straight into the cool box keeps it the same until it is tested. The label tells the lab where and when it was taken. Samples that sit in the sun for too long give a reading that no longer matches the lagoon they came from.",
     "key": "sample-jar",
     "label": "Sample jar",
     "spot": "cool-box",
@@ -88,16 +156,32 @@
     "cue": "Look around the lagoon and mark each thing that keeps extra nutrients out.",
     "why": "Keeping nutrients in balance starts on land. A strip of plants along the edge catches runoff, a pet waste bin keeps waste off the path, and a sign asks people not to feed the birds. Each one keeps a little extra food out of the water.",
     "items": [
-      ["buffer", "a strip of plants at the edge", "It catches runoff before the water."],
-      ["bin", "a pet waste bin", "It keeps waste off the path."],
-      ["sign", "a sign asking people not to feed birds", "Leftover bread adds nutrients."]
+      [
+        "buffer",
+        "a strip of plants at the edge",
+        "It catches runoff before the water."
+      ],
+      [
+        "bin",
+        "a pet waste bin",
+        "It keeps waste off the path."
+      ],
+      [
+        "sign",
+        "a sign asking people not to feed birds",
+        "Leftover bread adds nutrients."
+      ]
     ],
-    "decoy": ["bench", "a bench facing the water", "Nice for resting, but it does not keep nutrients out."]
+    "decoy": [
+      "bench",
+      "a bench facing the water",
+      "Nice for resting, but it does not keep nutrients out."
+    ]
   },
   "select2": {
     "title": "Say what the jars showed",
     "cue": "Choose the sentence that says what your two jars showed.",
-    "why": "Both jars had the same water and light. The jar with plant food turned greener. A good answer says that extra nutrients fed more algae, and it uses your colour readings as the evidence without claiming anything else.",
+    "why": "Both jars had the same water and light. The jar with plant food turned greener. A good answer says that extra nutrients fed more algae, and it uses your colour readings as the evidence without claiming anything else. Saying only what your evidence shows is what makes a conclusion something other people can trust.",
     "key": "result-card",
     "label": "State the result",
     "face": "WHICH\nGREENER?"
@@ -105,7 +189,7 @@
   "track": {
     "title": "Follow runoff from the lawn to the lagoon",
     "cue": "Keep the marker on the runoff as it flows from the lawn into the water.",
-    "why": "Following runoff shows how nutrients travel. Rain picks up plant food from the lawn, runs across the path and reaches the lagoon. Seeing the path helps explain why what people do on land changes the water.",
+    "why": "Following runoff shows how nutrients travel. Rain picks up plant food from the lawn, runs across the path and reaches the lagoon. Seeing the path helps explain why what people do on land changes the water. Every garden and path that drains towards the water is part of the lagoon's story, even far from the edge.",
     "brk": "The marker lost the runoff. Find it on the lawn and follow it again.",
     "key": "runoff-track",
     "label": "Runoff followed",
@@ -114,7 +198,7 @@
   "record": {
     "title": "Record both jars side by side",
     "cue": "Write the colour reading for the plain jar and the plant food jar.",
-    "why": "Two columns make the difference clear and easy to check. Anyone reading your table can see what changed and what stayed the same. Water crews keep records like this to see whether the water is getting clearer over time.",
+    "why": "Two columns make the difference clear and easy to check. Anyone reading your table can see what changed and what stayed the same. Water crews keep records like this to see whether the water is getting clearer over time. A table also makes it easy to spot if you forgot a reading, because an empty box stands out straight away.",
     "key": "jar-log",
     "label": "Jar record",
     "done": "Both jars recorded"
@@ -122,7 +206,7 @@
   "share": {
     "title": "Share one way to keep the balance",
     "cue": "Tell another group one thing people can do to keep extra nutrients out.",
-    "why": "Everyone who lives near water can help keep the balance. Sharing ideas like picking up pet waste or using less lawn fertiliser spreads good habits. Crews say small changes by many people add up to clearer water.",
+    "why": "Everyone who lives near water can help keep the balance. Sharing ideas like picking up pet waste or using less lawn fertiliser spreads good habits. Crews say small changes by many people add up to clearer water. Many small habits around one lagoon can make as much difference as one big project.",
     "key": "share-board",
     "label": "Share an idea",
     "done": "Idea shared"
@@ -130,15 +214,46 @@
   "checkin": {
     "title": "Check in before leaving the dock",
     "cue": "Why can too many nutrients be a problem? What is one way to keep the balance?",
-    "why": "The crew goes over the day's samples before leaving the dock. Each learner explains what too many nutrients do and one way to help. If anyone thinks more is always better, the group sorts it out now.",
+    "why": "The crew goes over the day's samples before leaving the dock. Each learner explains what too many nutrients do and one way to help. If anyone thinks more is always better, the group sorts it out now. Talking it through together helps everyone leave with the same clear idea of balance.",
     "label": "End-of-lesson check-in"
   },
   "interrupts": [
-    { "id": "a-wet-plank-on-the-dock", "kind": "Wet dock", "key": "step-round", "label": "Step round the wet plank", "alert": "A splash leaves a slippery wet plank on the dock.", "cue": "Step round the wet plank and tell the crew lead.", "why": "Wet planks are slippery. Stepping round and telling the crew lead lets them put down a mat or a sign. Crews deal with small slips before they become big ones.", "miss": "The class walked straight over the wet plank, and the crew lead had to stop everyone to put a mat down.", "wrong": "That walks you onto the slippery plank. Step round it. Choose the response that deals with it now.", "done": "Plank marked, the class stepped round. The lesson carries on." },
-    { "id": "the-crew-lead-asks-about-the-control-jar", "kind": "Crew question", "key": "name-control", "label": "Say which jar was the control", "alert": "The crew lead asks which jar you are comparing the plant food jar against.", "cue": "Say the plain jar is the control, with the same water and light and no plant food.", "why": "Naming the control shows the test is fair. Without it, a green jar means nothing. Crews compare water from different places in the same careful way.", "miss": "You could not name the control, and the crew lead had to explain before the class could go on.", "wrong": "That does not name the control jar. Choose the response that deals with it now.", "done": "Control named. The lesson carries on." }
+    {
+      "id": "a-wet-plank-on-the-dock",
+      "kind": "Wet dock",
+      "key": "step-round",
+      "label": "Step round the wet plank",
+      "alert": "A splash leaves a slippery wet plank on the dock.",
+      "cue": "Step round the wet plank and tell the crew lead.",
+      "why": "Wet planks are slippery. Stepping round and telling the crew lead lets them put down a mat or a sign. Crews deal with small slips before they become big ones.",
+      "miss": "The class walked straight over the wet plank, and the crew lead had to stop everyone to put a mat down.",
+      "wrong": "That walks you onto the slippery plank. Step round it. Choose the response that deals with it now.",
+      "done": "Plank marked, the class stepped round. The lesson carries on."
+    },
+    {
+      "id": "the-crew-lead-asks-about-the-control-jar",
+      "kind": "Crew question",
+      "key": "name-control",
+      "label": "Say which jar was the control",
+      "alert": "The crew lead asks which jar you are comparing the plant food jar against.",
+      "cue": "Say the plain jar is the control, with the same water and light and no plant food.",
+      "why": "Naming the control shows the test is fair. Without it, a green jar means nothing. Crews compare water from different places in the same careful way.",
+      "miss": "You could not name the control, and the crew lead had to explain before the class could go on.",
+      "wrong": "That does not name the control jar. Choose the response that deals with it now.",
+      "done": "Control named. The lesson carries on."
+    }
   ],
-  "crew": ["Science teacher", "Classmate", "Water quality crew lead", "Crew member with sampler"],
-  "guide": { "start": "Same water, same light.", "after": "Too much food, too much algae.", "hazard": "Stop. Gloves on, stay back from the edge." },
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Water quality crew lead",
+    "Crew member with sampler"
+  ],
+  "guide": {
+    "start": "Same water, same light.",
+    "after": "Too much food, too much algae.",
+    "hazard": "Stop. Gloves on, stay back from the edge."
+  },
   "lateRecord": "The jar record is written once the jars have had time — nothing to record yet.",
   "lateCheckin": "The check-in comes at the very end of the lesson.",
   "scene": "lab",

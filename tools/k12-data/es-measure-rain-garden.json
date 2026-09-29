@@ -3,30 +3,86 @@
   "index": "882",
   "prefix": "esg",
   "accent": "#8aa04a",
-  "floor": ["#68644e", "#5c5844"],
-  "wall": ["#e6e8d4", "#d6dabe"],
+  "floor": [
+    "#68644e",
+    "#5c5844"
+  ],
+  "wall": [
+    "#e6e8d4",
+    "#d6dabe"
+  ],
   "trade": "Maths class with the school garden crew sizing a rain garden — learner and garden crew lead",
   "header": "Upper-primary maths at the Sunset District School Campus in San Francisco: how to measure a rain garden bed with a tape and a grid, find its length, width and area, and scale it on paper, using only what the tape, the grid and the garden in the scene show.",
   "name": "Measure a Rain Garden",
   "tagline": "Length times width gives the area — measure the bed with the crew, then draw it to scale",
-  "badge": { "id": "garden-measurer", "name": "Garden Measurer", "note": "Measured a rain garden bed with a tape, worked out its area on a grid and drew it to scale for the crew" },
-  "board": { "name": "Measure Board", "currency": "SQUARES", "ranks": ["Mark", "Line", "Edge", "Area", "Garden Planner"] },
+  "badge": {
+    "id": "garden-measurer",
+    "name": "Garden Measurer",
+    "note": "Measured a rain garden bed with a tape, worked out its area on a grid and drew it to scale for the crew"
+  },
+  "board": {
+    "name": "Measure Board",
+    "currency": "SQUARES",
+    "ranks": [
+      "Mark",
+      "Line",
+      "Edge",
+      "Area",
+      "Garden Planner"
+    ]
+  },
   "hazards": [
-    { "id": "add-instead-of-multiply", "label": "Add the length and width to get the area?", "face": "ADD\nTHEM?", "text": "You added the length and the width. Adding them gives half the distance round the edge, not the area. Area counts the squares inside, so multiply the length by the width." },
-    { "id": "tape-not-at-zero", "label": "Start measuring from the end of the tape case?", "face": "FROM\nTHE CASE", "text": "You started from the tape case instead of the zero mark. The zero is at the hook end. Hold the hook on the edge of the bed and read where the other edge meets the tape." },
-    { "id": "stretch-across-the-path", "label": "Stretch the tape across the busy path?", "face": "ACROSS\nPATH", "text": "You stretched the tape across the path where people walk. A tape at ankle height is a tripping line. Ask the crew lead to hold people back, and measure quickly, then reel it in." },
-    { "id": "step-into-the-bed", "label": "Step into the bed to hold the tape?", "face": "STEP\nIN", "text": "You stepped into the garden bed. Feet pack the soil hard so it cannot soak up rain. Hold the tape from the path edge, and let the stakes mark the corners." }
+    {
+      "id": "add-instead-of-multiply",
+      "label": "Add the length and width to get the area?",
+      "face": "ADD\nTHEM?",
+      "text": "You added the length and the width. Adding them gives half the distance round the edge, not the area. Area counts the squares inside, so multiply the length by the width."
+    },
+    {
+      "id": "tape-not-at-zero",
+      "label": "Start measuring from the end of the tape case?",
+      "face": "FROM\nTHE CASE",
+      "text": "You started from the tape case instead of the zero mark. The zero is at the hook end. Hold the hook on the edge of the bed and read where the other edge meets the tape."
+    },
+    {
+      "id": "stretch-across-the-path",
+      "label": "Stretch the tape across the busy path?",
+      "face": "ACROSS\nPATH",
+      "text": "You stretched the tape across the path where people walk. A tape at ankle height is a tripping line. Ask the crew lead to hold people back, and measure quickly, then reel it in."
+    },
+    {
+      "id": "step-into-the-bed",
+      "label": "Step into the bed to hold the tape?",
+      "face": "STEP\nIN",
+      "text": "You stepped into the garden bed. Feet pack the soil hard so it cannot soak up rain. Hold the tape from the path edge, and let the stakes mark the corners."
+    }
   ],
   "find1": {
     "title": "Find what you need to measure",
     "cue": "Mark the three things that tell you the size of the bed.",
     "why": "To size a rectangle-shaped bed you need its length, its width and a way to see its corners. The corner stakes show where the bed begins and ends, the long side is the length, and the short side is the width. Once you have those, you can find the area and draw it on paper.",
     "items": [
-      ["stakes", "the four corner stakes", "They mark where the bed ends."],
-      ["long", "the long side of the bed", "This is the length."],
-      ["short", "the short side of the bed", "This is the width."]
+      [
+        "stakes",
+        "the four corner stakes",
+        "They mark where the bed ends."
+      ],
+      [
+        "long",
+        "the long side of the bed",
+        "This is the length."
+      ],
+      [
+        "short",
+        "the short side of the bed",
+        "This is the width."
+      ]
     ],
-    "decoy": ["hose", "the coiled garden hose", "Useful for watering, but not for measuring."]
+    "decoy": [
+      "hose",
+      "the coiled garden hose",
+      "Useful for watering, but not for measuring."
+    ]
   },
   "select1": {
     "title": "Check the tape starts at zero",
@@ -39,13 +95,25 @@
   "seq": {
     "title": "Put the measuring steps in order",
     "cue": "Put the steps for finding the bed's area in order.",
-    "why": "Finding an area has a clear order. You measure the length, measure the width, multiply them, and write the answer with its unit. Following the order means nothing gets missed and anyone can check your working.",
+    "why": "Finding an area has a clear order. You measure the length, measure the width, multiply them, and write the answer with its unit. Following the order means nothing gets missed and anyone can check your working. Writing each step down as you go also leaves a trail that a partner can follow to check your answer.",
     "oon": "Out of order. Measure the length first.",
     "items": [
-      ["ord-length", "measure the length"],
-      ["ord-width", "measure the width"],
-      ["ord-multiply", "multiply length by width"],
-      ["ord-unit", "write the answer with square units"]
+      [
+        "ord-length",
+        "measure the length"
+      ],
+      [
+        "ord-width",
+        "measure the width"
+      ],
+      [
+        "ord-multiply",
+        "multiply length by width"
+      ],
+      [
+        "ord-unit",
+        "write the answer with square units"
+      ]
     ]
   },
   "turn": {
@@ -59,7 +127,7 @@
   "gauge": {
     "title": "Read the length on the tape",
     "cue": "Commit when the marker sits where the far stake meets the tape.",
-    "why": "Reading the tape exactly where the far stake stands gives the true length. Read straight down, not from the side, so the line you see is the right one. A careful reading here makes the area correct later.",
+    "why": "Reading the tape exactly where the far stake stands gives the true length. Read straight down, not from the side, so the line you see is the right one. A careful reading here makes the area correct later. If two readers disagree, they read again together until they agree, because one wrong length makes the whole area wrong.",
     "key": "tape-meter",
     "label": "Tape reading",
     "meter": "TAPE",
@@ -68,7 +136,7 @@
   "hold": {
     "title": "Hold the tape hook on the corner stake",
     "cue": "Hold the hook against the corner stake while your partner reads the tape.",
-    "why": "If the hook slips, the reading is too short. Holding it firmly against the stake keeps zero exactly on the corner. Measuring is a two-person job, one holding and one reading, just as the crew does it.",
+    "why": "If the hook slips, the reading is too short. Holding it firmly against the stake keeps zero exactly on the corner. Measuring is a two-person job, one holding and one reading, just as the crew does it. The partner reading the tape calls the number out loud, and the holder repeats it, so nothing is misheard.",
     "brk": "The hook slipped off the stake. Hold it on the corner again.",
     "key": "hook-hold",
     "label": "Hold the hook"
@@ -76,7 +144,7 @@
   "drag": {
     "title": "Place the bed on the drawing grid",
     "cue": "Drag the bed outline onto the grid so its corners sit on grid points.",
-    "why": "Putting the corners on grid points makes the scale drawing accurate. Then you can count the squares inside to check your multiplying. When the count and the sum match, you know your area is right.",
+    "why": "Putting the corners on grid points makes the scale drawing accurate. Then you can count the squares inside to check your multiplying. When the count and the sum match, you know your area is right. A drawing that matches the real bed lets the crew count how many plants fit before they buy a single one.",
     "key": "outline",
     "label": "Bed outline",
     "spot": "grid-spot",
@@ -88,16 +156,32 @@
     "cue": "Look at the real garden and mark each part the plan should show.",
     "why": "A good plan shows more than the edges. The kerb gap where water enters, the low middle where water collects and the path around the bed all matter to the crew. Adding them helps the crew plant the right things in the right places.",
     "items": [
-      ["gap", "the kerb gap where water enters", "Show where the water comes in."],
-      ["low", "the low middle of the bed", "Thirsty plants go here."],
-      ["path", "the path around the bed", "Feet stay on this side."]
+      [
+        "gap",
+        "the kerb gap where water enters",
+        "Show where the water comes in."
+      ],
+      [
+        "low",
+        "the low middle of the bed",
+        "Thirsty plants go here."
+      ],
+      [
+        "path",
+        "the path around the bed",
+        "Feet stay on this side."
+      ]
     ],
-    "decoy": ["cloud", "a cloud in the sky", "Rain may come from it, but it does not go on the plan."]
+    "decoy": [
+      "cloud",
+      "a cloud in the sky",
+      "Rain may come from it, but it does not go on the plan."
+    ]
   },
   "select2": {
     "title": "Choose the right area sum",
     "cue": "Choose the sum that gives the area of the bed.",
-    "why": "The area of a rectangle is its length multiplied by its width. A sum that adds them gives part of the distance round the edge instead. Choosing the multiply sum shows you know the difference between area and perimeter.",
+    "why": "The area of a rectangle is its length multiplied by its width. A sum that adds them gives part of the distance round the edge instead. Choosing the multiply sum shows you know the difference between area and perimeter. Picturing the squares inside the bed is a good way to remember that area means counting space, not edges.",
     "key": "sum-card",
     "label": "Area sum",
     "face": "WHICH\nSUM?"
@@ -105,7 +189,7 @@
   "track": {
     "title": "Trace the edge of the bed on the grid",
     "cue": "Keep the marker on the edge as you trace all the way round the bed.",
-    "why": "Tracing the edge shows the perimeter, the distance all the way round. It is different from the area, which is the space inside. Tracing both on the same drawing helps you see why they are measured differently.",
+    "why": "Tracing the edge shows the perimeter, the distance all the way round. It is different from the area, which is the space inside. Tracing both on the same drawing helps you see why they are measured differently. Crews use the perimeter to work out how much edging they need, and the area to work out how much soil.",
     "brk": "The marker left the edge. Find the edge again and keep tracing.",
     "key": "edge-track",
     "label": "Edge traced",
@@ -114,7 +198,7 @@
   "record": {
     "title": "Record the measurements and the area",
     "cue": "Write the length, the width and the area with their units on the plan.",
-    "why": "Writing every measurement with its unit lets anyone check your work. The crew uses these numbers to order soil and plants. A missing unit can cause a big mix-up, so units always go with the numbers.",
+    "why": "Writing every measurement with its unit lets anyone check your work. The crew uses these numbers to order soil and plants. A missing unit can cause a big mix-up, so units always go with the numbers. Numbers without units are like a recipe that says three without saying cups or spoons.",
     "key": "measure-log",
     "label": "Measurement record",
     "done": "Measurements recorded"
@@ -122,7 +206,7 @@
   "share": {
     "title": "Check your area with another pair",
     "cue": "Compare your area with another pair who measured the same bed.",
-    "why": "Two pairs measuring the same bed should get about the same answer. If not, someone may have missed zero or added instead of multiplied. Checking with others is how crews catch mistakes before they order materials.",
+    "why": "Two pairs measuring the same bed should get about the same answer. If not, someone may have missed zero or added instead of multiplied. Checking with others is how crews catch mistakes before they order materials. Checking against another pair is quick, and it is much easier than fixing a wrong order of soil later.",
     "key": "share-board",
     "label": "Compare areas",
     "done": "Areas compared"
@@ -134,11 +218,42 @@
     "label": "End-of-lesson check-in"
   },
   "interrupts": [
-    { "id": "someone-walks-towards-the-tape", "kind": "Walker", "key": "lower-tape", "label": "Lower the tape and wait", "alert": "A classmate walks along the path towards the stretched tape.", "cue": "Lower the tape to the ground and wait for them to pass.", "why": "A stretched tape is easy to trip over. Lowering it to the ground and waiting lets people pass safely. Crews do the same with any line or hose across a path.", "miss": "The tape stayed stretched, and the classmate had to stop short before stepping over it.", "wrong": "That leaves the tape stretched across the path. Lower it. Choose the response that deals with it now.", "done": "Tape lowered, the path clear. The lesson carries on." },
-    { "id": "the-crew-lead-asks-about-area", "kind": "Crew question", "key": "name-area", "label": "Say how to find the area", "alert": "The crew lead asks how you will work out the area.", "cue": "Say you multiply the length by the width and write square units.", "why": "Knowing the rule shows you can plan the garden. The area tells the crew how much soil and how many plants they need. Getting it right saves time and materials.", "miss": "You could not say how to find the area, and the crew lead had to explain before the class went on.", "wrong": "That does not give the area rule. Choose the response that deals with it now.", "done": "Area rule explained. The lesson carries on." }
+    {
+      "id": "someone-walks-towards-the-tape",
+      "kind": "Walker",
+      "key": "lower-tape",
+      "label": "Lower the tape and wait",
+      "alert": "A classmate walks along the path towards the stretched tape.",
+      "cue": "Lower the tape to the ground and wait for them to pass.",
+      "why": "A stretched tape is easy to trip over. Lowering it to the ground and waiting lets people pass safely. Crews do the same with any line or hose across a path.",
+      "miss": "The tape stayed stretched, and the classmate had to stop short before stepping over it.",
+      "wrong": "That leaves the tape stretched across the path. Lower it. Choose the response that deals with it now.",
+      "done": "Tape lowered, the path clear. The lesson carries on."
+    },
+    {
+      "id": "the-crew-lead-asks-about-area",
+      "kind": "Crew question",
+      "key": "name-area",
+      "label": "Say how to find the area",
+      "alert": "The crew lead asks how you will work out the area.",
+      "cue": "Say you multiply the length by the width and write square units.",
+      "why": "Knowing the rule shows you can plan the garden. The area tells the crew how much soil and how many plants they need. Getting it right saves time and materials.",
+      "miss": "You could not say how to find the area, and the crew lead had to explain before the class went on.",
+      "wrong": "That does not give the area rule. Choose the response that deals with it now.",
+      "done": "Area rule explained. The lesson carries on."
+    }
   ],
-  "crew": ["Maths teacher", "Classmate", "Garden crew lead", "Measuring partner"],
-  "guide": { "start": "Start at zero, length then width.", "after": "Multiply for area, add units.", "hazard": "Stop. Tape low, feet out of the bed." },
+  "crew": [
+    "Maths teacher",
+    "Classmate",
+    "Garden crew lead",
+    "Measuring partner"
+  ],
+  "guide": {
+    "start": "Start at zero, length then width.",
+    "after": "Multiply for area, add units.",
+    "hazard": "Stop. Tape low, feet out of the bed."
+  },
   "lateRecord": "The measurements are written once you have read the tape — nothing to record yet.",
   "lateCheckin": "The check-in comes at the very end of the lesson.",
   "scene": "wall",

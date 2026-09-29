@@ -124,7 +124,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       seconds: 6,
       title: "Hold the binoculars steady through the sweep",
       cue: "Hold the binoculars steady while you sweep the box slowly.",
-      why: "A steady sweep means each bird passes through your view once. Jerky movement makes birds jump in and out of view, and that leads to double counts. Careful, slow sweeping is the skill real surveyors practise most.",
+      why: "A steady sweep means each bird passes through your view once. Jerky movement makes birds jump in and out of view, and that leads to double counts. Careful, slow sweeping is the skill real surveyors practise most. Surveyors often practise sweeping on an empty stretch first, so their movement is smooth when the birds are there.",
       holdBreakNote: "The binoculars jumped. Hold them steady and carry on the sweep."
     },
     {
@@ -155,7 +155,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       },
       title: "Read the survey timer",
       cue: "Commit when the timer marker reaches the end of the counting time.",
-      why: "Stopping exactly when the timer ends keeps every count the same length. Counting longer would find more birds even if the shore had not changed. Reading the timer carefully is a small step that keeps the whole survey fair."
+      why: "Stopping exactly when the timer ends keeps every count the same length. Counting longer would find more birds even if the shore had not changed. Reading the timer carefully is a small step that keeps the whole survey fair. Counts of different lengths cannot be compared, just like races of different lengths cannot."
     },
     {
       id: "place-the-tally-mark-in-the",
@@ -168,7 +168,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       },
       title: "Place the tally mark in the right column",
       cue: "Drag the tally for the sandpiper into the sandpiper column.",
-      why: "Each kind of bird has its own column on the survey sheet. Putting each tally in the right place keeps the totals correct for every kind. Survey sheets are laid out this way so that anyone can add them up and check them."
+      why: "Each kind of bird has its own column on the survey sheet. Putting each tally in the right place keeps the totals correct for every kind. Survey sheets are laid out this way so that anyone can add them up and check them. A tally in the wrong column makes one kind of bird look common and another look rare."
     },
     {
       id: "say-why-the-count-is-fair",
@@ -176,7 +176,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       target: "esc-result-card",
       title: "Say why the count is fair",
       cue: "Choose the sentence that explains why your count can be compared.",
-      why: "Your count used the same box, the same time and the same rules as the other group. That is why the two counts can be compared. A good answer names those three things and does not claim the count shows more than it does."
+      why: "Your count used the same box, the same time and the same rules as the other group. That is why the two counts can be compared. A good answer names those three things and does not claim the count shows more than it does. When the place, the time and the rules match, a difference in the count is more likely to be real."
     },
     {
       id: "spot-the-kinds-of-shorebirds-in",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       },
       title: "Follow one bird as it moves in the box",
       cue: "Keep the marker on the egret as it walks across the survey box.",
-      why: "Following one bird shows why counting in a single sweep matters. The egret walks from one side to the other, so a careless counter might count it twice. Watching it helps you see how surveyors avoid double counts.",
+      why: "Following one bird shows why counting in a single sweep matters. The egret walks from one side to the other, so a careless counter might count it twice. Watching it helps you see how surveyors avoid double counts. The same idea works for counting cars, people or trees: count each one once, on one pass.",
       holdBreakNote: "The marker lost the egret. Find it again and follow it across the box."
     },
     {
@@ -232,7 +232,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       doneLine: "Totals recorded",
       title: "Record the tally totals",
       cue: "Write the total for each kind of bird at the bottom of its column.",
-      why: "Adding each column gives the totals that the survey reports. Writing them neatly lets another person check your adding. The park crew keeps these totals from every survey, so changes on the shore can be seen over time."
+      why: "Adding each column gives the totals that the survey reports. Writing them neatly lets another person check your adding. The park crew keeps these totals from every survey, so changes on the shore can be seen over time. Clear totals let the park crew see whether more or fewer birds use the shore as the seasons change."
     },
     {
       id: "compare-totals-with-another-group",
@@ -250,7 +250,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       doneLine: "Checked in",
       title: "Check in before leaving the path",
       cue: "What three things keep a count fair? Why does that matter?",
-      why: "The survey lead checks each group's understanding before the count is filed. Each learner names the box, the time and the rules. If anyone counted a bird twice, the group sorts out how to avoid it next time."
+      why: "The survey lead checks each group's understanding before the count is filed. Each learner names the box, the time and the rules. If anyone counted a bird twice, the group sorts out how to avoid it next time. Understanding why the rules matter is what lets you run a fair survey anywhere, not just on this shore."
     }
   ],
 

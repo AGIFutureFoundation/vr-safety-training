@@ -124,7 +124,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       seconds: 6,
       title: "Hold the viewer steady over the water",
       cue: "Hold the pier viewer steady on the school of fish.",
-      why: "A steady view lets you watch the fish long enough to see them feed. Moving the viewer around makes it hard to follow them. Naturalists watch patiently in one spot, because the most interesting moments happen when you keep still.",
+      why: "A steady view lets you watch the fish long enough to see them feed. Moving the viewer around makes it hard to follow them. Naturalists watch patiently in one spot, because the most interesting moments happen when you keep still. Watching for a whole minute often shows more than looking quickly at many places.",
       holdBreakNote: "The viewer drifted off the fish. Hold it steady on the school again."
     },
     {
@@ -133,7 +133,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       target: "esf-result-card",
       title: "Say what happens if the small fish go away",
       cue: "Choose the sentence that says what would change if the small fish became fewer.",
-      why: "The small fish link the tiny animals to the birds and seals. If there were fewer of them, the birds and seals would have less to eat. A good answer follows the arrows on your web and does not guess beyond them."
+      why: "The small fish link the tiny animals to the birds and seals. If there were fewer of them, the birds and seals would have less to eat. A good answer follows the arrows on your web and does not guess beyond them. Thinking through what happens when one link changes is how scientists predict changes in real places."
     },
     {
       id: "spot-the-web-at-work-from",
@@ -189,7 +189,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       },
       title: "Count the links for the small fish",
       cue: "Commit when the marker shows how many arrows touch the small fish.",
-      why: "The small fish has arrows coming in from what it eats and going out to what eats it. Counting them shows how important it is to the web. Animals with many links hold the web together, which is why scientists watch them closely."
+      why: "The small fish has arrows coming in from what it eats and going out to what eats it. Counting them shows how important it is to the web. Animals with many links hold the web together, which is why scientists watch them closely. An animal with lots of links is a bit like a busy crossroads: many paths run through it."
     },
     {
       id: "place-the-seal-card-on-the",
@@ -202,7 +202,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       },
       title: "Place the seal card on the web",
       cue: "Drag the seal card to its place at the top of the web.",
-      why: "The seal eats fish and is not eaten by anything else in this web, so it sits at the top. Placing it there shows how energy flows up to it. Every card in its right place makes the web easier to read."
+      why: "The seal eats fish and is not eaten by anything else in this web, so it sits at the top. Placing it there shows how energy flows up to it. Every card in its right place makes the web easier to read. Animals near the top of a web depend on every link below them, so a change lower down reaches them too."
     },
     {
       id: "follow-a-pelican-as-it-hunts",
@@ -222,7 +222,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       },
       title: "Follow a pelican as it hunts",
       cue: "Keep the marker on the pelican as it circles and dives.",
-      why: "Following a pelican shows a link in action. It circles, spots the fish from above and dives in. Watching it helps you remember that each arrow on the board is a real animal finding its food.",
+      why: "Following a pelican shows a link in action. It circles, spots the fish from above and dives in. Watching it helps you remember that each arrow on the board is a real animal finding its food. Pelicans, gulls and seals all hunt the same small fish, which is why those fish sit in the middle of so many links.",
       holdBreakNote: "The marker lost the pelican. Find it again and follow it to the dive."
     },
     {
@@ -241,7 +241,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       doneLine: "Webs compared",
       title: "Compare webs with another group",
       cue: "Put your web next to another group's and look for the same links.",
-      why: "Two groups may see different links from the same pier. Comparing webs makes a bigger, fuller picture. Scientists build food webs by putting together many people's observations in exactly this way."
+      why: "Two groups may see different links from the same pier. Comparing webs makes a bigger, fuller picture. Scientists build food webs by putting together many people's observations in exactly this way. Putting many small webs together is how scientists see the whole Bay and not just one corner of it."
     },
     {
       id: "crew-check-in",
@@ -250,7 +250,7 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
       doneLine: "Checked in",
       title: "Check in before leaving the pier",
       cue: "Which way do the arrows point? Why does every link matter?",
-      why: "The naturalist checks what each group learned before they leave the pier. Each learner says which way the arrows point and why a small animal matters. If anyone has arrows pointing the wrong way, the group sorts it out now."
+      why: "The naturalist checks what each group learned before they leave the pier. Each learner says which way the arrows point and why a small animal matters. If anyone has arrows pointing the wrong way, the group sorts it out now. Getting the arrows right is the key idea, because it shows where the energy from the sun ends up."
     }
   ],
 
