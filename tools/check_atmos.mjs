@@ -121,7 +121,7 @@ function ok(cond, msg) { checks++; if (!cond) { failed++; if (fails.length < 40)
   ok(storm.rain === 1 && storm.wind > day.wind && day.traffic > 0 && day.water > 0 && day.horn > 0, "sound: rain, wind, traffic, water or the port horn does not follow its cause");
   const far = A.atSoundMix({ hour: 12, near: { water: 0, arterial: 0, port: 0 } });
   ok(far.water === 0 && far.traffic === 0 && far.horn === 0, "sound: water, traffic or a horn far from any");
-  const nn = A.atNearness(p, 0, 0); ok(nn.water >= 0 && nn.water <= 1 && nn.arterial >= 0 && nn.arterial <= 1, "sound: nearness out of 0..1");
+  const nn = (await S("at-world.js")).atNearness(p, 0, 0); ok(nn.water >= 0 && nn.water <= 1 && nn.arterial >= 0 && nn.arterial <= 1, "sound: nearness out of 0..1");
   console.log(`sound: graph of ${AS.AT_VOICES.length} synthesised voices (${made} Web Audio nodes, no audio files) builds headlessly; silent by default and under reduced motion; birds by day, crickets by night, rain/wind/water/traffic/horn follow their causes`);
 }
 

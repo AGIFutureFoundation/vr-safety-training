@@ -643,6 +643,8 @@ APPS = {
             WEBXR / "redwood/js/rw-career.js",
             WEBXR / "redwood/js/rw-world.js",
             SHARED / "tf-water.js",  # TERRAFORM: the shared wind and the river's ripple
+            SHARED / "at-atmos.js",  # ATMOS: the seeded weather and the sound mix
+            SHARED / "at-sound.js",  # ATMOS: the synthesised soundscape (muted by default)
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
@@ -761,6 +763,9 @@ APPS = {
             SHARED / "cw-streets-st-tammany.js",
             SHARED / "cw-cityworks.js",
             SHARED / "cw-streets-world.js",
+            SHARED / "at-atmos.js",  # ATMOS: weather, lamps, fog, sound mix (docs/consoles/ATMOS.md)
+            SHARED / "at-world.js",
+            SHARED / "at-sound.js",
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",

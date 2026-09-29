@@ -9,12 +9,83 @@
 //   `siteLights` are [{ x, y, z }] (the site boards / buildings), `wetMaterials` the street and sidewalk materials to
 //   sheen. Reduced motion: the fog sheets hold still (no drift) and there is no rain (tfMountRain already refuses).
 //   atWetSurface(THREE, material) -> uniforms { uAtWet }   the puddle/sheen tweak, reusable by any world
+//   atLampsForChunk(parish, cx, cz, { tier, seed, massFilter }) -> [{ x, y, z, yaw, w, h, kind }]   window, porch lamps
+//   atNearness(parish, x, z) -> { water, arterial, port }   0..1 each (the engine's water, CITYWORKS' arterials, the port cover)
 //
 // Every top-level name is prefixed at/AT_; three.js comes from the caller.
 
-import { npChunksAround, npWaterAt, npHeightAt, NP_SIZE, NP_MASS_RADIUS } from "./np-parish.js";
+import { npChunksAround, npWaterAt, npHeightAt, npMassingForChunk, npCoverAt, NP_SIZE, NP_MASS_RADIUS } from "./np-parish.js";
+import { cwLines, cwSegmentGrid } from "./cw-cityworks.js";
 import { tfWind } from "./tf-water.js";
-import { AT_BUDGET, atLampsForChunk, atLightsOn } from "./at-atmos.js";
+import { AT_BUDGET, atLightsOn, atClamp, atRng, atHash } from "./at-atmos.js";
+
+// Windows: which massing kinds are buildings, their footprint half-sizes (local x, z) and storeys.
+const AT_BUILDINGS = {
+  quarterBlock: { hx: 8, hz: 6, top: 7, storeys: 2, porch: false },
+  gardenHouse: { hx: 6, hz: 5, top: 5.5, storeys: 1, porch: true },
+  suburbHouse: { hx: 5, hz: 4.5, top: 4, storeys: 1, porch: true },
+  tower: { hx: 11, hz: 11, top: null, storeys: 0, porch: false },
+  campusBlock: { hx: 14, hz: 9, top: null, storeys: 0, porch: false },
+};
+
+/** One chunk's lit windows and porch lamps: a seeded fraction of each building's window slots, generic by kind. */
+export function atLampsForChunk(parish, cx, cz, { tier = "high", seed = 1, massFilter = null } = {}) {
+  const spots = npMassingForChunk(parish, cx, cz).filter((s) => AT_BUILDINGS[s.kind] && (!massFilter || massFilter(s)));
+  const r = atRng(atHash(`${parish.id}|lamps|${cx},${cz}|${seed}`));
+  const frac = AT_BUDGET.litFraction * (tier === "low" ? 0.5 : 1);
+  const out = [];
+  for (const s of spots) {
+    const b = AT_BUILDINGS[s.kind];
+    // np-world.js scales these kinds by (s, s, s), or by (s, h, s) for the unit-height tower and campus block.
+    const hx = b.hx * s.s, hz = b.hz * s.s;
+    const height = b.top === null ? s.h : b.top * s.s;
+    const storeys = b.top === null ? Math.max(1, Math.min(12, Math.floor(s.h / 3.5))) : b.storeys;
+    const c = Math.cos(s.rot), sn = Math.sin(s.rot);
+    const place = (lx, ly, lz, yaw, w, h, kind) => out.push({ x: s.x + lx * c + lz * sn, y: s.y + ly, z: s.z - lx * sn + lz * c, yaw: s.rot + yaw, w, h, kind });
+    // Four faces, window columns every ~4 m, one row per storey (towers every ~3.5 m, capped).
+    for (const [face, yaw] of [[0, 0], [1, Math.PI / 2], [2, Math.PI], [3, -Math.PI / 2]]) {
+      const half = face % 2 === 0 ? hx : hz, depth = (face % 2 === 0 ? hz : hx) + 0.06;
+      const cols = Math.max(1, Math.min(8, Math.floor((half * 2) / 4)));
+      for (let row = 0; row < storeys; row++) for (let col = 0; col < cols; col++) {
+        if (r() > frac) continue;
+        const along = -half + (half * 2) * (col + 0.5) / cols, y = Math.min(height - 1, 1.8 + row * 3.4);
+        const lx = face === 0 ? along : face === 2 ? -along : face === 1 ? depth : -depth;
+        const lz = face === 0 ? depth : face === 2 ? -depth : face === 1 ? -along : along;
+        place(lx, y, lz, yaw, 1.1, 1.3, "window");
+      }
+    }
+    if (b.porch && r() < 0.7) place(0, 2.3 * s.s, hz + 0.3, 0, 0.35, 0.35, "porch");
+  }
+  const cap = Math.ceil(AT_BUDGET.lamps[tier] / 9);
+  return out.slice(0, cap);
+}
+
+/** How near (0..1) the eye is to water, an arterial and the port, sampled on two rings (cheap: ~17 lookups). */
+const atGridCache = new WeakMap();
+export function atNearness(parish, x, z) {
+  let water = 0, port = 0;
+  for (const [rad, wgt] of [[0, 1], [60, 0.8], [140, 0.45]]) {
+    const n = rad ? 8 : 1;
+    for (let k = 0; k < n; k++) {
+      const a = (k / n) * Math.PI * 2, px = x + Math.cos(a) * rad, pz = z + Math.sin(a) * rad;
+      if (Math.abs(px) > NP_SIZE / 2 || Math.abs(pz) > NP_SIZE / 2) continue;
+      if (npWaterAt(parish, px, pz)) water = Math.max(water, wgt);
+      if (npCoverAt(parish, px, pz) === "port") port = Math.max(port, wgt);
+    }
+  }
+  let grid = atGridCache.get(parish);
+  if (!grid) { grid = cwSegmentGrid(cwLines(parish)); atGridCache.set(parish, grid); }
+  let arterial = 0;
+  for (const s of grid.query(x, z, 90)) {
+    if (s.line.cls !== "arterial" && !s.line.named) continue;
+    const ax = s.a[0], az = s.a[1], bx = s.b[0], bz = s.b[1], L2 = (bx - ax) ** 2 + (bz - az) ** 2 || 1;
+    const t = atClamp(((x - ax) * (bx - ax) + (z - az) * (bz - az)) / L2);
+    const d = Math.hypot(x - (ax + (bx - ax) * t), z - (az + (bz - az) * t));
+    arterial = Math.max(arterial, atClamp(1 - d / 90));
+  }
+  return { water, arterial: Math.round(arterial * 1000) / 1000, port };
+}
+
 
 /** Wet roads: darker, a cool sheen, and seeded puddle patches by world position that read as standing water. */
 export function atWetSurface(THREE, material) {

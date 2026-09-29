@@ -11,15 +11,13 @@
 //   atFog({ weather, band, nearWater, readDistance }) -> { near, far, density }   linear scene-fog distances, never
 //       dense enough to hide a site board inside its read distance (atFogHides is the proof)
 //   atFogHides(fog, distance) -> bool              true if linear fog at `distance` is past half opacity
-//   atLampsForChunk(parish, cx, cz, { tier, seed, massFilter }) -> [{ x, y, z, yaw, w, h, kind }]   window, porch lamps
 //   atSoundMix({ hour, weather, wind, near }) -> { wind, rain, water, traffic, birds, crickets, horn }   gains 0..1
-//   atNearness(parish, x, z) -> { water, arterial, port }   0..1 each, from the engine's water, CITYWORKS' arterials, the port cover
 //
 // Every top-level name is prefixed at/AT_ (the bundler's one scope). Everything here is procedural: no real building,
 // no real weather record — the weather is a seeded pattern, and the lit windows are a seeded fraction of generic massing.
 
-import { NP_SIZE, NP_CHUNK, npMassingForChunk, npWaterAt, npCoverAt } from "./np-parish.js";
-import { cwLines, cwSegmentGrid } from "./cw-cityworks.js";
+// (No imports: the engine-reading helpers atLampsForChunk and atNearness live in at-world.js, so a world without the
+// parish engine — Redwood Reach — can take the weather and the sound mix alone.)
 
 /** Hours: lamps on at dusk, off at dawn; the weather slot length; the board read distance fog must never hide. */
 export const AT_DUSK = 18.5;
@@ -32,13 +30,13 @@ export const AT_BUCKET_HOUR = { dawn: 6.5, day: 12, dusk: 19, night: 23 };
 export const AT_BUDGET = { lamps: { low: 180, balanced: 600, high: 1100 }, fogSheets: { low: 0, balanced: 8, high: 14 }, meshes: { low: 1, balanced: 2, high: 2 }, litFraction: 0.32 };
 export const AT_KINDS = ["clear", "overcast", "fog", "rain", "storm"];
 
-const atClamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
+export const atClamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
 /** mulberry32, the engine's recipe. */
-function atRng(seed) {
+export function atRng(seed) {
   let a = seed >>> 0;
   return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
-const atHash = (s) => [...String(s)].reduce((h, ch) => (Math.imul(h, 31) + ch.charCodeAt(0)) >>> 0, 2166136261);
+export const atHash = (s) => [...String(s)].reduce((h, ch) => (Math.imul(h, 31) + ch.charCodeAt(0)) >>> 0, 2166136261);
 
 /** Continuous hour → band (the sky.js bands plus dawn). */
 export function atBand(hour) {
@@ -112,73 +110,6 @@ export function atFog({ weather, band = "day", nearWater = 0, readDistance = AT_
 export function atFogHides(fog, distance) {
   if (distance <= fog.near) return false;
   return (distance - fog.near) / Math.max(1e-6, fog.far - fog.near) > 0.5;
-}
-
-// Windows: which massing kinds are buildings, their footprint half-sizes (local x, z) and storeys.
-const AT_BUILDINGS = {
-  quarterBlock: { hx: 8, hz: 6, top: 7, storeys: 2, porch: false },
-  gardenHouse: { hx: 6, hz: 5, top: 5.5, storeys: 1, porch: true },
-  suburbHouse: { hx: 5, hz: 4.5, top: 4, storeys: 1, porch: true },
-  tower: { hx: 11, hz: 11, top: null, storeys: 0, porch: false },
-  campusBlock: { hx: 14, hz: 9, top: null, storeys: 0, porch: false },
-};
-
-/** One chunk's lit windows and porch lamps: a seeded fraction of each building's window slots, generic by kind. */
-export function atLampsForChunk(parish, cx, cz, { tier = "high", seed = 1, massFilter = null } = {}) {
-  const spots = npMassingForChunk(parish, cx, cz).filter((s) => AT_BUILDINGS[s.kind] && (!massFilter || massFilter(s)));
-  const r = atRng(atHash(`${parish.id}|lamps|${cx},${cz}|${seed}`));
-  const frac = AT_BUDGET.litFraction * (tier === "low" ? 0.5 : 1);
-  const out = [];
-  for (const s of spots) {
-    const b = AT_BUILDINGS[s.kind];
-    // np-world.js scales these kinds by (s, s, s), or by (s, h, s) for the unit-height tower and campus block.
-    const hx = b.hx * s.s, hz = b.hz * s.s;
-    const height = b.top === null ? s.h : b.top * s.s;
-    const storeys = b.top === null ? Math.max(1, Math.min(12, Math.floor(s.h / 3.5))) : b.storeys;
-    const c = Math.cos(s.rot), sn = Math.sin(s.rot);
-    const place = (lx, ly, lz, yaw, w, h, kind) => out.push({ x: s.x + lx * c + lz * sn, y: s.y + ly, z: s.z - lx * sn + lz * c, yaw: s.rot + yaw, w, h, kind });
-    // Four faces, window columns every ~4 m, one row per storey (towers every ~3.5 m, capped).
-    for (const [face, yaw] of [[0, 0], [1, Math.PI / 2], [2, Math.PI], [3, -Math.PI / 2]]) {
-      const half = face % 2 === 0 ? hx : hz, depth = (face % 2 === 0 ? hz : hx) + 0.06;
-      const cols = Math.max(1, Math.min(8, Math.floor((half * 2) / 4)));
-      for (let row = 0; row < storeys; row++) for (let col = 0; col < cols; col++) {
-        if (r() > frac) continue;
-        const along = -half + (half * 2) * (col + 0.5) / cols, y = Math.min(height - 1, 1.8 + row * 3.4);
-        const lx = face === 0 ? along : face === 2 ? -along : face === 1 ? depth : -depth;
-        const lz = face === 0 ? depth : face === 2 ? -depth : face === 1 ? -along : along;
-        place(lx, y, lz, yaw, 1.1, 1.3, "window");
-      }
-    }
-    if (b.porch && r() < 0.7) place(0, 2.3 * s.s, hz + 0.3, 0, 0.35, 0.35, "porch");
-  }
-  const cap = Math.ceil(AT_BUDGET.lamps[tier] / 9);
-  return out.slice(0, cap);
-}
-
-/** How near (0..1) the eye is to water, an arterial and the port, sampled on two rings (cheap: ~17 lookups). */
-const atGridCache = new WeakMap();
-export function atNearness(parish, x, z) {
-  let water = 0, port = 0;
-  for (const [rad, wgt] of [[0, 1], [60, 0.8], [140, 0.45]]) {
-    const n = rad ? 8 : 1;
-    for (let k = 0; k < n; k++) {
-      const a = (k / n) * Math.PI * 2, px = x + Math.cos(a) * rad, pz = z + Math.sin(a) * rad;
-      if (Math.abs(px) > NP_SIZE / 2 || Math.abs(pz) > NP_SIZE / 2) continue;
-      if (npWaterAt(parish, px, pz)) water = Math.max(water, wgt);
-      if (npCoverAt(parish, px, pz) === "port") port = Math.max(port, wgt);
-    }
-  }
-  let grid = atGridCache.get(parish);
-  if (!grid) { grid = cwSegmentGrid(cwLines(parish)); atGridCache.set(parish, grid); }
-  let arterial = 0;
-  for (const s of grid.query(x, z, 90)) {
-    if (s.line.cls !== "arterial" && !s.line.named) continue;
-    const ax = s.a[0], az = s.a[1], bx = s.b[0], bz = s.b[1], L2 = (bx - ax) ** 2 + (bz - az) ** 2 || 1;
-    const t = atClamp(((x - ax) * (bx - ax) + (z - az) * (bz - az)) / L2);
-    const d = Math.hypot(x - (ax + (bx - ax) * t), z - (az + (bz - az) * t));
-    arterial = Math.max(arterial, atClamp(1 - d / 90));
-  }
-  return { water, arterial: Math.round(arterial * 1000) / 1000, port };
 }
 
 /** The soundscape's gains 0..1 per voice: weather, the hour and what is near. Pure; the audio graph only follows it. */
