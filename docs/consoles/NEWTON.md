@@ -35,6 +35,20 @@ Console NEWTON, the Packs run (`tools/briefs/packs-brief.md`, section NEWTON; pr
    holds a swimmer at the surface; a crash above threshold opens the card and below does not; determinism across runs;
    the avatar falls off an edge and is blocked by a wall; the card's station resolves in the catalog; the app mounts it.
 
+## What landed
+- `check_newton.mjs` — 60 checks: a 10 m drop lands at 1.433 s (free fall 1.428 s, inside a fixed step); bodies up to
+  400 m/s never pass a 0.1 m wall; a vehicle at 40 m/s stops at a wall; a swimmer's feet settle at the float line
+  (1.3 m under the surface, the head above it), a barrel rides the waterline; the breath meter drains swimming, shows the
+  head-for-the-shore cue, never fails, refills ashore; wading runs at 0.55 of walking pace with the splash cue; a still
+  swimmer drifts downstream on the flow; the avatar walks off a ledge, falls and lands, stops at a wall and slides along
+  it, steps over a kerb; a crash at 9 m/s opens the card, a bump at 4 m/s does not, a sideswipe is a bump; cones tumble,
+  a parked car is a crash; elastic hits keep momentum; sleeping bodies wake; two runs match bit for bit; 10 maps, every
+  site building (109/109) boxed, pads dry; the seams are read first when passed.
+- Browser smoke (source page and a locally built dist, port 8982): Orleans and the Marina load with no page error, the
+  walk moves through the physics, a drive into a building opens the card with the station link and the hazards on,
+  "Scene secured" clears it, Q/Use steps out, a teleport into the river starts afloat with the meter showing.
+- Props per site: 4 cones, 2 barrels, 2 parked cars (phone tier 2, 1, 1), three instanced meshes in all.
+
 ## Seams
 - Provides `nwWorld({ groundAt, colliders, waterDepthAt, flowAt }) -> { addBody, step(dt), bodies }` and
   `nwAvatarStep(state, input, dt, world) -> state` (`WebXR/shared/nw-physics.js`).

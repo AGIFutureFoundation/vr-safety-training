@@ -295,6 +295,8 @@ function npNearest() {
 }
 
 function npUse() {
+  // In the drive mode, Use (E, the touch Use button, the pad's A) steps out of the vehicle, like Q.
+  if (nwPhys.driving()) { const out = nwPhys.exitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
   const n = np.near;
   if (!n) return;
   if (n.kind === "board") npOpenBoard(n.site);
@@ -466,7 +468,7 @@ function asOpenMotorPool() {
     el: $("dv-board"), world: "parishes", page: ppHerePage(), regatta: "../regatta/regatta.html",
     // NEWTON: a finished pre-trip (the gate contract, as today) drives the vehicle on the parish roads.
     onDrive: (entry) => {
-      if (nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
+      if (nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q or Use steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
       else npToast(`${entry.name}: pre-trip done. It runs on rails, so Bay World's Motor Pool drives it today.`, 6000);
     },
   });
