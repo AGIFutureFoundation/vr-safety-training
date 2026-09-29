@@ -488,3 +488,46 @@ A programme world is a **procedural** district built for one programme — **not
   `programme-worlds-south`); they stay pending until such a world is registered.
 - Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
   `tools/check_smiles.mjs`.
+
+## Louisiana development sites, inland and river (region `louisiana-sites`, console SITES-NORTH)
+
+Console SITES-NORTH (docs/consoles/SITES-NORTH.md) adds three strict-engine 4096 m maps for projects named in the Louisiana facts
+file (`$SP/louisiana/la-facts.md`, the only source for project facts). Each map is laid out from the place's approximate lon/lat
+frame and one north-up uniform scale; the river, levee and road layout was checked against Copernicus Sentinel-2 imagery
+(Contains modified Copernicus Sentinel data 2026). **Project sites are illustrative:** no site plan is published, so the blurb,
+the module header and a sign landmark on each map say "the project layout is illustrative; the parish, waterways and towns are
+real". These are real places, so none is `representative`. A trade reference only: the platform has no partnership with any
+company named. Written once by `tools/gen_ln_sites.mjs`; the modules are the source afterwards. No map overlaps any other
+(checked against every map's `npBounds`; the nearest Louisiana maps are other consoles' Monroe and Baton Rouge districts).
+
+| map | id | module | export | region | scale | sites | connectors |
+|---|---|---|---|---|---|---|---|
+| Richland Parish Data Center Site | `la-meta-richland` | `np-data-la-meta-richland.js` | `NP_LA_META_RICHLAND` | louisiana-sites | 4 m | 18 | 2 |
+| Delta Forge Campus near Boyce | `la-delta-forge-rapides` | `np-data-la-delta-forge-rapides.js` | `NP_LA_DELTA_FORGE_RAPIDES` | louisiana-sites | 3 m | 17 | 2 |
+| Plaquemine Expansion Site | `la-shintech-plaquemine` | `np-data-la-shintech-plaquemine.js` | `NP_LA_SHINTECH_PLAQUEMINE` | louisiana-sites | 3 m | 17 | 2 |
+
+**Richland Parish** (the Meta data center) — flat farmland on Interstate Twenty and US Highway Eighty near Holly Ridge, a procedural
+farm bayou and field ditches, the illustrative campus south of the interstate: site grading, the duct bank crew, the campus
+substation, data hall fit-out, the cooling plant, the laydown yard, the tower crane pad, the security gate, the workforce centre,
+the transmission line crew, the generator yard, a fiber vault, a concrete batch plant, a roofing crew, the fire protection riser
+room, the commissioning office, the stormwater pond and a bayou buffer survey.
+**Boyce** (Applied Digital's Delta Forge 1) — the Red River's bend past Boyce with levees on both banks and an old oxbow, Interstate
+Forty-Nine and Louisiana Highway One, Bayou Rapides (course procedural), low pine hills to the south-west; the illustrative campus
+south of the interstate: site grading, steel erection, the electrical room, network cabling, the cooling plant, a substation, the
+duct bank, a foundation pour, the crane pad, the laydown yard, generators, fire protection, the stormwater pond, the security gate,
+the commissioning office, the Boyce workforce centre and a Red River levee patrol.
+**Plaquemine** (the Shintech expansion) — the Mississippi's bend at Plaquemine with levees on both banks, Bayou Plaquemine and the
+Plaquemine Lock, the town, Louisiana Highway One and the River Roads; the illustrative expansion south of town: the process unit
+build, the pipe rack crew, the control room, the river dock, the tank farm (process safety awareness only; the company's process
+is never described), a heavy-lift crane pad, the rail spur yard, the substation, insulation, scaffold and hydrotest crews, the gate,
+the workforce centre, a levee crossing, the emergency response station and a cooling tower build.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Interstate Twenty west | road | la-meta-richland → north-louisiana-rayville (no map yet) | -91.747, 32.456 | `la-mr-interstate-west` |
+| Interstate Twenty east | road | la-meta-richland → north-louisiana-delhi (no map yet) | -91.573, 32.450 | `la-mr-interstate-east` |
+| Interstate Forty-Nine north-west | road | la-delta-forge-rapides → central-louisiana-north (no map yet) | -92.724, 31.415 | `la-df-interstate-north-west` |
+| Interstate Forty-Nine south-east | road | la-delta-forge-rapides → central-louisiana-alexandria (no map yet) | -92.596, 31.364 | `la-df-interstate-alexandria` |
+| Louisiana Highway One north | road | la-shintech-plaquemine → capital-region-west-bank (no map yet) | -91.253, 30.325 | `la-sp-highway-one-north` |
+| Louisiana Highway One south | road | la-shintech-plaquemine → capital-region-south (no map yet) | -91.194, 30.215 | `la-sp-highway-one-south` |
+None of the three meets another map's field, so each carries pending ways out only (no pair to write).
