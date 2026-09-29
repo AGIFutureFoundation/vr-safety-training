@@ -46,6 +46,9 @@ import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
+// BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
+// registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
+import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -497,6 +500,7 @@ function frame(now) {
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
+  if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -614,7 +618,24 @@ function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();
+  bqOpenBoard();
   npOpen("tycoon");
+}
+var bqBoard = null;
+/** The Bay Keeper's Trail on the San Francisco maps: a treasure within reach is found once and teaches its line. */
+function bqTrailTick() {
+  const t = bqNear("parishes", parish.id, np.x, np.z);
+  if (!t) return;
+  const r = bqFind(t.id);
+  if (r.first) { npToast(`Bay Keeper's Trail: a ${t.reveal} near ${t.siteName}. ${r.lesson}`, 7000); bqBoard?.refresh(); }
+}
+function bqOpenBoard() {
+  const ledgerEl = $("ty-ledger");
+  if (!ledgerEl) return;
+  let el = document.getElementById("bq-board");
+  if (!el) { el = document.createElement("div"); el.id = "bq-board"; ledgerEl.after(el); }
+  if (!bqBoard) bqBoard = bqMount({ el, world: null, toast: npToast, completed: ppCompleted });
+  else bqBoard.refresh();
 }
 function tyAfterTick(events) {
   if (!events.length) return;

@@ -839,6 +839,11 @@ APPS = {
             # DRILLS: the scenario drills (data, then the registry and mount; after st-paths.js and npc-data.js).
             SHARED / "dr-drills-data.js",
             SHARED / "dr-drills.js",
+            # BAYQUEST: the Bay Program play layer (after ty-economy.js, st-stories.js, nw-physics.js, tf-terraform.js).
+            SHARED / "bq-facts.js",
+            SHARED / "bq-games-data.js",
+            SHARED / "bq-trail-data.js",
+            SHARED / "bq-bayquest.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",

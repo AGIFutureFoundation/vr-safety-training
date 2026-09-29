@@ -66,6 +66,8 @@ const CHECKERS = [
   // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
   "check_storyline.mjs",
   "check_drills.mjs",
+  // BAYQUEST: the Bay Program play layer: the Bay Keeper's Trail, four gated games, Crew Credits, stories (docs/consoles/BAYQUEST.md).
+  "check_bayquest.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
