@@ -54,7 +54,10 @@ loop). Base c0883a3. Pattern: docs/consoles/PROJECTLANDS.md and docs/parishes.md
    left to its console, an east bank marsh crew (kind wetland), export_shared re-run; all ten pass, 0 fail.
 6. Reason: real Louisiana places keep crawfish, rice, fishing and gator watch. Act: HV_GULF_REGIONS in hv-harvest.js.
    Observed: lakefront 7 spots, channel 8, Vinton 6, each with fish, gator and a rice-and-crawfish field; check_harvest OK.
-7. Reason: final proof. Act: check_parishes, check_harvest and eval_worlds once. Observed: see the hand-back.
+7. Reason: final proof. Act: check_parishes, check_harvest and eval_worlds once. Observed: check_parishes 39180 passed, 0 failed (worst
+   high tier: lakefront 140 meshes / 81526 triangles, channel 131 / 70791, Vinton 150 / 72834; budget 260 / 400000); check_harvest
+   OK 87 / 0; eval_worlds crashed in its headless browser (browser.newContext: target closed, the shared machine under load) and
+   was not re-run (the brief allows one run).
 
 ## Seams
 
