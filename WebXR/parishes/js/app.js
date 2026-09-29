@@ -50,6 +50,7 @@ cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
 // registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
 import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
+import { bqGamesFor } from "../../shared/bq-games-data.js";
 import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
 
@@ -707,7 +708,7 @@ window.__parishTest = {
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });

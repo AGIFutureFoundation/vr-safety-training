@@ -63,3 +63,12 @@ Crew Credits stay a play currency (TYCOON's ledger); nothing here touches billin
    Trail: a crab tag near Islais Creek Pump Station. Rain followed from a roof to the pump station, ..." and the find stored.
 8. Reason: the worlds eval must hold. Act: `node tools/eval_worlds.mjs` after the work (no before run this hour; the
    first-wave figure at 039f09e was mean 98). Observe: "eval_worlds: 15 subjects, mean 98, 10 findings" (none BAYQUEST's).
+
+## Mounted in-world (BAYSEAMS)
+- `BQ_PARISH_GAMES` / `bqGamesFor(parishId)` (bq-games-data.js): one side game per parishes anchor in KREWE's kiosk shape,
+  mounted in the parishes app's side-games panel beside KREWE's kiosks — trash capture at `oak-west-oakland/outer-harbor-container-terminal`
+  and `bp-san-leandro-bay/slb-trash-capture-device-north`, the rain garden at `sf-outer-mission/om-rain-garden-block`, the tidal
+  channel dig at `bp-strip-marsh-east/sme-tidal-channel-excavation`, the yard shuffle at the Outer Harbor terminal.
+- Gates folded onto BAYKEEPER / CLEANPORTS stations: `bk-street-drain-trash-capture-cleanout`, `bk-bioretention-rain-garden-excavation`,
+  `cp-charging-yard-connectors-and-e-stops` + `cp-zero-emission-terminal-equipment-pre-use`; the yard shuffle prefers CLEANPORTS'
+  `cp-electric-yard-tractor`. check_gates checks parish items against every map in `NP_PARISHES`, not only SECONDLINE's five.

@@ -58,6 +58,9 @@ const RG = await imp("regatta/js/courses.js");
 // The New Orleans parishes (SECONDLINE, docs/parish-play.md): side games keyed by
 // parish and site, in a module that is not a `*-data.js`, so it is read by name.
 const SLP = await imp("shared/sl-parish-play.js");
+// Every parish and district map the parishes world loads (SECONDLINE's five plus the San Francisco, Oakland and Bay Program maps).
+const NPP = await imp("shared/np-parishes.js");
+const PARISH_MAP_IDS = new Set(NPP.NP_PARISHES.map((p) => p.id));
 
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 const K12 = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));
@@ -117,7 +120,8 @@ if (byWorld["?"]) fail("count", `${byWorld["?"]} gated items name no world`); el
     const n = parishItems.filter((i) => i.parish === p.id).length;
     if (n < 5) fail("count", `${p.name} has ${n} gated side games (need 5+)`); else ok();
   }
-  for (const i of parishItems) if (!SLP.SL_PARISH_IDS.includes(i.parish)) fail("count", `${i.id} names unknown parish "${i.parish}"`); else ok();
+  for (const i of parishItems) if (!SLP.SL_PARISH_IDS.includes(i.parish) && !PARISH_MAP_IDS.has(i.parish)) fail("count", `${i.id} names unknown parish "${i.parish}"`); else ok();
+  for (const i of parishItems) if (PARISH_MAP_IDS.has(i.parish) && i.site && !NPP.npParish(i.parish).sites.some((s) => s.id === i.site) && !SLP.SL_PARISH_IDS.includes(i.parish)) fail("place", `${i.id}: ${i.parish}/${i.site} is not a site of that map`); else ok();
 }
 if (!discovered) fail("discover", "no gated items discovered from other consoles' modules"); else ok();
 const ids = new Set();

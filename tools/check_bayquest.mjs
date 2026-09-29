@@ -141,7 +141,12 @@ const fold = (s) => s.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
   const dvIds = new Map((DV.DV_DRIVABLES ?? DV.DRIVABLES ?? []).map((d) => [d.id, d]));
   const yard = GD.bqGame("bq-zero-emission-yard-shuffle");
   check(dvIds.size === 0 || dvIds.has(yard.drivables.fallback), "games", `yard shuffle: fallback drivable ${yard.drivables.fallback} resolves`);
-  check(B.bqYardDrivable((id) => dvIds.get(id) ?? null)?.id === (dvIds.size ? yard.drivables.fallback : undefined), "games", "yard shuffle: picks CLEANPORTS' drivable when present, the fallback otherwise");
+  const wantDv = yard.drivables.prefer.find((id) => dvIds.has(id)) ?? (dvIds.size ? yard.drivables.fallback : undefined);
+  check(B.bqYardDrivable((id) => dvIds.get(id) ?? null)?.id === wantDv, "games", `yard shuffle: picks CLEANPORTS' drivable when present, the fallback otherwise (${wantDv})`);
+  check(yard.drivables.prefer.every((id) => dvIds.size === 0 || dvIds.has(id)), "games", "yard shuffle: every preferred drivable is a real Motor Pool entry");
+  // In-world: one parish side game per parishes anchor, each at a real site.
+  for (const pg of GD.BQ_PARISH_GAMES) check(!!NPS.npParish(pg.parish)?.sites.some((s) => s.id === pg.site), "place", `${pg.id}: ${pg.parish}/${pg.site} is a real site`);
+  check(GD.BQ_GAMES.every((g) => GD.BQ_PARISH_GAMES.some((pg) => pg.game === g.id)), "place", "every game plays at a parish or district site");
 }
 
 // ------------------------------------------------------------ credits

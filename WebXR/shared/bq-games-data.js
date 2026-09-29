@@ -11,10 +11,9 @@
 // Shape of a game: { id, world, kind: "side-game", site, siteName, anchors: [{ world, parish?, site }],
 //   title, task, mechanic, gate: { stations, note }, pendingStations, practices, calls, reward: { cosmetic,
 //   stamp }, summary, physics?, drivables?, credits: { clean, pass } }.
-// `anchors` after the first are guarded second anchors (BAYMAP's Oakland districts, the San Francisco
-// districts): resolve them with `npParish(parish)?.sites.find((s) => s.id === site)` and skip a miss.
-// `pendingStations` are BAYKEEPER / CLEANPORTS station ids merging in parallel; the coordinator folds them
-// into the gate once they resolve in the catalog. The game plays from the Bay World site today.
+// `anchors` after the first are the parish and district sites (BAYMAP's Oakland districts, TIDELANDS' maps):
+// BQ_PARISH_GAMES mounts one side game per anchor in the parishes app, KREWE's kiosk pattern. The gates are
+// on BAYKEEPER / CLEANPORTS stations where those teach the game's work (`pendingStations` is empty now).
 //
 // Facts rule: no digits in any text, limits read "per the plan"; nothing here states a program figure.
 // Names prefixed bq/BQ_ (one bundle scope).
@@ -38,10 +37,12 @@ const bqMake = (id, site, siteName, o) => ({
 export const BQ_GAMES = [
   bqMake("trash-capture-cleanout", "port-maintenance-shop", "Port Maintenance Shop", {
     title: "Trash Capture Cleanout", task: "trash capture cleanout", mechanic: "lockout-steps",
-    gate: { stations: ["br-trash-capture-device-service", "cs-non-entry-retrieval-and-tripod"],
-      note: "The trash capture device service and non-entry retrieval stations first: the device sits in a storm drain." },
-    pendingStations: ["bk-street-drain-trash-capture-cleanout"],
-    anchors: [{ world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal" }],
+    gate: { stations: ["bk-street-drain-trash-capture-cleanout", "br-trash-capture-device-service"],
+      note: "The street drain cleanout and trash capture device service stations first: the device sits in a storm drain, serviced from the surface." },
+    anchors: [
+      { world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal", siteName: "Outer Harbor Container Terminal" },
+      { world: "parishes", parish: "bp-san-leandro-bay", site: "slb-trash-capture-device-north", siteName: "Trash Capture Device Site, North" },
+    ],
     practices: ["traffic", "lockout", "ppe", "lift"],
     calls: [
       bqCall("The device sits in a drain at the kerb of a working street.", "Cone and sign the lane per the traffic plan before the lid comes up.", "Pull the lid first and put the cones out once you are in."),
@@ -53,10 +54,9 @@ export const BQ_GAMES = [
   }),
   bqMake("rain-garden-build", "west-oakland-utility-yard", "West Oakland Utility Yard", {
     title: "Rain Garden Build", task: "rain garden build", mechanic: "survey-transect",
-    gate: { stations: ["op-excavator-trench-and-utility-locate", "br-native-planting-and-erosion-mats"],
-      note: "Trenching over a located utility and native planting first: a rain garden is a dig and a planting." },
-    pendingStations: ["bk-bioretention-rain-garden-excavation"],
-    anchors: [{ world: "parishes", parish: "sf-mission", site: null }],
+    gate: { stations: ["bk-bioretention-rain-garden-excavation", "br-native-planting-and-erosion-mats"],
+      note: "The rain garden excavation and native planting stations first: a rain garden is a located dig, its layers and a planting." },
+    anchors: [{ world: "parishes", parish: "sf-outer-mission", site: "om-rain-garden-block", siteName: "Rain Garden Block" }],
     practices: ["plan", "inspect", "zone", "lift"],
     calls: [
       bqCall("The sidewalk strip is marked for a rain garden.", "Check the locate ticket against the paint and hand-dig near every marked line.", "Start the digger where the paint is faint; it is probably clear."),
@@ -70,7 +70,7 @@ export const BQ_GAMES = [
     title: "Tidal Channel Dig", task: "tidal channel dig", mechanic: "line-follow",
     gate: { stations: ["br-tidal-marsh-grading-amphibious-excavator", "me-tidal-marsh-channel-restoration-day"],
       note: "Tidal marsh grading and the channel restoration day first: soft ground, tides and a buffer to keep." },
-    anchors: [{ world: "parishes", parish: "oak-fruitvale-estuary", site: null }],
+    anchors: [{ world: "parishes", parish: "bp-strip-marsh-east", site: "sme-tidal-channel-excavation", siteName: "Tidal Channel Excavation" }],
     practices: ["weather", "spill", "zone", "buddy"],
     calls: [
       bqCall("The marsh ground is soft and wet ahead of the machine.", "Lay the mats ahead of the tracks and drive only on them.", "Drive straight across the mud; the tracks will grip."),
@@ -83,17 +83,16 @@ export const BQ_GAMES = [
   }),
   bqMake("zero-emission-yard-shuffle", "west-oakland-truck-yard", "West Oakland Truck Yard", {
     title: "Zero-Emission Yard Shuffle", task: "zero-emission yard shuffle", mechanic: "delivery-run",
-    gate: { stations: ["et-ev-fleet-depot-charging-and-arc-flash", "po-yard-hostler-and-pedestrian-separation"],
-      note: "Fleet charging safety and yard hostler moves first: the yard runs on electric equipment and walkways." },
-    pendingStations: ["cp-charging-yard-safety", "cp-ze-yard-tractor-pre-use"],
-    anchors: [{ world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal" }],
+    gate: { stations: ["cp-charging-yard-connectors-and-e-stops", "cp-zero-emission-terminal-equipment-pre-use"],
+      note: "The charging yard and the zero-emission equipment pre-use stations first: the yard runs on electric equipment, cables and walkways." },
+    anchors: [{ world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal", siteName: "Outer Harbor Container Terminal" }],
     practices: ["inspect", "traffic", "lockout", "comms"],
     calls: [
       bqCall("An electric yard tractor sits on its charger at the start of the shift.", "Walk round it, stop the charge at the dispenser and stow the cable before you move.", "Drive off and let the cable pull free."),
       bqCall("A charging cable lies across the lane.", "Stop, report it and route round until it is hung back on its hook.", "Drive over it slowly; the cover will hold."),
       bqCall("A worker steps into the marked crossing.", "Stop at the crossing and wait until they are clear and wave you on.", "Sound the horn and keep rolling."),
     ],
-    drivables: { prefer: ["cp-ze-yard-tractor", "cp-ze-drayage-truck"], fallback: "day-cab-bobtail", rule: "drives only after its pre-use station" },
+    drivables: { prefer: ["cp-electric-yard-tractor", "cp-electric-drayage-tractor"], fallback: "day-cab-bobtail", rule: "drives only after its pre-use station" },
     cosmetic: "charging yard lanyard",
     summary: "Unplug and walk round an electric yard tractor, route round a cable in the lane, stop for walkers and park it back on charge.",
   }),
@@ -101,6 +100,21 @@ export const BQ_GAMES = [
 
 /** The same list for tools/check_gates.mjs's discovery (an export named …GATED… in a -data.js module). */
 export const BQ_GATED = BQ_GAMES;
+
+/**
+ * The games at their parish and district sites, in KREWE's kiosk shape (kw-play-data.js): one side game per
+ * `parishes` anchor, `{ id: "<game id>-<parish>", game, world: "parishes", kind: "side-game", parish, site,
+ * siteName, title, task, mechanic, gate, practices, calls, reward, summary }` — the same gate, calls and
+ * reward as the Bay World game. The parishes app mounts them in its side-games panel beside KREWE's kiosks.
+ */
+export const BQ_PARISH_GAMES = BQ_GAMES.flatMap((g) => g.anchors.filter((a) => a.world === "parishes" && a.site).map((a) => ({
+  id: `${g.id}-${a.parish}`, game: g.id, world: "parishes", kind: "side-game", parish: a.parish, site: a.site, siteName: a.siteName ?? a.site,
+  title: g.title, task: g.task, mechanic: g.mechanic, gate: g.gate, practices: g.practices, calls: g.calls,
+  reward: g.reward, summary: g.summary, ...(g.drivables ? { drivables: g.drivables } : {}),
+})));
+/** The parish copies for check_gates's discovery. */
+export const BQ_PARISH_GATED = BQ_PARISH_GAMES;
+export function bqGamesFor(parishId, siteId = null) { return BQ_PARISH_GAMES.filter((g) => g.parish === parishId && (!siteId || g.site === siteId)); }
 export const BQ_GAME_IDS = BQ_GAMES.map((g) => g.id);
 export function bqGame(id) { return BQ_GAMES.find((g) => g.id === id) ?? null; }
 
