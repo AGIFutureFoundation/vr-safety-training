@@ -113,6 +113,7 @@
     <div id="menu-storyline"></div>
     <div id="menu-paths"></div>
     <div id="menu-krewe"></div>
+    <div id="menu-drills"></div>
     <div id="menu-packs"></div>
     <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
   </div>
@@ -62083,6 +62084,334 @@ function stMountPaths({ three = null, root = null, parish, world = null, el = nu
 }
 
 
+/* ===== shared/dr-drills-data.js ===== */
+// DRILLS — the scenario drill definitions (console DRILLS, docs/consoles/DRILLS.md). SmartCiti.X Powered by AGI Corp.
+//
+// DR_DRILLS: four timed scenario drills — flood, traffic incident, shelter setup, cluster coordination. Each objective
+// names a real catalog station AND one of that station's own step ids (WebXR/smartcity/js/sims/<station>.js), and its
+// practice line is that step's cue put in a drill's words; `role` is a GRIOT parish character (npc-data.js) playing a
+// part in the drill. `safe` / `unsafe` are the two calls the learner chooses between (scored on safe practice).
+// DR_PLACES: where each drill runs — real parish and San Francisco site ids (np-parishes.js). The scenario is a
+// training exercise: no injury is shown or described, and the text is fit for K-12 eyes (no fear framing).
+// Every top-level name is prefixed dr/DR_ (the bundler shares one scope).
+
+const drObj = (id, title, station, step, seconds, role, practice, safe, unsafe, extra = {}) => ({ id, title, station, step, seconds, role, practice, safe, unsafe, ...extra });
+
+const DR_DRILLS = [
+  {
+    id: "dr-flood", name: "Rising Water", kind: "flood",
+    paths: ["disaster-relief", "first-responders"],
+    briefing: "A practice exercise: the water in the channel is rising on the plan's forecast. Read the level, move people and vehicles to higher ground, set sandbags, close the floodgate by its checklist and log it. Nobody is in danger — this is a timed rehearsal of the plan.",
+    water: { rise: 1.2 }, // metres the drill's water plane rises over the drill (a procedural cue, not a forecast)
+    objectives: [
+      drObj("read-level", "Read the water level first", "tide-gate", "levels-up", 40, "gr-np-levee-inspector",
+        "Watch the staff gauge and commit to a reading while the level sits inside the predicted band — every later call is judged against it.",
+        "Read the gauge and call the level to the crew.", "Skip the gauge; the water looks about normal."),
+      drObj("high-ground", "Move people and vehicles to higher ground", "k12-by-reading-a-flood-maps-colours", "choose-the-route-that-stays-on", 60, "gr-np-campus-teacher",
+        "Use the flood map's key to choose the route that crosses the least low ground, and move people and vehicles along it calmly.",
+        "Follow the route the map shows staying on higher ground.", "Take the shortest road, even where the map shows low ground."),
+      drObj("sandbags", "Set the sandbags at the kiosk", "br-levee-inspection-and-seepage", "boil-ring", 60, "gr-np-levee-inspector",
+        "Carry the sandbags out and ring the seep completely — a ring, never a pile on top of it.",
+        "Ring the seep with bags, leaving the middle open.", "Stack the bags straight on top of the seep.", { kiosk: "kw-sandbag-relay" }),
+      drObj("floodgate", "Close the floodgate by its checklist", "tide-gate", "tide-window", 50, "gr-np-pump-operator",
+        "Confirm the window on the plan, clear the gate's path and call it clear before it moves, then tick every line of the close-out.",
+        "Clear the path, call it clear, then close and check the seal.", "Swing it shut while a car is still passing.", { kiosk: "kw-floodgate-closeout" }),
+      drObj("log", "Log the reach and the ring", "br-levee-inspection-and-seepage", "log-inspection", 30, "gr-np-levee-inspector",
+        "Record the reach walked, the level read, the ring set and anything flagged, so the next crew reads the record, not a memory.",
+        "Write it all in the log before you leave.", "Tell the next shift later instead."),
+    ],
+  },
+  {
+    id: "dr-traffic", name: "Scene on the Shoulder", kind: "traffic",
+    paths: ["first-responders", "disaster-relief"],
+    briefing: "A practice collision in a training world — nobody is hurt. NEWTON's \"after a collision\" card becomes a scene: secure it, check people, call it in, clear it and give the lane back.",
+    fromCard: "nw-after-a-collision",
+    objectives: [
+      drObj("secure", "Secure the scene with the block", "traffic-incident-management", "set-the-block", 45, "gr-np-port-foreman",
+        "Put the blocking vehicle upstream of the work, angled across the closed lane, wheels turned away.",
+        "Block upstream, angled, wheels turned to the shoulder.", "Park beside the vehicle in the open lane."),
+      drObj("vest", "Vest on before you step out", "traffic-incident-management", "vest-before-stepping-out", 20, "gr-np-port-foreman",
+        "The high-visibility vest goes on before the door opens, not after.",
+        "Vest on, then step out on the side away from traffic.", "Step out first and find the vest later."),
+      drObj("check", "Check people and bring them clear", "traffic-incident-management", "driver-clear-of-the-lane", 45, "gr-np-nurse",
+        "Ask from a safe place whether anyone needs help, and walk the driver off the shoulder and behind the rail.",
+        "Walk the driver behind the rail and talk calmly.", "Let the driver stand by the car in the lane."),
+      drObj("call", "Call it in with what the tow needs", "traffic-incident-management", "tow-request", 30, "gr-np-rail-conductor",
+        "Say where you are and request the tow by class: what the vehicle is, whether it rolls, whether there is a recovery.",
+        "Give the location and the tow's class in one call.", "Ask for \"a tow\" and sort the rest later."),
+      drObj("clear", "Clear the scene and give the lane back", "traffic-incident-management", "clearance-and-reopen", 45, "gr-np-port-foreman",
+        "Cones come up from the downstream end, then the lane goes back, then clearance goes over the radio.",
+        "Pick up from downstream, reopen, call clearance.", "Pull the first cone upstream so traffic moves sooner."),
+    ],
+  },
+  {
+    id: "dr-shelter", name: "Campus Shelter Setup", kind: "shelter",
+    paths: ["disaster-relief", "first-responders", "un-training"],
+    briefing: "A practice exercise: the school campus opens as a shelter for neighbours after a storm. Check in, set up registration, lay out the cots, open the water point and a quiet corner.",
+    objectives: [
+      drObj("check-in", "Check in with the shelter manager", "shelter-intake-operations", "ics-checkin", 30, "gr-np-campus-teacher",
+        "Sign into the shelter's own organization chart before touching anything else.",
+        "Sign in at the command board first.", "Start moving tables before anyone knows you are here."),
+      drObj("registration", "Open registration", "shelter-intake-operations", "intake-questions", 60, "gr-np-hospitality-lead",
+        "Ask the intake questions once each, gently, in order: name, who they are with, then medical and access needs.",
+        "Name, household, then needs — asked once each.", "Ask everything at once while they stand in the doorway."),
+      drObj("cots", "Lay out the cots", "shelter-intake-operations", "cot-spacing", 45, "gr-np-hospitality-lead",
+        "Set the cot rows to the shelter standard's spacing, with a real aisle to walk and kneel in.",
+        "Measure the rows to the standard's spacing.", "Squeeze the rows closer to fit more cots."),
+      drObj("water", "Open the water point", "who-water-sanitation-and-hygiene", "residual-read", 45, "gr-np-pump-operator",
+        "Test a sample at the tap with the comparator and confirm it reads in the plan's band before anyone fills up.",
+        "Test at the tap, then open the water point.", "Open it now and test the tank later."),
+      drObj("quiet-corner", "Open a quiet corner", "shelter-intake-operations", "quiet-room", 30, "gr-np-nurse",
+        "Confirm a curtained room off the main floor is open and marked as the quiet room.",
+        "Open the quiet room and post its sign.", "Leave it for later; the gym is fine for now."),
+    ],
+  },
+  {
+    id: "dr-cluster", name: "Sector Check-In", kind: "cluster",
+    paths: ["un-training", "disaster-relief"],
+    briefing: "A practice exercise at a staging area: teams arrive, check in by sector, read the case definition, share what they know with the cluster, and close with an after-action review — the WHO and IASC cluster way.",
+    objectives: [
+      drObj("sector", "Check in and take the sector assignment", "damage-assessment-team", "ics-assignment", 30, "gr-np-wetlands-ranger",
+        "Sign into the sector board and read which block this team has, so every team is on the same map.",
+        "Sign in and read the team's sector.", "Pick a sector that looks busy and head out."),
+      drObj("buddy", "Confirm your buddy", "damage-assessment-team", "buddy-check", 20, "gr-np-wetlands-ranger",
+        "Pair up with your buddy and confirm you are working the sector together.",
+        "Pair up before leaving staging.", "Go alone; it will be quicker."),
+      drObj("definition", "Read today's case definition", "who-surveillance-and-case-definition", "case-definition", 40, "gr-np-nurse",
+        "Read today's version of the case definition — suspected, probable, confirmed — before counting anything.",
+        "Read today's version before you count.", "Count from memory of last week's version."),
+      drObj("share", "Share with the cluster working group", "who-risk-communication-and-community-engagement", "share-log", 30, "gr-np-campus-teacher",
+        "Read the week's top questions back with the working group so every partner answers them the same way.",
+        "Share the log so partners answer alike.", "Keep the log in your own team's folder."),
+      drObj("tally", "Log to the sector tally", "damage-assessment-team", "handover-log", 30, "gr-np-wetlands-ranger",
+        "Record what the team found in the sector log so the coordinator's running tally is real.",
+        "Write it into the sector log.", "Report it by memory at the end of the week."),
+      drObj("review", "Share the after-action review", "who-after-action-review", "share-report", 40, "gr-np-nurse",
+        "Place the agreed report with the national authority and the Health Cluster coordinator so every partner learns from it.",
+        "Share the agreed report with the cluster.", "File it in one office and move on."),
+    ],
+  },
+];
+
+/** Where each drill runs: `{ drill, parish, site }` — real site ids in the ten maps. */
+const DR_PLACES = [
+  { drill: "dr-flood", parish: "st-bernard", site: "sb-violet-floodgate" },
+  { drill: "dr-flood", parish: "orleans", site: "lakefront-levee" },
+  { drill: "dr-flood", parish: "sf-marina", site: "marina-seawall-crew" },
+  { drill: "dr-traffic", parish: "jefferson", site: "jf-causeway-yard" },
+  { drill: "dr-traffic", parish: "st-tammany", site: "st-causeway-north" },
+  { drill: "dr-traffic", parish: "sf-downtown", site: "bay-bridge-crew-yard" },
+  { drill: "dr-shelter", parish: "st-bernard", site: "sb-school-campus" },
+  { drill: "dr-shelter", parish: "st-tammany", site: "st-covington-campus" },
+  { drill: "dr-shelter", parish: "sf-mission", site: "mission-school-campus" },
+  { drill: "dr-shelter", parish: "sf-golden-gate-park", site: "sunset-school-campus" },
+  { drill: "dr-cluster", parish: "st-tammany", site: "st-slidell-staging" },
+  { drill: "dr-cluster", parish: "orleans", site: "hospital-district" },
+  { drill: "dr-cluster", parish: "sf-golden-gate-park", site: "parnassus-hospital-campus" },
+];
+
+
+/* ===== shared/dr-drills.js ===== */
+// DRILLS — timed scenario drills for first responders, disaster relief and UN training (console DRILLS,
+// docs/consoles/DRILLS.md). SmartCiti.X Powered by AGI Corp.
+//
+// SEAMS (documented shapes):
+//
+//   drDrills() -> DR_DRILLS            [{ id, name, kind, paths: [STORYLINE path id], briefing,
+//                                        objectives: [{ id, title, station, step, seconds, role, practice, safe, unsafe, kiosk? }] }]
+//   drDrill(id) -> drill | null
+//   drPlacesFor(parishId) -> [{ drill, parish, site }]      every drill placed in this map
+//   drDrillsFor(pathId, parishId) -> [{ drill, parish, site }]  offered on this STORYLINE path here (all of them when
+//                                        the path is null or Just Roam — the world stays open)
+//   drTimer(objective, elapsedSeconds) -> { left, late }
+//   drObjectivePoints(objective, { safe, seconds }) -> 100 safe and on time | 60 safe and late | 0 unsafe
+//   drScore(drill, results) -> { points, max, score (0..100), passed (score >= DR_PASS) }   results: { [objectiveId]: { safe, seconds } }
+//   drDebrief(drill, results) -> { wentWell: [objective title], improvement: { objective, text } | null, score }
+//   drRecord(drillId, result, { attemptId }) -> { best, award }   best score kept in the passport's storage under
+//                                        `vr-passport-drills-v1`; the award goes through drSetRecorder(fn) (the page passes ppAward)
+//   drDeanModules() -> [{ id, title, kind: "drill", stations, paths, minutes, launch: { world: "parishes", parish, site } }]
+//                                        the drills in DEAN's assignable module shape (dnModules()/dnApplyModule, guarded)
+//   drMountDrills({ three, root, parish, el, tier, reducedMotion, toast, stationHref, siteName })
+//        -> { open(drillId, siteId), offer(drillId), animate(dt), active(), list(), counts() }
+//       The parishes app's mount: the drills at this map in `el` (menu), a dialog that runs briefing → timed objectives →
+//       debrief, and for the flood drill one translucent water plane that rises at the site (none on the low tier, set
+//       still at its final level under reduced motion).
+//
+// Every top-level name is prefixed dr/DR_ (the bundler shares one scope).
+
+
+
+
+
+
+
+const DR_KEY = "vr-passport-drills-v1";
+const DR_PASS = 80;
+const DR_LATE_POINTS = 60;
+
+function drDrills() { return DR_DRILLS; }
+function drDrill(id) { return DR_DRILLS.find((d) => d.id === id) ?? null; }
+function drPlacesFor(parishId) { return DR_PLACES.filter((p) => p.parish === parishId); }
+function drDrillsFor(pathId, parishId) {
+  const path = pathId ? stPath(pathId) : null;
+  const here = drPlacesFor(parishId);
+  if (!path || !path.prompts) return here;
+  return here.filter((p) => drDrill(p.drill)?.paths.includes(path.id));
+}
+
+function drTimer(objective, elapsed) {
+  const left = Math.max(0, Math.ceil(objective.seconds - Math.max(0, elapsed)));
+  return { left, late: elapsed > objective.seconds };
+}
+function drObjectivePoints(objective, r) {
+  if (!r || !r.safe) return 0;
+  return r.seconds <= objective.seconds ? 100 : DR_LATE_POINTS;
+}
+function drScore(drill, results = {}) {
+  const max = drill.objectives.length * 100;
+  const points = drill.objectives.reduce((a, o) => a + drObjectivePoints(o, results[o.id]), 0);
+  const score = max ? Math.round((points / max) * 100) : 0;
+  return { points, max, score, passed: score >= DR_PASS };
+}
+function drDebrief(drill, results = {}) {
+  const wentWell = drill.objectives.filter((o) => drObjectivePoints(o, results[o.id]) === 100).map((o) => o.title);
+  const unsafe = drill.objectives.find((o) => !results[o.id]?.safe);
+  const late = drill.objectives.find((o) => results[o.id]?.safe && results[o.id].seconds > o.seconds);
+  const pick = unsafe ?? late ?? null;
+  const improvement = pick ? { objective: pick.id, text: `${pick.title}: ${pick.practice}` } : null;
+  return { wentWell, improvement, score: drScore(drill, results).score };
+}
+
+let drRecorder = null;
+function drSetRecorder(fn) { drRecorder = typeof fn === "function" ? fn : null; }
+function drStore() { try { return gtStorage(); } catch (_) { return null; } }
+function drLoad() {
+  try { const raw = JSON.parse(drStore()?.getItem(DR_KEY) || "null"); return raw && typeof raw === "object" && raw.best ? raw : { v: 1, best: {}, runs: 0 }; }
+  catch (_) { return { v: 1, best: {}, runs: 0 }; }
+}
+function drRecord(drillId, result, { attemptId = null } = {}) {
+  const drill = drDrill(drillId);
+  if (!drill) return null;
+  const s = drLoad();
+  s.best[drillId] = Math.max(s.best[drillId] ?? 0, result.score);
+  s.runs = (s.runs ?? 0) + 1;
+  try { drStore()?.setItem(DR_KEY, JSON.stringify(s)); } catch (_) { /* private window */ }
+  let award = null;
+  try { award = drRecorder?.(`drills:${drillId}`, { reputation: Math.round(result.score / 10), reason: `${drill.name} drill: ${result.score}/100 on safe practice`, attemptId }) ?? null; } catch (_) { award = null; }
+  return { best: s.best[drillId], award };
+}
+
+function drDeanModules() {
+  return DR_DRILLS.map((d) => {
+    const place = DR_PLACES.find((p) => p.drill === d.id);
+    return { id: `drill:${d.id}`, title: `${d.name} drill`, kind: "drill", stations: [...new Set(d.objectives.map((o) => o.station))], paths: d.paths,
+      minutes: Math.ceil(d.objectives.reduce((a, o) => a + o.seconds, 0) / 60) + 2, launch: { world: "parishes", parish: place?.parish ?? null, site: place?.site ?? null } };
+  });
+}
+
+const drEsc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+let drCssDone = false;
+function drCss() {
+  if (drCssDone || typeof document === "undefined") return;
+  drCssDone = true;
+  const st = document.createElement("style");
+  st.textContent = `#dr-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(460px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;z-index:41;background:rgba(16,24,30,.97);color:#eef2f6;border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:16px;font:14px/1.45 system-ui,sans-serif}
+  #dr-panel h2{margin:0 0 6px;font-size:18px}#dr-panel .dr-meta{opacity:.8;font-size:12px}#dr-panel .dr-time{font-variant-numeric:tabular-nums;font-weight:700}#dr-panel .dr-late{color:#ffcf7a}
+  #dr-panel .dr-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}#dr-panel button,#dr-panel a{min-height:44px;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:inherit;font:inherit;text-decoration:none;cursor:pointer;text-align:left}
+  #dr-panel ul{margin:6px 0 6px 18px;padding:0}`;
+  document.head.appendChild(st);
+}
+
+/** Mount the drills in a parish page (see the header). */
+function drMountDrills({ three = null, root = null, parish, el = null, tier = "balanced", reducedMotion = false, toast = null, stationHref = null, siteName = null } = {}) {
+  const T = three;
+  let run = null, water = null, tick = null;
+  const nameOf = (siteId) => siteName?.(siteId) ?? parish.sites.find((s) => s.id === siteId)?.name ?? siteId;
+  const panel = () => {
+    drCss();
+    let p = document.getElementById("dr-panel");
+    if (!p) { p = document.createElement("div"); p.id = "dr-panel"; p.setAttribute("role", "dialog"); p.setAttribute("aria-modal", "true"); p.setAttribute("aria-labelledby", "dr-title"); document.body.appendChild(p); }
+    p.hidden = false; return p;
+  };
+  const close = () => { clearInterval(tick); tick = null; run = null; dropWater(); const p = typeof document !== "undefined" && document.getElementById("dr-panel"); if (p) p.hidden = true; };
+  const dropWater = () => { if (water) { water.parent?.remove(water); water.geometry.dispose(); water.material.dispose(); water = null; } };
+  const addWater = (drill, site) => {
+    if (!T || !root || tier === "low" || !drill.water) return;
+    const [x, z] = site.position;
+    water = new T.Mesh(new T.PlaneGeometry(40, 40), new T.MeshStandardMaterial({ color: 0x3f7fa8, transparent: true, opacity: 0.55, roughness: 0.3 }));
+    water.rotation.x = -Math.PI / 2; water.name = "dr-flood-water";
+    water.userData.base = npHeightAt(parish, x, z) - 0.6; water.userData.rise = drill.water.rise;
+    water.position.set(x + 14, water.userData.base + (reducedMotion ? drill.water.rise : 0), z + 14);
+    root.add(water);
+  };
+  const elapsed = () => (run ? (Date.now() - run.t0) / 1000 : 0);
+
+  function renderObjective() {
+    const d = run.drill, o = d.objectives[run.i], p = panel();
+    const { left, late } = drTimer(o, elapsed());
+    const flip = run.i % 2 === 1;
+    const choices = flip ? [["unsafe", o.unsafe], ["safe", o.safe]] : [["safe", o.safe], ["unsafe", o.unsafe]];
+    const href = stationHref?.(o.station, run.site.id);
+    p.innerHTML = `<p class="dr-meta">${drEsc(d.name)} · objective ${run.i + 1} of ${d.objectives.length} · <span class="dr-time${late ? " dr-late" : ""}">${late ? "over time" : `${left}s`}</span></p>` +
+      `<h2 id="dr-title">${drEsc(o.title)}</h2><p>${drEsc(o.practice)}</p><p class="dr-meta">Role: ${drEsc(run.roles[o.role] ?? o.role)}${o.kiosk ? ` · kiosk ${drEsc(o.kiosk)}` : ""}${href ? ` · <a href="${drEsc(href)}">station</a>` : ""}</p>` +
+      `<div class="dr-row">${choices.map(([k, t]) => `<button type="button" data-dr="${k}">${drEsc(t)}</button>`).join("")}</div>`;
+    for (const b of p.querySelectorAll("[data-dr]")) b.addEventListener("click", () => answer(b.getAttribute("data-dr") === "safe"));
+  }
+  function answer(safe) {
+    const o = run.drill.objectives[run.i];
+    run.results[o.id] = { safe, seconds: Math.round(elapsed()) };
+    toast?.(safe ? `Safe call: ${o.title}.` : `Not the safe call — ${o.practice}`, 3500);
+    run.i += 1; run.t0 = Date.now();
+    if (run.i < run.drill.objectives.length) renderObjective(); else finish();
+  }
+  function finish() {
+    clearInterval(tick); tick = null;
+    const d = run.drill, sc = drScore(d, run.results), db = drDebrief(d, run.results);
+    const rec = drRecord(d.id, sc, { attemptId: `${run.site.id}-${run.started}` });
+    const p = panel();
+    p.innerHTML = `<h2 id="dr-title">Debrief — ${drEsc(d.name)}</h2><p><b>${sc.score}/100</b> on safe practice${sc.passed ? " — drill passed" : ""}. Best: ${rec?.best ?? sc.score}.</p>` +
+      `<p class="dr-meta">What went well</p><ul>${db.wentWell.length ? db.wentWell.map((t) => `<li>${drEsc(t)}</li>`).join("") : "<li>You finished the drill — run it again to build the order in.</li>"}</ul>` +
+      `<p class="dr-meta">One improvement</p><p>${drEsc(db.improvement ? db.improvement.text : "Keep the same order and pace next time.")}</p>` +
+      `<div class="dr-row"><button type="button" data-dr-close>Close</button></div>`;
+    p.querySelector("[data-dr-close]").addEventListener("click", close);
+  }
+  function open(drillId, siteId) {
+    const drill = drDrill(drillId), site = parish.sites.find((s) => s.id === siteId);
+    if (!drill || !site || typeof document === "undefined") return false;
+    close();
+    run = { drill, site, i: -1, results: {}, t0: Date.now(), started: Date.now().toString(36), roles: {} };
+    for (const o of drill.objectives) { const c = GR_ROSTER.find((r) => r.id === o.role); run.roles[o.role] = c ? `${c.name}, ${c.role}` : o.role; }
+    addWater(drill, site);
+    const p = panel();
+    p.innerHTML = `<p class="dr-meta">Drill at ${drEsc(nameOf(site.id))}</p><h2 id="dr-title">${drEsc(drill.name)}</h2><p>${drEsc(drill.briefing)}</p>` +
+      `<ol>${drill.objectives.map((o) => `<li>${drEsc(o.title)} <span class="dr-meta">(${o.seconds}s)</span></li>`).join("")}</ol>` +
+      `<div class="dr-row"><button type="button" data-dr-go>Start the drill</button><button type="button" data-dr-close>Not now</button></div>`;
+    p.querySelector("[data-dr-go]").addEventListener("click", () => { run.i = 0; run.t0 = Date.now(); renderObjective(); tick = setInterval(() => { if (run && run.i >= 0) { const t = p.querySelector(".dr-time"); const o = run.drill.objectives[run.i]; if (t && o) { const r = drTimer(o, elapsed()); t.textContent = r.late ? "over time" : `${r.left}s`; t.classList.toggle("dr-late", r.late); } } }, 500); });
+    p.querySelector("[data-dr-close]").addEventListener("click", close);
+    return true;
+  }
+  function list() { return drDrillsFor(stChosenPath(), parish.id); }
+  function render() {
+    if (!el) return;
+    const items = list();
+    el.textContent = "";
+    if (!items.length) return;
+    el.innerHTML = `<p class="eyebrow" style="margin-top:16px">Scenario drills here · ${items.length}</p><div class="row" style="flex-wrap:wrap">${items.map((it) =>
+      `<button type="button" class="btn" data-dr-open="${drEsc(it.drill)}" data-dr-site="${drEsc(it.site)}">${drEsc(drDrill(it.drill).name)} · ${drEsc(nameOf(it.site))}</button>`).join("")}</div>`;
+    for (const b of el.querySelectorAll("[data-dr-open]")) b.addEventListener("click", () => open(b.getAttribute("data-dr-open"), b.getAttribute("data-dr-site")));
+  }
+  render();
+  try { globalThis.addEventListener?.("st:path", render); } catch (_) { /* headless */ }
+  return {
+    open, list,
+    offer(drillId) { const it = drPlacesFor(parish.id).find((p) => p.drill === drillId); toast?.(it ? `Practice this as a drill: ${drDrill(drillId).name} at ${nameOf(it.site)} (menu → Scenario drills).` : `The ${drDrill(drillId)?.name ?? "drill"} drill runs in another map — see the menu.`, 5000); return !!it; },
+    animate(dt) { if (!water || reducedMotion || !run || run.i < 0) return; const f = Math.min(1, (run.i + Math.min(1, elapsed() / 60)) / run.drill.objectives.length); water.position.y = water.userData.base + water.userData.rise * f; },
+    active() { return run ? { drill: run.drill.id, site: run.site.id, objective: run.i } : null; },
+    counts() { return { places: drPlacesFor(parish.id).length, offered: list().length, meshes: water ? 1 : 0 }; },
+  };
+}
+
+
 /* ===== shared/pk-packs-data.js ===== */
 /**
  * GENERATED by tools/gen_packs.mjs — edit the generator, not this file. The Holodeck Packs as one compact
@@ -64392,7 +64721,7 @@ const nwPhys = nwMountPhysics({
   three: THREE, root, parish, tier: npTierName, reduced: npReduced,
   seams: { tfWaterDepthAt, tfFlowAt, cwColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders
   link: (id) => npLink(id, null),
-  onCard: () => npKeys.clear(),
+  onCard: () => { npKeys.clear(); drWorld?.offer("dr-traffic"); }, // DRILLS: the card becomes the traffic incident drill
 });
 nwPhys.place(np.x, np.z);
 let nwMode = "walk";
@@ -64738,6 +65067,7 @@ function frame(now) {
   mgLife?.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
+  drWorld?.animate(dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
@@ -64887,6 +65217,14 @@ var stWorld = stMountPaths({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.storyline = stWorld;
+// DRILLS (docs/consoles/DRILLS.md): timed scenario drills at fitting sites — briefing, objectives tied to real station
+// steps, a debrief — offered on the First Responders, Disaster Relief and UN Training paths, recorded to the passport.
+drSetRecorder(ppAward);
+var drWorld = drMountDrills({
+  three: THREE, root, parish, el: $("menu-drills"), tier: npTierName, reducedMotion: npReduced, toast: npToast,
+  stationHref: (id, siteId) => npLink(id, siteId),
+});
+window.__parishTest.drills = drWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 function npMountPacks(el, parishId) {
