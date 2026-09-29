@@ -15,8 +15,8 @@ reachable in the page (a `__parishTest` handle or a filled menu mount); "broken 
 
 | | Mean | Subjects at 100 | Findings | Billing | sf-bayview facts |
 |---|---:|---:|---:|---:|---:|
-| Before (793d16d) | 98 | 10 of 18 | 11 | 88 | 56/57 |
-| After (this branch) | see Cycles | | | | |
+| Before (793d16d) | 98 | 11 of 18 | 11 | 88 | 56/57 |
+| After (this branch) | 99 | 11 of 18 | 9 | 98 | 57/57 |
 
 ## Every map and world (the before walk)
 
@@ -62,8 +62,8 @@ three maps because the fix landed while the walk was running; the Orleans re-wal
    are empty on all eight. Owner: KREWE (`kw-play-data.js`), SECONDLINE (`sl-parish-play.js`).
 5. **Redwood Reach's desktop frame is the slowest** — 236k triangles, 2090 ms median frame on desktop (133 ms on the
    phone tier). Owner: `redwood/js` with TERRAFORM's creeks and ATMOS.
-6. **Five maps offer no drill** — plaquemines, sf-bayview and the three Oakland maps leave `menu-drills` empty.
-   Owner: DRILLS (`dr-*`).
+6. **Five maps offered no drill** — plaquemines, sf-bayview and the three Oakland maps left `menu-drills` empty.
+   Owner: DRILLS (`dr-drills-data.js`). **Fixed here** (cycle 5): one drill each at a fitting real site.
 7. **Touch targets under 44 px on phones** — 8 per New Orleans parish page, 4–5 on every other world (top chips and
    the quality buttons). Owner: INTERFACE (this wave).
 8. **The parish menu is one long scroll of 43–59 buttons** — storyline, paths, KREWE, drills, packs and cognition
@@ -89,13 +89,14 @@ hand-off (GRIOT, eval −0.4); "record" in an sf-bayview site blurb tripping the
    to `eval_worlds`' budget check so it cannot regress unseen. Owners: PARISH/SITEWORKS, CITYWORKS, ASSAYER.
 4. **The tabbed in-world menu and 44 px targets** — INTERFACE's brief this wave; land it and re-walk with
    `node tools/sv_survey.mjs`.
-5. **Drills on every map** — a drill at a fitting site on plaquemines, sf-bayview and the three Oakland maps. Owner: DRILLS.
+5. **Drills on every map** — done here for the five that had none (cycle 5); next, a second drill kind per map and the
+   flood drill's water on the Oakland estuary. Owner: DRILLS.
 6. Redwood Reach's desktop triangle count (LOD on the forest). Owner: Redwood, TERRAFORM.
 7. TILL's Upgrade view; GRIOT's Bay World hand-off.
 
 ## Fixes made in this review
 
 Each is a cycle in `docs/consoles/SURVEYOR.md` with its check and observed result: the parishes test handle (one key
-each), the billing config's null membership and wallet keys, and the sf-bayview wording. Not reached this wave: the
-two further cheap fixes the brief asked for — the next candidates are a high-tier line in `eval_worlds` (step 3's
-guard) and `station` on the older SF lessons (the first half of step 1).
+each), the billing config's null membership and wallet keys, the sf-bayview wording, and a drill on each of the five
+maps that had none. Not reached this wave: a fifth fix — the next candidates are a high-tier line in `eval_worlds`
+(step 3's guard) and `station` on the older SF lessons (the first half of step 1).

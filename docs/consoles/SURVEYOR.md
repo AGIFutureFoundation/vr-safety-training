@@ -25,7 +25,7 @@ Seams: none new. The walker is a review tool, not a gate (never in `check_all`).
 
 Format: reason (the change and the check that proves it) → observed result.
 
-1. Baseline: eval_worlds and the walker over 20 pages / 39 views → eval mean 98 (10 of 18 at 100, 11 findings;
+1. Baseline: eval_worlds and the walker over 20 pages / 39 views → eval mean 98 (11 of 18 at 100, 11 findings;
    billing 88); walker 39/39 views without a page error; stills for all 20 pages in docs/screenshots/review/.
 2. The parishes test handle repeated `teleport`/`setTime`/`krewe` (a merge artifact: the second teleport skipped the
    streets and ground updates) — keep one key each, add `dean`; check: the walker's `_teleportUpdatesStreets` on
@@ -36,3 +36,9 @@ Format: reason (the change and the check that proves it) → observed result.
 4. sf-bayview's shipyard blurb said "the record read first" (trips the facts regex; means the site's paperwork) →
    "the site file read first"; check: eval sf-bayview facts 56/57 → see cycle 5. Parishes bundle rebuilt
    (`python3 tools/bundle_webxr.py parishes`).
+5. Drills: plaquemines, sf-bayview and the three Oakland maps had an empty `menu-drills` → one placement each at a
+   real fitting site (`dr-drills-data.js`: flood at pq-river-road-levee, shelter at bv-sw-portola-school-campus and
+   fruitvale-school-campus, traffic at port-truck-staging-yard, cluster at pill-hill-hospital-campus); check:
+   check_drills "18 placements · 243 checks · 0 failed", check_storyline and check_dean pass; walker: plaquemines and
+   oak-fruitvale-estuary `drills` mount false → **true** at 1280 and 390, 0 page errors. Bundle rebuilt.
+6. eval_worlds after → mean **99** (from 98), 9 findings (from 11), billing 88 → **98**, sf-bayview facts 56/57 → **57/57**.
