@@ -798,6 +798,9 @@ APPS = {
             # LANDMARKS: the landmark kit np-world.js draws a registry kind with (before np-world.js).
             SHARED / "lm-landmarks.js",
             SHARED / "np-world.js",
+            # PALETTE: colour categories (plain data) and the massing material hook (after np-world.js and textures.js).
+            SHARED / "pa-palette-data.js",
+            SHARED / "pa-palette.js",
             # RELIEF: Mapbox Terrain-RGB relief and the tier-capped drape for any map's box, token-gated (docs/mapbox.md).
             SHARED / "rl-relief.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).

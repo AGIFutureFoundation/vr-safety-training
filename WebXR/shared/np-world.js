@@ -371,11 +371,15 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
         const geo = massGeo[kind]; if (!geo) continue;
         const keep = tier === "low" ? list.filter((_, i) => i % 5 !== 4) : list;
         const im = new THREE.InstancedMesh(geo, NP_SWAYING.has(kind) ? treeMat : (NP_MASSING_HOOKS.material?.(kind, parish, THREE) ?? flatMat), keep.length);
+        // PALETTE: a hook material may carry userData.npInstanceColour(spot) -> THREE.Color (per-building colour); the
+        // engine's own materials carry none, so without the hook nothing here changes.
+        const npTint = im.material.userData?.npInstanceColour;
         keep.forEach((s, i) => {
           q.setFromAxisAngle(up, s.rot);
           const sc = NP_UNIT_HEIGHT.has(kind) ? v3.set(s.s, s.h, s.s) : NP_UNIFORM_BY_H[kind] ? v3.set(s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind]) : v3.set(s.s, s.s, s.s);
           m4.compose(new THREE.Vector3(s.x, s.y - 0.15, s.z), q, sc);
           im.setMatrixAt(i, m4);
+          if (npTint) im.setColorAt(i, npTint(s));
         });
         im.name = `mass-${kind}-${ch.key}`;
         chunkRoot.add(im); mass.push(im);

@@ -18626,6 +18626,177 @@ function textureStats() {
 /** Empties the pattern cache and the stats — test harnesses only. */
 function txResetTextures() { _txCanvases.clear(); _txTiled.clear(); _txPixels.clear(); _txSharedMats.clear(); _txHits = 0; _txMisses = 0; }
 
+// ---------------------------------------------- pixel painters (PALETTE)
+//
+// Grayscale DETAIL painters that write straight into an RGBA byte buffer
+// (w * h * 4) instead of a 2D context: no canvas is needed, so a browser, a
+// worker and a headless checker get the same exact pixels (seeded integer
+// hashing, no Math.random()). PALETTE's per-region massing atlas
+// (shared/pa-palette.js) packs them; the colour comes from the building's
+// category, the texture only says "clapboard" or "Spanish tile". Every one
+// tiles by construction: each period (boards, courses, columns) divides the
+// tile, and the grain is a lattice noise whose lattice index wraps, so the
+// right edge continues into the left and the bottom into the top. Values sit
+// about a mid-high grey (a mean near 200/255), so a material multiplies its
+// own colour by `TX_PX_GAIN * detail`. The canvas-facing wrappers
+// (txClapboardFace, …) put the same pixels on a 2D context for any other
+// world, in this library's (g, w, h, o) convention.
+
+/** The multiplier that brings a pixel painter's mean detail back to about 1. */
+const TX_PX_GAIN = 1.28;
+/** A 32-bit integer hash of (i, j, seed) -> [0, 1). */
+function txPxHash(i, j, seed) {
+  let h = Math.imul(i | 0, 0x27d4eb2d) ^ Math.imul(j | 0, 0x165667b1) ^ Math.imul(seed | 0, 0x9e3779b9);
+  h = Math.imul(h ^ (h >>> 15), 0x85ebca6b); h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+/** Tileable lattice value noise at pixel (x, y) of a w×h tile: `cx`×`cy` cells that wrap. [0, 1). */
+function txPxNoise(x, y, w, h, cx, cy, seed) {
+  const fx = (x / w) * cx, fy = (y / h) * cy;
+  const i0 = Math.floor(fx), j0 = Math.floor(fy), tx = fx - i0, ty = fy - j0;
+  const a = i0 % cx, b = j0 % cy, i1 = (i0 + 1) % cx, j1 = (j0 + 1) % cy;
+  const sx = tx * tx * (3 - 2 * tx), sy = ty * ty * (3 - 2 * ty);
+  const top = txPxHash(a, b, seed) * (1 - sx) + txPxHash(i1, b, seed) * sx;
+  const bot = txPxHash(a, j1, seed) * (1 - sx) + txPxHash(i1, j1, seed) * sx;
+  return top * (1 - sy) + bot * sy;
+}
+function txPxPut(buf, w, x, y, v) {
+  const k = (y * w + x) * 4, c = v < 0 ? 0 : v > 255 ? 255 : Math.round(v);
+  buf[k] = c; buf[k + 1] = c; buf[k + 2] = c; buf[k + 3] = 255;
+}
+/** Lap siding: `boards` horizontal boards, each lit at its top and shadowed under the lap, with a long grain. */
+function txPxClapboard(buf, w, h, o = {}) {
+  const rows = o.boards ?? 8, seed = o.seed ?? 11;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const t = ((y * rows) / h) % 1;
+    let v = 222 - 28 * t + (txPxNoise(x, y, w, h, 16, rows * 4, seed) - 0.5) * 18;
+    if (t > 0.86) v = 150 + (1 - t) * 120;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Wood or asphalt shingles: `rows` staggered courses of `cols` shingles, each its own tone, gaps and course shadows. */
+function txPxShingle(buf, w, h, o = {}) {
+  const rows = o.rows ?? 10, cols = o.cols ?? 8, seed = o.seed ?? 23;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fy = (y * rows) / h, r = Math.floor(fy), t = fy - r;
+    const fx = (x * cols) / w + (r % 2) * 0.5, c = Math.floor(fx) % cols, u = fx - Math.floor(fx);
+    let v = 178 + txPxHash(c, r % rows, seed) * 44 + (txPxNoise(x, y, w, h, cols * 2, rows * 3, seed + 1) - 0.5) * 16;
+    if (u < 0.05) v -= 60;
+    if (t > 0.84) v -= 48;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Hand-trowelled stucco: two octaves of wrapping grain and a sparse speckle. */
+function txPxStucco(buf, w, h, o = {}) {
+  const seed = o.seed ?? 37;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    let v = 204 + (txPxNoise(x, y, w, h, 6, 6, seed) - 0.5) * 30 + (txPxNoise(x, y, w, h, 24, 24, seed + 1) - 0.5) * 26;
+    if (txPxHash(x, y, seed + 2) > 0.985) v -= 34;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Spanish (barrel) tile: `cols` rounded columns lit on their crown, `rows` overlapping courses, a tone per tile. */
+function txPxSpanishTile(buf, w, h, o = {}) {
+  const rows = o.rows ?? 6, cols = o.cols ?? 8, seed = o.seed ?? 41;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fx = (x * cols) / w, c = Math.floor(fx), u = fx - c;
+    const fy = (y * rows) / h, r = Math.floor(fy), t = fy - r;
+    let v = (150 + 88 * Math.sin(Math.PI * u)) * (0.9 + txPxHash(c % cols, r % rows, seed) * 0.14);
+    if (t > 0.88) v *= 0.68;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Running-bond brick: `rows` courses of `cols` bricks, alternate courses offset half a brick, light mortar. */
+function txPxBrick(buf, w, h, o = {}) {
+  const rows = o.rows ?? 16, cols = o.cols ?? 8, seed = o.seed ?? 53;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fy = (y * rows) / h, r = Math.floor(fy), t = fy - r;
+    const fx = (x * cols) / w + (r % 2) * 0.5, c = Math.floor(fx) % cols, u = fx - Math.floor(fx);
+    let v = 170 + txPxHash(c, r % rows, seed) * 40 + (txPxNoise(x, y, w, h, 32, 32, seed + 1) - 0.5) * 14;
+    if (t > 0.82 || u > 0.94) v = 236;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Corrugated sheet: `cols` vertical ridges and a faint wrapping streak. */
+function txPxCorrugated(buf, w, h, o = {}) {
+  const cols = o.cols ?? 16, seed = o.seed ?? 67;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const v = 196 + 40 * Math.cos((2 * Math.PI * x * cols) / w) + (txPxNoise(x, y, w, h, cols, 3, seed) - 0.5) * 22;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** Precast concrete panels: a `cols`×`rows` grid with dark joints and a mottled face. */
+function txPxConcretePanel(buf, w, h, o = {}) {
+  const cols = o.cols ?? 2, rows = o.rows ?? 4, seed = o.seed ?? 79;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const u = ((x * cols) / w) % 1, t = ((y * rows) / h) % 1;
+    let v = 206 + (txPxNoise(x, y, w, h, 8, 8, seed) - 0.5) * 30 + (txPxHash(x, y, seed) - 0.5) * 10;
+    if (u < 0.02 || t < 0.02) v -= 70;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** A curtain of windows: `cols`×`rows` dark panes in a light frame, a few panes a shade lighter. */
+function txPxWindowGrid(buf, w, h, o = {}) {
+  const cols = o.cols ?? 6, rows = o.rows ?? 8, seed = o.seed ?? 83;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const fx = (x * cols) / w, fy = (y * rows) / h, u = fx - Math.floor(fx), t = fy - Math.floor(fy);
+    const pane = u > 0.14 && u < 0.86 && t > 0.2 && t < 0.9;
+    const v = pane ? 96 + txPxHash(Math.floor(fx) % cols, Math.floor(fy) % rows, seed) * 50 : 224;
+    txPxPut(buf, w, x, y, v);
+  }
+}
+/** The pixel painters by id (PALETTE's atlas reads these). */
+const TX_PX_PAINTERS = {
+  clapboard: txPxClapboard, shingle: txPxShingle, stucco: txPxStucco, spanishTile: txPxSpanishTile,
+  brick: txPxBrick, corrugated: txPxCorrugated, concretePanel: txPxConcretePanel, windowGrid: txPxWindowGrid,
+};
+const TX_PX_PAINTER_IDS = Object.keys(TX_PX_PAINTERS);
+/** One pixel painter's tile: a fresh Uint8ClampedArray of px*px*4. */
+function txPxTile(id, px, o = {}) {
+  const paint = TX_PX_PAINTERS[id];
+  if (!paint) throw new Error(`textures: unknown pixel painter "${id}"`);
+  const buf = new Uint8ClampedArray(px * px * 4);
+  paint(buf, px, px, o);
+  return buf;
+}
+/**
+ * Pack pixel painters into one atlas: `ids` in row-major square cells of `cell`
+ * px, `cols` per row (the height rounded up to a power of two of rows), each
+ * tile painted at `cell - 2*pad` and wrapped `pad` pixels into its gutter so
+ * bilinear filtering at a cell's edge reads its own tile. Returns
+ * `{ data, width, height, cells: { id: [u, v, du, dv] } }` (the uv of the
+ * tile's interior, v counted from the first row).
+ */
+function txPxAtlas(ids, { cell = 128, cols = 4, pad = 4, seed = 0 } = {}) {
+  const n = Math.max(1, ids.length), rowsN = Math.ceil(n / cols);
+  const width = cell * Math.min(cols, n), height = cell * 2 ** Math.ceil(Math.log2(rowsN));
+  const data = new Uint8ClampedArray(width * height * 4), inner = cell - 2 * pad, cells = {};
+  ids.forEach((id, k) => {
+    const cx = (k % cols) * cell, cy = Math.floor(k / cols) * cell;
+    const tile = txPxTile(id, inner, seed ? { seed: seed + k } : {});
+    for (let y = 0; y < cell; y++) for (let x = 0; x < cell; x++) {
+      const sx = (x - pad + inner) % inner, sy = (y - pad + inner) % inner, s = (sy * inner + sx) * 4, d = ((cy + y) * width + cx + x) * 4;
+      data[d] = tile[s]; data[d + 1] = tile[s + 1]; data[d + 2] = tile[s + 2]; data[d + 3] = 255;
+    }
+    cells[id] = [(cx + pad) / width, (cy + pad) / height, inner / width, inner / height];
+  });
+  return { data, width, height, cells };
+}
+function txPxOnCanvas(paint, g, w, h, o) {
+  const img = g?.createImageData?.(w, h);
+  if (!img?.data) return;
+  paint(img.data, w, h, o);
+  g.putImageData(img, 0, 0);
+}
+/** Lap siding on a 2D context (the pixel painter txPxClapboard). */
+function txClapboardFace(g, w, h, o = {}) { txPxOnCanvas(txPxClapboard, g, w, h, o); }
+/** Shingles on a 2D context (txPxShingle). */
+function txShingleFace(g, w, h, o = {}) { txPxOnCanvas(txPxShingle, g, w, h, o); }
+/** Stucco on a 2D context (txPxStucco). */
+function txStuccoFace(g, w, h, o = {}) { txPxOnCanvas(txPxStucco, g, w, h, o); }
+/** Spanish tile on a 2D context (txPxSpanishTile). */
+function txSpanishTileFace(g, w, h, o = {}) { txPxOnCanvas(txPxSpanishTile, g, w, h, o); }
+
 
 /* ===== shared/records.js ===== */
 // Training records — the auditable attempt log an employer, union hall or
@@ -39871,11 +40042,15 @@ function npBuildParish(root, THREE, parish, opts = {}) {
         const geo = massGeo[kind]; if (!geo) continue;
         const keep = tier === "low" ? list.filter((_, i) => i % 5 !== 4) : list;
         const im = new THREE.InstancedMesh(geo, NP_SWAYING.has(kind) ? treeMat : (NP_MASSING_HOOKS.material?.(kind, parish, THREE) ?? flatMat), keep.length);
+        // PALETTE: a hook material may carry userData.npInstanceColour(spot) -> THREE.Color (per-building colour); the
+        // engine's own materials carry none, so without the hook nothing here changes.
+        const npTint = im.material.userData?.npInstanceColour;
         keep.forEach((s, i) => {
           q.setFromAxisAngle(up, s.rot);
           const sc = NP_UNIT_HEIGHT.has(kind) ? v3.set(s.s, s.h, s.s) : NP_UNIFORM_BY_H[kind] ? v3.set(s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind]) : v3.set(s.s, s.s, s.s);
           m4.compose(new THREE.Vector3(s.x, s.y - 0.15, s.z), q, sc);
           im.setMatrixAt(i, m4);
+          if (npTint) im.setColorAt(i, npTint(s));
         });
         im.name = `mass-${kind}-${ch.key}`;
         chunkRoot.add(im); mass.push(im);
@@ -39945,6 +40120,322 @@ function npBuildParish(root, THREE, parish, opts = {}) {
 /** A parish's water strips (for a map): the river and canals widened, the polygons as they are. */
 function npWaterShapes(parish) { return npPrepare(parish).water.map((w) => ({ id: w.id, kind: w.kind, shape: w.shape, colour: w.colour })); }
 void npStripFromCentreline; void NP_GROUND;
+
+
+/* ===== shared/pa-palette-data.js ===== */
+// PALETTE's colour categories (console PALETTE, docs/consoles/PALETTE.md): plain, dependency-free data that the parish
+// engine's material hook (shared/pa-palette.js) reads and that TQ-BRIDGE exports once for SmartCiti.X TradeQuest
+// (exports/shared/). Nothing here imports anything.
+//
+// A category is a generic, PROCEDURAL paint scheme for a district character — "Creole cottage pastels", "painted-Victorian
+// palette", "warehouse greys" — named after a building style, never after a real building, and never a survey of real
+// colours: every hex is chosen for the look and for legibility. Each category names its wall colours (one picked per
+// building, seeded by position, then nudged a little lighter or darker so neighbours differ), the two tileable textures its
+// buildings wear (walls and roofs, from shared/textures.js's pixel painters), and a sign pair (ground, ink) FACADES may
+// letter its generic storefront signs with; every ink is a design-system token (WebXR/shared/design.css) at 4.5:1 or better.
+//
+//   PA_CATEGORIES                        id -> { id, name, walls: [0xRRGGBB…], wall, roof, sign: { ground, ink }, note }
+//   PA_KIND_CHARACTER                    massing kind -> district character
+//   PA_REGION_CHARACTERS                 region -> character -> category id
+//   PA_PARISH_CHARACTERS                 map id -> character -> category id (a district's own override)
+//   PA_TEXTURES                          pixel painter id -> { metres } (one tile's size on a wall)
+//   PA_ATLAS_TIERS                       tier -> { cell } px per atlas cell (0: no atlas, vertex colour only — the phone)
+//   paCategoryFor(kind, parish)          the category for a massing kind on a map, or null (trees, cranes: untouched)
+//   paInstanceColour(category, spot)     a wall colour 0xRRGGBB for one building, seeded by its position
+
+/** Every colour category (procedural paint schemes by building style). */
+const PA_CATEGORIES = {
+  "creole-cottage-pastels": {
+    id: "creole-cottage-pastels", name: "Creole cottage pastels", wall: "stucco", roof: "concretePanel",
+    walls: [0xe9b8a3, 0xf1d68e, 0xabcaa6, 0x9fc4d8, 0xdcaacb, 0xf2e7d3],
+    sign: { ground: 0xf3ead8, ink: 0x0b1822 }, note: "Soft pastels on plastered walls; a procedural scheme, not a record of any real street.",
+  },
+  "garden-district-whites": {
+    id: "garden-district-whites", name: "Garden District whites", wall: "clapboard", roof: "shingle",
+    walls: [0xf4f1e8, 0xece6d6, 0xe8ecef, 0xf2ead9, 0xdfe3da],
+    sign: { ground: 0x1f3b2d, ink: 0xedf6fb }, note: "Whites and creams on lap siding under shingle roofs; procedural.",
+  },
+  "shotgun-brights": {
+    id: "shotgun-brights", name: "Shotgun-house brights", wall: "clapboard", roof: "shingle",
+    walls: [0xe07a5f, 0xf2cc60, 0x81b29a, 0x6aa9c9, 0xc98bb9, 0xf4a259],
+    sign: { ground: 0xf7f1e3, ink: 0x0b1822 }, note: "Saturated paints on narrow lap-sided houses; procedural.",
+  },
+  "riverfront-brick": {
+    id: "riverfront-brick", name: "Riverfront brick", wall: "brick", roof: "concretePanel",
+    walls: [0xa4553f, 0x8f4a3a, 0xb46a4e, 0x7d4436, 0x9c5f4a],
+    sign: { ground: 0x2b2522, ink: 0xedf6fb }, note: "Red and brown brick on working blocks; procedural.",
+  },
+  "port-steel": {
+    id: "port-steel", name: "Port steel", wall: "corrugated", roof: "corrugated",
+    walls: [0x8e9aa5, 0x5d7c99, 0xa9b1b8, 0x9b6a4f, 0x6f8a7a],
+    sign: { ground: 0x16324a, ink: 0xedf6fb }, note: "Painted corrugated sheds by the water; procedural.",
+  },
+  "painted-victorian": {
+    id: "painted-victorian", name: "Painted-Victorian palette", wall: "clapboard", roof: "shingle",
+    walls: [0x4f8a8b, 0x7b4b6e, 0xd9a441, 0x9bb17b, 0xc76f6a, 0x5b6c9e, 0xe6d3a3],
+    sign: { ground: 0xf4ecd8, ink: 0x0b1822 }, note: "Deep, varied paints on ornate lap-sided row houses; procedural.",
+  },
+  "mission-stucco": {
+    id: "mission-stucco", name: "Mission stucco", wall: "stucco", roof: "spanishTile",
+    walls: [0xf1e4cc, 0xd99a6c, 0xe7c07a, 0xc9d3b8, 0xe3b3a0, 0xf4efe4],
+    sign: { ground: 0x5a2e1f, ink: 0xedf6fb }, note: "Warm stucco under barrel-tile roofs; procedural.",
+  },
+  "sunset-pastels": {
+    id: "sunset-pastels", name: "Sunset pastels", wall: "stucco", roof: "spanishTile",
+    walls: [0xbfe3d0, 0xf6cfb0, 0xb9d3ec, 0xf4ebb0, 0xe4c8e0, 0xf2f0ea],
+    sign: { ground: 0xfdf8ee, ink: 0x0b1822 }, note: "Light pastels on stucco row houses; procedural.",
+  },
+  "downtown-stone": {
+    id: "downtown-stone", name: "Downtown stone and glass", wall: "windowGrid", roof: "concretePanel",
+    walls: [0xc9c4b8, 0xa7adb3, 0xd8cdb4, 0x8e979f, 0xb9b1a2],
+    sign: { ground: 0x1b2430, ink: 0xedf6fb }, note: "Stone-grey and tan towers with window grids; procedural.",
+  },
+  "oakland-brick": {
+    id: "oakland-brick", name: "Oakland brick", wall: "brick", roof: "concretePanel",
+    walls: [0x9a4f3c, 0xb0664d, 0x86503f, 0xa87a5c, 0x7a3f33],
+    sign: { ground: 0x2a211d, ink: 0xedf6fb }, note: "Brick commercial blocks; procedural.",
+  },
+  "warehouse-greys": {
+    id: "warehouse-greys", name: "Warehouse greys", wall: "concretePanel", roof: "corrugated",
+    walls: [0x9ea3a7, 0x8b9196, 0xb3b6b3, 0x7f878c, 0xa89f94],
+    sign: { ground: 0xf2c14b, ink: 0x0b1822 }, note: "Grey panel and sheet-metal warehouses; procedural.",
+  },
+  "craftsman-shingle": {
+    id: "craftsman-shingle", name: "Craftsman shingle", wall: "shingle", roof: "shingle",
+    walls: [0x8a6a4f, 0x6f7f5c, 0xa3845e, 0x5e6f6a, 0xb59a74],
+    sign: { ground: 0xf3ecdc, ink: 0x0b1822 }, note: "Brown-shingle and sage houses under low roofs; procedural.",
+  },
+  "marsh-weathered": {
+    id: "marsh-weathered", name: "Marsh weathered", wall: "shingle", roof: "corrugated",
+    walls: [0xa7a79c, 0x8f9488, 0xbdb6a4, 0x7f8a86, 0xc3c1b5],
+    sign: { ground: 0x223b3a, ink: 0xedf6fb }, note: "Silvered wood and tin by the marsh; procedural.",
+  },
+  "campus-stucco": {
+    id: "campus-stucco", name: "Campus sandstone", wall: "stucco", roof: "spanishTile",
+    walls: [0xd8c3a0, 0xcdb58e, 0xe3d4b8, 0xbfa987],
+    sign: { ground: 0x243a52, ink: 0xedf6fb }, note: "Sandstone-toned blocks under tile roofs; procedural.",
+  },
+  "refinery-whites": {
+    id: "refinery-whites", name: "Refinery whites", wall: "concretePanel", roof: "concretePanel",
+    walls: [0xeceae4, 0xd9dcdc, 0xc9ccc8, 0xe6e0d0],
+    sign: { ground: 0xf0645b, ink: 0x0b1822 }, note: "White and silver tanks and stacks; procedural.",
+  },
+  "valley-ranch": {
+    id: "valley-ranch", name: "Valley ranch stucco", wall: "stucco", roof: "spanishTile",
+    walls: [0xe6d9c0, 0xd4c7a8, 0xc8cfb4, 0xecdcc8, 0xd8c0a8],
+    sign: { ground: 0xfaf4e6, ink: 0x0b1822 }, note: "Beige and sage stucco houses; procedural.",
+  },
+};
+
+/** The district character a massing kind stands for (np-parish.js places kinds by district character). */
+const PA_KIND_CHARACTER = {
+  quarterBlock: "quarter", gardenHouse: "garden", suburbHouse: "suburb", shed: "industrial",
+  tower: "downtown", campusBlock: "campus", tank: "refinery", stack: "refinery",
+};
+/** The characters PALETTE paints. */
+const PA_CHARACTERS = ["quarter", "garden", "suburb", "industrial", "downtown", "campus", "refinery"];
+
+/** Region -> character -> category id: every character in every region maps to a category. */
+const PA_REGION_CHARACTERS = {
+  "new-orleans": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "san-francisco": { quarter: "painted-victorian", garden: "painted-victorian", suburb: "sunset-pastels", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  oakland: { quarter: "oakland-brick", garden: "painted-victorian", suburb: "craftsman-shingle", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "north-east-bay": { quarter: "oakland-brick", garden: "craftsman-shingle", suburb: "valley-ranch", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "south-bay": { quarter: "mission-stucco", garden: "valley-ranch", suburb: "valley-ranch", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "bay-program": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+};
+/** A district's own override (map id -> character -> category id), where its character differs from its region's. */
+const PA_PARISH_CHARACTERS = {
+  jefferson: { industrial: "port-steel" },
+  "st-bernard": { suburb: "marsh-weathered", industrial: "port-steel" },
+  plaquemines: { suburb: "marsh-weathered", garden: "marsh-weathered" },
+  "sf-mission": { quarter: "mission-stucco" },
+  "sf-outer-mission": { quarter: "mission-stucco" },
+  "sf-sunset-south": { garden: "sunset-pastels" },
+  "sf-bayview": { industrial: "port-steel" },
+  "oak-west-oakland": { industrial: "port-steel" },
+  "oak-fruitvale-estuary": { quarter: "mission-stucco", suburb: "sunset-pastels" },
+};
+/** One tile's size on a wall, in metres, per pixel painter (shared/textures.js TX_PX_PAINTERS). */
+const PA_TEXTURES = {
+  clapboard: { metres: 2.4 }, shingle: { metres: 2.4 }, stucco: { metres: 4 }, spanishTile: { metres: 3 },
+  brick: { metres: 2.4 }, corrugated: { metres: 3.2 }, concretePanel: { metres: 6 }, windowGrid: { metres: 18 },
+};
+/** Atlas cell size per render tier (perf.js tiers); 0 is the phone: no atlas, per-instance vertex colour only. */
+const PA_ATLAS_TIERS = { high: { cell: 128 }, balanced: { cell: 64 }, low: { cell: 0 } };
+
+/** The region a map belongs to (np-parishes.js's rule: a map without one is a New Orleans parish). */
+function paRegionOf(parish) { return parish?.region ?? "new-orleans"; }
+
+/** The category for a massing kind on a map, or null for a kind PALETTE leaves alone (trees, reeds, cranes). */
+function paCategoryFor(kind, parish) {
+  const ch = PA_KIND_CHARACTER[kind];
+  if (!ch) return null;
+  const id = PA_PARISH_CHARACTERS[parish?.id]?.[ch] ?? PA_REGION_CHARACTERS[paRegionOf(parish)]?.[ch] ?? PA_REGION_CHARACTERS["new-orleans"][ch];
+  return PA_CATEGORIES[id] ?? null;
+}
+
+/** The category ids one region's maps can use (its own table plus its maps' overrides). */
+function paRegionCategories(region, parishIds = Object.keys(PA_PARISH_CHARACTERS)) {
+  const ids = new Set(Object.values(PA_REGION_CHARACTERS[region] ?? PA_REGION_CHARACTERS["new-orleans"]));
+  for (const pid of parishIds) for (const id of Object.values(PA_PARISH_CHARACTERS[pid] ?? {})) ids.add(id);
+  return [...ids].filter((id) => PA_CATEGORIES[id]);
+}
+
+/** An integer hash of a building's position (to the decimetre) -> [0, 1). */
+function paHash(x, z, salt = 0) {
+  let h = Math.imul(Math.round(x * 10) | 0, 0x27d4eb2d) ^ Math.imul(Math.round(z * 10) | 0, 0x165667b1) ^ Math.imul(salt | 0, 0x9e3779b9);
+  h = Math.imul(h ^ (h >>> 15), 0x85ebca6b); h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+
+/** One building's wall colour: a category colour picked by position, nudged ±7% in lightness so neighbours differ. */
+function paInstanceColour(category, spot) {
+  const walls = category?.walls ?? [0xcccccc];
+  const pick = walls[Math.floor(paHash(spot.x, spot.z) * walls.length) % walls.length];
+  const k = 0.93 + paHash(spot.x, spot.z, 7) * 0.14;
+  const ch = (v) => Math.max(0, Math.min(255, Math.round(v * k)));
+  return (ch((pick >> 16) & 255) << 16) | (ch((pick >> 8) & 255) << 8) | ch(pick & 255);
+}
+
+
+/* ===== shared/pa-palette.js ===== */
+// PALETTE (docs/consoles/PALETTE.md): the parish engine's massing material hook. It sets NP_MASSING_HOOKS.material
+// (shared/np-world.js) so every building kind wears its district character's colour category (shared/pa-palette-data.js)
+// and, above the phone tier, one tileable texture pair (walls, roofs) from shared/textures.js's pixel painters.
+//
+// Seam:
+//   paMount({ tier, hooks? }) -> { tier, stats() }     sets hooks.material (NP_MASSING_HOOKS by default); call it before
+//                                                       npBuildParish. stats() -> { materials, atlases, atlasPixels, programs }
+//   paMaterialFor(kind, parish, THREE, tier) -> material | null   (the hook itself, tier bound by paMount)
+//   paAtlasFor(region, tier, THREE) -> THREE.DataTexture | null   one small atlas per region and tier, cached
+//
+// Budget: no new meshes. One material per (region, kind, tier), cached and shared across chunks; every textured one shares
+// one shader program (customProgramCacheKey) and its region's one atlas. Per-building colour rides the InstancedMesh's
+// instanceColor (the engine calls material.userData.npInstanceColour(spot) when present): the category colour replaces
+// the light (wall) vertex colours and leaves the dark ones (roofs, slabs) as they were. The phone tier ("low") gets no
+// atlas and a plain Lambert material: per-instance vertex colour only. Everything is procedural: no image is fetched.
+
+
+
+
+/** Vertex colours brighter than this (linear luminance) are walls and take the building's category colour. */
+const PA_WALL_LUM = 0.15;
+const paMats = new Map();     // `${region}|${kind}|${tier}` -> material
+const paAtlases = new Map();  // `${region}|${tier}` -> { tex, cells, width, height }
+
+/** The painters a region's categories use, in a fixed order (walls then roofs, first seen first). */
+function paRegionPainters(region) {
+  const ids = [];
+  for (const cid of paRegionCategories(region)) for (const t of [PA_CATEGORIES[cid].wall, PA_CATEGORIES[cid].roof]) if (t && !ids.includes(t)) ids.push(t);
+  return ids;
+}
+
+/** The region's atlas at a tier (null on the phone tier), cached: one DataTexture per region and tier. */
+function paAtlasFor(region, tier, THREE) {
+  const cell = PA_ATLAS_TIERS[tier]?.cell ?? PA_ATLAS_TIERS.high.cell;
+  if (!cell) return null;
+  const key = `${region}|${tier}`;
+  let a = paAtlases.get(key);
+  if (!a) {
+    const packed = txPxAtlas(paRegionPainters(region), { cell, cols: 4, pad: Math.max(2, cell / 32) });
+    const tex = new THREE.DataTexture(packed.data, packed.width, packed.height, THREE.RGBAFormat);
+    tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.magFilter = THREE.LinearFilter; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.generateMipmaps = true;
+    tex.name = `pa-atlas-${key}`; tex.needsUpdate = true;
+    a = { tex, cells: packed.cells, width: packed.width, height: packed.height };
+    paAtlases.set(key, a);
+  }
+  return a;
+}
+
+const PA_VERT_PARS = "#include <common>\nvarying vec2 vPaUv;\nvarying float vPaRoof;\nuniform vec2 uPaMetres;";
+const PA_VERT = `#include <project_vertex>
+{
+  vec4 paP = vec4( transformed, 1.0 );
+  vec3 paN = objectNormal;
+#ifdef USE_INSTANCING
+  paP = instanceMatrix * paP;
+  paN = mat3( instanceMatrix ) * paN;
+#endif
+  paP = modelMatrix * paP;
+  paN = abs( normalize( mat3( modelMatrix ) * paN ) );
+  vPaRoof = paN.y > 0.7 ? 1.0 : 0.0;
+  vPaUv = ( paN.y > 0.7 ? paP.xz : ( paN.x > paN.z ? paP.zy : paP.xy ) ) / ( vPaRoof > 0.5 ? uPaMetres.y : uPaMetres.x );
+}`;
+const PA_TINT = `#include <color_vertex>
+#if defined( USE_COLOR ) && defined( USE_INSTANCING_COLOR )
+  vColor.xyz = dot( color, vec3( 0.2126, 0.7152, 0.0722 ) ) > ${PA_WALL_LUM.toFixed(3)} ? instanceColor.xyz : color;
+#endif`;
+const PA_FRAG_PARS = "#include <common>\nvarying vec2 vPaUv;\nvarying float vPaRoof;\nuniform sampler2D uPaAtlas;\nuniform vec4 uPaWall;\nuniform vec4 uPaRoof;";
+const PA_FRAG = `#include <map_fragment>
+{
+  vec4 paCell = vPaRoof > 0.5 ? uPaRoof : uPaWall;
+  vec2 paUv = paCell.xy + fract( vPaUv ) * paCell.zw;
+#if __VERSION__ >= 300
+  float paD = textureGrad( uPaAtlas, paUv, dFdx( vPaUv ) * paCell.zw, dFdy( vPaUv ) * paCell.zw ).r;
+#else
+  float paD = texture2D( uPaAtlas, paUv ).r;
+#endif
+  diffuseColor.rgb *= paD * ${TX_PX_GAIN.toFixed(3)};
+}`;
+
+/** Patch a Lambert shader: the wall tint always; the atlas detail when `atlas` is given. Exported for the checker. */
+function paPatchShader(shader, { atlas = null, wall = [0, 0, 1, 1], roof = [0, 0, 1, 1], metres = [3, 3] } = {}) {
+  shader.vertexShader = shader.vertexShader.replace("#include <color_vertex>", PA_TINT);
+  if (atlas) {
+    shader.uniforms.uPaAtlas = { value: atlas };
+    shader.uniforms.uPaWall = { value: { x: wall[0], y: wall[1], z: wall[2], w: wall[3], isVector4: true } };
+    shader.uniforms.uPaRoof = { value: { x: roof[0], y: roof[1], z: roof[2], w: roof[3], isVector4: true } };
+    shader.uniforms.uPaMetres = { value: { x: metres[0], y: metres[1], isVector2: true } };
+    shader.vertexShader = shader.vertexShader.replace("#include <common>", PA_VERT_PARS).replace("#include <project_vertex>", PA_VERT);
+    shader.fragmentShader = shader.fragmentShader.replace("#include <common>", PA_FRAG_PARS).replace("#include <map_fragment>", PA_FRAG);
+  }
+  return shader;
+}
+
+/** The hook: a cached material for a massing kind on a map at a tier, or null (the engine keeps its flat material). */
+function paMaterialFor(kind, parish, THREE, tier = "high") {
+  const cat = paCategoryFor(kind, parish);
+  if (!cat || !THREE?.MeshLambertMaterial) return null;
+  const region = paRegionOf(parish);
+  const key = `${region}|${kind}|${tier}|${cat.id}`;
+  let mat = paMats.get(key);
+  if (mat) return mat;
+  mat = new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+  mat.name = `pa-${cat.id}-${kind}-${tier}`;
+  const colour = new THREE.Color();
+  mat.userData.paCategory = cat.id;
+  mat.userData.npInstanceColour = (spot) => colour.setHex(paInstanceColour(cat, spot));
+  const atlas = paAtlasFor(region, tier, THREE);
+  const opts = atlas ? {
+    atlas: atlas.tex, wall: atlas.cells[cat.wall], roof: atlas.cells[cat.roof],
+    metres: [PA_TEXTURES[cat.wall]?.metres ?? 3, PA_TEXTURES[cat.roof]?.metres ?? 3],
+  } : {};
+  mat.userData.paTextured = !!atlas;
+  mat.onBeforeCompile = (shader) => { paPatchShader(shader, opts); };
+  mat.customProgramCacheKey = () => (atlas ? "pa-atlas-1" : "pa-tint-1");
+  paMats.set(key, mat);
+  return mat;
+}
+
+/** Counts for the checker and the hand-back: cached materials, atlases and their pixels. */
+function paStats() {
+  let atlasPixels = 0;
+  for (const a of paAtlases.values()) atlasPixels += a.width * a.height;
+  const mats = [...paMats.values()];
+  return { materials: mats.length, textured: mats.filter((m) => m.userData.paTextured).length, atlases: paAtlases.size, atlasPixels,
+    programs: new Set(mats.map((m) => m.customProgramCacheKey())).size };
+}
+/** Empty the caches (test harnesses only). */
+function paReset() { for (const m of paMats.values()) m.dispose?.(); for (const a of paAtlases.values()) a.tex.dispose?.(); paMats.clear(); paAtlases.clear(); }
+
+/** Mount PALETTE: set the engine's material hook for this tier. Returns { tier, stats() }. */
+function paMount({ tier = "high", hooks = null } = {}) {
+  const h = hooks ?? (typeof NP_MASSING_HOOKS !== "undefined" ? NP_MASSING_HOOKS : null);
+  if (h) h.material = (kind, parish, THREE) => paMaterialFor(kind, parish, THREE, tier);
+  return { tier, stats: paStats };
+}
 
 
 /* ===== shared/rl-relief.js ===== */
@@ -92083,6 +92574,8 @@ if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 // seats on the same ground (pads terraced, water level). No token: no await, no request, the schematic ground unchanged.
 // The phone tier asks for none; a failed or slow tile (bounded wait) leaves the schematic ground.
 const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierName }) : null;
+// PALETTE (docs/consoles/PALETTE.md): colour categories and one textured material per building kind (none on the phone).
+const paPalette = paMount({ tier: npTierName });
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
@@ -92712,6 +93205,7 @@ var stWorld = stMountPaths({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.storyline = stWorld;
+window.__parishTest.palette = paPalette;
 // DRILLS (docs/consoles/DRILLS.md): timed scenario drills at fitting sites — briefing, objectives tied to real station
 // steps, a debrief — offered on the First Responders, Disaster Relief and UN Training paths, recorded to the passport.
 drSetRecorder(ppAward);

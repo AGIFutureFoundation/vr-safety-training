@@ -20,6 +20,7 @@ import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, 
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
+import { paMount } from "../../shared/pa-palette.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
@@ -110,6 +111,8 @@ if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 // seats on the same ground (pads terraced, water level). No token: no await, no request, the schematic ground unchanged.
 // The phone tier asks for none; a failed or slow tile (bounded wait) leaves the schematic ground.
 const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierName }) : null;
+// PALETTE (docs/consoles/PALETTE.md): colour categories and one textured material per building kind (none on the phone).
+const paPalette = paMount({ tier: npTierName });
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
@@ -739,6 +742,7 @@ var stWorld = stMountPaths({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.storyline = stWorld;
+window.__parishTest.palette = paPalette;
 // DRILLS (docs/consoles/DRILLS.md): timed scenario drills at fitting sites — briefing, objectives tied to real station
 // steps, a debrief — offered on the First Responders, Disaster Relief and UN Training paths, recorded to the passport.
 drSetRecorder(ppAward);
