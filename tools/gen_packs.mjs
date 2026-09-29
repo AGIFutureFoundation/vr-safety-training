@@ -35,18 +35,46 @@ export const PK_VERSION = "1.0.0";
 export const pkTitle = (name) => `SmartCiti.X ${name} — Powered by AGI Corp`;
 
 /**
- * The STORYLINE path of a programme pack, with any secondary paths, and why. A programme not listed is a
- * union-trade programme. Reasons are the programme's own catalog text.
+ * The STORYLINE path of a programme pack, with any secondary paths. Matched to STORYLINE's own registry
+ * (WebXR/shared/st-paths.js, docs/consoles/STORYLINE.md), which names the programmes behind each path:
+ *   First Responders: first-responders, situational-awareness, hazmat-environmental
+ *   UN Training:      outbreak-response-who
+ *   Disaster Relief:  first-responders, hazmat-environmental, water-and-gas-utility-crews, situational-awareness
+ *   Teachers:         education-support-staff, the four K-12 programmes, civic-leadership-and-ei
+ *   K-12:             the four K-12 programmes (their packs: path k12, also teachers)
+ *   Just Roam:        no programmes (it turns the prompts off) — so no pack carries `roam`.
+ * A programme STORYLINE lists under more than one path takes the one below as `path` and the rest as `alsoPaths`;
+ * a programme not listed is a union-trade programme (its catalog `union` line names the trades that teach it).
  */
 export const PK_PROGRAMME_PATHS = {
-  "first-responders": { path: "first-responders", also: ["disaster-relief"], audience: "responders" }, // its union line names Red Cross disaster-relief crews
-  "outbreak-response-who": { path: "un-training", also: ["disaster-relief"], audience: "public-health" }, // WHO / UN clusters
-  "education-support-staff": { path: "teachers", also: [], audience: "school-staff" }, // AFT and CSEA school staff
+  "first-responders": { path: "first-responders", also: ["disaster-relief"], audience: "responders" },
+  "situational-awareness": { path: "first-responders", also: ["disaster-relief"], audience: "responders" },
+  // HAZWOPER-style cleanup and spill response: the disaster-relief crew's programme first (STORYLINE lists it under both).
+  "hazmat-environmental": { path: "disaster-relief", also: ["first-responders"], audience: "responders" },
+  "water-and-gas-utility-crews": { path: "union-trades", also: ["disaster-relief"], audience: "trades" },
+  "outbreak-response-who": { path: "un-training", also: [], audience: "public-health" },
+  "education-support-staff": { path: "teachers", also: [], audience: "school-staff" },
+  "civic-leadership-and-ei": { path: "teachers", also: [], audience: "community" },
 };
-/** Unions whose pack serves a path other than Union Trades. */
-export const PK_UNION_PATHS = { iaff: "first-responders" };
-/** Catalog categories whose library pack also serves a path beside Just Roam. */
-export const PK_LIBRARY_ALSO = { "Emergency Services": ["first-responders", "disaster-relief"] };
+/**
+ * Unions whose package serves a path other than Union Trades: the unions the first-responders programme's own
+ * union line names for fire, EMS, police and crisis work, and the school-staff unions of education-support-staff.
+ */
+export const PK_UNION_PATHS = {
+  iaff: { path: "first-responders", also: ["disaster-relief"], audience: "responders" },
+  nage: { path: "first-responders", also: ["disaster-relief"], audience: "responders" },
+  fop: { path: "first-responders", also: [], audience: "responders" },
+  nasw: { path: "first-responders", also: ["disaster-relief"], audience: "responders" },
+  aft: { path: "teachers", also: [], audience: "school-staff" },
+  csea: { path: "teachers", also: [], audience: "school-staff" },
+};
+/**
+ * Catalog categories whose station library serves a path other than Union Trades. Every other library is a
+ * category of trade stations, so it belongs to Union Trades; none defaults to Just Roam.
+ */
+export const PK_LIBRARY_PATHS = {
+  "Emergency Services": { path: "first-responders", also: ["disaster-relief"], audience: "responders" },
+};
 
 export const PK_WORLD_NAMES = {
   bayworld: "Bay World", underwater: "The Deep", summit: "Sierra Summit", redwood: "Redwood Reach", parishes: "Parishes & Districts",
@@ -154,12 +182,12 @@ export async function pkBuild() {
     const name = `${u.abbrev} Union Package`;
     packs.push({
       id: `union-${u.id}`, kind: "union", name, title: pkTitle(name),
-      audience: PK_UNION_PATHS[u.id] === "first-responders" ? "responders" : "trades",
+      audience: PK_UNION_PATHS[u.id]?.audience ?? "trades",
       summary: `Every station the platform ties to ${u.name}: the programmes whose union line names it and the stations whose own certification does.`,
       certification: null,
       programmes: [...(unionProgs.get(u.id) ?? [])].sort(), stations: ids.map(st),
       unions: [u.id], unionLine: u.name, k12Bands: [],
-      path: PK_UNION_PATHS[u.id] ?? "union-trades", alsoPaths: [],
+      path: PK_UNION_PATHS[u.id]?.path ?? "union-trades", alsoPaths: PK_UNION_PATHS[u.id]?.also ?? [],
       worlds: worldsFor(ids, sites),
     });
   }
@@ -173,15 +201,15 @@ export async function pkBuild() {
     const loose = ids.filter((id) => !inProgramme.has(id)).length;
     packs.push({
       id: `library-${slugOf(cat.name)}`, kind: "library", name, title: pkTitle(name),
-      audience: "open",
-      summary: `Every ${cat.name} station in the catalog, to roam freely${loose ? ` — including ${loose === 1 ? "one station" : "stations"} no programme lists yet` : ""}.`,
+      audience: PK_LIBRARY_PATHS[cat.name]?.audience ?? "trades",
+      summary: `Every ${cat.name} station in the catalog in one pack${loose ? ` — including ${loose === 1 ? "one station" : "stations"} no programme lists yet` : ""}.`,
       certification: null,
       // A library holds stations, not programmes: the programmes that share its stations are named as related only,
       // so an exported library carries no programme whose other stations it does not hold.
       programmes: [],
       relatedProgrammes: [...new Set(catalog.curricula.filter((c) => !isK12(c.id) && c.stations.some((s) => ids.includes(s.id))).map((c) => c.id))].sort(),
       stations: ids.map(st), unions: [], unionLine: null, k12Bands: [],
-      path: "roam", alsoPaths: PK_LIBRARY_ALSO[cat.name] ?? [],
+      path: PK_LIBRARY_PATHS[cat.name]?.path ?? "union-trades", alsoPaths: PK_LIBRARY_PATHS[cat.name]?.also ?? [],
       worlds: worldsFor(ids, sites),
     });
   }
@@ -255,7 +283,7 @@ const PATH_LABEL = {
   "union-trades": "Union Trades", k12: "K-12", "first-responders": "First Responders", "un-training": "UN Training",
   "disaster-relief": "Disaster Relief", teachers: "Teachers", roam: "Just Roam",
 };
-const AUDIENCE_LABEL = { trades: "Trade learners", classroom: "Classroom", responders: "Responders", "public-health": "Public health", "school-staff": "School staff", open: "Open roam" };
+const AUDIENCE_LABEL = { trades: "Trade learners", classroom: "Classroom", responders: "Responders", "public-health": "Public health", "school-staff": "School staff", community: "Community & civic" };
 
 /** The Packs page for one layout. */
 export function pkPageHtml(packs, catalog, unions, parishes, layout = "source") {
@@ -328,7 +356,7 @@ export function pkPageHtml(packs, catalog, unions, parishes, layout = "source") 
     </div>
   </header>
   <form class="pk-filters" id="pk-filters" aria-label="Filter the packs">
-    <label>Path<select id="pk-path"><option value="">Every path</option>${PK_PATHS.map((p) => opt(p, PATH_LABEL[p])).join("")}</select></label>
+    <label>Path<select id="pk-path"><option value="">Every path</option>${PK_PATHS.filter((p) => p !== "roam").map((p) => opt(p, PATH_LABEL[p])).join("")}</select></label>
     <label>Audience<select id="pk-audience"><option value="">Every audience</option>${Object.entries(AUDIENCE_LABEL).map(([k, v]) => opt(k, v)).join("")}</select></label>
     <label>Union<select id="pk-union"><option value="">Every union</option>${usedUnions.map((u) => opt(u, unionAbbrev.get(u))).join("")}</select></label>
     <label>Kind<select id="pk-kind"><option value="">Every kind</option>${PK_KINDS.map((k) => opt(k, KIND_LABEL[k])).join("")}</select></label>

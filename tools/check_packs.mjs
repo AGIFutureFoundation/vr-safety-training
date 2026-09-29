@@ -81,6 +81,20 @@ section("manifest shape, titles, branding, paths, versions", () => {
   }
 });
 
+section("STORYLINE paths: every path but Just Roam has a pack of its own, no pack defaults to roam", () => {
+  for (const x of PK_PATHS.filter((x) => x !== "roam")) ok(packs.some((p) => p.path === x), `no pack carries path ${x}`);
+  for (const p of packs) ok(p.path !== "roam" && !p.alsoPaths.includes("roam"), `${p.id}: carries roam (Just Roam has no programmes)`);
+  // The programme packs agree with STORYLINE's registry wherever it names a programme (docs/consoles/STORYLINE.md).
+  const ST = { "first-responders": ["first-responders", "situational-awareness", "hazmat-environmental"], "un-training": ["outbreak-response-who"],
+    "disaster-relief": ["first-responders", "hazmat-environmental", "water-and-gas-utility-crews", "situational-awareness"],
+    teachers: ["education-support-staff", "k12-practical-math", "k12-science", "k12-history-and-civics", "k12-literacy-and-life-skills", "civic-leadership-and-ei"],
+    k12: ["k12-practical-math", "k12-science", "k12-history-and-civics", "k12-literacy-and-life-skills"] };
+  for (const [path, ids] of Object.entries(ST)) for (const id of ids) {
+    const p = packs.find((x) => x.id === id);
+    ok(p && (p.path === path || p.alsoPaths.includes(path)), `${id}: STORYLINE lists it under ${path}, the pack does not`);
+  }
+});
+
 section("every catalog station belongs to at least one pack", () => {
   const held = new Set(packs.flatMap((p) => p.stations.map((s) => s.id)));
   for (const s of catalog.stations) ok(held.has(s.id), `station ${s.id} is in no pack`);
@@ -227,8 +241,8 @@ section("an exported pack contains only its own content (tools/export_pack.mjs)"
 });
 
 const counts = Object.fromEntries(PK_KINDS.map((k) => [k, packs.filter((p) => p.kind === k).length]));
-const pathCounts = PK_PATHS.map((x) => `${x} ${reg.pkPacks({ path: x }).length}`).join(", ");
-console.log(`  packs: ${packs.length} (${PK_KINDS.map((k) => `${counts[k]} ${k}`).join(", ")}); stations covered ${catalog.stations.length}/${catalog.stations.length}; by path: ${pathCounts}; page links ${linkCount}`);
+const pathCounts = PK_PATHS.map((x) => `${x} ${packs.filter((p) => p.path === x).length}/${reg.pkPacks({ path: x }).length}`).join(", ");
+console.log(`  packs: ${packs.length} (${PK_KINDS.map((k) => `${counts[k]} ${k}`).join(", ")}); stations covered ${catalog.stations.length}/${catalog.stations.length}; by path (own/with also): ${pathCounts}; page links ${linkCount}`);
 for (const f of fails) console.log(`    ✗ ${f}`);
 console.log(failures
   ? `\ncheck_packs: ${failures} of ${checks} checks failed (${Date.now() - T0} ms).`

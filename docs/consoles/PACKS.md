@@ -12,10 +12,20 @@ Pack kinds (each kind is its own set of manifests, `kind` on every manifest):
 
 | kind | one per | source | path |
 |---|---|---|---|
-| `programme` | union-trade programme in the catalog (`curricula`, not `k12-*`) | `WebXR/smartcity/catalog.json` | mapped table in the generator (`first-responders`, `un-training`, `teachers`, else `union-trades`) |
+| `programme` | union-trade programme in the catalog (`curricula`, not `k12-*`) | `WebXR/smartcity/catalog.json` | STORYLINE's registry: `first-responders` (first-responders, situational-awareness), `disaster-relief` (hazmat-environmental), `un-training` (outbreak-response-who), `teachers` (education-support-staff, civic-leadership-and-ei); every other programme `union-trades` |
 | `k12` | K-12 track (`k12-*` programme, with its `band`) | catalog | `k12` (also `teachers`) |
-| `union` | union in `tools/unions.json` that the platform's text ties to a station (a programme's `union` string or a station's own certification naming its alias), K-12 stations excluded | unions registry + catalog | `union-trades` |
-| `library` | catalog category, non-K-12 stations only — the home of the 26 stations no programme lists yet | catalog `categories` | `roam` |
+| `union` | union in `tools/unions.json` that the platform's text ties to a station (a programme's `union` string or a station's own certification naming its alias), K-12 stations excluded | unions registry + catalog | `first-responders` for IAFF, NAGE, FOP, NASW (the first-responders programme's union line); `teachers` for AFT, CSEA; else `union-trades` |
+| `library` | catalog category, non-K-12 stations only — the home of the 26 stations no programme lists yet | catalog `categories` | `first-responders` for Emergency Services (also `disaster-relief`); every other category is trade stations, so `union-trades` |
+
+**Just Roam carries no pack.** STORYLINE defines `roam` as the free-exploration path with no programmes (it turns the
+prompts off), so it is not a fallback: `check_packs` asserts no pack carries it and that every other path has at least
+one pack of its own. A programme STORYLINE lists under two paths takes one as `path` and the other in `alsoPaths`
+(first-responders and situational-awareness: First Responders, also Disaster Relief; hazmat-environmental: Disaster
+Relief, also First Responders; water-and-gas-utility-crews: Union Trades, also Disaster Relief). Two judgement calls,
+recorded: basketball-fundamentals and the Youth Sports & Coaching library are taught by parks-and-recreation staff
+(AFSCME, SEIU) against USA Basketball's youth guidelines — neither a classroom programme nor a teacher-facing flow in
+STORYLINE's registry — so they stay `union-trades`; bay-restoration programmes are site and marine trade work and stay
+`union-trades` (STORYLINE's Disaster Relief does not list them).
 
 K-12 packs hold only `k12-*` stations and name no union package; union packs hold no `k12-*` station
 (the checker holds both). A pack may carry `alsoPaths` (e.g. First Responders also serves Disaster Relief,

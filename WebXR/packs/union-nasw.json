@@ -3,7 +3,7 @@
   "kind": "union",
   "name": "NASW Union Package",
   "title": "SmartCiti.X NASW Union Package — Powered by AGI Corp",
-  "audience": "trades",
+  "audience": "responders",
   "summary": "Every station the platform ties to National Association of Social Workers: the programmes whose union line names it and the stations whose own certification does.",
   "certification": null,
   "programmes": [
@@ -88,8 +88,10 @@
   ],
   "unionLine": "National Association of Social Workers",
   "k12Bands": [],
-  "path": "union-trades",
-  "alsoPaths": [],
+  "path": "first-responders",
+  "alsoPaths": [
+    "disaster-relief"
+  ],
   "worlds": [
     {
       "world": "bayworld",

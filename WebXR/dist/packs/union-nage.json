@@ -3,7 +3,7 @@
   "kind": "union",
   "name": "NAGE Union Package",
   "title": "SmartCiti.X NAGE Union Package — Powered by AGI Corp",
-  "audience": "trades",
+  "audience": "responders",
   "summary": "Every station the platform ties to National Association of Government Employees: the programmes whose union line names it and the stations whose own certification does.",
   "certification": null,
   "programmes": [
@@ -84,8 +84,10 @@
   ],
   "unionLine": "National Association of Government Employees",
   "k12Bands": [],
-  "path": "union-trades",
-  "alsoPaths": [],
+  "path": "first-responders",
+  "alsoPaths": [
+    "disaster-relief"
+  ],
   "worlds": [
     {
       "world": "bayworld",
