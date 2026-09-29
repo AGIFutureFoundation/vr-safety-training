@@ -59,7 +59,7 @@ export const SIM_BK_BIORETENTION_RAIN_GARDEN_EXCAVATION = {
   accent: BKRG_ACCENT,
   accentCss: "#6fae4a",
   parSeconds: 300,
-  footprint: 2.5,
+  footprint: 3.0, // a street lane or a plant floor: the layout reaches past the usual pad
   badge: { id: "sponge-in-the-sidewalk", name: "Sponge In The Sidewalk", note: "The cell dug to grade over a located line, layered in order and planted, with the walk kept open for everyone who needed it" },
 
   supportLine: "your union hall's member assistance programme — LIUNA or IUOE Local 3 — with the employer's employee assistance line behind it",
@@ -384,7 +384,7 @@ export const SIM_BK_BIORETENTION_RAIN_GARDEN_EXCAVATION = {
       cyl(g, 0.121, 0.121, 0.06, x, 0.2, 0.4, 0xf2f2ee, { rough: 0.6, seg: 8 });
     }
     const walker = standingFigure(g, -2.4, 2.9, { ry: 1.6, cloth: 0x6b4a8a });
-    const stroller = box(g, 0.4, 0.4, 0.6, -2.0, 0.4, 2.9, 0x2f4d5f, { rough: 0.7 });
+    const stroller = box(g, 0.4, 0.4, 0.6, -1.8, 0.4, 2.9, 0x2f4d5f, { rough: 0.7 }); // at arm's length in front of the walker
     walker.visible = false; stroller.visible = false;
     const walkerHome = walker.position.clone();
 

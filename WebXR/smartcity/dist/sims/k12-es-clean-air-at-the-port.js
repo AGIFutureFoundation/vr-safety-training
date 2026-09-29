@@ -281,7 +281,7 @@ export const SIM_K12_ES_CLEAN_AIR_AT_THE_PORT = {
       cue: "Say the Port of Oakland names the Pacific Maritime Association for skills and safety training.",
       why: "The Port of Oakland says it partners with the Pacific Maritime Association for skills and safety training on the zero-emission equipment. New machines need crews who know them well. Training is part of every change at a port.",
       missNote: "You could not say who helps train the crews, and the crew lead had to explain before the class could go on.",
-      wrongNote: "That does not name the training partner. Choose the response that deals with it now."
+      wrongNote: "That does not name the group the Port says trains the crews. Choose the response that deals with it now."
     }
   ],
 
@@ -483,7 +483,7 @@ export const SIM_K12_ES_CLEAN_AIR_AT_THE_PORT = {
         const who = arrivals[it.id];
         if (it.resolved !== "answered") { if (who) who.rotation.y += 0.6; paintGuide("That one went unanswered. Next time, stop and deal with it first."); return; }
         if (it.id === "a-quiet-tractor-rolls-past") { crew["c"].position.set(-2.2, 0, -2.7); if (who) who.position.set(2.4, 0, -3.8); paintGuide("Class stopped and looking, the tractor passed. The lesson carries on."); }
-        if (it.id === "the-crew-lead-asks-who-trains-the-crews") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Training partner named. The lesson carries on."); }
+        if (it.id === "the-crew-lead-asks-who-trains-the-crews") { crew["d"].position.set(2.2, 0, -2.7); if (who) who.position.set(-1.2, 0, -3.6); paintGuide("Crew trainers named. The lesson carries on."); }
       },
 
       animate(tm, dt, session) {

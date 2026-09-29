@@ -34,7 +34,7 @@ Why each station is in the programme is given in the station list below, from th
 
 ## Competency rule
 
-Programme completion: every station has a passing attempt (stars >= 2, no unsafe action).
+**Clean out a trash capture device, dig a rain garden, work a tidal channel from mats, feed chemicals at a treatment plant, sample a PCB hotspot with chain of custody and keep a fish passage working, each by its own safe procedure** — demonstrated by a mastery run on 6 of its 11 stations. Programme completion: every station has a passing attempt (stars >= 2, no unsafe action).
 
 ## Ladder
 
@@ -50,12 +50,15 @@ Programme completion: every station has a passing attempt (stars >= 2, no unsafe
 
 - `afscme-training` — union: AFSCME member education and safety training for public-service and air-district members
 - `bcdc-bay-plan` — BCDC: San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act
+- `cdfw-lake-streambed-alteration` — CDFW: California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake
 - `iuoe-training` — union: IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship
 - `liuna-training-fund` — union: LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula
 - `mutcd` — MUTCD: Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)
 - `osha-1910-120` — OSHA: 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)
 - `osha-1910-1200` — OSHA: 29 CFR 1910.1200 — Hazard communication
+- `osha-1910-134` — OSHA: 29 CFR 1910.134 — Respiratory protection
 - `osha-1910-146` — OSHA: 29 CFR 1910.146 — Permit-required confined spaces
+- `osha-1910-147` — OSHA: 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)
 - `osha-1926-subpart-p` — OSHA: OSHA 29 CFR 1926 Subpart P Excavations
 - `rwqcb-401-certification` — RWQCB: Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements
 - `usace-section-404` — USACE: Clean Water Act §404 permit conditions for the discharge of dredged or fill material
@@ -66,4 +69,4 @@ Programme completion: every station has a passing attempt (stars >= 2, no unsafe
 
 ## Figures
 
-Stations 11; eval mean of its stations 96.7 (`tools/eval-content.json`); competency require —; category mix Environmental Monitoring: 5, Water & Environmental: 5, Construction & Structural Trades: 1.
+Stations 11; eval mean of its stations 96.7 (`tools/eval-content.json`); competency require 6; category mix Environmental Monitoring: 5, Water & Environmental: 5, Construction & Structural Trades: 1.

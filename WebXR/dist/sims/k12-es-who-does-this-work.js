@@ -264,7 +264,7 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
       delay: 3,
       seconds: 12,
       target: "esw-line-up",
-      alert: "The hall's practice drill bell rings.",
+      alert: "The hall's practice drill bell rings for everyone.",
       cue: "Line up calmly at the marked exit with the mentor.",
       why: "Every workplace practises leaving the building. Lining up calmly at the marked exit shows you know the plan. Crews practise the same drills on every site, and a calm line is the goal.",
       missNote: "The class stayed seated, and the mentor had to gather everyone before leading them out.",

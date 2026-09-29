@@ -267,7 +267,7 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
       alert: "A cyclist rings a bell coming along the shoreline path.",
       cue: "Move to the side of the path and let the cyclist pass.",
       why: "The shoreline path is shared. Moving to one side lets the cyclist pass safely. Surveyors choose spots at the edge of paths so they can keep counting without blocking anyone.",
-      missNote: "The class blocked the path, and the cyclist had to stop and wait.",
+      missNote: "The class blocked the shared path, and the cyclist had to stop and wait until everyone moved over.",
       wrongNote: "That leaves you in the cyclist's way. Move to the side. Choose the response that deals with it now."
     },
     {

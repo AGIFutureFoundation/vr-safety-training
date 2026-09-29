@@ -39,7 +39,7 @@ export const SIM_BK_WASTEWATER_NUTRIENT_CHEMICAL_FEED = {
   accent: BKNF_ACCENT,
   accentCss: "#b07ad8",
   parSeconds: 300,
-  footprint: 2.5,
+  footprint: 3.0, // a street lane or a plant floor: the layout reaches past the usual pad
   badge: { id: "dose-and-air", name: "Dose And Air", note: "The feed calibrated and the basin read without a splash on skin or a hand over the rail" },
 
   supportLine: "your union's member assistance programme, with the employer's employee assistance line behind it",

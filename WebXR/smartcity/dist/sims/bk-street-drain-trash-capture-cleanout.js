@@ -48,7 +48,7 @@ export const SIM_BK_STREET_DRAIN_TRASH_CAPTURE_CLEANOUT = {
   accent: BKTD_ACCENT,
   accentCss: "#3fa0c8",
   parSeconds: 300,
-  footprint: 2.5,
+  footprint: 3.0, // a street lane or a plant floor: the layout reaches past the usual pad
   badge: { id: "from-the-surface", name: "From The Surface", note: "The vault emptied and rinsed without anyone going in, leaning in or reaching into a live boom" },
 
   supportLine: "your union hall's member assistance programme — LIUNA — with the employer's employee assistance line behind it",
@@ -336,7 +336,7 @@ export const SIM_BK_STREET_DRAIN_TRASH_CAPTURE_CLEANOUT = {
     signFaceMesh.rotation.z = Math.PI / 4;
     holoTag(sign, "advance warning sign", 0, 1.6, 0, { css: "#3fa0c8", w: 0.38 });
     reg(hits, sign, "advance-sign");
-    const signMark = group(g, -7.2, 0.05, -1.4);
+    const signMark = group(g, -6.6, 0.05, -1.3);
     const signRing = torus(signMark, 0.45, 0.012, 0, 0.01, 0, BKTD_ACCENT, { emissive: BKTD_ACCENT, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 28 });
     signRing.rotation.x = Math.PI / 2;
     hits["sign-mark"] = signMark;
