@@ -34,6 +34,28 @@ export const LM_BUDGET = {
   "victorian-house": { meshes: 1, high: 200, low: 150 },
   "wharf-pier-shed": { meshes: 1, high: 900, low: 400 },
   "lighthouse": { meshes: 1, high: 400, low: 200 },
+  // LANDMARKS-2 (`lx`): set from the measured builds with a margin
+  "truss-bridge": { meshes: 1, high: 1900, low: 900 },
+  "church-towers": { meshes: 1, high: 220, low: 140 },
+  "mission-church-front": { meshes: 1, high: 180, low: 120 },
+  "windmill": { meshes: 1, high: 220, low: 140 },
+  "glasshouse": { meshes: 1, high: 380, low: 240 },
+  "rotunda-colonnade": { meshes: 1, high: 1300, low: 700 },
+  "masonry-fort": { meshes: 1, high: 220, low: 180 },
+  "lattice-mast": { meshes: 1, high: 760, low: 340 },
+  "switchback-street": { meshes: 1, high: 420, low: 240 },
+  "theatre-marquee": { meshes: 1, high: 140, low: 110 },
+  "campanile": { meshes: 1, high: 200, low: 140 },
+  "civic-tower": { meshes: 1, high: 280, low: 140 },
+  "transit-station": { meshes: 1, high: 220, low: 150 },
+  "memorial-plaza": { meshes: 1, high: 220, low: 110 },
+  "canal-lock": { meshes: 1, high: 260, low: 120 },
+  "levee-pump-station": { meshes: 1, high: 220, low: 140 },
+  "marsh-boardwalk": { meshes: 1, high: 360, low: 200 },
+  "tide-gate": { meshes: 1, high: 120, low: 60 },
+  "shotgun-row": { meshes: 1, high: 520, low: 180 },
+  "streetcar": { meshes: 1, high: 80, low: 60 },
+  "gateway-arch": { meshes: 1, high: 160, low: 150 },
 };
 
 /** The registry's kind ids. */
@@ -47,7 +69,7 @@ export function lmKindOf(landmark) {
   return lmHas(landmark.kind) ? landmark.kind : null;
 }
 /** Bridge kinds are fitted to a map's bridge road (the engine passes span and deck). */
-export const LM_BRIDGES = new Set(["golden-gate-bridge", "bay-bridge-suspension", "bay-bridge-east-tower"]);
+export const LM_BRIDGES = new Set(["golden-gate-bridge", "bay-bridge-suspension", "bay-bridge-east-tower", "truss-bridge"]);
 
 // ---- geometry helpers (a parts list: [geometry, colour, Matrix4?])
 const lmMats = new WeakMap();
@@ -296,7 +318,264 @@ const LM_KINDS = {
   "victorian-house": (T, o) => lmMesh(T, lmMergeParts(T, lmVictorianParts(T, o, o.colour ?? LM_PASTELS[1])), "lm-victorian-house"),
   "wharf-pier-shed": (T, o) => lmMesh(T, lmMergeParts(T, lmPierShed(T, o)), "lm-wharf-pier-shed"),
   "lighthouse": (T, o) => lmMesh(T, lmMergeParts(T, lmLighthouse(T, o)), "lm-lighthouse"),
+  // LANDMARKS-2 (`lx`)
+  "truss-bridge": (T, o) => lmMesh(T, lmMergeParts(T, lmTrussBridge(T, o)), "lm-truss-bridge"),
+  "church-towers": (T, o) => lmMesh(T, lmMergeParts(T, lmChurchTowers(T, o)), "lm-church-towers"),
+  "mission-church-front": (T, o) => lmMesh(T, lmMergeParts(T, lmMissionFront(T, o)), "lm-mission-church-front"),
+  "windmill": (T, o) => lmMesh(T, lmMergeParts(T, lmWindmill(T, o)), "lm-windmill"),
+  "glasshouse": (T, o) => lmMesh(T, lmMergeParts(T, lmGlasshouse(T, o)), "lm-glasshouse"),
+  "rotunda-colonnade": (T, o) => lmMesh(T, lmMergeParts(T, lmRotunda(T, o)), "lm-rotunda-colonnade"),
+  "masonry-fort": (T, o) => lmMesh(T, lmMergeParts(T, lmFort(T, o)), "lm-masonry-fort"),
+  "lattice-mast": (T, o) => lmMesh(T, lmMergeParts(T, lmLatticeMast(T, o)), "lm-lattice-mast"),
+  "switchback-street": (T, o) => lmMesh(T, lmMergeParts(T, lmSwitchbacks(T, o)), "lm-switchback-street"),
+  "theatre-marquee": (T, o) => lmMesh(T, lmMergeParts(T, lmMarquee(T, o)), "lm-theatre-marquee"),
+  "campanile": (T, o) => lmMesh(T, lmMergeParts(T, lmCampanile(T, o)), "lm-campanile"),
+  "civic-tower": (T, o) => lmMesh(T, lmMergeParts(T, lmCivicTower(T, o)), "lm-civic-tower"),
+  "transit-station": (T, o) => lmMesh(T, lmMergeParts(T, lmTransitStation(T, o)), "lm-transit-station"),
+  "memorial-plaza": (T, o) => lmMesh(T, lmMergeParts(T, lmMemorialPlaza(T, o)), "lm-memorial-plaza"),
+  "canal-lock": (T, o) => lmMesh(T, lmMergeParts(T, lmCanalLock(T, o)), "lm-canal-lock"),
+  "levee-pump-station": (T, o) => lmMesh(T, lmMergeParts(T, lmPumpStation(T, o)), "lm-levee-pump-station"),
+  "marsh-boardwalk": (T, o) => lmMesh(T, lmMergeParts(T, lmBoardwalk(T, o)), "lm-marsh-boardwalk"),
+  "tide-gate": (T, o) => lmMesh(T, lmMergeParts(T, lmTideGate(T, o)), "lm-tide-gate"),
+  "shotgun-row": (T, o) => lmRow(T, "lm-shotgun-row", lmShotgunParts(T, o), o.tier === "low" ? 3 : 6, 6.4, 0, LM_PASTELS),
+  "streetcar": (T, o) => lmMesh(T, lmMergeParts(T, lmStreetcarParts(T, o)), "lm-streetcar"),
+  "gateway-arch": (T, o) => lmMesh(T, lmMergeParts(T, lmGateway(T, o)), "lm-gateway-arch"),
 };
+
+// ---- LANDMARKS-2 (console `lx`, docs/consoles/LANDMARKS-2.md): more kinds, the same rules — schematic silhouettes, no
+// measured dimensions, no claim of accuracy, one mesh each, a phone tier.
+
+/** A truss bridge: piers and a through-truss rising over the two main piers (the deck is the engine's road). */
+function lmTrussBridge(T, o) {
+  const low = o.tier === "low", S = o.span ?? 500, D = o.deck ?? 30, half = S / 2, parts = [], c = LM_C.grey;
+  const bays = low ? 8 : 16, W = 9, rise = (z) => D + 6 + 34 * Math.max(0, 1 - Math.abs(Math.abs(z) - half) / (half * 0.7));
+  for (const zt of [-half, half]) lmBox(T, parts, W * 2 + 6, D, 8, 0, -2, zt, LM_C.stone); // the main piers
+  for (const x of [-W, W]) {
+    let prevTop = null, prevBot = null;
+    for (let i = 0; i <= bays; i++) {
+      const z = -half * 1.3 + (2.6 * half * i) / bays, top = [x, rise(z), z], bot = [x, D + 1, z];
+      lmBeam(T, parts, bot, top, 1.2, c);
+      if (prevTop) { lmBeam(T, parts, prevTop, top, 1.4, c); lmBeam(T, parts, prevBot, bot, 1.4, c); if (!low || i % 2) lmBeam(T, parts, prevBot, top, 0.9, c); }
+      prevTop = top; prevBot = bot;
+    }
+  }
+  for (let i = 0; i <= bays; i += low ? 4 : 2) { const z = -half * 1.3 + (2.6 * half * i) / bays; lmBeam(T, parts, [-W, rise(z), z], [W, rise(z), z], 1, c); }
+  return parts;
+}
+
+/** A church front with towers: a nave with a gable, a tall centre tower with a spire and two flanking towers. */
+function lmChurchTowers(T, o) {
+  const low = o.tier === "low", seg = low ? 4 : 6, parts = [];
+  lmBox(T, parts, 18, 14, 34, 0, 0, -8, LM_C.white); lmGable(T, parts, 18.4, 6, 34.2, 0, 14, -8, LM_C.roof);
+  lmBox(T, parts, 7, 26, 7, 0, 0, 9, LM_C.white); lmCyl(T, parts, 3.6, 0, 14, seg, 0, 26, 9, LM_C.dark, Math.PI / 4);
+  for (const x of [-7.5, 7.5]) { lmBox(T, parts, 5, 18, 5, x, 0, 9, LM_C.white); lmCyl(T, parts, 2.6, 0, 8, seg, x, 18, 9, LM_C.dark, Math.PI / 4); }
+  lmBox(T, parts, 3, 6, 0.4, 0, 0, 12.6, LM_C.wood); // the door
+  if (!low) for (const x of [-7.5, 0, 7.5]) lmBox(T, parts, 1.6, 3, 0.3, x, x ? 12 : 16, x ? 11.6 : 12.6, LM_C.glass);
+  return parts;
+}
+
+/** A mission-style church front: a thick wall, a stepped parapet with bell openings, buttress columns, a low tiled nave behind. */
+function lmMissionFront(T, o) {
+  const low = o.tier === "low", parts = [];
+  lmBox(T, parts, 12, 8, 30, 0, 0, -14, LM_C.cream); lmGable(T, parts, 12.6, 3, 30.4, 0, 8, -14, LM_C.red);
+  lmBox(T, parts, 14, 10, 2.4, 0, 0, 1, LM_C.cream); lmBox(T, parts, 9, 2.4, 2.4, 0, 10, 1, LM_C.cream); lmBox(T, parts, 4, 2, 2.4, 0, 12.4, 1, LM_C.cream);
+  for (const x of [-5.8, 5.8]) lmBox(T, parts, 1.6, 9, 3, x, 0, 1.4, LM_C.cream);
+  if (!low) for (const x of [-2.4, 0, 2.4]) lmBox(T, parts, 1, 1.4, 0.3, x, 10.6, 2.3, LM_C.dark);
+  lmBox(T, parts, 3, 4.5, 0.3, 0, 0, 2.3, LM_C.wood);
+  return parts;
+}
+
+/** A windmill: a tapering body, a cap, four sails (still — nothing turns), a stage. */
+function lmWindmill(T, o) {
+  const low = o.tier === "low", seg = low ? 6 : 8, parts = [];
+  lmCyl(T, parts, 5.6, 3.2, 18, seg, 0, 0, 0, LM_C.white); lmCyl(T, parts, 3.6, 0.6, 4, seg, 0, 18, 0, LM_C.roof);
+  for (let i = 0; i < 4; i++) {
+    const a = Math.PI / 4 + (i * Math.PI) / 2, r = 7;
+    lmBeam(T, parts, [0, 19.5, 4.2], [Math.cos(a) * r * 2, 19.5 + Math.sin(a) * r * 2, 4.2], 0.5, LM_C.wood);
+    if (!low) parts.push([new T.BoxGeometry(r * 1.6, 2.2, 0.15), LM_C.cream, new T.Matrix4().makeRotationZ(a).setPosition(Math.cos(a) * r * 1.15, 19.5 + Math.sin(a) * r * 1.15, 4.4)]);
+  }
+  lmBox(T, parts, 13, 0.6, 13, 0, 5, 0, LM_C.wood);
+  return parts;
+}
+
+/** A glasshouse: a central domed pavilion with two long glazed wings and end pavilions. */
+function lmGlasshouse(T, o) {
+  const low = o.tier === "low", seg = low ? 8 : 14, parts = [];
+  lmBox(T, parts, 14, 8, 14, 0, 0, 0, LM_C.glass); lmCyl(T, parts, 7.4, 7.4, 3, seg, 0, 8, 0, LM_C.white);
+  parts.push([new T.SphereGeometry(7, seg, low ? 4 : 6, 0, Math.PI * 2, 0, Math.PI / 2), LM_C.pale, lmAt(T, 0, 11, 0)]);
+  lmCyl(T, parts, 1.2, 0, 3, 6, 0, 18, 0, LM_C.white);
+  for (const s of [-1, 1]) { lmBox(T, parts, 22, 6, 9, s * 18, 0, 0, LM_C.glass); lmGable(T, parts, 9.4, 3, 22.2, s * 18, 6, 0, LM_C.pale, Math.PI / 2); lmBox(T, parts, 6, 9, 10, s * 31, 0, 0, LM_C.white); }
+  return parts;
+}
+
+/** A rotunda and colonnade: an open domed rotunda on columns with a curved colonnade either side. */
+function lmRotunda(T, o) {
+  const low = o.tier === "low", n = low ? 6 : 8, seg = low ? 6 : 10, parts = [], R = 40;
+  for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2; lmCyl(T, parts, 0.9, 0.8, 16, seg, Math.cos(a) * 10, 0, Math.sin(a) * 10, LM_C.stone); }
+  lmCyl(T, parts, 11.5, 11.5, 3, seg + 4, 0, 16, 0, LM_C.stone); lmCyl(T, parts, 10.5, 8, 4, seg + 4, 0, 19, 0, LM_C.stone);
+  parts.push([new T.SphereGeometry(8, seg + 4, low ? 4 : 6, 0, Math.PI * 2, 0, Math.PI / 2), LM_C.orange, lmAt(T, 0, 23, 0)]);
+  const m = low ? 6 : 12, arc = (a) => [Math.sin(a) * R, 10.4, Math.cos(a) * R - R + 4];
+  for (const s of [-1, 1]) {
+    for (let i = 0; i < m; i++) { const a = s * (0.5 + (1.3 * i) / m); lmCyl(T, parts, 0.7, 0.6, 10, 5, Math.sin(a) * R, 0, Math.cos(a) * R - R + 4, LM_C.stone); }
+    const a0 = s * 0.5, a1 = s * 1.8, am = (a0 + a1) / 2;
+    lmBeam(T, parts, arc(a0), arc(am), 1.2, LM_C.stone); lmBeam(T, parts, arc(am), arc(a1), 1.2, LM_C.stone);
+  }
+  return parts;
+}
+
+/** A masonry fort: thick brick walls round a parade, corner bastions, a parapet and a flagstaff. */
+function lmFort(T, o) {
+  const low = o.tier === "low", parts = [];
+  for (const [w, d, x, z] of [[44, 5, 0, -20], [44, 5, 0, 20], [5, 35, -20, 0], [5, 35, 20, 0]]) lmBox(T, parts, w, 12, d, x, 0, z, LM_C.red);
+  for (const [x, z] of [[-22, -22], [22, -22], [-22, 22], [22, 22]]) lmCyl(T, parts, 5, 5, 13, 4, x, 0, z, LM_C.red, Math.PI / 4);
+  if (!low) for (const z of [-22.4, 22.4]) lmBox(T, parts, 44, 1.2, 1, 0, 12, z, LM_C.stone);
+  lmBox(T, parts, 36, 0.4, 36, 0, 0.1, 0, LM_C.green); lmCyl(T, parts, 0.25, 0.2, 14, 4, 0, 0, 0, LM_C.dark);
+  return parts;
+}
+
+/** A lattice mast: three legs tapering to a waist and splaying to a three-armed crown, cross-braced. */
+function lmLatticeMast(T, o) {
+  const low = o.tier === "low", parts = [], c = LM_C.orange, H = 110, arms = [0, 1, 2].map((i) => (i / 3) * Math.PI * 2);
+  const at = (a, r, y) => [Math.cos(a) * r, y, Math.sin(a) * r], rAt = (y) => (y < 70 ? 14 - (10 * y) / 70 : 4 + (8 * (y - 70)) / 40);
+  const steps = low ? [0, 35, 70, 90, H] : [0, 18, 35, 52, 70, 80, 90, 100, H];
+  for (const a of arms) for (let i = 1; i < steps.length; i++) lmBeam(T, parts, at(a, rAt(steps[i - 1]), steps[i - 1]), at(a, rAt(steps[i]), steps[i]), 1.4, c);
+  for (let i = 1; i < steps.length; i += low ? 2 : 1) for (let k = 0; k < 3; k++) lmBeam(T, parts, at(arms[k], rAt(steps[i]), steps[i]), at(arms[(k + 1) % 3], rAt(steps[i]), steps[i]), 0.8, LM_C.white);
+  for (const a of arms) lmCyl(T, parts, 0.8, 0.5, 18, 5, Math.cos(a) * 12, H, Math.sin(a) * 12, LM_C.white);
+  return parts;
+}
+
+/** Switchbacks: a steep lane of hairpin bends between low hedges, a house at the top and the bottom. */
+function lmSwitchbacks(T, o) {
+  const low = o.tier === "low", n = low ? 5 : 8, L = 90, parts = [];
+  for (let i = 0; i < n; i++) {
+    const z0 = -L / 2 + (L * i) / n, z1 = z0 + L / n, y0 = (i * 18) / n, y1 = ((i + 1) * 18) / n, s = i % 2 ? 1 : -1;
+    lmBeam(T, parts, [-s * 5, y0 + 0.2, z0], [s * 5, y1 + 0.2, z1], 3, LM_C.rail);
+    for (const side of [-1, 1]) lmBox(T, parts, 3, 0.9, L / n - 2, side * 8, y0, (z0 + z1) / 2, LM_C.green);
+  }
+  lmBox(T, parts, 22, 0.6, L + 4, 0, -0.4, 0, LM_C.stone);
+  if (!low) for (const [z, y] of [[-L / 2 - 8, 0], [L / 2 + 8, 18]]) { lmBox(T, parts, 12, 9, 10, 0, y, z, LM_C.white); lmGable(T, parts, 12.4, 3, 10.2, 0, y + 9, z, LM_C.roof); }
+  return parts;
+}
+
+/** A theatre front: a tall facade, a projecting marquee canopy and a vertical blade sign — both blank (no lettering). */
+function lmMarquee(T, o) {
+  const low = o.tier === "low", parts = [];
+  lmBox(T, parts, 20, 16, 26, 0, 0, -12, LM_C.stone); lmBox(T, parts, 22, 18, 2, 0, 0, 1, LM_C.cream);
+  lmBox(T, parts, 16, 2.4, 6, 0, 5, 4, LM_C.red); lmBox(T, parts, 16.4, 0.5, 6.4, 0, 7.4, 4, LM_C.white);
+  lmBox(T, parts, 1.2, 14, 3.4, 0, 8, 3.2, LM_C.red); lmBox(T, parts, 1.4, 12, 2.4, 0, 9, 3.2, LM_C.cream);
+  lmBox(T, parts, 10, 4.4, 0.3, 0, 0, 2.1, LM_C.glass);
+  if (!low) for (const x of [-7, 7]) lmBox(T, parts, 3, 5, 0.3, x, 10, 2.1, LM_C.glass);
+  return parts;
+}
+
+/** A campanile: a tall square shaft, clock faces, an open belfry, a pyramid roof and a finial. */
+function lmCampanile(T, o) {
+  const low = o.tier === "low", parts = [];
+  lmBox(T, parts, 12, 2, 12, 0, 0, 0, LM_C.stone); lmBox(T, parts, 9, 58, 9, 0, 2, 0, LM_C.stone);
+  for (const [x, z] of [[-3.8, -3.8], [3.8, -3.8], [-3.8, 3.8], [3.8, 3.8]]) lmBox(T, parts, 1.4, 10, 1.4, x, 60, z, LM_C.stone);
+  if (!low) for (let i = 0; i < 4; i++) { const a = (i * Math.PI) / 2; lmBox(T, parts, 3, 3, 0.3, Math.sin(a) * 4.65, 50, Math.cos(a) * 4.65, LM_C.white, a); }
+  lmBox(T, parts, 10, 1.4, 10, 0, 70, 0, LM_C.stone); lmCyl(T, parts, 7, 0, 12, 4, 0, 71.4, 0, LM_C.green, Math.PI / 4); lmCyl(T, parts, 0.3, 0.2, 4, 4, 0, 83.4, 0, LM_C.dark);
+  return parts;
+}
+
+/** A civic tower: a long low civic block, a glazed rotunda with a shallow dome and a slim tower beside it. */
+function lmCivicTower(T, o) {
+  const low = o.tier === "low", seg = low ? 8 : 14, parts = [];
+  lmBox(T, parts, 50, 12, 20, 0, 0, -10, LM_C.pale); lmBox(T, parts, 50.4, 0.8, 20.4, 0, 12, -10, LM_C.roof);
+  lmCyl(T, parts, 9, 9, 16, seg, 0, 0, 6, LM_C.glass); parts.push([new T.SphereGeometry(9, seg, low ? 3 : 5, 0, Math.PI * 2, 0, Math.PI / 2), LM_C.white, lmAt(T, 0, 16, 6)]);
+  lmBox(T, parts, 10, 60, 10, 30, 0, -12, LM_C.pale); if (!low) lmBox(T, parts, 10.4, 2, 10.4, 30, 60, -12, LM_C.roof);
+  return parts;
+}
+
+/** A transit station: a long platform with a canopy on columns, rails either side and a small head house. Generic by kind. */
+function lmTransitStation(T, o) {
+  const low = o.tier === "low", n = low ? 4 : 8, parts = [];
+  lmBox(T, parts, 10, 1.2, 90, 0, 0, 0, LM_C.stone);
+  for (let i = 0; i < n; i++) lmBox(T, parts, 0.6, 5, 0.6, 0, 1.2, -40 + (80 * i) / (n - 1), LM_C.dark);
+  lmBox(T, parts, 9, 0.5, 84, 0, 6.2, 0, LM_C.pale);
+  for (const x of [-7.4, 7.4]) lmBox(T, parts, 1.6, 0.2, 90, x, 0, 0, LM_C.rail);
+  lmBox(T, parts, 12, 6, 10, 0, 0, 52, LM_C.cream); lmBox(T, parts, 12.4, 0.6, 10.4, 0, 6, 52, LM_C.roof);
+  return parts;
+}
+
+/** A memorial plaza: a paved walk, a long low wall of panels beside it, benches and a lookout rail at the end (+Z). */
+function lmMemorialPlaza(T, o) {
+  const low = o.tier === "low", parts = [];
+  lmBox(T, parts, 14, 0.4, 70, 0, 0, 0, LM_C.stone);
+  for (let i = 0; i < (low ? 4 : 8); i++) lmBox(T, parts, 0.6, 1.2 + (i % 3) * 0.5, 6.5, 6, 0.4, -30 + i * (low ? 16 : 8), LM_C.pale);
+  if (!low) for (let i = 0; i < 4; i++) lmBox(T, parts, 2, 0.5, 0.6, -4, 0.4, -24 + i * 16, LM_C.wood);
+  lmBox(T, parts, 16, 0.6, 5, 0, 0, 37, LM_C.stone); lmBox(T, parts, 16, 1.1, 0.2, 0, 0.6, 39.4, LM_C.rail);
+  return parts;
+}
+
+/** A canal lock: two concrete lock walls, a closed pair of mitre gates at each end, a small control house. */
+function lmCanalLock(T, o) {
+  const low = o.tier === "low", parts = [];
+  for (const x of [-12, 12]) lmBox(T, parts, 6, 8, 110, x, -4, 0, LM_C.pale);
+  for (const z of [-50, 50]) for (const s of [-1, 1]) lmBox(T, parts, 9.6, 6, 1.2, s * 4.6, -3, z + s * 1.2, LM_C.dark, s * 0.25);
+  lmBox(T, parts, 5, 4, 6, 15, 4, 44, LM_C.cream); lmBox(T, parts, 5.4, 0.5, 6.4, 15, 8, 44, LM_C.roof);
+  if (!low) for (let z = -40; z <= 40; z += 20) for (const x of [-9.4, 9.4]) lmBox(T, parts, 0.6, 0.6, 0.6, x, 4, z, LM_C.dark);
+  return parts;
+}
+
+/** A levee pump station: a boxy pump house on the levee crown, intake bays on the canal side, discharge pipes over the crest. */
+function lmPumpStation(T, o) {
+  const low = o.tier === "low", parts = [], k = low ? 3 : 5;
+  lmBox(T, parts, 60, 4, 16, 0, 0, 0, LM_C.green);
+  lmBox(T, parts, 30, 14, 14, 0, 0, -6, LM_C.pale); lmBox(T, parts, 30.4, 0.8, 14.4, 0, 14, -6, LM_C.roof);
+  for (let i = 0; i < k; i++) { const x = -12 + (i * 24) / (k - 1); lmBox(T, parts, 4, 3, 2, x, 0, -14, LM_C.dark); lmBeam(T, parts, [x, 10, 1], [x, 6, 10], 1.6, LM_C.rail); }
+  if (!low) lmBox(T, parts, 6, 5, 6, 18, 0, -8, LM_C.cream);
+  return parts;
+}
+
+/** A marsh boardwalk: a narrow plank walk on short posts with a dog-leg and a small railed viewing platform at the end. */
+function lmBoardwalk(T, o) {
+  const low = o.tier === "low", parts = [], n = low ? 3 : 6;
+  for (const [a, b] of [[[0, 0], [0, 40]], [[0, 40], [24, 62]]]) {
+    lmBeam(T, parts, [a[0], 1.1, a[1]], [b[0], 1.1, b[1]], 2.4, LM_C.wood);
+    for (let i = 0; i <= n; i++) lmCyl(T, parts, 0.2, 0.2, 1.4, 4, a[0] + ((b[0] - a[0]) * i) / n, -0.4, a[1] + ((b[1] - a[1]) * i) / n, LM_C.pile);
+  }
+  lmBox(T, parts, 8, 0.3, 8, 27, 1.0, 65, LM_C.wood);
+  if (!low) for (const [w, d, x, z] of [[8, 0.2, 27, 69], [0.2, 8, 31, 65], [0.2, 8, 23, 65]]) lmBox(T, parts, w, 1, d, x, 1.3, z, LM_C.wood);
+  return parts;
+}
+
+/** A tide gate: a concrete headwall across a channel with flap gates and a railed walkway over it. */
+function lmTideGate(T, o) {
+  const low = o.tier === "low", parts = [], k = low ? 2 : 4;
+  lmBox(T, parts, 24, 5, 4, 0, -2, 0, LM_C.pale); lmBox(T, parts, 26, 0.4, 2, 0, 3, 0, LM_C.stone);
+  for (let i = 0; i < k; i++) lmBox(T, parts, 3.2, 3, 0.4, -7.5 + (i * 15) / (k - 1), -1.5, 2.2, LM_C.dark);
+  if (!low) for (const z of [-0.9, 0.9]) lmBox(T, parts, 26, 1, 0.1, 0, 3.4, z, LM_C.rail);
+  return parts;
+}
+
+/** One shotgun house: narrow, single storey, a front gable, a porch roof on posts, raised on piers. White so a row can tint it. */
+function lmShotgunParts(T, o) {
+  const parts = [], low = o.tier === "low";
+  lmBox(T, parts, 5, 0.9, 16, 0, 0, 0, LM_C.stone); lmBox(T, parts, 4.8, 4.4, 15, 0, 0.9, 0, LM_C.white); lmGable(T, parts, 5.2, 2.2, 15.2, 0, 5.3, 0, LM_C.roof);
+  lmBox(T, parts, 5.4, 0.3, 2.2, 0, 4.2, 8.4, LM_C.roof);
+  if (!low) for (const x of [-2.3, 2.3]) lmBox(T, parts, 0.25, 3.3, 0.25, x, 0.9, 9.2, LM_C.white);
+  return parts;
+}
+
+/** A streetcar / light-rail car: one long car, a window band, a roof and a trolley pole. */
+function lmStreetcarParts(T, o) {
+  const parts = [], low = o.tier === "low";
+  lmBox(T, parts, 2.6, 0.6, 14, 0, 0.4, 0, LM_C.dark); lmBox(T, parts, 2.6, 2.1, 14, 0, 1.0, 0, LM_C.green);
+  lmBox(T, parts, 2.64, 0.9, 12.6, 0, 1.9, 0, LM_C.glass); lmBox(T, parts, 2.7, 0.3, 14.2, 0, 3.1, 0, LM_C.cream);
+  if (!low) lmBeam(T, parts, [0, 3.4, -4], [0, 5.2, 2], 0.12, LM_C.dark);
+  return parts;
+}
+
+/** A gateway arch (paifang style): four posts, a wide centre roof and two lower side roofs, a blank name board. */
+function lmGateway(T, o) {
+  const low = o.tier === "low", parts = [];
+  for (const x of [-7, -3, 3, 7]) lmBox(T, parts, 1, Math.abs(x) === 7 ? 7 : 9, 1, x, 0, 0, LM_C.stone);
+  lmBox(T, parts, 7.6, 1.6, 2.4, 0, 9, 0, LM_C.red); lmGable(T, parts, 9, 1.8, 3.6, 0, 10.6, 0, LM_C.green, Math.PI / 2);
+  for (const s of [-1, 1]) { lmBox(T, parts, 5, 1.2, 2, s * 5, 7, 0, LM_C.red); lmGable(T, parts, 6, 1.2, 3, s * 5, 8.2, 0, LM_C.green, Math.PI / 2); }
+  if (!low) lmBox(T, parts, 3, 1, 0.3, 0, 9.3, 1.3, LM_C.cream);
+  return parts;
+}
 
 /**
  * Build one landmark kit. `opts`: { three (required), scale = 1, tier = "high" | "balanced" | "low", span?, deck?, colour? }.

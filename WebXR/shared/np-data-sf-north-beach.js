@@ -1106,7 +1106,7 @@ export const NP_SF_NORTH_BEACH = {
    "lm": "transamerica-pyramid"
   },
   {
-   "id": "lombard-switchbacks",
+   "id": "lombard-switchbacks", "lm": "switchback-street",
    "name": "Lombard Street's switchbacks",
    "position": [
     -765,
@@ -1164,7 +1164,7 @@ export const NP_SF_NORTH_BEACH = {
    "kind": "place"
   },
   {
-   "id": "dragon-gate",
+   "id": "dragon-gate", "lm": "gateway-arch",
    "name": "the gate at Grant Avenue",
    "position": [
     369,

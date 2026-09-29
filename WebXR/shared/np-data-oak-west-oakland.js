@@ -84,7 +84,7 @@ export const NP_OAK_WEST_OAKLAND = {
     {"id":"bay-bridge-toll-plaza","name":"the Bay Bridge toll plaza","position":[377,-737],"kind":"bridge","lm":"bay-bridge-east-tower","lmAlong":0.85,"lmSpan":420},
     {"id":"defremery-park","name":"deFremery Park","position":[1173,53],"kind":"park"},
     {"id":"middle-harbor-shoreline-park","name":"Middle Harbor Shoreline Park","position":[-335,448],"kind":"shore"},
-    {"id":"west-oakland-station","name":"West Oakland Station","position":[712,369],"kind":"station"},
+    {"id":"west-oakland-station", "lm": "transit-station","name":"West Oakland Station","position":[712,369],"kind":"station"},
     {"id":"the-port-cranes","name":"the port's container cranes","position":[-335,-53],"kind":"port","lm":"container-cranes"},
     {"id":"mandela-parkway","name":"Mandela Parkway","position":[859,-158],"kind":"street"},
     {"id":"emeryville-marina-shore","name":"the Emeryville shore","position":[544,-1580],"kind":"shore"},

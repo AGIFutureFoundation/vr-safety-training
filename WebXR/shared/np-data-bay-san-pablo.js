@@ -69,9 +69,9 @@ export const NP_BAY_SAN_PABLO = {
     {"id":"point-isabel-shoreline-crew","name":"Point Isabel Shoreline Crew","kind":"wetland","position":[922,1603],"trades":["liuna","iuoe","afscme"],"programmes":["marine-ecology-and-restoration","bay-restoration-maritime-underwater"],"stations":["br-native-planting-and-erosion-mats","living-shoreline","me-tidal-marsh-channel-restoration-day","br-water-quality-sonde-calibration-and-deploy"],"blurb":"A shoreline restoration crew by Point Isabel: native planting and erosion mats, a living shoreline and the water quality sonde."},
   ],
   landmarks: [
-    {"id":"rosie-the-riveter-memorial","name":"the Rosie the Riveter Memorial","position":[-417,1355],"kind":"place"},
+    {"id":"rosie-the-riveter-memorial", "lm": "memorial-plaza","name":"the Rosie the Riveter Memorial","position":[-417,1355],"kind":"place"},
     {"id":"point-richmond","name":"Point Richmond","position":[-1756,525],"kind":"place"},
-    {"id":"richmond-station","name":"Richmond Station","position":[-351,-138],"kind":"station"},
+    {"id":"richmond-station", "lm": "transit-station","name":"Richmond Station","position":[-351,-138],"kind":"station"},
     {"id":"marina-bay-shore","name":"the Marina Bay shore","position":[0,1355],"kind":"shore"},
     {"id":"wildcat-creek-marsh","name":"Wildcat Creek's marsh","position":[-834,-1714],"kind":"shore"},
     {"id":"the-harbour-cranes","name":"the harbour's cranes","position":[-1317,1437],"kind":"port","lm":"container-cranes"},

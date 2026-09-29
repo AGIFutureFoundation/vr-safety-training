@@ -99,7 +99,7 @@ export const NP_SF_GOLDEN_GATE_PARK = {
     {"id":"dutch-windmill","name":"the Dutch Windmill","position":[-1152,-377],"kind":"windmill"},
     {"id":"murphy-windmill","name":"the Murphy Windmill","position":[-1120,0],"kind":"windmill"},
     {"id":"stow-lake-boathouse","name":"the Stow Lake boathouse","position":[140,-412],"kind":"boathouse"},
-    {"id":"conservatory-of-flowers","name":"the Conservatory of Flowers","position":[712,-493],"kind":"place"},
+    {"id":"conservatory-of-flowers", "lm": "glasshouse","name":"the Conservatory of Flowers","position":[712,-493],"kind":"place"},
     {"id":"japanese-tea-garden","name":"the Japanese Tea Garden","position":[300,-362],"kind":"garden"},
     {"id":"ocean-beach","name":"Ocean Beach","position":[-1160,653],"kind":"shore"},
     {"id":"sutro-heights","name":"Sutro Heights","position":[-1272,-779],"kind":"park"},

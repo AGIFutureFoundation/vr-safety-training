@@ -70,8 +70,11 @@ check(/SCHEMATIC SILHOUETTES/.test(src) && /no shape claims to be\s*\n?\/\/?\s*a
 check(!/\bimport\b/.test(src.split("\n").filter((l) => !l.trim().startsWith("//")).join("\n")), "the kit imports nothing (three.js comes from the caller)");
 
 // 3. every SF and Oakland map landmark of a registry kind draws with the kit; budgets hold
-const bay = R.NP_PARISHES.filter((p) => /^(sf|oak)-/.test(p.id));
-check(bay.length >= 8, `the San Francisco and Oakland maps are in the tree (${bay.length})`);
+// LANDMARKS-2: every map now (22), not only San Francisco and Oakland
+const bay = R.NP_PARISHES;
+check(bay.length >= 22, `the 22 parish-engine maps are in the tree (${bay.length})`);
+const LX_WET = new Set(["wharf-pier-shed", "container-cranes", "canal-lock", "levee-pump-station", "marsh-boardwalk", "tide-gate"]);
+const worstChunk = [];
 const drawn = [];
 for (const p of bay) {
   const kitLms = p.landmarks.filter((l) => L.lmKindOf(l));
@@ -91,7 +94,7 @@ for (const p of bay) {
         check(onRoad, `${p.id}/${tier}/${l.id}: the bridge kit stands on a bridge road`);
       } else {
         const wet = E.npWaterAt(p, k.x, k.z);
-        check(!wet || wet.kind === "wetland" || kind === "wharf-pier-shed" || kind === "container-cranes", `${p.id}/${tier}/${l.id}: a ground kit stands on dry ground`);
+        check(!wet || wet.kind === "wetland" || LX_WET.has(kind), `${p.id}/${tier}/${l.id}: a ground kit stands on dry ground`);
         const near = Math.min(...p.sites.map((s) => Math.hypot(s.position[0] - k.x, s.position[1] - k.z)));
         check(near >= 30, `${p.id}/${tier}/${l.id}: clear of the sites' pads (nearest site ${Math.round(near)} m)`);
       }
@@ -103,6 +106,7 @@ for (const p of bay) {
     check(worstMesh <= E.NP_BUDGET.drawCalls, `${p.id}/${tier}: at most ${E.NP_BUDGET.drawCalls} meshes at every site with the kit (worst ${worstMesh})`);
     check(worstTri <= E.NP_BUDGET.triangles, `${p.id}/${tier}: at most ${E.NP_BUDGET.triangles} triangles at every site with the kit (worst ${worstTri})`);
     check(kitTri <= (tier === "low" ? 6000 : 12000), `${p.id}/${tier}: the kit adds ${world.lmKits.length} mesh(es) and ${kitTri} triangles (map cap ${tier === "low" ? 6000 : 12000})`);
+    if (tier === "high" && world.lmKits.length) worstChunk.push(`${p.id} ${worstMesh}`);
     if (tier === "high") drawn.push(`${p.id} ${world.lmKits.length} (${world.lmKits.map((k) => k.kind).join(", ") || "none"})`);
     note(`${p.id}/${tier}: ${world.lmKits.length} kit landmarks, +${kitTri} triangles; worst ${worstMesh} meshes / ${worstTri} triangles`);
   }
@@ -119,10 +123,14 @@ const bundler = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
 check(/SHARED \/ "lm-landmarks\.js",[\s\S]{0,40}SHARED \/ "np-world\.js"/.test(bundler), "the parishes bundle lists lm-landmarks.js before np-world.js");
 check(readFileSync(join(ROOT, "tools", "check_all.mjs"), "utf8").includes('"check_landmarks.mjs"'), "check_all runs this checker");
 check(JSON.parse(readFileSync(join(ROOT, "docs", "perf", "checkers-baseline.json"), "utf8")).checkers?.["check_landmarks.mjs"] > 0, "checkers-baseline.json records this checker");
-const doc = readFileSync(join(ROOT, "docs", "consoles", "LANDMARKS.md"), "utf8");
-for (const k of kinds) check(doc.includes(`\`${k}\``), `docs/consoles/LANDMARKS.md lists ${k}`);
+const doc = readFileSync(join(ROOT, "docs", "consoles", "LANDMARKS.md"), "utf8") + readFileSync(join(ROOT, "docs", "consoles", "LANDMARKS-2.md"), "utf8");
+for (const k of kinds) check(doc.includes(`\`${k}\``), `docs/consoles/LANDMARKS(-2).md lists ${k}`);
 
 note(`kinds (desktop/phone triangles): ${budgetLine.join("; ")}`);
 note(`maps drawing the kit: ${drawn.join("; ")}`);
-console.log(`check_landmarks: ${kinds.length} kinds, ${withKit.length} maps draw landmarks with the kit — ${passes} passed, ${failures} failed (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+note(`worst chunk meshes (full build, desktop) on maps with kit landmarks: ${worstChunk.join("; ")}`);
+const kitCount = R.NP_PARISHES.reduce((s, p) => s + p.landmarks.filter((l) => L.lmKindOf(l)).length, 0), lmTotal = R.NP_PARISHES.reduce((s, p) => s + p.landmarks.length, 0);
+check(kitCount >= 59, `59 or more landmarks draw with the kit (${kitCount} of ${lmTotal})`);
+check(kinds.length >= 35, `35 or more kinds (${kinds.length})`);
+console.log(`check_landmarks: ${kinds.length} kinds, ${kitCount} of ${lmTotal} landmarks on ${withKit.length} maps draw with the kit — ${passes} passed, ${failures} failed (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
 process.exit(failures ? 1 : 0);

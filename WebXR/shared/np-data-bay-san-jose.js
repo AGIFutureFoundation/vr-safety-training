@@ -70,8 +70,8 @@ export const NP_BAY_SAN_JOSE = {
     {"id":"japantown-union-hall","name":"Japantown Union Hall","kind":"union-hall","position":[-133,-774],"trades":["carpenters","ibew","liuna","unite-here"],"programmes":["job-readiness-edition","civic-leadership-and-ei"],"stations":["union-hall-and-dispatch","jobsite-orientation-and-osha-10","apprenticeship-application-and-test","public-meeting-chair"],"blurb":"A union hall near Japantown: the dispatch board, the apprenticeship table and the meeting room where the crews speak and vote."},
   ],
   landmarks: [
-    {"id":"diridon-station","name":"Diridon Station","position":[-575,249],"kind":"station"},
-    {"id":"san-jose-city-hall","name":"San José City Hall","position":[221,-138],"kind":"tower"},
+    {"id":"diridon-station", "lm": "transit-station","name":"Diridon Station","position":[-575,249],"kind":"station"},
+    {"id":"san-jose-city-hall", "lm": "civic-tower","name":"San José City Hall","position":[221,-138],"kind":"tower"},
     {"id":"plaza-de-cesar-chavez","name":"Plaza de César Chávez","position":[0,166],"kind":"park"},
     {"id":"cathedral-basilica","name":"the Cathedral Basilica of St. Joseph","position":[22,55],"kind":"place"},
     {"id":"st-james-park","name":"St. James Park","position":[-44,-221],"kind":"park"},

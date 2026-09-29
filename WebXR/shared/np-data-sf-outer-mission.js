@@ -63,7 +63,7 @@ export const NP_SF_OUTER_MISSION = {
     {"id":"om-maintenance-crew","name":"Green Infrastructure Maintenance Crew","kind":"utility","position":[150,-250],"trades":["afscme","uwua"],"programmes":["grounds-and-landscaping","hazmat-environmental"],"stations":["gk-irrigation-controller-valve-box-and-backflow-check","stormwater-outfall","gk-storm-cleanup-chipper-and-traffic-control"],"blurb":"The crew that keeps the rain gardens working: the inlet cleared of leaves, the valve box and the cones before work at the curb."},
   ],
   landmarks: [
-    {"id":"balboa-park-station","name":"Balboa Park Station","position":[-280,-253],"kind":"station"},
+    {"id":"balboa-park-station", "lm": "transit-station","name":"Balboa Park Station","position":[-280,-253],"kind":"station"},
     {"id":"mount-davidson-place","name":"Mount Davidson","position":[-560,-1113],"kind":"park"},
     {"id":"mclaren-park-place","name":"McLaren Park","position":[801,-101],"kind":"park"},
     {"id":"lake-merced-shore","name":"the Lake Merced shore","position":[-1480,-150],"kind":"shore"},

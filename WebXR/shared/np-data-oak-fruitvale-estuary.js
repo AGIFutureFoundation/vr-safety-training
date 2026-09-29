@@ -81,7 +81,7 @@ export const NP_OAK_FRUITVALE_ESTUARY = {
     {"id":"fruitvale-community-clinic","name":"Fruitvale Community Clinic","kind":"clinic","position":[-126,-737],"trades":["seiu-uhw","nuhw"],"programmes":["healthcare-support"],"stations":["hc-workplace-violence-deescalation-at-the-desk","hc-linen-and-regulated-waste-handling","patient-intake-screening","sharps-exposure-response"],"blurb":"A neighbourhood clinic: the front desk's calm de-escalation, intake screening, the sharps response and the regulated waste room."},
   ],
   landmarks: [
-    {"id":"fruitvale-station","name":"Fruitvale Station","position":[251,-158],"kind":"station"},
+    {"id":"fruitvale-station", "lm": "transit-station","name":"Fruitvale Station","position":[251,-158],"kind":"station"},
     {"id":"fruitvale-bridge","name":"the Fruitvale Bridge","position":[-42,-90],"kind":"bridge"},
     {"id":"high-street-bridge","name":"the High Street Bridge","position":[469,253],"kind":"bridge"},
     {"id":"brooklyn-basin-shore","name":"Brooklyn Basin","position":[-922,-737],"kind":"shore"},
