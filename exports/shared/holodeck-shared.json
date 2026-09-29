@@ -5974,6 +5974,7 @@
     "broadcast-truck",
     "bs-bearing-replacement-and-jacking",
     "bs-structural-bolting-and-torque",
+    "bt-masonry-wall-layout-and-mortar",
     "bt-rebar-tying-and-impalement-protection",
     "building-rad-scan",
     "bunkering-watch",
@@ -6002,6 +6003,7 @@
     "cp-hydrogen-fuel-cell-equipment-and-fuelling",
     "cp-zero-emission-drayage-truck-pre-trip",
     "cp-zero-emission-terminal-equipment-pre-use",
+    "crane-yard",
     "creosote-pile-removal",
     "cs-non-entry-retrieval-and-tripod",
     "cs-permit-entry-and-attendant-duties",
@@ -6072,6 +6074,7 @@
     "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
     "gk-tree-work-pole-saw-and-drop-zone",
     "gl-curtain-wall-unit-setting-from-the-floor",
+    "gl-glass-handling-cart-and-crane-vacuum-lifter",
     "gl-swing-stage-glazing-and-sealant",
     "gr-ammonia-leak-alarm-response-cold-plant",
     "gr-checkstand-ergonomics-and-robbery-prevention",
@@ -6193,6 +6196,7 @@
     "pm-fitness-room-and-gym",
     "pm-landscaping-and-irrigation",
     "pm-pool-and-spa-chemistry",
+    "pm-sprinkler-riser-room",
     "po-lashing-gear-inspection-and-tagging",
     "po-yard-hostler-and-pedestrian-separation",
     "prep-cooling",
@@ -6220,9 +6224,11 @@
     "receiving-dock-food",
     "reefer-yard-monitoring",
     "rf-roof-tear-off-and-debris-chute",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe",
     "rf-skylight-and-hatch-guarding",
     "rf-torch-applied-membrane-and-fire-watch",
     "rigging-loft",
+    "rl-critical-lift-plan-and-signalperson",
     "sample-kit-shipping",
     "sampling-well",
     "scaffold-erection",
@@ -6238,7 +6244,10 @@
     "shore-power-hookup",
     "signal-cabinet",
     "slicer-lockout",
+    "sm-architectural-panels-at-height",
     "sm-duct-fabrication-and-seams",
+    "sm-duct-hanging-and-seismic-bracing",
+    "sm-kitchen-exhaust-and-fire-wrap",
     "sm-plasma-table-and-fume",
     "sm-shop-layout-and-shear",
     "sm-tig-and-spot-welding",
@@ -6266,6 +6275,7 @@
     "teledentistry-and-triage",
     "temporary-site-power",
     "tide-gate",
+    "tower-climb",
     "tr-wheelchair-lift-and-securement-on-a-bus",
     "track-access",
     "traffic-incident-management",
@@ -6309,6 +6319,15 @@
     "yc-tender-launch-and-guest-transfer"
    ],
    "field": [
+    "ac-fl-crawfish-ponds-and-rice",
+    "ac-fl-how-the-floodwall-works",
+    "ac-fl-how-the-vermilion-rises",
+    "ac-fl-lifting-a-wall-panel",
+    "ac-fl-reading-a-downtown-map",
+    "ac-fl-reading-the-yard-signals",
+    "ac-fl-simple-machines-downtown",
+    "ac-fl-the-ouachitas-current",
+    "ac-fl-who-works-at-the-interchange",
     "bm-fl-a-council-meeting",
     "bm-fl-crane-as-a-machine",
     "bm-fl-fractions-on-the-line",
@@ -11945,6 +11964,523 @@
    ]
   },
   {
+   "id": "laf-downtown",
+   "name": "Downtown Lafayette and the Vermilion",
+   "region": "louisiana-cities",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -92.009997,
+    30.218995
+   ],
+   "bounds": {
+    "minLng": -92.052588,
+    "minLat": 30.182206,
+    "maxLng": -91.967405,
+    "maxLat": 30.255785
+   },
+   "sites": [
+    {
+     "id": "lafd-workforce-centre",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-application-and-test",
+      "union-hall-and-dispatch",
+      "constituent-service-desk"
+     ]
+    },
+    {
+     "id": "lafd-vermilion-bank-work",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "op-dozer-slope-work-and-rollover-protection",
+      "formwork-shoring",
+      "concrete-pour"
+     ]
+    },
+    {
+     "id": "lafd-streetscape-utilities",
+     "stations": [
+      "trench-box",
+      "op-excavator-trench-and-utility-locate",
+      "ut-service-line-locate-and-hand-dig-near-gas-main"
+     ]
+    },
+    {
+     "id": "lafd-midrise-steel",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "bs-structural-bolting-and-torque",
+      "formwork-shoring",
+      "concrete-pour"
+     ]
+    },
+    {
+     "id": "lafd-historic-facade-restoration",
+     "stations": [
+      "masonry-silica-scaffold",
+      "bt-masonry-wall-layout-and-mortar",
+      "scaffold-erection"
+     ]
+    },
+    {
+     "id": "lafd-water-main-replacement",
+     "stations": [
+      "ut-water-main-break-emergency-shutdown-and-excavation",
+      "valve-vault",
+      "manhole-entry-and-atmospheric-monitoring"
+     ]
+    },
+    {
+     "id": "lafd-roofing-crew",
+     "stations": [
+      "rf-roof-tear-off-and-debris-chute",
+      "rf-torch-applied-membrane-and-fire-watch",
+      "rf-single-ply-tpo-heat-welding-and-seam-probe"
+     ]
+    },
+    {
+     "id": "lafd-electrical-service-upgrade",
+     "stations": [
+      "temporary-site-power",
+      "transformer-vault",
+      "arc-flash-label-study"
+     ]
+    },
+    {
+     "id": "lafd-hospital-mep-fitout",
+     "stations": [
+      "pl-medical-gas-brazing-and-purge",
+      "sm-duct-hanging-and-seismic-bracing",
+      "hc-patient-transport-and-safe-handling",
+      "pm-sprinkler-riser-room"
+     ]
+    },
+    {
+     "id": "lafd-parking-deck-concrete",
+     "stations": [
+      "formwork-shoring",
+      "concrete-pour",
+      "bs-structural-bolting-and-torque"
+     ]
+    },
+    {
+     "id": "lafd-traffic-signal-install",
+     "stations": [
+      "signal-cabinet",
+      "temporary-site-power",
+      "line-truck"
+     ]
+    },
+    {
+     "id": "lafd-drainage-coulee",
+     "stations": [
+      "bioswale-build",
+      "op-excavator-trench-and-utility-locate",
+      "trench-box"
+     ]
+    },
+    {
+     "id": "lafd-school-renovation",
+     "stations": [
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control",
+      "k12-reading-instructions-and-safety-labels"
+     ]
+    },
+    {
+     "id": "lafd-crane-lift-zone",
+     "stations": [
+      "crane-yard",
+      "rl-critical-lift-plan-and-signalperson",
+      "op-crawler-crane-assembly-and-load-chart"
+     ]
+    },
+    {
+     "id": "lafd-scaffold-facade",
+     "stations": [
+      "scaffold-erection",
+      "gl-glass-handling-cart-and-crane-vacuum-lifter",
+      "sm-architectural-panels-at-height"
+     ]
+    },
+    {
+     "id": "lafd-kitchen-fitout",
+     "stations": [
+      "kitchen",
+      "kitchen-gas-shutoff",
+      "sm-kitchen-exhaust-and-fire-wrap",
+      "allergen-control"
+     ]
+    },
+    {
+     "id": "lafd-campus-plant",
+     "stations": [
+      "chiller-plant",
+      "pm-fire-alarm-panel-room",
+      "pm-electrical-room",
+      "ed-science-lab-chemical-storage-and-eyewash"
+     ]
+    },
+    {
+     "id": "lafd-airport-ramp",
+     "stations": [
+      "airport-ramp",
+      "av-marshalling-and-wingwalker-signals",
+      "av-pushback-tug-and-towbar-connection"
+     ]
+    },
+    {
+     "id": "lafd-fire-station",
+     "stations": [
+      "ambulance-scene-safety",
+      "aerial-ladder",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "lafd-thruway-warehouse",
+     "stations": [
+      "forklift-dock",
+      "tdl-trailer-loading-and-dock-plate",
+      "tw-high-bay-order-picker-fall-protection"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "laf-carencro-north",
+   "name": "Carencro and North Lafayette",
+   "region": "louisiana-cities",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -92.047001,
+    30.2955
+   ],
+   "bounds": {
+    "minLng": -92.089617,
+    "minLat": 30.258699,
+    "maxLng": -92.004386,
+    "maxLat": 30.3323
+   },
+   "sites": [
+    {
+     "id": "lafc-workforce-trailer",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-application-and-test",
+      "union-hall-and-dispatch"
+     ]
+    },
+    {
+     "id": "lafc-industrial-park",
+     "stations": [
+      "forklift-dock",
+      "hz-drum-staging-and-compatibility-segregation",
+      "drum-sampling-and-overpack",
+      "stormwater-outfall"
+     ]
+    },
+    {
+     "id": "lafc-i49-interchange-work",
+     "stations": [
+      "deck-joint-replacement",
+      "bs-bearing-replacement-and-jacking",
+      "bs-structural-bolting-and-torque",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "lafc-warehouse-tilt-up",
+     "stations": [
+      "formwork-shoring",
+      "concrete-pour",
+      "rl-critical-lift-plan-and-signalperson",
+      "jobsite-orientation-and-osha-10"
+     ]
+    },
+    {
+     "id": "lafc-pipe-yard",
+     "stations": [
+      "op-loader-truck-loading-and-blind-spots",
+      "op-equipment-daily-walkaround-and-fluids",
+      "tdl-cargo-securement-and-hours"
+     ]
+    },
+    {
+     "id": "lafc-fabrication-shop",
+     "stations": [
+      "welding",
+      "sm-plasma-table-and-fume",
+      "sm-duct-fabrication-and-seams"
+     ]
+    },
+    {
+     "id": "lafc-substation-tie-in",
+     "stations": [
+      "substation-switching",
+      "temporary-site-power",
+      "line-truck",
+      "transformer-vault"
+     ]
+    },
+    {
+     "id": "lafc-rail-siding",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "ra-switch-inspection-and-lubrication",
+      "ra-roadway-worker-protection-and-job-briefing"
+     ]
+    },
+    {
+     "id": "lafc-cane-haul-road",
+     "stations": [
+      "tdl-pretrip-inspection",
+      "tdl-air-brake-test",
+      "tdl-cargo-securement-and-hours"
+     ]
+    },
+    {
+     "id": "lafc-drainage-coulee",
+     "stations": [
+      "bioswale-build",
+      "op-excavator-trench-and-utility-locate",
+      "trench-box"
+     ]
+    },
+    {
+     "id": "lafc-water-tower",
+     "stations": [
+      "tower-climb",
+      "valve-vault",
+      "bridge-lead-containment"
+     ]
+    },
+    {
+     "id": "lafc-subdivision-framing",
+     "stations": [
+      "scaffold-erection",
+      "rf-roof-tear-off-and-debris-chute",
+      "pl-natural-gas-pressure-test-and-leak-check"
+     ]
+    },
+    {
+     "id": "lafc-roadway-paving",
+     "stations": [
+      "op-grader-fine-grade-and-crown",
+      "op-compactor-lift-thickness-and-edge",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "lafc-truck-yard",
+     "stations": [
+      "tdl-pretrip-inspection",
+      "tdl-coupling-and-uncoupling",
+      "tdl-air-brake-test"
+     ]
+    },
+    {
+     "id": "lafc-oilfield-service-yard",
+     "stations": [
+      "hz-drum-staging-and-compatibility-segregation",
+      "drum-sampling-and-overpack",
+      "forklift-dock"
+     ]
+    },
+    {
+     "id": "lafc-crane-yard",
+     "stations": [
+      "crane-yard",
+      "op-crawler-crane-assembly-and-load-chart",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "lafc-school-campus",
+     "stations": [
+      "ed-crossing-guard-intersection-control",
+      "ed-playground-equipment-inspection",
+      "k12-reading-instructions-and-safety-labels"
+     ]
+    },
+    {
+     "id": "lafc-fire-station",
+     "stations": [
+      "ambulance-scene-safety",
+      "traffic-incident-management",
+      "aerial-ladder"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "monroe-west-monroe",
+   "name": "Monroe and West Monroe",
+   "region": "louisiana-cities",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -92.095002,
+    32.509999
+   ],
+   "bounds": {
+    "minLng": -92.160466,
+    "minLat": 32.454801,
+    "maxLng": -92.029539,
+    "maxLat": 32.565196
+   },
+   "sites": [
+    {
+     "id": "mon-workforce-centre",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-application-and-test",
+      "union-hall-and-dispatch",
+      "constituent-service-desk"
+     ]
+    },
+    {
+     "id": "mon-river-bridge-work",
+     "stations": [
+      "bridge-lead-containment",
+      "deck-joint-replacement",
+      "bs-bearing-replacement-and-jacking"
+     ]
+    },
+    {
+     "id": "mon-levee-floodwall",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "formwork-shoring",
+      "concrete-pour"
+     ]
+    },
+    {
+     "id": "mon-riverfront-streetscape",
+     "stations": [
+      "trench-box",
+      "op-excavator-trench-and-utility-locate",
+      "ut-service-line-locate-and-hand-dig-near-gas-main"
+     ]
+    },
+    {
+     "id": "mon-hospital-expansion",
+     "stations": [
+      "pl-medical-gas-brazing-and-purge",
+      "hc-patient-transport-and-safe-handling",
+      "pm-sprinkler-riser-room"
+     ]
+    },
+    {
+     "id": "mon-mill-turnaround-staging",
+     "stations": [
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "ib-boiler-tube-replacement-and-rolling",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "mon-airport-apron",
+     "stations": [
+      "airport-ramp",
+      "av-marshalling-and-wingwalker-signals",
+      "av-pushback-tug-and-towbar-connection"
+     ]
+    },
+    {
+     "id": "mon-i20-bridge-deck",
+     "stations": [
+      "deck-joint-replacement",
+      "bs-structural-bolting-and-torque",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "mon-water-plant",
+     "stations": [
+      "lift-station",
+      "motor-control-center",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "mon-substation-build",
+     "stations": [
+      "substation-switching",
+      "temporary-site-power",
+      "transformer-vault"
+     ]
+    },
+    {
+     "id": "mon-rail-yard",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "rcl-switching",
+      "ra-air-brake-test-and-train-inspection"
+     ]
+    },
+    {
+     "id": "mon-warehouse-steel",
+     "stations": [
+      "bs-structural-bolting-and-torque",
+      "rl-critical-lift-plan-and-signalperson",
+      "jobsite-orientation-and-osha-10"
+     ]
+    },
+    {
+     "id": "mon-school-renovation",
+     "stations": [
+      "ed-custodial-chemical-dilution-and-floor-machine",
+      "ed-playground-equipment-inspection",
+      "ed-crossing-guard-intersection-control"
+     ]
+    },
+    {
+     "id": "mon-transit-shelters",
+     "stations": [
+      "bus-yard-fuelling-and-brake-check",
+      "bus-depot-lift",
+      "tr-wheelchair-lift-and-securement-on-a-bus"
+     ]
+    },
+    {
+     "id": "mon-downtown-facade",
+     "stations": [
+      "masonry-silica-scaffold",
+      "bt-masonry-wall-layout-and-mortar",
+      "scaffold-erection"
+     ]
+    },
+    {
+     "id": "mon-fire-station",
+     "stations": [
+      "ambulance-scene-safety",
+      "traffic-incident-management",
+      "aerial-ladder"
+     ]
+    },
+    {
+     "id": "mon-west-monroe-warehouse",
+     "stations": [
+      "forklift-dock",
+      "tdl-trailer-loading-and-dock-plate",
+      "tw-high-bay-order-picker-fall-protection"
+     ]
+    },
+    {
+     "id": "mon-boat-launch-rebuild",
+     "stations": [
+      "br-cold-water-immersion-and-mob-recovery",
+      "op-pile-driving-rig-and-lead-setup",
+      "mw-workboat-towing-and-line-handling"
+     ]
+    }
+   ]
+  },
+  {
    "id": "sm-unspoken-smiles",
    "name": "Unspoken Smiles District",
    "region": "programmes",
@@ -12335,6 +12871,16 @@
       "bp-san-leandro-bay",
       "bp-san-mateo-shoreline",
       "bp-nutrient-pilot"
+     ]
+    },
+    {
+     "id": "louisiana-cities",
+     "name": "Louisiana Growth Cities",
+     "noun": "district",
+     "maps": [
+      "laf-downtown",
+      "laf-carencro-north",
+      "monroe-west-monroe"
      ]
     },
     {
@@ -19353,6 +19899,722 @@
      ]
     },
     {
+     "id": "laf-downtown",
+     "name": "Downtown Lafayette and the Vermilion",
+     "region": "louisiana-cities",
+     "sites": [
+      {
+       "id": "lafd-workforce-centre",
+       "name": "Downtown Lafayette Workforce Centre",
+       "kind": "civic",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-application-and-test",
+        "union-hall-and-dispatch",
+        "constituent-service-desk"
+       ]
+      },
+      {
+       "id": "lafd-vermilion-bank-work",
+       "name": "Vermilion Riverbank Crew",
+       "kind": "levee",
+       "stations": [
+        "br-levee-inspection-and-seepage",
+        "op-dozer-slope-work-and-rollover-protection",
+        "formwork-shoring",
+        "concrete-pour"
+       ]
+      },
+      {
+       "id": "lafd-streetscape-utilities",
+       "name": "Downtown Streetscape and Utilities Dig",
+       "kind": "excavation",
+       "stations": [
+        "trench-box",
+        "op-excavator-trench-and-utility-locate",
+        "ut-service-line-locate-and-hand-dig-near-gas-main"
+       ]
+      },
+      {
+       "id": "lafd-midrise-steel",
+       "name": "Downtown Mid-Rise Steel",
+       "kind": "construction",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "bs-structural-bolting-and-torque",
+        "formwork-shoring",
+        "concrete-pour"
+       ]
+      },
+      {
+       "id": "lafd-historic-facade-restoration",
+       "name": "Historic Facade Restoration",
+       "kind": "construction",
+       "stations": [
+        "masonry-silica-scaffold",
+        "bt-masonry-wall-layout-and-mortar",
+        "scaffold-erection"
+       ]
+      },
+      {
+       "id": "lafd-water-main-replacement",
+       "name": "Water Main Replacement",
+       "kind": "utility",
+       "stations": [
+        "ut-water-main-break-emergency-shutdown-and-excavation",
+        "valve-vault",
+        "manhole-entry-and-atmospheric-monitoring"
+       ]
+      },
+      {
+       "id": "lafd-roofing-crew",
+       "name": "Low-Slope Roofing Crew",
+       "kind": "construction",
+       "stations": [
+        "rf-roof-tear-off-and-debris-chute",
+        "rf-torch-applied-membrane-and-fire-watch",
+        "rf-single-ply-tpo-heat-welding-and-seam-probe"
+       ]
+      },
+      {
+       "id": "lafd-electrical-service-upgrade",
+       "name": "Electrical Service Upgrade",
+       "kind": "substation",
+       "stations": [
+        "temporary-site-power",
+        "transformer-vault",
+        "arc-flash-label-study"
+       ]
+      },
+      {
+       "id": "lafd-hospital-mep-fitout",
+       "name": "Hospital Wing Fit-Out",
+       "kind": "hospital",
+       "stations": [
+        "pl-medical-gas-brazing-and-purge",
+        "sm-duct-hanging-and-seismic-bracing",
+        "hc-patient-transport-and-safe-handling",
+        "pm-sprinkler-riser-room"
+       ]
+      },
+      {
+       "id": "lafd-parking-deck-concrete",
+       "name": "Parking Deck Concrete",
+       "kind": "construction",
+       "stations": [
+        "formwork-shoring",
+        "concrete-pour",
+        "bs-structural-bolting-and-torque"
+       ]
+      },
+      {
+       "id": "lafd-traffic-signal-install",
+       "name": "Traffic Signal Install",
+       "kind": "substation",
+       "stations": [
+        "signal-cabinet",
+        "temporary-site-power",
+        "line-truck"
+       ]
+      },
+      {
+       "id": "lafd-drainage-coulee",
+       "name": "Coulee Drainage Crew",
+       "kind": "stormwater",
+       "stations": [
+        "bioswale-build",
+        "op-excavator-trench-and-utility-locate",
+        "trench-box"
+       ]
+      },
+      {
+       "id": "lafd-school-renovation",
+       "name": "School Campus Renovation",
+       "kind": "school",
+       "stations": [
+        "ed-custodial-chemical-dilution-and-floor-machine",
+        "ed-playground-equipment-inspection",
+        "ed-crossing-guard-intersection-control",
+        "k12-reading-instructions-and-safety-labels"
+       ]
+      },
+      {
+       "id": "lafd-crane-lift-zone",
+       "name": "Downtown Crane Lift Zone",
+       "kind": "construction",
+       "stations": [
+        "crane-yard",
+        "rl-critical-lift-plan-and-signalperson",
+        "op-crawler-crane-assembly-and-load-chart"
+       ]
+      },
+      {
+       "id": "lafd-scaffold-facade",
+       "name": "Facade Scaffold and Glazing",
+       "kind": "construction",
+       "stations": [
+        "scaffold-erection",
+        "gl-glass-handling-cart-and-crane-vacuum-lifter",
+        "sm-architectural-panels-at-height"
+       ]
+      },
+      {
+       "id": "lafd-kitchen-fitout",
+       "name": "Restaurant Kitchen Fit-Out",
+       "kind": "hospitality",
+       "stations": [
+        "kitchen",
+        "kitchen-gas-shutoff",
+        "sm-kitchen-exhaust-and-fire-wrap",
+        "allergen-control"
+       ]
+      },
+      {
+       "id": "lafd-campus-plant",
+       "name": "University Plant Rooms",
+       "kind": "campus",
+       "stations": [
+        "chiller-plant",
+        "pm-fire-alarm-panel-room",
+        "pm-electrical-room",
+        "ed-science-lab-chemical-storage-and-eyewash"
+       ]
+      },
+      {
+       "id": "lafd-airport-ramp",
+       "name": "Airport Ramp Crew",
+       "kind": "airport",
+       "stations": [
+        "airport-ramp",
+        "av-marshalling-and-wingwalker-signals",
+        "av-pushback-tug-and-towbar-connection"
+       ]
+      },
+      {
+       "id": "lafd-fire-station",
+       "name": "Downtown Fire Station",
+       "kind": "fire-station",
+       "stations": [
+        "ambulance-scene-safety",
+        "aerial-ladder",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "lafd-thruway-warehouse",
+       "name": "Thruway Warehouse and Dock",
+       "kind": "warehouse",
+       "stations": [
+        "forklift-dock",
+        "tdl-trailer-loading-and-dock-plate",
+        "tw-high-bay-order-picker-fall-protection"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "lafd-sign",
+       "name": "a sign: the site layouts are illustrative; the city, the river and the roads are real",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "cathedral-st-john",
+       "name": "the Cathedral of St. John the Evangelist",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "parc-san-souci",
+       "name": "Parc San Souci",
+       "kind": "park",
+       "lm": null
+      },
+      {
+       "id": "girard-park-lm",
+       "name": "Girard Park",
+       "kind": "park",
+       "lm": null
+      },
+      {
+       "id": "cypress-lake-lm",
+       "name": "Cypress Lake",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "vermilionville-lm",
+       "name": "Vermilionville",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "vermilion-bridge",
+       "name": "the Pinhook Road bridge over the Vermilion",
+       "kind": "bridge",
+       "lm": null
+      }
+     ],
+     "hills": []
+    },
+    {
+     "id": "laf-carencro-north",
+     "name": "Carencro and North Lafayette",
+     "region": "louisiana-cities",
+     "sites": [
+      {
+       "id": "lafc-workforce-trailer",
+       "name": "Carencro Workforce Trailer",
+       "kind": "civic",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-application-and-test",
+        "union-hall-and-dispatch"
+       ]
+      },
+      {
+       "id": "lafc-industrial-park",
+       "name": "Interchange Industrial Park",
+       "kind": "industrial",
+       "stations": [
+        "forklift-dock",
+        "hz-drum-staging-and-compatibility-segregation",
+        "drum-sampling-and-overpack",
+        "stormwater-outfall"
+       ]
+      },
+      {
+       "id": "lafc-i49-interchange-work",
+       "name": "Interchange Bridge Crew",
+       "kind": "bridge-yard",
+       "stations": [
+        "deck-joint-replacement",
+        "bs-bearing-replacement-and-jacking",
+        "bs-structural-bolting-and-torque",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "lafc-warehouse-tilt-up",
+       "name": "Tilt-Up Warehouse Build",
+       "kind": "construction",
+       "stations": [
+        "formwork-shoring",
+        "concrete-pour",
+        "rl-critical-lift-plan-and-signalperson",
+        "jobsite-orientation-and-osha-10"
+       ]
+      },
+      {
+       "id": "lafc-pipe-yard",
+       "name": "Pipe Yard",
+       "kind": "yard",
+       "stations": [
+        "op-loader-truck-loading-and-blind-spots",
+        "op-equipment-daily-walkaround-and-fluids",
+        "tdl-cargo-securement-and-hours"
+       ]
+      },
+      {
+       "id": "lafc-fabrication-shop",
+       "name": "Fabrication Shop",
+       "kind": "workshop",
+       "stations": [
+        "welding",
+        "sm-plasma-table-and-fume",
+        "sm-duct-fabrication-and-seams"
+       ]
+      },
+      {
+       "id": "lafc-substation-tie-in",
+       "name": "Substation Tie-In",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "temporary-site-power",
+        "line-truck",
+        "transformer-vault"
+       ]
+      },
+      {
+       "id": "lafc-rail-siding",
+       "name": "Rail Siding",
+       "kind": "rail",
+       "stations": [
+        "ra-blue-flag-protection-in-the-yard",
+        "ra-switch-inspection-and-lubrication",
+        "ra-roadway-worker-protection-and-job-briefing"
+       ]
+      },
+      {
+       "id": "lafc-cane-haul-road",
+       "name": "Cane Haul Road",
+       "kind": "trucking",
+       "stations": [
+        "tdl-pretrip-inspection",
+        "tdl-air-brake-test",
+        "tdl-cargo-securement-and-hours"
+       ]
+      },
+      {
+       "id": "lafc-drainage-coulee",
+       "name": "Coulee Drainage Crew",
+       "kind": "stormwater",
+       "stations": [
+        "bioswale-build",
+        "op-excavator-trench-and-utility-locate",
+        "trench-box"
+       ]
+      },
+      {
+       "id": "lafc-water-tower",
+       "name": "Water Tower Repaint",
+       "kind": "utility",
+       "stations": [
+        "tower-climb",
+        "valve-vault",
+        "bridge-lead-containment"
+       ]
+      },
+      {
+       "id": "lafc-subdivision-framing",
+       "name": "Subdivision Framing Crew",
+       "kind": "construction",
+       "stations": [
+        "scaffold-erection",
+        "rf-roof-tear-off-and-debris-chute",
+        "pl-natural-gas-pressure-test-and-leak-check"
+       ]
+      },
+      {
+       "id": "lafc-roadway-paving",
+       "name": "Roadway Paving Crew",
+       "kind": "yard",
+       "stations": [
+        "op-grader-fine-grade-and-crown",
+        "op-compactor-lift-thickness-and-edge",
+        "op-equipment-daily-walkaround-and-fluids"
+       ]
+      },
+      {
+       "id": "lafc-truck-yard",
+       "name": "Interstate Truck Yard",
+       "kind": "trucking",
+       "stations": [
+        "tdl-pretrip-inspection",
+        "tdl-coupling-and-uncoupling",
+        "tdl-air-brake-test"
+       ]
+      },
+      {
+       "id": "lafc-oilfield-service-yard",
+       "name": "Oilfield Service Yard",
+       "kind": "hazmat",
+       "stations": [
+        "hz-drum-staging-and-compatibility-segregation",
+        "drum-sampling-and-overpack",
+        "forklift-dock"
+       ]
+      },
+      {
+       "id": "lafc-crane-yard",
+       "name": "Crane Yard",
+       "kind": "yard",
+       "stations": [
+        "crane-yard",
+        "op-crawler-crane-assembly-and-load-chart",
+        "op-equipment-daily-walkaround-and-fluids"
+       ]
+      },
+      {
+       "id": "lafc-school-campus",
+       "name": "Carencro School Campus",
+       "kind": "school",
+       "stations": [
+        "ed-crossing-guard-intersection-control",
+        "ed-playground-equipment-inspection",
+        "k12-reading-instructions-and-safety-labels"
+       ]
+      },
+      {
+       "id": "lafc-fire-station",
+       "name": "Carencro Fire Station",
+       "kind": "fire-station",
+       "stations": [
+        "ambulance-scene-safety",
+        "traffic-incident-management",
+        "aerial-ladder"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "lafc-sign",
+       "name": "a sign: the site layouts are illustrative; the towns, the interstates and the roads are real",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "carencro-town-lm",
+       "name": "Carencro",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "interchange-lm",
+       "name": "the interstates' interchange",
+       "kind": "bridge",
+       "lm": null
+      },
+      {
+       "id": "cane-fields-lm",
+       "name": "the cane and rice fields east of Carencro",
+       "kind": "park",
+       "lm": null
+      },
+      {
+       "id": "coulee-bridge-lm",
+       "name": "the interstate bridge over Bayou Carencro",
+       "kind": "bridge",
+       "lm": null
+      },
+      {
+       "id": "rail-line-lm",
+       "name": "the main rail line through Carencro",
+       "kind": "place",
+       "lm": null
+      }
+     ],
+     "hills": []
+    },
+    {
+     "id": "monroe-west-monroe",
+     "name": "Monroe and West Monroe",
+     "region": "louisiana-cities",
+     "sites": [
+      {
+       "id": "mon-workforce-centre",
+       "name": "Monroe Workforce Centre",
+       "kind": "civic",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-application-and-test",
+        "union-hall-and-dispatch",
+        "constituent-service-desk"
+       ]
+      },
+      {
+       "id": "mon-river-bridge-work",
+       "name": "Ouachita River Bridge Crew",
+       "kind": "bridge",
+       "stations": [
+        "bridge-lead-containment",
+        "deck-joint-replacement",
+        "bs-bearing-replacement-and-jacking"
+       ]
+      },
+      {
+       "id": "mon-levee-floodwall",
+       "name": "Riverfront Floodwall Crew",
+       "kind": "floodwall",
+       "stations": [
+        "br-levee-inspection-and-seepage",
+        "formwork-shoring",
+        "concrete-pour"
+       ]
+      },
+      {
+       "id": "mon-riverfront-streetscape",
+       "name": "Riverfront Streetscape Dig",
+       "kind": "excavation",
+       "stations": [
+        "trench-box",
+        "op-excavator-trench-and-utility-locate",
+        "ut-service-line-locate-and-hand-dig-near-gas-main"
+       ]
+      },
+      {
+       "id": "mon-hospital-expansion",
+       "name": "Hospital Expansion",
+       "kind": "hospital",
+       "stations": [
+        "pl-medical-gas-brazing-and-purge",
+        "hc-patient-transport-and-safe-handling",
+        "pm-sprinkler-riser-room"
+       ]
+      },
+      {
+       "id": "mon-mill-turnaround-staging",
+       "name": "Mill Turnaround Staging Area",
+       "kind": "refinery",
+       "stations": [
+        "ib-pressure-vessel-confined-entry-and-hot-work",
+        "ib-boiler-tube-replacement-and-rolling",
+        "cs-permit-entry-and-attendant-duties"
+       ]
+      },
+      {
+       "id": "mon-airport-apron",
+       "name": "Airport Apron Crew",
+       "kind": "airport",
+       "stations": [
+        "airport-ramp",
+        "av-marshalling-and-wingwalker-signals",
+        "av-pushback-tug-and-towbar-connection"
+       ]
+      },
+      {
+       "id": "mon-i20-bridge-deck",
+       "name": "Interstate Deck Crew",
+       "kind": "bridge-yard",
+       "stations": [
+        "deck-joint-replacement",
+        "bs-structural-bolting-and-torque",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "mon-water-plant",
+       "name": "Water Plant",
+       "kind": "pump",
+       "stations": [
+        "lift-station",
+        "motor-control-center",
+        "cs-permit-entry-and-attendant-duties"
+       ]
+      },
+      {
+       "id": "mon-substation-build",
+       "name": "Substation Build",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "temporary-site-power",
+        "transformer-vault"
+       ]
+      },
+      {
+       "id": "mon-rail-yard",
+       "name": "South Monroe Rail Yard",
+       "kind": "rail",
+       "stations": [
+        "ra-blue-flag-protection-in-the-yard",
+        "rcl-switching",
+        "ra-air-brake-test-and-train-inspection"
+       ]
+      },
+      {
+       "id": "mon-warehouse-steel",
+       "name": "Warehouse Steel Erection",
+       "kind": "construction",
+       "stations": [
+        "bs-structural-bolting-and-torque",
+        "rl-critical-lift-plan-and-signalperson",
+        "jobsite-orientation-and-osha-10"
+       ]
+      },
+      {
+       "id": "mon-school-renovation",
+       "name": "School Renovation",
+       "kind": "school",
+       "stations": [
+        "ed-custodial-chemical-dilution-and-floor-machine",
+        "ed-playground-equipment-inspection",
+        "ed-crossing-guard-intersection-control"
+       ]
+      },
+      {
+       "id": "mon-transit-shelters",
+       "name": "Transit Shelters and Bus Yard",
+       "kind": "transit",
+       "stations": [
+        "bus-yard-fuelling-and-brake-check",
+        "bus-depot-lift",
+        "tr-wheelchair-lift-and-securement-on-a-bus"
+       ]
+      },
+      {
+       "id": "mon-downtown-facade",
+       "name": "Downtown Facade Restoration",
+       "kind": "construction",
+       "stations": [
+        "masonry-silica-scaffold",
+        "bt-masonry-wall-layout-and-mortar",
+        "scaffold-erection"
+       ]
+      },
+      {
+       "id": "mon-fire-station",
+       "name": "West Monroe Fire Station",
+       "kind": "fire-station",
+       "stations": [
+        "ambulance-scene-safety",
+        "traffic-incident-management",
+        "aerial-ladder"
+       ]
+      },
+      {
+       "id": "mon-west-monroe-warehouse",
+       "name": "West Monroe Distribution Dock",
+       "kind": "warehouse",
+       "stations": [
+        "forklift-dock",
+        "tdl-trailer-loading-and-dock-plate",
+        "tw-high-bay-order-picker-fall-protection"
+       ]
+      },
+      {
+       "id": "mon-boat-launch-rebuild",
+       "name": "Boat Launch Rebuild",
+       "kind": "landing",
+       "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "op-pile-driving-rig-and-lead-setup",
+        "mw-workboat-towing-and-line-handling"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "mon-sign",
+       "name": "a sign: the site layouts are illustrative; the cities, the river and the roads are real",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "ouachita-bridge-lm",
+       "name": "the interstate bridge over the Ouachita",
+       "kind": "bridge",
+       "lm": null
+      },
+      {
+       "id": "bayou-desiard-lm",
+       "name": "Bayou DeSiard",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "antique-alley-lm",
+       "name": "Antique Alley",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "ulm-lm",
+       "name": "the university on Bayou DeSiard",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "west-monroe-levee-lm",
+       "name": "the West Monroe levee",
+       "kind": "place",
+       "lm": null
+      }
+     ],
+     "hills": []
+    },
+    {
      "id": "sm-unspoken-smiles",
      "name": "Unspoken Smiles District",
      "region": "programmes",
@@ -19880,6 +21142,25 @@
       "ink": 727074
      },
      "note": "Beige and sage stucco houses; procedural."
+    },
+    "acadian-cypress": {
+     "id": "acadian-cypress",
+     "name": "Acadian cypress and tin",
+     "wall": "clapboard",
+     "roof": "corrugated",
+     "walls": [
+      13215864,
+      15260864,
+      10466714,
+      14267535,
+      11125449,
+      15722194
+     ],
+     "sign": {
+      "ground": 3877404,
+      "ink": 15595259
+     },
+     "note": "Cypress-toned and whitewashed clapboard cottages under tin roofs, the Cajun and Creole prairie's look; procedural."
     }
    }
   }
