@@ -86,6 +86,7 @@ const html = `<!doctype html>
         <li><b data-bk-fig="projects">${P.projectCount}</b>projects</li>
         <li><b data-bk-fig="named">${P.namedCount}</b>named in our sources</li>
       </ul>
+      <p><a class="at-btn at-btn--primary" href="academy.html" data-bk-academy>The Bay Restoration Academy</a> <span class="bk-note">— project tracks, role pathways, a competency matrix and DEAN module templates for employers, union halls, public agencies and school districts.</span></p>
     </div>
   </header>
 
