@@ -70,6 +70,8 @@ const CHECKERS = [
   "check_parishes.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
+  // TERRAFORM: channels below their banks, rivers flowing downstream, deterministic wind, cover off roads/water/pads, budgets (docs/consoles/TERRAFORM.md).
+  "check_terraform.mjs",
   // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).
   "check_npc.mjs",
   "check_investor.mjs",

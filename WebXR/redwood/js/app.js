@@ -24,6 +24,7 @@ import {
   rwScoreActivity, rwRecordActivity,
 } from "./rw-career.js";
 import { rwBuildWorld } from "./rw-world.js";
+import { tfAnimateWater, tfReducedMotion, tfMotion } from "../../shared/tf-water.js";
 import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
 // NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
 import { grMount } from "../../shared/npc.js";
@@ -74,6 +75,23 @@ function rwInitScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
   Object.assign(rwApp, { scene, camera, renderer, world, tierName });
+  // TERRAFORM: the creek and river ripple downstream, source to mouth (each vertex pair carries its own direction); still under reduced motion.
+  {
+    const river = scene.getObjectByName("rw-river");
+    if (river?.material && river.geometry?.attributes?.position) {
+      const p = river.geometry.attributes.position.array, pairs = p.length / 6, flow = new Float32Array(pairs * 4);
+      for (let i = 0; i < pairs; i++) {
+        const a = Math.max(0, i - 1), b = Math.min(pairs - 1, i + 1);
+        const ax = (p[a * 6] + p[a * 6 + 3]) / 2, az = (p[a * 6 + 2] + p[a * 6 + 5]) / 2, bx = (p[b * 6] + p[b * 6 + 3]) / 2, bz = (p[b * 6 + 2] + p[b * 6 + 5]) / 2;
+        const L = Math.hypot(bx - ax, bz - az) || 1, v = 0.35 + 0.5 * (i / pairs); // a creek at the source, slower and wider at the mouth reads the same
+        flow.set([((bx - ax) / L) * v, ((bz - az) / L) * v, ((bx - ax) / L) * v, ((bz - az) / L) * v], i * 4);
+      }
+      river.geometry.setAttribute("tfFlow", new THREE.BufferAttribute(flow, 2));
+      river.material.defines = { ...(river.material.defines ?? {}), TF_FLOW_ATTR: "" };
+      rwApp.tfStill = tfReducedMotion();
+      rwApp.tfWater = tfAnimateWater(THREE, river.material, { reduced: rwApp.tfStill });
+    }
+  }
   for (const id of rwApp.state.found) world.markFound(id);
   // The treasure layer's logbook pages and trail blazes (docs/treasures.md):
   // markers along the fire roads and foot trails, found by walking or driving
@@ -532,6 +550,7 @@ function rwFrame(now) {
   if (rwApp.world && rwApp.renderer) {
     rwApp.world.update(dt, rwApp.camera);
     rwApp.npc?.animate(now / 1000, dt);
+    if (rwApp.tfWater) rwApp.tfWater.uTfTime.value = tfMotion(rwApp.tfStill, now / 1000).t;
     rwApp.renderer.render(rwApp.scene, rwApp.camera);
   }
   rwEdge.clear();

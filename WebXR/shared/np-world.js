@@ -23,7 +23,7 @@
 import {
   NP_SIZE, NP_CHUNK, NP_LOD_SEGMENTS, NP_STREAM_RADIUS, NP_MASS_RADIUS, NP_ROAD_KINDS, NP_WATER_Y, NP_GROUND, NP_LEVEE_CREST,
   npHeightAt, npCoverAt, npChunksAround, npMassingForChunk, npPrepare, npTriangulate, npRoadSurfaceAt, npPolyLength, npPointsAlong,
-  npPolyPointAt, npDeckHeightAt, npStripFromCentreline,
+  npPolyPointAt, npDeckHeightAt, npStripFromCentreline, NP_TERRAIN_HOOKS,
 } from "./np-parish.js";
 
 const NP_COL = {
@@ -35,7 +35,10 @@ const NP_COL = {
 /** The ground colour at (x, z) by cover (vertex colours, no textures), with a little grain. */
 export function npGroundColour(parish, x, z, out) {
   const c = NP_COL[npCoverAt(parish, x, z)] ?? NP_COL.grass;
-  const n = 0.92 + ((Math.sin(x * 12.9898 + z * 78.233) * 43758.5453) % 1 + 1) % 1 * 0.14;
+  let n = 0.92 + ((Math.sin(x * 12.9898 + z * 78.233) * 43758.5453) % 1 + 1) % 1 * 0.14;
+  // TERRAFORM's shoreline strip: wet ground reads darker beside the water.
+  const wet = NP_TERRAIN_HOOKS.wet ? NP_TERRAIN_HOOKS.wet(parish, x, z) : 0;
+  if (wet > 0) n *= 1 - 0.38 * wet;
   out[0] = c[0] * n; out[1] = c[1] * n; out[2] = c[2] * n;
   return out;
 }

@@ -638,6 +638,7 @@ APPS = {
             WEBXR / "redwood/js/rw-lore-data.js",
             WEBXR / "redwood/js/rw-career.js",
             WEBXR / "redwood/js/rw-world.js",
+            SHARED / "tf-water.js",  # TERRAFORM: the shared wind and the river's ripple
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
@@ -743,6 +744,10 @@ APPS = {
             SHARED / "sg-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "np-world.js",
+            # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
+            SHARED / "tf-water.js",
+            SHARED / "tf-terraform.js",
+            SHARED / "tf-world.js",
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",

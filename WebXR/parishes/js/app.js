@@ -17,6 +17,9 @@ import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npReg
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
+import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
+import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
+import { tfMountTerraform } from "../../shared/tf-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
@@ -73,6 +76,9 @@ if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z] });
 // KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
 const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
+// TERRAFORM: streams, ditches and culverts, animated water, wind-swayed grass, bushes and litter per chunk (docs/consoles/TERRAFORM.md).
+const tfLand = tfMountTerraform({ THREE, root, parish, tier: npTierName, reduced: tfReducedMotion(), waters: world.waters });
+tfLand.update(np.x, np.z, 99);
 const connectors = npResolveConnectors(parish);
 
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
@@ -357,6 +363,8 @@ function frame(now) {
   camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   world.update(np.x, np.z, 2);
   world.animate(dt);
+  tfLand.update(np.x, np.z, 1);
+  tfLand.animate(now / 1000, dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
@@ -442,7 +450,8 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); },
+  terraform: { land: tfLand, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
