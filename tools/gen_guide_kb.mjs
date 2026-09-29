@@ -179,7 +179,8 @@ async function build() {
       const ways = SGW.SG_WAYS.map((w) => `${w.name} leaves ${NPR.npParish(w.from.parish)?.name ?? "Downtown"} for ${w.to.name}, and Bay World's Atlas and map carry the way back`);
       add({ id: "world:san-francisco", kind: "world", title: "San Francisco districts", src: "WebXR/shared/np-parishes.js",
         keys: "san francisco sf district marina presidio golden gate bayview hunters point shipyard bay bridge",
-        text: `San Francisco's districts are streamed four-kilometre worlds on the parishes page: ${sf.map((p) => `${p.name} (${p.sites.map((s) => s.name).join(", ")})`).join("; ")}. Every job board opens real stations and brings you back to the site. ${ways.join(". ")}.`,
+        // SITEWORKS's procedural sites (tools/gen_sw_sites.mjs, blurbs open "A procedural") are counted, not listed, so the KB stays under its cap.
+        text: `San Francisco's districts are streamed four-kilometre worlds on the parishes page: ${sf.map((p) => { const proc = p.sites.filter((s) => /^A procedural/.test(s.blurb ?? "")); return `${p.name} (${p.sites.filter((s) => !proc.includes(s)).map((s) => s.name).join(", ")}${proc.length ? `, plus ${proc.length} procedural sites` : ""})`; }).join("; ")}. Every job board opens real stations and brings you back to the site. ${ways.join(". ")}.`,
         links: sf.map((p) => ({ label: `Open ${p.name}`, href: `parishes.html?parish=${p.id}` })) });
     }
   }
