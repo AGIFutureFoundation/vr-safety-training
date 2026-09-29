@@ -21,7 +21,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Vermilion Parish: a 125,000-acre site near Pecan Island and Freshwater City, coastal marsh. **The sources say:** "$100 billion"; "3,000–10,000 permanent jobs expected (60–80% hired locally)"; "construction from 2027, first launch targeted 2029" (sources: cnbc.com 2026-08-25; opportunitylouisiana.gov/spacex; space.com).
 
-**Walkable:** `la-starbase-vermilion` (`lsb-marsh-survey`, `lsb-mat-road-crossing`, `lsb-pad-foundation-pour`, `lsb-propellant-tank-farm`, `lsb-marsh-creation-dredge`, `lsb-power-plant-build`, `lsb-shipping-dock`, `lsb-airport-apron`, `lsb-workforce-trailer`) — 0 live, 9 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-starbase-vermilion` (`lsb-marsh-survey`, `lsb-mat-road-crossing`, `lsb-pad-foundation-pour`, `lsb-propellant-tank-farm`, `lsb-marsh-creation-dredge`, `lsb-power-plant-build`, `lsb-shipping-dock`, `lsb-airport-apron`, `lsb-workforce-trailer`) — 9 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -36,7 +36,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Richland Parish (northeast Louisiana, near Monroe). **The sources say:** "more than $50 billion"; "about 7,500 construction jobs and 1,000 permanent positions"; "500+ operational jobs (electricians, HVAC specialists, server and network techs, safety and security, engineers)"; "~10 million sq ft, 5 GW" (sources: opportunitylouisiana.gov/data-center/meta; constructiondive.com; wafb.com 2026-07-29).
 
-**Walkable:** `la-meta-richland` (`lmr-site-grading`, `lmr-duct-bank-crew`, `lmr-substation-build`, `lmr-data-hall-fitout`, `lmr-cooling-plant`, `lmr-laydown-yard`, `lmr-crane-pad`, `lmr-security-gate`, `lmr-workforce-centre`) — 0 live, 9 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-meta-richland` (`lmr-site-grading`, `lmr-duct-bank-crew`, `lmr-substation-build`, `lmr-data-hall-fitout`, `lmr-cooling-plant`, `lmr-laydown-yard`, `lmr-crane-pad`, `lmr-security-gate`, `lmr-workforce-centre`) — 9 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -50,7 +50,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Rapides Parish (near Boyce, Central Louisiana). **The sources say:** "$3.6 billion"; "200 direct full-time jobs; 218 indirect (418 total)"; "1,000+ construction jobs at peak"; "~300 acres, 300 MW"; "operations mid-2027" (sources: opportunitylouisiana.gov news; applieddigital.com).
 
-**Walkable:** `la-delta-forge-rapides` (`ldf-site-grading`, `ldf-steel-erection`, `ldf-electrical-room`, `ldf-network-cabling`, `ldf-cooling-plant`) — 0 live, 5 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-delta-forge-rapides` (`ldf-site-grading`, `ldf-steel-erection`, `ldf-electrical-room`, `ldf-network-cabling`, `ldf-cooling-plant`) — 5 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -62,7 +62,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Plaquemine, Iberville Parish (Capital Region). **The sources say:** "$3.4 billion"; "163 direct new jobs; 725 retained; 655 indirect (818 total new opportunities)"; "first phase 2030" (sources: opportunitylouisiana.gov news; lailluminator.com; wafb.com 2026-03-05).
 
-**Walkable:** `la-shintech-plaquemine` (`lsp-process-unit-build`, `lsp-pipe-rack-crew`, `lsp-control-room`, `lsp-river-dock`, `lsp-tank-farm`) — 0 live, 5 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-shintech-plaquemine` (`lsp-process-unit-build`, `lsp-pipe-rack-crew`, `lsp-control-room`, `lsp-river-dock`, `lsp-tank-farm`) — 5 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -73,7 +73,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters. **The sources say:** "$1.6 billion"; "58 new jobs; 1,000+ construction jobs at peak; natural gas storage, blending and transport; operations late 2028" (sources: opportunitylouisiana.gov news; americanpress.com 2026-09-11).
 
-**Walkable:** `la-black-bayou-cameron` (`lbb-salt-dome-wellpad`, `lbb-compressor-station`, `lbb-pipeline-spread`, `lbb-marsh-board-road`) — 0 live, 4 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-black-bayou-cameron` (`lbb-salt-dome-wellpad`, `lbb-compressor-station`, `lbb-pipeline-spread`, `lbb-marsh-board-road`) — 4 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -84,7 +84,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Franklin, St. Mary Parish (Bayou Region). **The sources say:** "$300 million"; "1,500 direct new jobs; 1,770 indirect (3,270 total)"; "autonomous marine vessels; 300,000+ sq ft, three new slips, large-vessel line; operations 2027" (sources: opportunitylouisiana.gov news; breakingdefense.com 2025-12).
 
-**Walkable:** `la-saronic-franklin` (`lsf-new-slip-build`, `lsf-hull-fabrication`, `lsf-marine-electrical`, `lsf-launch-and-test`, `lsf-blast-and-paint`) — 0 live, 5 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-saronic-franklin` (`lsf-new-slip-build`, `lsf-hull-fabrication`, `lsf-marine-electrical`, `lsf-launch-and-test`, `lsf-blast-and-paint`) — 5 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
@@ -96,7 +96,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 **Where:** Acadiana Regional Airport, New Iberia (Iberia Parish). **The sources say:** "$74 million+ hangar and site development (with a $10 million FastSites investment)"; "249 direct new jobs; 183 retained; 596 indirect (845 total)"; "construction complete Q4 2027" (sources: opportunitylouisiana.gov news; bizneworleans.com).
 
-**Walkable:** `la-avex-new-iberia` (`lav-hangar-steel`, `lav-paint-hangar`, `lav-freighter-conversion-bay`, `lav-apron-work`, `lav-fuel-farm`) — 0 live, 5 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
+**Walkable:** `la-avex-new-iberia` (`lav-hangar-steel`, `lav-paint-hangar`, `lav-freighter-conversion-bay`, `lav-apron-work`, `lav-fuel-farm`) — 5 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
