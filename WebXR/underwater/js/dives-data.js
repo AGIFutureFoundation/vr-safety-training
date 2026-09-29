@@ -832,18 +832,18 @@ export const DV_SIDE_DIVES = [
       },
       {
         "type": "station",
-        "target": "k12-weather-and-the-sky",
-        "text": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
+        "target": "k12-by-wetlands-as-a-storms-speed-bump",
+        "text": "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat."
       },
       {
         "type": "station",
-        "target": "k12-simple-machines-at-a-crane",
-        "text": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
+        "target": "k12-by-the-rivers-current-and-a-pilots-job",
+        "text": "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn."
       },
       {
         "type": "station",
-        "target": "k12-a-controlled-experiment",
-        "text": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
+        "target": "k12-by-the-water-cycle-from-lake-to-tap",
+        "text": "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe."
       },
       {
         "type": "talk",

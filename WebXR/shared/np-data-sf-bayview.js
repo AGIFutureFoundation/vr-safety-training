@@ -1311,7 +1311,7 @@ export const NP_SF_BAYVIEW = {
  ],
  "connectors": [
   {
-   "id": "sf-third-street-south",
+   "id": "sf-bv-third-street-south",
    "kind": "road",
    "name": "Third Street north to the Mission and SoMa",
    "from": {
@@ -1323,7 +1323,7 @@ export const NP_SF_BAYVIEW = {
    },
    "to": {
     "parish": "sf-mission",
-    "position": null,
+    "position": [760, 402],
     "lonlat": [
      -122.389,
      37.755
@@ -1336,7 +1336,7 @@ export const NP_SF_BAYVIEW = {
    "approximate": true
   },
   {
-   "id": "sf-bayshore-south",
+   "id": "sf-bv-bayshore-south",
    "kind": "road",
    "name": "Bayshore Boulevard north to the Mission",
    "from": {
@@ -1348,7 +1348,7 @@ export const NP_SF_BAYVIEW = {
    },
    "to": {
     "parish": "sf-mission",
-    "position": null,
+    "position": [160, 1407],
     "lonlat": [
      -122.404,
      37.735

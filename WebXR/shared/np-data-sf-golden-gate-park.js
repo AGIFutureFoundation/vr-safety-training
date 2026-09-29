@@ -85,7 +85,7 @@ export const NP_SF_GOLDEN_GATE_PARK = {
     {"id":"kezar-stadium","name":"Kezar Stadium","position":[900,-211],"kind":"stadium"},
   ],
   connectors: [
-    {"id":"sf-park-presidio","kind":"road","name":"Park Presidio Boulevard north to the Presidio","from":{"parish":"sf-golden-gate-park","position":[240,-955]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.472,37.782]},"lonlat":[-122.472,37.782],"approximate":true},
+    {"id":"sf-gp-park-presidio","kind":"road","name":"Park Presidio Boulevard north to the Presidio","from":{"parish":"sf-golden-gate-park","position":[240,-955]},"to":{"parish":"sf-marina","position": [-944, 863],"lonlat":[-122.472,37.782]},"lonlat":[-122.472,37.782],"approximate":true},
     {"id":"sf-gp-geary-boulevard","kind":"road","name":"Geary Boulevard east downtown","from":{"parish":"sf-golden-gate-park","position":[1280,-955]},"to":{"parish":"sf-downtown","position":[-1679,402],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
     {"id":"sf-gp-oak-street","kind":"road","name":"Oak Street east from the Panhandle","from":{"parish":"sf-golden-gate-park","position":[1240,-452]},"to":{"parish":"sf-mission","position":[-1560,-452],"lonlat":[-122.447,37.772]},"lonlat":[-122.447,37.772],"approximate":true},
   ],

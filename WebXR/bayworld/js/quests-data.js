@@ -5071,18 +5071,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-graphing-tide-readings-at-the-pier",
-        "text": "A line graph from real observation: readings taken level off the pier's tide staff, plotted on labelled, evenly scaled axes and read for their pattern without guessing past the data."
+        "target": "k12-by-reading-a-flood-maps-colours",
+        "text": "A practice flood map read through its key, scale bar and north arrow, low ground told from high, and a route and meeting place planned calmly from the evidence."
       },
       {
         "type": "station",
-        "target": "k12-probability-with-a-fair-spinner",
-        "text": "Chance as a fraction of equal parts, a prediction written before the spins and a long tally compared with it, with a spinner that has no memory and stickers as the only prize."
+        "target": "k12-by-sorting-containers-at-the-port",
+        "text": "Model containers sorted by a rule, grouped by destination, stacked so the first to leave sits on top and the heaviest sit low, and the sort checked in a table."
       },
       {
         "type": "station",
-        "target": "k12-geometry-of-a-turbine-blade-sweep",
-        "text": "The circle a rotor sweeps, with the blade as its radius, circumference and area kept apart and every answer checked against an estimate on the visitor centre's scale model."
+        "target": "k12-by-measuring-a-floodwall-in-steps",
+        "text": "A stretch of floodwall measured by pacing, a pace measured against the crew's tape, steps turned into length and the answer checked against the wall's panels."
       },
       {
         "type": "talk",
@@ -5155,18 +5155,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-weather-and-the-sky",
-        "text": "Sky, wind and instruments read together at a field weather station, winds named by where they come from, weather told apart from climate and a forecast given as a likelihood."
+        "target": "k12-by-wetlands-as-a-storms-speed-bump",
+        "text": "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat."
       },
       {
         "type": "station",
-        "target": "k12-simple-machines-at-a-crane",
-        "text": "Levers, pulleys and the wheel and axle found in a crane and tested on a bench model: force traded for distance, never free work, and the load chart obeyed."
+        "target": "k12-by-the-rivers-current-and-a-pilots-job",
+        "text": "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn."
       },
       {
         "type": "station",
-        "target": "k12-a-controlled-experiment",
-        "text": "The scientific method as a fair test: one variable changed, the rest controlled, repeats run and a conclusion that claims only what the evidence shows."
+        "target": "k12-by-the-water-cycle-from-lake-to-tap",
+        "text": "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe."
       },
       {
         "type": "talk",
@@ -5323,11 +5323,6 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-public-speaking-at-the-hall",
-        "text": "A short talk on a real rehearsal stage: one clear message, a planned shape, prompt cards instead of a script, a voice for the back row and nerves handled, with the stage edge respected."
-      },
-      {
-        "type": "station",
         "target": "k12-digital-citizenship-and-online-safety",
         "text": "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told."
       },
@@ -5335,6 +5330,11 @@ export const SIDE_QUESTS = [
         "type": "station",
         "target": "k12-teamwork-and-feedback",
         "text": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
+      },
+      {
+        "type": "station",
+        "target": "k12-by-a-family-readiness-plan",
+        "text": "A readiness plan a family makes together before storm season — who helps, what goes in the go-bag, where to meet and where to go — written down, shared and practised."
       },
       {
         "type": "talk",

@@ -90,8 +90,8 @@ export const NP_SF_DOWNTOWN = {
     {"id":"lombard-street-crooked-block","name":"Lombard Street's crooked block","position":[-588,-608],"kind":"street"},
   ],
   connectors: [
-    {"id":"sf-van-ness-north","kind":"road","name":"Van Ness Avenue north to the Marina","from":{"parish":"sf-downtown","position":[-800,-251]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.424,37.795]},"lonlat":[-122.424,37.795],"approximate":true},
-    {"id":"sf-embarcadero-north","kind":"road","name":"The Embarcadero north past the wharf","from":{"parish":"sf-downtown","position":[-440,-804]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.415,37.806]},"lonlat":[-122.415,37.806],"approximate":true},
+    {"id":"sf-dt-van-ness-north","kind":"road","name":"Van Ness Avenue north to the Marina","from":{"parish":"sf-downtown","position":[-800,-251]},"to":{"parish":"sf-marina","position": [1116, 162],"lonlat":[-122.424,37.795]},"lonlat":[-122.424,37.795],"approximate":true},
+    {"id":"sf-dt-embarcadero-north","kind":"road","name":"The Embarcadero north past the wharf","from":{"parish":"sf-downtown","position":[-440,-804]},"to":{"parish":"sf-marina","position": [1502, -432],"lonlat":[-122.415,37.806]},"lonlat":[-122.415,37.806],"approximate":true},
     {"id":"sf-dt-market-street","kind":"road","name":"Market Street south-west into the Mission","from":{"parish":"sf-downtown","position":[-600,754]},"to":{"parish":"sf-mission","position":[-440,-603],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
     {"id":"sf-dt-king-street","kind":"road","name":"The Embarcadero at King Street","from":{"parish":"sf-downtown","position":[520,653]},"to":{"parish":"sf-mission","position":[680,-704],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
     {"id":"sf-dt-geary-boulevard","kind":"road","name":"Geary Boulevard west to the Richmond","from":{"parish":"sf-downtown","position":[-1679,402]},"to":{"parish":"sf-golden-gate-park","position":[1280,-955],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},

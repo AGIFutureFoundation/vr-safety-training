@@ -288,14 +288,14 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     check(m.landmarks.some((l) => l.id === "golden-gate-bridge" && l.kind === "bridge") && m.roads.some((r) => r.id === "golden-gate-bridge" && r.kind === "bridge"), "sf-marina: the Golden Gate Bridge is a bridge landmark and a bridge deck");
     const gg = m.connectors.find((c) => c.id === "sf-golden-gate-bridge");
     check(!!gg && gg.kind === "bridge" && !parishes.has(gg.to.parish) && gg.to.lonlat[1] > G.npBounds(m).maxLat - 0.01, "sf-marina: the Golden Gate Bridge is a way out north with no map beyond it yet");
-    for (const [cid, to] of [["sf-van-ness-north", "sf-downtown"], ["sf-embarcadero-north", "sf-downtown"], ["sf-park-presidio", "sf-golden-gate-park"]]) check(m.connectors.some((c) => c.id === cid && c.to.parish === to && c.kind === "road"), `sf-marina: ${cid} to ${to} (the contract with GOLDEN-A)`);
+    for (const [cid, to] of [["sf-ma-van-ness-north", "sf-downtown"], ["sf-ma-embarcadero-north", "sf-downtown"], ["sf-ma-park-presidio", "sf-golden-gate-park"]]) check(m.connectors.some((c) => c.id === cid && c.to.parish === to && c.kind === "road"), `sf-marina: ${cid} to ${to} (the contract with GOLDEN-A)`);
   }
   if (b) {
     for (const kind of ["shipyard", "remediation", "rail", "recreation", "wetland", "port"]) check(b.sites.some((s) => s.kind === kind), `sf-bayview: a ${kind} site`);
     const hp = catalog.curricula.find((c) => c.id === "hunters-point-bay-restoration").stations.map((s) => s.id);
     const clear = b.sites.filter((s) => s.programmes.includes("hunters-point-bay-restoration"));
     check(clear.length >= 4 && hp.every((id) => b.sites.some((s) => s.stations.includes(id))), `sf-bayview: every station of the C.L.E.A.R. clean-up programme is worked at its sites (${clear.length} sites; missing ${hp.filter((id) => !b.sites.some((s) => s.stations.includes(id))).join(", ")})`);
-    for (const cid of ["sf-third-street-south", "sf-bayshore-south"]) check(b.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission" && c.kind === "road"), `sf-bayview: ${cid} to sf-mission (the contract with GOLDEN-A)`);
+    for (const cid of ["sf-bv-third-street-south", "sf-bv-bayshore-south"]) check(b.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission" && c.kind === "road"), `sf-bayview: ${cid} to sf-mission (the contract with GOLDEN-A)`);
   }
   // The Bay Bridge: a world connector from Downtown to a West Oakland site in Bay World, and the way back.
   const bb = SG.SG_WAYS.find((w) => w.id === "sf-bay-bridge");

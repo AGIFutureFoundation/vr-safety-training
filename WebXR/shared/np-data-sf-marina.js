@@ -1255,7 +1255,7 @@ export const NP_SF_MARINA = {
  ],
  "connectors": [
   {
-   "id": "sf-van-ness-north",
+   "id": "sf-ma-van-ness-north",
    "kind": "road",
    "name": "Van Ness Avenue south to Downtown",
    "from": {
@@ -1267,7 +1267,7 @@ export const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-downtown",
-    "position": null,
+    "position": [-800, -251],
     "lonlat": [
      -122.424,
      37.795
@@ -1280,7 +1280,7 @@ export const NP_SF_MARINA = {
    "approximate": true
   },
   {
-   "id": "sf-embarcadero-north",
+   "id": "sf-ma-embarcadero-north",
    "kind": "road",
    "name": "Bay Street east to the Embarcadero",
    "from": {
@@ -1292,7 +1292,7 @@ export const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-downtown",
-    "position": null,
+    "position": [-440, -804],
     "lonlat": [
      -122.415,
      37.806
@@ -1305,7 +1305,7 @@ export const NP_SF_MARINA = {
    "approximate": true
   },
   {
-   "id": "sf-park-presidio",
+   "id": "sf-ma-park-presidio",
    "kind": "road",
    "name": "Park Presidio Boulevard south to Golden Gate Park",
    "from": {
@@ -1317,7 +1317,7 @@ export const NP_SF_MARINA = {
    },
    "to": {
     "parish": "sf-golden-gate-park",
-    "position": null,
+    "position": [240, -955],
     "lonlat": [
      -122.472,
      37.782

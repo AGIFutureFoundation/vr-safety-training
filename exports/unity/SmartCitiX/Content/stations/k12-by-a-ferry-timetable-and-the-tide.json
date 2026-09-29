@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "crossing-planner",
+    "name": "Crossing Planner",
+    "note": "Read departures from both banks, found the crossing time, planned a round trip and matched the ramp to the water-level board"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CROSSINGS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Passenger",
+      "Reader",
+      "Planner",
+      "Deckhand",
+      "Mate"
+    ],
+    "system": "Crossing Board"
+  },
+  "hazards": {
+    "board-before-the-signal": "You started down the ramp before the mate's signal. The crew must tie the ferry, set the ramp and let passengers off first. Waiting for the wave keeps the ramp clear and everyone steady.",
+    "level-never-changes": "You said the water level never changes. It rises and falls with the river and the weather, and at the coast with the tide. That is why the landing has a ramp the crew can raise or lower, so boarding is always level and safe.",
+    "mix-up-the-banks": "You read your return time from the column for the bank you started on. A ferry timetable has one column for each bank. To come back, you read the departures from the far bank, after the time you arrive there.",
+    "no-time-to-board": "You planned to catch a return that leaves the minute you arrive. Passengers walk off first and the next group walks on after, so a round trip needs a wait. Pick a return that leaves after a sensible gap."
+  },
+  "id": "k12-by-a-ferry-timetable-and-the-tide",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-rail-on-the-ramp",
+      "alert": "The ferry ties up and passengers start walking up the ramp towards the group.",
+      "cue": "Step back behind the gate and leave a clear path for people coming off.",
+      "delay": 3,
+      "id": "the-ferry-arrives-early",
+      "kind": "Ferry arriving",
+      "missNote": "The group stayed at the top of the ramp, and people coming off the ferry had to squeeze past and wait.",
+      "seconds": 12,
+      "target": "byt-stand-back",
+      "why": "People coming off need a clear path first. Stepping back behind the gate keeps the landing calm and lets the crew work. The lesson can pause for a minute; a crowded ramp helps nobody.",
+      "wrongNote": "That leaves the ramp crowded. Step back behind the gate. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-ferry-across-the-river",
+      "alert": "The mate asks whether the ramp should go up or down today.",
+      "cue": "Say whether the level board shows high or low water and which way the ramp goes.",
+      "delay": 3,
+      "id": "the-mate-asks-about-the-ramp",
+      "kind": "Mate question",
+      "missNote": "You could not link the board to the ramp, and the mate had to explain it before the group could go on.",
+      "seconds": 12,
+      "target": "byt-say-level",
+      "why": "Linking the reading to an action is what makes the board useful. High water means a higher deck and a raised ramp; low water means the opposite. Saying it shows you can use a measurement to make a safe decision.",
+      "wrongNote": "That does not connect the water level to the ramp. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "byt-checkin": "The check-in comes at the very end of the visit.",
+    "byt-crossing-log": "The round-trip record is written once the plan is made — nothing to record yet."
+  },
+  "name": "A Ferry Timetable and the Tide",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "board-before-the-signal",
+      "byt-checkin",
+      "byt-crossing-card",
+      "byt-crossing-log",
+      "byt-far-bank",
+      "byt-ferry-meter",
+      "byt-level",
+      "byt-level-marker",
+      "byt-level-meter",
+      "byt-line-card",
+      "byt-map",
+      "byt-ord-arrive",
+      "byt-ord-depart",
+      "byt-ord-return",
+      "byt-ord-wait",
+      "byt-ramp-rail",
+      "byt-ramp-wheel",
+      "byt-rt-bank",
+      "byt-rt-guess",
+      "byt-rt-labels",
+      "byt-rt-nogap",
+      "byt-say-level",
+      "byt-share-board",
+      "byt-stand-back",
+      "byt-this-bank",
+      "byt-today-spot",
+      "level-never-changes",
+      "mix-up-the-banks",
+      "no-time-to-board"
+    ],
+    "meshes": 233
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the landing board a passenger needs to plan a crossing.",
+      "decoyNotes": {
+        "byt-map": "Handy for finding the landing, but it holds no ferry times."
+      },
+      "id": "find-what-the-landing-board-tells",
+      "itemNames": {
+        "byt-far-bank": "departures from the far bank",
+        "byt-level": "the water-level board",
+        "byt-this-bank": "departures from this bank"
+      },
+      "itemNotes": {
+        "byt-far-bank": "When it leaves to come back.",
+        "byt-level": "It tells the crew where to set the ramp.",
+        "byt-this-bank": "When the ferry leaves here."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the landing board a passenger needs to plan a crossing.",
+      "targets": [
+        "byt-this-bank",
+        "byt-far-bank",
+        "byt-level"
+      ],
+      "title": "Find what the landing board tells you",
+      "why": "The landing board holds more than one kind of information. The departures from this bank tell you when to board, the departures from the far bank tell you when you can come back, and the water-level board tells the crew how to set the ramp. Reading all three is how a passenger and a mate plan the same crossing."
+    },
+    {
+      "cue": "Join the passenger line behind the gate before the ferry comes in.",
+      "id": "wait-in-the-passenger-line",
+      "kind": "select",
+      "prompt": "Join the passenger line behind the gate before the ferry comes in.",
+      "target": "byt-line-card",
+      "title": "Wait in the passenger line",
+      "why": "The passenger line keeps the landing orderly: people coming off the ferry have a clear path, and people waiting are away from the edge. Joining the line first also means you can read the board calmly while you wait. The crew relies on everyone keeping to the line on every crossing."
+    },
+    {
+      "cue": "Pick a departure, find when it arrives, add a wait, then pick a return from the far bank.",
+      "id": "put-the-round-trip-plan-in",
+      "itemNames": {
+        "byt-ord-arrive": "2 · work out when it arrives",
+        "byt-ord-depart": "1 · pick your departure",
+        "byt-ord-return": "4 · pick a return from the far bank",
+        "byt-ord-wait": "3 · add a sensible wait"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Choose your outward departure before you look for a return.",
+      "prompt": "Pick a departure, find when it arrives, add a wait, then pick a return from the far bank.",
+      "targets": [
+        "byt-ord-depart",
+        "byt-ord-arrive",
+        "byt-ord-wait",
+        "byt-ord-return"
+      ],
+      "title": "Put the round-trip plan in order",
+      "why": "A round trip is two timetable readings joined by a wait. Picking the outward trip first, then working out its arrival, tells you the earliest you could come back. Adding a sensible wait and then choosing a return from the far bank's column gives a plan that actually works on the day."
+    },
+    {
+      "cue": "Hold the ramp's handrail as you walk down, until you are standing on the deck.",
+      "holdBreakNote": "You let go of the rail halfway down the ramp. Hold on again until you reach the deck.",
+      "id": "hold-the-rail-on-the-ramp",
+      "kind": "hold",
+      "prompt": "Hold the ramp's handrail as you walk down, until you are standing on the deck.",
+      "seconds": 6,
+      "target": "byt-ramp-rail",
+      "title": "Hold the rail on the ramp",
+      "why": "A ferry moves a little even when it is tied up, and the ramp can be wet. Holding the handrail all the way down keeps you steady. Deckhands hold on in the same places every time; it is not about being unsure, it is about staying safe as a habit."
+    },
+    {
+      "cue": "Choose the crossing time you get by taking the departure away from the arrival.",
+      "id": "choose-the-crossing-time",
+      "kind": "select",
+      "prompt": "Choose the crossing time you get by taking the departure away from the arrival.",
+      "target": "byt-crossing-card",
+      "title": "Choose the crossing time",
+      "why": "The crossing time is the arrival time take away the departure time. Working it out, rather than guessing, lets you plan the rest of the day. It also lets you spot when a crossing runs slow, which the mate notes in the log along with the weather and the water level."
+    },
+    {
+      "cue": "Look at a classmate's round-trip plan and mark each problem.",
+      "decoyNotes": {
+        "byt-rt-labels": "Clear labels are good practice. Keep them."
+      },
+      "id": "spot-the-problems-in-a-sample",
+      "itemNames": {
+        "byt-rt-bank": "a return read from the wrong bank",
+        "byt-rt-guess": "a crossing time that was guessed",
+        "byt-rt-nogap": "no wait between arriving and returning"
+      },
+      "itemNotes": {
+        "byt-rt-bank": "Use the far bank's column.",
+        "byt-rt-guess": "Subtract the two times.",
+        "byt-rt-nogap": "Leave time to get off and on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at a classmate's round-trip plan and mark each problem.",
+      "targets": [
+        "byt-rt-bank",
+        "byt-rt-nogap",
+        "byt-rt-guess"
+      ],
+      "title": "Spot the problems in a sample round trip",
+      "why": "Round-trip plans go wrong in a few familiar ways: a return read from the wrong bank, no time left to get off and back on, or a crossing time that was guessed. Spotting them on someone else's plan trains you to check your own before you head down to the landing."
+    },
+    {
+      "cue": "Turn the ramp wheel until the ramp meets the deck level shown by the water-level board.",
+      "id": "set-the-ramp-to-match-the",
+      "kind": "turn",
+      "prompt": "Turn the ramp wheel until the ramp meets the deck level shown by the water-level board.",
+      "target": "byt-ramp-wheel",
+      "title": "Set the ramp to match the water level",
+      "turn": {
+        "axis": "y",
+        "label": "RAMP",
+        "turns": 0.5
+      },
+      "why": "When the water is high the deck sits high; when it is low the deck sits low. The mate reads the water-level board and raises or lowers the ramp so it meets the deck gently. A level ramp is easy and safe for walkers, bikes and wheelchairs, which is the whole point of reading the board."
+    },
+    {
+      "cue": "Commit when the marker matches the water line on the level board.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "LEVEL",
+        "missNote": "Not on the water line. Read where the surface meets the board.",
+        "speed": 0.6
+      },
+      "id": "read-the-water-level-on-the",
+      "kind": "gauge",
+      "prompt": "Commit when the marker matches the water line on the level board.",
+      "target": "byt-level-meter",
+      "title": "Read the water level on the board",
+      "why": "The level board is a scale fixed at the landing, like a giant ruler standing in the water. Reading where the surface meets it, at eye level, gives the number the crew uses to set the ramp. An accurate reading means the ramp fits the deck first time."
+    },
+    {
+      "cue": "Drag today's level marker onto the landing's water-level graph at today's date.",
+      "drag": {
+        "missNote": "Not at today yet. Place the marker at today's place on the graph.",
+        "radius": 0.45,
+        "to": "byt-today-spot"
+      },
+      "id": "move-the-level-marker-onto-the",
+      "kind": "drag",
+      "prompt": "Drag today's level marker onto the landing's water-level graph at today's date.",
+      "target": "byt-level-marker",
+      "title": "Move the level marker onto the graph",
+      "why": "One reading tells you about today. Plotting it on the graph with earlier readings shows the water rising or falling over days and weeks. The crew uses that pattern to plan ramp changes ahead of time, rather than being surprised on the morning of a crossing."
+    },
+    {
+      "cue": "Keep the marker on the ferry as it crosses the river on the landing's screen.",
+      "holdBreakNote": "The marker lost the ferry. Find it again on the screen and follow it across.",
+      "id": "follow-the-ferry-across-the-river",
+      "kind": "track",
+      "prompt": "Keep the marker on the ferry as it crosses the river on the landing's screen.",
+      "seconds": 8,
+      "target": "byt-ferry-meter",
+      "title": "Follow the ferry across the river",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CROSSING",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "A ferry does not cross in a straight line; it angles into the current and curves across. Following it shows why the crossing takes the time the timetable says, and why the mate checks the river before each trip. Real journeys are shaped by the water, not just the distance."
+    },
+    {
+      "cue": "Write your outward trip, crossing time, wait and return, and today's water-level reading.",
+      "id": "write-your-round-trip-plan-and",
+      "kind": "select",
+      "prompt": "Write your outward trip, crossing time, wait and return, and today's water-level reading.",
+      "target": "byt-crossing-log",
+      "title": "Write your round-trip plan and the level",
+      "why": "A written plan can be checked and followed without re-reading the whole board. Writing the water level beside it links your plan to the conditions of the day. The mate's log holds the same things, trip times and water level together, so each crew knows what the last one saw."
+    },
+    {
+      "cue": "Read your plan to the ferry mate and ask if the wait is long enough.",
+      "id": "check-your-plan-with-the-mate",
+      "kind": "select",
+      "prompt": "Read your plan to the ferry mate and ask if the wait is long enough.",
+      "target": "byt-share-board",
+      "title": "Check your plan with the mate",
+      "why": "The mate knows how long it takes a busy ferry to unload and reload. Checking your wait with someone who does it every day tests your plan against real experience. If the mate suggests a longer wait, you have learned something the timetable alone could not tell you."
+    },
+    {
+      "cue": "What was hardest to plan? How did the water-level board change what the crew did?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What was hardest to plan? How did the water-level board change what the crew did?",
+      "target": "byt-checkin",
+      "title": "Check in on the landing",
+      "why": "The ferry crew finishes each shift by passing the log to the next mate, so the class finishes by passing on what it found. Each learner names one part of the round trip and one reason the ramp moves. If anyone mixed up the banks, the group reads the board together once more before leaving the landing."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Depart, cross, arrive, return — and the water level tells the mate where to set the ramp",
+  "title": "SmartCiti.X~ A Ferry Timetable and the Tide VR",
+  "trade": "Maths class at the ferry landing with the ferry mate — learner and ferry deck mate",
+  "underwater": null,
+  "weather": "clear"
+}

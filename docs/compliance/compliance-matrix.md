@@ -1,10 +1,10 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-28: 685 procedures, 250 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-29: 697 procedures, 250 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
-Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 95 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
+Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 96 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
 
 ## By standard
 
@@ -1376,6 +1376,12 @@ Every station names the union and the certification a worker in that role holds,
 | Graphing Tide Readings at the Pier | Maths class on the pier's viewing deck — learner and harbour technician | — |
 | Probability with a Fair Spinner | Maths class at the community fair's games tent — learner and stall volunteer | — |
 | Geometry of a Turbine's Blade Sweep | Maths class at the wind farm's visitor centre — learner and site technician | — |
+| A Streetcar Timetable | Maths class at the streetcar barn with a transit dispatcher — learner and streetcar dispatcher | — |
+| A Ferry Timetable and the Tide | Maths class at the ferry landing with the ferry mate — learner and ferry deck mate | — |
+| A Shrimp Boat's Fair Count | Maths class aboard a shrimp boat at the harbour — learner and shrimp boat deckhand | — |
+| Reading a Flood Map's Colours | Maths and map class with the levee district's planner — learner and levee district planner | — |
+| Sorting Containers at the Port | Maths class at the port terminal with a yard planner — learner and container yard planner | — |
+| Measuring a Floodwall in Steps | Maths class along the floodwall with the structure crew — learner and floodwall crew foreman | — |
 
 ### K-12 Science
 
@@ -1391,6 +1397,11 @@ Every station names the union and the certification a worker in that role holds,
 | Weather and the Sky | Science class at the shoreline field lab's weather station — learner and field technician | — |
 | Simple Machines at a Crane | Science class at the container terminal's training room — learner and crane operator | — |
 | A Controlled Experiment | Science class at the lab campus's teaching lab — learner and lab technician | — |
+| How a Levee Holds Water Back | Science class on the levee crest with the levee inspection crew — learner and levee inspector | — |
+| What a Pump Station Does in the Rain | Science class at the drainage pumping station — learner and pump station operator | — |
+| Wetlands as a Storm's Speed Bump | Science class on the restoration crew's boat at the wetlands — learner and restoration crew lead | — |
+| The River's Current and a Pilot's Job | Science class aboard the pilot boat at the marina — learner and river pilot boat operator | — |
+| The Water Cycle from Lake to Tap | Science class on the lakefront with a water utility operator — learner and water treatment operator | — |
 
 ### K-12 History and Civics
 
@@ -1417,6 +1428,7 @@ Every station names the union and the certification a worker in that role holds,
 | Public Speaking at the Hall | Literacy class on the theatre's rehearsal stage — learner and stage manager | — |
 | Digital Citizenship and Online Safety | Life-skills class in the community college's computer lab — learner and digital skills tutor | — |
 | Teamwork and Feedback | Life-skills class at the arena's team room — learner and team coach | — |
+| A Family Readiness Plan | Life-skills class in the school hall with the parish readiness team — learner and school nurse | — |
 
 ## Stations citing fewer than two standards
 
@@ -1429,6 +1441,18 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Wetlands as a Storm's Speed Bump (smartcity): none
+- The Water Cycle from Lake to Tap (smartcity): none
+- A Streetcar Timetable (smartcity): none
+- The River's Current and a Pilot's Job (smartcity): none
+- What a Pump Station Does in the Rain (smartcity): none
+- Measuring a Floodwall in Steps (smartcity): none
+- Reading a Flood Map's Colours (smartcity): none
+- A Ferry Timetable and the Tide (smartcity): none
+- A Family Readiness Plan (smartcity): none
+- Sorting Containers at the Port (smartcity): none
+- A Shrimp Boat's Fair Count (smartcity): none
+- How a Levee Holds Water Back (smartcity): none
 - Teamwork and Feedback (smartcity): none
 - Digital Citizenship and Online Safety (smartcity): none
 - Public Speaking at the Hall (smartcity): none

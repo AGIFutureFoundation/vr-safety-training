@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pace-counter",
+    "name": "Pace Counter",
+    "note": "Measured a stretch of floodwall by pacing, turned steps into a real length with a measured pace and checked it against the panels"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PACES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walker",
+      "Pacer",
+      "Counter",
+      "Checker",
+      "Foreman"
+    ],
+    "system": "Wall Board"
+  },
+  "hazards": {
+    "climb-the-wall": "You tried to climb the floodwall. Walls are not for climbing, and the crew measures height from the ground with a marked pole. Stay on the path at the foot of the wall and read the pole instead.",
+    "count-from-one": "You counted one before your first step had landed. Count each step as your foot lands, starting with your toes on the line. Counting too soon adds a step that was never taken.",
+    "mix-the-units": "You added steps to a tape reading. They are different units, like adding apples to minutes. Turn your steps into the tape's unit first, using your measured pace, then compare.",
+    "uneven-steps": "You changed the size of your steps as you went. A pace is only a unit if it stays the same every time. Walk at your normal, steady pace from start to finish, just as you did when you measured it against the tape."
+  },
+  "id": "k12-by-measuring-a-floodwall-in-steps",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "keep-a-steady-pace-along-the",
+      "alert": "A crew cart comes slowly along the gravel path towards the group.",
+      "cue": "Step to the side of the path, stay together and wait for the cart to pass.",
+      "delay": 3,
+      "id": "a-crew-cart-comes-along-the-path",
+      "kind": "Crew cart",
+      "missNote": "Nobody stepped aside, and the crew cart had to stop and wait on the path while the group kept counting.",
+      "seconds": 12,
+      "target": "byx-step-aside",
+      "why": "The path is shared with the crew's cart. Stepping aside together, where the driver can see everyone, keeps it clear and safe. Your count can wait; remember the number or leave your beads where they are.",
+      "wrongNote": "That keeps you in the cart's way. Step to the side of the path. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-panel-joins-along-the",
+      "alert": "The foreman asks what unit your wall length is measured in.",
+      "cue": "Say the tape's unit, and that you turned your steps into it using your pace.",
+      "delay": 3,
+      "id": "the-foreman-asks-about-units",
+      "kind": "Foreman question",
+      "missNote": "You gave a bare number with no unit, and the foreman could not tell whether it meant steps or tape lengths.",
+      "seconds": 12,
+      "target": "byx-say-unit",
+      "why": "A length with no unit means nothing to anyone else. Saying the unit, and how you got there, makes your answer something the crew could use. The foreman asks because units are where many measuring mistakes begin.",
+      "wrongNote": "That does not name the unit. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "byx-checkin": "The check-in comes at the very end of the walk.",
+    "byx-wall-log": "The measurement record is written once the wall is paced — nothing to record yet."
+  },
+  "name": "Measuring a Floodwall in Steps",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "byx-bead",
+      "byx-bird",
+      "byx-checkin",
+      "byx-counted",
+      "byx-end",
+      "byx-join-meter",
+      "byx-joins",
+      "byx-method-card",
+      "byx-ord-check",
+      "byx-ord-convert",
+      "byx-ord-pace",
+      "byx-ord-walk",
+      "byx-pace-meter",
+      "byx-path-card",
+      "byx-pn-early",
+      "byx-pn-mixed",
+      "byx-pn-uneven",
+      "byx-pn-unit",
+      "byx-say-unit",
+      "byx-share-board",
+      "byx-start",
+      "byx-steady-pace",
+      "byx-step-aside",
+      "byx-tape-reel",
+      "byx-wall-log",
+      "climb-the-wall",
+      "count-from-one",
+      "mix-the-units",
+      "uneven-steps"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things along the wall you will use to measure its length.",
+      "decoyNotes": {
+        "byx-bird": "Lovely to see, but it will not help you measure."
+      },
+      "id": "find-what-you-need-to-measure",
+      "itemNames": {
+        "byx-end": "the painted ending mark",
+        "byx-joins": "the joins between wall panels",
+        "byx-start": "the painted starting mark"
+      },
+      "itemNotes": {
+        "byx-end": "Stop counting when you reach it.",
+        "byx-joins": "A second way to check your answer.",
+        "byx-start": "Toes on the line to begin."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things along the wall you will use to measure its length.",
+      "targets": [
+        "byx-start",
+        "byx-end",
+        "byx-joins"
+      ],
+      "title": "Find what you need to measure the wall",
+      "why": "To measure something long without a very long tape, you need a starting mark, an ending mark and a unit you can repeat. Here the unit is your own pace, checked against the crew's tape. The panel joins on the wall give you a second way to check. Knowing what you will use before you start makes the measurement fair."
+    },
+    {
+      "cue": "Measure your pace on the tape, walk the wall counting steps, turn steps into length, then check with the panels.",
+      "id": "put-the-pacing-method-in-order",
+      "itemNames": {
+        "byx-ord-check": "4 · check with the panels",
+        "byx-ord-convert": "3 · turn steps into length",
+        "byx-ord-pace": "1 · measure your pace on the tape",
+        "byx-ord-walk": "2 · walk the wall counting steps"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Measure your own pace against the tape before you walk the wall.",
+      "prompt": "Measure your pace on the tape, walk the wall counting steps, turn steps into length, then check with the panels.",
+      "targets": [
+        "byx-ord-pace",
+        "byx-ord-walk",
+        "byx-ord-convert",
+        "byx-ord-check"
+      ],
+      "title": "Put the pacing method in order",
+      "why": "Measuring your pace first tells you what one step is worth. Walking and counting gives the number of steps. Multiplying turns steps into a real length in the tape's unit. Checking with the panels last tells you whether your answer is sensible. That order means every number has a reason behind it."
+    },
+    {
+      "cue": "Step onto the gravel path along the foot of the wall before you start measuring.",
+      "id": "walk-on-the-path-at-the",
+      "kind": "select",
+      "prompt": "Step onto the gravel path along the foot of the wall before you start measuring.",
+      "target": "byx-path-card",
+      "title": "Walk on the path at the foot of the wall",
+      "why": "The path is flat and firm, and it keeps you away from the crew's equipment and off the wall itself. Walking on the same flat path for every measurement also keeps your steps even. The crew uses this path for its own inspections, so it is the safe, sensible place to be."
+    },
+    {
+      "cue": "Turn the tape reel to pull the crew's tape out flat along the path.",
+      "id": "turn-the-tape-out-along-the",
+      "kind": "turn",
+      "prompt": "Turn the tape reel to pull the crew's tape out flat along the path.",
+      "target": "byx-tape-reel",
+      "title": "Turn the tape out along the ground",
+      "turn": {
+        "axis": "y",
+        "label": "TAPE",
+        "turns": 0.5
+      },
+      "why": "The tape gives you a true length to compare your pace against. Pulling it out flat and straight, not sagging or twisted, makes the reading accurate. Crews always check their tape is flat and straight, because a sagging tape reads longer than the ground really is."
+    },
+    {
+      "cue": "Commit when the marker sits where your last step landed on the tape.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PACE",
+        "missNote": "Not where your step landed. Read the tape right at your heel.",
+        "speed": 0.6
+      },
+      "id": "read-the-length-of-your-paces",
+      "kind": "gauge",
+      "prompt": "Commit when the marker sits where your last step landed on the tape.",
+      "target": "byx-pace-meter",
+      "title": "Read the length of your paces on the tape",
+      "why": "Walking a few steps along the tape and reading where you land tells you how long your steps are. Sharing that length equally across the steps gives the length of one pace. That is your personal unit, and every later answer depends on reading this spot carefully."
+    },
+    {
+      "cue": "Hold a steady pace along the wall until you reach the ending mark.",
+      "holdBreakNote": "Your pace changed partway along. Go back to the start and walk it steadily.",
+      "id": "keep-a-steady-pace-along-the",
+      "kind": "hold",
+      "prompt": "Hold a steady pace along the wall until you reach the ending mark.",
+      "seconds": 6,
+      "target": "byx-steady-pace",
+      "title": "Keep a steady pace along the wall",
+      "why": "Your measured pace is only useful if you walk the same way along the wall. Keeping a steady, normal rhythm, not rushing and not stretching, means every step matches the pace you measured on the tape. Steady walking is what turns a count of steps into a fair measurement."
+    },
+    {
+      "cue": "Drag a bead along the counting string each time your foot lands.",
+      "drag": {
+        "missNote": "The bead is not on the counted side yet. Slide it all the way across.",
+        "radius": 0.45,
+        "to": "byx-counted"
+      },
+      "id": "move-the-counter-bead-for-each",
+      "kind": "drag",
+      "prompt": "Drag a bead along the counting string each time your foot lands.",
+      "target": "byx-bead",
+      "title": "Move the counter bead for each step",
+      "why": "Counting in your head while walking is easy to lose track of. Moving one bead for each step keeps an honest count you can check at the end. Crews use clickers or tally sheets for long counts for the same reason: a count you can see is a count you can trust."
+    },
+    {
+      "cue": "Look at your partner's notes and mark each mistake.",
+      "decoyNotes": {
+        "byx-pn-unit": "Good practice. Keep it."
+      },
+      "id": "spot-the-mistakes-in-a-partners",
+      "itemNames": {
+        "byx-pn-early": "a count that started too soon",
+        "byx-pn-mixed": "steps added to a tape reading",
+        "byx-pn-uneven": "steps that changed size"
+      },
+      "itemNotes": {
+        "byx-pn-early": "Count as each foot lands.",
+        "byx-pn-mixed": "Turn steps into the tape's unit first.",
+        "byx-pn-uneven": "Walk at one steady pace."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at your partner's notes and mark each mistake.",
+      "targets": [
+        "byx-pn-uneven",
+        "byx-pn-early",
+        "byx-pn-mixed"
+      ],
+      "title": "Spot the mistakes in a partner's measurement",
+      "why": "Pacing goes wrong in familiar ways: steps that changed size, a count that started too soon, or steps and tape units added together. Finding them in a partner's notes helps you both improve, and it trains you to check your own before you share it with the crew."
+    },
+    {
+      "cue": "Choose the method that turns your step count into a length in the tape's unit.",
+      "id": "choose-how-to-turn-steps-into",
+      "kind": "select",
+      "prompt": "Choose the method that turns your step count into a length in the tape's unit.",
+      "target": "byx-method-card",
+      "title": "Choose how to turn steps into length",
+      "why": "If one pace is a known length, then many paces are that length many times over. Multiplying your step count by your pace length gives the wall's length in the tape's unit. Choosing that method, and saying why, shows you understand measuring as repeating a unit."
+    },
+    {
+      "cue": "Keep the marker on each panel join as you walk back along the wall counting panels.",
+      "holdBreakNote": "The marker skipped a join. Go back to the last panel you counted.",
+      "id": "follow-the-panel-joins-along-the",
+      "kind": "track",
+      "prompt": "Keep the marker on each panel join as you walk back along the wall counting panels.",
+      "seconds": 8,
+      "target": "byx-join-meter",
+      "title": "Follow the panel joins along the wall",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PANELS",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The wall is made of panels that are all the same width. Counting the panels and multiplying by one panel's width gives a second answer to compare with your pacing. If the two are close, you can be confident; if not, you look for where a count went wrong."
+    },
+    {
+      "cue": "Write your pace length, your step count, the wall's length and your panel check, each with its unit.",
+      "id": "record-your-measurements",
+      "kind": "select",
+      "prompt": "Write your pace length, your step count, the wall's length and your panel check, each with its unit.",
+      "target": "byx-wall-log",
+      "title": "Record your measurements",
+      "why": "Writing every number with its unit shows your working and lets anyone check it. It also shows how close your two methods came. The crew keeps records of every measurement it takes along the wall, so the next crew can compare and spot any change."
+    },
+    {
+      "cue": "Add your answer to the class chart and compare it with the foreman's measurement.",
+      "id": "compare-with-the-class-and-the",
+      "kind": "select",
+      "prompt": "Add your answer to the class chart and compare it with the foreman's measurement.",
+      "target": "byx-share-board",
+      "title": "Compare with the class and the foreman",
+      "why": "Everyone's pace is different, but if everyone measured well, everyone's final length should be close. Seeing all the answers together shows the spread, and comparing with the foreman's tape shows how accurate pacing can be. That is how measurers learn to trust, and check, their methods."
+    },
+    {
+      "cue": "How close did your pacing get? What would you do differently next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How close did your pacing get? What would you do differently next time?",
+      "target": "byx-checkin",
+      "title": "Check in at the end of the wall",
+      "why": "The floodwall crew finishes each inspection by comparing notes at the end of the wall, so the class does the same. Each learner says how close their pacing came and one thing that made it fair. If anyone mixed steps with tape units, the group works one example together before heading back."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Measure your pace, count your steps, check with the panels — the same unit all the way",
+  "title": "SmartCiti.X~ Measuring a Floodwall in Steps VR",
+  "trade": "Maths class along the floodwall with the structure crew — learner and floodwall crew foreman",
+  "underwater": null,
+  "weather": "clear"
+}

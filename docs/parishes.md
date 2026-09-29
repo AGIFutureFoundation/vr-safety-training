@@ -171,11 +171,11 @@ the crossing under its own id at the same `lonlat`.
 
 | crossing | kind | between | point (lon, lat) | ids |
 |---|---|---|---|---|
-| Van Ness Avenue north | road | sf-downtown ↔ sf-marina | -122.424, 37.795 | `sf-van-ness-north` |
-| The Embarcadero north | road | sf-downtown ↔ sf-marina | -122.415, 37.806 | `sf-embarcadero-north` |
-| Park Presidio Boulevard | road | sf-golden-gate-park ↔ sf-marina | -122.472, 37.782 | `sf-park-presidio` |
-| Third Street south | road | sf-mission ↔ sf-bayview | -122.389, 37.755 | `sf-third-street-south` |
-| The Bayshore Freeway south | road | sf-mission ↔ sf-bayview | -122.404, 37.735 | `sf-bayshore-south` |
+| Van Ness Avenue north | road | sf-downtown ↔ sf-marina | -122.424, 37.795 | `sf-dt-van-ness-north`, `sf-ma-van-ness-north` |
+| The Embarcadero north | road | sf-downtown ↔ sf-marina | -122.415, 37.806 | `sf-dt-embarcadero-north`, `sf-ma-embarcadero-north` |
+| Park Presidio Boulevard | road | sf-golden-gate-park ↔ sf-marina | -122.472, 37.782 | `sf-gp-park-presidio`, `sf-ma-park-presidio` |
+| Third Street south | road | sf-mission ↔ sf-bayview | -122.389, 37.755 | `sf-mi-third-street-south`, `sf-bv-third-street-south` |
+| The Bayshore Freeway south | road | sf-mission ↔ sf-bayview | -122.404, 37.735 | `sf-mi-bayshore-south`, `sf-bv-bayshore-south` |
 | The Bay Bridge to Bay World | world (GOLDEN-B) | sf-downtown → Bay World | -122.387, 37.790 | `sf-bay-bridge` |
 | Market Street | road | sf-downtown ↔ sf-mission | -122.419, 37.775 | `sf-dt-market-street`, `sf-mi-market-street` |
 | The Embarcadero at King Street | road | sf-downtown ↔ sf-mission | -122.391, 37.777 | `sf-dt-king-street`, `sf-mi-king-street` |
@@ -204,12 +204,12 @@ Yosemite Slough wetland restoration sites, the Bayview recreation centre and the
 
 | Crossing | kind | joins | approx. lon, lat | id (both ends) |
 |---|---|---|---|---|
-| Van Ness Avenue | road | sf-marina ↔ sf-downtown | -122.424, 37.795 | `sf-van-ness-north` |
-| Bay Street to the Embarcadero | road | sf-marina ↔ sf-downtown | -122.415, 37.806 | `sf-embarcadero-north` |
-| Park Presidio Boulevard | road | sf-marina ↔ sf-golden-gate-park | -122.472, 37.782 | `sf-park-presidio` |
+| Van Ness Avenue | road | sf-marina ↔ sf-downtown | -122.424, 37.795 | `sf-ma-van-ness-north` |
+| Bay Street to the Embarcadero | road | sf-marina ↔ sf-downtown | -122.415, 37.806 | `sf-ma-embarcadero-north` |
+| Park Presidio Boulevard | road | sf-marina ↔ sf-golden-gate-park | -122.472, 37.782 | `sf-ma-park-presidio` |
 | The Golden Gate Bridge | bridge | sf-marina → marin-headlands (no map yet) | -122.478, 37.829 | `sf-golden-gate-bridge` |
-| Third Street | road | sf-bayview ↔ sf-mission | -122.389, 37.755 | `sf-third-street-south` |
-| Bayshore Boulevard | road | sf-bayview ↔ sf-mission | -122.404, 37.735 | `sf-bayshore-south` |
+| Third Street | road | sf-bayview ↔ sf-mission | -122.389, 37.755 | `sf-bv-third-street-south` |
+| Bayshore Boulevard | road | sf-bayview ↔ sf-mission | -122.404, 37.735 | `sf-bv-bayshore-south` |
 | The Bay Bridge | world | sf-downtown → Bay World (West Oakland) | -122.387, 37.790 | `sf-bay-bridge` |
 
 **A `world` connector** leaves a district for another world's page: `to: { world, site, name, href }` with

@@ -92,12 +92,12 @@
   <div class="panel" id="hud-where"><b id="hud-zone">Orleans Parish</b><span id="hud-near"></span></div>
   <div class="panel" id="hud-stats"><span id="hud-alt">0 m</span> above the water<br><span id="hud-clock">day</span> · <span id="hud-weather">clear</span><br>Sites <b id="hud-visited">0</b> · Lessons <b id="hud-lessons">0</b></div>
   <div class="panel" id="hud-prompt" hidden></div>
-  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P parishes · T time · F weather</div>
+  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · T time · F weather</div>
 </div>
 
 <section class="screen" id="menu">
   <div class="card">
-    <p class="eyebrow">New Orleans parishes · a 4 km by 4 km delta world each</p>
+    <p class="eyebrow" id="menu-eyebrow">New Orleans parishes · a 4 km by 4 km delta world each</p>
     <h1 class="logo" id="menu-parish">Orleans Parish</h1>
     <p class="lead" id="menu-blurb"></p>
     <p class="note" id="menu-count"></p>
@@ -106,9 +106,10 @@
       <button class="btn" id="menu-motorpool" type="button">Motor Pool</button>
       <a class="btn" href="../../index.html">Home</a>
     </div>
-    <p class="eyebrow" style="margin-top:16px">Choose a parish</p>
+    <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
     <div class="row" id="menu-parishes"></div>
     <div id="menu-paths"></div>
+    <div id="menu-krewe"></div>
     <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
   </div>
 </section>
@@ -143,7 +144,7 @@
     <div class="layers" id="map-layers"></div>
     <div id="map-wrap"><canvas id="map-canvas" width="512" height="512"></canvas></div>
     <p class="note" id="map-scale"></p>
-    <p class="note">Tap a visited site to fast-travel there. White dots at the edge are the ways out to the neighbouring parishes.</p>
+    <p class="note">Tap a visited site to fast-travel there. White dots at the edge are the ways out to the neighbouring maps.</p>
     <div class="row" id="map-travel"></div>
     <div class="row"><button class="btn" type="button" data-close>Close</button></div>
   </div>
@@ -151,9 +152,9 @@
 
 <div class="modal" id="parishes" hidden role="dialog" aria-modal="true" aria-labelledby="parishes-title">
   <div class="card">
-    <h2 id="parishes-title">The parishes</h2>
+    <h2 id="parishes-title">Regions and maps</h2>
     <div class="row" id="parish-list"></div>
-    <h2>Ways out of this parish</h2>
+    <h2 id="parish-ways-title">Ways out of this parish</h2>
     <div id="parish-ways"></div>
     <div class="row"><button class="btn" type="button" id="parishes-motorpool">Motor Pool</button><button class="btn" type="button" data-close>Close</button></div>
   </div>
@@ -19418,9 +19419,13 @@ const NP_ROAD_KINDS = {
   ferry: { width: 0, colour: 0x9fd6ee, lift: 0 },
 };
 /** The water kinds and their colours. */
-const NP_WATER_KINDS = { river: 0x6b7c68, lake: 0x4f8ea6, canal: 0x5b7f8a, bayou: 0x4f6f5a, wetland: 0x557a6a, gulf: 0x3f7f9c };
-/** The district characters the massing knows (the brief's enum plus "downtown" for a central business district). */
-const NP_CHARACTERS = ["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "downtown"];
+const NP_WATER_KINDS = { river: 0x6b7c68, lake: 0x4f8ea6, canal: 0x5b7f8a, bayou: 0x4f6f5a, wetland: 0x557a6a, gulf: 0x3f7f9c, bay: 0x3f7892, ocean: 0x2f6a8c };
+/** The open-water kinds (a polygon a site never sits in): a lake, the gulf, a bay, the ocean. */
+const NP_OPEN_WATER = ["lake", "gulf", "bay", "ocean"];
+/** A hill's limits (console GOLDEN-A): radius and height in map metres, and the steepest mean flank a mound may have. */
+const NP_HILL = { minRadius: 80, maxRadius: 1500, maxHeight: 120, maxSlope: 0.35 };
+/** The district characters the massing knows (the brief's enum plus "downtown" for a central business district and "park" — trees, no buildings — for a city park, console GOLDEN-A). */
+const NP_CHARACTERS = ["quarter", "garden", "industrial", "suburb", "port", "wetland", "refinery", "campus", "downtown", "park"];
 /** The connector kinds; a `world` connector's far end is another world's page (GOLDEN-B, shared/sg-ways.js). */
 const NP_CONNECTOR_KINDS = ["bridge", "causeway", "ferry", "road", "world"];
 /** The worlds a `world` connector may lead to, and the page each opens with `?site=` (source layout, relative to WebXR/parishes/). */
@@ -19599,7 +19604,8 @@ function npPrepare(parish) {
   const districts = (parish.districts ?? []).map((d) => ({ ...d, bbox: npBBox(d.poly) }));
   const rivers = water.filter((w) => w.kind === "river" && w.centre);
   const seed = [...String(parish.id ?? "parish")].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 7);
-  const prep = { water, districts, rivers, levees: parish.levees ?? [], roads: parish.roads ?? [], sites: parish.sites ?? [], seed, half: (parish.size ?? NP_SIZE) / 2 };
+  const hills = (parish.hills ?? []).filter((h) => Array.isArray(h?.center) && h.radius > 0 && h.height > 0);
+  const prep = { water, districts, rivers, hills, levees: parish.levees ?? [], roads: parish.roads ?? [], sites: parish.sites ?? [], seed, half: (parish.size ?? NP_SIZE) / 2 };
   npPrepCache.set(parish, prep);
   return prep;
 }
@@ -19641,10 +19647,42 @@ function npLeveeRise(parish, x, z) {
   return rise;
 }
 
-/** The dry ground before levees and water: a flat delta with a gentle rise beside each river. */
+/**
+ * The hills' rise at (x, z), in metres over the flat field (console GOLDEN-A):
+ * each hill is a gentle procedural mound, a raised cosine from `height` at its
+ * `center` to nothing at `radius`, with a faint ripple so a flank is not a
+ * perfect bowl. Overlapping hills take the higher. Zero on a map with no hills
+ * (every New Orleans parish), so the delta field is unchanged there. A hill is
+ * a name on a mound, never a survey of the real one.
+ */
+function npHillRise(parish, x, z) {
+  const { hills, seed } = npPrepare(parish);
+  let rise = 0;
+  for (const hl of hills) {
+    const d = Math.hypot(x - hl.center[0], z - hl.center[1]);
+    if (d >= hl.radius) continue;
+    const k = 0.5 * (1 + Math.cos((Math.PI * d) / hl.radius));
+    rise = Math.max(rise, hl.height * k * (1 + 0.04 * npValueNoise(x / 60, z / 60, seed + 11) * (1 - k)));
+  }
+  return rise;
+}
+
+/** The hill a point stands on (the one raising it most), or null. */
+function npHillAt(parish, x, z) {
+  let best = null, bh = 0.05;
+  for (const hl of npPrepare(parish).hills) {
+    const d = Math.hypot(x - hl.center[0], z - hl.center[1]);
+    if (d >= hl.radius) continue;
+    const h = hl.height * 0.5 * (1 + Math.cos((Math.PI * d) / hl.radius));
+    if (h > bh) { bh = h; best = hl; }
+  }
+  return best;
+}
+
+/** The dry ground before levees and water: a flat delta with a gentle rise beside each river, and any hills. */
 function npBaseGround(parish, x, z) {
   const { rivers, seed } = npPrepare(parish);
-  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35;
+  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npHillRise(parish, x, z);
   for (const r of rivers) {
     const { d } = npPolyDistance(x, z, r.centre);
     const bank = r.width / 2;
@@ -19656,7 +19694,8 @@ function npBaseGround(parish, x, z) {
 /**
  * Terrain height (metres) at (x, z): the one field every consumer samples.
  * Water beds are cut to NP_BED with a short bank, levees rise as trapezoids,
- * and each site's pad is flattened to NP_GROUND.
+ * and each site's pad is flattened to NP_GROUND — or, on a hill, to the
+ * hill's height at the site's centre, so the pad is a terrace, not a pit.
  */
 function npHeightAt(parish, x, z) {
   const prep = npPrepare(parish);
@@ -19677,7 +19716,7 @@ function npHeightAt(parish, x, z) {
   h += npLeveeRise(parish, x, z);
   for (const s of prep.sites) {
     const d = Math.hypot(x - s.position[0], z - s.position[1]);
-    if (d < NP_PAD * 1.8) h = NP_GROUND + (h - NP_GROUND) * npSmooth(NP_PAD, NP_PAD * 1.8, d);
+    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length ? npHillRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
   }
   return h;
 }
@@ -19800,6 +19839,7 @@ const NP_MASSING = {
   refinery: { spacing: 64, jitter: 8, kinds: [["tank", 0.7], ["stack", 0.3]] },
   campus: { spacing: 48, jitter: 8, kinds: [["campusBlock", 0.5], ["liveOak", 0.5]] },
   downtown: { spacing: 44, jitter: 6, kinds: [["tower", 1]] },
+  park: { spacing: 32, jitter: 12, kinds: [["liveOak", 0.55], ["cypress", 0.45]] },
 };
 
 /**
@@ -19897,6 +19937,21 @@ function npValidate(parish, ctx = {}) {
   }
   for (const [list, what] of [[parish.water, "water"], [parish.levees, "levees"], [parish.roads, "roads"], [parish.districts, "districts"], [parish.sites, "sites"], [parish.landmarks, "landmarks"], [parish.connectors, "connectors"], [parish.fieldLessons, "fieldLessons"], [parish.gated, "gated"]]) {
     if (!Array.isArray(list)) bad.push(`${what} is not an array`); else ids(list, what);
+  }
+  if (parish.region !== undefined && !/^[a-z][a-z0-9-]*$/.test(String(parish.region))) bad.push(`region ${parish.region} is not a slug`);
+  if (parish.hills !== undefined) {
+    if (!Array.isArray(parish.hills)) bad.push("hills is not an array");
+    else {
+      ids(parish.hills, "hills");
+      for (const hl of parish.hills) {
+        if (!str(hl.name) || /\d/.test(hl.name)) bad.push(`hill ${hl.id}: a name with no digits`);
+        if (!inField(hl.center)) bad.push(`hill ${hl.id}: center outside the field`);
+        if (!(hl.radius >= NP_HILL.minRadius && hl.radius <= NP_HILL.maxRadius)) bad.push(`hill ${hl.id}: radius ${hl.radius}`);
+        if (!(hl.height > 0 && hl.height <= NP_HILL.maxHeight)) bad.push(`hill ${hl.id}: height ${hl.height}`);
+        else if ((hl.height * Math.PI) / (2 * hl.radius) > NP_HILL.maxSlope) bad.push(`hill ${hl.id}: flank steeper than a gentle mound`);
+        if (inField(hl.center) && npWaterAt(parish, ...hl.center)) bad.push(`hill ${hl.id}: its crown is in the water`);
+      }
+    }
   }
   for (const w of parish.water ?? []) {
     if (!Object.keys(NP_WATER_KINDS).includes(w.kind)) bad.push(`water ${w.id}: kind ${w.kind}`);
@@ -28771,6 +28826,331 @@ const NP_ST_TAMMANY = {
 };
 
 
+/* ===== shared/np-data-sf-downtown.js ===== */
+// Downtown & Embarcadero — a San Francisco district on the parish schema (console GOLDEN-A,
+// docs/consoles/GOLDEN-A.md, docs/parishes.md). A stylised 4096 m map, not a
+// survey: real places appear only by their public names as places; every
+// coordinate is approximate (three decimals, `approximate: true`) and exists
+// only to place the map. One north-up uniform scale (about 2.2 real metres per
+// map metre, x east, +z south); the bay and ocean shores are one shared
+// coastline clipped to this field, so the San Francisco districts agree on the
+// shore. `hills` are gentle procedural mounds carrying public names only; a
+// hill's `height` is a map number, not a measurement. Pure data, no imports.
+const NP_SF_DOWNTOWN = {
+  id: "sf-downtown",
+  name: "Downtown & Embarcadero",
+  region: "san-francisco",
+  size: 4096,
+  blurb: "The city's front door on the bay: the Embarcadero's piers and the Ferry Building, the towers of the Financial District, Chinatown and North Beach under Nob Hill, Russian Hill and Telegraph Hill, the cable car barn, and the Bay Bridge climbing away to the east.",
+  start: "ferry-building-landing",
+  anchors: [
+    {"xz":[400,-302],"lonlat":[-122.394,37.796],"approximate":true,"name":"the Ferry Building"},
+    {"xz":[-80,-603],"lonlat":[-122.406,37.802],"approximate":true,"name":"Coit Tower"},
+    {"xz":[-160,101],"lonlat":[-122.408,37.788],"approximate":true,"name":"Union Square"},
+    {"xz":[-560,553],"lonlat":[-122.418,37.779],"approximate":true,"name":"Civic Center"},
+    {"xz":[-520,-905],"lonlat":[-122.417,37.808],"approximate":true,"name":"Fisherman's Wharf"},
+    {"xz":[-1759,-603],"lonlat":[-122.448,37.802],"approximate":true,"name":"the Palace of Fine Arts"},
+    {"xz":[-920,1307],"lonlat":[-122.427,37.764],"approximate":true,"name":"Mission Dolores"},
+    {"xz":[-1200,704],"lonlat":[-122.434,37.776],"approximate":true,"name":"Alamo Square"},
+  ],
+  hills: [
+    {"id":"nob-hill","name":"Nob Hill","center":[-380,-126],"radius":255,"height":30},
+    {"id":"russian-hill","name":"Russian Hill","center":[-580,-528],"radius":227,"height":28},
+    {"id":"telegraph-hill","name":"Telegraph Hill","center":[-72,-618],"radius":173,"height":24},
+    {"id":"twin-peaks","name":"Twin Peaks","center":[-1739,1885],"radius":523,"height":58},
+  ],
+  water: [
+    {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[-2048,-2048],[-2048,-828],[-2039,-829],[-1719,-880],[-1440,-880],[-1160,-930],[-960,-980],[-760,-930],[-560,-980],[-360,-1030],[-160,-980],[40,-829],[200,-679],[360,-503],[460,-327],[560,-176],[740,-126],[740,176],[640,327],[660,553],[700,679],[720,955],[740,1257],[880,1483],[880,1809],[804,2048],[2048,2048],[2048,-2048]]},
+    {"id":"mission-creek","name":"Mission Creek","kind":"canal","width":26,"poly":[[720,663],[500,829],[320,955],[220,1030]]},
+    {"id":"palace-lagoon","name":"the Palace of Fine Arts lagoon","kind":"lake","poly":[[-1731,-638],[-1736,-651],[-1751,-660],[-1771,-663],[-1792,-660],[-1807,-651],[-1812,-638],[-1807,-626],[-1792,-617],[-1771,-613],[-1751,-617],[-1736,-626]]},
+  ],
+  levees: [
+    {"id":"embarcadero-seawall","name":"the Embarcadero seawall","height":2.5,"pts":[[-180,-960],[20,-809],[180,-658],[340,-483],[440,-307],[540,-156]]},
+    {"id":"rincon-seawall","name":"the Rincon and South Beach seawall","height":2.5,"pts":[[716,-75],[716,176],[616,327],[636,553]]},
+    {"id":"aquatic-park-seawall","name":"the Aquatic Park and Marina seawall","height":2.2,"pts":[[-1719,-857],[-1440,-857],[-1160,-907],[-760,-907],[-560,-957]]},
+  ],
+  roads: [
+    {"id":"market-street","name":"Market Street","kind":"avenue","pts":[[360,-241],[160,-25],[-80,201],[-340,477],[-600,754],[-920,1030],[-1240,1307],[-1520,1558]]},
+    {"id":"the-embarcadero","name":"the Embarcadero","kind":"avenue","pts":[[-440,-880],[-180,-880],[-20,-754],[120,-603],[260,-452],[368,-276],[460,-126],[540,25],[540,201],[560,327],[580,528],[540,628]]},
+    {"id":"van-ness-avenue","name":"Van Ness Avenue","kind":"avenue","pts":[[-740,-754],[-700,-251],[-640,251],[-608,754],[-540,1257],[-500,1759]]},
+    {"id":"geary-boulevard","name":"Geary Boulevard","kind":"avenue","pts":[[-20,126],[-640,226],[-1240,312],[-1679,402],[-2048,438]]},
+    {"id":"california-street","name":"California Street","kind":"street","pts":[[260,-176],[-380,-75],[-1040,25],[-2039,176]]},
+    {"id":"columbus-avenue","name":"Columbus Avenue","kind":"street","pts":[[0,-302],[-240,-553],[-480,-804]]},
+    {"id":"lombard-street","name":"Lombard Street","kind":"street","pts":[[-40,-653],[-640,-553],[-1240,-477],[-1759,-452]]},
+    {"id":"bay-bridge-approach","name":"the Bay Bridge approach","kind":"interstate","pts":[[-40,854],[200,553],[400,251],[580,75]]},
+    {"id":"bay-bridge","name":"the Bay Bridge","kind":"bridge","pts":[[580,75],[1040,-402],[1500,-880]]},
+    {"id":"east-bay-ferry-lane","name":"the ferry lane to the East Bay","kind":"ferry","pts":[[520,-312],[1160,-377],[1879,-452]]},
+    {"id":"mission-street","name":"Mission Street","kind":"avenue","pts":[[360,-50],[-240,553],[-600,1005],[-620,1508],[-640,2010],[-648,2048]]},
+    {"id":"third-street","name":"Third Street","kind":"avenue","pts":[[120,201],[460,553],[592,905],[608,1508],[600,1759],[577,2048]]},
+    {"id":"king-street","name":"King Street","kind":"street","pts":[[540,603],[420,694],[260,814],[120,915]]},
+    {"id":"oak-street","name":"Oak Street","kind":"street","pts":[[-640,729],[-1120,804],[-1719,895],[-2048,941]]},
+  ],
+  districts: [
+    {"id":"financial-district","name":"Financial District","character":"downtown","poly":[[-100,-427],[320,-427],[500,-151],[360,101],[20,101]]},
+    {"id":"south-of-market","name":"South of Market","character":"industrial","poly":[[20,126],[360,101],[560,503],[160,905],[-440,754],[-240,452]]},
+    {"id":"chinatown-nob-hill","name":"Chinatown and Nob Hill","character":"quarter","poly":[[-560,-452],[-100,-427],[20,101],[-560,201]]},
+    {"id":"north-beach","name":"North Beach and Telegraph Hill","character":"quarter","poly":[[-440,-804],[-80,-814],[100,-563],[-100,-427],[-560,-452]]},
+    {"id":"russian-hill-marina","name":"Russian Hill and the Marina","character":"garden","poly":[[-1679,-704],[-640,-829],[-560,-452],[-560,201],[-1679,101]]},
+    {"id":"western-addition","name":"Civic Center and the Western Addition","character":"garden","poly":[[-1679,101],[-560,201],[-440,754],[-1599,1005]]},
+    {"id":"embarcadero-waterfront","name":"the Embarcadero waterfront","character":"port","poly":[[-320,-945],[40,-864],[340,-477],[520,-126],[488,553],[640,553],[712,-101],[460,-452],[140,-864],[-240,-1030]]},
+    {"id":"mission-dolores","name":"the Mission and Dolores","character":"suburb","poly":[[-1599,1005],[-440,754],[-240,1709],[-1440,1910]]},
+  ],
+  sites: [
+    {"id":"embarcadero-piers","name":"Embarcadero Piers Cargo and Cruise Terminal","kind":"port","position":[160,-643],"trades":["ila","ilwu","iuoe","teamsters"],"programmes":["port-operations","rigging-lifting","bay-area-union-edition"],"stations":["dock-crane","container-lashing","mooring-line","vessel-gangway-and-hatch-cover-safety","pt-dock-fender-and-bollard-inspection"],"blurb":"The northern piers on the Embarcadero: line handlers, gangway crews and the crane gang working a ship alongside."},
+    {"id":"ferry-building-landing","name":"Ferry Building Landing","kind":"ferry","position":[412,-241],"trades":["ibu","siu","mmp"],"programmes":["port-operations","yacht-and-charter-crew","bay-area-union-edition"],"stations":["mw-ferry-deckhand-and-passenger-safety","yc-man-overboard-recovery-drill","vessel-gangway-and-hatch-cover-safety","mooring-line"],"blurb":"The ferry berths behind the Ferry Building: deckhands, the gangway and the lines, and the passengers crossing to the East Bay."},
+    {"id":"transbay-transit-hub","name":"Transbay Transit Hub","kind":"transit","position":[288,35],"trades":["atu","twu","ibew","iam"],"programmes":["transit-ramp","railroad-crafts"],"stations":["bus-depot-lift","signal-cabinet","track-access","tr-wheelchair-lift-and-securement-on-a-bus","bus-yard-fuelling-and-brake-check"],"blurb":"The downtown bus and rail hub: mechanics on the lifts, signal maintainers, and operators securing every rider who uses the ramp."},
+    {"id":"cathedral-hill-hospital","name":"Cathedral Hill Hospital Campus","kind":"hospital","position":[-768,101],"trades":["nnu","seiu","afscme","ua","ibew"],"programmes":["healthcare-support","first-responders","plumbers-and-pipefitters"],"stations":["hc-patient-transport-and-safe-handling","hc-code-response-support-and-crash-cart-check","hc-environmental-services-isolation-room-turnover","pl-medical-gas-brazing-and-purge","triage-point"],"blurb":"A hospital campus on Van Ness: nurses and patient transport, environmental services, and the pipefitters who keep the medical gas lines sound."},
+    {"id":"market-street-union-hall","name":"Market Street Union Hall","kind":"union-hall","position":[-260,392],"trades":["carpenters","ibew","liuna","unite-here"],"programmes":["job-readiness-edition","civic-leadership-and-ei"],"stations":["union-hall-and-dispatch","jobsite-orientation-and-osha-10","apprenticeship-application-and-test","public-meeting-chair","k12-public-speaking-at-the-hall"],"blurb":"A union hall off Market Street: the dispatch window, the apprenticeship table, and the meeting room where members speak and vote."},
+    {"id":"cable-car-barn","name":"Cable Car Barn","kind":"streetcar","position":[-300,-231],"trades":["atu","iam","ibew"],"programmes":["transit-ramp","railroad-crafts","electrical-first-period"],"stations":["track-access","signal-cabinet","ra-hand-brake-and-securement-on-a-grade","motor-control-center"],"blurb":"The barn on the slope of Nob Hill where the cables are driven and the cars are kept: gripmen, mechanics and the winding room's electricians."},
+    {"id":"financial-district-high-rise","name":"Financial District High-Rise Site","kind":"construction","position":[112,-141],"trades":["ironworkers","iuec","iupat","carpenters"],"programmes":["fall-protection","glaziers-and-architectural-metal","elevator-constructors"],"stations":["steel-erector","leading-edge-and-horizontal-lifeline","gl-curtain-wall-unit-setting-from-the-floor","gl-swing-stage-glazing-and-sealant","ew-hoistway-false-car-and-rail-setting"],"blurb":"A tower going up among the towers: ironworkers at the leading edge, glaziers setting the curtain wall, and elevator constructors in the hoistway."},
+    {"id":"bay-bridge-crew-yard","name":"Bay Bridge Crew Yard","kind":"bridge","position":[512,141],"trades":["ironworkers","iupat","iuoe"],"programmes":["bridge-and-structural","bay-area-union-edition"],"stations":["bridge-cable-inspection","deck-joint-replacement","bridge-lead-containment","gg-fog-and-wind-work-stop"],"blurb":"The yard under the bridge approach on Rincon Hill: the cable inspectors, the deck joint crew and the painters' containment."},
+    {"id":"fishermans-wharf-kitchens","name":"Fisherman's Wharf Kitchens","kind":"hospitality","position":[-500,-844],"trades":["unite-here","seiu"],"programmes":["culinary-kitchen","hotel-workers"],"stations":["kitchen","allergen-control","fryer-oil-change","hw-banquet-room-flip-and-staging"],"blurb":"The kitchens and banquet rooms along the wharf: line cooks, the allergen check, and the crews who turn a room between events."},
+  ],
+  landmarks: [
+    {"id":"the-ferry-building","name":"the Ferry Building","position":[440,-286],"kind":"place"},
+    {"id":"coit-tower","name":"Coit Tower","position":[-72,-623],"kind":"tower"},
+    {"id":"union-square","name":"Union Square","position":[-140,101],"kind":"square"},
+    {"id":"chinatown","name":"Chinatown","position":[-88,-211],"kind":"neighbourhood"},
+    {"id":"bay-bridge-anchorage","name":"the Bay Bridge anchorage","position":[672,10],"kind":"bridge"},
+    {"id":"fishermans-wharf","name":"Fisherman's Wharf","position":[-440,-915],"kind":"wharf"},
+    {"id":"aquatic-park","name":"Aquatic Park","position":[-700,-844],"kind":"park"},
+    {"id":"palace-of-fine-arts","name":"the Palace of Fine Arts","position":[-1807,-573],"kind":"place"},
+    {"id":"civic-center","name":"Civic Center","position":[-560,528],"kind":"plaza"},
+    {"id":"lombard-street-crooked-block","name":"Lombard Street's crooked block","position":[-588,-608],"kind":"street"},
+  ],
+  connectors: [
+    {"id":"sf-van-ness-north","kind":"road","name":"Van Ness Avenue north to the Marina","from":{"parish":"sf-downtown","position":[-800,-251]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.424,37.795]},"lonlat":[-122.424,37.795],"approximate":true},
+    {"id":"sf-embarcadero-north","kind":"road","name":"The Embarcadero north past the wharf","from":{"parish":"sf-downtown","position":[-440,-804]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.415,37.806]},"lonlat":[-122.415,37.806],"approximate":true},
+    {"id":"sf-dt-market-street","kind":"road","name":"Market Street south-west into the Mission","from":{"parish":"sf-downtown","position":[-600,754]},"to":{"parish":"sf-mission","position":[-440,-603],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
+    {"id":"sf-dt-king-street","kind":"road","name":"The Embarcadero at King Street","from":{"parish":"sf-downtown","position":[520,653]},"to":{"parish":"sf-mission","position":[680,-704],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
+    {"id":"sf-dt-geary-boulevard","kind":"road","name":"Geary Boulevard west to the Richmond","from":{"parish":"sf-downtown","position":[-1679,402]},"to":{"parish":"sf-golden-gate-park","position":[1280,-955],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"sf-downtown-fl-ferry-tide-and-timetable","title":"Tide, Timetable and the Gangway","site":"ferry-building-landing","landmark":"the-ferry-building","k12":"k12-graphing-tide-readings-at-the-pier","trade":"Ferry deckhands","tradeLine":"A deckhand reads the tide and the timetable together, so the gangway meets the boat level when the passengers step across.","minutes":3,"steps":["Watch the water against the pier: it rises and falls through the day.","The timetable says when each boat comes; the tide says how high it will sit.","A deckhand sets the gangway for both, so nobody steps up or down too far."],"check":{"q":"Why does a deckhand check the tide as well as the timetable?","options":["The boat sits higher or lower with the tide","The tide changes the price of a ticket","The timetable is only a guess"],"answer":0,"why":"The timetable says when; the tide says how high the deck will sit against the landing."}},
+    {"id":"sf-downtown-fl-cable-grip","title":"How a Cable Car Climbs","site":"cable-car-barn","landmark":"chinatown","k12":"k12-simple-machines-at-a-crane","trade":"Cable car mechanics","tradeLine":"A mechanic checks the grip and the brakes every day, because the car only moves while the grip holds the moving cable.","minutes":3,"steps":["Under the street a cable runs all the time, pulled by wheels in the barn.","The gripman closes the grip to hold the cable and the car is pulled along.","To stop, the grip lets go and the brakes hold the car on the hill."],"check":{"q":"What moves a cable car up the hill?","options":["A moving cable under the street that the grip holds","An engine inside every car","The passengers pushing"],"answer":0,"why":"The wheels in the barn pull the cable; the grip holds on and the car goes with it."}},
+    {"id":"sf-downtown-fl-steep-street","title":"Reading a Steep Street","site":"cable-car-barn","k12":"k12-slope-and-angles-on-a-ramp","trade":"Transit operators","tradeLine":"An operator sets the hand brake and chocks on a grade, because a steep street pulls a parked car downhill.","minutes":2,"steps":["Walk up the block and feel the street rise under your feet.","A slope is how far up for each step along; this street climbs quickly.","On a steep grade a crew always sets the brake before stepping away."],"check":{"q":"What does a crew do first when it stops on a steep street?","options":["Sets the brake so nothing rolls","Turns on the radio","Opens every door"],"answer":0,"why":"A slope pulls anything with wheels downhill, so the brake goes on first."}},
+    {"id":"sf-downtown-fl-speak-at-the-hall","title":"Your Turn at the Microphone","site":"market-street-union-hall","k12":"k12-public-speaking-at-the-hall","trade":"Union members","tradeLine":"A member who speaks at the hall says one clear point, gives a reason, and listens to the answer.","minutes":3,"steps":["The chair calls on members one at a time, and each has a turn.","Say your one point first, then the reason for it, in plain words.","Sit down and listen; a good meeting hears every side before a vote."],"check":{"q":"What makes a turn at the microphone work best?","options":["One clear point and a reason","Speaking as long as possible","Talking over the chair"],"answer":0,"why":"A clear point with a reason is easy for the room to hear, weigh and answer."}},
+  ],
+  gated: [
+    {"id":"sf-downtown-gated-pier-line-handling","kind":"side-quest","title":"Pier Line Handling at First Light","world":"parishes","parish":"sf-downtown","site":"embarcadero-piers","siteName":"Embarcadero Piers Cargo and Cruise Terminal","summary":"Work the lines with the pier crew as a ship comes alongside.","gate":{"stations":["mooring-line"],"note":"Finish the mooring line station before you work the lines at first light"}},
+    {"id":"sf-downtown-gated-bridge-deck-shift","kind":"side-quest","title":"A Night Shift on the Bridge Deck","world":"parishes","parish":"sf-downtown","site":"bay-bridge-crew-yard","siteName":"Bay Bridge Crew Yard","summary":"Join the deck crew under the lights for a lane closure.","gate":{"stations":["bridge-cable-inspection","gg-fog-and-wind-work-stop"],"note":"Walk the cable inspection and the fog and wind stop before the night shift"}},
+  ],
+};
+
+
+/* ===== shared/np-data-sf-mission.js ===== */
+// Mission & SoMa — a San Francisco district on the parish schema (console GOLDEN-A,
+// docs/consoles/GOLDEN-A.md, docs/parishes.md). A stylised 4096 m map, not a
+// survey: real places appear only by their public names as places; every
+// coordinate is approximate (three decimals, `approximate: true`) and exists
+// only to place the map. One north-up uniform scale (about 2.2 real metres per
+// map metre, x east, +z south); the bay and ocean shores are one shared
+// coastline clipped to this field, so the San Francisco districts agree on the
+// shore. `hills` are gentle procedural mounds carrying public names only; a
+// hill's `height` is a map number, not a measurement. Pure data, no imports.
+const NP_SF_MISSION = {
+  id: "sf-mission",
+  name: "Mission & SoMa",
+  region: "san-francisco",
+  size: 4096,
+  blurb: "South of Market and the Mission: the rail yard at King Street, the new blocks of Mission Bay going up beside Mission Creek, the stadium district at China Basin, the Mission's schools and murals, Potrero Hill and Bernal Heights, and the shipyard on the Dogpatch waterfront.",
+  start: "mission-bay-construction-site",
+  anchors: [
+    {"xz":[-760,-50],"lonlat":[-122.427,37.764],"approximate":true,"name":"Mission Dolores"},
+    {"xz":[-800,151],"lonlat":[-122.428,37.76],"approximate":true,"name":"Dolores Park"},
+    {"xz":[240,-1106],"lonlat":[-122.402,37.785],"approximate":true,"name":"Yerba Buena Gardens"},
+    {"xz":[760,-754],"lonlat":[-122.389,37.778],"approximate":true,"name":"the ballpark at China Basin"},
+    {"xz":[-240,1005],"lonlat":[-122.414,37.743],"approximate":true,"name":"Bernal Heights Park"},
+    {"xz":[800,251],"lonlat":[-122.388,37.758],"approximate":true,"name":"Dogpatch"},
+    {"xz":[-400,-804],"lonlat":[-122.418,37.779],"approximate":true,"name":"Civic Center"},
+    {"xz":[-1000,1458],"lonlat":[-122.433,37.734],"approximate":true,"name":"Glen Park"},
+  ],
+  hills: [
+    {"id":"potrero-hill","name":"Potrero Hill","center":[300,201],"radius":273,"height":20},
+    {"id":"bernal-heights","name":"Bernal Heights","center":[-280,1005],"radius":295,"height":32},
+    {"id":"twin-peaks","name":"Twin Peaks","center":[-1580,528],"radius":523,"height":58},
+  ],
+  water: [
+    {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[347,-2048],[360,-2036],[520,-1860],[620,-1684],[720,-1533],[900,-1483],[900,-1181],[800,-1030],[820,-804],[860,-679],[880,-402],[900,-101],[1040,126],[1040,452],[960,704],[980,1005],[1200,1257],[1520,1508],[1920,1759],[1690,2048],[2048,2048],[2048,-2048]]},
+    {"id":"mission-creek","name":"Mission Creek","kind":"canal","width":26,"poly":[[880,-694],[660,-528],[480,-402],[380,-327]]},
+    {"id":"islais-creek","name":"Islais Creek","kind":"canal","width":24,"poly":[[1020,1005],[720,1030],[440,1055]]},
+  ],
+  levees: [
+    {"id":"rincon-seawall","name":"the Rincon and South Beach seawall","height":2.5,"pts":[[876,-1432],[876,-1181],[776,-1030],[796,-804]]},
+    {"id":"mission-bay-seawall","name":"the Mission Bay seawall","height":2.5,"pts":[[836,-628],[856,-402],[876,-101],[1016,126]]},
+    {"id":"dogpatch-bulkhead","name":"the Dogpatch waterfront bulkhead","height":2.2,"pts":[[1016,176],[1016,452],[936,704],[956,930]]},
+  ],
+  roads: [
+    {"id":"market-street","name":"Market Street","kind":"avenue","pts":[[520,-1598],[320,-1382],[80,-1156],[-180,-880],[-440,-603],[-760,-327],[-1080,-50],[-1360,201]]},
+    {"id":"the-embarcadero","name":"the Embarcadero","kind":"avenue","pts":[[198,-2048],[280,-1960],[420,-1809],[528,-1633],[620,-1483],[700,-1332],[700,-1156],[720,-1030],[740,-829],[700,-729]]},
+    {"id":"mission-street","name":"Mission Street","kind":"avenue","pts":[[520,-1407],[-80,-804],[-440,-352],[-460,151],[-480,653],[-580,1156],[-720,1659]]},
+    {"id":"third-street","name":"Third Street","kind":"avenue","pts":[[280,-1156],[620,-804],[752,-452],[768,151],[760,402],[720,905],[660,1407]]},
+    {"id":"bayshore-freeway","name":"the Bayshore Freeway","kind":"interstate","pts":[[-400,-352],[40,-251],[160,402],[168,905],[160,1407],[120,1910]]},
+    {"id":"cesar-chavez-street","name":"Cesar Chavez Street","kind":"avenue","pts":[[-760,754],[-280,729],[0,704],[680,653]]},
+    {"id":"king-street","name":"King Street","kind":"street","pts":[[700,-754],[580,-663],[420,-543],[280,-442]]},
+    {"id":"valencia-street","name":"Valencia Street","kind":"street","pts":[[-568,-452],[-528,151],[-500,754]]},
+    {"id":"oak-street","name":"Oak Street","kind":"street","pts":[[-480,-628],[-960,-553],[-1560,-462],[-1920,-412]]},
+    {"id":"van-ness-avenue","name":"Van Ness Avenue","kind":"avenue","pts":[[-575,-2048],[-540,-1608],[-480,-1106],[-448,-603],[-380,-101],[-340,402]]},
+    {"id":"bay-bridge-approach","name":"the Bay Bridge approach","kind":"interstate","pts":[[120,-503],[360,-804],[560,-1106],[740,-1282]]},
+    {"id":"bay-bridge","name":"the Bay Bridge","kind":"bridge","pts":[[740,-1282],[1200,-1759],[1478,-2048]]},
+    {"id":"geary-boulevard","name":"Geary Boulevard","kind":"avenue","pts":[[140,-1231],[-480,-1131],[-1080,-1045],[-1520,-955],[-2048,-903]]},
+  ],
+  districts: [
+    {"id":"south-of-market","name":"South of Market","character":"industrial","poly":[[-280,-854],[160,-1257],[600,-854],[360,-503],[-280,-352]]},
+    {"id":"mission-bay","name":"Mission Bay","character":"campus","poly":[[360,-427],[800,-653],[820,-50],[360,-50]]},
+    {"id":"mission-district","name":"the Mission","character":"quarter","poly":[[-760,-302],[-80,-302],[0,653],[-760,653]]},
+    {"id":"potrero-hill","name":"Potrero Hill","character":"garden","poly":[[0,-151],[640,-151],[640,553],[0,553]]},
+    {"id":"dogpatch-waterfront","name":"the Dogpatch waterfront","character":"port","poly":[[700,0],[952,0],[940,854],[700,854]]},
+    {"id":"bernal-heights","name":"Bernal Heights","character":"suburb","poly":[[-720,704],[80,704],[80,1357],[-720,1357]]},
+    {"id":"noe-and-castro","name":"Noe Valley and the Castro","character":"suburb","poly":[[-1360,-101],[-800,-251],[-800,955],[-1280,955]]},
+    {"id":"islais-industrial","name":"the Islais Creek industrial flats","character":"industrial","poly":[[200,905],[880,905],[880,1659],[200,1659]]},
+    {"id":"downtown-edge","name":"the edge of downtown","character":"downtown","poly":[[40,-1458],[480,-1458],[600,-1206],[160,-1206]]},
+  ],
+  sites: [
+    {"id":"king-street-rail-yard","name":"King Street Rail Yard","kind":"rail","position":[500,-663],"trades":["smart-td","blet","bmwed","tcu","brs"],"programmes":["railroad-crafts"],"stations":["ra-blue-flag-protection-in-the-yard","rcl-switching","ra-switch-inspection-and-lubrication","ra-air-brake-test-and-train-inspection","ra-locomotive-cab-startup-and-alerter"],"blurb":"The commuter rail yard at King Street: blue flags on the tracks under repair, the switch crew, and the air brake test before a train leaves."},
+    {"id":"mission-bay-construction-site","name":"Mission Bay Construction Site","kind":"construction","position":[648,-292],"trades":["carpenters","ironworkers","liuna","opcmia","iuoe"],"programmes":["builders-trades","fall-protection","heavy-equipment-operators"],"stations":["concrete-pour","formwork-shoring","bt-rebar-tying-and-impalement-protection","scaffold-erection","op-crawler-crane-assembly-and-load-chart","trench-box"],"blurb":"A new block going up in Mission Bay: the crane on its load chart, rebar and forms for the next pour, and the scaffold climbing the frame."},
+    {"id":"mission-school-campus","name":"Mission District School Campus","kind":"school","position":[-632,90],"trades":["aft","seiu","afscme"],"programmes":["education-support-staff"],"stations":["ed-custodial-chemical-dilution-and-floor-machine","ed-playground-equipment-inspection","ed-crossing-guard-intersection-control","ed-kitchen-receiving-and-warewash-sanitizing","ed-bus-pretrip-and-loading-zone"],"blurb":"A school campus by Dolores Park: custodians, the crossing guard at the corner, the kitchen crew and the bus loading zone."},
+    {"id":"china-basin-stadium-district","name":"China Basin Stadium District","kind":"stadium","position":[632,-864],"trades":["iatse","seiu","unite-here","ibew","spfpa"],"programmes":["live-events","rigging-lifting"],"stations":["arena-rigging","le-crowd-barricade-and-show-stop-call","stage-power","chain-hoist","broadcast-truck"],"blurb":"The ballpark and the arena by the water: riggers overhead, stagehands on power, the barricade crew and the broadcast trucks."},
+    {"id":"soma-maker-workshop","name":"South of Market Maker Workshop","kind":"workshop","position":[112,-593],"trades":["iam","smart","ibew","carpenters"],"programmes":["aerospace-defense-and-robotics","sewing-garment-trades","situational-awareness"],"stations":["cnc-cell","welding","sm-plasma-table-and-fume","sm-shop-layout-and-shear","ad-cobot-risk-assessment-and-speed-separation","serger-overlock"],"blurb":"A shared shop in a South of Market warehouse: the CNC cell, the welding bay, the plasma table, a cobot bench and the sewing machines."},
+    {"id":"potrero-hospital-campus","name":"Potrero Avenue Hospital Campus","kind":"hospital","position":[-8,372],"trades":["nnu","seiu","afscme","ua"],"programmes":["healthcare-support","first-responders"],"stations":["hc-patient-transport-and-safe-handling","hc-sterile-processing-decontamination-and-assembly","hc-linen-and-regulated-waste-handling","ambulance-scene-safety","triage-point"],"blurb":"The public hospital on Potrero Avenue: the ambulance bay and triage, sterile processing, and the crews moving patients and linen."},
+    {"id":"potrero-bus-yard","name":"Potrero Bus Yard","kind":"transit","position":[-128,-40],"trades":["atu","twu","iam"],"programmes":["transit-ramp","energy-transition"],"stations":["bus-depot-lift","bus-yard-fuelling-and-brake-check","tr-wheelchair-lift-and-securement-on-a-bus","et-ev-fleet-depot-charging-and-arc-flash"],"blurb":"A city bus yard under Potrero Hill: the lifts, the brake check, the ramp and securement, and the chargers for the electric fleet."},
+    {"id":"dogpatch-shipyard","name":"Dogpatch Waterfront Shipyard","kind":"shipyard","position":[888,251],"trades":["ironworkers","iam","ibb","usw"],"programmes":["insulators-and-boilermakers","port-operations"],"stations":["welding","ib-pressure-vessel-confined-entry-and-hot-work","dock-crane","pt-dock-fender-and-bollard-inspection"],"blurb":"The old shipyard on the Dogpatch waterfront: the dry-dock crane, boilermakers at hot work, and the fender and bollard inspection."},
+    {"id":"islais-creek-pump-station","name":"Islais Creek Pump Station","kind":"pump","position":[580,905],"trades":["iuoe","ibew","uwua","afscme"],"programmes":["water-and-gas-utility-crews","confined-space"],"stations":["lift-station","digester-gas","cs-permit-entry-and-attendant-duties","valve-vault","stormwater-outfall"],"blurb":"The pump and treatment station by Islais Creek: the lift pumps, the digester gas watch, and the permit-entry crew at the valve vaults."},
+  ],
+  landmarks: [
+    {"id":"mission-dolores","name":"Mission Dolores","position":[-760,-65],"kind":"place"},
+    {"id":"dolores-park","name":"Dolores Park","position":[-780,171],"kind":"park"},
+    {"id":"china-basin-ballpark","name":"the ballpark at China Basin","position":[740,-784],"kind":"stadium"},
+    {"id":"mission-creek-bank","name":"the Mission Creek bank","position":[560,-538],"kind":"canal"},
+    {"id":"bernal-heights-park","name":"Bernal Heights Park","position":[-260,995],"kind":"park"},
+    {"id":"yerba-buena-gardens","name":"Yerba Buena Gardens","position":[240,-1106],"kind":"park"},
+    {"id":"balmy-alley","name":"Balmy Alley","position":[-168,543],"kind":"alley"},
+    {"id":"dogpatch","name":"Dogpatch","position":[792,101],"kind":"neighbourhood"},
+    {"id":"islais-creek-bank","name":"the Islais Creek bank","position":[800,955],"kind":"canal"},
+  ],
+  connectors: [
+    {"id":"sf-third-street-south","kind":"road","name":"Third Street south to Bayview","from":{"parish":"sf-mission","position":[760,402]},"to":{"parish":"sf-bayview","position":null,"lonlat":[-122.389,37.755]},"lonlat":[-122.389,37.755],"approximate":true},
+    {"id":"sf-bayshore-south","kind":"road","name":"The Bayshore Freeway south to Bayview","from":{"parish":"sf-mission","position":[160,1407]},"to":{"parish":"sf-bayview","position":null,"lonlat":[-122.404,37.735]},"lonlat":[-122.404,37.735],"approximate":true},
+    {"id":"sf-mi-market-street","kind":"road","name":"Market Street north-east downtown","from":{"parish":"sf-mission","position":[-440,-603]},"to":{"parish":"sf-downtown","position":[-600,754],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
+    {"id":"sf-mi-king-street","kind":"road","name":"King Street to the Embarcadero","from":{"parish":"sf-mission","position":[680,-704]},"to":{"parish":"sf-downtown","position":[520,653],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
+    {"id":"sf-mi-oak-street","kind":"road","name":"Oak Street west along the Panhandle","from":{"parish":"sf-mission","position":[-1560,-452]},"to":{"parish":"sf-golden-gate-park","position":[1240,-452],"lonlat":[-122.447,37.772]},"lonlat":[-122.447,37.772],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"sf-mission-fl-blue-flag","title":"What a Blue Flag Means","site":"king-street-rail-yard","k12":"k12-reading-instructions-and-safety-labels","trade":"Rail carmen","tradeLine":"A carman hangs a blue flag before working on a train, and only the person who hung it may take it down.","minutes":3,"steps":["Look along the track for a blue flag or a blue light by the rails.","It means people are working on or under that train right now.","Nobody moves the train until the worker who hung the flag removes it."],"check":{"q":"Who may take down a blue flag?","options":["Only the worker who hung it","Any driver in a hurry","Whoever sees it first"],"answer":0,"why":"The flag protects the person under the train, so only that person removes it."}},
+    {"id":"sf-mission-fl-crane-pulleys","title":"Pulleys at the Crane","site":"mission-bay-construction-site","k12":"k12-simple-machines-at-a-crane","trade":"Crane operators and riggers","tradeLine":"An operator reads the load chart before every lift, because the boom's reach changes what the crane can hold.","minutes":3,"steps":["Find the hook block hanging from the crane and count the ropes into it.","More rope parts share the weight, so each one pulls less.","The operator checks the load chart so the lift stays inside what the crane can hold."],"check":{"q":"Why does a hook block have several parts of rope?","options":["The ropes share the weight","It looks stronger","It lifts faster"],"answer":0,"why":"Each part of rope carries a share, so the load on each is smaller."}},
+    {"id":"sf-mission-fl-crossing-guard","title":"The Crossing Guard's Corner","site":"mission-school-campus","landmark":"dolores-park","k12":"k12-teamwork-and-feedback","trade":"School crossing guards","tradeLine":"A crossing guard waits for the traffic to stop, steps out first, and walks the children across together.","minutes":2,"steps":["Stand at the corner and watch the guard look both ways.","The guard steps into the street with the sign before anyone crosses.","Children cross as a group while the guard holds the traffic."],"check":{"q":"When do the children start to cross?","options":["After the guard has stopped the traffic","As soon as they reach the corner","When a friend waves"],"answer":0,"why":"The guard stops the traffic first, then the group crosses together."}},
+  ],
+  gated: [
+    {"id":"sf-mission-gated-first-pour","kind":"side-quest","title":"The First Pour on the New Block","world":"parishes","parish":"sf-mission","site":"mission-bay-construction-site","siteName":"Mission Bay Construction Site","summary":"Join the crew for the deck pour on a Mission Bay block.","gate":{"stations":["formwork-shoring","concrete-pour"],"note":"Finish the formwork and concrete pour stations before the first pour"}},
+    {"id":"sf-mission-gated-yard-night-switch","kind":"side-quest","title":"Night Switching at King Street","world":"parishes","parish":"sf-mission","site":"king-street-rail-yard","siteName":"King Street Rail Yard","summary":"Line the switches for the evening trains with the yard crew.","gate":{"stations":["ra-blue-flag-protection-in-the-yard","rcl-switching"],"note":"Walk blue flag protection and switching before the night move"}},
+  ],
+};
+
+
+/* ===== shared/np-data-sf-golden-gate-park.js ===== */
+// Golden Gate Park, the Richmond & the Sunset — a San Francisco district on the parish schema (console GOLDEN-A,
+// docs/consoles/GOLDEN-A.md, docs/parishes.md). A stylised 4096 m map, not a
+// survey: real places appear only by their public names as places; every
+// coordinate is approximate (three decimals, `approximate: true`) and exists
+// only to place the map. One north-up uniform scale (about 2.2 real metres per
+// map metre, x east, +z south); the bay and ocean shores are one shared
+// coastline clipped to this field, so the San Francisco districts agree on the
+// shore. `hills` are gentle procedural mounds carrying public names only; a
+// hill's `height` is a map number, not a measurement. Pure data, no imports.
+const NP_SF_GOLDEN_GATE_PARK = {
+  id: "sf-golden-gate-park",
+  name: "Golden Gate Park, the Richmond & the Sunset",
+  region: "san-francisco",
+  size: 4096,
+  blurb: "The long park running to the ocean, with the Richmond to the north and the Sunset to the south: park crews among the trees and meadows, Stow Lake and Spreckels Lake, the windmills at the western edge, Ocean Beach and its lifeguards, a hospital on Parnassus and a university on Lone Mountain.",
+  start: "golden-gate-park-crew-yard",
+  anchors: [
+    {"xz":[-1240,-352],"lonlat":[-122.509,37.77],"approximate":true,"name":"the Dutch Windmill"},
+    {"xz":[-1200,0],"lonlat":[-122.508,37.763],"approximate":true,"name":"the Murphy Windmill"},
+    {"xz":[720,-452],"lonlat":[-122.46,37.772],"approximate":true,"name":"the Conservatory of Flowers"},
+    {"xz":[120,-302],"lonlat":[-122.475,37.769],"approximate":true,"name":"Stow Lake"},
+    {"xz":[1000,402],"lonlat":[-122.453,37.755],"approximate":true,"name":"Sutro Tower"},
+    {"xz":[-1080,-1206],"lonlat":[-122.505,37.787],"approximate":true,"name":"Lands End"},
+    {"xz":[-640,1809],"lonlat":[-122.494,37.727],"approximate":true,"name":"Lake Merced"},
+    {"xz":[-320,402],"lonlat":[-122.486,37.755],"approximate":true,"name":"Sunset Reservoir"},
+  ],
+  hills: [
+    {"id":"twin-peaks","name":"Twin Peaks","center":[1220,528],"radius":523,"height":58},
+  ],
+  water: [
+    {"id":"pacific-ocean","name":"the Pacific Ocean","kind":"ocean","poly":[[-72,-2048],[-2048,-2048],[-2048,2048],[-984,2048],[-1000,1910],[-1080,1407],[-1160,905],[-1220,402],[-1260,-101],[-1300,-603],[-1360,-905],[-1120,-1257],[-880,-1307],[-560,-1307],[-360,-1407],[-240,-1709],[-80,-2010]]},
+    {"id":"stow-lake","name":"Stow Lake","kind":"lake","poly":[[183,-317],[176,-333],[155,-347],[125,-354],[91,-354],[61,-347],[40,-333],[33,-317],[40,-300],[61,-286],[91,-279],[125,-279],[155,-286],[176,-300]]},
+    {"id":"spreckels-lake","name":"Spreckels Lake","kind":"lake","poly":[[-589,-367],[-597,-379],[-617,-389],[-644,-392],[-671,-389],[-691,-379],[-699,-367],[-691,-354],[-671,-345],[-644,-342],[-617,-345],[-597,-354]]},
+    {"id":"lake-merced","name":"Lake Merced","kind":"lake","poly":[[-780,1558],[-520,1533],[-340,1709],[-355,2048],[-805,2048],[-820,2010]]},
+  ],
+  levees: [
+    {"id":"ocean-beach-seawall","name":"the Ocean Beach seawall","height":3,"pts":[[-1272,-578],[-1232,-101],[-1192,402]]},
+    {"id":"ocean-beach-dunes","name":"the Ocean Beach dunes","height":2.5,"pts":[[-1192,427],[-1132,905],[-1052,1407],[-972,1860]]},
+  ],
+  roads: [
+    {"id":"great-highway","name":"the Great Highway","kind":"avenue","pts":[[-1220,-653],[-1180,-101],[-1140,402],[-1088,905],[-1008,1407],[-928,1910]]},
+    {"id":"fulton-street","name":"Fulton Street","kind":"avenue","pts":[[-1180,-442],[-80,-503],[720,-578],[1240,-643],[1920,-729]]},
+    {"id":"lincoln-way","name":"Lincoln Way","kind":"avenue","pts":[[-1152,-50],[-80,-111],[720,-161],[1000,-151]]},
+    {"id":"kennedy-drive","name":"John F. Kennedy Drive","kind":"street","pts":[[-1152,-281],[-680,-292],[-280,-352],[80,-432],[720,-462],[960,-432]]},
+    {"id":"park-presidio-boulevard","name":"Park Presidio Boulevard","kind":"avenue","pts":[[240,-1307],[232,-854],[232,-513]]},
+    {"id":"sunset-boulevard","name":"Sunset Boulevard","kind":"avenue","pts":[[-660,-101],[-640,402],[-620,905],[-600,1357]]},
+    {"id":"judah-street","name":"Judah Street","kind":"street","pts":[[-1112,126],[-80,50],[520,25],[720,10]]},
+    {"id":"sloat-boulevard","name":"Sloat Boulevard","kind":"street","pts":[[-980,1397],[-280,1427],[120,1448]]},
+    {"id":"geary-boulevard","name":"Geary Boulevard","kind":"avenue","pts":[[2048,-1092],[1720,-1045],[1280,-955],[520,-880],[-280,-854],[-1060,-854]]},
+    {"id":"oak-street","name":"Oak Street","kind":"street","pts":[[2048,-585],[1840,-553],[1240,-462],[880,-412]]},
+    {"id":"california-street","name":"California Street","kind":"street","pts":[[2048,-1351],[1920,-1332],[920,-1181]]},
+  ],
+  districts: [
+    {"id":"golden-gate-park","name":"Golden Gate Park","character":"park","poly":[[-1180,-412],[1000,-543],[1000,-171],[-1152,-75]]},
+    {"id":"the-panhandle","name":"the Panhandle","character":"park","poly":[[1000,-578],[1520,-663],[1520,-553],[1000,-483]]},
+    {"id":"inner-richmond","name":"the Inner Richmond","character":"suburb","poly":[[-80,-1257],[1280,-1166],[1280,-694],[-80,-533]]},
+    {"id":"outer-richmond","name":"the Outer Richmond","character":"suburb","poly":[[-1120,-1055],[-80,-1206],[-80,-533],[-1160,-462]]},
+    {"id":"the-sunset","name":"the Sunset","character":"suburb","poly":[[-1080,-10],[720,-101],[640,1332],[-960,1332]]},
+    {"id":"lands-end-lincoln-park","name":"Lands End and Lincoln Park","character":"park","poly":[[-1220,-1166],[-680,-1267],[-600,-1081],[-1120,-1066]]},
+    {"id":"lone-mountain","name":"Lone Mountain","character":"campus","poly":[[880,-905],[1280,-905],[1280,-663],[880,-628]]},
+    {"id":"parnassus-heights","name":"Parnassus Heights","character":"campus","poly":[[560,-101],[1040,-111],[1040,151],[560,151]]},
+    {"id":"lake-merced-shore","name":"the Lake Merced shore","character":"park","poly":[[-920,1432],[-240,1458],[-240,1960],[-880,1960]]},
+  ],
+  sites: [
+    {"id":"golden-gate-park-crew-yard","name":"Golden Gate Park Grounds Crew Yard","kind":"park","position":[560,-327],"trades":["afscme","liuna","seiu"],"programmes":["grounds-and-landscaping"],"stations":["gk-ride-on-mower-pre-start-and-slope-work","gk-tree-work-pole-saw-and-drop-zone","gk-chainsaw-start-and-limbing-on-the-ground","gk-irrigation-controller-valve-box-and-backflow-check","gk-string-trimmer-and-blower-ppe-and-bystander-zone"],"blurb":"The park crews' yard among the eucalyptus and cypress: mowers on the meadows, the tree crew's drop zone, and the irrigation valves."},
+    {"id":"park-nursery","name":"Golden Gate Park Nursery","kind":"nursery","position":[-400,-211],"trades":["afscme","liuna"],"programmes":["grounds-and-landscaping"],"stations":["gk-greenhouse-nursery-chemical-storage-and-eyewash","gk-pesticide-and-fertilizer-application-per-the-label","gk-hardscape-paver-base-and-compaction","gk-storm-cleanup-chipper-and-traffic-control"],"blurb":"The greenhouses and potting yard where the park's plants are raised: the chemical store and eyewash, the label, and the chipper after a storm."},
+    {"id":"ocean-beach-lifeguard-station","name":"Ocean Beach Lifeguard Station","kind":"lifeguard","position":[-1088,292],"trades":["iaff","afscme"],"programmes":["first-responders","yacht-and-charter-crew","bay-restoration-maritime-underwater"],"stations":["br-cold-water-immersion-and-mob-recovery","yc-man-overboard-recovery-drill","cardiac-arrest-pit-crew","ambulance-scene-safety"],"blurb":"The lifeguard station on Ocean Beach: the rescue board and the cold-water drill, and the team that meets the ambulance at the sand."},
+    {"id":"parnassus-hospital-campus","name":"Parnassus Hospital Campus","kind":"hospital","position":[800,10],"trades":["nnu","seiu","afscme","ua","ibew"],"programmes":["healthcare-support","first-responders"],"stations":["hc-patient-transport-and-safe-handling","hc-code-response-support-and-crash-cart-check","hc-dietary-tray-line-and-allergy-flags","hc-hazardous-drug-spill-kit-response","triage-point"],"blurb":"A teaching hospital on the slope of Parnassus Heights: the code team's crash cart, the tray line and its allergy flags, and the spill kit."},
+    {"id":"lone-mountain-university-campus","name":"University of San Francisco Campus","kind":"campus","position":[1080,-744],"trades":["aaup","afscme","seiu","ibew"],"programmes":["stationary-engineer","education-support-staff","property-management"],"stations":["chiller-plant","boiler-room","ed-science-lab-chemical-storage-and-eyewash","pm-fire-alarm-panel-room","pm-electrical-room"],"blurb":"The university on Lone Mountain: stationary engineers in the chiller plant and boiler room, the science labs, and the fire alarm panel."},
+    {"id":"ocean-beach-streetcar-terminal","name":"Ocean Beach Streetcar Terminal","kind":"streetcar","position":[-1040,90],"trades":["atu","twu","ibew"],"programmes":["transit-ramp","railroad-crafts"],"stations":["track-access","signal-cabinet","ra-hand-brake-and-securement-on-a-grade","tr-wheelchair-lift-and-securement-on-a-bus"],"blurb":"The end of the line by the beach: the loop where the streetcars turn, the track crew, the signal cabinet, and the ramp for every rider."},
+    {"id":"sunset-reservoir-pump-house","name":"Sunset Reservoir Pump House","kind":"pump","position":[-352,392],"trades":["uwua","iuoe","ibew","afscme"],"programmes":["water-and-gas-utility-crews","confined-space"],"stations":["valve-vault","lift-station","ut-water-treatment-chemical-delivery-unloading","cs-permit-entry-and-attendant-duties","motor-control-center"],"blurb":"The pump house beside the Sunset Reservoir: the valve vaults, the chemical delivery, and the crew on a permit entry."},
+    {"id":"sunset-school-campus","name":"Sunset District School Campus","kind":"school","position":[-280,955],"trades":["aft","seiu","afscme"],"programmes":["education-support-staff"],"stations":["ed-crossing-guard-intersection-control","ed-bus-pretrip-and-loading-zone","ed-paraeducator-safe-lift-and-transfer","ed-boiler-room-filter-change-lockout"],"blurb":"A school in the Sunset's avenues: the crossing guard, the bus zone, paraeducators, and the custodian's boiler room."},
+    {"id":"richmond-fire-station","name":"Richmond Fire Station","kind":"fire","position":[-200,-694],"trades":["iaff","naemt"],"programmes":["first-responders","fall-protection"],"stations":["structure-fire-sizeup","firefighter-rehab-sector","ambulance-scene-safety","aerial-ladder"],"blurb":"A firehouse in the Richmond: the size-up, the aerial ladder, the rehab sector after a long call, and the ambulance crew."},
+  ],
+  landmarks: [
+    {"id":"dutch-windmill","name":"the Dutch Windmill","position":[-1152,-377],"kind":"windmill"},
+    {"id":"murphy-windmill","name":"the Murphy Windmill","position":[-1120,0],"kind":"windmill"},
+    {"id":"stow-lake-boathouse","name":"the Stow Lake boathouse","position":[140,-412],"kind":"boathouse"},
+    {"id":"conservatory-of-flowers","name":"the Conservatory of Flowers","position":[712,-493],"kind":"place"},
+    {"id":"japanese-tea-garden","name":"the Japanese Tea Garden","position":[300,-362],"kind":"garden"},
+    {"id":"ocean-beach","name":"Ocean Beach","position":[-1160,653],"kind":"shore"},
+    {"id":"sutro-heights","name":"Sutro Heights","position":[-1272,-779],"kind":"park"},
+    {"id":"lands-end","name":"Lands End","position":[-1000,-1131],"kind":"park"},
+    {"id":"the-panhandle","name":"the Panhandle","position":[1320,-518],"kind":"park"},
+    {"id":"kezar-stadium","name":"Kezar Stadium","position":[900,-211],"kind":"stadium"},
+  ],
+  connectors: [
+    {"id":"sf-park-presidio","kind":"road","name":"Park Presidio Boulevard north to the Presidio","from":{"parish":"sf-golden-gate-park","position":[240,-955]},"to":{"parish":"sf-marina","position":null,"lonlat":[-122.472,37.782]},"lonlat":[-122.472,37.782],"approximate":true},
+    {"id":"sf-gp-geary-boulevard","kind":"road","name":"Geary Boulevard east downtown","from":{"parish":"sf-golden-gate-park","position":[1280,-955]},"to":{"parish":"sf-downtown","position":[-1679,402],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
+    {"id":"sf-gp-oak-street","kind":"road","name":"Oak Street east from the Panhandle","from":{"parish":"sf-golden-gate-park","position":[1240,-452]},"to":{"parish":"sf-mission","position":[-1560,-452],"lonlat":[-122.447,37.772]},"lonlat":[-122.447,37.772],"approximate":true},
+  ],
+  fieldLessons: [
+    {"id":"sf-golden-gate-park-fl-windmill-energy","title":"What a Windmill Does with the Wind","site":"park-nursery","landmark":"dutch-windmill","k12":"k12-energy-transfer-at-the-wind-farm","trade":"Park crews","tradeLine":"A park crew keeps people clear of moving sails and locks them still before anyone climbs to work on them.","minutes":3,"steps":["Look up at the windmill's sails and feel which way the wind blows.","The wind pushes the sails round, and the turning can pump water or grind grain.","Before a crew works on the sails, they lock them so nothing turns."],"check":{"q":"Where does a windmill's turning come from?","options":["The wind pushing on the sails","A motor hidden in the ground","The sea below it"],"answer":0,"why":"Moving air pushes the sails, and that movement is passed along to do work."}},
+    {"id":"sf-golden-gate-park-fl-lifeguard-call","title":"Calling for Help at the Beach","site":"ocean-beach-lifeguard-station","landmark":"ocean-beach","k12":"k12-first-aid-awareness-call-for-help","trade":"Ocean lifeguards","tradeLine":"A lifeguard keeps watch from the station and calls the team in when someone needs help in the water.","minutes":2,"steps":["Find the lifeguard station and the flag that shows where to swim.","If someone needs help, tell a lifeguard or an adult straight away.","The lifeguards and the ambulance crew work as one team."],"check":{"q":"You see someone who needs help in the water. What do you do first?","options":["Tell a lifeguard or an adult straight away","Swim out alone","Wait and watch"],"answer":0,"why":"Trained lifeguards go in; your job is to get help fast."}},
+    {"id":"sf-golden-gate-park-fl-lake-water-cycle","title":"Where the Lake's Water Comes From","site":"golden-gate-park-crew-yard","landmark":"stow-lake-boathouse","k12":"k12-water-cycle-and-filtration","trade":"Park irrigation crews","tradeLine":"An irrigation crew sets the sprinklers to water the meadows without wasting a drop into the paths.","minutes":3,"steps":["Stand by the lake and look at the water, the trees and the sky.","Water rises from the lake as vapour, forms clouds, and falls again as rain or fog drip.","The crew waters the meadows only as much as the plants need."],"check":{"q":"What happens to lake water on a warm day?","options":["Some of it rises as vapour","It turns into sand","Nothing ever changes"],"answer":0,"why":"Warmth turns some water to vapour, which later falls as rain or drips from fog."}},
+  ],
+  gated: [
+    {"id":"sf-golden-gate-park-gated-storm-cleanup","kind":"side-quest","title":"Storm Cleanup on the Meadows","world":"parishes","parish":"sf-golden-gate-park","site":"golden-gate-park-crew-yard","siteName":"Golden Gate Park Grounds Crew Yard","summary":"Clear fallen limbs with the park crew after a windy night.","gate":{"stations":["gk-chainsaw-start-and-limbing-on-the-ground","gk-tree-work-pole-saw-and-drop-zone"],"note":"Walk the chainsaw and tree work stations before the storm cleanup"}},
+    {"id":"sf-golden-gate-park-gated-beach-rescue-drill","kind":"side-quest","title":"The Morning Rescue Drill","world":"parishes","parish":"sf-golden-gate-park","site":"ocean-beach-lifeguard-station","siteName":"Ocean Beach Lifeguard Station","summary":"Practise a board rescue with the lifeguards at Ocean Beach.","gate":{"stations":["br-cold-water-immersion-and-mob-recovery"],"note":"Finish the cold water recovery station before the rescue drill"}},
+  ],
+};
+
+
 /* ===== shared/np-data-sf-marina.js ===== */
 // Marina & Presidio — one 4096 m streamed San Francisco district on the shared parish
 // schema (docs/parishes.md, docs/consoles/GOLDEN-B.md), region "san-francisco".
@@ -28782,7 +29162,7 @@ const NP_ST_TAMMANY = {
 // only to place a map: the district is drawn at a stylised scale (about one
 // world metre to two real metres) so the harbour, the Presidio, Crissy Field and the bridge's south end fit one field. Nothing here is
 // survey data and no real building is modelled. `hills` are gentle
-// procedural mounds, named only (no elevation is quoted).
+// procedural mounds, named only (no height is quoted).
 //
 // Conventions (docs/parishes.md): x east, z south, the field [-2048, 2048]²;
 // a water `poly` with a `width` is a centreline, without one a closed
@@ -30305,7 +30685,7 @@ const NP_SF_MARINA = {
 // only to place a map: the district is drawn at a stylised scale (about one
 // world metre to two real metres) so the southern terminals, Islais Creek, the shipyard and the two wetlands fit one field. Nothing here is
 // survey data and no real building is modelled. `hills` are gentle
-// procedural mounds, named only (no elevation is quoted).
+// procedural mounds, named only (no height is quoted).
 //
 // Conventions (docs/parishes.md): x east, z south, the field [-2048, 2048]²;
 // a water `poly` with a `width` is a centreline, without one a closed
@@ -31869,6 +32249,12 @@ function sgWaysFor(parishId) {
 // and one array entry per parish; tools/check_parishes.mjs also globs
 // shared/np-data-*.js so a module missing from this list is a failure.
 //
+// Regions (console GOLDEN-A): the engine carries more than New Orleans. Each
+// map names its `region` (a map without one is a New Orleans parish, so the
+// five parish modules need no edit); NP_REGIONS lists the regions in selector
+// order with the words the page uses — the page title, and whether a map is a
+// "parish" or a "district". The selector shows regions, then their maps.
+//
 // A connector's far end may be written by its owner as the crossing's
 // approximate `lonlat` with `position: null` (the owner never guesses the
 // other parish's frame); npResolveConnectors() fills the position through
@@ -31878,13 +32264,36 @@ function sgWaysFor(parishId) {
 
 
 
-// San Francisco (GOLDEN-B): Marina & Presidio, Bayview & Hunters Point, and the world ways (the Bay Bridge to Bay World).
 
 
+
+
+
+// The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 
 
 /** Every parish, in the selector's order. */
-const NP_PARISHES = [NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY, NP_SF_MARINA, NP_SF_BAYVIEW];
+const NP_PARISHES = [
+  NP_ORLEANS, NP_JEFFERSON, NP_ST_BERNARD, NP_PLAQUEMINES, NP_ST_TAMMANY,
+  NP_SF_DOWNTOWN, NP_SF_MISSION, NP_SF_GOLDEN_GATE_PARK, NP_SF_MARINA, NP_SF_BAYVIEW,
+];
+
+/** The regions, in the selector's order: id, name, the page title, and what one map is called. */
+const NP_REGIONS = [
+  { id: "new-orleans", name: "New Orleans", title: "New Orleans Parishes", noun: "parish", nouns: "parishes" },
+  { id: "san-francisco", name: "San Francisco", title: "San Francisco Districts", noun: "district", nouns: "districts" },
+];
+
+/** The region id a map belongs to: its `region`, else New Orleans (the parish modules predate regions). */
+function npRegionOf(parish) { return parish?.region ?? "new-orleans"; }
+
+/** A region by id, or null. */
+function npRegion(id) { return NP_REGIONS.find((r) => r.id === id) ?? null; }
+
+/** The regions in order, each with its maps in registry order: `[{ region, parishes }]` (a region with no map is left out). */
+function npRegionGroups(parishes = NP_PARISHES) {
+  return NP_REGIONS.map((region) => ({ region, parishes: parishes.filter((p) => npRegionOf(p) === region.id) })).filter((g) => g.parishes.length);
+}
 
 /** A parish by id, or null. */
 function npParish(id) { return NP_PARISHES.find((p) => p.id === id) ?? null; }
@@ -31948,7 +32357,7 @@ function npResolveConnectors(parish, parishes = NP_PARISHES) {
 const NP_COL = {
   water: [0.16, 0.22, 0.2], wetland: [0.36, 0.45, 0.3], levee: [0.5, 0.62, 0.34], road: [0.24, 0.25, 0.27], pad: [0.62, 0.58, 0.5],
   quarter: [0.5, 0.42, 0.34], garden: [0.38, 0.52, 0.28], industrial: [0.5, 0.5, 0.48], suburb: [0.42, 0.55, 0.3], port: [0.55, 0.54, 0.5],
-  downtown: [0.46, 0.46, 0.47], campus: [0.4, 0.54, 0.3], refinery: [0.5, 0.47, 0.42], grass: [0.44, 0.56, 0.31],
+  downtown: [0.46, 0.46, 0.47], campus: [0.4, 0.54, 0.3], park: [0.36, 0.53, 0.27], refinery: [0.5, 0.47, 0.42], grass: [0.44, 0.56, 0.31],
 };
 
 /** The ground colour at (x, z) by cover (vertex colours, no textures), with a little grain. */
@@ -34249,9 +34658,11 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
-      "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep"
+      "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep",
+      "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours",
+      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps"
     ],
-    require: 4,
+    require: 6,
   },
   {
     id: "k12-science",
@@ -34260,9 +34671,11 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm",
-      "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment"
+      "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment",
+      "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-by-the-water-cycle-from-lake-to-tap"
     ],
-    require: 4,
+    require: 6,
   },
   {
     id: "k12-history-and-civics",
@@ -34282,9 +34695,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help", "k12-public-speaking-at-the-hall",
-      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback"
+      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "bay-restoration-maritime-underwater",
@@ -35319,10 +35732,10 @@ const PP_PROGRAMMES = {
   "commercial-diving-and-scientific-scuba": { name: "Commercial Diving & Scientific Scuba", stations: ["cd-underwater-wet-welding-and-cutting","cd-pier-piling-inspection-and-wrap-repair","cd-rov-launch-recovery-and-tether-management","cd-decompression-chamber-operations-and-post-dive","cd-scientific-scuba-buddy-check-and-lost-buddy-drill","cd-low-visibility-and-night-dive-line-work","cd-hydraulic-tools-and-suction-hazards-underwater","cd-dive-records-and-incident-review"] },
   "aerospace-defense-and-robotics": { name: "Aerospace Depot and Robotics — IAM and UAW Skilled Trades", stations: ["ad-cleanroom-gowning-and-esd-discipline","ad-payload-crane-lift-with-a-lift-plan","ad-hazardous-fluid-servicing-with-a-buddy","ad-depot-tool-control-and-fod-walk","ad-test-stand-exclusion-zone-and-holds","ad-robot-cell-lockout-and-safe-reentry","ad-amr-fleet-traffic-and-estop-drill","ad-cobot-risk-assessment-and-speed-separation"] },
   "wind-and-data-infrastructure": { name: "Wind & Data Infrastructure", stations: ["ws-turbine-climb-and-rescue-kit-check","ws-nacelle-lockout-and-yaw-brake-fault","ws-blade-inspection-from-a-platform","ws-substation-switching-under-a-permit","ws-data-hall-busway-install-and-torque-signoff","ws-raised-floor-tile-lift-and-cable-tray-safety","ws-crah-alarm-response-in-a-live-hall","ws-ocean-pod-retrieval-and-hatch-opening"] },
-  "k12-practical-math": { name: "K-12 Practical Maths", stations: ["k12-measuring-and-scaling-the-court","k12-household-budget-and-first-paycheck","k12-reading-a-map-scale-in-bay-world","k12-fractions-in-the-kitchen","k12-slope-and-angles-on-a-ramp","k12-graphing-tide-readings-at-the-pier","k12-probability-with-a-fair-spinner","k12-geometry-of-a-turbine-blade-sweep"] },
-  "k12-science": { name: "K-12 Science", stations: ["k12-water-cycle-and-filtration","k12-buoyancy-and-pressure-in-the-deep","k12-circuits-at-the-electrical-bench","k12-energy-transfer-at-the-wind-farm","k12-ecosystems-at-the-kelp-transect","k12-weather-and-the-sky","k12-simple-machines-at-a-crane","k12-a-controlled-experiment"] },
+  "k12-practical-math": { name: "K-12 Practical Maths", stations: ["k12-measuring-and-scaling-the-court","k12-household-budget-and-first-paycheck","k12-reading-a-map-scale-in-bay-world","k12-fractions-in-the-kitchen","k12-slope-and-angles-on-a-ramp","k12-graphing-tide-readings-at-the-pier","k12-probability-with-a-fair-spinner","k12-geometry-of-a-turbine-blade-sweep","k12-by-a-streetcar-timetable","k12-by-a-ferry-timetable-and-the-tide","k12-by-a-shrimp-boats-fair-count","k12-by-reading-a-flood-maps-colours","k12-by-sorting-containers-at-the-port","k12-by-measuring-a-floodwall-in-steps"] },
+  "k12-science": { name: "K-12 Science", stations: ["k12-water-cycle-and-filtration","k12-buoyancy-and-pressure-in-the-deep","k12-circuits-at-the-electrical-bench","k12-energy-transfer-at-the-wind-farm","k12-ecosystems-at-the-kelp-transect","k12-weather-and-the-sky","k12-simple-machines-at-a-crane","k12-a-controlled-experiment","k12-by-how-a-levee-holds-water-back","k12-by-what-a-pump-station-does-in-the-rain","k12-by-wetlands-as-a-storms-speed-bump","k12-by-the-rivers-current-and-a-pilots-job","k12-by-the-water-cycle-from-lake-to-tap"] },
   "k12-history-and-civics": { name: "K-12 History and Civics", stations: ["k12-primary-and-secondary-sources","k12-building-a-timeline-from-documents","k12-how-a-local-council-meeting-works","k12-oral-history-interview-skills","k12-guilds-and-the-history-of-work","k12-map-literacy-across-eras"] },
-  "k12-literacy-and-life-skills": { name: "K-12 Literacy and Life Skills", stations: ["k12-reading-instructions-and-safety-labels","k12-writing-a-clear-incident-report","k12-first-aid-awareness-call-for-help","k12-public-speaking-at-the-hall","k12-digital-citizenship-and-online-safety","k12-teamwork-and-feedback"] },
+  "k12-literacy-and-life-skills": { name: "K-12 Literacy and Life Skills", stations: ["k12-reading-instructions-and-safety-labels","k12-writing-a-clear-incident-report","k12-first-aid-awareness-call-for-help","k12-public-speaking-at-the-hall","k12-digital-citizenship-and-online-safety","k12-teamwork-and-feedback","k12-by-a-family-readiness-plan"] },
 };
 
 
@@ -36514,6 +36927,7 @@ const QM_STATION_NAMES = {
   "container-lashing": "Container Lashing",
   "crane-yard": "Crane Yard",
   "creosote-pile-removal": "Creosote Pile Removal",
+  "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod",
   "cs-permit-entry-and-attendant-duties": "Permit Entry & Attendant Duties",
   "cs-ventilation-and-air-monitoring-plan": "Ventilation & Air Monitoring Plan",
   "decon-support-laborer": "Decon Support Laborer",
@@ -36967,13 +37381,19 @@ function qmFill(s, game) { return s.replace(/\{task\}/g, game.task ?? "job").rep
 function qmRounds(game) {
   let h = 0;
   for (const ch of game.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return (game.practices ?? []).map((key, i) => {
+  const rounds = (game.practices ?? []).map((key, i) => {
     const p = QM_SAFE_PRACTICES[key];
     const safe = { text: qmFill(p.safe, game), safe: true };
     const unsafe = { text: qmFill(p.unsafe, game), safe: false };
     const flip = ((h >> i) & 1) === 1;
     return { key, prompt: qmFill(p.prompt, game), options: flip ? [unsafe, safe] : [safe, unsafe] };
   });
+  // A game's own calls (KREWE's kiosks: `calls: [{ prompt, safe, unsafe }]`), after the shared practices.
+  for (const [i, c] of (game.calls ?? []).entries()) {
+    const safe = { text: c.safe, safe: true }, unsafe = { text: c.unsafe, safe: false };
+    rounds.push({ key: `call-${i}`, prompt: c.prompt, options: ((h >> (i + 5)) & 1) === 1 ? [unsafe, safe] : [safe, unsafe] });
+  }
+  return rounds;
 }
 
 
@@ -42546,7 +42966,7 @@ function grSiteOf(s) {
  * Site-kind spellings the parish modules use for the roster's kinds (ASSAYER, the Bayou run): PARISH's Orleans says
  * `pump`, `streetcar`, `rail`; DELTA's parishes say `pumping-station`. A kind maps to itself when it is not listed.
  */
-const GR_PARISH_KIND_ALIAS = { pump: "pump-station", "pumping-station": "pump-station", streetcar: "streetcar-barn", rail: "rail-yard" };
+const GR_PARISH_KIND_ALIAS = { pump: "pump-station", "pumping-station": "pump-station", streetcar: "streetcar-barn", rail: "rail-yard", events: "stadium", seawall: "levee" };
 
 /** The site a character stands at among `sites` (by id, or by kind for a parish character), or null. */
 function grSiteFor(ch, sites) {
@@ -43353,6 +43773,822 @@ function dvMountMotorPool({ el, world = "bayworld", page = null, storage = null,
 
 /** The gate item for a drivable id (for a lock toast or a map pin). */
 function dvGateItem(id) { return DV_GATE_BY_DRIVABLE.get(id) ?? null; }
+
+
+/* ===== shared/kw-play-data.js ===== */
+// KREWE — kiosks, mini-games and side quests at the parish sites (docs/consoles/KREWE.md).
+//
+//   KW_KIOSKS     five mini-games at real parish sites, in the shared side-game contract
+//                 (docs/skill-gates.md): each behind union stations (the gate contract),
+//                 scored on safe practice (a mechanic from side-game-mechanics.js, the
+//                 safe-practice calls and the kiosk's own calls), each rewarding a cosmetic
+//                 and a stamp. KW_GATED is the same list for check_gates's discovery.
+//   KW_QUESTS     ten side quests, each a chain: a K-12 lesson → a union station → a mini-game.
+//                 The lesson slot holds BAYOU's K-12 station id (`k12-by-<topic>`, reconciled by the
+//                 coordinator from BAYOU's hand-back; the stations land when BAYOU's branch merges).
+//   kwKioskSpots(parishData)   where each kiosk stands in a parish data module (bound through
+//                 SECONDLINE's slResolveSite), for the world, the HUD and GRIOT.
+//   kwGriotSites(parishData)   site records in grMount's documented shape so a GRIOT parish
+//                 character (keyed by site kind) stands at each kiosk.
+//
+// Facts rule: places by public name only, no figures, no dates; every call is a plain safe
+// practice read "per the plan". No three.js here. Names prefixed kw/KW_ (one bundle scope).
+
+
+
+
+const KW_WORLD = "parishes";
+const KW_PAGE = "parishes.html";
+
+// ------------------------------------------------------------------ kiosks
+
+const kwCall = (prompt, safe, unsafe) => ({ prompt, safe, unsafe });
+
+/**
+ * A kiosk: `{ id, world, kind: "side-game", parish, site, siteName, title, task, mechanic, gate,
+ * practices, calls, reward: { cosmetic, stamp }, summary, character, kit, drivable? }`.
+ * `character` is the GRIOT site kind whose character stands at it; `kit` the KREWE kit beside it.
+ */
+const kwMakeKiosk = (id, parish, site, o) => ({
+  id: `kw-${id}`, world: KW_WORLD, kind: "side-game", parish, site, siteName: slSiteName(parish, site),
+  title: o.title, task: o.task, mechanic: o.mechanic, gate: o.gate, practices: o.practices, calls: o.calls,
+  reward: { cosmetic: o.cosmetic, stamp: `kw-stamp-${id}` }, summary: o.summary, character: o.character, kit: o.kit,
+  ...(o.drivable ? { drivable: o.drivable } : {}),
+});
+
+const KW_KIOSKS = [
+  kwMakeKiosk("sandbag-relay", "orleans", "levee-crew", {
+    title: "Sandbag Relay", task: "sandbag relay", mechanic: "delivery-run", character: "levee", kit: "kwLeveeWall",
+    drivable: "flatbed-truck",
+    gate: { stations: ["br-levee-inspection-and-seepage", "tdl-trailer-loading-and-dock-plate"],
+      note: "Levee inspection first, then load securement: the flatbed brings the bags, the crew builds the line." },
+    practices: ["plan", "lift", "traffic"],
+    calls: [
+      kwCall("The flatbed from the Motor Pool backs up to the levee toe with the bags.", "Use a spotter, stop it clear of the crew and chock it before anyone unloads.", "Wave it in close so the bags land right beside the line."),
+      kwCall("A bag is heavy and the line is long.", "Pass it hand to hand, lift with your legs and keep your back straight.", "Carry two at a time to finish sooner."),
+      kwCall("The bags go down on the wet spot the inspector flagged.", "Lay them in rows with the seams staggered, the way the inspector shows you.", "Pile them in a heap as high as you can reach."),
+    ],
+    cosmetic: "sandbag crew armband",
+    summary: "A Motor Pool flatbed delivers the bags; the crew passes them hand to hand and lays a staggered row where the inspector flagged.",
+  }),
+  kwMakeKiosk("pump-startup", "jefferson", "drainage-canal-pumps", {
+    title: "Pump Start-Up Order", task: "pump start-up", mechanic: "lockout-steps", character: "pump-station", kit: "kwPumpHouse",
+    gate: { stations: ["stormwater-outfall", "cs-non-entry-retrieval-and-tripod"],
+      note: "The stormwater outfall and the non-entry retrieval stations before you start a pump." },
+    practices: ["plan", "lockout", "comms"],
+    calls: [
+      kwCall("Rain is coming and the operator says the pumps start soon.", "Check the intake screen is clear and the locks are off only when the whole crew is out.", "Start the pump and look at the screen afterwards."),
+      kwCall("The pump is ready to prime.", "Follow the start-up order on the card: vent, prime, then start.", "Skip the prime; it will catch once it spins."),
+      kwCall("The pump is running.", "Watch the gauge and the discharge, and call the operator if either looks wrong.", "Walk away; a running pump looks after itself."),
+    ],
+    cosmetic: "pump watch lanyard",
+    summary: "Start the canal pumps in the card's order: clear the screen, remove locks with the crew out, vent, prime, start, watch the gauge.",
+  }),
+  kwMakeKiosk("floodgate-closeout", "st-bernard", "floodgate-station", {
+    title: "Floodgate Close-Out", task: "floodgate close-out", mechanic: "switching-order", character: "levee", kit: "kwFloodgate",
+    gate: { stations: ["tide-gate", "valve-vault"],
+      note: "The tide gate and valve vault stations before you work the close-out checklist." },
+    practices: ["plan", "zone", "comms"],
+    calls: [
+      kwCall("The gate is about to swing shut across the road.", "Clear the gate's path, set the barriers and call it clear before it moves.", "Close it while a car is still passing; it moves slowly."),
+      kwCall("The gate is shut.", "Check the seal along its whole edge and tick each line of the checklist.", "Glance at it from the truck and call it done."),
+      kwCall("The checklist has one line you cannot tick.", "Stop, tell the gate operator and fix it before signing the close-out.", "Sign it anyway; the rest looks fine."),
+    ],
+    cosmetic: "gate crew patch",
+    summary: "Close the floodgate by the checklist: clear the path, swing it with a read-back, check the seal, sign every line.",
+  }),
+  kwMakeKiosk("container-sort", "orleans", "port-terminal", {
+    title: "Container Sort", task: "container sort", mechanic: "lift-sequencer", character: "port", kit: "kwShrimpBoat",
+    gate: { stations: ["container-lashing", "dock-crane"],
+      note: "Container lashing and the dock crane before you sort the stacks." },
+    practices: ["lift", "zone", "inspect"],
+    calls: [
+      kwCall("Boxes arrive for three different ships.", "Read each box's label and sort it into its ship's row.", "Stack them wherever there is room and sort them later."),
+      kwCall("A heavy box and a light box go on the same stack.", "Put the heavy box low and the light box on top, per the stow plan.", "Put the light box under the heavy one; it fits better."),
+      kwCall("A lashing rod on a stack looks bent.", "Tag it out and ask for a new one before the stack is locked.", "Leave it; the others will hold."),
+    ],
+    cosmetic: "wharf sorter's cap",
+    summary: "Sort the wharf's boxes by ship and weight: read the label, heavy low, light high, every lashing checked.",
+  }),
+  kwMakeKiosk("ferry-lineup", "plaquemines", "ferry-landing", {
+    title: "Ferry Line-Up", task: "ferry line-up", mechanic: "traffic-zone", character: "port", kit: "kwFerryLanding",
+    gate: { stations: ["mw-ferry-deckhand-and-passenger-safety"],
+      note: "The ferry deckhand and passenger safety station before you line up the deck." },
+    practices: ["traffic", "comms", "weather"],
+    calls: [
+      kwCall("Cars and walkers wait at the landing.", "Walkers board on their own path, cars wait in their lanes until you wave them on.", "Let everyone on at once to save time."),
+      kwCall("A car rolls toward the ramp before the deck is ready.", "Hold up the stop sign and keep it back until the ramp is down and chained.", "Wave it on; the ramp is nearly down."),
+      kwCall("The deck is full.", "Count against the plan and close the gate when the count says full.", "Squeeze one more car on; there is a gap."),
+    ],
+    cosmetic: "ferry deckhand's whistle",
+    summary: "Line up the ferry deck: walkers apart, cars in lanes, nothing on before the ramp is chained, count to the plan and close the gate.",
+  }),
+];
+
+/** The same list for tools/check_gates.mjs's discovery (an export named …GATED… in a -data.js module). */
+const KW_GATED = KW_KIOSKS;
+const KW_KIOSK_IDS = KW_KIOSKS.map((k) => k.id);
+function kwKiosk(id) { return KW_KIOSKS.find((k) => k.id === id) ?? null; }
+function kwKiosksFor(parishId, siteId = null) { return KW_KIOSKS.filter((k) => k.parish === parishId && (!siteId || k.site === siteId)); }
+
+/** The kiosk's own calls as side-game rounds (same `{ prompt, options: [{ text, safe }] }` shape as qmRounds). */
+function kwCallRounds(kiosk) {
+  let h = 11;
+  for (const ch of kiosk.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return (kiosk.calls ?? []).map((c, i) => {
+    const a = { text: c.safe, safe: true }, b = { text: c.unsafe, safe: false };
+    return { key: `call-${i}`, prompt: c.prompt, options: ((h >> (i + 3)) & 1) ? [b, a] : [a, b] };
+  });
+}
+
+/** The stamps earned so far: a kiosk's stamp is earned by its first clean run (a gate snapshot's questsDone). */
+function kwStampsEarned(snap) {
+  const done = snap?.questsDone ?? new Set();
+  return KW_KIOSKS.filter((k) => done.has(k.id)).map((k) => k.reward.stamp);
+}
+
+// ------------------------------------------------------------------ side quests: lesson → station → game
+
+/** BAYOU's K-12 lesson stations (ids from BAYOU's hand-back, reconciled by the coordinator). */
+const KW_BAYOU_LESSONS = [
+  "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job", "k12-by-a-family-readiness-plan", "k12-by-the-water-cycle-from-lake-to-tap",
+  "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours", "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps",
+];
+
+const kwMakeQuest = (id, title, parish, site, giver, lesson, station, game, text) => ({
+  id: `kw-q-${id}`, kind: "side-quest", world: KW_WORLD, title, parish, site, giver,
+  steps: [
+    { type: "goto", parish, site, text: `Meet ${giver} at ${slSiteName(parish, site)}.` },
+    { type: "lesson", lesson, text: text[0] },
+    { type: "station", station, text: text[1] },
+    { type: "game", game, text: text[2] },
+  ],
+  reward: { stamp: `kw-stamp-q-${id}` },
+});
+
+const KW_QUESTS = [
+  kwMakeQuest("sandbag-line", "Hold the Line", "orleans", "levee-crew", "the levee inspector", "k12-by-how-a-levee-holds-water-back", "br-levee-inspection-and-seepage", "kw-sandbag-relay",
+    ["Learn how a levee holds the water back.", "Walk the levee with the inspection station.", "Build the sandbag line where the inspector flags."]),
+  kwMakeQuest("rain-night-pumps", "Rain Night Pumps", "jefferson", "drainage-canal-pumps", "the drainage operator", "k12-by-what-a-pump-station-does-in-the-rain", "stormwater-outfall", "kw-pump-startup",
+    ["Learn what a pump station does when it rains.", "Do the stormwater outfall station.", "Start the pumps in the right order."]),
+  kwMakeQuest("close-the-gate", "Close the Gate", "st-bernard", "floodgate-station", "the gate operator", "k12-by-measuring-a-floodwall-in-steps", "tide-gate", "kw-floodgate-closeout",
+    ["Measure a floodwall in steps.", "Do the tide gate station.", "Work the floodgate close-out checklist."]),
+  kwMakeQuest("box-by-box", "Box by Box", "orleans", "port-terminal", "the terminal superintendent", "k12-by-sorting-containers-at-the-port", "container-lashing", "kw-container-sort",
+    ["Learn how the port sorts its boxes.", "Do the container lashing station.", "Sort the wharf's boxes by ship and weight."]),
+  kwMakeQuest("ferry-morning", "Ferry Morning", "plaquemines", "ferry-landing", "the ferry mate", "k12-by-a-ferry-timetable-and-the-tide", "mw-ferry-deckhand-and-passenger-safety", "kw-ferry-lineup",
+    ["Read the ferry's timetable and the tide.", "Do the ferry deckhand station.", "Line up the deck for the crossing."]),
+  kwMakeQuest("marsh-speed-bump", "The Marsh Speed Bump", "orleans", "wetlands-restoration", "the restoration crew lead", "k12-by-wetlands-as-a-storms-speed-bump", "marsh-transect-survey", "sl-orleans-marsh-count",
+    ["Learn how wetlands slow a storm down.", "Do the marsh transect survey station.", "Count the marsh along the line."]),
+  kwMakeQuest("pilot-ladder", "Up the Pilot Ladder", "plaquemines", "pilot-station", "the pilot boat operator", "k12-by-the-rivers-current-and-a-pilots-job", "pilot-transfer", "sl-plaquemines-pilot-transfer-watch",
+    ["Learn about the river's current and a pilot's job.", "Do the pilot transfer station.", "Keep the pilot transfer watch."]),
+  kwMakeQuest("family-plan", "The Family Plan", "st-tammany", "staging-yard", "the staging yard boss", "k12-by-a-family-readiness-plan", "shelter-intake-operations", "sl-st-tammany-staging-yard-roll-out",
+    ["Make a readiness plan together: who helps, what to pack, where to go.", "Do the shelter intake station.", "Roll the staging yard out on the plan."]),
+  kwMakeQuest("barn-timetable", "Barn Timetable", "orleans", "streetcar-barn", "the barn foreman", "k12-by-a-streetcar-timetable", "bus-depot-lift", "sl-orleans-barn-power-switching",
+    ["Read a streetcar schedule as a timetable.", "Do the depot lift station.", "Work the barn's switching order."]),
+  kwMakeQuest("fair-catch", "A Fair Catch", "st-bernard", "fishing-harbour", "the harbour master", "k12-by-a-shrimp-boats-fair-count", "oyster-reef-monitoring", "sl-st-bernard-harbour-recovery",
+    ["Count a shrimp boat's catch fairly.", "Do the oyster reef monitoring station.", "Run the harbour recovery drill."]),
+];
+
+function kwQuest(id) { return KW_QUESTS.find((q) => q.id === id) ?? null; }
+/** A quest's game: a KREWE kiosk or a SECONDLINE side game. */
+function kwGameFor(id) { return kwKiosk(id) ?? slGameById(id); }
+/** The quests a parish offers (for the path board or a GRIOT hand-off). */
+function kwQuestsFor(parishId) { return KW_QUESTS.filter((q) => q.parish === parishId); }
+
+// ------------------------------------------------------------------ positions in a parish data module
+
+/** Offset from the bound site's centre where a kiosk stands (inside the pad, clear of the site board). */
+const KW_KIOSK_OFFSET = [-14, 10];
+
+/**
+ * Where each kiosk of this parish stands: `[{ kiosk, site, x, z }]`, bound through slResolveSite
+ * (by id, then by the SL site's `match`). A kiosk whose site the data lacks is left out.
+ */
+function kwKioskSpots(parishData) {
+  const out = [];
+  for (const k of kwKiosksFor(parishData?.id)) {
+    const site = slResolveSite(parishData, k.site);
+    if (!site || !Array.isArray(site.position)) continue;
+    out.push({ kiosk: k, site, x: site.position[0] + KW_KIOSK_OFFSET[0], z: site.position[1] + KW_KIOSK_OFFSET[1] });
+  }
+  return out;
+}
+
+/**
+ * Site records in grMount's documented shape (`{ id, name, kind, position }`, npc.js) so the parish
+ * character whose `siteKind` matches stands at each kiosk. Pass them first in `sites` so a
+ * character keyed by kind finds the kiosk before any other site of that kind:
+ *   grMount(`parish:${parish.id}`, { three, root, sites: [...kwGriotSites(parish), ...parish.sites], groundAt, pos })
+ */
+function kwGriotSites(parishData) {
+  return kwKioskSpots(parishData).map(({ kiosk, x, z }) => ({ id: kiosk.id, name: kiosk.title, kind: kiosk.character, position: [x, z], kiosk: kiosk.id }));
+}
+
+/** Counts for the console log and the hand-back. */
+function kwPlayCounts() {
+  return { kiosks: KW_KIOSKS.length, quests: KW_QUESTS.length, parishes: new Set(KW_KIOSKS.map((k) => k.parish)).size, lessons: new Set(KW_QUESTS.map((q) => q.steps[1].lesson)).size };
+}
+
+// ------------------------------------------------------------------ the side-quest board (menu, DOM only)
+
+/**
+ * The quest board's model for one parish (pure): each quest with its three links in order and
+ * what is done. `snap` is a gate snapshot (qmSnapshot()); `completed(stationId)` says whether a
+ * station has a record (the passport's ppCompleted); the lesson slot is BAYOU's K-12 station and
+ * links through links.js like any station.
+ */
+function kwQuestBoard(parishId, { snap = null, completed = () => false, page = KW_PAGE } = {}) {
+  const s = snap ?? qmSnapshot();
+  return kwQuestsFor(parishId).map((q) => {
+    const lesson = q.steps[1], station = q.steps[2], game = kwGameFor(q.steps[3].game);
+    return {
+      id: q.id, title: q.title, siteName: slSiteName(q.parish, q.site), giver: q.giver,
+      lesson: { id: lesson.lesson, text: lesson.text, href: lkStationLink(lesson.lesson, { from: KW_WORLD, page, siteId: `${q.parish}/${q.site}` }) },
+      station: { id: station.station, text: station.text, done: !!completed(station.station), href: lkStationLink(station.station, { from: KW_WORLD, page, siteId: `${q.parish}/${q.site}` }) },
+      game: { id: game?.id ?? q.steps[3].game, title: game?.title ?? q.steps[3].game, text: q.steps[3].text, open: game ? qmIsOpen(game.gate, s) : false, done: !!s.questsDone?.has(game?.id) },
+      stamp: q.reward.stamp,
+    };
+  });
+}
+
+const kwEsc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/** Render the parish's side quests into `el`; `onGame(id)` opens the side-game panel. Returns the model. */
+function kwMountQuestBoard(el, parishId, opts = {}) {
+  const rows = kwQuestBoard(parishId, opts);
+  if (!el) return rows;
+  if (!rows.length) { el.innerHTML = ""; return rows; }
+  el.innerHTML = `<section class="kw-quests" aria-label="Side quests"><p class="eyebrow" style="margin-top:16px">Side quests</p><p class="note">Each quest is a lesson, a union station and a mini-game at one site.</p><ol>${rows.map((r) =>
+    `<li><strong>${kwEsc(r.title)}</strong> <span class="note">at ${kwEsc(r.siteName)}, with ${kwEsc(r.giver)}</span><br>` +
+    `<a data-kw-lesson="${kwEsc(r.lesson.id)}" href="${kwEsc(r.lesson.href)}">Lesson: ${kwEsc(r.lesson.text)}</a> · ` +
+    `<a href="${kwEsc(r.station.href)}">${r.station.done ? "✓ " : ""}Station: ${kwEsc(r.station.text)}</a> · ` +
+    `<button type="button" class="btn" data-kw-game="${kwEsc(r.game.id)}">${r.game.done ? "✓ " : r.game.open ? "" : "Locked: "}${kwEsc(r.game.title)}</button></li>`).join("")}</ol></section>`;
+  if (typeof opts.onGame === "function") for (const b of el.querySelectorAll("[data-kw-game]")) b.addEventListener("click", () => opts.onGame(b.getAttribute("data-kw-game")));
+  return rows;
+}
+
+
+/* ===== shared/kw-place.js ===== */
+// KREWE — where the parish kits stand (docs/consoles/KREWE.md). Pure: no three.js.
+//
+// kwPlacements(parish, { tier }) reads a parish data module (np-data-<parish>.js) through the
+// engine's pure answers (np-parish.js) and returns `[{ kit, x, z, y, ry, why }]`:
+//   - by site kind: a pump station house at every pump site, its pipes toward the nearest levee;
+//     floodwall sections and a floodgate on the levee nearest every levee, floodwall, floodgate
+//     and lock site; a shrimp boat and an oyster lugger on the open water nearest every harbour,
+//     marina, port, ferry, landing and shipyard site; a ferry landing on the shore at every ferry
+//     and landing site; a bandstand and a ring of live oaks at every park and campus site and park
+//     landmark; two streetcars parked at a streetcar barn; and the kiosk's kit beside each KREWE
+//     kiosk (kw-play-data.js).
+//   - by district character: streetcars on the avenues through quarter, garden and downtown
+//     districts (Orleans only: the streetcar is Orleans's), live oaks lining garden-district
+//     avenues, shotgun-house blocks fronting the streets of quarter, suburb and garden districts,
+//     and one parade route's barriers along an avenue through a quarter or downtown district.
+// Deterministic (npRng from the parish id), capped per kit (KW_CAPS) so a parish's whole dressing
+// stays inside KW_DRESS_BUDGET: at most one draw call per kit and a fixed triangle allowance on
+// top of the engine's own NP_BUDGET. Names prefixed kw/KW_.
+
+
+
+/** The whole dressing of one parish: one draw call per kit, and this many triangles at most. */
+const KW_DRESS_BUDGET = { drawCalls: 13, triangles: 45000 };
+/** Placements per kit per parish, at most (high tier; `low` keeps about half of the trees, blocks and barriers). */
+const KW_CAPS = {
+  streetcar: 8, pumpHouse: 4, leveeWall: 24, floodgate: 6, shrimpBoat: 6, oysterLugger: 6,
+  shotgunBlock: 10, liveOak: 44, bandstand: 4, paradeBarriers: 16, ferryLanding: 4, kioskBoard: 5, sandbagStack: 10,
+};
+/** The triangles each kit costs as drawn (kept equal to KW_BUDGET's `tri` by tools/check_krewe.mjs). */
+const KW_TRI = {
+  streetcar: 96, pumpHouse: 288, leveeWall: 60, floodgate: 128, shrimpBoat: 180, oysterLugger: 156,
+  shotgunBlock: 384, liveOak: 336, bandstand: 316, paradeBarriers: 372, ferryLanding: 288, kioskBoard: 72, sandbagStack: 84,
+};
+
+const KW_SITE_RULES = [
+  { re: /pump/, kits: ["pumpHouse"] },
+  { re: /levee|floodwall|floodgate|lock/, kits: ["leveeWall", "floodgate", "sandbagStack"] },
+  { re: /harbou?r|marina|port|ferry|landing|shipyard/, kits: ["shrimpBoat", "oysterLugger"] },
+  { re: /ferry|landing/, kits: ["ferryLanding"] },
+  { re: /park|campus/, kits: ["bandstand", "liveOak"] },
+  { re: /streetcar/, kits: ["streetcar"] },
+];
+const KW_TROLLEY_CHARACTERS = new Set(["quarter", "garden", "downtown"]);
+const KW_BLOCK_CHARACTERS = new Set(["quarter", "suburb", "garden"]);
+const KW_PARADE_CHARACTERS = new Set(["quarter", "downtown"]);
+
+/** Dry, off every road and not on a levee (the ground a free-standing kit needs). */
+function kwDry(parish, x, z, { pad = false } = {}) {
+  const c = npCoverAt(parish, x, z);
+  if (c === "water" || c === "wetland" || c === "road" || c === "levee") return false;
+  if (c === "pad" && !pad) return false;
+  const half = npPrepare(parish).half;
+  return Math.abs(x) < half - 20 && Math.abs(z) < half - 20;
+}
+const kwOpenWater = (parish, x, z) => { const w = npWaterAt(parish, x, z); return !!w && w.kind !== "wetland"; };
+
+/** The nearest open water to a site: `{ x, z, shore: { x, z }, ang }` or null, searched in rings. */
+function kwNearestWater(parish, sx, sz) {
+  for (let r = 30; r <= 600; r += 15) {
+    for (let k = 0; k < 24; k++) {
+      const a = (k / 24) * Math.PI * 2, x = sx + Math.sin(a) * r, z = sz + Math.cos(a) * r;
+      if (!kwOpenWater(parish, x, z)) continue;
+      const x2 = sx + Math.sin(a) * (r + 18), z2 = sz + Math.cos(a) * (r + 18);
+      if (!kwOpenWater(parish, x2, z2)) continue;
+      return { x: sx + Math.sin(a) * (r + 12), z: sz + Math.cos(a) * (r + 12), shore: { x: sx + Math.sin(a) * (r - 14), z: sz + Math.cos(a) * (r - 14) }, ang: a };
+    }
+  }
+  return null;
+}
+
+/** The nearest levee to a point: `{ levee, d, t }` or null. */
+function kwNearestLevee(parish, x, z) {
+  let best = null;
+  for (const l of npPrepare(parish).levees) { const r = npPolyDistance(x, z, l.pts); if (!best || r.d < best.d) best = { levee: l, ...r }; }
+  return best;
+}
+
+/** True when no engine massing part stands within `r` metres (so a kit does not sit inside a block). */
+function kwClearOfMassing(parish, x, z, r, cache) {
+  const { cx, cz, key } = npChunkOf(x, z);
+  let spots = cache.get(key);
+  if (!spots) { spots = npMassingForChunk(parish, cx, cz); cache.set(key, spots); }
+  return !spots.some((s) => Math.hypot(s.x - x, s.z - z) < r);
+}
+
+/**
+ * Every kit placement for a parish, deterministic. `tier` "low" keeps about half of the trees,
+ * blocks and barriers. Each spot: `{ kit, x, z, y, ry, why }` (why = the rule that placed it).
+ */
+function kwPlacements(parish, { tier = "high" } = {}) {
+  const prep = npPrepare(parish);
+  const rng = npRng((prep.seed ^ 0x6b77) >>> 0);
+  const out = [];
+  const count = {};
+  const room = (kit) => (count[kit] ?? 0) < Math.ceil(KW_CAPS[kit] * (tier === "low" && /liveOak|shotgunBlock|paradeBarriers/.test(kit) ? 0.5 : 1));
+  const put = (kit, x, z, y, ry, why) => {
+    if (!room(kit)) return false;
+    if (out.some((s) => Math.hypot(s.x - x, s.z - z) < (kit === "leveeWall" ? 6 : kit === "sandbagStack" ? 2 : kit === "kioskBoard" ? 3 : kit === "liveOak" ? 9 : 12))) return false;
+    count[kit] = (count[kit] ?? 0) + 1;
+    out.push({ kit, x: Math.round(x * 10) / 10, z: Math.round(z * 10) / 10, y: Math.round(y * 100) / 100, ry: Math.round(ry * 1000) / 1000, why });
+    return true;
+  };
+  const ground = (x, z) => npHeightAt(parish, x, z);
+
+  // ---- the KREWE kiosks: the kiosk's own kit beside it
+  for (const k of kwKioskSpots(parish)) {
+    put("kioskBoard", k.x, k.z, ground(k.x, k.z), 0, `kiosk ${k.kiosk.id}`);
+    if (k.kiosk.id === "kw-sandbag-relay") for (let i = 0; i < 3; i++) { const x = k.x + 4 + i * 2.2, z = k.z - 6; put("sandbagStack", x, z, ground(x, z), 0, `kiosk ${k.kiosk.id}`); }
+    const kit = k.kiosk.kit.replace(/^kw/, "").replace(/^./, (c) => c.toLowerCase());
+    if (kit === "shrimpBoat" || kit === "ferryLanding" || kit === "floodgate" || kit === "leveeWall") continue; // placed by the site rules below
+    const x = k.x - 10, z = k.z;
+    if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), 0, `kiosk ${k.kiosk.id}`);
+  }
+
+  // ---- by site kind
+  for (const s of prep.sites) {
+    const kind = String(s.kind ?? "");
+    const [sx, sz] = s.position;
+    for (const rule of KW_SITE_RULES) {
+      if (!rule.re.test(kind)) continue;
+      for (const kit of rule.kits) {
+        if (kit === "pumpHouse") {
+          const lv = kwNearestLevee(parish, sx, sz);
+          let ry = 0;
+          if (lv && lv.d < 600) { const p = npPolyPointAt(lv.levee.pts, lv.t); ry = Math.atan2(p.x - sx, p.z - sz); }
+          const x = sx + Math.sin(ry) * (NP_PAD - 16), z = sz + Math.cos(ry) * (NP_PAD - 16);
+          put(kit, x, z, ground(x, z), ry, `pump site ${s.id}`);
+        } else if (kit === "leveeWall" || kit === "floodgate") {
+          const lv = kwNearestLevee(parish, sx, sz);
+          if (!lv || lv.d > 500) continue;
+          const L = npPolyLength(lv.levee.pts) || 1;
+          const at = (off) => { const q = npPolyPointAt(lv.levee.pts, Math.min(1, Math.max(0, lv.t + off / L))); return { x: Math.round(q.x * 10) / 10, z: Math.round(q.z * 10) / 10, yaw: q.yaw }; };
+          const onCrest = (p) => !kwOpenWater(parish, p.x, p.z) && npLeveeRise(parish, p.x, p.z) > 0.5;
+          if (kit === "floodgate") { const p = at(0); if (onCrest(p)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
+          else for (const off of [-30, -18, 18, 30]) { const p = at(off); if (onCrest(p)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
+        } else if (kit === "shrimpBoat" || kit === "oysterLugger") {
+          const w = kwNearestWater(parish, sx, sz);
+          if (!w) continue;
+          const side = kit === "shrimpBoat" ? 1 : -1, along = w.ang + Math.PI / 2;
+          const x = w.x + Math.sin(along) * 9 * side, z = w.z + Math.cos(along) * 9 * side;
+          if (kwOpenWater(parish, x, z)) put(kit, x, z, NP_WATER_Y - 0.9, along, `water by ${s.id}`);
+        } else if (kit === "ferryLanding") {
+          const w = kwNearestWater(parish, sx, sz);
+          if (!w) continue;
+          const { x, z } = w.shore;
+          if (!npWaterAt(parish, x, z)) put(kit, x, z, Math.max(NP_WATER_Y, ground(x, z)), w.ang, `ferry shore by ${s.id}`);
+        } else if (kit === "bandstand") {
+          const x = sx + 20, z = sz + 22;
+          if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), rng() * Math.PI, `park or campus ${s.id}`);
+        } else if (kit === "liveOak") {
+          for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3 + 0.3, x = sx + Math.sin(a) * 34, z = sz + Math.cos(a) * 34; if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), rng() * Math.PI * 2, `park or campus ${s.id}`); }
+        } else if (kit === "sandbagStack") {
+          const x = sx + 12, z = sz - 12;
+          if (kwDry(parish, x, z, { pad: true })) put(kit, x, z, ground(x, z), 0, `levee crew at ${s.id}`);
+        } else if (kit === "streetcar") {
+          for (const dx of [-6, 6]) { const x = sx + dx, z = sz - 14; put(kit, x, z, ground(x, z), 0, `barn ${s.id}`); }
+        }
+      }
+    }
+  }
+  // Park landmarks: a bandstand and a few oaks.
+  for (const l of parish.landmarks ?? []) {
+    if (!/park|square/.test(String(l.kind ?? "")) || !Array.isArray(l.position)) continue;
+    const [lx, lz] = l.position;
+    if (kwDry(parish, lx + 12, lz, {})) put("bandstand", lx + 12, lz, ground(lx + 12, lz), rng() * Math.PI, `park landmark ${l.id}`);
+    for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2 + 0.7, x = lx + Math.sin(a) * 28, z = lz + Math.cos(a) * 28; if (kwDry(parish, x, z, {})) put("liveOak", x, z, ground(x, z), rng() * 6.28, `park landmark ${l.id}`); }
+  }
+
+  // ---- by district character, along the roads
+  const massCache = new Map();
+  let paradeDone = false;
+  for (const r of prep.roads) {
+    if (r.kind === "ferry" || r.kind === "bridge" || r.kind === "causeway") continue;
+    const L = npPolyLength(r.pts), width = NP_ROAD_KINDS[r.kind]?.width ?? 8;
+    // Streetcars on Orleans avenues through quarter, garden and downtown districts.
+    if (parish.id === "orleans" && r.kind === "avenue") {
+      for (let d = 120; d < L - 60; d += 420) {
+        const p = npPolyPointAt(r.pts, d / L), ch = npDistrictAt(parish, p.x, p.z)?.character;
+        if (KW_TROLLEY_CHARACTERS.has(ch) && !npWaterAt(parish, p.x, p.z) && npLeveeRise(parish, p.x, p.z) < 0.2) put("streetcar", p.x, p.z, ground(p.x, p.z) + 0.3, p.yaw, `avenue in a ${ch} district`);
+      }
+    }
+    // Live oaks lining garden-district avenues and streets.
+    if (r.kind === "avenue" || r.kind === "street") {
+      for (let d = 30; d < L - 30; d += 48) {
+        const p = npPolyPointAt(r.pts, d / L);
+        if (npDistrictAt(parish, p.x, p.z)?.character !== "garden") continue;
+        for (const side of [1, -1]) {
+          const x = p.x + Math.cos(p.yaw) * (width / 2 + 5) * side, z = p.z - Math.sin(p.yaw) * (width / 2 + 5) * side;
+          if (kwDry(parish, x, z) && kwClearOfMassing(parish, x, z, 7, massCache)) put("liveOak", x, z, ground(x, z), rng() * 6.28, "garden-district avenue");
+        }
+      }
+    }
+    // Shotgun-house blocks fronting the streets of quarter, suburb and garden districts.
+    if (r.kind === "street" || r.kind === "avenue" || r.kind === "riverroad") {
+      for (let d = 90; d < L - 90; d += 260) {
+        const p = npPolyPointAt(r.pts, d / L);
+        const side = rng() < 0.5 ? 1 : -1, off = width / 2 + 11;
+        const x = p.x + Math.cos(p.yaw) * off * side, z = p.z - Math.sin(p.yaw) * off * side;
+        const ch = npDistrictAt(parish, x, z)?.character;
+        if (!KW_BLOCK_CHARACTERS.has(ch) || !kwDry(parish, x, z)) continue;
+        if (npNearestRoad(parish, x, z).d < width / 2 + 7) continue;
+        if (!kwClearOfMassing(parish, x, z, 8, massCache)) continue;
+        put("shotgunBlock", x, z, ground(x, z), p.yaw + (side > 0 ? -Math.PI / 2 : Math.PI / 2), `street in a ${ch} district`);
+      }
+    }
+    // One parade route: barriers along both kerbs of the first avenue through a quarter or downtown district.
+    if (!paradeDone && r.kind === "avenue") {
+      let placed = 0;
+      for (let d = 40; d < L - 40 && placed < KW_CAPS.paradeBarriers; d += 30) {
+        const p = npPolyPointAt(r.pts, d / L);
+        if (!KW_PARADE_CHARACTERS.has(npDistrictAt(parish, p.x, p.z)?.character)) continue;
+        for (const side of [1, -1]) {
+          const x = p.x + Math.cos(p.yaw) * (width / 2 + 1.2) * side, z = p.z - Math.sin(p.yaw) * (width / 2 + 1.2) * side;
+          if (!npWaterAt(parish, x, z) && npLeveeRise(parish, x, z) < 0.2 && npCoverAt(parish, x, z) !== "road" && put("paradeBarriers", x, z, ground(x, z), p.yaw + Math.PI / 2, "parade route")) placed++;
+        }
+      }
+      if (placed) paradeDone = true;
+    }
+  }
+  return out;
+}
+
+/** A parish dressing's cost: `{ drawCalls, triangles, placements, byKit }` (pure, from KW_TRI). */
+function kwDressCost(spots) {
+  const byKit = {};
+  for (const s of spots) byKit[s.kit] = (byKit[s.kit] ?? 0) + 1;
+  return { drawCalls: Object.keys(byKit).length, triangles: Object.entries(byKit).reduce((t, [k, n]) => t + n * (KW_TRI[k] ?? 0), 0), placements: spots.length, byKit };
+}
+
+
+/* ===== shared/kw-kits.js ===== */
+// KREWE — the parish kits (docs/consoles/KREWE.md): a streetcar, a pump station house with its
+// discharge pipes, a floodwall section and a floodgate, a shrimp boat and an oyster lugger, a
+// shotgun-house block, a live oak with root buttresses, a bandstand, a parade barrier run and a
+// ferry landing. All procedural, nothing imported, nothing modelled on a real building or boat:
+// generic district character.
+//
+// Same contract as shared/fleet.js and shared/props.js: `(parent, x, y, z, opts)`, metres, front
+// (or bow) toward +Z, footprint centred, y = 0 the ground (or the waterline for a hull), a baked
+// static group (`userData.fleetBake`) so mergeStatic() leaves one mesh per material. KW_BUDGET
+// declares each builder's mesh count and footprint; tools/check_fleet.mjs (this file is one of
+// its kits) and tools/check_krewe.mjs hold every builder to it.
+//
+// In a parish the kits are not built one by one: kwDressParish() bakes each builder once into a
+// single vertex-coloured geometry and draws every placement of that kit as one InstancedMesh, so
+// the whole dressing of a parish costs at most one draw call per kit (KW_DRESS_BUDGET).
+// Names prefixed kw/KW_ (one bundle scope).
+
+const KW_C = {
+  green: 0x2f6b3a, glass: 0x28323a, roof: 0x8a8d90, black: 0x26282b, red: 0x9c2b25, cream: 0xe9e0c8,
+  brick: 0xa0563f, concrete: 0xb8b4a8, dark: 0x55575a, steel: 0x7d848b, gate: 0xc9a227, white: 0xf1f1ee,
+  hull: 0x3b5f7a, hullLow: 0x7a2e2a, deck: 0x9c8466, wood: 0x6f5238, bark: 0x5a4636, leaf: 0x3b6a33, leafB: 0x2f5a2a,
+  rail: 0x9aa0a6, orange: 0xd9772b, pile: 0x6b5a44,
+};
+const KW_SEG = { seg: 8 };
+
+/** A baked root in the fleet contract. */
+function kwRoot(parent, x, y, z, opts, kind) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  g.rotation.y = opts.ry ?? 0;
+  g.name = kind;
+  g.userData.fleetBake = true;
+  g.userData.parts = {};
+  parent?.add(g);
+  return g;
+}
+/** An inner group shifted by (ox, oz), so a kit authored off its natural origin still measures centred. */
+function kwShift(g, ox, oz) { const inner = new THREE.Group(); inner.position.set(ox, 0, oz); g.add(inner); return inner; }
+
+/** Streetcar: a single car on two trucks with a trolley pole (front toward +Z). */
+function kwStreetcar(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwStreetcar");
+  const L = 14;
+  box(g, 2.6, 2.1, L, 0, 1.75, 0, KW_C.green);
+  box(g, 2.64, 0.85, L - 1.2, 0, 2.2, 0, KW_C.glass);
+  box(g, 2.3, 0.4, L - 0.6, 0, 3.0, 0, KW_C.roof);
+  box(g, 1.2, 0.3, L - 4, 0, 3.35, 0, KW_C.roof);
+  box(g, 2.66, 0.18, L, 0, 1.1, 0, KW_C.red);
+  for (const s of [1, -1]) box(g, 2.2, 0.55, 2.6, 0, 0.35, s * 4.4, KW_C.black);
+  const pole = box(g, 0.08, 0.08, 4.2, 0, 4.1, -2.2, KW_C.black);
+  pole.rotation.x = 0.28;
+  return g;
+}
+
+/** Pump station house with its discharge pipes running out and down toward the levee (+Z). */
+function kwPumpHouse(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwPumpHouse");
+  const hz = -5.2;
+  box(g, 12, 7, 9, 0, 3.5, hz, KW_C.brick);
+  box(g, 12.6, 0.5, 9.6, 0, 7.25, hz, KW_C.concrete);
+  box(g, 2.4, 3.2, 0.2, -3, 1.6, hz + 4.55, KW_C.dark);
+  for (const px of [-1, 3]) box(g, 1.6, 1.4, 0.15, px + 1, 4.8, hz + 4.55, KW_C.glass);
+  for (const px of [-3.5, 0, 3.5]) {
+    const run = cyl(g, 0.55, 0.55, 10, px, 5.2, 4.8, KW_C.steel, KW_SEG);
+    run.rotation.x = Math.PI / 2;
+    cyl(g, 0.55, 0.55, 4.8, px, 2.8, 9.8, KW_C.steel, KW_SEG);
+    box(g, 1.6, 0.4, 1.6, px, 0.2, 9.8, KW_C.concrete);
+  }
+  return g;
+}
+
+/** A floodwall section: a thin concrete wall on its footing, a joint at each end (length along Z). */
+function kwLeveeWall(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwLeveeWall");
+  box(g, 2.4, 0.4, 12, 0, 0.2, 0, KW_C.concrete);
+  box(g, 0.6, 3.2, 12, 0, 2.0, 0, KW_C.concrete);
+  for (const s of [1, -1]) box(g, 0.66, 3.2, 0.12, 0, 2.0, s * 5.94, KW_C.dark);
+  box(g, 0.7, 0.12, 12, 0, 3.66, 0, KW_C.dark);
+  return g;
+}
+
+/** A floodgate: two piers, a head beam, a swing leaf and its hand wheel (the opening along Z). */
+function kwFloodgate(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwFloodgate");
+  for (const s of [1, -1]) box(g, 1.4, 5, 1.4, 0, 2.5, s * 5.3, KW_C.concrete);
+  box(g, 1.4, 0.8, 12, 0, 5.4, 0, KW_C.concrete);
+  const leaf = new THREE.Group(); leaf.name = "leaf"; leaf.position.set(0, 0, -4.6); g.add(leaf);
+  box(leaf, 0.45, 3.4, 9.2, 0, 1.9, 4.6, KW_C.gate);
+  for (let i = 0; i < 3; i++) box(leaf, 0.55, 0.18, 9.2, 0, 0.8 + i * 1.1, 4.6, KW_C.dark);
+  const wheel = cyl(g, 0.5, 0.5, 0.1, 0.8, 1.4, 5.3, KW_C.red, KW_SEG);
+  wheel.rotation.z = Math.PI / 2;
+  box(g, 0.3, 0.08, 10.6, 0, 0.04, 0, KW_C.steel);
+  g.userData.parts.leaf = leaf;
+  return g;
+}
+
+/** A shrimp boat: a white-and-blue hull, a forward wheelhouse, a mast with two outrigger booms. */
+function kwShrimpBoat(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwShrimpBoat");
+  box(g, 3.6, 1.0, 11, 0, 0.5, -0.8, KW_C.hullLow);
+  box(g, 3.6, 0.9, 11, 0, 1.45, -0.8, KW_C.white);
+  const bow = box(g, 2.5, 1.9, 2.5, 0, 0.95, 4.7, KW_C.white);
+  bow.rotation.y = Math.PI / 4;
+  box(g, 3.4, 0.12, 10.6, 0, 1.94, -0.8, KW_C.deck);
+  box(g, 2.6, 2.0, 2.8, 0, 3.0, 2.4, KW_C.white);
+  box(g, 2.66, 0.6, 2.4, 0, 3.4, 2.4, KW_C.glass);
+  cyl(g, 0.12, 0.14, 7, 0, 5.45, 0.2, KW_C.steel, { seg: 6 });
+  for (const s of [1, -1]) {
+    const boom = cyl(g, 0.07, 0.09, 6.4, s * 2.9, 5.0, 0.2, KW_C.steel, { seg: 6 });
+    boom.rotation.z = s * 1.0;
+    box(g, 0.6, 1.2, 1.2, s * 5.2, 3.0, 0.2, KW_C.dark);
+  }
+  box(g, 2.8, 0.9, 2.2, 0, 2.45, -4.6, KW_C.dark);
+  return g;
+}
+
+/** An oyster lugger: a broad low hull, a wide open deck for sacks, a wheelhouse aft. */
+function kwOysterLugger(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwOysterLugger"), g = kwShift(root, 0, -0.65);
+  box(g, 4.4, 1.1, 11, 0, 0.55, -0.4, KW_C.hull);
+  const bow = box(g, 3.1, 1.1, 3.1, 0, 0.55, 5.0, KW_C.hull);
+  bow.rotation.y = Math.PI / 4;
+  box(g, 4.2, 0.12, 11, 0, 1.16, -0.4, KW_C.deck);
+  for (const s of [1, -1]) box(g, 0.12, 0.5, 10, s * 2.14, 1.45, -0.4, KW_C.white);
+  box(g, 3.0, 2.2, 2.6, 0, 2.3, -4.3, KW_C.white);
+  box(g, 3.06, 0.6, 2.2, 0, 2.8, -4.3, KW_C.glass);
+  for (let i = 0; i < 4; i++) box(g, 0.9, 0.5, 0.7, -1.2 + (i % 2) * 2.4, 1.47, 1.2 + Math.floor(i / 2) * 1.4, KW_C.pile);
+  cyl(g, 0.1, 0.12, 4.2, 0, 3.3, 0.2, KW_C.steel, { seg: 6 });
+  return root;
+}
+
+/** A shotgun-house block: four narrow single-storey houses side by side, gable to the street (+Z), each with a front porch. */
+function kwShotgunBlock(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwShotgunBlock");
+  const paint = [0xd9c27a, 0x9fc3c9, 0xe0a3a0, 0xb9d39a];
+  const W = 4.2, gap = 1.6, n = 4;
+  for (let i = 0; i < n; i++) {
+    const hx = -((n - 1) * (W + gap)) / 2 + i * (W + gap);
+    box(g, W, 1.0, 14, hx, 0.5, -0.6, KW_C.concrete);
+    box(g, W, 3.4, 14, hx, 2.7, -0.6, paint[i]);
+    for (const s of [1, -1]) {
+      const r = box(g, W * 0.62, 0.18, 14.4, hx + s * W * 0.26, 5.0, -0.6, KW_C.roof);
+      r.rotation.z = -s * 0.55;
+    }
+    box(g, W, 0.2, 1.8, hx, 1.1, 7.2, KW_C.wood);
+    for (const s of [1, -1]) box(g, 0.14, 2.6, 0.14, hx + s * (W / 2 - 0.2), 2.4, 7.9, KW_C.white);
+    box(g, 1.1, 2.2, 0.1, hx - 0.9, 2.3, 6.42, KW_C.dark);
+  }
+  return g;
+}
+
+/** A live oak: a short trunk on flaring root buttresses, long low limbs and a broad flattened crown. */
+function kwLiveOak(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwLiveOak");
+  cyl(g, 0.55, 0.85, 3.4, 0, 1.7, 0, KW_C.bark, { seg: 7 });
+  for (let i = 0; i < 4; i++) {
+    const a = i * Math.PI / 2 + 0.4;
+    const r = box(g, 0.5, 0.7, 2.0, Math.sin(a) * 0.9, 0.7, Math.cos(a) * 0.9, KW_C.bark);
+    r.rotation.order = "YXZ"; r.rotation.y = a; r.rotation.x = 0.35;
+  }
+  for (let i = 0; i < 3; i++) {
+    const a = i * 2.1 + 0.3;
+    const limb = box(g, 0.45, 0.45, 5.2, Math.sin(a) * 2.4, 3.8, Math.cos(a) * 2.4, KW_C.bark);
+    limb.rotation.order = "YXZ"; limb.rotation.y = a; limb.rotation.x = -0.3;
+  }
+  const crown = [[0, 6.2, 0, 5.6], [3.4, 5.6, 1.6, 3.6], [-2.8, 5.8, -2.4, 3.8], [-1.2, 5.4, 3.4, 3.2]];
+  for (const [cx, cy, cz, r] of crown) {
+    const c = ball(g, r, cx, cy, cz, cx === 0 ? KW_C.leaf : KW_C.leafB, { seg: 7, seg2: 5 });
+    c.scale.set(1.25, 0.5, 1.25);
+  }
+  return g;
+}
+
+/** A bandstand: a raised octagonal deck, eight posts, a low railing and a pointed roof. */
+function kwBandstand(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwBandstand");
+  cyl(g, 5, 5.2, 1.2, 0, 0.6, 0, KW_C.concrete, KW_SEG);
+  cyl(g, 4.9, 4.9, 0.15, 0, 1.27, 0, KW_C.wood, KW_SEG);
+  for (let i = 0; i < 8; i++) {
+    const a = i * Math.PI / 4 + Math.PI / 8;
+    cyl(g, 0.14, 0.14, 3.4, Math.sin(a) * 4.5, 3.0, Math.cos(a) * 4.5, KW_C.white, { seg: 6 });
+  }
+  cyl(g, 4.6, 4.6, 0.12, 0, 2.3, 0, KW_C.white, { ...KW_SEG, open: true });
+  cyl(g, 0.3, 5.6, 2.4, 0, 5.9, 0, KW_C.red, KW_SEG);
+  box(g, 2.4, 0.6, 1.6, 0, 0.3, 5.6, KW_C.concrete);
+  return g;
+}
+
+/** A parade barrier run: six interlocking steel crowd barriers in a line (along X), on flat feet. */
+function kwParadeBarriers(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwParadeBarriers");
+  const n = 6, P = 2.3;
+  for (let i = 0; i < n; i++) {
+    const px = -((n - 1) * P) / 2 + i * P;
+    box(g, P - 0.1, 0.06, 0.06, px, 1.1, 0, KW_C.rail);
+    box(g, P - 0.1, 0.06, 0.06, px, 0.25, 0, KW_C.rail);
+    box(g, P - 0.3, 0.8, 0.02, px, 0.68, 0, KW_C.steel);
+    for (const s of [1, -1]) box(g, 0.08, 0.06, 0.7, px + s * (P / 2 - 0.2), 0.03, 0, KW_C.dark);
+  }
+  box(g, 1.6, 0.3, 0.03, 0, 0.8, 0.04, KW_C.orange);
+  return g;
+}
+
+/** A ferry landing: an apron ramp down to the water (+Z), two pile dolphins, a waiting shelter and bollards. */
+function kwFerryLanding(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwFerryLanding"), g = kwShift(root, 1.08, 0.1);
+  box(g, 9, 0.6, 8, 0, 0.3, -4, KW_C.concrete);
+  const ramp = box(g, 7, 0.4, 8, 0, 0.5, 3.8, KW_C.steel);
+  ramp.rotation.x = 0.06;
+  for (const s of [1, -1]) {
+    for (let i = 0; i < 3; i++) cyl(g, 0.3, 0.3, 3.2, s * (5.4 + (i === 2 ? 0.55 : 0)), 1.6, 6.2 + (i === 1 ? 0.6 : 0), KW_C.pile, { seg: 6 });
+    cyl(g, 0.2, 0.25, 0.6, s * 4.0, 0.9, -1.0, KW_C.dark, { seg: 6 });
+  }
+  for (const [sx, sz] of [[-2.2, -6.8], [2.2, -6.8], [-2.2, -4.6], [2.2, -4.6]]) box(g, 0.14, 2.6, 0.14, sx - 5.8, 1.9, sz, KW_C.white);
+  box(g, 5.2, 0.2, 3.0, -5.8, 3.3, -5.7, KW_C.roof);
+  box(g, 3.6, 0.5, 0.5, -5.8, 0.85, -5.7, KW_C.wood);
+  return root;
+}
+
+/** A kiosk: a roofed sign board on two posts over a small counter, where a mini-game is played (front +Z). */
+function kwKioskBoard(parent, x, y, z, opts = {}) {
+  const root = kwRoot(parent, x, y, z, opts, "kwKioskBoard"), g = kwShift(root, 0, -0.22);
+  for (const s of [1, -1]) box(g, 0.14, 2.6, 0.14, s * 1.0, 1.3, 0, KW_C.dark);
+  box(g, 2.3, 1.2, 0.1, 0, 1.9, 0.02, KW_C.cream);
+  box(g, 2.3, 0.18, 0.12, 0, 2.55, 0.02, KW_C.gate);
+  box(g, 2.6, 0.12, 0.9, 0, 2.7, 0.2, KW_C.red);
+  box(g, 1.6, 0.9, 0.5, 0, 0.45, 0.45, KW_C.wood);
+  return root;
+}
+
+/** A sandbag pallet: a low pallet with bags stacked in staggered rows (the sandbag relay's load). */
+function kwSandbagStack(parent, x, y, z, opts = {}) {
+  const g = kwRoot(parent, x, y, z, opts, "kwSandbagStack");
+  box(g, 1.2, 0.14, 1.2, 0, 0.07, 0, KW_C.wood);
+  for (let row = 0; row < 3; row++) for (let i = 0; i < 2; i++) {
+    const bag = box(g, 1.0, 0.24, 0.5, 0, 0.26 + row * 0.24, (i - 0.5) * 0.52, 0xb8a47a);
+    if (row % 2) bag.rotation.y = Math.PI / 2;
+  }
+  return g;
+}
+
+/**
+ * The kits and what each costs: meshes after mergeStatic(), footprint [W, H, L] in metres
+ * (measured with `node tools/check_fleet.mjs --measure`), and triangles as drawn in a parish
+ * (tools/check_krewe.mjs measures them from the builder's own geometry parameters).
+ */
+const KW_BUDGET = {
+  streetcar: { build: "kwStreetcar", meshes: 5, footprint: [2.66, 4.64, 14], tri: 96 },
+  pumpHouse: { build: "kwPumpHouse", meshes: 5, footprint: [12.6, 7.5, 20.6], tri: 288 },
+  leveeWall: { build: "kwLeveeWall", meshes: 2, footprint: [2.4, 3.72, 12], tri: 60 },
+  floodgate: { build: "kwFloodgate", meshes: 5, footprint: [1.55, 5.8, 12], tri: 128, parts: ["leaf"] },
+  shrimpBoat: { build: "kwShrimpBoat", meshes: 6, footprint: [11.28, 8.95, 12.77], tri: 180 },
+  oysterLugger: { build: "kwOysterLugger", meshes: 6, footprint: [4.4, 5.4, 13.09], tri: 156 },
+  shotgunBlock: { build: "kwShotgunBlock", meshes: 9, footprint: [21.9, 5.76, 15.9], tri: 384 },
+  liveOak: { build: "kwLiveOak", meshes: 3, footprint: [15.45, 9, 14.55], tri: 336 },
+  bandstand: { build: "kwBandstand", meshes: 4, footprint: [11.2, 7.1, 12], tri: 316 },
+  paradeBarriers: { build: "kwParadeBarriers", meshes: 4, footprint: [13.7, 1.13, 0.7], tri: 372 },
+  ferryLanding: { build: "kwFerryLanding", meshes: 7, footprint: [14.65, 3.4, 15.8], tri: 288 },
+  kioskBoard: { build: "kwKioskBoard", meshes: 5, footprint: [2.6, 2.76, 0.95], tri: 72 },
+  sandbagStack: { build: "kwSandbagStack", meshes: 2, footprint: [1.2, 0.86, 1.52], tri: 84 },
+};
+
+const KW_KIT_BUILDERS = {
+  kwStreetcar, kwPumpHouse, kwLeveeWall, kwFloodgate, kwShrimpBoat, kwOysterLugger,
+  kwShotgunBlock, kwLiveOak, kwBandstand, kwParadeBarriers, kwFerryLanding, kwKioskBoard, kwSandbagStack,
+};
+
+// ------------------------------------------------------------------ baking and dressing a parish
+
+/**
+ * Bake one builder into a single non-indexed geometry with the material colours as vertex
+ * colours (the parish engine's own convention, np-world.js's npMerge). `three` is the caller's
+ * three.js module.
+ */
+function kwBakeKit(three, build) {
+  const tmp = new three.Group();
+  const g = KW_KIT_BUILDERS[build](tmp, 0, 0, 0, {});
+  tmp.updateMatrixWorld(true);
+  const parts = [];
+  g.traverse((o) => { if (o.isMesh && o.geometry) parts.push(o); });
+  const polys = parts.map((m) => { const geo = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone(); geo.applyMatrix4(m.matrixWorld); return [geo, m.material?.color ?? new three.Color(0xcccccc)]; });
+  const total = polys.reduce((s, [geo]) => s + geo.attributes.position.count, 0);
+  const pos = new Float32Array(total * 3), col = new Float32Array(total * 3);
+  let o = 0;
+  for (const [geo, c] of polys) {
+    pos.set(geo.attributes.position.array, o * 3);
+    for (let i = 0; i < geo.attributes.position.count; i++) { col[(o + i) * 3] = c.r; col[(o + i) * 3 + 1] = c.g; col[(o + i) * 3 + 2] = c.b; }
+    o += geo.attributes.position.count;
+    geo.dispose();
+  }
+  const out = new three.BufferGeometry();
+  out.setAttribute("position", new three.BufferAttribute(pos, 3));
+  out.setAttribute("color", new three.BufferAttribute(col, 3));
+  out.computeVertexNormals();
+  out.computeBoundingSphere();
+  return out;
+}
+
+/**
+ * Dress a parish with the kits: kwPlacements() (pure, kw-place.js) decides where by district
+ * character and site kind; each kit becomes one InstancedMesh. Returns
+ * `{ group, meshes, spots, stats() }`. `opts.tier` ("low" | "balanced" | "high") trims the list.
+ */
+function kwDressParish(root, three, parish, opts = {}) {
+  const spots = kwPlacements(parish, { tier: opts.tier ?? "high" });
+  const group = new three.Group(); group.name = "kw-dressing";
+  const material = new three.MeshLambertMaterial({ vertexColors: true, flatShading: true });
+  const byKit = {};
+  for (const s of spots) (byKit[s.kit] ??= []).push(s);
+  const meshes = [];
+  const m4 = new three.Matrix4(), q = new three.Quaternion(), up = new three.Vector3(0, 1, 0), one = new three.Vector3(1, 1, 1), p = new three.Vector3();
+  for (const [kit, list] of Object.entries(byKit)) {
+    const spec = KW_BUDGET[kit];
+    if (!spec) continue;
+    const im = new three.InstancedMesh(kwBakeKit(three, spec.build), material, list.length);
+    list.forEach((s, i) => { q.setFromAxisAngle(up, s.ry ?? 0); m4.compose(p.set(s.x, s.y, s.z), q, s.scale ? new three.Vector3(s.scale, s.scale, s.scale) : one); im.setMatrixAt(i, m4); });
+    im.instanceMatrix.needsUpdate = true;
+    im.computeBoundingSphere?.();
+    im.name = `kw-${kit}`;
+    group.add(im); meshes.push(im);
+  }
+  root.add(group);
+  function stats() {
+    let triangles = 0;
+    for (const m of meshes) triangles += (m.geometry.attributes.position.count / 3) * m.count;
+    return { drawCalls: meshes.length, triangles: Math.round(triangles), placements: spots.length, budget: KW_DRESS_BUDGET };
+  }
+  return { group, meshes, spots, stats };
+}
 
 
 /* ===== parishes/js/state.js ===== */
@@ -45519,6 +46755,8 @@ const npReturn = ppReturnSite(location.hash, location.search);
 const npReturnParish = npReturn?.includes("/") ? npReturn.split("/")[0] : null;
 const parish = npParish(npParams.get("parish") ?? npReturnParish ?? "") ?? NP_PARISHES[0];
 const npReturnSiteId = npReturn ? npReturn.split("/").pop() : null;
+// The map's region (console GOLDEN-A): the page title, and whether a map is a parish or a district, follow it.
+const npRegionHere = npRegion(npRegionOf(parish)) ?? { id: "new-orleans", name: "New Orleans", title: "New Orleans Parishes", noun: "parish", nouns: "parishes" };
 
 const np = { state: npLoad(), playing: false, yaw: 0, pitch: 0.02, x: 0, z: 0, timeIdx: 1, weatherIdx: 0, near: null, modal: null };
 
@@ -45547,6 +46785,8 @@ np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z] });
+// KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
+const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 const connectors = npResolveConnectors(parish);
 
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
@@ -45584,7 +46824,7 @@ npApplySky();
 // Wildlife that fits a delta, from the shared budget table: egrets wading at
 // the wetland, pelicans over the lake, herons gliding along the river.
 const npWetland = parish.water.find((w) => w.kind === "wetland");
-const npLake = parish.water.find((w) => w.kind === "lake" || w.kind === "gulf");
+const npLake = parish.water.find((w) => w.kind === "lake" || w.kind === "gulf" || w.kind === "bay" || w.kind === "ocean");
 const npRiver = parish.water.find((w) => w.kind === "river");
 const npMid = (poly) => poly.reduce((a, p) => [a[0] + p[0] / poly.length, a[1] + p[1] / poly.length], [0, 0]);
 const npWild = [];
@@ -45672,7 +46912,7 @@ function npOpenLesson(l) {
 
 // --------------------------------------------------------------------- map
 
-const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480" };
+const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480", park: "#3f7a3a" };
 const NP_LAYERS = { districts: true, water: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
 function npMapXY(x, z, W) { return [(x + NP_SIZE / 2) / NP_SIZE * W, (z + NP_SIZE / 2) / NP_SIZE * W]; }
 function npRenderMap() {
@@ -45709,13 +46949,25 @@ function npTravel(s) { np.x = s.position[0]; np.z = s.position[1] + 16; np.yaw =
 
 // ------------------------------------------------------------ parish selector
 
-function npRenderParishes() {
-  const box = $("parish-list"); box.textContent = "";
-  for (const p of NP_PARISHES) {
-    const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id;
-    box.appendChild(a);
+/** The selector: a heading per region (NP_REGIONS order), then that region's maps as links; the current map is on. */
+function npFillSelector(box) {
+  box.textContent = "";
+  for (const { region, parishes } of npRegionGroups(NP_PARISHES)) {
+    const group = document.createElement("div"); group.className = "np-region"; group.dataset.region = region.id;
+    const h = document.createElement("p"); h.className = "eyebrow"; h.textContent = region.title; group.appendChild(h);
+    const row = document.createElement("div"); row.className = "row";
+    for (const p of parishes) {
+      const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id; a.dataset.region = region.id;
+      row.appendChild(a);
+    }
+    group.appendChild(row); box.appendChild(group);
   }
-  const ways = connectors.map((c) => `<div class="quest"><b>${c.name}</b><small>${c.kind} · ${c.world ? `a way out to ${c.to.name}` : c.to.parish === parish.id ? "within this parish" : `to ${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " — not built yet"}`}</small></div>`).join("");
+}
+
+function npRenderParishes() {
+  npFillSelector($("parish-list"));
+  $("parish-ways-title").textContent = `Ways out of this ${npRegionHere.noun}`;
+  const ways = connectors.map((c) => `<div class="quest"><b>${c.name}</b><small>${c.kind} · ${c.world ? `a way out to ${c.to.name}` : c.to.parish === parish.id ? `within this ${npRegionHere.noun}` : `to ${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " — not built yet"}`}</small></div>`).join("");
   $("parish-ways").innerHTML = ways || "<p class='note'>No connectors listed.</p>";
 }
 
@@ -45775,7 +47027,8 @@ function npHud() {
   const w = npWaterAt(parish, np.x, np.z);
   let near = parish.sites[0], nd = Infinity;
   for (const p of [...parish.sites, ...parish.landmarks]) { const dd = Math.hypot(np.x - p.position[0], np.z - p.position[1]); if (dd < nd) { nd = dd; near = p; } }
-  $("hud-zone").textContent = w ? w.name ?? w.kind : d?.name ?? parish.name;
+  const hill = w ? null : npHillAt(parish, np.x, np.z);
+  $("hud-zone").textContent = w ? w.name ?? w.kind : hill ? `${hill.name} · ${d?.name ?? parish.name}` : d?.name ?? parish.name;
   $("hud-near").textContent = `${near.name} · ${Math.round(nd)} m`;
   $("hud-alt").textContent = `${h.toFixed(1)} m`;
   $("hud-lessons").textContent = `${(parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length}/${(parish.fieldLessons ?? []).length}`;
@@ -45846,11 +47099,9 @@ if (npReturnSiteId) npBegin();
 $("menu-parish").textContent = parish.name;
 $("menu-blurb").textContent = parish.blurb ?? "";
 $("menu-count").textContent = `${parish.sites.length} job sites · ${parish.districts.length} districts · ${connectors.length} ways out`;
-{
-  const box = $("menu-parishes"); box.textContent = "";
-  for (const p of NP_PARISHES) { const a = document.createElement("a"); a.className = `btn${p.id === parish.id ? " on" : ""}`; a.href = `?parish=${encodeURIComponent(p.id)}`; a.textContent = p.name; a.dataset.parish = p.id; box.appendChild(a); }
-}
-document.title = `${parish.name} — New Orleans Parishes`;
+npFillSelector($("menu-parishes"));
+$("menu-eyebrow").textContent = `${npRegionHere.title} · a 4 km by 4 km world each`;
+document.title = `${parish.name} — ${npRegionHere.title}`;
 
 // Touch: a stick to walk, buttons for use / map / parishes.
 let npTouch = null;
@@ -45860,7 +47111,7 @@ try {
     buttons: [
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },
-      { id: "np-parishes", label: "Parishes", aria: "Parishes", onDown: () => npToggle("parishes") },
+      { id: "np-parishes", label: "Maps", aria: `${npRegionHere.title} and other regions`, onDown: () => npToggle("parishes") },
     ],
   });
 } catch { /* no touch layer */ }
@@ -45868,10 +47119,10 @@ tcMountQuality?.($("hud-stats"), (q) => tcApplyRenderer(npRenderer, tcTier(q)));
 
 gdMount();
 ctlMount({
-  world: "New Orleans Parishes", quality: true,
+  world: npRegionHere.title, quality: true,
   except: { move: "WASD or arrows walk; Shift runs; drag the view to look.", interact: "E at a job board, a lesson sign or a way out of the parish.", map: "M opens the map with districts, water, levees, roads and connectors." },
   unique: [
-    { label: "Parish selector", keys: ["P"], pad: "—", touch: "Parishes button" },
+    { label: "Region and map selector", keys: ["P"], pad: "—", touch: "Maps button" },
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
     { label: "Talk to a crew member", keys: ["G"], pad: "—", touch: "Talk button" },
     { label: "Motor Pool", keys: ["B"], pad: "—", touch: "Parishes, then Motor Pool" },
@@ -45882,7 +47133,7 @@ ctlMount({
 // site of its kind (npc.js's GR_PARISH_KIND_ALIAS reads the parish modules' spellings); a kind no site carries places
 // no one. G talks.
 const asNpc = grMount(`parish:${parish.id}`, {
-  three: THREE, root, sites: parish.sites,
+  three: THREE, root, sites: [...kwGriotSites(parish), ...parish.sites], // KREWE: a character stands at each kiosk first
   groundAt: (x, z) => npHeightAt(parish, x, z), from: "parishes", page: ppHerePage(),
   pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
   openLesson: (id) => { const l = (parish.fieldLessons ?? []).find((x) => x.id === id); if (l) npOpenLesson(l); },
@@ -45906,15 +47157,17 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...slGamesFor(parish.id).map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
-qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
+const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
+// KREWE side quests: a lesson, a union station and a mini-game at one site; the game button opens the side-game panel.
+kwMountQuestBoard($("menu-krewe"), parish.id, { page: ppHerePage(), completed: ppCompleted, onGame: () => npSideGames?.open() });
 
 </script>
 </body>

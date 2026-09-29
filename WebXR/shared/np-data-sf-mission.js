@@ -88,8 +88,8 @@ export const NP_SF_MISSION = {
     {"id":"islais-creek-bank","name":"the Islais Creek bank","position":[800,955],"kind":"canal"},
   ],
   connectors: [
-    {"id":"sf-third-street-south","kind":"road","name":"Third Street south to Bayview","from":{"parish":"sf-mission","position":[760,402]},"to":{"parish":"sf-bayview","position":null,"lonlat":[-122.389,37.755]},"lonlat":[-122.389,37.755],"approximate":true},
-    {"id":"sf-bayshore-south","kind":"road","name":"The Bayshore Freeway south to Bayview","from":{"parish":"sf-mission","position":[160,1407]},"to":{"parish":"sf-bayview","position":null,"lonlat":[-122.404,37.735]},"lonlat":[-122.404,37.735],"approximate":true},
+    {"id":"sf-mi-third-street-south","kind":"road","name":"Third Street south to Bayview","from":{"parish":"sf-mission","position":[760,402]},"to":{"parish":"sf-bayview","position": [-301, -1187],"lonlat":[-122.389,37.755]},"lonlat":[-122.389,37.755],"approximate":true},
+    {"id":"sf-mi-bayshore-south","kind":"road","name":"The Bayshore Freeway south to Bayview","from":{"parish":"sf-mission","position":[160,1407]},"to":{"parish":"sf-bayview","position": [-945, -108],"lonlat":[-122.404,37.735]},"lonlat":[-122.404,37.735],"approximate":true},
     {"id":"sf-mi-market-street","kind":"road","name":"Market Street north-east downtown","from":{"parish":"sf-mission","position":[-440,-603]},"to":{"parish":"sf-downtown","position":[-600,754],"lonlat":[-122.419,37.775]},"lonlat":[-122.419,37.775],"approximate":true},
     {"id":"sf-mi-king-street","kind":"road","name":"King Street to the Embarcadero","from":{"parish":"sf-mission","position":[680,-704]},"to":{"parish":"sf-downtown","position":[520,653],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
     {"id":"sf-mi-oak-street","kind":"road","name":"Oak Street west along the Panhandle","from":{"parish":"sf-mission","position":[-1560,-452]},"to":{"parish":"sf-golden-gate-park","position":[1240,-452],"lonlat":[-122.447,37.772]},"lonlat":[-122.447,37.772],"approximate":true},
