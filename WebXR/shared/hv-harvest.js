@@ -213,8 +213,12 @@ function hvActivitiesFor(parish, cls, kind) {
 
 /** The map's hidden spots (procedural, deterministic): bank, levee, pier and shore spots by fishable water, and on the
  *  rural New Orleans maps one rice-and-crawfish field beside a bayou or marsh. */
+const HV_NO_SPOTS = Object.freeze([]);
 export function hvSpotsFor(parish) {
   if (!parish) return [];
+  // Representative project areas (PROJECTLANDS: a PCB source-control shoreline, a procedural treatment plant) are work sites
+  // standing in for a project, not places to fish or forage: no hidden activities there.
+  if (parish.representative === true) return HV_NO_SPOTS;
   const hit = hvSpotCache.get(parish);
   if (hit) return hit;
   const half = (parish.size ?? NP_SIZE) / 2 - 80;

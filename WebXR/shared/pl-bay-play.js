@@ -53,6 +53,7 @@ const PL_SHORT = {
   "sf-north-beach": "North Beach", "sf-haight-castro": "Haight", "sf-sunset-south": "Ocean Beach", "sf-marina": "Marina", "sf-bayview": "Bayview",
   "oak-west-oakland": "West Oakland", "oak-downtown-lake": "Lake Merritt", "oak-fruitvale-estuary": "Fruitvale", "oak-emeryville-berkeley": "Emeryville",
   "bay-san-pablo": "San Pablo", "bay-san-jose": "San Jose", "bp-strip-marsh-east": "Strip Marsh", "bp-san-leandro-bay": "San Leandro Bay",
+  "bp-san-mateo-shoreline": "San Mateo Bayside", "bp-nutrient-pilot": "Nutrient Pilot Plant", "sm-unspoken-smiles": "Unspoken Smiles",
 };
 
 const plSgIds = new Set(SG_DISTRICTS.map((d) => d.id));

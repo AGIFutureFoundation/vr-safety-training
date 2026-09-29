@@ -57,8 +57,9 @@ for (const p of NP_PARISHES) {
 }
 check(bad.length === 0, `every spot (${all.length}) on dry ground, beside water, off the road`, bad.slice(0, 6).join("; "));
 check(new Set(all.map((s) => s.id)).size === all.length, "spot ids unique");
-const fishable = NP_PARISHES.filter((p) => (p.water ?? []).some((w) => { const c = H.hvWaterClass(p, w); return c && c !== "marsh"; }));
+const fishable = NP_PARISHES.filter((p) => p.representative !== true && (p.water ?? []).some((w) => { const c = H.hvWaterClass(p, w); return c && c !== "marsh"; }));
 const lacking = fishable.filter((p) => perMap[p.id].filter((s) => s.activities.includes("fish")).length < 2);
+check(NP_PARISHES.filter((p) => p.representative === true).every((p) => H.hvSpotsFor(p).length === 0), "representative project areas carry no hidden activities");
 check(lacking.length === 0, `every map with fishable water (${fishable.length}) has two or more fishing spots`, lacking.map((p) => p.id).join(", "));
 const act = (a) => all.filter((s) => s.activities.includes(a));
 console.log(`    activities: fish ${act("fish").length}, crab ${act("crab").length}, shrimp ${act("shrimp").length}, oyster ${act("oyster").length}, gator ${act("gator").length}, crawfish ${act("crawfish").length}, rice ${act("rice").length}`);
