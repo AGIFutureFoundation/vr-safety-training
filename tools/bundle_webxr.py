@@ -794,6 +794,7 @@ APPS = {
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
             SHARED / "np-geo.js",
+            SHARED / "geo-locate.js",  # GEO: Find me (memory only), the baked backdrop, the live layer (docs/geo.md)
             SHARED / "np-parish.js",
             SHARED / "np-data-orleans.js",
             SHARED / "np-data-jefferson.js",

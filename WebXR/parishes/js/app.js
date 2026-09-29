@@ -18,6 +18,10 @@ import { slGamesFor, slResolveSite, slMountPathBoard } from "../../shared/sl-par
 import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npRegionGroups } from "../../shared/np-parishes.js";
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
+// GEO (docs/geo.md): opt-in Find me (memory only), the baked Sentinel-2 backdrop and the live satellite layer (off by default).
+import { GEO_CREDIT, geoAllowed, geoIsK12, geoMountFindMe, geoLoadBackdrop, geoMountLive } from "../../shared/geo-locate.js";
+import { gtProfile } from "../../shared/profiles.js";
+import { dnVersion } from "../../shared/dn-modules.js";
 import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 // FACADES: exterior detail and generic storefront signs on the massing (sets NP_MASSING_HOOKS.details; docs/consoles/FACADES.md).
@@ -278,6 +282,43 @@ const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and wa
   }
 }
 
+// GEO (docs/geo.md): the baked Sentinel-2 backdrop of this map (atlas and map backdrop; an optional satellite ground, off by
+// default), the opt-in Find me (a trusted press, memory only, never stored, sent or logged; off in demo and signed-out
+// sessions, and in K-12 class sessions unless the teacher's DEAN version turns it on) and the live layer (off by default).
+let geoBackdrop = null, geoPin = null, geoGroundOn = false, geoBeacon = null;
+geoLoadBackdrop(parish.id).then((img) => { geoBackdrop = img; if (img && np.modal === "map") npRenderMap(); const b = $("geo-ground"); if (b) b.disabled = !img; });
+{
+  const gb = $("geo-ground");
+  if (gb) {
+    gb.disabled = true;
+    gb.addEventListener("click", () => {
+      if (!geoBackdrop) return;
+      geoGroundOn = !geoGroundOn;
+      if (geoGroundOn) { const tex = new THREE.Texture(geoBackdrop); tex.colorSpace = THREE.SRGBColorSpace; tex.needsUpdate = true; world.setGroundTexture(tex); }
+      else world.setGroundTexture(null);
+      gb.setAttribute("aria-pressed", String(geoGroundOn)); gb.textContent = `Satellite ground: ${geoGroundOn ? "on" : "off"}`;
+      $("geo-ground-credit").hidden = !geoGroundOn;
+    });
+  }
+  const geoGate = () => {
+    let version = null; try { version = dnVersion(); } catch (_) { version = null; }
+    let path = null; try { path = stChosenPath(); } catch (_) { path = null; }
+    return geoAllowed({ profile: gtProfile(), k12: geoIsK12({ search: location.search, version, path }), version, demo: npParams.has("demo") });
+  };
+  geoMountFindMe({ el: $("geo-find"), maps: NP_PARISHES, current: parish, allowed: geoGate, onHere: (r) => {
+    geoPin = r?.pin ?? null;
+    if (geoBeacon) { root.remove(geoBeacon); geoBeacon = null; }
+    if (geoPin) {
+      geoBeacon = new THREE.Mesh(new THREE.ConeGeometry(3, 12, 12), new THREE.MeshLambertMaterial({ color: 0xe0245e, emissive: 0x5a0a20 }));
+      geoBeacon.rotation.x = Math.PI; geoBeacon.name = "geo-you-are-here";
+      geoBeacon.position.set(geoPin[0], npHeightAt(parish, geoPin[0], geoPin[1]) + 14, geoPin[1]); root.add(geoBeacon);
+    }
+    if (np.modal === "map") npRenderMap();
+  } });
+  geoMountLive({ el: $("geo-live"), map: parish });
+  for (const id of ["geo-credit", "geo-ground-credit"]) { const c = $(id); if (c) c.textContent = GEO_CREDIT; }
+}
+
 let sky = null, npRecipe = null;
 function npApplySky() {
   if (sky) root.remove(sky.root);
@@ -426,14 +467,20 @@ function npOpenLesson(l) {
 // --------------------------------------------------------------------- map
 
 const NP_DISTRICT_FILL = { quarter: "#8b6a4f", garden: "#4f7a3c", industrial: "#7c7c78", suburb: "#6a8c4e", port: "#8a8676", wetland: "#5e7f63", refinery: "#7a6e5e", campus: "#5f8a4a", downtown: "#6e7480", park: "#3f7a3a" };
-const NP_LAYERS = { districts: true, water: true, streets: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
+const NP_LAYERS = { satellite: true, districts: true, water: true, streets: true, roads: true, levees: true, sites: true, landmarks: true, connectors: true, lessons: true, you: true };
 function npMapXY(x, z, W) { return [(x + NP_SIZE / 2) / NP_SIZE * W, (z + NP_SIZE / 2) / NP_SIZE * W]; }
 function npRenderMap() {
   const cv = $("map-canvas"), W = cv.width, o = cv.getContext("2d");
   o.fillStyle = "#3d5a33"; o.fillRect(0, 0, W, W);
+  // GEO: the baked Sentinel-2 backdrop, already in this map's scene frame (tools/geo_bake.py); districts go translucent over it.
+  const geoSat = NP_LAYERS.satellite && geoBackdrop;
+  if (geoSat) o.drawImage(geoBackdrop, 0, 0, W, W);
+  if ($("geo-credit")) $("geo-credit").hidden = !geoSat;
+  if (geoSat) o.globalAlpha = 0.35;
   const poly = (pts, fill, stroke) => { o.beginPath(); pts.forEach(([x, z], i) => { const [px, pz] = npMapXY(x, z, W); if (i) o.lineTo(px, pz); else o.moveTo(px, pz); }); o.closePath(); if (fill) { o.fillStyle = fill; o.fill(); } if (stroke) { o.strokeStyle = stroke; o.lineWidth = 1; o.stroke(); } };
   const line = (pts, col, w, dash = []) => { o.strokeStyle = col; o.lineWidth = w; o.setLineDash(dash); o.beginPath(); pts.forEach(([x, z], i) => { const [px, pz] = npMapXY(x, z, W); if (i) o.lineTo(px, pz); else o.moveTo(px, pz); }); o.stroke(); o.setLineDash([]); };
   if (NP_LAYERS.districts) for (const d of parish.districts) poly(d.poly, NP_DISTRICT_FILL[d.character] ?? "#666", "rgba(255,255,255,.18)");
+  o.globalAlpha = 1;
   if (NP_LAYERS.water) for (const w of npWaterShapes(parish)) poly(w.shape, w.kind === "wetland" ? "rgba(90,140,110,.8)" : "#3f7fa0", null);
   if (NP_LAYERS.levees) for (const l of parish.levees) line(l.pts, "#e8dfb0", 2);
   // CITYWORKS: the AUTHORED procedural street fabric under the named roads, captioned as such (not the real grid).
@@ -449,6 +496,7 @@ function npRenderMap() {
   if (NP_LAYERS.sites) for (const s of parish.sites) dot(s.position[0], s.position[1], npVisited(np.state, parish.id, s.id) ? "#ffb020" : "#e8eef4", 5, s.name);
   if (NP_LAYERS.lessons) for (const s of world.lessonSigns) { const [px, pz] = npMapXY(s.x, s.z, W); o.fillStyle = np.state.lessons.includes(s.lesson.id) ? "#8be28b" : "#6ad0c8"; o.fillRect(px - 4, pz - 4, 8, 8); }
   if (NP_LAYERS.connectors) for (const c of connectors) { const [px, pz] = npMapXY(c.from.position[0], c.from.position[1], W); o.fillStyle = "#fff"; o.beginPath(); o.arc(px, pz, 5, 0, Math.PI * 2); o.fill(); o.font = "bold 11px system-ui"; o.fillStyle = "#fff"; o.strokeStyle = "#000"; o.lineWidth = 3; const t = `→ ${c.world ? c.to.name : c.to.parish === parish.id ? c.name : `${npParish(c.to.parish)?.name ?? c.to.parish}${c.resolved ? "" : " (not built yet)"}`}`; o.strokeText(t, Math.min(px + 8, W - 150), pz - 6); o.fillText(t, Math.min(px + 8, W - 150), pz - 6); }
+  if (geoPin) { const [px, pz] = npMapXY(geoPin[0], geoPin[1], W); o.fillStyle = "#e0245e"; o.strokeStyle = "#fff"; o.lineWidth = 2; o.beginPath(); o.arc(px, pz - 10, 6, 0, Math.PI * 2); o.moveTo(px - 4, pz - 7); o.lineTo(px, pz); o.lineTo(px + 4, pz - 7); o.fill(); o.stroke(); o.font = "bold 11px system-ui"; o.strokeStyle = "#000"; o.lineWidth = 3; o.strokeText("You are here", px + 9, pz - 8); o.fillStyle = "#fff"; o.fillText("You are here", px + 9, pz - 8); }
   if (NP_LAYERS.you) { const [px, pz] = npMapXY(np.x, np.z, W); o.fillStyle = "#ff3b3b"; o.beginPath(); o.moveTo(px - Math.sin(np.yaw) * 9, pz - Math.cos(np.yaw) * 9); o.lineTo(px + 5, pz + 5); o.lineTo(px - 5, pz + 5); o.fill(); }
   const lay = $("map-layers");
   if (!lay.childElementCount) for (const k of Object.keys(NP_LAYERS)) {

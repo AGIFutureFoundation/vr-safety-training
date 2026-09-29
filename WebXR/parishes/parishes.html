@@ -158,6 +158,11 @@
       <div class="row" id="menu-parishes"></div>
       <p class="eyebrow" style="margin-top:16px">Region atlas: the maps joined by their crossings, and the worlds beyond</p>
       <div id="wk-atlas" class="wk-atlas"></div>
+      <p class="eyebrow" style="margin-top:16px">Find me: the nearest map, and a pin when you are inside this one (asked once, kept in memory only)</p>
+      <div id="geo-find"></div>
+      <p class="eyebrow" style="margin-top:16px">Satellite</p>
+      <div class="row"><button class="btn" id="geo-ground" type="button" aria-pressed="false">Satellite ground: off</button></div>
+      <p class="note" id="geo-ground-credit" hidden>Contains modified Copernicus Sentinel data 2026</p>
     </div>
     <div class="ux-panel" role="tabpanel" id="ux-panel-me" aria-labelledby="ux-tab-me" tabindex="0" hidden>
       <p class="ux-sub">Passport, scoreboard and settings</p>
@@ -171,7 +176,7 @@
         <a class="btn" href="../index.html">Home</a>
       </div>
       <p class="note" id="ux-controls">Keys: WASD or arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · L ledger · T time · F weather · Esc menu. Gamepad: A use · Start menu · LB/RB switch tabs. Touch: the stick walks; Use, Map, Maps and Menu buttons.</p>
-      <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
+      <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". The map backdrop and the optional satellite ground are a real Sentinel-2 picture baked for each map (Contains modified Copernicus Sentinel data 2026); a Mapbox satellite ground appears only with your own token (docs/mapbox.md). Find me asks once, keeps your position in memory only and never stores or sends it. Progress is kept in this browser under your profile.</p>
     </div>
   </div>
 </section>
@@ -216,6 +221,8 @@
     <h2 id="map-title">Parish map</h2>
     <div class="layers" id="map-layers"></div>
     <div id="map-wrap"><canvas id="map-canvas" width="512" height="512"></canvas></div>
+    <p class="note" id="geo-credit" hidden>Contains modified Copernicus Sentinel data 2026</p>
+    <details class="geo-live"><summary>Live satellite (off until you switch it on)</summary><div id="geo-live"></div></details>
     <p class="note" id="map-scale"></p>
     <p class="note">Tap a visited site to fast-travel there. White dots at the edge are the ways out to the neighbouring maps.</p>
     <div class="row" id="map-travel"></div>
