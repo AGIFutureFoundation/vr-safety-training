@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sponge-builder",
+    "name": "Sponge Builder",
+    "note": "Compared how fast water soaks through garden soil and packed ground, explained what a rain garden does and helped the crew plant one"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SOAKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Seed",
+      "Shoot",
+      "Leaf",
+      "Bloom",
+      "Garden Keeper"
+    ],
+    "system": "Garden Board"
+  },
+  "hazards": {
+    "dig-without-the-locate": "You picked up a spade before the crew checked for pipes and cables. Under a sidewalk there can be water pipes and power lines. The crew has them marked with paint and flags before anyone digs, every time.",
+    "rain-garden-is-a-pond": "You said a rain garden stays full like a pond. A rain garden holds the water for a short while and lets it soak down into the soil. A day or so after the rain it is dry again and ready for the next storm.",
+    "stand-on-the-edge": "You stood right on the edge of the dug bed. Fresh soil edges can crumble. Stand back on the path and let the crew work in the bed.",
+    "trample-the-plants": "You walked through the rain garden. Feet press the soil hard, and hard soil cannot soak up rain. Use the path around the garden so the soil stays loose like a sponge."
+  },
+  "id": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-column-upright-while-it",
+      "alert": "A crew member pushes a full wheelbarrow of soil down the path.",
+      "cue": "Step to the side of the path and let the wheelbarrow pass.",
+      "delay": 3,
+      "id": "a-wheelbarrow-comes-down-the-path",
+      "kind": "Wheelbarrow",
+      "missNote": "The class blocked the path, and the crew member had to set the wheelbarrow down and wait.",
+      "seconds": 12,
+      "target": "esr-make-way",
+      "why": "A heavy wheelbarrow is hard to stop quickly. Stepping aside gives the crew member a clear path and keeps toes safe. The crew calls out before moving loads, and everyone makes way.",
+      "wrongNote": "That leaves you in the wheelbarrow's way. Step to the side. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-water-from-the-kerb",
+      "alert": "The crew lead points at the paint on the sidewalk and asks what it is for.",
+      "cue": "Say the marks show where pipes and cables run under the ground.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-the-marks",
+      "kind": "Crew question",
+      "missNote": "You could not say what the marks were for, and the crew lead had to explain before the class could go on.",
+      "seconds": 12,
+      "target": "esr-name-marks",
+      "why": "Knowing what the marks mean shows you understand why digging waits. The paint colours tell the crew what kind of line is below. Nobody digs near a line without planning around it.",
+      "wrongNote": "That does not explain the marks. Say what is under the ground. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esr-checkin": "The check-in comes at the very end of the lesson.",
+    "esr-soak-log": "The soak record is written once both columns have drained — nothing to record yet."
+  },
+  "name": "Rain Gardens: a Sponge in the Sidewalk",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "dig-without-the-locate",
+      "esr-bed-spot",
+      "esr-bike-rack",
+      "esr-checkin",
+      "esr-column-hold",
+      "esr-cup-dial",
+      "esr-fence",
+      "esr-flow-track",
+      "esr-gloves",
+      "esr-kerb-cut",
+      "esr-locate-card",
+      "esr-make-way",
+      "esr-mural",
+      "esr-name-marks",
+      "esr-ord-compare",
+      "esr-ord-fill",
+      "esr-ord-pour",
+      "esr-ord-time",
+      "esr-paint",
+      "esr-plant",
+      "esr-result-card",
+      "esr-roots",
+      "esr-share-board",
+      "esr-soak-log",
+      "esr-soak-meter",
+      "esr-soil",
+      "rain-garden-is-a-pond",
+      "stand-on-the-edge",
+      "trample-the-plants"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts that help the garden soak up rain.",
+      "decoyNotes": {
+        "esr-bike-rack": "Handy for bikes, but not part of the garden."
+      },
+      "id": "find-the-parts-of-the-rain",
+      "itemNames": {
+        "esr-kerb-cut": "the gap in the kerb",
+        "esr-roots": "the deep plant roots",
+        "esr-soil": "the loose garden soil"
+      },
+      "itemNotes": {
+        "esr-kerb-cut": "Street water flows in here.",
+        "esr-roots": "Roots keep the soil open.",
+        "esr-soil": "It soaks up water like a sponge."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts that help the garden soak up rain.",
+      "targets": [
+        "esr-kerb-cut",
+        "esr-soil",
+        "esr-roots"
+      ],
+      "title": "Find the parts of the rain garden",
+      "why": "A rain garden is a shallow dip beside a sidewalk or roof. A gap in the kerb lets street water flow in, loose soil soaks it up like a sponge, and deep plant roots keep the soil open so water can keep moving down. Together they turn runoff into water that soaks into the ground instead of racing to a drain."
+    },
+    {
+      "cue": "Fill both columns, pour the same water on each, time it, then compare.",
+      "id": "put-the-soil-test-in-order",
+      "itemNames": {
+        "esr-ord-compare": "4 · compare the two times",
+        "esr-ord-fill": "1 · fill one column with packed ground and one with garden soil",
+        "esr-ord-pour": "2 · pour the same cup of water on each",
+        "esr-ord-time": "3 · time how long each takes to soak in"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Fill both columns first, then pour the same water on each.",
+      "prompt": "Fill both columns, pour the same water on each, time it, then compare.",
+      "targets": [
+        "esr-ord-fill",
+        "esr-ord-pour",
+        "esr-ord-time",
+        "esr-ord-compare"
+      ],
+      "title": "Put the soil test in order",
+      "why": "A fair test uses the same amount of water on each column. One column holds packed ground like a path, the other holds loose garden soil. Pouring the same water and timing each one means the soil is the only difference, so the timing tells you which one soaks water faster."
+    },
+    {
+      "cue": "Point to the paint marks and flags that show where pipes run before anyone digs.",
+      "id": "wait-for-the-crews-paint-marks",
+      "kind": "select",
+      "prompt": "Point to the paint marks and flags that show where pipes run before anyone digs.",
+      "target": "esr-locate-card",
+      "title": "Wait for the crew's paint marks",
+      "why": "Before any digging, a locate crew marks pipes and cables under the ground with coloured paint and small flags. The garden crew digs only once those marks are there and plans the bed around them. Waiting for the marks is a habit every digging crew keeps, because what is underground cannot be seen from above."
+    },
+    {
+      "cue": "Turn the dial until the measuring cup fills to the teacher's mark.",
+      "id": "set-the-cup-to-the-same",
+      "kind": "turn",
+      "prompt": "Turn the dial until the measuring cup fills to the teacher's mark.",
+      "target": "esr-cup-dial",
+      "title": "Set the cup to the same mark",
+      "turn": {
+        "axis": "y",
+        "label": "CUP",
+        "turns": 0.5
+      },
+      "why": "Each column must get exactly the same amount of water, or the comparison is not fair. Filling the cup to one mark and using it for both pours controls the amount. Keeping that one thing the same is what lets you trust the result you get."
+    },
+    {
+      "cue": "Commit when the timer marker sits where the last water soaked in.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SOAK",
+        "missNote": "Not at the moment the water was gone. Read when the top is dry.",
+        "speed": 0.6
+      },
+      "id": "read-the-timer-when-the-water",
+      "kind": "gauge",
+      "prompt": "Commit when the timer marker sits where the last water soaked in.",
+      "target": "esr-soak-meter",
+      "title": "Read the timer when the water is gone",
+      "why": "You stop the timer when no water is left sitting on top of the soil. Reading it at that moment for both columns makes the comparison honest. The loose soil usually wins by a long way, which is exactly the job a rain garden does in a storm."
+    },
+    {
+      "cue": "Hold the soil column straight until the water stops dripping out.",
+      "holdBreakNote": "The column tipped before it finished draining. Hold it straight again.",
+      "id": "hold-the-column-upright-while-it",
+      "kind": "hold",
+      "prompt": "Hold the soil column straight until the water stops dripping out.",
+      "seconds": 6,
+      "target": "esr-column-hold",
+      "title": "Hold the column upright while it drains",
+      "why": "If the column tips, water runs down the side instead of through the soil, and the test goes wrong. Holding it straight lets the water move through the soil the way rain moves through a garden bed. Careful handling keeps the result about the soil, not about the spill."
+    },
+    {
+      "cue": "Drag the young plant to the marked spot in the bed.",
+      "drag": {
+        "missNote": "Not on the marked spot yet. Check the crew's plan and place it there.",
+        "radius": 0.45,
+        "to": "esr-bed-spot"
+      },
+      "id": "place-a-plant-in-the-garden",
+      "kind": "drag",
+      "prompt": "Drag the young plant to the marked spot in the bed.",
+      "target": "esr-plant",
+      "title": "Place a plant in the garden bed",
+      "why": "Plants go where the crew's plan shows. Thirsty plants sit in the low middle where water gathers, and plants that like it drier sit on the sides. Putting each one in the right place keeps the garden healthy, so its roots keep the soil loose for years."
+    },
+    {
+      "cue": "Watch the crew at the garden bed and mark each safe habit.",
+      "decoyNotes": {
+        "esr-mural": "Bright and cheerful, but not a safety habit."
+      },
+      "id": "spot-how-the-crew-works-safely",
+      "itemNames": {
+        "esr-fence": "a fence around the dug bed",
+        "esr-gloves": "gloves and boots on the crew",
+        "esr-paint": "paint marks left in place"
+      },
+      "itemNotes": {
+        "esr-fence": "Walkers stay clear of the edge.",
+        "esr-gloves": "Hands and feet stay protected.",
+        "esr-paint": "Everyone can see where pipes run."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the crew at the garden bed and mark each safe habit.",
+      "targets": [
+        "esr-paint",
+        "esr-fence",
+        "esr-gloves"
+      ],
+      "title": "Spot how the crew works safely",
+      "why": "Building a rain garden means digging near a sidewalk, so the crew keeps people and pipes safe. They leave the paint marks in place, fence off the dug bed, and wear gloves and boots when they handle soil. Each habit is part of doing the job well, not an extra."
+    },
+    {
+      "cue": "Choose the sentence that says what your two columns showed.",
+      "id": "say-what-the-soil-test-showed",
+      "kind": "select",
+      "prompt": "Choose the sentence that says what your two columns showed.",
+      "target": "esr-result-card",
+      "title": "Say what the soil test showed",
+      "why": "Both columns got the same water. The loose garden soil soaked it up faster than the packed ground. A good answer says just that and connects it to the garden: loose soil and roots let rain soak in, so less water rushes to the storm drain."
+    },
+    {
+      "cue": "Keep the marker on the water as it flows through the kerb gap and spreads.",
+      "holdBreakNote": "The marker lost the water. Find it at the kerb gap and follow it again.",
+      "id": "follow-the-water-from-the-kerb",
+      "kind": "track",
+      "prompt": "Keep the marker on the water as it flows through the kerb gap and spreads.",
+      "seconds": 8,
+      "target": "esr-flow-track",
+      "title": "Follow the water from the kerb to the soil",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Watching the water arrive shows the garden working. It runs along the gutter, turns in at the kerb gap, spreads across the bed and slowly sinks. Seeing it disappear into the soil is the best way to understand why people call a rain garden a sponge."
+    },
+    {
+      "cue": "Write the soak time for packed ground and for garden soil in a table.",
+      "id": "record-both-soak-times",
+      "kind": "select",
+      "prompt": "Write the soak time for packed ground and for garden soil in a table.",
+      "target": "esr-soak-log",
+      "title": "Record both soak times",
+      "why": "A table with the two times side by side makes the difference plain to anyone who reads it. It also lets another class repeat your test and compare. The crew keeps records too, noting how quickly the garden is dry after rain, to know the soil is still working."
+    },
+    {
+      "cue": "Show another group one place near school where rain runs off and a garden could help.",
+      "id": "share-where-a-rain-garden-could",
+      "kind": "select",
+      "prompt": "Show another group one place near school where rain runs off and a garden could help.",
+      "target": "esr-share-board",
+      "title": "Share where a rain garden could go",
+      "why": "Rain gardens work best where lots of water runs off hard ground, like the edge of a car park or below a roof pipe. Sharing ideas helps the class see how many places could soak up rain. Planners look for spots the same way when they choose where gardens go."
+    },
+    {
+      "cue": "What does a rain garden do with the rain? Why must the soil stay loose?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What does a rain garden do with the rain? Why must the soil stay loose?",
+      "target": "esr-checkin",
+      "title": "Check in before the crew packs up",
+      "why": "The crew looks over the garden before it leaves, and the class checks its ideas the same way. Each learner says what the garden does with rain and why feet stay on the path. If anyone thinks a rain garden stays full like a pond, the group sorts it out now."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Loose soil and plants soak up the rain that a hard sidewalk sends away — test it, then help the crew plant",
+  "title": "SmartCiti.X~ Rain Gardens: a Sponge in the Sidewalk VR",
+  "trade": "Science class with the green infrastructure crew at a school rain garden — learner and landscape crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

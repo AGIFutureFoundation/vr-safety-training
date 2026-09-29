@@ -1,0 +1,354 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cpbe-badge",
+    "name": "Line Held",
+    "note": "Nothing opened that was not yours to open, the visitor kept behind the line and the warning lamp reported, not investigated"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW/NECA JATC training for qualified electrical workers; NFPA 855 installation of stationary energy storage systems, including hazard mitigation, signage and emergency response planning; NFPA 70E electrical safety in the workplace for DC arc flash and shock; NFPA 70 (NEC) for the energy storage system's disconnecting means; 29 CFR 1910.147 the control of hazardous energy; 29 CFR 1910.269 for work at electric supply stations; and the site's own emergency response plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 855",
+        "id": "nfpa-855",
+        "title": "NFPA 855 — Installation of Stationary Energy Storage Systems"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cpbe-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "cpbe-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "cpbe-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cpbe-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cpbe-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Zero-Emission Crew",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Line Held"
+  },
+  "hazards": {
+    "enter-without-escort": "You walked past the keep-out line without your escort. Only qualified, authorised people go inside the storage area, and nobody else knows which doors are energised or where to go if the alarm sounds.",
+    "open-faulted-enclosure": "You reached to open enclosure B with its warning lamp lit. An enclosure door opened on a battery fault can let air into a space where flammable gas is collecting — that door stays shut for the responders.",
+    "smoke-near-enclosures": "You reached for a lighter near the enclosures. Ignition sources are kept away from energy storage because a vented cell's gas needs only a spark.",
+    "treat-e-stop-as-safe": "You treated the pressed e-stop as meaning the site was safe to enter. The cells inside stay charged whatever the e-stop does — it opens the grid connection, not the batteries."
+  },
+  "id": "cp-battery-energy-storage-site-awareness",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-thermal-readout",
+      "alert": "The gas detection panel has just chirped a pre-alarm while you are watching enclosure B's temperature.",
+      "cue": "Call it to the escort on the site radio's alarm channel — the visitor waits.",
+      "delay": 2,
+      "id": "gas-alarm-chirps",
+      "kind": "The gas detection panel chirps",
+      "missNote": "You kept your eyes on the readout while the pre-alarm went unreported; the escort learned of it only when the full alarm sounded.",
+      "seconds": 12,
+      "target": "alarm-call-point",
+      "why": "A pre-alarm from gas detection is the site's earliest warning that a cell may be venting, and calling it at once lets the control room confirm and start the response plan before the reading reaches the alarm level.",
+      "wrongNote": "The alarm call first — a gas pre-alarm is reported the moment it sounds."
+    },
+    {
+      "after": "clear-fire-access",
+      "alert": "A contractor has walked up to the fence with an angle grinder, planning to cut a bracket off the enclosure C fence post.",
+      "cue": "Stop them at the gate and send them to the hot-work permit desk — the e-stop label waits.",
+      "delay": 2,
+      "id": "contractor-with-grinder",
+      "kind": "A contractor arrives with a grinder",
+      "missNote": "You read the e-stop label while the contractor started the grinder at the fence; sparks were landing beside enclosure C before anyone checked for a permit.",
+      "seconds": 12,
+      "target": "stop-contractor",
+      "why": "Hot work near an energy storage enclosure needs a permit and a gas check first, because sparks and a vented cell's gas are the combination the site's rules are written to keep apart.",
+      "wrongNote": "Stop the contractor first — an ignition source arriving at the site is answered before anything else."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Battery Energy Storage Site Awareness",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "alarm-call-point",
+      "bess-entry-sign",
+      "cabinet-warning-lamp",
+      "cardboard-pallet",
+      "enter-without-escort",
+      "gas-detection-panel",
+      "hazard-sign-panel",
+      "keep-out-line",
+      "laydown-area",
+      "muster-point",
+      "open-faulted-enclosure",
+      "site-e-stop",
+      "site-escort",
+      "site-radio",
+      "site-sign-in-log",
+      "site-sign-out",
+      "smoke-near-enclosures",
+      "stop-contractor",
+      "thermal-readout",
+      "treat-e-stop-as-safe",
+      "visitor-badge"
+    ],
+    "meshes": 243
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the sign on the gate: the hazards, the emergency contact, who may enter and what is required to do so.",
+      "id": "read-entry-sign",
+      "kind": "select",
+      "prompt": "Read the sign on the gate: the hazards, the emergency contact, who may enter and what is required to do so.",
+      "target": "bess-entry-sign",
+      "title": "Read the site's entry sign",
+      "why": "NFPA 855 has a storage site marked with its hazards and an emergency contact, and the sign is the site telling you its rules before you are inside; qualified electrical workers may work in the enclosures, while everyone else — however long they have worked at the port — enters escorted or not at all."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Sign the log with the time and your purpose, and get the escort's brief on where you may and may not walk.",
+      "id": "sign-in-and-brief",
+      "itemNames": {
+        "site-escort": "the site's qualified escort",
+        "site-sign-in-log": "the site sign-in log"
+      },
+      "kind": "sequence",
+      "prompt": "Sign the log with the time and your purpose, and get the escort's brief on where you may and may not walk.",
+      "targets": [
+        "site-sign-in-log",
+        "site-escort"
+      ],
+      "title": "Sign in and meet your escort",
+      "why": "The sign-in log is how the site knows who is inside if an alarm sounds, and the escort's brief turns the sign's general rules into this site's specifics — which enclosures are energised, where the muster point is, which door the fire department will use."
+    },
+    {
+      "cue": "Read the site's gas detection panel and commit once it settles inside the normal band.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "GAS % LEL",
+        "missNote": "Not settled — wait for the panel's reading to steady inside the normal band before you commit.",
+        "speed": 0.6
+      },
+      "id": "read-gas-panel",
+      "kind": "gauge",
+      "prompt": "Read the site's gas detection panel and commit once it settles inside the normal band.",
+      "target": "gas-detection-panel",
+      "title": "Read the gas detection panel",
+      "why": "A battery cell going into thermal runaway can vent flammable and toxic gas before any smoke or flame shows, which is why storage sites carry gas detection tied to ventilation and alarms; a normal reading at the gate is your cue that entry is permitted today."
+    },
+    {
+      "cue": "Scan every enclosure's status lamps from the walkway without touching a door.",
+      "id": "find-warning-lamp",
+      "itemNames": {
+        "cabinet-warning-lamp": "amber warning lamp on enclosure B"
+      },
+      "itemNotes": {
+        "cabinet-warning-lamp": "Enclosure B's amber warning lamp is lit — a fault the battery management system has flagged, and a reason to report and keep the door shut, not to look inside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan every enclosure's status lamps from the walkway without touching a door.",
+      "targets": [
+        "cabinet-warning-lamp"
+      ],
+      "title": "Look along the enclosures for any warning lamp",
+      "why": "The battery management system watches each rack's voltage and temperature and lights a warning when something drifts, and an enclosure door opened on a fault can let fresh air into a space where gas is building; a warning lamp is reported and left shut for the people trained to respond."
+    },
+    {
+      "cue": "Radio the control room: enclosure B amber lamp lit, door shut, nobody near it.",
+      "id": "report-warning-lamp",
+      "kind": "select",
+      "prompt": "Radio the control room: enclosure B amber lamp lit, door shut, nobody near it.",
+      "target": "site-radio",
+      "title": "Report the lamp to the site's control room",
+      "why": "The site's emergency response plan starts with the people who can see the battery management data and isolate the rack remotely, and a clear report — which enclosure, which lamp, that the door is shut — lets them act without anyone going closer."
+    },
+    {
+      "cue": "Stay at the walkway readout and keep watching enclosure B's temperature inside the band while the control room checks it.",
+      "holdBreakNote": "The readout left the band before the control room answered — keep eyes on it; a climb you missed is the one they needed you to call out.",
+      "id": "watch-thermal-readout",
+      "kind": "track",
+      "prompt": "Stay at the walkway readout and keep watching enclosure B's temperature inside the band while the control room checks it.",
+      "seconds": 6,
+      "target": "thermal-readout",
+      "title": "Watch enclosure B's temperature with the control room",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.28,
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "ENCL B °C",
+        "rise": 0.3,
+        "start": 0.45
+      },
+      "why": "A temperature that holds steady while the control room investigates is reassurance, and one that climbs is the trigger for the site's evacuation; watching it from the walkway rather than the door is how you stay useful without adding yourself to the hazard."
+    },
+    {
+      "cue": "Walk the visitor's badge back to the painted keep-out line and have them wait there.",
+      "drag": {
+        "missNote": "Not at the line — bring the visitor all the way back behind the painted keep-out line.",
+        "radius": 0.5,
+        "to": "keep-out-line"
+      },
+      "id": "hold-visitor-behind-line",
+      "kind": "drag",
+      "prompt": "Walk the visitor's badge back to the painted keep-out line and have them wait there.",
+      "target": "visitor-badge",
+      "title": "Keep the visitor behind the line",
+      "why": "Only qualified, authorised people go inside the storage area's inner line, and a visitor who has not had the brief does not know which doors are energised or where the muster point is; the painted line is the site's answer to who may enter."
+    },
+    {
+      "cue": "Move the pallet of cardboard left beside enclosure C back to the laydown area, off the fire lane.",
+      "drag": {
+        "missNote": "Still in the fire lane — carry the pallet all the way to the marked laydown area.",
+        "radius": 0.5,
+        "to": "laydown-area"
+      },
+      "id": "clear-fire-access",
+      "kind": "drag",
+      "prompt": "Move the pallet of cardboard left beside enclosure C back to the laydown area, off the fire lane.",
+      "target": "cardboard-pallet",
+      "title": "Clear the fire access route",
+      "why": "NFPA 855 keeps combustibles away from storage enclosures and keeps a clear access for the fire department, because a small fire beside an enclosure can heat it from outside and a blocked lane delays the responders who know how to handle one."
+    },
+    {
+      "cue": "Read the label on the site emergency stop: it opens the system's disconnect, and who is allowed to press it.",
+      "id": "learn-site-e-stop",
+      "kind": "select",
+      "prompt": "Read the label on the site emergency stop: it opens the system's disconnect, and who is allowed to press it.",
+      "target": "site-e-stop",
+      "title": "Learn what the site emergency stop does",
+      "why": "An emergency stop at a storage site opens the connection to the grid and the port's loads, but the cells inside remain charged whatever it does; knowing that stops anyone treating a pressed e-stop as a safe-to-enter signal."
+    },
+    {
+      "cue": "When the escort calls the drill, walk upwind to the muster point and stay put until you are counted.",
+      "holdBreakNote": "You left the muster point before the count finished — in a real alarm the escort would now be looking for you among the enclosures.",
+      "id": "hold-at-muster-point",
+      "kind": "hold",
+      "prompt": "When the escort calls the drill, walk upwind to the muster point and stay put until you are counted.",
+      "seconds": 5,
+      "target": "muster-point",
+      "title": "Walk to the muster point and stay for the drill count",
+      "why": "The muster point is placed upwind and away from the enclosures because vented battery gas travels with the wind, and staying there until counted is what lets the site know nobody is still inside; drifting back to finish a task is how people go missing in a real alarm."
+    },
+    {
+      "cue": "Read the signs on each enclosure door: electrical hazard, the energy storage marking and the emergency contact.",
+      "id": "check-signage",
+      "kind": "select",
+      "prompt": "Read the signs on each enclosure door: electrical hazard, the energy storage marking and the emergency contact.",
+      "target": "hazard-sign-panel",
+      "title": "Read the hazard signs on the enclosures",
+      "why": "The signs carry the information a responder or a new worker needs without having to ask anyone: what is inside, what it can do and who to call; reading them with the escort is how the marks become meaningful rather than wallpaper."
+    },
+    {
+      "cue": "Sign the log with your exit time and note the amber lamp reported on enclosure B.",
+      "id": "sign-out",
+      "kind": "select",
+      "prompt": "Sign the log with your exit time and note the amber lamp reported on enclosure B.",
+      "target": "site-sign-out",
+      "title": "Sign out of the site",
+      "why": "Signing out closes the headcount the log opened, and noting what you reported gives the next person on the list the context before they walk in; a log with an entry and no exit is a person the site has to go looking for."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A battery energy storage site inside the port fence: the entry sign and the site's rules read, the sign-in log, the gas detection panel read normal, a cabinet with a warning lamp found and reported rather than opened, the thermal readout watched, a visitor held behind the line, the fire department access route kept clear, the emergency stop and its meaning learned, a pallet of cardboard moved away from the enclosures, and the site signed out",
+  "title": "SmartCiti.X~ Battery Energy Storage Site Awareness VR VR",
+  "trade": "Port worker or IBEW electrician inducted to a battery energy storage system site: its hazards, its entry rules and who may go inside",
+  "underwater": null,
+  "weather": "clear"
+}

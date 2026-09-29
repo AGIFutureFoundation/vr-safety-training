@@ -1,0 +1,135 @@
+{
+  "accent": "#6fae4a",
+  "anchors": [
+    {
+      "id": "ct-notice-board-port-container-terminal",
+      "name": "Union hall notice board · Port Container Terminal",
+      "position": [
+        -320,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane",
+        "k12-simple-machines-at-a-crane",
+        "cp-zero-emission-terminal-equipment-pre-use",
+        "cp-charging-yard-connectors-and-e-stops",
+        "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
+      "id": "port-container-terminal",
+      "name": "Port Container Terminal",
+      "position": [
+        -340,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane",
+        "k12-simple-machines-at-a-crane",
+        "cp-zero-emission-terminal-equipment-pre-use",
+        "cp-charging-yard-connectors-and-e-stops",
+        "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
+    }
+  ],
+  "certification": "Programme completion record; each station rehearses the practice its own bodies set — OSHA 29 CFR 1926 Subpart P for every cut, OSHA 29 CFR 1910.146 for any permit space, the MUTCD for work in the street and on the sidewalk, OSHA 1910.120 HAZWOPER inside any contaminated-sediment zone, and the Section 404/401 and BCDC permit conditions for work at the shoreline",
+  "competency": null,
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "liuna-training-fund",
+    "iuoe-training",
+    "afscme-training",
+    "osha-1926-subpart-p",
+    "osha-1910-146",
+    "mutcd",
+    "osha-1910-120",
+    "osha-1910-1200",
+    "rwqcb-401-certification",
+    "usace-section-404",
+    "bcdc-bay-plan"
+  ],
+  "id": "bay-program-projects",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1667,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation",
+      "why": "Green stormwater infrastructure starts as a hole in the sidewalk: the locate ticket matched to the paint, the marked line exposed by vacuum, the cut signalled to grade and the layers placed in the order that makes the cell soak."
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout",
+      "why": "A trash capture vault under the street is a permit-required confined space serviced entirely from the surface: the lane closed, the air read at the opening, and the vacuum truck locked out before any hand clears its boom."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-trash-capture-device-service",
+      "why": "A large trash capture device only keeps trash out of the Bay while it is serviced, and emptying one means a crane lift with nobody under the bag and nothing shaken back into the channel."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator",
+      "why": "Cutting new tidal channels and lowering berms is heavy equipment on soft ground at the water's edge, worked from the machine with the tide, the permit window and the ground crew all in the operator's picture."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad",
+      "why": "Sediment dug out for reuse comes ashore wet, and its decant goes back to the Bay only through the filter train under the pad's discharge conditions."
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed",
+      "why": "Nutrient reduction at a treatment plant is a chemical feed skid and an aeration basin: the SDS read, the metering pump locked out and bled, the dose calibrated, and the basin read from behind the rail."
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room",
+      "why": "Treatment plant operators work beside chemical feed every shift, and the room monitor, respirator and leak test come before any cylinder is touched."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+      "why": "PCB source control ends in contaminated material dug in thin cuts, read for vapour and doffed through decon in order."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep",
+      "why": "A PCB sampling result is only as defensible as the custody record signed at every hand-off between the field and the laboratory."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-culvert-retrofit-for-fish-passage",
+      "why": "Fish habitat work means a dry, fish-excluded channel and a culvert set to a laser-checked invert rather than a grade that looks about right."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-fish-screen-maintenance",
+      "why": "A fish screen's drive is locked out before any hand goes near the drum, and the lock stays until the headcount says every hand is clear."
+    }
+  ],
+  "summary": "The kinds of work the U.S. EPA's San Francisco Bay Program awards of September 2026 pay for — trash capture devices, green stormwater infrastructure, tidal channels and sediment reuse, nutrient reduction at treatment plants, PCB source control and fish habitat — taught as the trade practice each job needs. The stations are generic and sited nowhere real; the Bay Program hub (WebXR/bayprogram/) links each named project to the stations that teach its work.",
+  "union": "LIUNA laborers and LIUNA Local 261 shoreline crews, IUOE Local 3 operating engineers, AFSCME and SEIU 1021 public-agency operators and scientists"
+}

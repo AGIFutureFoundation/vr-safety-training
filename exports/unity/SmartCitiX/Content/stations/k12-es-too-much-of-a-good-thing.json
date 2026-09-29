@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "balance-keeper",
+    "name": "Balance Keeper",
+    "note": "Ran a fair jar test on nutrients and algae, explained why too much of a good thing clouds the water and helped the crew take a water reading"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LEAVES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Drop",
+      "Ripple",
+      "Pool",
+      "Lagoon",
+      "Water Keeper"
+    ],
+    "system": "Balance Board"
+  },
+  "hazards": {
+    "change-two-things": "You added plant food and moved the jar into the sun at the same time. With two changes you cannot tell which one made the algae grow. Keep the light the same and change only the plant food.",
+    "lean-over-the-edge": "You leaned over the lagoon edge. Edges can be slippery. The crew fills sample jars with a long-handled sampler from the dock, and visitors stay back from the edge.",
+    "more-food-is-always-better": "You said more nutrients are always better. Some nutrients help plants grow, but too many feed so much algae that the water turns cloudy and green. Balance is the goal, not the most.",
+    "taste-the-water": "You went to taste the water. Water tests use kits and meters, never tasting. Wear gloves when you handle sample jars and wash hands afterwards."
+  },
+  "id": "k12-es-too-much-of-a-good-thing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-sampler-steady-at-the",
+      "alert": "A splash leaves a slippery wet plank on the dock.",
+      "cue": "Step round the wet plank and tell the crew lead.",
+      "delay": 3,
+      "id": "a-wet-plank-on-the-dock",
+      "kind": "Wet dock",
+      "missNote": "The class walked straight over the wet plank, and the crew lead had to stop everyone to put a mat down.",
+      "seconds": 12,
+      "target": "esu-step-round",
+      "why": "Wet planks are slippery. Stepping round and telling the crew lead lets them put down a mat or a sign. Crews deal with small slips before they become big ones.",
+      "wrongNote": "That walks you onto the slippery plank. Step round it. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-runoff-from-the-lawn-to",
+      "alert": "The crew lead asks which jar you are comparing the plant food jar against.",
+      "cue": "Say the plain jar is the control, with the same water and light and no plant food.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-the-control-jar",
+      "kind": "Crew question",
+      "missNote": "You could not name the control, and the crew lead had to explain before the class could go on.",
+      "seconds": 12,
+      "target": "esu-name-control",
+      "why": "Naming the control shows the test is fair. Without it, a green jar means nothing. Crews compare water from different places in the same careful way.",
+      "wrongNote": "That does not name the control jar. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esu-checkin": "The check-in comes at the very end of the lesson.",
+    "esu-jar-log": "The jar record is written once the jars have had time — nothing to record yet."
+  },
+  "name": "Too Much of a Good Thing",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-two-things",
+      "esu-bench",
+      "esu-bin",
+      "esu-buffer",
+      "esu-checkin",
+      "esu-cool-box",
+      "esu-glove-card",
+      "esu-green-meter",
+      "esu-jar-log",
+      "esu-lamp-dial",
+      "esu-lawn",
+      "esu-leaves",
+      "esu-name-control",
+      "esu-ord-compare",
+      "esu-ord-fill",
+      "esu-ord-food",
+      "esu-ord-light",
+      "esu-pet",
+      "esu-result-card",
+      "esu-rock",
+      "esu-runoff-track",
+      "esu-sample-jar",
+      "esu-sampler-hold",
+      "esu-share-board",
+      "esu-sign",
+      "esu-step-round",
+      "lean-over-the-edge",
+      "more-food-is-always-better",
+      "taste-the-water"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three places nutrients can wash into the lagoon.",
+      "decoyNotes": {
+        "esu-rock": "Nice to sit on, but it adds no nutrients."
+      },
+      "id": "find-where-the-nutrients-come-from",
+      "itemNames": {
+        "esu-lawn": "a fertilised lawn by the path",
+        "esu-leaves": "piles of rotting leaves",
+        "esu-pet": "pet waste left on the path"
+      },
+      "itemNotes": {
+        "esu-lawn": "Rain washes plant food off it.",
+        "esu-leaves": "They release nutrients as they rot.",
+        "esu-pet": "It adds nutrients when it rains."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three places nutrients can wash into the lagoon.",
+      "targets": [
+        "esu-lawn",
+        "esu-pet",
+        "esu-leaves"
+      ],
+      "title": "Find where the nutrients come from",
+      "why": "Nutrients are the food that plants need to grow. Rain can wash them into the water from fertiliser on lawns, from pet waste on paths and from rotting leaves. A little helps water plants, but when a lot arrives at once the algae in the water grow very fast and cloud it."
+    },
+    {
+      "cue": "Put on gloves before you pick up a sample jar.",
+      "id": "put-on-gloves-before-handling-samples",
+      "kind": "select",
+      "prompt": "Put on gloves before you pick up a sample jar.",
+      "target": "esu-glove-card",
+      "title": "Put on gloves before handling samples",
+      "why": "Water samples are handled with gloves as a habit, even when they look clean. Gloves keep hands clean and stop anything on your hands from getting into the sample. Water quality crews wear them every time they sample, so the class does too."
+    },
+    {
+      "cue": "Fill both jars, add plant food to one, set them in the same light, then wait and compare.",
+      "id": "put-the-jar-test-in-order",
+      "itemNames": {
+        "esu-ord-compare": "4 · wait and compare the colour",
+        "esu-ord-fill": "1 · fill both jars with the same pond water",
+        "esu-ord-food": "2 · add plant food to one jar only",
+        "esu-ord-light": "3 · set both jars in the same light"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Fill both jars with the same pond water first.",
+      "prompt": "Fill both jars, add plant food to one, set them in the same light, then wait and compare.",
+      "targets": [
+        "esu-ord-fill",
+        "esu-ord-food",
+        "esu-ord-light",
+        "esu-ord-compare"
+      ],
+      "title": "Put the jar test in order",
+      "why": "A fair test changes only one thing. Both jars get the same pond water and sit in the same light, but only one gets plant food. After a few days, any difference in the green colour belongs to the plant food, because nothing else was different."
+    },
+    {
+      "cue": "Hold the long-handled sampler still under the water until it fills.",
+      "holdBreakNote": "The sampler moved and stirred up mud. Hold it still again until it fills.",
+      "id": "hold-the-sampler-steady-at-the",
+      "kind": "hold",
+      "prompt": "Hold the long-handled sampler still under the water until it fills.",
+      "seconds": 6,
+      "target": "esu-sampler-hold",
+      "title": "Hold the sampler steady at the dock",
+      "why": "A steady sampler fills with water from one spot, which makes the sample fair. Stirring up the bottom mud would change the reading. Crews hold the sampler still and at the same depth every time, so samples from different days match."
+    },
+    {
+      "cue": "Turn the lamp dial until both jars get the teacher's brightness.",
+      "id": "set-the-lamp-to-the-same",
+      "kind": "turn",
+      "prompt": "Turn the lamp dial until both jars get the teacher's brightness.",
+      "target": "esu-lamp-dial",
+      "title": "Set the lamp to the same brightness",
+      "turn": {
+        "axis": "y",
+        "label": "LIGHT",
+        "turns": 0.5
+      },
+      "why": "Algae need light to grow, so both jars must get the same light. If one jar gets more, it might go greener for that reason alone. Setting the lamp once for both jars keeps light out of the question, so only the plant food changes. In a fair test, anything you are not testing on purpose must stay exactly the same for both jars."
+    },
+    {
+      "cue": "Commit when the marker matches the jar's colour on the green scale.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "GREEN",
+        "missNote": "Not matched yet. Slide the marker to the green that looks like the jar.",
+        "speed": 0.6
+      },
+      "id": "read-the-colour-of-each-jar",
+      "kind": "gauge",
+      "prompt": "Commit when the marker matches the jar's colour on the green scale.",
+      "target": "esu-green-meter",
+      "title": "Read the colour of each jar",
+      "why": "Matching each jar to a colour scale turns what you see into a reading you can compare. The greener the jar, the more algae have grown. Crews use meters that measure cloudiness to do the same job at the lagoon. Scientists always compare against a scale so that two people looking at the same jar record the same result."
+    },
+    {
+      "cue": "Drag the labelled sample jar into the cool box.",
+      "drag": {
+        "missNote": "Not in the cool box yet. Place the jar inside.",
+        "radius": 0.45,
+        "to": "esu-cool-box"
+      },
+      "id": "place-the-sample-jar-in-the",
+      "kind": "drag",
+      "prompt": "Drag the labelled sample jar into the cool box.",
+      "target": "esu-sample-jar",
+      "title": "Place the sample jar in the cool box",
+      "why": "A water sample can change if it gets warm, because algae keep growing. Putting it straight into the cool box keeps it the same until it is tested. The label tells the lab where and when it was taken. Samples that sit in the sun for too long give a reading that no longer matches the lagoon they came from."
+    },
+    {
+      "cue": "Choose the sentence that says what your two jars showed.",
+      "id": "say-what-the-jars-showed",
+      "kind": "select",
+      "prompt": "Choose the sentence that says what your two jars showed.",
+      "target": "esu-result-card",
+      "title": "Say what the jars showed",
+      "why": "Both jars had the same water and light. The jar with plant food turned greener. A good answer says that extra nutrients fed more algae, and it uses your colour readings as the evidence without claiming anything else. Saying only what your evidence shows is what makes a conclusion something other people can trust."
+    },
+    {
+      "cue": "Look around the lagoon and mark each thing that keeps extra nutrients out.",
+      "decoyNotes": {
+        "esu-bench": "Nice for resting, but it does not keep nutrients out."
+      },
+      "id": "spot-how-people-keep-nutrients-out",
+      "itemNames": {
+        "esu-bin": "a pet waste bin",
+        "esu-buffer": "a strip of plants at the edge",
+        "esu-sign": "a sign asking people not to feed birds"
+      },
+      "itemNotes": {
+        "esu-bin": "It keeps waste off the path.",
+        "esu-buffer": "It catches runoff before the water.",
+        "esu-sign": "Leftover bread adds nutrients."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the lagoon and mark each thing that keeps extra nutrients out.",
+      "targets": [
+        "esu-buffer",
+        "esu-bin",
+        "esu-sign"
+      ],
+      "title": "Spot how people keep nutrients out",
+      "why": "Keeping nutrients in balance starts on land. A strip of plants along the edge catches runoff, a pet waste bin keeps waste off the path, and a sign asks people not to feed the birds. Each one keeps a little extra food out of the water."
+    },
+    {
+      "cue": "Keep the marker on the runoff as it flows from the lawn into the water.",
+      "holdBreakNote": "The marker lost the runoff. Find it on the lawn and follow it again.",
+      "id": "follow-runoff-from-the-lawn-to",
+      "kind": "track",
+      "prompt": "Keep the marker on the runoff as it flows from the lawn into the water.",
+      "seconds": 8,
+      "target": "esu-runoff-track",
+      "title": "Follow runoff from the lawn to the lagoon",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following runoff shows how nutrients travel. Rain picks up plant food from the lawn, runs across the path and reaches the lagoon. Seeing the path helps explain why what people do on land changes the water. Every garden and path that drains towards the water is part of the lagoon's story, even far from the edge."
+    },
+    {
+      "cue": "Write the colour reading for the plain jar and the plant food jar.",
+      "id": "record-both-jars-side-by-side",
+      "kind": "select",
+      "prompt": "Write the colour reading for the plain jar and the plant food jar.",
+      "target": "esu-jar-log",
+      "title": "Record both jars side by side",
+      "why": "Two columns make the difference clear and easy to check. Anyone reading your table can see what changed and what stayed the same. Water crews keep records like this to see whether the water is getting clearer over time. A table also makes it easy to spot if you forgot a reading, because an empty box stands out straight away."
+    },
+    {
+      "cue": "Tell another group one thing people can do to keep extra nutrients out.",
+      "id": "share-one-way-to-keep-the",
+      "kind": "select",
+      "prompt": "Tell another group one thing people can do to keep extra nutrients out.",
+      "target": "esu-share-board",
+      "title": "Share one way to keep the balance",
+      "why": "Everyone who lives near water can help keep the balance. Sharing ideas like picking up pet waste or using less lawn fertiliser spreads good habits. Crews say small changes by many people add up to clearer water. Many small habits around one lagoon can make as much difference as one big project."
+    },
+    {
+      "cue": "Why can too many nutrients be a problem? What is one way to keep the balance?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Why can too many nutrients be a problem? What is one way to keep the balance?",
+      "target": "esu-checkin",
+      "title": "Check in before leaving the dock",
+      "why": "The crew goes over the day's samples before leaving the dock. Each learner explains what too many nutrients do and one way to help. If anyone thinks more is always better, the group sorts it out now. Talking it through together helps everyone leave with the same clear idea of balance."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Nutrients feed plants, but too many feed a bloom of algae — test it in jars, then check the water with the crew",
+  "title": "SmartCiti.X~ Too Much of a Good Thing VR",
+  "trade": "Science class with the marsh crew at a lagoon — learner and water quality crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

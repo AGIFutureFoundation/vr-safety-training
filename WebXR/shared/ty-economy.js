@@ -94,12 +94,13 @@ const TY_KIND_WORDS = {
   wetland: "the marsh edge", lock: "the lock", ferry: "the ferry landing", bridge: "the bridge approach", "bridge-yard": "the bridge yard",
   airport: "the airfield", warehouse: "the warehouses", shipyard: "the shipyard", landing: "the landing", park: "the park", transit: "the bus depot",
   refinery: "the plant gate", floodgate: "the floodgate", harbour: "the harbour", "fire-station": "the firehouse", floodwall: "the floodwall",
-  substation: "the substation", marina: "the boat slips", staging: "the staging yard", "timber-yard": "the timber yard", trail: "the trailhead",
+  substation: "the substation", marina: "the boat slips", staging: "the marshalling ground", "timber-yard": "the timber yard", trail: "the trailhead",
   "union-hall": "the union hall", construction: "the building site", workshop: "the workshop", nursery: "the plant nursery", lifeguard: "the lifeguard post",
   fire: "the firehouse", "rescue-station": "the rescue station", forestry: "the forestry yard", events: "the events ground", seawall: "the seawall",
   "transit-barn": "the transit barn", remediation: "the cleanup site", shoreline: "the shoreline", recreation: "the recreation ground",
   boating: "the boating dock", boatyard: "the boatyard", civic: "the civic centre", clinic: "the clinic", hotel: "the hotel", market: "the market hall",
   monitoring: "the monitoring station", plant: "the plant room", theatre: "the theatre", trucking: "the truck yard", utility: "the utility yard",
+  stormwater: "the rain gardens", yard: "the works yard", "trash-capture": "the drain inlet", industrial: "the loading docks", shore: "the waterline",
 };
 const TY_ROOM_WORDS = ["Upstairs room", "Back room", "Corner room", "Loft room", "Garden room"];
 const TY_SHOP_WORDS = ["Shopfront", "Ground-floor shop", "Corner unit", "Workshop bay", "Kiosk unit"];

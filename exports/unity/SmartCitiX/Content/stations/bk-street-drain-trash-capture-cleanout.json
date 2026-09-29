@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "from-the-surface",
+    "name": "From The Surface",
+    "note": "The vault emptied and rinsed without anyone going in, leaning in or reaching into a live boom"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew; OSHA 29 CFR 1910.146 permit-required confined spaces (this service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the vacuum truck's power take-off before any hand clears the boom; the MUTCD Part 6 for the lane closure; ANSI/ISEA 107 high-visibility garments; 29 CFR 1910.1030 bloodborne pathogens practice for sharps in the catch; the NPDES stormwater rules, 40 CFR 122.26, and the Regional Water Quality Control Board's municipal stormwater permit trash provisions; NIOSH findings on confined-space fatalities among would-be rescuers",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 122.26",
+        "id": "epa-40-cfr-122-26",
+        "title": "40 CFR 122.26 — Storm water discharges under the NPDES permit programme"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "order-read",
+        "name": "Order Read",
+        "note": "The order read and the vault looked over from above before the boom went down"
+      },
+      {
+        "id": "nobody-in",
+        "name": "Nobody In",
+        "note": "Never leaned over the opening, never climbed in, never stood in the live lane, never a hand in a running boom"
+      },
+      {
+        "id": "honest-reads",
+        "name": "Honest Reads",
+        "note": "Air and catch reads both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-vault",
+        "name": "Clean Vault",
+        "note": "No corrections from the order to the check-in"
+      },
+      {
+        "id": "steady-boom",
+        "name": "Steady Boom",
+        "note": "Held the boom in band the whole descent"
+      },
+      {
+        "id": "before-the-storm-drain",
+        "name": "Before The Rain",
+        "note": "Vault logged inside 80% of par"
+      }
+    ],
+    "currency": "SCREEN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cone Hand",
+      "Boom Guide",
+      "Vault Lead",
+      "Stormwater Foreman",
+      "Vault Service Certified"
+    ],
+    "system": "Vault Service"
+  },
+  "hazards": {
+    "climb-in": "You started down the vault's rungs to pull a snag off the screen. The vault is a permit-required confined space under 29 CFR 1910.146, and this crew has no entry permit, no attendant, no retrieval line and no rescue plan today. NIOSH investigations keep finding the same pattern — one person goes in, a second follows to help — which is why this service is done entirely from the surface.",
+    "hand-in-boom": "You reached into the boom tube's mouth to pull a bottle out while the vacuum was running. A vacuum truck's suction will pull a hand and arm into the tube, and the boom can move on the operator's controls at any moment. The boom is only touched once the power take-off is off and locked out and a start has been tried.",
+    "lean-over": "You leaned your head and shoulders over the open vault to see the screen. A storm drain vault can hold air short of oxygen or heavy with hydrogen sulfide from rotting debris, and the gas sits right at the opening; leaning in puts your face in it before the meter has spoken. The vault is looked into from beside the opening with a light, never from over it.",
+    "live-lane": "You stepped out past the cones into the live lane to wave the truck back. The taper exists so traffic passes the crew on the far side of a line of cones, and a worker outside it is a pedestrian in a traffic lane. The truck is backed with the spotter inside the closed lane, in the driver's mirror."
+  },
+  "id": "bk-street-drain-trash-capture-cleanout",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lift-cover",
+      "alert": "A car has swung into the taper behind a delivery van and is rolling toward the open vault.",
+      "cue": "Turn the flagger's paddle to STOP toward the car and step back behind the truck.",
+      "delay": 2,
+      "id": "car-in-taper",
+      "kind": "Car entering the taper",
+      "missNote": "The car rolled on through the taper and stopped with its front wheel at the lip of the open vault, the crew scattering out of its path.",
+      "seconds": 12,
+      "target": "flag-paddle",
+      "why": "A driver who has entered a closed lane has missed the sign and the cones, so the next control is a person with a STOP paddle the driver can see, standing where the truck protects them. The MUTCD's flagging procedures are exactly this: a clear, standard signal, given from a safe position, not a wave from in front of the bumper.",
+      "wrongNote": "The flagger's paddle — STOP toward the car, from behind the truck."
+    },
+    {
+      "after": "vac-boom",
+      "alert": "The meter at the opening has gone into alarm on hydrogen sulfide as the boom stirs the sump.",
+      "cue": "Stop the work and move everyone upwind to the muster cone until the reading clears.",
+      "delay": 3,
+      "id": "gas-alarm",
+      "kind": "Gas meter alarm",
+      "missNote": "The crew kept working over the alarm; the second laborer, bent over the opening, got a lungful of the gas and had to sit down on the kerb, dizzy, before anyone moved.",
+      "seconds": 12,
+      "target": "upwind-muster",
+      "why": "Stirring the sump releases gas trapped in the debris, and the alarm is the meter saying the air at the opening is no longer safe to stand in. Everyone moves upwind and away, and the work waits for the reading to fall back into the band — no one leans in to finish the last bit, and no one goes in after a tool.",
+      "wrongNote": "The upwind muster cone — stop, and move everyone upwind until the meter clears."
+    }
+  ],
+  "lateNotes": {
+    "boom-clamp": "Free the clamp only after the truck is locked out — the clamp holds a tube the vacuum is still pulling on.",
+    "catch-gauge": "Estimate the catch once the vault is rinsed and the boom is stowed — until then the tank is still filling.",
+    "cover-lifter": "Lift the cover only once the lane is closed and the taper is set — the crew works bent over the opening with its back to the street.",
+    "service-log": "The log is written after the rinse and the estimate — it records the whole service, not just the vacuum."
+  },
+  "name": "Street Drain Trash Capture Cleanout",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-program-projects"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "dumpTruck",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "advance-sign",
+      "boom-clamp",
+      "boom-guide",
+      "bypass-clogged",
+      "catch-gauge",
+      "climb-in",
+      "cone-1",
+      "cone-2",
+      "cone-3",
+      "cover-lifter",
+      "crew-radio",
+      "flag-paddle",
+      "gas-meter",
+      "hand-in-boom",
+      "jet-wand",
+      "lean-over",
+      "live-lane",
+      "lock-applied",
+      "ppe-glasses",
+      "ppe-gloves",
+      "ppe-hardhat",
+      "ppe-vest",
+      "pto-off",
+      "rungs-corroded",
+      "service-log",
+      "sign-mark",
+      "try-start",
+      "upwind-muster",
+      "work-order"
+    ],
+    "meshes": 227
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: which vault, that it is a permit-required confined space and this is a non-entry service, the traffic control plan, the air monitoring and the lockout for the truck.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "At the board: which vault, that it is a permit-required confined space and this is a non-entry service, the traffic control plan, the air monitoring and the lockout for the truck.",
+      "target": "work-order",
+      "title": "Read the work order and the vault's classification",
+      "why": "The single most important line on this order is the classification: the vault is a permit-required confined space and the service is non-entry, so every task that follows is planned to be done from the surface. The traffic control plan and the truck's lockout are on it too, because the two things most likely to hurt this crew are a car in the work zone and a machine that moves while a hand is on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "The vest for a crew in a traffic lane, a hard hat under the boom, puncture-resistant gloves for the catch, and glasses against the rinse spray.",
+      "id": "gear",
+      "itemNames": {
+        "ppe-glasses": "safety glasses",
+        "ppe-gloves": "cut- and puncture-resistant gloves",
+        "ppe-hardhat": "hard hat",
+        "ppe-vest": "ANSI/ISEA 107 vest"
+      },
+      "kind": "sequence",
+      "prompt": "The vest for a crew in a traffic lane, a hard hat under the boom, puncture-resistant gloves for the catch, and glasses against the rinse spray.",
+      "targets": [
+        "ppe-vest",
+        "ppe-hardhat",
+        "ppe-gloves",
+        "ppe-glasses"
+      ],
+      "title": "Gear up for the street and the catch",
+      "why": "The crew works inside a closed lane with traffic passing a few metres away, so being seen is the first control. What comes up out of a street drain is broken glass, metal and sometimes needles, which ordinary gloves do not stop, and the jet rinse throws a fine spray of that same water back toward faces."
+    },
+    {
+      "cue": "Carry the ROAD WORK AHEAD sign to its mark upstream of the taper, where drivers see it in time to move over.",
+      "drag": {
+        "missNote": "Not on the mark — the advance sign goes upstream, where drivers read it before the taper.",
+        "radius": 0.5,
+        "to": "sign-mark"
+      },
+      "id": "advance-sign",
+      "kind": "drag",
+      "prompt": "Carry the ROAD WORK AHEAD sign to its mark upstream of the taper, where drivers see it in time to move over.",
+      "target": "advance-sign",
+      "title": "Set the advance warning sign upstream",
+      "why": "Under the MUTCD a lane closure starts with warning in advance, placed far enough upstream that a driver has time to read it, slow and merge before reaching the cones. A sign set right beside the work is a sign read at the moment it is too late to act on it, which is how work zones get entered by cars that never meant to."
+    },
+    {
+      "cue": "Place the cones from the start of the taper toward the work: first, second, third.",
+      "id": "taper",
+      "itemNames": {
+        "cone-1": "first cone at the start of the taper",
+        "cone-2": "second cone angling in",
+        "cone-3": "third cone at the lane line"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the taper is set from the upstream end first, so each cone protects you placing the next.",
+      "prompt": "Place the cones from the start of the taper toward the work: first, second, third.",
+      "targets": [
+        "cone-1",
+        "cone-2",
+        "cone-3"
+      ],
+      "title": "Set the taper from upstream in",
+      "why": "Cones are set from upstream, walking with the traffic behind the ones already placed, so the worker setting them is always protected by the cones they have just put down. Setting them from the work zone outward means walking backward into oncoming traffic with nothing between you and it."
+    },
+    {
+      "cue": "Hold the lifter's handle steady until the cover is up and walked clear of the opening.",
+      "holdBreakNote": "The lifter let go before the cover was clear. Hold it steady until the cover is walked off to the side.",
+      "id": "lift-cover",
+      "kind": "hold",
+      "prompt": "Hold the lifter's handle steady until the cover is up and walked clear of the opening.",
+      "seconds": 5,
+      "target": "cover-lifter",
+      "title": "Lift the cover with the magnetic lifter",
+      "why": "A cast-iron vault cover is heavy enough to crush a foot or strain a back if it is prised up with a pick and dropped. The lifter lets one person raise it with a straight back and walk it off to the side, and holding steady until it is clear keeps it from swinging back over the opening on the way."
+    },
+    {
+      "cue": "Lower the meter's sample line into the opening and read oxygen, flammables, hydrogen sulfide and carbon monoxide against the meter's alarm band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "4-GAS AT OPENING",
+        "missNote": "Outside the band — let the sample line settle and read all four channels again.",
+        "speed": 0.7
+      },
+      "id": "air-check",
+      "kind": "gauge",
+      "prompt": "Lower the meter's sample line into the opening and read oxygen, flammables, hydrogen sulfide and carbon monoxide against the meter's alarm band.",
+      "target": "gas-meter",
+      "title": "Read the air at the opening before anyone works over it",
+      "why": "Even a non-entry service puts faces near the opening for most of the job, and rotting debris can fill a vault with hydrogen sulfide or push oxygen down. The meter reads what nobody can smell reliably — hydrogen sulfide deadens the nose at the concentrations that matter — so the air is read before the work and kept reading beside the opening throughout."
+    },
+    {
+      "cue": "With a light, from beside the opening: the screen, the bypass, the sump and the rungs down the wall.",
+      "id": "surface-inspect",
+      "itemNames": {
+        "bypass-clogged": "the overflow bypass blocked with a mat of leaves and bags",
+        "rungs-corroded": "the vault's rungs eaten by corrosion"
+      },
+      "itemNotes": {
+        "bypass-clogged": "A mat of leaves and plastic bags has blocked the bypass. In a storm the water would back up into the street instead of passing the screen; it is vacuumed first and noted.",
+        "rungs-corroded": "The rungs are corroded thin. They are tagged as unfit on the log and reported: another reason nobody climbs in, and a repair for any future entry crew to know about."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "With a light, from beside the opening: the screen, the bypass, the sump and the rungs down the wall.",
+      "targets": [
+        "bypass-clogged",
+        "rungs-corroded"
+      ],
+      "title": "Look the vault over from beside the opening",
+      "why": "Looking before vacuuming tells the crew what the job actually is — a blocked bypass means the device has been flooding the street in storms, and corroded rungs are a hazard the next crew must hear about before anyone ever plans an entry. It is done from beside the opening with a light, which is what the lean-over hazard is about."
+    },
+    {
+      "cue": "From beside the opening, keep the guide signal steady so the operator lowers the boom tube to the sump without striking the screen.",
+      "holdBreakNote": "The guide signal went ragged and the boom swung toward the screen. Bring it back to steady.",
+      "id": "vac-boom",
+      "kind": "track",
+      "prompt": "From beside the opening, keep the guide signal steady so the operator lowers the boom tube to the sump without striking the screen.",
+      "seconds": 7,
+      "target": "boom-guide",
+      "title": "Guide the vacuum boom down into the sump",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "BOOM GUIDE",
+        "rise": 0.55,
+        "start": 0.16
+      },
+      "why": "The boom tube is heavy and the operator cannot see down the vault, so the ground crew guides it with steady hand signals from a position the operator can see. Lowered too fast it strikes the screen and bends it, leaving a gap trash will pass through for months; too slow and hesitant, the operator starts guessing."
+    },
+    {
+      "cue": "A bottle has jammed the boom tube: power take-off off, your own lock and tag on, then try the start before any hand goes near the tube.",
+      "id": "lockout",
+      "itemNames": {
+        "lock-applied": "personal lock and tag on the truck's control",
+        "pto-off": "power take-off disengaged, engine off",
+        "try-start": "start tried — nothing moves"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — power take-off off first, then your own lock on, and only then try the start to prove it dead.",
+      "prompt": "A bottle has jammed the boom tube: power take-off off, your own lock and tag on, then try the start before any hand goes near the tube.",
+      "targets": [
+        "pto-off",
+        "lock-applied",
+        "try-start"
+      ],
+      "title": "Lock out the truck before clearing the clog",
+      "why": "Clearing a jammed boom tube puts hands at exactly the point where suction and boom movement do their damage, so 29 CFR 1910.147 applies: the energy is isolated, locked with the worker's own lock, and then proven dead by trying to start it. A switch someone else turned off is not a lockout; a lock only you can remove, and a start that does nothing, is."
+    },
+    {
+      "cue": "With the truck locked out, turn the clamp's wing nut until the tube section comes free.",
+      "id": "free-clamp",
+      "kind": "turn",
+      "prompt": "With the truck locked out, turn the clamp's wing nut until the tube section comes free.",
+      "target": "boom-clamp",
+      "title": "Free the boom tube's clamp to reach the jam",
+      "turn": {
+        "label": "BOOM CLAMP",
+        "turns": 1.25
+      },
+      "why": "The jam is cleared by opening the tube at a clamp and pulling the bottle out with tongs, not by reaching up the mouth. The clamp is freed steadily because a tube section still under a little residual weight can drop when the last thread lets go, and a foot or hand under it is the only thing it can land on."
+    },
+    {
+      "cue": "Back in service, hold the jet wand steady down the opening until the screen runs clear.",
+      "holdBreakNote": "The wand came off the screen before it ran clear. Hold it steady until the screen is clean.",
+      "id": "rinse-screen",
+      "kind": "hold",
+      "prompt": "Back in service, hold the jet wand steady down the opening until the screen runs clear.",
+      "seconds": 5,
+      "target": "jet-wand",
+      "title": "Rinse the screen from the surface",
+      "why": "The screen only captures trash if its openings are clear, and a mat of fine debris left on it turns a full-capture device into a blocked one that sends the next storm into the bypass. The rinse is done from the surface with the wand aimed down through the opening, so no one needs to go in to finish the job."
+    },
+    {
+      "cue": "Read the debris level on the tank's sight gauge against the level before this vault, and commit the estimate for the trash report.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TANK LEVEL",
+        "missNote": "Outside the band — let the tank settle and read this vault's catch again.",
+        "speed": 0.72
+      },
+      "id": "catch-estimate",
+      "kind": "gauge",
+      "prompt": "Read the debris level on the tank's sight gauge against the level before this vault, and commit the estimate for the trash report.",
+      "target": "catch-gauge",
+      "title": "Estimate the catch on the truck's tank gauge",
+      "why": "The municipal stormwater permit's trash accounting is built from these estimates, and they show which devices fill fastest and need servicing more often. Reading the difference on the tank's gauge gives a real number for this vault rather than a guess from the kerb."
+    },
+    {
+      "cue": "Log the bypass blockage and the flooding it would have caused, the corroded rungs tagged, the air reads and the alarm, the lockout and the jam, the rinse, the catch estimate and the car in the taper.",
+      "id": "service-log",
+      "kind": "select",
+      "prompt": "Log the bypass blockage and the flooding it would have caused, the corroded rungs tagged, the air reads and the alarm, the lockout and the jam, the rinse, the catch estimate and the car in the taper.",
+      "target": "service-log",
+      "title": "Write the service log",
+      "why": "The log is the device's maintenance record and the permit's evidence that it was serviced rather than visited. The corroded rungs go in because a future entry crew plans from this record, and the gas alarm goes in because a vault that alarms once is a vault the next crew should approach expecting it."
+    },
+    {
+      "cue": "On the radio: the vault logged and closed, the cones coming in from the downstream end, and how everyone is after a gas alarm and a car in the taper.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the vault logged and closed, the cones coming in from the downstream end, and how everyone is after a gas alarm and a car in the taper.",
+      "target": "crew-radio",
+      "title": "Check in with the operator and the crew",
+      "why": "A gas alarm at an opening and a car nosing into the cones are both close calls, and the check-in says them out loud before the crew moves to the next vault. It also plans the pickup: cones come in from the downstream end, reversing the order they went out. The member assistance line is there for anything still with someone afterward."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA — with the employer's employee assistance line behind it",
+  "tagline": "A trash capture vault under the street, emptied from the surface: the order read, the lane closed with a sign and a taper, the cover lifted, the air read at the opening, the vault looked over from above, the vacuum boom guided down, the truck locked out to clear a clog, the clamp freed, the screen rinsed, the catch estimated, logged and the crew checked in",
+  "title": "SmartCiti.X~ Street Drain Trash Capture Cleanout VR",
+  "trade": "LIUNA laborer crew lead on a stormwater maintenance crew, servicing a street trash capture vault from the surface with the vacuum truck's operator",
+  "underwater": null,
+  "weather": "overcast"
+}
