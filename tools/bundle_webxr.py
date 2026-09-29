@@ -808,6 +808,8 @@ APPS = {
             SHARED / "np-world.js",
             # FACADES: exterior detail and generic storefront signs (sets NP_MASSING_HOOKS.details; after np-world.js).
             SHARED / "fc-facades.js",
+            # DETAIL: seeded instanced scatter, a pool of <= 16 InstancedMeshes fed by NP_MASSING_HOOKS' streaming callbacks.
+            SHARED / "dt-detail.js",
             # PALETTE: colour categories (plain data) and the massing material hook (after np-world.js and textures.js).
             SHARED / "pa-palette-data.js",
             SHARED / "pa-palette.js",

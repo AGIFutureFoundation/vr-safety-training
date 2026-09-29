@@ -119,6 +119,7 @@ const CHECKERS = [
   "check_atmos.mjs",
   // FACADES: exterior detail kits per massing kind and region, per-chunk budgets per tier, generic sign words only, determinism (docs/consoles/FACADES.md).
   "check_facades.mjs",
+  "check_detail.mjs",
   // INTERFACE: the parishes menu in four tabs, every mount reachable, keyboard/gamepad order, 44 px touch at 390x844, onboarding (docs/consoles/INTERFACE.md).
   "check_interface.mjs",
   // HARVEST: hidden fishing, crab, crawfish, rice and gator-watch spots — beside water, regional species, figure-free lines, adult gate, pay once (docs/consoles/HARVEST.md).
