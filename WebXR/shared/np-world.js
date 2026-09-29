@@ -118,6 +118,14 @@ function npMassingGeometries(THREE) {
   };
 }
 
+/**
+ * Massing hooks, one owner each (the environment wave): `material(kind, parish, THREE)` returns a cached material for a
+ * massing kind (PALETTE: textures and colour categories) or null to keep the flat one; `details({ THREE, parish, chunk,
+ * spots, tier })` returns one Object3D of instanced exterior detail and signs for a chunk (FACADES) or null. Unset, the
+ * engine builds exactly what it built before.
+ */
+export const NP_MASSING_HOOKS = { material: null, details: null };
+
 /** Which kinds scale their height by the spot's `h` (unit-height geometries) and which scale uniformly. */
 const NP_UNIT_HEIGHT = new Set(["shed", "tower", "campusBlock", "tank", "stack"]);
 const NP_UNIFORM_BY_H = { cypress: 12.5, liveOak: 10, reed: 1.8 };
@@ -362,7 +370,7 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
       for (const [kind, list] of Object.entries(groups)) {
         const geo = massGeo[kind]; if (!geo) continue;
         const keep = tier === "low" ? list.filter((_, i) => i % 5 !== 4) : list;
-        const im = new THREE.InstancedMesh(geo, NP_SWAYING.has(kind) ? treeMat : flatMat, keep.length);
+        const im = new THREE.InstancedMesh(geo, NP_SWAYING.has(kind) ? treeMat : (NP_MASSING_HOOKS.material?.(kind, parish, THREE) ?? flatMat), keep.length);
         keep.forEach((s, i) => {
           q.setFromAxisAngle(up, s.rot);
           const sc = NP_UNIT_HEIGHT.has(kind) ? v3.set(s.s, s.h, s.s) : NP_UNIFORM_BY_H[kind] ? v3.set(s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind], s.h / NP_UNIFORM_BY_H[kind]) : v3.set(s.s, s.s, s.s);
@@ -372,6 +380,8 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
         im.name = `mass-${kind}-${ch.key}`;
         chunkRoot.add(im); mass.push(im);
       }
+      const extra = NP_MASSING_HOOKS.details?.({ THREE, parish, chunk: ch, spots, tier }) ?? null;
+      if (extra) { extra.name ||= `mass-details-${ch.key}`; chunkRoot.add(extra); mass.push(extra); }
     }
     return { mesh, mass, lod: ch.lod, massRing: ch.ring <= massR };
   }
