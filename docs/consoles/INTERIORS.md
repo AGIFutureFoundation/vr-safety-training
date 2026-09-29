@@ -63,3 +63,9 @@ bays, programme rooms) through `ixRegisterDresser`; these styles stay generic.
    door's face in the app; `ixDoorSpot` shared by the app and the checker. Observe: check_interiors 403 passed, 0 failed
    (428 door spots all outside every site footprint; rental doors clear; every business and listing type maps; rented-room
    round trip exact).
+3. Reason: prove the round trip in the real page, not just the module. Act: `node tools/check_interiors.mjs --browser`
+   (port `IX_PORT`, default 9001; opt-in so the default run stays under a second) drives parishes.html?parish=orleans:
+   teleport to a fire-station door spot, E, walk W, E at the door; `__parishTest.interiors` exposes the mount, doors and root.
+   First run failed (the near tick needs ~10 capped frames and swiftshader is slow: waited on a fixed 900 ms); fixed with
+   waits on the state. Observe: 411 passed, 0 failed — prompt "E — go inside: …", root hidden, camera in the room, world
+   stats unchanged while walking (no streaming), outdoor pose untouched, exact pose and visible root on exit, no page errors.

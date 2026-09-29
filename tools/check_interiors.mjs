@@ -14,7 +14,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
 let failures = 0, passes = 0;
-const check = (ok, msg) => { if (ok) passes++; else { failures++; console.error(`  FAIL ${msg}`); } };
+const check = (ok, msg, detail = "") => { if (ok) passes++; else { failures++; console.error(`  FAIL ${msg}${detail ? ` — ${detail}` : ""}`); } };
 const note = (msg) => console.log(`  · ${msg}`);
 const imp = (p) => import(pathToFileURL(join(WEBXR, p)).href);
 
@@ -159,6 +159,74 @@ check(/ixMountInteriors\(/.test(app) && /go inside/.test(app), "the parishes app
 check(/ix-interiors\.js/.test(bundler), "tools/bundle_webxr.py lists shared/ix-interiors.js");
 check(/not a model of the real building/.test(src), "every room says it is generic, not the real building");
 check(!/NP_MASSING_HOOKS/.test(src), "INTERIORS does not touch NP_MASSING_HOOKS");
+
+// 8. Browser pass (opt-in: `--browser`, IX_PORT=9001): the real parishes page — door prompt, E goes in, the world root hides
+// and stops streaming, the walk stays in the room, E at the door comes back to the exact pose with the world as it was.
+if (process.argv.includes("--browser")) {
+  const { createServer } = await import("node:http");
+  const { existsSync, statSync } = await import("node:fs");
+  const { extname, normalize } = await import("node:path");
+  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
+  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" }); res.end(readFileSync(file));
+  });
+  await new Promise((r) => { server.once("error", () => server.listen(0, "127.0.0.1", r)); server.listen(Number(process.env.IX_PORT || 9001), "127.0.0.1", r); });
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
+  let browser;
+  try {
+    const { chromium } = await import(PW);
+    browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+    const ctx = await browser.newContext({ viewport: { width: 1024, height: 700 } });
+    await ctx.route("**/*", (route) => {
+      const u = route.request().url();
+      if (u.startsWith(base)) return route.continue();
+      if (/three(\.module)?(\.min)?\.js$/.test(u)) return route.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC });
+      return route.abort();
+    });
+    const page = await ctx.newPage();
+    const errors = []; page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+    await page.goto(`${base}/parishes/parishes.html?parish=orleans`, { waitUntil: "load" });
+    await page.waitForFunction(() => !!window.__parishTest?.interiors, null, { timeout: 90000 });
+    const door = await page.evaluate(() => {
+      const T = window.__parishTest; T.begin();
+      const d = T.interiors.doors.find((x) => x.site.kind === "fire-station") ?? T.interiors.doors[0];
+      T.teleport(d.x, d.z, 0.7, -0.1);
+      return { x: d.x, z: d.z, kind: d.site.kind, id: d.site.id };
+    });
+    // The near test runs on a half-second tick of capped frame time; swiftshader frames are slow, so wait for it.
+    await page.waitForFunction(() => window.__parishTest.np.near?.kind === "door", null, { timeout: 60000 }).catch(() => {});
+    await page.waitForFunction(() => /go inside/.test(document.getElementById("hud-prompt").textContent), null, { timeout: 20000 }).catch(() => {});
+    const before = await page.evaluate(() => { const T = window.__parishTest; return { near: T.np.near?.kind, prompt: document.getElementById("hud-prompt").textContent, stats: JSON.stringify(T.stats()), x: T.np.x, z: T.np.z, yaw: T.np.yaw, pitch: T.np.pitch }; });
+    check(before.near === "door" && /go inside/.test(before.prompt), `browser: at ${door.id} the prompt reads "${before.prompt}"`, JSON.stringify({ door, before, errors }));
+    await page.keyboard.press("KeyE");
+    await page.waitForFunction(() => window.__parishTest.camera.position.y > 3000, null, { timeout: 20000 }).catch(() => {});
+    const inside1 = await page.evaluate(() => { const T = window.__parishTest; return { inside: T.interiors.mount.inside(), room: T.interiors.mount.room?.id, root: T.interiors.root.visible, camY: T.camera.position.y }; });
+    check(inside1.inside && inside1.root === false && inside1.camY > 3000, `browser: E goes inside (${inside1.room}), the world root is hidden, the camera is in the room`);
+    const z0 = await page.evaluate(() => window.__parishTest.interiors.mount.pose.z);
+    await page.keyboard.down("KeyW");
+    await page.waitForFunction((z) => window.__parishTest.interiors.mount.pose.z < z - 0.3, z0, { timeout: 30000 }).catch(() => {});
+    await page.keyboard.up("KeyW");
+    const inside2 = await page.evaluate(() => { const T = window.__parishTest; const m = T.interiors.mount; return { stats: JSON.stringify(T.stats()), x: T.np.x, z: T.np.z, px: m.pose.x, pz: m.pose.z, w: m.room.w, d: m.room.d }; });
+    check(inside2.stats === before.stats, "browser: nothing streams while inside (world stats unchanged)");
+    check(inside2.x === before.x && inside2.z === before.z, "browser: the outdoor pose is untouched while walking inside");
+    check(Math.abs(inside2.px) < inside2.w / 2 && Math.abs(inside2.pz) < inside2.d / 2 && inside2.pz < z0 - 0.3, `browser: the walk moved inside the room (${inside2.px.toFixed(2)}, ${inside2.pz.toFixed(2)})`);
+    await page.evaluate(() => { const m = window.__parishTest.interiors.mount; m.pose.x = m.room.door.x; m.pose.z = m.room.door.z; });
+    await page.keyboard.press("KeyE");
+    await page.waitForFunction(() => window.__parishTest.camera.position.y < 3000, null, { timeout: 20000 }).catch(() => {});
+    const after = await page.evaluate(() => { const T = window.__parishTest; return { inside: T.interiors.mount.inside(), root: T.interiors.root.visible, x: T.np.x, z: T.np.z, yaw: T.np.yaw, pitch: T.np.pitch, camY: T.camera.position.y }; });
+    check(!after.inside && after.root === true && after.camY < 3000, "browser: E at the door comes back out and the world root shows again");
+    check(after.x === before.x && after.z === before.z && after.yaw === before.yaw && after.pitch === before.pitch, "browser: back at the exact door-spot pose");
+    check(!errors.length, `browser: no page errors${errors.length ? `: ${errors.slice(0, 3).join(" | ")}` : ""}`);
+  } catch (e) {
+    check(false, `browser pass: ${String(e.message).split("\n")[0]}`);
+  } finally { await browser?.close(); server.close(); }
+}
 
 console.log(`\n${failures ? "FAIL" : "PASS"} check_interiors: ${passes} passed, ${failures} failed`);
 process.exit(failures ? 1 : 0);

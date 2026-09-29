@@ -781,6 +781,7 @@ window.__parishTest = {
   // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
   // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
   dean: () => dnHere,
+  interiors: { mount: ixWorld, doors: ixDoors, rentals: () => ixRentalDoors(), use: () => npUse(), root }, // INTERIORS' browser pass
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
