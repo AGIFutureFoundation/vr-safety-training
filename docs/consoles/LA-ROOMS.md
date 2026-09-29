@@ -66,9 +66,15 @@ Louisiana programme itself; all 326 resolve.
    gives 3739 passed, 0 failed (the data hall is 26 meshes with signs, no page errors). check_interiors 733/0;
    check_classrooms 1684/0.
 
+8. Reason: screenshots of the fab shop and the data hall in the real page showed every floor drawn in the trim colour. The
+   shell's BackSide trim box draws its bottom face over the floor, in every INTERIORS room. Act: the trim keeps its mesh with
+   per-face materials whose top and bottom faces are hidden (`ix-interiors.js`). A check line proves it on every Louisiana
+   room and tier. Observe: check_la_rooms 3787 passed, 0 failed; check_interiors 733/0; check_classrooms 1684/0; the data
+   hall re-shot shows its raised-floor grey, with no page errors.
+
 ## Checkers (last lines)
 
-- `node tools/check_la_rooms.mjs` → `check_la_rooms: ok — 3733 passed, 0 failed` (about 1.5 s); with `--browser` (port 9023) → `ok — 3739 passed, 0 failed` (about 30 s)
+- `node tools/check_la_rooms.mjs` → `check_la_rooms: ok — 3787 passed, 0 failed` (about 1.3 s); with `--browser` (port 9023) → `ok — 3739 passed, 0 failed` (about 30 s)
 - `node tools/check_interiors.mjs` → `PASS check_interiors: 733 passed, 0 failed`
 - `node tools/check_classrooms.mjs` → `check_classrooms: ok — 1684 passed, 0 failed`
 - `node tools/check_parishes.mjs` → `check_parishes: 62985 passed, 0 failed`

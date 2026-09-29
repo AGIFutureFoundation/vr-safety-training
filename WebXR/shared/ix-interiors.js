@@ -232,7 +232,10 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
     boxMesh(ww, hh, dd, x, hh / 2, z, wallM, `ix-wall-${i}`);
     colliders.push({ min: [x - ww / 2, 0, z - dd / 2], max: [x + ww / 2, hh, z + dd / 2], kind: "ix-wall" });
   });
-  boxMesh(w - 0.02, 0.5, d - 0.02, 0, 0.25, 0, mat(style.trim, { side: THREE.BackSide }), "ix-trim");
+  // The trim band: a BackSide box whose top and bottom faces are hidden (per-face materials +x −x +y −y +z −z), so its bottom
+  // face does not paint the floor in the trim colour (LA-ROOMS found every floor drawn trim-coloured).
+  { const tm = mat(style.trim, { side: THREE.BackSide }), none = new THREE.MeshBasicMaterial({ visible: false });
+    boxMesh(w - 0.02, 0.5, d - 0.02, 0, 0.25, 0, [tm, tm, none, none, tm, tm], "ix-trim"); }
   // The door (exit) in the middle of the +z wall, and its lit exit sign.
   const door = { x: 0, z: d / 2 - 1.1 };
   boxMesh(1.6, 2.3, 0.1, 0, 1.15, d / 2 - 0.02, mat(0x5e4128), "ix-door");
