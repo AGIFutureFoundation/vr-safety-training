@@ -24,7 +24,7 @@
 //        parish ground (on a mat box when mats are laid), stepped until it sleeps
 //   psInfiltration(parish, site, t) -> { dry, level (0..1 schematic), drained }   the build site is dry by tfWaterDepthAt; the test
 //        water drains down a schematic curve (no figures)
-//   psMountProjectSim({ three, root, parish, el, tier, reducedMotion, toast, stationHref, siteName })
+//   psMountProjectSim({ three, root, parish, el, tier, reducedMotion, toast, stationHref, siteName, onOpen })
 //        -> { open(simId, siteId), boardRows(el, siteId), list(), active(), counts() }
 //
 // Every top-level name is prefixed ps/PS_ (the bundler shares one scope). No injury is shown or described.
@@ -196,7 +196,7 @@ function psShuffle(steps, seed) {
 }
 
 /** Mount the simulations in a parish page (see the header). */
-export function psMountProjectSim({ three = null, root = null, parish, el = null, tier = "balanced", reducedMotion = false, toast = null, stationHref = null, siteName = null } = {}) {
+export function psMountProjectSim({ three = null, root = null, parish, el = null, tier = "balanced", reducedMotion = false, toast = null, stationHref = null, siteName = null, onOpen = null } = {}) {
   const T = three;
   let run = null, rig = null;
   const nameOf = (siteId) => siteName?.(siteId) ?? parish.sites.find((s) => s.id === siteId)?.name ?? siteId;
@@ -278,6 +278,7 @@ export function psMountProjectSim({ three = null, root = null, parish, el = null
     const sim = psSim(simId), site = parish.sites.find((s) => s.id === siteId);
     if (!sim || !site || typeof document === "undefined") return false;
     close();
+    try { onOpen?.(sim.id, site.id); } catch (_) { /* the host's modal close never blocks a run */ }
     run = { sim, site, order: [], calls: {}, started: Date.now().toString(36), placed: null };
     const p = panel();
     p.innerHTML = `<p class="ps-meta">Training simulation at ${psEsc(nameOf(site.id))} · SmartCiti.X Powered by AGI Corp</p><h2 id="ps-title">${psEsc(sim.name)}</h2><p>${psEsc(sim.briefing)}</p>` +

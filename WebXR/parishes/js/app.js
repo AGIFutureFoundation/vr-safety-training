@@ -585,7 +585,7 @@ psSetRecorder(ppAward);
 var psWorld = psMountProjectSim({
   three: THREE, root, parish, el: $("menu-ps"), tier: npTierName,
   reducedMotion: (() => { try { return !!matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } })(),
-  toast: npToast, stationHref: (id, siteId) => npLink(id, siteId),
+  toast: npToast, stationHref: (id, siteId) => npLink(id, siteId), onOpen: () => npClose(),
 });
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
@@ -595,6 +595,7 @@ window.__parishTest = {
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
   projectsim: psWorld,
+  openBoard(siteId) { const s = parish.sites.find((x) => x.id === siteId); if (s) npOpenBoard(s); return !!s; },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
 };
 

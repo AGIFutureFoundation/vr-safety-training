@@ -46,4 +46,16 @@ coordinator swaps in `bk-*`/`cp-*` step ids when they land (one `station`/`step`
    every sim reachable (2/2/2/2/2) · 5 guarded (0 resolve in this tree)".
 5. Reason: TERRAFORM / NEWTON / TYCOON / passport / DEAN — observed "tide 0.24 m at the slough (window open) · excavator settles on
    mats at 0.95 (ground 0.8) in 1.13s"; "tyEarn paid 50 CC once (level 4), fail pays 0 · 3 passport awards · 5 DEAN modules".
-6. Reason: mount in the parishes app (board + menu) and the bundler; live run on port 8969 — see below.
+6. Reason: mount in the parishes app (board + menu) and the bundler; live run on port 8969. Observed (`--live`): "sf-bayview menu
+   5 sims · board at yosemite-slough-restoration starts ps-tidal-channel-dig · tidal dig run in order → 100/100 … +60 Crew Credits ·
+   excavator meshes 1 · 0 page errors"; `check_projectsim: ok — 307 passed, 0 failed`.
+7. Reason: nothing else broke — observed `check_imports`: "All 945 modules call only what they declare or import";
+   `check_tycoon: 1570 passed, 0 failed`; `check_budget`: all 697 stations inside budget; `check_parishes: 12920 passed, 0 failed`.
+
+## Left for the coordinator
+
+- Swap steps to BAYKEEPER `bk-*` / CLEANPORTS `cp-*` station steps when those land (one `station`/`step` pair per step).
+- The guarded placements resolve on their own when BAYMAP's `oak-west-oakland` and TIDELANDS' `bp-*` / `sf-outer-mission` merge.
+- DEAN: `psDeanModules()` is in DEAN's module shape; register it in `dnModules()` when dn-modules.js lands.
+- The charging-yard e-stop step uses the AMR fleet station's e-stop drill (the only catalog e-stop drill step); a charger e-stop
+  step from CLEANPORTS should replace it.

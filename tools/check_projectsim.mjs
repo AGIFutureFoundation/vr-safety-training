@@ -186,7 +186,11 @@ if (process.argv.includes("--live")) {
     await pg.waitForFunction(() => !!window.__parishTest?.projectsim, null, { timeout: 60000 });
     const menu = await pg.evaluate(() => document.querySelectorAll("#menu-ps [data-ps-open]").length);
     check(menu === PS.psPlacesFor("sf-bayview").length, "live", `menu lists ${menu}`);
-    await pg.evaluate(() => window.__parishTest.projectsim.open("ps-tidal-channel-dig", "yosemite-slough-restoration"));
+    // The simulation starts at its site's board.
+    await pg.evaluate(() => window.__parishTest.openBoard("yosemite-slough-restoration"));
+    const board = await pg.evaluate(() => [...document.querySelectorAll("#board-ps [data-ps-open]")].map((b) => b.getAttribute("data-ps-open")));
+    check(board.length === 1 && board[0] === "ps-tidal-channel-dig", "live", `board lists ${board.join(",")}`);
+    await pg.click('#board-ps [data-ps-open="ps-tidal-channel-dig"]');
     await pg.click("[data-ps-go]");
     for (const s of PS.psSim("ps-tidal-channel-dig").steps) { await pg.click(`#ps-panel [data-ps-step="${s.id}"]`); await pg.click('#ps-panel [data-ps="safe"]'); }
     const debrief = await pg.evaluate(() => document.getElementById("ps-panel").innerText);
@@ -194,7 +198,7 @@ if (process.argv.includes("--live")) {
     await pg.click("[data-ps-close]");
     check(/100\/100/.test(debrief) && /Mistake log · 0/.test(debrief), "live", `debrief: ${debrief.slice(0, 160)}`);
     check(errors.length === 0, "live", `page errors: ${errors.slice(0, 2).join(" | ")}`);
-    console.log(`  live: sf-bayview menu ${menu} sims · tidal dig run in order → "${(debrief.split("\n").find((l) => l.includes("/100")) ?? "").trim()}" · excavator meshes ${meshes} · ${errors.length} page errors`);
+    console.log(`  live: sf-bayview menu ${menu} sims · board at yosemite-slough-restoration starts ${board.join(",")} · tidal dig run in order → "${(debrief.split("\n").find((l) => l.includes("/100")) ?? "").trim()}" · excavator meshes ${meshes} · ${errors.length} page errors`);
   } finally { await browser.close(); srv.close(); }
 }
 
