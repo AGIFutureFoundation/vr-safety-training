@@ -65,3 +65,7 @@ Module: `WebXR/shared/hv-harvest.js` (data, pure logic and the parish mount in o
    docks: white and brown shrimp) and an oyster-reef survey (look and count, never take: Olympia oyster on the Bay
    Program maps' Bay shores, eastern oyster on the Gulf), their lines, play seasons and treasures → Observe:
    check_harvest 80/80 (shrimp 8 spots, oyster 11); check_treasures "346 treasures on 14 surfaces, 25 sets".
+
+## Since LA-PLAY
+
+City district maps (`HV_CITY_REGIONS`: growth cities and New Orleans neighbourhoods) take a lighter table: no rice field without `farmland`, no shrimp or oyster, crab off piers only, gator watch by bayou or marsh, at most `HV_CITY_MAX_SPOTS` spots. See `docs/consoles/LA-PLAY.md`.

@@ -54,3 +54,7 @@ maps have no kiosks); the board follows `sl-parish-play.js`'s `slPathBoard` shap
 - `plMountQuestBoard(el, parishId, { page, completed, openLesson })` → `#menu-krewe`; `plMountPathBoard(el, parishId, { page, openLesson })`
   → `#menu-paths` (both in `WebXR/parishes/js/app.js`, after SECONDLINE's and KREWE's mounts, only when those render nothing).
 - `PL_DISTRICTS` / `PL_FIELD_LESSONS` / `PL_QUESTS` are plain data for TQ-BRIDGE's export (paths and packs section).
+
+## Since LA-PLAY
+
+The Louisiana regions (`louisiana-sites`, `louisiana-cities`, `new-orleans-districts`) ride this module through `PL_LA_REGIONS`; see `docs/consoles/LA-PLAY.md`.
