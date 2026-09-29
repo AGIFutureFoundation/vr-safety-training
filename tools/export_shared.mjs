@@ -88,7 +88,7 @@ export async function dnBuildShared() {
     generatedBy: "tools/export_shared.mjs (console DEAN)",
     note: "SmartCiti.X · Powered by AGI Corp. Ids and frames only: no learner data, no real addresses or figures. Parish and district frames are approximate affine fits of stylised maps (docs/parishes.md), not survey data.",
     packsSource: packs[0]?.source === "pk-packs" ? "pk-packs" : "fallback-programmes",
-    packs: packs.map((p) => ({ id: p.id, title: p.title, programmes: p.programmes ?? [], stations: [...(p.stations ?? [])], worlds: p.worlds ?? null, path: p.path ?? null })),
+    packs: packs.map((p) => ({ id: p.id, title: p.title, programmes: p.programmes ?? [], stations: (p.stations ?? []).map((s) => (typeof s === "string" ? s : s.id)), worlds: p.worlds ?? null, path: p.path ?? null })),
     paths: DN_PATHS,
     schemas: {
       module: { v: DN_SCHEMA_VERSION, kind: "module", id: "mod-…", title: "string", lessons: [{ kind: DN_LESSON_KINDS, id: "string", world: "string|null" }], due: "YYYY-MM-DD|null", requiredScore: "0..100", assign: [{ classCode: "XXXX-XXXX", at: "ISO" }], doc: "docs/modules.md" },
