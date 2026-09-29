@@ -56,6 +56,8 @@ const CHECKERS = [
   "check_gates.mjs",
   // The five New Orleans parishes' play layer: the storm-season arc, side games, hand-offs, path boards (docs/parish-play.md).
   "check_parish_play.mjs",
+  // TYCOON: the Crew Credits play economy — arithmetic, procedural listings, businesses on real stations, never money (docs/consoles/TYCOON.md).
+  "check_tycoon.mjs",
   "check_krewe.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",

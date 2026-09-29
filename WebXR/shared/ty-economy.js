@@ -94,13 +94,13 @@ const TY_KIND_WORDS = {
   wetland: "the marsh edge", lock: "the lock", ferry: "the ferry landing", bridge: "the bridge approach", "bridge-yard": "the bridge yard",
   airport: "the airfield", warehouse: "the warehouses", shipyard: "the shipyard", landing: "the landing", park: "the park", transit: "the bus depot",
   refinery: "the plant gate", floodgate: "the floodgate", harbour: "the harbour", "fire-station": "the firehouse", floodwall: "the floodwall",
-  substation: "the substation", marina: "the marina", staging: "the staging yard", "timber-yard": "the timber yard", trail: "the trailhead",
+  substation: "the substation", marina: "the boat slips", staging: "the staging yard", "timber-yard": "the timber yard", trail: "the trailhead",
   "union-hall": "the union hall", construction: "the building site", workshop: "the workshop", nursery: "the plant nursery", lifeguard: "the lifeguard post",
   fire: "the firehouse", "rescue-station": "the rescue station", forestry: "the forestry yard", events: "the events ground", seawall: "the seawall",
   "transit-barn": "the transit barn", remediation: "the cleanup site", shoreline: "the shoreline", recreation: "the recreation ground",
 };
 const TY_ROOM_WORDS = ["Upstairs room", "Back room", "Corner room", "Loft room", "Garden room"];
-const TY_SHOP_WORDS = ["Shopfront", "Street-level shop", "Corner unit", "Workshop bay", "Kiosk unit"];
+const TY_SHOP_WORDS = ["Shopfront", "Ground-floor shop", "Corner unit", "Workshop bay", "Kiosk unit"];
 
 /** A small stable hash (FNV-1a) so a listing's name and rent never change between visits. */
 export function tyHash(s) { let h = 2166136261; for (const ch of String(s)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
