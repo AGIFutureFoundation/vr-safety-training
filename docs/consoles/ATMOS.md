@@ -36,3 +36,9 @@ engine's generic massing, and the soundscape is synthesised with Web Audio (no a
 3. Reason: Redwood Reach takes the soundscape, and both bundles carry the new modules (the bundler refuses a missing one). Act: at-atmos.js made import-free (engine readers moved to at-world.js), Redwood mount + toggle, `APPS` module lists, bundles rebuilt. Observe: bundler `[parishes] wrote … (2996 KB, 84 modules)`, `[redwood] wrote … (1785 KB, 46 modules)`; `check_atmos: 146 checks, 0 failed (31.3 s)`; `check_imports: All 946 modules …`. PASS.
 4. Reason: the real pages boot with ATMOS and no page errors (headless Chromium, port 8976). Act: scratch probe `$SP/packs/atmos/live.mjs`. Observe: sf-marina and orleans (source and dist): lamps 124 / 129 hidden by day, all lit at dusk; night fog 16–317 m (a board at 60 m reads); storm wet 1, rain 250 streaks; `Sound: off`, master 0; Redwood dist `Sound: off`, 74 river points; 0 page errors. PASS.
 5. Reason: the shared budgets hold. Observe: `check_budget: All 697 stations inside budget …`; `check_mobile: 158 checks pass …`; `check_fleet: All 143 kit builders render headlessly …`; `check_parishes: 12920 passed, 0 failed`. PASS.
+6. Reason: the wet-sheen shader tweak compiles on the real street and road materials (a failed program would hide the streets). Act: probe renders a storm frame with console GL errors captured. Observe: sf-bayview dist, "live" weather at dusk = storm (stars 0, moon 0, wet 1, fog 33–553 m), 18 programs, 0 GL/page errors; Redwood 0 errors. PASS.
+
+## Eval
+- Before (039f09e): `eval_worlds: 15 subjects, mean 97, 10 findings` (the parish rows ran without the live "loads" leg).
+- After (e1c30c8): `eval_worlds: 15 subjects, mean 98, 10 findings` — the live leg ran this time (loads 2/2, legible 9/9 on every
+  parish), so the +1 is mostly the eval's own live leg, not ATMOS; no parish lost a point. SF districts 97 (the field-lesson finding).
