@@ -172,7 +172,7 @@ const { npWaterAt, npHeightAt } = await imp("shared/np-parish.js");
     }
   }
   check("place", !fails.length, `${maps} maps: ${total} parked vehicles (phone tier ${lowTotal}), each gated with a class, one per site, fitting the site kind, dry, off the road centreline by half-width + ${MW.MV_ROAD_MARGIN} m, clear of boxes and props${fails.length ? ": " + fails.slice(0, 5).join("; ") : ""}`);
-  check("place", maps === 22 && empty.length <= 1, `${maps - empty.length} of ${maps} parish-engine maps park vehicles${empty.length ? ` (none on ${empty.join(", ")}: every fitting site's ring is marsh or water)` : ""}`);
+  check("place", maps >= 22 && empty.length <= 1, `${maps - empty.length} of ${maps} parish-engine maps park vehicles${empty.length ? ` (none on ${empty.join(", ")}: every fitting site's ring is marsh or water)` : ""}`);
   const again = N.nwParishWorld(NP_PARISHES[0]);
   check("place", JSON.stringify(MW.mvPlacements(NP_PARISHES[0], again).map(({ entry, ...r }) => r)) === first, "placements are deterministic across runs");
   check("place", perDrivable.size >= 12, `${perDrivable.size} different drivables parked across the maps (${[...perDrivable].map(([k, c]) => `${k} ${c}`).join(", ")})`);

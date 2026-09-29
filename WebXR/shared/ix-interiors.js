@@ -94,6 +94,11 @@ export const IX_KIND_STYLE = {
   port: "port-shed", harbour: "port-shed", marina: "port-shed", ferry: "port-shed", landing: "port-shed", boating: "port-shed", bridge: "port-shed",
   levee: "port-shed", seawall: "port-shed", floodwall: "port-shed", shoreline: "port-shed", shore: "port-shed", wetland: "port-shed",
   civic: "civic-lobby", park: "civic-lobby", recreation: "civic-lobby", stadium: "civic-lobby", theatre: "civic-lobby", trail: "civic-lobby",
+  // PROJECTLANDS' project sites (the Bay Program precincts, the representative plant and shoreline).
+  aeration: "plant-room", chemical: "plant-room", digester: "plant-room", pilot: "plant-room", "energy-storage": "plant-room",
+  "water-control": "plant-room", lab: "clinic", sampling: "clinic", decon: "clinic", charging: "workshop", excavation: "workshop",
+  hazmat: "warehouse", haul: "warehouse", delivery: "warehouse", "vacuum-truck": "warehouse", survey: "civic-lobby", assessment: "civic-lobby",
+  planning: "civic-lobby", "boat-landing": "port-shed", "mat-crossing": "port-shed",
 };
 
 /**

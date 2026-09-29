@@ -124,7 +124,7 @@ check("app", /wkArrival\(npParams, parish\)/.test(app), "the app reads the arriv
 check("app", /wkCross\(/.test(app) && /wkCarry\(/.test(app), "walking into a paired connector carries you across");
 check("app", /wkEdge\(parish/.test(app), "the soft edge runs in the walk");
 check("app", /npReduced \? 0 : WK_FADE_MS/.test(app), "reduced motion: no fade");
-check("app", /import\("\.\.\/\.\.\/shared\/mv-world\.js"\)[^;]*\.catch\(/.test(app), "MOTORWORKS' mv-world.js import is guarded");
+check("app", /import\("\.\.\/\.\.\/shared\/mv-world\.js"\)[^;]*\.catch\(/.test(app) || /import \{[^}]*\bmvPlacements\b[^}]*\} from "\.\.\/\.\.\/shared\/mv-world\.js"/.test(app), "MOTORWORKS' parked vehicles reach the walk (guarded import, or the static one once MOTORWORKS merged)");
 check("app", /npCrossWorld\(c\)/.test(app) && /location\.href = `\?parish=/.test(app), "the existing ways out still work (E at a way out)");
 check("html", /id="ux-panel-map"[\s\S]*?id="wk-atlas"[\s\S]*?<\/div>\s*<div class="ux-panel" role="tabpanel" id="ux-panel-me"/.test(html), "the region atlas mounts inside the Map tab");
 check("html", html.includes('id="wk-fade"'), "the crossing fade layer is on the page");
