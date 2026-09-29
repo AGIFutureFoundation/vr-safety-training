@@ -119,7 +119,10 @@
     "check_bayquest.mjs": 500,
     "check_projectsim.mjs": 300,
     "check_classrooms.mjs": 300,
-    "check_harvest.mjs": 1200
+    "check_harvest.mjs": 1200,
+    "check_dataworks.mjs": 1600,
+    "check_walkable.mjs": 34000,
+    "check_robotics.mjs": 6230
   },
   "notes": {
     "check_harvest.mjs": "2026-09-29 08:05 UTC: new (console HARVEST). 1.1 s standalone: spot placement over 22 maps, catches, lines, the adult gate, the play calendar and pay-once; --live adds one headless Orleans load (not in check_all).",
@@ -135,6 +138,9 @@
     "check_atmos.mjs": "2026-09-29 02:10 UTC: new (console ATMOS). 52 s wall under the third wave's load: pure weather/fog/light/sound checks over ten maps plus a headless engine + CITYWORKS + TERRAFORM + ATMOS build at four sites of every map on two tiers.",
     "check_bayquest.mjs": "2026-09-29 02:40 UTC: new (console BAYQUEST). About half a second: pure checks plus one generator --check.",
     "check_cleanports.mjs": "2026-09-29 05:30 UTC: 4.2 s was CLEANPORTS' estimate; measured 16.9 s in the full gate (it renders its six stations and five drivables headlessly).",
-    "check_bayprogram.mjs": "2026-09-29 05:30 UTC: 1.5 s was BAYKEEPER's estimate; measured 4.6 s in the full gate (it loads the hub page headlessly)."
+    "check_bayprogram.mjs": "2026-09-29 05:30 UTC: 1.5 s was BAYKEEPER's estimate; measured 4.6 s in the full gate (it loads the hub page headlessly).",
+    "check_dataworks.mjs": "2026-09-29 08:45 UTC: new (console DATAWORKS). 1.5 s in the full gate: consent, capture, export and analysis over a synthetic fixture.",
+    "check_walkable.mjs": "2026-09-29 08:45 UTC: new (console WALKABLE). 33 s in the full gate: every connector's round trip over 25 maps plus the atlas; the browser stage is opt-in.",
+    "check_robotics.mjs": "2026-09-29 08:45 UTC: new (console ROBOTICS). The gym API's scenarios reset, step and finish headlessly, deterministic by seed."
   }
 }

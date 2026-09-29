@@ -99,6 +99,8 @@ export const IX_KIND_STYLE = {
   "water-control": "plant-room", lab: "clinic", sampling: "clinic", decon: "clinic", charging: "workshop", excavation: "workshop",
   hazmat: "warehouse", haul: "warehouse", delivery: "warehouse", "vacuum-truck": "warehouse", survey: "civic-lobby", assessment: "civic-lobby",
   planning: "civic-lobby", "boat-landing": "port-shed", "mat-crossing": "port-shed",
+  // SMILES' community-health district.
+  outreach: "clinic", plaza: "civic-lobby", office: "civic-lobby",
 };
 
 /**

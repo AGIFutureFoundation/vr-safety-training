@@ -154,7 +154,7 @@ check(mods.length === drills.length && mods.every((m) => m.kind === "drill" && m
 
 // ---- wiring
 const app = rd("WebXR/parishes/js/app.js");
-check(app.includes("drMountDrills(") && app.includes("drSetRecorder(ppAward)"), "wiring", "the parishes app does not mount the drills");
+check(app.includes("drMountDrills(") && (app.includes("drSetRecorder(ppAward)") || /drSetRecorder\([\s\S]{0,500}?return ppAward\(id, award\)/.test(app)), "wiring", "the parishes app does not mount the drills");
 check(/drWorld\?\.offer\("dr-traffic"\)/.test(app), "wiring", "NEWTON's crash card does not offer the traffic drill");
 check(rd("WebXR/parishes/parishes.html").includes('id="menu-drills"'), "wiring", "parishes.html has no #menu-drills");
 const bundler = rd("tools/bundle_webxr.py");

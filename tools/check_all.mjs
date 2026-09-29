@@ -80,6 +80,8 @@ const CHECKERS = [
   "check_motorworks.mjs",
   // WALKABLE: walk-through connectors round-trip, soft edges, the region atlas (docs/consoles/WALKABLE.md).
   "check_walkable.mjs",
+  // ROBOTICS: the gym API, robot sites and games, rollouts in the dataset schema (docs/consoles/ROBOTICS.md).
+  "check_robotics.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
   // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).

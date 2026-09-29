@@ -59,7 +59,10 @@ const TZ = await imp("shared/treasures-data.js");
 const SGP = await imp("shared/sg-sf-play.js");
 // PLAYLAYER's Bay Area maps (shared/pl-bay-play.js) share the surface too, on SG's shapes.
 const PLP = await imp("shared/pl-bay-play.js");
-const sgSiteDef = (parish, site) => (SGP.sgDistrict(parish) ?? PLP.plDistrict(parish))?.sites.find((x) => x.id === site) ?? null;
+const NPR_PP = await import(new URL("../WebXR/shared/np-parishes.js", import.meta.url).href);
+const sgSiteDef = (parish, site) => (SGP.sgDistrict(parish) ?? PLP.plDistrict(parish))?.sites.find((x) => x.id === site) ?? NPR_PP.npParish(parish)?.sites.find((x) => x.id === site && parish === "sm-unspoken-smiles") ?? null;
+// The programme worlds (SMILES) bind their treasures to their own sites on the registry.
+
 const SRC = rd("WebXR/shared/sl-parish-play.js");
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 const K12 = new Set(CURRICULA.filter((c) => c.audience === "classroom").flatMap((c) => c.stations.map((s) => s.id)));

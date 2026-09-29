@@ -100,6 +100,7 @@ const TY_KIND_WORDS = {
   "transit-barn": "the transit barn", remediation: "the cleanup site", shoreline: "the shoreline", recreation: "the recreation ground",
   boating: "the boating dock", boatyard: "the boatyard", civic: "the civic centre", clinic: "the clinic", hotel: "the hotel", market: "the market hall",
   monitoring: "the monitoring station", plant: "the plant room", theatre: "the theatre", trucking: "the truck yard", utility: "the utility yard",
+  outreach: "the van stop", plaza: "the fountain", office: "the front desk",
   stormwater: "the rain gardens", yard: "the works yard", "trash-capture": "the drain inlet", industrial: "the loading docks", shore: "the waterline",
   // PROJECTLANDS' project precincts and representative maps (docs/consoles/PROJECTLANDS.md).
   aeration: "the basin walkway", assessment: "the survey stakes", "boat-landing": "the boat landing", charging: "the charging yard",

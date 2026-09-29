@@ -101,7 +101,7 @@ say(`edges: ${rimChecks} rim probes over ${NP_PARISHES.length} maps`);
 const atlas = W.wkAtlas();
 const listed = new Set(atlas.regions.flatMap((r) => r.maps.map((m) => m.id)));
 check("atlas", NP_PARISHES.every((p) => listed.has(p.id)), `the atlas lists every map (${listed.size}/${NP_PARISHES.length})`);
-check("atlas", atlas.regions.length === 6 && NP_REGIONS.every((r) => atlas.regions.some((x) => x.id === r.id)), `the atlas shows six regions (${atlas.regions.length})`);
+check("atlas", atlas.regions.length === NP_REGIONS.length && NP_REGIONS.every((r) => atlas.regions.some((x) => x.id === r.id)), `the atlas shows every region (${atlas.regions.length} of ${NP_REGIONS.length})`);
 for (const w of ["Bay World", "the Deep", "Redwood Reach", "Sierra Summit", "Regatta"]) {
   const x = atlas.worlds.find((a) => a.name === w);
   check("atlas", !!x && !!x.href && (x.ways.length > 0 || !!x.ride), `the atlas lists ${w} with a way in`);
