@@ -362,7 +362,7 @@ export function nwVehicleStep(veh, input, dt, world, profile, { bodies = world.b
           const v = Math.abs(s.speed) * Math.sign(s.speed || 1);
           b.vel = [fwd[0] * v * 1.2 - p[0] * 1.5, 1.5 + Math.abs(v) * 0.25, fwd[1] * v * 1.2 - p[1] * 1.5];
           b.spin = 2 + Math.abs(v) * 0.8; b.sleeping = false; b.still = 0; b.hits += 1;
-          s.speed *= 1 - Math.min(0.3, b.mass / 1000);
+          s.speed *= 1 - Math.min(0.3, b.mass / (profile?.mass ?? 1000)); // MOTORWORKS: a heavier vehicle loses less to a cone
           hit.push(b.id);
           continue;
         }
