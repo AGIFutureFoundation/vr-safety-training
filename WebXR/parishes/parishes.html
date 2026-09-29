@@ -88,9 +88,9 @@
 
 <div id="hud" hidden>
   <div class="panel" id="hud-where"><b id="hud-zone">Orleans Parish</b><span id="hud-near"></span></div>
-  <div class="panel" id="hud-stats"><span id="hud-alt">0 m</span> above the water<br><span id="hud-clock">day</span> · <span id="hud-weather">clear</span><br>Sites <b id="hud-visited">0</b> · Lessons <b id="hud-lessons">0</b></div>
+  <div class="panel" id="hud-stats"><span id="hud-alt">0 m</span> above the water<br><span id="hud-clock">day</span> · <span id="hud-weather">clear</span><br>Sites <b id="hud-visited">0</b> · Lessons <b id="hud-lessons">0</b><br>Crew Credits <b id="hud-credits">0</b></div>
   <div class="panel" id="hud-prompt" hidden></div>
-  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · T time · F weather</div>
+  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · L ledger · T time · F weather</div>
 </div>
 
 <section class="screen" id="menu" role="main">
@@ -102,6 +102,7 @@
     <div class="row">
       <button class="btn primary" id="menu-start" type="button">Start walking</button>
       <button class="btn" id="menu-motorpool" type="button">Motor Pool</button>
+      <button class="btn" id="menu-ledger" type="button">Crew Credits</button>
       <a class="btn" href="../index.html">Home</a>
     </div>
     <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
@@ -119,6 +120,7 @@
     <p class="lead" id="board-blurb"></p>
     <ul class="stations" id="board-stations"></ul>
     <div id="board-side"></div>
+    <div id="board-ty"></div>
     <div class="row"><button class="btn" type="button" data-close>Close</button></div>
   </div>
 </div>
@@ -163,6 +165,15 @@
     <p class="eyebrow">Motor Pool</p>
     <h2 id="motorpool-title">Vehicles and watercraft</h2>
     <div id="dv-board" aria-label="Motor Pool board"></div>
+    <div class="row"><button class="btn" type="button" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal" id="tycoon" hidden role="dialog" aria-modal="true" aria-labelledby="tycoon-title">
+  <div class="card">
+    <p class="eyebrow">Crew Credits · a play economy, never money</p>
+    <h2 id="tycoon-title">Your ledger</h2>
+    <div id="ty-ledger" aria-label="Crew Credits ledger"></div>
     <div class="row"><button class="btn" type="button" data-close>Close</button></div>
   </div>
 </div>

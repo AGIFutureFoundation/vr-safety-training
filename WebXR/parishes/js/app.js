@@ -7,7 +7,8 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
-import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
+import { ppCompleted, ppHerePage, ppReturnSite, ppRecords, ppAward } from "../../shared/passport.js";
+import { tyLedger, tySettle, tyTick, tySignsFor, tyMountLedger, tyBoardRows, tySetRecorder, TY_CURRENCY } from "../../shared/ty-economy.js";
 import { lkStationLink, lkStationLabel, lkWorldLink } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
 import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
@@ -45,6 +46,8 @@ const npReturnSiteId = npReturn ? npReturn.split("/").pop() : null;
 const npRegionHere = npRegion(npRegionOf(parish)) ?? { id: "new-orleans", name: "New Orleans", title: "New Orleans Parishes", noun: "parish", nouns: "parishes" };
 
 const np = { state: npLoad(), playing: false, yaw: 0, pitch: 0.02, x: 0, z: 0, timeIdx: 1, weatherIdx: 0, near: null, modal: null };
+// TYCOON's HUD figure and play clock (declared early: npBegin may draw the HUD before the TYCOON block below runs).
+let tyBalance = 0, tyClock = 0, tyLedgerUi = null;
 
 let npToastT = 0;
 function npToast(text, ms = 3200) { const t = $("toast"); t.textContent = text; t.classList.add("on"); clearTimeout(npToastT); npToastT = setTimeout(() => t.classList.remove("on"), ms); }
@@ -134,6 +137,7 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
   if (e.code === "KeyB") asOpenMotorPool();
+  if (e.code === "KeyL") tyOpenLedger();
   if (e.code === "KeyT") { np.timeIdx = (np.timeIdx + 1) % NP_TIMES.length; npApplySky(); }
   if (e.code === "KeyF") { np.weatherIdx = (np.weatherIdx + 1) % NP_WEATHERS.length; npApplySky(); }
 });
@@ -175,6 +179,7 @@ function npOpenBoard(site) {
   }
   $("board-side").textContent = "";
   qmBoardRows($("board-side"), npPlayItems().filter((g) => g.site === site.id), { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` }, heading: "Skill locks here", done: () => false });
+  tyBoardRows($("board-ty"), parish.id, site.id, { toast: npToast, onChange: tyRefresh });
   npOpen("board");
 }
 
@@ -319,6 +324,7 @@ function npHud() {
   $("hud-alt").textContent = `${h.toFixed(1)} m`;
   $("hud-lessons").textContent = `${(parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length}/${(parish.fieldLessons ?? []).length}`;
   $("hud-visited").textContent = `${(np.state.visited[parish.id] ?? []).length}/${parish.sites.length}`;
+  $("hud-credits").textContent = String(tyBalance);
   const p = $("hud-prompt");
   if (np.near) { p.hidden = false; p.textContent = np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : `E — ${np.near.conn.name}`; }
   else p.hidden = true;
@@ -360,6 +366,7 @@ function frame(now) {
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
+  if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -412,6 +419,7 @@ ctlMount({
     { label: "Time of day / weather", keys: ["T", "F"], pad: "—", touch: "—" },
     { label: "Talk to a crew member", keys: ["G"], pad: "—", touch: "Talk button" },
     { label: "Motor Pool", keys: ["B"], pad: "—", touch: "Parishes, then Motor Pool" },
+    { label: "Crew Credits ledger", keys: ["L"], pad: "—", touch: "Menu, then Crew Credits" },
   ],
 });
 
@@ -439,11 +447,48 @@ function asOpenMotorPool() {
 $("menu-motorpool").addEventListener("click", asOpenMotorPool);
 $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 
+// TYCOON (docs/consoles/TYCOON.md): the Crew Credits play economy — never money. A passed shift pays by level on the
+// way back, the ledger opens from the menu or L, each job board lists a room and a shop, and a rented building
+// carries a sign (one plane each, a canvas texture). The passport records the milestones as zero-credit awards.
+tySetRecorder(ppAward);
+tyBalance = tyLedger().balance;
+const tySigns = new THREE.Group(); tySigns.name = "ty-signs"; root.add(tySigns);
+function tyHangSigns() {
+  for (const m of tySigns.children.slice()) { m.geometry.dispose(); m.material.map?.dispose(); m.material.dispose(); tySigns.remove(m); }
+  for (const sg of tySignsFor(parish.id)) {
+    const site = parish.sites.find((x) => x.id === sg.site); if (!site) continue;
+    const cv = document.createElement("canvas"); cv.width = 512; cv.height = 96;
+    const o = cv.getContext("2d"); o.fillStyle = "#12324a"; o.fillRect(0, 0, 512, 96); o.fillStyle = "#ffd27a"; o.font = "bold 30px system-ui"; o.textAlign = "center"; o.fillText(sg.text, 256, 60, 490);
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(10, 1.9), new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }));
+    const x = site.position[0] + (sg.type === "shop" ? 12 : -12), z = site.position[1] + 6;
+    m.position.set(x, npHeightAt(parish, x, z) + 5.5, z); m.name = `ty-sign-${sg.site}-${sg.type}`; tySigns.add(m);
+  }
+}
+function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi?.render(); if (np.playing) npHud(); }
+function tyOpenLedger() {
+  if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
+  else tyLedgerUi.render();
+  npOpen("tycoon");
+}
+function tyAfterTick(events) {
+  if (!events.length) return;
+  tyBalance = tyLedger().balance;
+  const bad = events.find((e) => e.kind === "lapsed" || e.kind === "closed" || e.kind === "left");
+  if (bad) { npToast(bad.kind === "lapsed" ? `Not enough ${TY_CURRENCY} for the rent: the rental lapsed.` : bad.kind === "left" ? `Not enough ${TY_CURRENCY} for a wage: a crew member moved on.` : bad.why === "upkeep" ? `Not enough ${TY_CURRENCY} for upkeep: the business closed. Pass a shift and reopen it from the ledger.` : "The business's safety inspection is due: open the ledger (L) to run it.", 6000); tyRefresh(); }
+}
+{
+  const settled = tySettle(ppRecords());
+  if (settled.paid) setTimeout(() => npToast(`${TY_CURRENCY}: +${settled.amount} for ${settled.paid} passed training shift${settled.paid === 1 ? "" : "s"}.`, 5000), 1200);
+  tyRefresh();
+}
+$("menu-ledger").addEventListener("click", tyOpenLedger);
+
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */

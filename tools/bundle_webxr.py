@@ -760,6 +760,8 @@ APPS = {
             SHARED / "crew.js",
             SHARED / "npc-data.js",
             SHARED / "npc.js",
+            # TYCOON (the Packs run): the Crew Credits play economy (after npc-data.js, np-parishes.js and passport.js).
+            SHARED / "ty-economy.js",
             SHARED / "drivables-data.js",
             SHARED / "drivables-board.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
