@@ -7493,6 +7493,7 @@
   }
   import("./shared/org.js").then(hmCohorts).catch(() => { /* no module server (file://) */ });
 </script>
+<script type="module">import { stMountChip } from "./shared/st-paths.js"; for (const el of document.querySelectorAll("[data-st-chip]")) { stMountChip(el); el.hidden = false; }</script>
 <script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: "#top", except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>
 <script type="module">import { gdMount } from "./shared/guide.js"; gdMount({ root: "./", y: 0.9 });</script>
 </body>

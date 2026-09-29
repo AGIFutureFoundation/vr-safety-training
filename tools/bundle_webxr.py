@@ -766,6 +766,10 @@ APPS = {
             SHARED / "kw-play-data.js",
             SHARED / "kw-place.js",
             SHARED / "kw-kits.js",
+            # STORYLINE: the path registry, the generated side stories and their world mount (after npc.js, kw-play-data.js).
+            SHARED / "st-paths.js",
+            SHARED / "st-stories-data.js",
+            SHARED / "st-stories.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",

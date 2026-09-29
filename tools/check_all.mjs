@@ -57,6 +57,8 @@ const CHECKERS = [
   // The five New Orleans parishes' play layer: the storm-season arc, side games, hand-offs, path boards (docs/parish-play.md).
   "check_parish_play.mjs",
   "check_krewe.mjs",
+  // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
+  "check_storyline.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   "check_unity_export.mjs",
