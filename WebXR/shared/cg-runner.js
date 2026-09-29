@@ -9,7 +9,7 @@
 //     byMountFlowAgent (BAYOU) renders it unchanged. next(ev): {} to move on, { passed } after a station,
 //     { answer } at a check (a miss takes the flow's own fallback edge: the simpler re-teach step, then back),
 //     { done } after an apply step.
-//   cgReport(lesson, run, report) -> the lesson report, handed (guarded) to SCHOLAR's scStartSession(lessonId, where)
+//   cgReport(lesson, run, report, { misses }) -> the lesson report { lesson, station, unit, flow, status, steps, reteaches, misses, at, where }, handed (guarded) to SCHOLAR's scStartSession(lessonId, where)
 //     shape and DEAN's module progress shape: report.scholar?.(lessonId, where) and report.dean?.({ module, lesson, status, at }).
 //   cgGuideFor(lesson, fallbackId) -> { id, name, role } | null — the GRIOT character (npc-data.js) who speaks the lesson.
 //   cgMountRunner(el, { world, parish?, site?, character?, guide?, report? }) -> { open(lessonId), lessons, current } (plain DOM, no three.js).
@@ -72,7 +72,8 @@ export function cgFlowRunner(flow, { lesson = null, character = null, report = n
     if (ph === "check") { const c = n.params.check; return { who, line: c.q, options: c.options, note: state.lastWhy, actions: ["answer"] }; }
     if (ph === "apply") return { who, line: `Now use it here: ${n.title}.`, actions: ["done"] };
     if (ph === "close") return { who, line: "How did that go? Say one thing you would tell someone at home.", actions: ["finish"] };
-    const lines = n.params?.reteach ?? (n.kind === "brief" ? [n.why] : [n.title]);
+    // a brief speaks the lesson's own lines (parish or field lesson steps), a re-teach its simpler step titles
+    const lines = n.params?.reteach ?? (n.kind === "brief" && lesson?.steps?.length ? lesson.steps : n.kind === "brief" ? [n.why] : [n.title]);
     return { who, line: lines.join(" "), note: n.params?.reteach ? "One step at a time." : null, actions: ["next"] };
   }
 
@@ -87,13 +88,16 @@ export function cgFlowRunner(flow, { lesson = null, character = null, report = n
       state.tries++;
       const right = ev.answer === n.params.check.answer;
       state.lastWhy = right ? null : (n.params.check.why ?? null);
+      // A flow that branches on the check (COGNITION's) takes its re-teach edge on a miss; one that does not
+      // (BAYOU's) keeps the learner on the check with its why, as by-flow-agent.js does.
+      const branches = (flow.edges ?? []).some((e) => e.from === n.id && e.when?.passed === true);
       if (!right) state.reteaches++;
-      step({ ...acknowledgedOutcome(), passed: right });
+      if (right || branches) step({ ...acknowledgedOutcome(), passed: right });
     } else if (from === "apply") { if (ev.done) step(acknowledgedOutcome()); }
     else if (n?.kind === "gate") step(evaluateGate(n, run, flow));
     else if (from !== "done") step(acknowledgedOutcome());
     state.log.push([from, phase()]);
-    if (run.done && !state.reported) state.reported = cgReport(lesson, run, report);
+    if (run.done && !state.reported) state.reported = cgReport(lesson, run, report, { misses: state.reteaches });
     return say();
   }
 
@@ -101,11 +105,11 @@ export function cgFlowRunner(flow, { lesson = null, character = null, report = n
 }
 
 /** The lesson report: SCHOLAR's session and DEAN's module progress, both guarded (either may be absent). */
-export function cgReport(lesson, run, report = null) {
+export function cgReport(lesson, run, report = null, extra = {}) {
   const rec = {
     lesson: lesson?.id ?? null, station: lesson?.station ?? null, unit: lesson?.unit ?? null, flow: run?.flowId ?? null,
     status: run?.done ? "complete" : "in-progress", steps: (run?.history ?? []).length,
-    reteaches: (run?.history ?? []).filter((h) => h.next === "reteach").length, at: run?.updatedAt ?? null,
+    reteaches: (run?.history ?? []).filter((h) => h.next === "reteach").length, misses: extra.misses ?? null, at: run?.updatedAt ?? null,
     where: lesson?.where ?? null,
   };
   try { report?.scholar?.(rec.lesson, rec.where); } catch { /* SCHOLAR absent or refused: the lesson still completes */ }

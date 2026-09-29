@@ -128,9 +128,27 @@ for (const f of generated) {
   else fail(f.id, `adaptive branch: check ${atCheck}, re-teach ${atReteach}, back ${back}, main line ${onMain}`);
 }
 line(`5 adaptive branches (missed check -> re-teach -> check -> main line): ${adaptive}/${generated.length}`);
+// 5b — a flow that does not branch on its check (BAYOU's) keeps the learner on the check with the why, as by-flow-agent does
+const plain = Object.values(U.CG_FLOWS).filter((f) => !f.id.startsWith("cg-") && f.nodes.some((n) => n.kind === "checkin" && n.params?.check));
+let stays = 0;
+for (const f of plain) {
+  const r = CG.cgFlowRunner(f, { lesson: { title: f.title }, at: () => 0 });
+  for (let i = 0; i < 10 && r.phase !== "check"; i++) r.next(r.phase === "lesson" ? { passed: true } : {});
+  const cn = f.nodes.find((n) => n.id === r.run.nodeId);
+  const chk = cn?.params?.check;
+  if (!chk) { fail(f.id, "runner never reached the check"); continue; }
+  r.next({ answer: chk.options.findIndex((_, i) => i !== chk.answer) });
+  const stayed = r.run.nodeId === cn.id && r.say().note === (chk.why ?? null);
+  r.next({ answer: chk.answer });
+  const moved = r.run.nodeId !== cn.id;
+  if (stayed && moved) { stays++; ok(); } else fail(f.id, `a missed check: stayed ${stayed}, moved on after the right answer ${moved}`);
+}
+line(`5b missed check on a flow without a re-teach branch stays on the check with its why: ${stays}/${plain.length}`);
 
 // 6 — the runner finishes every lesson flow headlessly, reporting to SCHOLAR and DEAN (stubs of their shapes)
-let finished = 0, scholar = 0, dean = 0; const lessonsSeen = new Set();
+let finished = 0, scholar = 0, dean = 0, briefOk = 0; const lessonsSeen = new Set();
+const lessonSteps = (l) => l.kind === "parish" ? BY.byLessonById(l.lessonRef)?.steps
+  : l.kind === "field" ? (FL.K2_FIELD_LESSONS.find((x) => x.id === l.lessonRef) ?? RW_FIELD_LESSONS.find((x) => x.id === l.lessonRef))?.steps : l.steps;
 const report = {
   scholar: (lessonId, where) => { if (typeof lessonId === "string" && where && where.world) scholar++; },
   dean: (p) => { if (p && p.module && p.lesson && p.status === "complete") dean++; },
@@ -146,12 +164,14 @@ for (const u of units) for (const l of u.lessons) {
     else if (ph === "apply") r.next({ done: true });
     else r.next({});
   }
+  if (JSON.stringify(l.steps) !== JSON.stringify(lessonSteps(l))) fail(l.id, "lesson lines are not the lesson's own steps");
+  else briefOk++;
   if (r.done && r.state.reported?.status === "complete") { finished++; ok(); }
   else fail(l.id, `runner did not finish flow ${l.flow} (stopped at ${r.run.nodeId}, phase ${r.phase})`);
 }
 if (scholar !== finished) fail("report", `${scholar} SCHOLAR session reports for ${finished} finished lessons`); else ok();
 if (dean !== finished) fail("report", `${dean} DEAN progress reports for ${finished} finished lessons`); else ok();
-line(`6 runner finished headlessly: ${finished}/${lessonsSeen.size} lesson flows; reports — SCHOLAR ${scholar}, DEAN ${dean}`);
+line(`6 runner finished headlessly: ${finished}/${lessonsSeen.size} lesson flows; reports — SCHOLAR ${scholar}, DEAN ${dean}; brief lines are the lesson's own steps ${briefOk}/${lessonsSeen.size}`);
 
 // 7 — mounted in the parishes app and Redwood Reach
 const mounts = [["parishes", "WebXR/parishes/js/app.js"], ["redwood", "WebXR/redwood/js/app.js"]];
