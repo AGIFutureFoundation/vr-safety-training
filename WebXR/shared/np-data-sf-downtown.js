@@ -29,6 +29,8 @@ export const NP_SF_DOWNTOWN = {
     {"id":"russian-hill","name":"Russian Hill","center":[-580,-528],"radius":227,"height":28},
     {"id":"telegraph-hill","name":"Telegraph Hill","center":[-72,-618],"radius":173,"height":24},
     {"id":"twin-peaks","name":"Twin Peaks","center":[-1739,1885],"radius":523,"height":58},
+    {"id":"potrero-hill","name":"Potrero Hill","center":[119,1558],"radius":273,"height":20},
+    {"id":"lone-mountain","name":"Lone Mountain","center":[-1919,604],"radius":150,"height":16},
   ],
   water: [
     {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[-2048,-2048],[-2048,-828],[-2039,-829],[-1719,-880],[-1440,-880],[-1160,-930],[-960,-980],[-760,-930],[-560,-980],[-360,-1030],[-160,-980],[40,-829],[200,-679],[360,-503],[460,-327],[560,-176],[740,-126],[740,176],[640,327],[660,553],[700,679],[720,955],[740,1257],[880,1483],[880,1809],[804,2048],[2048,2048],[2048,-2048]]},

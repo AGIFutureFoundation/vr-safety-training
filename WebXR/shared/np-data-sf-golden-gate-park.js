@@ -26,6 +26,9 @@ export const NP_SF_GOLDEN_GATE_PARK = {
   ],
   hills: [
     {"id":"twin-peaks","name":"Twin Peaks","center":[1220,528],"radius":523,"height":58},
+    {"id":"mount-davidson","name":"Mount Davidson","center":[1000,1256],"radius":360,"height":56},
+    {"id":"lone-mountain","name":"Lone Mountain","center":[1080,-744],"radius":150,"height":16},
+    {"id":"mount-sutro","name":"Mount Sutro","center":[840,251],"radius":330,"height":50},
   ],
   water: [
     {"id":"pacific-ocean","name":"the Pacific Ocean","kind":"ocean","poly":[[-72,-2048],[-2048,-2048],[-2048,2048],[-984,2048],[-1000,1910],[-1080,1407],[-1160,905],[-1220,402],[-1260,-101],[-1300,-603],[-1360,-905],[-1120,-1257],[-880,-1307],[-560,-1307],[-360,-1407],[-240,-1709],[-80,-2010]]},

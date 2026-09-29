@@ -28,6 +28,12 @@ export const NP_SF_MISSION = {
     {"id":"potrero-hill","name":"Potrero Hill","center":[300,201],"radius":273,"height":20},
     {"id":"bernal-heights","name":"Bernal Heights","center":[-280,1005],"radius":295,"height":32},
     {"id":"twin-peaks","name":"Twin Peaks","center":[-1580,528],"radius":523,"height":58},
+    {"id":"nob-hill","name":"Nob Hill","center":[-320,-1508],"radius":255,"height":30},
+    {"id":"russian-hill","name":"Russian Hill","center":[-440,-1910],"radius":227,"height":28},
+    {"id":"telegraph-hill","name":"Telegraph Hill","center":[80,-1960],"radius":173,"height":24},
+    {"id":"mount-davidson","name":"Mount Davidson","center":[-1800,1257],"radius":360,"height":56},
+    {"id":"lone-mountain","name":"Lone Mountain","center":[-1760,-753],"radius":150,"height":16},
+    {"id":"mount-sutro","name":"Mount Sutro","center":[-1960,252],"radius":330,"height":50},
   ],
   water: [
     {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[347,-2048],[360,-2036],[520,-1860],[620,-1684],[720,-1533],[900,-1483],[900,-1181],[800,-1030],[820,-804],[860,-679],[880,-402],[900,-101],[1040,126],[1040,452],[960,704],[980,1005],[1200,1257],[1520,1508],[1920,1759],[1690,2048],[2048,2048],[2048,-2048]]},

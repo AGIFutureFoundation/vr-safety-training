@@ -130,8 +130,8 @@ export const NP_SF_BAYVIEW = {
    "id": "bayview-hill",
    "name": "Bayview Hill",
    "center": [
-    -580,
-    1160
+    -472,
+    917
    ],
    "radius": 230,
    "height": 34
@@ -155,6 +155,16 @@ export const NP_SF_BAYVIEW = {
    ],
    "radius": 180,
    "height": 30
+  },
+  {
+   "id": "potrero-hill",
+   "name": "Potrero Hill",
+   "center": [
+    -816,
+    -1403
+   ],
+   "radius": 150,
+   "height": 18
   }
  ],
  "water": [

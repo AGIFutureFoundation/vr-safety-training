@@ -150,9 +150,9 @@ on the shore; the three boxes overlap, as the parishes do.
 
 | district | id | module | export | sites | hills | connectors |
 |---|---|---|---|---|---|---|
-| Downtown & Embarcadero | `sf-downtown` | `np-data-sf-downtown.js` | `NP_SF_DOWNTOWN` | 9 | Nob Hill, Russian Hill, Telegraph Hill, Twin Peaks | 5 |
-| Mission & SoMa | `sf-mission` | `np-data-sf-mission.js` | `NP_SF_MISSION` | 9 | Potrero Hill, Bernal Heights, Twin Peaks | 5 |
-| Golden Gate Park, the Richmond & the Sunset | `sf-golden-gate-park` | `np-data-sf-golden-gate-park.js` | `NP_SF_GOLDEN_GATE_PARK` | 9 | Twin Peaks | 3 |
+| Downtown & Embarcadero | `sf-downtown` | `np-data-sf-downtown.js` | `NP_SF_DOWNTOWN` | 9 | Nob Hill, Russian Hill, Telegraph Hill, Twin Peaks, Potrero Hill, Lone Mountain | 5 |
+| Mission & SoMa | `sf-mission` | `np-data-sf-mission.js` | `NP_SF_MISSION` | 9 | Potrero Hill, Bernal Heights, Twin Peaks, Nob Hill, Russian Hill, Telegraph Hill, Mount Davidson, Lone Mountain, Mount Sutro | 5 |
+| Golden Gate Park, the Richmond & the Sunset | `sf-golden-gate-park` | `np-data-sf-golden-gate-park.js` | `NP_SF_GOLDEN_GATE_PARK` | 9 | Twin Peaks, Mount Davidson, Lone Mountain, Mount Sutro | 3 |
 
 **Downtown & Embarcadero** — the Embarcadero piers, the Ferry Building landing, the Transbay transit hub, a hospital
 campus on Cathedral Hill, a union hall off Market Street, the cable car barn on Nob Hill, a Financial District high-rise,
@@ -232,7 +232,7 @@ agree on the shore; the boxes overlap. Site names and crews are procedural train
 | district | id | module | export | sites | hills | connectors |
 |---|---|---|---|---|---|---|
 | West Oakland & the Port | `oak-west-oakland` | `np-data-oak-west-oakland.js` | `NP_OAK_WEST_OAKLAND` | 13 | — (the shore walls give relief) | 4 |
-| Downtown Oakland & Lake Merritt | `oak-downtown-lake` | `np-data-oak-downtown-lake.js` | `NP_OAK_DOWNTOWN_LAKE` | 12 | Adams Point, the Piedmont hills | 4 |
+| Downtown Oakland & Lake Merritt | `oak-downtown-lake` | `np-data-oak-downtown-lake.js` | `NP_OAK_DOWNTOWN_LAKE` | 12 | Adams Point, the Piedmont hills, the Oakland hills (the field's east edge) | 4 |
 | Fruitvale & the Estuary | `oak-fruitvale-estuary` | `np-data-oak-fruitvale-estuary.js` | `NP_OAK_FRUITVALE_ESTUARY` | 12 | the Oakland hills, Lincoln Highlands | 3 |
 
 **West Oakland & the Port** — the Outer Harbor and Seventh Street container terminals, the port's crane shop and truck
@@ -362,3 +362,30 @@ switchbacks, the Castro's theatre marquee, Sutro Tower, Twin Peaks, Lake Merced,
 | The Great Highway along Ocean Beach | road | sf-sunset-south ↔ sf-golden-gate-park | -122.505, 37.743 | `sf-ss-great-highway-north`, `sf-gp-sunset-great-highway` |
 | Nineteenth Avenue | road | sf-sunset-south ↔ sf-golden-gate-park | -122.475, 37.743 | `sf-ss-nineteenth-avenue-north`, `sf-gp-sunset-nineteenth` |
 | Ocean Avenue to the Outer Mission | road | sf-sunset-south → sf-outer-mission (TIDELANDS, merging) | -122.458, 37.721 | `sf-ss-ocean-avenue-east` (`to.position: null` until sf-outer-mission pairs it) |
+
+## Hills — approximate positions (console RELIEF)
+
+Every named hill on the San Francisco and Oakland maps sits at the **approximate position** of the public hill it names:
+the hill's approximate longitude and latitude (rounded to three decimals, public geography) is pushed through that map's
+own fit (`npGeoToXz` in `shared/np-geo.js`) and the hill's `center` is placed there, or left where it was when it already
+lay within its own radius. Heights stay schematic map numbers, relative to one another (Twin Peaks and Mount Davidson the
+tallest mounds, Lone Mountain and Adams Point small ones); they are not measurements, the mounds are raised cosines, and
+nothing here claims survey accuracy. The audit re-runs from `docs/consoles/RELIEF.md`'s cycle 1.
+
+| map | moved (was off by more than its radius) | added (inside the field) | left out |
+|---|---|---|---|
+| `sf-downtown` | — | Potrero Hill, Lone Mountain | Pacific Heights (not on the owner's list) |
+| `sf-mission` | — | Nob Hill, Russian Hill, Telegraph Hill, Mount Davidson, Lone Mountain, Mount Sutro | — |
+| `sf-golden-gate-park` | — | Mount Davidson, Lone Mountain (its crown on the campus pad, a terrace), Mount Sutro | — |
+| `sf-marina` | — | Nob Hill (a school campus pad terraced on it), Telegraph Hill, Lone Mountain | — |
+| `sf-bayview` | Bayview Hill | Potrero Hill | Hunters Point hill kept where it was: its position is not certain enough to move |
+| `oak-west-oakland` | — | — | none inside the field (the hills' edge and Adams Point lie east of it) |
+| `oak-downtown-lake` | Adams Point (the Lakeside Park pad now terraced on it) | the Oakland hills (the field's east edge) | — |
+| `oak-fruitvale-estuary` | Lincoln Highlands | — | — |
+
+A site near a hill is either clear of the mound or stands on a terrace at the hill's height (`check_parishes`'s hill
+checks). Maps added later place their own hills the same way.
+
+With a viewer's Mapbox token, the relief under any map can also follow the real ground: see "Relief from Mapbox
+Terrain-RGB" in [mapbox.md](mapbox.md). Without one, the hills above are the only relief.
+

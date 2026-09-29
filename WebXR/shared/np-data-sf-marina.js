@@ -155,6 +155,36 @@ export const NP_SF_MARINA = {
    ],
    "radius": 260,
    "height": 22
+  },
+  {
+   "id": "nob-hill",
+   "name": "Nob Hill",
+   "center": [
+    1459,
+    269
+   ],
+   "radius": 200,
+   "height": 24
+  },
+  {
+   "id": "telegraph-hill",
+   "name": "Telegraph Hill",
+   "center": [
+    1888,
+    -216
+   ],
+   "radius": 90,
+   "height": 16
+  },
+  {
+   "id": "lone-mountain",
+   "name": "Lone Mountain",
+   "center": [
+    -85,
+    1079
+   ],
+   "radius": 140,
+   "height": 16
   }
  ],
  "water": [
