@@ -217,7 +217,7 @@ const D = [
     connectors: [
       ["sf-ss-great-highway-north", "road", "The Great Highway north along Ocean Beach", "sf-golden-gate-park", [-122.505, 37.743], "sf-gp-sunset-great-highway", "The Great Highway south to Ocean Beach south and Fort Funston"],
       ["sf-ss-nineteenth-avenue-north", "road", "Nineteenth Avenue north through the Sunset", "sf-golden-gate-park", [-122.475, 37.743], "sf-gp-sunset-nineteenth", "Nineteenth Avenue south to Stonestown and the campus"],
-      ["sf-ss-ocean-avenue-east", "road", "Ocean Avenue east to the Outer Mission", "sf-outer-mission", [-122.458, 37.721], null, null],
+      ["sf-ss-ocean-avenue-east", "road", "Ocean Avenue east to the Outer Mission", "sf-outer-mission", [-122.458, 37.721], [-720, -253], null], // paired with sf-om-ocean-avenue-west once TIDELANDS merged
     ],
     lessons: [
       { id: "sn-fl-rip-current", title: "Reading the Water at Ocean Beach", site: "ocean-beach-south-lifeguards", landmark: "ocean-beach", k12: "k12-first-aid-awareness-call-for-help", station: "br-cold-water-immersion-and-mob-recovery", trade: "Ocean lifeguards", tradeLine: "An ocean lifeguard reads the waves for rip currents and calls for help before anyone else goes in.", minutes: 3, steps: ["Look at the waves rolling in along the beach.", "A calm-looking gap can be a rip current pulling out to sea.", "If someone is in trouble, call a lifeguard instead of swimming out."], check: { q: "What should you do if you see someone in trouble in the water?", options: ["Call a lifeguard for help", "Swim out alone", "Walk away"], answer: 0, why: "Lifeguards are trained and equipped for cold water; calling them keeps more people safe." } },

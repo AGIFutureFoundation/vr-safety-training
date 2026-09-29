@@ -1157,7 +1157,10 @@ export const NP_SF_SUNSET_SOUTH = {
    },
    "to": {
     "parish": "sf-outer-mission",
-    "position": null,
+    "position": [
+     -720,
+     -253
+    ],
     "lonlat": [
      -122.458,
      37.721

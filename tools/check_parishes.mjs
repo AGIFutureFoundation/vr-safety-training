@@ -401,6 +401,8 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   const spa = wo?.connectors.find((c) => c.id === "eb-wo-san-pablo-avenue-north"), spb = em?.connectors.find((c) => c.id === "eb-em-san-pablo-avenue-south");
   check(!!spa && !!spb && spa.lonlat.join() === spb.lonlat.join() && spa.to.parish === em.id && spb.to.parish === wo.id, "San Pablo Avenue pairs West Oakland and Emeryville (eb-wo-san-pablo-avenue-north, eb-em-san-pablo-avenue-south) at one crossing");
   check(readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8").split('SHARED / "np-data-bay-san-pablo.js"').length === 3, "the three EASTBAY modules are in both bundles that carry np-parishes.js");
+}
+
 // The walkable San Francisco districts (console NEIGHBORHOODS, docs/consoles/NEIGHBORHOODS.md): three more districts on
 // the strict engine at a walkable declared scale, the brief's kinds of site, hills placed where they are in the city, the
 // named landmarks (LANDMARKS' kinds, drawn with lmBuild once it merges), paired roads, and the overlap rule.
@@ -447,6 +449,11 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   const outer = R.npParish("sf-outer-mission");
   if (outer) for (const { id, b } of bx) { const [ox, oy] = olap(b, G.npBounds(outer)); note(`${id} ∩ sf-outer-mission: ${ox > 0 && oy > 0 ? `${Math.round(ox * 88000)} × ${Math.round(oy * 111320)} m` : "none"}`); }
   else note("sf-outer-mission (TIDELANDS) is not in the tree yet: sf-ss-ocean-avenue-east waits for its pair");
+  if (outer) {
+    const ss = R.npParish("sf-sunset-south")?.connectors.find((c) => c.id === "sf-ss-ocean-avenue-east"), om = outer.connectors.find((c) => c.id === "sf-om-ocean-avenue-west");
+    check(!!ss && !!om && ss.lonlat.join() === om.lonlat.join() && ss.to.parish === outer.id && om.to.parish === "sf-sunset-south" && ss.to.position?.join() === om.from.position.join() && om.to.position?.join() === ss.from.position.join(), "Ocean Avenue pairs the Sunset and the Outer Mission (sf-ss-ocean-avenue-east, sf-om-ocean-avenue-west) at one crossing");
+    if (om) check(!E.npWaterAt(outer, ...om.from.position), "sf-outer-mission/sf-om-ocean-avenue-west: leaves from dry ground");
+  }
   for (const p of walk) for (const o of R.NP_PARISHES.filter((q) => q.region === "san-francisco" && !SN[q.id])) {
     const a = G.npBounds(p), [ox, oy] = olap(a, G.npBounds(o));
     if (ox > 0 && oy > 0) note(`${p.id} lies within the coarse ${o.id} field over ${Math.round((100 * ox * oy) / ((a.maxLon - a.minLon) * (a.maxLat - a.minLat)))} % of its box`);
