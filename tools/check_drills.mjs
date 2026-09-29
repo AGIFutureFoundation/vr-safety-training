@@ -83,6 +83,15 @@ const flood = DR.drDrill("dr-flood");
 check(flood?.objectives.some((o) => o.kiosk === "kw-floodgate-closeout"), "resolve", "the flood drill does not close the floodgate at KREWE's kw-floodgate-closeout");
 check(DR.drDrill("dr-traffic")?.objectives.every((o) => o.station === "traffic-incident-management"), "resolve", "the traffic drill strays from traffic-incident-management");
 
+// NEWTON's "after a collision" card becomes the traffic scene: each of its steps is an objective, then clear.
+const { NW_AFTER_COLLISION } = await imp("shared/nw-physics.js");
+const traffic = DR.drDrill("dr-traffic");
+const cardSteps = NW_AFTER_COLLISION.steps.map((s) => s.id);
+check(traffic.fromCard === NW_AFTER_COLLISION.id && NW_AFTER_COLLISION.station === "traffic-incident-management", "card", "the traffic drill does not start from NEWTON's card");
+check(cardSteps.every((id) => traffic.objectives.some((o) => o.id === id)) && traffic.objectives.some((o) => o.id === "clear"), "card", `card steps ${cardSteps.join("/")} + clear are not all traffic objectives`);
+const order = [...cardSteps, "clear"].map((id) => traffic.objectives.findIndex((o) => o.id === id));
+check(order.every((v, i) => i === 0 || v > order[i - 1]), "card", "the traffic objectives do not run secure → check → call → clear");
+
 // ---- placements
 const sfOrNo = { no: new Set(), sf: new Set() };
 for (const p of DR.DR_PLACES) {

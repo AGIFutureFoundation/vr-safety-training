@@ -6,3 +6,6 @@
   The catalog's `sources` arrays are empty in this tree; the sourced standards live in each station's `certification`.
 - Mounted in the parishes app (`#menu-drills`, `window.__parishTest.drills`); NEWTON's crash card offers `dr-traffic`.
 - Eval before: 15 subjects, mean 98, 10 findings.
+- Commits: 948460c (drills + checker + wiring), then the live pass and reduced-motion check, then the card-coverage check.
+- `check_drills --live` takes ~110 s (two page loads); the plain run is pure Node (~0.4 s) and is what check_all runs.
+- Eval after: 15 subjects, mean 98, 10 findings (unchanged).

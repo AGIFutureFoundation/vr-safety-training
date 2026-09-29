@@ -52,3 +52,7 @@ drill's score is the mean (0–100), passed at 80. The debrief lists only the dr
 4. Reason: the still world — under `prefers-reduced-motion` the flood water stands at its final level from the start and does
    not move. Check: the live pass's reduced-motion context (Orleans, lakefront levee). Observed: pass — "reduced motion water
    still at 1.2 m" (235 checks · 0 failed).
+5. Reason: the traffic drill IS NEWTON's card as a scene — each of the card's steps (secure, check, call) is a traffic
+   objective, then clear, in that order. Check: `check_drills` `[card]` lines. Observed: pass (233 checks · 0 failed, 368 ms).
+6. Reason: the worlds still score — `node tools/eval_worlds.mjs` before and after. Observed: before 15 subjects, mean 98,
+   10 findings; after 15 subjects, mean 98, 10 findings (unchanged — drills add no world subject; the findings are other consoles').
