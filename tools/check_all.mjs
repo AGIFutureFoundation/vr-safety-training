@@ -70,6 +70,8 @@ const CHECKERS = [
   "check_bayquest.mjs",
   // PROJECTSIM: the Bay Program project simulations (docs/consoles/PROJECTSIM.md).
   "check_projectsim.mjs",
+  // CLASSROOMS: rooms that teach — K-12 classrooms, union training centres, programme rooms (docs/consoles/CLASSROOMS.md).
+  "check_classrooms.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).

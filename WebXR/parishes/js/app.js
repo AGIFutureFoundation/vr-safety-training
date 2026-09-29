@@ -55,7 +55,7 @@ import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
 import { bqGamesFor } from "../../shared/bq-games-data.js";
 import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
-import { crMountClassrooms } from "../../shared/cr-classrooms.js";
+import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -716,15 +716,17 @@ var psWorld = psMountProjectSim({
 
 // CLASSROOMS (docs/consoles/CLASSROOMS.md): rooms that teach at the school, union-hall and programme sites; the board opens
 // a SCHOLAR session, a bench or bay a real station, a bay's simulation PROJECTSIM, a robotics game ROBOTICS' (guarded).
+function crLaunch(l, room) {
+  if (l.type === "lesson") return scSession.open(l.id) !== false;
+  if (l.type === "sim") return psWorld?.open(l.id, room?.site) !== false;
+  if (l.type === "game") { const g = globalThis.rbOpenGame; if (typeof g === "function") return g(l.id) !== false; npToast("This robotics game opens once the robotics layer is in this build."); return true; }
+  location.href = npLink(l.id, room?.site); return true;
+}
+// INTERIORS' shell when it is in the build (guarded): the same rooms furnish its styles as dressers, and its doors take over.
+var crDressed = crRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser, IX_KIND_STYLE } : null, { parish, launch: crLaunch });
 var crWorld = crMountClassrooms({
-  three: THREE, scene, root, parish, tier: npTierName, toast: npToast,
+  three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
-  launch: (l, room) => {
-    if (l.type === "lesson") return scSession.open(l.id) !== false;
-    if (l.type === "sim") return psWorld?.open(l.id, room?.site) !== false;
-    if (l.type === "game") { const g = globalThis.rbOpenGame; if (typeof g === "function") return g(l.id) !== false; npToast("This robotics game opens once the robotics layer is in this build."); return true; }
-    location.href = npLink(l.id, room?.site); return true;
-  },
 });
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).

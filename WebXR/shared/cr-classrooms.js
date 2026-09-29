@@ -25,6 +25,7 @@
 import { byLessonsFor, BY_BAND_CEILING } from "./by-parish-lessons.js";
 import { esSessionLessons } from "./es-bay-lessons.js";
 import { cgLessonsAt } from "./cg-runner.js";
+import { PS_SIMS } from "./ps-projectsim-data.js";
 
 /** The mesh budget of one built room (INTERIORS' interior budget: a room is a small fraction of a chunk). */
 export const CR_BUDGET = { meshes: 24, phoneMeshes: 16, triangles: 6000 };
@@ -49,8 +50,18 @@ export const CR_ROBOTICS = {
   stations: ["robot-cell", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill", "ad-cobot-risk-assessment-and-speed-separation"],
   games: ["rb-teleop-pick-place", "rb-amr-fleet-routing", "rb-cobot-zone-setup", "rb-cell-entry"],
 };
+/** ROBOTICS' game titles (its rb-robotics-data.js scenarios; plain words, no fear framing). */
+export const CR_GAME_NAMES = { "rb-teleop-pick-place": "pick and place within force limits", "rb-amr-fleet-routing": "route a robot fleet without conflicts", "rb-cobot-zone-setup": "set up a cobot's safety zones", "rb-cell-entry": "lock out and enter a robot cell" };
+/** A launch in words: a simulation's name, a station's id as words, a game's title. */
+export function crLaunchName(l) {
+  if (l.type === "sim") return `simulation — ${PS_SIMS.find((s) => s.id === l.id)?.name ?? l.id}`;
+  if (l.type === "game") return `game — ${CR_GAME_NAMES[l.id] ?? l.id}`;
+  return `station — ${String(l.id).replace(/-/g, " ")}`;
+}
 /** Where the robotics bays stand (a site id per map; ROBOTICS' own sites are on these maps). */
-export const CR_ROBOTICS_SITES = { "bay-san-jose": "university-campus-plant-sj", "oak-west-oakland": "mandela-parkway-union-hall" };
+export const CR_ROBOTICS_SITES = { "bay-san-jose": "university-campus-plant-sj", "oak-west-oakland": "mandela-parkway-warehouse-row" };
+/** Where the Academy rooms stand on the Bay Program maps (an indoor-capable yard site on each). */
+export const CR_ACADEMY_SITES = { "bp-strip-marsh-east": "sme-staging-yard", "bp-san-leandro-bay": "slb-corporation-yard" };
 
 /** The Bay Restoration Academy room: the first track's stations and simulation (ACADEMY's abag-strip-marsh-east work types). */
 export const CR_ACADEMY = {
@@ -124,7 +135,7 @@ function crAcademyRoom(parish, site) {
 
 function crRoboticsRoom(parish, site) {
   const fx = CR_ROBOTICS.stations.map((id, i) => ({ id: `st-${i}`, kind: "bench", label: `Robot station ${i + 1}`, at: [-4.5 + i * 3, -3.5], launch: { type: "station", id } }));
-  CR_ROBOTICS.games.forEach((id, i) => fx.push({ id: `game-${i}`, kind: "bay", label: `Robotics game ${i + 1}`, at: [-4.5 + i * 3, 3.5], launch: { type: "game", id } }));
+  CR_ROBOTICS.games.forEach((id, i) => fx.push({ id: `game-${i}`, kind: "bay", label: `Robotics game: ${CR_GAME_NAMES[id] ?? id}`, at: [-4.5 + i * 3, 3.5], launch: { type: "game", id } }));
   return { id: `cr-robotics-${parish.id}`, kind: "robotics", parish: parish.id, site: site.id, name: "Robotics bay", size: [14, 12], fixtures: fx };
 }
 
@@ -135,7 +146,8 @@ export function crRoomsFor(parish) {
   const door = (site, room) => { room.door = [crR(site.position[0] + 6), crR(site.position[1] + 6)]; return room; };
   for (const s of parish.sites) if (crIsSchool(s)) out.push(door(s, crK12Room(parish, s)));
   for (const s of parish.sites) if (s.kind === "union-hall") out.push(door(s, crUnionRoom(parish, s)));
-  if (/^bp-/.test(parish.id) && parish.sites[0]) out.push(door(parish.sites[0], crAcademyRoom(parish, parish.sites[0])));
+  const as = parish.sites.find((s) => s.id === CR_ACADEMY_SITES[parish.id]) ?? (/^bp-/.test(parish.id) ? parish.sites[0] : null);
+  if (as) out.push(door(as, crAcademyRoom(parish, as)));
   const rs = parish.sites.find((s) => s.id === CR_ROBOTICS_SITES[parish.id]);
   if (rs) { const r = crRoboticsRoom(parish, rs); r.door = [crR(rs.position[0] - 6), crR(rs.position[1] + 6)]; out.push(r); }
   return out.filter((r) => r.fixtures.length);
@@ -172,6 +184,51 @@ export function crStats(group) {
   return { meshes, triangles };
 }
 
+/**
+ * INTERIORS' shell (shared/ix-interiors.js, docs/consoles/INTERIORS.md "Seams"): furnish its rooms as dressers.
+ * `ix` is { ixRegisterDresser, IX_KIND_STYLE } (guarded: pass null when the shell is not in the build). For every style one
+ * of this parish's rooms opens in, one dresser is registered; it furnishes only a site that has a room here — one
+ * InstancedMesh per fixture kind, desks as one InstancedMesh — and registers every fixture with `room.addAction` (a plain
+ * station goes through the mount's onLaunch; lessons, simulations, flows and games run through `launch`). Positions are
+ * scaled into the shell's footprint (door on +z, back wall −z). Returns the styles registered.
+ */
+export function crRegisterDressers(ix, { parish, launch = () => false } = {}) {
+  if (!ix || typeof ix.ixRegisterDresser !== "function") return [];
+  const rooms = crRoomsFor(parish), bySite = new Map(rooms.map((r) => [r.site, r]));
+  const styleOf = (siteId) => { const s = parish.sites.find((x) => x.id === siteId); return (ix.IX_KIND_STYLE ?? {})[s?.kind] ?? "civic-lobby"; };
+  const styles = [...new Set(rooms.map((r) => styleOf(r.site)))];
+  const dresser = ({ three: THREE, group, room, site, tier }) => { const r = site && bySite.get(site.id); if (r) crDress({ THREE, group, room, r, tier, launch }); };
+  for (const st of styles) ix.ixRegisterDresser(st, dresser);
+  return styles;
+}
+
+/** Furnish one INTERIORS room with a CLASSROOMS room's fixtures (see crRegisterDressers). */
+export function crDress({ THREE, group, room, r, tier = "high", launch = () => false }) {
+  const sx = Math.min(1, (room.w / 2 - 1) / (r.size[0] / 2)), sz = Math.min(1, (room.d / 2 - 1.5) / (r.size[1] / 2));
+  const pos = (f) => [crR(f.at[0] * sx), crR(Math.min(room.d / 2 - 2.5, f.at[1] * sz))];
+  const COL = { board: 0x1f4d3a, bench: 0x6b5a45, reading: 0x9b6bc4, desk: 0x4f86c6, lobby: 0x2a3f5f, bay: 0xf2a33a };
+  const tallK = (k) => k === "board" || k === "lobby";
+  const q = new THREE.Object3D();
+  for (const k of [...new Set(r.fixtures.map((f) => f.kind))]) {
+    const fs = r.fixtures.filter((f) => f.kind === k), tall = tallK(k);
+    const m = new THREE.InstancedMesh(new THREE.BoxGeometry(tall ? 3 : 1.6, tall ? 1.3 : 0.9, tall ? 0.12 : 0.8), new THREE.MeshLambertMaterial({ color: COL[k] ?? 0x888888 }), fs.length);
+    fs.forEach((f, i) => { const [x, z] = pos(f); q.position.set(x, tall ? 1.6 : 0.45, tall ? -room.d / 2 + 0.2 : z); q.updateMatrix(); m.setMatrixAt(i, q.matrix); });
+    m.name = `cr-${k}`; group.add(m);
+  }
+  if (r.kind === "k12" && tier !== "low") {
+    const desks = new THREE.InstancedMesh(new THREE.BoxGeometry(1.1, 0.75, 0.6), new THREE.MeshLambertMaterial({ color: 0xa3835c }), 12);
+    for (let i = 0; i < 12; i++) { q.position.set(crR((-2.4 + (i % 4) * 1.6) * sx), 0.375, crR((-1.6 + Math.floor(i / 4) * 1.5) * sz)); q.updateMatrix(); desks.setMatrixAt(i, q.matrix); }
+    desks.name = "cr-desks"; group.add(desks);
+  }
+  for (const f of r.fixtures) {
+    const [x, z0] = pos(f), z = tallK(f.kind) ? -room.d / 2 + 1.2 : z0;
+    const run = () => launch(f.launch, r) !== false;
+    if (f.launch.type === "station" && !(f.more ?? []).length) room.addAction({ id: `cr-${f.id}`, kind: "station", station: f.launch.id, x, z, r: 1.4, label: f.label, run });
+    else room.addAction({ id: `cr-${f.id}`, kind: `cr-${f.launch.type}`, x, z, r: 1.4, label: f.label, run, launch: f.launch, more: f.more ?? [] });
+  }
+  return r;
+}
+
 const CR_CSS = `.cr-chip{position:fixed;left:12px;bottom:132px;z-index:30;background:#0b141dee;color:#edf6fb;border:1px solid #f2c14b88;border-radius:12px;padding:8px 12px;font:14px/1.35 system-ui,sans-serif;display:flex;gap:8px;align-items:center}
 .cr-panel{position:fixed;left:12px;top:72px;z-index:31;width:min(360px,calc(100vw - 24px));max-height:calc(100vh - 96px);overflow:auto;background:#0b141df2;color:#edf6fb;border:1px solid #f2c14b66;border-radius:14px;padding:12px 14px;font:14px/1.4 system-ui,sans-serif}
 .cr-panel h2{font-size:16px;margin:0 0 6px}.cr-panel p{margin:0 0 8px;color:#a9c3d2;font-size:12.5px}.cr-panel ul{list-style:none;padding:0;margin:0;display:grid;gap:6px}
@@ -179,7 +236,7 @@ const CR_CSS = `.cr-chip{position:fixed;left:12px;bottom:132px;z-index:30;backgr
 .cr-chip button{width:auto}[hidden].cr-chip,[hidden].cr-panel{display:none!important}`;
 
 /** Mount the rooms in a world page (the SEAM above). Works headless (no DOM) for the checker. */
-export function crMountClassrooms({ three: THREE = null, scene = null, root = null, parish, groundAt = () => 0, launch = () => false, toast = () => {}, host = null, tier = "desktop", shell = null } = {}) {
+export function crMountClassrooms({ three: THREE = null, scene = null, root = null, parish, groundAt = () => 0, launch = () => false, toast = () => {}, host = null, tier = "desktop", shell = null, passive = false } = {}) {
   const rooms = crRoomsFor(parish);
   const hasDom = typeof document !== "undefined";
   let near = null, cur = null, group = null, back = null, origin = [0, 0, 0];
@@ -202,7 +259,7 @@ export function crMountClassrooms({ three: THREE = null, scene = null, root = nu
     for (const f of cur.fixtures) {
       for (const l of [f.launch, ...(f.more ?? [])]) {
         const li = document.createElement("li"), b = document.createElement("button");
-        b.textContent = l === f.launch ? f.label : `${f.label}: ${l.type === "sim" ? "simulation" : "station"} ${l.id}`;
+        b.textContent = l === f.launch ? f.label : `${f.label}: ${crLaunchName(l)}`;
         b.dataset.crFixture = f.id; b.addEventListener("click", () => fire(l)); li.appendChild(b); ul.appendChild(li);
       }
     }
@@ -212,7 +269,7 @@ export function crMountClassrooms({ three: THREE = null, scene = null, root = nu
   const api = {
     rooms,
     tick(x, z) {
-      if (cur) return;
+      if (cur || passive) return; // passive: INTERIORS' shell owns the doors; this mount only furnishes
       near = rooms.find((r) => Math.hypot(x - r.door[0], z - r.door[1]) < 5) ?? null;
       if (chip) { chip.hidden = !near; if (near) chipText.textContent = near.name; }
     },

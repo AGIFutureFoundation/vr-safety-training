@@ -127,6 +127,39 @@ for (const p of NP_PARISHES) {
   console.log(`  contract: ${p.id} ${r.id} — door offers it, enter builds it, the board opens ${calls[0]?.id}, walls hold, exit restores the world`);
 }
 
+// 7. on INTERIORS' shell (guarded: only when shared/ix-interiors.js is in the tree): every room furnishes its style as a
+//    dresser within IX_BUDGET (shell + dressing), every fixture registers an action, and running one launches it.
+let ixLine = "INTERIORS shell not in this tree (the minimal room above stands in)";
+if (ixShell) {
+  const IX = await import("../WebXR/shared/ix-interiors.js");
+  const T3 = await import("../WebXR/vendor/three/dist/three.module.min.js");
+  let rooms = 0, worstIx = 0, acts = 0;
+  for (const p of NP_PARISHES) {
+    const calls = [], dressers = {};
+    const styles = CR.crRegisterDressers({ ixRegisterDresser: (st, fn) => (dressers[st] ??= []).push(fn), IX_KIND_STYLE: IX.IX_KIND_STYLE }, { parish: p, launch: (l) => { calls.push(l); return true; } });
+    for (const r of CR.crRoomsFor(p)) {
+      const site = p.sites.find((s) => s.id === r.site), style = IX.ixStyleFor(site.kind);
+      check(styles.includes(style), `${p.id}/${r.id}`, `no dresser registered for style ${style}`);
+      for (const tier of ["high", "low"]) {
+        const room = IX.ixBuild(style, { three: T3, tier, site, dressers });
+        const n = typeof room?.meshes === "function" ? room.meshes() : CR.crStats(room.group).meshes;
+        check(!!room && n <= IX.IX_BUDGET.meshes, `${p.id}/${r.id} (ix ${tier})`, `${n} meshes over IX_BUDGET ${IX.IX_BUDGET.meshes}`);
+        if (tier === "high") {
+          worstIx = Math.max(worstIx, n); rooms++;
+          const mine = room.actions.filter((a) => /^cr-/.test(a.id));
+          acts += mine.length;
+          check(mine.length === r.fixtures.length, `${p.id}/${r.id}`, `${mine.length} of ${r.fixtures.length} fixtures registered as actions`);
+          const a = mine.find((x) => x.kind !== "station");
+          if (a) { const before = calls.length; a.run(a, room); check(calls.length === before + 1, `${p.id}/${r.id}`, "running a fixture action launched nothing"); }
+          check(mine.every((x) => Math.abs(x.x) < room.w / 2 && Math.abs(x.z) < room.d / 2), `${p.id}/${r.id}`, "a fixture action stands outside the shell");
+        }
+      }
+    }
+  }
+  ixLine = `INTERIORS shell: ${rooms} rooms dressed, ${acts} fixture actions, worst ${worstIx} meshes (cap ${IX.IX_BUDGET.meshes})`;
+}
+console.log(`  ${ixLine}`);
+
 console.log(`  rooms: ${counts.k12} K-12 classrooms · ${counts.union} union training centres · ${counts.academy} Academy rooms · ${counts.robotics} robotics bays`);
 console.log(`  launches: ${launches.ok} resolved · ${launches.pending} ROBOTICS games pending (rb-robotics-data.js ${rbIds ? "present" : "not in this tree"}) · INTERIORS shell ${ixShell ? "present" : "pending (minimal room in use)"}`);
 console.log(`  budget: worst room ${worst.id} ${worst.meshes} meshes / ${worst.triangles} triangles (cap ${CR.CR_BUDGET.meshes} / ${CR.CR_BUDGET.triangles})`);
