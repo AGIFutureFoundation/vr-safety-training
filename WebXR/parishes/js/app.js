@@ -33,6 +33,7 @@ import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -233,6 +234,8 @@ function npOpenBoard(site) {
   }
   $("board-side").textContent = "";
   qmBoardRows($("board-side"), npPlayItems().filter((g) => g.site === site.id), { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` }, heading: "Skill locks here", done: () => false });
+  // PROJECTSIM: a Bay Program project simulation starts at its site's board (docs/consoles/PROJECTSIM.md).
+  psWorld?.boardRows($("board-ps"), site.id);
   tyBoardRows($("board-ty"), parish.id, site.id, { toast: npToast, onChange: tyRefresh });
   npOpen("board");
 }
@@ -575,12 +578,23 @@ function tyAfterTick(events) {
 }
 $("menu-ledger").addEventListener("click", tyOpenLedger);
 
+// PROJECTSIM (docs/consoles/PROJECTSIM.md): full-procedure Bay Program project simulations at their sites' boards and in the
+// menu; each step is a real station's step, the order gates (permit, lockout, locate, mats, PPE) are scored, the award goes to the
+// passport and a pass pays Crew Credits through TYCOON's tyEarn.
+psSetRecorder(ppAward);
+var psWorld = psMountProjectSim({
+  three: THREE, root, parish, el: $("menu-ps"), tier: npTierName,
+  reducedMotion: (() => { try { return !!matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } })(),
+  toast: npToast, stationHref: (id, siteId) => npLink(id, siteId),
+});
+
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
+  projectsim: psWorld,
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
 };
 

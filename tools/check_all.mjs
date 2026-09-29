@@ -63,6 +63,8 @@ const CHECKERS = [
   "check_menagerie.mjs",
   // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
   "check_storyline.mjs",
+  // PROJECTSIM: the Bay Program project simulations (docs/consoles/PROJECTSIM.md).
+  "check_projectsim.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
