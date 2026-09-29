@@ -26,13 +26,11 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
 | "coastal restoration partnering (marsh creation)" | machine work on soft marsh from mats, dredged-material placement and marsh survey | IUOE (operating engineers on the amphibious excavator and the dredge); LIUNA (labourers on the mats and the survey) | `br-tidal-marsh-grading-amphibious-excavator`, `dredge-barge`, `me-tidal-marsh-channel-restoration-day`, `marsh-transect-survey` | `lp-sim-marsh-mat-and-dredge-pipe` |
-| "propellant production" | hazardous-fluid and test-stand exclusion awareness only; no process is described | UA (pipefitters (awareness of cryogenic service only)) | `ad-hazardous-fluid-servicing-with-a-buddy`, `ad-test-stand-exclusion-zone-and-holds` | — |
+| "propellant production" | hazardous-fluid and test-stand exclusion awareness only; no process is described | UA (pipefitters (awareness of cryogenic service only)) | `lp-cryogenic-propellant-awareness`, `ad-hazardous-fluid-servicing-with-a-buddy`, `ad-test-stand-exclusion-zone-and-holds` | — |
 | "power generation" | switching under a permit and energised-work boundaries | IBEW (electricians and linemen) | `substation-switching`, `ws-substation-switching-under-a-permit` | — |
 | "deepwater shipping access" | dock cranes, mooring and dredging at a berth | ILA (longshore workers); IUOE (operating engineers on the dredge) | `dock-crane`, `mooring-line`, `dredge-barge` | — |
 | "vehicle processing" | heavy lifts under a lift plan | IW (riggers and ironworkers); IUOE (crane operators) | `ad-payload-crane-lift-with-a-lift-plan`, `crane-yard` | — |
 | "an airport" | ramp signals and aircraft movement | IAM (ramp and maintenance crews) | `av-marshalling-and-wingwalker-signals` | — |
-
-Not taught yet — cryogenic-propellant awareness ("propellant production"): no catalog station teaches cryogenic-liquid hazards yet; the track teaches hazardous-fluid servicing and exclusion zones and lists this as pending.
 
 ### Meta data center
 
@@ -776,6 +774,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): he
   - `dredge-barge` Dredge Barge — IUOE Local 3 operating engineers (dredge crane operator)
   - `me-tidal-marsh-channel-restoration-day` Tidal Marsh Channel Restoration Day — LIUNA and AFSCME restoration and habitat crews as training bodies
   - `marsh-transect-survey` Marsh Transect Survey — Environmental monitoring technicians (AFSCME in public agencies)
+  - `lp-cryogenic-propellant-awareness` Cryogenic Propellant Awareness — UA pipe trades training as a body
   - `ad-hazardous-fluid-servicing-with-a-buddy` Hazardous Fluid Servicing with a Buddy — IAM depot maintenance training as a body
   - `ad-test-stand-exclusion-zone-and-holds` Test Stand Exclusion Zone & Holds — IAM and UAW test and assembly training as bodies
   - `ad-payload-crane-lift-with-a-lift-plan` Payload Crane Lift with a Lift Plan — IAM and UAW rigging and assembly training as bodies
@@ -823,6 +822,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): he
   - `dredge-barge` Dredge Barge — IUOE Local 3 operating engineers (dredge crane operator)
   - `me-tidal-marsh-channel-restoration-day` Tidal Marsh Channel Restoration Day — LIUNA and AFSCME restoration and habitat crews as training bodies
   - `marsh-transect-survey` Marsh Transect Survey — Environmental monitoring technicians (AFSCME in public agencies)
+  - `lp-cryogenic-propellant-awareness` Cryogenic Propellant Awareness — UA pipe trades training as a body
   - `ad-hazardous-fluid-servicing-with-a-buddy` Hazardous Fluid Servicing with a Buddy — IAM depot maintenance training as a body
   - `ad-test-stand-exclusion-zone-and-holds` Test Stand Exclusion Zone & Holds — IAM and UAW test and assembly training as bodies
   - `ad-payload-crane-lift-with-a-lift-plan` Payload Crane Lift with a Lift Plan — IAM and UAW rigging and assembly training as bodies
@@ -848,4 +848,4 @@ Kinds of work (general occupational descriptions, not any employer's hiring): he
 
 ## Competency matrix
 
-76 cells (work type × craft), 217 station links; the page lists every cell.
+76 cells (work type × craft), 218 station links; the page lists every cell.

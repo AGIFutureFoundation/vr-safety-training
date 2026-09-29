@@ -30184,5 +30184,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "lp-cryogenic-propellant-awareness",
+    "index": "lp-1",
+    "domain": "Energy",
+    "trade": "Launch-site support crew, cryogenic-safety awareness — UA",
+    "category": "Energy & Power",
+    "certification": "UA pipe trades training as a body; NFPA 55 Compressed Gases and Cryogenic Fluids Code; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the cryogenic liquid the area permit names",
+    "name": "Cryogenic Propellant Awareness",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Cryogenic Propellant Awareness VR",
+    "tagline": "Working beside a cryogenic storage area without being part of it: the area permit and the safety data sheet read, an oxygen monitor bump-tested, loose insulated gloves and a face shield, an upwind escape planned, frost and trapped lines recognised, and a vapour cloud answered by walking upwind and calling it in",
+    "accent": 8378111,
+    "accentCss": "#7fd6ff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "upwind",
+      "name": "Upwind",
+      "note": "Read the permit and the SDS, proved the oxygen monitor, planned the upwind route and never walked into the vapour"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Upwind",
+      "currency": "O2",
+      "ranks": [
+        "Visitor",
+        "Area Inducted",
+        "Support Crew",
+        "Crew Lead",
+        "Upwind Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
