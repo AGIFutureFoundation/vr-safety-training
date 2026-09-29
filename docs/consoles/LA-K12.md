@@ -83,7 +83,12 @@ pending; one whose map is present but lacks the site is an error.
    session lessons, 2 failed, both pre-existing and outside this console's files (`lsf-fl-circuits` "dead",
    `nd-fl-raised-house` "injury" in map data); check_interop and check_imports pass.
 
+8. Reason: nothing else broke. Act: single checkers. Observe: check_smartcity "All 721 simulators pass"; check_parishes 57866
+   passed, 0 failed; check_classrooms ok 1496/0; check_ladders, check_flowhub, check_interop, check_imports pass; check_home
+   1 failed: `WebXR/dist/index.html` is stale (the station count moved); dist is rebuilt at integration, not committed here.
+
 ## Left
+- `python3 tools/bundle_webxr.py` at integration (check_home's one failure is the stale dist copy).
 - The two pre-existing check_scholar fear-word failures belong to the map consoles' field lessons (`np-data-la-saronic-franklin.js`
   `lsf-fl-circuits`, and `nd-fl-raised-house`); not edited here to avoid colliding with LA-PLAY.
 - No FlowHub flows or apply mini-games for the Louisiana lessons yet (ESTUARY has both); no headless drive or screenshot of the
