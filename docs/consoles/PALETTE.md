@@ -93,7 +93,7 @@ No shader or page errors. Atlas: 512×256 (high), 256×128 (balanced), none (low
    bundle. Observe: Orleans and the Mission at high and low load with no errors, 1 atlas texture at high, 0 at low, draw calls
    unchanged, +1 program.
 6. Reason: nothing else regresses → `check_parishes`, `check_textures`, `eval_worlds`. Observe: check_parishes 30924 passed,
-   0 failed; check_textures passes; eval_worlds 27 subjects mean 98, 18 findings before (the after run is in the hand-back).
+   0 failed; check_textures and check_design pass; eval_worlds 27 subjects, mean 98, 18 findings before and after (every map still loads 2/2, budget 6/6).
 
 ## Left
 
