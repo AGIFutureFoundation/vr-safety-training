@@ -13,7 +13,8 @@
  * - no project beyond the eight named ones is named (the twelve stay unnamed);
  * - every union tag resolves in tools/unions.json;
  * - the markers sit where the facts file's mapping says (Port of Oakland in
- *   BAYMAP's West Oakland, guarded; SFPUC in sf-mission's field; the rest regional);
+ *   BAYMAP's West Oakland; San Leandro, Strip Marsh East and SFPUC Outer Mission on
+ *   TIDELANDS' maps; the rest regional), each resolving to a real site;
  * - every new bk- station scores 95+ on tools/eval_content.mjs.
  */
 import { readFileSync, existsSync } from "node:fs";
@@ -117,21 +118,25 @@ const tags = [...hub.matchAll(/data-bk-union="([^"]+)"/g)].map((m) => m[1]).conc
 const badTags = tags.filter((t) => !unions.has(t));
 badTags.length ? fail(`union tags not in tools/unions.json: ${[...new Set(badTags)].join(", ")}`) : ok(`union tags: ${tags.length} tags (${new Set(tags).size} unions), every one resolves in tools/unions.json`);
 
-// 7. Markers where the facts file maps them.
+// 7. Markers where the facts file maps them: the Port in BAYMAP's West Oakland; San Leandro Bay, Strip Marsh East
+//    and the Outer Mission on TIDELANDS' maps of those places; the other four in Bay World's regional atlas. Every
+//    walkable-map marker resolves to a real site through npParish (bkPlaceMarkers throws on a miss).
 const byId = Object.fromEntries(bk.BK_PROJECTS.map((p) => [p.recipient, p.marker]));
-const port = byId["Port of Oakland"];
-if (port.parish !== "oak-west-oakland") fail("marker: Port of Oakland is not in oak-west-oakland");
-const oakPath = join(ROOT, "WebXR/shared/np-data-oak-west-oakland.js");
-if (existsSync(oakPath)) {
-  const src = readFileSync(oakPath, "utf8");
-  src.includes(`"id":"${port.site}"`) || src.includes(`id: "${port.site}"`) ? ok(`marker: Port of Oakland → oak-west-oakland/${port.site} (site resolves)`) : fail(`marker: site ${port.site} not in oak-west-oakland`);
-} else ok(`marker: Port of Oakland → oak-west-oakland/${port.site} (BAYMAP not merged in this tree — guarded, resolves at runtime via npParish)`);
-const sf = byId["San Francisco Public Utilities Commission (SFPUC)"];
-const { NP_SF_MISSION } = await import(pathToFileURL(join(ROOT, "WebXR/shared/np-data-sf-mission.js")).href);
-const half = NP_SF_MISSION.size / 2;
-sf.parish === "sf-mission" && Math.abs(sf.position[0]) <= half && Math.abs(sf.position[1]) <= half ? ok(`marker: SFPUC Outer Mission → sf-mission [${sf.position}] inside the ${NP_SF_MISSION.size} m field (approximate, southern edge)`) : fail("marker: SFPUC is not inside sf-mission's field");
+const { npParish } = await import(pathToFileURL(join(ROOT, "WebXR/shared/np-parishes.js")).href);
+const WANT = {
+  "Port of Oakland": "oak-west-oakland",
+  "City of San Leandro": "bp-san-leandro-bay",
+  "Association of Bay Area Governments (ABAG)": "bp-strip-marsh-east",
+  "San Francisco Public Utilities Commission (SFPUC)": "sf-outer-mission",
+};
+for (const [who, parish] of Object.entries(WANT)) byId[who]?.parish === parish ? ok(`marker: ${who} → ${parish}/${byId[who].site}`) : fail(`marker: ${who} is not on ${parish}`);
+let placed = [];
+try { placed = bk.bkPlaceMarkers(npParish); } catch (e) { fail(`marker: ${e.message}`); }
+placed.length === 4 && placed.every((m) => m.resolved && Array.isArray(m.position) && Math.abs(m.position[0]) <= npParish(m.parish).size / 2 && Math.abs(m.position[1]) <= npParish(m.parish).size / 2)
+  ? ok(`marker: the four walkable-map markers resolve to sites inside their fields (${placed.map((m) => `${m.parish}/${m.site}`).join(", ")})`)
+  : fail(`marker: ${placed.length} walkable-map markers resolved, expected 4 inside their fields`);
 const regional = bk.BK_PROJECTS.filter((p) => p.marker.world === "bayworld-atlas");
-regional.length === 6 && regional.every((p) => /outside the walkable maps/.test(p.marker.note)) ? ok("marker: the other six projects sit in Bay World's regional atlas, marked outside the walkable maps") : fail(`marker: ${regional.length} regional projects, expected 6`);
+regional.length === 4 && regional.every((p) => /outside the walkable maps/.test(p.marker.note)) ? ok("marker: the other four projects sit in Bay World's regional atlas, marked outside the walkable maps") : fail(`marker: ${regional.length} regional projects, expected 4`);
 
 // 8. The programme and the new stations' scores.
 const prog = catalog.curricula.find((c) => c.id === bk.BK_PROGRAMME_ID);

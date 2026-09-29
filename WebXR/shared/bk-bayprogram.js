@@ -12,8 +12,9 @@
 //   bkProjects() -> [{ id, recipient, amount, place, does, stations: [stationId], unions: [unionId], marker }]
 //   bkStationsFor(projectId) -> [stationId]
 //   bkMarkers(world) -> [{ projectId, world, parish?, site?, position?, approximate, note }]
-//   bkPlaceMarkers(npParish) -> markers resolved against BAYMAP/SF parish data, guarded:
-//     npParish?.("oak-west-oakland")?.sites.find(s => s.id === "outer-harbor-container-terminal")
+//   bkPlaceMarkers(parishOf) -> the walkable-map markers resolved against parish data (pass np-parishes.js'
+//     npParish): each names a real parish and one of its site ids — BAYMAP's oak-west-oakland, TIDELANDS'
+//     sf-outer-mission, bp-san-leandro-bay and bp-strip-marsh-east — and a marker that does not resolve throws.
 
 export const BK_SOURCES = {
   epa: {
@@ -57,7 +58,8 @@ export const BK_PROJECTS = [
     does: "habitat restoration by reusing sediment produced from excavating new tidal channels and lowering berms; a report on how sediment moves through the Bay-Delta estuary, to inform long-term plans to restore 100,000 acres of tidal wetlands in the region",
     stations: ["br-tidal-marsh-grading-amphibious-excavator", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment"],
     unions: ["iuoe-local3", "liuna"],
-    marker: { ...REGIONAL },
+    // TIDELANDS' Strip Marsh East map (region bay-program): the tidal channel excavation site.
+    marker: { world: "parishes", parish: "bp-strip-marsh-east", site: "sme-tidal-channel-excavation", href: "../parishes/index.html?parish=bp-strip-marsh-east", note: "Strip Marsh East's tidal channel excavation (TIDELANDS' Strip Marsh East map)" },
   },
   {
     id: "bacwa-nutrient-pilots", recipient: "Bay Area Clean Water Agencies (BACWA)", amount: "$7 million", place: "Bay-wide",
@@ -86,17 +88,17 @@ export const BK_PROJECTS = [
     does: "green stormwater infrastructure, including planted sidewalk filtration systems, rain gardens and an underground infiltration system",
     stations: ["bk-bioretention-rain-garden-excavation"],
     unions: ["liuna", "iuoe-local3"],
-    // The Outer Mission's approximate centre projects (by a fit of sf-mission's own
-    // anchors) to about z 2011 of that map's 2048 half-field, south of Glen Park,
-    // its southernmost anchor: the southern edge of the walkable map.
-    marker: { world: "parishes", parish: "sf-mission", position: [-1280, 1990], approximate: true, href: "../parishes/index.html?parish=sf-mission", note: "the southern edge of the Mission & SoMa map (approximate — the neighbourhood sits at the field's edge, beyond Glen Park)" },
+    // TIDELANDS' Outer Mission & Excelsior map: the rain garden block (the project's rain gardens; the
+    // planted sidewalk filtration and the infiltration site are on the same map).
+    marker: { world: "parishes", parish: "sf-outer-mission", site: "om-rain-garden-block", href: "../parishes/index.html?parish=sf-outer-mission", note: "the Outer Mission's rain garden block (TIDELANDS' Outer Mission & Excelsior map)" },
   },
   {
     id: "san-leandro-trash-capture", recipient: "City of San Leandro", amount: "$2.49 million", place: "San Leandro Creek, draining to San Leandro Bay",
     does: "two large trash capture devices in stormwater drains, to reduce trash and pollutants entering San Leandro Bay",
     stations: ["bk-street-drain-trash-capture-cleanout", "br-trash-capture-device-service"],
     unions: ["liuna", "iuoe-local3"],
-    marker: { ...REGIONAL },
+    // TIDELANDS' San Leandro Bay map: the northern trash capture device on the creek's storm drain.
+    marker: { world: "parishes", parish: "bp-san-leandro-bay", site: "slb-trash-capture-device-north", href: "../parishes/index.html?parish=bp-san-leandro-bay", note: "a trash capture device on San Leandro Creek's storm drains (TIDELANDS' San Leandro Bay map)" },
   },
   {
     id: "port-of-oakland-trash-capture", recipient: "Port of Oakland", amount: "$5 million", place: "Port of Oakland",
@@ -158,13 +160,13 @@ export function bkMarkers(world) {
     .filter((m) => !world || m.world === world);
 }
 
-/** Resolve markers against parish data where the map exists; guarded so a tree
- *  without BAYMAP's Oakland district simply leaves those markers unresolved. */
-export function bkPlaceMarkers(npParish) {
+/** Resolve the walkable-map markers against parish data (`parishOf` is np-parishes.js' npParish). Every map
+ *  they name is in the tree, so a marker whose parish or site does not resolve is an error, not a quiet miss. */
+export function bkPlaceMarkers(parishOf) {
   return bkMarkers("parishes").map((m) => {
-    const parish = typeof npParish === "function" ? npParish(m.parish) : null;
-    const site = m.site ? parish?.sites?.find((s) => s.id === m.site) : null;
-    const position = site?.position || m.position || null;
-    return { ...m, resolved: !!(parish && position), position };
+    const parish = parishOf(m.parish);
+    const site = parish?.sites.find((s) => s.id === m.site);
+    if (!site) throw new Error(`bkPlaceMarkers: ${m.projectId} names ${m.parish}/${m.site}, which is not a site of that map`);
+    return { ...m, approximate: false, resolved: true, position: site.position.slice() };
   });
 }
