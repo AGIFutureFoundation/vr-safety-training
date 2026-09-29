@@ -30436,5 +30436,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-lk-how-a-wing-lifts-an-aircraft",
+    "index": "967",
+    "domain": "Education",
+    "trade": "Science lesson on flight with an aircraft maintenance crew at a regional airport — learner and aircraft mechanic",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "How a Wing Lifts an Aircraft",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ How a Wing Lifts an Aircraft VR",
+    "tagline": "Lift, weight, thrust and drag — tilt the wing, feel the air push and see why mechanics check every hinge",
+    "accent": 5935056,
+    "accentCss": "#5a8fd0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "wing-reader",
+      "name": "Wing Reader",
+      "note": "Balanced the four forces, found the angle that gives lift in the wind tunnel and walked round a parked aircraft with the mechanic"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Flight Board",
+      "currency": "UPDRAFTS",
+      "ranks": [
+        "Paper Plane",
+        "Glider",
+        "Trainer",
+        "Airliner",
+        "Wing Reader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-lk-why-a-steel-boat-floats",
+    "index": "968",
+    "domain": "Education",
+    "trade": "Science and making lesson with a shipyard crew on a Louisiana bayou — learner and shipfitter",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Why a Steel Boat Floats",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Why a Steel Boat Floats VR",
+    "tagline": "A lump of steel sinks, a steel hull floats — shape it, load it and launch it down the slip",
+    "accent": 4165530,
+    "accentCss": "#3f8f9a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "hull-shaper",
+      "name": "Hull Shaper",
+      "note": "Shaped a hull that floats, loaded it to its mark and watched a model hull launch down the slip"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shipyard Board",
+      "currency": "RIVETS",
+      "ranks": [
+        "Raft",
+        "Skiff",
+        "Tug",
+        "Workboat",
+        "Hull Shaper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-lk-the-crews-behind-a-big-build",
+    "index": "969",
+    "domain": "Education",
+    "trade": "Careers awareness at a workforce centre beside a large Louisiana development site — learner and apprenticeship coordinator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Crews Behind a Big Build",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Crews Behind a Big Build VR",
+    "tagline": "Surveyors to electricians, operators to painters — match the crews to the work and plan a path into a trade",
+    "accent": 13072956,
+    "accentCss": "#c77a3c",
+    "parSeconds": 330,
+    "badge": {
+      "id": "crew-matcher",
+      "name": "Crew Matcher",
+      "note": "Matched trades to each stage of a big build, sorted the tools each trade uses and planned a path into an apprenticeship"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Workforce Board",
+      "currency": "HARD HATS",
+      "ranks": [
+        "Visitor",
+        "Explorer",
+        "Pre-Apprentice",
+        "Apprentice",
+        "Crew Matcher"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
