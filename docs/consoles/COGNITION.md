@@ -34,6 +34,8 @@ learning module: **unit → lesson → flow** for each K-12 programme.
 
 8. Reason: the Kids rule over everything the runner says, not only the generated text; proof = check line 6b "40/40" with a missed check walked in every lesson. Act: 6b walks each lesson, gathers every spoken line, option and note, holds the lesson's ceiling and a fear-framing word list. Observe: 40/40 first run, 308 passed / 0 failed — passed.
 
+Evals: `node tools/eval_worlds.mjs` before — 15 subjects, mean 98 (parishes 100, SF districts 97, billing 88); mid (after cycle 6) and after (final tree) — mean 98, every subject unchanged. Final browser probe: 12 lessons mounted in Orleans, a lesson walked to the end, 0 page errors in the parishes app and Redwood Reach.
+
 ## Seams
 
 - `cgUnits()` → `CG_UNITS` `[{ id, programme, title, lessons: [{ id, station, title, kind, lessonRef, band, ceiling, grade, flow, where, places }] }]`.
