@@ -212,6 +212,10 @@ check(R.NP_PARISHES.some((p) => p.id === "orleans" && p.sites.length >= 10), "Or
 
 // 2b. regions and hills (console GOLDEN-A, docs/consoles/GOLDEN-A.md): the registry groups maps by region, the five
 // parishes stay New Orleans and flat, and the San Francisco districts rise on named, gentle hills.
+// A pad near a hill is fine when it is clear of the mound or stands on a terrace at the hill's height (console RELIEF:
+// hills sit at their real approximate positions, so a site on Adams Point or Nob Hill is terraced, never in a pit).
+const npClearOrTerraced = (p, s, h) => Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40
+  || Math.abs(E.npHeightAt(p, ...s.position) - (E.NP_GROUND + E.npHillRise(p, ...s.position))) < 0.5;
 const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 {
   check(Array.isArray(R.NP_REGIONS) && R.NP_REGIONS[0]?.id === "new-orleans" && R.npRegion("new-orleans")?.noun === "parish" && R.npRegion("san-francisco")?.noun === "district", "regions: New Orleans first (parishes), San Francisco (districts)");
@@ -274,7 +278,7 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     if (!check(!!p, `${id} is registered`)) continue;
     check(p.region === "san-francisco", `${id}: region is san-francisco`);
     check(Array.isArray(p.hills) && p.hills.length >= 1 && p.hills.every((h) => typeof h.id === "string" && typeof h.name === "string" && Array.isArray(h.center) && h.center.length === 2 && G.npInField(p, h.center) && h.radius > 0 && h.height > 0), `${id}: hills on the brief's shape ({ id, name, center, radius, height })`);
-    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${id}/${s.id}: the pad sits clear of ${h.name}, so it stays flat once hills rise`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(npClearOrTerraced(p, s, h), `${id}/${s.id}: the pad sits clear of ${h.name}, or on a terrace at the hill's height (RELIEF)`);
     check(p.sites.length >= 8, `${id}: eight or more sites (${p.sites.length})`);
     check((p.fieldLessons ?? []).length >= 5 && p.fieldLessons.every((l) => /^sg-fl-/.test(l.id) && ctx.stations.has(l.station)), `${id}: five or more sg-fl- field lessons, each with a trade station`);
     const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
@@ -337,7 +341,7 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     check(p.sites.length >= 10, `${p.id}: ten or more sites (${p.sites.length})`);
     for (const k of bmKinds[p.id] ?? []) check(p.sites.some((s) => s.kind === k), `${p.id}: a ${k} site`);
     for (const k of bmWaters[p.id] ?? []) check(p.water.some((w) => w.kind === k), `${p.id}: ${k} water`);
-    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${p.id}/${s.id}: the pad sits clear of ${h.name}`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(npClearOrTerraced(p, s, h), `${p.id}/${s.id}: the pad sits clear of ${h.name}, or on a terrace at the hill's height (RELIEF)`);
     check((p.fieldLessons ?? []).length >= 3 && p.fieldLessons.every((l) => /^bm-fl-/.test(l.id) && ctx.k12.has(l.k12) && ctx.stations.has(l.station)), `${p.id}: three or more bm-fl- field lessons, each on a K-12 station with a trade station`);
     const src = readFileSync(join(WEBXR, "shared", `np-data-${p.id}.js`), "utf8");
     check(!/population|founded|built in|opened in|census|since \d|\best\.|\bcirca\b|elevation|feet high|metres high|meters high/i.test(src), `${p.id}: no history, statistics or elevations`);
