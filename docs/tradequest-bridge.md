@@ -21,10 +21,10 @@ node tools/check_bridge.mjs            # the proof (schema, v1 compatibility, so
 | `paths` | ready | STORYLINE via DEAN | the seven path ids (v1 field) |
 | `maps` | ready | parish engine `np-parishes.js` (`NP_PARISHES`, `NP_REGIONS`) + `lm-landmarks.js` (`lmKinds`) | the 22 maps by region: sites (id, name, kind, stations), landmarks (id, name, kind, `lm` kind), hills (id and name only) |
 | `palette` | pending | PALETTE `pa-palette.js` (`PA_SHARED.categories` or `PA_CATEGORIES`) | colour categories by district character and region |
-| `facades` | pending | FACADES `fc-*.js` (`FC_SHARED.{detailKinds,signs}`, or `FC_DETAIL_KINDS`/`FC_KINDS`/`FC_DETAILS` and `FC_GENERIC_SIGNS`/`FC_SIGN_TRADES`/`FC_SIGNS`) | detail kinds and the generic sign list |
-| `vehicles` | partial | Motor Pool `drivables-data.js` (`DV_DRIVABLES`) + MOTORWORKS `mv-*.js` (`MV_SHARED.{classes,handling}`, or `MV_CLASSES`/`MV_VEHICLE_CLASSES` and `MV_HANDLING`) | every drivable (medium, class, trades, gate stations, drive profile) now; per-class handling when MOTORWORKS merges |
-| `robotics` | pending | ROBOTICS `rb-*.js` (`RB_SHARED.scenarios`, `RB_SCENARIOS` or `rbScenarios()`) | the gym scenarios behind `rbEnv(scenarioId)` |
-| `dataset` | partial | `episodes.js` (`EPISODE_SCHEMA_VERSION`), `robot-embodiment.js` (`observationSchema()`, `actionSpace()`) + DATAWORKS `dx-*.js` (`DX_SHARED.{episodeSchema,datasetCard}`, `DX_EPISODE_SCHEMA`, `DX_DATASET_CARD_TEMPLATE`) | episode schema version and embodiment schemas now; DATAWORKS' episode schema and dataset-card template when it merges |
+| `facades` | pending | FACADES `fc-*.js` (`FC_SHARED.{detailKinds,signs}`, or `FC_DETAIL_KINDS`/`FC_KINDS`/`FC_DETAILS` and `FC_GENERIC_SIGNS`/`FC_SIGN_WORDS`/`FC_SIGN_TRADES`/`FC_SIGNS`; `FC_KITS`) | detail kinds and the generic sign list |
+| `vehicles` | partial | Motor Pool `drivables-data.js` (`DV_DRIVABLES`) + MOTORWORKS `mv-*.js` (`MV_SHARED.{classes,handling}`, or `MV_CLASSES`/`MV_VEHICLE_CLASSES`, `MV_HANDLING` (its keys are the classes), `MV_SITE_RULES`) | every drivable (medium, class, trades, gate stations, drive profile) now; per-class handling when MOTORWORKS merges |
+| `robotics` | pending | ROBOTICS `rb-*.js` (`RB_SHARED`, `rbSharedData()`, `RB_SCENARIOS` or `rbScenarios()`) | the gym scenarios behind `rbEnv(scenarioId)` |
+| `dataset` | partial | `episodes.js` (`EPISODE_SCHEMA_VERSION`), `robot-embodiment.js` (`observationSchema()`, `actionSpace()`) + DATAWORKS `dx-*.js` (`DX_SHARED.{episodeSchema,datasetCard}`, `DX_EPISODE_SCHEMA`/`DX_SCHEMA`, `DX_DATASET_CARD_TEMPLATE`/`dxDatasetCard()`, `DX_CARD_SECTIONS`) | episode schema version and embodiment schemas now; DATAWORKS' episode schema and dataset-card template when it merges |
 | `sections` | — | TQ-BRIDGE | `{ status, owner, sources }` per section, the index a reader checks first |
 | `changelog`, `budget` | — | TQ-BRIDGE | release notes per version; the size budget |
 
