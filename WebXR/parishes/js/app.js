@@ -27,7 +27,11 @@ import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt } from "../../shared
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
+import { dvById } from "../../shared/drivables-data.js";
 import { nwMountPhysics } from "../../shared/nw-drive.js";
+import { nwParishColliders } from "../../shared/nw-physics.js";
+// WALKABLE (docs/consoles/WALKABLE.md): walk-through connectors, soft edges, the region atlas and solid parked vehicles.
+import { wkPair, wkCarry, wkArrival, wkEdge, wkClamp, wkAtlas, wkSolidBoxes, wkColliderSeam, WK_TRIGGER, WK_REARM, WK_FADE_MS } from "../../shared/wk-walkable.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
 import { cpPlaceInParish } from "../../shared/cp-cleanports.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
@@ -103,6 +107,15 @@ root.add(hemi, sun);
 
 const npStart = npPlace(parish, npReturnSiteId ?? npParams.get("site") ?? "") ?? npStartSite(parish);
 np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
+// WALKABLE: arriving through a walk-through connector — stand onward of the paired connector, facing on, with the
+// carried time of day and weather (path, Crew Credits and the passport are in the learner's storage already).
+const wkArrive = wkArrival(npParams, parish);
+if (wkArrive) {
+  np.x = wkArrive.landing[0]; np.z = wkArrive.landing[1]; np.yaw = wkArrive.yaw;
+  if (wkArrive.time != null) np.timeIdx = Math.max(0, Math.min(NP_TIMES.length - 1, wkArrive.time));
+  if (wkArrive.weather != null) np.weatherIdx = Math.max(0, Math.min(NP_WEATHERS.length - 1, wkArrive.weather));
+  history.replaceState(null, "", `?parish=${encodeURIComponent(parish.id)}`); // a reload starts at the start, not mid-crossing
+}
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
 // RELIEF (docs/consoles/RELIEF.md, docs/mapbox.md): with a viewer's Mapbox token, real relief from Terrain-RGB tiles of this
@@ -146,9 +159,14 @@ let atWeatherNow = null, atSoundT = 1, atMix = null;
 // when their modules are on the page (the coordinator passes them in here); the parish's own ground, water and
 // building footprints stand in until then.
 const npReduced = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+// WALKABLE: MOTORWORKS' parked vehicles are solid in the walk (the module guarded: absent until MOTORWORKS merges).
+const wkMv = await import("../../shared/mv-world.js").catch(() => null);
+let wkParked = [];
+try { wkParked = wkMv?.mvPlacements?.(parish, world, { tier: npTierName }) ?? []; } catch { wkParked = []; }
+const wkColliders = wkColliderSeam(cwColliders, nwParishColliders, wkSolidBoxes(wkParked, (x, z) => npHeightAt(parish, x, z)));
 const nwPhys = nwMountPhysics({
   three: THREE, root, parish, tier: npTierName, reduced: npReduced,
-  seams: { tfWaterDepthAt, tfFlowAt, cwColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders
+  seams: { tfWaterDepthAt, tfFlowAt, cwColliders: wkColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders (+ WALKABLE's parked vehicles)
   link: (id) => npLink(id, null),
   onCard: () => { npKeys.clear(); drWorld?.offer("dr-traffic"); }, // DRILLS: the card becomes the traffic incident drill
 });
@@ -425,6 +443,69 @@ function npCrossWorld(c) {
   npSave(np.state); npToast(`${c.name}: crossing to ${c.to.name} with your passport.`);
   location.href = lkWorldLink(c.to.href, { from: "parishes", page: ppHerePage(), siteId: `${parish.id}/${near.id}` });
 }
+// WALKABLE: walking into a paired connector carries you across — a short fade (none under reduced motion), no menu.
+// The trigger arms only once you have walked clear of every connector (so arriving never bounces you straight back).
+let wkArmed = !wkArrive, wkGoing = false, wkDriveId = null, wkEdgeT = 0;
+function wkWalkThrough() {
+  if (wkGoing || np.modal) return;
+  let nearest = Infinity, hit = null;
+  for (const c of connectors) {
+    const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]);
+    nearest = Math.min(nearest, d);
+    if (d < WK_TRIGGER && !hit) hit = c;
+  }
+  if (!wkArmed) { if (nearest > WK_REARM) wkArmed = true; return; }
+  if (!hit) return;
+  const pair = wkPair(parish, hit);
+  if (pair) wkCross(pair);
+}
+function wkCross(pair) {
+  wkGoing = true;
+  const driving = nwPhys.driving() && wkDriveId;
+  npSave(np.state);
+  const url = wkCarry(pair, { time: np.timeIdx, weather: np.weatherIdx, drive: driving ? wkDriveId : null });
+  npToast(`${pair.conn.name}: on into ${pair.to.name}.`);
+  const fade = $("wk-fade"), ms = npReduced ? 0 : WK_FADE_MS;
+  if (fade && ms) { fade.style.transition = `opacity ${ms}ms`; fade.hidden = false; requestAnimationFrame(() => { fade.style.opacity = "1"; }); }
+  setTimeout(() => { location.href = url; }, ms);
+}
+function wkEdgeHint(e) {
+  const now = performance.now();
+  if (now - wkEdgeT < 6000 || !e.way) return;
+  wkEdgeT = now;
+  const c = e.way.conn;
+  const where = c.world ? c.to.name : c.to.parish === parish.id ? c.name : npParish(c.to.parish)?.name ?? c.to.parish;
+  const [dx, dz] = [c.from.position[0] - np.x, c.from.position[1] - np.z];
+  const dir = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"][Math.round(((Math.atan2(dx, -dz) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI / 4)) % 8];
+  npToast(`The edge of ${parish.name}. The nearest way on: ${c.name} to ${where}, ${Math.round(e.way.d)} m ${dir}.`, 4200);
+}
+// A drive carried across: the far side takes the vehicle when NEWTON can place it (else it waits at the crossing).
+if (wkArrive?.drive) {
+  const entry = dvById(wkArrive.drive);
+  if (entry && nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { wkDriveId = entry.id; npToast(`${entry.name}: still driving, now in ${parish.name}.`, 4200); }
+  else if (entry) npToast(`${entry.name} stays at the crossing; walk on, and the Motor Pool (B) has it again.`, 4200);
+}
+
+// WALKABLE: the region atlas in the Map tab — six regions, 22 maps joined by their connectors, and the standalone
+// worlds with their ways in. Pick a map to go (the same parish switch as the map list); a world opens its page.
+{
+  const el = $("wk-atlas");
+  if (el) {
+    const A = wkAtlas();
+    const links = (id) => A.links.filter((l) => l.a === id || l.b === id).map((l) => npParish(l.a === id ? l.b : l.a)?.name).filter(Boolean);
+    const esc = (t) => String(t).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+    el.innerHTML = A.regions.map((r) => `<div class="wk-region"><p class="eyebrow">${esc(r.name)}</p>${r.maps.map((m) => `<button class="btn wk-map${m.id === parish.id ? " on" : ""}" type="button" data-wk-go="${esc(m.id)}" ${m.id === parish.id ? 'aria-current="true"' : ""} title="Joined to ${esc(links(m.id).join(", ") || "no other map")}">${esc(m.name)}</button>`).join("")}</div>`).join("")
+      + `<div class="wk-region"><p class="eyebrow">Standalone worlds</p>${A.worlds.map((w) => `<a class="btn wk-world" href="${esc(lkWorldLink(w.href, { from: "parishes", page: ppHerePage(), siteId: `${parish.id}/${npStart.id}` }))}" title="Ways in: ${esc(w.ways.map((x) => `${x.name} (${npParish(x.parish)?.name ?? x.parish})`).join("; ") || w.ride)}">${esc(w.name)}</a>`).join("")}</div>`
+      + `<p class="note">${A.links.length} crossings join the maps: walk into one to go on.</p>`;
+    el.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-wk-go]");
+      if (!b || b.dataset.wkGo === parish.id) return;
+      npSave(np.state);
+      location.href = `?parish=${encodeURIComponent(b.dataset.wkGo)}&site=`;
+    });
+  }
+}
+
 // A world way has no parish sign of its own (np-world.js signs the parish's connectors): a tall post marks it.
 for (const c of connectors.filter((x) => x.world)) {
   const post = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 14, 8), new THREE.MeshLambertMaterial({ color: 0xf2c14b }));
@@ -478,11 +559,15 @@ function frame(now) {
       // Drive mode: W/S throttle, A/D steer, Space brakes; the crash response is nw-drive.js's.
       nwPhys.animate(dt, { throttle: Math.max(-1, Math.min(1, f)), steer: Math.max(-1, Math.min(1, turn - s)), brake: npKeys.has("Space") });
       const v = nwPhys.vehicle; np.x = v.x; np.z = v.z;
+      { const wkE = wkEdge(parish, np.x, np.z); if (wkE.soft) wkEdgeHint(wkE); }
     } else {
       // The walk through NEWTON's physics: off an edge it falls, walls stop it, water is waded or swum and its flow carries.
       if (Math.abs(nwPhys.avatar.x - np.x) > 1e-6 || Math.abs(nwPhys.avatar.z - np.z) > 1e-6) nwPhys.place(np.x, np.z);
-      const av = nwPhys.walk({ vx: (fx * f - fz * s) * speed, vz: (fz * f + fx * s) * speed }, dt);
-      np.x = av.x; np.z = av.z;
+      // WALKABLE: the edge of the map is a soft boundary — eased back toward the field, never a wall mid-street.
+      const wkE = wkEdge(parish, np.x, np.z);
+      const av = nwPhys.walk({ vx: (fx * f - fz * s) * speed + wkE.push[0], vz: (fz * f + fx * s) * speed + wkE.push[1] }, dt);
+      [np.x, np.z] = wkClamp(parish, av.x, av.z);
+      if (wkE.soft) wkEdgeHint(wkE);
       if (av.mode !== nwMode && NW_MODE_TOAST[av.mode] && nwMode !== "fall") npToast(NW_MODE_TOAST[av.mode], 4200);
       nwMode = av.mode;
       nwPhys.animate(dt, null);
@@ -523,6 +608,7 @@ function frame(now) {
   if (npVisitT > 0.5) {
     npVisitT = 0;
     np.near = npNearest();
+    if (np.playing) wkWalkThrough();
     npQmApproach(np.near);
     if (np.playing) scSession.tick(np.x, np.z);
     for (const s of parish.sites) if (Math.hypot(np.x - s.position[0], np.z - s.position[1]) < 40 && npVisit(np.state, parish.id, s.id)) { npToast(`Visited: ${s.name}. Fast travel unlocked.`); npSave(np.state); }
@@ -608,7 +694,7 @@ function asOpenMotorPool() {
     el: $("dv-board"), world: "parishes", page: ppHerePage(), regatta: "../regatta/regatta.html",
     // NEWTON: a finished pre-trip (the gate contract, as today) drives the vehicle on the parish roads.
     onDrive: (entry) => {
-      if (nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q or Use steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
+      if (nwPhys.drive(entry, np.x, np.z, np.yaw + Math.PI)) { wkDriveId = entry.id; npClose(); npToast(`${entry.name}: W/S drive, A/D steer, Space brakes, Q or Use steps out. Drive gently — a hard hit stops the vehicle.`, 6000); }
       else npToast(`${entry.name}: pre-trip done. It runs on rails, so Bay World's Motor Pool drives it today.`, 6000);
     },
   });
