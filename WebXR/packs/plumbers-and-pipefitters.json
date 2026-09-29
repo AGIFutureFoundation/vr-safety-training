@@ -1,0 +1,118 @@
+{
+  "id": "plumbers-and-pipefitters",
+  "kind": "programme",
+  "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
+  "title": "SmartCiti.X Plumbers and Pipefitters — Journeyman Rough-In and Test Block — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs a UA plumber or pipefitter actually rotates through: medical gas brazed under a nitrogen purge, a hydronic loop off a locked-out boiler hydrotested before cover-up, a sewer lateral trenched and shored to a proven fall, a sprinkler riser's annual flow test, a rough-in run both pressed and soldered, a failed steam trap replaced on a vented line, a water heater strapped and relief-valved to its own rating, and a new gas line air-tested and purged before anything is lit. Every station ends on a proof — a gauge, a witness mark, a signed report — rather than on how the joint looked going together.",
+  "certification": "UA plumbers and pipefitters apprenticeship standards, tested against NFPA 99, NFPA 13, NFPA 25, NFPA 54, ASME B31.9, the ASME Boiler and Pressure Vessel Code and the Uniform Plumbing Code (UPC) across eight distinct union jobs",
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "pl-medical-gas-brazing-and-purge"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-hydronic-boiler-piping-and-hydrotest"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-underground-sewer-lateral-and-trench-shoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-fire-sprinkler-riser-and-flow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-copper-press-and-solder-rough-in"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-steam-trap-and-condensate-line-repair"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-water-heater-and-tpr-valve-replacement"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-natural-gas-pressure-test-and-leak-check"
+    }
+  ],
+  "unions": [
+    "ua"
+  ],
+  "unionLine": "UA Local 38 apprenticeship",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-maintenance-shop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "hospital-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-pipeline-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "cathedral-hill-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "marina-seawall-crew"
+      ]
+    }
+  ],
+  "stationNames": {
+    "pl-medical-gas-brazing-and-purge": "Medical Gas Brazing & Purge",
+    "pl-hydronic-boiler-piping-and-hydrotest": "Hydronic Boiler Piping & Hydrotest",
+    "pl-underground-sewer-lateral-and-trench-shoring": "Underground Sewer Lateral & Trench Shoring",
+    "pl-fire-sprinkler-riser-and-flow-test": "Fire Sprinkler Riser & Flow Test",
+    "pl-copper-press-and-solder-rough-in": "Copper Press & Solder Rough-In",
+    "pl-steam-trap-and-condensate-line-repair": "Steam Trap & Condensate Line Repair",
+    "pl-water-heater-and-tpr-valve-replacement": "Water Heater & TPR Valve Replacement",
+    "pl-natural-gas-pressure-test-and-leak-check": "Natural Gas Pressure Test & Leak Check"
+  },
+  "version": "1.0.0",
+  "contentHash": "57064d11",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

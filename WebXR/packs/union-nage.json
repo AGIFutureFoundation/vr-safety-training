@@ -1,0 +1,202 @@
+{
+  "id": "union-nage",
+  "kind": "union",
+  "name": "NAGE Union Package",
+  "title": "SmartCiti.X NAGE Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to National Association of Government Employees: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "first-responders"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "triage-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "ambulance-scene-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "overdose-response-naloxone"
+    },
+    {
+      "app": "smartcity",
+      "id": "cardiac-arrest-pit-crew"
+    },
+    {
+      "app": "smartcity",
+      "id": "traffic-incident-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "critical-incident-debrief"
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-intervention-call"
+    },
+    {
+      "app": "smartcity",
+      "id": "home-visit-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-line-shift"
+    },
+    {
+      "app": "smartcity",
+      "id": "trauma-informed-intake"
+    },
+    {
+      "app": "smartcity",
+      "id": "wildland-urban-interface"
+    },
+    {
+      "app": "smartcity",
+      "id": "firefighter-rehab-sector"
+    },
+    {
+      "app": "smartcity",
+      "id": "structure-fire-sizeup"
+    },
+    {
+      "app": "smartcity",
+      "id": "psychological-first-aid"
+    },
+    {
+      "app": "smartcity",
+      "id": "damage-assessment-team"
+    },
+    {
+      "app": "smartcity",
+      "id": "shelter-intake-operations"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-wildland-fireline-construction-and-lookout"
+    }
+  ],
+  "unions": [
+    "nage"
+  ],
+  "unionLine": "National Association of Government Employees",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "fruitvale-fire-station",
+        "ridge-fire-lookout"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "seamount-capstone-survey"
+      ]
+    },
+    {
+      "world": "summit",
+      "sites": [
+        "ranger-station",
+        "pass-road"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "fire-station",
+        "lookout"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "hospital-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-causeway-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-hospital",
+        "sb-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-belle-chasse-fire"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-causeway-north",
+        "st-slidell-staging"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "cathedral-hill-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "potrero-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-lifeguard-station",
+        "parnassus-hospital-campus",
+        "richmond-fire-station"
+      ]
+    }
+  ],
+  "stationNames": {
+    "triage-point": "Triage Point",
+    "ambulance-scene-safety": "Ambulance Scene Safety",
+    "overdose-response-naloxone": "Overdose Response — Naloxone",
+    "cardiac-arrest-pit-crew": "Cardiac Arrest — Pit Crew",
+    "traffic-incident-management": "Traffic Incident Management",
+    "critical-incident-debrief": "Critical Incident Debrief",
+    "crisis-intervention-call": "Crisis Intervention Call",
+    "home-visit-safety": "Home Visit Safety",
+    "crisis-line-shift": "Crisis Line Shift",
+    "trauma-informed-intake": "Trauma-Informed Intake",
+    "wildland-urban-interface": "Wildland-Urban Interface",
+    "firefighter-rehab-sector": "Firefighter Rehab Sector",
+    "structure-fire-sizeup": "Structure Fire Size-Up",
+    "psychological-first-aid": "Psychological First Aid",
+    "damage-assessment-team": "Damage Assessment Team",
+    "shelter-intake-operations": "Shelter Intake Operations",
+    "or-wildland-fireline-construction-and-lookout": "Wildland Fireline Construction"
+  },
+  "version": "1.0.0",
+  "contentHash": "cc310d57",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

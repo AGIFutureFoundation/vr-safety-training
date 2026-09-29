@@ -1,0 +1,138 @@
+{
+  "id": "union-atu",
+  "kind": "union",
+  "name": "ATU Union Package",
+  "title": "SmartCiti.X ATU Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to Amalgamated Transit Union: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "transit-ramp"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "signal-cabinet"
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift"
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus"
+    }
+  ],
+  "unions": [
+    "atu"
+  ],
+  "unionLine": "Amalgamated Transit Union",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "west-oakland-truck-yard",
+        "coliseum-elevated-transit-station",
+        "island-ferry-landing"
+      ]
+    },
+    {
+      "world": "redwood",
+      "sites": [
+        "sawmill"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "streetcar-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-airport-ramp",
+        "jf-elmwood-freight",
+        "jf-transit-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-timber-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "transbay-transit-hub",
+        "cable-car-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "potrero-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "ocean-beach-streetcar-terminal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "cow-hollow-bus-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "third-street-rail-barn"
+      ]
+    }
+  ],
+  "stationNames": {
+    "signal-cabinet": "Signal Cabinet",
+    "track-access": "Track Access",
+    "bus-depot-lift": "Bus Depot Lift",
+    "forklift-dock": "Forklift Dock",
+    "airport-ramp": "Airport Ramp",
+    "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
+    "tr-wheelchair-lift-and-securement-on-a-bus": "Wheelchair Lift & Securement on a Bus"
+  },
+  "version": "1.0.0",
+  "contentHash": "185c80dc",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

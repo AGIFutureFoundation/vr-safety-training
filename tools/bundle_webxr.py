@@ -766,6 +766,9 @@ APPS = {
             SHARED / "kw-play-data.js",
             SHARED / "kw-place.js",
             SHARED / "kw-kits.js",
+            # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
+            SHARED / "pk-packs-data.js",
+            SHARED / "pk-packs.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -875,7 +878,7 @@ APPS = {
 # since both contain the same quoted "../smartcity/ substring.
 # "flows" is not an app but is reached the same way: the instructor console
 # fetches "../flows/index.json", which needs the same one-level fixup in dist.
-SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows"]
+SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs"]
 AUTH_CONFIG = "auth-config.json"
 # The apps whose bundle reads the sign-in configuration, and therefore need a
 # copy of it beside the bundle. A deployment edits the copy it serves.
@@ -1228,6 +1231,8 @@ def combined_fixup(html: str) -> str:
     for q in LINK_QUOTES:
         # The track pages are this folder's own tracks/.
         html = html.replace(f'{q}../../dist/tracks/', f'{q}./tracks/')
+        # The Holodeck Packs page is this folder's own packs/ (console PACKS).
+        html = html.replace(f'{q}../../packs/', f'{q}./packs/')
         # The homepage sits beside the bundles in this folder.
         html = html.replace(f'{q}../../index.html{q}', f'{q}./index.html{q}')
         # The network portal page is not published in the flat folder; its
@@ -1300,6 +1305,18 @@ def build_combined() -> int:
                 (DIST / "vendor" / sub).mkdir(parents=True, exist_ok=True)
                 (DIST / "vendor" / sub / f.name).write_bytes(f.read_bytes())
                 copied += 1
+    # The Holodeck Packs (console PACKS, tools/gen_packs.mjs): the page written for this folder
+    # (WebXR/packs/dist/index.html) and every pack manifest beside it.
+    packs = WEBXR / "packs"
+    if not (packs / "dist" / "index.html").exists():
+        print("[dist] WebXR/packs/dist/index.html is missing — run tools/gen_packs.mjs before bundling.", file=sys.stderr)
+        return 1
+    (DIST / "packs").mkdir(parents=True, exist_ok=True)
+    (DIST / "packs" / "index.html").write_bytes((packs / "dist" / "index.html").read_bytes())
+    copied += 1
+    for f in sorted(packs.glob("*.json")):
+        (DIST / "packs" / f.name).write_bytes(f.read_bytes())
+        copied += 1
     (DIST / "design").mkdir(parents=True, exist_ok=True)
     (DIST / "design" / "index.html").write_bytes((WEBXR / "design" / "index.html").read_bytes())
     copied += 1

@@ -1,0 +1,107 @@
+{
+  "id": "healthcare-support",
+  "kind": "programme",
+  "name": "Healthcare Support",
+  "title": "SmartCiti.X Healthcare Support — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The hospital support jobs that never touch a clinical decision but hold the whole building's safety together: an isolation room turned over with the barrier never broken, a surgical tray decontaminated and counted back against its own sheet, a patient moved with a gait belt instead of a solo lift, a tray line that sorts a real allergy flag from a routine one, three waste streams kept apart from the linen chute to the loading dock, a crash cart proven ready every day and a real code supported without ever touching the patient, a front desk that meets an escalating visitor with distance and a calm voice, and a hazardous-drug spill met with the kit built for exactly that.",
+  "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; OSHA 29 CFR 1910.134 respiratory protection; the CDC's general infection-prevention guidance; ANSI/AAMI ST79 for steam sterilization; USP General Chapter <800> for hazardous drugs; HIPAA's privacy rule; the FDA Food Code and ServSafe food-handler training; NFPA 101 Life Safety Code; Cal/OSHA's workplace violence prevention standard (8 CCR 3342) and Injury and Illness Prevention Program (8 CCR 3203); Labor Code §6310; and lifting principles drawn from the Revised NIOSH Lifting Equation",
+  "programmes": [
+    "healthcare-support"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "hc-environmental-services-isolation-room-turnover"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-sterile-processing-decontamination-and-assembly"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-patient-transport-and-safe-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-dietary-tray-line-and-allergy-flags"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-linen-and-regulated-waste-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-code-response-support-and-crash-cart-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-workplace-violence-deescalation-at-the-desk"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-hazardous-drug-spill-kit-response"
+    }
+  ],
+  "unions": [
+    "seiu",
+    "seiu-uhw",
+    "nuhw"
+  ],
+  "unionLine": "SEIU-UHW and NUHW, the training bodies for California's hospital and clinic support workforce",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "coliseum-area-hospital",
+        "emery-lab-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "hospital-district"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "cathedral-hill-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "potrero-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "parnassus-hospital-campus"
+      ]
+    }
+  ],
+  "stationNames": {
+    "hc-environmental-services-isolation-room-turnover": "Isolation Room Turnover",
+    "hc-sterile-processing-decontamination-and-assembly": "Sterile Processing Decon & Assembly",
+    "hc-patient-transport-and-safe-handling": "Patient Transport & Safe Handling",
+    "hc-dietary-tray-line-and-allergy-flags": "Dietary Tray Line & Allergy Flags",
+    "hc-linen-and-regulated-waste-handling": "Linen & Regulated Waste Handling",
+    "hc-code-response-support-and-crash-cart-check": "Code Response Support & Crash Cart Check",
+    "hc-workplace-violence-deescalation-at-the-desk": "Workplace Violence De-escalation at the Desk",
+    "hc-hazardous-drug-spill-kit-response": "Hazardous Drug Spill Kit Response"
+  },
+  "version": "1.0.0",
+  "contentHash": "da1350fe",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

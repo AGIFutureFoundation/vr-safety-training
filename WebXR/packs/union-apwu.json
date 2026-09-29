@@ -1,0 +1,69 @@
+{
+  "id": "union-apwu",
+  "kind": "union",
+  "name": "APWU Union Package",
+  "title": "SmartCiti.X APWU Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to American Postal Workers Union: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ml-retail-counter-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-suspicious-package-protocol"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-parcel-sorter-conveyor-jam-and-loto"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-mail-handler-forklift-and-container-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-flat-sorter-guarding-and-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-heat-and-cold-stress-on-route"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-dog-and-hazard-awareness-on-route"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-delivery-van-pretrip-and-route-loading"
+    }
+  ],
+  "unions": [
+    "apwu"
+  ],
+  "unionLine": "American Postal Workers Union",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [],
+  "stationNames": {
+    "ml-retail-counter-deescalation": "Retail Counter De-escalation",
+    "ml-suspicious-package-protocol": "Suspicious Package Protocol",
+    "ml-parcel-sorter-conveyor-jam-and-loto": "Parcel Sorter Conveyor Jam & LOTO",
+    "ml-mail-handler-forklift-and-container-dock": "Mail Handler Forklift & Container Dock",
+    "ml-flat-sorter-guarding-and-lockout": "Flat Sorter Guarding & Lockout",
+    "ml-heat-and-cold-stress-on-route": "Heat & Cold Stress on Route",
+    "ml-dog-and-hazard-awareness-on-route": "Dog & Hazard Awareness on Route",
+    "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading"
+  },
+  "version": "1.0.0",
+  "contentHash": "542f1f25",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

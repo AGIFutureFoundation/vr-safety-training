@@ -1,0 +1,99 @@
+{
+  "id": "stationary-engineer",
+  "kind": "programme",
+  "name": "Stationary Engineer — Building Plant",
+  "title": "SmartCiti.X Stationary Engineer — Building Plant — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The four plants a building engineer is responsible for at two in the morning, and the tests that prove each one will work when it is needed.",
+  "certification": "State stationary engineer licence, ASME boiler practice, ASHRAE 188 water management and NFPA 25 fire-pump testing",
+  "programmes": [
+    "stationary-engineer"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "boiler-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "chiller-plant"
+    },
+    {
+      "app": "smartcity",
+      "id": "cooling-tower"
+    },
+    {
+      "app": "smartcity",
+      "id": "fire-pump"
+    },
+    {
+      "app": "smartcity",
+      "id": "elevator-pit"
+    },
+    {
+      "app": "smartcity",
+      "id": "se-steam-trap-survey-and-condensate-return"
+    },
+    {
+      "app": "smartcity",
+      "id": "se-building-automation-alarm-triage"
+    }
+  ],
+  "unions": [
+    "iuoe"
+  ],
+  "unionLine": "IUOE — International Union of Operating Engineers, stationary locals",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-central-plant"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "university-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-hospital"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "lone-mountain-university-campus"
+      ]
+    }
+  ],
+  "stationNames": {
+    "boiler-room": "Boiler Room",
+    "chiller-plant": "Chiller Plant",
+    "cooling-tower": "Cooling Tower",
+    "fire-pump": "Fire Pump",
+    "elevator-pit": "Elevator Pit",
+    "se-steam-trap-survey-and-condensate-return": "Steam Trap Survey & Condensate Return",
+    "se-building-automation-alarm-triage": "Building Automation Alarm Triage"
+  },
+  "version": "1.0.0",
+  "contentHash": "0f1e253a",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}
