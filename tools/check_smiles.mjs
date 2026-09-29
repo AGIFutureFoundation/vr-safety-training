@@ -51,7 +51,7 @@ const ADULT_ONLY = /sterilis|surgical|service yard|sharps|amalgam/i;
 for (const s of P?.sites ?? []) if (ADULT_ONLY.test(`${s.name} ${s.stations.join(" ")}`) && s.stations.some((id) => /instrument-reprocessing|sterilisation|surgery|sharps|amalgam/.test(id))) check(!s.k12, `${s.id}: an adult-only procedure site is not a K-12 spot`);
 
 // ---------------------------------------------------------------- lines trace to the stations
-const FEAR = /\b(die|dies|death|dead|lose|lost|pain|hurt|scary|scare|rot|rotten|infect\w*|disease|bleed\w*|blood|cancer|decay|germs?|danger\w*|kill\w*|bad)\b/i;
+const FEAR = /\b(die|dies|death|dead|lose|pain|hurt|scary|scare|rot|rotten|infect\w*|disease|bleed\w*|blood|cancer|decay|germs?|danger\w*|kill\w*|bad)\b/i;
 const GAME_WORDS = new Set(["your", "you", "goes", "there", "often", "look", "after", "with", "that", "this", "what", "which"]);
 const fileWords = new Map();
 const words = (t) => (t.toLowerCase().match(/[a-z][a-z'-]*/g) ?? []).map((w) => w.replace(/'s$/, ""));

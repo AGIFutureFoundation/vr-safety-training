@@ -493,6 +493,28 @@ SGP.SG_FIELD_LESSONS.forEach((l) => {
     place: { id: l.site, stations: [l.k12, l.station] } });
 });
 
+// The Unspoken Smiles District (console SMILES, docs/consoles/SMILES.md): a procedural programme world on the parishes
+// page. Six hidden toothbrushes (and one tooth-fairy note) sit off the map's K-12 sites only, each lesson a dental station's
+// own why (claimed once), resolved by the same site-relative trigger (slTreasureAt binds the exact site id).
+const { NP_SM_UNSPOKEN_SMILES: SMILES_MAP } = await imp("WebXR/shared/np-data-sm-unspoken-smiles.js");
+const SMILES_PICKS = [
+  ["sm-school-brushing-station", "school-screening-outreach", "Lost Toothbrush", [9, -7]],
+  ["sm-community-centre", "dn-oral-hygiene-instruction-and-motivational-interviewing", "Lost Toothbrush", [-8, 8]],
+  ["sm-healthy-food-market", "pediatric-visit", "Lost Toothbrush", [11, 6]],
+  ["sm-water-fountain-plaza", "fluoride-and-sealants", "Lost Toothbrush", [-10, -6]],
+  ["sm-careers-training-centre", "dental-careers-pathway", "Lost Toothbrush", [7, 11]],
+  ["sm-smile-park", "dn-dental-trauma-and-avulsed-tooth-response", "The Tooth Fairy's Note", [-12, 3]],
+];
+for (const [siteId, stationId, label, [dx, dz]] of SMILES_PICKS) {
+  const s = SMILES_MAP.sites.find((x) => x.id === siteId);
+  if (!s || !s.k12 || !s.stations.includes(stationId)) throw new Error(`SMILES: ${siteId} is not a K-12 site carrying ${stationId}`);
+  const L = namedWhy(stationId);
+  add({ id: `tz-parish-${SMILES_MAP.id}-${s.id}`, name: `${label}: ${s.name}`, surface: "parishes", world: "The Parishes", area: SMILES_MAP.name,
+    set: "smile-toothbrushes", how: "proximity", trigger: { world: "parishes", parish: SMILES_MAP.id, site: s.id, dx, dz, r: 7 },
+    hint: "Something small and bright is tucked away near the district's school, park, plaza and market.", reveal: "chest",
+    lesson: L.lesson, source: L.source, place: { id: s.id, stations: [...s.stations] } });
+}
+
 // ------------------------------------------------------------ sets
 
 const SETS = [
@@ -515,6 +537,7 @@ const SETS = [
   ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit, in Redwood Reach and across the parishes."],
   ...SLP.SL_PARISHES.map((p) => [`storm-kits-${p.id}`, `${p.short} Storm Kits`, `${p.short} Storm Crew`, `A storm kit cache off every site in ${p.name}.`]),
   ...SGP.SG_DISTRICTS.map((d) => [`fog-kits-${d.id}`, `${d.short} Fog-Day Kits`, `${d.short} Fog Crew`, `A fog-day kit off every site in ${d.name}.`]),
+  ["smile-toothbrushes", "The Tooth Fairy's Lost Toothbrushes", "Smile Keeper", "Lost toothbrushes and a tooth-fairy note hidden round the Unspoken Smiles District's K-12 spots."],
 ].map(([id, name, badge, blurb]) => ({ id, name, badge, blurb, members: T.filter((t) => t.set === id).map((t) => t.id) }));
 
 const SURFACES = [

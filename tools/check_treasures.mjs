@@ -56,6 +56,9 @@ const SLP = await import(join(WEBXR, "shared/sl-parish-play.js"));
 // The San Francisco districts on the parishes page (GOLDEN-B): their lessons and sites ride the same surface.
 const SGP = await import(join(WEBXR, "shared/sg-sf-play.js"));
 const sgSiteDef = (parish, site) => SGP.sgDistrict(parish)?.sites.find((s) => s.id === site) ?? null;
+// The programme worlds on the parishes page (console SMILES): the Unspoken Smiles District binds its treasures by exact site id.
+const { NP_SM_UNSPOKEN_SMILES } = await import(join(WEBXR, "shared/np-data-sm-unspoken-smiles.js"));
+const smilesSiteDef = (parish, site) => (parish === NP_SM_UNSPOKEN_SMILES.id ? NP_SM_UNSPOKEN_SMILES.sites.find((s) => s.id === site) ?? null : null);
 const T = D.TZ_TREASURES;
 const STATIONS = new Set(CURRICULA.flatMap((c) => c.stations.map((s) => s.id)));
 
@@ -290,7 +293,7 @@ await check("finders: Guide secret questions, DOM anchors, plants in reach, worl
   for (const t of parishTreasures) {
     const tr = t.trigger;
     assert(tr.x === undefined && tr.z === undefined, `${t.id} carries a coordinate; parish positions belong to PARISH's data`);
-    assert(SLP.slSiteDef(tr.parish, tr.site) || sgSiteDef(tr.parish, tr.site), `${t.id} names unknown parish site ${tr.parish}/${tr.site}`);
+    assert(SLP.slSiteDef(tr.parish, tr.site) || sgSiteDef(tr.parish, tr.site) || smilesSiteDef(tr.parish, tr.site), `${t.id} names unknown parish site ${tr.parish}/${tr.site}`);
     assert(Number.isFinite(tr.dx) && Number.isFinite(tr.dz) && Math.hypot(tr.dx, tr.dz) >= 6 && Math.hypot(tr.dx, tr.dz) <= 25, `${t.id}'s offset is not a short walk off the site`);
     assert(tr.r > 0 && tr.r <= 25, `${t.id} has an odd radius`);
   }

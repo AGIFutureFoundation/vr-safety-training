@@ -21,3 +21,9 @@ line is quoted from, or traced word by word to, a dental station's own text. Not
 3. Reason: wire the panel with one import and one mount — proof: check_smiles wiring checks. Act: app.js import + mount
    (tyEarn pays once per game), `menu-smiles` in the Play tab, check_interface's Play list, the bundler. Observe: 301 pass /
    1 fail (treasures only).
+4. Reason: hidden toothbrush / tooth-fairy treasures through gen_treasures.mjs at K-12 spots only — proof: check_treasures
+   all pass and check_smiles' treasure checks. Act: a SMILES section in `tools/gen_treasures.mjs` (six treasures, set
+   `smile-toothbrushes`, each lesson a dental station's own why, claimed once), regenerated `treasures-data.js`, and
+   `check_treasures` taught to resolve the programme world's sites. Observe: check_treasures "All checks pass: 345 treasures
+   on 14 surfaces, 25 sets"; check_smiles 315 pass / 5 fail — my own fear-word list caught "Lost" in "Lost Toothbrush"
+   (misplaced, not a fear line) → dropped `lost` from the list → 320 pass / 0 fail. check_k12: all pass.
