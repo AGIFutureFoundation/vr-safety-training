@@ -39,7 +39,7 @@ const CHECKERS = [
   // run at all, before anything asks whether the content is right.
   "check_imports.mjs",
   "check_smartcity.mjs", "check_trades.mjs", "check_holodeck.mjs",
-  "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_share.mjs", "check_episodes.mjs", "check_dataset_tools.mjs", "check_robot.mjs",
+  "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_share.mjs", "check_episodes.mjs", "check_dataset_tools.mjs", "check_dataworks.mjs", "check_robot.mjs",
   // The skill registry, the export layouts and the draft platform agent (docs/agent-roadmap.md).
   "check_agent.mjs",
   // SmartCiti.X on the Virtuals agent platform: package, offerings, provider stub (docs/virtuals/strategy.md).

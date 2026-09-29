@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training Data Analysis</title>
+<meta name="description" content="Your consented training episodes, analysed in this browser: success and safe-practice rates by station and scenario, step timing, interruption responses, error types, action mix, quality flags and the train/validation split. Nothing is uploaded.">
+<link rel="stylesheet" href="../shared/design.css">
+<style>
+  body { margin: 0; background: var(--at-bg); }
+  main { max-width: var(--at-container); margin: 0 auto; padding: var(--at-sp-6) 16px var(--at-sp-12); }
+  section { margin-top: var(--at-sp-10); }
+  .dx-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--at-sp-3); margin-top: var(--at-sp-6); }
+  .dx-stat { padding: var(--at-sp-3) var(--at-sp-4); border-radius: var(--at-r-md); background: var(--at-surface-2); }
+  .dx-stat b { display: block; font-size: var(--at-fs-xl, 1.5rem); font-variant-numeric: tabular-nums; }
+  .dx-stat span { font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--at-fs-sm); }
+  th, td { text-align: left; padding: var(--at-sp-2) var(--at-sp-3); border-bottom: 1px solid var(--at-border); vertical-align: top; }
+  th { color: var(--at-primary); font-weight: var(--at-fw-semibold); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .dx-bar { display: inline-block; height: 8px; border-radius: 4px; background: var(--at-primary); vertical-align: middle; margin-right: var(--at-sp-2); }
+  .dx-scroll { overflow-x: auto; }
+  .dx-note { font-size: var(--at-fs-sm); color: var(--at-on-surface-muted); max-width: var(--at-measure); }
+  .dx-actions { display: flex; flex-wrap: wrap; gap: var(--at-sp-3); margin-top: var(--at-sp-4); align-items: center; }
+  #dx-consent { margin-top: var(--at-sp-4); padding: var(--at-sp-3) var(--at-sp-4); border-radius: var(--at-r-md); background: var(--at-surface-2); }
+  #dx-consent .row { display: flex; flex-wrap: wrap; gap: var(--at-sp-3); align-items: center; }
+  #dx-consent select { font: inherit; min-height: 44px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="at-root">
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">Home</a>
+<main>
+  <p class="at-breadcrumb"><a href="../index.html">Home</a> · <a href="../parishes/parishes.html">Parishes</a></p>
+  <header class="at-hero">
+    <div>
+      <p class="at-eyebrow">DATAWORKS · SmartCiti.X</p>
+      <h1 class="at-hero__title">Training data, analysed on this device</h1>
+      <p class="at-hero__lead">If you opted in to data sharing, your training episodes are kept in this browser only. This page reads them, or an export you open, and shows how practice went: success and safe-practice rates, timing, interruptions and quality flags. Nothing is uploaded.</p>
+    </div>
+  </header>
+
+  <div id="dx-consent" aria-label="Data sharing consent"></div>
+
+  <div class="dx-actions">
+    <button class="at-btn at-btn--primary" type="button" id="dx-local">This browser's episodes</button>
+    <button class="at-btn at-btn--secondary" type="button" id="dx-sample">Synthetic sample</button>
+    <label class="at-btn at-btn--ghost">Open an export (.jsonl or .json)<input type="file" id="dx-file" accept=".jsonl,.json,application/json" multiple hidden></label>
+    <button class="at-btn at-btn--ghost" type="button" id="dx-export">Export shards + manifest + card</button>
+  </div>
+  <p class="dx-note" id="dx-source" aria-live="polite"></p>
+
+  <div class="dx-stats" id="dx-stats" aria-live="polite"></div>
+
+  <section aria-labelledby="h-scen">
+    <div class="at-section-head"><div><h2 id="h-scen">By station and scenario</h2><p>Success and safe practice per scenario (a run with a hazard is never safe practice).</p></div></div>
+    <div class="dx-scroll"><table id="dx-scen"><thead><tr><th>Scenario</th><th class="num">Episodes</th><th>Success</th><th>Safe practice</th><th class="num">Mean duration (s)</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-world">
+    <div class="at-section-head"><div><h2 id="h-world">By world and kind</h2></div></div>
+    <div class="dx-scroll"><table id="dx-world"><thead><tr><th>World or kind</th><th class="num">Episodes</th><th class="num">Success</th><th class="num">Safe</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-steps">
+    <div class="at-section-head"><div><h2 id="h-steps">Timing, interruptions, errors and actions</h2></div></div>
+    <div class="dx-scroll"><table id="dx-detail"><thead><tr><th>Measure</th><th>Value</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-flags">
+    <div class="at-section-head"><div><h2 id="h-flags">Quality flags and split</h2><p>Truncated (cut off before the last step), idle (a gap over 60 s, or no real action) and duplicate (the same episode twice). Train and validation are split by session hash, so one session never lands in both.</p></div></div>
+    <div class="dx-scroll"><table id="dx-flags"><thead><tr><th>Episode</th><th>Flags</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <p class="dx-note" style="margin-top:var(--at-sp-10)">Schema <code id="dx-schema"></code>. Units: seconds, metres, radians, points; positions are in-world only. No name, free text, voice or real-world location is ever collected, and K-12, classroom, signed-out and demo sessions are never recorded. No upload endpoint ships with this page — see docs/robot-datasets.md.</p>
+</main>
+<script type="module">
+import { dxAnalyze, dxStore, dxParseJsonl, dxExportFiles, dxSyntheticFixture, DX_SCHEMA_ID, DX_SCHEMA_VERSION } from "../shared/dx-data.js";
+import { dxMountConsent } from "../shared/dx-consent-ui.js";
+
+const $ = (id) => document.getElementById(id);
+const pct = (x) => (x == null ? "—" : `${Math.round(x * 100)}%`);
+let current = [];
+$("dx-schema").textContent = `${DX_SCHEMA_ID}@${DX_SCHEMA_VERSION}`;
+
+function cell(tr, text, cls) { const td = document.createElement("td"); td.textContent = text; if (cls) td.className = cls; tr.appendChild(td); return td; }
+function barCell(tr, rate) { const td = cell(tr, ""); const b = document.createElement("span"); b.className = "dx-bar"; b.style.width = `${Math.round((rate ?? 0) * 80)}px`; td.append(b, pct(rate)); }
+function rows(id, list, fill) { const tb = $(id).querySelector("tbody"); tb.textContent = ""; for (const x of list) { const tr = document.createElement("tr"); fill(tr, x); tb.appendChild(tr); } if (!list.length) { const tr = document.createElement("tr"); cell(tr, "No episodes yet.").colSpan = 5; tb.appendChild(tr); } }
+
+function render(episodes, label) {
+  current = episodes;
+  const a = dxAnalyze(episodes);
+  $("dx-source").textContent = label;
+  const st = $("dx-stats"); st.textContent = "";
+  for (const [v, k] of [[a.total, "episodes"], [pct(a.successRate), "success"], [pct(a.safeRate), "safe practice"], [`${a.stepDurations.medianS}s`, "median step"], [pct(a.interrupts.responseRate), "interruptions answered"], [a.flags.truncated + a.flags.idle + a.flags.duplicate, "quality flags"]]) {
+    const d = document.createElement("div"); d.className = "dx-stat"; const b = document.createElement("b"); b.textContent = v; const s = document.createElement("span"); s.textContent = k; d.append(b, s); st.appendChild(d);
+  }
+  rows("dx-scen", Object.entries(a.byScenario), (tr, [k, r]) => { cell(tr, k); cell(tr, r.episodes, "num"); barCell(tr, r.successRate); barCell(tr, r.safeRate); cell(tr, r.meanDurationS, "num"); });
+  rows("dx-world", [...Object.entries(a.byWorld), ...Object.entries(a.byKind).map(([k, r]) => [`kind: ${k}`, r])], (tr, [k, r]) => { cell(tr, k); cell(tr, r.episodes, "num"); cell(tr, pct(r.successRate), "num"); cell(tr, pct(r.safeRate), "num"); });
+  rows("dx-detail", [
+    ["Step durations", `n ${a.stepDurations.n} · mean ${a.stepDurations.meanS}s · median ${a.stepDurations.medianS}s · p90 ${a.stepDurations.p90S}s`],
+    ["Interruptions", `answered ${a.interrupts.answered} · missed ${a.interrupts.missed} · wrong ${a.interrupts.wrong} · mean response ${a.interrupts.meanResponseS ?? "—"}s`],
+    ["Error types", Object.entries(a.errors).map(([k, v]) => `${k} ${v}`).join(" · ") || "none"],
+    ["Action mix", Object.entries(a.actions).map(([k, v]) => `${k} ${v}`).join(" · ") || "none"],
+    ["Split", `train ${a.split.train} · validation ${a.split.validation} (${a.split.validationPercent}% by session hash) · sessions in both ${a.split.sessionOverlap}`],
+    ["Sources", `human ${a.bySource.human} · synthetic ${a.bySource.synthetic}`],
+  ], (tr, [k, v]) => { cell(tr, k); cell(tr, v); });
+  rows("dx-flags", a.flagged, (tr, f) => { cell(tr, f.episodeId); cell(tr, f.flags.join(", ")); });
+}
+
+async function loadLocal() {
+  let eps = [];
+  try { eps = await dxStore.list(); } catch (_) { eps = []; }
+  render(eps, `This browser (${dxStore.backend}): ${eps.length} consented episode${eps.length === 1 ? "" : "s"}.`);
+}
+$("dx-local").addEventListener("click", loadLocal);
+$("dx-sample").addEventListener("click", () => render(dxSyntheticFixture(), "Synthetic sample: 12 generated episodes (no person), the same fixture tools/check_dataworks.mjs checks."));
+$("dx-file").addEventListener("change", async (e) => {
+  const eps = [];
+  for (const f of e.target.files) {
+    const text = await f.text();
+    try { eps.push(...(f.name.endsWith(".jsonl") ? dxParseJsonl(text) : [].concat(JSON.parse(text)))); } catch (_) { /* skip an unreadable file */ }
+  }
+  render(eps, `Opened ${e.target.files.length} file(s): ${eps.length} episodes (read in this browser, not uploaded).`);
+});
+$("dx-export").addEventListener("click", () => {
+  const { files } = dxExportFiles(current);
+  for (const f of files) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([f.text], { type: f.path.endsWith(".md") ? "text/markdown" : "application/json" }));
+    a.download = f.path.replace(/\//g, "_"); a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+});
+dxMountConsent($("dx-consent"), { btnClass: "at-btn at-btn--secondary", dataHref: null, onChange: loadLocal });
+loadLocal();
+</script>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the DATAWORKS analysis page", except: { move: "A page, not a world: Tab walks the tables.", look: "Scroll the page." } });</script>
+<script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
+</body>
+</html>

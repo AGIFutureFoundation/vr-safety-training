@@ -52,6 +52,8 @@ import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
+import { dxMountConsent } from "../../shared/dx-consent-ui.js";
+import { dxCaptureLesson, dxCaptureDrill } from "../../shared/dx-world.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -328,6 +330,7 @@ function npOpenLesson(l) {
     const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = c;
     b.addEventListener("click", () => {
       const r = npAnswerLesson(np.state, l, i); npSave(np.state);
+      dxCaptureLesson({ world: "parishes", map: parish.id, lesson: l, choice: i, ok: r.ok }); // DATAWORKS: inert unless opted in
       npToast(r.ok ? `Right — ${l.check.why}` : "Not quite — read the steps again and try another answer.", r.ok ? 6000 : 3200);
       b.classList.toggle("on", r.ok); npHud();
     });
@@ -769,7 +772,8 @@ var stWorld = stMountPaths({
 window.__parishTest.storyline = stWorld;
 // DRILLS (docs/consoles/DRILLS.md): timed scenario drills at fitting sites — briefing, objectives tied to real station
 // steps, a debrief — offered on the First Responders, Disaster Relief and UN Training paths, recorded to the passport.
-drSetRecorder(ppAward);
+// DATAWORKS: a finished drill also becomes a consented episode (inert unless opted in; shared/dx-world.js).
+drSetRecorder((id, award) => { try { dxCaptureDrill({ world: "parishes", map: parish.id, drillId: String(id).replace(/^drills:/, ""), result: { score: (award?.reputation ?? 0) * 10 } }); } catch (_) { /* never blocks the award */ } return ppAward(id, award); });
 var drWorld = drMountDrills({
   three: THREE, root, parish, el: $("menu-drills"), tier: npTierName, reducedMotion: npReduced, toast: npToast,
   stationHref: (id, siteId) => npLink(id, siteId),
@@ -846,6 +850,7 @@ function uxOpenMenu() {
   $("menu-start").focus();
 }
 uxPassport();
+dxMountConsent($("menu-dataworks")); // DATAWORKS: the consent panel in the Me tab (off by default)
 $("ux-menu-open").addEventListener("click", uxOpenMenu);
 $("ux-open-map").addEventListener("click", () => npToggle("map"));
 $("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
