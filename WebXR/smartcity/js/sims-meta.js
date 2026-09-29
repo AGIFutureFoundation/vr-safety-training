@@ -30268,5 +30268,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "lp-marine-vessel-electrical-safety",
+    "index": "lp-3",
+    "domain": "Maritime",
+    "trade": "Marine electrician, new-build vessel outfitting — IBEW",
+    "category": "Maritime & Ports",
+    "certification": "IBEW inside wireman training as a body; NFPA 70E standard for electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.333 selection and use of work practices and 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1915 shipyard employment; the vessel's single-line drawing and the yard's electrical work permit",
+    "name": "Marine Vessel Electrical Safety",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Marine Vessel Electrical Safety VR",
+    "tagline": "Isolating a new-build vessel's switchboard at the outfitting pier when power can arrive from more than one place: the single-line drawing read, every source found — shore pedestal, generator, battery bank — each one opened, locked and proven dead, temporary cables kept out of the water, and the tester proven before and after",
+    "accent": 6279352,
+    "accentCss": "#5fd0b8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "every-source",
+      "name": "Every Source",
+      "note": "Found every source on the drawing, locked each one, proved the tester and never worked a live board"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Every Source",
+      "currency": "kA",
+      "ranks": [
+        "Helper",
+        "Board Inducted",
+        "Marine Electrician",
+        "Lead Electrician",
+        "Every Source Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

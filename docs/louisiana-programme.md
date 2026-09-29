@@ -90,9 +90,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 |---|---|---|---|---|
 | "autonomous marine vessels" | hull fabrication: hot work, ventilation and fire watch | IBB (shipbuilders and boilermakers); IAM (machinists) | `shipyard-hotwork`, `welding` | `lp-sim-hull-block-weld-fire-watch` |
 | "three new slips" | pile driving, concrete and cranes at the waterfront | UBC (pile drivers); IUOE (crane operators); LIUNA (labourers) | `op-pile-driving-rig-and-lead-setup`, `concrete-pour`, `dock-crane` | — |
-| "large-vessel line" | marine electrical, blasting and coating, gangways | IBEW (marine electricians); IUPAT (painters and blasters) | `shore-power-hookup`, `tank-lining`, `bridge-blast`, `vessel-gangway-and-hatch-cover-safety` | — |
-
-Not taught yet — marine vessel electrical ("autonomous marine vessels"): no catalog station teaches on-board vessel electrical work yet; shore-power connection is the nearest and the gap is listed as pending.
+| "large-vessel line" | marine electrical, blasting and coating, gangways | IBEW (marine electricians); IUPAT (painters and blasters) | `lp-marine-vessel-electrical-safety`, `shore-power-hookup`, `tank-lining`, `bridge-blast`, `vessel-gangway-and-hatch-cover-safety` | — |
 
 ### Aviation Exteriors Louisiana (AVEX)
 
@@ -536,7 +534,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): we
 - **The practice (each station's cited standards):**
   - `shipyard-hotwork` Shipyard Hot Work — IBB — International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers
   - `welding` Weld Bay — AWS D1.1 welder performance qualification
-  - `shore-power-hookup` Shore Power Hookup — IBEW port electricians
+  - `lp-marine-vessel-electrical-safety` Marine Vessel Electrical Safety — IBEW inside wireman training as a body
 - **Simulations:** `projectsim:lp-sim-hull-block-weld-fire-watch` (pass 80, order gates enforced)
 - **Debrief prompts:**
   - Which gate had to be done before anything else, and why?
@@ -553,6 +551,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): we
 - **The practice (each station's cited standards):**
   - `shipyard-hotwork` Shipyard Hot Work — IBB — International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers
   - `welding` Weld Bay — AWS D1.1 welder performance qualification
+  - `lp-marine-vessel-electrical-safety` Marine Vessel Electrical Safety — IBEW inside wireman training as a body
   - `shore-power-hookup` Shore Power Hookup — IBEW port electricians
   - `tank-lining` Tank Lining — IUPAT industrial painters and the bridge and tank locals
   - `bridge-blast` Bridge Blast — IUPAT industrial painters
@@ -577,7 +576,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): we
 - **The practice (each station's cited standards):**
   - `shipyard-hotwork` Shipyard Hot Work — IBB — International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers
   - `welding` Weld Bay — AWS D1.1 welder performance qualification
-  - `shore-power-hookup` Shore Power Hookup — IBEW port electricians
+  - `lp-marine-vessel-electrical-safety` Marine Vessel Electrical Safety — IBEW inside wireman training as a body
 - **Simulations:** `projectsim:lp-sim-hull-block-weld-fire-watch` (pass 80, order gates enforced)
 - **Debrief prompts:**
   - Which gate had to be done before anything else, and why?
@@ -594,6 +593,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): we
 - **The practice (each station's cited standards):**
   - `shipyard-hotwork` Shipyard Hot Work — IBB — International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers
   - `welding` Weld Bay — AWS D1.1 welder performance qualification
+  - `lp-marine-vessel-electrical-safety` Marine Vessel Electrical Safety — IBEW inside wireman training as a body
   - `shore-power-hookup` Shore Power Hookup — IBEW port electricians
   - `tank-lining` Tank Lining — IUPAT industrial painters and the bridge and tank locals
   - `bridge-blast` Bridge Blast — IUPAT industrial painters
@@ -848,4 +848,4 @@ Kinds of work (general occupational descriptions, not any employer's hiring): he
 
 ## Competency matrix
 
-76 cells (work type × craft), 221 station links; the page lists every cell.
+76 cells (work type × craft), 223 station links; the page lists every cell.
