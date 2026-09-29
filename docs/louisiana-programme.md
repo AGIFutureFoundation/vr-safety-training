@@ -148,6 +148,8 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 Kinds of work (general occupational descriptions, not any employer's hiring): electricians, pipefitters, ironworkers, operators, carpenters, labourers. Crafts: IBEW (inside wiremen and linemen); UA (pipefitters and plumbers); IW (structural ironworkers and rebar); IUOE (operating engineers); UBC (carpenters, millwrights and pile drivers); LIUNA (construction craft labourers).
 
+Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): `lk-lesson-crews-behind-the-build`.
+
 #### `mod-lp-construction-aware` — Awareness and K-12
 
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-literacy-and-life-skills` (Read, write and speak clearly enough to act safely and work well with others)
@@ -157,6 +159,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): el
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
   - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
 - **The practice (each station's cited standards):**
+  - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-simple-machines-at-a-crane` Simple Machines at a Crane — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-reading-instructions-and-safety-labels` Reading Instructions and Safety Labels — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-who-does-this-work` Who Does This Work — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
@@ -166,7 +169,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): el
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-literacy-and-life-skills competency — 4 mastery runs, 2 in the pathway and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-literacy-and-life-skills competency — 5 mastery runs, 3 in the pathway and 2 in the capstone — and the cohort certificate.
 
 #### `mod-lp-construction-entry` — Pre-apprentice
 
@@ -267,6 +270,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): el
 
 Kinds of work (general occupational descriptions, not any employer's hiring): critical-environment technicians, electricians, HVAC, network and server techs, safety and security. Crafts: IBEW (critical-facility electricians); UA (HVAC and chilled-water service); IUOE (stationary engineers on the plant); CWA (network and cabling technicians).
 
+Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): `lk-lesson-crews-behind-the-build`, `lk-lesson-power-path`.
+
 #### `mod-lp-datacenter-ops-aware` — Awareness and K-12
 
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-science` (Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe)
@@ -275,18 +280,19 @@ Kinds of work (general occupational descriptions, not any employer's hiring): cr
   - Place the work: Meta data center — Richland Parish (northeast Louisiana, near Monroe).
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
 - **The practice (each station's cited standards):**
+  - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-where-a-data-center-gets-its-power` Where a Data Center Gets Its Power — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-circuits-at-the-electrical-bench` Circuits at the Electrical Bench — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-who-does-this-work` Who Does This Work — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-simple-machines-at-a-crane` Simple Machines at a Crane (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-by-how-a-levee-holds-water-back` How a Levee Holds Water Back (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-es-the-tidal-marsh-nursery` The Tidal Marsh Nursery (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Debrief prompts:**
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the pathway and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the pathway and 3 in the capstone — and the cohort certificate.
 
 #### `mod-lp-datacenter-ops-entry` — Pre-apprentice
 
@@ -386,6 +392,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): cr
 
 Kinds of work (general occupational descriptions, not any employer's hiring): chemical and gas-storage operators, maintenance mechanics, instrument and electrical. Crafts: USW (process operators and maintenance); UA (pipefitters on process piping); IAHFIAW (mechanical insulators); IBEW (electricians).
 
+Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): `lk-lesson-crews-behind-the-build`, `lk-lesson-power-path`, `lk-lesson-lock-and-levee`.
+
 #### `mod-lp-process-aware` — Awareness and K-12
 
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-literacy-and-life-skills` (Read, write and speak clearly enough to act safely and work well with others)
@@ -394,7 +402,9 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
   - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
-  - `k12-simple-machines-at-a-crane` Simple Machines at a Crane — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-where-a-data-center-gets-its-power` Where a Data Center Gets Its Power — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-how-a-lock-lifts-a-boat` How a Lock Lifts a Boat — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-reading-instructions-and-safety-labels` Reading Instructions and Safety Labels — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-who-does-this-work` Who Does This Work — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-writing-a-clear-incident-report` Writing a Clear Incident Report (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
@@ -403,7 +413,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-literacy-and-life-skills competency — 4 mastery runs, 2 in the pathway and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-literacy-and-life-skills competency — 5 mastery runs, 3 in the pathway and 2 in the capstone — and the cohort certificate.
 
 #### `mod-lp-process-entry` — Pre-apprentice
 
@@ -505,6 +515,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
 
 Kinds of work (general occupational descriptions, not any employer's hiring): welders, shipfitters, marine electricians, painters and blasters. Crafts: IBB (shipbuilders and boilermakers); IAM (machinists); IBEW (marine electricians); IUPAT (painters and blasters); UBC (pile drivers on the slips).
 
+Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): `lk-lesson-crews-behind-the-build`, `lk-lesson-steel-hull`, `lk-lesson-lock-and-levee`.
+
 #### `mod-lp-marine-aware` — Awareness and K-12
 
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-science` (Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe)
@@ -512,18 +524,20 @@ Kinds of work (general occupational descriptions, not any employer's hiring): we
   - Practise the marine trades work (welders, shipfitters, marine electricians, painters and blasters) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Saronic Technologies Franklin Shipyard — Franklin, St. Mary Parish (Bayou Region).
 - **The practice (each station's cited standards):**
-  - `k12-by-how-a-levee-holds-water-back` How a Levee Holds Water Back — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-es-the-tidal-marsh-nursery` The Tidal Marsh Nursery — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-why-a-steel-boat-floats` Why a Steel Boat Floats — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-how-a-lock-lifts-a-boat` How a Lock Lifts a Boat — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-who-does-this-work` Who Does This Work — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-circuits-at-the-electrical-bench` Circuits at the Electrical Bench (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-simple-machines-at-a-crane` Simple Machines at a Crane (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-by-how-a-levee-holds-water-back` How a Levee Holds Water Back (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Debrief prompts:**
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the pathway and 3 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the pathway and 4 in the capstone — and the cohort certificate.
 
 #### `mod-lp-marine-entry` — Pre-apprentice
 
@@ -615,6 +629,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): we
 
 Kinds of work (general occupational descriptions, not any employer's hiring): A&P mechanics, aircraft painters, sheet-metal and composites. Crafts: IAM (aircraft mechanics); IUPAT (aircraft painters); SMART (sheet-metal workers); IBT (aircraft maintenance technicians).
 
+Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): `lk-lesson-crews-behind-the-build`, `lk-lesson-wing-lift`.
+
 #### `mod-lp-aviation-mro-aware` — Awareness and K-12
 
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-literacy-and-life-skills` (Read, write and speak clearly enough to act safely and work well with others)
@@ -622,7 +638,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): A&
   - Practise the aviation mro work (A&P mechanics, aircraft painters, sheet-metal and composites) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Aviation Exteriors Louisiana (AVEX) — Acadiana Regional Airport, New Iberia (Iberia Parish).
 - **The practice (each station's cited standards):**
-  - `k12-simple-machines-at-a-crane` Simple Machines at a Crane — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-how-a-wing-lifts-an-aircraft` How a Wing Lifts an Aircraft — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-reading-instructions-and-safety-labels` Reading Instructions and Safety Labels — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-who-does-this-work` Who Does This Work — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-writing-a-clear-incident-report` Writing a Clear Incident Report (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
@@ -631,7 +648,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): A&
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?
   - What would you tell a new crew member on day one about this work?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-literacy-and-life-skills competency — 4 mastery runs, 2 in the pathway and 2 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-literacy-and-life-skills competency — 5 mastery runs, 3 in the pathway and 2 in the capstone — and the cohort certificate.
 
 #### `mod-lp-aviation-mro-entry` — Pre-apprentice
 
@@ -719,6 +736,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): A&
 
 Kinds of work (general occupational descriptions, not any employer's hiring): heavy civil, cryogenic-safety awareness, marsh restoration. Crafts: IUOE (operating engineers on mats and dredges); LIUNA (labourers on marsh and civil crews); IW (ironworkers); UA (pipefitters (awareness of cryogenic service only)); ILA (longshore workers at the shipping dock).
 
+Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): `lk-lesson-crews-behind-the-build`, `lk-lesson-new-marsh`, `lk-lesson-lock-and-levee`.
+
 #### `mod-lp-launch-support-aware` — Awareness and K-12
 
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-science` (Observe, test fairly and explain, keeping what was seen apart from what was hoped and clearer apart from safe)
@@ -727,13 +746,15 @@ Kinds of work (general occupational descriptions, not any employer's hiring): he
   - Place the work: Starbase Louisiana (SpaceX) — Vermilion Parish: a 125,000-acre site near Pecan Island and Freshwater City, coastal marsh.
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
+  - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-building-new-marsh-on-the-coast` Building New Marsh on the Coast — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-lk-how-a-lock-lifts-a-boat` How a Lock Lifts a Boat — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-by-how-a-levee-holds-water-back` How a Levee Holds Water Back — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-the-tidal-marsh-nursery` The Tidal Marsh Nursery — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-es-who-does-this-work` Who Does This Work — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
+  - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-circuits-at-the-electrical-bench` Circuits at the Electrical Bench (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-simple-machines-at-a-crane` Simple Machines at a Crane (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Debrief prompts:**
   - Which gate had to be done before anything else, and why?
   - Who had the authority to stop the work, and when did they use it?

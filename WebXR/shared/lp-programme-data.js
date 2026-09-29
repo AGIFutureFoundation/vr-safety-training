@@ -35,10 +35,25 @@ export const LP_LEVELS = [
   { id: "lead", title: "Supervisor / crew lead", who: "forepersons, crew leads and site safety staff", requiredScore: 90, dueDays: 28 },
 ];
 
+// The awareness / K-12 level: each pathway's classroom stations. The `k12-lk-*` stations are LA-K12's Louisiana lessons
+// (WebXR/shared/lk-la-lessons.js, docs/consoles/LA-K12.md): coastal marsh, locks and levees, energy, flight, boats and the
+// crews behind a big build, each launched from its Louisiana map sites; "the crews behind a big build" opens every pathway.
 const LP_K12 = {
-  build: ["k12-simple-machines-at-a-crane", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"],
-  power: ["k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm", "k12-es-who-does-this-work"],
-  water: ["k12-by-how-a-levee-holds-water-back", "k12-es-the-tidal-marsh-nursery", "k12-buoyancy-and-pressure-in-the-deep"],
+  build: ["k12-lk-the-crews-behind-a-big-build", "k12-simple-machines-at-a-crane", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"],
+  power: ["k12-lk-the-crews-behind-a-big-build", "k12-lk-where-a-data-center-gets-its-power", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm", "k12-es-who-does-this-work"],
+  process: ["k12-lk-the-crews-behind-a-big-build", "k12-lk-where-a-data-center-gets-its-power", "k12-lk-how-a-lock-lifts-a-boat", "k12-reading-instructions-and-safety-labels"],
+  marine: ["k12-lk-the-crews-behind-a-big-build", "k12-lk-why-a-steel-boat-floats", "k12-lk-how-a-lock-lifts-a-boat", "k12-buoyancy-and-pressure-in-the-deep"],
+  air: ["k12-lk-the-crews-behind-a-big-build", "k12-lk-how-a-wing-lifts-an-aircraft", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"],
+  water: ["k12-lk-the-crews-behind-a-big-build", "k12-lk-building-new-marsh-on-the-coast", "k12-lk-how-a-lock-lifts-a-boat", "k12-by-how-a-levee-holds-water-back", "k12-es-the-tidal-marsh-nursery"],
+};
+/** LA-K12's Louisiana K-12 lesson ids (lk-la-lessons.js LK_LESSONS) per pathway: the SCHOLAR sessions the awareness level opens on the maps. */
+export const LP_K12_LESSONS = {
+  construction: ["lk-lesson-crews-behind-the-build"],
+  "datacenter-ops": ["lk-lesson-crews-behind-the-build", "lk-lesson-power-path"],
+  process: ["lk-lesson-crews-behind-the-build", "lk-lesson-power-path", "lk-lesson-lock-and-levee"],
+  marine: ["lk-lesson-crews-behind-the-build", "lk-lesson-steel-hull", "lk-lesson-lock-and-levee"],
+  "aviation-mro": ["lk-lesson-crews-behind-the-build", "lk-lesson-wing-lift"],
+  "launch-support": ["lk-lesson-crews-behind-the-build", "lk-lesson-new-marsh", "lk-lesson-lock-and-levee"],
 };
 
 /**
@@ -63,19 +78,19 @@ export const LP_PATHWAYS = [
     crafts: [{ union: "usw", role: "process operators and maintenance" }, { union: "ua", role: "pipefitters on process piping" }, { union: "insulators", role: "mechanical insulators" }, { union: "ibew", role: "electricians" }],
     tracks: ["shintech", "black-bayou"],
     stations: ["gas-leak-survey", "lp-gas-storage-wellpad-awareness", "motor-control-center", "hot-tap", "pl-natural-gas-pressure-test-and-leak-check", "ib-mechanical-insulation-pipe-and-jacketing", "ib-hydrostatic-test-and-inspector-witness", "chlorine-room", "tank-lining", "ib-pressure-vessel-confined-entry-and-hot-work"],
-    sims: ["lp-sim-wellpad-lockout"], k12: LP_K12.build,
+    sims: ["lp-sim-wellpad-lockout"], k12: LP_K12.process,
     credentials: { aware: ["k12-science", "k12-literacy-and-life-skills"], entry: ["core-lockout-tagout", "core-hazard-communication", "core-confined-space"], appr: ["insulators-and-boilermakers", "plumbers-and-pipefitters", "confined-space"], jw: ["core-lockout-tagout", "core-confined-space", "core-hot-work"], lead: ["situational-awareness", "hazmat-environmental"] } },
   { id: "marine", title: "Marine trades", kinds: "welders, shipfitters, marine electricians, painters and blasters",
     crafts: [{ union: "ibb", role: "shipbuilders and boilermakers" }, { union: "iam", role: "machinists" }, { union: "ibew", role: "marine electricians" }, { union: "iupat", role: "painters and blasters" }, { union: "carpenters", role: "pile drivers on the slips" }],
     tracks: ["saronic"],
     stations: ["shipyard-hotwork", "welding", "lp-marine-vessel-electrical-safety", "shore-power-hookup", "tank-lining", "bridge-blast", "dock-crane", "op-pile-driving-rig-and-lead-setup", "vessel-gangway-and-hatch-cover-safety"],
-    sims: ["lp-sim-hull-block-weld-fire-watch"], k12: LP_K12.water,
+    sims: ["lp-sim-hull-block-weld-fire-watch"], k12: LP_K12.marine,
     credentials: { aware: ["k12-science", "k12-practical-math"], entry: ["core-hot-work", "core-respiratory-protection"], appr: ["port-operations", "insulators-and-boilermakers", "rigging-lifting"], jw: ["core-hot-work", "core-respiratory-protection", "core-confined-space"], lead: ["situational-awareness", "port-operations"] } },
   { id: "aviation-mro", title: "Aviation MRO", kinds: "A&P mechanics, aircraft painters, sheet-metal and composites",
     crafts: [{ union: "iam", role: "aircraft mechanics" }, { union: "iupat", role: "aircraft painters" }, { union: "smart", role: "sheet-metal workers" }, { union: "teamsters", role: "aircraft maintenance technicians" }],
     tracks: ["avex"],
     stations: ["av-hangar-jacking-and-stands", "av-ground-power-and-static-bonding-before-fuel", "paint-sprayer", "ib-spray-foam-and-respirator-fit", "av-borescope-and-tool-control-inventory", "ad-depot-tool-control-and-fod-walk", "av-marshalling-and-wingwalker-signals", "av-pushback-tug-and-towbar-connection"],
-    sims: ["lp-sim-paint-hangar-ventilation-ppe", "lp-sim-freighter-conversion-jacking"], k12: LP_K12.build,
+    sims: ["lp-sim-paint-hangar-ventilation-ppe", "lp-sim-freighter-conversion-jacking"], k12: LP_K12.air,
     credentials: { aware: ["k12-science", "k12-literacy-and-life-skills"], entry: ["core-respiratory-protection", "aviation-maintenance-and-ground"], appr: ["aviation-maintenance-and-ground", "aerospace-defense-and-robotics"], jw: ["aviation-maintenance-and-ground", "core-respiratory-protection"], lead: ["situational-awareness", "aviation-maintenance-and-ground"] } },
   { id: "launch-support", title: "Launch-site support", kinds: "heavy civil, cryogenic-safety awareness, marsh restoration",
     crafts: [{ union: "iuoe", role: "operating engineers on mats and dredges" }, { union: "liuna", role: "labourers on marsh and civil crews" }, { union: "ironworkers", role: "ironworkers" }, { union: "ua", role: "pipefitters (awareness of cryogenic service only)" }, { union: "ila", role: "longshore workers at the shipping dock" }],

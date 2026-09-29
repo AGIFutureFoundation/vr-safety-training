@@ -261,6 +261,8 @@ $("lp-form").addEventListener("submit", (e) => {
   md.push("");
   for (const p of lp.LP_PATHWAYS) {
     md.push(`### ${p.title}`, "", `Kinds of work (general occupational descriptions, not any employer's hiring): ${p.kinds}. Crafts: ${p.crafts.map((c) => `${uAbbrev(c.union)} (${c.role})`).join("; ")}.`, "");
+    const lkIds = lp.LP_K12_LESSONS?.[p.id] ?? [];
+    if (lkIds.length) md.push(`Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map sites): ${lkIds.map((id) => `\`${id}\``).join(", ")}.`, "");
     for (const tpl of templates.filter((x) => x.pathway === p.id)) {
       md.push(`#### \`${tpl.module.id}\` — ${lp.lpLevel(tpl.level).title}`, "");
       md.push(`- **Due:** ${tpl.dueDays} days after the cohort starts · **required score:** ${tpl.module.requiredScore} · **credential:** \`${tpl.credential.id}\` (${COMPETENCY_BY_ID[tpl.credential.id].title})`);
