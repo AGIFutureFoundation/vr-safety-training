@@ -153,6 +153,7 @@ export const SIM_RA_BLUE_FLAG_PROTECTION_IN_THE_YARD = {
     },
     {
       id: "task-focus", kind: "track", target: "watch-dial", seconds: 6,
+      track: { readout: (v) => (v < 0.42 ? "below the band" : v > 0.62 ? "above the band" : "in the band") }, // the engine's default band, in words
       title: "Keep half an eye on the control stand",
       cue: "Hold your attention in the green band while you finish the inspection.",
       why: "Flags protect the equipment from being moved on purpose by somebody who checked them — they do nothing about somebody who never looked, and a crew that also keeps half an eye on the control stand catches that gap before it becomes a problem instead of after.",

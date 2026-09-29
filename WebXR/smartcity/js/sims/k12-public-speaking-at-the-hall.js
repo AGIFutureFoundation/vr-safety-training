@@ -185,7 +185,8 @@ export const SIM_K12_PUBLIC_SPEAKING_AT_THE_HALL = {
           0.4,
           0.58
         ],
-        missNote: "The back row would not hear that. Speak from your chest, clearly and a little slower."
+        missNote: "The back row would not hear that. Speak from your chest, clearly and a little slower.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Pitch your voice to the back row",
       cue: "Commit when the voice meter shows you would be heard at the back.",
@@ -218,7 +219,8 @@ export const SIM_K12_PUBLIC_SPEAKING_AT_THE_HALL = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "PACE"
+        label: "PACE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep your pace steady through the talk",
       cue: "Keep your speaking pace in the band, not rushing as nerves build.",

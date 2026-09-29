@@ -63,6 +63,11 @@
       "stations": 42
     },
     {
+      "file": "programmes/bay-program-projects.json",
+      "id": "bay-program-projects",
+      "stations": 11
+    },
+    {
       "file": "programmes/bay-restoration-maritime-underwater.json",
       "id": "bay-restoration-maritime-underwater",
       "stations": 35
@@ -205,17 +210,17 @@
     {
       "file": "programmes/k12-literacy-and-life-skills.json",
       "id": "k12-literacy-and-life-skills",
-      "stations": 7
+      "stations": 8
     },
     {
       "file": "programmes/k12-practical-math.json",
       "id": "k12-practical-math",
-      "stations": 14
+      "stations": 16
     },
     {
       "file": "programmes/k12-science.json",
       "id": "k12-science",
-      "stations": 13
+      "stations": 22
     },
     {
       "file": "programmes/live-events.json",
@@ -320,7 +325,7 @@
     {
       "file": "programmes/wojrc-pathway-edition.json",
       "id": "wojrc-pathway-edition",
-      "stations": 40
+      "stations": 46
     },
     {
       "file": "programmes/yacht-and-charter-crew.json",
@@ -874,6 +879,30 @@
       "flat": false,
       "id": "bioswale-build",
       "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Construction & Structural Trades",
+      "file": "stations/bk-bioretention-rain-garden-excavation.json",
+      "flat": false,
+      "id": "bk-bioretention-rain-garden-excavation",
+      "steps": 14
+    },
+    {
+      "app": "smartcity",
+      "category": "Environmental Monitoring",
+      "file": "stations/bk-street-drain-trash-capture-cleanout.json",
+      "flat": false,
+      "id": "bk-street-drain-trash-capture-cleanout",
+      "steps": 14
+    },
+    {
+      "app": "smartcity",
+      "category": "Water & Environmental",
+      "file": "stations/bk-wastewater-nutrient-chemical-feed.json",
+      "flat": false,
+      "id": "bk-wastewater-nutrient-chemical-feed",
+      "steps": 14
     },
     {
       "app": "smartcity",
@@ -1658,6 +1687,54 @@
       "flat": false,
       "id": "cooling-tower",
       "steps": 11
+    },
+    {
+      "app": "smartcity",
+      "category": "Energy & Power",
+      "file": "stations/cp-battery-energy-storage-site-awareness.json",
+      "flat": false,
+      "id": "cp-battery-energy-storage-site-awareness",
+      "steps": 12
+    },
+    {
+      "app": "smartcity",
+      "category": "Maritime & Ports",
+      "file": "stations/cp-charging-yard-connectors-and-e-stops.json",
+      "flat": false,
+      "id": "cp-charging-yard-connectors-and-e-stops",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Maritime & Ports",
+      "file": "stations/cp-high-voltage-lockout-on-electric-cargo-equipment.json",
+      "flat": false,
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Maritime & Ports",
+      "file": "stations/cp-hydrogen-fuel-cell-equipment-and-fuelling.json",
+      "flat": false,
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Mobility & Transit",
+      "file": "stations/cp-zero-emission-drayage-truck-pre-trip.json",
+      "flat": false,
+      "id": "cp-zero-emission-drayage-truck-pre-trip",
+      "steps": 12
+    },
+    {
+      "app": "smartcity",
+      "category": "Maritime & Ports",
+      "file": "stations/cp-zero-emission-terminal-equipment-pre-use.json",
+      "flat": false,
+      "id": "cp-zero-emission-terminal-equipment-pre-use",
+      "steps": 13
     },
     {
       "app": "smartcity",
@@ -3177,6 +3254,102 @@
       "file": "stations/k12-energy-transfer-at-the-wind-farm.json",
       "flat": false,
       "id": "k12-energy-transfer-at-the-wind-farm",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-clean-air-at-the-port.json",
+      "flat": false,
+      "id": "k12-es-clean-air-at-the-port",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-count-it-a-fair-survey.json",
+      "flat": false,
+      "id": "k12-es-count-it-a-fair-survey",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-measure-a-rain-garden.json",
+      "flat": false,
+      "id": "k12-es-measure-a-rain-garden",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-mud-on-the-move.json",
+      "flat": false,
+      "id": "k12-es-mud-on-the-move",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-plastics-and-the-bay.json",
+      "flat": false,
+      "id": "k12-es-plastics-and-the-bay",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-rain-gardens-a-sponge-in-the-sidewalk.json",
+      "flat": false,
+      "id": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-the-bay-food-web.json",
+      "flat": false,
+      "id": "k12-es-the-bay-food-web",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-the-tidal-marsh-nursery.json",
+      "flat": false,
+      "id": "k12-es-the-tidal-marsh-nursery",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-too-much-of-a-good-thing.json",
+      "flat": false,
+      "id": "k12-es-too-much-of-a-good-thing",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-what-a-trash-capture-device-does.json",
+      "flat": false,
+      "id": "k12-es-what-a-trash-capture-device-does",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-where-the-storm-drain-goes.json",
+      "flat": false,
+      "id": "k12-es-where-the-storm-drain-goes",
+      "steps": 13
+    },
+    {
+      "app": "smartcity",
+      "category": "Community Environmental Justice",
+      "file": "stations/k12-es-who-does-this-work.json",
+      "flat": false,
+      "id": "k12-es-who-does-this-work",
       "steps": 13
     },
     {

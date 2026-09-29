@@ -8,6 +8,7 @@
   "certification": null,
   "programmes": [
     "air-quality-monitoring",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "bridge-and-structural",
     "builders-trades",
@@ -130,6 +131,18 @@
     {
       "app": "smartcity",
       "id": "concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -1165,6 +1178,60 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "wharf-fishing-fleet",
+        "embarcadero-pier-shed",
+        "chinatown-community-clinic",
+        "north-beach-fire-station",
+        "telegraph-hill-grounds",
+        "embarcadero-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "alamo-square-victorian-row",
+        "castro-victorian-repaint",
+        "duboce-hospital-campus",
+        "golden-gate-park-east-crew",
+        "buena-vista-grounds",
+        "cole-valley-fire-station",
+        "mount-sutro-forest-crew",
+        "laguna-honda-valve-house"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "ocean-beach-south-lifeguards",
+        "fort-funston-dune-crew",
+        "zoo-grounds-yard",
+        "sf-state-campus-plant",
+        "stonestown-housing-site",
+        "parkmerced-grounds",
+        "nineteenth-avenue-fire-station",
+        "stern-grove-crew",
+        "lake-merced-greens-crew",
+        "lake-merced-pump-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "outer-harbor-container-terminal",
@@ -1204,6 +1271,81 @@
         "sausal-creek-storm-drain-crew",
         "fruitvale-bridge-crew"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-warehouse-studios",
+        "emeryville-lab-building-site",
+        "eastshore-shoreline-crew",
+        "aquatic-park-storm-drain-crew",
+        "berkeley-civic-centre",
+        "west-berkeley-maker-workshop",
+        "south-berkeley-fire-station",
+        "ashby-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-civic-centre",
+        "richmond-shipyard-crew",
+        "richmond-harbour-terminal",
+        "refinery-turnaround-yard",
+        "san-pablo-stormwater-crew",
+        "san-pablo-hospital-campus",
+        "downtown-richmond-fire-station",
+        "annex-substation",
+        "point-isabel-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "san-jose-civic-centre",
+        "downtown-stormwater-crew-yard",
+        "guadalupe-river-park-grounds",
+        "san-jose-high-rise-site",
+        "valley-medical-campus",
+        "airport-ramp-crew",
+        "east-side-fire-station",
+        "japantown-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection",
+        "slb-corporation-yard"
+      ]
     }
   ],
   "stationNames": {
@@ -1234,6 +1376,9 @@
     "confined-rescue": "Confined Rescue",
     "airport-ramp": "Airport Ramp",
     "concrete-pour": "Concrete Pour",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "br-benthic-grab-and-invertebrate-sorting": "Benthic Grab & Invertebrate Sorting",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
@@ -1410,7 +1555,7 @@
     "paint-sprayer": "Coatings Bay"
   },
   "version": "1.0.0",
-  "contentHash": "0ca87f56",
+  "contentHash": "5ada0413",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

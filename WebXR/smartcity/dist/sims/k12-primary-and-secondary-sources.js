@@ -185,7 +185,8 @@ export const SIM_K12_PRIMARY_AND_SECONDARY_SOURCES = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too sure and one letter is doing too much; too doubtful and you ignore real evidence. Weigh it again."
+        missNote: "Outside the band. Too sure and one letter is doing too much; too doubtful and you ignore real evidence. Weigh it again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Judge how certain the book's claim is",
       cue: "Commit when your certainty matches the evidence: supported by the letter, but not proven by it alone.",
@@ -218,7 +219,8 @@ export const SIM_K12_PRIMARY_AND_SECONDARY_SOURCES = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "BALANCE"
+        label: "BALANCE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the argument balanced as you write",
       cue: "Hold your conclusion in band — weighing both sources, not leaning on one.",

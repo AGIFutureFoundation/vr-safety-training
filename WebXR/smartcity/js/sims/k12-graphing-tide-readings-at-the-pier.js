@@ -141,7 +141,8 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
           0.4,
           0.58
         ],
-        missNote: "Off the reading. Go straight up from the time to the height in your table."
+        missNote: "Off the reading. Go straight up from the time to the height in your table.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Plot the latest reading at the right height",
       cue: "Commit when the point sits exactly at the height the latest reading shows.",
@@ -218,7 +219,8 @@ export const SIM_K12_GRAPHING_TIDE_READINGS_AT_THE_PIER = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "WATERLINE"
+        label: "WATERLINE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the waterline as the tide moves",
       cue: "Keep the marker on the waterline as the water moves up and down the staff.",

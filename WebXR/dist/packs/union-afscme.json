@@ -9,6 +9,7 @@
   "programmes": [
     "air-quality-monitoring",
     "basketball-fundamentals",
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "civic-leadership-and-ei",
     "culinary-kitchen",
@@ -40,7 +41,23 @@
     },
     {
       "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
       "id": "forklift-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -939,6 +956,30 @@
       "id": "me-kelp-transect-survey-and-photo-quadrats"
     },
     {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
+    },
+    {
       "app": "trades",
       "id": "kitchen"
     },
@@ -958,6 +999,8 @@
     {
       "world": "bayworld",
       "sites": [
+        "port-container-terminal",
+        "port-maintenance-shop",
         "port-hazmat-response-yard",
         "estuary-research-dock",
         "estuary-marina-boatyard",
@@ -1245,6 +1288,58 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-sewer-crew-yard",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "wharf-seafood-dock",
+        "embarcadero-pier-shed",
+        "columbus-restaurant-row",
+        "nb-chinatown-kitchens",
+        "chinatown-community-clinic",
+        "north-beach-fire-station",
+        "telegraph-hill-grounds",
+        "embarcadero-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "duboce-hospital-campus",
+        "golden-gate-park-east-crew",
+        "buena-vista-grounds",
+        "castro-restaurant-kitchens",
+        "cole-valley-fire-station",
+        "mount-sutro-forest-crew",
+        "laguna-honda-valve-house"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "ocean-beach-south-lifeguards",
+        "fort-funston-dune-crew",
+        "zoo-grounds-yard",
+        "parkmerced-grounds",
+        "nineteenth-avenue-fire-station",
+        "stern-grove-crew",
+        "lake-merced-greens-crew",
+        "lake-merced-pump-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "port-truck-staging-yard",
@@ -1279,6 +1374,75 @@
         "fruitvale-bridge-crew",
         "fruitvale-community-clinic"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-warehouse-studios",
+        "emeryville-lab-building-site",
+        "eastshore-shoreline-crew",
+        "aquatic-park-storm-drain-crew",
+        "berkeley-civic-centre",
+        "south-berkeley-fire-station",
+        "ashby-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-civic-centre",
+        "san-pablo-stormwater-crew",
+        "san-pablo-hospital-campus",
+        "downtown-richmond-fire-station",
+        "point-isabel-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "san-jose-civic-centre",
+        "downtown-stormwater-crew-yard",
+        "guadalupe-river-park-grounds",
+        "san-jose-high-rise-site",
+        "valley-medical-campus",
+        "east-side-fire-station",
+        "japantown-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection",
+        "slb-corporation-yard"
+      ]
     }
   ],
   "stationNames": {
@@ -1286,7 +1450,11 @@
     "air-monitor": "Perimeter Air",
     "decon-line": "Decon Line",
     "lift-station": "Lift Station",
+    "chlorine-room": "Chlorine Room",
     "forklift-dock": "Forklift Dock",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "ei-leading-under-pressure": "Leading Under Pressure",
     "ei-giving-and-taking-feedback": "Giving and Taking Feedback",
     "ei-conflict-on-the-crew": "Conflict on the Crew",
@@ -1511,11 +1679,17 @@
     "me-eelgrass-seed-collection-and-nursery": "Eelgrass Seed Collection & Nursery",
     "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "kitchen": "Hot Line",
     "phlebotomy": "Draw Station"
   },
   "version": "1.0.0",
-  "contentHash": "41464fbb",
+  "contentHash": "80ab0d35",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

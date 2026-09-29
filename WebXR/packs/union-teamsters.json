@@ -450,6 +450,30 @@
     {
       "app": "smartcity",
       "id": "tw-amr-traffic-zone-entry-and-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     }
   ],
   "unions": [
@@ -464,6 +488,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "port-hazmat-response-yard",
         "estuary-shoreline-park-trailhead",
         "estuary-research-dock",
@@ -609,6 +634,32 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "wharf-fishing-fleet",
+        "wharf-seafood-dock",
+        "embarcadero-pier-shed",
+        "embarcadero-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "lake-merced-pump-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "outer-harbor-container-terminal",
@@ -633,6 +684,58 @@
         "san-leandro-bay-shoreline-crew",
         "high-street-warehouse-yard",
         "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-warehouse-studios",
+        "emeryville-lab-building-site",
+        "eastshore-shoreline-crew",
+        "aquatic-park-storm-drain-crew",
+        "berkeley-civic-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-civic-centre",
+        "richmond-harbour-terminal",
+        "san-pablo-stormwater-crew",
+        "point-isabel-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "san-jose-civic-centre",
+        "downtown-stormwater-crew-yard",
+        "san-jose-high-rise-site",
+        "japantown-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-monitoring-station",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-levee-inspection"
       ]
     }
   ],
@@ -745,10 +848,16 @@
     "tw-dock-leveler-and-trailer-restraint-check": "Dock Leveler & Trailer Restraint Check",
     "tw-high-bay-order-picker-fall-protection": "High-Bay Order Picker Fall Protection",
     "tw-conveyor-jam-clearing-and-loto": "Conveyor Jam Clearing & LOTO",
-    "tw-amr-traffic-zone-entry-and-lockout": "AMR Traffic-Zone Entry & Lockout"
+    "tw-amr-traffic-zone-entry-and-lockout": "AMR Traffic-Zone Entry & Lockout",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "ceb798d6",
+  "contentHash": "48f391ea",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

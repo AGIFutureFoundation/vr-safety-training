@@ -52,6 +52,32 @@ Nothing here is ever written back to the repository, and `tools/check_mapbox.mjs
 - **The claude.ai artifact viewer** (the page published from this repository): the viewer's content policy allows scripts only from a short list of CDNs and blocks Mapbox's own hosts, so the library may load but its style, tiles and static images cannot. The atlas detects the failure and shows the SVG map; Bay World keeps its grass. Everything else on the page — the list, the chips, the deep links — works exactly the same.
 - **Offline, or `file://`**: the SVG map. The library is never bundled, so there is nothing to load.
 
+## Relief from Mapbox Terrain-RGB — the parish maps (console RELIEF)
+
+The same token also reaches the parish engine (`WebXR/parishes/`, every map: the New Orleans parishes, the San Francisco
+and Oakland districts, and any map added later — it works from each map's own lon/lat box, `npBounds` in
+`shared/np-geo.js`). The module is `WebXR/shared/rl-relief.js`.
+
+| | Without a token | With a token |
+|---|---|---|
+| **Ground imagery** | The procedural vertex colours. | One Static Images satellite picture of the map's box draped over the ground chunks (the uv follows the fit); its long side is capped by tier: 1280 px, 1024 px on the balanced tier, 640 px on the phone tier. |
+| **Relief** | The schematic field: the named hills (placed at their approximate positions, see [parishes.md](parishes.md)). | Mapbox Terrain-RGB tiles of the box (at most 16 tiles on the high tier, 9 on the balanced tier, none on the phone tier) are decoded (`-10000 + (R·65536 + G·256 + B) × 0.1` metres) and scaled down into the map's schematic range — never higher than the map's tallest named hill, never more than half a map metre per real metre, and nearly flat on a map with no hills. |
+| **Network** | None. | The tiles (`api.mapbox.com/v4/mapbox.terrain-rgb/…pngraw`) and the one static image, each carrying the token. |
+
+How the relief blends with `npHeightAt`: the relief is handed to the engine through `NP_TERRAIN_HOOKS.relief` before the
+world is built (the app waits for it, a few seconds at most), so every road, board and building seats on the same ground.
+The dry ground rises by the higher of the relief and the named hills; every site's pad is a flat terrace at that height;
+water beds ignore the relief, so water stays level, and the relief fades to nothing within a short distance of open water
+so a lake is never left in a pit. It is sampled on a small grid per 256 m chunk, cached by chunk key. All tiles arrive or
+none are used: a blocked, failed or slow tile (the claude.ai viewer blocks Mapbox's hosts) leaves the schematic ground.
+Heights are only ever used to shape the schematic mounds; no figure is shown and nothing is claimed as a survey.
+
+Proved in `tools/check_mapbox.mjs` with a stub fetch and decoder (the build environment cannot reach Mapbox): known
+Terrain-RGB pixels decode exactly; without a token, or on the phone tier, no request is made and the engine is untouched;
+every map's box fits the tile budget per tier; with a token only Terrain-RGB tiles covering the box are asked for; the
+relief stays inside the map's range; pads stay flat and water stays level under rough relief; the per-chunk cache does
+not grow on a repeat; a failed tile or a timeout leaves the schematic ground.
+
 ## What is proved
 
 `tools/check_mapbox.mjs`, run by `node tools/check_all.mjs`:

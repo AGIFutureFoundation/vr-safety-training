@@ -151,7 +151,8 @@ export const SIM_K12_BY_READING_A_FLOOD_MAPS_COLOURS = {
           0.4,
           0.58
         ],
-        missNote: "Not matched yet. Line the strip up against the scale bar carefully."
+        missNote: "Not matched yet. Line the strip up against the scale bar carefully.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Measure the route with the scale bar",
       cue: "Commit when the measuring strip matches the length of the route on the scale bar.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_READING_A_FLOOD_MAPS_COLOURS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "ROUTE"
+        label: "ROUTE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Trace the route along the streets",
       cue: "Keep the marker on your chosen route as you trace it along the streets on the map.",

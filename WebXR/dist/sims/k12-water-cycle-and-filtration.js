@@ -141,7 +141,8 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too fast and the water digs a channel straight through the sand. Pour gently."
+        missNote: "Outside the band. Too fast and the water digs a channel straight through the sand. Pour gently.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Pour at a steady, gentle rate",
       cue: "Commit when the pour rate is slow enough that the water does not dig into the sand.",
@@ -218,7 +219,8 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "CLARITY"
+        label: "CLARITY",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep your observation honest as the sample settles",
       cue: "Hold your recorded observation in band with what the sample actually shows as it sits.",

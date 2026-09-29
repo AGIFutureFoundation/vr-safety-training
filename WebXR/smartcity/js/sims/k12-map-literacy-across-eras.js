@@ -141,7 +141,8 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
           0.4,
           0.58
         ],
-        missNote: "Not matched to the scale bar. Set the dividers against it again."
+        missNote: "Not matched to the scale bar. Set the dividers against it again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Use the scale to estimate a distance",
       cue: "Commit when the dividers match the scale bar for the distance you are measuring.",
@@ -218,7 +219,8 @@ export const SIM_K12_MAP_LITERACY_ACROSS_ERAS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "ROAD"
+        label: "ROAD",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the old road across both maps",
       cue: "Keep the pointer on the old road as it crosses from the old map to the new.",

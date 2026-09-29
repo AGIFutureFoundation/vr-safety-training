@@ -4,7 +4,7 @@
   "name": "Pathway Edition — wojrc.org",
   "title": "SmartCiti.X Pathway Edition — wojrc.org — Powered by AGI Corp",
   "audience": "trades",
-  "summary": "The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.",
+  "summary": "The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard. A last level, Zero-emission careers, chains the stations on battery-electric and hydrogen port equipment: the Port of Oakland's Clean Ports release says the Machinists Institute assists WOJRC in expanding its Pre-Apprentice Transportation, Distribution and Logistics training program to include careers affected by zero-emission vehicles (portofoakland.com/cleanports); this level teaches that kind of work from its own cited standards and is not that program.",
   "certification": "Registered apprenticeship standards as a category, the OSHA Outreach Training Program's OSHA 10 course, FMCSA 49 CFR 380 Subpart F entry-level driver training with 49 CFR 383, 393 and 395, OSHA 29 CFR 1910.178 powered industrial trucks and ANSI/ITSDF B56.1, the Revised NIOSH Lifting Equation, HIPAA's Privacy Rule, CFPB and IRS consumer guidance, and SAMHSA's guidance on help-seeking — every credential and requirement stated only as the cited body publishes it, or as \"per the programme's requirements\" where this edition does not have a source for the organisation's own paperwork",
   "programmes": [
     "wojrc-pathway-edition"
@@ -169,6 +169,30 @@
     {
       "app": "smartcity",
       "id": "wellness-asking-for-help-and-resources"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
     }
   ],
   "unions": [
@@ -184,6 +208,8 @@
     {
       "world": "bayworld",
       "sites": [
+        "port-container-terminal",
+        "port-maintenance-shop",
         "west-oakland-truck-yard",
         "island-ferry-landing",
         "emery-distribution-center"
@@ -235,6 +261,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "embarcadero-pier-shed"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "port-truck-staging-yard",
@@ -247,6 +280,29 @@
       "parish": "oak-fruitvale-estuary",
       "sites": [
         "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-warehouse-studios",
+        "emeryville-lab-building-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "san-jose-high-rise-site",
+        "japantown-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-industrial-frontage-yard"
       ]
     }
   ],
@@ -290,10 +346,16 @@
     "wellness-shift-work-sleep-and-stress": "Wellness — Shift Work, Sleep and Stress",
     "wellness-peer-support-conversation": "Wellness — Peer Support Conversation",
     "wellness-substance-use-and-the-job": "Wellness — Substance Use and the Job",
-    "wellness-asking-for-help-and-resources": "Wellness — Asking for Help and Resources"
+    "wellness-asking-for-help-and-resources": "Wellness — Asking for Help and Resources",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness"
   },
   "version": "1.0.0",
-  "contentHash": "826df49d",
+  "contentHash": "35d94d34",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

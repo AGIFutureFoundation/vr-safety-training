@@ -29,6 +29,8 @@ export const NP_SF_DOWNTOWN = {
     {"id":"russian-hill","name":"Russian Hill","center":[-580,-528],"radius":227,"height":28},
     {"id":"telegraph-hill","name":"Telegraph Hill","center":[-72,-618],"radius":173,"height":24},
     {"id":"twin-peaks","name":"Twin Peaks","center":[-1739,1885],"radius":523,"height":58},
+    {"id":"potrero-hill","name":"Potrero Hill","center":[119,1558],"radius":273,"height":20},
+    {"id":"lone-mountain","name":"Lone Mountain","center":[-1919,604],"radius":150,"height":16},
   ],
   water: [
     {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[-2048,-2048],[-2048,-828],[-2039,-829],[-1719,-880],[-1440,-880],[-1160,-930],[-960,-980],[-760,-930],[-560,-980],[-360,-1030],[-160,-980],[40,-829],[200,-679],[360,-503],[460,-327],[560,-176],[740,-126],[740,176],[640,327],[660,553],[700,679],[720,955],[740,1257],[880,1483],[880,1809],[804,2048],[2048,2048],[2048,-2048]]},
@@ -98,15 +100,18 @@ export const NP_SF_DOWNTOWN = {
     // sw:end
   ],
   landmarks: [
-    {"id":"the-ferry-building","name":"the Ferry Building","position":[440,-286],"kind":"place"},
-    {"id":"coit-tower","name":"Coit Tower","position":[-72,-623],"kind":"tower"},
+    {"id":"the-ferry-building","name":"the Ferry Building","position":[440,-286],"kind":"place","lm":"ferry-building"},
+    {"id":"coit-tower","name":"Coit Tower","position":[-72,-623],"kind":"tower","lm":"coit-tower"},
     {"id":"union-square","name":"Union Square","position":[-140,101],"kind":"square"},
     {"id":"chinatown","name":"Chinatown","position":[-88,-211],"kind":"neighbourhood"},
-    {"id":"bay-bridge-anchorage","name":"the Bay Bridge anchorage","position":[672,10],"kind":"bridge"},
-    {"id":"fishermans-wharf","name":"Fisherman's Wharf","position":[-440,-915],"kind":"wharf"},
+    {"id":"bay-bridge-anchorage","name":"the Bay Bridge anchorage","position":[672,10],"kind":"bridge","lm":"bay-bridge-suspension","lmAlong":0.5,"lmSpan":480},
+    {"id":"fishermans-wharf","name":"Fisherman's Wharf","position":[-440,-915],"kind":"wharf","lm":"wharf-pier-shed"},
     {"id":"aquatic-park","name":"Aquatic Park","position":[-700,-844],"kind":"park"},
     {"id":"palace-of-fine-arts","name":"the Palace of Fine Arts","position":[-1807,-573],"kind":"place"},
     {"id":"civic-center","name":"Civic Center","position":[-560,528],"kind":"plaza"},
+    {"id":"transamerica-pyramid","name":"the Transamerica Pyramid","position":[48,-261],"kind":"place","lm":"transamerica-pyramid"},
+    {"id":"powell-street-turntable","name":"the cable-car turntable at Powell Street","position":[-152,266],"kind":"place","lm":"cable-car-turntable"},
+    {"id":"painted-ladies","name":"the Painted Ladies at Alamo Square","position":[-1224,694],"kind":"place","lm":"painted-ladies"},
     {"id":"lombard-street-crooked-block","name":"Lombard Street's crooked block","position":[-588,-608],"kind":"street"},
   ],
   connectors: [
@@ -116,6 +121,9 @@ export const NP_SF_DOWNTOWN = {
     {"id":"sf-dt-king-street","kind":"road","name":"The Embarcadero at King Street","from":{"parish":"sf-downtown","position":[520,653]},"to":{"parish":"sf-mission","position":[680,-704],"lonlat":[-122.391,37.777]},"lonlat":[-122.391,37.777],"approximate":true},
     {"id":"sf-dt-geary-boulevard","kind":"road","name":"Geary Boulevard west to the Richmond","from":{"parish":"sf-downtown","position":[-1679,402]},"to":{"parish":"sf-golden-gate-park","position":[1280,-955],"lonlat":[-122.446,37.782]},"lonlat":[-122.446,37.782],"approximate":true},
     {"id":"sf-dt-bay-bridge-east","kind":"bridge","name":"The Bay Bridge east to West Oakland (BAYMAP)","from":{"parish":"sf-downtown","position":[640,40]},"to":{"parish":"oak-west-oakland","position":[-1926,0],"lonlat":[-122.358,37.812]},"lonlat":[-122.358,37.812],"approximate":true},
+    {"id":"sf-dt-north-beach-embarcadero","kind":"road","name":"The Embarcadero north to Fisherman's Wharf and North Beach","from":{"parish":"sf-downtown","position":[520,100]},"to":{"parish":"sf-north-beach","position":[1671,1558],"lonlat":[-122.391,37.788]},"lonlat":[-122.391,37.788],"approximate":true},
+    {"id":"sf-dt-north-beach-powell","kind":"road","name":"Powell Street north to North Beach and the wharf","from":{"parish":"sf-downtown","position":[-160,251]},"to":{"parish":"sf-north-beach","position":[176,1892],"lonlat":[-122.408,37.785]},"lonlat":[-122.408,37.785],"approximate":true},
+    {"id":"sf-dt-haight-castro-divisadero","kind":"road","name":"Divisadero Street south to the Haight","from":{"parish":"sf-downtown","position":[-1400,453]},"to":{"parish":"sf-haight-castro","position":[352,-2004],"lonlat":[-122.439,37.781]},"lonlat":[-122.439,37.781],"approximate":true},
   ],
   fieldLessons: [
     {"id":"sf-downtown-fl-ferry-tide-and-timetable","title":"Tide, Timetable and the Gangway","site":"ferry-building-landing","landmark":"the-ferry-building","k12":"k12-graphing-tide-readings-at-the-pier","trade":"Ferry deckhands","tradeLine":"A deckhand reads the tide and the timetable together, so the gangway meets the boat level when the passengers step across.","minutes":3,"steps":["Watch the water against the pier: it rises and falls through the day.","The timetable says when each boat comes; the tide says how high it will sit.","A deckhand sets the gangway for both, so nobody steps up or down too far."],"check":{"q":"Why does a deckhand check the tide as well as the timetable?","options":["The boat sits higher or lower with the tide","The tide changes the price of a ticket","The timetable is only a guess"],"answer":0,"why":"The timetable says when; the tide says how high the deck will sit against the landing."}},

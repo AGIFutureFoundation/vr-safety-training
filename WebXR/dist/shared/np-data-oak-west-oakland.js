@@ -81,11 +81,11 @@ export const NP_OAK_WEST_OAKLAND = {
     {"id":"bay-bridge-toll-plaza-yard","name":"Bay Bridge Toll Plaza Crew Yard","kind":"bridge","position":[356,-500],"trades":["ironworkers","iupat","iuoe"],"programmes":["bridge-and-structural","first-responders"],"stations":["bridge-cable-inspection","deck-joint-replacement","bs-structural-bolting-and-torque","traffic-incident-management"],"blurb":"The crew yard beside the toll plaza: the ironworkers and painters of the eastern span, and the incident crews who clear a lane safely."},
   ],
   landmarks: [
-    {"id":"bay-bridge-toll-plaza","name":"the Bay Bridge toll plaza","position":[377,-737],"kind":"bridge"},
+    {"id":"bay-bridge-toll-plaza","name":"the Bay Bridge toll plaza","position":[377,-737],"kind":"bridge","lm":"bay-bridge-east-tower","lmAlong":0.85,"lmSpan":420},
     {"id":"defremery-park","name":"deFremery Park","position":[1173,53],"kind":"park"},
     {"id":"middle-harbor-shoreline-park","name":"Middle Harbor Shoreline Park","position":[-335,448],"kind":"shore"},
     {"id":"west-oakland-station","name":"West Oakland Station","position":[712,369],"kind":"station"},
-    {"id":"the-port-cranes","name":"the port's container cranes","position":[-335,-53],"kind":"port"},
+    {"id":"the-port-cranes","name":"the port's container cranes","position":[-335,-53],"kind":"port","lm":"container-cranes"},
     {"id":"mandela-parkway","name":"Mandela Parkway","position":[859,-158],"kind":"street"},
     {"id":"emeryville-marina-shore","name":"the Emeryville shore","position":[544,-1580],"kind":"shore"},
   ],
@@ -94,6 +94,7 @@ export const NP_OAK_WEST_OAKLAND = {
     {"id":"bm-wo-west-grand","kind":"road","name":"West Grand Avenue east to Downtown and the Lake","from":{"parish":"oak-west-oakland","position":[1298,-158]},"to":{"parish":"oak-downtown-lake","position":[-796,-474],"lonlat":[-122.281,37.815]},"lonlat":[-122.281,37.815],"approximate":true},
     {"id":"bm-wo-jack-london","kind":"road","name":"Broadway at Jack London Square","from":{"parish":"oak-west-oakland","position":[1508,790]},"to":{"parish":"oak-downtown-lake","position":[-586,474],"lonlat":[-122.276,37.797]},"lonlat":[-122.276,37.797],"approximate":true},
     {"id":"bm-wo-webster-tube","kind":"road","name":"Webster Street through the tube to Alameda and the estuary","from":{"parish":"oak-west-oakland","position":[1491,1316]},"to":{"parish":"oak-fruitvale-estuary","position":[-1944,-790],"lonlat":[-122.2764,37.787]},"lonlat":[-122.2764,37.787],"approximate":true},
+    {"id":"eb-wo-san-pablo-avenue-north","kind":"road","name":"San Pablo Avenue north to Emeryville and Berkeley","from":{"parish":"oak-west-oakland","position":[1047,-1264]},"to":{"parish":"oak-emeryville-berkeley","position":[132,1659],"lonlat":[-122.287,37.836]},"lonlat":[-122.287,37.836],"approximate":true},
   ],
   fieldLessons: [
     {"id":"bm-fl-sorting-boxes-at-the-terminal","title":"Sorting Boxes at the Terminal","site":"outer-harbor-container-terminal","landmark":"the-port-cranes","k12":"k12-by-sorting-containers-at-the-port","station":"container-lashing","trade":"Longshore lashers","tradeLine":"A lasher checks every twistlock and rod before the ship sails, so the stacked boxes stay put on the open water.","minutes":3,"steps":["Look along the stacks: every box has a number, a colour and a place on the ship.","The planner sorts boxes so the heavy ones ride low and the light ones ride high.","Lashers lock each corner and tighten the rods before the ship leaves the berth."],"check":{"q":"Where do the heaviest boxes ride on a ship?","options":["Low in the stack","On the very top","Anywhere at all"],"answer":0,"why":"Heavy boxes low keep the ship steady, and the lashers still lock every corner."}},

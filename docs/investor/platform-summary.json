@@ -3,12 +3,12 @@
   "facts": [
     {
       "key": "procedures",
-      "value": 697,
+      "value": 718,
       "source": "WebXR/smartcity/catalog.json stations.length"
     },
     {
       "key": "smartcityStations",
-      "value": 688,
+      "value": 709,
       "source": "WebXR/smartcity/catalog.json stations where app = smartcity"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "key": "programmes",
-      "value": 60,
+      "value": 61,
       "source": "WebXR/smartcity/js/curricula.js CURRICULA.length"
     },
     {
@@ -43,12 +43,12 @@
     },
     {
       "key": "competencies",
-      "value": 70,
+      "value": 71,
       "source": "WebXR/shared/competency.js COMPETENCIES.length"
     },
     {
       "key": "programmeCompetencies",
-      "value": 60,
+      "value": 61,
       "source": "WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length"
     },
     {
@@ -63,22 +63,22 @@
     },
     {
       "key": "programmeLadderLevels",
-      "value": 1200,
+      "value": 1220,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.levels"
     },
     {
       "key": "programmeLadderLevelsFull",
-      "value": 1199,
+      "value": 1219,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar"
     },
     {
       "key": "checkers",
-      "value": 109,
+      "value": 115,
       "source": "tools/check_all.mjs CHECKERS array"
     },
     {
       "key": "evalProceduresScored",
-      "value": 641,
+      "value": 718,
       "source": "tools/eval-content.json results.length"
     },
     {
@@ -88,12 +88,12 @@
     },
     {
       "key": "evalBand95plus",
-      "value": 521,
+      "value": 592,
       "source": "tools/eval-content.json results with score >= 95"
     },
     {
       "key": "evalBand90to94",
-      "value": 116,
+      "value": 122,
       "source": "tools/eval-content.json results with score 90-94"
     },
     {
@@ -128,7 +128,7 @@
     },
     {
       "key": "bayWorldSideQuests",
-      "value": 120,
+      "value": 122,
       "source": "WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length"
     },
     {
@@ -243,7 +243,7 @@
     },
     {
       "key": "uiPages",
-      "value": 78,
+      "value": 80,
       "source": "ls WebXR/dist/*.html WebXR/dist/tracks/*.html"
     }
   ]

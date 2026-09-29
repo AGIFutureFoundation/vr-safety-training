@@ -130,8 +130,8 @@ export const NP_SF_BAYVIEW = {
    "id": "bayview-hill",
    "name": "Bayview Hill",
    "center": [
-    -580,
-    1160
+    -472,
+    917
    ],
    "radius": 230,
    "height": 34
@@ -155,6 +155,16 @@ export const NP_SF_BAYVIEW = {
    ],
    "radius": 180,
    "height": 30
+  },
+  {
+   "id": "potrero-hill",
+   "name": "Potrero Hill",
+   "center": [
+    -816,
+    -1403
+   ],
+   "radius": 150,
+   "height": 18
   }
  ],
  "water": [
@@ -1042,7 +1052,7 @@ export const NP_SF_BAYVIEW = {
     "air-monitor",
     "pcb-equipment-removal"
    ],
-   "blurb": "The shipyard site where the clean-up programme starts: the record read first, then the survey walked, buildings scanned and the fence-line air watched."
+   "blurb": "The shipyard site where the clean-up programme starts: the site file read first, then the survey walked, buildings scanned and the fence-line air watched."
   },
   {
    "id": "shipyard-soil-cell",

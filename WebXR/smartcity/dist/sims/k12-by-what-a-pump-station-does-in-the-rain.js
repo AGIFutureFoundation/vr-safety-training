@@ -185,7 +185,8 @@ export const SIM_K12_BY_WHAT_A_PUMP_STATION_DOES_IN_THE_RAIN = {
           0.4,
           0.58
         ],
-        missNote: "Not at the start mark. Watch the gauge and commit right on the line."
+        missNote: "Not at the start mark. Watch the gauge and commit right on the line.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Start the pump at the right level",
       cue: "Commit when the canal gauge reaches the start mark on the operator's panel.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_WHAT_A_PUMP_STATION_DOES_IN_THE_RAIN = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "LEVEL"
+        label: "LEVEL",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the canal level as the pumps work",
       cue: "Keep the marker on the canal level as it rises with the rain and falls with the pumps.",

@@ -185,7 +185,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too big and the floor runs off the sheet; too small and the key vanishes. Try again."
+        missNote: "Outside the band. Too big and the floor runs off the sheet; too small and the key vanishes. Try again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Choose a scale that fits the page",
       cue: "Commit when the scale factor lets the whole floor sit on the sheet with a border, and the key is still big enough to draw.",
@@ -218,7 +219,8 @@ export const SIM_K12_MEASURING_AND_SCALING_THE_COURT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "AGREE"
+        label: "AGREE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the answer close to the estimate",
       cue: "Keep the calculated area in band with the paced guess while you rework the multiplication.",

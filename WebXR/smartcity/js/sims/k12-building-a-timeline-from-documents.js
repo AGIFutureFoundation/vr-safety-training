@@ -141,7 +141,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too sure and a hunch hardens into a fact; too doubtful and a good postmark is thrown away. Weigh the tells again."
+        missNote: "Outside the band. Too sure and a hunch hardens into a fact; too doubtful and a good postmark is thrown away. Weigh the tells again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Judge how confident each date is",
       cue: "Commit when your confidence matches what the undated letter's tells will actually bear.",
@@ -218,7 +219,8 @@ export const SIM_K12_BUILDING_A_TIMELINE_FROM_DOCUMENTS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "EVIDENCE"
+        label: "EVIDENCE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the timeline led by the evidence",
       cue: "Keep the line answering to the sleeves' tells as the last sheets from the folder go on.",

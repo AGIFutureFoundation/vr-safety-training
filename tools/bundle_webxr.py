@@ -265,12 +265,18 @@ APPS = {
             # DEAN (docs/modules.md): the lesson index across worlds (the parish maps, field and parish lessons)
             # and the Versions & modules tab, after org.js.
             SHARED / "np-geo.js",
-            *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]],
+            *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "sf-north-beach", "sf-haight-castro", "sf-sunset-south"]],
             SHARED / "sg-ways.js",
             # BAYMAP's Oakland districts and their ways: np-parishes.js registers them, so every app that bundles it carries them.
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",
             SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "np-data-oak-emeryville-berkeley.js",
+            SHARED / "np-data-bay-san-jose.js",
+            SHARED / "np-data-bay-san-pablo.js",
+            SHARED / "np-data-sf-outer-mission.js",
+            SHARED / "np-data-bp-strip-marsh-east.js",
+            SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "links.js",
@@ -773,13 +779,27 @@ APPS = {
             # San Francisco (GOLDEN-B): two districts and the world ways (the Bay Bridge to Bay World).
             SHARED / "np-data-sf-marina.js",
             SHARED / "np-data-sf-bayview.js",
+            # NEIGHBORHOODS: the walkable San Francisco districts.
+            SHARED / "np-data-sf-north-beach.js",
+            SHARED / "np-data-sf-haight-castro.js",
+            SHARED / "np-data-sf-sunset-south.js",
+            SHARED / "np-data-sf-outer-mission.js",
+            SHARED / "np-data-bp-strip-marsh-east.js",
+            SHARED / "np-data-bp-san-leandro-bay.js",
             SHARED / "sg-ways.js",
             SHARED / "np-data-oak-west-oakland.js",
             SHARED / "np-data-oak-downtown-lake.js",
             SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "np-data-oak-emeryville-berkeley.js",
+            SHARED / "np-data-bay-san-jose.js",
+            SHARED / "np-data-bay-san-pablo.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
+            # LANDMARKS: the landmark kit np-world.js draws a registry kind with (before np-world.js).
+            SHARED / "lm-landmarks.js",
             SHARED / "np-world.js",
+            # RELIEF: Mapbox Terrain-RGB relief and the tier-capped drape for any map's box, token-gated (docs/mapbox.md).
+            SHARED / "rl-relief.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
             SHARED / "tf-water.js",
             SHARED / "tf-terraform.js",
@@ -812,6 +832,8 @@ APPS = {
             SHARED / "by-parish-lessons.js",
             SHARED / "sc-scholar.js",
             SHARED / "sc-session-ui.js",
+            SHARED / "es-bay-lessons.js",  # ESTUARY: the Bay ecology lessons the SCHOLAR panel mounts
+            SHARED / "dw-regions.js",  # DEEPWATER: the shoreline dive entries and their in-world markers
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
             SHARED / "crew.js",
@@ -826,6 +848,8 @@ APPS = {
             SHARED / "nw-drive.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
+            # CLEANPORTS: the zero-emission port stations keyed to BAYMAP's West Oakland sites (pure data, guarded).
+            SHARED / "cp-cleanports.js",
             SHARED / "kw-place.js",
             SHARED / "kw-kits.js",
             # MENAGERIE: pets, animals and passers-by, one InstancedMesh per kind (after np-parish.js).
@@ -837,9 +861,19 @@ APPS = {
             # DRILLS: the scenario drills (data, then the registry and mount; after st-paths.js and npc-data.js).
             SHARED / "dr-drills-data.js",
             SHARED / "dr-drills.js",
+            # BAYQUEST: the Bay Program play layer (after ty-economy.js, st-stories.js, nw-physics.js, tf-terraform.js).
+            SHARED / "bq-facts.js",
+            SHARED / "bq-games-data.js",
+            SHARED / "bq-trail-data.js",
+            SHARED / "bq-bayquest.js",
+            # PROJECTSIM: the Bay Program project simulations (data, then the mount; after np-parishes, tf-terraform, nw-physics, ty-economy).
+            SHARED / "ps-projectsim-data.js",
+            SHARED / "ps-projectsim.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",
+            # INTERFACE: the tabbed in-world menu (Learn / Play / Map / Me) and the first-visit cards.
+            SHARED / "ux-menu.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -883,6 +917,41 @@ APPS = {
             WEBXR / "bayworld/js/atlas.js",
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
+    },
+    # The Deep's Bay Program regions (console DEEPWATER, shared/dw-regions.js): a second page in the underwater folder,
+    # reached from the Deep's "Bay Program regions" button and the parish shoreline dive entries (underwater.html?region=).
+    "region": {
+        "dir": "underwater",
+        "index": "region.html",
+        "out": "region.html",
+        "modules": [
+            SHARED / "profiles.js",
+            SHARED / "records.js",
+            SHARED / "identity.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
+            SHARED / "links.js",
+            SHARED / "auth.js",
+            SHARED / "i18n-strings.js",
+            SHARED / "i18n.js",
+            SHARED / "cinema.js",
+            SHARED / "gate-names-data.js",
+            SHARED / "skill-gates.js",
+            SHARED / "treasures-data.js",
+            SHARED / "treasures.js",
+            SHARED / "crew.js",
+            SHARED / "org.js",
+            SHARED / "account.js",
+            SHARED / "theme.js",
+            SHARED / "controls.js",
+            SHARED / "voice-assist.js",
+            SHARED / "guide.js",
+            SHARED / "dw-regions.js",
+            WEBXR / "underwater/js/dw-region-app.js",
+        ],
+        "entry": '<script type="module" src="./js/dw-region-app.js"></script>',
     },
     # Bay Regatta (WebXR/regatta, page regatta.html): the twelve-yacht fleet
     # (shared/yacht-fleet.js, motorYacht variants), three race courses on Bay
@@ -1245,6 +1314,7 @@ DIST_PAGES = {
     "redwood": "redwood.html",
     "summit": "summit.html",
     "parishes": "parishes.html",
+    "region": "region.html",
 }
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported
@@ -1272,6 +1342,8 @@ DIST_SHARED = [
     "side-game-mechanics.js",
     "by-parish-lessons.js",
     "sc-lessons.js",
+    # ESTUARY's Bay ecology lessons, which the scoreboard's lesson index reads.
+    "es-bay-lessons.js",
     # The treasure ledger account.js and guide.js import, and the Treasure Map
     # page (WebXR/treasures.html, copied beside the homepage) that reads it;
     # the gate engine treasures.js answers its locks through.

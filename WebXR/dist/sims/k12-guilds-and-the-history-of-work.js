@@ -141,7 +141,8 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
           0.4,
           0.58
         ],
-        missNote: "Not where the evidence puts it. Check who made the source and what it cites."
+        missNote: "Not where the evidence puts it. Check who made the source and what it cites.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Judge how reliable the source is",
       cue: "Commit when the reliability bar sits where the source's evidence puts it.",
@@ -218,7 +219,8 @@ export const SIM_K12_GUILDS_AND_THE_HISTORY_OF_WORK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "TRAIL"
+        label: "TRAIL",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the source trail through the notes",
       cue: "Keep the marker on the trail from each claim back to its source.",

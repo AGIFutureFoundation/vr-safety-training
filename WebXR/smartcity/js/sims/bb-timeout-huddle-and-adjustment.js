@@ -159,7 +159,8 @@ export const SIM_BB_TIMEOUT_HUDDLE_AND_ADJUSTMENT = {
           0.42,
           0.6
         ],
-        missNote: "Outside the band. Too short and the change never landed; too long and the coach has no time. Finish your part inside your share of the clock."
+        missNote: "Outside the band. Too short and the change never landed; too long and the coach has no time. Finish your part inside your share of the clock.",
+        readout: (v) => (v < 0.42 ? "below the band" : v > 0.6 ? "above the band" : "in the band"),
       },
       title: "Finish your part inside the clock",
       cue: "Commit when your part ends in the window — enough to land the change, leaving the coach their time.",
@@ -226,7 +227,8 @@ export const SIM_BB_TIMEOUT_HUDDLE_AND_ADJUSTMENT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "STEADY"
+        label: "STEADY",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the team steady walking back out",
       cue: "Hold steadiness in band as the team returns to the floor — not flat, not fired up past thinking.",

@@ -193,7 +193,9 @@ export function grSiteOf(s) {
 export const GR_PARISH_KIND_ALIAS = { pump: "pump-station", "pumping-station": "pump-station", streetcar: "streetcar-barn", rail: "rail-yard", events: "stadium", seawall: "levee",
   // BAYMAP's Oakland kinds: a K-12 school is the teacher's campus, a community clinic the nurse's hospital, a shoreline
   // the ranger's wetland, and the storm-drain utility yard (stormwater outfalls) the drainage pump operator's station.
-  school: "campus", clinic: "hospital", shoreline: "wetland", utility: "pump-station" };
+  school: "campus", clinic: "hospital", shoreline: "wetland", utility: "pump-station",
+  // A transit corridor or transit barn is the bus-lift mechanic's depot (the character's stations are bus lift stations).
+  transit: "streetcar-barn", "transit-barn": "streetcar-barn" };
 
 /** The site a character stands at among `sites` (by id, or by kind for a parish character), or null. */
 export function grSiteFor(ch, sites) {

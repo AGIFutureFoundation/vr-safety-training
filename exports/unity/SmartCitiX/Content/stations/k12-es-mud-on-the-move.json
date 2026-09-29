@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "mud-mover",
+    "name": "Mud Mover",
+    "note": "Showed in a tide tray where moving water drops its mud, explained why a marsh needs that mud and watched the crew work from mats"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "GRAINS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Grain",
+      "Silt",
+      "Layer",
+      "Bank",
+      "Marsh Builder"
+    ],
+    "system": "Mud Board"
+  },
+  "hazards": {
+    "change-two-things": "You changed the water speed and the amount of mud in the same run. With two changes you cannot tell which one made the difference. Change one thing, the speed, and keep the mud the same.",
+    "ignore-the-tide-board": "You skipped the tide board. The crew plans every job around the tide, because rising water changes where it is safe to stand. Read the board first, like the crew does.",
+    "mud-is-dirt-to-remove": "You said the mud in the water is dirt to get rid of. Marshes are built from that mud. Each tide leaves a thin layer, and over time the layers raise the marsh so it can keep up with the water.",
+    "walk-on-soft-mud": "You started out onto the soft mud. Tidal mud can hold a boot fast, and the tide comes back in. The crew works from wide mats and boardwalks, and visitors stay on the firm path."
+  },
+  "id": "k12-es-mud-on-the-move",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-plant-strip-in-the",
+      "alert": "The crew lead calls that the tide has turned and water is creeping up the channel.",
+      "cue": "Move back up the firm path with the crew and watch from higher ground.",
+      "delay": 3,
+      "id": "the-tide-starts-to-turn",
+      "kind": "Tide turning",
+      "missNote": "The class stayed by the channel edge, and the crew lead had to call everyone back up as the water reached the path.",
+      "seconds": 12,
+      "target": "esm-move-up",
+      "why": "A rising tide can cover low mud quickly. Moving up the firm path early keeps everyone dry and steady. The crew plans every job to finish before the tide returns and never waits until the water arrives.",
+      "wrongNote": "That keeps you low by the channel. Move up the firm path. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-a-cloud-of-mud-across",
+      "alert": "The crew lead asks why the crew stands on wide mats.",
+      "cue": "Say the mats spread weight so people and machines do not sink.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-the-mats",
+      "kind": "Crew question",
+      "missNote": "You could not say why the crew uses mats, and the crew lead had to explain before the class could go on.",
+      "seconds": 12,
+      "target": "esm-name-mats",
+      "why": "Knowing about the mats shows you understand soft ground. A wide mat spreads weight over more mud, so nobody sinks. It also protects the marsh plants below.",
+      "wrongNote": "That does not explain the mats. Say what they do to weight. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esm-checkin": "The check-in comes at the very end of the lesson.",
+    "esm-layer-log": "The tray record is written once both runs are done — nothing to record yet."
+  },
+  "name": "Mud on the Move",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-two-things",
+      "esm-bend",
+      "esm-channel",
+      "esm-checkin",
+      "esm-cloud-track",
+      "esm-crew-mat",
+      "esm-flat",
+      "esm-layer-log",
+      "esm-layer-meter",
+      "esm-low-bank",
+      "esm-mat-spot",
+      "esm-move-up",
+      "esm-name-mats",
+      "esm-ord-fast",
+      "esm-ord-look",
+      "esm-ord-slow",
+      "esm-ord-stir",
+      "esm-plants",
+      "esm-pump-dial",
+      "esm-result-card",
+      "esm-reuse",
+      "esm-share-board",
+      "esm-sign",
+      "esm-strip-hold",
+      "esm-tide-card",
+      "esm-truck",
+      "ignore-the-tide-board",
+      "mud-is-dirt-to-remove",
+      "walk-on-soft-mud"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three places where moving water slows down and drops its mud.",
+      "decoyNotes": {
+        "esm-sign": "Useful for visitors, but water does not slow there."
+      },
+      "id": "find-where-the-water-slows-in",
+      "itemNames": {
+        "esm-bend": "the inside of the channel bend",
+        "esm-flat": "where the channel spreads out",
+        "esm-plants": "among the marsh plants"
+      },
+      "itemNotes": {
+        "esm-bend": "Slow water on the inside leaves mud.",
+        "esm-flat": "Spreading water slows and settles.",
+        "esm-plants": "Stems slow the water, and mud drops."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three places where moving water slows down and drops its mud.",
+      "targets": [
+        "esm-plants",
+        "esm-bend",
+        "esm-flat"
+      ],
+      "title": "Find where the water slows in the slough",
+      "why": "Moving water can carry tiny grains of mud. When it slows down, it cannot hold them any longer, so the grains settle to the bottom. Water slows among the marsh plants, on the inside of a channel bend and where a channel spreads onto flat ground. Those are the places where new mud builds up."
+    },
+    {
+      "cue": "Point to the tide board and say whether the tide is rising or falling.",
+      "id": "read-the-tide-board-with-the",
+      "kind": "select",
+      "prompt": "Point to the tide board and say whether the tide is rising or falling.",
+      "target": "esm-tide-card",
+      "title": "Read the tide board with the crew",
+      "why": "Everything in a tidal marsh follows the tide. The crew reads the tide board before every job so they know how long they have before the water returns. Reading it first is a safety habit, and it also tells you whether the water is bringing mud in or carrying it out."
+    },
+    {
+      "cue": "Stir in the mud, run slow water, look, then run fast water with the same mud.",
+      "id": "put-the-tide-tray-test-in",
+      "itemNames": {
+        "esm-ord-fast": "4 · run the same muddy water fast",
+        "esm-ord-look": "3 · look where the mud settled",
+        "esm-ord-slow": "2 · run the water slowly across the tray",
+        "esm-ord-stir": "1 · stir the same scoop of mud into the water"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Stir in the mud first, then run the slow water.",
+      "prompt": "Stir in the mud, run slow water, look, then run fast water with the same mud.",
+      "targets": [
+        "esm-ord-stir",
+        "esm-ord-slow",
+        "esm-ord-look",
+        "esm-ord-fast"
+      ],
+      "title": "Put the tide tray test in order",
+      "why": "A fair test changes only one thing. You mix the same mud into the water each time and change only the speed. Running slow water first and fast water second, and looking closely after each, shows how speed decides where the mud settles. Looking closely after each run, before changing anything, is what keeps the two results apart."
+    },
+    {
+      "cue": "Hold the model plant strip in place until the water settles.",
+      "holdBreakNote": "The strip lifted before the water settled. Hold it in place again.",
+      "id": "hold-the-plant-strip-in-the",
+      "kind": "hold",
+      "prompt": "Hold the model plant strip in place until the water settles.",
+      "seconds": 6,
+      "target": "esm-strip-hold",
+      "title": "Hold the plant strip in the tray",
+      "why": "The plant strip stands for the marsh grass. If it lifts, the water runs under it and the test changes. Holding it steady lets you see how stems slow the water and make mud settle right among them, just as it does in a real marsh. Keeping the strip in place means the slow and fast runs both meet the same model plants."
+    },
+    {
+      "cue": "Choose the sentence that says what your two runs showed.",
+      "id": "say-where-the-mud-settled",
+      "kind": "select",
+      "prompt": "Choose the sentence that says what your two runs showed.",
+      "target": "esm-result-card",
+      "title": "Say where the mud settled",
+      "why": "Your two runs used the same mud but different speeds. More mud settled when the water was slow. A good answer says that slow water drops more mud, which is why calm marshes build up. It uses your layer readings as the evidence. A careful conclusion sticks to the evidence in the table and leaves out guesses."
+    },
+    {
+      "cue": "Look across the slough and mark each part of the crew's work.",
+      "decoyNotes": {
+        "esm-truck": "It brings tools, but it is not part of the mud work."
+      },
+      "id": "spot-how-the-crew-helps-mud",
+      "itemNames": {
+        "esm-channel": "a newly opened tidal channel",
+        "esm-low-bank": "a lowered old bank",
+        "esm-reuse": "a pile of dug mud being reused"
+      },
+      "itemNotes": {
+        "esm-channel": "Tides can reach the marsh again.",
+        "esm-low-bank": "Water spreads out and slows down.",
+        "esm-reuse": "Low spots get raised with it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look across the slough and mark each part of the crew's work.",
+      "targets": [
+        "esm-channel",
+        "esm-low-bank",
+        "esm-reuse"
+      ],
+      "title": "Spot how the crew helps mud build up",
+      "why": "Restoration crews help the tide bring mud where the marsh needs it. They open channels so tides can reach the marsh, lower old banks so water spreads out, and reuse dug mud to raise low spots. Each job helps the marsh gain height with the help of the water itself."
+    },
+    {
+      "cue": "Turn the pump dial to the slow setting for the first run.",
+      "id": "set-the-trays-water-speed",
+      "kind": "turn",
+      "prompt": "Turn the pump dial to the slow setting for the first run.",
+      "target": "esm-pump-dial",
+      "title": "Set the tray's water speed",
+      "turn": {
+        "axis": "y",
+        "label": "SPEED",
+        "turns": 0.5
+      },
+      "why": "The pump dial controls how fast the water moves across the tray. Setting it exactly on slow for the first run gives you a clear starting point. Then you can turn it to fast for the second run and know that speed is the only thing that changed."
+    },
+    {
+      "cue": "Commit when the marker sits at the top of the new mud layer.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "LAYER",
+        "missNote": "Not at the top of the layer. Read where the new mud stops.",
+        "speed": 0.6
+      },
+      "id": "read-the-mud-layer-in-the",
+      "kind": "gauge",
+      "prompt": "Commit when the marker sits at the top of the new mud layer.",
+      "target": "esm-layer-meter",
+      "title": "Read the mud layer in the tray",
+      "why": "The new layer shows how much mud dropped out of the water. Reading its top against the tray's scale lets you compare the slow and fast runs fairly. Slow water usually leaves the thicker layer, which is why calm marsh water builds up new ground."
+    },
+    {
+      "cue": "Drag the wide mat onto the soft mud beside the model channel.",
+      "drag": {
+        "missNote": "Not on the soft mud yet. Place the mat where the crew will stand.",
+        "radius": 0.45,
+        "to": "esm-mat-spot"
+      },
+      "id": "place-a-crew-mat-on-the",
+      "kind": "drag",
+      "prompt": "Drag the wide mat onto the soft mud beside the model channel.",
+      "target": "esm-crew-mat",
+      "title": "Place a crew mat on the model mud",
+      "why": "Crews working on soft mud lay down wide mats to spread their weight, the way snowshoes work on snow. A mat keeps people and small machines from sinking and protects the mud and plants underneath. Placing it before anyone steps there is how the crew keeps the job steady."
+    },
+    {
+      "cue": "Keep the marker on the cloud of mud as it drifts and settles.",
+      "holdBreakNote": "The marker lost the mud cloud. Find it again and follow it until it settles.",
+      "id": "follow-a-cloud-of-mud-across",
+      "kind": "track",
+      "prompt": "Keep the marker on the cloud of mud as it drifts and settles.",
+      "seconds": 8,
+      "target": "esm-cloud-track",
+      "title": "Follow a cloud of mud across the tray",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following one cloud of mud shows the process as it happens. It drifts with the water, spreads out among the plants and slowly sinks to the bottom. Seeing it settle helps you explain why marshes need muddy water, not only clear water. In the real slough, each tide brings a new cloud of fine mud into the marsh."
+    },
+    {
+      "cue": "Write the layer reading for the slow run and the fast run in a table.",
+      "id": "record-both-runs-side-by-side",
+      "kind": "select",
+      "prompt": "Write the layer reading for the slow run and the fast run in a table.",
+      "target": "esm-layer-log",
+      "title": "Record both runs side by side",
+      "why": "Two columns make the difference easy to see and easy to check. Anyone reading your table can see what changed and what stayed the same. Scientists who study the Bay's mud keep careful records like this so they can plan where marshes can grow."
+    },
+    {
+      "cue": "Put your table next to another group's and look for the same pattern.",
+      "id": "compare-with-another-group",
+      "kind": "select",
+      "prompt": "Put your table next to another group's and look for the same pattern.",
+      "target": "esm-share-board",
+      "title": "Compare with another group",
+      "why": "If another group also finds that slow water drops more mud, the result is stronger. Comparing results is how scientists build confidence in an idea. Crews and scientists share findings about moving mud so that restoration plans work with the water."
+    },
+    {
+      "cue": "Where does moving water drop its mud? Why does a marsh need it?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Where does moving water drop its mud? Why does a marsh need it?",
+      "target": "esm-checkin",
+      "title": "Check in before the tide turns",
+      "why": "The crew finishes before the tide turns, and the class checks its ideas in time too. Each learner says where mud settles and why the marsh needs it. If anyone thinks the mud is only dirt, the group sorts it out now. Understanding moving mud helps everyone see a marsh as a living place that grows with each tide."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Tides carry mud in and drop it where water slows — test it in a tray, then see why marshes need it",
+  "title": "SmartCiti.X~ Mud on the Move VR",
+  "trade": "Science class with the tidal restoration crew at a slough — learner and restoration crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

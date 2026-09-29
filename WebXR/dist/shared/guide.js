@@ -65,7 +65,9 @@ export function gdDecodeKb(raw) {
     if (links === "S") ls = [[`Start ${title}`, `smartcity-x.html?sim=${id.slice(8)}`]];
     else if (links === "T") ls = [[`Start ${title}`, `trade-skills-simulator.html?room=${id.slice(8)}`]];
     else if (links === "D") ls = [[`Read ${src.replace(/^docs\//, "")}`, `${raw.repo}/blob/main/${src}`]];
-    return { id, kind, title, text, keys: keys ?? "", src, links: ls.map(([label, href]) => ({ label, href })) };
+    // Repeated names ship as "¤<n>¤" tokens into raw.dict (tools/gen_guide_kb.mjs).
+    const full = raw.dict ? text.replace(/¤(\d+)¤/g, (_, i) => raw.dict[i] ?? "") : text;
+    return { id, kind, title, text: full, keys: keys ?? "", src, links: ls.map(([label, href]) => ({ label, href })) };
   });
 }
 

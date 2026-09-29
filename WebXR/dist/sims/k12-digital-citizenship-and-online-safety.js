@@ -185,7 +185,8 @@ export const SIM_K12_DIGITAL_CITIZENSHIP_AND_ONLINE_SAFETY = {
           0.4,
           0.58
         ],
-        missNote: "Not strong enough yet. Add another unrelated word."
+        missNote: "Not strong enough yet. Add another unrelated word.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Make the passphrase strong enough",
       cue: "Commit when the strength meter shows a strong passphrase.",
@@ -218,7 +219,8 @@ export const SIM_K12_DIGITAL_CITIZENSHIP_AND_ONLINE_SAFETY = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "KINDNESS"
+        label: "KINDNESS",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep a group chat kind",
       cue: "Keep the chat's tone in the kind band as messages come in, stepping in gently when it slips.",

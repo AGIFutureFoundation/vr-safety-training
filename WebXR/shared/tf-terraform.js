@@ -240,7 +240,11 @@ export function tfStreamSurfaceAt(parish, s, x, z) {
 export function tfWaterDepthAt(parish, x, z) {
   const w = npWaterAt(parish, x, z);
   const g = npHeightAt(parish, x, z);
-  if (w) return Math.max(0, (w.kind === "wetland" ? NP_WATER_Y - 0.12 : NP_WATER_Y) - g);
+  if (w) {
+    // A surface road crosses a marsh on its own raised bed (Strip Marsh East's access road): dry on the carriageway.
+    if (w.kind === "wetland") for (const r of tfPrep(parish).roads) if (tfInBox(r.box, x, z) && npPolyDist(x, z, r.road.pts) < r.half) return 0;
+    return Math.max(0, (w.kind === "wetland" ? NP_WATER_Y - 0.12 : NP_WATER_Y) - g);
+  }
   for (const s of tfPrep(parish).streams) {
     if (!tfInBox(s.box, x, z)) continue;
     const n = tfNearest(x, z, s.pts);

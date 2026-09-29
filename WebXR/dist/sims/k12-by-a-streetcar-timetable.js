@@ -151,7 +151,8 @@ export const SIM_K12_BY_A_STREETCAR_TIMETABLE = {
           0.4,
           0.58
         ],
-        missNote: "Not the gap yet. Take the earlier time away from the later time."
+        missNote: "Not the gap yet. Take the earlier time away from the later time.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Find the gap between two trips",
       cue: "Commit when the marker shows the gap between your trip and the next one on the board.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_A_STREETCAR_TIMETABLE = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "ROUTE"
+        label: "ROUTE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the streetcar along the route",
       cue: "Keep the marker on the streetcar as it moves along the route map from stop to stop.",

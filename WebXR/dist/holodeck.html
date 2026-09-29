@@ -928,6 +928,8 @@ const QM_STATION_NAMES = {
   "av-pushback-tug-and-towbar-connection": "Pushback Tug & Towbar Connection",
   "ballast-water-sampling": "Ballast Water Sampling",
   "bb-passing-and-catching": "Passing and Catching",
+  "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
+  "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
   "br-barge-loading-of-contaminated-sediment": "Barge Loading of Contaminated Sediment",
   "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
   "br-bird-nesting-buffer-and-work-window": "Bird Nesting Buffer & Work Window",
@@ -939,6 +941,7 @@ const QM_STATION_NAMES = {
   "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
   "br-shoreline-cleanup-sharps-and-hazardous-debris": "Shoreline Cleanup — Sharps And Hazardous Debris",
   "br-tidal-marsh-grading-amphibious-excavator": "Tidal Marsh Grading — Amphibious Excavator",
+  "br-trash-capture-device-service": "Trash Capture Device Service",
   "br-turbidity-curtain-deployment": "Turbidity Curtain Deployment",
   "br-underwater-debris-survey-and-mapping": "Underwater Debris Survey & Mapping",
   "br-vhf-and-navigation-in-a-work-zone": "VHF & Navigation in a Work Zone",
@@ -955,6 +958,10 @@ const QM_STATION_NAMES = {
   "concrete-pour": "Concrete Pour",
   "confined-rescue": "Confined Rescue",
   "container-lashing": "Container Lashing",
+  "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+  "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+  "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip",
+  "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
   "crane-yard": "Crane Yard",
   "creosote-pile-removal": "Creosote Pile Removal",
   "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod",
@@ -1016,6 +1023,7 @@ const QM_STATION_NAMES = {
   "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
   "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
   "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
+  "me-tidal-marsh-channel-restoration-day": "Tidal Marsh Channel Restoration Day",
   "me-water-column-sampling-from-a-small-boat": "Water Column Sampling From A Small Boat",
   "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
   "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
@@ -4073,7 +4081,8 @@ const TZ_TREASURES = [
    "stations": [
     "drive-city-route-and-turns",
     "drive-backing-serpentine-and-alley-dock",
-    "forklift-dock"
+    "forklift-dock",
+    "cp-zero-emission-drayage-truck-pre-trip"
    ]
   }
  },
@@ -26864,7 +26873,9 @@ const PROGRAMME_COMPETENCIES = [
       "drive-light-vehicle-fleet-and-forklift-course", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
       "union-hall-and-dispatch", "first-period-evaluation", "trades-lineage-briefing", "credit-report-reading",
       "debt-reduction-plan", "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending",
-      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
+      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources",
+      "cp-zero-emission-drayage-truck-pre-trip", "cp-zero-emission-terminal-equipment-pre-use", "cp-charging-yard-connectors-and-e-stops", "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "cp-hydrogen-fuel-cell-equipment-and-fuelling", "cp-battery-energy-storage-site-awareness"
     ],
     require: 6,
   },
@@ -27059,7 +27070,7 @@ const PROGRAMME_COMPETENCIES = [
       "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
       "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep",
       "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours",
-      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps"
+      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps", "k12-es-count-it-a-fair-survey", "k12-es-measure-a-rain-garden"
     ],
     require: 6,
   },
@@ -27072,7 +27083,9 @@ const PROGRAMME_COMPETENCIES = [
       "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm",
       "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment",
       "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job",
-      "k12-by-the-water-cycle-from-lake-to-tap"
+      "k12-by-the-water-cycle-from-lake-to-tap", "k12-es-where-the-storm-drain-goes", "k12-es-what-a-trash-capture-device-does", "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+      "k12-es-the-tidal-marsh-nursery", "k12-es-mud-on-the-move", "k12-es-too-much-of-a-good-thing", "k12-es-the-bay-food-web",
+      "k12-es-plastics-and-the-bay", "k12-es-clean-air-at-the-port"
     ],
     require: 6,
   },
@@ -27094,7 +27107,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help", "k12-public-speaking-at-the-hall",
-      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan"
+      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan", "k12-es-who-does-this-work"
     ],
     require: 4,
   },
@@ -27347,6 +27360,18 @@ const PROGRAMME_COMPETENCIES = [
       "me-tidal-marsh-channel-restoration-day", "me-fish-visual-census-and-data-sheet", "me-shoreline-debris-and-microplastics-survey", "me-invasive-species-identification-and-reporting"
     ],
     require: 4,
+  },
+  {
+    id: "bay-program-projects",
+    title: "Clean out a trash capture device, dig a rain garden, work a tidal channel from mats, feed chemicals at a treatment plant, sample a PCB hotspot with chain of custody and keep a fish passage working, each by its own safe procedure",
+    kind: "programme",
+    standards: ["osha-1910-146", "osha-1910-147", "osha-1926-subpart-p", "osha-1910-120", "osha-1910-1200", "osha-1910-134", "usace-section-404", "rwqcb-401-certification", "cdfw-lake-streambed-alteration"],
+    stations: [
+      "bk-bioretention-rain-garden-excavation", "bk-street-drain-trash-capture-cleanout", "br-trash-capture-device-service", "br-tidal-marsh-grading-amphibious-excavator",
+      "br-dredge-spoils-dewatering-pad", "bk-wastewater-nutrient-chemical-feed", "chlorine-room", "br-legacy-mercury-and-pcb-hotspot-handling",
+      "br-sediment-chain-of-custody-and-lab-prep", "br-culvert-retrofit-for-fish-passage", "br-fish-screen-maintenance"
+    ],
+    require: 6,
   },
   {
     id: "commercial-diving-and-scientific-scuba",
@@ -61373,6 +61398,888 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bk-bioretention-rain-garden-excavation",
+    "index": "BK-1",
+    "domain": "Construction",
+    "trade": "LIUNA laborer crew lead on a sidewalk bioretention cell, with an IUOE Local 3 operating engineer on the compact excavator",
+    "category": "Construction & Structural Trades",
+    "certification": "LIUNA Training and Education Fund construction craft laborer training for the ground crew; IUOE Local 3 operating engineer apprenticeship for the excavator; OSHA 29 CFR 1926 Subpart P Excavations for the cut, its spoil, its egress and the competent person's inspection; 29 CFR 1926.602 for the earthmoving machine; the California excavation notice law (Government Code 4216, the 811 call) for the locate ticket and the tolerance zone; the MUTCD for the sidewalk closure and the pedestrian detour; ANSI/ISEA 107 high-visibility garments; 29 CFR 1926.21 safety training",
+    "name": "Bioretention Rain Garden Excavation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bioretention Rain Garden Excavation VR",
+    "tagline": "A rain garden cut into a city sidewalk: the plan and the locate ticket read, the walk closed with a detour, the paint checked, the marked line exposed by vacuum, the cut signalled to grade and read on the rod, the gravel, underdrain and soil placed in order, the cleanout capped, the plants set, the inlet and the edge checked, logged and the crew checked in",
+    "accent": 7319114,
+    "accentCss": "#6fae4a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "sponge-in-the-sidewalk",
+      "name": "Sponge In The Sidewalk",
+      "note": "The cell dug to grade over a located line, layered in order and planted, with the walk kept open for everyone who needed it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rain Garden Build",
+      "currency": "CELL",
+      "ranks": [
+        "Planting Hand",
+        "Pothole Hand",
+        "Grade Checker",
+        "Cell Foreman",
+        "Rain Garden Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bk-street-drain-trash-capture-cleanout",
+    "index": "BK-2",
+    "domain": "Environmental",
+    "trade": "LIUNA laborer crew lead on a stormwater maintenance crew, servicing a street trash capture vault from the surface with the vacuum truck's operator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Training and Education Fund construction craft laborer and confined space awareness training for the crew; OSHA 29 CFR 1910.146 permit-required confined spaces (this service is non-entry, worked from the surface); 29 CFR 1910.147 control of hazardous energy for the vacuum truck's power take-off before any hand clears the boom; the MUTCD Part 6 for the lane closure; ANSI/ISEA 107 high-visibility garments; 29 CFR 1910.1030 bloodborne pathogens practice for sharps in the catch; the NPDES stormwater rules, 40 CFR 122.26, and the Regional Water Quality Control Board's municipal stormwater permit trash provisions; NIOSH findings on confined-space fatalities among would-be rescuers",
+    "name": "Street Drain Trash Capture Cleanout",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Street Drain Trash Capture Cleanout VR",
+    "tagline": "A trash capture vault under the street, emptied from the surface: the order read, the lane closed with a sign and a taper, the cover lifted, the air read at the opening, the vault looked over from above, the vacuum boom guided down, the truck locked out to clear a clog, the clamp freed, the screen rinsed, the catch estimated, logged and the crew checked in",
+    "accent": 4169928,
+    "accentCss": "#3fa0c8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "from-the-surface",
+      "name": "From The Surface",
+      "note": "The vault emptied and rinsed without anyone going in, leaning in or reaching into a live boom"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Vault Service",
+      "currency": "SCREEN",
+      "ranks": [
+        "Cone Hand",
+        "Boom Guide",
+        "Vault Lead",
+        "Stormwater Foreman",
+        "Vault Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bk-wastewater-nutrient-chemical-feed",
+    "index": "BK-3",
+    "domain": "Environmental",
+    "trade": "Wastewater treatment plant operator on the nutrient-removal rounds: the chemical feed skid and the aeration basin",
+    "category": "Water & Environmental",
+    "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.1200 hazard communication and the chemical's safety data sheet; 29 CFR 1910.132 and 1910.133 for the splash protection; ANSI Z358.1 for the eyewash and safety shower; 29 CFR 1910.147 control of hazardous energy for the metering pump; 29 CFR 1910.22 and 1910.23 walking-working surfaces and guardrails on the basin walkway; NFPA 820 for the plant's classified areas; NIOSH findings on drownings in aerated tanks",
+    "name": "Nutrient Reduction Chemical Feed and Aeration",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Nutrient Reduction Chemical Feed and Aeration VR",
+    "tagline": "A treatment plant's nutrient-removal rounds: the order and the SDS read, splash gear on, the feed area walked, the eyewash flushed, the metering pump locked out, the line bled, the drip tray set, the pump calibrated while a fitting sprays, the dose read, the basin walkway walked, the oxygen probe pulled while a coworker leans for a hard hat, the oxygen read, logged and the crew checked in",
+    "accent": 11565784,
+    "accentCss": "#b07ad8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "dose-and-air",
+      "name": "Dose And Air",
+      "note": "The feed calibrated and the basin read without a splash on skin or a hand over the rail"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nutrient Rounds",
+      "currency": "DOSE",
+      "ranks": [
+        "Rounds Trainee",
+        "Feed Hand",
+        "Process Operator",
+        "Shift Operator",
+        "Nutrient Rounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+    "index": "841",
+    "domain": "Maritime",
+    "trade": "ILWU maintenance mechanic or IAM machinist isolating the high-voltage system on a battery-electric yard tractor in a terminal shop bay",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
+    "name": "High-Voltage Lockout on Electric Cargo Equipment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ High-Voltage Lockout on Electric Cargo Equipment VR VR",
+    "tagline": "A battery-electric yard tractor in the shop bay with a coolant fault on its work order: the service procedure read, insulating gloves air-tested and on, a chafed orange cable found at a frame clip, the key out and in your pocket, the service disconnect pulled and locked in its box, the discharge wait sat out in full, absence of voltage proven live-dead-live, the clip replaced and torqued, insulation resistance watched in band, a coolant weep at the pack found, the release checklist walked, and the bay foreman told",
+    "accent": 15900971,
+    "accentCss": "#f2a12b",
+    "parSeconds": 360,
+    "badge": {
+      "id": "cphv-badge",
+      "name": "Zero Volts Proven",
+      "note": "The service disconnect locked, the wait sat out and the meter proving zero before a single orange cable was touched"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Zero Volts Proven",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-charging-yard-connectors-and-e-stops",
+    "index": "842",
+    "domain": "Energy",
+    "trade": "IBEW electrician and ILWU equipment operator opening a terminal charging yard for the shift — connectors, emergency stops and cable management",
+    "category": "Maritime & Ports",
+    "certification": "IBEW/NECA JATC apprenticeship and journeyman training; NFPA 70 (NEC) for electric vehicle power transfer equipment and its disconnecting means; NFPA 70E electrical safety in the workplace; 29 CFR 1910.147 the control of hazardous energy; OSHA 29 CFR 1917 marine terminals for vehicle routes and pedestrian separation; ANSI Z535.4 for the product safety signs on each dispenser",
+    "name": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Charging Yard: Connectors, E-Stops and Cable Management VR VR",
+    "tagline": "The charging yard before the first shift plugs in: the yard's switching log read, a walk of every dispenser, a cracked connector latch found and tagged out, a cable left across the drive lane coiled back onto its hanger, the yard e-stop tested and reset on purpose, a yard tractor plugged in and its session watched, a pooled puddle at a pedestal found, the faulted dispenser locked out at its breaker, the in-service board updated and the shift lead told",
+    "accent": 4178392,
+    "accentCss": "#3fc1d8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cpcy-badge",
+      "name": "Yard Walked",
+      "note": "Every connector looked at, every cable off the ground and the e-stop proven before a single session started"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Yard Walked",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-battery-energy-storage-site-awareness",
+    "index": "843",
+    "domain": "Energy",
+    "trade": "Port worker or IBEW electrician inducted to a battery energy storage system site: its hazards, its entry rules and who may go inside",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC training for qualified electrical workers; NFPA 855 installation of stationary energy storage systems, including hazard mitigation, signage and emergency response planning; NFPA 70E electrical safety in the workplace for DC arc flash and shock; NFPA 70 (NEC) for the energy storage system's disconnecting means; 29 CFR 1910.147 the control of hazardous energy; 29 CFR 1910.269 for work at electric supply stations; and the site's own emergency response plan",
+    "name": "Battery Energy Storage Site Awareness",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Battery Energy Storage Site Awareness VR VR",
+    "tagline": "A battery energy storage site inside the port fence: the entry sign and the site's rules read, the sign-in log, the gas detection panel read normal, a cabinet with a warning lamp found and reported rather than opened, the thermal readout watched, a visitor held behind the line, the fire department access route kept clear, the emergency stop and its meaning learned, a pallet of cardboard moved away from the enclosures, and the site signed out",
+    "accent": 15258170,
+    "accentCss": "#e8d23a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "cpbe-badge",
+      "name": "Line Held",
+      "note": "Nothing opened that was not yours to open, the visitor kept behind the line and the warning lamp reported, not investigated"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Held",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+    "index": "844",
+    "domain": "Maritime",
+    "trade": "ILWU equipment operator or IAM mechanic fuelling a hydrogen fuel cell top pick at a terminal fuelling station and checking its fuel cell compartment",
+    "category": "Maritime & Ports",
+    "certification": "ILWU operator training; NFPA 55 compressed gases and cryogenic fluids code for gaseous hydrogen storage and dispensing; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.178 powered industrial trucks for the operator's pre-use check; 29 CFR 1910.147 the control of hazardous energy before the fuel cell compartment is opened; NFPA 70 (NEC) for the dispenser's classified-area wiring; and the dispenser's own posted fuelling instructions",
+    "name": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Hydrogen Fuel Cell Equipment and Fuelling VR VR",
+    "tagline": "A hydrogen fuel cell top pick at the terminal's fuelling island: the posted instructions read, ignition sources left outside the island, the machine parked and shut down, the static ground clipped, a frosted and scuffed nozzle seal found and swapped for the spare, the nozzle seated, the fill pressure watched to the stop, the portable detector reading clean at every fitting, a hiss at the tank valve found with the detector rather than a hand, the dispenser's emergency stop pressed, the compartment locked out before the cover comes off, and the fuelling logged",
+    "accent": 8370431,
+    "accentCss": "#7fb8ff",
+    "parSeconds": 340,
+    "badge": {
+      "id": "cphy-badge",
+      "name": "Clean Fill",
+      "note": "No ignition source on the island, the ground clipped first and every fitting checked with the detector, never a hand"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean Fill",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-zero-emission-terminal-equipment-pre-use",
+    "index": "845",
+    "domain": "Maritime",
+    "trade": "ILWU equipment operator doing the pre-use inspection on a battery-electric yard tractor, top pick and straddle carrier before a vessel shift",
+    "category": "Maritime & Ports",
+    "certification": "ILWU operator training; OSHA 29 CFR 1917 marine terminals, including powered industrial truck inspection before use; 29 CFR 1910.178 powered industrial trucks; ANSI B56.1 for lift truck operator checks; NFPA 70E for the high-voltage warnings an operator must recognise and not touch; and each machine's posted operator's checklist",
+    "name": "Zero-Emission Terminal Equipment Pre-Use",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Zero-Emission Terminal Equipment Pre-Use VR VR",
+    "tagline": "Three battery-electric machines before a vessel shift: the operator's checklist read, the charge cable unplugged and hung before anything moves, the yard tractor's state of charge read against the shift, a lit high-voltage warning on its dash found and the tractor tagged, the top pick's twistlocks and spreader cycled, its hydraulic line checked, the straddle carrier's legs, tyres and mirrors walked, the pedestrian alert tested on a machine that is otherwise silent, a brake test held, a broken camera found, and the defects written up",
+    "accent": 15774499,
+    "accentCss": "#f0b323",
+    "parSeconds": 340,
+    "badge": {
+      "id": "cpte-badge",
+      "name": "Checked Before It Rolled",
+      "note": "Every machine walked, every warning read and the quiet ones heard before they moved"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Checked Before It Rolled",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-zero-emission-drayage-truck-pre-trip",
+    "index": "846",
+    "domain": "Mobility",
+    "trade": "Teamsters drayage driver doing the pre-trip inspection on a battery-electric drayage tractor and container chassis before the first port turn",
+    "category": "Mobility & Transit",
+    "certification": "Teamsters driver training; FMCSA 49 CFR 396 inspection, repair and maintenance, including reviewing the last driver vehicle inspection report and writing your own; 49 CFR 393 parts and accessories necessary for safe operation; 49 CFR 392 driving of commercial motor vehicles; ANSI Z535.4 for the high-voltage warning labels on the battery system; OSHA 29 CFR 1910.132 for the gloves and high-visibility vest worn on the walk-around; NFPA 70E for the high-voltage components a driver recognises and does not touch; and the tractor maker's own pre-trip items for its battery system",
+    "name": "Zero-Emission Drayage Truck Pre-Trip",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Zero-Emission Drayage Truck Pre-Trip VR VR",
+    "tagline": "A battery-electric drayage tractor before the day's port turns: last night's inspection report read, the charge cable stowed and the port door shut, the state of charge read against the turns, the orange cables under the cab looked at and left alone, the air pressure built and held on an electric compressor, the brakes tested, the fifth wheel and the chassis twistlocks locked, a flat chassis tyre found, the pedestrian alert heard, and your own report written",
+    "accent": 9425231,
+    "accentCss": "#8fd14f",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cpdt-badge",
+      "name": "Rolled Out Ready",
+      "note": "The report read, the charge matched to the turns and the chassis locked to the box before the first turn"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rolled Out Ready",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-where-the-storm-drain-goes",
+    "index": "871",
+    "domain": "Education",
+    "trade": "Science walk with the storm drain crew on a street by the Bay — learner and storm drain crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Where the Storm Drain Goes",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Where the Storm Drain Goes VR",
+    "tagline": "Rain on the street runs to the drain, and the drain runs to the Bay — trace it, then keep it clean",
+    "accent": 5214136,
+    "accentCss": "#4f8fb8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "drain-tracer",
+      "name": "Drain Tracer",
+      "note": "Traced rain from a street to the Bay, explained why only rain belongs in a drain and helped the crew mark a drain"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Drain Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Drop",
+        "Trickle",
+        "Stream",
+        "Creek",
+        "Drain Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-what-a-trash-capture-device-does",
+    "index": "872",
+    "domain": "Education",
+    "trade": "Science visit with the drain cleaning crew at a trash capture device — learner and cleaning crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "What a Trash Capture Device Does",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ What a Trash Capture Device Does VR",
+    "tagline": "A screen in the drain lets water through and keeps trash back — test one, then watch the crew clean it",
+    "accent": 6068858,
+    "accentCss": "#5c9a7a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "screen-keeper",
+      "name": "Screen Keeper",
+      "note": "Tested a model trash screen, explained why it lets water pass and keeps trash back, and helped sort what the crew cleaned out"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Screen Board",
+      "currency": "CATCHES",
+      "ranks": [
+        "Net",
+        "Sieve",
+        "Screen",
+        "Basket",
+        "Trash Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+    "index": "873",
+    "domain": "Education",
+    "trade": "Science class with the green infrastructure crew at a school rain garden — learner and landscape crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Rain Gardens: a Sponge in the Sidewalk",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Rain Gardens: a Sponge in the Sidewalk VR",
+    "tagline": "Loose soil and plants soak up the rain that a hard sidewalk sends away — test it, then help the crew plant",
+    "accent": 6986314,
+    "accentCss": "#6a9a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sponge-builder",
+      "name": "Sponge Builder",
+      "note": "Compared how fast water soaks through garden soil and packed ground, explained what a rain garden does and helped the crew plant one"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Garden Board",
+      "currency": "SOAKS",
+      "ranks": [
+        "Seed",
+        "Shoot",
+        "Leaf",
+        "Bloom",
+        "Garden Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-the-tidal-marsh-nursery",
+    "index": "874",
+    "domain": "Education",
+    "trade": "Science walk with the wetland restoration crew at a tidal marsh — learner and restoration crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Tidal Marsh Nursery",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Tidal Marsh Nursery VR",
+    "tagline": "Shallow channels, food and hiding places make the marsh a nursery — look closely, then help the crew",
+    "accent": 8036448,
+    "accentCss": "#7aa060",
+    "parSeconds": 330,
+    "badge": {
+      "id": "nursery-watcher",
+      "name": "Nursery Watcher",
+      "note": "Found what makes a marsh a safe nursery, watched young fish in a model channel and helped the crew keep the boardwalk quiet"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nursery Board",
+      "currency": "SPROUTS",
+      "ranks": [
+        "Egg",
+        "Hatchling",
+        "Fledgling",
+        "Swimmer",
+        "Marsh Friend"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-mud-on-the-move",
+    "index": "875",
+    "domain": "Education",
+    "trade": "Science class with the tidal restoration crew at a slough — learner and restoration crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Mud on the Move",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Mud on the Move VR",
+    "tagline": "Tides carry mud in and drop it where water slows — test it in a tray, then see why marshes need it",
+    "accent": 10127962,
+    "accentCss": "#9a8a5a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "mud-mover",
+      "name": "Mud Mover",
+      "note": "Showed in a tide tray where moving water drops its mud, explained why a marsh needs that mud and watched the crew work from mats"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Mud Board",
+      "currency": "GRAINS",
+      "ranks": [
+        "Grain",
+        "Silt",
+        "Layer",
+        "Bank",
+        "Marsh Builder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-clean-air-at-the-port",
+    "index": "876",
+    "domain": "Education",
+    "trade": "Science visit with the terminal equipment crew at a container port — learner and equipment crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Clean Air at the Port",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Clean Air at the Port VR",
+    "tagline": "Electric trucks and cranes make no exhaust where they work — see why that matters to the air people breathe",
+    "accent": 4889264,
+    "accentCss": "#4a9ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "clean-air-scout",
+      "name": "Clean Air Scout",
+      "note": "Compared exhaust from a diesel and an electric model truck, explained why cleaner air near a port matters and learned what the port's conversion plans to change"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Air Board",
+      "currency": "BREATHS",
+      "ranks": [
+        "Breeze",
+        "Gust",
+        "Wind",
+        "Clear Sky",
+        "Air Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-who-does-this-work",
+    "index": "877",
+    "domain": "Education",
+    "trade": "Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Who Does This Work",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Who Does This Work VR",
+    "tagline": "Every clean drain, rain garden and marsh is built by a crew — meet the trades and match the jobs",
+    "accent": 11565642,
+    "accentCss": "#b07a4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "crew-finder",
+      "name": "Crew Finder",
+      "note": "Matched Bay restoration and clean port jobs to the crews who do them, and learned how people train for that work"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crew Board",
+      "currency": "HARD HATS",
+      "ranks": [
+        "Visitor",
+        "Helper",
+        "Apprentice",
+        "Crew Member",
+        "Crew Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-count-it-a-fair-survey",
+    "index": "878",
+    "domain": "Education",
+    "trade": "Maths class with the shoreline park crew on a bird count — learner and park survey lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Count It: a Fair Survey",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Count It: a Fair Survey VR",
+    "tagline": "Same box, same time, same rules — count the shorebirds fairly so the numbers mean something",
+    "accent": 9075376,
+    "accentCss": "#8a7ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "fair-counter",
+      "name": "Fair Counter",
+      "note": "Ran a fair shorebird count with a survey box and fixed rules, tallied without counting twice and compared with another group"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Count Board",
+      "currency": "TALLIES",
+      "ranks": [
+        "Spotter",
+        "Counter",
+        "Tallier",
+        "Surveyor",
+        "Survey Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-too-much-of-a-good-thing",
+    "index": "879",
+    "domain": "Education",
+    "trade": "Science class with the marsh crew at a lagoon — learner and water quality crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Too Much of a Good Thing",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Too Much of a Good Thing VR",
+    "tagline": "Nutrients feed plants, but too many feed a bloom of algae — test it in jars, then check the water with the crew",
+    "accent": 5939322,
+    "accentCss": "#5aa07a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "balance-keeper",
+      "name": "Balance Keeper",
+      "note": "Ran a fair jar test on nutrients and algae, explained why too much of a good thing clouds the water and helped the crew take a water reading"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Balance Board",
+      "currency": "LEAVES",
+      "ranks": [
+        "Drop",
+        "Ripple",
+        "Pool",
+        "Lagoon",
+        "Water Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-the-bay-food-web",
+    "index": "880",
+    "domain": "Education",
+    "trade": "Science class with the pier crew and a naturalist at a Bay pier — learner and naturalist",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "The Bay Food Web",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ The Bay Food Web VR",
+    "tagline": "Tiny plants feed tiny animals, which feed fish, which feed birds and seals — build the web and see the links",
+    "accent": 4881072,
+    "accentCss": "#4a7ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "web-weaver",
+      "name": "Web Weaver",
+      "note": "Built a Bay food web with arrows that point the right way, explained what happens when one link changes and spotted the web from the pier"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Web Board",
+      "currency": "LINKS",
+      "ranks": [
+        "Strand",
+        "Thread",
+        "Knot",
+        "Net",
+        "Web Weaver"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-plastics-and-the-bay",
+    "index": "881",
+    "domain": "Education",
+    "trade": "Science class with the beach crew on a shoreline sweep — learner and beach crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Plastics and the Bay",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Plastics and the Bay VR",
+    "tagline": "Plastic breaks into smaller pieces but does not go away — test which pieces float, then sweep the shore safely",
+    "accent": 4890784,
+    "accentCss": "#4aa0a0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "shore-sweeper",
+      "name": "Shore Sweeper",
+      "note": "Sorted plastics in a float test, explained why plastic breaks up but stays, and swept a shoreline strip safely with the beach crew"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sweep Board",
+      "currency": "PIECES",
+      "ranks": [
+        "Spotter",
+        "Picker",
+        "Sorter",
+        "Sweeper",
+        "Shore Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-measure-a-rain-garden",
+    "index": "882",
+    "domain": "Education",
+    "trade": "Maths class with the school garden crew sizing a rain garden — learner and garden crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Measure a Rain Garden",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Measure a Rain Garden VR",
+    "tagline": "Length times width gives the area — measure the bed with the crew, then draw it to scale",
+    "accent": 9085002,
+    "accentCss": "#8aa04a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "garden-measurer",
+      "name": "Garden Measurer",
+      "note": "Measured a rain garden bed with a tape, worked out its area on a grid and drew it to scale for the crew"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Measure Board",
+      "currency": "SQUARES",
+      "ranks": [
+        "Mark",
+        "Line",
+        "Edge",
+        "Area",
+        "Garden Planner"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -63184,6 +64091,7 @@ const PP_PROGRAMMES = {
   "air-quality-monitoring": { name: "Air Quality — Monitoring and Control", stations: ["air-monitor","mobile-air-lab","opacity-reading","stack-test","landfill-gas","soil-loadout"] },
   "basketball-fundamentals": { name: "Basketball Fundamentals", stations: ["bb-warmup-injury-prevention-and-hydration","bb-stance-and-ball-handling","bb-footwork-pivots-and-jump-stops","bb-passing-and-catching","bb-shooting-form-and-arc","bb-free-throw-routine","bb-defensive-stance-and-closeouts","bb-rebounding-and-boxing-out","bb-team-offense-spacing-and-screens","bb-scrimmage-and-sportsmanship-debrief","bb-reset-routine-after-a-miss","bb-pre-game-routine-and-visualisation","bb-composure-with-a-hostile-crowd-and-officials","bb-teammate-conflict-and-accountability","bb-coach-feedback-and-growth-mindset","bb-final-possession-decision-under-pressure","bb-layups-and-finishing-at-the-rim","bb-dribble-moves-and-change-of-pace","bb-pick-and-roll-communication","bb-help-defense-rotations","bb-transition-spacing-and-roles","bb-timeout-huddle-and-adjustment","bb-losing-well-and-film-review"] },
   "bay-restoration-maritime-underwater": { name: "SF Bay Restoration & Cleanup — Maritime and Underwater", stations: ["br-dive-site-hazard-assessment-and-jsa","br-surface-supplied-dive-station-setup","br-underwater-debris-survey-and-mapping","br-underwater-sediment-core-sampling","br-derelict-gear-recovery-dive","br-hyperbaric-chamber-standby","br-dive-tender-and-umbilical-management","br-derelict-vessel-salvage-rigging","br-workboat-crane-lift-from-water","br-debris-skimmer-vessel-operations","br-boom-towing-between-two-vessels","br-barge-loading-of-contaminated-sediment","br-cold-water-immersion-and-mob-recovery","br-vhf-and-navigation-in-a-work-zone","br-dredge-spoils-dewatering-pad","br-turbidity-curtain-deployment","br-sediment-chain-of-custody-and-lab-prep","br-water-quality-sonde-calibration-and-deploy","br-legacy-mercury-and-pcb-hotspot-handling","br-trash-capture-device-service","br-dredge-material-screening-and-disposal-decision","br-marine-mammal-observer-during-pile-driving","br-bird-nesting-buffer-and-work-window","br-tidal-marsh-grading-amphibious-excavator","br-native-planting-and-erosion-mats","br-culvert-retrofit-for-fish-passage","br-shoreline-cleanup-sharps-and-hazardous-debris","br-intertidal-invasive-removal-by-hand-crew","br-levee-inspection-and-seepage","br-fish-screen-maintenance","br-drone-shoreline-survey","br-volunteer-cleanup-day-safety-lead","br-restoration-data-qa-and-public-reporting","br-beach-seine-fish-survey-and-handling","br-benthic-grab-and-invertebrate-sorting"] },
+  "bay-program-projects": { name: "SF Bay Program Projects — Stormwater, Marsh and Source Control", stations: ["bk-bioretention-rain-garden-excavation","bk-street-drain-trash-capture-cleanout","br-trash-capture-device-service","br-tidal-marsh-grading-amphibious-excavator","br-dredge-spoils-dewatering-pad","bk-wastewater-nutrient-chemical-feed","chlorine-room","br-legacy-mercury-and-pcb-hotspot-handling","br-sediment-chain-of-custody-and-lab-prep","br-culvert-retrofit-for-fish-passage","br-fish-screen-maintenance"] },
   "railroad-crafts": { name: "Railroad Crafts — Track, Car and Cab", stations: ["ra-roadway-worker-protection-and-job-briefing","ra-tie-and-rail-replacement-with-track-machines","ra-switch-inspection-and-lubrication","ra-air-brake-test-and-train-inspection","ra-hand-brake-and-securement-on-a-grade","ra-crossing-signal-maintenance-and-flagging","ra-locomotive-cab-startup-and-alerter","ra-blue-flag-protection-in-the-yard"] },
   "heavy-equipment-operators": { name: "Heavy Equipment Operators — IUOE Local 3", stations: ["op-excavator-trench-and-utility-locate","op-dozer-slope-work-and-rollover-protection","op-loader-truck-loading-and-blind-spots","op-grader-fine-grade-and-crown","op-compactor-lift-thickness-and-edge","op-crawler-crane-assembly-and-load-chart","op-pile-driving-rig-and-lead-setup","op-equipment-daily-walkaround-and-fluids"] },
   "plumbers-and-pipefitters": { name: "Plumbers and Pipefitters — Journeyman Rough-In and Test Block", stations: ["pl-medical-gas-brazing-and-purge","pl-hydronic-boiler-piping-and-hydrotest","pl-underground-sewer-lateral-and-trench-shoring","pl-fire-sprinkler-riser-and-flow-test","pl-copper-press-and-solder-rough-in","pl-steam-trap-and-condensate-line-repair","pl-water-heater-and-tpr-valve-replacement","pl-natural-gas-pressure-test-and-leak-check"] },
@@ -63198,7 +64106,7 @@ const PP_PROGRAMMES = {
   "warehouse-and-logistics-automation": { name: "Warehouse and Logistics Automation — Teamsters Distribution Floor", stations: ["tw-amr-traffic-zone-entry-and-lockout","tw-conveyor-jam-clearing-and-loto","tw-high-bay-order-picker-fall-protection","tw-dock-leveler-and-trailer-restraint-check","tw-battery-change-and-charging-bay-safety","tw-palletizer-cell-fenced-access-permit","tw-cold-storage-ppe-and-rotation","tw-pick-to-light-ergonomics-and-rotation"] },
   "education-support-staff": { name: "Education Support Staff — Custodial, Grounds, Transport and Classroom", stations: ["ed-custodial-chemical-dilution-and-floor-machine","ed-playground-equipment-inspection","ed-bus-pretrip-and-loading-zone","ed-crossing-guard-intersection-control","ed-paraeducator-safe-lift-and-transfer","ed-science-lab-chemical-storage-and-eyewash","ed-kitchen-receiving-and-warewash-sanitizing","ed-boiler-room-filter-change-lockout"] },
   "grounds-and-landscaping": { name: "Grounds & Landscaping Crew", stations: ["gk-ride-on-mower-pre-start-and-slope-work","gk-string-trimmer-and-blower-ppe-and-bystander-zone","gk-irrigation-controller-valve-box-and-backflow-check","gk-pesticide-and-fertilizer-application-per-the-label","gk-tree-work-pole-saw-and-drop-zone","gk-chainsaw-start-and-limbing-on-the-ground","gk-bunker-renovation-and-drainage","gk-greens-mowing-and-hole-changing","gk-sports-field-line-marking-and-goal-anchoring","gk-storm-cleanup-chipper-and-traffic-control","gk-hardscape-paver-base-and-compaction","gk-greenhouse-nursery-chemical-storage-and-eyewash"] },
-  "wojrc-pathway-edition": { name: "Pathway Edition — wojrc.org", stations: ["wp-intake-and-pathway-planning","wp-mock-interview-and-resume","wp-employer-meet-and-greet","wp-warehouse-ride-along","wp-permit-study-and-knowledge-test","wp-apprenticeship-enrollment-day","wp-first-paycheck-coaching","wp-graduation-and-alumni-mentors","forklift-dock","tdl-pallet-jack-and-racking","tdl-pick-pack-and-scan","tdl-trailer-loading-and-dock-plate","tdl-hazmat-labeling-and-segregation","tdl-lifting-and-ergonomics","tdl-pretrip-inspection","tdl-air-brake-test","tdl-coupling-and-uncoupling","tdl-backing-and-docking","tdl-cargo-securement-and-hours","drive-city-route-and-turns","drive-freeway-merge-and-following-distance","drive-mountain-grade-and-engine-brake","drive-night-fog-and-rail-crossing","drive-backing-serpentine-and-alley-dock","drive-light-vehicle-fleet-and-forklift-course","apprenticeship-standards-reading","apprenticeship-application-and-test","jobsite-orientation-and-osha-10","union-hall-and-dispatch","first-period-evaluation","trades-lineage-briefing","credit-report-reading","debt-reduction-plan","pay-stub-and-withholding","budget-with-irregular-income","emergency-savings-and-predatory-lending","wellness-shift-work-sleep-and-stress","wellness-peer-support-conversation","wellness-substance-use-and-the-job","wellness-asking-for-help-and-resources"] },
+  "wojrc-pathway-edition": { name: "Pathway Edition — wojrc.org", stations: ["wp-intake-and-pathway-planning","wp-mock-interview-and-resume","wp-employer-meet-and-greet","wp-warehouse-ride-along","wp-permit-study-and-knowledge-test","wp-apprenticeship-enrollment-day","wp-first-paycheck-coaching","wp-graduation-and-alumni-mentors","forklift-dock","tdl-pallet-jack-and-racking","tdl-pick-pack-and-scan","tdl-trailer-loading-and-dock-plate","tdl-hazmat-labeling-and-segregation","tdl-lifting-and-ergonomics","tdl-pretrip-inspection","tdl-air-brake-test","tdl-coupling-and-uncoupling","tdl-backing-and-docking","tdl-cargo-securement-and-hours","drive-city-route-and-turns","drive-freeway-merge-and-following-distance","drive-mountain-grade-and-engine-brake","drive-night-fog-and-rail-crossing","drive-backing-serpentine-and-alley-dock","drive-light-vehicle-fleet-and-forklift-course","apprenticeship-standards-reading","apprenticeship-application-and-test","jobsite-orientation-and-osha-10","union-hall-and-dispatch","first-period-evaluation","trades-lineage-briefing","credit-report-reading","debt-reduction-plan","pay-stub-and-withholding","budget-with-irregular-income","emergency-savings-and-predatory-lending","wellness-shift-work-sleep-and-stress","wellness-peer-support-conversation","wellness-substance-use-and-the-job","wellness-asking-for-help-and-resources","cp-zero-emission-drayage-truck-pre-trip","cp-zero-emission-terminal-equipment-pre-use","cp-charging-yard-connectors-and-e-stops","cp-high-voltage-lockout-on-electric-cargo-equipment","cp-hydrogen-fuel-cell-equipment-and-fuelling","cp-battery-energy-storage-site-awareness"] },
   "grocery-and-meatpacking": { name: "Grocery and Meatpacking — UFCW Store and Plant Floor", stations: ["gr-meat-dept-band-saw-and-grinder-lockout","gr-deli-slicer-sanitation-and-allergen-line","gr-produce-receiving-cold-chain-and-pallet-jack","gr-night-stocking-baler-and-compactor-lockout","gr-checkstand-ergonomics-and-robbery-prevention","gr-meatpacking-line-knife-work-and-ppe-rotation","gr-ammonia-leak-alarm-response-cold-plant","gr-pharmacy-floral-chemical-handling-and-sds"] },
   "airline-cabin-and-flight-crew": { name: "Airline Cabin and Flight Crew — AFA-CWA and ALPA", stations: ["ca-cabin-preflight-safety-check","ca-galley-and-cart-safety","ca-cabin-medical-event-response","ca-unruly-passenger-deescalation","ca-cabin-decompression-and-oxygen-masks","ca-door-evacuation-drill","ca-flight-deck-crew-resource-management","ca-fatigue-and-duty-time-self-check"] },
   "mill-and-mine": { name: "Mill and Mine", stations: ["mm-hot-strip-mill-stand","mm-ladle-pour","mm-coke-oven-heat-rotation","mm-paper-machine-dryer","mm-continuous-miner-face","mm-mine-escapeway-drill","mm-haul-truck-berm","mm-conveyor-fire-and-gas-monitoring"] },
@@ -63209,10 +64117,10 @@ const PP_PROGRAMMES = {
   "commercial-diving-and-scientific-scuba": { name: "Commercial Diving & Scientific Scuba", stations: ["cd-underwater-wet-welding-and-cutting","cd-pier-piling-inspection-and-wrap-repair","cd-rov-launch-recovery-and-tether-management","cd-decompression-chamber-operations-and-post-dive","cd-scientific-scuba-buddy-check-and-lost-buddy-drill","cd-low-visibility-and-night-dive-line-work","cd-hydraulic-tools-and-suction-hazards-underwater","cd-dive-records-and-incident-review"] },
   "aerospace-defense-and-robotics": { name: "Aerospace Depot and Robotics — IAM and UAW Skilled Trades", stations: ["ad-cleanroom-gowning-and-esd-discipline","ad-payload-crane-lift-with-a-lift-plan","ad-hazardous-fluid-servicing-with-a-buddy","ad-depot-tool-control-and-fod-walk","ad-test-stand-exclusion-zone-and-holds","ad-robot-cell-lockout-and-safe-reentry","ad-amr-fleet-traffic-and-estop-drill","ad-cobot-risk-assessment-and-speed-separation"] },
   "wind-and-data-infrastructure": { name: "Wind & Data Infrastructure", stations: ["ws-turbine-climb-and-rescue-kit-check","ws-nacelle-lockout-and-yaw-brake-fault","ws-blade-inspection-from-a-platform","ws-substation-switching-under-a-permit","ws-data-hall-busway-install-and-torque-signoff","ws-raised-floor-tile-lift-and-cable-tray-safety","ws-crah-alarm-response-in-a-live-hall","ws-ocean-pod-retrieval-and-hatch-opening"] },
-  "k12-practical-math": { name: "K-12 Practical Maths", stations: ["k12-measuring-and-scaling-the-court","k12-household-budget-and-first-paycheck","k12-reading-a-map-scale-in-bay-world","k12-fractions-in-the-kitchen","k12-slope-and-angles-on-a-ramp","k12-graphing-tide-readings-at-the-pier","k12-probability-with-a-fair-spinner","k12-geometry-of-a-turbine-blade-sweep","k12-by-a-streetcar-timetable","k12-by-a-ferry-timetable-and-the-tide","k12-by-a-shrimp-boats-fair-count","k12-by-reading-a-flood-maps-colours","k12-by-sorting-containers-at-the-port","k12-by-measuring-a-floodwall-in-steps"] },
-  "k12-science": { name: "K-12 Science", stations: ["k12-water-cycle-and-filtration","k12-buoyancy-and-pressure-in-the-deep","k12-circuits-at-the-electrical-bench","k12-energy-transfer-at-the-wind-farm","k12-ecosystems-at-the-kelp-transect","k12-weather-and-the-sky","k12-simple-machines-at-a-crane","k12-a-controlled-experiment","k12-by-how-a-levee-holds-water-back","k12-by-what-a-pump-station-does-in-the-rain","k12-by-wetlands-as-a-storms-speed-bump","k12-by-the-rivers-current-and-a-pilots-job","k12-by-the-water-cycle-from-lake-to-tap"] },
+  "k12-practical-math": { name: "K-12 Practical Maths", stations: ["k12-measuring-and-scaling-the-court","k12-household-budget-and-first-paycheck","k12-reading-a-map-scale-in-bay-world","k12-fractions-in-the-kitchen","k12-slope-and-angles-on-a-ramp","k12-graphing-tide-readings-at-the-pier","k12-probability-with-a-fair-spinner","k12-geometry-of-a-turbine-blade-sweep","k12-by-a-streetcar-timetable","k12-by-a-ferry-timetable-and-the-tide","k12-by-a-shrimp-boats-fair-count","k12-by-reading-a-flood-maps-colours","k12-by-sorting-containers-at-the-port","k12-by-measuring-a-floodwall-in-steps","k12-es-count-it-a-fair-survey","k12-es-measure-a-rain-garden"] },
+  "k12-science": { name: "K-12 Science", stations: ["k12-water-cycle-and-filtration","k12-buoyancy-and-pressure-in-the-deep","k12-circuits-at-the-electrical-bench","k12-energy-transfer-at-the-wind-farm","k12-ecosystems-at-the-kelp-transect","k12-weather-and-the-sky","k12-simple-machines-at-a-crane","k12-a-controlled-experiment","k12-by-how-a-levee-holds-water-back","k12-by-what-a-pump-station-does-in-the-rain","k12-by-wetlands-as-a-storms-speed-bump","k12-by-the-rivers-current-and-a-pilots-job","k12-by-the-water-cycle-from-lake-to-tap","k12-es-where-the-storm-drain-goes","k12-es-what-a-trash-capture-device-does","k12-es-rain-gardens-a-sponge-in-the-sidewalk","k12-es-the-tidal-marsh-nursery","k12-es-mud-on-the-move","k12-es-too-much-of-a-good-thing","k12-es-the-bay-food-web","k12-es-plastics-and-the-bay","k12-es-clean-air-at-the-port"] },
   "k12-history-and-civics": { name: "K-12 History and Civics", stations: ["k12-primary-and-secondary-sources","k12-building-a-timeline-from-documents","k12-how-a-local-council-meeting-works","k12-oral-history-interview-skills","k12-guilds-and-the-history-of-work","k12-map-literacy-across-eras"] },
-  "k12-literacy-and-life-skills": { name: "K-12 Literacy and Life Skills", stations: ["k12-reading-instructions-and-safety-labels","k12-writing-a-clear-incident-report","k12-first-aid-awareness-call-for-help","k12-public-speaking-at-the-hall","k12-digital-citizenship-and-online-safety","k12-teamwork-and-feedback","k12-by-a-family-readiness-plan"] },
+  "k12-literacy-and-life-skills": { name: "K-12 Literacy and Life Skills", stations: ["k12-reading-instructions-and-safety-labels","k12-writing-a-clear-incident-report","k12-first-aid-awareness-call-for-help","k12-public-speaking-at-the-hall","k12-digital-citizenship-and-online-safety","k12-teamwork-and-feedback","k12-by-a-family-readiness-plan","k12-es-who-does-this-work"] },
 };
 
 
@@ -64819,7 +65727,9 @@ function gdDecodeKb(raw) {
     if (links === "S") ls = [[`Start ${title}`, `smartcity-x.html?sim=${id.slice(8)}`]];
     else if (links === "T") ls = [[`Start ${title}`, `trade-skills-simulator.html?room=${id.slice(8)}`]];
     else if (links === "D") ls = [[`Read ${src.replace(/^docs\//, "")}`, `${raw.repo}/blob/main/${src}`]];
-    return { id, kind, title, text, keys: keys ?? "", src, links: ls.map(([label, href]) => ({ label, href })) };
+    // Repeated names ship as "¤<n>¤" tokens into raw.dict (tools/gen_guide_kb.mjs).
+    const full = raw.dict ? text.replace(/¤(\d+)¤/g, (_, i) => raw.dict[i] ?? "") : text;
+    return { id, kind, title, text: full, keys: keys ?? "", src, links: ls.map(([label, href]) => ({ label, href })) };
   });
 }
 

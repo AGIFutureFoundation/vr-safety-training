@@ -141,7 +141,8 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
           0.4,
           0.58
         ],
-        missNote: "Not in the band. Make it more specific, or kinder."
+        missNote: "Not in the band. Make it more specific, or kinder.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Judge the tone of your feedback",
       cue: "Commit when the tone meter shows your feedback is specific and kind.",
@@ -218,7 +219,8 @@ export const SIM_K12_TEAMWORK_AND_FEEDBACK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "CALM"
+        label: "CALM",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep a disagreement calm",
       cue: "Keep the discussion's temperature in the calm band as teammates disagree.",

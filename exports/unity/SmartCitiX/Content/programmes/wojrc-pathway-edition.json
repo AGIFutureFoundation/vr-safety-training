@@ -13,7 +13,10 @@
         "bunkering-watch",
         "crane-yard",
         "dock-crane",
-        "k12-simple-machines-at-a-crane"
+        "k12-simple-machines-at-a-crane",
+        "cp-zero-emission-terminal-equipment-pre-use",
+        "cp-charging-yard-connectors-and-e-stops",
+        "cp-hydrogen-fuel-cell-equipment-and-fuelling"
       ],
       "table": "CT_BAY_ASSETS",
       "world": "bayworld",
@@ -31,7 +34,10 @@
         "bunkering-watch",
         "crane-yard",
         "dock-crane",
-        "k12-simple-machines-at-a-crane"
+        "k12-simple-machines-at-a-crane",
+        "cp-zero-emission-terminal-equipment-pre-use",
+        "cp-charging-yard-connectors-and-e-stops",
+        "cp-hydrogen-fuel-cell-equipment-and-fuelling"
       ],
       "table": "BAY_SITES",
       "world": "bayworld",
@@ -88,7 +94,13 @@
       "wellness-shift-work-sleep-and-stress",
       "wellness-peer-support-conversation",
       "wellness-substance-use-and-the-job",
-      "wellness-asking-for-help-and-resources"
+      "wellness-asking-for-help-and-resources",
+      "cp-zero-emission-drayage-truck-pre-trip",
+      "cp-zero-emission-terminal-equipment-pre-use",
+      "cp-charging-yard-connectors-and-e-stops",
+      "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+      "cp-battery-energy-storage-site-awareness"
     ],
     "title": "Walk the pathway: intake to a signed enrolment, a first paycheck and a matched alumni mentor"
   },
@@ -104,12 +116,12 @@
   "ladder": {
     "atBar": 20,
     "lessonBar": 75,
-    "lessons": 1592,
+    "lessons": 1580,
     "levels": 20,
     "note": "a lesson is one station step under one condition; see docs/ladders.md",
     "partial": 0,
     "stationsNeeded": 0,
-    "tasks": 126
+    "tasks": 125
   },
   "name": "Pathway Edition — wojrc.org",
   "schema": "smartcitix.programme/1",
@@ -313,8 +325,38 @@
       "app": "smartcity",
       "id": "wellness-asking-for-help-and-resources",
       "why": "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager."
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip",
+      "why": "Zero-emission careers: the Class A track's pre-trip done on a battery-electric drayage tractor — charge matched to the day's port turns, air built on an electric compressor, the chassis locked to the box."
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use",
+      "why": "Zero-emission careers: the terminal's battery-electric yard tractor, top pick and straddle carrier walked before a vessel shift, with the quiet machines' pedestrian alerts heard from the ground."
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops",
+      "why": "Zero-emission careers: the charging yard those machines plug into, opened for the shift with every connector looked at, every cable hung and the emergency stop proven."
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+      "why": "Zero-emission careers: the shop bay where a battery-electric tractor's high-voltage system is locked out and proven dead before anyone touches an orange cable."
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+      "why": "Zero-emission careers: a hydrogen fuel cell machine fuelled with ignition sources left outside the island and every fitting checked with a detector, never a hand."
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness",
+      "why": "Zero-emission careers: the battery energy storage site behind the charging yard — its hazards, its entry rules, and who may go inside."
     }
   ],
-  "summary": "The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.",
+  "summary": "The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard. A last level, Zero-emission careers, chains the stations on battery-electric and hydrogen port equipment: the Port of Oakland's Clean Ports release says the Machinists Institute assists WOJRC in expanding its Pre-Apprentice Transportation, Distribution and Logistics training program to include careers affected by zero-emission vehicles (portofoakland.com/cleanports); this level teaches that kind of work from its own cited standards and is not that program.",
   "union": "Teamsters for warehouse and driving work, the building-trades apprenticeship programmes the pathway prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff a participant meets along the way"
 }

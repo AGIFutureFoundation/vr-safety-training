@@ -341,6 +341,37 @@ export function dvReachTruck(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: DV_BUDGET.dvReachTruck.footprint, livery: lv });
 }
 
+/** Straddle carrier (CLEANPORTS): four legs on wheeled sills, a top frame with the cab high on one side, a container spreader slung between the legs, and an orange battery box on the frame — generic, no maker's shape. Parts: legs, spreader, cab, battery, wheels, lights, beacon. */
+export function dvStraddleCarrier(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xd8a42b, fleetName: "", unitNumber: "SC-1" });
+  const L = 5.2, W = 3.4, H = 6.2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "dvStraddleCarrier", [0, 0, 0]), S = rig.shell, P = flPaint(lv.colour);
+  const legs = rig.part("legs", 0, 0, 0);
+  for (const sx of [1, -1]) {
+    box(legs, 0.35, 0.4, L, sx * (W / 2 - 0.18), 0.55, 0, ...P);                       // wheeled sill
+    for (const sz of [1, -1]) box(legs, 0.3, H - 0.8, 0.3, sx * (W / 2 - 0.18), (H - 0.8) / 2 + 0.7, sz * (L / 2 - 0.4), ...P);
+  }
+  box(S, W, 0.35, 0.4, 0, H - 0.2, Z(0.4), ...P);                                       // top frame
+  box(S, W, 0.35, 0.4, 0, H - 0.2, -Z(0.4), ...P);
+  for (const sx of [1, -1]) box(S, 0.3, 0.35, L - 0.8, sx * (W / 2 - 0.18), H - 0.2, 0, ...P);
+  const bat = rig.part("battery", -0.6, H - 0.2, 0);
+  box(bat, 1.0, 0.45, 1.6, 0, 0.4, 0, ...FL.black);
+  box(bat, 1.02, 0.08, 1.62, 0, 0.62, 0, 0xf07a1f, { rough: 0.5 });
+  const cab = rig.part("cab", W / 2 - 0.5, H - 1.2, Z(0.9));
+  box(cab, 0.9, 1.0, 1.0, 0, 0, 0, ...FL.frame);
+  box(cab, 0.92, 0.5, 0.02, 0, 0.15, 0.51, 0x9fc4d8, { rough: 0.1, metal: 0.5, opacity: 0.7, transparent: true });
+  const spreader = rig.part("spreader", 0, 3.2, 0);
+  box(spreader, 2.4, 0.2, L - 1.4, 0, 0, 0, ...FL.steel);
+  for (const sx of [1, -1]) flStrut(spreader, [sx * 1.0, 0.1, 0], [sx * 1.4, H - 3.5, 0], 0.03, ...FL.black);
+  rig.set("wheels", [
+    flAxle(rig, "wheelsFront", Z(0.5), 0.45, W - 0.36, { width: 0.3, style: "black", tread: "lug", hubR: 0.12 }),
+    flAxle(rig, "wheelsRear", -Z(0.5), 0.45, W - 0.36, { width: 0.3, style: "black", tread: "lug", hubR: 0.12 }),
+  ]);
+  flLights(rig, [[W / 2 - 0.2, 1.2, Z(0.02), 0.14, 0.1], [-(W / 2 - 0.2), 1.2, Z(0.02), 0.14, 0.1]], null, [[W / 2 - 0.2, 1.2, -Z(0.02), 0.14, 0.1], [-(W / 2 - 0.2), 1.2, -Z(0.02), 0.14, 0.1]]);
+  dvBeacon(rig, 0.6, H + 0.02, 0);
+  return flDone(rig, { footprint: DV_BUDGET.dvStraddleCarrier.footprint, livery: lv });
+}
+
 /** Telehandler: four-wheel chassis, side cab, telescoping boom with a fork carriage, front stabilisers. Parts: boom, boomTele, carriage, forks, door, stabilisers, wheels, lights, beacon. */
 export function dvTelehandler(parent, x, y, z, opts = {}) {
   const lv = flLivery(opts.livery, { colour: 0xf2b21b, fleetName: "SMARTCITI BUILD", unitNumber: "TH-6" });
@@ -892,6 +923,7 @@ export const DV_BUDGET = {
   dvLadderTruck: { build: "dvLadderTruck", meshes: 27, footprint: [4.1, 3.82, 12.57], parts: ["doorL", "doorR", "doorCrewL", "doorCrewR", "mirrorL", "mirrorR", "wheels", "lights", "turntable", "ladder", "ladderFly", "compartments", "outriggers", "warningLights"], note: "aerial ladder truck, ladder stowed" },
   dvStreetcar: { build: "dvStreetcar", meshes: 14, footprint: [2.52, 6.27, 14.02], parts: ["doors", "doorFront", "doorRear", "bogies", "bogieF", "bogieR", "trolleyPole", "destinationSign", "lights"], note: "streetcar on two bogies, trolley pole" },
   dvRailSwitcher: { build: "dvRailSwitcher", meshes: 17, footprint: [3, 4.2, 14.4], parts: ["trucks", "truckF", "truckR", "couplers", "couplerF", "couplerR", "bell", "horn", "lights", "headlights", "markerLights", "tailLights"], note: "end-cab yard switcher" },
+  dvStraddleCarrier: { build: "dvStraddleCarrier", meshes: 30, footprint: [3.4, 6.66, 5.2], parts: ["legs", "spreader", "cab", "battery", "wheels", "lights", "beacon"], note: "battery-electric straddle carrier, spreader slung between four legs (CLEANPORTS)" },
   dvReachTruck: { build: "dvReachTruck", meshes: 16, footprint: [1.2, 2.65, 3.39], parts: ["mast", "innerMast", "reach", "carriage", "forks", "overheadGuard", "controls", "wheels", "lights", "beacon"], note: "stand-up narrow-aisle reach truck" },
   dvTelehandler: { build: "dvTelehandler", meshes: 16, footprint: [2.86, 3.34, 9.05], parts: ["boom", "boomTele", "carriage", "forks", "door", "stabilisers", "wheels", "lights", "beacon"], note: "telehandler, boom stowed" },
   dvMower: { build: "dvMower", meshes: 13, footprint: [1.6, 1.99, 2.2], parts: ["deck", "blades", "seat", "rops", "wheels", "lights"], note: "ride-on mower with a rollover bar" },
@@ -918,7 +950,7 @@ export const DV_BUDGET = {
 
 /** The builders by the name DV_BUDGET's `build` field uses. */
 export const DV_BUILDERS = {
-  dvFlatbedTruck, dvWaterTruck, dvMixerTruck, dvSweeper, dvWrecker, dvDiggerDerrick, dvLadderTruck, dvStreetcar, dvRailSwitcher, dvReachTruck, dvTelehandler, dvMower, dvUtv, dvHaulTruck,
+  dvFlatbedTruck, dvWaterTruck, dvMixerTruck, dvSweeper, dvWrecker, dvDiggerDerrick, dvLadderTruck, dvStreetcar, dvRailSwitcher, dvReachTruck, dvStraddleCarrier, dvTelehandler, dvMower, dvUtv, dvHaulTruck,
   dvPilotBoat, dvTug, dvPushBoat, dvCrewBoat, dvAirboat, dvFireboat, dvPatrolBoat, dvFerry, dvTrawler, dvLugger, dvBayShrimper, dvDinghy, dvPontoon, dvKayak, dvResearchVessel, dvBuoyTender, dvLiftBoat,
 };
 

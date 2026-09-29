@@ -157,7 +157,8 @@ export const SIM_EI_GIVING_AND_TAKING_FEEDBACK = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too defensive and they stop talking; too apologetic and the safety point gets lost. Take it in, steady."
+        missNote: "Outside the band. Too defensive and they stop talking; too apologetic and the safety point gets lost. Take it in, steady.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Take it in at a steady pace",
       cue: "Commit when your reaction reads steady — not defensive, not collapsing into apology.",
@@ -224,7 +225,8 @@ export const SIM_EI_GIVING_AND_TAKING_FEEDBACK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "TRUST"
+        label: "TRUST",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Hold the working relationship as you go back to work",
       cue: "Keep the relationship in band walking back to the chipper — not awkward, not pretending nothing happened.",

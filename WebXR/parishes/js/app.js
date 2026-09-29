@@ -18,6 +18,7 @@ import { slGamesFor, slResolveSite, slMountPathBoard } from "../../shared/sl-par
 import { NP_PARISHES, npParish, npResolveConnectors, npRegion, npRegionOf, npRegionGroups } from "../../shared/np-parishes.js";
 import { NP_SIZE, NP_ROAD_KINDS, npHeightAt, npWaterAt, npDistrictAt, npHillAt, npPlace, npStartSite } from "../../shared/np-parish.js";
 import { npSatelliteUrl, npGroundUvMatrix, npScale } from "../../shared/np-geo.js";
+import { rlPrepareRelief, RL_BUDGET } from "../../shared/rl-relief.js";
 import { npBuildParish, npWaterShapes } from "../../shared/np-world.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
@@ -28,6 +29,7 @@ import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { nwMountPhysics } from "../../shared/nw-drive.js";
 import { kwKiosksFor, kwMountQuestBoard, kwGriotSites } from "../../shared/kw-play-data.js";
+import { cpPlaceInParish } from "../../shared/cp-cleanports.js";
 import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
@@ -38,11 +40,21 @@ import { dnApplyModule, dnSetEnterprise, dnUsePacks, dnUseSessions } from "../..
 import { scSessions } from "../../shared/sc-scholar.js";
 import { byLessonsFor } from "../../shared/by-parish-lessons.js";
 import { scMountSession } from "../../shared/sc-session-ui.js";
+import { esSessionLessons } from "../../shared/es-bay-lessons.js";
 import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
 import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
+import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
+// CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
+cpPlaceInParish(npParish);
+// BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
+// registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
+import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
+import { bqGamesFor } from "../../shared/bq-games-data.js";
+import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
+import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -93,6 +105,11 @@ const npStart = npPlace(parish, npReturnSiteId ?? npParams.get("site") ?? "") ??
 np.x = npStart.position[0]; np.z = npStart.position[1] + 16;
 if (npStart.stations) npVisit(np.state, parish.id, npStart.id);
 
+// RELIEF (docs/consoles/RELIEF.md, docs/mapbox.md): with a viewer's Mapbox token, real relief from Terrain-RGB tiles of this
+// map's lon/lat box, scaled into its schematic range, is handed to npHeightAt before the world is built, so every feature
+// seats on the same ground (pads terraced, water level). No token: no await, no request, the schematic ground unchanged.
+// The phone tier asks for none; a failed or slow tile (bounded wait) leaves the schematic ground.
+const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierName }) : null;
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // CITYWORKS: the street fabric (AUTHORED procedural, not the real grid), kerbs, sidewalks, crosswalks, streetlights and
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
@@ -117,9 +134,11 @@ let atWeatherNow = null, atSoundT = 1, atMix = null;
   const b = document.createElement("button");
   b.id = "at-sound"; b.type = "button"; b.setAttribute("aria-pressed", "false"); b.textContent = "Sound: off";
   b.title = tfReducedMotion() ? "Sound stays off while reduced motion is set" : "Turn the synthesised soundscape on or off";
-  b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui";
   b.addEventListener("click", () => { const on = atSound.setEnabled(!atSound.enabled()); b.textContent = on ? "Sound: on" : "Sound: off"; b.setAttribute("aria-pressed", String(on)); });
-  document.body.appendChild(b);
+  // INTERFACE: the sound toggle lives in the menu's Me tab (settings), not floating over the world.
+  const mount = document.getElementById("menu-sound");
+  if (mount) { b.className = "btn"; mount.appendChild(b); }
+  else { b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui"; document.body.appendChild(b); }
 }
 
 // NEWTON's physics (docs/consoles/NEWTON.md): gravity, walls, wading and swimming for the walk, props that tumble,
@@ -140,13 +159,13 @@ const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and wa
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
 {
   const token = mapboxToken();
-  const url = token ? npSatelliteUrl(parish, token) : null;
+  const url = token ? npSatelliteUrl(parish, token, { longSide: (RL_BUDGET[npTierName] ?? RL_BUDGET.balanced).drapeSide }) : null; // RELIEF: capped by tier
   if (url) {
     const loader = new THREE.TextureLoader(); loader.setCrossOrigin?.("anonymous");
     loader.load(url, (tex) => {
       if (!tex) return;
       tex.colorSpace = THREE.SRGBColorSpace; tex.matrixAutoUpdate = false; tex.matrix.set(...npGroundUvMatrix(parish));
-      world.setGroundTexture(tex); npToast("Satellite ground: a Mapbox image of the parish's box.", 4000);
+      world.setGroundTexture(tex); npToast(rlRelief ? "Satellite ground and relief: Mapbox imagery and terrain of the map's box, relief scaled to the map." : "Satellite ground: a Mapbox image of the parish's box.", 4000);
     }, undefined, () => {});
   }
 }
@@ -215,7 +234,9 @@ const npKeys = new Set();
 addEventListener("keydown", (e) => {
   if (e.target?.tagName === "INPUT") return;
   if (e.code === "Escape" && np.modal) { npClose(); return; }
+  if (e.code === "Escape" && !np.playing && uxBegun && !$("menu").hidden && !uxOb?.shown) { npBegin(); return; } // INTERFACE: Esc resumes
   if (!np.playing) return;
+  if (e.code === "Escape") { uxOpenMenu(); return; } // INTERFACE: Esc opens the in-world menu
   if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) e.preventDefault();
   npKeys.add(e.code);
   if (e.repeat) return;
@@ -268,6 +289,8 @@ function npOpenBoard(site) {
   }
   $("board-side").textContent = "";
   qmBoardRows($("board-side"), npPlayItems().filter((g) => g.site === site.id), { from: "parishes", page: ppHerePage(), link: { siteId: `${parish.id}/${site.id}` }, heading: "Skill locks here", done: () => false });
+  // PROJECTSIM: a Bay Program project simulation starts at its site's board (docs/consoles/PROJECTSIM.md).
+  psWorld?.boardRows($("board-ps"), site.id);
   tyBoardRows($("board-ty"), parish.id, site.id, { toast: npToast, onChange: tyRefresh });
   npOpen("board");
 }
@@ -372,9 +395,9 @@ function npQmApproach(near) {
 
 function npNearest() {
   let best = null, bd = 9;
-  for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site }; } }
-  for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson }; } }
-  for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c }; } }
+  for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
+  for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
+  for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   return best;
 }
 
@@ -433,6 +456,7 @@ function npHud() {
 let last = performance.now(), npHudT = 0, npVisitT = 0;
 function frame(now) {
   const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now;
+  uxPadMenu();
   if (np.playing && !np.modal) {
     let f = 0, s = 0, turn = 0;
     if (npKeys.has("KeyW") || npKeys.has("ArrowUp")) f += 1;
@@ -494,6 +518,7 @@ function frame(now) {
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
+  if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
@@ -504,13 +529,14 @@ function frame(now) {
   }
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
   npRenderer.render(scene, camera);
+  uxAnchorPrompt();
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 
-// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson or a BAYOU lesson.
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson, a BAYOU lesson or an ESTUARY lesson.
 const scSession = scMountSession({
-  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id)],
+  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id), ...esSessionLessons(parish.id)],
   siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
   stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
 });
@@ -519,6 +545,8 @@ window.scSessionPanel = scSession; // the headless session test drives it (docs/
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;
   npHud();
+  if (uxBegun) return; // INTERFACE: a resume from the in-world menu says nothing
+  uxBegun = true; $("menu-start").textContent = "Resume";
   if (npReturnSiteId) npToast(`Back at ${npStart.name}.`);
   else if (!stPromptsOn()) npToast(`${parish.name}: just roam. No prompts; every board, lesson and kiosk opens when you reach it.`);
   else if (!(stChosenPath() && stWorld?.greet())) npToast(`Welcome to ${parish.name}. Walk to the orange job board (E), or open the map (M).`);
@@ -543,6 +571,7 @@ try {
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },
       { id: "np-parishes", label: "Maps", aria: `${npRegionHere.title} and other regions`, onDown: () => npToggle("parishes") },
+      { id: "np-menu", label: "Menu", aria: "Open the menu", onDown: () => uxOpenMenu() },
     ],
   });
 } catch { /* no touch layer */ }
@@ -611,7 +640,24 @@ function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();
+  bqOpenBoard();
   npOpen("tycoon");
+}
+var bqBoard = null;
+/** The Bay Keeper's Trail on the San Francisco maps: a treasure within reach is found once and teaches its line. */
+function bqTrailTick() {
+  const t = bqNear("parishes", parish.id, np.x, np.z);
+  if (!t) return;
+  const r = bqFind(t.id);
+  if (r.first) { npToast(`Bay Keeper's Trail: a ${t.reveal} near ${t.siteName}. ${r.lesson}`, 7000); bqBoard?.refresh(); }
+}
+function bqOpenBoard() {
+  const ledgerEl = $("ty-ledger");
+  if (!ledgerEl) return;
+  let el = document.getElementById("bq-board");
+  if (!el) { el = document.createElement("div"); el.id = "bq-board"; ledgerEl.after(el); }
+  if (!bqBoard) bqBoard = bqMount({ el, world: null, toast: npToast, completed: ppCompleted });
+  else bqBoard.refresh();
 }
 function tyAfterTick(events) {
   if (!events.length) return;
@@ -652,6 +698,16 @@ let dnHere = { hidden: { stations: new Set() }, glow: { stations: new Set(), sit
 try { dnHere = dnApplyHere(); } catch (_) { /* DEAN is optional */ }
 addEventListener("gt:profile", () => { try { dnHere = dnApplyHere(); } catch (_) { /* keep */ } });
 
+// PROJECTSIM (docs/consoles/PROJECTSIM.md): full-procedure Bay Program project simulations at their sites' boards and in the
+// menu; each step is a real station's step, the order gates (permit, lockout, locate, mats, PPE) are scored, the award goes to the
+// passport and a pass pays Crew Credits through TYCOON's tyEarn.
+psSetRecorder(ppAward);
+var psWorld = psMountProjectSim({
+  three: THREE, root, parish, el: $("menu-ps"), tier: npTierName,
+  reducedMotion: (() => { try { return !!matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } })(),
+  toast: npToast, stationHref: (id, siteId) => npLink(id, siteId), onOpen: () => npClose(),
+});
+
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
@@ -659,14 +715,17 @@ window.__parishTest = {
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
+  projectsim: psWorld,
+  openBoard(siteId) { const s = parish.sites.find((x) => x.id === siteId); if (s) npOpenBoard(s); return !!s; },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  krewe: kwDress, begin: npBegin, dean: () => dnHere, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
+  // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
+  dean: () => dnHere,
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
 function npPlayItems() {
-  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
+  return [...(parish.gated ?? []), ...[...slGamesFor(parish.id), ...kwKiosksFor(parish.id), ...bqGamesFor(parish.id)].map((g) => ({ ...g, site: slResolveSite(parish, g.site)?.id ?? g.site }))];
 }
 const npSideGames = qmMountSideGames({ world: "parishes", worldName: parish.name, items: npPlayItems(), from: "parishes", page: ppHerePage() });
 slMountPathBoard($("menu-paths"), parish.id, { page: ppHerePage() });
@@ -692,6 +751,28 @@ window.__parishTest.drills = drWorld;
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
 window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast) });
+// DEEPWATER: shoreline dive entries on this map (docs/consoles/DEEPWATER.md) open the Deep at a Bay Program region, with a way back.
+npMountDiveEntries($("menu-packs"), parish);
+function npMountDiveEntries(el, p) {
+  const entries = (() => { try { return dwShoreEntriesFor(p, { from: `../parishes/parishes.html?parish=${encodeURIComponent(p.id)}` }); } catch { return []; } })();
+  window.__parishTest.diveEntries = entries.map((e) => e.id);
+  // In-world: a dive-flag post at each entry — one InstancedMesh for all of this map's entries (one draw call).
+  if (entries.length) {
+    const flag = new THREE.InstancedMesh(new THREE.BoxGeometry(0.6, 9, 3.2), new THREE.MeshLambertMaterial({ color: 0xd8322a }), entries.length);
+    const m4 = new THREE.Matrix4();
+    entries.forEach((e, i) => { const [x, z] = e.position; m4.makeTranslation(x, Math.max(npHeightAt(p, x, z), 0) + 4.5, z); flag.setMatrixAt(i, m4); });
+    flag.instanceMatrix.needsUpdate = true; flag.name = "dw-dive-entries"; root.add(flag);
+    window.__parishTest.diveMarkers = flag.count;
+  }
+  if (!el?.parentNode || !entries.length) return;
+  const box = document.createElement("div");
+  const head = document.createElement("p");
+  head.className = "eyebrow"; head.style.marginTop = "16px"; head.textContent = "Dive entries from this shore";
+  const row = document.createElement("div"); row.className = "row"; row.style.flexWrap = "wrap";
+  for (const e of entries) { const a = document.createElement("a"); a.className = "btn"; a.href = e.url; a.textContent = e.label; row.appendChild(a); }
+  box.append(head, row);
+  el.parentNode.insertBefore(box, el.nextSibling);
+}
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";
@@ -716,4 +797,85 @@ function npMountPacks(el, parishId) {
   const brand = document.createElement("p");
   brand.className = "note"; brand.textContent = packs.length > 8 ? `${PK_BRAND_LINE} — and ${packs.length - 8} more on the Packs page.` : PK_BRAND_LINE;
   el.append(head, row, brand);
+}
+
+// ------------------------------------------------------------------ INTERFACE: the in-world menu (docs/consoles/INTERFACE.md)
+// Four tabs — Learn, Play, Map, Me — hold every mount the consoles write into (moved, never deleted). The menu reopens
+// in-world (Esc, the Menu button, gamepad Start) and "Start walking" becomes "Resume". Gamepad: LB/RB switch tabs,
+// the d-pad walks the focus, A presses. A first-visit onboarding (three cards, skippable, remembered).
+var uxBegun = uxBegun ?? false;
+const uxTabs = uxMountTabs($("menu"), { storageKey: "ux-menu-tab" });
+function uxPassport() {
+  const el = $("menu-passport"); if (!el) return;
+  const visited = (np.state.visited[parish.id] ?? []).length, lessons = (parish.fieldLessons ?? []).filter((l) => np.state.lessons.includes(l.id)).length;
+  let records = 0; try { records = ppRecords().length; } catch { /* no passport yet */ }
+  el.textContent = `Passport: ${visited}/${parish.sites.length} sites visited here · ${lessons}/${(parish.fieldLessons ?? []).length} field lessons · ${records} station record${records === 1 ? "" : "s"} in this browser · ${tyBalance} ${TY_CURRENCY}.`;
+}
+function uxOpenMenu() {
+  if (!np.playing) return;
+  npClose(); np.playing = false; npKeys.clear();
+  $("hud").hidden = true; $("menu").hidden = false; uxPassport();
+  $("menu-start").focus();
+}
+uxPassport();
+$("ux-menu-open").addEventListener("click", uxOpenMenu);
+$("ux-open-map").addEventListener("click", () => npToggle("map"));
+$("ux-open-ways").addEventListener("click", () => npToggle("parishes"));
+{
+  const sg = $("ux-sidegames");
+  if (npSideGames?.open) sg.addEventListener("click", () => npSideGames.open()); else sg.hidden = true;
+}
+{
+  // Reduced motion: the system setting wins; otherwise a per-browser choice applied at load (parishes.html patches
+  // matchMedia before any module reads it), so every module's own reduced-motion path runs unchanged.
+  const b = $("ux-reduced");
+  const sys = (() => { try { return !!window.__uxSystemReduced; } catch { return false; } })();
+  let on = false; try { on = localStorage.getItem("ux-reduced") === "1"; } catch { /* blocked */ }
+  const paint = () => { b.textContent = sys ? "Reduced motion: on (system)" : `Reduced motion: ${on ? "on" : "off"}`; b.setAttribute("aria-pressed", String(sys || on)); };
+  paint(); if (sys) b.disabled = true;
+  b.addEventListener("click", () => { on = !on; try { localStorage.setItem("ux-reduced", on ? "1" : "0"); } catch { /* blocked */ } paint(); npToast(`Reduced motion ${on ? "on" : "off"}: reloading the world still${on ? "" : " off"}…`); setTimeout(() => location.reload(), 600); });
+}
+const uxOb = npReturnSiteId ? null : uxOnboarding({
+  el: $("ux-onboard"), key: "ux-onboarded-v1", force: npParams.get("onboard") === "1",
+  onDone: () => $("menu-start")?.focus(),
+  cards: [
+    { title: "Walk a real map", body: `${parish.name} is a 4 km world. WASD or the stick walks, drag to look, E or Use opens what is near you.` },
+    { title: "Four tabs", body: "Learn holds paths, lessons, drills and packs. Play holds quests, games and Crew Credits. Map holds the map and the ways out. Me holds your passport and settings." },
+    { title: "Come back any time", body: "Press Esc, Start on a gamepad or the Menu button to open this menu again. Your progress stays in this browser." },
+  ],
+});
+$("ux-replay").addEventListener("click", () => uxOb?.show());
+const uxPadPrev = {};
+function uxPadMenu() {
+  let pad = null; try { pad = navigator.getGamepads?.()?.[0] ?? null; } catch { pad = null; }
+  if (!pad) return;
+  const edge = (i) => { const on = !!pad.buttons?.[i]?.pressed, was = uxPadPrev[i]; uxPadPrev[i] = on; return on && !was; };
+  const start = edge(9), lb = edge(4), rb = edge(5), up = edge(12), down = edge(13), a = edge(0), bBtn = edge(1);
+  if (np.playing) { if (start && !np.modal) uxOpenMenu(); return; }
+  if ($("menu").hidden) return;
+  if (start || bBtn) { if (uxBegun || start) npBegin(); return; }
+  if (lb) uxTabs.step(-1);
+  if (rb) uxTabs.step(1);
+  if (up || down) {
+    const card = uxOb?.shown ? $("ux-onboard") : $("menu");
+    const list = [...card.querySelectorAll('button:not([disabled]),a[href],[tabindex="0"]')].filter((x) => x.offsetParent !== null);
+    const i = list.indexOf(document.activeElement);
+    list[(i + (down ? 1 : -1) + list.length) % list.length]?.focus();
+  }
+  if (a && document.activeElement && document.activeElement !== document.body) document.activeElement.click();
+}
+window.__parishTest.ux = { tabs: uxTabs.ids, select: (t) => uxTabs.select(t), current: () => uxTabs.current(), open: () => uxOpenMenu(), resume: () => npBegin(), onboarding: uxOb };
+
+// INTERFACE: the contextual prompt sits over what it names (the board, the sign, the way out), projected each frame;
+// off screen or behind the camera it falls back to its bottom-centre place.
+const uxV = new THREE.Vector3();
+function uxAnchorPrompt() {
+  const p = $("hud-prompt");
+  const at = np.playing && !np.modal && np.near?.at;
+  if (!at || p.hidden) { if (p.dataset.uxAnchor) { p.style.left = p.style.top = p.style.bottom = p.style.transform = ""; delete p.dataset.uxAnchor; } return; }
+  uxV.set(at[0], Math.max(npHeightAt(parish, at[0], at[1]), 0) + 3.2, at[1]).project(camera);
+  const x = (uxV.x + 1) / 2 * innerWidth, y = (1 - uxV.y) / 2 * innerHeight;
+  if (uxV.z > 1 || x < 40 || x > innerWidth - 40 || y < 90 || y > innerHeight - 160) { if (p.dataset.uxAnchor) { p.style.left = p.style.top = p.style.bottom = p.style.transform = ""; delete p.dataset.uxAnchor; } return; }
+  p.style.left = `${Math.round(x)}px`; p.style.top = `${Math.round(y)}px`; p.style.bottom = "auto"; p.style.transform = "translate(-50%, -100%)";
+  p.dataset.uxAnchor = np.near.kind;
 }

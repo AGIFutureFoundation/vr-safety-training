@@ -141,7 +141,8 @@ export const SIM_K12_WEATHER_AND_THE_SKY = {
           0.4,
           0.58
         ],
-        missNote: "Not level yet. Bring your eye to the water's surface and read the middle."
+        missNote: "Not level yet. Bring your eye to the water's surface and read the middle.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the rain gauge at eye level",
       cue: "Commit when your eye is level with the water in the gauge.",
@@ -218,7 +219,8 @@ export const SIM_K12_WEATHER_AND_THE_SKY = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "GUSTS"
+        label: "GUSTS",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the gusts on the wind display",
       cue: "Keep the marker with the wind speed as the gusts rise and fall.",

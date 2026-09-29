@@ -141,7 +141,8 @@ export const SIM_K12_BY_THE_WATER_CYCLE_FROM_LAKE_TO_TAP = {
           0.4,
           0.58
         ],
-        missNote: "Not at the line yet. Cool the lid until drops begin to form."
+        missNote: "Not at the line yet. Cool the lid until drops begin to form.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Cool the lid to the right point",
       cue: "Commit when the lid's cooling marker reaches the line where drops start to form.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_THE_WATER_CYCLE_FROM_LAKE_TO_TAP = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FLOW"
+        label: "FLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the water through the pipes to the tap",
       cue: "Keep the marker on the flowing water as it moves from the plant to a model home's tap.",

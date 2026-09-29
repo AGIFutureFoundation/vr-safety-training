@@ -56,7 +56,9 @@ export function wfFit(text, max) {
  * topped up with the track's own size when that leaves room.
  */
 function wfSummary(prog, max) {
-  const sentences = String(prog.summary).replace(/\s+/g, " ").match(/[^.!?]+[.!?]+(\s|$)/g) ?? [prog.summary];
+  // Initialisms ("U.S.") are not sentence ends: hold their dots aside while splitting (the Bay Program's summary began at "S.").
+  const held = String(prog.summary).replace(/\s+/g, " ").replace(/\b(?:[A-Z]\.){2,}/g, (m) => m.replace(/\./g, "\u2024"));
+  const sentences = (held.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [held]).map((x) => x.replace(/\u2024/g, "."));
   let out = "";
   for (const s of sentences) { const next = (out + " " + s.trim()).trim(); if (next.length > max) break; out = next; }
   if (!out) return wfFit(prog.summary, max);
@@ -100,6 +102,9 @@ export const WF_APPS = [
   { out: "atlas.html", dir: "bayworld", index: "atlas.html", og: "og/atlas.jpg",
     title: "Bay Atlas — Training Sites and Programmes on a Map",
     desc: "Every Bay World training site and landmark with its programmes and deep links, over a map drawn from the world's own data." },
+  { out: "region.html", dir: "underwater", index: "region.html", og: "og/underwater.jpg",
+    title: "The Deep — Bay Program Regions and Their Dive Sites",
+    desc: "Dive San Pablo Bay's shallows, San Leandro Bay and Oakland's Middle Harbor, where tides change visibility and current, at sites that teach diving work." },
   { out: "regatta.html", dir: "regatta", index: "regatta.html", og: "og/regatta.jpg",
     title: "Bay Regatta — Motor Yacht Races With Safety Briefings",
     desc: "Twelve motor yachts on Bay World's water: a safety briefing before every cast-off and three race courses scored on marks, right of way and docking." },

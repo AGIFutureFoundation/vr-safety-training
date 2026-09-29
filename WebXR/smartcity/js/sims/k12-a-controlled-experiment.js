@@ -185,7 +185,8 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
           0.4,
           0.58
         ],
-        missNote: "Not the same amount. Match the other trays before pouring."
+        missNote: "Not the same amount. Match the other trays before pouring.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Measure the same amount of water for every tray",
       cue: "Commit when the measuring cylinder shows the same amount as the other trays got.",
@@ -218,7 +219,8 @@ export const SIM_K12_A_CONTROLLED_EXPERIMENT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "CONTROLS"
+        label: "CONTROLS",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the lamps at the same height",
       cue: "Keep the other trays' lamps steady at their set height as the day goes on.",

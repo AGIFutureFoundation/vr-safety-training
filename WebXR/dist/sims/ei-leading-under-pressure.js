@@ -158,7 +158,8 @@ export const SIM_EI_LEADING_UNDER_PRESSURE = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too slow and the street stays shut; too fast and the corners get cut. Set a pace the crew can hold safely."
+        missNote: "Outside the band. Too slow and the street stays shut; too fast and the corners get cut. Set a pace the crew can hold safely.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Set a pace the crew can hold",
       cue: "Commit when the pace reads right — steady enough to recover time, never fast enough to skip a step.",
@@ -225,7 +226,8 @@ export const SIM_EI_LEADING_UNDER_PRESSURE = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.15,
-        label: "STEADY"
+        label: "STEADY",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Hold the crew steady through the backfill",
       cue: "Keep steadiness in band through the last stretch — not flagging, not frantic.",

@@ -7,6 +7,7 @@
   "summary": "Every station the platform ties to International Union of Operating Engineers Local 3: the programmes whose union line names it and the stations whose own certification does.",
   "certification": null,
   "programmes": [
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "hunters-point-bay-restoration"
   ],
@@ -29,7 +30,23 @@
     },
     {
       "app": "smartcity",
+      "id": "chlorine-room"
+    },
+    {
+      "app": "smartcity",
       "id": "stormwater-outfall"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-street-drain-trash-capture-cleanout"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-bioretention-rain-garden-excavation"
     },
     {
       "app": "smartcity",
@@ -308,6 +325,7 @@
         "north-marina-pier",
         "north-shoreline-field-lab",
         "south-shoreline-marina",
+        "south-treatment-plant",
         "ridge-reservoir-yard"
       ]
     },
@@ -343,6 +361,7 @@
     {
       "world": "summit",
       "sites": [
+        "water-plant",
         "pass-road",
         "tunnel-portal"
       ]
@@ -451,6 +470,34 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-utility-locate-crew",
+        "om-bioretention-soil-yard",
+        "om-street-tree-crew",
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "embarcadero-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "ocean-beach-south-lifeguards",
+        "lake-merced-pump-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "oak-west-oakland",
       "sites": [
         "west-oakland-air-monitoring-station"
@@ -471,6 +518,60 @@
         "alameda-estuary-boatyard",
         "sausal-creek-storm-drain-crew"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "eastshore-shoreline-crew",
+        "aquatic-park-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "san-pablo-stormwater-crew",
+        "point-isabel-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "downtown-stormwater-crew-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection",
+        "slb-corporation-yard"
+      ]
     }
   ],
   "stationNames": {
@@ -478,7 +579,11 @@
     "air-monitor": "Perimeter Air",
     "sampling-well": "Sampling Well",
     "decon-line": "Decon Line",
+    "chlorine-room": "Chlorine Room",
     "stormwater-outfall": "Stormwater Outfall",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
+    "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
+    "bk-bioretention-rain-garden-excavation": "Bioretention Rain Garden Excavation",
     "br-benthic-grab-and-invertebrate-sorting": "Benthic Grab & Invertebrate Sorting",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
@@ -545,7 +650,7 @@
     "op-excavator-trench-and-utility-locate": "Excavator Trench & Utility Locate"
   },
   "version": "1.0.0",
-  "contentHash": "7f9210c6",
+  "contentHash": "a99a92c3",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

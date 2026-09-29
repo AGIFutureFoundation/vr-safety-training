@@ -151,7 +151,8 @@ export const SIM_K12_BY_HOW_A_LEVEE_HOLDS_WATER_BACK = {
           0.4,
           0.58
         ],
-        missNote: "Not at the line. Stop the water right where the teacher's mark is."
+        missNote: "Not at the line. Stop the water right where the teacher's mark is.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Stop the water at the mark on the tank",
       cue: "Commit when the water in the tank reaches the line the teacher drew.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_HOW_A_LEVEE_HOLDS_WATER_BACK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "RIVER"
+        label: "RIVER",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the river level on the gauge post",
       cue: "Keep the marker on the river's level as it rises and falls against the gauge post.",

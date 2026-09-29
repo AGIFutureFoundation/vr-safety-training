@@ -160,7 +160,8 @@ export const SIM_BB_HELP_DEFENSE_ROTATIONS = {
           0.38,
           0.56
         ],
-        missNote: "Outside the band. Too early leaves the corner open before the driver commits; too late meets a player in the air. Help as the driver turns the corner."
+        missNote: "Outside the band. Too early leaves the corner open before the driver commits; too late meets a player in the air. Help as the driver turns the corner.",
+        readout: (v) => (v < 0.38 ? "below the band" : v > 0.56 ? "above the band" : "in the band"),
       },
       title: "Time the help step as the driver turns the corner",
       cue: "Commit when the help arrives in the window — after the driver commits, before they leave the floor.",
@@ -227,7 +228,8 @@ export const SIM_BB_HELP_DEFENSE_ROTATIONS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.15,
-        label: "SHAPE"
+        label: "SHAPE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Hold the team's shape through a live possession",
       cue: "Keep the shape in band as the ball moves — not collapsed into the lane, not stretched out to the corners.",

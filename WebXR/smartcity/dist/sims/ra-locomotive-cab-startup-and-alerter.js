@@ -166,6 +166,7 @@ export const SIM_RA_LOCOMOTIVE_CAB_STARTUP_AND_ALERTER = {
     },
     {
       id: "task-focus", kind: "track", target: "paperwork-clipboard", seconds: 6,
+      track: { readout: (v) => (v < 0.42 ? "below the band" : v > 0.62 ? "above the band" : "in the band") }, // the engine's default band, in words
       title: "Complete the trip paperwork",
       cue: "Keep your attention in the green band while you finish the paperwork before departure.",
       why: "A cab has real paperwork that has to get done, and doing it is not itself unsafe — what matters is that attention on the page does not become attention nowhere else, which is exactly the gap the alerter is built to close if it runs longer than it should.",

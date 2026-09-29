@@ -66,17 +66,25 @@ const CHECKERS = [
   // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
   "check_storyline.mjs",
   "check_drills.mjs",
+  // BAYQUEST: the Bay Program play layer: the Bay Keeper's Trail, four gated games, Crew Credits, stories (docs/consoles/BAYQUEST.md).
+  "check_bayquest.mjs",
+  // PROJECTSIM: the Bay Program project simulations (docs/consoles/PROJECTSIM.md).
+  "check_projectsim.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
   "check_newton.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
+  // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).
+  "check_cleanports.mjs",
   "check_unity_export.mjs",
   // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
   "check_packs.mjs",
   // COGNITION: the K-12 learning module — unit -> lesson -> flow, adaptive re-teach, the in-world runner (docs/consoles/COGNITION.md).
   "check_cognition.mjs",
+  // BAYKEEPER: the Bay Program hub — figures vs the facts, project→station links, union tags, stations 95+ (docs/consoles/BAYKEEPER.md).
+  "check_bayprogram.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",
@@ -85,6 +93,7 @@ const CHECKERS = [
   "check_summit.mjs",
   // The New Orleans parish worlds: every parish's data validates, the terrain builds headless in budget, connectors pair (docs/consoles/PARISH.md).
   "check_parishes.mjs",
+  "check_landmarks.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
   // TERRAFORM: channels below their banks, rivers flowing downstream, deterministic wind, cover off roads/water/pads, budgets (docs/consoles/TERRAFORM.md).
@@ -93,6 +102,8 @@ const CHECKERS = [
   "check_cityworks.mjs",
   // ATMOS: deterministic weather, lamps at dusk/dawn, fog never hides a board, a silent-by-default synth soundscape, budgets (docs/consoles/ATMOS.md).
   "check_atmos.mjs",
+  // INTERFACE: the parishes menu in four tabs, every mount reachable, keyboard/gamepad order, 44 px touch at 390x844, onboarding (docs/consoles/INTERFACE.md).
+  "check_interface.mjs",
   // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).
   "check_npc.mjs",
   "check_investor.mjs",

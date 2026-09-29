@@ -1,30 +1,30 @@
 key,value,source
-procedures,697,WebXR/smartcity/catalog.json stations.length
-smartcityStations,688,WebXR/smartcity/catalog.json stations where app = smartcity
+procedures,718,WebXR/smartcity/catalog.json stations.length
+smartcityStations,709,WebXR/smartcity/catalog.json stations where app = smartcity
 tradeSkillsRooms,9,WebXR/smartcity/catalog.json stations where app = trades
-programmes,60,WebXR/smartcity/js/curricula.js CURRICULA.length
+programmes,61,WebXR/smartcity/js/curricula.js CURRICULA.length
 categories,20,WebXR/smartcity/catalog.json categories.length
 unions,111,tools/unions.json unions.length
 trainingBodies,105,tools/standards.json standards where body = union
 standards,513,tools/standards.json standards.length
-competencies,70,WebXR/shared/competency.js COMPETENCIES.length
-programmeCompetencies,60,WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length
+competencies,71,WebXR/shared/competency.js COMPETENCIES.length
+programmeCompetencies,61,WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length
 coreCompetencies,10,WebXR/shared/competency.js CORE_COMPETENCIES.length
 profileLevels,33,WebXR/smartcity/catalog.json profile.levels
-programmeLadderLevels,1200,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
-programmeLadderLevelsFull,1199,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
-checkers,109,tools/check_all.mjs CHECKERS array
-evalProceduresScored,641,tools/eval-content.json results.length
+programmeLadderLevels,1220,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
+programmeLadderLevelsFull,1219,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
+checkers,115,tools/check_all.mjs CHECKERS array
+evalProceduresScored,718,tools/eval-content.json results.length
 evalCorpusMean,95.8,tools/eval-content.json mean of results[].score
-evalBand95plus,521,tools/eval-content.json results with score >= 95
-evalBand90to94,116,tools/eval-content.json results with score 90-94
+evalBand95plus,592,tools/eval-content.json results with score >= 95
+evalBand90to94,122,tools/eval-content.json results with score 90-94
 evalBandBelow90,4,tools/eval-content.json results with score < 90
 bayWorldZones,16,WebXR/shared/bayworld-data.js BAY_ZONES.length
 bayWorldSites,53,WebXR/shared/bayworld-data.js BAY_SITES.length
 bayWorldLandmarks,28,WebXR/shared/bayworld-data.js BAY_LANDMARKS.length
 bayWorldRoads,15,WebXR/shared/bayworld-data.js BAY_ROADS.length
 bayWorldMainQuests,7,WebXR/bayworld/js/quests-data.js MAIN_QUESTS.length
-bayWorldSideQuests,120,WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length
+bayWorldSideQuests,122,WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length
 bayWorldEggQuests,26,WebXR/bayworld/js/quests-data.js EGG_QUESTS.length
 bayWorldFieldGuideEggs,8,WebXR/bayworld/js/quests-data.js FIELD_GUIDE_EGGS.length
 bayWorldActivities,6,WebXR/bayworld/js/quests-data.js SIDE_ACTIVITIES.length
@@ -47,4 +47,4 @@ unityModels.equipment,45,exports/unity/SmartCitiX/Models/MANIFEST.json entries w
 unityModels.fleet,32,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = fleet
 unityModels.toolkit,22,exports/unity/SmartCitiX/Models/MANIFEST.json entries where kit = toolkit
 unityExportBytes,7445344,exports/unity/SmartCitiX/Models/MANIFEST.json bytes
-uiPages,78,ls WebXR/dist/*.html WebXR/dist/tracks/*.html
+uiPages,80,ls WebXR/dist/*.html WebXR/dist/tracks/*.html

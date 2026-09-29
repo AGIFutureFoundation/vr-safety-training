@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -212,6 +212,10 @@ check(R.NP_PARISHES.some((p) => p.id === "orleans" && p.sites.length >= 10), "Or
 
 // 2b. regions and hills (console GOLDEN-A, docs/consoles/GOLDEN-A.md): the registry groups maps by region, the five
 // parishes stay New Orleans and flat, and the San Francisco districts rise on named, gentle hills.
+// A pad near a hill is fine when it is clear of the mound or stands on a terrace at the hill's height (console RELIEF:
+// hills sit at their real approximate positions, so a site on Adams Point or Nob Hill is terraced, never in a pit).
+const npClearOrTerraced = (p, s, h) => Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40
+  || Math.abs(E.npHeightAt(p, ...s.position) - (E.NP_GROUND + E.npHillRise(p, ...s.position))) < 0.5;
 const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 {
   check(Array.isArray(R.NP_REGIONS) && R.NP_REGIONS[0]?.id === "new-orleans" && R.npRegion("new-orleans")?.noun === "parish" && R.npRegion("san-francisco")?.noun === "district", "regions: New Orleans first (parishes), San Francisco (districts)");
@@ -274,7 +278,7 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     if (!check(!!p, `${id} is registered`)) continue;
     check(p.region === "san-francisco", `${id}: region is san-francisco`);
     check(Array.isArray(p.hills) && p.hills.length >= 1 && p.hills.every((h) => typeof h.id === "string" && typeof h.name === "string" && Array.isArray(h.center) && h.center.length === 2 && G.npInField(p, h.center) && h.radius > 0 && h.height > 0), `${id}: hills on the brief's shape ({ id, name, center, radius, height })`);
-    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${id}/${s.id}: the pad sits clear of ${h.name}, so it stays flat once hills rise`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(npClearOrTerraced(p, s, h), `${id}/${s.id}: the pad sits clear of ${h.name}, or on a terrace at the hill's height (RELIEF)`);
     check(p.sites.length >= 8, `${id}: eight or more sites (${p.sites.length})`);
     check((p.fieldLessons ?? []).length >= 5 && p.fieldLessons.every((l) => /^sg-fl-/.test(l.id) && ctx.stations.has(l.station)), `${id}: five or more sg-fl- field lessons, each with a trade station`);
     const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
@@ -327,24 +331,24 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 // engine, the brief's kinds of site and water, named hills, paired connectors, the Bay Bridge to Downtown and the ways to Bay World.
 {
   const BM = await imp("shared/bm-ways.js");
-  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).join() === "new-orleans,san-francisco,oakland", "regions: Oakland & the East Bay follows San Francisco (districts)");
+  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).slice(0, 3).join() === "new-orleans,san-francisco,oakland" && R.NP_REGIONS.some((r) => r.id === "bay-program"), "regions: Oakland & the East Bay follows San Francisco (districts); the Bay Program project areas are registered");
   const oak = R.npRegionGroups().find((g) => g.region.id === "oakland")?.parishes ?? [];
   const bmKinds = { "oak-west-oakland": ["port", "rail", "union-hall", "school", "recreation", "transit"], "oak-downtown-lake": ["construction", "hospital", "campus", "civic", "theatre"], "oak-fruitvale-estuary": ["marina", "market", "school", "workshop", "park"] };
   const bmWaters = { "oak-west-oakland": ["bay"], "oak-downtown-lake": ["lake"], "oak-fruitvale-estuary": ["canal", "bay"] };
   check(Object.keys(bmKinds).every((id) => oak.some((p) => p.id === id)), `Oakland: the three districts are registered (${oak.map((p) => p.id).join(", ")})`);
-  for (const p of oak) {
+  for (const p of oak.filter((x) => bmKinds[x.id])) {
     check(p.id.startsWith("oak-") && p.region === "oakland" && NP_ENGINE_STRICT.has(p.id), `${p.id}: an oak- id in region oakland, held strict`);
     check(p.sites.length >= 10, `${p.id}: ten or more sites (${p.sites.length})`);
     for (const k of bmKinds[p.id] ?? []) check(p.sites.some((s) => s.kind === k), `${p.id}: a ${k} site`);
     for (const k of bmWaters[p.id] ?? []) check(p.water.some((w) => w.kind === k), `${p.id}: ${k} water`);
-    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${p.id}/${s.id}: the pad sits clear of ${h.name}`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(npClearOrTerraced(p, s, h), `${p.id}/${s.id}: the pad sits clear of ${h.name}, or on a terrace at the hill's height (RELIEF)`);
     check((p.fieldLessons ?? []).length >= 3 && p.fieldLessons.every((l) => /^bm-fl-/.test(l.id) && ctx.k12.has(l.k12) && ctx.stations.has(l.station)), `${p.id}: three or more bm-fl- field lessons, each on a K-12 station with a trade station`);
     const src = readFileSync(join(WEBXR, "shared", `np-data-${p.id}.js`), "utf8");
     check(!/population|founded|built in|opened in|census|since \d|\best\.|\bcirca\b|elevation|feet high|metres high|meters high/i.test(src), `${p.id}: no history, statistics or elevations`);
     const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb ?? ""}`;
     check(!/\d/.test(text), `${p.id}: no figure in a name or blurb`);
     const pairs = p.connectors.filter((c) => c.to.parish !== p.id);
-    check(pairs.length >= 2 && pairs.every((c) => /^bm-(wo|dl|fe)-/.test(c.id)), `${p.id}: two or more bm- connectors`);
+    check(pairs.filter((c) => /^bm-(wo|dl|fe)-/.test(c.id)).length >= 2 && pairs.every((c) => /^(bm-(wo|dl|fe)|eb-wo)-/.test(c.id)), `${p.id}: two or more bm- connectors (EASTBAY's eb-wo- pair joins Emeryville)`);
     const way = R.npResolveConnectors(p).find((c) => c.kind === "world");
     check(!!way && way.world === "bayworld" && WORLD_SITES.bayworld.has(way.to.site) && G.npInField(p, way.from.position) && !E.npWaterAt(p, ...way.from.position), `${p.id}: a way into Bay World (${way?.to.site}) from dry ground inside the field`);
   }
@@ -359,6 +363,132 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   check(readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8").includes('SHARED / "bm-ways.js"'), "bm-ways.js is in the parishes bundle");
 }
 
+// More of the Bay Area (console EASTBAY, docs/consoles/EASTBAY.md): Emeryville & Berkeley in Oakland, San Pablo & Richmond in
+// the North East Bay, Downtown San Jose in the South Bay — strict, 12+ sites of the brief's kinds, named hills clear of every
+// pad, paired eb- connectors, the two EPA-named stormwater projects told only in the program's words, and clear of the
+// incoming Bay Program maps' areas.
+{
+  const ebMaps = { "oak-emeryville-berkeley": { region: "oakland", kinds: ["transit", "marina", "campus", "civic", "utility", "wetland"], waters: ["bay", "lake", "canal"], hills: ["the Berkeley Hills", "Albany Hill"] },
+    "bay-san-jose": { region: "south-bay", kinds: ["transit", "campus", "civic", "utility", "park", "airport"], waters: ["canal"], hills: [] },
+    "bay-san-pablo": { region: "north-east-bay", kinds: ["transit", "civic", "marina", "port", "shipyard", "utility"], waters: ["bay", "canal"], hills: ["the Point Richmond hills", "the El Cerrito hills"] } };
+  check(R.npRegion("south-bay")?.name === "South Bay" && R.npRegion("north-east-bay")?.noun === "district", "regions: South Bay and North East Bay are registered (districts)");
+  const bp = [["bp-strip-marsh-east (San Pablo Bay along Highway 37)", [-122.30, 38.12]], ["bp-san-leandro-bay", [-122.21, 37.745]]];
+  for (const [id, want] of Object.entries(ebMaps)) {
+    const p = R.npParish(id);
+    check(!!p && p.region === want.region && NP_ENGINE_STRICT.has(id), `${id}: registered in region ${want.region}, held strict`);
+    if (!p) continue;
+    check(p.sites.length >= 12, `${id}: twelve or more sites (${p.sites.length})`);
+    for (const k of want.kinds) check(p.sites.some((s) => s.kind === k), `${id}: a ${k} site`);
+    for (const k of want.waters) check(p.water.some((w) => w.kind === k), `${id}: ${k} water`);
+    check((p.hills ?? []).map((h) => h.name).join() === want.hills.join(), `${id}: named hills where the ground rises (${(p.hills ?? []).map((h) => h.name).join(", ") || "none — the field is flat"})`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${id}/${s.id}: the pad sits clear of ${h.name}`);
+    check(p.landmarks.length >= 5 && p.landmarks.every((l) => !/\d/.test(l.name)), `${id}: five or more named landmarks (${p.landmarks.length})`);
+    check((p.fieldLessons ?? []).length >= 3 && p.fieldLessons.every((l) => /^eb-fl-/.test(l.id) && ctx.k12.has(l.k12) && ctx.stations.has(l.station)), `${id}: three or more eb-fl- field lessons, each on a K-12 station with a trade station`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
+    check(!/population|founded|built in|opened in|census|since \d|\best\.|\bcirca\b|elevation|feet high|metres high|meters high|\$|million|acres/i.test(src), `${id}: no history, statistics, amounts or elevations`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb ?? ""}`;
+    check(!/\d/.test(text), `${id}: no figure in a name or blurb`);
+    const pairs = p.connectors.filter((c) => c.to.parish !== id);
+    check(pairs.length >= 2 && pairs.every((c) => /^eb-(em|sp|sj)-/.test(c.id)), `${id}: two or more eb- connectors`);
+    for (const c of pairs) check(!E.npWaterAt(p, ...c.from.position), `${id}/${c.id}: leaves from dry ground`);
+    for (const [name, ll] of bp) check(!G.npGeoContains(p, ll), `${id}: clear of ${name}`);
+  }
+  // the EPA facts, only as worded in the program's facts (no amount, the project's own words)
+  const sj = R.npParish("bay-san-jose"), sp = R.npParish("bay-san-pablo");
+  check(!!sj?.sites.some((s) => s.blurb.includes("develop a green stormwater infrastructure implementation plan") && s.blurb.includes("EPA's San Francisco Bay Program")), "bay-san-jose: the City of San Jose's named project is told in the program's words");
+  check(!!sp?.sites.some((s) => s.blurb.includes("green stormwater infrastructure, designed to capture and treat stormwater runoff") && s.blurb.includes("EPA's San Francisco Bay Program")), "bay-san-pablo: the City of San Pablo's named project is told in the program's words");
+  const wo = R.npParish("oak-west-oakland"), em = R.npParish("oak-emeryville-berkeley");
+  const spa = wo?.connectors.find((c) => c.id === "eb-wo-san-pablo-avenue-north"), spb = em?.connectors.find((c) => c.id === "eb-em-san-pablo-avenue-south");
+  check(!!spa && !!spb && spa.lonlat.join() === spb.lonlat.join() && spa.to.parish === em.id && spb.to.parish === wo.id, "San Pablo Avenue pairs West Oakland and Emeryville (eb-wo-san-pablo-avenue-north, eb-em-san-pablo-avenue-south) at one crossing");
+  check(readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8").split('SHARED / "np-data-bay-san-pablo.js"').length === 3, "the three EASTBAY modules are in both bundles that carry np-parishes.js");
+}
+
+// The walkable San Francisco districts (console NEIGHBORHOODS, docs/consoles/NEIGHBORHOODS.md): three more districts on
+// the strict engine at a walkable declared scale, the brief's kinds of site, hills placed where they are in the city, the
+// named landmarks (LANDMARKS' kinds, drawn with lmBuild once it merges), paired roads, and the overlap rule.
+{
+  const SN = { "sf-north-beach": { kinds: ["marina", "streetcar", "school", "hospitality", "port"], waters: ["bay"], landmarks: ["Coit Tower", "the Transamerica Pyramid", "Lombard Street's switchbacks", "the cable car turntable at Hyde Street"], hills: { "Telegraph Hill": [-122.406, 37.802], "Russian Hill": [-122.418, 37.801], "Nob Hill": [-122.414, 37.792] } },
+    "sf-haight-castro": { kinds: ["construction", "hospital", "transit", "park", "theatre"], waters: ["lake"], landmarks: ["the Painted Ladies", "the Castro's theatre marquee", "Sutro Tower"], hills: { "Twin Peaks": [-122.4475, 37.7525], "Mount Sutro": [-122.4575, 37.7585], "Corona Heights": [-122.438, 37.765], "Buena Vista": [-122.441, 37.7685] } },
+    "sf-sunset-south": { kinds: ["lifeguard", "park", "campus", "school"], waters: ["ocean", "lake"], landmarks: ["Ocean Beach", "Lake Merced", "the bluffs at Fort Funston"], hills: { "Merced Heights": [-122.470, 37.7175] } } };
+  const walk = Object.keys(SN).map((id) => R.npParish(id)).filter(Boolean);
+  check(walk.length === 3, `San Francisco, walkable: the three districts are registered (${walk.map((p) => p.id).join(", ")})`);
+  const mb = G.npBounds(R.npParish("sf-mission"));
+  check(mb.minLon <= -122.40 && mb.maxLon >= -122.385 && mb.minLat <= 37.765 && mb.maxLat >= 37.785, `sf-mission's field already covers SoMa and Mission Bay (lon ${mb.minLon.toFixed(3)} … ${mb.maxLon.toFixed(3)}, lat ${mb.minLat.toFixed(3)} … ${mb.maxLat.toFixed(3)}), so the third district is the Sunset & Ocean Beach south`);
+  let lmKinds = null;
+  if (existsSync(join(WEBXR, "shared", "lm-landmarks.js"))) { try { const LM = await imp("shared/lm-landmarks.js"); lmKinds = new Set(typeof LM.lmKinds === "function" ? LM.lmKinds() : Object.keys(LM.LM_KINDS ?? {})); } catch { lmKinds = null; } }
+  for (const p of walk) {
+    const want = SN[p.id];
+    check(p.region === "san-francisco" && NP_ENGINE_STRICT.has(p.id) && Number.isFinite(p.scale) && p.scale <= 1.5, `${p.id}: region san-francisco, held strict, at a walkable declared scale (${p.scale})`);
+    check(p.sites.length >= 12, `${p.id}: twelve or more sites (${p.sites.length})`);
+    for (const k of want.kinds) check(p.sites.some((s) => s.kind === k), `${p.id}: a ${k} site`);
+    for (const k of want.waters) check(p.water.some((w) => w.kind === k), `${p.id}: ${k} water`);
+    for (const n of want.landmarks) check(p.landmarks.some((l) => l.name === n), `${p.id}: ${n} stands as a named place`);
+    for (const [name, ll] of Object.entries(want.hills)) {
+      const h = (p.hills ?? []).find((x) => x.name === name), at = G.npGeoToXz(p, ll);
+      check(!!h && Math.hypot(h.center[0] - at[0], h.center[1] - at[1]) < 60, `${p.id}: ${name} rises where it is in the city (${h ? Math.round(Math.hypot(h.center[0] - at[0], h.center[1] - at[1])) : "no"} m from its lon/lat through the fit)`);
+    }
+    check((p.fieldLessons ?? []).length >= 3 && p.fieldLessons.every((l) => /^sn-fl-/.test(l.id) && ctx.k12.has(l.k12) && ctx.stations.has(l.station)), `${p.id}: three or more sn-fl- field lessons, each on a K-12 station with a trade station`);
+    const named = p.landmarks.filter((l) => typeof l.lm === "string");
+    check(named.length >= (p.id === "sf-sunset-south" ? 0 : 2) && named.every((l) => /^[a-z][a-z-]*$/.test(l.lm)), `${p.id}: ${named.length} landmarks carry a LANDMARKS kit kind in \`lm\``);
+    if (lmKinds) for (const l of named) check(lmKinds.has(l.lm), `${p.id}/${l.id}: lm ${l.lm} is in LANDMARKS' registry`);
+    else note(`${p.id}: ${named.length} landmarks name LANDMARKS' kinds (${[...new Set(named.map((l) => l.lm))].join(", ")}) — pending lm-landmarks.js; the engine draws its generic landmark`);
+    const coarse = p.connectors.filter((c) => parishes.has(c.to.parish) && !SN[c.to.parish]);
+    check(coarse.length >= 2 && coarse.every((c) => (parishes.get(c.to.parish).connectors ?? []).some((x) => x.to?.parish === p.id && x.lonlat?.join() === c.lonlat.join())), `${p.id}: ${coarse.length} roads paired with the coarse districts (${[...new Set(coarse.map((c) => c.to.parish))].join(", ")})`);
+    for (const c of p.connectors) check(!E.npWaterAt(p, ...c.from.position), `${p.id}/${c.id}: leaves from dry ground`);
+    // no walkable site duplicates a coarse site on the ground (within two pads' reach)
+    const dup = [];
+    for (const s of p.sites) { const ll = G.npToGeo(p, s.position); for (const o of R.NP_PARISHES.filter((q) => q.region === "san-francisco" && !SN[q.id])) for (const t of o.sites) if (G.npGeoDistance(ll, G.npToGeo(o, t.position)) < E.NP_PAD * 2) dup.push(`${s.id}~${o.id}/${t.id}`); }
+    check(dup.length === 0, `${p.id}: no site duplicates a coarse district's site on the ground (${dup.join(", ") || "none within reach"})`);
+  }
+  // the overlap rule: the walkable fields never overlap each other; none reaches the sf-outer-mission area beyond a margin
+  const M = 0.0035; // about three hundred metres: the connector margin
+  const bx = walk.map((p) => ({ id: p.id, b: G.npBounds(p) }));
+  const olap = (a, b) => [Math.min(a.maxLon, b.maxLon) - Math.max(a.minLon, b.minLon), Math.min(a.maxLat, b.maxLat) - Math.max(a.minLat, b.minLat)];
+  for (let i = 0; i < bx.length; i++) for (let j = i + 1; j < bx.length; j++) { const [ox, oy] = olap(bx[i].b, bx[j].b); check(ox <= 0 || oy <= 0, `${bx[i].id} and ${bx[j].id}: the walkable fields do not overlap`); }
+  for (const { id, b } of bx) check(!(b.maxLon > -122.459 + M && b.minLat < 37.722 - M), `${id}: stays out of the sf-outer-mission area (south of 37.722°, east of −122.459°) beyond a connector margin`);
+  const outer = R.npParish("sf-outer-mission");
+  if (outer) for (const { id, b } of bx) { const [ox, oy] = olap(b, G.npBounds(outer)); note(`${id} ∩ sf-outer-mission: ${ox > 0 && oy > 0 ? `${Math.round(ox * 88000)} × ${Math.round(oy * 111320)} m` : "none"}`); }
+  else note("sf-outer-mission (TIDELANDS) is not in the tree yet: sf-ss-ocean-avenue-east waits for its pair");
+  if (outer) {
+    const ss = R.npParish("sf-sunset-south")?.connectors.find((c) => c.id === "sf-ss-ocean-avenue-east"), om = outer.connectors.find((c) => c.id === "sf-om-ocean-avenue-west");
+    check(!!ss && !!om && ss.lonlat.join() === om.lonlat.join() && ss.to.parish === outer.id && om.to.parish === "sf-sunset-south" && ss.to.position?.join() === om.from.position.join() && om.to.position?.join() === ss.from.position.join(), "Ocean Avenue pairs the Sunset and the Outer Mission (sf-ss-ocean-avenue-east, sf-om-ocean-avenue-west) at one crossing");
+    if (om) check(!E.npWaterAt(outer, ...om.from.position), "sf-outer-mission/sf-om-ocean-avenue-west: leaves from dry ground");
+  }
+  for (const p of walk) for (const o of R.NP_PARISHES.filter((q) => q.region === "san-francisco" && !SN[q.id])) {
+    const a = G.npBounds(p), [ox, oy] = olap(a, G.npBounds(o));
+    if (ox > 0 && oy > 0) note(`${p.id} lies within the coarse ${o.id} field over ${Math.round((100 * ox * oy) / ((a.maxLon - a.minLon) * (a.maxLat - a.minLat)))} % of its box`);
+  }
+}
+
+// The Bay Program project areas (console TIDELANDS, docs/consoles/TIDELANDS.md): region bay-program, strict engine, the
+// brief's kinds of site, the named water and roads, sf-mission's southern edge north of the Outer Mission, no figures.
+{
+  const bp = R.npRegion("bay-program");
+  check(!!bp && bp.noun === "site area" && bp.title === "Bay Program Project Areas", "regions: Bay Program Project Areas (site areas)");
+  const want = { "bp-strip-marsh-east": { region: "bay-program", kinds: ["wetland", "levee", "monitoring", "staging"], water: ["san-pablo-bay", "strip-marsh", "sonoma-creek"], roads: ["highway-37", "levee-road"] }, "bp-san-leandro-bay": { region: "bay-program", kinds: ["trash-capture", "utility", "park", "industrial", "wetland"], water: ["san-leandro-bay", "san-leandro-creek"], roads: ["nimitz-freeway"] }, "sf-outer-mission": { region: "san-francisco", kinds: ["stormwater", "school", "transit"], water: ["lake-merced"], roads: ["mission-street", "geneva-avenue"] } };
+  for (const [id, w] of Object.entries(want)) {
+    const p = R.npParish(id);
+    check(!!p && p.region === w.region && NP_ENGINE_STRICT.has(id), `${id}: registered in ${w.region} and held to the strict engine`);
+    if (!p) continue;
+    check(p.sites.length >= 10, `${id}: ten or more sites (${p.sites.length})`);
+    for (const k of w.kinds) check(p.sites.some((s) => s.kind === k), `${id}: a ${k} site`);
+    for (const x of w.water) check(p.water.some((v) => v.id === x), `${id}: water ${x}`);
+    for (const x of w.roads) check(p.roads.some((v) => v.id === x), `${id}: road ${x}`);
+    check(p.levees.length >= 2 && p.connectors.length >= 2, `${id}: levees and paired or pending connectors`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb}`;
+    check(!/\d/.test(text), `${id}: no figure in a site, landmark, district or hill name or blurb`);
+    check(readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8").includes("PROCEDURAL"), `${id}: the module labels its detail procedural`);
+  }
+  const slb = R.npParish("bp-san-leandro-bay");
+  check(slb?.sites.filter((s) => s.kind === "trash-capture").length === 2, "bp-san-leandro-bay: the two trash capture device sites (the facts file's two devices)");
+  check(slb?.connectors.every((c) => c.to.parish === "oak-fruitvale-estuary"), "bp-san-leandro-bay: its connectors reach BAYMAP's oak-fruitvale-estuary");
+  const mi = R.npParish("sf-mission"), om = R.npParish("sf-outer-mission");
+  if (mi && om) {
+    const edge = G.npBounds(mi).minLat, omLat = G.npToGeo(om, om.sites.find((s) => s.id === "om-rain-garden-block").position)[1];
+    check(edge > 37.72 && edge < 37.725 && omLat < edge, `sf-mission's field ends at ${edge.toFixed(3)} N, north of the Outer Mission's blocks (${omLat.toFixed(3)} N)`);
+    for (const cid of ["sf-om-mission-street", "sf-om-alemany"]) check(om.connectors.some((c) => c.id === cid && c.to.parish === "sf-mission"), `sf-outer-mission: ${cid} pairs with sf-mission`);
+  }
+}
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
 // 3. the ledger
 {
@@ -383,7 +513,7 @@ const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 check(/gdMount\(\)/.test(app) && /ctlMount\(/.test(app), "the page mounts the Guide and the control grammar");
 check(/lkStationLink\(id, \{ runner: NP_RUNNER, from: "parishes"/.test(app), "job boards route through lkStationLink");
 check(/ppReturnSite\(location\.hash, location\.search\)/.test(app), "a return from a station lands at its site");
-check(/mapboxToken\(\)/.test(app) && /npSatelliteUrl\(parish, token\)/.test(app) && !/access_token=pk\./.test(app), "the satellite ground needs the viewer's token and ships none");
+check(/mapboxToken\(\)/.test(app) && /npSatelliteUrl\(parish, token[,)]/.test(app) && !/access_token=pk\./.test(app), "the satellite ground needs the viewer's token and ships none");
 check(/kind: "egrets"/.test(app) && /kind: "pelicans"/.test(app) && /kind: "herons"/.test(app), "egrets, pelicans and herons come from the shared wildlife module");
 check(/menu-parishes/.test(app) && /\?parish=/.test(app), "the parish selector is drawn");
 check(readFileSync(join(WEBXR, "shared", "passport.js"), "utf8").includes('parishes: "the Parishes"'), "the runner can say Back to the Parishes");

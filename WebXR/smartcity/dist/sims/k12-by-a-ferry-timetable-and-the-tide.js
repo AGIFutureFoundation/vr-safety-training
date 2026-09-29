@@ -185,7 +185,8 @@ export const SIM_K12_BY_A_FERRY_TIMETABLE_AND_THE_TIDE = {
           0.4,
           0.58
         ],
-        missNote: "Not on the water line. Read where the surface meets the board."
+        missNote: "Not on the water line. Read where the surface meets the board.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the water level on the board",
       cue: "Commit when the marker matches the water line on the level board.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_A_FERRY_TIMETABLE_AND_THE_TIDE = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "CROSSING"
+        label: "CROSSING",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the ferry across the river",
       cue: "Keep the marker on the ferry as it crosses the river on the landing's screen.",

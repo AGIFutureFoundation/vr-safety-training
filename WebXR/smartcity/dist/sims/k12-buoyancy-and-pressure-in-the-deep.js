@@ -185,7 +185,8 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too light a load teaches nothing; too heavy and the tank has it. Load the hull again."
+        missNote: "Outside the band. Too light a load teaches nothing; too heavy and the tank has it. Load the hull again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Load the boat until it sits low but still floats",
       cue: "Commit when the cargo has the hull riding low, its waterline near the rim but still afloat.",
@@ -218,7 +219,8 @@ export const SIM_K12_BUOYANCY_AND_PRESSURE_IN_THE_DEEP = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "HONEST"
+        label: "HONEST",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep your observations matched to what you see",
       cue: "Keep your notes in band with what the tank actually shows as each object settles to its waterline.",

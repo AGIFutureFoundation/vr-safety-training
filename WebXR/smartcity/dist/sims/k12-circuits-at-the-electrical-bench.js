@@ -185,7 +185,8 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Look again and compare with the single bulb before you commit."
+        missNote: "Outside the band. Look again and compare with the single bulb before you commit.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Judge the brightness with two bulbs in series",
       cue: "Commit when you judge how bright the two bulbs in series are compared with one.",
@@ -218,7 +219,8 @@ export const SIM_K12_CIRCUITS_AT_THE_ELECTRICAL_BENCH = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "STEADY"
+        label: "STEADY",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep observations steady as you swap branches",
       cue: "Hold your attention in band as you switch between series and parallel and note each change.",

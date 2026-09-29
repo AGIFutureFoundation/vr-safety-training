@@ -2800,7 +2800,8 @@ export const TZ_TREASURES = [
    "stations": [
     "drive-city-route-and-turns",
     "drive-backing-serpentine-and-alley-dock",
-    "forklift-dock"
+    "forklift-dock",
+    "cp-zero-emission-drayage-truck-pre-trip"
    ]
   }
  },

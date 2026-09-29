@@ -185,7 +185,8 @@ export const SIM_K12_SIMPLE_MACHINES_AT_A_CRANE = {
           0.4,
           0.58
         ],
-        missNote: "Not the steady pull. Wait until the load hangs still before reading."
+        missNote: "Not the steady pull. Wait until the load hangs still before reading.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the pull at the right moment",
       cue: "Commit when the force meter shows the steady pull with the load held still.",
@@ -218,7 +219,8 @@ export const SIM_K12_SIMPLE_MACHINES_AT_A_CRANE = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "LOWERING"
+        label: "LOWERING",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Lower the load smoothly",
       cue: "Keep the lowering speed steady as the model load comes down.",

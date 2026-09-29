@@ -24,7 +24,7 @@ export const NP_OAK_FRUITVALE_ESTUARY = {
   ],
   hills: [
     {"id":"oakland-hills","name":"the Oakland hills","center":[1676,-1527],"radius":460,"height":50},
-    {"id":"lincoln-highlands","name":"Lincoln Highlands","center":[1257,-790],"radius":240,"height":22},
+    {"id":"lincoln-highlands","name":"Lincoln Highlands","center":[1047,-1369],"radius":240,"height":22},
   ],
   water: [
     {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[-2048,2048],[-2048,651],[-1048,1053],[-84,1264],[629,1474],[1048,1369],[1467,1474],[1886,1896],[2004,2048]]},
@@ -93,6 +93,8 @@ export const NP_OAK_FRUITVALE_ESTUARY = {
     {"id":"bm-fe-international","kind":"road","name":"International Boulevard west to the lake","from":{"parish":"oak-fruitvale-estuary","position":[-838,-1106]},"to":{"parish":"oak-downtown-lake","position":[503,685],"lonlat":[-122.25,37.793]},"lonlat":[-122.25,37.793],"approximate":true},
     {"id":"bm-fe-embarcadero","kind":"road","name":"The Embarcadero west to downtown","from":{"parish":"oak-fruitvale-estuary","position":[-1173,-895]},"to":{"parish":"oak-downtown-lake","position":[168,895],"lonlat":[-122.258,37.789]},"lonlat":[-122.258,37.789],"approximate":true},
     {"id":"bm-fe-webster-tube","kind":"road","name":"Webster Street through the tube to West Oakland","from":{"parish":"oak-fruitvale-estuary","position":[-1944,-790]},"to":{"parish":"oak-west-oakland","position":[1491,1316],"lonlat":[-122.2764,37.787]},"lonlat":[-122.2764,37.787],"approximate":true},
+    {"id":"bm-fe-nimitz-san-leandro","kind":"road","name":"The Nimitz Freeway south-east to San Leandro Bay","from":{"parish":"oak-fruitvale-estuary","position":[1467,1158]},"to":{"parish":"bp-san-leandro-bay","position":[200,-253],"lonlat":[-122.195,37.75]},"lonlat":[-122.195,37.75],"approximate":true},
+    {"id":"bm-fe-international-san-leandro","kind":"road","name":"International Boulevard south-east to San Leandro Bay","from":{"parish":"oak-fruitvale-estuary","position":[2011,1105]},"to":{"parish":"bp-san-leandro-bay","position":[720,-304],"lonlat":[-122.182,37.751]},"lonlat":[-122.182,37.751],"approximate":true},
   ],
   fieldLessons: [
     {"id":"bm-fl-tide-at-the-marina","title":"The Tide at the Marina","site":"brooklyn-basin-marina","landmark":"brooklyn-basin-shore","k12":"k12-graphing-tide-readings-at-the-pier","station":"yc-line-handling-and-docking-in-crosswind","trade":"Marina deckhands","tradeLine":"A deckhand reads the tide board and leaves slack in the lines, so a boat rides the tide without pulling at the float.","minutes":3,"steps":["Watch the water on the pilings: it rises and falls through the day.","Mark the tide board each hour and the marks make a wave-shaped graph.","Deckhands set the lines with slack so the boat can rise and fall safely."],"check":{"q":"Why do deckhands leave slack in the mooring lines?","options":["So the boat can rise and fall with the tide","So the boat drifts away","To save rope"],"answer":0,"why":"Slack lets the boat ride the tide without straining the lines or the float."}},

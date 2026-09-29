@@ -150,9 +150,9 @@ on the shore; the three boxes overlap, as the parishes do.
 
 | district | id | module | export | sites | hills | connectors |
 |---|---|---|---|---|---|---|
-| Downtown & Embarcadero | `sf-downtown` | `np-data-sf-downtown.js` | `NP_SF_DOWNTOWN` | 9 | Nob Hill, Russian Hill, Telegraph Hill, Twin Peaks | 5 |
-| Mission & SoMa | `sf-mission` | `np-data-sf-mission.js` | `NP_SF_MISSION` | 9 | Potrero Hill, Bernal Heights, Twin Peaks | 5 |
-| Golden Gate Park, the Richmond & the Sunset | `sf-golden-gate-park` | `np-data-sf-golden-gate-park.js` | `NP_SF_GOLDEN_GATE_PARK` | 9 | Twin Peaks | 3 |
+| Downtown & Embarcadero | `sf-downtown` | `np-data-sf-downtown.js` | `NP_SF_DOWNTOWN` | 9 | Nob Hill, Russian Hill, Telegraph Hill, Twin Peaks, Potrero Hill, Lone Mountain | 5 |
+| Mission & SoMa | `sf-mission` | `np-data-sf-mission.js` | `NP_SF_MISSION` | 9 | Potrero Hill, Bernal Heights, Twin Peaks, Nob Hill, Russian Hill, Telegraph Hill, Mount Davidson, Lone Mountain, Mount Sutro | 5 |
+| Golden Gate Park, the Richmond & the Sunset | `sf-golden-gate-park` | `np-data-sf-golden-gate-park.js` | `NP_SF_GOLDEN_GATE_PARK` | 9 | Twin Peaks, Mount Davidson, Lone Mountain, Mount Sutro | 3 |
 
 **Downtown & Embarcadero** — the Embarcadero piers, the Ferry Building landing, the Transbay transit hub, a hospital
 campus on Cathedral Hill, a union hall off Market Street, the cable car barn on Nob Hill, a Financial District high-rise,
@@ -232,7 +232,7 @@ agree on the shore; the boxes overlap. Site names and crews are procedural train
 | district | id | module | export | sites | hills | connectors |
 |---|---|---|---|---|---|---|
 | West Oakland & the Port | `oak-west-oakland` | `np-data-oak-west-oakland.js` | `NP_OAK_WEST_OAKLAND` | 13 | — (the shore walls give relief) | 4 |
-| Downtown Oakland & Lake Merritt | `oak-downtown-lake` | `np-data-oak-downtown-lake.js` | `NP_OAK_DOWNTOWN_LAKE` | 12 | Adams Point, the Piedmont hills | 4 |
+| Downtown Oakland & Lake Merritt | `oak-downtown-lake` | `np-data-oak-downtown-lake.js` | `NP_OAK_DOWNTOWN_LAKE` | 12 | Adams Point, the Piedmont hills, the Oakland hills (the field's east edge) | 4 |
 | Fruitvale & the Estuary | `oak-fruitvale-estuary` | `np-data-oak-fruitvale-estuary.js` | `NP_OAK_FRUITVALE_ESTUARY` | 12 | the Oakland hills, Lincoln Highlands | 3 |
 
 **West Oakland & the Port** — the Outer Harbor and Seventh Street container terminals, the port's crane shop and truck
@@ -267,3 +267,157 @@ The Bay Bridge is now a walkable bridge between the regions as well as GOLDEN-B'
 leaves Downtown from the anchorage, `bm-wo-bay-bridge-west` leaves West Oakland from the toll plaza, and both name the
 mid-crossing point both fields hold. The world ways live in `shared/bm-ways.js` (GOLDEN-B's pattern) and are appended by
 `npResolveConnectors`, so the district modules never carry a `world` connector.
+
+## More of the Bay Area — Emeryville & Berkeley, San Pablo & Richmond, Downtown San Jose (console EASTBAY)
+
+Three more 4096 m districts on the same schema (with `hills`), written once by a scratch generator (BAYMAP's projection
+and clipping) from approximate public lon/lat through one north-up uniform scale of about two real metres per map metre,
+with one shared shore north of Oakland clipped to each East Bay field. Two new regions follow Oakland in `NP_REGIONS`
+and in check_parish_data's `ND_REGIONS`: `north-east-bay` ("North East Bay Districts") and `south-bay` ("South Bay
+Districts"). `bay-san-pablo` is in `north-east-bay`, not `oakland`: San Pablo and Richmond are Contra Costa cities on San
+Pablo Bay, the `oakland` region's convention is `oak-` ids with BAYMAP's `bm-` ways into Bay World, and the region leaves
+room for the rest of that shore. The incoming Bay Program maps (`bp-strip-marsh-east` on San Pablo Bay along Highway 37,
+`bp-san-leandro-bay`) lie outside all three boxes. Hills sit at their approximate public lon/lat projected through each
+map's own fit; heights are schematic. The two EPA San Francisco Bay Program projects named for these cities (the City
+of San Jose's green stormwater infrastructure implementation plan; the City of San Pablo's green stormwater
+infrastructure to capture and treat stormwater runoff) are told once each, as worded in the program's facts, in a
+procedural stormwater crew's blurb.
+
+| district | id | module | export | region | sites | hills | connectors |
+|---|---|---|---|---|---|---|---|
+| Emeryville & Berkeley's Waterfront | `oak-emeryville-berkeley` | `np-data-oak-emeryville-berkeley.js` | `NP_OAK_EMERYVILLE_BERKELEY` | `oakland` | 13 | the Berkeley Hills, Albany Hill | 3 |
+| San Pablo & Richmond's Shore | `bay-san-pablo` | `np-data-bay-san-pablo.js` | `NP_BAY_SAN_PABLO` | `north-east-bay` | 13 | the Point Richmond hills, the El Cerrito hills | 2 |
+| Downtown San Jose | `bay-san-jose` | `np-data-bay-san-jose.js` | `NP_BAY_SAN_JOSE` | `south-bay` | 13 | — (flat; the Guadalupe River's flood walls give relief) | 2 |
+
+**Emeryville & Berkeley's Waterfront** — Emeryville's rail station, warehouse studios and a lab building site, the
+Aquatic Park storm drain crew, the Berkeley Marina harbour, the Eastshore shoreline crew, a maker workshop in West
+Berkeley, the downtown transit station and civic centre, the university campus plant under the Berkeley Hills, a school,
+a fire station and a hospital campus; the Berkeley Pier, Sather Tower, Aquatic Park, Albany Hill and Eastshore State
+Park stand as places. **San Pablo & Richmond's Shore** — the Richmond transit station and civic centre on Macdonald
+Avenue, the Marina Bay harbour, a shipyard crew and the harbour terminal on the inner harbour, a refinery turnaround
+yard, the San Pablo stormwater crew by Wildcat and San Pablo creeks, a school, a hospital campus, a fire station, the
+rail yard, a substation and the Point Isabel shoreline crew; the Rosie the Riveter Memorial and Point Richmond stand as
+places. **Downtown San Jose** — the Diridon transit hub, the university campus plant, the civic centre, the downtown
+stormwater crew yard, the Guadalupe River Park grounds yard, a high-rise site, the convention centre stage crew, a
+hospital campus, the airport ramp at the north edge, the North First Street rail barn, a fire station, a school and a
+union hall; the Guadalupe River (a channel), Los Gatos Creek and Coyote Creek are its water.
+
+### EASTBAY connectors
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| San Pablo Avenue at the Oakland–Emeryville line | road | oak-west-oakland ↔ oak-emeryville-berkeley | -122.287, 37.836 | `eb-wo-san-pablo-avenue-north`, `eb-em-san-pablo-avenue-south` |
+| San Pablo Avenue at the Albany–El Cerrito line | road | oak-emeryville-berkeley ↔ bay-san-pablo | -122.300, 37.899 | `eb-em-san-pablo-avenue-north`, `eb-sp-san-pablo-avenue-south` |
+| The Eastshore Freeway at Albany | road | oak-emeryville-berkeley ↔ bay-san-pablo | -122.311, 37.899 | `eb-em-eastshore-north`, `eb-sp-eastshore-south` |
+| The Alameda toward Santa Clara | road | bay-san-jose → bay-santa-clara (no map yet) | -121.930, 37.342 | `eb-sj-alameda-north` |
+| The Bayshore Freeway toward the Peninsula | road | bay-san-jose → bay-peninsula (no map yet) | -121.933, 37.371 | `eb-sj-bayshore-north` |
+
+## San Francisco, walkable — three more districts (console NEIGHBORHOODS)
+
+Three districts on the same schema in region `san-francisco`, drawn at a walkable scale so the 4096 m field is the
+walk (docs/consoles/NEIGHBORHOODS.md). Each declares its `scale` (real metres per map metre), which check_parishes
+holds the fit to within 15 % and check_parish_data uses for the field's ground width:
+
+- `sf-north-beach` (North Beach, Chinatown & Fisherman's Wharf): 1 real metres per map metre — one to one.
+- `sf-haight-castro` (Haight, Castro & Twin Peaks): 1 real metres per map metre — one to one.
+- `sf-sunset-south` (the Sunset & Ocean Beach south): 1.2 real metres per map metre — so Ocean Beach and the
+  university campus fit one field.
+
+Hills are placed where they are in the city: each `center` is the named hill's approximate lon/lat projected through
+the district's own fit, the radius follows the hill's footprint, the height is schematic (a map number). Written once
+by `tools/gen_sn_districts.mjs`; the modules are the source afterwards.
+
+| district | id | module | export | sites | hills | connectors |
+|---|---|---|---|---|---|---|
+| North Beach, Chinatown & Fisherman's Wharf | `sf-north-beach` | `np-data-sf-north-beach.js` | `NP_SF_NORTH_BEACH` | 14 | Telegraph Hill, Russian Hill, Nob Hill | 3 |
+| Haight, Castro & Twin Peaks | `sf-haight-castro` | `np-data-sf-haight-castro.js` | `NP_SF_HAIGHT_CASTRO` | 14 | Twin Peaks, Mount Sutro, Corona Heights, Buena Vista, Tank Hill, Alamo Square | 4 |
+| the Sunset & Ocean Beach South | `sf-sunset-south` | `np-data-sf-sunset-south.js` | `NP_SF_SUNSET_SOUTH` | 14 | Merced Heights | 3 |
+
+**Why not SoMa & Mission Bay.** `npBounds(sf-mission)` is lon −122.459 … −122.357, lat 37.722 … 37.804: SoMa and
+Mission Bay lie inside it (sf-mission already holds the King Street rail yard, a Mission Bay construction site and the
+China Basin stadium district), so the third district is the Sunset & Ocean Beach south instead — south of the coarse
+fields' 37.722° edge on the ocean side and west of the incoming `sf-outer-mission` (south of sf-mission's 37.722° edge).
+
+**Overlap.** The five coarse SF fields already cover the whole city north of 37.722° and overlap each other, so a
+walkable North Beach or Haight/Castro lies inside them by construction. The rule held by check_parishes: the walkable
+fields never overlap each other; none reaches into the sf-outer-mission area (south of 37.722°, east of −122.459°)
+beyond a connector margin; and no walkable site duplicates a coarse site on the ground.
+
+**Landmarks** are named places whose `kind` is LANDMARKS' registry name where one exists — Coit Tower
+(`coit-tower`), the Transamerica Pyramid (`transamerica-pyramid`), the cable car turntables at Hyde Street and Powell
+Street (`cable-car-turntable`), Pier Thirty-Nine (`wharf-pier-shed`), the Ferry Building (`ferry-building`), the
+Painted Ladies (`painted-ladies`), a Victorian house in the Haight (`victorian-house`) — plus Lombard Street's
+switchbacks, the Castro's theatre marquee, Sutro Tower, Twin Peaks, Lake Merced, Fort Funston and Ocean Beach. Until
+`lm-landmarks.js` merges the engine draws its generic landmark.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| The Embarcadero at the Ferry Building | road | sf-north-beach ↔ sf-downtown | -122.391, 37.788 | `sf-nb-embarcadero-south`, `sf-dt-north-beach-embarcadero` |
+| Powell Street at Union Square | road | sf-north-beach ↔ sf-downtown | -122.408, 37.785 | `sf-nb-powell-south`, `sf-dt-north-beach-powell` |
+| Bay Street at Fort Mason | road | sf-north-beach ↔ sf-marina | -122.432, 37.805 | `sf-nb-bay-street-west`, `sf-ma-north-beach-bay-street` |
+| Fell Street at Golden Gate Park | road | sf-haight-castro ↔ sf-golden-gate-park | -122.454, 37.772 | `sf-hc-fell-street-west`, `sf-gp-haight-castro-fell` |
+| Market Street toward Church Street | road | sf-haight-castro ↔ sf-mission | -122.422, 37.772 | `sf-hc-market-street-east`, `sf-mi-haight-castro-market` |
+| Seventeenth Street | road | sf-haight-castro ↔ sf-mission | -122.421, 37.763 | `sf-hc-seventeenth-street-east`, `sf-mi-haight-castro-seventeenth` |
+| Divisadero Street at Geary | road | sf-haight-castro ↔ sf-downtown | -122.439, 37.781 | `sf-hc-divisadero-north`, `sf-dt-haight-castro-divisadero` |
+| The Great Highway along Ocean Beach | road | sf-sunset-south ↔ sf-golden-gate-park | -122.505, 37.743 | `sf-ss-great-highway-north`, `sf-gp-sunset-great-highway` |
+| Nineteenth Avenue | road | sf-sunset-south ↔ sf-golden-gate-park | -122.475, 37.743 | `sf-ss-nineteenth-avenue-north`, `sf-gp-sunset-nineteenth` |
+| Ocean Avenue at the Sunset–Outer Mission line | road | sf-sunset-south ↔ sf-outer-mission | -122.458, 37.721 | `sf-ss-ocean-avenue-east`, `sf-om-ocean-avenue-west` |
+
+## Hills — approximate positions (console RELIEF)
+
+Every named hill on the San Francisco and Oakland maps sits at the **approximate position** of the public hill it names:
+the hill's approximate longitude and latitude (rounded to three decimals, public geography) is pushed through that map's
+own fit (`npGeoToXz` in `shared/np-geo.js`) and the hill's `center` is placed there, or left where it was when it already
+lay within its own radius. Heights stay schematic map numbers, relative to one another (Twin Peaks and Mount Davidson the
+tallest mounds, Lone Mountain and Adams Point small ones); they are not measurements, the mounds are raised cosines, and
+nothing here claims survey accuracy. The audit re-runs from `docs/consoles/RELIEF.md`'s cycle 1.
+
+| map | moved (was off by more than its radius) | added (inside the field) | left out |
+|---|---|---|---|
+| `sf-downtown` | — | Potrero Hill, Lone Mountain | Pacific Heights (not on the owner's list) |
+| `sf-mission` | — | Nob Hill, Russian Hill, Telegraph Hill, Mount Davidson, Lone Mountain, Mount Sutro | — |
+| `sf-golden-gate-park` | — | Mount Davidson, Lone Mountain (its crown on the campus pad, a terrace), Mount Sutro | — |
+| `sf-marina` | — | Nob Hill (a school campus pad terraced on it), Telegraph Hill, Lone Mountain | — |
+| `sf-bayview` | Bayview Hill | Potrero Hill | Hunters Point hill kept where it was: its position is not certain enough to move |
+| `oak-west-oakland` | — | — | none inside the field (the hills' edge and Adams Point lie east of it) |
+| `oak-downtown-lake` | Adams Point (the Lakeside Park pad now terraced on it) | the Oakland hills (the field's east edge) | — |
+| `oak-fruitvale-estuary` | Lincoln Highlands | — | — |
+
+A site near a hill is either clear of the mound or stands on a terrace at the hill's height (`check_parishes`'s hill
+checks). Maps added later place their own hills the same way.
+
+With a viewer's Mapbox token, the relief under any map can also follow the real ground: see "Relief from Mapbox
+Terrain-RGB" in [mapbox.md](mapbox.md). Without one, the hills above are the only relief.
+
+
+## Bay Program project areas (region `bay-program`, console TIDELANDS)
+The 2026 EPA San Francisco Bay Program awards name eight projects (the facts file, `epa-2026-facts.md`, is the only source);
+three of their places are walkable here, each a strict-engine 4096 m map at about 2.2 real metres per map metre. Every map is
+laid out from the place's approximate lon/lat frame, the shoreline's general orientation, the named water, highways and creeks,
+and the land-use character — **procedural in detail**, never a survey, and no place is described with a figure. The region's
+noun is "site area". sf-mission's field ends at about 37.722 N (from its fit); the Outer Mission lies south of that, so it is its
+own district in the San Francisco region (every `sf-` map names that region).
+| map | id | module | export | region | sites | connectors |
+| Strip Marsh East | `bp-strip-marsh-east` | `np-data-bp-strip-marsh-east.js` | `NP_BP_STRIP_MARSH_EAST` | bay-program | 10 | 2 |
+| San Leandro Bay & San Leandro Creek | `bp-san-leandro-bay` | `np-data-bp-san-leandro-bay.js` | `NP_BP_SAN_LEANDRO_BAY` | bay-program | 10 | 2 |
+| Outer Mission & Excelsior | `sf-outer-mission` | `np-data-sf-outer-mission.js` | `NP_SF_OUTER_MISSION` | san-francisco | 10 | 2 |
+**Strip Marsh East** (ABAG's project: sediment reused from excavating new tidal channels and lowering berms) — San Pablo Bay,
+the strip marsh and the Napa-Sonoma Marshes as wetland, Sonoma Creek and Dutchman Slough, two procedural new tidal channels,
+the highway levee and the bay-front berm; sites for tidal channel excavation, berm lowering, sediment reuse placement, a
+monitoring station, a staging yard, a levee patrol point, a slough culvert crew, a planting crew, a nesting-season watch and a
+sediment sampling station. **San Leandro Bay** (the City of San Leandro's two large trash capture devices) — San Leandro Bay,
+San Francisco Bay, Arrowhead Marsh, San Leandro Creek and a procedural storm drain channel; the two trash capture device
+sites, the storm drain crew, the creek mouth restoration, the shoreline park, industrial frontage, outfall monitoring, a tide
+line clean-up point, the shoreline levee and the corporation yard. **Outer Mission** (the SFPUC's green stormwater
+infrastructure) — planted sidewalk filtration, a rain garden block, the underground infiltration site, a school campus, the
+Mission Street transit corridor, a sewer crew yard, a locate crew, a soil yard, a planting crew and a maintenance crew.
+| Mission Street | road | sf-outer-mission ↔ sf-mission | -122.426, 37.730 | `sf-om-mission-street`, `sf-mi-outer-mission-street` |
+| Alemany Boulevard at the Bayshore Freeway | road | sf-outer-mission ↔ sf-mission | -122.405, 37.725 | `sf-om-alemany`, `sf-mi-outer-alemany` |
+| Ocean Avenue at the Sunset–Outer Mission line | road | sf-outer-mission ↔ sf-sunset-south | -122.458, 37.721 | `sf-om-ocean-avenue-west`, `sf-ss-ocean-avenue-east` |
+| The Nimitz Freeway | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary | -122.195, 37.750 | `bp-sl-nimitz-fruitvale`, `bm-fe-nimitz-san-leandro` |
+| International Boulevard | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary | -122.182, 37.751 | `bp-sl-international-fruitvale`, `bm-fe-international-san-leandro` |
+| Highway Thirty-Seven west | road | bp-strip-marsh-east → Sears Point (no map yet) | -122.397, 38.149 | `bp-sm-highway-37-west` |
+| Highway Thirty-Seven east | road | bp-strip-marsh-east → Vallejo (no map yet) | -122.294, 38.140 | `bp-sm-highway-37-east` |
+The Fruitvale crossings: Fruitvale's field reaches San Leandro Bay (its Nimitz Freeway ends at about -122.195, 37.750), so
+BAYMAP's `oak-fruitvale-estuary` should list both crossings back under its own ids at the same `lonlat` when the Oakland region
+merges; until then the far end ships `to.position: null` and `npResolveConnectors` fills it.

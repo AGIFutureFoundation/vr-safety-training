@@ -141,7 +141,8 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Flat or edge on, the blades barely turn. Try again."
+        missNote: "Outside the band. Flat or edge on, the blades barely turn. Try again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Set the blade angle to catch the wind",
       cue: "Commit when the blade angle catches the moving air well — not flat to it, not edge on.",
@@ -218,7 +219,8 @@ export const SIM_K12_ENERGY_TRANSFER_AT_THE_WIND_FARM = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "HONEST"
+        label: "HONEST",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep your notes matched to the model",
       cue: "Hold your notes in band with what the lamp actually does as you change settings.",

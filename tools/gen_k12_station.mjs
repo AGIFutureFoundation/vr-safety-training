@@ -20,6 +20,7 @@
  * standard codes, a registered framework cited in scope.
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { simWithReadouts } from "./sim_readouts.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -464,6 +465,6 @@ export const SCENE_NAMES = ["wall", "bench", "deck", "stage", "lab"];
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) for (const f of process.argv.slice(2)) {
   const d = JSON.parse(readFileSync(f, "utf8"));
   const out = join(ROOT, "WebXR/smartcity/js/sims", `${d.id}.js`);
-  writeFileSync(out, gen(d));
+  writeFileSync(out, simWithReadouts(gen(d))); // a text readout on the gauge and the track (check_a11y)
   console.log(`wrote ${out.replace(ROOT + "/", "")}`);
 }

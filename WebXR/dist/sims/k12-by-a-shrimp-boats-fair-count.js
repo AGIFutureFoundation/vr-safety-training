@@ -141,7 +141,8 @@ export const SIM_K12_BY_A_SHRIMP_BOATS_FAIR_COUNT = {
           0.4,
           0.58
         ],
-        missNote: "Not level yet. Fill to the line and sweep off the heap."
+        missNote: "Not level yet. Fill to the line and sweep off the heap.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Level the scoop",
       cue: "Commit when the scoop is filled exactly to the level line.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_A_SHRIMP_BOATS_FAIR_COUNT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "BELT"
+        label: "BELT",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the sorting belt",
       cue: "Keep the marker on the shrimp as they move along the sorting belt to the ice.",
