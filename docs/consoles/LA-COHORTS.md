@@ -26,3 +26,8 @@ figure, company name or employer's hiring; places are named as places.
    `gen_lco_flows.mjs`, six `WebXR/flows/lk-*.json`, a `docs/flowhub.md` section, check_la_cohorts section 1. Observe:
    check_flowhub "All FlowHub checks pass" (15 ✓, 0 ✗); check_la_cohorts ok — 122 checks, 6 flows, 6 games (18 rounds),
    49 session places carry flow + game.
+2. Reason: every K-12 classroom on a Louisiana map shows all six Louisiana lessons without taking the main board from the
+   parish's own lesson. Act: `crLkLessonsOf` in `crLessonsOf`, `crLouisianaBoard` (lessons on the map first, then the other
+   lessons' K-12 stations as flow launches), check_la_cohorts section 2. Observe: check_classrooms ok — 1933 passed, 0 failed
+   (410 launches resolved, worst room 13 meshes); check_la_cohorts ok — 275 checks, 12 classrooms on 12 Louisiana maps
+   carry the board (21 lesson launches, 51 station launches), none off the Louisiana maps.

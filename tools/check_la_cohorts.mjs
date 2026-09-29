@@ -87,6 +87,41 @@ const out = {};
   out.flows = `${LK.LK_LESSONS.length} flows · ${LCO.LCO_APPLY_GAMES.length} apply games (${rounds} rounds) · ${ses.length} session places carry flow + game`;
 }
 
+// ---------------------------------------------------------------- 2 classroom boards
+{
+  const CR = await imp("WebXR/shared/cr-classrooms.js");
+  const { SC_LESSONS } = await imp("WebXR/shared/sc-lessons.js");
+  const scIds = new Set(SC_LESSONS.map((l) => l.id));
+  let rooms = 0, asLesson = 0, asFlow = 0, maps = 0;
+  for (const p of NP_PARISHES) {
+    const k12 = CR.crRoomsFor(p).filter((r) => r.kind === "k12");
+    const la = LK.LK_REGIONS.test(String(p.region ?? ""));
+    if (la && k12.length) maps++;
+    const lessonIds = new Set(CR.crLessonsOf(p).map((l) => l.id));
+    for (const r of k12) {
+      const b = r.fixtures.find((f) => f.id === "lkboard");
+      const where = `rooms/${p.id}/${r.id}`;
+      if (!la) { check(!b, where, "a Louisiana lessons board off the Louisiana maps"); continue; }
+      rooms++;
+      check(!!b, where, "K-12 classroom on a Louisiana map has no Louisiana lessons board");
+      if (!b) continue;
+      const all = [b.launch, ...(b.more ?? [])];
+      const covered = new Set();
+      for (const l of all) {
+        if (l.type === "lesson") { asLesson++; check(lessonIds.has(l.id) && scIds.has(l.id), where, `lesson ${l.id} is not a session lesson on ${p.id}`); covered.add(l.id.split("@")[0]); }
+        else if (l.type === "flow") { asFlow++; check(STATIONS.has(l.id) && /^k12-lk-/.test(l.id), where, `flow launch ${l.id} is not a Louisiana K-12 station`); covered.add(LK.lkLessonById(l.id)?.id); }
+        else check(false, where, `launch type ${l.type} on the Louisiana board`);
+      }
+      check(LK.LK_LESSONS.every((l) => covered.has(l.id)), where, "the board does not carry all six Louisiana lessons");
+      check(!/\d/.test(b.label) && !FEAR.test(b.label), where, `label "${b.label}" has a digit or a fear word`);
+      const main = r.fixtures.find((f) => f.id === "board");
+      check(!main || !/^lk-lesson-/.test(main.launch.id) || !CR.crLessonsOf(p).some((l) => !/^lk-lesson-/.test(l.id)), where, "the main board lost the parish's own lesson to a Louisiana one");
+    }
+  }
+  check(rooms >= 10, "rooms", `only ${rooms} K-12 classrooms on Louisiana maps carry the board`);
+  out.rooms = `${rooms} K-12 classrooms on ${maps} Louisiana maps carry the Louisiana lessons board (${asLesson} lesson launches on their maps, ${asFlow} station launches)`;
+}
+
 // ---------------------------------------------------------------- report
 if (fails.length) { for (const f of fails.slice(0, 40)) console.log("FAIL", f); console.log(`check_la_cohorts: FAILED ${fails.length} of ${checks} checks`); process.exit(1); }
 console.log(`check_la_cohorts: ok — ${checks} checks · ${Object.values(out).join(" · ")}`);
