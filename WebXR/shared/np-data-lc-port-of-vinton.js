@@ -5,6 +5,7 @@
 // every project layout is PROCEDURAL — the project layout is illustrative; the parish, waterways and towns are real. Project
 // facts only from the Louisiana facts file; no partnership with any company, agency or union is claimed. Written once by
 // tools/gen_sw_districts.mjs; this module is the source afterwards. Pure data, no imports.
+// Water and road layout checked against Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026).
 export const NP_LC_PORT_OF_VINTON = {
   id: "lc-port-of-vinton",
   name: "the Port of Vinton",

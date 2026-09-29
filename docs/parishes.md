@@ -488,3 +488,46 @@ A programme world is a **procedural** district built for one programme — **not
   `programme-worlds-south`); they stay pending until such a world is registered.
 - Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
   `tools/check_smiles.mjs`.
+
+## Lake Charles and Calcasieu Parish (console SOUTHWEST)
+
+Three strict-engine 4096 m maps (docs/consoles/SOUTHWEST.md), written once by `tools/gen_sw_districts.mjs` from approximate public
+lon/lat through one north-up uniform scale per map (2.2 real metres per map metre for the two Lake Charles maps, 2.0 for Vinton).
+The lake, the Calcasieu River, the ship channel, the Intracoastal Waterway, Prien Lake, Contraband Bayou, the interstates and the
+towns follow their real position — water and road layout checked against Copernicus Sentinel-2 imagery (Contains modified
+Copernicus Sentinel data 2026); every other feature and every site is procedural. **The project layout is illustrative; the
+parish, waterways and towns are real** — said in each blurb, module header and on a sign landmark. Project facts come only from
+the Louisiana facts file (Woodside Louisiana LNG: $17.5 billion final investment decision in Calcasieu Parish; FastSites: $5.9
+million at the Port of Vinton for a 600 ft × 50 ft barge berth); no partnership with any company, agency or union is claimed, and
+no city growth figure is stated. Before the maps were written each box was checked against every map's `npBounds`: none overlaps.
+
+| map | id | module | export | region | sites | connectors |
+|---|---|---|---|---|---|---|
+| Lake Charles Lakefront & Downtown | `lc-lakefront-downtown` | `np-data-lc-lakefront-downtown.js` | `NP_LC_LAKEFRONT_DOWNTOWN` | louisiana-cities | 20 | 3 |
+| the Calcasieu Ship Channel | `lc-calcasieu-channel` | `np-data-lc-calcasieu-channel.js` | `NP_LC_CALCASIEU_CHANNEL` | louisiana-sites | 19 | 2 |
+| the Port of Vinton | `lc-port-of-vinton` | `np-data-lc-port-of-vinton.js` | `NP_LC_PORT_OF_VINTON` | louisiana-sites | 18 | 2 |
+
+**Lake Charles Lakefront & Downtown** — the lake with the interstate along its north shore and its high bridge over the river,
+Westlake across the river, the city docks below the lake, Prien Lake and the Interstate Two-Ten bridge at the south-west corner,
+Contraband Bayou and the university campus. Sites: the workforce centre (start), the bridge crew, the promenade grounds crew, the
+civic centre stage crew, a downtown high-rise, the Ryan Street streetscape crew, the locate crew, the storm drain crew, the south
+shore bulkhead crew, a hospital campus, a fire station, a school, the bus yard, the boat launch, the Westlake river yard, a
+substation, a trades hall, a storm roof crew, the university grounds crew and the Prien Lake park crew.
+**The Calcasieu Ship Channel** — the channel on the field's west side with open water beside it, the Gulf Intracoastal Waterway
+along the south, marsh on the east bank, farm roads and fields; the project site area (illustrative) on the east bank: module
+sets, the marine offload berth, the pipe rack, heavy-haul road, tank foundation, piling, laydown, the crane pad, hydrotest,
+insulation, the site substation, the control building, the flare area, the berth dredge, a marsh mat road, the gate and fire
+water (every project site `precinct: true`), plus a waterway crew landing. No facility visible on the ground is part of a lesson.
+**The Port of Vinton** — Vinton on Interstate Ten and US Highway Ninety, the port's barge waterway and turning basin (procedural),
+the new berth's bulkhead, rice fields and marsh; the berth build, site preparation, rail and road, the sheet-pile wall, dredging,
+mooring dolphins, the crane pad, culverts, the environmental survey, laydown, utilities, the port office (start), the truck gate,
+a warehouse, Vinton's main street, a fire station, a school and a rice field drainage crew.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| The road south toward the ship channel | road | lc-lakefront-downtown ↔ lc-calcasieu-channel | -93.260, 30.174 | `sw-ld-big-lake-road-south`, `sw-cc-big-lake-road-north` |
+| Interstate Ten west | road | lc-lakefront-downtown → lc-sulphur (no map yet) | -93.272, 30.240 | `sw-ld-i10-west` |
+| Interstate Ten east | road | lc-lakefront-downtown → lc-east-calcasieu (no map yet) | -93.178, 30.234 | `sw-ld-i10-east` |
+| The farm road east | road | lc-calcasieu-channel → lc-east-calcasieu-south (no map yet) | -93.253, 30.139 | `sw-cc-farm-road-east` |
+| Interstate Ten west toward Texas | road | lc-port-of-vinton → sabine-texas-line (no map yet) | -93.622, 30.202 | `sw-pv-i10-west` |
+| Interstate Ten east toward Sulphur | road | lc-port-of-vinton → lc-sulphur (no map yet) | -93.538, 30.199 | `sw-pv-i10-east` |
