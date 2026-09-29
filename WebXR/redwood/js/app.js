@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
@@ -11,6 +12,8 @@ import { lkStationLink, lkRenderStations, lkSiteHeading, lkStationLabel } from "
 // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { k2RenderLessonList } from "../../shared/field-lessons.js";
+import { k2AdaptLesson, k2RecordLesson, k2FieldNotes, K2_FIELD_NOTES_BADGE } from "../../shared/field-kiosk.js";
 import {
   RW_BOUNDS, RW_SITES, RW_ROADS, RW_TRAILS, RW_RIVER, RW_MAIN_ARC, RW_SIDE_QUESTS, RW_ACTIVITIES, RW_MAP_LAYERS, RW_FUEL_BREAK, RW_GATED,
   rwHeightAt, rwIsWater, rwSite, rwCoastZ,
@@ -86,7 +89,7 @@ function rwInitScene() {
   rwPlaceCamera();
   world.stream(rwApp.x, rwApp.z, { all: true });
   // For the headless checkers and the still captures.
-  window.__redwoodTest = { app: rwApp, world, teleport: rwTeleport, stats: () => world.stats(), sites: RW_SITES };
+  window.__redwoodTest = { app: rwApp, world, teleport: rwTeleport, stats: () => ({ ...world.stats(), render: { ...renderer.info.render } }), sites: RW_SITES };
 }
 
 function rwGround(x, z) { return rwHeightAt(x, z); }
@@ -96,6 +99,8 @@ function rwPlaceCamera() {
   c.position.set(rwApp.x, rwGround(rwApp.x, rwApp.z) + eye, rwApp.z);
   c.rotation.order = "YXZ";
   c.rotation.set(rwApp.pitch, rwApp.yaw, 0);
+  // The UTV sits under the driver: its centre a metre ahead of the eye so the hood and the light bar read in the view.
+  rwApp.world?.vehicle?.place(rwApp.x - Math.sin(rwApp.yaw) * 1.1, rwApp.z - Math.cos(rwApp.yaw) * 1.1, rwApp.yaw, rwApp.driving, c.position.y - eye);
 }
 /** Where a traveller lands at a site: in its cleared yard, south of the buildings, facing them. */
 function rwArrival(s) { return [s.position[0], s.position[1] + s.pad * 0.75, 0]; }
@@ -173,6 +178,10 @@ function rwStart() {
   if (!rwApp.state.visited.length) rwToast("Welcome to Redwood Reach. Report to the fire station's job board — press E there.");
 }
 $("menu-start").addEventListener("click", rwStart);
+// The start screen's background loop, recorded in the old growth (console
+// CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only while the
+// menu is on screen, poster only under reduced motion or Save-Data.
+cnMount($("scr-menu"), "start-redwood", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
 $("menu-map").addEventListener("click", () => { if (!rwApp.scene) rwInitScene(); rwOpenMap(); });
 $("menu-quests").addEventListener("click", () => rwOpenQuests());
 $("btn-map").addEventListener("click", () => rwOpenMap());
@@ -182,6 +191,7 @@ $("btn-drive").addEventListener("click", () => rwToggleDrive());
 function rwToggleDrive() {
   rwApp.driving = !rwApp.driving;
   $("btn-drive").textContent = rwApp.driving ? "Walk" : "Drive";
+  if (rwApp.camera) rwPlaceCamera();
   rwToast(rwApp.driving ? "Fire-road vehicle: seatbelt on, lights on, stay on the graded road." : "On foot.");
 }
 
@@ -360,6 +370,9 @@ function rwWaypoint(act, w) {
 }
 
 // ------------------------------------------------------------- lessons
+// Redwood's lessons in the shared K-12 shape: one passport award kind and one
+// Field Notes badge across every world (WebXR/shared/field-kiosk.js).
+const RW_K2 = RW_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "redwood"));
 function rwRunLesson(fl) {
   let i = 0;
   const next = () => {
@@ -373,7 +386,9 @@ function rwRunLesson(fl) {
         if (k === fl.check.answer) {
           if (!rwApp.state.lessons.includes(fl.id)) { rwApp.state.lessons.push(fl.id); rwApp.state.xp += 30; rwPersist(); }
           tzLessonAnswered(fl.id); // a quiet treasure (docs/treasures.md)
-          rwToast("Right. Lesson logged — it ties to the K-12 station " + lkStationLabel(fl.k12) + ".");
+          const k2 = k2RecordLesson(RW_K2.find((x) => x.id === fl.id), RW_K2);
+          rwToast(k2.badge ? `Right. ${K2_FIELD_NOTES_BADGE.name} badge earned: ${k2.notes.done} lessons answered in the Reach.`
+            : "Right. Lesson logged" + (k2.first ? " on your passport" : "") + " — it ties to the K-12 station " + lkStationLabel(fl.k12) + ".");
           rwShow(null);
         } else { rwToast("Not quite — read the steps again."); i = 0; next(); }
       },
@@ -493,6 +508,15 @@ function rwOpenMap() {
     tv.appendChild(b);
   }
   rwDrawMap($("map-canvas"));
+  const ll = $("map-lessons");
+  if (ll) {
+    ll.textContent = "";
+    k2RenderLessonList(ll, RW_K2, lkStationLink);
+    const notes = k2FieldNotes("redwood", RW_K2);
+    const p = document.createElement("p"); p.className = "note";
+    p.textContent = `Field Notes: ${notes.done} of ${notes.total} lessons on your passport${notes.earned ? " — badge earned" : ` (badge at ${notes.need})`}.`;
+    ll.appendChild(p);
+  }
   rwShow("scr-map");
 }
 

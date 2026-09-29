@@ -67,9 +67,14 @@
     body .back{display:inline-flex; align-items:center; min-height:44px}
     body:not(#wf) :is(.sub, .why, .cert, .gapnote, .summary, .foot p, .st-std, .proof li, .card p){font-size:16px}
     body .launch, body .lvl-foot a{display:inline-flex; align-items:center; min-height:44px}
+    /* Step links and run links are 44 px tap targets on a phone; their text and spacing stay as they are. */
+    body .task{min-height:44px}
+    body .runs a{display:inline-flex; align-items:center; justify-content:center; min-height:44px; min-width:44px}
   }
   header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
-  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  /* The shared bar (shared/controls.js #ctl-nav: Home, help, the account chip) is fixed at the top left; the bar's left
+     padding, measured from it at run time (--hm-nav-w, as on the homepage), keeps the brand line clear of it (console WAYFINDER-2). */
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter) 8px var(--hm-nav-w, 56px); max-width:1120px; margin:0 auto}
   .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
   .hero{padding:28px 0 4px}
@@ -187,7 +192,7 @@
     </ol>
   </nav>
   <section class="hero cn-band">
-    <div class="cn-bg" aria-hidden="true" style="background-image:url('../media/bayworld.jpg')"><video data-cn-slot="track-bayworld" muted loop playsinline preload="metadata" poster="../media/bayworld.jpg" aria-hidden="true" tabindex="-1"><source src="../media/bayworld.webm" type="video/webm"><source src="../media/bayworld.mp4" type="video/mp4"></video></div>
+    <div class="cn-bg" aria-hidden="true" style="background-image:url('../media/hero.jpg')"><video data-cn-slot="track-default" muted loop playsinline preload="metadata" poster="../media/hero.jpg" aria-hidden="true" tabindex="-1"><source src="../media/hero.webm" type="video/webm"><source src="../media/hero.mp4" type="video/mp4"></video></div>
     <div class="hero-art"><svg class="at-illo at-illo--aerospace" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect class="at-il-sky" width="160" height="100" rx="10"/><path class="at-il-ground" d="M0 88h160v2a10 10 0 0 1-10 10H10A10 10 0 0 1 0 90z"/><path class="at-il-fill" d="M20 60l60-8 24-22h10l-12 24 34-4 8-10h6l-4 16 4 16h-6l-8-10-34-4 12 24h-10l-24-22-60-8z" transform="translate(0 -6)"/><path class="at-il-thin" d="M10 72h50M18 80h34"/></svg></div>
     <p class="eyebrow">Training track · 8 stations · 20 levels · 1552 lessons</p>
     <h1>Airline Cabin and Flight Crew — AFA-CWA and ALPA</h1>
@@ -682,7 +687,7 @@
   </div>
 </footer>
 <script type="module">import { cnEnhanceAll } from "../shared/cinema.js"; cnEnhanceAll();</script>
-<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>
 <script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
 </html>

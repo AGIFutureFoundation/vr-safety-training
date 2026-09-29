@@ -26,9 +26,18 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const J = (v) => JSON.stringify(v);
 const slug = (t, n = 6) => t.toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9]+/g, " ").trim().split(" ").slice(0, n).join("-");
-const CERT = "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences";
+export const CERT = "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences";
 
-function gen(d) {
+// Three step orders (`order` in the JSON: "a" is the original). Every order
+// opens with the find, ends record → share → check-in, and keeps the hold
+// and the track apart, because the two interruptions arm on those two steps.
+export const ORDERS = {
+  a: ["find1", "select1", "seq", "hold", "turn", "gauge", "drag", "select2", "find2", "track", "record", "share", "checkin"],
+  b: ["find1", "select1", "seq", "hold", "select2", "find2", "turn", "gauge", "drag", "track", "record", "share", "checkin"],
+  c: ["find1", "seq", "select1", "turn", "gauge", "hold", "drag", "find2", "select2", "track", "record", "share", "checkin"],
+};
+
+export function gen(d) {
   const P = d.prefix;
   const k = (s) => `${P}-${s}`;
   const S = {};
@@ -62,14 +71,6 @@ function gen(d) {
     share: { id: S.share.id, kind: "select", target: k(S.share.key), doneLine: S.share.done, title: S.share.title, cue: S.share.cue, why: S.share.why },
     checkin: { id: "crew-check-in", kind: "select", target: k("checkin"), doneLine: "Checked in", title: d.checkin.title, cue: d.checkin.cue, why: d.checkin.why },
   };
-  // Three step orders (`order` in the JSON: "a" is the original). Every order
-  // opens with the find, ends record → share → check-in, and keeps the hold
-  // and the track apart, because the two interruptions arm on those two steps.
-  const ORDERS = {
-    a: ["find1", "select1", "seq", "hold", "turn", "gauge", "drag", "select2", "find2", "track", "record", "share", "checkin"],
-    b: ["find1", "select1", "seq", "hold", "select2", "find2", "turn", "gauge", "drag", "track", "record", "share", "checkin"],
-    c: ["find1", "seq", "select1", "turn", "gauge", "hold", "drag", "find2", "select2", "track", "record", "share", "checkin"],
-  };
   const order = ORDERS[d.order ?? "a"];
   if (!order) throw new Error(`${d.id}: order "${d.order}" is not one of ${Object.keys(ORDERS).join(", ")}`);
   const steps = order.map((key) => STEP[key]);
@@ -83,6 +84,8 @@ function gen(d) {
   const acc = d.accent.replace("#", "0x");
   const [f0, f1] = d.floor ?? ["#7a7d80", "#6c6f72"];
   const [w0, w1] = d.wall ?? ["#e8e2d4", "#dcd6c8"];
+  // the desk tops in the wall scene: one colour per programme (`desk` in the JSON, a CSS hex)
+  const deskColour = parseInt((d.desk ?? "#5a7fb8").replace("#", ""), 16);
 
   // the controls, laid out on the fixed ring shared by every K-12 station
   const BEADS = [[-1.22, 0.9, -0.27], [-1.42, 1.18, -0.62], [-1.03, 1.46, -0.71], [-1.08, 0.9, -1.11], [-0.68, 1.18, -1.05], [-0.58, 1.46, -1.44], [-0.24, 0.9, -1.23], [0, 1.18, -1.55], [0.24, 1.46, -1.23], [0.58, 0.9, -1.44], [0.68, 1.18, -1.05], [1.08, 1.46, -1.11], [1.03, 0.9, -0.71], [1.42, 1.18, -0.62], [1.22, 1.46, -0.27]];
@@ -117,7 +120,7 @@ function gen(d) {
     for (let i = 0; i < 4; i++) {
       const side = i < 2 ? -1 : 1, k = i % 2;
       const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5930936, { rough: 0.6 });
+      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, ${deskColour}, { rough: 0.6 });
       for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
       box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
       const stool = group(desk, 0, 0, 0.55);
@@ -455,7 +458,10 @@ ${hzLines}
 `;
 }
 
-for (const f of process.argv.slice(2)) {
+export const SCENE_NAMES = ["wall", "bench", "deck", "stage", "lab"];
+
+// Run as a script; the extractor imports `gen` and runs nothing.
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) for (const f of process.argv.slice(2)) {
   const d = JSON.parse(readFileSync(f, "utf8"));
   const out = join(ROOT, "WebXR/smartcity/js/sims", `${d.id}.js`);
   writeFileSync(out, gen(d));

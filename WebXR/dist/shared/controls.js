@@ -92,6 +92,13 @@ const ctlCss = `
   .home-chip{font-size:14px !important}
   :where(button,a.btn,.btn,select,input,label){font-size:max(14px,1em)}
 }
+/* On a phone every chip in the shared bar of a document page (one with a <main> element: the homepage, the track pages,
+   the Treasure Map) is a 44 px tap target (WCAG 2.5.8); the desktop keeps the 32 px pills. The worlds keep the 32 px bar:
+   their HUD panels sit just under it (check_mobile holds that no fixed panel overlaps it). */
+@media (max-width:700px){
+  #ctl-nav.ctl-doc > *, #ctl-nav.ctl-doc #gt-account, #ctl-nav.ctl-doc #tr-lang-btn{min-height:44px;min-width:44px;display:inline-flex;align-items:center}
+  #ctl-nav.ctl-doc #ctl-help-btn{width:44px;min-width:44px;height:44px;justify-content:center}
+}
 `;
 
 function ctlInjectCss() {
@@ -301,6 +308,8 @@ export function ctlMount(opts = {}) {
     nav.appendChild(btn);
     body.prepend(nav);
   }
+  // A document page (a real <main> element, not a game's menu screen marked role="main") takes the 44 px phone chips.
+  nav.classList.toggle("ctl-doc", !!document.querySelector("main"));
   // The account chip: one sign-in entry on every page (shared/account.js).
   if (o.account !== false) gtMountAccount(nav, { configUrl: o.authConfig ?? null });
   // The language chip (shared/i18n.js): after the account chip, so Tab still

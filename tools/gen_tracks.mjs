@@ -38,6 +38,8 @@ import { conditionLabel, conditionParams, parseCondition, LADDER_LEVELS, LESSON_
 import { CN_CSS, cnFile } from "../WebXR/shared/cinema.js";
 import { BAY_SITES } from "../WebXR/shared/bayworld-data.js";
 import { DEEP_SITES } from "../WebXR/shared/underwater-data.js";
+import { SM_SITES } from "../WebXR/shared/summit-data.js";
+import { RW_SITES } from "../WebXR/redwood/js/rw-data.js";
 import { wfHeadFor } from "./gen_seo.mjs";
 import { atIllustration } from "../WebXR/shared/illustrations.js";
 
@@ -52,13 +54,28 @@ const SHOTS = join(ROOT, "docs", "screenshots");
 
 /**
  * The world a programme is anchored in, for the header band's loop (console
- * CINEMA, docs/home-backgrounds.md): Bay World when one of its job boards
- * carries the programme, else the Deep when one of its sites does, else the
- * network's own hero loop. Read from the worlds' data, never written here.
+ * CINEMA, docs/home-backgrounds.md): the world whose job boards and dive
+ * sites carry the most of the programme's stations. Every programme is on a
+ * Bay World board (the hub), so a tie goes to the more specific world — the
+ * Deep, then Sierra Summit, then Redwood Reach — and a programme with no
+ * station in any world takes the network's own hero loop. Read from the
+ * worlds' data, never written here.
  */
-export function trackWorld(programmeId) {
-  const on = (sites) => sites.some((s) => (s.programmes ?? []).includes(programmeId));
-  return on(BAY_SITES) ? "bayworld" : on(DEEP_SITES) ? "underwater" : "default";
+export const TRACK_WORLDS = [["underwater", DEEP_SITES], ["summit", SM_SITES], ["redwood", RW_SITES], ["bayworld", BAY_SITES]];
+export function trackWorld(programmeId, stationIds = trackStations(programmeId)) {
+  const ids = new Set(stationIds);
+  let best = "default", n = 0;
+  for (const [world, sites] of TRACK_WORLDS) {
+    const hosted = new Set(sites.flatMap((s) => s.stations ?? []));
+    const k = [...ids].filter((id) => hosted.has(id)).length;
+    if (k > n) { best = world; n = k; }
+  }
+  return best;
+}
+let trackCatalog = null;
+function trackStations(programmeId) {
+  trackCatalog ??= JSON.parse(readFileSync(join(WEBXR, "smartcity", "catalog.json"), "utf8"));
+  return (trackCatalog.curricula.find((c) => c.id === programmeId)?.stations ?? []).map((s) => s.id);
 }
 
 /** The band's loop markup for a programme, or nothing when the slot or a file is missing. */
@@ -218,9 +235,14 @@ const CSS = `
     body .back{display:inline-flex; align-items:center; min-height:44px}
     body:not(#wf) :is(.sub, .why, .cert, .gapnote, .summary, .foot p, .st-std, .proof li, .card p){font-size:16px}
     body .launch, body .lvl-foot a{display:inline-flex; align-items:center; min-height:44px}
+    /* Step links and run links are 44 px tap targets on a phone; their text and spacing stay as they are. */
+    body .task{min-height:44px}
+    body .runs a{display:inline-flex; align-items:center; justify-content:center; min-height:44px; min-width:44px}
   }
   header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
-  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  /* The shared bar (shared/controls.js #ctl-nav: Home, help, the account chip) is fixed at the top left; the bar's left
+     padding, measured from it at run time (--hm-nav-w, as on the homepage), keeps the brand line clear of it (console WAYFINDER-2). */
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter) 8px var(--hm-nav-w, 56px); max-width:1120px; margin:0 auto}
   .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
   .hero{padding:28px 0 4px}
@@ -495,7 +517,7 @@ ${stdRows}
   </div>
 </footer>
 <script type="module">import { cnEnhanceAll } from "../shared/cinema.js"; cnEnhanceAll();</script>
-<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } }); { const hmNav = document.getElementById("ctl-nav"); const hmFit = () => document.documentElement.style.setProperty("--hm-nav-w", (hmNav ? Math.ceil(hmNav.getBoundingClientRect().right) + 12 : 56) + "px"); hmFit(); if (hmNav && window.ResizeObserver) new ResizeObserver(hmFit).observe(hmNav); }</script>
 <script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>
 </html>

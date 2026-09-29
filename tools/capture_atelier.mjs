@@ -29,7 +29,15 @@ export const AT_SHOTS = [
   { id: "track", page: "tracks/electrical-first-period.html", start: [], settle: 1200 },
   { id: "atlas", page: "atlas.html", start: [], settle: 2500 },
   { id: "instructor", page: "instructor-console.html", start: [], settle: 1500 },
+  // ATELIER-2: the frontier worlds' start screens, the Treasure Map, the privacy page and the Cohorts tab.
+  { id: "summit", page: "summit.html", start: [], settle: 2500 },
+  { id: "redwood", page: "redwood.html", start: [], settle: 2500 },
+  { id: "treasures", page: "treasures.html", start: [], settle: 1200 },
+  { id: "privacy", page: "privacy.html", start: [], settle: 1000 },
+  { id: "cohorts", page: "instructor-console.html", start: ["#tab-cohort"], settle: 1200 },
 ];
+// ATELIER_SHOTS=summit,redwood limits a run to those ids.
+const AT_ONLY = (process.env.ATELIER_SHOTS || "").split(",").map((s) => s.trim()).filter(Boolean);
 const SIZES = [{ w: 1440, h: 900 }, { w: 390, h: 844 }];
 
 const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css",
@@ -58,6 +66,7 @@ const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.j
 const REACT = Object.fromEntries(["react.production.min.js", "react-dom.production.min.js"].map((f) => [f, readFileSync(join(WEBXR, "vendor/react/dist", f), "utf8")]));
 mkdirSync(OUT, { recursive: true });
 for (const shot of AT_SHOTS) {
+  if (AT_ONLY.length && !AT_ONLY.includes(shot.id)) continue;
   for (const size of SIZES) {
     const phone = size.w < 600;
     const context = await browser.newContext({ viewport: { width: size.w, height: size.h }, hasTouch: phone, isMobile: phone, deviceScaleFactor: 1 });

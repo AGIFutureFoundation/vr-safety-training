@@ -27,25 +27,28 @@
 <!-- /wf-seo -->
 <link rel="stylesheet" href="./shared/design.css">
 <style>
-  :root { --bg: #0b1520; --panel: #101e2b; --line: #2c4458; --ink: #eef5fa; --muted: #b6c8d6; --accent: #4fd1ff; --ok: #6fdc9a; }
+  /* The design system's roles (shared/design.css), with fallbacks so the page paints without it. */
+  :root { --bg: var(--at-bg, #0b1520); --panel: var(--at-surface, #101e2b); --line: var(--at-border, #2c4458); --ink: var(--at-on-surface, #eef5fa); --muted: var(--at-on-surface-muted, #b6c8d6); --accent: var(--at-primary, #4fd1ff); --ok: var(--at-success, #6fdc9a); --cond: var(--at-font-display, system-ui, sans-serif); }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--at-font-body, system-ui, -apple-system, "Segoe UI", sans-serif); }
+  :focus-visible { outline: 3px solid var(--at-focus, var(--accent)); outline-offset: 2px; }
   main { max-width: 900px; margin: 0 auto; padding: 72px 16px 96px; }
-  h1 { margin: 0 0 6px; font-size: clamp(26px, 5vw, 36px); }
-  h2 { margin: 30px 0 10px; font-size: 21px; color: var(--accent); }
+  h1 { margin: 0 0 6px; font: 700 clamp(30px, 5vw, 44px)/1.1 var(--cond); text-transform: uppercase; letter-spacing: .01em; }
+  h2 { margin: 30px 0 10px; font: 700 23px/1.2 var(--cond); text-transform: uppercase; letter-spacing: .03em; color: var(--accent); }
   p.lead { margin: 0 0 18px; color: var(--muted); max-width: 66ch; }
   table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line); }
-  th { color: var(--muted); font-weight: 600; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
-  code { font: 13px ui-monospace, Menlo, Consolas, monospace; color: #cfe6f5; background: #0a121b; padding: 1px 5px; border-radius: 5px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
-  .card h3 { margin: 0 0 6px; font-size: 17px; }
+  th { color: var(--muted); font: 600 12.5px/1.3 var(--cond); letter-spacing: .08em; text-transform: uppercase; }
+  code { font: 13px var(--at-font-mono, ui-monospace, Menlo, Consolas, monospace); color: var(--ink); background: var(--at-raised, #0a121b); padding: 1px 5px; border-radius: var(--at-r-xs, 5px); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--at-r-lg, 12px); padding: 14px 16px; margin: 10px 0; box-shadow: var(--at-elev-1, none); }
+  .card h3 { margin: 0 0 6px; font: 700 19px/1.2 var(--cond); }
   ul { padding-left: 20px; }
   li { margin: 4px 0; }
   a { color: var(--accent); }
   .note { margin-top: 28px; font-size: 14px; color: var(--muted); }
   .wrap { overflow: auto; }
-  #pv-account { min-height: 36px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+  #pv-account { display: inline-flex; align-items: center; min-height: 44px; border-radius: var(--at-r-pill, 999px); border: 1px solid var(--at-border-strong, #6a8296); background: var(--at-raised, #1b2a38); color: var(--ink); font: 600 15px/1 var(--cond); letter-spacing: .04em; text-transform: uppercase; padding: 0 18px; cursor: pointer; }
+  #pv-account:hover { background: var(--at-raised-2, #24364a); border-color: var(--accent); }
 </style>
 </head>
 <body>

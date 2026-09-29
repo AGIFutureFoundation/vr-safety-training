@@ -1,0 +1,263 @@
+{
+  "id": "k12-circuits-at-the-electrical-bench",
+  "index": "808",
+  "prefix": "kce",
+  "accent": "#4fb88a",
+  "floor": [
+    "#6d7470",
+    "#616864"
+  ],
+  "wall": [
+    "#dfe6e2",
+    "#cfd8d4"
+  ],
+  "trade": "Science class at the school's electrical bench — learner and teacher",
+  "header": "Upper-primary and lower-secondary science with safe low-voltage kits only: a complete circuit, a switch, series and parallel, and why mains electricity is never part of a classroom lesson.",
+  "name": "Circuits at the Electrical Bench",
+  "tagline": "A circuit needs a complete loop — and in class, it is always a low-voltage kit",
+  "badge": {
+    "id": "full-loop",
+    "name": "Full Loop",
+    "note": "A circuit built, tested, explained and packed away safely"
+  },
+  "board": {
+    "name": "Circuit Board",
+    "currency": "SPARKS",
+    "ranks": [
+      "Builder",
+      "Connector",
+      "Tester",
+      "Explainer",
+      "Designer"
+    ]
+  },
+  "hazards": [
+    {
+      "id": "plug-into-the-wall",
+      "label": "Try the bulb in the wall socket instead?",
+      "face": "WALL\nSOCKET",
+      "text": "You reached for the wall socket. Mains electricity can kill, and it is never part of a classroom circuits lesson; everything here runs from the low-voltage kit the teacher has checked. Knowing the difference between a safe kit and the mains is the most important thing this lesson teaches."
+    },
+    {
+      "id": "short-the-battery",
+      "label": "Join the battery's ends with a bare wire?",
+      "face": "WIRE ACROSS\nTHE ENDS",
+      "text": "You joined the battery's two ends with a bare wire. That is a short circuit: with nothing in the loop to use the energy, the wire and battery can get hot quickly. Every circuit has a component in the loop, and a warm battery is disconnected and reported."
+    },
+    {
+      "id": "current-gets-used-up",
+      "label": "Say the first bulb uses up the current?",
+      "face": "CURRENT\nUSED UP",
+      "text": "You said the first bulb uses up the current before the second. The current is the same all the way round a simple loop; what the bulbs use is energy, not the current itself. Getting this right is what makes series and parallel make sense."
+    },
+    {
+      "id": "pack-away-connected",
+      "label": "Pack the kit away with the battery still connected?",
+      "face": "PACK IT\nLIVE",
+      "text": "You packed the kit away with the battery still connected. A connected battery in a box can short against other parts and heat up; disconnecting first is the last step of every circuits lesson."
+    }
+  ],
+  "find1": {
+    "title": "Find the parts of a circuit",
+    "cue": "Mark the three parts every working circuit on the bench needs.",
+    "why": "Every circuit needs something to push the current, a path for it to flow round and something that uses the energy. On this bench that is the battery pack, the connecting wires and the bulb. Knowing the parts is what lets you find why a circuit does not work.",
+    "items": [
+      [
+        "battery",
+        "the battery pack",
+        "The push that drives the current round the loop."
+      ],
+      [
+        "wires",
+        "the connecting wires",
+        "The path. It must be a complete loop."
+      ],
+      [
+        "bulb",
+        "the bulb",
+        "Where the energy is used and you can see it."
+      ]
+    ],
+    "decoy": [
+      "kit-label",
+      "the kit box label",
+      "The box tells you what kit this is, not how the circuit works. Look at the parts."
+    ]
+  },
+  "select1": {
+    "title": "Confirm you are using the checked kit",
+    "cue": "Confirm the teacher has checked the kit and there is no mains lead on the bench.",
+    "why": "Classroom circuits use low-voltage kits that the teacher has checked because mains electricity is dangerous. Confirming the kit, and that nothing on the bench plugs into the wall, is the first step every time and the habit that keeps a curious learner safe at home too.",
+    "key": "kit-card",
+    "label": "Low-voltage kit only",
+    "face": "KIT ONLY"
+  },
+  "seq": {
+    "title": "Build the circuit in order",
+    "cue": "Battery out, wires to the bulb, then battery in, then test.",
+    "why": "Building with the battery out means nothing can short while you work. Connecting the wires to the bulb and checking the loop before the battery goes in means the first thing to happen is the bulb lighting, not a surprise. It is the same order an electrician works in.",
+    "oon": "Out of order. Keep the battery out while you wire, so nothing can short.",
+    "items": [
+      [
+        "ord-out",
+        "battery out"
+      ],
+      [
+        "ord-wire",
+        "wire the loop"
+      ],
+      [
+        "ord-in",
+        "battery in"
+      ],
+      [
+        "ord-test",
+        "test"
+      ]
+    ]
+  },
+  "hold": {
+    "title": "Trace the loop from one end to the other",
+    "cue": "Follow the path with your finger from the battery, round, and back.",
+    "why": "Tracing the loop by hand finds a loose clip or a gap faster than guessing. If your finger cannot get back to where it started along wires and parts, the current cannot either, and the bulb will stay dark. Finding the break by following the loop, part by part, is the same fault-finding an electrician does.",
+    "brk": "You lost the path. Start again at the battery and follow it all the way round.",
+    "key": "trace-loop",
+    "label": "Tracing the loop with a finger"
+  },
+  "turn": {
+    "title": "Close the switch",
+    "cue": "Turn the switch to close the gap in the loop.",
+    "why": "A switch is simply a controlled gap in the loop. Closing it completes the circuit and the bulb lights; opening it breaks the loop and the bulb goes out. Seeing that shows why a complete loop is the one rule of every circuit. Every circuit, from a torch to a building's wiring, depends on that unbroken path.",
+    "key": "switch-dial",
+    "label": "Switch",
+    "dial": "ON"
+  },
+  "gauge": {
+    "title": "Judge the brightness with two bulbs in series",
+    "cue": "Commit when you judge how bright the two bulbs in series are compared with one.",
+    "why": "Adding a second bulb in series shares the battery's push between them, so each glows more dimly. Judging the change carefully, rather than guessing, is observation, and it sets up the comparison with parallel next. Noticing what happens to every bulb, not just one, is what makes the comparison fair.",
+    "key": "bright-meter",
+    "label": "Bulb brightness",
+    "meter": "BRIGHT",
+    "miss": "Outside the band. Look again and compare with the single bulb before you commit."
+  },
+  "drag": {
+    "title": "Move the second bulb onto its own branch",
+    "cue": "Drag the second bulb onto a separate branch, in parallel.",
+    "why": "In parallel, each bulb has its own branch back to the battery, so each gets the full push and glows as brightly as one alone. Moving the bulb and seeing the change is the clearest way to learn the difference between series and parallel.",
+    "key": "bulb-token",
+    "label": "Second bulb",
+    "spot": "parallel-spot",
+    "spotLabel": "On its own branch",
+    "miss": "Not in place yet. Take it all the way to on its own branch."
+  },
+  "select2": {
+    "title": "Say what to do if a battery feels warm",
+    "cue": "Say what you do if a battery or wire feels warm.",
+    "why": "A warm battery or wire is a sign that something is wrong, often a short. Disconnecting it and telling the teacher at once is the rule, and knowing it before anything warms up is what lets you act quickly. A warm wire or battery is a sign to disconnect and tell the teacher, never to carry on.",
+    "key": "warm-card",
+    "label": "A warm battery is reported",
+    "face": "WARM?\nDISCONNECT"
+  },
+  "find2": {
+    "id": "spot-the-faults-in-a-classmate",
+    "title": "Spot the faults in a classmate's circuit",
+    "cue": "Look at the classmate's circuit and mark each fault.",
+    "why": "Fault-finding is what makes circuits make sense. The usual faults are a gap in the loop, a wire straight across the battery and a bulb not seated in its holder. Finding them in someone else's circuit, with the battery out, trains the same method you will use on your own.",
+    "items": [
+      [
+        "fault-gap",
+        "a gap in the loop",
+        "No complete loop, no current. Close it."
+      ],
+      [
+        "fault-short",
+        "a wire straight across the battery",
+        "A short circuit. Take it out before the battery goes in."
+      ],
+      [
+        "fault-loose-bulb",
+        "a bulb not seated",
+        "A loose bulb is a gap. Seat it."
+      ]
+    ],
+    "decoy": [
+      "fault-tidy",
+      "tidy, colour-matched wires",
+      "Tidy wiring makes faults easy to find. Keep it."
+    ]
+  },
+  "track": {
+    "title": "Keep observations steady as you swap branches",
+    "cue": "Hold your attention in band as you switch between series and parallel and note each change.",
+    "why": "Swapping between arrangements quickly makes it easy to mix up which result went with which. Steady, careful observation and noting each change as it happens keeps the comparison clean. Changing one thing at a time means you know which change made the difference.",
+    "brk": "Your notes and the circuit drifted apart. Check which arrangement is on the bench and note it again.",
+    "key": "track-meter",
+    "label": "Careful observation",
+    "meter": "STEADY"
+  },
+  "record": {
+    "title": "Record the circuits and what you saw",
+    "cue": "Draw each circuit and note the brightness in series and in parallel.",
+    "why": "A drawn circuit with its observation beside it is how electricians and scientists record what they built. It means anyone can rebuild it and check your observation for themselves. That is exactly how electricians leave a drawing of a circuit for the next person to work on it.",
+    "key": "lab-log",
+    "label": "Lab record",
+    "done": "Circuits recorded"
+  },
+  "share": {
+    "title": "Disconnect and pack the kit away",
+    "cue": "Battery out first, then pack the parts in their places.",
+    "why": "Disconnecting the battery before packing stops anything shorting in the box, and putting parts in their places means the next class finds a working kit. Finishing safely is part of the lesson, not an afterthought. Disconnecting the battery first and checking the kit is complete means it is safe and ready for the next class.",
+    "key": "share-board",
+    "label": "Pack away safely",
+    "done": "Kit disconnected and packed"
+  },
+  "checkin": {
+    "title": "Check in at the end of the lesson",
+    "cue": "How did the circuits lesson go? What surprised you, and what would you test next?",
+    "why": "Ending with a short check-in lets the teacher hear what made sense and what did not, and gives each learner a moment to name one thing they would test next. Nobody is marked here, and anyone who found the lesson hard can talk to the teacher or a trusted adult afterwards.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    {
+      "id": "a-wire-gets-hot",
+      "kind": "Hot wire",
+      "key": "disconnect-and-tell",
+      "label": "Disconnect the battery and tell the teacher",
+      "alert": "A classmate says a wire on their circuit is getting hot.",
+      "cue": "Take the battery out straight away, do not touch the wire, and tell the teacher.",
+      "why": "A hot wire usually means a short circuit. Removing the battery stops the current at once, and leaving the wire alone until it cools and the teacher has looked is the safe response.",
+      "miss": "Nobody took the battery out, and the wire's covering softened before the teacher saw it.",
+      "wrong": "That does not stop the current. Take the battery out. Choose the response that deals with it now.",
+      "done": "Battery out, teacher told. The short was found and taken out."
+    },
+    {
+      "id": "the-technician-asks-about-the-mains",
+      "kind": "Technician question",
+      "key": "explain-mains",
+      "label": "Explain why mains is never used",
+      "alert": "The technician asks why the lesson never uses the wall socket.",
+      "cue": "Explain that mains can kill and that class circuits use checked low-voltage kits only.",
+      "why": "Being able to say why mains is off limits, in your own words, is the understanding that keeps you safe outside the classroom too. The technician asks because that answer matters more than any circuit on the bench.",
+      "miss": "You said it would just make the bulb brighter, missing why it is dangerous. Next time, stop the lesson and deal with it first.",
+      "wrong": "That does not explain the danger. Say why mains is never used.",
+      "done": "Explained: mains can kill, kits are checked and low voltage."
+    }
+  ],
+  "crew": [
+    "Science teacher",
+    "Classmate",
+    "Technician",
+    "Teaching assistant"
+  ],
+  "guide": {
+    "start": "A complete loop. Low voltage only.",
+    "after": "No complete loop, no current.",
+    "hazard": "Stop. Check the loop and the kit before you go on."
+  },
+  "lateRecord": "The lab record is written once both arrangements are tested — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "lab",
+  "order": "b",
+  "desk": "#4f9a7a"
+}

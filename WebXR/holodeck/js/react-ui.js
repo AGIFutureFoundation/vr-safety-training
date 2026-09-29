@@ -94,7 +94,7 @@ export function mountUI(store, actions) {
     const intro = useSlice("intro");
     if (!intro.visible) return null;
     return h("div", { className: "overlay", id: "intro", role: "dialog", "aria-modal": "true", "aria-label": "Holodeck prompt" },
-      h("div", { className: "card" },
+      h("div", { className: "card", role: "main" },
         h("div", { className: "brandline" }, "Holodeck ~ Powered by AGI Corp & Visko"),
         h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
         h("h1", null, "Holodeck"),

@@ -338,6 +338,91 @@ for (const [what, re] of [["map pin", /qmDrawPin\(/], ["board rows", /qmBoardRow
 }
 const ui = readFileSync(join(WEBXR, "shared/skill-gates-ui.js"), "utf8");
 if (!/Skills to unlock/.test(ui)) fail("wiring", "the quest-log panel has no Skills to unlock section"); else ok();
+
+// ------------------------------------------------------------ the stage (mechanics in the world)
+// shared/side-game-stage.js draws a mechanic's board with meshes at the item's
+// place and runs the same steps the panel plays. A stub 3D library stands in:
+// any constructor yields an object with position, rotation, add and traverse.
+{
+  class QmStubObj {
+    constructor() { this.children = []; this.parent = null; this.userData = {}; this.position = { x: 0, y: 0, z: 0, set() {} }; this.rotation = { x: 0, y: 0, z: 0, set() {} }; this.scale = { set() {} }; }
+    add(...c) { for (const o of c) { o.parent = this; this.children.push(o); } return this; }
+    remove(...c) { this.children = this.children.filter((o) => !c.includes(o)); return this; }
+    traverse(f) { f(this); for (const c of this.children) c.traverse?.(f); }
+    dispose() {}
+  }
+  const lib = new Proxy({}, { get: () => QmStubObj });
+  const ST = await imp("shared/side-game-stage.js");
+  const src = readFileSync(join(WEBXR, "shared/side-game-stage.js"), "utf8");
+  if (/THREE\./.test(src)) fail("stage", "side-game-stage.js spells the 3D library's name (the bundler would load it for every page)"); else ok();
+  for (const key of ["lift-sequencer", "line-follow", "traffic-zone"]) {
+    if (typeof ST.QM_STAGE_BUILDERS[key] !== "function") { fail("stage", `no 3D builder for ${key}`); continue; }
+    ok();
+    const it = items.find((x) => MX.qmMechanicFor(x) === key);
+    if (!it) { fail("stage", `no gated item plays ${key}`); continue; }
+    const steps = MX.qmMechanicSteps(it);
+    const counts = steps.map((s, i) => { const g = ST.qmStageBuild(lib, s, i); let n = 0; g.traverse(() => n++); return n; });
+    if (counts.some((n) => n < 6)) fail("stage", `${it.id}: a ${key} board has fewer than six meshes (${counts.join(", ")})`); else ok();
+    if (new Set(counts).size === 1 && key === "traffic-zone") fail("stage", `${it.id}: the traffic zone board does not change between steps`); else ok();
+  }
+  // run parity: the stage plays exactly the panel's steps and scores the same
+  const games = items.filter((it) => it.practices);
+  for (const it of [items.find((x) => MX.qmMechanicFor(x) === "lift-sequencer"), games.find((x) => MX.qmMechanicFor(x) === "line-follow"), games.find((x) => MX.qmMechanicFor(x) === "traffic-zone")].filter(Boolean)) {
+    const panel = MX.qmPlaySteps(it, SG.qmRounds(it));
+    const run = ST.qmStageRun(it);
+    if (run.steps.length !== panel.length || JSON.stringify(run.steps) !== JSON.stringify(panel)) fail("stage", `${it.id}: the stage plays different steps from the panel`); else ok();
+    while (!run.finished) run.choose(run.step.options.findIndex((o) => o.safe));
+    globalThis.localStorage.clear(); G.qmInvalidate();
+    const r = run.result();
+    if (r.score !== panel.length || r.of !== panel.length || !G.qmFinishGame(it, r).clean) fail("stage", `${it.id}: an all-safe stage run is not clean (${r.score} of ${r.of})`); else ok();
+    const run2 = ST.qmStageRun(it);
+    let k = 0; while (!run2.finished) { run2.choose(k++ === 0 ? run2.step.options.findIndex((o) => !o.safe) : run2.step.options.findIndex((o) => o.safe)); }
+    globalThis.localStorage.clear(); G.qmInvalidate();
+    if (G.qmFinishGame(it, run2.result()).clean) fail("stage", `${it.id}: a stage run with one unsafe move counted as clean`); else ok();
+  }
+  for (const w of ["bayworld", "underwater", "fairway"]) {
+    const app = readFileSync(join(WEBXR, w, "js/app.js"), "utf8");
+    if (!/qmStageMount\(/.test(app)) fail("stage", `${w} does not mount the stage in the world`); else ok();
+    const block = bundle.slice(bundle.indexOf(`"${w}": {`), bundle.indexOf(`WEBXR / "${w}/js/app.js"`));
+    if (!block.includes('"side-game-stage.js"')) fail("bundle", `the ${w} bundle lacks side-game-stage.js`); else ok();
+  }
+  // cosmetics on the avatar: every reward id lands in a slot, dressing adds one decal per id, the two avatars are dressed
+  const CO = await imp("shared/side-game-cosmetics.js");
+  if (/THREE\./.test(readFileSync(join(WEBXR, "shared/side-game-cosmetics.js"), "utf8"))) fail("cosmetics", "side-game-cosmetics.js spells the 3D library's name"); else ok();
+  const slots = new Map();
+  for (const it of items) {
+    const c = it.reward?.cosmetic; if (!c) continue;
+    const s = CO.qmCosmeticSlot(c);
+    if (!["head", "shoulder", "wrist", "fin"].includes(s)) fail("cosmetics", `${it.id}: "${c}" has no slot`); else ok();
+    slots.set(s, (slots.get(s) ?? 0) + 1);
+  }
+  if (slots.size < 3) fail("cosmetics", `the cosmetics use ${slots.size} slots (need three or more)`); else ok();
+  const fig = new QmStubObj();
+  const ids = items.map((it) => it.reward?.cosmetic).filter(Boolean).slice(0, 5);
+  const n = CO.qmDressFigure(lib, fig, ids, CO.QM_FIGURE_ANCHORS.person);
+  const decals = fig.children[0]?.children?.length ?? 0;
+  if (n !== ids.length || decals !== ids.length) fail("cosmetics", `dressing ${ids.length} ids added ${decals} decals`); else ok();
+  CO.qmDressFigure(lib, fig, ids.slice(0, 2), CO.QM_FIGURE_ANCHORS.diver);
+  if (fig.children.length !== 1 || fig.children[0].children.length !== 2) fail("cosmetics", "dressing again did not replace the earlier decals"); else ok();
+  for (const w of ["bayworld", "underwater"]) {
+    const app = readFileSync(join(WEBXR, w, "js/app.js"), "utf8");
+    if (!/qmDressFromLedger\(/.test(app)) fail("cosmetics", `${w} does not dress its avatar from the ledger`); else ok();
+    const block = bundle.slice(bundle.indexOf(`"${w}": {`), bundle.indexOf(`WEBXR / "${w}/js/app.js"`));
+    if (!block.includes('"side-game-cosmetics.js"')) fail("bundle", `the ${w} bundle lacks side-game-cosmetics.js`); else ok();
+  }
+  console.log(`  cosmetics: ${[...slots.entries()].map(([k, v]) => `${k} ${v}`).join(", ")}`);
+  // K-12 gates: K2_GATED discovered with five or more items, each opened by a real K-12 station at a real field lesson
+  const k2 = items.filter((it) => /K2_GATED/.test(it.source));
+  if (k2.length < 5) fail("k12", `${k2.length} K-12 gated items discovered (need 5+)`); else ok();
+  const { K2_FIELD_LESSONS } = await imp("shared/field-lessons.js");
+  for (const it of k2) {
+    const l = K2_FIELD_LESSONS.find((x) => x.id === it.lesson);
+    if (!l) fail("k12", `${it.id}: no field lesson ${it.lesson}`); else if (!(it.gate.k12 ?? []).includes(l.station)) fail("k12", `${it.id}: the gate does not name the lesson's station`); else ok();
+    if (!Array.isArray(it.anchor) || !sixWorlds.includes(it.world)) fail("k12", `${it.id}: no anchor or world`); else ok();
+  }
+  for (const w of ["bayworld", "underwater"]) { if (!/qmK12GatedFor\(/.test(readFileSync(join(WEBXR, w, "js/app.js"), "utf8"))) fail("k12", `${w} does not list the K-12 courses`); else ok(); }
+  if (items.length < 70) fail("count", `${items.length} gated items (the round-three bar is 70+)`); else ok();
+}
 if (!existsSync(join(ROOT, "docs/skill-gates.md"))) fail("docs", "docs/skill-gates.md is missing"); else ok();
 
 const worlds = Object.entries(byWorld).map(([w, n]) => `${w} ${n}`).join(", ");

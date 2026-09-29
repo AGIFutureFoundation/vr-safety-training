@@ -2,9 +2,10 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { ctlMount } from "../../shared/controls.js";
 // Skill-gated side games (docs/skill-gates.md): the "Side games" chip, quest-log panel and lock toast.
 import { qmMountSideGames, qmBoardRows, qmLockToast } from "../../shared/skill-gates-ui.js";
-import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
+import { qmIsOpen, qmSnapshot, qmLedger } from "../../shared/skill-gates.js";
 import { QM_WORLD_GAMES } from "../../shared/side-games-data.js";
 import { cnMount } from "../../shared/cinema.js";
+import { qmStageMount } from "../../shared/side-game-stage.js";
 import { gdMount } from "../../shared/guide.js";
 // Hidden treasures (shared/treasures.js, docs/treasures.md).
 import { tzWatchWorld } from "../../shared/treasures.js";
@@ -176,7 +177,17 @@ function fwQmApproach(x, z) {
   if (fwQmNear === g.id) return;
   fwQmNear = g.id;
   if (!qmIsOpen(g.gate, qmSnapshot())) qmLockToast(g, { from: "fairway", page: ppHerePage(), link: { runner: FW_RUNNER } });
-  else toast(`${g.title} is open here — see Side games.`, 4200);
+  else if (qmLedger().done[g.id]?.clean) toast(`${g.title} — done. ${g.reward?.cosmetic ?? "Reward"} earned.`, 4200);
+  else fwMountStage(g, x, z);
+}
+/** An open side game plays in the world: the board is built on the pin — the traffic zone's signs, cone taper and spotter on the cart path — and the moves sit in the HUD strip; the score is the panel's score (shared/side-game-stage.js). */
+function fwMountStage(g, x, z) {
+  if (!app.scene) return;
+  const heading = Math.atan2(x - g.pin[0], z - g.pin[1]);
+  qmStageMount({
+    lib: THREE, root: app.scene, item: g, at: [g.pin[0], fairwayHeight(g.pin[0], g.pin[1]), g.pin[1]], heading,
+    onDone: (item, res) => { toast(res.clean ? `${item.title}: every call safe — ${res.cosmetic} earned.` : `${item.title}: a practice run. Play the hole again for the reward.`, 4200); fwRenderGroundsBoard(); },
+  });
 }
 function fwCheckGroundsReturns() {
   const paid = ppCompleteReturns("fairway", [FW_GROUNDS], {
@@ -189,6 +200,8 @@ fwCheckGroundsReturns();
 window.addEventListener("pageshow", (e) => { if (e.persisted) fwCheckGroundsReturns(); });
 
 $("menu-play").addEventListener("click", fwStartRound);
+// The browser checkers' hook, as Bay World and the Deep expose theirs.
+window.__fairwayTest = { app, startRound: fwStartRound, approach: fwQmApproach, holes: FAIRWAY_HOLES };
 $("menu-facility").addEventListener("click", () => { fwRenderFacilityMenu(); fwShow("scr-facility"); });
 $("menu-scores").addEventListener("click", () => { fwRenderScoresScreen(); fwShow("scr-scores"); });
 $("facility-back").addEventListener("click", () => fwShow("scr-menu"));

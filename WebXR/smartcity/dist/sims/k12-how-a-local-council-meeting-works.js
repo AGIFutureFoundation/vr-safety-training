@@ -90,14 +90,6 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       why: "A public meeting runs on three things residents can use: the agenda that lists what will be discussed, the sign-up sheet for public comment and the minutes that record what was decided. Knowing where each is lets anyone take part, not just people who have been before. The council here is generic, not any real one."
     },
     {
-      id: "read-the-agenda-before-the-meeting",
-      kind: "select",
-      target: "kcm-agenda-card",
-      title: "Read the agenda before the meeting",
-      cue: "Find the item you care about on the agenda and when it comes up.",
-      why: "Reading the agenda tells you whether the issue you care about is being discussed and roughly when. Public comment on the item under discussion is heard at the right moment; turning up without reading it means missing your chance."
-    },
-    {
       id: "put-the-public-comment-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       outOfOrderNote: "Out of order. Say who you are and which item before your point, so people know what you are talking about."
     },
     {
-      id: "listen-to-the-discussion-before-you",
-      kind: "hold",
-      target: "kcm-listen-debate",
-      seconds: 6,
-      title: "Listen to the discussion before you speak",
-      cue: "Hold still and listen to the council's discussion of the item.",
-      why: "Listening to the discussion first tells you what has already been said and what the council is unsure about. A comment that answers a real question in the room is far more useful than one that repeats what everyone has heard.",
-      holdBreakNote: "You stopped listening and started rehearsing. Listen to what is actually being said."
+      id: "read-the-agenda-before-the-meeting",
+      kind: "select",
+      target: "kcm-agenda-card",
+      title: "Read the agenda before the meeting",
+      cue: "Find the item you care about on the agenda and when it comes up.",
+      why: "Reading the agenda tells you whether the issue you care about is being discussed and roughly when. Public comment on the item under discussion is heard at the right moment; turning up without reading it means missing your chance."
     },
     {
       id: "turn-from-observer-to-speaker",
@@ -158,6 +148,16 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       why: "Public comment is usually short, which tempts people to rush. A clear, steady pace makes sure the council and the clerk actually catch your point; a rushed one loses it. Practising the comment aloud beforehand is the easiest way to find the pace that fits the time allowed."
     },
     {
+      id: "listen-to-the-discussion-before-you",
+      kind: "hold",
+      target: "kcm-listen-debate",
+      seconds: 6,
+      title: "Listen to the discussion before you speak",
+      cue: "Hold still and listen to the council's discussion of the item.",
+      why: "Listening to the discussion first tells you what has already been said and what the council is unsure about. A comment that answers a real question in the room is far more useful than one that repeats what everyone has heard.",
+      holdBreakNote: "You stopped listening and started rehearsing. Listen to what is actually being said."
+    },
+    {
       id: "hand-your-written-comment-to-the",
       kind: "drag",
       target: "kcm-comment-token",
@@ -169,14 +169,6 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       title: "Hand your written comment to the clerk",
       cue: "Drag your written comment to the clerk so it can be entered in the record.",
       why: "Handing a written version to the clerk means your point is recorded accurately, even if the minutes summarise the spoken comments. It is a simple step that makes a public comment last beyond the meeting. A written copy also helps the clerk record your point accurately in the minutes."
-    },
-    {
-      id: "keep-it-about-the-issue",
-      kind: "select",
-      target: "kcm-respect-card",
-      title: "Keep it about the issue",
-      cue: "Make your point about the issue and what should be done, not about a person.",
-      why: "Comments about the issue are heard; comments about a person are resisted. Keeping to the issue and what you want done is both more respectful and more effective, and it is what most meetings' conduct rules ask for. Speaking to the chair keeps the exchange about the issue rather than about the people in the room."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -203,6 +195,14 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
       title: "Spot the problems in a classmate's comment",
       cue: "Look at the draft public comment and mark each problem.",
       why: "Public comments go wrong in predictable ways: no clear ask, a personal attack and a claim with no source. Spotting them in a draft is how you learn to write a comment that gets heard. The usual problems are the same every time: wandering off the item, running long and leaving out the ask."
+    },
+    {
+      id: "keep-it-about-the-issue",
+      kind: "select",
+      target: "kcm-respect-card",
+      title: "Keep it about the issue",
+      cue: "Make your point about the issue and what should be done, not about a person.",
+      why: "Comments about the issue are heard; comments about a person are resisted. Keeping to the issue and what you want done is both more respectful and more effective, and it is what most meetings' conduct rules ask for. Speaking to the chair keeps the exchange about the issue rather than about the people in the room."
     },
     {
       id: "stay-calm-while-others-disagree",
@@ -368,28 +368,19 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#e6dcc8", base2: "#d8ceba", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 10119738, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
+    // a hall's stage behind the station: risers, a curtain, footlights and rows of seats at the sides
+    void wallMat;
+    const stage = group(g, 0, 0, -4.4);
+    box(stage, 6.6, 0.5, 1.6, 0, 0.25, 0, 0x4a3a30, { rough: 0.7 });
+    box(stage, 6.8, 0.05, 1.7, 0, 0.52, 0, 0x6b4a2e, { rough: 0.6 });
+    box(stage, 6.6, 2.6, 0.1, 0, 1.85, -0.75, 0x7a2a2a, { rough: 0.95 });
+    for (let i = 0; i < 7; i++) box(stage, 0.12, 2.5, 0.06, -2.7 + i * 0.9, 1.85, -0.68, 0x8a3232, { rough: 0.95 });
+    for (let i = 0; i < 6; i++) ball(stage, 0.05, -2.5 + i * 1.0, 0.56, 0.8, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.2, rough: 0.4, seg: 8 });
+    for (const side of [-1, 1]) for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const seat = group(g, side * (2.9 + c * 0.55), 0, -3.2 + r * 0.7, side * 0.35);
+      box(seat, 0.45, 0.06, 0.45, 0, 0.45, 0, 0x2a5a8a, { rough: 0.8 });
+      box(seat, 0.45, 0.5, 0.06, 0, 0.72, -0.2, 0x2a5a8a, { rough: 0.8 });
+      for (const [lx, lz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) box(seat, 0.03, 0.42, 0.03, lx, 0.21, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
     }
 
     // ------------------------------------------------------------ controls

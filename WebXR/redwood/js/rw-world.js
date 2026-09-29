@@ -46,24 +46,29 @@ function rwMerge(parts) {
   return out;
 }
 
-/** The three tree kinds, one merged geometry each, unit scale (height ~1). */
+/**
+ * The three tree kinds, one merged geometry each, unit scale (height ~1).
+ * Trunks are open-ended (the base sits under the ground, the top inside the
+ * crown) and a cone whose base hides inside the cone below it has no cap:
+ * the same silhouette at 33/38/30 triangles instead of 52/48/40.
+ */
 function rwTreeGeometries() {
   return {
     // A coast redwood: a tall straight trunk and a narrow crown high up.
     redwood: rwMerge([
-      [new THREE.CylinderGeometry(0.018, 0.04, 0.62, 6), 0x7a3b25, 0.31],
-      [new THREE.ConeGeometry(0.09, 0.55, 7), 0x2c4a22, 0.7],
+      [new THREE.CylinderGeometry(0.018, 0.04, 0.62, 6, 1, true), 0x7a3b25, 0.31],
+      [new THREE.ConeGeometry(0.09, 0.55, 7, 1, true), 0x2c4a22, 0.7],
       [new THREE.ConeGeometry(0.11, 0.3, 7), 0x264420, 0.5],
     ]),
     // A fir-like conifer of the mixed forest.
     fir: rwMerge([
-      [new THREE.CylinderGeometry(0.02, 0.035, 0.3, 5), 0x5a3a24, 0.15],
+      [new THREE.CylinderGeometry(0.02, 0.035, 0.3, 5, 1, true), 0x5a3a24, 0.15],
       [new THREE.ConeGeometry(0.16, 0.5, 7), 0x33552a, 0.45],
       [new THREE.ConeGeometry(0.12, 0.35, 7), 0x3a5e2e, 0.72],
     ]),
     // A broadleaf: short trunk, round crown.
     oak: rwMerge([
-      [new THREE.CylinderGeometry(0.04, 0.06, 0.4, 5), 0x5a4630, 0.2],
+      [new THREE.CylinderGeometry(0.04, 0.06, 0.4, 5, 1, true), 0x5a4630, 0.2],
       [new THREE.IcosahedronGeometry(0.3, 0), 0x5a7a34, 0.62],
     ]),
   };
@@ -139,6 +144,71 @@ export function rwChunkTrees(cx, cz, cap) {
   return out;
 }
 
+/** True where no understory grows: fire roads, trails and the site yards. */
+function rwUnderstoryClear(x, z) {
+  return RW_ROADS.some((r) => rwPolylineDistance(r.points, x, z) < 6) || RW_TRAILS.some((t) => rwPolylineDistance(t.points, x, z) < 2.5)
+    || RW_SITES.some((st) => Math.hypot(x - st.position[0], z - st.position[1]) < st.pad);
+}
+
+/**
+ * The deterministic understory layout for one chunk on a tier, from the same
+ * seeded noise the chunk is drawn from: { ferns, fronds, logs, stumps, shafts },
+ * each item [x, y, z, n] with n the 0..1 noise that sets its scale and turn.
+ * Pure except for rwHeightAt, so `blocked()` reads the logs and stumps from it
+ * whether or not the chunk is built. High keeps the predecessor's fern spacing
+ * (9 m); low keeps its 14 m and draws no shafts (tall translucent planes are
+ * fill-rate, which is what a phone is short of); balanced gets a few.
+ */
+export function rwChunkUnderstory(cx, cz, tierName = "high") {
+  const budget = RW_BUDGET[tierName] ?? RW_BUDGET.high;
+  const x0 = RW_BOUNDS.minX + cx * RW_CHUNK, z0 = RW_BOUNDS.minZ + cz * RW_CHUNK;
+  const fstep = budget.segments >= 32 ? 9 : 14;
+  const logCap = budget.segments >= 32 ? 10 : 6, shaftCap = budget.segments >= 32 ? 14 : budget.segments >= 24 ? 4 : 0;
+  const ferns = [], fronds = [], logs = [], stumps = [], shafts = [];
+  for (let gz = 0; gz < RW_CHUNK / fstep; gz += 1) for (let gx = 0; gx < RW_CHUNK / fstep; gx += 1) {
+    const fx = x0 + (gx + rwNoise(cx * 31 + gx * 1.9, cz * 29 + gz * 2.3)) * fstep, fz = z0 + (gz + rwNoise(cx * 17 + gx * 2.9 + 3, cz * 13 + gz * 1.1)) * fstep;
+    const fh = rwHeightAt(fx, fz);
+    if (rwBiomeAt(fx, fz, fh) !== "redwood" || rwUnderstoryClear(fx, fz)) continue;
+    const n = rwNoise(fx / 5, fz / 5), m = rwNoise(fx / 3 + 9, fz / 3);
+    if (n > 0.62 && m > 0.7) { if (logs.length < logCap) logs.push([fx, fh, fz, n]); else if (stumps.length < logCap) stumps.push([fx, fh, fz, n]); }
+    else if (n > 0.3) (m > 0.5 ? fronds : ferns).push([fx, fh, fz, n]);
+    else if (n < 0.14 && shafts.length < shaftCap) shafts.push([fx, fh, fz, n]);
+  }
+  return { ferns, fronds, logs, stumps, shafts };
+}
+
+/** Scale of each understory kind from its noise value (the drawn instance uses the same). */
+export const RW_UNDERSTORY_SCALE = Object.freeze({ fern: (n) => 1.5 + 1.4 * n, frond: (n) => 1.7 + 1.3 * n, log: (n) => 0.9 + 0.5 * n, stump: (n) => 0.9 + n * 0.8, shaft: (n) => 1 + n });
+
+/** True when (x, z) meets a fallen log (an oriented rectangle: 14 m long, 0.75 m radius, root plate 1.6 m at one end) or a stump (a disc). */
+export function rwUnderstoryBlocked(layout, x, z, clearance = 0.7) {
+  for (const [fx, , fz, n] of layout.stumps) if (Math.hypot(x - fx, z - fz) < 1.3 * RW_UNDERSTORY_SCALE.stump(n) + clearance) return true;
+  for (const [fx, , fz, n] of layout.logs) {
+    const k = RW_UNDERSTORY_SCALE.log(n);
+    if (Math.hypot(x - fx, z - fz) > 7.6 * k + clearance) continue;
+    // The log geometry lies along local x (rotated about z), then turns n * 20 about y.
+    const a = n * 20, c = Math.cos(a), s = Math.sin(a);
+    const lx = (x - fx) * c - (z - fz) * s, lz = (x - fx) * s + (z - fz) * c;
+    if (Math.abs(lx) < 7 * k + clearance && Math.abs(lz) < 0.75 * k + clearance) return true;
+    if (Math.abs(lx + 7 * k) < 0.25 * k + clearance && Math.abs(lz) < 1.6 * k + clearance) return true;
+  }
+  return false;
+}
+
+/**
+ * The impostor trees for the outer ring: the same silhouette at a fifth of
+ * the triangles (a 3-sided open trunk under a 4-sided open cone). Ring 3 sits
+ * 640–900 m out under the fog, where a 52-triangle tree draws the same pixels.
+ */
+function rwImpostorGeometries() {
+  const trunk = (r0, r1, h, y) => [new THREE.CylinderGeometry(r0, r1, h, 3, 1, true), 0x5a3a24, y];
+  return {
+    redwood: rwMerge([trunk(0.018, 0.04, 0.62, 0.31), [new THREE.ConeGeometry(0.11, 0.85, 4, 1, true), 0x294722, 0.425 + 0.35]]),
+    fir: rwMerge([trunk(0.02, 0.035, 0.3, 0.15), [new THREE.ConeGeometry(0.16, 0.72, 4, 1, true), 0x36582c, 0.36 + 0.2]]),
+    oak: rwMerge([trunk(0.04, 0.06, 0.4, 0.2), [new THREE.ConeGeometry(0.3, 0.6, 4, 1, true), 0x5a7a34, 0.3 + 0.32]]),
+  };
+}
+
 export function rwBuildWorld(scene, opts = {}) {
   const tierName = opts.tier ?? "high";
   const budget = RW_BUDGET[tierName] ?? RW_BUDGET.high;
@@ -174,8 +244,7 @@ export function rwBuildWorld(scene, opts = {}) {
   const shaftGeo = new THREE.PlaneGeometry(7, 46); shaftGeo.translate(0, 23, 0); shaftGeo.rotateZ(0.22);
   const shaftMat = new THREE.MeshBasicMaterial({ map: rwShaftTexture(), color: 0xffe9b0, transparent: true, opacity: 0.38, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false });
   const shaftMeshes = new Set();
-  const blockedRoads = (x, z) => RW_ROADS.some((r) => rwPolylineDistance(r.points, x, z) < 6) || RW_TRAILS.some((t) => rwPolylineDistance(t.points, x, z) < 2.5)
-    || RW_SITES.some((st) => Math.hypot(x - st.position[0], z - st.position[1]) < st.pad);
+  const impostors = rwImpostorGeometries();
 
   // --------------------------------------------------------- horizon mesh
   // The whole field at a coarse grid, a few metres low, so the land beyond
@@ -437,37 +506,65 @@ export function rwBuildWorld(scene, opts = {}) {
     ground.name = `rw-chunk-${cx}-${cz}`;
     const group = new THREE.Group();
     group.add(ground);
+    // The far ring's ground at a quarter of the triangles (half the segments
+    // per side), toggled with the impostors; the full ground stays children[0].
+    const farGround = (() => {
+      const fs = Math.max(4, seg / 2), fpos = [], fcol = [], fidx = [];
+      for (let j = 0; j <= fs; j += 1) for (let i = 0; i <= fs; i += 1) {
+        const x = x0 + (i / fs) * RW_CHUNK, z = z0 + (j / fs) * RW_CHUNK;
+        const h = rwHeightAt(x, z);
+        fpos.push(x, h - 0.3, z);
+        rwGroundColor(x, z, h, 0, fcol);
+      }
+      for (let j = 0; j < fs; j += 1) for (let i = 0; i < fs; i += 1) { const a = j * (fs + 1) + i; fidx.push(a, a + fs + 1, a + 1, a + 1, a + fs + 1, a + fs + 2); }
+      const fg = new THREE.BufferGeometry();
+      fg.setAttribute("position", new THREE.Float32BufferAttribute(fpos, 3));
+      fg.setAttribute("color", new THREE.Float32BufferAttribute(fcol, 3));
+      fg.setIndex(fidx); fg.computeVertexNormals();
+      return new THREE.Mesh(fg, groundMat);
+    })();
     const layout = layoutFor(cx, cz);
     const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), v = new THREE.Vector3(), sc = new THREE.Vector3();
-    let instances = 0;
+    // Two levels of detail per chunk, toggled by ring in stream(): `near` is
+    // the full forest with its understory (rings 0–2), `far` the impostor
+    // trees alone (ring 3, under the fog). Both are built once, so a chunk
+    // changing ring never rebuilds or hitches.
+    const near = new THREE.Group(), far = new THREE.Group();
+    near.name = "near"; far.name = "far";
+    far.add(farGround);
+    let instances = 0, farInstances = 0;
     for (const kind of ["redwood", "fir", "oak"]) {
       const list = layout.filter((t) => t.kind === kind);
       if (!list.length) continue;
       const im = new THREE.InstancedMesh(trees[kind], treeMat, list.length);
       list.forEach((t, i) => { q.setFromAxisAngle(up, t.r); v.set(t.x, t.y, t.z); sc.set(t.s, t.s, t.s); m4.compose(v, q, sc); im.setMatrixAt(i, m4); });
       im.computeBoundingSphere();
-      group.add(im);
+      near.add(im);
       instances += list.length;
+      // The impostor ring skips the broadleafs (9–15 m tall: a pixel at 640 m).
+      const tall = list.filter((t) => t.s >= 16);
+      if (!tall.length) continue;
+      const fim = new THREE.InstancedMesh(impostors[kind], treeMat, tall.length);
+      tall.forEach((t, i) => { q.setFromAxisAngle(up, t.r); v.set(t.x, t.y, t.z); sc.set(t.s, t.s, t.s); m4.compose(v, q, sc); fim.setMatrixAt(i, m4); });
+      fim.computeBoundingSphere();
+      far.add(fim);
+      farInstances += tall.length;
     }
     // The understory: sword-fern clumps under the redwoods and the odd
-    // fallen log, one instanced mesh each, from the same seeded noise.
-    const ferns = [], fronds = [], logs = [], stumps = [], shafts = [];
-    // High keeps the predecessor's fern spacing (9 m); low keeps its 14 m and
-    // draws no shafts (tall translucent planes are fill-rate, which is what a
-    // phone is short of); balanced gets a few.
-    const fstep = budget.segments >= 32 ? 9 : 14;
-    const logCap = budget.segments >= 32 ? 10 : 6, shaftCap = budget.segments >= 32 ? 14 : budget.segments >= 24 ? 4 : 0;
-    for (let gz = 0; gz < RW_CHUNK / fstep; gz += 1) for (let gx = 0; gx < RW_CHUNK / fstep; gx += 1) {
-      const fx = x0 + (gx + rwNoise(cx * 31 + gx * 1.9, cz * 29 + gz * 2.3)) * fstep, fz = z0 + (gz + rwNoise(cx * 17 + gx * 2.9 + 3, cz * 13 + gz * 1.1)) * fstep;
-      const fh = rwHeightAt(fx, fz);
-      if (rwBiomeAt(fx, fz, fh) !== "redwood" || blockedRoads(fx, fz)) continue;
-      const n = rwNoise(fx / 5, fz / 5), m = rwNoise(fx / 3 + 9, fz / 3);
-      if (n > 0.62 && m > 0.7) { if (logs.length < logCap) logs.push([fx, fh, fz, n]); else if (stumps.length < logCap) stumps.push([fx, fh, fz, n]); }
-      else if (n > 0.3) (m > 0.5 ? fronds : ferns).push([fx, fh, fz, n]);
-      else if (n < 0.14 && shafts.length < shaftCap) shafts.push([fx, fh, fz, n]);
-    }
-    // Sword ferns stand a metre or two high; under trees forty metres tall a clump reads at this scale.
-    for (const [list, geo, mat, lift, scale] of [[ferns, fernGeo, fernMat, 0, (n) => 1.5 + 1.4 * n], [fronds, frondGeo, frondMat, 0, (n) => 1.7 + 1.3 * n], [logs, logGeo, woodMat, 0.6, (n) => 0.9 + 0.5 * n], [stumps, stumpGeo, woodMat, 0, (n) => 0.9 + n * 0.8], [shafts, shaftGeo, shaftMat, 0, (n) => 1 + n]]) {
+    // fallen log, one instanced mesh each, from the same seeded noise
+    // (rwChunkUnderstory — blocked() reads the logs and stumps from it too).
+    // The ferns split into a sparse set (drawn out to ring 2) and a dense set
+    // (rings 0–1 only), so the spacing thins with distance and the walking
+    // view keeps every frond.
+    const u = understoryFor(cx, cz);
+    const dense = (fx, fz) => rwNoise(fx * 0.7 + 1, fz * 0.7) > 0.45;
+    const fernsNear = u.ferns.filter(([fx, , fz]) => dense(fx, fz)), fernsFar = u.ferns.filter(([fx, , fz]) => !dense(fx, fz));
+    const frondsNear = u.fronds.filter(([fx, , fz]) => dense(fx, fz)), frondsFar = u.fronds.filter(([fx, , fz]) => !dense(fx, fz));
+    const denseMeshes = [];
+    for (const [list, geo, mat, lift, scale, isDense] of [
+      [fernsFar, fernGeo, fernMat, 0, RW_UNDERSTORY_SCALE.fern, false], [fernsNear, fernGeo, fernMat, 0, RW_UNDERSTORY_SCALE.fern, true],
+      [frondsFar, frondGeo, frondMat, 0, RW_UNDERSTORY_SCALE.frond, false], [frondsNear, frondGeo, frondMat, 0, RW_UNDERSTORY_SCALE.frond, true],
+      [u.logs, logGeo, woodMat, 0.6, RW_UNDERSTORY_SCALE.log, false], [u.stumps, stumpGeo, woodMat, 0, RW_UNDERSTORY_SCALE.stump, false], [u.shafts, shaftGeo, shaftMat, 0, RW_UNDERSTORY_SCALE.shaft, false]]) {
       if (!list.length) continue;
       const im = new THREE.InstancedMesh(geo, mat, list.length);
       list.forEach(([fx, fh, fz, n], i) => {
@@ -476,15 +573,31 @@ export function rwBuildWorld(scene, opts = {}) {
       });
       im.computeBoundingSphere();
       if (geo === shaftGeo) { im.visible = band === "day"; im.renderOrder = 2; shaftMeshes.add(im); }
-      group.add(im);
+      if (isDense) denseMeshes.push(im);
+      near.add(im);
     }
-    group.userData = { cx, cz, instances, understory: ferns.length + fronds.length + logs.length + stumps.length, shafts: shafts.length };
+    group.add(near, far);
+    group.userData = { cx, cz, ground, farGround, instances, farInstances, understory: u.ferns.length + u.fronds.length + u.logs.length + u.stumps.length, denseFerns: fernsNear.length + frondsNear.length, shafts: u.shafts.length, logs: u.logs.length, stumps: u.stumps.length, near, far, denseMeshes, lod: null };
+    setLod(group, ringOf(cx, cz));
     root.add(group);
     return group;
   }
   function disposeChunk(group) {
     root.remove(group);
-    for (const c of group.children) { if (c.isInstancedMesh) { shaftMeshes.delete(c); c.dispose?.(); } else c.geometry?.dispose?.(); }
+    group.traverse((c) => { if (c.isInstancedMesh) { shaftMeshes.delete(c); c.dispose?.(); } else if (c.isMesh) c.geometry?.dispose?.(); });
+  }
+  // Level of detail by ring (Chebyshev chunk distance from the player's chunk):
+  // near (rings 0–1: everything), mid (ring 2: sparse ferns), far (ring 3: impostors).
+  let centre = { ccx: 0, ccz: 0 };
+  const ringOf = (cx, cz) => Math.max(Math.abs(cx - centre.ccx), Math.abs(cz - centre.ccz));
+  function setLod(group, ring) {
+    const lod = ring <= 1 ? "near" : ring <= 2 ? "mid" : "far";
+    if (group.userData.lod === lod) return;
+    group.userData.lod = lod;
+    group.userData.near.visible = lod !== "far";
+    group.userData.far.visible = lod === "far";
+    group.userData.ground.visible = lod !== "far";
+    for (const m of group.userData.denseMeshes) m.visible = lod === "near";
   }
   // Trunk colliders: every tree's trunk radius plus a walker's clearance,
   // read from the same deterministic layout the chunk was drawn from.
@@ -494,6 +607,12 @@ export function rwBuildWorld(scene, opts = {}) {
     if (!layouts.has(k)) { layouts.set(k, rwChunkTrees(cx, cz, budget.trees)); if (layouts.size > 80) layouts.delete(layouts.keys().next().value); }
     return layouts.get(k);
   }
+  const understories = new Map();
+  function understoryFor(cx, cz) {
+    const k = `${cx},${cz}`;
+    if (!understories.has(k)) { understories.set(k, rwChunkUnderstory(cx, cz, tierName)); if (understories.size > 80) understories.delete(understories.keys().next().value); }
+    return understories.get(k);
+  }
   function blocked(x, z, clearance = 0.7) {
     const ccx = Math.floor((x - RW_BOUNDS.minX) / RW_CHUNK), ccz = Math.floor((z - RW_BOUNDS.minZ) / RW_CHUNK);
     for (let dz = -1; dz <= 1; dz += 1) for (let dx = -1; dx <= 1; dx += 1) {
@@ -502,6 +621,7 @@ export function rwBuildWorld(scene, opts = {}) {
       const x0 = RW_BOUNDS.minX + cx * RW_CHUNK, z0 = RW_BOUNDS.minZ + cz * RW_CHUNK;
       if (x < x0 - 8 || x > x0 + RW_CHUNK + 8 || z < z0 - 8 || z > z0 + RW_CHUNK + 8) continue;
       for (const t of layoutFor(cx, cz)) if (Math.hypot(x - t.x, z - t.z) < rwTrunkRadius(t) + clearance) return true;
+      if (rwUnderstoryBlocked(understoryFor(cx, cz), x, z, clearance)) return true;
     }
     return blockedBySite(x, z, clearance);
   }
@@ -521,6 +641,8 @@ export function rwBuildWorld(scene, opts = {}) {
     const key = `${ccx},${ccz}`;
     if (key !== lastKey) {
       lastKey = key;
+      centre = { ccx, ccz };
+      for (const g of chunks.values()) setLod(g, ringOf(g.userData.cx, g.userData.cz));
       const want = new Set();
       const R = budget.radius;
       for (let dz = -R; dz <= R; dz += 1) for (let dx = -R; dx <= R; dx += 1) {
@@ -545,6 +667,38 @@ export function rwBuildWorld(scene, opts = {}) {
     for (const { site, group } of siteGroups) group.visible = Math.hypot(px - site.position[0], pz - site.position[1]) < budget.fog;
     for (const m of tinMeshes.values()) m.visible = !m.userData.found && Math.hypot(px - m.position.x, pz - m.position.z) < 220;
   }
+
+  // -------------------------------------------------------------- the UTV
+  // The fire-road vehicle: a low utility body, a roll cage, four wheels, a
+  // light bar and a hood, drawn under the camera while driving (app.js places
+  // it each frame). Hidden on foot.
+  const vehicle = (() => {
+    const g = new THREE.Group();
+    g.name = "rw-utv";
+    const body = M(0xb8322a), dark = M(0x2a2a28), cage = M(0x9aa0a6), lamp = new THREE.MeshLambertMaterial({ color: 0xfff2c0, emissive: 0xffe090 });
+    const part = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); g.add(m); return m; };
+    part(1.6, 0.5, 3.0, body, 0, 0.7, 0);          // tub
+    part(1.5, 0.3, 1.0, body, 0, 1.05, -1.0);       // hood
+    part(1.4, 0.35, 1.1, dark, 0, 1.1, 0.9);        // cargo bed rail
+    part(1.2, 0.2, 0.6, dark, 0, 1.05, 0.1);        // seat
+    for (const [x, z] of [[-0.7, -0.6], [0.7, -0.6], [-0.7, 0.8], [0.7, 0.8]]) part(0.08, 2.0, 0.08, cage, x, 1.8, z);
+    part(1.0, 0.1, 0.15, lamp, 0, 2.85, -0.6);      // light bar on the front posts (an open cage: no roof slab over the eye)
+    part(0.3, 0.14, 0.08, lamp, -0.5, 1.0, -1.52); part(0.3, 0.14, 0.08, lamp, 0.5, 1.0, -1.52); // headlights
+    const wheelGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.3, 10); wheelGeo.rotateZ(Math.PI / 2);
+    for (const [x, z] of [[-0.85, -1.0], [0.85, -1.0], [-0.85, 1.0], [0.85, 1.0]]) { const w = new THREE.Mesh(wheelGeo, dark); w.position.set(x, 0.42, z); g.add(w); }
+    g.visible = false;
+    root.add(g);
+    return {
+      group: g,
+      place(x, z, yaw, visible, y = rwHeightAt(x, z)) {
+        g.visible = !!visible;
+        if (!visible) return;
+        // Sits on the driver's own ground height so the body stays under the eye on a slope.
+        g.position.set(x, y, z);
+        g.rotation.y = yaw;
+      },
+    };
+  })();
 
   // ------------------------------------------------------ time of day
   let hour = opts.hour ?? 10;
@@ -576,13 +730,17 @@ export function rwBuildWorld(scene, opts = {}) {
 
   return {
     root, sky, update, stream, setHour, get hour() { return hour; }, get band() { return band; }, set band(b) { band = b; },
-    chunks, siteGroups, tinMeshes, budget, blocked, blockedBySite, siteColliders,
+    chunks, siteGroups, tinMeshes, budget, blocked, blockedBySite, siteColliders, understoryFor, vehicle,
     markFound(id) { const m = tinMeshes.get(id); if (m) { m.userData.found = true; m.visible = false; } },
     stats() {
-      let inst = 0, tris = 0, under = 0, shafts = 0;
-      for (const g of chunks.values()) { inst += g.userData.instances; under += g.userData.understory; shafts += g.userData.shafts; tris += g.children[0].geometry.index.count / 3; }
+      let inst = 0, tris = 0, under = 0, shafts = 0, drawn = 0, farChunks = 0, logs = 0, stumps = 0;
+      for (const g of chunks.values()) {
+        const d = g.userData;
+        inst += d.instances; under += d.understory; shafts += d.shafts; logs += d.logs; stumps += d.stumps; tris += (d.lod === "far" ? d.farGround : d.ground).geometry.index.count / 3;
+        if (d.lod === "far") { farChunks += 1; drawn += d.farInstances; } else drawn += d.instances + d.understory + (d.lod === "near" ? 0 : -d.denseFerns) + (band === "day" ? d.shafts : 0);
+      }
       let colliders = 0; for (const f of siteColliders.values()) colliders += f.length;
-      return { chunks: chunks.size, instances: inst, understory: under, shafts, groundTriangles: tris, siteColliders: colliders };
+      return { chunks: chunks.size, farChunks, instances: inst, drawnInstances: drawn, understory: under, logs, stumps, shafts, groundTriangles: tris, siteColliders: colliders };
     },
   };
 }

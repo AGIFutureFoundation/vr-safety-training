@@ -15,8 +15,8 @@
  *
  * In the browser at phone size (390 x 844): the homepage, a track page, the
  * 404 page and every app bundle have one <h1>, alt text on every
- * image and no page-level horizontal scroll (the Atlas and the instructor
- * console, as documents, also a <main>); the homepage, the track page and
+ * image, a <main> landmark (a game page marks its menu screen or card
+ * role="main") and no page-level horizontal scroll; the homepage, the track page and
  * the 404 page have header/nav/main/footer landmarks, a skip link, body text
  * of at least 16 px, primary controls at least 44 px tall, labelled form
  * fields, and a layout shift on load under 0.1; the homepage search tolerates
@@ -169,8 +169,6 @@ await context.addInitScript(() => {
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__wfCls += e.value; }).observe({ type: "layout-shift", buffered: true }); } catch { /* unsupported */ }
 });
 
-const DOC_PAGES = new Set(["atlas.html", "instructor-console.html"]);
-
 /** Everything measured in one page, at phone size. */
 async function audit(rel, full) {
   const page = await context.newPage();
@@ -208,8 +206,8 @@ async function audit(rel, full) {
       return out;
     }, full);
     check(r.h1 === 1, `${rel}: exactly one <h1>`, String(r.h1));
-    // A game page is one full-screen canvas under its own menu; the document pages carry the landmarks.
-    if (full || DOC_PAGES.has(rel)) check(r.main >= 1, `${rel}: a <main> landmark`);
+    // Every page: a document carries <main>; a game page marks its menu screen or card role="main" (never the aria-hidden stage).
+    check(r.main >= 1, `${rel}: a <main> landmark`);
     check(!r.noAlt.length, `${rel}: every image has alt text`, r.noAlt.slice(0, 3).join(", "));
     check(r.hscroll <= 1, `${rel}: no horizontal scroll on a phone`, `${r.hscroll}px`);
     if (full) {
@@ -226,8 +224,10 @@ async function audit(rel, full) {
   await page.close();
 }
 
-for (const rel of ["index.html", "tracks/electrical-first-period.html", "404.html"]) await audit(rel, true);
-for (const rel of flatHtml.filter((f) => f !== "index.html")) await audit(rel, false);
+// The document pages take the full audit (the Treasure Map is one since WAYFINDER-2); the game pages the short one.
+const WF_FULL = ["index.html", "tracks/electrical-first-period.html", "404.html", "treasures.html"];
+for (const rel of WF_FULL) await audit(rel, true);
+for (const rel of flatHtml.filter((f) => !WF_FULL.includes(f))) await audit(rel, false);
 
 // The homepage search: a typo, a synonym, and ?q=.
 {

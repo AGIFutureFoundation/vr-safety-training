@@ -90,14 +90,6 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       why: "Before acting, notice three things: whether there is any danger to you, whether the person is responding, and where exactly you are. Noticing these first keeps you safe and gives you what the person on the phone will ask for."
     },
     {
-      id: "get-a-trusted-adult-straight-away",
-      kind: "select",
-      target: "kfa-adult-card",
-      title: "Get a trusted adult straight away",
-      cue: "Shout for, or run to, the nearest trusted adult.",
-      why: "Getting an adult is almost always the fastest route to help, and it is the right first move for a young person. An adult can call, keep others back and take charge, so you are never left dealing with it alone."
-    },
-    {
       id: "put-the-call-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       outOfOrderNote: "Out of order. Say where you are first, so help can start moving."
     },
     {
-      id: "stay-on-the-line",
-      kind: "hold",
-      target: "kfa-stay-line",
-      seconds: 6,
-      title: "Stay on the line",
-      cue: "Hold the phone and listen until they say you can hang up.",
-      why: "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off. If you are not sure what to say, the person answering will guide you with questions, so stay with them.",
-      holdBreakNote: "You hung up too early. Stay on the line until they tell you it is fine to go."
+      id: "get-a-trusted-adult-straight-away",
+      kind: "select",
+      target: "kfa-adult-card",
+      title: "Get a trusted adult straight away",
+      cue: "Shout for, or run to, the nearest trusted adult.",
+      why: "Getting an adult is almost always the fastest route to help, and it is the right first move for a young person. An adult can call, keep others back and take charge, so you are never left dealing with it alone."
     },
     {
       id: "put-the-phone-on-speaker",
@@ -158,6 +148,16 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       why: "A calm, clear voice gets information across first time; a rushed or shouted one has to be repeated, which costs time. Taking a breath before speaking is the simplest way to be understood in an emergency. Saying where you are first, before anything else, means help can start moving even if the call is cut short."
     },
     {
+      id: "stay-on-the-line",
+      kind: "hold",
+      target: "kfa-stay-line",
+      seconds: 6,
+      title: "Stay on the line",
+      cue: "Hold the phone and listen until they say you can hang up.",
+      why: "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off. If you are not sure what to say, the person answering will guide you with questions, so stay with them.",
+      holdBreakNote: "You hung up too early. Stay on the line until they tell you it is fine to go."
+    },
+    {
       id: "show-help-where-to-come",
       kind: "drag",
       target: "kfa-wave-token",
@@ -169,14 +169,6 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       title: "Show help where to come",
       cue: "Drag the waving arm to the safe spot by the road where help will arrive.",
       why: "Showing arriving help exactly where to go saves time. Standing safely at the road edge, with an adult, and waving is a useful job a young person can do while trained people take over. Responders arriving at a busy place lose time finding the right spot, so a clear signal from a safe place gets them there sooner."
-    },
-    {
-      id: "say-what-you-will-not-do",
-      kind: "select",
-      target: "kfa-clinical-card",
-      title: "Say what you will not do",
-      cue: "Say why you will not try to treat the injury yourself.",
-      why: "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most. Trying a treatment you have not been trained in can make things worse, and it takes an adult's attention away from calling for help."
     },
     {
       id: "spot-the-problems-in-a-classmate",
@@ -203,6 +195,14 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
       title: "Spot the problems in a classmate's plan",
       cue: "Look at the classmate's help plan and mark each problem.",
       why: "Help plans go wrong in predictable ways: running into danger, trying a treatment and giving a vague location. Spotting them in someone else's plan helps you remember the right order when it matters. The right order is always the same: stay safe, fetch an adult, call for help and say exactly where you are."
+    },
+    {
+      id: "say-what-you-will-not-do",
+      kind: "select",
+      target: "kfa-clinical-card",
+      title: "Say what you will not do",
+      cue: "Say why you will not try to treat the injury yourself.",
+      why: "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most. Trying a treatment you have not been trained in can make things worse, and it takes an adult's attention away from calling for help."
     },
     {
       id: "stay-steady-until-help-arrives",
@@ -368,28 +368,19 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#e4dfe8", base2: "#d6d0dc", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 9067184, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
+    // a hall's stage behind the station: risers, a curtain, footlights and rows of seats at the sides
+    void wallMat;
+    const stage = group(g, 0, 0, -4.4);
+    box(stage, 6.6, 0.5, 1.6, 0, 0.25, 0, 0x4a3a30, { rough: 0.7 });
+    box(stage, 6.8, 0.05, 1.7, 0, 0.52, 0, 0x6b4a2e, { rough: 0.6 });
+    box(stage, 6.6, 2.6, 0.1, 0, 1.85, -0.75, 0x7a2a2a, { rough: 0.95 });
+    for (let i = 0; i < 7; i++) box(stage, 0.12, 2.5, 0.06, -2.7 + i * 0.9, 1.85, -0.68, 0x8a3232, { rough: 0.95 });
+    for (let i = 0; i < 6; i++) ball(stage, 0.05, -2.5 + i * 1.0, 0.56, 0.8, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.2, rough: 0.4, seg: 8 });
+    for (const side of [-1, 1]) for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const seat = group(g, side * (2.9 + c * 0.55), 0, -3.2 + r * 0.7, side * 0.35);
+      box(seat, 0.45, 0.06, 0.45, 0, 0.45, 0, 0x2a5a8a, { rough: 0.8 });
+      box(seat, 0.45, 0.5, 0.06, 0, 0.72, -0.2, 0x2a5a8a, { rough: 0.8 });
+      for (const [lx, lz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) box(seat, 0.03, 0.42, 0.03, lx, 0.21, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
     }
 
     // ------------------------------------------------------------ controls

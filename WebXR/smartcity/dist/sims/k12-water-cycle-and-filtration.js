@@ -90,14 +90,6 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
       why: "The water cycle is not only a diagram: it is happening around the plant right now. A puddle drying in the sun is evaporation, droplets forming on a cold pipe are condensation, and rain gathering into the channel is collection. Finding the stages in a real place is what makes the diagram mean something, and it is how a scientist starts: by looking."
     },
     {
-      id: "take-your-place-behind-the-rail",
-      kind: "select",
-      target: "kwf-behind-rail",
-      title: "Take your place behind the rail",
-      cue: "Stand on the marked walkway behind the rail before the educator brings the samples.",
-      why: "At any working plant the visitors' walkway and rail are the first rule, and the educator brings the water to the bench so that nobody has to go near a channel edge. Starting every visit behind the rail is the same habit a real operator keeps: the site's safety line comes before the curiosity, however interesting the channel is."
-    },
-    {
       id: "put-the-cycle-in-order",
       kind: "sequence",
       targets: [
@@ -118,14 +110,12 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
       outOfOrderNote: "Out of order. Water has to evaporate before it can condense — follow the cause from one stage to the next."
     },
     {
-      id: "watch-the-jar-settle-without-shaking",
-      kind: "hold",
-      target: "kwf-watch-settle",
-      seconds: 6,
-      title: "Watch the jar settle without shaking it",
-      cue: "Keep still and watch the muddy jar as the heavier bits sink.",
-      why: "Settling is the first thing a treatment plant does, and it works only if the water is left still: heavy particles sink under their own weight and the water above them clears. Watching without shaking the jar lets you see sedimentation happen, and it shows why the plant's settling channels are long and calm.",
-      holdBreakNote: "The jar was shaken and the mud came back up. Keep it still and let the heavy bits sink."
+      id: "take-your-place-behind-the-rail",
+      kind: "select",
+      target: "kwf-behind-rail",
+      title: "Take your place behind the rail",
+      cue: "Stand on the marked walkway behind the rail before the educator brings the samples.",
+      why: "At any working plant the visitors' walkway and rail are the first rule, and the educator brings the water to the bench so that nobody has to go near a channel edge. Starting every visit behind the rail is the same habit a real operator keeps: the site's safety line comes before the curiosity, however interesting the channel is."
     },
     {
       id: "choose-the-next-filter-layer",
@@ -158,6 +148,16 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
       why: "Pouring too fast stirs up the top layer and pushes mud straight through, so the filter looks like it failed when really the test was spoiled. A slow, even pour lets every layer do its work, and it is why a real filter is fed gently and evenly rather than all at once."
     },
     {
+      id: "watch-the-jar-settle-without-shaking",
+      kind: "hold",
+      target: "kwf-watch-settle",
+      seconds: 6,
+      title: "Watch the jar settle without shaking it",
+      cue: "Keep still and watch the muddy jar as the heavier bits sink.",
+      why: "Settling is the first thing a treatment plant does, and it works only if the water is left still: heavy particles sink under their own weight and the water above them clears. Watching without shaking the jar lets you see sedimentation happen, and it shows why the plant's settling channels are long and calm.",
+      holdBreakNote: "The jar was shaken and the mud came back up. Keep it still and let the heavy bits sink."
+    },
+    {
       id: "set-the-filtered-sample-beside-the",
       kind: "drag",
       target: "kwf-sample-token",
@@ -169,14 +169,6 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
       title: "Set the filtered sample beside the control",
       cue: "Drag the filtered sample next to the unfiltered jar so the two can be compared fairly.",
       why: "A result means something only when it is compared with a control. Standing the filtered sample next to a jar of the same muddy water left unfiltered, under the same light, is what lets you say the filter made the difference, rather than time or settling alone."
-    },
-    {
-      id: "say-why-the-clear-water-is",
-      kind: "select",
-      target: "kwf-not-safe-card",
-      title: "Say why the clear water is still not drinkable",
-      cue: "The filtered water looks clear. Say why it is still not safe to drink.",
-      why: "A sand filter removes particles you can see, but germs and dissolved substances are far too small for it to catch. That is why a real plant disinfects the water after filtering and its operators test it before it leaves; being able to say why clear water is not yet safe is the most important idea in the lesson."
     },
     {
       id: "spot-the-weak-points-in-a",
@@ -203,6 +195,14 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
       title: "Spot the weak points in a classmate's report",
       cue: "Look at the draft lab report and mark each weakness before it is handed in.",
       why: "A good science report says what was done, what was seen and what it means, and it separates observation from opinion. The usual weak points are a result with no comparison, a claim the evidence cannot support, and a step missing from the method. Finding them in a draft is how scientists review each other's work before anyone relies on it."
+    },
+    {
+      id: "say-why-the-clear-water-is",
+      kind: "select",
+      target: "kwf-not-safe-card",
+      title: "Say why the clear water is still not drinkable",
+      cue: "The filtered water looks clear. Say why it is still not safe to drink.",
+      why: "A sand filter removes particles you can see, but germs and dissolved substances are far too small for it to catch. That is why a real plant disinfects the water after filtering and its operators test it before it leaves; being able to say why clear water is not yet safe is the most important idea in the lesson."
     },
     {
       id: "keep-your-observation-honest-as-the",
@@ -368,29 +368,26 @@ export const SIM_K12_WATER_CYCLE_AND_FILTRATION = {
     floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.02, color: 0xf0e4d0 });
     const wallTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#dfe6e2", base2: "#cfd8d4", seam: "rgba(40,40,40,0.3)" }), { repeat: 2, px: 256 });
     const wallMat = texturedMat(wallTex, { rough: 0.7, metal: 0.05 });
-    // a learning wall behind the station, with a board the class works on
-    const wall = group(g, 0, 0, -4.7);
-    box(wall, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
-    box(wall, 2.6, 1.2, 0.03, 0, 1.55, 0.08, 0x2f4a3a, { rough: 0.9 });
-    box(wall, 2.7, 0.05, 0.08, 0, 0.93, 0.1, 0xb89a6a, { rough: 0.6 });
-    for (let i = 0; i < 5; i++) box(wall, 0.34, 0.24, 0.02, -2.6 + i * 0.3 + (i > 2 ? 3.1 : 0) - (i > 2 ? 0.9 : 0), 1.8, 0.08, [0xf2c14b, 0x7fc4d8, 0xf0a0a0, 0xa0e0a0, 0xd0b0f0][i], { rough: 0.8 });
-    // desks and stools for the class, clear of every control
-    for (let i = 0; i < 4; i++) {
-      const side = i < 2 ? -1 : 1, k = i % 2;
-      const desk = group(g, side * (3.2 + (k % 2) * 0.2), 0, -2.4 + k * 1.3, side * 0.3);
-      box(desk, 0.9, 0.04, 0.55, 0, 0.74, 0, 5216890, { rough: 0.6 });
-      for (const [lx, lz] of [[-0.4, -0.23], [0.4, -0.23], [-0.4, 0.23], [0.4, 0.23]]) box(desk, 0.035, 0.72, 0.035, lx, 0.36, lz, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-      box(desk, 0.3, 0.02, 0.22, 0.1, 0.77, 0, 0xf4f0e6, { rough: 0.9 });
-      const stool = group(desk, 0, 0, 0.55);
-      cyl(stool, 0.16, 0.16, 0.04, 0, 0.45, 0, 0x2b2f35, { rough: 0.6, seg: 14 });
-      for (let a = 0; a < 3; a++) box(stool, 0.03, 0.44, 0.03, Math.sin(a * 2.1) * 0.11, 0.22, Math.cos(a * 2.1) * 0.11, 0x3a3f46, { rough: 0.5, metal: 0.5 });
-    }
-    // shelves of the lesson's materials
-    for (const sx of [-2.9, 2.9]) {
-      const sh = group(g, sx, 0, -4.2);
-      box(sh, 1.0, 1.6, 0.34, 0, 0.8, 0, 0x6b4a2e, { rough: 0.7 });
-      for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) box(sh, 0.18, 0.28, 0.24, -0.33 + c * 0.22, 0.3 + r * 0.5, 0.04, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.8 });
-    }
+    // a lab bench behind the station, a fume cabinet, a reagent rack and an eyewash post
+    const back = group(g, 0, 0, -4.7);
+    box(back, 6.4, 2.6, 0.12, 0, 1.3, 0, 0xe0dccf, { rough: 0.7 }).material = wallMat;
+    const bench = group(g, 0, 0, -4.1);
+    box(bench, 4.6, 0.9, 0.7, 0, 0.45, 0, 0x2b2f35, { rough: 0.6 });
+    box(bench, 4.7, 0.05, 0.75, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    box(bench, 0.5, 0.02, 0.4, -1.4, 0.94, 0, 0x8aa0a8, { rough: 0.3, metal: 0.5 });
+    cyl(bench, 0.02, 0.02, 0.3, -1.4, 1.1, -0.15, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
+    for (let i = 0; i < 6; i++) cyl(bench, 0.05, 0.05, 0.22 + (i % 3) * 0.06, -0.4 + i * 0.28, 1.06, -0.15, [0x7fc4d8, 0xf2c14b, 0xa0e0a0][i % 3], { rough: 0.2, seg: 10 });
+    const hood = group(g, 2.9, 0, -4.2);
+    box(hood, 1.2, 0.9, 0.8, 0, 0.45, 0, 0xd8d4cc, { rough: 0.6 });
+    box(hood, 1.2, 1.3, 0.8, 0, 1.55, 0, 0xc8d8dc, { rough: 0.2, metal: 0.1 });
+    box(hood, 1.1, 0.04, 0.7, 0, 0.92, 0, 0x1a2a30, { rough: 0.3 });
+    const rack = group(g, -2.9, 0, -4.3);
+    box(rack, 1.0, 1.8, 0.34, 0, 0.9, 0, 0x8a8f96, { rough: 0.5, metal: 0.4 });
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) cyl(rack, 0.06, 0.06, 0.24, -0.33 + c * 0.22, 0.32 + r * 0.55, 0.06, [0xd86a4a, 0x4a8ad8, 0xd8c04a, 0x5ab87a][(r + c) % 4], { rough: 0.3, seg: 10 });
+    const wash = group(g, 3.6, 0, -2.8);
+    cyl(wash, 0.03, 0.03, 1.1, 0, 0.55, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 8 });
+    box(wash, 0.3, 0.1, 0.3, 0, 1.12, 0, 0x59c97b, { rough: 0.5 });
+    for (const bx of [-0.08, 0.08]) cyl(wash, 0.03, 0.03, 0.08, bx, 1.2, 0, 0x8aa0a8, { rough: 0.3, metal: 0.7, seg: 8 });
 
     // ------------------------------------------------------------ controls
     const meters = {}, dials = {}, tokens = {}, spots = {}, boards = {};

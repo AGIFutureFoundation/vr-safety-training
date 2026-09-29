@@ -25,9 +25,30 @@ export const K2_LESSON_REPUTATION = 5;
 /** True when this lesson's check has been answered right on this device's passport. */
 export function k2LessonDone(lesson) { return ppAwarded("field-lesson", lesson.id); }
 
-/** How a world's Field Notes badge stands: lessons done, lessons there, whether the badge is earned. */
-export function k2FieldNotes(world) {
-  const all = k2LessonsFor(world);
+/**
+ * A lesson from a world with its own data module (Sierra Summit's
+ * SM_FIELD_LESSONS: place/at/k12/check.choices; Redwood Reach's
+ * RW_FIELD_LESSONS: site/landmark/k12/check.options) in the shared shape this
+ * module and k2RenderLessonList read: world, station, tradeLine, position and
+ * check.options. The award, the Field Notes badge and the list then work the
+ * same in every world, and the passport holds one award kind across all six.
+ */
+export function k2AdaptLesson(l, world) {
+  return {
+    // Summit's and Redwood's lessons carry `station` as the trade station and `k12` as the K-12 one; the shared shape's `station` is the K-12 station
+    ...l, world, station: l.k12 ?? l.station, tradeStation: l.k12 ? l.station : l.tradeStation, tradeLine: l.tradeLine ?? l.trade,
+    position: l.position ?? l.at ?? null,
+    check: l.check ? { ...l.check, question: l.check.question ?? l.check.q, options: l.check.options ?? l.check.choices } : l.check,
+  };
+}
+
+/**
+ * How a world's Field Notes badge stands: lessons done, lessons there, whether
+ * the badge is earned. `lessons` is the world's list when it keeps its own
+ * (Summit, Redwood: pass their lessons through k2AdaptLesson).
+ */
+export function k2FieldNotes(world, lessons = k2LessonsFor(world)) {
+  const all = lessons;
   const done = all.filter(k2LessonDone).length;
   const need = Math.min(K2_FIELD_NOTES_BADGE.need, all.length);
   return { done, total: all.length, need, earned: all.length > 0 && done >= need };
@@ -38,9 +59,9 @@ export function k2FieldNotes(world) {
  * lesson was already on the passport, `badge` is true the moment the world's
  * Field Notes badge is earned by this answer.
  */
-export function k2RecordLesson(lesson) {
+export function k2RecordLesson(lesson, lessons = k2LessonsFor(lesson.world)) {
   const r = ppAward("field-lesson", { attemptId: lesson.id, reputation: K2_LESSON_REPUTATION, reason: `Field lesson: ${lesson.title}` });
-  const notes = k2FieldNotes(lesson.world);
+  const notes = k2FieldNotes(lesson.world, lessons);
   let badge = false;
   if (notes.earned && !ppAwarded("field-notes", lesson.world)) {
     ppAward("field-notes", { attemptId: lesson.world, reputation: K2_LESSON_REPUTATION * 2, reason: `${K2_FIELD_NOTES_BADGE.name} badge — ${notes.need} field lessons answered` });

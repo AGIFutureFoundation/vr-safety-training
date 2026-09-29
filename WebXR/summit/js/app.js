@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+import { cnMount } from "../../shared/cinema.js";
 import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
@@ -10,7 +11,8 @@ import { buildWildlife } from "../../shared/wildlife.js";
 import { pickup } from "../../shared/fleet.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel } from "../../shared/links.js";
-import { k2DrawFieldLayer } from "../../shared/field-lessons.js";
+import { k2DrawFieldLayer, k2RenderLessonList } from "../../shared/field-lessons.js";
+import { k2AdaptLesson, k2RecordLesson, k2FieldNotes, K2_FIELD_NOTES_BADGE } from "../../shared/field-kiosk.js";
 // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
 import { qmMountSideGames, qmBoardRows, qmDrawPin, qmLockToast } from "../../shared/skill-gates-ui.js";
 import { qmIsOpen, qmSnapshot } from "../../shared/skill-gates.js";
@@ -27,6 +29,9 @@ import { grMount } from "../../shared/npc.js";
 
 const $ = (id) => document.getElementById(id);
 const SM_RUNNER = "../smartcity/index.html";
+// Summit's lessons in the shared K-12 shape: one passport award kind and one
+// Field Notes badge across every world (WebXR/shared/field-kiosk.js).
+const SM_K2 = SM_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "summit"));
 const SM_EYE = 1.7;
 const SM_TIMES = ["dawn", "day", "dusk", "night"];
 const SM_WEATHERS = ["clear", "overcast", "fog", "wind", "storm"];
@@ -192,7 +197,17 @@ const smPadPrev = {};
 
 function smClose() { if (!sm.modal) return; $(sm.modal).hidden = true; sm.modal = null; }
 function smOpen(id) { smClose(); $(id).hidden = false; sm.modal = id; $(id).querySelector("[data-close]")?.focus(); }
-function smToggle(id) { if (sm.modal === id) smClose(); else { if (id === "map") smRenderMap(); if (id === "quests") smRenderQuests(); smOpen(id); } }
+function smToggle(id) { if (sm.modal === id) smClose(); else { if (id === "map") { smRenderMap(); smRenderLessonList(); } if (id === "quests") smRenderQuests(); smOpen(id); } }
+// the K-12 field lessons listed under the map, through the shared list call
+function smRenderLessonList() {
+  const el = $("map-lessons"); if (!el) return;
+  el.textContent = "";
+  const notes = k2FieldNotes("summit", SM_K2);
+  k2RenderLessonList(el, SM_K2, lkStationLink);
+  const p = document.createElement("p"); p.className = "note";
+  p.textContent = `Field Notes: ${notes.done} of ${notes.total} lessons on your passport${notes.earned ? " — badge earned" : ` (badge at ${notes.need})`}.`;
+  el.appendChild(p);
+}
 for (const b of document.querySelectorAll("[data-close]")) b.addEventListener("click", smClose);
 
 function smLink(id, siteId) { return lkStationLink(id, { runner: SM_RUNNER, from: "summit", page: ppHerePage(), siteId }); }
@@ -233,9 +248,12 @@ function smOpenLesson(l) {
     const b = document.createElement("button"); b.className = "btn"; b.type = "button"; b.textContent = c;
     b.addEventListener("click", () => {
       const r = smAnswerLesson(sm.state, l.id, i); smSave(sm.state);
-      smToast(r.ok ? `Right — ${l.check.why}` : "Not quite — read the steps again and try another answer.", r.ok ? 6000 : 3200);
       if (r.ok) tzLessonAnswered(l.id); // a quiet treasure (docs/treasures.md)
-      smToast(r.ok ? `Right — ${l.title} passed.` : "Not quite — read the steps again and try another answer.");
+      // The shared field-lesson award (shared/field-kiosk.js): one passport award kind and one Field Notes badge in every world.
+      const k2 = r.ok ? k2RecordLesson(SM_K2.find((x) => x.id === l.id), SM_K2) : null;
+      smToast(!r.ok ? "Not quite — read the steps again and try another answer."
+        : k2?.badge ? `Right — ${l.check.why} ${K2_FIELD_NOTES_BADGE.name} badge earned: ${k2.notes.done} lessons answered in the Sierra.`
+        : `Right — ${l.check.why}${k2?.first ? " (On your passport.)" : ""}`, r.ok ? 6000 : 3200);
       b.classList.toggle("on", r.ok); smHud();
     });
     box.appendChild(b);
@@ -445,6 +463,10 @@ function smBegin() {
   smToast(smStartSite ? `Back at ${smStart.name}.` : "Welcome to Sierra Summit. Walk to the orange job board (E), or open the map (M).");
 }
 $("menu-start").addEventListener("click", smBegin);
+// The start screen's background loop, recorded over the reservoir (console
+// CINEMA, shared/cinema.js, docs/home-backgrounds.md): muted, only while the
+// menu is on screen, poster only under reduced motion or Save-Data.
+cnMount($("menu"), "start-summit", { scrim: "linear-gradient(180deg,rgba(5,10,16,.55),rgba(5,10,16,.78))" });
 if (smStartSite) smBegin();
 
 // Touch: a stick to walk, buttons for use / map / quests.

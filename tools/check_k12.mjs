@@ -37,7 +37,12 @@
  *      Regatta's course card and briefing and on Fairway Park's facility
  *      screen, the module bundled after passport.js;
  *   8c. Summit's and Redwood's own ten lessons each, in their exported
- *      schemas, against their sites and landmarks and the K-12 stations.
+ *      schemas, against their sites and landmarks and the K-12 stations;
+ *      both worlds write the shared field-lesson passport award and list
+ *      their lessons through k2RenderLessonList;
+ *   8d. the teacher tools (WebXR/k12/teacher.html from tools/gen_k12_cards.mjs):
+ *      a printable card per field lesson in all six worlds, the teacher view
+ *      by programme and band, Field Notes read from the passport, no network.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -282,7 +287,42 @@ for (const world of ["bayworld", "underwater"]) {
     if (before < sectionStart) fail("kiosks", "field-kiosk.js is listed before passport.js in a bundle");
     else ok();
   }
-  if (n < 2) fail("kiosks", `field-kiosk.js is in ${n} bundle list(s), expected Bay World and the Deep`); else ok();
+  if (n < 4) fail("kiosks", `field-kiosk.js is in ${n} bundle list(s), expected Bay World, the Deep, Summit and Redwood`); else ok();
+}
+// Summit and Redwood write the same passport award on a right answer and list
+// their lessons through the shared list call, so one Field Notes badge counts
+// across all six worlds.
+for (const app of ["WebXR/summit/js/app.js", "WebXR/redwood/js/app.js"]) {
+  const src = read(app);
+  for (const call of ["k2AdaptLesson(", "k2RecordLesson(", "k2RenderLessonList(", "k2FieldNotes("]) if (!src.includes(call)) fail("kiosks", `${app} does not call ${call})`); else ok();
+}
+for (const html of ["WebXR/summit/index.html", "WebXR/redwood/redwood.html"]) if (!read(html).includes('id="map-lessons"')) fail("kiosks", `${html} has no map-lessons list`); else ok();
+for (const w of ["summit", "redwood"]) if (!/K2_WORLD_PAGES = \{[^}]*\b/.test(read("WebXR/shared/field-lessons.js")) || !read("WebXR/shared/field-lessons.js").includes(`${w}: "../`)) fail("kiosks", `K2_WORLD_PAGES has no page for ${w}`); else ok();
+
+// 8d — the teacher tools (tools/gen_k12_cards.mjs → WebXR/k12/teacher.html):
+// one printable card per field lesson across all six worlds, the teacher view
+// by programme, Field Notes read from this browser's passport only, no network.
+{
+  const pagePath = "WebXR/k12/teacher.html";
+  if (!existsSync(join(ROOT, pagePath))) fail("teacher", `${pagePath} is missing — run node tools/gen_k12_cards.mjs`);
+  else {
+    const page = read(pagePath);
+    const SM = await import("../WebXR/shared/summit-data.js");
+    const RWL = await import("../WebXR/redwood/js/rw-lore-data.js");
+    const total = lessons.length + SM.SM_FIELD_LESSONS.length + RWL.RW_FIELD_LESSONS.length;
+    const cards = (page.match(/<article class="card"/g) ?? []).length;
+    if (cards !== total) fail("teacher", `${cards} lesson cards, ${total} field lessons — run node tools/gen_k12_cards.mjs`); else ok();
+    for (const l of [...lessons, ...SM.SM_FIELD_LESSONS, ...RWL.RW_FIELD_LESSONS]) if (!page.includes(`id="card-${l.id}"`)) fail("teacher", `no card for ${l.id}`);
+    for (const w of ["bayworld", "deep", "regatta", "fairway", "summit", "redwood"]) if (!page.includes(`data-k2-notes="${w}"`)) fail("teacher", `no Field Notes count for ${w}`); else ok();
+    for (const c of K12) if (!page.includes(`id="prog-${c.id}"`)) fail("teacher", `teacher view has no section for ${c.id}`); else ok();
+    if (/fetch\(|XMLHttpRequest|navigator\.sendBeacon|<script[^>]*src="https?:/.test(page)) fail("teacher", "the teacher page reaches the network"); else ok();
+    if (!/@media print/.test(page)) fail("teacher", "the teacher page has no print stylesheet"); else ok();
+    if (!/k2FieldNotes\(/.test(page)) fail("teacher", "the teacher page does not read Field Notes from the passport"); else ok();
+    // every link on the page launches a classroom station, never a lesson's trade station (Summit's and Redwood's carry both)
+    const stray = [...page.matchAll(/sim=([^"&]+)/g)].map((m) => m[1]).filter((id) => !seenStations.has(id));
+    if (stray.length) fail("teacher", `${stray.length} link(s) launch a non-K-12 station: ${[...new Set(stray)].slice(0, 3).join(", ")}`); else ok();
+    if (!/station: l\.k12 \?\? l\.station/.test(kioskSrc)) fail("kiosks", "k2AdaptLesson must take the K-12 station (k12) before the trade station (station)"); else ok();
+  }
 }
 
 // 8c — Summit's and Redwood's own field lessons, in their exported schemas

@@ -398,6 +398,7 @@ APPS = {
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             SHARED / "field-lessons.js",  # the K-12 field-lesson list
+            SHARED / "side-game-stage.js",
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -535,6 +536,9 @@ APPS = {
             SHARED / "drivables-data.js",
             SHARED / "drivables.js",
             SHARED / "drivables-board.js",
+            SHARED / "side-game-stage.js",
+            SHARED / "side-game-cosmetics.js",
+            SHARED / "k12-gates-data.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -601,6 +605,9 @@ APPS = {
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
+            SHARED / "side-game-stage.js",
+            SHARED / "side-game-cosmetics.js",
+            SHARED / "k12-gates-data.js",
             WEBXR / "underwater/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -635,6 +642,8 @@ APPS = {
             SHARED / "competency.js",
             SHARED / "identity.js",
             SHARED / "passport.js",
+            SHARED / "field-lessons.js",  # the K-12 list call
+            SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
             SHARED / "auth.js",
             SHARED / "account.js",
             SHARED / "controls.js",
@@ -675,6 +684,8 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "field-lessons.js",  # the K-12 list call
+            SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
             SHARED / "links.js",
             # NPC characters (console GRIOT): the avatar space, the generated roster, then the engine.
             SHARED / "crew.js",
@@ -682,7 +693,6 @@ APPS = {
             SHARED / "npc.js",
             SHARED / "gate-names-data.js",
             SHARED / "skill-gates.js",
-            SHARED / "field-lessons.js",
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
