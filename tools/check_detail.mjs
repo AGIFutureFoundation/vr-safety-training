@@ -280,7 +280,7 @@ for (const tier of ["high", "low"]) {
   const load = loadavg()[0], quiet = load <= availableParallelism();
   const realMsg = `${id}/${tier}: on the real clock the 99th-percentile frame is ${medP99.toFixed(2)} ms (≤ ${budget} ms; median of 3 runs: ${p99s.map((v) => v.toFixed(2)).join(" / ")} ms, gc pauses excluded; load ${load.toFixed(1)} on ${availableParallelism()} cores)`;
   if (quiet) check(medP99 <= budget, realMsg); else note(`reported, not judged (contended): ${realMsg}`);
-  note(`${id}/${tier}: real frames median ${W7.p50s.map((v) => v.toFixed(2)).join(" / ")} ms, worst ${W7.worsts.map((v) => v.toFixed(1)).join(" / ")} ms (preemption on a shared machine), over budget ${W7.over.join(" / ")} of ${W7.n.join(" / ")}; a chunk ${W7.gen.toFixed(1)} ms over ${W7.slices.toFixed(1)} slices; refill pass worst ${W7.flush.toFixed(2)} ms (split across frames by family)`);
+  note(`${id}/${tier}: virtual-clock worst frame ${W7.vWorst.toFixed(2)} ms (budget ${budget}); real frames median ${W7.p50s.map((v) => v.toFixed(2)).join(" / ")} ms, worst ${W7.worsts.map((v) => v.toFixed(1)).join(" / ")} ms (preemption on a shared machine), over budget ${W7.over.join(" / ")} of ${W7.n.join(" / ")}; a chunk ${W7.gen.toFixed(1)} ms over ${W7.slices.toFixed(1)} slices; refill pass worst ${W7.flush.toFixed(2)} ms (split across frames by family)`);
 }
 gcObs.disconnect();
 note(`smooth walks: ${((performance.now() - tSmooth) / 1000).toFixed(1)} s`);

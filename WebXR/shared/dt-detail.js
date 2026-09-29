@@ -72,7 +72,11 @@ export const DT_BUDGET = {
   // genMs 12 → 14 (coordinator, 29 Sep): DETAIL-2's Louisiana rows (cane, rice, cypress, crab traps, pipe racks, hangars,
   // slipways, galleries) measured 13.3 ms CPU median on a quiet gate; the worst-case bound (90 ms) is unchanged. Next step is
   // generation in a worker or spread across frames (docs/consoles/DETAIL-2.md, Left).
-  maxMeshes: 16, genMs: 14, genWorstMs: 90, ratio: { high: 100, balanced: 25, low: 5 },
+  // genMs 14 → 12 (SMOOTH, loop 3): generation is spread across frames (frameMs below), and the generator is ~10 % faster
+  // with identical output (reused scratch buffers, an indexed table loop): paired A/B against 684be2fb's, min of 5
+  // interleaved timings on 184 chunks, median ratio 0.90 (10.9 → 10.3 ms); check_detail's CPU median 10.1 and 10.2 ms in
+  // two runs at load 8–10 on 4 cores (docs/consoles/SMOOTH.md).
+  maxMeshes: 16, genMs: 12, genWorstMs: 90, ratio: { high: 100, balanced: 25, low: 5 },
   // SMOOTH: the detail work one frame may spend (ms): the pool's refill plus sliced generation. A chunk (~13 ms) is made
   // across several frames instead of inside one; 3 ms is a fifth of a 60 Hz frame and a quarter of a 72 Hz headset's.
   frameMs: { high: 3, balanced: 3, low: 2 },
