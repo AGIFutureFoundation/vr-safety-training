@@ -53,6 +53,11 @@ Largest new file 61 KB; the page loads only the current map's picture.
 7. Reason: finish the set. Act: Plaquemines (4 tiles) and St. Tammany (2 tiles) baked, 20 and 19 KB. Observe: check_geo 146
    passed, 0 failed · 43/43 backdrops (21/21 Louisiana), 3 maps with none, 2363 KB of 2600 KB; check_mapbox exit 0.
    Committed c2dea4c9.
+8. Reason: a Bay map's picture must land in its scene frame like the Louisiana ones, and the other budgets must not
+   move. Act: headless capture of West Oakland's parish map canvas from the rebuilt bundle; check_parish_data,
+   check_mobile and check_budget. Observe: the imagery's estuary, Alameda shore and the toll plaza sit under the drawn
+   ones (drawn water is opaque over the bay, as on the Louisiana maps); check_parish_data 30820 pass, 0 fail;
+   check_mobile 158 checks pass; check_budget all 730 stations inside budget.
 
 ## Checkers (single runs; check_all never run)
 
@@ -61,6 +66,9 @@ Largest new file 61 KB; the page loads only the current map's picture.
 - `check_terraform`: 552877 checks, 0 failed.
 - `check_detail`: 467 pass, 0 fail.
 - `check_mapbox`: exit 0, no FAIL line.
+- `check_parish_data`: 30820 pass, 0 fail.
+- `check_mobile`: 158 checks pass.
+- `check_budget`: all 730 stations inside budget.
 
 ## Seams
 
