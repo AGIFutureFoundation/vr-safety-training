@@ -1,12 +1,17 @@
-"""GEO (docs/geo.md), item 4 proof: real relief from USGS 3DEP for one map, baked as a height grid in the map's scene frame.
+"""GEO (docs/geo.md §4) and BACKDROPS-2: real relief from USGS 3DEP, baked as a height grid in the map's scene frame.
 
 Reads the USGS 3DEP 1/3 arc-second DEM (public domain; AWS prd-tnm, cloud-optimised GeoTIFF) over the map's lon/lat box
 and samples it on a GRID x GRID lattice over the field through the map's affine fit (row = scene z, column = scene x,
-corners included), written as integer decimetres to WebXR/assets/geo/<map>.relief.json. Not wired into the engine yet:
-the grid is the input a later hook hands to np-parish.js's NP_TERRAIN_HOOKS.relief the way RELIEF's Mapbox relief is
-(scaled into the map's schematic range, pads terraced, water level). No figure is ever quoted from it.
+corners included), written as integer decimetres to WebXR/assets/geo/<map>.relief.json.
 
-Usage: python3 tools/geo_relief.py maps.json la-shintech-plaquemine [--out WebXR/assets/geo] [--grid 65]
+Wired into the engine (BACKDROPS-2), opt-in per map: a map whose data says relief: "3dep" gets its committed grid through
+WebXR/shared/bd2-relief-data.js (written by --module from the committed grids), np-parishes.js attaches it as
+`reliefGrid`, and np-parish.js (npDemSampler) scales it into the map's schematic range the way RELIEF's Mapbox relief is
+(pads terraced, water level). No figure is ever quoted from it.
+
+Usage:
+  python3 tools/geo_relief.py maps.json <map-id> [--out WebXR/assets/geo] [--grid 65]   # bake one map's grid
+  python3 tools/geo_relief.py maps.json --module                                        # rewrite bd2-relief-data.js
 """
 import argparse, json, math, os, sys
 import numpy as np

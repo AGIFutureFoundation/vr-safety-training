@@ -6,13 +6,17 @@ the tiles in lon/lat, then resamples the mosaic into the MAP'S OWN SCENE FRAME t
 column = scene x, row = scene z, both over the whole field (-size/2 .. +size/2). So the picture lines up with the
 parish canvas map (npMapXY) and with the ground's uv (np-world.js) with no further transform.
 
-Writes WebXR/assets/geo/<map>.jpg (512 px, JPEG quality <= 80, <= 90 KB) and <map>.json (scenes, dates, cloud cover,
-coverage, attribution). Credit wherever the image appears: "Contains modified Copernicus Sentinel data 2026".
+Writes WebXR/assets/geo/<map>.jpg and <map>.json (scenes, dates, cloud cover, coverage, tier, attribution). The size,
+quality ceiling and byte cap come from the map's tier in tools/geo_budget.json (BACKDROPS-2): the Louisiana maps 512 px
+q<=80 <=90 KB, the wide New Orleans parish boxes 384 px q<=70 <=48 KB, the city and Bay maps 512 px q<=75 <=64 KB.
+A representative or procedural map (and the programme worlds) is skipped: it gets no real backdrop.
+Credit wherever the image appears: "Contains modified Copernicus Sentinel data 2026".
 The imagery shows real geography only: no figure (area, length, capacity) is ever read off it.
 
 Usage:
   node tools/geo_maps.mjs > maps.json
-  python3 tools/geo_bake.py maps.json [--out WebXR/assets/geo] [--regions a,b] [--only id,id] [--skip-existing]
+  python3 tools/geo_bake.py maps.json [--out WebXR/assets/geo] [--regions a,b|all] [--only id,id] [--skip-existing]
+                                      [--months 2026-09,2026-08,2026-07]
 Needs numpy, rasterio, mgrs and Pillow, and outbound HTTPS to sentinel-cogs.s3.us-west-2.amazonaws.com.
 """
 import argparse, io, json, os, re, sys, time, urllib.request
@@ -163,7 +167,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("maps"); ap.add_argument("--out", default="WebXR/assets/geo")
     ap.add_argument("--regions", default=LOUISIANA); ap.add_argument("--only", default="")
-    ap.add_argument("--months", default="2026-09,2026-08"); ap.add_argument("--skip-existing", action="store_true")
+    ap.add_argument("--months", default="2026-09,2026-08,2026-07"); ap.add_argument("--skip-existing", action="store_true")
     a = ap.parse_args()
     maps = json.load(open(a.maps))
     only = [x for x in a.only.split(",") if x]

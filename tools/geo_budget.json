@@ -6,7 +6,7 @@
   { "id": "louisiana", "regions": ["louisiana-sites", "louisiana-cities", "new-orleans-districts"], "px": 512, "maxQ": 80, "maxBytes": 90000,
     "why": "GEO's 21 maps, unchanged: small boxes (2-25 km) where the site detail reads on the parish map" },
   { "id": "wide", "minKm": 20, "px": 384, "maxQ": 70, "maxBytes": 48000,
-    "why": "the 33-82 km New Orleans parish boxes: one picture pixel already spans 85-215 m, so 512 px adds bytes, not readable detail" },
+    "why": "the wide New Orleans parish boxes: a picture of a box this wide shows land, water and towns, not site detail, at either size, so 384 px keeps the read and saves bytes" },
   { "id": "city", "px": 512, "maxQ": 75, "maxBytes": 64000,
     "why": "the 4-14 km city and Bay maps: full size, a lower quality ceiling and a 64 KB cap so 18 maps fit" }
  ],

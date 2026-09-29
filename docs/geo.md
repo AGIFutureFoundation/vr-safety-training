@@ -1,7 +1,7 @@
 # Live geolocation and satellite imagery on the parish maps (console GEO)
 
-**The plain statement first:** the parish maps now carry a real Sentinel-2 picture of every Louisiana map, baked at build
-time; a viewer can ask "Find me" once, and the answer stays in the page's memory and nowhere else; a live satellite layer
+**The plain statement first:** every parish map of a real place now carries a real Sentinel-2 picture, baked at build
+time (representative and procedural maps carry none, on purpose); two Louisiana maps stand on real USGS 3DEP relief; a viewer can ask "Find me" once, and the answer stays in the page's memory and nowhere else; a live satellite layer
 exists but requests nothing until the viewer switches it on.
 
 Implementation: `WebXR/shared/geo-locate.js` (runtime), `tools/geo_maps.mjs` and `tools/geo_bake.py` (build time), the
@@ -30,7 +30,7 @@ the origin) are never offered.
 
 ```
 node tools/geo_maps.mjs > maps.json                  # every map's npBounds and scene<->geo fit
-python3 tools/geo_bake.py maps.json                  # the Louisiana regions by default; --only id,id / --regions a,b
+python3 tools/geo_bake.py maps.json                  # the Louisiana regions by default; --only id,id / --regions a,b / --regions all
 ```
 
 For each map `geo_bake.py` lists the Sentinel-2 L2A scenes of the last three months for every MGRS tile over the box
@@ -39,11 +39,25 @@ cloud figure says little about a 2 km district), mosaics the clearest, and resam
 frame** through its affine fit: column = scene x, row = scene z over the whole field. The picture therefore drops straight
 onto the parish canvas map (`npMapXY`) and onto the ground's uv (`np-world.js`) with no transform.
 
-Output: `WebXR/assets/geo/<map>.jpg` — 512 × 512 px, JPEG quality at most 80, at most 90 KB — and `<map>.json` with the
-scenes (tile, scene id, date, scene cloud cover, local cloud over the box), coverage and the attribution.
+Output: `WebXR/assets/geo/<map>.jpg` at its budget tier's size (below) and `<map>.json` with the scenes (tile, scene id,
+date, scene cloud cover, local cloud over the box), the tier, coverage and the attribution.
 
-**Budget:** 1600 KB for all baked backdrops together. The 17 Louisiana maps (regions `louisiana-sites`,
-`louisiana-cities`, `new-orleans-districts`) use about 1 MB. New maps in those regions are picked up by region, not by a list.
+**Budget (BACKDROPS-2, `tools/geo_budget.json`, read by both the bake and the checker): 2600 KB for all backdrops
+together, no file over 90 KB.** A map takes the first tier it matches:
+
+| Tier | Maps | Size, quality, cap | Why | Used |
+|---|---|---|---|---|
+| `louisiana` | the 21 maps of `louisiana-sites`, `louisiana-cities`, `new-orleans-districts` | 512 px, q ≤ 80, ≤ 90 KB | GEO's bakes, unchanged: small boxes where site detail reads on the parish map | 21 maps, 1269 KB |
+| `wide` | any other box 20 km or wider: Jefferson, St. Bernard, Plaquemines, St. Tammany | 384 px, q ≤ 70, ≤ 48 KB | a picture of a box this wide shows land, water and towns, not site detail, at either size, so 384 px keeps the read and saves bytes | 4 maps, 81 KB |
+| `city` | the rest: Orleans, the 9 San Francisco, 4 Oakland, North East Bay, South Bay and 2 Bay Program maps | 512 px, q ≤ 75, ≤ 64 KB | full size, a lower quality ceiling and a 64 KB cap, so 18 maps fit | 18 maps, 1013 KB |
+
+Total 2363 KB of 2600 KB for 43 maps. The page loads only the current map's picture, so the per-file cap is what a
+viewer downloads; the total is the repository and deploy weight, with room for about four more city maps.
+
+**No real backdrop** for a map that is `representative: true` or `procedural: true`, or in the programme worlds: San
+Mateo County Bayside (representative), the nutrient pilot plant (representative) and the Unspoken Smiles District
+(procedural). Such a map is not the place in any picture, so a real one would claim what it is not. The bake skips
+them, `geoBackdropAllowed(parish)` in `geo-locate.js` returns false, and the app requests no image for them.
 
 Where it shows:
 - **The parish map** (M, or Map tab → Open the map): a `satellite` layer, on by default, under translucent districts; the
@@ -63,14 +77,35 @@ domain) and NASA GIBS daily VIIRS true colour (yesterday's pass, for weather and
 map's box as plain images (`referrerPolicy: no-referrer`); a failed tile (offline, or a viewer that blocks the host) leaves
 a note and the baked backdrop in place. Nothing is requested before the press.
 
-## 4. Real relief from USGS 3DEP (proof, one map)
+## 4. Real relief from USGS 3DEP (in the engine, opt-in per map)
 
-`python3 tools/geo_relief.py maps.json la-shintech-plaquemine` reads the USGS 3DEP 1/3 arc-second DEM (public domain,
-cloud-optimised GeoTIFF on AWS `prd-tnm`) over the Plaquemine map's box and writes a 65 x 65 height grid in the map's scene
-frame to `WebXR/assets/geo/la-shintech-plaquemine.relief.json` (integer decimetres, with the source tiles and the credit
-"Heights: USGS 3D Elevation Program, 1/3 arc-second (public domain)"). The river levees and the town's higher ground show
-in it. It is not wired into the engine yet: the next step is a hook that hands it to `NP_TERRAIN_HOOKS.relief`, scaled into
-the map's schematic range exactly as RELIEF's Mapbox relief is (pads terraced, water level). No figure is quoted from it.
+`python3 tools/geo_relief.py maps.json <map>` reads the USGS 3DEP 1/3 arc-second DEM (public domain, cloud-optimised
+GeoTIFF on AWS `prd-tnm`) over the map's box and writes a 65 x 65 height grid in the map's scene frame to
+`WebXR/assets/geo/<map>.relief.json` (integer decimetres, with the source tiles and the credit "Heights: USGS 3D Elevation
+Program, 1/3 arc-second (public domain)").
+
+BACKDROPS-2 wired it in. A map opts in with `relief: "3dep"` in its data **and** a committed grid:
+
+1. `python3 tools/geo_relief.py maps.json --module` writes `WebXR/shared/bd2-relief-data.js` (`BD2_RELIEF`) from the
+   committed grids of the opted-in maps; the checker proves the two copies match.
+2. `np-parishes.js` attaches each grid to its map as `reliefGrid`, so every consumer of the registry (the apps, the
+   checkers, the detail measure) sees the same ground with no mount step and no request.
+3. `np-parish.js` `npDemSampler(parish)` scales it into the map's schematic range exactly as RELIEF's Mapbox relief is
+   (`NP_DEM` equals `RL_FLAT_CAP`, `RL_MAX_RATIO`, `RL_SHORE`, `RL_GRID`): the dry field's real range (2nd to 98th
+   percentile, sea level at the bottom) squeezed under the tallest named hill (3 m on a map with none), at most 0.5 map
+   metres per real metre, faded out within 96 m of open water, sampled on a per-chunk node grid cached by chunk.
+   `npGroundRise` takes the higher of it and the hills; pads terrace at the rise; water beds ignore it. A viewer's Mapbox
+   relief never stacks on a committed grid.
+
+On for two Louisiana maps where the ground really rises:
+
+- **Plaquemine Expansion Site** (`la-shintech-plaquemine`): the Mississippi's natural levee ridge and the river levees,
+  falling away to the fields and Bayou Plaquemine.
+- **Baton Rouge — Downtown & Riverfront** (`br-downtown-riverfront`): the riverfront levee and the higher ground the
+  downtown stands on, rising east from the river.
+
+Every other map keeps its schematic ground. No figure is quoted from the heights; they only shape the schematic field.
+The detail baselines of the two maps were re-measured on the relief (`tools/dt_measure.mjs --missing`).
 
 ## What is proved (`node tools/check_geo.mjs`)
 
@@ -79,14 +114,19 @@ once; no storage, cookie, network or log activity during a full Find me run; `ge
 or logging call and is the only module that asks for a position; demo and signed-out sessions are refused; the K-12 default
 is off and only the teacher's literal `true` opens it; the nearest-map arithmetic (every map's centre is inside it at 0 m
 and pins at the origin; outside, the distance equals an independent haversine to the clamped point; corners; far away);
-the live layer requests nothing until switched on, then only the GEO_LIVE hosts, within 16 tiles; every Louisiana backdrop
-is 512 px, quality at most 80, at most 90 KB, with its sidecar and credit; the total stays inside the budget; the credit sits
-under the canvas; the satellite ground starts off; the bundler lists the module; the 3DEP relief proof is a real 65 x 65
-integer grid with its source and credit.
+the live layer requests nothing until switched on, then only the GEO_LIVE hosts, within 16 tiles; every map that may carry
+a backdrop has one at its tier's size, quality and cap, with local cloud at most 0.12, its sidecar and credit; each tier
+stays inside its caps and the total inside the budget; the representative and procedural maps have none on disk, are
+refused by `geoBackdropAllowed`, and loading them the app's way requests no image; no stray picture; the credit sits
+under the canvas; the satellite ground starts off; the bundler lists the module and the grid module before every
+np-parishes.js. For the relief: exactly the opted-in maps carry grids, the engine's copy equals the committed grid, the
+scaling constants equal RELIEF's, the rise stays within the schematic cap and is not flat, water has the same height with
+and without the relief, every site pad stays flat and dry, the rise is the higher of hills and relief, a Mapbox hook does
+not stack, and an unflagged map has no sampler.
 
 ## Not done yet
 
-- Wiring the 3DEP relief into the engine (below): the grid exists for one map, the hook does not.
-- Backdrops for the New Orleans parishes, the Bay Area maps and the Bay Program maps (run `geo_bake.py --regions ...`;
-  the budget has room for about 7 more at the current sizes, or raise it).
+- More relief maps: Monroe and West Monroe, and Baton Rouge's north industrial map, have grids that show real rises
+  (baked to scratch, not committed); opting one in is `relief: "3dep"`, the grid, `--module`, and a detail re-measure.
+- Re-bake a backdrop whenever a map's anchors change (the picture is in the map's scene frame).
 - Overture footprints (licence decision pending, see the GEO findings).
