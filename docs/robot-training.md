@@ -251,3 +251,40 @@ baseline trainer.
 assistant's in cool blue, and the green marker on the pose the robot is about to work](screenshots/robot/keep-out-overlay.png)
 
 ![The robot-training card on the dental programme, with the difficulty curve it calibrated](screenshots/robot/robot-training-card.png)
+
+## Robotics scenarios and the gym API (ROBOTICS)
+
+`WebXR/shared/rb-env.js` is a gym-style, headless, deterministic-by-seed interface over the robotics games and the
+robotics stations; scenarios are plain data in `WebXR/shared/rb-robotics-data.js` (`RB_SCENARIOS`, exported once for
+TradeQuest by TQ-BRIDGE).
+
+```js
+import { rbEnv, rbPolicy } from "./shared/rb-env.js";
+const env = rbEnv("rb-cell-entry", { seed: 7 });
+let obs = env.reset();
+const policy = rbPolicy(env, { skill: 1, seed: 7 });   // the safe-practice demonstration; lower skills lapse
+for (;;) { const { observation, reward, done, info } = env.step(policy(obs)); obs = observation; if (done) break; }
+```
+
+| scenario | kind | teaches | rules it scores |
+| --- | --- | --- | --- |
+| `rb-teleop-pick-place` | game | grip within the part's force class (robot-embodiment.js `FORCE_CLASSES`, simulated newtons in `RB_FORCE_N`), route round a teammate's keep-out sphere | over-force, keep-out |
+| `rb-amr-fleet-routing` | game | route a fleet on a grid without two robots claiming one cell, hold at the walkway while a person crosses | conflict, yield-missed |
+| `rb-cobot-zone-setup` | game | size the stop zone for speed and measured stop time, warning zone outside it, test scanner and e-stop before commit | zone-too-small, warn-inside-stop, skip-scanner-test, skip-estop-test |
+| `rb-cell-entry` | game | speed-and-separation on approach, test the e-stop, stop, lock out, try-start, enter, clear, exit, remove lock, restart | enter-live-cell, skip-estop-test, lockout-order, no-verify, restart-with-lock, left-locked |
+| `rb-station-*` | station | the three catalog stations (robot cell, AMR fleet, cobot) through robot.js `observe`/`applyAction` and `observeEmbodied` | the station's hazards |
+
+Observations carry the embodiment vocabulary (`grasp`, `maxForce`, `pose`, and a `keepOut` account in
+robot-embodiment.js's zone shape); `info` carries the dataset layer's per-step fields plus `violations`. Every rule
+ends with the robot holding a stop — the penalty is for the missed practice; robots never harm anyone in any scene.
+Station scenarios need `{ station: { room, api, rebuild, SessionClass } }` (tools/lib/headless.mjs `loadSmartCity()`).
+
+`node tools/rb_rollout.mjs` writes rollouts in the dataset format (DATAWORKS' `smartcitix.holodeck.episode` 2.0.0
+when `shared/dx-data.js` is present, else the export_dataset.mjs v1 shape; the manifest records which) plus the
+LeRobot/RLDS layouts. `node tools/check_robotics.mjs` holds all of it: terminate, safe-practice rewards, determinism,
+schema, sites on dry ground, budgets, games and the Kids rule.
+
+In the worlds, `rb-world.js` places robotics sites beside fitting map sites (West Oakland port and warehouse, a San
+Jose campus lab, an Orleans distribution warehouse, the South of Market fabrication shop — all procedural rigs): the
+robot slows inside the warning zone and holds a stop inside the stop zone as the player nears (`rbSsmMode`, the same
+rule the cell-entry scenario trains), with an e-stop to test, lockout at the gate and restart from outside, scored /100.
