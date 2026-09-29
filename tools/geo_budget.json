@@ -1,0 +1,15 @@
+{
+ "_doc": "BACKDROPS-2 (docs/geo.md): the backdrop budget, read by tools/geo_bake.py and tools/check_geo.mjs. A map takes the first tier it matches. Maps that are representative or procedural get no real backdrop.",
+ "totalKb": 2600,
+ "maxBytes": 90000,
+ "tiers": [
+  { "id": "louisiana", "regions": ["louisiana-sites", "louisiana-cities", "new-orleans-districts"], "px": 512, "maxQ": 80, "maxBytes": 90000,
+    "why": "GEO's 21 maps, unchanged: small boxes (2-25 km) where the site detail reads on the parish map" },
+  { "id": "wide", "minKm": 20, "px": 384, "maxQ": 70, "maxBytes": 48000,
+    "why": "the 33-82 km New Orleans parish boxes: one picture pixel already spans 85-215 m, so 512 px adds bytes, not readable detail" },
+  { "id": "city", "px": 512, "maxQ": 75, "maxBytes": 64000,
+    "why": "the 4-14 km city and Bay maps: full size, a lower quality ceiling and a 64 KB cap so 18 maps fit" }
+ ],
+ "none": { "flags": ["representative", "procedural"], "regions": ["programmes"],
+   "why": "a representative or procedural map is not the place in any picture, so a real backdrop would claim what it is not" }
+}

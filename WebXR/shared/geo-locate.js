@@ -166,6 +166,14 @@ export function geoMountFindMe({ el, maps, current, allowed, onHere = null, href
 // ------------------------------------------------------------------ baked backdrop (build time)
 
 /**
+ * BACKDROPS-2: whether a map may carry a real satellite backdrop. A representative or procedural map (and the programme
+ * worlds) is not the place in any picture, so it gets none and nothing is requested for it (tools/geo_budget.json "none").
+ */
+export function geoBackdropAllowed(parish) {
+  return !!parish && parish.representative !== true && parish.procedural !== true && parish.region !== "programmes";
+}
+
+/**
  * Load a map's baked backdrop, trying each asset base in turn; resolves the loaded Image or null.
  * `Img` is injectable (the checker's stub); a missing file simply resolves null (the drawn map stays).
  */

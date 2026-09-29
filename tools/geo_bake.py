@@ -113,19 +113,42 @@ def encode(rgb, max_bytes=MAX_BYTES, max_q=MAX_Q):
     return buf.getvalue(), q
 
 
+BUDGET_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "geo_budget.json")
+
+
+def budget():
+    with open(BUDGET_PATH) as fh: return json.load(fh)
+
+
+def no_backdrop(mp, bud=None):
+    """BACKDROPS-2: a representative or procedural map (or the programme worlds) gets no real backdrop."""
+    none = (bud or budget())["none"]
+    return mp.get("region") in none["regions"] or any(mp.get(f) for f in none["flags"])
+
+
+def tier_for(mp, bud=None):
+    """The first budget tier the map matches (tools/geo_budget.json): by region, else by box width, else the default."""
+    for t in (bud or budget())["tiers"]:
+        if "regions" in t and mp.get("region") not in t["regions"]: continue
+        if "minKm" in t and (mp.get("km") or 0) < t["minKm"]: continue
+        return t
+
+
 def bake(mp, out_dir, months):
     w, s, e, n = mp["bounds"]
     t0 = time.time()
-    mosaic, valid, used = geo_mosaic(w, s, e, n, 3 * PX // 2, months)
+    tier = tier_for(mp)
+    px = tier["px"]
+    mosaic, valid, used = geo_mosaic(w, s, e, n, 3 * px // 2, months)
     if not used: raise RuntimeError("no scene covers the box")
-    rgb, cov = to_scene_frame(mosaic, valid, mp)
-    data, q = encode(rgb)
+    rgb, cov = to_scene_frame(mosaic, valid, mp, px)
+    data, q = encode(rgb, tier["maxBytes"], tier["maxQ"])
     with open(os.path.join(out_dir, f"{mp['id']}.jpg"), "wb") as fh: fh.write(data)
     dates = sorted(u["datetime"][:10] for u in used if u.get("datetime"))
     side = {
         "map": mp["id"], "name": mp.get("name"), "region": mp.get("region"),
         "frame": "scene: column = x, row = z, over the map's whole field (not north-up)",
-        "bbox": [round(v, 5) for v in (w, s, e, n)], "px": PX, "quality": q, "bytes": len(data),
+        "bbox": [round(v, 5) for v in (w, s, e, n)], "px": px, "tier": tier["id"], "quality": q, "bytes": len(data),
         "scenes": used, "date": dates[-1] if dates else None,
         "cloud_cover": max((u["cloud_cover"] or 0) for u in used), "local_cloud": max(u["local_cloud"] for u in used), "coverage": round(cov, 3),
         "attribution": ATTRIBUTION, "source": "Copernicus Sentinel-2 L2A, AWS Open Data (sentinel-cogs), true colour",
@@ -145,7 +168,10 @@ def main():
     maps = json.load(open(a.maps))
     only = [x for x in a.only.split(",") if x]
     regions = [x for x in a.regions.split(",") if x]
-    pick = [m for m in maps if (m["id"] in only if only else m["region"] in regions)]
+    pick = [m for m in maps if (m["id"] in only if only else (a.regions == "all" or m["region"] in regions))]
+    skipped = [m["id"] for m in pick if no_backdrop(m)]
+    if skipped: print(f"[geo] no real backdrop (representative or procedural): {', '.join(skipped)}")
+    pick = [m for m in pick if not no_backdrop(m)]
     os.makedirs(a.out, exist_ok=True)
     bad = 0
     for mp in pick:
