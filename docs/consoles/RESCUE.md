@@ -54,6 +54,6 @@
 
 ## Left for the coordinator
 
-- check_links was not completed in this session (a full run did not finish in 12 minutes on the shared machine); the gate's check_all runs it. New or changed pages it will read: WebXR/k12/teacher.html, the Treasure Map's header and breadcrumb, the track pages.
+- (Resolved at the end: check_links ran in full once the machine was quieter. It failed once, "/treasures.html: the page draws a canvas": WAYFINDER-2 made the Treasure Map a document page but check_links still expected a world canvas. treasures.html joins LK_DOC_PAGES, so it must show its heading and content; rerun: 22924 checks pass.)
 - The Unity export (tools/export_unity.mjs --models) was not rerun; Redwood's RW_GATED shape is unchanged, so worlds/redwood.json should not move.
 - docs/skill-gates.md still headlines "The items (70)" while check_gates counts 189; the count line predates this rescue.
