@@ -154,6 +154,18 @@ export const DV_DRIVABLES = [
     dvGate(["forklift-dock", "rl-critical-lift-plan-and-signalperson"], "Forklift training and the lift plan before the boom extends."), "lift"),
   dvR("yard-hostler", "Yard Hostler", "yard", dvFleet("yardHustler"), DV_ROAD.yard, ["ilwu", "ila"],
     dvGate(["po-yard-hostler-and-pedestrian-separation"], "Pedestrian separation before a hostler moves a chassis."), "road"),
+  // ---- zero-emission port equipment (CLEANPORTS): electric and hydrogen variants of the terminal's
+  // machines, each gated on its pre-use / pre-trip station. Generic shapes; no maker, model or figure.
+  dvR("cp-electric-yard-tractor", "Battery-Electric Yard Tractor", "yard", dvFleet("yardHustler", { livery: { colour: 0x2f6f9f, fleetName: "ZERO EMISSION", unitNumber: "EY-1" } }), DV_ROAD.yard, ["ilwu", "iam"],
+    dvGate(["cp-zero-emission-terminal-equipment-pre-use"], "The zero-emission pre-use inspection — charge cable hung, charge read, dash warnings read — before the tractor moves."), "road", { zeroEmission: "battery-electric" }),
+  dvR("cp-hydrogen-yard-tractor", "Hydrogen Fuel Cell Yard Tractor", "yard", dvFleet("yardHustler", { livery: { colour: 0x3f7f4a, fleetName: "HYDROGEN FUEL CELL", unitNumber: "HY-2" } }), DV_ROAD.yard, ["ilwu", "iam"],
+    dvGate(["cp-zero-emission-terminal-equipment-pre-use", "cp-hydrogen-fuel-cell-equipment-and-fuelling"], "The pre-use inspection and the hydrogen fuelling station before a fuel cell tractor moves."), "road", { zeroEmission: "hydrogen fuel cell" }),
+  dvR("cp-electric-top-pick", "Battery-Electric Top Pick", "lift", dvFleet("forkliftCounterbalance", { livery: { colour: 0xf0b323, fleetName: "ZERO EMISSION", unitNumber: "TP-3" } }), DV_ROAD.lift, ["ilwu"],
+    dvGate(["cp-zero-emission-terminal-equipment-pre-use"], "Twistlocks cycled and the hydraulic lines looked at on the pre-use inspection before the top pick lifts."), "lift", { zeroEmission: "battery-electric" }),
+  dvR("cp-electric-straddle-carrier", "Battery-Electric Straddle Carrier", "yard", dvOwn("dvStraddleCarrier"), DV_ROAD.yard, ["ilwu"],
+    dvGate(["cp-zero-emission-terminal-equipment-pre-use"], "Legs, tyres, mirrors and cameras walked on the pre-use inspection before the carrier travels."), "plant", { zeroEmission: "battery-electric" }),
+  dvR("cp-electric-drayage-tractor", "Battery-Electric Drayage Tractor", "tractor", dvFleet("semiTractor", { livery: { colour: 0xdfe4e8, fleetName: "ZERO EMISSION DRAYAGE", unitNumber: "ED-5" } }), DV_ROAD.heavy, ["teamsters"],
+    dvGate(["cp-zero-emission-drayage-truck-pre-trip"], "The zero-emission drayage pre-trip — report read, charge matched to the turns, air built, chassis locked — before the first port turn."), "cdl", { zeroEmission: "battery-electric" }),
   dvR("pushback-tug", "Pushback Tug", "yard", dvEquip("pushbackTug"), DV_ROAD.yard, ["iam", "twu"],
     dvGate(["av-pushback-tug-and-towbar-connection"], "The towbar connection before a pushback."), "road"),
   dvR("belt-loader", "Belt Loader", "yard", dvEquip("cargoBeltLoader"), DV_ROAD.yard, ["iam", "twu"],

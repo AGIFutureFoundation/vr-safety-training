@@ -1163,6 +1163,12 @@ export const CURRICULA = [
       { app: "smartcity", id: "wellness-peer-support-conversation", why: "Wellness: a cohort-mate who cannot keep doing this, met with the signs noticed first and a direct question asked plainly." },
       { app: "smartcity", id: "wellness-substance-use-and-the-job", why: "Wellness: four in the morning on the dock, the forklift key taken before the conversation and the doors named that do not cost the job." },
       { app: "smartcity", id: "wellness-asking-for-help-and-resources", why: "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager." },
+      { app: "smartcity", id: "cp-zero-emission-drayage-truck-pre-trip", why: "Zero-emission careers: the Class A track's pre-trip done on a battery-electric drayage tractor — charge matched to the day's port turns, air built on an electric compressor, the chassis locked to the box." },
+      { app: "smartcity", id: "cp-zero-emission-terminal-equipment-pre-use", why: "Zero-emission careers: the terminal's battery-electric yard tractor, top pick and straddle carrier walked before a vessel shift, with the quiet machines' pedestrian alerts heard from the ground." },
+      { app: "smartcity", id: "cp-charging-yard-connectors-and-e-stops", why: "Zero-emission careers: the charging yard those machines plug into, opened for the shift with every connector looked at, every cable hung and the emergency stop proven." },
+      { app: "smartcity", id: "cp-high-voltage-lockout-on-electric-cargo-equipment", why: "Zero-emission careers: the shop bay where a battery-electric tractor's high-voltage system is locked out and proven dead before anyone touches an orange cable." },
+      { app: "smartcity", id: "cp-hydrogen-fuel-cell-equipment-and-fuelling", why: "Zero-emission careers: a hydrogen fuel cell machine fuelled with ignition sources left outside the island and every fitting checked with a detector, never a hand." },
+      { app: "smartcity", id: "cp-battery-energy-storage-site-awareness", why: "Zero-emission careers: the battery energy storage site behind the charging yard — its hazards, its entry rules, and who may go inside." },
     ],
   },
   {
