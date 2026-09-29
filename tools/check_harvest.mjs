@@ -22,6 +22,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SH = join(ROOT, "WebXR/shared");
+const memStore0 = () => { const m = new Map(); return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; };
+globalThis.localStorage = memStore0(); globalThis.sessionStorage = memStore0(); // profiles.js gtStorage() for the treasure ledger
 const { NP_PARISHES } = await import(join(SH, "np-parishes.js"));
 const H = await import(join(SH, "hv-harvest.js"));
 const { tyUseStore, tyLedger } = await import(join(SH, "ty-economy.js"));
@@ -138,6 +140,7 @@ const b0 = tyLedger().balance;
 const r1 = H.hvFinish(fishSpot, "fish", bestMoves(fishSpot, "fish"), { hour: 12 });
 check(r1.clean && r1.score === 100 && r1.catch && r1.paid && r1.amount > 0, `a clean fishing run at ${fishSpot.id} scores and pays (${r1.score}%, ${r1.catch?.name}, +${r1.amount})`);
 check(tyLedger().balance === b0 + r1.amount, "the Crew Credits ledger shows the pay");
+check(r1.treasure?.treasure?.id === "tz-harvest-fish", "the first clean fishing run finds the Tackle Box treasure", JSON.stringify(r1.treasure ?? null).slice(0, 80));
 const r2 = H.hvFinish(fishSpot, "fish", bestMoves(fishSpot, "fish"), { hour: 23, attempt: 1 });
 check(r2.clean && !r2.paid && tyLedger().balance === b0 + r1.amount, "a second clean run logs a catch but pays nothing");
 const r3 = H.hvFinish(act("fish")[1], "fish", worstMoves(act("fish")[1], "fish"));
@@ -150,6 +153,12 @@ for (const a of ["crab", "crawfish", "rice", "gator"]) {
   check(r.clean && r.paid && !again.paid && r.line.length > 20, `${a} at ${s.id}: scores, pays once, teaches its line`);
 }
 check(H.hvFind(fishSpot.id) === true && H.hvFind(fishSpot.id) === false, "a spot is found once");
+
+// Treasures: one per activity through gen_treasures.mjs, each lesson re-read verbatim from the module.
+const D = await import(join(SH, "treasures-data.js"));
+const hvT = D.TZ_TREASURES.filter((t) => t.how === "harvest");
+check(Object.keys(H.HV_TREASURE_LINES).every((a) => hvT.some((t) => t.trigger.activity === a && t.lesson === H.HV_TREASURE_LINES[a])) && D.TZ_SETS.some((s) => s.id === "harvest-hands"), `harvest treasures (${hvT.length}) and the Harvest Hands set are generated`);
+check(Object.values(H.HV_TREASURE_LINES).every((l) => !/\d/.test(l) && !GRAPHIC.test(l)), "treasure lines are figure-free");
 
 // 7. The mount (headless) and the wiring.
 console.log("Mount and wiring");

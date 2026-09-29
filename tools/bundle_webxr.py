@@ -869,8 +869,6 @@ APPS = {
             # PROJECTSIM: the Bay Program project simulations (data, then the mount; after np-parishes, tf-terraform, nw-physics, ty-economy).
             SHARED / "ps-projectsim-data.js",
             SHARED / "ps-projectsim.js",
-            # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles, st-paths).
-            SHARED / "hv-harvest.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",
@@ -887,6 +885,9 @@ APPS = {
             SHARED / "by-flow-agent.js",
             SHARED / "cg-units.js",
             SHARED / "cg-runner.js",
+            # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles,
+            # st-paths, and account.js, which brings treasures.js).
+            SHARED / "hv-harvest.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

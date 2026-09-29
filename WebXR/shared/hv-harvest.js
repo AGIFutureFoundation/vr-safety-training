@@ -29,6 +29,7 @@ import { tyEarn, TY_DAY_SECONDS, TY_CURRENCY } from "./ty-economy.js";
 import { atBand } from "./at-atmos.js";
 import { gtProfile } from "./profiles.js";
 import { stChosenPath } from "./st-paths.js";
+import { tzHarvestRun } from "./treasures.js";
 
 export const HV_KEY = "hv-harvest-v1";
 export const HV_FIND_RADIUS = 30;
@@ -112,6 +113,14 @@ export const HV_LINES = {
   rice: { text: "Stay clear of moving farm machinery and its blind spots, and in the heat take water, rest and shade.", source: "OSHA heat illness prevention campaign: Water. Rest. Shade. (named public source)" },
   gator: { text: "Alligator hunting is done by licensed hunters with tags, only in the season {agency} sets; a nuisance alligator is handled by the agency's licensed agents, so call the agency and never approach.", source: "general practice", adult: true },
   "gator-watch": { text: "Watch alligators from a safe distance, never feed them, and tell {agency} about an alligator where people are.", source: "general practice" },
+};
+/** The treasure lines (tools/gen_treasures.mjs re-reads each verbatim): one per activity, figure-free, no agency placeholder. */
+export const HV_TREASURE_LINES = {
+  fish: "Wear a life jacket on docks and boats, look behind you before every cast, and wet your hands before you release a fish.",
+  crab: "Keep steady footing on a dock or pier, keep fingers clear of claws, and keep your catch cool and shaded.",
+  crawfish: "Many Louisiana crawfish are raised in rice fields: after the rice is harvested the field is flooded again and the crawfish grow there, a rotation farmers use.",
+  rice: "Stay clear of moving farm machinery and its blind spots, and in the heat take water, rest and shade.",
+  "gator-watch": "Watch alligators from a safe distance and never feed them or any wild animal.",
 };
 export const HV_PROCEDURAL = "Spot placement is procedural: a play sign by the water, not a claim about the real place.";
 export const HV_CALENDAR_NOTE = "The play calendar is a game cycle, not the real season. Real seasons are set by the state's wildlife and fisheries agency.";
@@ -363,8 +372,10 @@ export function hvFinish(spot, activity, moves = [], { adult = false, season = "
   hvSave(s);
   let paid = false, amount = 0;
   if (clean) { const r = tyEarn(`harvest-${activity}`, { recordId: `hv:${key}`, level: 1 }); paid = r.paid; amount = r.amount; }
+  let treasure = null;
+  if (clean) { try { treasure = tzHarvestRun(activity === "gator" && !adult ? "gator-watch" : activity); } catch { /* no ledger headless */ } }
   const lineKey = activity === "gator" && !adult ? "gator-watch" : activity;
-  return { score, clean, catch: caught, paid, amount, line: HV_LINES[lineKey]?.text.replace("{agency}", HV_AGENCY[fam]) ?? "" };
+  return { score, clean, catch: caught, paid, amount, treasure: treasure?.added ? treasure : null, line: HV_LINES[lineKey]?.text.replace("{agency}", HV_AGENCY[fam]) ?? "" };
 }
 export function hvAlbum() { return hvLoad().album; }
 export function hvLog() { return hvLoad().log; }
@@ -438,6 +449,7 @@ export function hvMount({ THREE = null, root = null, parish, el = null, pos = ()
       b.addEventListener("click", () => { playing = null; render(); });
       box.append(p, b);
       if (r.paid) toast(`Harvest: +${r.amount} ${TY_CURRENCY}.`);
+      else if (r.treasure) toast("Harvest: a treasure for the Treasure Map.");
       playing.done = true;
       return box;
     }

@@ -445,6 +445,11 @@ export function tzArcadeRound(cabinetId) {
   const t = TZ_TREASURES.find((x) => x.how === "arcade" && x.trigger.cabinet === cabinetId);
   return t ? tzFind(t.id) : null;
 }
+/** A clean run at a hidden harvest activity on a parish map (HARVEST, hv-harvest.js): the activity's treasure, once. */
+export function tzHarvestRun(activity) {
+  const t = TZ_TREASURES.find((x) => x.how === "harvest" && x.trigger.activity === activity);
+  return t ? tzFind(t.id) : null;
+}
 /** A race finished on a course (Night Highway Circuit); a mirrored course counts as its own original. */
 export function tzRaceFinish(trackId) {
   const id = String(trackId ?? "").replace(/-mirror$/, "").replace(/^mirror-/, "");
