@@ -69,3 +69,8 @@ bays, programme rooms) through `ixRegisterDresser`; these styles stay generic.
    First run failed (the near tick needs ~10 capped frames and swiftshader is slow: waited on a fixed 900 ms); fixed with
    waits on the state. Observe: 411 passed, 0 failed — prompt "E — go inside: …", root hidden, camera in the room, world
    stats unchanged while walking (no streaming), outdoor pose untouched, exact pose and visible root on exit, no page errors.
+4. Reason: the rooms read as their kind at a glance (not one box with different furniture) and stay cheap on the phone.
+   Act: `IX_FEATURES` — each style's generic signature fittings (the apparatus bay's pole, bay doors and floor stripes; the
+   barn's rails and overhead wire; the port shed's crane beams; the classroom's board; the clinic's curtain rails …) as ONE
+   InstancedMesh per room; `IX_BUDGET.triangles` { high 6000, low 3000 } counted per tier. Observe: check_interiors 455
+   passed, 0 failed; every room 17–18 meshes and 480–972 triangles on desktop.

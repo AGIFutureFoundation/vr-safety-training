@@ -28,7 +28,7 @@
 
 import { nwWorld, nwAvatarState, nwAvatarStep } from "./nw-physics.js";
 
-export const IX_BUDGET = { meshes: 120, lights: { high: 3, low: 1 } };
+export const IX_BUDGET = { meshes: 120, lights: { high: 3, low: 1 }, triangles: { high: 6000, low: 3000 } };
 /** The room is built far above the map so no outdoor object shares its space even if a caller forgets to hide one. */
 export const IX_ORIGIN = [0, 4000, 0];
 
@@ -93,6 +93,27 @@ export const IX_KIND_STYLE = {
   port: "port-shed", harbour: "port-shed", marina: "port-shed", ferry: "port-shed", landing: "port-shed", boating: "port-shed", bridge: "port-shed",
   levee: "port-shed", seawall: "port-shed", floodwall: "port-shed", shoreline: "port-shed", shore: "port-shed", wetland: "port-shed",
   civic: "civic-lobby", park: "civic-lobby", recreation: "civic-lobby", stadium: "civic-lobby", theatre: "civic-lobby", trail: "civic-lobby",
+};
+
+/**
+ * Each style's signature fittings, the few things that make one room read as its kind at a glance, all generic:
+ * [w, h, d, x, y, z, colourKey] boxes in room-local metres (x, z as fractions of w/2 and d/2; y absolute), drawn as ONE
+ * InstancedMesh per room. Colour keys: wall, trim, accent, metal, dark, pale, wood.
+ */
+export const IX_FEATURES = {
+  "union-hall":    [[6, 1.2, 0.05, 0, 3.2, -0.99, "accent"], [0.08, 2.2, 0.08, -0.35, 1.1, -0.85, "metal"], [0.08, 2.2, 0.08, 0.35, 1.1, -0.85, "metal"], [2.4, 1.2, 0.05, -0.99, 2.2, 0.2, "pale"]],
+  "classroom":     [[4, 1.2, 0.04, 0, 1.6, -0.99, "pale"], [4.2, 0.06, 0.12, 0, 0.95, -0.97, "metal"], [0.04, 1.4, 3, 0.99, 1.7, -0.1, "wood"], [2, 1.6, 0.04, 0.5, 1.8, 0.99, "trim"]],
+  "apparatus-bay": [[0.12, 6.4, 0.12, -0.85, 3.2, 0.2, "metal"], [4.6, 0.3, 0.3, -0.5, 5.2, 0.99, "dark"], [4.6, 0.3, 0.3, 0.5, 5.2, 0.99, "dark"], [0.3, 0.02, 8, -0.5, 0.01, -0.2, "accent"], [0.3, 0.02, 8, 0.5, 0.01, -0.2, "accent"]],
+  "clinic":        [[0.04, 0.04, 2.4, -0.6, 2.9, -0.4, "metal"], [0.04, 0.04, 2.4, 0.0, 2.9, -0.4, "metal"], [0.02, 1.8, 2.2, -0.6, 1.9, -0.4, "pale"], [1.2, 0.8, 0.05, 0.6, 1.5, -0.99, "accent"]],
+  "workshop":      [[0.2, 0.3, 1, 0, 4.8, 0, "accent"], [16, 0.25, 0.25, 0, 4.9, -0.2, "metal"], [0.08, 0.02, 10, -0.2, 0.01, 0, "accent"], [0.08, 0.02, 10, 0.2, 0.01, 0, "accent"]],
+  "warehouse":     [[3.2, 3.6, 0.1, -0.6, 1.8, -0.99, "metal"], [3.2, 3.6, 0.1, 0, 1.8, -0.99, "metal"], [3.2, 3.6, 0.1, 0.6, 1.8, -0.99, "metal"], [0.15, 0.02, 16, 0.85, 0.01, 0, "accent"]],
+  "plant-room":    [[13, 0.25, 0.25, 0, 3.8, -0.7, "metal"], [13, 0.18, 0.18, 0, 3.4, -0.6, "accent"], [0.25, 3.6, 0.25, 0.9, 1.8, -0.7, "metal"], [1, 1.4, 0.3, -0.9, 1.4, 0.4, "dark"]],
+  "kitchen":       [[10, 0.9, 0.7, 0, 0.45, -0.85, "metal"], [0.9, 2, 0.8, 0.9, 1, 0.3, "pale"], [1.6, 2.1, 0.1, -0.9, 1.05, 0.99, "metal"]],
+  "transit-barn":  [[0.1, 0.06, 24, -0.55, 0.03, 0, "metal"], [0.1, 0.06, 24, -0.35, 0.03, 0, "metal"], [0.1, 0.06, 24, 0.35, 0.03, 0, "metal"], [0.1, 0.06, 24, 0.55, 0.03, 0, "metal"], [0.05, 0.05, 24, -0.45, 6.4, 0, "dark"], [0.05, 0.05, 24, 0.45, 6.4, 0, "dark"]],
+  "port-shed":     [[19, 0.4, 0.4, 0, 6.2, -0.3, "accent"], [19, 0.4, 0.4, 0, 6.2, 0.3, "accent"], [0.6, 0.5, 5, 0.2, 5.9, 0, "dark"], [5, 4.5, 0.1, 0, 2.25, -0.99, "metal"]],
+  "civic-lobby":   [[0.06, 1, 0.06, -0.3, 0.5, 0.2, "metal"], [0.06, 1, 0.06, 0.3, 0.5, 0.2, "metal"], [4.2, 0.05, 0.05, 0, 0.95, 0.2, "accent"], [3, 0.8, 0.05, 0, 3.2, -0.99, "pale"]],
+  "rented-room":   [[1.4, 1.1, 0.05, 0.4, 1.5, -0.99, "pale"], [2.4, 0.02, 1.8, -0.1, 0.01, 0.1, "accent"]],
+  "shop":          [[3, 1, 0.05, 0, 2.6, -0.99, "accent"], [2.4, 2.2, 0.05, 0.5, 1.2, 0.99, "pale"]],
 };
 
 export function ixStyleFor(kind) { return IX_KIND_STYLE[kind] ?? "civic-lobby"; }
@@ -194,6 +215,19 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
       colliders.push({ min: [x - hx, 0, z - hz], max: [x + hx, ph, z + hz], kind: "ix-prop", prop });
     });
     group.add(im);
+  }
+  // Signature fittings: one InstancedMesh (IX_FEATURES), the same on both tiers — they are what makes the kind readable.
+  const feats = IX_FEATURES[styleId] ?? [];
+  if (feats.length) {
+    const fc = { ...colour, wall: style.wall, dark: 0x2a2f36 };
+    const fm = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ roughness: 0.7, metalness: 0.2 }), feats.length);
+    fm.name = "ix-features";
+    const cc = new THREE.Color(), q0 = new THREE.Quaternion();
+    feats.forEach(([fw, fh, fd, fx, fy, fz, ck], i) => {
+      m4.compose(new THREE.Vector3(fx * (w / 2 - 0.2), fy, fz * (d / 2 - 0.2)), q0, new THREE.Vector3(fw, fh, fd));
+      fm.setMatrixAt(i, m4); fm.setColorAt(i, cc.setHex(fc[ck] ?? 0x888888));
+    });
+    group.add(fm);
   }
   // The site's job board beside the door, and the room's honesty sign on the back wall.
   const actions = [];

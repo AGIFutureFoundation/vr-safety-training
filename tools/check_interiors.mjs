@@ -40,7 +40,10 @@ for (const id of Object.keys(IX.IX_STYLES)) {
       const blocked = room.colliders.some((c) => c.max[1] > 0.5 && a.x > c.min[0] && a.x < c.max[0] && a.z > c.min[2] && a.z < c.max[2]);
       check(!blocked, `${id}/${tier}: action ${a.id} stands clear of props`);
     }
-    if (tier === "high") note(`${id}: ${meshes} meshes, ${lights} lights, ${room.actions.length} actions, ${room.w}×${room.d} m`);
+    let tris = 0; room.group.traverse((o) => { if (o.isMesh) { const g = o.geometry; const n = (g.index ? g.index.count : g.attributes.position.count) / 3; tris += n * (o.isInstancedMesh ? o.count : 1); } });
+    check(tris <= IX.IX_BUDGET.triangles[tier], `${id}/${tier}: ${tris} triangles <= ${IX.IX_BUDGET.triangles[tier]}`);
+    check(room.group.getObjectByName("ix-features")?.count === (IX.IX_FEATURES[id] ?? []).length && (IX.IX_FEATURES[id] ?? []).length >= 2, `${id}/${tier}: its signature fittings draw as one instanced mesh`);
+    if (tier === "high") note(`${id}: ${meshes} meshes, ${tris} tris, ${lights} lights, ${room.actions.length} actions, ${room.w}×${room.d} m`);
   }
 }
 check(Object.keys(IX.IX_STYLES).length >= 11, `at least 11 styles (${Object.keys(IX.IX_STYLES).length})`);
