@@ -121,6 +121,7 @@ export const PA_REGION_CHARACTERS = {
   programmes: { quarter: "creole-cottage-pastels", garden: "craftsman-shingle", suburb: "sunset-pastels", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   // Louisiana (the Louisiana wave): river cities and development sites read as the New Orleans region does.
   "louisiana-cities": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "new-orleans-districts": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "louisiana-sites": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "shotgun-brights", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "bay-program": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
 };

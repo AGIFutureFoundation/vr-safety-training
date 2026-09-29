@@ -42,7 +42,10 @@ export const HV_AGENCY = {
   "new-orleans": "the Louisiana Department of Wildlife and Fisheries",
   bay: "the California Department of Fish and Wildlife",
 };
-export const hvFamily = (parish) => (npRegionOf(parish) === "new-orleans" ? "new-orleans" : "bay");
+// Louisiana regions (the Louisiana wave: development sites, growth cities, New Orleans districts) fish, crab and farm as
+// the New Orleans family does (Louisiana species and agency).
+const HV_LA_REGIONS = new Set(["new-orleans", "louisiana-sites", "louisiana-cities", "new-orleans-districts"]);
+export const hvFamily = (parish) => (HV_LA_REGIONS.has(npRegionOf(parish)) ? "new-orleans" : "bay");
 
 /** Water classes: the engine's water kind read by region (San Francisco Bay is drawn as `gulf` on the Marina map). */
 export function hvWaterClass(parish, w) {
@@ -259,7 +262,8 @@ export function hvSpotsFor(parish) {
     perWater.set(c.w, n + 1);
   }
   // The rice-and-crawfish field (procedural) on a rural New Orleans parish: dry ground a little back from a bayou or marsh.
-  if (fam === "new-orleans" && parish.id !== "orleans") {
+  // (not on a street-scale city district: a declared scale under 1.8 real metres per map metre, e.g. downtown Baton Rouge)
+  if (fam === "new-orleans" && parish.id !== "orleans" && !(Number.isFinite(parish.scale) && parish.scale < 1.8)) {
     const fc = cands.filter((c) => c.cls === "bayou" || c.cls === "marsh" || c.cls === "canal");
     for (const c of fc) {
       let done = false;
