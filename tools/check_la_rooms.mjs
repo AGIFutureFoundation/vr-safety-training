@@ -117,6 +117,9 @@ for (const { p, r } of rooms) {
     check(lights <= IX.IX_BUDGET.lights[tier], `${where}: ${lights} lights`);
     check(tris <= IX.IX_BUDGET.triangles[tier], `${where}: ${tris} triangles <= ${IX.IX_BUDGET.triangles[tier]}`);
     check(!!room.group.getObjectByName("lar-dress"), `${where}: dressed as one instanced mesh`);
+    const signs = room.group.children.filter((o) => /^lar-sign-/.test(o.name));
+    check(signs.length === r.fixtures.length, `${where}: a name sign over every object (${signs.length}/${r.fixtures.length})`);
+    check(signs.every((o) => o.position.y < room.h && Math.abs(o.position.x) < room.w / 2 && Math.abs(o.position.z) < room.d / 2), `${where}: every sign hangs inside the room`);
     if (tier === "high" && meshes > worst.meshes) worst = { ...worst, meshes, id: r.id };
     if (tier === "high") worst.tris = Math.max(worst.tris, tris); else worst.low = Math.max(worst.low, tris);
     const mine = room.actions.filter((a) => /^lar-/.test(a.id));

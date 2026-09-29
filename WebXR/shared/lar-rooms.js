@@ -245,6 +245,19 @@ export function larRoomsFor(parish) {
   return out;
 }
 
+/** An object's name on a small canvas (the phone tier draws it at half resolution); headless, a flat dark panel. */
+function larSignMaterial(THREE, text, low = false) {
+  const flat = () => new THREE.MeshBasicMaterial({ color: 0x101820 });
+  if (typeof document === "undefined" || !document.createElement) return flat();
+  const k = low ? 1 : 2, c = document.createElement("canvas"); c.width = 256 * k; c.height = 60 * k;
+  const g = c.getContext("2d"); if (!g) return flat();
+  g.fillStyle = "#101820"; g.fillRect(0, 0, c.width, c.height); g.fillStyle = "#f2c14b"; g.fillRect(0, c.height - 4 * k, c.width, 4 * k);
+  g.fillStyle = "#eaf6fb"; g.textAlign = "center"; g.textBaseline = "middle";
+  const t = String(text).slice(0, 40); g.font = `bold ${(t.length > 26 ? 16 : 20) * k}px system-ui, sans-serif`; g.fillText(t, c.width / 2, c.height / 2 - k);
+  const tex = new THREE.CanvasTexture(c); if ("colorSpace" in tex) tex.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.MeshBasicMaterial({ map: tex });
+}
+
 /** Furnish one INTERIORS room with a Louisiana room's objects (see SEAMS). Returns the parts drawn. */
 export function larDress({ THREE, group, room, r, tier = "high", launch = () => false }) {
   const low = tier === "low";
@@ -266,6 +279,17 @@ export function larDress({ THREE, group, room, r, tier = "high", launch = () => 
       if (p.y - p.h / 2 < 1.9 && p.y + p.h / 2 > 0.5) room.colliders.push({ min: [p.x - p.w / 2, 0, p.z - p.d / 2], max: [p.x + p.w / 2, p.y + p.h / 2, p.z + p.d / 2], kind: "lar-prop" });
     });
     group.add(im);
+  }
+  // A name sign over every object (one plane each; a canvas label when a document exists, a flat panel headless).
+  const signGeo = new THREE.PlaneGeometry(1.8, 0.42);
+  for (const f of r.fixtures) {
+    const foot = LAR_SHAPES[f.shape][0], dir = LAR_DIR[f.face] ?? LAR_DIR.s, flat = !dir[0] && !dir[1];
+    const [w, d] = larTurn(foot, f.face), half = dir[0] ? w / 2 : d / 2;
+    const y = Math.min(room.h - 0.4, Math.max(2.3, foot[4] + foot[1] / 2 + 0.4));
+    const sign = new THREE.Mesh(signGeo, larSignMaterial(THREE, f.label.split(":")[0], low));
+    sign.position.set(flat ? f.at[0] : f.at[0] + dir[0] * (half + 0.05), flat ? 2.4 : y, flat ? f.at[1] : f.at[1] + dir[1] * (half + 0.05));
+    sign.rotation.y = flat ? 0 : Math.atan2(dir[0], dir[1]);
+    sign.name = `lar-sign-${f.id}`; group.add(sign);
   }
   for (const f of r.fixtures) {
     const [x, z] = larSpot(f);
