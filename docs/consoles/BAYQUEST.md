@@ -50,3 +50,9 @@ Crew Credits stay a play currency (TYCOON's ledger); nothing here touches billin
    check_tycoon "1572 passed, 0 failed — 5 businesses"; check_storyline "2885 checks · 0 failed".
 4. Reason: the checker proves it. Act: `tools/check_bayquest.mjs` (+ check_all list, perf baseline). Observe:
    "bayquest: 4 games, 22 treasures, 2 businesses, 6 stories · 279 checks · 0 failed" (~500 ms).
+5. Reason: mount the board in the parishes app and prove it runs in the bundle. Act: `bqMount` under the TYCOON ledger,
+   bq modules in the parishes bundle list, `python3 tools/bundle_webxr.py parishes`. Observe: check_imports "All 947
+   modules call only what they declare or import"; check_parishes "12920 passed, 0 failed"; a headless load on :8973
+   (three.js served from vendor) showed no page errors and the ledger's "Bay Program play" board listing the four games, locked.
+6. Reason: the checker must bite and cover the wiring. Act: self-tests (open water and a road centreline refused), wiring
+   checks (app import, bundle order, dist carries bqMount). Observe: "287 checks · 0 failed"; check_gates still "0 failed".

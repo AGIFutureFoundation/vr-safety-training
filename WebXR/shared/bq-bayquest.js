@@ -32,7 +32,6 @@ import { qmSnapshot, qmIsOpen } from "./skill-gates.js";
 import { nwWorld } from "./nw-physics.js";
 import { tfWaterDepthAt } from "./tf-terraform.js";
 
-export { BQ_GAMES, bqGame, BQ_TRAIL, BQ_TREASURES, BQ_FACTS, BQ_UNNAMED };
 export function bqGames() { return BQ_GAMES; }
 
 // ------------------------------------------------------------------ the trail
@@ -218,7 +217,7 @@ export function bqMount({ el = null, world = "bayworld", toast = () => {}, compl
     const snap = qmSnapshot();
     const trail = bqTrail();
     const bal = tyLedger().balance;
-    const rows = BQ_GAMES.filter((g) => g.world === world).map((g) => {
+    const rows = BQ_GAMES.filter((g) => !world || g.world === world).map((g) => {
       const open = qmIsOpen(g.gate, snap);
       return `<li data-bq-game="${g.id}">${open ? "Open" : "Locked"} · <b>${g.title}</b> at ${g.siteName} — ${g.summary}${open ? "" : ` <i>${g.gate.note}</i>`}</li>`;
     }).join("");

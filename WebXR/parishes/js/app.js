@@ -33,6 +33,9 @@ import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+// BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
+// registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
+import { bqMount } from "../../shared/bq-bayquest.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -560,7 +563,17 @@ function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();
+  bqOpenBoard();
   npOpen("tycoon");
+}
+var bqBoard = null;
+function bqOpenBoard() {
+  const ledgerEl = $("ty-ledger");
+  if (!ledgerEl) return;
+  let el = document.getElementById("bq-board");
+  if (!el) { el = document.createElement("div"); el.id = "bq-board"; ledgerEl.after(el); }
+  if (!bqBoard) bqBoard = bqMount({ el, world: null, toast: npToast, completed: ppCompleted });
+  else bqBoard.refresh();
 }
 function tyAfterTick(events) {
   if (!events.length) return;

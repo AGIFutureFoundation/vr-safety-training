@@ -40807,6 +40807,7 @@ const QM_STATION_NAMES = {
   "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
   "br-shoreline-cleanup-sharps-and-hazardous-debris": "Shoreline Cleanup — Sharps And Hazardous Debris",
   "br-tidal-marsh-grading-amphibious-excavator": "Tidal Marsh Grading — Amphibious Excavator",
+  "br-trash-capture-device-service": "Trash Capture Device Service",
   "br-turbidity-curtain-deployment": "Turbidity Curtain Deployment",
   "br-underwater-debris-survey-and-mapping": "Underwater Debris Survey & Mapping",
   "br-vhf-and-navigation-in-a-work-zone": "VHF & Navigation in a Work Zone",
@@ -40837,6 +40838,7 @@ const QM_STATION_NAMES = {
   "drive-light-vehicle-fleet-and-forklift-course": "Light Vehicle Fleet and Forklift Course",
   "drive-night-fog-and-rail-crossing": "Night Fog and Rail Crossing",
   "ed-bus-pretrip-and-loading-zone": "Bus Pre-Trip & Loading Zone",
+  "et-ev-fleet-depot-charging-and-arc-flash": "EV Fleet Depot Charging & Arc Flash",
   "ew-machine-room-lockout-and-brake-test": "Machine Room Lockout and Brake Test",
   "fire-pump": "Fire Pump",
   "firefighter-rehab-sector": "Firefighter Rehab Sector",
@@ -40881,6 +40883,7 @@ const QM_STATION_NAMES = {
   "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats",
   "me-oyster-reef-monitoring-and-settlement-tiles": "Oyster Reef Monitoring & Settlement Tiles",
   "me-shoreline-debris-and-microplastics-survey": "Shoreline Debris & Microplastics Survey",
+  "me-tidal-marsh-channel-restoration-day": "Tidal Marsh Channel Restoration Day",
   "me-water-column-sampling-from-a-small-boat": "Water Column Sampling From A Small Boat",
   "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
   "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
@@ -47277,7 +47280,10 @@ function tyListing(id) {
   return tyListings(parishId).find((l) => l.id === id) ?? null;
 }
 
-function tyBusiness(id) { return TY_BUSINESSES.find((b) => b.id === id) ?? null; }
+function tyBusiness(id) { return TY_BUSINESSES.find((b) => b.id === id) ?? TY_EXTRA_BUSINESSES.find((b) => b.id === id) ?? null; }
+/** Seam for other consoles' businesses (BAYQUEST): same shape as TY_BUSINESSES, tied to a real station; the five stay the five. */
+const TY_EXTRA_BUSINESSES = [];
+function tyAddBusinesses(list = []) { for (const b of list) if (b?.id && !tyBusiness(b.id)) TY_EXTRA_BUSINESSES.push(b); return TY_EXTRA_BUSINESSES.length; }
 function tyCrewMember(id) { return TY_CREW.find((c) => c.id === id) ?? null; }
 /** What one pass pays at a learner level (clamped one to five). */
 function tyPayFor(level) { const n = Math.max(1, Math.min(TY_LEVELS, Math.round(Number(level) || 1))); return TY_PAY_BASE + TY_PAY_STEP * (n - 1); }
@@ -47551,7 +47557,7 @@ function tyMountLedger(el, { parishId = null, completed = () => false, toast = (
       go.addEventListener("click", () => act(tyInspect(boxes.map((c) => c.checked)), `${b.name}: inspection passed — open for two play weeks.`));
       el.appendChild(go);
     } else if (shop) {
-      for (const b of TY_BUSINESSES) {
+      for (const b of [...TY_BUSINESSES, ...TY_EXTRA_BUSINESSES]) {
         const row = tyEl("div", "quest"); row.appendChild(tyEl("b", null, b.name)); row.appendChild(tyEl("small", null, `${b.trade} · opens for ${b.open} ${TY_SHORT} · station: ${b.station.replace(/-/g, " ")}${completed(b.station) ? " (passed)" : ""}${b.water ? " · waterside shops only" : ""}`));
         const open = tyEl("button", "btn", "Open here"); open.type = "button";
         open.addEventListener("click", () => act(tyOpen(b.id, shop.listing, { completed }), `${b.name} opened. Pass its safety inspection to start trading.`));
@@ -61982,12 +61988,23 @@ const ST_STORIES = [
 
 
 
+/**
+ * Seam for other consoles' side stories (BAYQUEST's Bay Program stories): same shape as ST_STORIES entries,
+ * plus `roam: true` for a story that asks nothing and may be found on the Just Roam path. Returns the count.
+ */
+const ST_EXTRA_STORIES = [];
+function stAddStories(list = []) {
+  for (const s of list) if (s?.id && !stStory(s.id)) ST_EXTRA_STORIES.push(s);
+  return ST_EXTRA_STORIES.length;
+}
 function stQuestsFor(pathId, parishId) {
   const p = stPath(pathId);
-  if (!p || !p.prompts) return [];
-  return ST_STORIES.filter((s) => s.path === pathId && s.parish === parishId);
+  if (!p) return [];
+  const extra = ST_EXTRA_STORIES.filter((s) => s.parish === parishId && (s.path === pathId || (!p.prompts && s.roam)));
+  if (!p.prompts) return extra.filter((s) => s.roam);
+  return [...ST_STORIES.filter((s) => s.path === pathId && s.parish === parishId), ...extra];
 }
-function stStory(id) { return ST_STORIES.find((s) => s.id === id) ?? null; }
+function stStory(id) { return ST_STORIES.find((s) => s.id === id) ?? ST_EXTRA_STORIES.find((s) => s.id === id) ?? null; }
 function stBranchChosen(storyId) { return stLoad().branches[storyId] ?? null; }
 function stChooseBranch(storyId, branchId) {
   const story = stStory(storyId);
@@ -62080,6 +62097,908 @@ function stMountPaths({ three = null, root = null, parish, world = null, el = nu
     animate(t) { if (mat && !reducedMotion) mat.opacity = 0.45 + 0.3 * (0.5 + 0.5 * Math.sin(t * 2.2)); },
     refresh, greet, path: () => stChosenPath(), glowCount: () => (ring ? ring.count : 0), glowSites: () => glowIds.slice(),
   };
+}
+
+
+/* ===== shared/bq-facts.js ===== */
+// BAYQUEST — the only Bay Program and Clean Ports lines the play layer states (docs/consoles/BAYQUEST.md).
+//
+// Every `text` is copied verbatim (markdown bold removed, whitespace folded) from the program's facts file
+// ($SP/epa/epa-2026-facts.md), which records these from search-engine extracts of the cited pages; `source`
+// is the page that line comes from. tools/check_bayquest.mjs re-reads each line against the facts file when it
+// is present. Nothing else about the program is stated anywhere in BAYQUEST. Twelve of the twenty projects are
+// not named in our sources and are never named, placed or priced here.
+// Names prefixed bq/BQ_ (one bundle scope).
+
+const BQ_SRC_EPA = "https://www.epa.gov/newsreleases/epa-awards-record-82-million-improve-water-quality-and-restore-habitat-across-san";
+const BQ_SRC_CLEANPORTS = "https://www.portofoakland.com/port-of-oakland-awarded-historic-322-million-epa-grant";
+
+const BQ_FACTS = [
+  { id: "program", source: BQ_SRC_EPA,
+    text: "More than $82 million for 20 projects supporting water quality improvements and habitat restoration across the Bay." },
+  { id: "port-trash-capture", source: BQ_SRC_EPA, project: "Port of Oakland",
+    text: "four large trash capture devices collecting stormwater from 427 acres of port property, reducing more than 4,700 gallons of trash from entering San Francisco Bay" },
+  { id: "cleanports-equipment", source: BQ_SRC_CLEANPORTS,
+    text: "It finances 663 pieces of zero-emissions equipment: 475 drayage trucks and 188 pieces of cargo handling equipment" },
+  { id: "cleanports-workforce", source: BQ_SRC_CLEANPORTS,
+    text: "the Pacific Maritime Association (PMA) (skills and safety training on operating the zero-emission equipment and vehicles)" },
+];
+
+/** The honest line for the projects our sources do not name. */
+const BQ_UNNAMED = "and twelve more projects across tidal marsh and wetland restoration, nutrient reduction, sediment management and fish habitat";
+
+function bqFact(id) { return BQ_FACTS.find((f) => f.id === id) ?? null; }
+
+
+/* ===== shared/bq-games-data.js ===== */
+// BAYQUEST — the Bay Program's four mini-games (docs/consoles/BAYQUEST.md). SmartCiti.X Powered by AGI Corp.
+//
+//   BQ_GAMES   four side games in the shared contract (docs/skill-gates.md, KREWE's kiosk pattern):
+//              each behind union stations (the gate contract), scored on safe practice (a mechanic
+//              from side-game-mechanics.js, the safe-practice calls from side-games-data.js and the
+//              game's own calls), rewarding a cosmetic and a stamp. BQ_GATED is the same list for
+//              tools/check_gates.mjs's discovery.
+//   bqGameRun(game)          -> the whole run: [{ board, prompt, options: [{ text, safe }] }]
+//   bqGameScore(game, picks) -> { safe, total, score 0..100, clean } — safe practice only, never speed.
+//
+// Shape of a game: { id, world, kind: "side-game", site, siteName, anchors: [{ world, parish?, site }],
+//   title, task, mechanic, gate: { stations, note }, pendingStations, practices, calls, reward: { cosmetic,
+//   stamp }, summary, physics?, drivables?, credits: { clean, pass } }.
+// `anchors` after the first are guarded second anchors (BAYMAP's Oakland districts, the San Francisco
+// districts): resolve them with `npParish(parish)?.sites.find((s) => s.id === site)` and skip a miss.
+// `pendingStations` are BAYKEEPER / CLEANPORTS station ids merging in parallel; the coordinator folds them
+// into the gate once they resolve in the catalog. The game plays from the Bay World site today.
+//
+// Facts rule: no digits in any text, limits read "per the plan"; nothing here states a program figure.
+// Names prefixed bq/BQ_ (one bundle scope).
+
+
+
+const BQ_WORLD = "bayworld";
+
+const bqCall = (prompt, safe, unsafe) => ({ prompt, safe, unsafe });
+
+const bqMake = (id, site, siteName, o) => ({
+  id: `bq-${id}`, world: BQ_WORLD, kind: "side-game", site, siteName,
+  anchors: [{ world: BQ_WORLD, site }, ...(o.anchors ?? [])],
+  title: o.title, task: o.task, mechanic: o.mechanic, gate: o.gate, pendingStations: o.pendingStations ?? [],
+  practices: o.practices, calls: o.calls, reward: { cosmetic: o.cosmetic, stamp: `bq-stamp-${id}` },
+  summary: o.summary, ...(o.physics ? { physics: o.physics } : {}), ...(o.drivables ? { drivables: o.drivables } : {}),
+  credits: { clean: 40, pass: 20 },
+});
+
+const BQ_GAMES = [
+  bqMake("trash-capture-cleanout", "port-maintenance-shop", "Port Maintenance Shop", {
+    title: "Trash Capture Cleanout", task: "trash capture cleanout", mechanic: "lockout-steps",
+    gate: { stations: ["br-trash-capture-device-service", "cs-non-entry-retrieval-and-tripod"],
+      note: "The trash capture device service and non-entry retrieval stations first: the device sits in a storm drain." },
+    pendingStations: ["bk-street-drain-trash-capture-cleanout"],
+    anchors: [{ world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal" }],
+    practices: ["traffic", "lockout", "ppe", "lift"],
+    calls: [
+      bqCall("The device sits in a drain at the kerb of a working street.", "Cone and sign the lane per the traffic plan before the lid comes up.", "Pull the lid first and put the cones out once you are in."),
+      bqCall("The screen is packed with bottles, bags and leaves.", "Gloves and eye protection on, and use the grab tool, not your hands, for anything sharp.", "Reach in bare-handed to clear it faster."),
+      bqCall("The chamber below is an enclosed space.", "Stay out and work from the surface unless the entry permit and the attendant are in place.", "Climb down for a quick look without telling anyone."),
+    ],
+    cosmetic: "trash capture crew patch",
+    summary: "Cone the lane, lock out, glove up and clear a trash capture screen from the surface, then log what came out.",
+  }),
+  bqMake("rain-garden-build", "west-oakland-utility-yard", "West Oakland Utility Yard", {
+    title: "Rain Garden Build", task: "rain garden build", mechanic: "survey-transect",
+    gate: { stations: ["op-excavator-trench-and-utility-locate", "br-native-planting-and-erosion-mats"],
+      note: "Trenching over a located utility and native planting first: a rain garden is a dig and a planting." },
+    pendingStations: ["bk-bioretention-rain-garden-excavation"],
+    anchors: [{ world: "parishes", parish: "sf-mission", site: null }],
+    practices: ["plan", "inspect", "zone", "lift"],
+    calls: [
+      bqCall("The sidewalk strip is marked for a rain garden.", "Check the locate ticket against the paint and hand-dig near every marked line.", "Start the digger where the paint is faint; it is probably clear."),
+      bqCall("The hole is getting deep beside the sidewalk.", "Slope or shore the sides per the plan and keep the spoil back from the edge.", "Pile the soil right on the edge so it is handy."),
+      bqCall("Bags of soil mix and trays of plants arrive.", "Use the cart and lift with your legs, one bag at a time.", "Carry two bags on your shoulder to save a trip."),
+    ],
+    cosmetic: "rain garden trowel pin",
+    summary: "Read the locate marks, dig safely beside the sidewalk, lay the soil layers and plant a rain garden that soaks up the rain.",
+  }),
+  bqMake("tidal-channel-dig", "estuary-shoreline-park-trailhead", "Estuary Shoreline Park Trailhead", {
+    title: "Tidal Channel Dig", task: "tidal channel dig", mechanic: "line-follow",
+    gate: { stations: ["br-tidal-marsh-grading-amphibious-excavator", "me-tidal-marsh-channel-restoration-day"],
+      note: "Tidal marsh grading and the channel restoration day first: soft ground, tides and a buffer to keep." },
+    anchors: [{ world: "parishes", parish: "oak-fruitvale-estuary", site: null }],
+    practices: ["weather", "spill", "zone", "buddy"],
+    calls: [
+      bqCall("The marsh ground is soft and wet ahead of the machine.", "Lay the mats ahead of the tracks and drive only on them.", "Drive straight across the mud; the tracks will grip."),
+      bqCall("The tide is turning sooner than the plan said.", "Stop, read the tide board and walk the crew out on the flagged path.", "Keep digging until the water reaches the tracks."),
+      bqCall("A bucket of spoil is ready to swing.", "Swing it to the spoil bin on a short arc, clear of the water and the nesting buffer.", "Drop it in the channel edge; the tide will carry it off."),
+    ],
+    physics: { newton: "nwWorld", terraform: ["tfWaterDepthAt", "tfFlowAt"], rule: "spoil lands in the bins, never in the water" },
+    cosmetic: "marsh mat badge",
+    summary: "Lay mats on soft ground, dig a tidal channel to the stakes, keep spoil in the bins and walk out before the tide.",
+  }),
+  bqMake("zero-emission-yard-shuffle", "west-oakland-truck-yard", "West Oakland Truck Yard", {
+    title: "Zero-Emission Yard Shuffle", task: "zero-emission yard shuffle", mechanic: "delivery-run",
+    gate: { stations: ["et-ev-fleet-depot-charging-and-arc-flash", "po-yard-hostler-and-pedestrian-separation"],
+      note: "Fleet charging safety and yard hostler moves first: the yard runs on electric equipment and walkways." },
+    pendingStations: ["cp-charging-yard-safety", "cp-ze-yard-tractor-pre-use"],
+    anchors: [{ world: "parishes", parish: "oak-west-oakland", site: "outer-harbor-container-terminal" }],
+    practices: ["inspect", "traffic", "lockout", "comms"],
+    calls: [
+      bqCall("An electric yard tractor sits on its charger at the start of the shift.", "Walk round it, stop the charge at the dispenser and stow the cable before you move.", "Drive off and let the cable pull free."),
+      bqCall("A charging cable lies across the lane.", "Stop, report it and route round until it is hung back on its hook.", "Drive over it slowly; the cover will hold."),
+      bqCall("A worker steps into the marked crossing.", "Stop at the crossing and wait until they are clear and wave you on.", "Sound the horn and keep rolling."),
+    ],
+    drivables: { prefer: ["cp-ze-yard-tractor", "cp-ze-drayage-truck"], fallback: "day-cab-bobtail", rule: "drives only after its pre-use station" },
+    cosmetic: "charging yard lanyard",
+    summary: "Unplug and walk round an electric yard tractor, route round a cable in the lane, stop for walkers and park it back on charge.",
+  }),
+];
+
+/** The same list for tools/check_gates.mjs's discovery (an export named …GATED… in a -data.js module). */
+const BQ_GATED = BQ_GAMES;
+const BQ_GAME_IDS = BQ_GAMES.map((g) => g.id);
+function bqGame(id) { return BQ_GAMES.find((g) => g.id === id) ?? null; }
+
+/** The game's own calls as side-game rounds (same `{ prompt, options: [{ text, safe }] }` shape as qmRounds). */
+function bqCallRounds(game) {
+  let h = 13;
+  for (const ch of game.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return (game.calls ?? []).map((c, i) => {
+    const a = { text: c.safe, safe: true }, b = { text: c.unsafe, safe: false };
+    return { key: `call-${i}`, prompt: c.prompt, options: ((h >> (i + 3)) & 1) ? [b, a] : [a, b] };
+  });
+}
+
+/** The whole run: the mechanic's steps, the safe-practice calls, the game's calls — one score. */
+function bqGameRun(game) {
+  return qmPlaySteps(game, [...qmRounds(game), ...bqCallRounds(game)]);
+}
+
+/** Score a run by safe practice only: `picks` is the option index chosen at each step. */
+function bqGameScore(game, picks = []) {
+  const steps = bqGameRun(game);
+  let safe = 0;
+  steps.forEach((s, i) => { if (s.options[picks[i]]?.safe) safe += 1; });
+  const total = steps.length;
+  const score = total ? Math.round((safe / total) * 100) : 0;
+  return { safe, total, score, clean: safe === total };
+}
+
+/** The safe pick at every step (for the checker and the demo run). */
+function bqSafePicks(game) { return bqGameRun(game).map((s) => s.options.findIndex((o) => o.safe)); }
+
+
+/* ===== shared/bq-trail-data.js ===== */
+// GENERATED by tools/gen_bq_trail.mjs — do not hand-edit. BAYQUEST's Bay Keeper's Trail (docs/consoles/BAYQUEST.md).
+// Every lesson is verbatim from its source (a station's why in curricula.js, or a facts line in bq-facts.js with its page);
+// every spot is off the water and off the roads of Bay World (tools/check_bayquest.mjs re-checks both).
+
+const BQ_TRAIL = {
+  "id": "bq-bay-keepers-trail",
+  "name": "The Bay Keeper's Trail",
+  "badge": "Bay Keeper",
+  "world": "bayworld",
+  "storageKey": "bq-trail-v1",
+  "total": 22
+};
+
+const BQ_TREASURES = [
+  {
+    "id": "bq-t-01-port-maintenance-shop",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "port-maintenance-shop",
+    "siteName": "Port Maintenance Shop",
+    "zone": "port",
+    "category": "Trash capture",
+    "reveal": "river otter token",
+    "hint": "Look near Port Maintenance Shop, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -368,
+      "z": 302,
+      "r": 5
+    },
+    "lesson": "The outfall net that keeps storm drain trash out of the Bay is lifted by crane, emptied and replaced without anyone under the load, a hand in the catch or a piece of it going back into the channel.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-trash-capture-device-service"
+    }
+  },
+  {
+    "id": "bq-t-02-port-hazmat-response-yard",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "port-hazmat-response-yard",
+    "siteName": "Port Hazmat Response Yard",
+    "zone": "port",
+    "category": "Stormwater",
+    "reveal": "egret feather",
+    "hint": "Look near Port Hazmat Response Yard, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -364,
+      "z": 382,
+      "r": 5
+    },
+    "lesson": "The permit's plan as a procedure: the sheen watched, traced upstream and pumped with the outfall gated before the storm's first flush reaches the bay.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "pt-stormwater-at-the-terminal"
+    }
+  },
+  {
+    "id": "bq-t-03-port-rail-yard",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "port-rail-yard",
+    "siteName": "Port Rail Yard",
+    "zone": "port",
+    "category": "Port of Oakland trash capture",
+    "reveal": "oyster shell",
+    "hint": "Look near Port Rail Yard, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -424,
+      "z": 384,
+      "r": 5
+    },
+    "lesson": "four large trash capture devices collecting stormwater from 427 acres of port property, reducing more than 4,700 gallons of trash from entering San Francisco Bay",
+    "source": {
+      "file": "WebXR/shared/bq-facts.js",
+      "fact": "port-trash-capture",
+      "page": "https://www.epa.gov/newsreleases/epa-awards-record-82-million-improve-water-quality-and-restore-habitat-across-san"
+    }
+  },
+  {
+    "id": "bq-t-04-port-container-terminal",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "port-container-terminal",
+    "siteName": "Port Container Terminal",
+    "zone": "port",
+    "category": "Zero-emission port",
+    "reveal": "eelgrass sprig",
+    "hint": "Look near Port Container Terminal, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -339,
+      "z": 358,
+      "r": 5
+    },
+    "lesson": "The machine that moves a box between the stack and the quay: twist-locks proven before the lift, the load carried low down the row, and the wind read the same way the crane reads it.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "straddle-carrier-ops"
+    }
+  },
+  {
+    "id": "bq-t-05-west-oakland-truck-yard",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "west-oakland-truck-yard",
+    "siteName": "West Oakland Truck Yard",
+    "zone": "west-oakland",
+    "category": "Zero-emission port",
+    "reveal": "tide marker",
+    "hint": "Look near West Oakland Truck Yard, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -349,
+      "z": -21,
+      "r": 5
+    },
+    "lesson": "The yard tractor's own lane, where the horn comes before the back and the marked crossing is the one place a driver and a longshoreman are both expected to be.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "po-yard-hostler-and-pedestrian-separation"
+    }
+  },
+  {
+    "id": "bq-t-06-west-oakland-substation-yard",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "west-oakland-substation-yard",
+    "siteName": "West Oakland Substation Yard",
+    "zone": "west-oakland",
+    "category": "Charging",
+    "reveal": "sea glass",
+    "hint": "Look near West Oakland Substation Yard, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -306,
+      "z": 36,
+      "r": 5
+    },
+    "lesson": "The depot row at the panel a whole fleet plugs into: zero energy proven before the lockout, a cut cable and a live ground fault both caught before the vans ever see them.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "et-ev-fleet-depot-charging-and-arc-flash"
+    }
+  },
+  {
+    "id": "bq-t-07-west-oakland-utility-yard",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "west-oakland-utility-yard",
+    "siteName": "West Oakland Utility Yard",
+    "zone": "west-oakland",
+    "category": "Battery storage",
+    "reveal": "crab tag",
+    "hint": "Look near West Oakland Utility Yard, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -392,
+      "z": 72,
+      "r": 5
+    },
+    "lesson": "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "battery-storage-container-commissioning"
+    }
+  },
+  {
+    "id": "bq-t-08-west-oakland-union-hall",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "west-oakland-union-hall",
+    "siteName": "West Oakland Union Hall",
+    "zone": "west-oakland",
+    "category": "Clean Ports equipment",
+    "reveal": "heron print",
+    "hint": "Look near West Oakland Union Hall, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -403,
+      "z": 33,
+      "r": 5
+    },
+    "lesson": "It finances 663 pieces of zero-emissions equipment: 475 drayage trucks and 188 pieces of cargo handling equipment",
+    "source": {
+      "file": "WebXR/shared/bq-facts.js",
+      "fact": "cleanports-equipment",
+      "page": "https://www.portofoakland.com/port-of-oakland-awarded-historic-322-million-epa-grant"
+    }
+  },
+  {
+    "id": "bq-t-09-west-oakland-air-monitoring-post",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "west-oakland-air-monitoring-post",
+    "siteName": "West Oakland Air Monitoring Post",
+    "zone": "west-oakland",
+    "category": "Clean Ports workforce",
+    "reveal": "river otter token",
+    "hint": "Look near West Oakland Air Monitoring Post, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -308,
+      "z": 4,
+      "r": 5
+    },
+    "lesson": "the Pacific Maritime Association (PMA) (skills and safety training on operating the zero-emission equipment and vehicles)",
+    "source": {
+      "file": "WebXR/shared/bq-facts.js",
+      "fact": "cleanports-workforce",
+      "page": "https://www.portofoakland.com/port-of-oakland-awarded-historic-322-million-epa-grant"
+    }
+  },
+  {
+    "id": "bq-t-10-west-oakland-warehouse-district",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "west-oakland-warehouse-district",
+    "siteName": "West Oakland Warehouse District",
+    "zone": "west-oakland",
+    "category": "Green stormwater infrastructure",
+    "reveal": "egret feather",
+    "hint": "Look near West Oakland Warehouse District, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -327,
+      "z": 86,
+      "r": 5
+    },
+    "lesson": "The excavator only earns the cut once the locate ticket is checked against the paint, the swing radius is barricaded, the coupler is locked, and the last foot over the marked line is exposed by hand.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "op-excavator-trench-and-utility-locate"
+    }
+  },
+  {
+    "id": "bq-t-11-estuary-shoreline-park-trailhead",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "estuary-shoreline-park-trailhead",
+    "siteName": "Shoreline Park Trailhead",
+    "zone": "estuary-waterfront",
+    "category": "The Bay Program",
+    "reveal": "oyster shell",
+    "hint": "Look near Shoreline Park Trailhead, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 135,
+      "z": 316,
+      "r": 5
+    },
+    "lesson": "More than $82 million for 20 projects supporting water quality improvements and habitat restoration across the Bay.",
+    "source": {
+      "file": "WebXR/shared/bq-facts.js",
+      "fact": "program",
+      "page": "https://www.epa.gov/newsreleases/epa-awards-record-82-million-improve-water-quality-and-restore-habitat-across-san"
+    }
+  },
+  {
+    "id": "bq-t-12-estuary-research-dock",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "estuary-research-dock",
+    "siteName": "Estuary Research Dock",
+    "zone": "estuary-waterfront",
+    "category": "Sediment",
+    "reveal": "eelgrass sprig",
+    "hint": "Look near Estuary Research Dock, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 60,
+      "z": 330,
+      "r": 5
+    },
+    "lesson": "Cores become laboratory samples at a dockside bench with custody signed at every hand-off, the volatiles taken before anything is mixed and anything unlabelled kept out of the batch, because a sediment result is only as defensible as its record.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-sediment-chain-of-custody-and-lab-prep"
+    }
+  },
+  {
+    "id": "bq-t-13-estuary-marina-boatyard",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "estuary-marina-boatyard",
+    "siteName": "Marina Boatyard",
+    "zone": "estuary-waterfront",
+    "category": "Tidal marsh",
+    "reveal": "tide marker",
+    "hint": "Look near Marina Boatyard, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 96,
+      "z": 247,
+      "r": 5
+    },
+    "lesson": "Grading a tidal marsh from an amphibious excavator, with the tide, the permit window and the ground crew all in the operator's picture.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-tidal-marsh-grading-amphibious-excavator"
+    }
+  },
+  {
+    "id": "bq-t-14-fruitvale-community-college",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "fruitvale-community-college",
+    "siteName": "Fruitvale Community College",
+    "zone": "fruitvale",
+    "category": "Native planting",
+    "reveal": "sea glass",
+    "hint": "Look near Fruitvale Community College, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 475,
+      "z": 261,
+      "r": 5
+    },
+    "lesson": "The graded bank above the marsh is only held until roots can hold it themselves, so the coir mat goes down pinned top to toe before a single native plug is bored, tamped and watered in.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-native-planting-and-erosion-mats"
+    }
+  },
+  {
+    "id": "bq-t-15-fruitvale-elementary-school",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "fruitvale-elementary-school",
+    "siteName": "Fruitvale Elementary School",
+    "zone": "fruitvale",
+    "category": "Stormwater",
+    "reveal": "crab tag",
+    "hint": "Look near Fruitvale Elementary School, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 446,
+      "z": 213,
+      "r": 5
+    },
+    "lesson": "The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "stormwater-outfall"
+    }
+  },
+  {
+    "id": "bq-t-16-coliseum-stadium",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "coliseum-stadium",
+    "siteName": "Coliseum Stadium",
+    "zone": "coliseum",
+    "category": "Tidal marsh",
+    "reveal": "heron print",
+    "hint": "Look near Coliseum Stadium, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 631,
+      "z": 363,
+      "r": 5
+    },
+    "lesson": "Working a marsh by hand inside three lines drawn before the crew arrived: the alignment, the buffer nobody crosses and the tide window the permit allows.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "me-tidal-marsh-channel-restoration-day"
+    }
+  },
+  {
+    "id": "bq-t-17-south-treatment-plant",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "south-treatment-plant",
+    "siteName": "South Treatment Plant",
+    "zone": "south-shoreline",
+    "category": "Nutrients and water quality",
+    "reveal": "river otter token",
+    "hint": "Look near South Treatment Plant, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 707,
+      "z": 586,
+      "r": 5
+    },
+    "lesson": "What makes a bottle of water evidence — the marks on the line, the rinses, the labels, the cold and the custody — on a low wet deck with the gate open.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "me-water-column-sampling-from-a-small-boat"
+    }
+  },
+  {
+    "id": "bq-t-18-south-shoreline-marina",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "south-shoreline-marina",
+    "siteName": "South Shoreline Marina",
+    "zone": "south-shoreline",
+    "category": "Fish habitat",
+    "reveal": "egret feather",
+    "hint": "Look near South Shoreline Marina, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 782,
+      "z": 691,
+      "r": 5
+    },
+    "lesson": "The net is set from the skiff and hauled as one crew, every fish is named and counted at the generic level the reference calls for, and none of them spends longer out of the water than the permit's handling window allows.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-beach-seine-fish-survey-and-handling"
+    }
+  },
+  {
+    "id": "bq-t-19-north-shoreline-field-lab",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "north-shoreline-field-lab",
+    "siteName": "North Shoreline Field Lab",
+    "zone": "north-shoreline",
+    "category": "Fish habitat",
+    "reveal": "oyster shell",
+    "hint": "Look near North Shoreline Field Lab, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -739,
+      "z": -597,
+      "r": 5
+    },
+    "lesson": "A perched culvert that a fish cannot swim through only becomes passable on a dry, fish-excluded channel, dug and backfilled to a laser-checked invert instead of a grade that just looks about right.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-culvert-retrofit-for-fish-passage"
+    }
+  },
+  {
+    "id": "bq-t-20-north-marina-pier",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "north-marina-pier",
+    "siteName": "North Marina Pier",
+    "zone": "north-shoreline",
+    "category": "PCB source control",
+    "reveal": "eelgrass sprig",
+    "hint": "Look near North Marina Pier, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": -808,
+      "z": -639,
+      "r": 5
+    },
+    "lesson": "A delineated mercury and PCB hotspot is dug in thin cuts straight into its own lined bin, with vapour read throughout, free mercury contained by the spill kit and the crew doffed through decon in order.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-legacy-mercury-and-pcb-hotspot-handling"
+    }
+  },
+  {
+    "id": "bq-t-21-coliseum-arena",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "coliseum-arena",
+    "siteName": "Coliseum Arena",
+    "zone": "coliseum",
+    "category": "Sediment",
+    "reveal": "tide marker",
+    "hint": "Look near Coliseum Arena, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 560,
+      "z": 400,
+      "r": 5
+    },
+    "lesson": "Wet dredged sediment comes ashore into a lined pad, and the decant that drains from it goes back to the Bay only through a filter train under the pad's discharge conditions, sampled under custody and diverted the moment the effluent meter trips.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "br-dredge-spoils-dewatering-pad"
+    }
+  },
+  {
+    "id": "bq-t-22-fruitvale-fire-station",
+    "set": "bq-bay-keepers-trail",
+    "world": "bayworld",
+    "site": "fruitvale-fire-station",
+    "siteName": "Fruitvale Fire Station",
+    "zone": "fruitvale",
+    "category": "Eelgrass and habitat",
+    "reveal": "sea glass",
+    "hint": "Look near Fruitvale Fire Station, off the road and above the waterline.",
+    "trigger": {
+      "world": "bayworld",
+      "x": 416,
+      "z": 280,
+      "r": 5
+    },
+    "lesson": "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water.",
+    "source": {
+      "file": "WebXR/smartcity/js/curricula.js",
+      "station": "eelgrass-transplant"
+    }
+  }
+];
+
+
+/* ===== shared/bq-bayquest.js ===== */
+// BAYQUEST — the play layer around the Bay Program (docs/consoles/BAYQUEST.md). SmartCiti.X Powered by AGI Corp.
+//
+// SEAMS (documented shapes):
+//
+//   bqGames() -> BQ_GAMES (bq-games-data.js);  bqGame(id)
+//   bqTrail() -> { set: BQ_TRAIL, treasures: BQ_TREASURES, found: [id], count }   the Bay Keeper's Trail
+//   bqFind(treasureId) -> { ok, first, lesson, source }   records a find (per-viewer localStorage, guarded)
+//   bqEarnStation(stationId, { level }) -> tyEarn's { paid, amount, duplicate }   a Bay Program station pass
+//   bqEarnGame(gameId, score) -> { paid, amount, duplicate }   a game run: clean (100) pays tyPayFor(3), a pass
+//        (60+) pays tyPayFor(1), less pays nothing; once per game (record `bq-game:<id>`). Crew Credits only —
+//        TYCOON's play currency; nothing here reaches billing or payments.
+//   BQ_BUSINESSES -> two TYCOON businesses (native plant nursery, charging-yard service stand), registered through
+//        TYCOON's tyAddBusinesses; each checklist item is verbatim from its station's sims-meta tagline.
+//   bqStories(pathId) -> BQ_STORIES on that path (STORYLINE's stQuestsFor shape; `roam: true` for Just Roam),
+//        registered through STORYLINE's stAddStories (parish "bayworld").
+//   bqDeanTemplate() -> the DEAN module template "Bay Program week"; bqApplyDean(dn) hands it to DEAN's
+//        dnAddTemplate / dnModules shape when DEAN is present (guarded).
+//   bqTidalDig({ swings, parish }) -> { landed: [{ x, z, inWater, inBin }], safe, total }   the tidal channel dig
+//        on NEWTON bodies over TERRAFORM water (tfWaterDepthAt when a parish is given, else a schematic channel).
+//   bqYardDrivable(dvById) -> the drivable the yard shuffle uses (CLEANPORTS' electric variants first, guarded).
+//   bqMount({ el, world, toast, completed }) -> { refresh() }   the Bay Program board: games with their lock
+//        state, the trail count, the credit ledger line.
+//
+// Names prefixed bq/BQ_ (one bundle scope).
+
+
+
+
+
+
+
+
+
+function bqGames() { return BQ_GAMES; }
+
+// ------------------------------------------------------------------ the trail
+
+function bqStore() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
+function bqLoadFound() { try { return JSON.parse(bqStore()?.getItem(BQ_TRAIL.storageKey) ?? "[]"); } catch (_) { return []; } }
+function bqTrail() { const found = bqLoadFound(); return { set: BQ_TRAIL, treasures: BQ_TREASURES, found, count: found.length }; }
+function bqFind(treasureId) {
+  const t = BQ_TREASURES.find((x) => x.id === treasureId);
+  if (!t) return { ok: false };
+  const found = bqLoadFound();
+  const first = !found.includes(t.id);
+  if (first) { found.push(t.id); try { bqStore()?.setItem(BQ_TRAIL.storageKey, JSON.stringify(found)); } catch (_) { /* per-viewer only */ } }
+  return { ok: true, first, lesson: t.lesson, source: t.source };
+}
+
+// ------------------------------------------------------------------ Crew Credits
+
+/** The Bay Program stations that pay (the games' gate stations; BAYKEEPER / CLEANPORTS ids join as they land). */
+const BQ_PAID_STATIONS = [...new Set(BQ_GAMES.flatMap((g) => [...g.gate.stations, ...g.pendingStations]))];
+const BQ_PASS_SCORE = 60;
+
+function bqEarnStation(stationId, { level = 1 } = {}) {
+  if (!BQ_PAID_STATIONS.includes(stationId)) return { paid: false, amount: 0, duplicate: false };
+  return tyEarn(stationId, { level });
+}
+function bqGamePay(score) { return score >= 100 ? tyPayFor(3) : score >= BQ_PASS_SCORE ? tyPayFor(1) : 0; }
+function bqEarnGame(gameId, score) {
+  if (!bqGame(gameId)) return { paid: false, amount: 0, duplicate: false };
+  const pay = bqGamePay(score);
+  if (!pay) return { paid: false, amount: 0, duplicate: false };
+  return tyEarn(gameId, { recordId: `bq-game:${gameId}`, level: score >= 100 ? 3 : 1 });
+}
+/** Play a whole run: score it by safe practice and pay it once. */
+function bqPlayGame(gameId, picks) {
+  const g = bqGame(gameId);
+  if (!g) return null;
+  const result = bqGameScore(g, picks);
+  return { ...result, pay: bqEarnGame(gameId, result.score) };
+}
+
+/** Two TYCOON businesses tied to real stations (checklists verbatim from each station's sims-meta tagline). */
+const BQ_BUSINESSES = [
+  {
+    id: "native-plant-nursery", name: "Native plant nursery", trade: "Restoration", station: "br-native-planting-and-erosion-mats", water: false,
+    open: 130, upkeep: 20, perVisit: 6,
+    blurb: "Trays of marsh and bank plants grown for the restoration crews; the bank is matted before a plug goes in.",
+    checklist: ["plan and nesting closure checked", "coir matting pinned top to bottom before a single plug goes in", "holes bored and moisture read at the design depth", "the drip line opened"],
+  },
+  {
+    id: "charging-yard-stand", name: "Charging-yard service stand", trade: "Electrical", station: "et-ev-fleet-depot-charging-and-arc-flash", water: false,
+    open: 170, upkeep: 28, perVisit: 8,
+    blurb: "A service stand at the edge of the charging yard; nothing plugs in until the row has been walked.",
+    checklist: ["the depot's energised work permit read", "the arc-rated suit and face shield on", "a cut charging cable found before anyone plugs into it", "zero energy proven on the meter", "the panel locked and tagged"],
+  },
+];
+tyAddBusinesses?.(BQ_BUSINESSES);
+
+// ------------------------------------------------------------------ STORYLINE side stories
+
+const bqEnd = (kind, id, title) => ({ kind, id, title });
+const bqStory = (id, path, site, siteName, character, characterName, line, prompt, branches, chain, extra = {}) => ({
+  id: `bq-story-${id}`, path, parish: "bayworld", site, siteName, character, characterName, role: "Bay Program crew",
+  line, handoff: { kind: "site", parish: "bayworld", site, siteName, from: character }, prompt,
+  branches: branches.map((b, i) => ({ id: `${id}-${i ? "b" : "a"}`, label: b.label, end: b.end, title: b.end.title, practice: b.practice, src: { [b.end.kind]: b.end.id } })),
+  kiosk: null, chain, ...extra,
+});
+const bqFactLine = (id) => { const f = BQ_FACTS.find((x) => x.id === id); return { text: f.text, src: { file: "WebXR/shared/bq-facts.js", fact: id, page: f.source } }; };
+const bqWhyLine = (station, text) => ({ text, src: { file: "WebXR/smartcity/js/curricula.js", station } });
+
+const BQ_STORIES = [
+  bqStory("port-drains", "union-trades", "port-container-terminal", "Port Container Terminal", "gr-bw-longshore-foreman", "Kofi",
+    bqFactLine("port-trash-capture"),
+    "The port's storm drains feed the Bay. Which crew do you join first?",
+    [
+      { label: "Service the trash capture device", end: bqEnd("station", "br-trash-capture-device-service", "Trash capture device service"), practice: "Read the service order and set the outrigger on its pad before the net comes up." },
+      { label: "Walk the yard lanes with the hostler crew", end: bqEnd("station", "po-yard-hostler-and-pedestrian-separation", "Yard hostler and pedestrian separation"), practice: "Read the yard traffic plan for its walkways and blind corners before the first move." },
+    ],
+    [{ kind: "station", id: "br-trash-capture-device-service" }, { kind: "game", id: "bq-trash-capture-cleanout" }, { kind: "station", id: "bk-street-drain-trash-capture-cleanout", guarded: true }]),
+  bqStory("charging-row", "union-trades", "west-oakland-substation-yard", "West Oakland Substation Yard", "gr-bw-journey-lineworker", "Tomas",
+    bqFactLine("cleanports-equipment"),
+    "Electric trucks and yard equipment all need a safe place to charge. Where do you start?",
+    [
+      { label: "The fleet charging row", end: bqEnd("station", "et-ev-fleet-depot-charging-and-arc-flash", "Fleet depot charging and arc flash"), practice: "Read the energised work permit and prove zero energy before the panel is touched." },
+      { label: "The battery storage container", end: bqEnd("station", "battery-storage-container-commissioning", "Battery storage container commissioning"), practice: "Prove the gas detection before the doors are trusted." },
+    ],
+    [{ kind: "station", id: "et-ev-fleet-depot-charging-and-arc-flash" }, { kind: "game", id: "bq-zero-emission-yard-shuffle" }, { kind: "station", id: "cp-charging-yard-safety", guarded: true }]),
+  bqStory("sponge-street", "k12", "fruitvale-elementary-school", "Fruitvale Elementary School", "gr-bw-teacher", "Hana",
+    bqWhyLine("k12-by-what-a-pump-station-does-in-the-rain", "Rain followed from a roof to the pump station, the reason low ground needs a lift, and a model pump started in order with its screen kept clear."),
+    "Where does the rain go after it hits the street? Pick a way to find out.",
+    [
+      { label: "Follow the rain to the pump station", end: bqEnd("station", "k12-by-what-a-pump-station-does-in-the-rain", "What a pump station does in the rain"), practice: "Start the model pump in order and keep its screen clear." },
+      { label: "Test how a marsh slows a wave", end: bqEnd("station", "k12-by-wetlands-as-a-storms-speed-bump", "Wetlands as a storm's speed bump"), practice: "Run a fair test, with and without the marsh plants." },
+    ],
+    [{ kind: "lesson", id: "k12-es-where-the-storm-drain-goes", guarded: true }, { kind: "lesson", id: "k12-es-rain-gardens-a-sponge-in-the-sidewalk", guarded: true }, { kind: "game", id: "bq-rain-garden-build" }]),
+  bqStory("marsh-nursery", "k12", "estuary-shoreline-park-trailhead", "Estuary Shoreline Park Trailhead", "gr-bw-teacher", "Hana",
+    bqWhyLine("k12-by-wetlands-as-a-storms-speed-bump", "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat."),
+    "The marsh is a nursery for young fish and birds. What do you want to look at?",
+    [
+      { label: "The wave tank test", end: bqEnd("station", "k12-by-wetlands-as-a-storms-speed-bump", "Wetlands as a storm's speed bump"), practice: "Change one thing at a time so the test is fair." },
+      { label: "How mud moves with the tide", end: bqEnd("station", "k12-by-what-a-pump-station-does-in-the-rain", "What a pump station does in the rain"), practice: "Follow the water step by step and keep the screen clear." },
+    ],
+    [{ kind: "lesson", id: "k12-es-the-tidal-marsh-nursery", guarded: true }, { kind: "lesson", id: "k12-es-mud-on-the-move", guarded: true }, { kind: "game", id: "bq-tidal-channel-dig" }]),
+  bqStory("after-the-storm", "disaster-relief", "coliseum-area-hospital", "Coliseum Area Hospital", "gr-bw-nurse", "Adaeze",
+    bqWhyLine("ut-night-storm-response-crew-and-portable-generator", "A flooded access road is driven slowly and deliberately at night, and the lift station's utility feed is locked out and proven dead before the generator's cable ever touches the transfer switch."),
+    "A storm has passed and the drains are choked. Which job comes first?",
+    [
+      { label: "Clear the street drains and debris", end: bqEnd("station", "gk-storm-cleanup-chipper-and-traffic-control", "Storm cleanup, chipper and traffic control"), practice: "Put the taper and the signs up to the traffic-control plan before the shoulder is worked." },
+      { label: "Restore power to the lift station", end: bqEnd("station", "ut-night-storm-response-crew-and-portable-generator", "Night storm response and portable generator"), practice: "Lock out the utility feed and prove it dead before the generator is connected." },
+    ],
+    [{ kind: "station", id: "stormwater-outfall" }, { kind: "game", id: "bq-trash-capture-cleanout" }]),
+  bqStory("shoreline-walk", "roam", "estuary-marina-boatyard", "Estuary Marina Boatyard", "gr-bw-pilot", "Jerome",
+    bqFactLine("program"),
+    "No rush. Two crews are working the shoreline today if you want to look in.",
+    [
+      { label: "Watch the marsh grading crew", end: bqEnd("station", "br-tidal-marsh-grading-amphibious-excavator", "Tidal marsh grading from an amphibious excavator"), practice: "Mats go down ahead of the machine and spoil goes in the bins, not the water." },
+      { label: "Help the planting crew", end: bqEnd("station", "br-native-planting-and-erosion-mats", "Native planting and erosion mats"), practice: "Pin the coir matting top to bottom before a single plug goes in." },
+    ],
+    [{ kind: "game", id: "bq-tidal-channel-dig" }], { roam: true, prompt: null }),
+];
+// the Just Roam story asks nothing: its prompt is folded into a quiet sign line
+BQ_STORIES[BQ_STORIES.length - 1].sign = "Two crews are working the shoreline today.";
+stAddStories?.(BQ_STORIES);
+function bqStories(pathId) { return BQ_STORIES.filter((s) => s.path === pathId); }
+
+// ------------------------------------------------------------------ DEAN "Bay Program week"
+
+function bqDeanTemplate() {
+  return {
+    id: "bq-bay-program-week", kind: "template", title: "Bay Program week", audience: ["teacher", "admin"],
+    blurb: "Five days on the Bay Program's work: storm drains and trash capture, green streets, the tidal marsh, the zero-emission port, and a day to roam the trail.",
+    sources: [...new Set(BQ_FACTS.map((f) => f.source))],
+    days: [
+      { day: 1, title: "Storm drains and trash capture", items: [{ kind: "lesson", id: "k12-es-where-the-storm-drain-goes", guarded: true }, { kind: "station", id: "br-trash-capture-device-service" }, { kind: "game", id: "bq-trash-capture-cleanout" }] },
+      { day: 2, title: "Green streets", items: [{ kind: "lesson", id: "k12-es-rain-gardens-a-sponge-in-the-sidewalk", guarded: true }, { kind: "station", id: "op-excavator-trench-and-utility-locate" }, { kind: "game", id: "bq-rain-garden-build" }] },
+      { day: 3, title: "The tidal marsh", items: [{ kind: "lesson", id: "k12-es-mud-on-the-move", guarded: true }, { kind: "station", id: "br-tidal-marsh-grading-amphibious-excavator" }, { kind: "game", id: "bq-tidal-channel-dig" }] },
+      { day: 4, title: "The zero-emission port", items: [{ kind: "lesson", id: "k12-es-clean-air-at-the-port", guarded: true }, { kind: "station", id: "et-ev-fleet-depot-charging-and-arc-flash" }, { kind: "game", id: "bq-zero-emission-yard-shuffle" }] },
+      { day: 5, title: "The Bay Keeper's Trail", items: [{ kind: "trail", id: BQ_TRAIL.id }, { kind: "story", id: "bq-story-shoreline-walk" }] },
+    ],
+  };
+}
+function bqApplyDean(dn = globalThis) {
+  const tpl = bqDeanTemplate();
+  try { if (typeof dn?.dnAddTemplate === "function") return dn.dnAddTemplate(tpl); } catch (_) { /* DEAN absent or refused */ }
+  return tpl;
+}
+
+// ------------------------------------------------------------------ the tidal channel dig (NEWTON + TERRAFORM)
+
+/**
+ * Swing spoil buckets and drop them. `swings`: [[x, z]] drop points in the dig's local metres. The channel is
+ * water where x < 0 (schematic), or TERRAFORM's tfWaterDepthAt when `parish` is given; the spoil bins stand at
+ * x in [4, 8]. A drop scores safe only when the spoil lands in a bin and not in the water.
+ */
+const BQ_BINS = [{ min: [4, 0, -2], max: [8, 1.2, 2] }];
+function bqTidalDig({ swings = [[6, 0]], parish = null, origin = [0, 0] } = {}) {
+  const depth = parish ? (x, z) => tfWaterDepthAt(parish, origin[0] + x, origin[1] + z) : (x) => (x < 0 ? 1.2 : 0);
+  const world = nwWorld({ groundAt: () => 0, colliders: [], waterDepthAt: depth });
+  const bodies = swings.map(([x, z]) => world.addBody({ pos: [x, 3, z], half: [0.3, 0.3, 0.3], mass: 40 }));
+  for (let i = 0; i < 180; i++) world.step(1 / 60);
+  const landed = bodies.map((b) => {
+    const [x, , z] = b.pos;
+    const inWater = depth(x, z) > 0;
+    const inBin = BQ_BINS.some((bin) => x >= bin.min[0] && x <= bin.max[0] && z >= bin.min[2] && z <= bin.max[2]);
+    return { x: Math.round(x * 100) / 100, z: Math.round(z * 100) / 100, inWater, inBin };
+  });
+  return { landed, safe: landed.filter((l) => l.inBin && !l.inWater).length, total: landed.length };
+}
+
+// ------------------------------------------------------------------ the yard shuffle's drivable
+
+function bqYardDrivable(dvById = () => null) {
+  const g = bqGame("bq-zero-emission-yard-shuffle");
+  for (const id of g.drivables.prefer) { const d = dvById?.(id); if (d) return d; }
+  return dvById?.(g.drivables.fallback) ?? null;
+}
+
+// ------------------------------------------------------------------ the board
+
+function bqMount({ el = null, world = "bayworld", toast = () => {}, completed = null } = {}) {
+  function refresh() {
+    if (!el) return;
+    const snap = qmSnapshot();
+    const trail = bqTrail();
+    const bal = tyLedger().balance;
+    const rows = BQ_GAMES.filter((g) => !world || g.world === world).map((g) => {
+      const open = qmIsOpen(g.gate, snap);
+      return `<li data-bq-game="${g.id}">${open ? "Open" : "Locked"} · <b>${g.title}</b> at ${g.siteName} — ${g.summary}${open ? "" : ` <i>${g.gate.note}</i>`}</li>`;
+    }).join("");
+    el.innerHTML = `<section class="bq-board" aria-label="Bay Program play"><h3>Bay Program play</h3><ul>${rows}</ul>`
+      + `<p>${BQ_TRAIL.name}: ${trail.count} of ${BQ_TRAIL.total} found.</p><p>${TY_CURRENCY}: ${bal} (a play currency).</p></section>`;
+  }
+  refresh();
+  return { refresh, toast, completed };
 }
 
 
@@ -64321,6 +65240,9 @@ function ctlMount(opts = {}) {
 
 
 /* ===== parishes/js/app.js ===== */
+// BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
+// registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
+
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
 // and connectors, job boards that open real stations by trade and bring the
@@ -64847,7 +65769,17 @@ function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();
+  bqOpenBoard();
   npOpen("tycoon");
+}
+var bqBoard = null;
+function bqOpenBoard() {
+  const ledgerEl = $("ty-ledger");
+  if (!ledgerEl) return;
+  let el = document.getElementById("bq-board");
+  if (!el) { el = document.createElement("div"); el.id = "bq-board"; ledgerEl.after(el); }
+  if (!bqBoard) bqBoard = bqMount({ el, world: null, toast: npToast, completed: ppCompleted });
+  else bqBoard.refresh();
 }
 function tyAfterTick(events) {
   if (!events.length) return;

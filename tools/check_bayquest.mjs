@@ -80,6 +80,10 @@ const fold = (s) => s.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
     check([...others, ...mine].every(([ox, oz]) => Math.hypot(ox - x, oz - z) >= 15), "placement", `${t.id}: 15 m clear of every other treasure`);
     mine.push([x, z]);
   }
+  // the rule itself bites: open water and a road centreline are both refused
+  const wet = BW.TX_BAY_WATER.map(([cx, cz]) => [cx, cz]).find(([x, z]) => BW.txQuayAt(x, z, 2) < 0);
+  check(!!wet && BW.txWaterTopAt(...wet) !== null, "placement", `the water test refuses open water (${wet})`);
+  check(!!BW.bayRoadAt(...BW.BAY_ROADS[0].points[0]), "placement", "the road test refuses a road centreline");
   const stations = TR.BQ_TREASURES.filter((t) => t.source.station).map((t) => t.source.station);
   check(new Set(stations).size === stations.length, "sourced", "no station why used twice");
   // the find flow
@@ -191,6 +195,16 @@ const fold = (s) => s.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
     const ok = it.kind === "station" ? STATIONS.has(it.id) : it.kind === "game" ? !!GD.bqGame(it.id) : it.kind === "trail" ? it.id === TR.BQ_TRAIL.id : it.kind === "story" ? !!S.stStory(it.id) : false;
     check(ok, "dean", `day ${d.day}: ${it.kind} ${it.id} resolves`);
   }
+}
+
+// ------------------------------------------------------------ wiring
+{
+  const app = rd("WebXR/parishes/js/app.js");
+  check(/import \{ bqMount \} from "..\/..\/shared\/bq-bayquest.js"/.test(app) && /bqMount\(\{ el/.test(app), "wiring", "the parishes app mounts the Bay Program board");
+  const bundler = rd("tools/bundle_webxr.py");
+  for (const f of ["bq-facts.js", "bq-games-data.js", "bq-trail-data.js", "bq-bayquest.js"]) check(bundler.indexOf(`SHARED / "${f}"`) > bundler.indexOf(`SHARED / "st-stories.js"`), "wiring", `the parishes bundle lists ${f} after st-stories.js`);
+  const dist = path.join(ROOT, "WebXR/parishes/dist/parishes.html");
+  check(fs.existsSync(dist) && fs.readFileSync(dist, "utf8").includes("function bqMount"), "wiring", "the parishes bundle carries bqMount (python3 tools/bundle_webxr.py parishes)");
 }
 
 console.log(`  groups: ${Object.entries(groups).map(([k, v]) => `${k} ${v}`).join(", ")}`);
