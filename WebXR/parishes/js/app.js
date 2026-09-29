@@ -55,6 +55,7 @@ import { bqMount, bqNear, bqFind } from "../../shared/bq-bayquest.js";
 import { bqGamesFor } from "../../shared/bq-games-data.js";
 import { dwShoreEntriesFor } from "../../shared/dw-regions.js";
 import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js";
+import { hvMount } from "../../shared/hv-harvest.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -708,6 +709,13 @@ var psWorld = psMountProjectSim({
   toast: npToast, stationHref: (id, siteId) => npLink(id, siteId), onOpen: () => npClose(),
 });
 
+// HARVEST (docs/consoles/HARVEST.md): hidden fishing, crabbing, crawfish, rice and gator-watch spots by the water — found by
+// walking the banks, played from the Play tab (menu-harvest), each run teaching one line and paying Crew Credits once.
+var hvWorld = hvMount({
+  THREE, root, parish, el: $("menu-harvest"), toast: npToast, heightAt: (x, z) => npHeightAt(parish, x, z),
+  pos: () => (np.playing && !np.modal ? [np.x, np.z] : null), hour: () => AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12,
+});
+
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
@@ -721,6 +729,7 @@ window.__parishTest = {
   // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
   // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
   dean: () => dnHere,
+  harvest: hvWorld,
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
