@@ -5,7 +5,7 @@
 2. TYCOON: `tyEarn(stationId)` can name the pack through `pkPackOf(stationId)[0]` in the ledger line.
 3. Mount a packs strip in one more world (Bay World's menu) with `pkPacksAt("bayworld")`; the registry is ~75 KB, so
    consider a per-world slice if a world's bundle budget tightens.
-4. Paths with few packs: Disaster Relief (3, all secondary), UN Training (1). New content decides these, not the
+4. Paths with few packs of their own: Disaster Relief (1 own — hazmat-environmental — 8 with alsoPaths), UN Training (1). New content decides these, not the
    generator — do not relabel programmes to fill a path.
 5. Per-pack thumbnails: the cards carry no image by design (no logo files); a screenshot per pack could reuse the
    track thumbnails (WebXR/home/tracks/img/) for programme packs.

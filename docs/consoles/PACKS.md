@@ -62,11 +62,24 @@ Files:
   content; the data module matches the manifests; titles and branding line.
 
 ## Seams
-- `pkPacks(filter?) -> [pack]`, `pkPack(id) -> pack | null`, `pkPackOf(stationId) -> [pack]` (PACKS, `WebXR/shared/pk-packs.js`),
-  plus `pkPacksAt(world, placeId) -> [pack]` for a world's menu. `pack` = `{ id, kind, title, name, audience, path,
-  alsoPaths, unions, k12Bands, programmes, stations: [{app,id}], worlds: [{world, parish?, sites}], version }`.
-- STORYLINE: every `path` is one of `union-trades, k12, first-responders, un-training, disaster-relief, teachers,
-  roam`; `pkPacks({ path })` returns the packs for a chosen path (matches `path` or `alsoPaths`). The parishes menu
-  reads `stChosenPath?.()` when present to put that path's packs first.
+- `pkPacks(filter?) -> [pack]`, `pkPack(id) -> pack | null`, `pkPackOf(stationId) -> [pack]` (programme packs first),
+  `pkPacksAt(place) -> [pack]` (place = `bayworld` | `underwater` | `summit` | `redwood` | `parishes:<map id>`),
+  `pkPathPacks(pathId) -> [pack]` — `WebXR/shared/pk-packs.js`, shapes at the top of the module. `pack` =
+  `{ id, kind, title, name, audience, path, alsoPaths, unions, k12Bands, programmes, stations: [{app,id}], version, manifest }`;
+  the site ids per world are in the manifest (`WebXR/packs/<id>.json`, `worlds: [{ world, parish?, sites }]`).
+- STORYLINE: every `path` is one of `union-trades, k12, first-responders, un-training, disaster-relief, teachers`
+  (`roam` carries no pack); `pkPacks({ path })` matches `path` or `alsoPaths`. The parishes menu probes STORYLINE's
+  `stChosenPath()` (guarded with `typeof`) to put the chosen path's packs first — the coordinator imports it at merge.
 - TYCOON / others: `pkPackOf(stationId)` names the pack a station belongs to.
-- Mounted: parishes menu (`#menu-packs`), homepage docs list, instructor console footer.
+- Mounted: parishes menu (`#menu-packs` + a "Holodeck Packs" button, bundled into parishes.html), homepage docs list
+  (tools/gen_home.mjs, both layouts), instructor console fine print. The bundler copies the flat page
+  (`WebXR/packs/flat/index.html`) and the manifests into `WebXR/dist/packs/`, rewrites `../packs/` for the bundles,
+  and `python3 tools/bundle_webxr.py --pack <id>` / `node tools/export_unity.mjs --pack <id>` emit one pack alone.
+
+## Results
+- 144 packs: 56 programme, 4 K-12, 64 union packages, 20 station libraries; 697/697 catalog stations in a pack.
+- Paths (own / with alsoPaths): union-trades 127/127, k12 4/4, first-responders 7/8, un-training 1/1,
+  disaster-relief 1/8, teachers 4/8, roam 0/0.
+- `check_packs.mjs`: 23,544 checks, ~1 s. Also run green: check_design (176 pages, now including the Packs page in
+  both layouts), check_home, check_deploy, check_guide, check_seo, check_imports, check_unity_export.
+- eval_worlds: EVAL_LINE
