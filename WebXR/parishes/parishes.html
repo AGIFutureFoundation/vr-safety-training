@@ -79,6 +79,20 @@
   .choices{display:grid;gap:8px;margin:10px 0}
   #toast{position:fixed;left:50%;bottom:160px;transform:translateX(-50%);z-index:40;background:rgba(10,16,24,.92);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;max-width:min(560px,92vw);font-size:14px;line-height:1.4;opacity:0;transition:opacity .25s;pointer-events:none}
   #toast.on{opacity:1}
+  /* INTERFACE (docs/consoles/INTERFACE.md): the tabbed menu, one line of HUD state, the onboarding cards. */
+  .ux-tabs{margin:16px 0 0;position:sticky;top:-22px;background:var(--glass);z-index:1}
+  .ux-tabs .at-tab{min-height:44px;min-width:64px;flex:1 0 auto}
+  .ux-panel{padding:12px 0 0}
+  .ux-panel:focus-visible{outline:2px solid var(--at-focus,var(--accent));outline-offset:2px}
+  .ux-sub{margin:0 0 10px;color:var(--muted);font-size:var(--at-fs-sm,14px)}
+  .ux-panel a.btn,.ux-panel button{min-height:44px}
+  #hud-stats .ux-state{white-space:nowrap}
+  .ux-menu-btn{pointer-events:auto;bottom:10px;right:10px;min-height:44px;min-width:64px;font-weight:700;color:var(--text);cursor:pointer}
+  #at-sound{min-height:44px}
+  .ux-ob{width:min(460px,100%)}
+  @media (max-width:760px){#hud-stats .ux-state{white-space:normal}.ux-card{padding:16px}}
+  @media (pointer:coarse){.ux-menu-btn{display:none}.home-chip{min-height:44px;padding:0 14px}}
+  @media (pointer:coarse) and (max-width:760px){#hud-where{top:calc(60px + env(safe-area-inset-top,0px))}}
   @media (max-width:760px){#hud-keys{display:none}#hud-where{left:10px;top:calc(50px + env(safe-area-inset-top,0px));transform:none;min-width:0;max-width:46vw;text-align:left}#hud-where b{font-size:16px}#hud-stats{max-width:46vw}}
 </style>
 </head>
@@ -88,36 +102,80 @@
 
 <div id="hud" hidden>
   <div class="panel" id="hud-where"><b id="hud-zone">Orleans Parish</b><span id="hud-near"></span></div>
-  <div class="panel" id="hud-stats"><span id="hud-alt">0 m</span> above the water<br><span id="hud-clock">day</span> · <span id="hud-weather">clear</span><br>Sites <b id="hud-visited">0</b> · Lessons <b id="hud-lessons">0</b><br>Crew Credits <b id="hud-credits">0</b></div>
+  <div class="panel" id="hud-stats" aria-label="State"><span class="ux-state"><span id="hud-clock">day</span> · <span id="hud-weather">clear</span> · <span title="Height above the water"><span id="hud-alt">0 m</span> up</span> · Sites <b id="hud-visited">0</b> · Lessons <b id="hud-lessons">0</b> · Credits <b id="hud-credits">0</b></span></div>
   <div class="panel" id="hud-prompt" hidden></div>
-  <div class="panel" id="hud-keys">WASD / arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · L ledger · T time · F weather</div>
+  <div class="panel" id="hud-keys">WASD walk · E use · M map · Esc menu</div>
+  <button class="panel ux-menu-btn" id="ux-menu-open" type="button" aria-label="Open the menu">Menu</button>
 </div>
 
 <section class="screen" id="menu" role="main">
-  <div class="card">
+  <div class="card ux-card">
     <p class="eyebrow" id="menu-eyebrow">New Orleans parishes · a 4 km by 4 km delta world each</p>
     <h1 class="logo" id="menu-parish">Orleans Parish</h1>
     <p class="lead" id="menu-blurb"></p>
     <p class="note" id="menu-count"></p>
-    <div class="row">
-      <button class="btn primary" id="menu-start" type="button">Start walking</button>
-      <button class="btn" id="menu-motorpool" type="button">Motor Pool</button>
-      <a class="btn" href="../packs/index.html">Holodeck Packs</a>
-      <button class="btn" id="menu-ledger" type="button">Crew Credits</button>
-      <a class="btn" href="../index.html">Home</a>
+    <div class="row"><button class="btn primary" id="menu-start" type="button">Start walking</button></div>
+    <div class="at-tabs ux-tabs" role="tablist" aria-label="Menu sections" id="ux-tabs">
+      <button class="at-tab" role="tab" type="button" id="ux-tab-learn" data-ux-tab="learn" aria-controls="ux-panel-learn">Learn</button>
+      <button class="at-tab" role="tab" type="button" id="ux-tab-play" data-ux-tab="play" aria-controls="ux-panel-play">Play</button>
+      <button class="at-tab" role="tab" type="button" id="ux-tab-map" data-ux-tab="map" aria-controls="ux-panel-map">Map</button>
+      <button class="at-tab" role="tab" type="button" id="ux-tab-me" data-ux-tab="me" aria-controls="ux-panel-me">Me</button>
     </div>
-    <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
-    <div class="row" id="menu-parishes"></div>
-    <div id="menu-storyline"></div>
-    <p id="menu-dean" class="fine" hidden></p>
-    <div id="menu-paths"></div>
-    <div id="menu-krewe"></div>
-    <div id="menu-drills"></div>
-    <div id="menu-packs"></div>
-    <div id="menu-cognition"></div>
-    <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
+    <div class="ux-panel" role="tabpanel" id="ux-panel-learn" aria-labelledby="ux-tab-learn" tabindex="0">
+      <p class="ux-sub">Paths, lessons, sessions, drills and simulations</p>
+      <p id="menu-dean" class="fine" hidden></p>
+      <div id="menu-storyline"></div>
+      <div id="menu-paths"></div>
+      <div id="menu-cognition"></div>
+      <div id="menu-drills"></div>
+      <div id="menu-sims" data-ux-reserved="PROJECTSIM"></div>
+      <div id="menu-packs"></div>
+      <div class="row"><a class="btn" href="../packs/index.html">Holodeck Packs</a></div>
+    </div>
+    <div class="ux-panel" role="tabpanel" id="ux-panel-play" aria-labelledby="ux-tab-play" tabindex="0" hidden>
+      <p class="ux-sub">Quests, games, treasures and Crew Credits</p>
+      <div class="row">
+        <button class="btn" id="menu-ledger" type="button">Crew Credits</button>
+        <button class="btn" id="menu-motorpool" type="button">Motor Pool</button>
+        <button class="btn" id="ux-sidegames" type="button">Side games</button>
+        <a class="btn" href="../treasures.html">Treasure Map</a>
+      </div>
+      <div id="menu-krewe"></div>
+      <div id="menu-bayquest" data-ux-reserved="BAYQUEST"></div>
+    </div>
+    <div class="ux-panel" role="tabpanel" id="ux-panel-map" aria-labelledby="ux-tab-map" tabindex="0" hidden>
+      <p class="ux-sub">The map, the ways out and the regions</p>
+      <div class="row">
+        <button class="btn" id="ux-open-map" type="button">Open the map</button>
+        <button class="btn" id="ux-open-ways" type="button">Ways out</button>
+      </div>
+      <p class="eyebrow" style="margin-top:16px">Choose a region, then a map</p>
+      <div class="row" id="menu-parishes"></div>
+    </div>
+    <div class="ux-panel" role="tabpanel" id="ux-panel-me" aria-labelledby="ux-tab-me" tabindex="0" hidden>
+      <p class="ux-sub">Passport, scoreboard and settings</p>
+      <p class="note" id="menu-passport"></p>
+      <div class="row">
+        <a class="btn" href="../scholar/index.html">Scoreboard</a>
+        <span id="menu-sound"></span>
+        <button class="btn" id="ux-reduced" type="button" aria-pressed="false">Reduced motion: off</button>
+        <button class="btn" id="ux-replay" type="button">First-visit cards</button>
+        <a class="btn" href="../index.html">Home</a>
+      </div>
+      <p class="note" id="ux-controls">Keys: WASD or arrows walk · drag to look · Shift run · E use · G talk · B Motor Pool · M map · P maps · L ledger · T time · F weather · Esc menu. Gamepad: A use · Start menu · LB/RB switch tabs. Touch: the stick walks; Use, Map, Maps and Menu buttons.</p>
+      <p class="note">Real places are named only as places — a parish, a neighbourhood, a bridge, a park, a canal, a port. Every building is generic character by district, the map is stylised and approximate, not a survey, and limits are always "per the plan, permit or label". Satellite ground appears only when you have supplied a Mapbox token (docs/mapbox.md). Progress is kept in this browser under your profile.</p>
+    </div>
   </div>
 </section>
+
+<div class="modal" id="ux-onboard" hidden role="dialog" aria-modal="true" aria-labelledby="ux-ob-title">
+  <div class="card ux-ob">
+    <p class="eyebrow" data-ux-ob-count>1 of 3</p>
+    <h2 id="ux-ob-title" data-ux-ob-title></h2>
+    <p class="lead" data-ux-ob-body></p>
+    <div class="row"><button class="btn primary" type="button" data-ux-ob-next>Next</button><button class="btn" type="button" data-ux-ob-skip>Skip</button></div>
+  </div>
+</div>
 
 <div class="modal" id="board" hidden role="dialog" aria-modal="true" aria-labelledby="board-title">
   <div class="card">
@@ -185,6 +243,21 @@
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
+<script>
+// INTERFACE: the Me tab's reduced-motion choice (localStorage "ux-reduced"), applied before any module reads
+// prefers-reduced-motion, so every module's own still-world path runs. The system setting always wins.
+(function () {
+  try {
+    var mm = window.matchMedia && window.matchMedia.bind(window);
+    window.__uxSystemReduced = !!(mm && mm("(prefers-reduced-motion: reduce)").matches);
+    if (!mm || localStorage.getItem("ux-reduced") !== "1") return;
+    window.matchMedia = function (q) {
+      if (/prefers-reduced-motion:\s*reduce/.test(q)) return { matches: true, media: q, onchange: null, addListener: function () {}, removeListener: function () {}, addEventListener: function () {}, removeEventListener: function () {}, dispatchEvent: function () { return false; } };
+      return mm(q);
+    };
+  } catch (e) { /* storage blocked: the system setting only */ }
+})();
+</script>
 <script type="module" src="./js/app.js"></script>
 </body>
 </html>
