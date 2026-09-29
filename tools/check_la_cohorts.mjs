@@ -84,7 +84,36 @@ const out = {};
   const ses = NP_PARISHES.flatMap((p) => LCO.lcoSessionLessons(p.id, { npParish: (id) => byId.get(id) }));
   check(ses.length > 0 && ses.every((s) => s.flow && s.apply?.id), "flows", "a session lesson lacks its flow or apply game");
   check(ses.length === NP_PARISHES.flatMap((p) => LK.lkSessionLessons(p.id, { npParish: (id) => byId.get(id) })).length, "flows", "lcoSessionLessons changes the lesson places");
-  out.flows = `${LK.LK_LESSONS.length} flows · ${LCO.LCO_APPLY_GAMES.length} apply games (${rounds} rounds) · ${ses.length} session places carry flow + game`;
+  // COGNITION's runner plays every Louisiana flow to the end headlessly, and its apply phase carries the game's rounds
+  const CG = await imp("WebXR/shared/cg-runner.js");
+  const { CG_FLOWS } = await imp("WebXR/shared/cg-units.js");
+  let played = 0;
+  for (const l of LK.LK_LESSONS) {
+    const fid = LCO.lcoFlowFor(l);
+    const flow = CG_FLOWS[fid];
+    check(!!flow, `runner/${l.id}`, `COGNITION's units do not embed ${fid} — run node tools/gen_cg_units.mjs`);
+    if (!flow) continue;
+    const r = CG.cgFlowRunner(flow, { lesson: { id: l.id, title: l.title, steps: l.steps }, games: LCO.lcoGameLookup });
+    let game = null;
+    for (let i = 0; i < 20 && !r.done; i++) {
+      const ph = r.phase;
+      if (ph === "lesson") r.next({ passed: true });
+      else if (ph === "check") r.next({ answer: l.check.answer });
+      else if (ph === "apply") { game = r.say().game; r.next({ done: true }); }
+      else r.next({});
+    }
+    check(r.done, `runner/${l.id}`, "the runner does not finish the flow");
+    check(game?.id === LCO.lcoGameFor(l)?.id && game.steps.length === 3, `runner/${l.id}`, "the runner's apply phase does not carry the game's rounds");
+    const plain = CG.cgFlowRunner(flow, { lesson: { id: l.id, title: l.title, steps: l.steps } });
+    for (let i = 0; i < 20 && plain.phase !== "apply" && !plain.done; i++) plain.next(plain.phase === "lesson" ? { passed: true } : plain.phase === "check" ? { answer: l.check.answer } : {});
+    check(plain.phase === "apply" && plain.say().game === null, `runner/${l.id}`, "without the games hook the apply phase is not the plain line");
+    if (r.done) played++;
+  }
+  const APP = read("WebXR/parishes/js/app.js");
+  check(/cgMountRunner\(.*games: lcoGameLookup/.test(APP) && /import \{ lcoGameLookup \} from "\.\.\/\.\.\/shared\/lco-la-flows\.js"/.test(APP), "runner", "the parishes app does not pass the games hook to the runner");
+  check(/SHARED \/ "lco-la-flows\.js"/.test(read("tools/bundle_webxr.py")), "runner", "lco-la-flows.js is not in the parishes bundle list");
+  out.flows = `${LK.LK_LESSONS.length} flows (${played} played to the end by COGNITION's runner, games' rounds in the apply phase)`;
+  out.games = `${LCO.LCO_APPLY_GAMES.length} apply games (${rounds} rounds) · ${ses.length} session places carry flow + game`;
 }
 
 // ---------------------------------------------------------------- 2 classroom boards

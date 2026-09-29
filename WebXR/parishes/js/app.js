@@ -62,6 +62,7 @@ import { byLessonsFor } from "../../shared/by-parish-lessons.js";
 import { scMountSession } from "../../shared/sc-session-ui.js";
 import { esSessionLessons } from "../../shared/es-bay-lessons.js";
 import { lkSessionLessons } from "../../shared/lk-la-lessons.js"; // LA-K12: Louisiana K-12 lessons at the Louisiana map sites
+import { lcoGameLookup } from "../../shared/lco-la-flows.js"; // LA-COHORTS: the Louisiana lessons' apply games in the learning module runner
 import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
@@ -1061,7 +1062,8 @@ window.__parishTest.robotics = rbWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
-window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast) });
+// LA-COHORTS: the Louisiana lessons' apply nodes play their game's rounds in the runner (docs/consoles/LA-COHORTS.md).
+window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast), games: lcoGameLookup });
 // DEEPWATER: shoreline dive entries on this map (docs/consoles/DEEPWATER.md) open the Deep at a Bay Program region, with a way back.
 npMountDiveEntries($("menu-packs"), parish);
 function npMountDiveEntries(el, p) {

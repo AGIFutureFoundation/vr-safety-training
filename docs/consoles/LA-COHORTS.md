@@ -54,3 +54,12 @@ figure, company name or employer's hiring; places are named as places.
    2026-10-19" at both widths; Home's Louisiana line links `louisiana/index.html` and `louisiana/cohorts.html`; the only 404s
    are the shared Guide's `backgrounds.json` probe on the older pages. Screenshot showed the pathway lines starting
    lower-case → capitalised in the generator, check_la_cohorts ok 2037.
+7. Reason: the apply games are played in the world, not only named in the flows. Act: an optional `games` lookup through
+   COGNITION's `cgMountRunner` / `cgFlowRunner` (the apply phase's `say()` carries `game`), round-by-round play in
+   `byMountFlowAgent` (a miss stays on the round with a nudge; Done after the last round), `lcoGameLookup` passed by the
+   parishes app, `lco-la-flows.js` in the parishes bundle list, and `gen_cg_units.mjs` gives each Louisiana lesson its
+   places (`lkPlacesOn`) so the runner offers it on the maps. Observe: first drive — the runner on `la-saronic-franklin`
+   listed no Louisiana lesson (station-kind lessons had no places) → after the places: headless Chromium on port 9024 played
+   "Why Steel Can Float" through brief, station, check, three rounds of "Load to the Mark" and the close, "Lesson complete",
+   0 page errors; check_la_cohorts ok 2063 (6 flows played to the end headlessly, rounds in the apply phase, and the plain
+   line without the hook); check_cognition 603/0; check_k12, check_flowhub, check_classrooms, check_imports pass.

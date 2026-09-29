@@ -12,7 +12,8 @@
 //   cgReport(lesson, run, report, { misses }) -> the lesson report { lesson, station, unit, flow, status, steps, reteaches, misses, at, where }, handed (guarded) to SCHOLAR's scStartSession(lessonId, where)
 //     shape and DEAN's module progress shape: report.scholar?.(lessonId, where) and report.dean?.({ module, lesson, status, at }).
 //   cgGuideFor(lesson, fallbackId) -> { id, name, role } | null — the GRIOT character (npc-data.js) who speaks the lesson.
-//   cgMountRunner(el, { world, parish?, site?, character?, guide?, report? }) -> { open(lessonId), lessons, current } (plain DOM, no three.js).
+//   cgMountRunner(el, { world, parish?, site?, character?, guide?, report?, games? }) -> { open(lessonId), lessons, current } (plain DOM, no three.js).
+//     games(ref) (optional, LA-COHORTS) resolves an apply node's game; say() then carries it as `game` and the agent plays its rounds.
 //   cgWorldReport(toast?) -> the report hooks a world passes: SCHOLAR's scStartSession (imported); DEAN reads SCHOLAR's sessions, so it needs no call of its own.
 // Reduced motion: nothing here animates.
 
@@ -57,7 +58,7 @@ function cgPhaseOf(node, isLast) {
   return "brief";
 }
 
-export function cgFlowRunner(flow, { lesson = null, character = null, report = null, at = () => Date.now() } = {}) {
+export function cgFlowRunner(flow, { lesson = null, character = null, report = null, at = () => Date.now(), games = null } = {}) {
   const who = character?.name ? `${character.name}, ${String(character.role ?? character.title ?? "guide").toLowerCase()}` : "your guide";
   const state = { greeted: false, tries: 0, lastWhy: null, reteaches: 0, log: [], reported: null };
   let run = startRun(flow, { at: at(), source: "cognition" });
@@ -72,7 +73,9 @@ export function cgFlowRunner(flow, { lesson = null, character = null, report = n
     if (ph === "done") return { who, line: "Lesson complete.", actions: [] };
     if (ph === "lesson") return { who, line: `Open the station and work it through: ${n.title}.`, href: cgLinkFor(n), actions: ["passed", "try again"] };
     if (ph === "check") { const c = n.params.check; return { who, line: c.q, options: c.options, note: state.lastWhy, actions: ["answer"] }; }
-    if (ph === "apply") return { who, line: `Now use it here: ${n.title}.`, actions: ["done"] };
+    // An apply node's game, when the world passes a lookup (`games(ref)` -> { id, title, summary, steps }; LA-COHORTS'
+    // lco-la-flows.js); guarded: no lookup or no game keeps the plain line and the Done button.
+    if (ph === "apply") { const g = typeof games === "function" ? games(n.ref) ?? null : null; return { who, line: `Now use it here: ${n.title}.`, game: g, actions: ["done"] }; }
     if (ph === "close") return { who, line: "How did that go? Say one thing you would tell someone at home.", actions: ["finish"] };
     // a brief speaks the lesson's own lines (parish or field lesson steps), a re-teach its simpler step titles
     const lines = n.params?.reteach ?? (n.kind === "brief" && lesson?.steps?.length ? lesson.steps : n.kind === "brief" ? [n.why] : [n.title]);
@@ -123,7 +126,7 @@ export function cgReport(lesson, run, report = null, extra = {}) {
 const cgEsc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 /** Plain-DOM mount: a lesson list for this place; a lesson plays through byMountFlowAgent. */
-export function cgMountRunner(el, { world, parish = null, site = null, character = null, guide = null, report = null } = {}) {
+export function cgMountRunner(el, { world, parish = null, site = null, character = null, guide = null, report = null, games = null } = {}) {
   if (!el) return null;
   const lessons = cgLessonsAt({ world, parish, site });
   el.textContent = "";
@@ -140,7 +143,7 @@ export function cgMountRunner(el, { world, parish = null, site = null, character
     const l = lessons.find((x) => x.id === id || x.station === id);
     const flow = l && cgFlow(l.flow);
     if (!flow) return null;
-    current = cgFlowRunner(flow, { lesson: l, character: character ?? cgGuideFor(l, guide), report });
+    current = cgFlowRunner(flow, { lesson: l, character: character ?? cgGuideFor(l, guide), report, games });
     panel.textContent = "";
     const box = document.createElement("div");
     panel.appendChild(box);

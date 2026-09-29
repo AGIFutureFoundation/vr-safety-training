@@ -102,6 +102,12 @@ export function lcoApplyFor(lesson) {
   return g ? { kind: "mini-game", id: g.id, game: g, steps: lcoApplySteps(g.id), minutes: LCO_APPLY_MINUTES } : null;
 }
 
+/** COGNITION's runner hook (cgMountRunner's `games`): an apply node's ref → { id, title, summary, idea, steps } | null. */
+export function lcoGameLookup(ref) {
+  const g = lcoApplyGame(ref);
+  return g ? { id: g.id, title: g.title, summary: g.summary, idea: g.idea, minutes: g.minutes, steps: lcoApplySteps(g.id) } : null;
+}
+
 /** lkSessionLessons plus the lesson's flow id and apply game (same ids and places; the base lesson id before `@`). */
 export function lcoSessionLessons(parishId, opts = {}) {
   return lkSessionLessons(parishId, opts).map((s) => {
