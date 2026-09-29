@@ -29,6 +29,7 @@ const R = await imp("shared/np-parishes.js");
 const W = await imp("shared/np-world.js");
 await imp("shared/fc-facades.js");
 const D = await imp("shared/dt-detail.js");
+const CW = await imp("shared/cw-cityworks.js");
 
 let pass = 0, fail = 0;
 const check = (ok, msg) => { if (ok) pass++; else { fail++; console.log(`FAIL ${msg}`); } };
@@ -152,6 +153,40 @@ for (const p of R.NP_PARISHES) {
 }
 note(`Louisiana rows in use: ${Object.entries(laRows).map(([r, s]) => `${r} ${s.size}`).join(", ")}`);
 for (const row of ["cane", "rice", "apron", "hangar", "slipway", "piperack", "gallery"]) check(laRows[row]?.size > 0, `the ${row} row is used by at least one map`);
+
+// 6b. the gallery faces the street (SURVEYOR-2): on every drawn quarter block of every gallery district (after CITYWORKS'
+// cwMassFilter, as the app builds), the gallery's face is
+// the one the ray to the nearest street leaves the block through, its outward normal points at the street, and its deck
+// stands nearer the street than the block's centre. The old rule (always the local +z face) is counted for the record.
+{
+  let blocks = 0, facing = 0, nearer = 0, oldOk = 0;
+  for (const id of laRows.gallery ?? []) {
+    const p = R.npParish(id), v = D.dtVariants(p), drawn = CW.cwMassFilter(p);
+    for (const d of p.districts ?? []) {
+      if (d.character !== "quarter" || v.rows.get(`${d.id}|${d.name}`) !== "gallery") continue;
+      const xs = d.poly.map((q) => q[0]), zs = d.poly.map((q) => q[1]), half = E.NP_SIZE / 2;
+      const c0 = Math.max(0, Math.floor((Math.min(...xs) + half) / E.NP_CHUNK)), c1 = Math.min(S - 1, Math.floor((Math.max(...xs) + half) / E.NP_CHUNK));
+      const r0 = Math.max(0, Math.floor((Math.min(...zs) + half) / E.NP_CHUNK)), r1 = Math.min(S - 1, Math.floor((Math.max(...zs) + half) / E.NP_CHUNK));
+      for (let cz = r0; cz <= r1; cz++) for (let cx = c0; cx <= c1; cx++) for (const s of E.npMassingForChunk(p, cx, cz)) {
+        if (s.kind !== "quarterBlock" || !drawn(s) || E.npDistrictAt(p, s.x, s.z)?.id !== d.id) continue;
+        const g = D.dtGalleryFace(p, s);
+        if (!g.street) continue;
+        blocks++;
+        const dx = g.street[0] - s.x, dz = g.street[1] - s.z, c = Math.cos(s.rot), sn = Math.sin(s.rot);
+        const lx = c * dx - sn * dz, lz = sn * dx + c * dz, hx = 8 * s.s, hz = 6 * s.s;
+        const exit = Math.abs(lz) * hx >= Math.abs(lx) * hz ? (lz >= 0 ? 0 : 2) : (lx >= 0 ? 1 : 3);
+        const nx = Math.sin(g.yaw), nz = Math.cos(g.yaw); // the chosen face's outward normal in the world
+        if (g.face === exit && nx * dx + nz * dz > 0) facing++;
+        const deckX = s.x + nx * (g.hd + 0.65), deckZ = s.z + nz * (g.hd + 0.65);
+        if (Math.hypot(g.street[0] - deckX, g.street[1] - deckZ) < Math.hypot(dx, dz)) nearer++;
+        if (exit === 0) oldOk++;
+      }
+    }
+  }
+  check(blocks > 0 && facing === blocks, `gallery: ${facing} of ${blocks} quarter blocks put the gallery on the face toward the nearest street`);
+  check(blocks > 0 && nearer === blocks, `gallery: ${nearer} of ${blocks} gallery decks stand nearer the street than the block's centre`);
+  note(`gallery: the old local +z rule faced the street on ${oldOk} of ${blocks} blocks`);
+}
 
 // 2b. full streamed builds of the five densest maps (start + every site, FACADES mounted), bounded (DETAIL-2): the engine is
 // built without the pool and the pool's worst case is added — its DT_FAMILIES.length meshes and its whole capacity's

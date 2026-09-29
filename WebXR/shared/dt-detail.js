@@ -24,6 +24,7 @@
  */
 import { NP_SIZE, NP_CHUNK, NP_ROAD_KINDS, NP_MASSING, npPrepare, npHeightAt, npCoverAt, npDistrictAt, npRng, npMassingForChunk, npPolyLength, npPolyPointAt, npRoadSurfaceAt } from "./np-parish.js";
 import { NP_MASSING_HOOKS } from "./np-world.js";
+import { cwNearestLine } from "./cw-cityworks.js";
 import { PA_CATEGORIES, paRegionCategories, paRegionOf } from "./pa-palette-data.js";
 
 /** The detail families, one InstancedMesh each in the pool (triangles an instance; `flat` = double-sided). */
@@ -231,6 +232,33 @@ class DtBuf {
   trim() { return { n: this.n, mats: this.mats.subarray(0, this.n * 16), cols: this.cols.subarray(0, this.n * 3) }; }
 }
 
+const dtGalleryCache = new WeakMap();
+/**
+ * SURVEYOR-2: which face of a quarter block is its street front — the face whose outward normal points most nearly at
+ * the nearest street (CITYWORKS' lines: the named roads and the fabric, cwNearestLine). Returns `{ face, yaw, hw, hd,
+ * street }`: face 0 (+z), 1 (+x), 2 (−z) or 3 (−x) in the block's frame; yaw, the frame whose +z is that face; hw the
+ * face's half-width and hd the block's half-depth behind it; street, the nearest street point `[x, z]` or null (a map
+ * with no street keeps the +z face). A block far from the fabric faces the nearest named road. Pure and cached per spot.
+ */
+export function dtGalleryFace(parish, s) {
+  let m = dtGalleryCache.get(parish);
+  if (!m) { m = new Map(); dtGalleryCache.set(parish, m); }
+  const key = `${s.x},${s.z},${s.rot}`;
+  const hit = m.get(key);
+  if (hit) return hit;
+  const hx = 8 * s.s, hz = 6 * s.s;
+  const near = cwNearestLine(parish, s.x, s.z, NP_SIZE, (l) => l.cls !== "ferry" && !l.deck);
+  let face = 0;
+  if (near) {
+    const dx = near.px - s.x, dz = near.pz - s.z, c = Math.cos(s.rot), sn = Math.sin(s.rot);
+    const lx = c * dx - sn * dz, lz = sn * dx + c * dz; // the street point in the block's frame (the inverse of `at`)
+    face = Math.abs(lz) * hx >= Math.abs(lx) * hz ? (lz >= 0 ? 0 : 2) : (lx >= 0 ? 1 : 3);
+  }
+  const out = { face, yaw: s.rot + face * Math.PI / 2, hw: face % 2 ? hz : hx, hd: face % 2 ? hx : hz, street: near ? [near.px, near.pz] : null };
+  m.set(key, out);
+  return out;
+}
+
 /** One chunk's detail. See the header for the shape. */
 export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spots = null, tally = false } = {}) {
   const prep = npPrepare(parish);
@@ -367,14 +395,17 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
       // ground clutter at the back door
       for (let k = 0; k < 3; k++) { const [px, pz] = at((rng() - 0.5) * hx * 2, -hz - 1.5); put("box", s.kind === "shed" ? "pallet" : "bin", px, hAt(px, pz), pz, s.rot); }
       // DETAIL-2: a gallery on the street front of a quarter block in a `gallery` district (the French Quarter and its
-      // neighbours): iron posts to the ground, the gallery floor, an iron railing along it and hanging ferns.
+      // neighbours): iron posts to the ground, the gallery floor, an iron railing along it and hanging ferns. SURVEYOR-2:
+      // the front is the face toward the nearest street (dtGalleryFace), not the block's local +z face.
       if (s.kind === "quarterBlock" && V.chars.has("quarter") && variantAt("quarter", s.x, s.z) === "gallery") {
-        const lift = Math.min(3.8, 4.4 * s.s), gy = s.y + lift, depth = 1.3, fz = hz + depth, nPost = Math.max(2, Math.round((2 * hx) / 2.6));
-        for (let k = 0; k < nPost; k++) { const [px, pz] = at(-hx + (k + 0.5) * (2 * hx) / nPost, fz); put("post", "gallerypost", px, s.y, pz, s.rot, 0, [0.12, lift + 1, 0.12]); }
-        const [dx, dz] = at(0, hz + depth / 2); put("decal", "gallerydeck", dx, gy, dz, s.rot, 0, [2 * hx, 1, depth]);
-        const [rx, rz] = at(0, fz); put("fence", "ironwork", rx, gy, rz, s.rot, 0, [2 * hx, 0.95, 1]);
-        for (const side of [-1, 1]) { const [sx2, sz2] = at(side * hx, hz + depth / 2); put("fence", "ironwork", sx2, gy, sz2, s.rot + Math.PI / 2, 0, [depth, 0.95, 1]); }
-        for (let k = 0; k < nPost - 1; k++) { const [px, pz] = at(-hx + (k + 1) * (2 * hx) / nPost, fz - 0.1); put("flower", "fern", px, gy - 0.9, pz, rng() * 6.28); }
+        const g = dtGalleryFace(parish, s), gc = Math.cos(g.yaw), gs = Math.sin(g.yaw), hw = g.hw, hd = g.hd;
+        const at2 = (lx, lz) => [s.x + gc * lx + gs * lz, s.z - gs * lx + gc * lz];
+        const lift = Math.min(3.8, 4.4 * s.s), gy = s.y + lift, depth = 1.3, fz = hd + depth, nPost = Math.max(2, Math.round((2 * hw) / 2.6));
+        for (let k = 0; k < nPost; k++) { const [px, pz] = at2(-hw + (k + 0.5) * (2 * hw) / nPost, fz); put("post", "gallerypost", px, s.y, pz, g.yaw, 0, [0.12, lift + 1, 0.12]); }
+        const [dx, dz] = at2(0, hd + depth / 2); put("decal", "gallerydeck", dx, gy, dz, g.yaw, 0, [2 * hw, 1, depth]);
+        const [rx, rz] = at2(0, fz); put("fence", "ironwork", rx, gy, rz, g.yaw, 0, [2 * hw, 0.95, 1]);
+        for (const side of [-1, 1]) { const [sx2, sz2] = at2(side * hw, hd + depth / 2); put("fence", "ironwork", sx2, gy, sz2, g.yaw + Math.PI / 2, 0, [depth, 0.95, 1]); }
+        for (let k = 0; k < nPost - 1; k++) { const [px, pz] = at2(-hw + (k + 1) * (2 * hw) / nPost, fz - 0.1); put("flower", "fern", px, gy - 0.9, pz, rng() * 6.28); }
       }
     } else if (s.kind === "gardenHouse" || s.kind === "suburbHouse") {
       const lot = (NP_MASSING.garden.spacing + NP_MASSING.suburb.spacing) / 4 - 1; // half a lot, metres
