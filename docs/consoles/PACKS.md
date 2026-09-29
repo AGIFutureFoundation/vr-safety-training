@@ -82,4 +82,4 @@ Files:
   disaster-relief 1/8, teachers 4/8, roam 0/0.
 - `check_packs.mjs`: 23,544 checks, ~1 s. Also run green: check_design (176 pages, now including the Packs page in
   both layouts), check_home, check_deploy, check_guide, check_seo, check_imports, check_unity_export.
-- eval_worlds: EVAL_LINE
+- eval_worlds (AS_PORT=8986, browser included): before mean 98 (15 subjects, 10 findings), after mean 98 — every subject's score line identical; no finding names PACKS.

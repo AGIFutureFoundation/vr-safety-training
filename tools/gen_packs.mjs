@@ -314,7 +314,8 @@ export function pkPageHtml(packs, catalog, unions, parishes, layout = "source") 
   </div>
 </article>`;
   };
-  const counts = PK_KINDS.map((k) => `${packs.filter((p) => p.kind === k).length} ${KIND_LABEL[k].toLowerCase()}${packs.filter((p) => p.kind === k).length === 1 ? "" : "s"}`).join(" · ");
+  const PLURAL = { programme: ["programme", "programmes"], k12: ["K-12 track", "K-12 tracks"], union: ["union package", "union packages"], library: ["station library", "station libraries"] };
+  const counts = PK_KINDS.map((k) => { const n = packs.filter((p) => p.kind === k).length; return `${n} ${PLURAL[k][n === 1 ? 0 : 1]}`; }).join(" · ");
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -340,6 +341,7 @@ export function pkPageHtml(packs, catalog, unions, parishes, layout = "source") 
   .pk-chip{min-height:28px;cursor:default}
   .pk-card a{color:var(--at-primary)}
   .pk-card:target{border-color:var(--at-primary)}
+  .pk-card[hidden]{display:none}
   .pk-brand{margin-top:auto;padding-top:8px;letter-spacing:var(--at-tracking-caps)}
   .pk-count{margin:0 0 12px;color:var(--at-on-surface-muted)}
 </style>
