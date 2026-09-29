@@ -823,6 +823,9 @@ APPS = {
             SHARED / "st-paths.js",
             SHARED / "st-stories-data.js",
             SHARED / "st-stories.js",
+            # DRILLS: the scenario drills (data, then the registry and mount; after st-paths.js and npc-data.js).
+            SHARED / "dr-drills-data.js",
+            SHARED / "dr-drills.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",

@@ -42,6 +42,7 @@ import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
 import { atMountAtmos, atNearness } from "../../shared/at-world.js";
 import { atMountSound } from "../../shared/at-sound.js";
+import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -130,7 +131,7 @@ const nwPhys = nwMountPhysics({
   three: THREE, root, parish, tier: npTierName, reduced: npReduced,
   seams: { tfWaterDepthAt, tfFlowAt, cwColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders
   link: (id) => npLink(id, null),
-  onCard: () => npKeys.clear(),
+  onCard: () => { npKeys.clear(); drWorld?.offer("dr-traffic"); }, // DRILLS: the card becomes the traffic incident drill
 });
 nwPhys.place(np.x, np.z);
 let nwMode = "walk";
@@ -491,6 +492,7 @@ function frame(now) {
   mgLife?.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
+  drWorld?.animate(dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
@@ -678,6 +680,14 @@ var stWorld = stMountPaths({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.storyline = stWorld;
+// DRILLS (docs/consoles/DRILLS.md): timed scenario drills at fitting sites — briefing, objectives tied to real station
+// steps, a debrief — offered on the First Responders, Disaster Relief and UN Training paths, recorded to the passport.
+drSetRecorder(ppAward);
+var drWorld = drMountDrills({
+  three: THREE, root, parish, el: $("menu-drills"), tier: npTierName, reducedMotion: npReduced, toast: npToast,
+  stationHref: (id, siteId) => npLink(id, siteId),
+});
+window.__parishTest.drills = drWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
