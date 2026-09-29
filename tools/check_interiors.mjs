@@ -43,6 +43,8 @@ for (const id of Object.keys(IX.IX_STYLES)) {
     let tris = 0; room.group.traverse((o) => { if (o.isMesh) { const g = o.geometry; const n = (g.index ? g.index.count : g.attributes.position.count) / 3; tris += n * (o.isInstancedMesh ? o.count : 1); } });
     check(tris <= IX.IX_BUDGET.triangles[tier], `${id}/${tier}: ${tris} triangles <= ${IX.IX_BUDGET.triangles[tier]}`);
     check(room.group.getObjectByName("ix-features")?.count === (IX.IX_FEATURES[id] ?? []).length && (IX.IX_FEATURES[id] ?? []).length >= 2, `${id}/${tier}: its signature fittings draw as one instanced mesh`);
+    check(room.shellMeshes <= 20 && typeof room.budgetLeft === "function" && room.budgetLeft() >= 100, `${id}/${tier}: the shell leaves >= 100 meshes for dressers (${room.budgetLeft?.()})`);
+    check(!("animate" in room), `${id}/${tier}: nothing in the room moves (reduced motion needs no special case)`);
     if (tier === "high") note(`${id}: ${meshes} meshes, ${tris} tris, ${lights} lights, ${room.actions.length} actions, ${room.w}×${room.d} m`);
   }
 }

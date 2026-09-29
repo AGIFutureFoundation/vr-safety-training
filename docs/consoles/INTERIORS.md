@@ -29,8 +29,16 @@ import { IX_STYLES, IX_KIND_STYLE, IX_BUDGET, ixStyleFor, ixBuild, ixRegisterDre
 - **How another console furnishes a style.** `ixRegisterDresser(styleId, ({ three, group, room, site, tier }) => { … })`
   runs after the shell: add meshes to `group` (instanced or merged), register actions with `room.addAction`. A new style
   is a new key in `IX_STYLES` (same shape) plus the site kinds that should open it in `IX_KIND_STYLE`.
-- **Budget.** `IX_BUDGET`: ≤ 120 meshes per room *including dressers*, ≤ 3 lights desktop / 1 phone. The phone tier
-  (`tier: "low"`) drops the point light and halves the dressing. The shell alone is 16–17 meshes.
+- **Budget.** `IX_BUDGET`: ≤ 120 meshes per room *including dressers*, ≤ 3 lights desktop / 1 phone, ≤ 6000 / 3000
+  triangles desktop / phone. The phone tier (`tier: "low"`) drops the point light and halves the dressing. The shell
+  (with its signature fittings) is 17–18 meshes; `room.budgetLeft()` tells a dresser how many meshes remain (≥ 100), and
+  `room.shellMeshes` is the shell's count. Nothing in a room moves, so reduced motion needs no special case.
+- **Signature fittings.** `IX_FEATURES[styleId]`: `[w, h, d, fx, y, fz, colourKey]` boxes (fx, fz as fractions of the half
+  width/depth), drawn as one InstancedMesh; a free-standing one that reaches the floor is also a collider.
+- **TYCOON.** `ixTycoonStyle(listing, business)`: a rented room opens `rented-room`, a rented shop `shop`, and a shop with
+  the learner's play business the style of its trade (`IX_BUSINESS_STYLE`); the app passes `{ style, title }` to `enter`.
+- **Plain data for TradeQuest.** `IX_STYLES`, `IX_KIND_STYLE`, `IX_FEATURES`, `IX_BUSINESS_STYLE` and `IX_BUDGET` are
+  dependency-free data (numbers and strings) BRIDGE can export as they are.
 - **Mount.** `ixMountInteriors({ three, scene, hide: [objects], tier, onBoard, onLaunch, onToast })` →
   `{ enter(site, outdoorPose), exit() → outdoorPose, inside(), room, pose, walk({ vx, vz }, dt), near(), use(), camera(eye) }`.
   `enter` builds the room for `ixStyleFor(site.kind)` at `IX_ORIGIN` (4 km above the map), hides every object in `hide`
@@ -74,3 +82,20 @@ bays, programme rooms) through `ixRegisterDresser`; these styles stay generic.
    barn's rails and overhead wire; the port shed's crane beams; the classroom's board; the clinic's curtain rails …) as ONE
    InstancedMesh per room; `IX_BUDGET.triangles` { high 6000, low 3000 } counted per tier. Observe: check_interiors 455
    passed, 0 failed; every room 17–18 meshes and 480–972 triangles on desktop.
+5. Reason: make room for CLASSROOMS' dressers and keep tall fittings solid. Act: `room.budgetLeft()` / `room.shellMeshes`
+   before dressers run; free-standing floor-reaching fittings (the apparatus bay's pole, the lobby's queue posts) join the
+   colliders; checker asserts headroom ≥ 100 meshes and that no room animates. Observe: check_interiors 507 passed, 0 failed.
+
+## Checkers (last lines)
+
+- `node tools/check_interiors.mjs` → PASS check_interiors: 507 passed, 0 failed (under a second).
+- `node tools/check_interiors.mjs --browser` (port 9001) adds the real-page round trip (~40 s).
+
+## Left
+
+- The walk inside uses keyboard / pad / touch stick through the app's input; XR controllers inside a room are not wired
+  (the parishes app has no XR session yet).
+- A station launched from inside returns to the site's outdoor start (the station link's `siteId`), not back into the room.
+- WebXR/parishes/dist/parishes.html was rebuilt locally to prove the bundle resolves (120 modules, ix-interiors in it) and
+  then restored; the coordinator's regeneration picks the module up from tools/bundle_webxr.py.
+- LANDMARKS-2's walk-in landmark rooms can reuse the shell: `ixRegisterDresser` on a new style key, or `ixBuild` directly.

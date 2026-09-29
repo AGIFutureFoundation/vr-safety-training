@@ -11,6 +11,7 @@
 //   ixRegisterDresser(styleId, fn)  another console (CLASSROOMS `cr`) furnishes a style: fn({ three, group, room, site, tier })
 //                                   adds its meshes to `group` and calls room.addAction(...) for anything the learner can use.
 //                                   It runs after the shell, before the budget is counted (IX_BUDGET holds for the total).
+//                                   room.budgetLeft() says how many meshes a dresser may still add. Nothing in a room moves.
 //   ixWalk(room, pose, { vx, vz }, dt)  -> new pose: NEWTON's avatar step against the room's wall colliders (the room collider)
 //   ixTycoonStyle(listing, business)  -> the style a TYCOON rental opens into (a business's trade, else "rented-room" / "shop")
 //   ixDoorSpot(cwDoor, out = 1.4)   -> { x, z, face }: the prompt spot outside a site building's door (off the footprint)
@@ -224,8 +225,13 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
     fm.name = "ix-features";
     const cc = new THREE.Color(), q0 = new THREE.Quaternion();
     feats.forEach(([fw, fh, fd, fx, fy, fz, ck], i) => {
-      m4.compose(new THREE.Vector3(fx * (w / 2 - 0.2), fy, fz * (d / 2 - 0.2)), q0, new THREE.Vector3(fw, fh, fd));
+      const cx = fx * (w / 2 - 0.2), cz = fz * (d / 2 - 0.2);
+      m4.compose(new THREE.Vector3(cx, fy, cz), q0, new THREE.Vector3(fw, fh, fd));
       fm.setMatrixAt(i, m4); fm.setColorAt(i, cc.setHex(fc[ck] ?? 0x888888));
+      // A free-standing fitting that reaches the floor and stands taller than a step (a pole, a post) is a collider too.
+      if (fy - fh / 2 < 0.3 && fh > 0.5 && Math.abs(fz) < 0.95 && Math.abs(fx) < 0.95) {
+        colliders.push({ min: [cx - fw / 2, 0, cz - fd / 2], max: [cx + fw / 2, fy + fh / 2, cz + fd / 2], kind: "ix-prop", prop: "feature" });
+      }
     });
     group.add(fm);
   }
@@ -254,6 +260,10 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
     });
     group.add(pads);
   }
+  // Headroom for other consoles' dressers: what is left of IX_BUDGET.meshes after the shell (read it before adding meshes).
+  const shellMeshes = room.meshes();
+  room.budgetLeft = () => IX_BUDGET.meshes - room.meshes();
+  room.shellMeshes = shellMeshes;
   for (const fn of dressers?.[styleId] ?? []) { try { fn({ three: THREE, group, room, site, tier }); } catch (e) { console.warn("ix dresser failed", e); } }
   return room;
 }
