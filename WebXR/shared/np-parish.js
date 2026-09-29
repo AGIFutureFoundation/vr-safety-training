@@ -117,6 +117,37 @@ export function npPolyDistance(x, z, pts) {
   return { d: best, t: bestAlong };
 }
 
+/**
+ * Distance only from (x, z) to a polyline (console REACTOR): the same arithmetic as npPolyDistance's `d`, bit for bit,
+ * without the along-line total or an object per call — the hot terrain queries need only the distance.
+ */
+export function npPolyDist(x, z, pts) {
+  let best = Infinity;
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i], ax = a[0], az = a[1];
+    const dx = b[0] - ax, dz = b[1] - az, L2 = dx * dx + dz * dz;
+    const u = L2 ? npClamp(((x - ax) * dx + (z - az) * dz) / L2, 0, 1) : 0;
+    const d = Math.hypot(x - (ax + dx * u), z - (az + dz * u));
+    if (d < best) best = d;
+  }
+  return best;
+}
+/** Distance from (x, z) to the segment a–b, npPolyDist's arithmetic on one segment. */
+function npSegDist(x, z, a, b) {
+  const ax = a[0], az = a[1], dx = b[0] - ax, dz = b[1] - az, L2 = dx * dx + dz * dz;
+  const u = L2 ? npClamp(((x - ax) * dx + (z - az) * dz) / L2, 0, 1) : 0;
+  return Math.hypot(x - (ax + dx * u), z - (az + dz * u));
+}
+/** A polyline's box, cached on the points array (npBBox's shape). */
+const npBoxCache = new WeakMap();
+function npPtsBox(pts) {
+  let b = npBoxCache.get(pts);
+  if (!b) { b = npBBox(pts); npBoxCache.set(pts, b); }
+  return b;
+}
+/** Strictly outside box `b` grown by `pad`: then every point of the polyline is farther than `pad` from (x, z). */
+const npOutside = (b, x, z, pad) => x < b.minX - pad || x > b.maxX + pad || z < b.minZ - pad || z > b.maxZ + pad;
+
 /** The length of a polyline in metres. */
 export function npPolyLength(pts) { let L = 0; for (let i = 1; i < pts.length; i++) L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); return L; }
 
@@ -245,15 +276,24 @@ export function npPrepare(parish) {
   return prep;
 }
 
+// One-entry memos (console REACTOR): a terrain vertex asks the same point twice — npHeightAt, then npCoverAt for its
+// colour — so the last answer per query is kept. Both queries are pure in (parish, x, z) over the cached npPrepare.
+const npWaterMemo = { parish: null, x: NaN, z: NaN, w: null };
+const npLeveeMemo = { parish: null, x: NaN, z: NaN, rise: 0 };
+
 /** The water feature at (x, z), or null. */
 export function npWaterAt(parish, x, z) {
+  const m = npWaterMemo;
+  if (m.parish === parish && m.x === x && m.z === z) return m.w;
   const { water } = npPrepare(parish);
+  let hit = null;
   for (const w of water) {
     const b = w.bbox;
     if (x < b.minX || x > b.maxX || z < b.minZ || z > b.maxZ) continue;
-    if (npPointInPoly(x, z, w.shape)) return w;
+    if (npPointInPoly(x, z, w.shape)) { hit = w; break; }
   }
-  return null;
+  m.parish = parish; m.x = x; m.z = z; m.w = hit;
+  return hit;
 }
 
 /** True over water (a wetland counts: it is walkable marsh in the builder, but not ground for a site or a road). */
@@ -272,10 +312,19 @@ export function npDistrictAt(parish, x, z) {
 
 /** The levee profile at (x, z): the highest crest contribution of any levee, in metres above ground. */
 export function npLeveeRise(parish, x, z) {
+  const m = npLeveeMemo;
+  if (m.parish === parish && m.x === x && m.z === z) return m.rise;
+  const rise = npLeveeRiseAt(parish, x, z);
+  m.parish = parish; m.x = x; m.z = z; m.rise = rise;
+  return rise;
+}
+function npLeveeRiseAt(parish, x, z) {
   let rise = 0;
+  const reach = NP_LEVEE_CREST + NP_LEVEE_BATTER;
   for (const l of npPrepare(parish).levees) {
-    const { d } = npPolyDistance(x, z, l.pts);
-    if (d > NP_LEVEE_CREST + NP_LEVEE_BATTER) continue;
+    if (npOutside(npPtsBox(l.pts), x, z, reach)) continue; // farther than the batter: no rise (REACTOR)
+    const d = npPolyDist(x, z, l.pts);
+    if (d > reach) continue;
     const k = d <= NP_LEVEE_CREST ? 1 : 1 - npSmooth(NP_LEVEE_CREST, NP_LEVEE_CREST + NP_LEVEE_BATTER, d);
     rise = Math.max(rise, (l.height ?? 4) * k);
   }
@@ -319,8 +368,9 @@ function npBaseGround(parish, x, z) {
   const { rivers, seed } = npPrepare(parish);
   let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npHillRise(parish, x, z);
   for (const r of rivers) {
-    const { d } = npPolyDistance(x, z, r.centre);
     const bank = r.width / 2;
+    if (npOutside(npPtsBox(r.centre), x, z, bank + 320)) continue; // beyond the natural levee (REACTOR)
+    const d = npPolyDist(x, z, r.centre);
     if (d < bank + 320) h += NP_NATURAL_LEVEE * (1 - npSmooth(bank, bank + 320, d));
   }
   return h;
@@ -342,7 +392,7 @@ export function npHeightAt(parish, x, z) {
       // The bank: a bed at NP_BED, rising to the water line within a few metres of the edge.
       let edge = Infinity;
       for (let i = 0, j = w.shape.length - 1; i < w.shape.length; j = i++) {
-        const { d } = npPolyDistance(x, z, [w.shape[j], w.shape[i]]);
+        const d = npSegDist(x, z, w.shape[j], w.shape[i]);
         if (d < edge) edge = d;
       }
       h = NP_BED + (NP_WATER_Y - 0.4 - NP_BED) * (1 - npSmooth(0, 12, edge));
@@ -369,8 +419,16 @@ export function npSlopeAt(parish, x, z, e = 3) {
 /** The nearest road (with its distance) to (x, z). */
 export function npNearestRoad(parish, x, z) {
   let best = null, bd = Infinity;
-  for (const r of npPrepare(parish).roads) { const { d } = npPolyDistance(x, z, r.pts); if (d < bd) { bd = d; best = r; } }
+  for (const r of npPrepare(parish).roads) { const d = npPolyDist(x, z, r.pts); if (d < bd) { bd = d; best = r; } }
   return { road: best, d: bd };
+}
+
+/** The widest road half-width on the map (cached): beyond it no road can claim a point as "road". */
+const npReachCache = new WeakMap();
+function npRoadReach(parish) {
+  let r = npReachCache.get(parish);
+  if (r === undefined) { r = 0; for (const rd of npPrepare(parish).roads) r = Math.max(r, (NP_ROAD_KINDS[rd.kind]?.width ?? 8) / 2); npReachCache.set(parish, r); }
+  return r;
 }
 
 /** Ground cover at (x, z): "water" | "wetland" | "levee" | "road" | "pad" | a district character | "grass". */
@@ -378,7 +436,14 @@ export function npCoverAt(parish, x, z) {
   const w = npWaterAt(parish, x, z);
   if (w) return w.kind === "wetland" ? "wetland" : "water";
   if (npLeveeRise(parish, x, z) > 0.5) return "levee";
-  const { road, d } = npNearestRoad(parish, x, z);
+  // The nearest road decides (npNearestRoad's rule), but only a road nearer than the widest half-width can make this
+  // "road", so roads whose box is farther than that are skipped — the same answer without measuring them (REACTOR).
+  const reach = npRoadReach(parish);
+  let road = null, d = Infinity;
+  for (const r of npPrepare(parish).roads) {
+    if (npOutside(npPtsBox(r.pts), x, z, reach)) continue;
+    const e = npPolyDist(x, z, r.pts); if (e < d) { d = e; road = r; }
+  }
   if (road && road.kind !== "ferry" && d < (NP_ROAD_KINDS[road.kind]?.width ?? 8) / 2) return "road";
   if (npPrepare(parish).sites.some((s) => Math.hypot(x - s.position[0], z - s.position[1]) < NP_PAD)) return "pad";
   return npDistrictAt(parish, x, z)?.character ?? "grass";

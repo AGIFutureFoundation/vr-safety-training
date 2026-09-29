@@ -18,7 +18,7 @@
 
 import {
   NP_SIZE, NP_CHUNK, NP_PAD, NP_ROAD_KINDS, NP_WATER_Y, NP_OPEN_WATER, NP_TERRAIN_HOOKS,
-  npPrepare, npWaterAt, npHeightAt, npRng, npPointInPoly, npLeveeRise, npPolyLength,
+  npPrepare, npWaterAt, npHeightAt, npRng, npPointInPoly, npLeveeRise, npPolyLength, npPolyDist,
 } from "./np-parish.js";
 
 /** Budgets per streamed chunk (one merged cover mesh per chunk) and the cover radius per tier (the phone tier is `low`). */
@@ -171,7 +171,7 @@ export function tfRoadKeep(s, x, z) {
   let keep = 1;
   for (const r of s.roads) {
     if (!tfInBox(r.box, x, z)) continue;
-    const { d } = tfNearest(x, z, r.road.pts);
+    const d = npPolyDist(x, z, r.road.pts); // distance only (REACTOR): tfNearest's d, without its allocations
     keep = Math.min(keep, tfSmooth(r.half + 2, r.half + 7, d));
   }
   return keep;
@@ -182,7 +182,7 @@ export function tfStreamCut(parish, x, z) {
   let best = 0, which = null;
   for (const s of tfPrep(parish).streams) {
     if (!tfInBox(s.box, x, z)) continue;
-    const { d } = tfNearest(x, z, s.pts);
+    const d = npPolyDist(x, z, s.pts);
     const edge = s.width / 2 + s.bank;
     if (d >= edge) continue;
     const c = s.depth * (1 - tfSmooth(s.width * 0.3, edge, d)) * tfRoadKeep(s, x, z);
@@ -201,7 +201,7 @@ export function tfChannelCut(parish, x, z, h, water) {
   const P = tfPrep(parish);
   for (const r of P.ribbons) {
     if (!tfInBox(r.box, x, z)) continue;
-    const e = tfNearest(x, z, r.w.centre).d - r.w.width / 2;
+    const e = npPolyDist(x, z, r.w.centre) - r.w.width / 2;
     if (e > 0 && e < TF_BANK) { const lip = NP_WATER_Y - 0.25; if (h > lip) h = lip + (h - lip) * tfSmooth(0, TF_BANK, e); }
   }
   const { cut } = tfStreamCut(parish, x, z);
@@ -214,12 +214,12 @@ export function tfWetAt(parish, x, z) {
   let wet = 0;
   for (const r of P.ribbons) {
     if (!tfInBox(r.box, x, z)) continue;
-    const e = tfNearest(x, z, r.w.centre).d - r.w.width / 2;
+    const e = npPolyDist(x, z, r.w.centre) - r.w.width / 2;
     if (e > -2 && e < TF_WET) wet = Math.max(wet, 1 - tfSmooth(TF_WET * 0.3, TF_WET, e));
   }
   for (const s of P.streams) {
     if (!tfInBox(s.box, x, z)) continue;
-    const { d } = tfNearest(x, z, s.pts);
+    const d = npPolyDist(x, z, s.pts);
     if (d < s.width / 2 + s.bank + 2) wet = Math.max(wet, 1 - tfSmooth(s.width / 2, s.width / 2 + s.bank + 2, d));
   }
   return wet;
