@@ -39,3 +39,7 @@ line is quoted from, or traced word by word to, a dental station's own text. Not
   `smilesMount({ el, parish, k12, toast, earn })` — mounted once in `WebXR/parishes/js/app.js` into `#menu-smiles` (Play tab),
   `earn` = TYCOON's `tyEarn(stationId, { recordId })`; `?k12=1` hides the adult game.
 - Treasures: `tools/gen_treasures.mjs` SMILES section, set `smile-toothbrushes`.
+6. Reason: score the new world once with ASSAYER's rubric — proof: its eval_worlds row. Act: `node tools/eval_worlds.mjs
+   --no-browser` (port shared). Observe: Unspoken Smiles District 95 — legible 3/3, resolves 65/65, completable 3/4, budget
+   4/4, facts 37/37; overall 28 subjects, mean 97, 19 findings. The one miss is the shared play-layer reader
+   (`slLessonsFor`/`sgLessonsFor`) not reading `sm-fl-` lessons — the same finding ten Bay Area maps carry, PLAYLAYER's reader.
