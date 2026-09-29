@@ -72,9 +72,9 @@ export const NP_BAY_SAN_PABLO = {
     {"id":"sp-gsi-underdrain-crew","name":"Underdrain and Piping Crew","kind":"utility","position":[1500,-1500],"trades":["ua","liuna"],"programmes":["plumbers-and-pipefitters","grounds-and-landscaping"],"stations":["pl-underground-sewer-lateral-and-trench-shoring","bioswale-build","gk-irrigation-controller-valve-box-and-backflow-check"],"blurb":"The underdrain and overflow piping under a planted cell, laid in a shored trench, building and monitoring green stormwater infrastructure, as the City of San Pablo's project does (a procedural site; the project is told at the San Pablo stormwater crew).","precinct":true},
   ],
   landmarks: [
-    {"id":"rosie-the-riveter-memorial","name":"the Rosie the Riveter Memorial","position":[-417,1355],"kind":"place"},
+    {"id":"rosie-the-riveter-memorial", "lm": "memorial-plaza","name":"the Rosie the Riveter Memorial","position":[-417,1355],"kind":"place"},
     {"id":"point-richmond","name":"Point Richmond","position":[-1756,525],"kind":"place"},
-    {"id":"richmond-station","name":"Richmond Station","position":[-351,-138],"kind":"station"},
+    {"id":"richmond-station", "lm": "transit-station","name":"Richmond Station","position":[-351,-138],"kind":"station"},
     {"id":"marina-bay-shore","name":"the Marina Bay shore","position":[0,1355],"kind":"shore"},
     {"id":"wildcat-creek-marsh","name":"Wildcat Creek's marsh","position":[-834,-1714],"kind":"shore"},
     {"id":"the-harbour-cranes","name":"the harbour's cranes","position":[-1317,1437],"kind":"port","lm":"container-cranes"},

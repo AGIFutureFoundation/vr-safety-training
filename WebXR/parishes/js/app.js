@@ -501,7 +501,8 @@ function npNearest() {
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
-  if (mv && (!best || Math.hypot(np.x - mv.x, np.z - mv.z) < bd)) best = { kind: "vehicle", park: mv, at: [mv.x, mv.z] };
+  // A job board keeps the prompt when both are in reach (the board is what the site is for); a vehicle wins over the rest when nearer.
+  if (mv && (!best || (best.kind !== "board" && Math.hypot(np.x - mv.x, np.z - mv.z) < bd))) best = { kind: "vehicle", park: mv, at: [mv.x, mv.z] };
   if (lxRoom?.inside) return { kind: "walkout", at: [0, 0] };
   for (const w of lxDoors) { const d = Math.hypot(np.x - w.x, np.z - w.z); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "walkin", door: w, at: [w.x, w.z] }; } }
   return best;

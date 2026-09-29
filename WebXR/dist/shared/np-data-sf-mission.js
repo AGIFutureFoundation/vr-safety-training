@@ -104,7 +104,7 @@ export const NP_SF_MISSION = {
     // sw:end
   ],
   landmarks: [
-    {"id":"mission-dolores","name":"Mission Dolores","position":[-760,-65],"kind":"place"},
+    {"id":"mission-dolores", "lm": "mission-church-front","name":"Mission Dolores","position":[-760,-65],"kind":"place"},
     {"id":"dolores-park","name":"Dolores Park","position":[-780,171],"kind":"park"},
     {"id":"china-basin-ballpark","name":"the ballpark at China Basin","position":[740,-784],"kind":"stadium"},
     {"id":"mission-creek-bank","name":"the Mission Creek bank","position":[560,-538],"kind":"canal"},

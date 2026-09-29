@@ -1153,7 +1153,7 @@ export const NP_JEFFERSON = {
    "kind": "plaza"
   },
   {
-   "id": "huey-p-long",
+   "id": "huey-p-long", "lm": "truss-bridge",
    "name": "Huey P. Long Bridge",
    "position": [
     -310,
@@ -1180,7 +1180,7 @@ export const NP_JEFFERSON = {
    "kind": "quarter"
   },
   {
-   "id": "harvey-lock",
+   "id": "harvey-lock", "lm": "canal-lock",
    "name": "Harvey Canal lock",
    "position": [
     747,
@@ -1198,7 +1198,7 @@ export const NP_JEFFERSON = {
    "kind": "bayou"
   },
   {
-   "id": "seventeenth-street-canal",
+   "id": "seventeenth-street-canal", "lm": "levee-pump-station",
    "name": "Seventeenth Street Canal",
    "position": [
     229,

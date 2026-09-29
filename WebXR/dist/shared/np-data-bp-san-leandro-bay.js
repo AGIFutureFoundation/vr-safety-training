@@ -68,7 +68,7 @@ export const NP_BP_SAN_LEANDRO_BAY = {
   landmarks: [
     {"id":"san-leandro-bay-shore-place","name":"the San Leandro Bay shore","position":[-900,-700],"kind":"shore"},
     {"id":"san-leandro-creek-mouth","name":"the mouth of San Leandro Creek","position":[-60,40],"kind":"canal"},
-    {"id":"arrowhead-marsh-place","name":"Arrowhead Marsh","position":[-330,-150],"kind":"point"},
+    {"id":"arrowhead-marsh-place", "lm": "marsh-boardwalk","name":"Arrowhead Marsh","position":[-330,-150],"kind":"point"},
     {"id":"mlk-shoreline","name":"Martin Luther King Jr. Regional Shoreline","position":[-200,-354],"kind":"shore"},
     {"id":"san-leandro-creek-bank","name":"the San Leandro Creek bank","position":[1100,700],"kind":"canal"},
     {"id":"oakland-airport-shore","name":"the Oakland airport shore","position":[-1450,800],"kind":"shore"},

@@ -75,7 +75,7 @@ export const NP_OAK_EMERYVILLE_BERKELEY = {
   ],
   landmarks: [
     {"id":"berkeley-pier","name":"the Berkeley Pier","position":[-1340,-39],"kind":"pier"},
-    {"id":"sather-tower","name":"Sather Tower","position":[1415,-337],"kind":"tower"},
+    {"id":"sather-tower", "lm": "campanile","name":"Sather Tower","position":[1415,-337],"kind":"tower"},
     {"id":"aquatic-park","name":"Aquatic Park","position":[-220,194],"kind":"shore"},
     {"id":"albany-hill","name":"Albany Hill","position":[-549,-1686],"kind":"hill"},
     {"id":"downtown-berkeley-station","name":"Downtown Berkeley Station","position":[954,-232],"kind":"station"},
