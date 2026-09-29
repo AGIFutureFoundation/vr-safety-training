@@ -160,6 +160,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "embarcadero-pier-shed",
@@ -205,6 +212,39 @@
         "fruitvale-transit-station",
         "high-street-warehouse-yard"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-rail-station",
+        "emeryville-warehouse-studios",
+        "downtown-berkeley-transit-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-transit-station",
+        "richmond-rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "diridon-transit-hub",
+        "airport-ramp-crew",
+        "north-first-rail-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-industrial-frontage-yard"
+      ]
     }
   ],
   "stationNames": {
@@ -225,7 +265,7 @@
     "av-marshalling-and-wingwalker-signals": "Marshalling & Wing-Walker Signals"
   },
   "version": "1.0.0",
-  "contentHash": "605af50d",
+  "contentHash": "af651818",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

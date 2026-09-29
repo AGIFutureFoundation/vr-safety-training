@@ -251,6 +251,10 @@
     {
       "app": "smartcity",
       "id": "ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-drayage-truck-pre-trip"
     }
   ],
   "unions": [],
@@ -389,6 +393,14 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-school-campus",
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "hyde-street-cable-car-crew",
@@ -438,6 +450,35 @@
         "fruitvale-transit-station",
         "fruitvale-school-campus",
         "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-rail-station",
+        "emeryville-warehouse-studios",
+        "downtown-berkeley-transit-station",
+        "north-berkeley-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-transit-station",
+        "richmond-school-campus",
+        "richmond-rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "diridon-transit-hub",
+        "airport-ramp-crew",
+        "north-first-rail-barn",
+        "willow-glen-school-campus"
       ]
     }
   ],
@@ -499,10 +540,11 @@
     "ml-dog-and-hazard-awareness-on-route": "Dog & Hazard Awareness on Route",
     "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
     "ad-hazardous-fluid-servicing-with-a-buddy": "Hazardous Fluid Servicing with a Buddy",
-    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk"
+    "ad-depot-tool-control-and-fod-walk": "Depot Tool Control & FOD Walk",
+    "cp-zero-emission-drayage-truck-pre-trip": "Zero-Emission Drayage Truck Pre-Trip"
   },
   "version": "1.0.0",
-  "contentHash": "8578842a",
+  "contentHash": "cdeba219",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

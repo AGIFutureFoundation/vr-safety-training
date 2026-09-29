@@ -293,6 +293,14 @@
       "id": "ws-turbine-climb-and-rescue-kit-check"
     },
     {
+      "app": "smartcity",
+      "id": "cp-battery-energy-storage-site-awareness"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
       "app": "trades",
       "id": "electrical"
     },
@@ -317,6 +325,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "estuary-research-dock",
         "downtown-tower-site",
         "downtown-central-plant",
@@ -507,6 +516,18 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-transit-corridor",
+        "om-sewer-crew-yard",
+        "om-utility-locate-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "wharf-fishing-fleet",
@@ -567,6 +588,54 @@
         "embarcadero-metal-workshop",
         "high-street-warehouse-yard",
         "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-rail-station",
+        "emeryville-warehouse-studios",
+        "downtown-berkeley-transit-station",
+        "west-berkeley-maker-workshop",
+        "ashby-hospital-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-transit-station",
+        "richmond-harbour-terminal",
+        "san-pablo-hospital-campus",
+        "richmond-rail-yard",
+        "annex-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "diridon-transit-hub",
+        "valley-medical-campus",
+        "airport-ramp-crew",
+        "north-first-rail-barn"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-storm-drain-crew",
+        "slb-industrial-frontage-yard"
       ]
     }
   ],
@@ -640,12 +709,14 @@
     "ws-blade-inspection-from-a-platform": "Blade Inspection from a Platform",
     "ws-nacelle-lockout-and-yaw-brake-fault": "Nacelle Lockout & Yaw-Brake Fault",
     "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check",
+    "cp-battery-energy-storage-site-awareness": "Battery Energy Storage Site Awareness",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
     "electrical": "Isolation Bay",
     "phlebotomy": "Draw Station",
     "welding": "Weld Bay"
   },
   "version": "1.0.0",
-  "contentHash": "d1819391",
+  "contentHash": "017e9688",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

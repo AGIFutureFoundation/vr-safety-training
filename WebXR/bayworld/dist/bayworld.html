@@ -32848,6 +32848,90 @@ const SIDE_QUESTS = [
     }
   },
   {
+    "id": "bw-side-bay-program-projects-opener",
+    "title": "SF Bay Program Projects — Stormwater, Marsh and Source Control — First Shift",
+    "giver": "the programme's training lead",
+    "site": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "bay-program-projects",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+        "text": "The training lead meets you at SF Bay Program Projects — Stormwater, Marsh and Source Control and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "bk-bioretention-rain-garden-excavation",
+        "text": "Green stormwater infrastructure starts as a hole in the sidewalk: the locate ticket matched to the paint, the marked line exposed by vacuum, the cut signalled to grade and the layers placed in the order that makes the cell soak."
+      },
+      {
+        "type": "station",
+        "target": "bk-street-drain-trash-capture-cleanout",
+        "text": "A trash capture vault under the street is a permit-required confined space serviced entirely from the surface: the lane closed, the air read at the opening, and the vacuum truck locked out before any hand clears its boom."
+      },
+      {
+        "type": "station",
+        "target": "br-trash-capture-device-service",
+        "text": "A large trash capture device only keeps trash out of the Bay while it is serviced, and emptying one means a crane lift with nobody under the bag and nothing shaken back into the channel."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"The kinds of work the U.S. EPA's San Francisco Bay Program awards of September 2026 pay for — trash capture devices, green stormwater infrastructure, tidal channels and sediment reuse, nutrient reduction at treatment plants, PCB source control and fish habitat — taught as the trade practice each job needs. The stations are generic and sited nowhere real; the Bay Program hub (WebXR/bayprogram/) links each named project to the stations that teach its work.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "SF Bay Program Projects — Stormwater, Marsh and Source Control — Opener"
+    }
+  },
+  {
+    "id": "bw-side-bay-program-projects-capstone",
+    "title": "SF Bay Program Projects — Stormwater, Marsh and Source Control — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-bay-program-projects-opener",
+    "programmeId": "bay-program-projects",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "SF Bay Program Projects — Stormwater, Marsh and Source Control",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "br-sediment-chain-of-custody-and-lab-prep",
+        "text": "A PCB sampling result is only as defensible as the custody record signed at every hand-off between the field and the laboratory."
+      },
+      {
+        "type": "station",
+        "target": "br-culvert-retrofit-for-fish-passage",
+        "text": "Fish habitat work means a dry, fish-excluded channel and a culvert set to a laser-checked invert rather than a grade that looks about right."
+      },
+      {
+        "type": "station",
+        "target": "br-fish-screen-maintenance",
+        "text": "A fish screen's drive is locked out before any hand goes near the drum, and the lock stays until the headcount says every hand is clear."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Programme completion record; each station rehearses the practice its own bodies set — OSHA 29 CFR 1926 Subpart P for every cut, OSHA 29 CFR 1910.146 for any permit space, the MUTCD for work in the street and on the sidewalk, OSHA 1910.120 HAZWOPER inside any contaminated-sediment zone, and the Section 404/401 and BCDC permit conditions for work at the shoreline\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "SF Bay Program Projects — Stormwater, Marsh and Source Control — Capstone"
+    }
+  },
+  {
     "id": "bw-side-railroad-crafts-opener",
     "title": "Railroad Crafts — Track, Car and Cab — First Shift",
     "giver": "the programme's training lead",
@@ -34057,7 +34141,7 @@ const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.\""
+        "text": "\"The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those opening stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard. A last level, Zero-emission careers, chains the stations on battery-electric and hydrogen port equipment: the Port of Oakland's Clean Ports release says the Machinists Institute assists WOJRC in expanding its Pre-Apprentice Transportation, Distribution and Logistics training program to include careers affected by zero-emission vehicles (portofoakland.com/cleanports); this level teaches that kind of work from its own cited standards and is not that program.\""
       }
     ],
     "reward": {
@@ -34083,18 +34167,18 @@ const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "wellness-peer-support-conversation",
-        "text": "Wellness: a cohort-mate who cannot keep doing this, met with the signs noticed first and a direct question asked plainly."
+        "target": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+        "text": "Zero-emission careers: the shop bay where a battery-electric tractor's high-voltage system is locked out and proven dead before anyone touches an orange cable."
       },
       {
         "type": "station",
-        "target": "wellness-substance-use-and-the-job",
-        "text": "Wellness: four in the morning on the dock, the forklift key taken before the conversation and the doors named that do not cost the job."
+        "target": "cp-hydrogen-fuel-cell-equipment-and-fuelling",
+        "text": "Zero-emission careers: a hydrogen fuel cell machine fuelled with ignition sources left outside the island and every fitting checked with a detector, never a hand."
       },
       {
         "type": "station",
-        "target": "wellness-asking-for-help-and-resources",
-        "text": "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager."
+        "target": "cp-battery-energy-storage-site-awareness",
+        "text": "Zero-emission careers: the battery energy storage site behind the charging yard — its hazards, its entry rules, and who may go inside."
       },
       {
         "type": "talk",
@@ -35007,18 +35091,18 @@ const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-by-reading-a-flood-maps-colours",
-        "text": "A practice flood map read through its key, scale bar and north arrow, low ground told from high, and a route and meeting place planned calmly from the evidence."
-      },
-      {
-        "type": "station",
-        "target": "k12-by-sorting-containers-at-the-port",
-        "text": "Model containers sorted by a rule, grouped by destination, stacked so the first to leave sits on top and the heaviest sit low, and the sort checked in a table."
-      },
-      {
-        "type": "station",
         "target": "k12-by-measuring-a-floodwall-in-steps",
         "text": "A stretch of floodwall measured by pacing, a pace measured against the crew's tape, steps turned into length and the answer checked against the wall's panels."
+      },
+      {
+        "type": "station",
+        "target": "k12-es-count-it-a-fair-survey",
+        "text": "A shorebird count with a marked box, a timer and a rule card, one sweep and one tally per bird, compared with another group's count."
+      },
+      {
+        "type": "station",
+        "target": "k12-es-measure-a-rain-garden",
+        "text": "A rain garden bed measured from zero with a tape, length times width for the area, and the bed drawn to scale on a grid for the crew."
       },
       {
         "type": "talk",
@@ -35091,18 +35175,18 @@ const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-by-wetlands-as-a-storms-speed-bump",
-        "text": "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat."
+        "target": "k12-es-the-bay-food-web",
+        "text": "A Bay food web built on a board with arrows that follow the food energy, and the links spotted live from behind the pier rail."
       },
       {
         "type": "station",
-        "target": "k12-by-the-rivers-current-and-a-pilots-job",
-        "text": "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn."
+        "target": "k12-es-plastics-and-the-bay",
+        "text": "A float test in salty water, plastics sorted into floaters and sinkers, and a paired shoreline sweep with gloves, tongs and a sharps tub."
       },
       {
         "type": "station",
-        "target": "k12-by-the-water-cycle-from-lake-to-tap",
-        "text": "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe."
+        "target": "k12-es-clean-air-at-the-port",
+        "text": "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for."
       },
       {
         "type": "talk",
@@ -35259,11 +35343,6 @@ const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-digital-citizenship-and-online-safety",
-        "text": "Pause before you click, share or post: a scam spotted by its signs, a strong passphrase, a private profile, a claim checked before sharing and a trusted adult told."
-      },
-      {
-        "type": "station",
         "target": "k12-teamwork-and-feedback",
         "text": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
       },
@@ -35271,6 +35350,11 @@ const SIDE_QUESTS = [
         "type": "station",
         "target": "k12-by-a-family-readiness-plan",
         "text": "A readiness plan a family makes together before storm season — who helps, what goes in the go-bag, where to meet and where to go — written down, shared and practised."
+      },
+      {
+        "type": "station",
+        "target": "k12-es-who-does-this-work",
+        "text": "The trades behind Bay restoration and clean port work matched job by job, the path from pre-apprenticeship to crew, and what the EPA and the Port of Oakland say, with each source named."
       },
       {
         "type": "talk",
@@ -52356,9 +52440,12 @@ const NP_TRI = {
 /**
  * Terrain hooks another module may set (console TERRAFORM): `cut(parish, x, z, h, water) -> h` carves channels and banks
  * into the ground before the levees and pads, `wet(parish, x, z) -> 0..1` marks the shoreline strip for the ground colour.
+ * Console RELIEF: `relief(parish, x, z) -> metres` is real-ground relief already scaled into the map's schematic range
+ * (shared/rl-relief.js, from Mapbox Terrain-RGB, only with a viewer's token); the dry ground rises by the higher of it and
+ * the named hills, pads terrace at that height and water beds ignore it, so water stays level.
  * Unset (null), the height field is exactly the delta above.
  */
-const NP_TERRAIN_HOOKS = { cut: null, wet: null };
+const NP_TERRAIN_HOOKS = { cut: null, wet: null, relief: null };
 
 // ------------------------------------------------------------------ maths
 
@@ -52651,10 +52738,21 @@ function npHillAt(parish, x, z) {
   return best;
 }
 
+/**
+ * The ground's rise over the flat field at (x, z): the named hills, or — when RELIEF's hook carries a viewer's Mapbox
+ * relief — the higher of the hills and that relief. Exactly npHillRise when the hook is unset.
+ */
+function npGroundRise(parish, x, z) {
+  const hill = npHillRise(parish, x, z);
+  if (!NP_TERRAIN_HOOKS.relief) return hill;
+  const rel = NP_TERRAIN_HOOKS.relief(parish, x, z);
+  return rel > hill ? rel : hill;
+}
+
 /** The dry ground before levees and water: a flat delta with a gentle rise beside each river, and any hills. */
 function npBaseGround(parish, x, z) {
   const { rivers, seed } = npPrepare(parish);
-  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npHillRise(parish, x, z);
+  let h = NP_GROUND + npValueNoise(x / 90, z / 90, seed) * 0.25 + npValueNoise(x / 700, z / 700, seed + 1) * 0.35 + npGroundRise(parish, x, z);
   for (const r of rivers) {
     const bank = r.width / 2;
     if (npOutside(npPtsBox(r.centre), x, z, bank + 320)) continue; // beyond the natural levee (REACTOR)
@@ -52692,7 +52790,7 @@ function npHeightAt(parish, x, z) {
   h += lv;
   for (const s of prep.sites) {
     const d = Math.hypot(x - s.position[0], z - s.position[1]);
-    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length ? npHillRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
+    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length || NP_TERRAIN_HOOKS.relief ? npGroundRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
   }
   return h;
 }

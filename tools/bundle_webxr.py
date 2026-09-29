@@ -872,6 +872,8 @@ APPS = {
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",
+            # INTERFACE: the tabbed in-world menu (Learn / Play / Map / Me) and the first-visit cards.
+            SHARED / "ux-menu.js",
             WEBXR / "parishes/js/state.js",
             SHARED / "auth.js",
             SHARED / "account.js",

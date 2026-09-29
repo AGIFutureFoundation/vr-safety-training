@@ -177,6 +177,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "washington-square-school"
@@ -218,6 +225,29 @@
       "sites": [
         "fruitvale-school-campus"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "university-campus-plant",
+        "north-berkeley-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "university-campus-plant-sj",
+        "willow-glen-school-campus"
+      ]
     }
   ],
   "stationNames": {
@@ -231,7 +261,7 @@
     "ed-custodial-chemical-dilution-and-floor-machine": "Custodial Chemical Dilution & Floor Machine"
   },
   "version": "1.0.0",
-  "contentHash": "2a3f78d4",
+  "contentHash": "ad7cb0ef",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

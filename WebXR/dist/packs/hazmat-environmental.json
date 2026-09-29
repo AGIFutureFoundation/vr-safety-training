@@ -109,6 +109,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-maintenance-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "embarcadero-seawall-crew"
@@ -134,6 +141,36 @@
       "sites": [
         "sausal-creek-storm-drain-crew"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "aquatic-park-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "san-pablo-stormwater-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "downtown-stormwater-crew-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-south",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring"
+      ]
     }
   ],
   "stationNames": {
@@ -149,7 +186,7 @@
     "hz-decon-corridor-for-a-mass-casualty-drill": "Decon Corridor for a Mass-Casualty Drill"
   },
   "version": "1.0.0",
-  "contentHash": "902fd3f1",
+  "contentHash": "3f0cdea5",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

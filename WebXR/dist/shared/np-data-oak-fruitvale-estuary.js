@@ -24,7 +24,7 @@ export const NP_OAK_FRUITVALE_ESTUARY = {
   ],
   hills: [
     {"id":"oakland-hills","name":"the Oakland hills","center":[1676,-1527],"radius":460,"height":50},
-    {"id":"lincoln-highlands","name":"Lincoln Highlands","center":[1257,-790],"radius":240,"height":22},
+    {"id":"lincoln-highlands","name":"Lincoln Highlands","center":[1047,-1369],"radius":240,"height":22},
   ],
   water: [
     {"id":"san-francisco-bay","name":"San Francisco Bay","kind":"bay","poly":[[-2048,2048],[-2048,651],[-1048,1053],[-84,1264],[629,1474],[1048,1369],[1467,1474],[1886,1896],[2004,2048]]},

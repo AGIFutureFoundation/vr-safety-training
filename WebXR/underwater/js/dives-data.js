@@ -832,18 +832,18 @@ export const DV_SIDE_DIVES = [
       },
       {
         "type": "station",
-        "target": "k12-by-wetlands-as-a-storms-speed-bump",
-        "text": "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat."
+        "target": "k12-es-the-bay-food-web",
+        "text": "A Bay food web built on a board with arrows that follow the food energy, and the links spotted live from behind the pier rail."
       },
       {
         "type": "station",
-        "target": "k12-by-the-rivers-current-and-a-pilots-job",
-        "text": "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn."
+        "target": "k12-es-plastics-and-the-bay",
+        "text": "A float test in salty water, plastics sorted into floaters and sinkers, and a paired shoreline sweep with gloves, tongs and a sharps tub."
       },
       {
         "type": "station",
-        "target": "k12-by-the-water-cycle-from-lake-to-tap",
-        "text": "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe."
+        "target": "k12-es-clean-air-at-the-port",
+        "text": "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for."
       },
       {
         "type": "talk",

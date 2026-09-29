@@ -37,6 +37,10 @@
     {
       "app": "smartcity",
       "id": "k12-by-a-family-readiness-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-who-does-this-work"
     }
   ],
   "unions": [],
@@ -169,6 +173,27 @@
       "sites": [
         "ingleside-school-campus"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "north-berkeley-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-school-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "willow-glen-school-campus"
+      ]
     }
   ],
   "stationNames": {
@@ -178,10 +203,11 @@
     "k12-public-speaking-at-the-hall": "Public Speaking at the Hall",
     "k12-digital-citizenship-and-online-safety": "Digital Citizenship and Online Safety",
     "k12-teamwork-and-feedback": "Teamwork and Feedback",
-    "k12-by-a-family-readiness-plan": "A Family Readiness Plan"
+    "k12-by-a-family-readiness-plan": "A Family Readiness Plan",
+    "k12-es-who-does-this-work": "Who Does This Work"
   },
   "version": "1.0.0",
-  "contentHash": "c788b4c0",
+  "contentHash": "f0c62f4b",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

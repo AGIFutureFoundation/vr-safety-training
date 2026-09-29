@@ -8,6 +8,7 @@
   "certification": null,
   "programmes": [],
   "relatedProgrammes": [
+    "bay-program-projects",
     "bay-restoration-maritime-underwater",
     "confined-space",
     "hazmat-environmental",
@@ -37,6 +38,10 @@
     {
       "app": "smartcity",
       "id": "backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed"
     },
     {
       "app": "smartcity",
@@ -328,6 +333,18 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-planted-sidewalk-filtration",
+        "om-rain-garden-block",
+        "om-underground-infiltration-site",
+        "om-sewer-crew-yard",
+        "om-utility-locate-crew",
+        "om-street-tree-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "embarcadero-seawall-crew"
@@ -363,6 +380,57 @@
         "san-leandro-bay-shoreline-crew",
         "sausal-creek-storm-drain-crew"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "eastshore-shoreline-crew",
+        "aquatic-park-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "refinery-turnaround-yard",
+        "san-pablo-stormwater-crew",
+        "point-isabel-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "downtown-stormwater-crew-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-storm-drain-crew",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection"
+      ]
     }
   ],
   "stationNames": {
@@ -371,6 +439,7 @@
     "lift-station": "Lift Station",
     "chlorine-room": "Chlorine Room",
     "backflow-test": "Backflow Test",
+    "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-volunteer-cleanup-day-safety-lead": "Volunteer Cleanup Day Safety Lead",
     "cs-non-entry-retrieval-and-tripod": "Non-Entry Retrieval & Tripod",
@@ -410,7 +479,7 @@
     "me-kelp-transect-survey-and-photo-quadrats": "Kelp Transect Survey & Photo Quadrats"
   },
   "version": "1.0.0",
-  "contentHash": "f69304a9",
+  "contentHash": "07778291",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

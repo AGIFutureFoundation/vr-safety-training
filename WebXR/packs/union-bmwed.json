@@ -119,6 +119,13 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-transit-corridor"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "hyde-street-cable-car-crew",
@@ -154,6 +161,29 @@
       "sites": [
         "fruitvale-transit-station"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-rail-station",
+        "downtown-berkeley-transit-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-transit-station",
+        "richmond-rail-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "diridon-transit-hub"
+      ]
     }
   ],
   "stationNames": {
@@ -168,7 +198,7 @@
     "ra-roadway-worker-protection-and-job-briefing": "Roadway Worker Protection & Job Briefing"
   },
   "version": "1.0.0",
-  "contentHash": "d29079b8",
+  "contentHash": "145f83ba",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

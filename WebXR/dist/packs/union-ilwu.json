@@ -530,6 +530,18 @@
     {
       "app": "smartcity",
       "id": "uw-rov-pre-dive-and-tether-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     }
   ],
   "unions": [
@@ -544,6 +556,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "estuary-research-dock",
         "estuary-marina-boatyard",
         "downtown-tower-site",
@@ -738,6 +751,14 @@
     },
     {
       "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-rain-garden-block",
+        "om-street-tree-crew"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-north-beach",
       "sites": [
         "wharf-fishing-fleet",
@@ -790,6 +811,65 @@
         "san-leandro-bay-shoreline-crew",
         "alameda-estuary-boatyard",
         "high-street-warehouse-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "emeryville-warehouse-studios",
+        "emeryville-lab-building-site",
+        "eastshore-shoreline-crew",
+        "aquatic-park-storm-drain-crew",
+        "west-berkeley-maker-workshop"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-harbour-terminal",
+        "san-pablo-stormwater-crew",
+        "point-isabel-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "downtown-stormwater-crew-yard",
+        "san-jose-high-rise-site",
+        "japantown-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-strip-marsh-east",
+      "sites": [
+        "sme-staging-yard",
+        "sme-tidal-channel-excavation",
+        "sme-berm-lowering",
+        "sme-sediment-reuse-placement",
+        "sme-monitoring-station",
+        "sme-levee-road-patrol",
+        "sme-slough-culvert-crew",
+        "sme-native-planting-crew",
+        "sme-bird-window-watch",
+        "sme-sediment-sampling-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-north",
+        "slb-trash-capture-device-south",
+        "slb-creek-mouth-restoration",
+        "slb-shoreline-park-crew",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-shoreline-cleanup-point",
+        "slb-levee-inspection"
       ]
     }
   ],
@@ -922,10 +1002,13 @@
     "uw-intake-screen-cleaning-with-lockout": "Intake Screen Cleaning With Lockout",
     "uw-underwater-concrete-and-bag-placement": "Underwater Concrete & Bag Placement",
     "uw-pipeline-crossing-inspection-dive": "Pipeline Crossing Inspection Dive",
-    "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management"
+    "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment"
   },
   "version": "1.0.0",
-  "contentHash": "bba01ea4",
+  "contentHash": "6931cf19",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
