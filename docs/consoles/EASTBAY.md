@@ -46,6 +46,14 @@ crew's blurb, with no amount.
    docs lines pass; home card count matches gen_home's formula. Observe: `node tools/gen_home.mjs` changes one line —
    `5 parishes · 5 districts · 4 districts · 1 district · 1 district · 356 job sites`; `check_home` fails only on
    "WebXR/dist/index.html is stale — run python3 tools/bundle_webxr.py" (the dist bundles are the coordinator's gate).
+4. Reason: the consoles that iterate every map accept the new three — proof: check_storyline, check_cognition,
+   check_tycoon, check_npc, check_drills, check_cityworks, check_terraform last lines. Observe: check_storyline 19 failed
+   (no side stories for the new path × map pairs, st-stories-data.js stale) and check_cognition 4 failed (gen_cg_units
+   stale, no K-12 lesson placed in the new maps); regenerated with `node tools/gen_st_stories.mjs` and
+   `node tools/gen_cg_units.mjs` → `7 paths · 271 side stories over 96 path × map pairs · 542 branches · 4426 checks ·
+   0 failed`, `check_cognition: 347 passed, 0 failed`; `check_tycoon: 4552 passed, 0 failed — 5 businesses, 10 crew,
+   16 maps`; check_npc prints its summary with no failure; `All drills checks pass.`; `check_cityworks: 2903 checks, 0
+   failed`; `check_terraform: 195392 checks, 0 failed`.
 
 ## Seams
 
