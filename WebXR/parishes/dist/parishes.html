@@ -38145,6 +38145,413 @@ function cwMountStreets({ THREE, root, parish, tier = "high" }) {
 }
 
 
+/* ===== shared/at-atmos.js ===== */
+// ATMOS's pure half (console ATMOS, docs/consoles/ATMOS.md): the weather a parish is having at an hour, when the lamps
+// come on, how thick the fog may get without hiding a site board, which windows and porches glow, and how loud each
+// voice of the soundscape should be. No three.js, no Web Audio, no Math.random: the same seed and hour give the same
+// answers, so tools/check_atmos.mjs can prove every claim headlessly.
+//
+// Seams:
+//   atWeather(parishId, hour, seed = 1, { nearWater }) -> { kind, cloud, storm, rain, fog, wet, band, stars, moon }
+//       hour is continuous world hours (day d, hour h = d * 24 + h); weather changes in AT_SLOT-hour slots, eased
+//       between slots so a storm front rolls in rather than switching.
+//   atLightsOn(hour) -> bool                       lamps on from AT_DUSK to AT_DAWN
+//   atFog({ weather, band, nearWater, readDistance }) -> { near, far, density }   linear scene-fog distances, never
+//       dense enough to hide a site board inside its read distance (atFogHides is the proof)
+//   atFogHides(fog, distance) -> bool              true if linear fog at `distance` is past half opacity
+//   atSoundMix({ hour, weather, wind, near }) -> { wind, rain, water, traffic, birds, crickets, horn }   gains 0..1
+//
+// Every top-level name is prefixed at/AT_ (the bundler's one scope). Everything here is procedural: no real building,
+// no real weather record — the weather is a seeded pattern, and the lit windows are a seeded fraction of generic massing.
+
+// (No imports: the engine-reading helpers atLampsForChunk and atNearness live in at-world.js, so a world without the
+// parish engine — Redwood Reach — can take the weather and the sound mix alone.)
+
+/** Hours: lamps on at dusk, off at dawn; the weather slot length; the board read distance fog must never hide. */
+const AT_DUSK = 18.5;
+const AT_DAWN = 6.25;
+const AT_SLOT = 3;
+const AT_BOARD_READ = 60;
+/** The app's time buckets as clock hours (the parishes app cycles dawn → day → dusk → night). */
+const AT_BUCKET_HOUR = { dawn: 6.5, day: 12, dusk: 19, night: 23 };
+/** Per-tier caps: lamps (instances of one InstancedMesh) and fog-bank sheets (one InstancedMesh; none on the phone). */
+const AT_BUDGET = { lamps: { low: 180, balanced: 600, high: 1100 }, fogSheets: { low: 0, balanced: 8, high: 14 }, meshes: { low: 1, balanced: 2, high: 2 }, litFraction: 0.32 };
+const AT_KINDS = ["clear", "overcast", "fog", "rain", "storm"];
+
+const atClamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
+/** mulberry32, the engine's recipe. */
+function atRng(seed) {
+  let a = seed >>> 0;
+  return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+const atHash = (s) => [...String(s)].reduce((h, ch) => (Math.imul(h, 31) + ch.charCodeAt(0)) >>> 0, 2166136261);
+
+/** Continuous hour → band (the sky.js bands plus dawn). */
+function atBand(hour) {
+  const h = ((hour % 24) + 24) % 24;
+  if (h >= 5 && h < 7) return "dawn";
+  if (h >= 7 && h < 18) return "day";
+  if (h >= 18 && h < 20) return "dusk";
+  return "night";
+}
+
+/** Lamps (windows, porches, street and site lights) are on from dusk to dawn. */
+function atLightsOn(hour) {
+  const h = ((hour % 24) + 24) % 24;
+  return h >= AT_DUSK || h < AT_DAWN;
+}
+
+// The slot recipe: fog is likelier at night and dawn over water; storms are rarer and build over a slot.
+const AT_RECIPE = {
+  clear: { cloud: 0.05, storm: 0, rain: 0, fog: 0, wet: 0 },
+  overcast: { cloud: 0.6, storm: 0.1, rain: 0, fog: 0.1, wet: 0.05 },
+  fog: { cloud: 0.3, storm: 0, rain: 0, fog: 1, wet: 0.2 },
+  rain: { cloud: 0.85, storm: 0.45, rain: 0.7, fog: 0.25, wet: 0.8 },
+  storm: { cloud: 1, storm: 1, rain: 1, fog: 0.35, wet: 1 },
+};
+function atSlotKind(parishId, slot, seed, nearWater) {
+  const r = atRng(atHash(`${parishId}|${seed}|${slot}`))();
+  const h = (((slot * AT_SLOT) % 24) + 24) % 24;
+  const foggy = (h < 9 || h >= 21 ? 0.22 : 0.06) + (nearWater ? 0.12 : 0);
+  if (r < foggy) return "fog";
+  if (r < foggy + 0.1) return "storm";
+  if (r < foggy + 0.22) return "rain";
+  if (r < foggy + 0.45) return "overcast";
+  return "clear";
+}
+
+/** The weather at `hour` (continuous hours) for a parish: deterministic by seed; eased across the last hour of a slot. */
+function atWeather(parishId, hour, seed = 1, { nearWater = false } = {}) {
+  const slot = Math.floor(hour / AT_SLOT), into = hour - slot * AT_SLOT;
+  const kind = atSlotKind(parishId, slot, seed, nearWater), next = atSlotKind(parishId, slot + 1, seed, nearWater);
+  const ease = atClamp(into - (AT_SLOT - 1)); // the front rolls in over the slot's last hour
+  const a = AT_RECIPE[kind], b = AT_RECIPE[next], mix = (k) => Math.round((a[k] + (b[k] - a[k]) * ease) * 1000) / 1000;
+  const out = { kind, next, cloud: mix("cloud"), storm: mix("storm"), rain: mix("rain"), fog: mix("fog"), wet: 0, band: atBand(hour) };
+  // Wet ground lingers: the wettest of this slot and the two before it, drying by a third a slot.
+  let wet = mix("wet");
+  for (let k = 1; k <= 2; k++) wet = Math.max(wet, AT_RECIPE[atSlotKind(parishId, slot - k, seed, nearWater)].wet * (1 - k / 3));
+  out.wet = Math.round(wet * 1000) / 1000;
+  const dark = out.band === "night" || out.band === "dusk";
+  out.stars = dark ? Math.round(atClamp(1 - out.cloud * 1.2 - out.fog) * 1000) / 1000 : 0;
+  out.moon = dark ? Math.round(atClamp(1 - out.cloud * 0.9 - out.fog * 0.8) * 1000) / 1000 : 0;
+  return out;
+}
+
+/** The sky.js / weather.js kind for an ATMOS weather (so buildSky's dome, clouds, moon and stars agree). */
+function atSkyKind(w) { return w.storm > 0.7 ? "storm" : w.rain > 0.4 ? "rain" : w.fog > 0.6 ? "fog" : w.cloud > 0.45 ? "overcast" : "clear"; }
+
+/** How much a storm darkens the light: 1 in clear weather down to 0.5 under a full storm front. */
+function atDarken(w) { return Math.round((1 - 0.35 * w.cloud * w.cloud - 0.15 * w.storm) * 1000) / 1000; }
+
+/** Linear scene fog: thicker over water and in a fog bank, but the far distance is floored so a board stays legible. */
+function atFog({ weather, band = "day", nearWater = 0, readDistance = AT_BOARD_READ } = {}) {
+  const w = weather ?? { fog: 0, rain: 0, storm: 0 };
+  const base = band === "night" ? 1600 : band === "dusk" || band === "dawn" ? 1900 : 2200;
+  const thick = atClamp(w.fog * (0.75 + 0.25 * nearWater) + w.rain * 0.35 + w.storm * 0.15);
+  // At full fog-bank thickness the far distance drops to ~7% of clear, but never below 3× the read distance.
+  const far = Math.max(readDistance * 3, Math.round(base * (1 - 0.93 * thick)));
+  const near = Math.round(far * (0.12 - 0.08 * thick) * 100) / 100;
+  return { near, far, density: Math.round(thick * 1000) / 1000 };
+}
+
+/** True if linear fog at `distance` is past half opacity (the board would be lost in it). */
+function atFogHides(fog, distance) {
+  if (distance <= fog.near) return false;
+  return (distance - fog.near) / Math.max(1e-6, fog.far - fog.near) > 0.5;
+}
+
+/** The soundscape's gains 0..1 per voice: weather, the hour and what is near. Pure; the audio graph only follows it. */
+function atSoundMix({ hour = 12, weather = null, wind = 0.3, near = { water: 0, arterial: 0, port: 0 } } = {}) {
+  const w = weather ?? { rain: 0, storm: 0, fog: 0 };
+  const h = ((hour % 24) + 24) % 24, day = h >= 6 && h < 19, dark = h >= 20 || h < 5;
+  const wet = atClamp(w.rain + w.storm * 0.3);
+  const r3 = (v) => Math.round(atClamp(v) * 1000) / 1000;
+  return {
+    wind: r3(0.15 + 0.55 * wind + 0.3 * w.storm),
+    rain: r3(wet),
+    water: r3(near.water * 0.8),
+    traffic: r3(near.arterial * (day ? 0.7 : 0.35)),
+    birds: r3(day ? 0.5 * (1 - wet) * (1 - near.arterial * 0.5) : 0),
+    crickets: r3(dark ? 0.45 * (1 - wet) : 0),
+    horn: r3(near.port * (w.fog > 0.5 ? 0.9 : 0.4)),
+  };
+}
+
+/** An authored weather kind (the app's F key: clear, overcast, fog, wind, storm, rain) as an ATMOS weather at `hour`. */
+function atWeatherOf(kind, hour = 12) {
+  const r = AT_RECIPE[kind] ?? (kind === "wind" ? { ...AT_RECIPE.clear, cloud: 0.3, storm: 0.2 } : AT_RECIPE.clear);
+  const band = atBand(hour), dark = band === "night" || band === "dusk";
+  return { kind: AT_RECIPE[kind] ? kind : "clear", next: kind, ...r, band, stars: dark ? Math.max(0, 1 - r.cloud * 1.2 - r.fog) : 0, moon: dark ? Math.max(0, 1 - r.cloud * 0.9 - r.fog * 0.8) : 0 };
+}
+
+
+/* ===== shared/at-world.js ===== */
+// ATMOS's three.js half (console ATMOS, docs/consoles/ATMOS.md): lit windows, porch lamps and site lights at dusk as
+// ONE instanced emissive mesh around the eye, fog banks that roll in over water (one instanced mesh of translucent
+// sheets drifting with tfWind; none on the phone), a wet sheen with puddles on roads and sidewalks after rain (a shader
+// tweak on the existing street materials — no new meshes), and the storm's darkening of sun, sky and fog.
+//
+// Seam:
+//   atMountAtmos({ THREE, root, parish, tier, reduced, seed, massFilter, siteLights, wetMaterials, fogMaterial })
+//     -> { update(x, z), set({ hour, weather }), animate(t, dt, x, z), counts(), lamps, fogBanks }
+//   `siteLights` are [{ x, y, z }] (the site boards / buildings), `wetMaterials` the street and sidewalk materials to
+//   sheen. Reduced motion: the fog sheets hold still (no drift) and there is no rain (tfMountRain already refuses).
+//   atWetSurface(THREE, material) -> uniforms { uAtWet }   the puddle/sheen tweak, reusable by any world
+//   atLampsForChunk(parish, cx, cz, { tier, seed, massFilter }) -> [{ x, y, z, yaw, w, h, kind }]   window, porch lamps
+//   atNearness(parish, x, z) -> { water, arterial, port }   0..1 each (the engine's water, CITYWORKS' arterials, the port cover)
+//
+// Every top-level name is prefixed at/AT_; three.js comes from the caller.
+
+
+
+
+
+// Windows: which massing kinds are buildings, their footprint half-sizes (local x, z) and storeys.
+const AT_BUILDINGS = {
+  quarterBlock: { hx: 8, hz: 6, top: 7, storeys: 2, porch: false },
+  gardenHouse: { hx: 6, hz: 5, top: 5.5, storeys: 1, porch: true },
+  suburbHouse: { hx: 5, hz: 4.5, top: 4, storeys: 1, porch: true },
+  tower: { hx: 11, hz: 11, top: null, storeys: 0, porch: false },
+  campusBlock: { hx: 14, hz: 9, top: null, storeys: 0, porch: false },
+};
+
+/** One chunk's lit windows and porch lamps: a seeded fraction of each building's window slots, generic by kind. */
+function atLampsForChunk(parish, cx, cz, { tier = "high", seed = 1, massFilter = null } = {}) {
+  const spots = npMassingForChunk(parish, cx, cz).filter((s) => AT_BUILDINGS[s.kind] && (!massFilter || massFilter(s)));
+  const r = atRng(atHash(`${parish.id}|lamps|${cx},${cz}|${seed}`));
+  const frac = AT_BUDGET.litFraction * (tier === "low" ? 0.5 : 1);
+  const out = [];
+  for (const s of spots) {
+    const b = AT_BUILDINGS[s.kind];
+    // np-world.js scales these kinds by (s, s, s), or by (s, h, s) for the unit-height tower and campus block.
+    const hx = b.hx * s.s, hz = b.hz * s.s;
+    const height = b.top === null ? s.h : b.top * s.s;
+    const storeys = b.top === null ? Math.max(1, Math.min(12, Math.floor(s.h / 3.5))) : b.storeys;
+    const c = Math.cos(s.rot), sn = Math.sin(s.rot);
+    const place = (lx, ly, lz, yaw, w, h, kind) => out.push({ x: s.x + lx * c + lz * sn, y: s.y + ly, z: s.z - lx * sn + lz * c, yaw: s.rot + yaw, w, h, kind });
+    // Four faces, window columns every ~4 m, one row per storey (towers every ~3.5 m, capped).
+    for (const [face, yaw] of [[0, 0], [1, Math.PI / 2], [2, Math.PI], [3, -Math.PI / 2]]) {
+      const half = face % 2 === 0 ? hx : hz, depth = (face % 2 === 0 ? hz : hx) + 0.06;
+      const cols = Math.max(1, Math.min(8, Math.floor((half * 2) / 4)));
+      for (let row = 0; row < storeys; row++) for (let col = 0; col < cols; col++) {
+        if (r() > frac) continue;
+        const along = -half + (half * 2) * (col + 0.5) / cols, y = Math.min(height - 1, 1.8 + row * 3.4);
+        const lx = face === 0 ? along : face === 2 ? -along : face === 1 ? depth : -depth;
+        const lz = face === 0 ? depth : face === 2 ? -depth : face === 1 ? -along : along;
+        place(lx, y, lz, yaw, 1.1, 1.3, "window");
+      }
+    }
+    if (b.porch && r() < 0.7) place(0, 2.3 * s.s, hz + 0.3, 0, 0.35, 0.35, "porch");
+  }
+  const cap = Math.ceil(AT_BUDGET.lamps[tier] / 9);
+  return out.slice(0, cap);
+}
+
+/** How near (0..1) the eye is to water, an arterial and the port, sampled on two rings (cheap: ~17 lookups). */
+const atGridCache = new WeakMap();
+function atNearness(parish, x, z) {
+  let water = 0, port = 0;
+  for (const [rad, wgt] of [[0, 1], [60, 0.8], [140, 0.45]]) {
+    const n = rad ? 8 : 1;
+    for (let k = 0; k < n; k++) {
+      const a = (k / n) * Math.PI * 2, px = x + Math.cos(a) * rad, pz = z + Math.sin(a) * rad;
+      if (Math.abs(px) > NP_SIZE / 2 || Math.abs(pz) > NP_SIZE / 2) continue;
+      if (npWaterAt(parish, px, pz)) water = Math.max(water, wgt);
+      if (npCoverAt(parish, px, pz) === "port") port = Math.max(port, wgt);
+    }
+  }
+  let grid = atGridCache.get(parish);
+  if (!grid) { grid = cwSegmentGrid(cwLines(parish)); atGridCache.set(parish, grid); }
+  let arterial = 0;
+  for (const s of grid.query(x, z, 90)) {
+    if (s.line.cls !== "arterial" && !s.line.named) continue;
+    const ax = s.a[0], az = s.a[1], bx = s.b[0], bz = s.b[1], L2 = (bx - ax) ** 2 + (bz - az) ** 2 || 1;
+    const t = atClamp(((x - ax) * (bx - ax) + (z - az) * (bz - az)) / L2);
+    const d = Math.hypot(x - (ax + (bx - ax) * t), z - (az + (bz - az) * t));
+    arterial = Math.max(arterial, atClamp(1 - d / 90));
+  }
+  return { water, arterial: Math.round(arterial * 1000) / 1000, port };
+}
+
+
+/** Wet roads: darker, a cool sheen, and seeded puddle patches by world position that read as standing water. */
+function atWetSurface(THREE, material) {
+  const uniforms = { uAtWet: { value: 0 } };
+  const prev = material.onBeforeCompile;
+  material.onBeforeCompile = (shader, r) => {
+    prev?.call(material, shader, r);
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nvarying vec2 vAtXZ;")
+      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvAtXZ = (modelMatrix * vec4(transformed, 1.0)).xz;");
+    shader.fragmentShader = shader.fragmentShader
+      .replace("#include <common>", "#include <common>\nvarying vec2 vAtXZ;\nuniform float uAtWet;")
+      .replace("#include <color_fragment>", "#include <color_fragment>\nif (uAtWet > 0.0) { float n = sin(vAtXZ.x * 0.31 + sin(vAtXZ.y * 0.17) * 2.0) * sin(vAtXZ.y * 0.27 + sin(vAtXZ.x * 0.13) * 2.0);\n  float puddle = smoothstep(0.55, 0.7, n) * uAtWet;\n  diffuseColor.rgb = mix(diffuseColor.rgb * (1.0 - 0.28 * uAtWet), vec3(0.36, 0.42, 0.5), puddle * 0.6); }")
+      .replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\ntotalEmissiveRadiance += vec3(0.02, 0.025, 0.035) * uAtWet;");
+  };
+  const key = material.customProgramCacheKey?.bind(material);
+  material.customProgramCacheKey = () => `${key ? key() : ""}|at-wet`;
+  material.needsUpdate = true;
+  material.userData.at = uniforms;
+  return uniforms;
+}
+
+function atMountAtmos({ THREE, root, parish, tier = "high", reduced = false, seed = 1, massFilter = null, siteLights = [], wetMaterials = [] } = {}) {
+  const group = new THREE.Group(); group.name = "atmos"; root.add(group);
+  const cap = AT_BUDGET.lamps[tier] ?? AT_BUDGET.lamps.high;
+  // Lamps: a unit quad scaled per instance, coloured per kind, unlit (MeshBasic) so it glows; shown only when lamps are on.
+  const lampMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, fog: true });
+  const lamps = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), lampMat, cap);
+  lamps.name = "at-lamps"; lamps.count = 0; lamps.visible = false; lamps.frustumCulled = false; group.add(lamps);
+  const colours = { window: new THREE.Color(0xffd48a), porch: new THREE.Color(0xfff0c0), site: new THREE.Color(0xe8f0ff) };
+  // Fog banks: big low translucent sheets over nearby water, drifting downwind. None on the phone tier.
+  const sheets = AT_BUDGET.fogSheets[tier] ?? 0;
+  let fogBanks = null;
+  const fogMat = new THREE.MeshBasicMaterial({ color: 0xdfe6ea, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, fog: false });
+  if (sheets > 0) {
+    fogBanks = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), fogMat, sheets);
+    fogBanks.name = "at-fog-banks"; fogBanks.count = 0; fogBanks.visible = false; fogBanks.frustumCulled = false; group.add(fogBanks);
+  }
+  const wetUniforms = wetMaterials.filter(Boolean).map((m) => atWetSurface(THREE, m));
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), v = new THREE.Vector3(), sc = new THREE.Vector3();
+  let lastKey = null, lampList = [], fogSpots = [], state = { hour: 12, weather: null, on: false };
+
+  function rebuildLamps(x, z) {
+    const radius = NP_MASS_RADIUS[tier] ?? 1;
+    lampList = [];
+    for (const ch of npChunksAround(x, z, radius).sort((a, b) => a.ring - b.ring)) lampList.push(...atLampsForChunk(parish, ch.cx, ch.cz, { tier, seed, massFilter }));
+    const sites = siteLights.filter((s) => Math.hypot(s.x - x, s.z - z) < 600).map((s) => ({ x: s.x, y: s.y + 6.5, z: s.z, yaw: 0, w: 1.4, h: 0.5, kind: "site" }));
+    lampList = [...sites, ...lampList].slice(0, cap);
+    lampList.forEach((l, i) => {
+      q.setFromAxisAngle(up, l.yaw); m4.compose(v.set(l.x, l.y, l.z), q, sc.set(l.w, l.h, 1));
+      lamps.setMatrixAt(i, m4); lamps.setColorAt(i, colours[l.kind] ?? colours.window);
+    });
+    lamps.count = lampList.length;
+    lamps.instanceMatrix.needsUpdate = true; if (lamps.instanceColor) lamps.instanceColor.needsUpdate = true;
+  }
+  function rebuildFog(x, z) {
+    fogSpots = [];
+    if (!fogBanks) return;
+    for (let k = 0; k < 64 && fogSpots.length < sheets; k++) {
+      const a = k * 2.399963, rad = 80 + 34 * Math.sqrt(k) * 4; // a sunflower spiral out to ~1 km
+      const px = x + Math.cos(a) * rad, pz = z + Math.sin(a) * rad;
+      if (Math.abs(px) > NP_SIZE / 2 || Math.abs(pz) > NP_SIZE / 2 || !npWaterAt(parish, px, pz)) continue;
+      fogSpots.push({ x: px, z: pz, y: npHeightAt(parish, px, pz) + 6 + (k % 3) * 3, s: 180 + (k % 4) * 60 });
+    }
+  }
+  function update(x, z) {
+    const key = `${Math.floor(x / 128)},${Math.floor(z / 128)}`;
+    if (key === lastKey) return false;
+    lastKey = key; rebuildLamps(x, z); rebuildFog(x, z); placeFog(0);
+    return true;
+  }
+  function placeFog(t) {
+    if (!fogBanks) return;
+    const w = tfWind(reduced ? 0 : t, seed), drift = reduced ? 0 : (t * w.speed * 0.4) % 200;
+    fogSpots.forEach((f, i) => {
+      m4.compose(v.set(f.x + w.dir[0] * (drift - 100), f.y, f.z + w.dir[1] * (drift - 100)), q.identity(), sc.set(f.s, 1, f.s * 0.6));
+      fogBanks.setMatrixAt(i, m4);
+    });
+    fogBanks.count = fogSpots.length; fogBanks.instanceMatrix.needsUpdate = true;
+  }
+  /** Set the hour and ATMOS weather: lamps on at dusk, fog banks by fog thickness, wet sheen by wetness. */
+  function set({ hour = 12, weather = null } = {}) {
+    state = { hour, weather, on: atLightsOn(hour) };
+    lamps.visible = state.on && lamps.count > 0;
+    const fog = weather?.fog ?? 0;
+    fogMat.opacity = Math.min(0.55, fog * 0.5);
+    if (fogBanks) fogBanks.visible = fog > 0.2 && fogBanks.count > 0;
+    for (const u of wetUniforms) u.uAtWet.value = weather?.wet ?? 0;
+    return state;
+  }
+  function animate(t) { if (fogBanks?.visible && !reduced) placeFog(t); }
+  function counts() {
+    return { meshes: group.children.length, lamps: lamps.count, lampsLit: lamps.visible ? lamps.count : 0, windows: lampList.filter((l) => l.kind === "window").length, porches: lampList.filter((l) => l.kind === "porch").length, sites: lampList.filter((l) => l.kind === "site").length, fogSheets: fogSpots.length, fogShown: !!fogBanks?.visible, wet: wetUniforms[0]?.uAtWet.value ?? 0, wetMaterials: wetUniforms.length, on: state.on };
+  }
+  return { root: group, update, set, animate, counts, lamps, fogBanks, wetUniforms };
+}
+
+
+/* ===== shared/at-sound.js ===== */
+// ATMOS's soundscape (console ATMOS, docs/consoles/ATMOS.md): wind, rain, water near rivers, traffic near arterials,
+// birds by day, crickets by night and the port's horns — all synthesised with Web Audio (noise buffers, filters and
+// oscillators; no audio files). Muted by default: nothing is audible until the learner presses the sound toggle, and
+// under reduced motion the toggle stays off (a still, silent world).
+//
+// Seam:
+//   atMountSound({ AudioContext, reduced, seed }) -> { enabled(), setEnabled(on) -> bool, update(mix, t), graph(), master() }
+//     `mix` is at-atmos.js atSoundMix(...)'s { wind, rain, water, traffic, birds, crickets, horn } (0..1 each).
+//     The graph is built lazily on the first setEnabled(true) (browsers need a gesture) or eagerly by graph() — the
+//     checker builds it headlessly against a stand-in AudioContext and reads the master gain.
+//
+// Every top-level name is prefixed at/AT_.
+
+const AT_VOICES = ["wind", "rain", "water", "traffic", "birds", "crickets", "horn"];
+/** The loudest the whole soundscape gets (master gain when on). */
+const AT_MASTER = 0.35;
+
+/** Build the synth graph on `ctx`: one looping noise buffer shared by the filtered voices, oscillators for the rest. */
+function atBuildGraph(ctx, seed = 1) {
+  const master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+  const len = Math.floor((ctx.sampleRate || 44100) * 2);
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate || 44100);
+  const data = buf.getChannelData(0);
+  let a = (0x9e3779b9 ^ seed) >>> 0;
+  for (let i = 0; i < len; i++) { a = (Math.imul(a ^ (a >>> 15), 0x2c1b3c6d) + 0x6d2b79f5) >>> 0; data[i] = a / 2147483648 - 1; }
+  const voices = {};
+  const noiseVoice = (name, type, freq, q) => {
+    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+    const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = ctx.createGain(); g.gain.value = 0;
+    src.connect(f); f.connect(g); g.connect(master); src.start?.();
+    voices[name] = { gain: g, filter: f, src };
+  };
+  noiseVoice("wind", "lowpass", 420, 0.7);
+  noiseVoice("rain", "highpass", 2400, 0.4);
+  noiseVoice("water", "bandpass", 700, 0.9);
+  noiseVoice("traffic", "lowpass", 160, 0.5);
+  const toneVoice = (name, type, freq) => {
+    const o = ctx.createOscillator(); o.type = type; o.frequency.value = freq;
+    const g = ctx.createGain(); g.gain.value = 0;
+    o.connect(g); g.connect(master); o.start?.();
+    voices[name] = { gain: g, osc: o };
+  };
+  toneVoice("birds", "sine", 3200);
+  toneVoice("crickets", "square", 4400);
+  toneVoice("horn", "sawtooth", 110);
+  return { ctx, master, voices, nodes: 1 + 4 * 3 + 3 * 2 };
+}
+
+/** Mount the soundscape. Silent by default and under reduced motion. */
+function atMountSound({ AudioContext = globalThis.AudioContext ?? globalThis.webkitAudioContext, reduced = false, seed = 1 } = {}) {
+  let g = null, on = false;
+  const build = () => { if (!g && AudioContext) g = atBuildGraph(new AudioContext(), seed); return g; };
+  return {
+    enabled: () => on,
+    /** Turn sound on or off; refused (stays off) under reduced motion or without Web Audio. Returns the new state. */
+    setEnabled(v) {
+      on = !!v && !reduced && !!AudioContext;
+      if (on) { build(); g.ctx.resume?.(); }
+      if (g) g.master.gain.value = on ? AT_MASTER : 0;
+      return on;
+    },
+    /** Follow the mix; birds chirp and crickets pulse by gating their gain on `t` (seconds). Nothing plays while off. */
+    update(mix, t = 0) {
+      if (!g || !on) return;
+      const v = g.voices;
+      for (const k of ["wind", "rain", "water", "traffic"]) v[k].gain.gain.value = (mix[k] ?? 0) * (k === "traffic" ? 0.6 : 0.5);
+      v.wind.filter.frequency.value = 300 + 500 * (mix.wind ?? 0);
+      const chirp = Math.sin(t * 9) > 0.6 && Math.sin(t * 0.7) > 0 ? 1 : 0;
+      v.birds.gain.gain.value = (mix.birds ?? 0) * 0.05 * chirp; v.birds.osc.frequency.value = 2800 + 900 * Math.abs(Math.sin(t * 23));
+      v.crickets.gain.gain.value = (mix.crickets ?? 0) * 0.02 * (Math.sin(t * 40) > 0.2 && Math.sin(t * 2.1) > -0.3 ? 1 : 0);
+      v.horn.gain.gain.value = (mix.horn ?? 0) * 0.08 * ((t % 40) < 2.5 ? 1 : 0); // a long blast every 40 s near the port
+    },
+    graph: build,
+    master: () => g?.master.gain.value ?? 0,
+  };
+}
+
+
 /* ===== shared/game.js ===== */
 // Procedure engine and gamification layer.
 //
@@ -66659,7 +67066,7 @@ const $ = (id) => document.getElementById(id);
 const NP_RUNNER = "../../smartcity/index.html";
 const NP_EYE = 1.7;
 const NP_TIMES = ["dawn", "day", "dusk", "night"];
-const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm"];
+const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm", "live"]; // "live": ATMOS's seeded weather for this parish and hour
 
 // Which parish: ?parish=, else the parish of a return's site (`#site=<parish>/<site>`), else the first.
 const npParams = new URLSearchParams(location.search);
@@ -66710,6 +67117,22 @@ const tfLand = tfMountTerraform({ THREE, root, parish, tier: npTierName, reduced
 tfLand.update(np.x, np.z, 99);
 const tfRain = tfMountRain({ THREE, root, tier: npTierName, reduced: tfReducedMotion() });
 const connectors = npResolveConnectors(parish);
+// ATMOS: lit windows, porch and site lights at dusk (one instanced mesh), fog banks over water, a wet sheen on the
+// streets after rain, storm darkening, and a synthesised soundscape muted by default (docs/consoles/ATMOS.md).
+const atWetMats = []; cwStreetsMount.group.traverse((o) => { if (o.isMesh && /^cw-streets-/.test(o.name) && !atWetMats.includes(o.material)) atWetMats.push(o.material); });
+for (const m of world.roadMeshes ?? []) if (m?.material && !atWetMats.includes(m.material)) atWetMats.push(m.material);
+const atmos = atMountAtmos({ THREE, root, parish, tier: npTierName, reduced: tfReducedMotion(), massFilter: cwMassFilter(parish), siteLights: world.siteBoards, wetMaterials: atWetMats });
+atmos.update(np.x, np.z);
+const atSound = atMountSound({ reduced: tfReducedMotion() });
+let atWeatherNow = null, atSoundT = 1, atMix = null;
+{
+  const b = document.createElement("button");
+  b.id = "at-sound"; b.type = "button"; b.setAttribute("aria-pressed", "false"); b.textContent = "Sound: off";
+  b.title = tfReducedMotion() ? "Sound stays off while reduced motion is set" : "Turn the synthesised soundscape on or off";
+  b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui";
+  b.addEventListener("click", () => { const on = atSound.setEnabled(!atSound.enabled()); b.textContent = on ? "Sound: on" : "Sound: off"; b.setAttribute("aria-pressed", String(on)); });
+  document.body.appendChild(b);
+}
 
 // NEWTON's physics (docs/consoles/NEWTON.md): gravity, walls, wading and swimming for the walk, props that tumble,
 // and the Motor Pool's drive mode with crash response. TERRAFORM's water and flow and CITYWORKS' colliders are read
@@ -66743,20 +67166,27 @@ const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and wa
 let sky = null, npRecipe = null;
 function npApplySky() {
   if (sky) root.remove(sky.root);
-  const weather = weatherFor(NP_WEATHERS[np.weatherIdx]);
+  const atHour = AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12, atLive = NP_WEATHERS[np.weatherIdx] === "live";
+  const atNear = atNearness(parish, np.x, np.z);
+  atWeatherNow = atLive ? atWeather(parish.id, atHour, 1, { nearWater: atNear.water > 0.5 }) : atWeatherOf(NP_WEATHERS[np.weatherIdx], atHour);
+  const weather = weatherFor(atLive ? atSkyKind(atWeatherNow) : NP_WEATHERS[np.weatherIdx]);
   sky = buildSky(root, { time: NP_TIMES[np.timeIdx], weather, radius: 3000 });
   npRecipe = sky.recipe;
-  scene.background.setHex(npRecipe.sky);
-  scene.fog.color.setHex(npRecipe.fog);
+  const atDim = atDarken(atWeatherNow), atShade = (hex) => new THREE.Color(hex).multiplyScalar(atDim).getHex();
+  scene.background.setHex(atShade(npRecipe.sky));
+  scene.fog.color.setHex(atShade(npRecipe.fog));
   const vis = Math.max(800, (npRecipe.visibility ?? 1200) * 2.0) / (npTierSet.fogScale ?? 1);
-  scene.fog.near = vis * 0.15; scene.fog.far = vis;
+  // ATMOS's fog: thicker in a fog bank over water, never so thick that a site board is lost inside its read distance.
+  const atF = atFog({ weather: atWeatherNow, band: atWeatherNow.band, nearWater: atNear.water });
+  scene.fog.near = Math.min(vis * 0.15, atF.near); scene.fog.far = Math.min(vis, atF.far);
+  atmos.set({ hour: atHour, weather: atWeatherNow });
   const night = NP_TIMES[np.timeIdx] === "night";
-  sun.intensity = night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6;
-  hemi.intensity = night ? 0.25 : 0.95;
+  sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim; // a storm front darkens the light
+  hemi.intensity = (night ? 0.25 : 0.95) * atDim;
   cwStreetsMount.setNight(night || NP_TIMES[np.timeIdx] === "dusk");
   $("hud-clock").textContent = NP_TIMES[np.timeIdx];
   $("hud-weather").textContent = NP_WEATHERS[np.weatherIdx];
-  tfRain?.set(NP_WEATHERS[np.weatherIdx] === "storm");
+  tfRain?.set(NP_WEATHERS[np.weatherIdx] === "storm" || atWeatherNow.rain > 0.3); // the front drives TERRAFORM's wind-slanted rain
 }
 npApplySky();
 
@@ -67061,6 +67491,12 @@ function frame(now) {
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
   tfRain.animate(now / 1000, dt, camera.position.x, camera.position.y, camera.position.z);
+  atmos.update(np.x, np.z); atmos.animate(now / 1000, dt);
+  if (atSound.enabled()) {
+    atSoundT += dt;
+    if (atSoundT > 0.5 || !atMix) { atSoundT = 0; atMix = atSoundMix({ hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12, weather: atWeatherNow, wind: tfWind(now / 1000).gust, near: atNearness(parish, np.x, np.z) }); }
+    atSound.update(atMix, now / 1000);
+  }
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
   mgLife?.animate(now / 1000, dt);
@@ -67205,6 +67641,7 @@ window.__parishTest = {
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
+  atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
 };
 
