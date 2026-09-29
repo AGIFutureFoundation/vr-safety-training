@@ -30352,5 +30352,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-lk-how-a-lock-lifts-a-boat",
+    "index": "965",
+    "domain": "Education",
+    "trade": "Science and measuring lesson with a lock and levee crew on the Mississippi — learner and lock operator",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "How a Lock Lifts a Boat",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ How a Lock Lifts a Boat VR",
+    "tagline": "Two water levels, two gates and one chamber — fill it, empty it and see the boat rise",
+    "accent": 5211832,
+    "accentCss": "#4f86b8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "lock-keeper",
+      "name": "Lock Keeper",
+      "note": "Worked a model lock in the right order, read the water levels and found how a levee holds the river back"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lock Board",
+      "currency": "RIPPLES",
+      "ranks": [
+        "Puddle",
+        "Bayou",
+        "Canal",
+        "River",
+        "Lock Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-lk-where-a-data-center-gets-its-power",
+    "index": "966",
+    "domain": "Education",
+    "trade": "Science lesson on energy and electricity with a power and cooling crew — learner and electrician",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Where a Data Center Gets Its Power",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Where a Data Center Gets Its Power VR",
+    "tagline": "Energy changes form but never vanishes — follow it from stored gas to hot chips and back out as heat",
+    "accent": 14197562,
+    "accentCss": "#d8a33a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "energy-tracker",
+      "name": "Energy Tracker",
+      "note": "Followed energy from a store to a spinning generator, through a substation to computer chips and out through the cooling plant"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Energy Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Spark",
+        "Current",
+        "Circuit",
+        "Grid",
+        "Power Tracker"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

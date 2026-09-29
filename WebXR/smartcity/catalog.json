@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 716
+      "stations": 718
     },
     "trades": {
       "entry": "trades/index.html",
@@ -555,6 +555,8 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "k12-lk-where-a-data-center-gets-its-power",
+        "k12-lk-how-a-lock-lifts-a-boat",
         "k12-lk-building-new-marsh-on-the-coast",
         "k12-by-wetlands-as-a-storms-speed-bump",
         "k12-by-the-water-cycle-from-lake-to-tap",
@@ -10229,6 +10231,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-where-a-data-center-gets-its-power",
+      "name": "Where a Data Center Gets Its Power",
+      "title": "SmartCiti.X~ Where a Data Center Gets Its Power VR",
+      "tagline": "Energy changes form but never vanishes — follow it from stored gas to hot chips and back out as heat",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science lesson on energy and electricity with a power and cooling crew — learner and electrician",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#d8a33a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "energy-tracker",
+        "name": "Energy Tracker",
+        "note": "Followed energy from a store to a spinning generator, through a substation to computer chips and out through the cooling plant"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "966",
+      "flat": false,
+      "system": "Energy Board",
+      "currency": "SPARKS",
+      "ranks": [
+        "Spark",
+        "Current",
+        "Circuit",
+        "Grid",
+        "Power Tracker"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-where-a-data-center-gets-its-power"
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-how-a-lock-lifts-a-boat",
+      "name": "How a Lock Lifts a Boat",
+      "title": "SmartCiti.X~ How a Lock Lifts a Boat VR",
+      "tagline": "Two water levels, two gates and one chamber — fill it, empty it and see the boat rise",
+      "category": "Community Environmental Justice",
+      "domain": "Education",
+      "trade": "Science and measuring lesson with a lock and levee crew on the Mississippi — learner and lock operator",
+      "union": null,
+      "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+      "accent": "#4f86b8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "lock-keeper",
+        "name": "Lock Keeper",
+        "note": "Worked a model lock in the right order, read the water levels and found how a levee holds the river back"
+      },
+      "meshes": 240,
+      "lights": 0,
+      "overBudget": false,
+      "index": "965",
+      "flat": false,
+      "system": "Lock Board",
+      "currency": "RIPPLES",
+      "ranks": [
+        "Puddle",
+        "Bayou",
+        "Canal",
+        "River",
+        "Lock Keeper"
+      ],
+      "awards": [
+        {
+          "id": "clean-read",
+          "name": "First Look",
+          "note": "Everything in the opening scan found first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcuts",
+          "note": "No misconception or unsafe shortcut anywhere in the run"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In the Band",
+          "note": "Every gauge and meter held inside its band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every hold and track carried its full count"
+        },
+        {
+          "id": "quick-and-right",
+          "name": "Quick and Right",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=k12-lk-how-a-lock-lifts-a-boat"
     },
     {
       "app": "smartcity",
@@ -36944,7 +37112,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -37604,7 +37772,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

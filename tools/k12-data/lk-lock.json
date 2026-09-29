@@ -1,0 +1,146 @@
+{
+  "id": "k12-lk-how-a-lock-lifts-a-boat",
+  "index": "965",
+  "prefix": "lkr",
+  "accent": "#4f86b8",
+  "floor": ["#707478", "#62666a"],
+  "wall": ["#dde4ea", "#c8d2dc"],
+  "trade": "Science and measuring lesson with a lock and levee crew on the Mississippi — learner and lock operator",
+  "header": "Upper-primary science and measuring beside the Mississippi River in Louisiana, from Plaquemine to the New Orleans riverfront: why a river runs higher than the land beside it, how a levee holds it back, and how a lock raises or lowers a boat between two water levels, worked on a model lock and a levee cross-section in the scene.",
+  "name": "How a Lock Lifts a Boat",
+  "tagline": "Two water levels, two gates and one chamber — fill it, empty it and see the boat rise",
+  "badge": { "id": "lock-keeper", "name": "Lock Keeper", "note": "Worked a model lock in the right order, read the water levels and found how a levee holds the river back" },
+  "board": { "name": "Lock Board", "currency": "RIPPLES", "ranks": ["Puddle", "Bayou", "Canal", "River", "Lock Keeper"] },
+  "hazards": [
+    { "id": "open-both-gates", "label": "Open both lock gates at once?", "face": "BOTH\nGATES", "text": "You tried to open both gates together. Water would rush straight through the chamber from the high side to the low side and push the boat hard. A lock only works because one gate stays shut while the water level changes." },
+    { "id": "lean-over-the-wall", "label": "Lean over the chamber wall?", "face": "LEAN\nOVER", "text": "You leaned over the chamber wall. The walls are tall and the water moves while the chamber fills and empties. Visitors watch from behind the rail, and the lock crew wears life jackets when they work by the edge." },
+    { "id": "levee-is-just-a-hill", "label": "Say a levee is just a grassy hill?", "face": "JUST A\nHILL?", "text": "You said the levee is just a hill. A levee is built on purpose from packed earth, shaped and covered in grass, to hold the river back from the land and the town behind it. Crews walk it and look after it, because it has a job to do." },
+    { "id": "play-on-the-levee-slope", "label": "Slide down the levee slope?", "face": "SLIDE\nDOWN", "text": "You went to slide down the levee. Sliding and digging wear away the grass that keeps the earth in place. Walk on the path on top, and leave the slope for the grass and the crew who inspect it." }
+  ],
+  "find1": {
+    "title": "Find the parts of the lock",
+    "cue": "Mark the three parts a lock needs to move a boat between two water levels.",
+    "why": "A lock is a box of water with a gate at each end. The upper gate faces the higher water and the lower gate faces the lower water. Between them is the chamber, where the boat waits while the water inside rises or falls. Valves let water in or out slowly, so the level changes gently and the boat rides up or down on it.",
+    "items": [
+      ["upper-gate", "the upper gate", "Faces the higher water."],
+      ["chamber", "the chamber", "Where the boat rises or falls."],
+      ["lower-gate", "the lower gate", "Faces the lower water."]
+    ],
+    "decoy": ["flag", "the flag on the lock house", "It shows the wind, not part of how the lock works."]
+  },
+  "select1": {
+    "title": "Watch from behind the rail",
+    "cue": "Join the lock operator at the viewing rail beside the control house.",
+    "why": "The lock walls are tall and the water inside keeps moving as the chamber fills and empties. The rail marks the safe place to stand and still see everything. The lock operator works from the control house, where every gate and valve can be seen, so the class watches from beside it.",
+    "key": "rail-card",
+    "label": "Behind the rail",
+    "face": "BEHIND\nTHE RAIL"
+  },
+  "seq": {
+    "title": "Put the steps to raise a boat in order",
+    "cue": "Order the steps that lift a boat from the low water to the high water.",
+    "why": "A lock follows the same order every time, so the water never rushes through. The boat enters from the low side and the lower gate closes behind it. Water from the high side flows in slowly until the chamber is level with it. Only then does the upper gate open so the boat can leave. Getting the order right is the whole trick.",
+    "oon": "Out of order. The boat enters and the lower gate closes before any water comes in.",
+    "items": [
+      ["ord-enter", "the boat enters from the low side"],
+      ["ord-close", "the lower gate closes behind it"],
+      ["ord-fill", "water flows in until the levels match"],
+      ["ord-open", "the upper gate opens and the boat leaves"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the valve open while the chamber fills",
+    "cue": "Hold the model fill valve open until the chamber water reaches the high mark.",
+    "why": "Water always flows from higher to lower until the two levels are the same. Holding the fill valve open lets water from the high side pour into the chamber and lift the boat. Letting go too soon leaves the chamber lower than the high side, and the upper gate would be pushed shut by the water behind it.",
+    "brk": "The valve closed too soon and the filling stopped. Hold it open until the levels match.",
+    "key": "valve-hold",
+    "label": "Hold the fill valve"
+  },
+  "turn": {
+    "title": "Turn the wheel to swing the gate open",
+    "cue": "Turn the gate wheel slowly until the upper gate stands fully open.",
+    "why": "A lock gate is big and heavy, and it has water on both sides. When the levels match, the push from each side is the same, so the gate can swing easily. Turning the wheel slowly keeps the gate under control. That is why the operator waits for level water before moving any gate.",
+    "key": "gate-wheel",
+    "label": "Gate wheel",
+    "dial": "GATE"
+  },
+  "gauge": {
+    "title": "Read the water level on the staff gauge",
+    "cue": "Commit when the marker sits at the water line on the chamber's staff gauge.",
+    "why": "A staff gauge is a tall ruler fixed in the water. Reading it tells the operator how high the water stands in the chamber compared with the river outside. When the two readings match, the levels are equal and it is safe to open the gate. Measuring carefully is how the operator knows, not guesses.",
+    "key": "level-meter",
+    "label": "Chamber water level",
+    "meter": "LEVEL",
+    "miss": "Not at the water line. Read where the water meets the gauge."
+  },
+  "drag": {
+    "title": "Place the grass mat on the bare levee patch",
+    "cue": "Drag the model grass mat onto the bare patch on the levee cross-section.",
+    "why": "A levee is packed earth, and grass roots hold its surface together against rain and river water. A bare patch can wash away and weaken the levee. Placing the grass mat on the patch shows how crews repair a levee before a small problem grows. Looking after the grass is part of looking after the levee.",
+    "key": "grass-mat",
+    "label": "Grass mat",
+    "spot": "bare-spot",
+    "spotLabel": "The bare levee patch",
+    "miss": "Not on the bare patch yet. Place it where the levee has no grass."
+  },
+  "select2": {
+    "title": "Say why the river runs higher than the land",
+    "cue": "Choose the sentence that explains why the river can stand above the town beside it.",
+    "why": "Over a very long time the river dropped mud along its banks when it spilled over, building its edges up. The land behind slowly packed down and sank. That is why, along parts of the lower Mississippi, the river can stand higher than the streets nearby, and why levees and locks matter so much here.",
+    "key": "result-card",
+    "label": "State why",
+    "face": "WHY SO\nHIGH?"
+  },
+  "find2": {
+    "title": "Spot what the levee crew checks",
+    "cue": "Look along the model levee and mark the three things a crew inspects on its walk.",
+    "why": "Levee crews walk the levee looking for early signs of trouble. Water seeping out at the bottom of the land side can mean water is finding a path through. A crack or a slump shows the earth is moving. A bare or burrowed patch can let water in. Finding these early lets the crew fix them while they are small.",
+    "items": [
+      ["seep", "water seeping at the land-side toe", "Water may be finding a path."],
+      ["crack", "a crack near the top", "The earth may be moving."],
+      ["burrow", "an animal burrow in the slope", "A hole can let water in."]
+    ],
+    "decoy": ["bike", "a bike on the top path", "People use the path, but it is not a levee problem."]
+  },
+  "track": {
+    "title": "Follow the boat as it rises in the chamber",
+    "cue": "Keep the marker on the model boat as the water lifts it up the chamber wall.",
+    "why": "The boat is not lifted by a crane or a machine. It floats on the water, so when the water in the chamber rises, the boat rises with it. Following the boat up the wall shows that the water does all the lifting. Opening one valve moves a heavy boat with no engine at all.",
+    "brk": "The marker lost the boat. Find it again and follow it up the wall.",
+    "key": "boat-track",
+    "label": "Boat followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record the level before and after",
+    "cue": "Write one line each for the low water, the chamber and the high water.",
+    "why": "Writing down the level at each stage shows what the lock did. Anyone reading your record can see that the chamber started level with the low water and finished level with the high water. Lock operators keep a log of every boat for the same reason, so the next shift knows what happened.",
+    "key": "lock-log",
+    "label": "Lock record",
+    "done": "Levels recorded"
+  },
+  "share": {
+    "title": "Explain the lock to a partner",
+    "cue": "Take turns telling a partner how the boat got from the low water to the high water.",
+    "why": "Explaining something out loud is a good test of whether you really understand it. If your partner can follow your steps, your order was right. Lock crews explain each move to one another by radio before they make it, so everyone knows what is about to happen.",
+    "key": "share-board",
+    "label": "Explain to a partner",
+    "done": "Lock explained"
+  },
+  "checkin": {
+    "title": "Check in before leaving the rail",
+    "cue": "Why does only one gate open at a time? What does the levee keep out?",
+    "why": "The operator and the class finish the same way, by checking what everyone understood. Each learner gives one reason for the gate order and one job the levee does. If anyone still thinks a levee is just a hill, the group talks it through now before leaving.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "a-horn-sounds-from-a-towboat", "kind": "Boat signal", "key": "clear-rail", "label": "Step back and let the crew work", "alert": "A towboat sounds its horn as it lines up to enter the lock.", "cue": "Step back from the rail edge and let the lock crew handle the lines.", "why": "A horn tells the lock crew a boat is coming in. The crew needs room to move along the wall with the lines. Stepping back straight away gives them that room, and good visitors do it without being asked twice.", "miss": "The class stayed crowded at the rail, and the crew had to squeeze past with the lines.", "wrong": "That does not give the crew room. Step back and let them work. Choose the response that deals with it now.", "done": "Class stepped back, the towboat entered. The lesson carries on." },
+    { "id": "the-operator-asks-about-the-valves", "kind": "Operator question", "key": "name-valves", "label": "Say water flows from high to low", "alert": "The lock operator asks what makes the water flow into the chamber.", "cue": "Say that water flows from the higher side to the lower side until the levels match.", "why": "The whole lock depends on one rule: water runs downhill until it is level. The valves just open a path. Knowing the rule shows you understand why a lock needs no pump to lift a boat.", "miss": "You could not say what moves the water, and the operator explained before the class went on.", "wrong": "That does not explain the flow. Say which way water moves. Choose the response that deals with it now.", "done": "Flow explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Lock operator", "Levee crew member"],
+  "guide": { "start": "Behind the rail with the operator.", "after": "One gate at a time, water finds its level.", "hazard": "Stop. Stay behind the rail." },
+  "lateRecord": "The lock record is written once the boat has gone through — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "lab",
+  "order": "c"
+}
