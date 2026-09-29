@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 713
+      "stations": 714
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "lp-gas-storage-wellpad-awareness",
         "lp-cryogenic-propellant-awareness",
         "battery-storage-container-commissioning",
         "temporary-site-power",
@@ -10226,6 +10227,83 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-gas-storage-wellpad-awareness",
+      "name": "Gas Storage Well Pad Safety",
+      "title": "SmartCiti.X~ Gas Storage Well Pad Safety VR",
+      "tagline": "A contractor crew on a natural gas storage well pad while the operator runs the wells: the pad permit read, the gas monitor bump-tested, flame-resistant clothing on, every ignition source left at the gate, a weeping flange reported rather than tightened, hot work only inside a tested boundary, and a personal lock on the group box before anyone touches isolated pipe",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Gas storage contractor crew, well pad safety — USW",
+      "union": null,
+      "certification": "USW health and safety training as a body; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals, 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.252 welding and cutting and 29 CFR 1910.132 personal protective equipment; NFPA 51B fire prevention during hot work; the operator's pad work permit and isolation list",
+      "accent": "#f2b84b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "pad-discipline",
+        "name": "Pad Discipline",
+        "note": "Read the pad permit, left the ignition sources at the gate, tested before hot work and locked on before touching isolated pipe"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "lp-2",
+      "flat": false,
+      "system": "Pad Discipline",
+      "currency": "LEL",
+      "ranks": [
+        "Visitor",
+        "Pad Inducted",
+        "Contractor Hand",
+        "Contractor Lead",
+        "Pad Discipline Certified"
+      ],
+      "awards": [
+        {
+          "id": "permit-first-pad",
+          "name": "Permit First",
+          "note": "Read the pad permit before driving past the gate"
+        },
+        {
+          "id": "no-ignition",
+          "name": "Nothing Lit",
+          "note": "Never carried an ignition source onto the pad"
+        },
+        {
+          "id": "steady-test",
+          "name": "Steady Test",
+          "note": "Held the continuous gas test near band centre"
+        },
+        {
+          "id": "quick-pad",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-pad",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=lp-gas-storage-wellpad-awareness"
     },
     {
       "app": "smartcity",
@@ -36704,7 +36782,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -37364,7 +37442,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

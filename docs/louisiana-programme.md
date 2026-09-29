@@ -77,10 +77,8 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 | Kind of work (the sources' words) | What we teach | Crafts | Stations | Simulations |
 |---|---|---|---|---|
-| "natural gas storage, blending and transport" | gas detection, compressor lockout and hot tapping | USW (gas-storage operators); UA (pipefitters); IBEW (electricians) | `gas-leak-survey`, `motor-control-center`, `hot-tap` | `lp-sim-wellpad-lockout` |
+| "natural gas storage, blending and transport" | gas detection, compressor lockout and hot tapping | USW (gas-storage operators); UA (pipefitters); IBEW (electricians) | `lp-gas-storage-wellpad-awareness`, `gas-leak-survey`, `motor-control-center`, `hot-tap` | `lp-sim-wellpad-lockout` |
 | "1,000+ construction jobs at peak" | pipeline spread: locates, trench, pressure test, marsh access on board roads | UA (pipeline welders and fitters); IUOE (operating engineers); LIUNA (labourers) | `op-excavator-trench-and-utility-locate`, `pl-natural-gas-pressure-test-and-leak-check`, `br-tidal-marsh-grading-amphibious-excavator` | `lp-sim-marsh-mat-and-dredge-pipe` |
-
-Not taught yet — gas storage well-pad safety ("natural gas storage, blending and transport"): no catalog station teaches a salt-dome storage well pad yet; the track teaches gas detection, lockout and hot tapping and lists this as pending.
 
 ### Saronic Technologies Franklin Shipyard
 
@@ -418,8 +416,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
+  - `lp-gas-storage-wellpad-awareness` Gas Storage Well Pad Safety — USW health and safety training as a body
   - `motor-control-center` Motor Control Center — IBEW inside wireman
-  - `hot-tap` Hot Tap — UA pipefitters and plumbers with LIUNA on the excavation
   - `electrical` Isolation Bay (capstone) — NFPA 70E electrical safety in the workplace
   - `substation-switching` Substation Switching (capstone) — IBEW — utility switching and tagging authorisation
 - **Simulations:** `projectsim:lp-sim-wellpad-lockout` (pass 80, order gates enforced)
@@ -438,6 +436,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
+  - `lp-gas-storage-wellpad-awareness` Gas Storage Well Pad Safety — USW health and safety training as a body
   - `motor-control-center` Motor Control Center — IBEW inside wireman
   - `hot-tap` Hot Tap — UA pipefitters and plumbers with LIUNA on the excavation
   - `pl-natural-gas-pressure-test-and-leak-check` Natural Gas Pressure Test & Leak Check — UA plumbers and pipefitters apprenticeship
@@ -463,8 +462,8 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
+  - `lp-gas-storage-wellpad-awareness` Gas Storage Well Pad Safety — USW health and safety training as a body
   - `motor-control-center` Motor Control Center — IBEW inside wireman
-  - `hot-tap` Hot Tap — UA pipefitters and plumbers with LIUNA on the excavation
   - `electrical` Isolation Bay (capstone) — NFPA 70E electrical safety in the workplace
   - `substation-switching` Substation Switching (capstone) — IBEW — utility switching and tagging authorisation
 - **Simulations:** `projectsim:lp-sim-wellpad-lockout` (pass 80, order gates enforced)
@@ -483,6 +482,7 @@ Kinds of work (general occupational descriptions, not any employer's hiring): ch
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
+  - `lp-gas-storage-wellpad-awareness` Gas Storage Well Pad Safety — USW health and safety training as a body
   - `motor-control-center` Motor Control Center — IBEW inside wireman
   - `hot-tap` Hot Tap — UA pipefitters and plumbers with LIUNA on the excavation
   - `pl-natural-gas-pressure-test-and-leak-check` Natural Gas Pressure Test & Leak Check — UA plumbers and pipefitters apprenticeship
@@ -848,4 +848,4 @@ Kinds of work (general occupational descriptions, not any employer's hiring): he
 
 ## Competency matrix
 
-76 cells (work type × craft), 218 station links; the page lists every cell.
+76 cells (work type × craft), 221 station links; the page lists every cell.

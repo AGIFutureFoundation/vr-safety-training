@@ -30226,5 +30226,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "lp-gas-storage-wellpad-awareness",
+    "index": "lp-2",
+    "domain": "Energy",
+    "trade": "Gas storage contractor crew, well pad safety — USW",
+    "category": "Energy & Power",
+    "certification": "USW health and safety training as a body; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals, 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.252 welding and cutting and 29 CFR 1910.132 personal protective equipment; NFPA 51B fire prevention during hot work; the operator's pad work permit and isolation list",
+    "name": "Gas Storage Well Pad Safety",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Gas Storage Well Pad Safety VR",
+    "tagline": "A contractor crew on a natural gas storage well pad while the operator runs the wells: the pad permit read, the gas monitor bump-tested, flame-resistant clothing on, every ignition source left at the gate, a weeping flange reported rather than tightened, hot work only inside a tested boundary, and a personal lock on the group box before anyone touches isolated pipe",
+    "accent": 15906891,
+    "accentCss": "#f2b84b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "pad-discipline",
+      "name": "Pad Discipline",
+      "note": "Read the pad permit, left the ignition sources at the gate, tested before hot work and locked on before touching isolated pipe"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pad Discipline",
+      "currency": "LEL",
+      "ranks": [
+        "Visitor",
+        "Pad Inducted",
+        "Contractor Hand",
+        "Contractor Lead",
+        "Pad Discipline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
