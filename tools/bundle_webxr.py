@@ -762,6 +762,9 @@ APPS = {
             SHARED / "npc.js",
             SHARED / "drivables-data.js",
             SHARED / "drivables-board.js",
+            # NEWTON (the Packs run): the pure physics (after np-parish.js and drivables-data.js) and its parish mount.
+            SHARED / "nw-physics.js",
+            SHARED / "nw-drive.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
             SHARED / "kw-place.js",
