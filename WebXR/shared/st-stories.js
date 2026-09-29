@@ -26,12 +26,23 @@ import { GR_ROSTER } from "./npc-data.js";
 import { grSiteFor } from "./npc.js";
 import { KW_KIOSKS } from "./kw-play-data.js";
 
+/**
+ * Seam for other consoles' side stories (BAYQUEST's Bay Program stories): same shape as ST_STORIES entries,
+ * plus `roam: true` for a story that asks nothing and may be found on the Just Roam path. Returns the count.
+ */
+export const ST_EXTRA_STORIES = [];
+export function stAddStories(list = []) {
+  for (const s of list) if (s?.id && !stStory(s.id)) ST_EXTRA_STORIES.push(s);
+  return ST_EXTRA_STORIES.length;
+}
 export function stQuestsFor(pathId, parishId) {
   const p = stPath(pathId);
-  if (!p || !p.prompts) return [];
-  return ST_STORIES.filter((s) => s.path === pathId && s.parish === parishId);
+  if (!p) return [];
+  const extra = ST_EXTRA_STORIES.filter((s) => s.parish === parishId && (s.path === pathId || (!p.prompts && s.roam)));
+  if (!p.prompts) return extra.filter((s) => s.roam);
+  return [...ST_STORIES.filter((s) => s.path === pathId && s.parish === parishId), ...extra];
 }
-export function stStory(id) { return ST_STORIES.find((s) => s.id === id) ?? null; }
+export function stStory(id) { return ST_STORIES.find((s) => s.id === id) ?? ST_EXTRA_STORIES.find((s) => s.id === id) ?? null; }
 export function stBranchChosen(storyId) { return stLoad().branches[storyId] ?? null; }
 export function stChooseBranch(storyId, branchId) {
   const story = stStory(storyId);

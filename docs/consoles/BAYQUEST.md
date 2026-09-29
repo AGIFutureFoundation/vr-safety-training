@@ -42,3 +42,11 @@ Crew Credits stay a play currency (TYCOON's ledger); nothing here touches billin
 1. Reason: four games in the gate contract, discovered by check_gates. Act: `bq-games-data.js` (BQ_GATED). Observe:
    check_gates first run "5 failed" (unknown station `confined-space`, four missing display names) -> gate on
    `cs-non-entry-retrieval-and-tripod`, regenerated gate names -> "7082 checks · 0 failed".
+2. Reason: the Bay Keeper's Trail through the treasure rules; proof = every lesson verbatim and no spot on water or a road.
+   Act: `bq-facts.js`, `tools/gen_bq_trail.mjs` -> `bq-trail-data.js`. Observe: first generation accepted spots on water
+   (`txQuayAt` returns an index, -1 off a quay, and was read as a boolean) -> fixed; "bq trail: 22 treasures", `--check` up to date.
+3. Reason: Crew Credits, businesses, stories and DEAN template in one module, with TYCOON/STORYLINE seams that keep their
+   checkers green. Act: `bq-bayquest.js`, `tyAddBusinesses`, `stAddStories`. Observe: smoke run paid 40 per clean game;
+   check_tycoon "1572 passed, 0 failed — 5 businesses"; check_storyline "2885 checks · 0 failed".
+4. Reason: the checker proves it. Act: `tools/check_bayquest.mjs` (+ check_all list, perf baseline). Observe:
+   "bayquest: 4 games, 22 treasures, 2 businesses, 6 stories · 279 checks · 0 failed" (~500 ms).
