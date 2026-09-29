@@ -108,6 +108,9 @@ const TY_KIND_WORDS = {
   "energy-storage": "the battery site fence", excavation: "the dig site", haul: "the load-out", hazmat: "the drum yard", lab: "the lab",
   "mat-crossing": "the swamp mats", pilot: "the pilot skid", planning: "the planning office", sampling: "the sampling grid",
   survey: "the survey crew's van", "vacuum-truck": "the truck bay", "water-control": "the tide gate",
+  // SITES-COAST's Louisiana project sites (docs/consoles/SITES-COAST.md).
+  "tank-farm": "the tank farm fence", compressor: "the compressor building", wellpad: "the wellpad", pipeline: "the pipe racks",
+  dredge: "the dredge line", slip: "the new slips", hangar: "the hangar doors", "paint-shop": "the paint hall", "fuel-farm": "the tank fence",
 };
 const TY_ROOM_WORDS = ["Upstairs room", "Back room", "Corner room", "Loft room", "Garden room"];
 const TY_SHOP_WORDS = ["Shopfront", "Ground-floor shop", "Corner unit", "Workshop bay", "Kiosk unit"];

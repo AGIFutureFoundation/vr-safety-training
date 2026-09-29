@@ -488,3 +488,57 @@ A programme world is a **procedural** district built for one programme — **not
   `programme-worlds-south`); they stay pending until such a world is registered.
 - Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
   `tools/check_smiles.mjs`.
+
+## Louisiana Development Sites — the coastal and Acadiana project maps (region `louisiana-sites`, console SITES-COAST)
+
+Four strict-engine 4096 m maps for projects named in the Louisiana facts file (`la-facts.md`, the only source for project
+facts), in region `louisiana-sites` ("Louisiana Development Sites", a map is a *site area*). Each is laid out from the place's
+approximate lon/lat frame, the named water, highways and towns, and the land-use character; the water and road layout was
+checked against Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026) with no figure read off it.
+**The project layout is illustrative; the parish, waterways and towns are real** — every map says so in its `blurb`, its
+module header and a sign landmark. The platform has no partnership with any company named; the crafts are trade references.
+Written once by `tools/gen_lc_sites.mjs`; the modules are the source afterwards. Declared scales:
+
+- `la-starbase-vermilion` (Starbase Louisiana — Vermilion Parish marsh): 6 real metres per map metre — Pecan Island's ridge and
+  Highway Eighty-Two, White Lake's southern shore, the Freshwater Bayou Canal and the Gulf shore in one field.
+- `la-black-bayou-cameron` (Black Bayou Energy Hub — Cameron Parish marsh): 3 real metres per map metre — the marsh around the
+  Black Bayou salt dome (its position approximate), Black Bayou and the Gulf Intracoastal Waterway.
+- `la-saronic-franklin` (Franklin Shipyard — Franklin on Bayou Teche): 1.5 real metres per map metre — the town west of the
+  bayou's bend, US Highway Ninety on its south-west side, the cane fields, and the illustrative shipyard on the east bank.
+- `la-avex-new-iberia` (AVEX Hangars — Acadiana Regional Airport, New Iberia): 1.2 real metres per map metre — the runway, the
+  aprons and buildings east of it, open water to the north-east (not named here) and the cane fields.
+
+| map | id | module | export | region | sites | connectors |
+|---|---|---|---|---|---|---|
+| Starbase Louisiana — Vermilion Parish marsh | `la-starbase-vermilion` | `np-data-la-starbase-vermilion.js` | `NP_LA_STARBASE_VERMILION` | louisiana-sites | 18 | 2 |
+| Black Bayou Energy Hub — Cameron Parish marsh | `la-black-bayou-cameron` | `np-data-la-black-bayou-cameron.js` | `NP_LA_BLACK_BAYOU_CAMERON` | louisiana-sites | 17 | 2 |
+| Franklin Shipyard — Franklin on Bayou Teche | `la-saronic-franklin` | `np-data-la-saronic-franklin.js` | `NP_LA_SARONIC_FRANKLIN` | louisiana-sites | 17 | 2 |
+| AVEX Hangars — Acadiana Regional Airport, New Iberia | `la-avex-new-iberia` | `np-data-la-avex-new-iberia.js` | `NP_LA_AVEX_NEW_IBERIA` | louisiana-sites | 18 | 2 |
+
+**Starbase Louisiana** — the workforce trailer, marsh survey, the mat road crossing, the pad foundation pour, the propellant tank
+farm build (cryogenic-safety awareness only, no process shown), the marsh creation dredge line (the file's coastal restoration
+partnering), the power plant and substation builds, the shipping dock on a slip off the canal, the airport apron, the vehicle
+processing hangar, the access road, laydown yard, crane pad, canal bank crew, batch plant, first aid and a weather watch post.
+**Black Bayou** — the salt dome wellpad, compressor station, pipeline spread, marsh board road, blending skid (no process shown),
+metering station, a directional drill crossing under the waterway, brine pond crew, laydown yard, control building, barge
+landing, hydrotest station, substation, marsh restoration, fire water station, a storm and heat shelter and the workforce
+trailer. **Franklin** — the three new slips' build, hull fabrication, marine electrical, launch and test berth, blast and paint
+hall, the large-vessel line, steel receiving, plate cutting, outfitting pier, crane rail, bulkhead piling, tool crib, machine
+shop, first aid, site utilities, the gate and a workforce centre in town. **AVEX** — hangar steel, foundation and doors, the
+paint hangar and paint mix room, the freighter conversion bay, apron work, the fuel farm, sheet metal, composite and avionics
+shops, site utilities, a taxiway connector, the ground support yard, the airport fire station, a stormwater pond crew, the
+laydown yard and a workforce centre. Hidden play still to add to HARVEST's spot tables: marsh fishing and gator watch at Vermilion and
+Cameron; crawfish ponds and rice fields near Franklin and New Iberia.
+
+None of the four maps meets another, so each carries pending ways out only (no pair to write):
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Highway Eighty-Two west | road | la-starbase-vermilion → Grand Chenier (no map yet) | from the map's west edge | `lc-sb-highway-82-west` |
+| Highway Eighty-Two north-east | road | la-starbase-vermilion → Abbeville (no map yet) | from the map's north edge | `lc-sb-highway-82-north` |
+| The parish road north | road | la-black-bayou-cameron → toward Vinton (no map yet) | from the map's north edge | `lc-bb-parish-road-north` |
+| The marsh board road south | road | la-black-bayou-cameron → the coast (no map yet) | inside the field | `lc-bb-board-road-south` |
+| US Highway Ninety north-west | road | la-saronic-franklin → Baldwin (no map yet) | from the map's west edge | `lc-sf-highway-90-west` |
+| US Highway Ninety south-east | road | la-saronic-franklin → Centerville (no map yet) | from the map's south edge | `lc-sf-highway-90-east` |
+| The airport road | road | la-avex-new-iberia → New Iberia (no map yet) | from the map's east edge | `lc-av-airport-road-east` |
+| A cane field road north | road | la-avex-new-iberia → north (no map yet) | from the map's north edge | `lc-av-cane-road-north` |
