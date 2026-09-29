@@ -100,6 +100,8 @@ export function dnCleanVersion(raw) {
     paths: Array.isArray(r.paths) ? paths : null,
     programmes: Array.isArray(r.programmes) ? dnList(r.programmes) : null,
     locked: !!r.locked, lockedPath: r.locked ? lockedPath : null,
+    // GEO (docs/geo.md): the teacher's switch for Find me in a class session; off unless set to true.
+    geolocation: r.geolocation === true,
     updatedAt: typeof r.updatedAt === "string" ? r.updatedAt : new Date().toISOString(),
   };
 }

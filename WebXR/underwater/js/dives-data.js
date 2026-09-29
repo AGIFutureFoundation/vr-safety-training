@@ -832,18 +832,18 @@ export const DV_SIDE_DIVES = [
       },
       {
         "type": "station",
-        "target": "k12-es-the-bay-food-web",
-        "text": "A Bay food web built on a board with arrows that follow the food energy, and the links spotted live from behind the pier rail."
+        "target": "k12-lk-where-a-data-center-gets-its-power",
+        "text": "Learners follow energy from a store to a generator, through a substation to computers and out as heat, general science for the power and cooling trades."
       },
       {
         "type": "station",
-        "target": "k12-es-plastics-and-the-bay",
-        "text": "A float test in salty water, plastics sorted into floaters and sinkers, and a paired shoreline sweep with gloves, tongs and a sharps tub."
+        "target": "k12-lk-how-a-wing-lifts-an-aircraft",
+        "text": "Learners balance the four forces and find the wing tilt that gives lift, the science an aircraft mechanic checks on every walk-round."
       },
       {
         "type": "station",
-        "target": "k12-es-clean-air-at-the-port",
-        "text": "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for."
+        "target": "k12-lk-why-a-steel-boat-floats",
+        "text": "Learners shape a hull that floats, load it to its mark and launch it down a slip, the science behind a bayou shipyard's work."
       },
       {
         "type": "talk",

@@ -2318,7 +2318,7 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
      "To keep them warm"
     ],
     "answer": 0,
-    "why": "Caps cover sharp ends, so a trip or fall onto a bar does not cause an injury."
+    "why": "Caps cover sharp ends, so anyone who trips near a bar is kept safe."
    }
   }
  ],

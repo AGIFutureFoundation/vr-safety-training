@@ -60,7 +60,7 @@ City growth rates are not quoted: Baton Rouge, Lake Charles, Lafayette and Caren
 
 ### Shintech expansion
 
-**Where:** Plaquemine, Iberville Parish (Capital Region). **The sources say:** "$3.4 billion"; "163 direct new jobs; 725 retained; 655 indirect (818 total new opportunities)"; "first phase 2030" (sources: opportunitylouisiana.gov news; lailluminator.com; wafb.com 2026-03-05).
+**Where:** Plaquemine, Iberville Parish. **The sources say:** "$3.4 billion"; "163 direct new jobs; 725 retained; 655 indirect (818 total new opportunities)"; "first phase 2030" (sources: opportunitylouisiana.gov news; lailluminator.com; wafb.com 2026-03-05).
 
 **Walkable:** `la-shintech-plaquemine` (`lsp-process-unit-build`, `lsp-pipe-rack-crew`, `lsp-control-room`, `lsp-river-dock`, `lsp-tank-farm`) — 5 live, 0 pending until the map is in the tree. The project layout is illustrative; the parish, waterways and towns are real.
 
@@ -157,7 +157,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
   - Practise the construction trades work (electricians, pipefitters, ironworkers, operators, carpenters, labourers) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Meta data center — Richland Parish (northeast Louisiana, near Monroe).
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
 - **The practice (each station's cited standards):**
   - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-simple-machines-at-a-crane` Simple Machines at a Crane — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
@@ -178,7 +178,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
   - Practise the construction trades work (electricians, pipefitters, ironworkers, operators, carpenters, labourers) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Meta data center — Richland Parish (northeast Louisiana, near Monroe).
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
 - **The practice (each station's cited standards):**
   - `op-excavator-trench-and-utility-locate` Excavator Trench & Utility Locate — IUOE Local 3 operating engineer training
   - `trench-box` Trench Box — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
@@ -198,7 +198,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
   - Practise the construction trades work (electricians, pipefitters, ironworkers, operators, carpenters, labourers) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Meta data center — Richland Parish (northeast Louisiana, near Monroe).
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
 - **The practice (each station's cited standards):**
   - `op-excavator-trench-and-utility-locate` Excavator Trench & Utility Locate — IUOE Local 3 operating engineer training
   - `trench-box` Trench Box — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
@@ -225,7 +225,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
   - Practise the construction trades work (electricians, pipefitters, ironworkers, operators, carpenters, labourers) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Meta data center — Richland Parish (northeast Louisiana, near Monroe).
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
 - **The practice (each station's cited standards):**
   - `op-excavator-trench-and-utility-locate` Excavator Trench & Utility Locate — IUOE Local 3 operating engineer training
   - `trench-box` Trench Box — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
@@ -245,7 +245,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
   - Practise the construction trades work (electricians, pipefitters, ironworkers, operators, carpenters, labourers) the Louisiana projects describe, from each station's cited standards.
   - Place the work: Meta data center — Richland Parish (northeast Louisiana, near Monroe).
   - Place the work: Applied Digital "Delta Forge 1" AI factory campus — Rapides Parish (near Boyce, Central Louisiana).
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
 - **The practice (each station's cited standards):**
   - `op-excavator-trench-and-utility-locate` Excavator Trench & Utility Locate — IUOE Local 3 operating engineer training
   - `trench-box` Trench Box — LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person
@@ -399,7 +399,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
 - **Due:** 14 days after the cohort starts · **required score:** 60 · **credential:** `k12-literacy-and-life-skills` (Read, write and speak clearly enough to act safely and work well with others)
 - **Objectives:**
   - Practise the process operators and maintenance work (chemical and gas-storage operators, maintenance mechanics, instrument and electrical) the Louisiana projects describe, from each station's cited standards.
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `k12-lk-the-crews-behind-a-big-build` The Crews Behind a Big Build — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
@@ -420,7 +420,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
 - **Due:** 21 days after the cohort starts · **required score:** 70 · **credential:** `core-lockout-tagout` (Lockout/Tagout and the control of hazardous energy)
 - **Objectives:**
   - Practise the process operators and maintenance work (chemical and gas-storage operators, maintenance mechanics, instrument and electrical) the Louisiana projects describe, from each station's cited standards.
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
@@ -440,7 +440,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
 - **Due:** 42 days after the cohort starts · **required score:** 80 · **credential:** `insulators-and-boilermakers` (Insulate, firestop, abate, repair and pressure-test a plant's pipes, walls and vessels to code)
 - **Objectives:**
   - Practise the process operators and maintenance work (chemical and gas-storage operators, maintenance mechanics, instrument and electrical) the Louisiana projects describe, from each station's cited standards.
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
@@ -466,7 +466,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
 - **Due:** 14 days after the cohort starts · **required score:** 85 · **credential:** `core-lockout-tagout` (Lockout/Tagout and the control of hazardous energy)
 - **Objectives:**
   - Practise the process operators and maintenance work (chemical and gas-storage operators, maintenance mechanics, instrument and electrical) the Louisiana projects describe, from each station's cited standards.
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation
@@ -486,7 +486,7 @@ Awareness / K-12 on the Louisiana maps (LA-K12, SCHOLAR sessions at the map site
 - **Due:** 28 days after the cohort starts · **required score:** 90 · **credential:** `situational-awareness` (Hold the procedure while the site interrupts you)
 - **Objectives:**
   - Practise the process operators and maintenance work (chemical and gas-storage operators, maintenance mechanics, instrument and electrical) the Louisiana projects describe, from each station's cited standards.
-  - Place the work: Shintech expansion — Plaquemine, Iberville Parish (Capital Region).
+  - Place the work: Shintech expansion — Plaquemine, Iberville Parish.
   - Place the work: Black Bayou Energy Hub — Cameron Parish (Black Bayou salt dome) and a Lafayette headquarters.
 - **The practice (each station's cited standards):**
   - `gas-leak-survey` Gas Leak Survey — UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation

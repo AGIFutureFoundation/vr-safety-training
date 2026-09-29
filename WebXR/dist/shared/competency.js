@@ -685,7 +685,8 @@ export const PROGRAMME_COMPETENCIES = [
       "k12-measuring-and-scaling-the-court", "k12-household-budget-and-first-paycheck", "k12-reading-a-map-scale-in-bay-world", "k12-fractions-in-the-kitchen",
       "k12-slope-and-angles-on-a-ramp", "k12-graphing-tide-readings-at-the-pier", "k12-probability-with-a-fair-spinner", "k12-geometry-of-a-turbine-blade-sweep",
       "k12-by-a-streetcar-timetable", "k12-by-a-ferry-timetable-and-the-tide", "k12-by-a-shrimp-boats-fair-count", "k12-by-reading-a-flood-maps-colours",
-      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps", "k12-es-count-it-a-fair-survey", "k12-es-measure-a-rain-garden"
+      "k12-by-sorting-containers-at-the-port", "k12-by-measuring-a-floodwall-in-steps", "k12-es-count-it-a-fair-survey", "k12-es-measure-a-rain-garden",
+      "k12-lk-how-a-lock-lifts-a-boat"
     ],
     require: 6,
   },
@@ -700,7 +701,8 @@ export const PROGRAMME_COMPETENCIES = [
       "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job",
       "k12-by-the-water-cycle-from-lake-to-tap", "k12-es-where-the-storm-drain-goes", "k12-es-what-a-trash-capture-device-does", "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
       "k12-es-the-tidal-marsh-nursery", "k12-es-mud-on-the-move", "k12-es-too-much-of-a-good-thing", "k12-es-the-bay-food-web",
-      "k12-es-plastics-and-the-bay", "k12-es-clean-air-at-the-port"
+      "k12-es-plastics-and-the-bay", "k12-es-clean-air-at-the-port", "k12-lk-building-new-marsh-on-the-coast", "k12-lk-where-a-data-center-gets-its-power",
+      "k12-lk-how-a-wing-lifts-an-aircraft", "k12-lk-why-a-steel-boat-floats"
     ],
     require: 6,
   },
@@ -722,9 +724,10 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["un-sdg-4-quality-education", "unesco-education-guidance", "national-curriculum-framework"],
     stations: [
       "k12-reading-instructions-and-safety-labels", "k12-writing-a-clear-incident-report", "k12-first-aid-awareness-call-for-help", "k12-public-speaking-at-the-hall",
-      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan", "k12-es-who-does-this-work"
+      "k12-digital-citizenship-and-online-safety", "k12-teamwork-and-feedback", "k12-by-a-family-readiness-plan", "k12-es-who-does-this-work",
+      "k12-lk-the-crews-behind-a-big-build"
     ],
-    require: 4,
+    require: 5,
   },
   {
     id: "bay-restoration-maritime-underwater",

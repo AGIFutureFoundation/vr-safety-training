@@ -17,6 +17,7 @@ import { RW_FIELD_LESSONS } from "../redwood/js/rw-lore-data.js";
 import { NP_PARISHES } from "./np-parishes.js";
 import { BY_LESSONS } from "./by-parish-lessons.js";
 import { esSessionLessons } from "./es-bay-lessons.js";
+import { lkSessionLessons } from "./lk-la-lessons.js"; // LA-K12: the Louisiana K-12 lessons (docs/consoles/LA-K12.md)
 
 /** Where each world's page lives, relative to WebXR/ (the scoreboard links a lesson back to its world). */
 export const SC_WORLD_PAGES = {
@@ -56,6 +57,7 @@ function scBuild() {
   }
   for (const l of BY_LESSONS) push(l, { world: "parishes", parish: l.parish, sites: scSitesOf("parishes", l.parish), source: "bayou" });
   for (const p of NP_PARISHES) for (const l of esSessionLessons(p.id)) push(l, { world: "parishes", parish: p.id, sites: scSitesOf("parishes", p.id), source: "estuary" });
+  for (const p of NP_PARISHES) for (const l of lkSessionLessons(p.id)) push(l, { world: "parishes", parish: p.id, sites: scSitesOf("parishes", p.id), source: "la-k12" });
   return out;
 }
 

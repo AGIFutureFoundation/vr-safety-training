@@ -141,7 +141,7 @@ export const LP_TRACKS = [
       lpW("cooling", "AI factory campus", "cooling plant and raised-floor work", [lpC("ua", "HVAC and chilled water"), lpC("cwa", "network and cabling technicians")], ["chiller-plant", "ws-raised-floor-tile-lift-and-cable-tray-safety"]),
       lpW("construction", "1,000+ construction jobs at peak", "grading, duct banks, steel erection and concrete", [lpC("iuoe", "operating engineers"), lpC("ironworkers", "ironworkers"), lpC("liuna", "labourers")], ["op-excavator-trench-and-utility-locate", "trench-box", "steel-erector", "concrete-pour"], ["lp-sim-duct-bank-excavation"]),
     ], gaps: [] },
-  { id: "shintech", short: "shintech", name: "Shintech expansion", where: "Plaquemine, Iberville Parish (Capital Region)",
+  { id: "shintech", short: "shintech", name: "Shintech expansion", where: "Plaquemine, Iberville Parish",
     figures: ["$3.4 billion", "163 direct new jobs; 725 retained; 655 indirect (818 total new opportunities)", "first phase 2030"],
     source: "opportunitylouisiana.gov news; lailluminator.com; wafb.com 2026-03-05", pathways: ["process", "construction"],
     places: [{ map: "la-shintech-plaquemine", sites: ["lsp-process-unit-build", "lsp-pipe-rack-crew", "lsp-control-room", "lsp-river-dock", "lsp-tank-farm"] }],

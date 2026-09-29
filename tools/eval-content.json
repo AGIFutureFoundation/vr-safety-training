@@ -6570,6 +6570,110 @@
     },
     {
       "app": "smartcity",
+      "id": "k12-es-who-does-this-work",
+      "name": "Who Does This Work",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 313,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 0.8571428571428571,
+          "cited": 7,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 297,
+          "materials": 108,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.30932475884244387,
+          "nearest": "k12-lk-the-crews-behind-a-big-build",
+          "similarity": 0.27813504823151125
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-es-the-tidal-marsh-nursery",
+      "name": "The Tidal Marsh Nursery",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.97,
+          "medianWhy": 244,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "k12-lk-building-new-marsh-on-the-coast",
+          "similarity": 0.35607675906183367
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "track-access",
       "name": "Track Access",
       "category": "Mobility & Transit",
@@ -7033,6 +7137,110 @@
           "score": 0.5364779874213838,
           "nearest": "pl-fire-sprinkler-riser-and-flow-test",
           "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-how-a-lock-lifts-a-boat",
+      "name": "How a Lock Lifts a Boat",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 296,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.19019607843137276,
+          "nearest": "k12-by-what-a-pump-station-does-in-the-rain",
+          "similarity": 0.30196078431372547
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-building-new-marsh-on-the-coast",
+      "name": "Building New Marsh on the Coast",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 279,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "k12-es-the-tidal-marsh-nursery",
+          "similarity": 0.35607675906183367
         }
       }
     },
@@ -13226,58 +13434,6 @@
     },
     {
       "app": "smartcity",
-      "id": "k12-es-who-does-this-work",
-      "name": "Who Does This Work",
-      "category": "Community Environmental Justice",
-      "steps": 13,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 8,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 313,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 0.8571428571428571,
-          "cited": 7,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 297,
-          "materials": 108,
-          "interactables": 29
-        },
-        "originality": {
-          "score": 0.471331058020478,
-          "nearest": "k12-es-clean-air-at-the-port",
-          "similarity": 0.24573378839590443
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "k12-es-mud-on-the-move",
       "name": "Mud on the Move",
       "category": "Community Environmental Justice",
@@ -13323,60 +13479,8 @@
         },
         "originality": {
           "score": 0,
-          "nearest": "k12-by-wetlands-as-a-storms-speed-bump",
-          "similarity": 0.34393638170974156
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "k12-es-the-tidal-marsh-nursery",
-      "name": "The Tidal Marsh Nursery",
-      "category": "Community Environmental Justice",
-      "steps": 13,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 8,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.97,
-          "medianWhy": 244,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 233,
-          "materials": 110,
-          "interactables": 29
-        },
-        "originality": {
-          "score": 0.2189309576837417,
-          "nearest": "k12-es-the-bay-food-web",
-          "similarity": 0.2962138084632517
+          "nearest": "k12-lk-building-new-marsh-on-the-coast",
+          "similarity": 0.354251012145749
         }
       }
     },
@@ -13897,6 +14001,162 @@
           "score": 0.12857142857142873,
           "nearest": "av-marshalling-and-wingwalker-signals",
           "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-the-crews-behind-a-big-build",
+      "name": "The Crews Behind a Big Build",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 297,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 118,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.30932475884244387,
+          "nearest": "k12-es-who-does-this-work",
+          "similarity": 0.27813504823151125
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-why-a-steel-boat-floats",
+      "name": "Why a Steel Boat Floats",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 110,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.3278195488721805,
+          "nearest": "k12-lk-how-a-lock-lifts-a-boat",
+          "similarity": 0.2744360902255639
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-marine-vessel-electrical-safety",
+      "name": "Marine Vessel Electrical Safety",
+      "category": "Maritime & Ports",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9550000000000001,
+          "medianWhy": 241,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 204,
+          "materials": 77,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.501169590643275,
+          "nearest": "ws-substation-switching-under-a-permit",
+          "similarity": 0.23976608187134502
         }
       }
     },
@@ -23777,6 +24037,214 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-how-a-wing-lifts-an-aircraft",
+      "name": "How a Wing Lifts an Aircraft",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 296,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 119,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5069216757741348,
+          "nearest": "k12-es-mud-on-the-move",
+          "similarity": 0.23861566484517305
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "k12-lk-where-a-data-center-gets-its-power",
+      "name": "Where a Data Center Gets Its Power",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.46748251748251757,
+          "nearest": "k12-lk-why-a-steel-boat-floats",
+          "similarity": 0.2465034965034965
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-gas-storage-wellpad-awareness",
+      "name": "Gas Storage Well Pad Safety",
+      "category": "Energy & Power",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.935,
+          "medianWhy": 237,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 220,
+          "materials": 82,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.4835420393559929,
+          "nearest": "lp-cryogenic-propellant-awareness",
+          "similarity": 0.24329159212880144
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "lp-cryogenic-propellant-awareness",
+      "name": "Cryogenic Propellant Awareness",
+      "category": "Energy & Power",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9650000000000001,
+          "medianWhy": 243,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 221,
+          "materials": 75,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.4835420393559929,
+          "nearest": "lp-gas-storage-wellpad-awareness",
+          "similarity": 0.24329159212880144
         }
       }
     },
@@ -37398,9 +37866,9 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.7716180371352785,
-          "nearest": "battery-storage-container-commissioning",
-          "similarity": 0.1856763925729443
+          "score": 0.7388007054673723,
+          "nearest": "lp-gas-storage-wellpad-awareness",
+          "similarity": 0.19223985890652556
         }
       }
     },

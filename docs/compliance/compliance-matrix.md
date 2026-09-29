@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-29: 724 procedures, 251 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-29: 730 procedures, 251 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -1409,6 +1409,7 @@ Every station names the union and the certification a worker in that role holds,
 | Measuring a Floodwall in Steps | Maths class along the floodwall with the structure crew — learner and floodwall crew foreman | — |
 | Count It: a Fair Survey | Maths class with the shoreline park crew on a bird count — learner and park survey lead | — |
 | Measure a Rain Garden | Maths class with the school garden crew sizing a rain garden — learner and garden crew lead | — |
+| How a Lock Lifts a Boat | Science and measuring lesson with a lock and levee crew on the Mississippi — learner and lock operator | — |
 
 ### K-12 Science
 
@@ -1438,6 +1439,10 @@ Every station names the union and the certification a worker in that role holds,
 | The Bay Food Web | Science class with the pier crew and a naturalist at a Bay pier — learner and naturalist | — |
 | Plastics and the Bay | Science class with the beach crew on a shoreline sweep — learner and beach crew lead | — |
 | Clean Air at the Port | Science visit with the terminal equipment crew at a container port — learner and equipment crew lead | — |
+| Building New Marsh on the Coast | Science walk with a coastal marsh restoration crew — learner and restoration crew lead | — |
+| Where a Data Center Gets Its Power | Science lesson on energy and electricity with a power and cooling crew — learner and electrician | — |
+| How a Wing Lifts an Aircraft | Science lesson on flight with an aircraft maintenance crew at a regional airport — learner and aircraft mechanic | — |
+| Why a Steel Boat Floats | Science and making lesson with a shipyard crew on a Louisiana bayou — learner and shipfitter | — |
 
 ### K-12 History and Civics
 
@@ -1466,6 +1471,7 @@ Every station names the union and the certification a worker in that role holds,
 | Teamwork and Feedback | Life-skills class at the arena's team room — learner and team coach | — |
 | A Family Readiness Plan | Life-skills class in the school hall with the parish readiness team — learner and school nurse | — |
 | Who Does This Work | Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor | — |
+| The Crews Behind a Big Build | Careers awareness at a workforce centre beside a large Louisiana development site — learner and apprenticeship coordinator | — |
 
 ## Stations citing fewer than two standards
 
@@ -1478,6 +1484,12 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- The Crews Behind a Big Build (smartcity): none
+- Why a Steel Boat Floats (smartcity): none
+- How a Wing Lifts an Aircraft (smartcity): none
+- Where a Data Center Gets Its Power (smartcity): none
+- How a Lock Lifts a Boat (smartcity): none
+- Building New Marsh on the Coast (smartcity): none
 - Wetlands as a Storm's Speed Bump (smartcity): none
 - The Water Cycle from Lake to Tap (smartcity): none
 - A Streetcar Timetable (smartcity): none

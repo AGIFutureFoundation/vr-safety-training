@@ -3,6 +3,7 @@
 // lock UI reads "Dock Crane — Container Moves", not the id.
 // Names prefixed QM_ (the bundler shares one scope).
 export const QM_STATION_NAMES = {
+  "ad-cobot-risk-assessment-and-speed-separation": "Cobot Risk Assessment & Speed-and-Separation",
   "ad-robot-cell-lockout-and-safe-reentry": "Robot Cell Lockout & Safe Re-entry",
   "aerial-ladder": "Aerial Ladder",
   "air-sensor-install": "Neighbourhood Air Sensor",
@@ -45,6 +46,7 @@ export const QM_STATION_NAMES = {
   "chain-hoist": "Chain Hoist",
   "chlorine-room": "Chlorine Room",
   "cm-concrete-saw-cutting-with-water-and-silica-control": "Concrete Saw Cutting with Water & Silica Control",
+  "cm-epoxy-floor-coating-and-ventilation": "Epoxy Floor Coating & Ventilation",
   "concrete-pour": "Concrete Pour",
   "confined-rescue": "Confined Rescue",
   "container-lashing": "Container Lashing",
@@ -88,8 +90,10 @@ export const QM_STATION_NAMES = {
   "gk-sports-field-line-marking-and-goal-anchoring": "Sports-Field Line Marking & Goal Anchoring",
   "gk-storm-cleanup-chipper-and-traffic-control": "Storm Cleanup: Chipper & Traffic Control",
   "gl-curtain-wall-unit-setting-from-the-floor": "Curtain Wall Unit Setting From The Floor",
+  "gl-glass-handling-cart-and-crane-vacuum-lifter": "Glass Handling Cart And Crane Vacuum Lifter",
   "gr-produce-receiving-cold-chain-and-pallet-jack": "Produce Receiving, Cold Chain & Pallet Jack",
   "grease-trap": "Grease Trap",
+  "haul-route-observation": "Haul Route Observation",
   "hc-code-response-support-and-crash-cart-check": "Code Response Support & Crash Cart Check",
   "hc-dietary-tray-line-and-allergy-flags": "Dietary Tray Line & Allergy Flags",
   "hc-environmental-services-isolation-room-turnover": "Isolation Room Turnover",
@@ -152,6 +156,7 @@ export const QM_STATION_NAMES = {
   "ra-roadway-worker-protection-and-job-briefing": "Roadway Worker Protection & Job Briefing",
   "ra-switch-inspection-and-lubrication": "Switch Inspection & Lubrication",
   "rf-roof-tear-off-and-debris-chute": "Roof Tear-Off & Debris Chute",
+  "rf-single-ply-tpo-heat-welding-and-seam-probe": "Single-Ply TPO Heat Welding & Seam Probe",
   "rigging-loft": "Rigging Loft",
   "rl-critical-lift-plan-and-signalperson": "Critical Lift Plan & Signalperson",
   "sediment-cap": "Sediment Cap",

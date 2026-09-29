@@ -5155,11 +5155,6 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-by-measuring-a-floodwall-in-steps",
-        "text": "A stretch of floodwall measured by pacing, a pace measured against the crew's tape, steps turned into length and the answer checked against the wall's panels."
-      },
-      {
-        "type": "station",
         "target": "k12-es-count-it-a-fair-survey",
         "text": "A shorebird count with a marked box, a timer and a rule card, one sweep and one tally per bird, compared with another group's count."
       },
@@ -5167,6 +5162,11 @@ export const SIDE_QUESTS = [
         "type": "station",
         "target": "k12-es-measure-a-rain-garden",
         "text": "A rain garden bed measured from zero with a tape, length times width for the area, and the bed drawn to scale on a grid for the crew."
+      },
+      {
+        "type": "station",
+        "target": "k12-lk-how-a-lock-lifts-a-boat",
+        "text": "Learners read water levels on a gauge and work a model lock in order, the measuring behind every lock and levee on the Mississippi."
       },
       {
         "type": "talk",
@@ -5239,18 +5239,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-es-the-bay-food-web",
-        "text": "A Bay food web built on a board with arrows that follow the food energy, and the links spotted live from behind the pier rail."
+        "target": "k12-lk-where-a-data-center-gets-its-power",
+        "text": "Learners follow energy from a store to a generator, through a substation to computers and out as heat, general science for the power and cooling trades."
       },
       {
         "type": "station",
-        "target": "k12-es-plastics-and-the-bay",
-        "text": "A float test in salty water, plastics sorted into floaters and sinkers, and a paired shoreline sweep with gloves, tongs and a sharps tub."
+        "target": "k12-lk-how-a-wing-lifts-an-aircraft",
+        "text": "Learners balance the four forces and find the wing tilt that gives lift, the science an aircraft mechanic checks on every walk-round."
       },
       {
         "type": "station",
-        "target": "k12-es-clean-air-at-the-port",
-        "text": "Diesel and electric model trucks compared with clean filters, the breeze followed from the port to homes, and what the Port of Oakland says its Clean Ports award pays for."
+        "target": "k12-lk-why-a-steel-boat-floats",
+        "text": "Learners shape a hull that floats, load it to its mark and launch it down a slip, the science behind a bayou shipyard's work."
       },
       {
         "type": "talk",
@@ -5407,11 +5407,6 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "k12-teamwork-and-feedback",
-        "text": "Roles agreed, feedback given on the work and not the person, received by listening first, and a disagreement kept calm; the classroom step before the platform's emotional intelligence stations."
-      },
-      {
-        "type": "station",
         "target": "k12-by-a-family-readiness-plan",
         "text": "A readiness plan a family makes together before storm season — who helps, what goes in the go-bag, where to meet and where to go — written down, shared and practised."
       },
@@ -5419,6 +5414,11 @@ export const SIDE_QUESTS = [
         "type": "station",
         "target": "k12-es-who-does-this-work",
         "text": "The trades behind Bay restoration and clean port work matched job by job, the path from pre-apprenticeship to crew, and what the EPA and the Port of Oakland say, with each source named."
+      },
+      {
+        "type": "station",
+        "target": "k12-lk-the-crews-behind-a-big-build",
+        "text": "Learners match trades to each stage of a big build and plan a path into an apprenticeship, careers awareness about kinds of work, never about any one employer."
       },
       {
         "type": "talk",

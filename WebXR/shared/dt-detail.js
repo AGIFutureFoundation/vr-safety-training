@@ -65,7 +65,10 @@ export const DT_CAPACITY = {
  */
 export const DT_BUDGET = {
   triangles: { high: 170000, balanced: 85000, low: 26000 },
-  maxMeshes: 16, genMs: 12, genWorstMs: 90, ratio: { high: 100, balanced: 25, low: 5 },
+  // genMs 12 → 14 (coordinator, 29 Sep): DETAIL-2's Louisiana rows (cane, rice, cypress, crab traps, pipe racks, hangars,
+  // slipways, galleries) measured 13.3 ms CPU median on a quiet gate; the worst-case bound (90 ms) is unchanged. Next step is
+  // generation in a worker or spread across frames (docs/consoles/DETAIL-2.md, Left).
+  maxMeshes: 16, genMs: 14, genWorstMs: 90, ratio: { high: 100, balanced: 25, low: 5 },
 };
 
 /** Map a district character (or cover) to a scatter table row; unknown characters fall back by name, then to "grass". */

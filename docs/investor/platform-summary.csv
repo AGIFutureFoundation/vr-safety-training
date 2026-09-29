@@ -1,6 +1,6 @@
 key,value,source
-procedures,724,WebXR/smartcity/catalog.json stations.length
-smartcityStations,715,WebXR/smartcity/catalog.json stations where app = smartcity
+procedures,730,WebXR/smartcity/catalog.json stations.length
+smartcityStations,721,WebXR/smartcity/catalog.json stations where app = smartcity
 tradeSkillsRooms,9,WebXR/smartcity/catalog.json stations where app = trades
 programmes,61,WebXR/smartcity/js/curricula.js CURRICULA.length
 categories,20,WebXR/smartcity/catalog.json categories.length
@@ -13,11 +13,11 @@ coreCompetencies,10,WebXR/shared/competency.js CORE_COMPETENCIES.length
 profileLevels,33,WebXR/smartcity/catalog.json profile.levels
 programmeLadderLevels,1220,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
 programmeLadderLevelsFull,1219,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
-checkers,130,tools/check_all.mjs CHECKERS array
-evalProceduresScored,721,tools/eval-content.json results.length
+checkers,131,tools/check_all.mjs CHECKERS array
+evalProceduresScored,730,tools/eval-content.json results.length
 evalCorpusMean,95.8,tools/eval-content.json mean of results[].score
-evalBand95plus,595,tools/eval-content.json results with score >= 95
-evalBand90to94,122,tools/eval-content.json results with score 90-94
+evalBand95plus,602,tools/eval-content.json results with score >= 95
+evalBand90to94,124,tools/eval-content.json results with score 90-94
 evalBandBelow90,4,tools/eval-content.json results with score < 90
 bayWorldZones,16,WebXR/shared/bayworld-data.js BAY_ZONES.length
 bayWorldSites,53,WebXR/shared/bayworld-data.js BAY_SITES.length
