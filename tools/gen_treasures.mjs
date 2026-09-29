@@ -517,6 +517,19 @@ PLP.PL_FIELD_LESSONS.forEach((l) => {
     place: { id: l.site, stations: [l.k12, l.station] } });
 });
 
+// HARVEST (WebXR/shared/hv-harvest.js): a clean run at each hidden harvest activity by the water finds its treasure
+// once (tzHarvestRun); the lesson is the activity's own treasure line, re-read verbatim from the module.
+const HV = await imp("WebXR/shared/hv-harvest.js");
+const HV_SRC = rd("WebXR/shared/hv-harvest.js");
+const HV_T = [["fish", "Tackle Box", "hook"], ["crab", "Crab Line Float", "chest"], ["crawfish", "Crawfish Trap Tag", "chest"], ["rice", "Rice Field Gate Key", "chest"], ["gator-watch", "Gator Watch Log", "scroll"], ["shrimp", "Cast Net Weight", "coin"], ["oyster", "Reef Survey Frame", "scroll"]];
+for (const [activity, name, reveal] of HV_T) {
+  const lesson = HV.HV_TREASURE_LINES[activity];
+  if (!lesson || !HV_SRC.includes(`"${lesson}"`)) throw new Error(`harvest ${activity}'s line does not re-read verbatim`);
+  add({ id: `tz-harvest-${activity}`, name: `Harvest: ${name}`, surface: "parishes", world: "The Parishes", area: "Harvest spots",
+    set: "harvest-hands", how: "harvest", trigger: { world: "parishes", activity },
+    hint: "Find a hand-painted sign by the water and finish a clean run there.", reveal: reveal === "hook" ? "coin" : reveal, lesson, source: { file: "WebXR/shared/hv-harvest.js", text: true } });
+}
+
 // ------------------------------------------------------------ sets
 
 const SETS = [
@@ -536,6 +549,7 @@ const SETS = [
   ["tower-tags", "Tower Tags", "Ridge Walker", "A tag at the foot of every transmission tower on the ridge."],
   ["logbook-pages", "Lookout Logbook", "Lookout", "Pages from the fire lookout's logbook, blown along Redwood Reach's fire roads."],
   ["trail-blazes", "Trail Blazes", "Trail Hand", "A blaze on every foot trail through Redwood Reach."],
+  ["harvest-hands", "Harvest Hands", "Harvest Hand", "A clean run at every hidden harvest activity by the water on the parish maps."],
   ["field-scholar", "Field Scholar", "Field Scholar", "Every field lesson's check question answered, on Sierra Summit, in Redwood Reach and across the parishes."],
   ...SLP.SL_PARISHES.map((p) => [`storm-kits-${p.id}`, `${p.short} Storm Kits`, `${p.short} Storm Crew`, `A storm kit cache off every site in ${p.name}.`]),
   ...SGP.SG_DISTRICTS.map((d) => [`fog-kits-${d.id}`, `${d.short} Fog-Day Kits`, `${d.short} Fog Crew`, `A fog-day kit off every site in ${d.name}.`]),

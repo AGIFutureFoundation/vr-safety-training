@@ -921,6 +921,9 @@ APPS = {
             SHARED / "dx-world.js",
             # CLASSROOMS: rooms that teach (after by-parish-lessons, es-bay-lessons, ps-projectsim and cg-runner).
             SHARED / "cr-classrooms.js",
+            # HARVEST: hidden regional and seasonal activities (after np-parishes, tf-terraform, ty-economy, at-atmos, profiles,
+            # st-paths, and account.js, which brings treasures.js).
+            SHARED / "hv-harvest.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

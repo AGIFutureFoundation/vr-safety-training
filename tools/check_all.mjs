@@ -117,6 +117,8 @@ const CHECKERS = [
   "check_facades.mjs",
   // INTERFACE: the parishes menu in four tabs, every mount reachable, keyboard/gamepad order, 44 px touch at 390x844, onboarding (docs/consoles/INTERFACE.md).
   "check_interface.mjs",
+  // HARVEST: hidden fishing, crab, crawfish, rice and gator-watch spots — beside water, regional species, figure-free lines, adult gate, pay once (docs/consoles/HARVEST.md).
+  "check_harvest.mjs",
   // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).
   "check_npc.mjs",
   "check_investor.mjs",

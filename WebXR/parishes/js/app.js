@@ -75,6 +75,7 @@ import { psMountProjectSim, psSetRecorder } from "../../shared/ps-projectsim.js"
 // UNIONSIMS: the craft simulations register with PROJECTSIM's boards on import (docs/consoles/UNIONSIMS.md).
 import { usSims } from "../../shared/us-unionsims.js";
 import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
+import { hvMount } from "../../shared/hv-harvest.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -932,6 +933,12 @@ var crWorld = crMountClassrooms({
   three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
 });
+// HARVEST (docs/consoles/HARVEST.md): hidden fishing, crabbing, crawfish, rice and gator-watch spots by the water — found by
+// walking the banks, played from the Play tab (menu-harvest), each run teaching one line and paying Crew Credits once.
+var hvWorld = hvMount({
+  THREE, root, parish, el: $("menu-harvest"), toast: npToast, heightAt: (x, z) => npHeightAt(parish, x, z),
+  pos: () => (np.playing && !np.modal ? [np.x, np.z] : null), hour: () => AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12,
+});
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
@@ -951,6 +958,7 @@ window.__parishTest = {
   // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
   dean: () => dnHere,
   interiors: { mount: ixWorld, doors: ixDoors, rentals: () => ixRentalDoors(), use: () => npUse(), root }, // INTERIORS' browser pass
+  harvest: hvWorld,
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
