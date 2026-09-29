@@ -46,3 +46,9 @@ drill's score is the mean (0–100), passed at 80. The debrief lists only the dr
    read the station's sourced standards from `certification`.
 2. Reason: the fix from cycle 1 plus wiring (app, page, bundler, check_all, baseline) and this doc. Check:
    `check_drills` prints "All drills checks pass." Observed: pass — "4 drills · 21 objectives (21 resolve to a station step) · 13 placements · 8 GRIOT roles · 230 checks · 0 failed"; a hazard id swapped in for a step fails `[resolve]` (negative test); check_imports, check_newton, check_parishes pass; the parishes bundle builds (83 modules).
+3. Reason: prove the mount in the real page — `check_drills --live` (port 8977, headless Chromium) opens St. Bernard's menu,
+   runs the flood drill end to end with the safe calls, reads the debrief, and closes it. Observed: pass — "st-bernard menu 2
+   drills · flood drill run end to end · water plane 1→0 · debrief "100/100 on safe practice — drill passed." · 0 page errors".
+4. Reason: the still world — under `prefers-reduced-motion` the flood water stands at its final level from the start and does
+   not move. Check: the live pass's reduced-motion context (Orleans, lakefront levee). Observed: pass — "reduced motion water
+   still at 1.2 m" (235 checks · 0 failed).

@@ -194,6 +194,6 @@ export function drMountDrills({ three = null, root = null, parish, el = null, ti
     offer(drillId) { const it = drPlacesFor(parish.id).find((p) => p.drill === drillId); toast?.(it ? `Practice this as a drill: ${drDrill(drillId).name} at ${nameOf(it.site)} (menu → Scenario drills).` : `The ${drDrill(drillId)?.name ?? "drill"} drill runs in another map — see the menu.`, 5000); return !!it; },
     animate(dt) { if (!water || reducedMotion || !run || run.i < 0) return; const f = Math.min(1, (run.i + Math.min(1, elapsed() / 60)) / run.drill.objectives.length); water.position.y = water.userData.base + water.userData.rise * f; },
     active() { return run ? { drill: run.drill.id, site: run.site.id, objective: run.i } : null; },
-    counts() { return { places: drPlacesFor(parish.id).length, offered: list().length, meshes: water ? 1 : 0 }; },
+    counts() { return { places: drPlacesFor(parish.id).length, offered: list().length, meshes: water ? 1 : 0, waterRise: water ? +(water.position.y - water.userData.base).toFixed(3) : null }; },
   };
 }

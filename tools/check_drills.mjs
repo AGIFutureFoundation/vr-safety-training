@@ -154,6 +154,43 @@ check(rd("tools/check_all.mjs").includes('"check_drills.mjs"'), "wiring", "check
 const doc = existsSync(join(ROOT, "docs/consoles/DRILLS.md")) ? rd("docs/consoles/DRILLS.md") : "";
 check(doc.includes("## Seams") && doc.includes("## Cycles"), "doc", "DRILLS.md needs Seams and Cycles");
 
+// ---- live (optional, `--live`): the parishes page on port 8977 runs the flood drill end to end in headless Chromium.
+if (process.argv.includes("--live")) {
+  const { pvServe, pvLaunch, pvContext } = await import(pathToFileURL(join(ROOT, "tools", "lib", "pv_browser.mjs")).href);
+  const srv = await pvServe(Number(process.env.DR_PORT) || 8977);
+  const browser = await pvLaunch();
+  try {
+    const page = await (await pvContext(browser)).newPage();
+    const errors = [];
+    page.on("pageerror", (e) => errors.push(String(e.message)));
+    await page.goto(`${srv.base}/parishes/parishes.html?parish=st-bernard`, { waitUntil: "load" });
+    await page.waitForFunction(() => !!window.__parishTest?.drills, null, { timeout: 60000 });
+    const menu = await page.evaluate(() => document.querySelectorAll("#menu-drills [data-dr-open]").length);
+    check(menu === DR.drPlacesFor("st-bernard").length, "live", `menu lists ${menu} drills`);
+    const opened = await page.evaluate(() => window.__parishTest.drills.open("dr-flood", "sb-violet-floodgate"));
+    await page.click("[data-dr-go]");
+    const water = await page.evaluate(() => window.__parishTest.drills.counts().meshes);
+    for (let i = 0; i < flood.objectives.length; i += 1) await page.click('#dr-panel [data-dr="safe"]');
+    const debrief = await page.evaluate(() => document.getElementById("dr-panel").innerText);
+    await page.click("[data-dr-close]");
+    const after = await page.evaluate(() => window.__parishTest.drills.counts().meshes);
+    check(opened && water === 1 && after === 0, "live", `flood water plane ${water} during, ${after} after`);
+    check(/100\/100/.test(debrief) && /What went well/i.test(debrief) && /One improvement/i.test(debrief), "live", `debrief: ${debrief.slice(0, 120)}`);
+    check(errors.length === 0, "live", `page errors: ${errors.slice(0, 2).join(" | ")}`);
+    // Reduced motion: the water stands still at its final level from the start; the low tier adds no mesh.
+    const rm = await (await pvContext(browser, { reducedMotion: "reduce" })).newPage();
+    await rm.goto(`${srv.base}/parishes/parishes.html?parish=orleans`, { waitUntil: "load" });
+    await rm.waitForFunction(() => !!window.__parishTest?.drills, null, { timeout: 60000 });
+    await rm.evaluate(() => { window.__parishTest.drills.open("dr-flood", "lakefront-levee"); document.querySelector("[data-dr-go]").click(); });
+    const r0 = await rm.evaluate(() => window.__parishTest.drills.counts().waterRise);
+    await rm.waitForTimeout(1500);
+    const r1 = await rm.evaluate(() => window.__parishTest.drills.counts().waterRise);
+    check(r0 === flood.water.rise && r1 === r0, "live", `reduced motion water ${r0} → ${r1} (want still at ${flood.water.rise})`);
+    const score = debrief.split("\n").find((l) => l.includes("/100")) ?? "";
+    console.log(`  live: st-bernard menu ${menu} drills · flood drill run end to end · water plane ${water}→${after} · debrief "${score}" · reduced motion water still at ${r1} m · ${errors.length} page errors`);
+  } finally { await browser.close(); srv.close(); }
+}
+
 for (const d of drills) console.log(`  ${d.id.padEnd(11)} ${d.objectives.length} objectives · ${d.objectives.reduce((a, o) => a + o.seconds, 0)}s · ${[...new Set(d.objectives.map((o) => o.station))].length} stations · paths ${d.paths.join(", ")} · ${DR.DR_PLACES.filter((p) => p.drill === d.id).length} sites`);
 console.log(`\n  ${drills.length} drills · ${objectives} objectives (${resolved} resolve to a station step) · ${DR.DR_PLACES.length} placements · ${roles.size} GRIOT roles · ${passed} checks · ${failed} failed · ${Date.now() - T0} ms`);
 if (failed) process.exit(1);
