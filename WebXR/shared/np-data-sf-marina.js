@@ -1170,7 +1170,8 @@ export const NP_SF_MARINA = {
     -1159,
     -432
    ],
-   "kind": "bridge"
+   "kind": "bridge",
+   "lm": "golden-gate-bridge"
   },
   {
    "id": "fort-point",

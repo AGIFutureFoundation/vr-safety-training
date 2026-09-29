@@ -779,6 +779,8 @@ APPS = {
             SHARED / "np-data-oak-fruitvale-estuary.js",
             SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
+            # LANDMARKS: the landmark kit np-world.js draws a registry kind with (before np-world.js).
+            SHARED / "lm-landmarks.js",
             SHARED / "np-world.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
             SHARED / "tf-water.js",

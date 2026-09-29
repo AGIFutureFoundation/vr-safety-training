@@ -98,15 +98,18 @@ export const NP_SF_DOWNTOWN = {
     // sw:end
   ],
   landmarks: [
-    {"id":"the-ferry-building","name":"the Ferry Building","position":[440,-286],"kind":"place"},
-    {"id":"coit-tower","name":"Coit Tower","position":[-72,-623],"kind":"tower"},
+    {"id":"the-ferry-building","name":"the Ferry Building","position":[440,-286],"kind":"place","lm":"ferry-building"},
+    {"id":"coit-tower","name":"Coit Tower","position":[-72,-623],"kind":"tower","lm":"coit-tower"},
     {"id":"union-square","name":"Union Square","position":[-140,101],"kind":"square"},
     {"id":"chinatown","name":"Chinatown","position":[-88,-211],"kind":"neighbourhood"},
-    {"id":"bay-bridge-anchorage","name":"the Bay Bridge anchorage","position":[672,10],"kind":"bridge"},
-    {"id":"fishermans-wharf","name":"Fisherman's Wharf","position":[-440,-915],"kind":"wharf"},
+    {"id":"bay-bridge-anchorage","name":"the Bay Bridge anchorage","position":[672,10],"kind":"bridge","lm":"bay-bridge-suspension","lmAlong":0.5,"lmSpan":480},
+    {"id":"fishermans-wharf","name":"Fisherman's Wharf","position":[-440,-915],"kind":"wharf","lm":"wharf-pier-shed"},
     {"id":"aquatic-park","name":"Aquatic Park","position":[-700,-844],"kind":"park"},
     {"id":"palace-of-fine-arts","name":"the Palace of Fine Arts","position":[-1807,-573],"kind":"place"},
     {"id":"civic-center","name":"Civic Center","position":[-560,528],"kind":"plaza"},
+    {"id":"transamerica-pyramid","name":"the Transamerica Pyramid","position":[48,-261],"kind":"place","lm":"transamerica-pyramid"},
+    {"id":"powell-street-turntable","name":"the cable-car turntable at Powell Street","position":[-152,266],"kind":"place","lm":"cable-car-turntable"},
+    {"id":"painted-ladies","name":"the Painted Ladies at Alamo Square","position":[-1224,694],"kind":"place","lm":"painted-ladies"},
     {"id":"lombard-street-crooked-block","name":"Lombard Street's crooked block","position":[-588,-608],"kind":"street"},
   ],
   connectors: [
