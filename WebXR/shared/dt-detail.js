@@ -214,7 +214,7 @@ function dtRegionColours(parish) {
 
 /** A growable per-family buffer. */
 class DtBuf {
-  constructor() { this.n = 0; this.mats = new Float32Array(256 * 16); this.cols = new Float32Array(256 * 3); }
+  constructor() { this.n = 0; this.mats = new Float32Array(1024 * 16); this.cols = new Float32Array(1024 * 3); }
   push(x, y, z, yaw, sx, sy, sz, r, g, b) {
     if (this.n * 16 >= this.mats.length) { const m = new Float32Array(this.mats.length * 2); m.set(this.mats); this.mats = m; const c = new Float32Array(this.cols.length * 2); c.set(this.cols); this.cols = c; }
     const c = Math.cos(yaw), s = Math.sin(yaw), o = this.n * 16, m = this.mats;
@@ -233,10 +233,11 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   const prep = npPrepare(parish);
   const keepP = (DT_DENSITY[tier] ?? 1) * ((DT_FADE[tier] ?? DT_FADE.high)[ring] ?? 0);
   // tally: also count what every tier would keep at this ring, in the same pass (the checker's ratio walk).
-  const tiers = tally ? Object.keys(DT_DENSITY).map((t) => [t, DT_DENSITY[t] * ((DT_FADE[t] ?? DT_FADE.high)[ring] ?? 0)]) : [];
-  const counts = Object.fromEntries(tiers.map(([t]) => [t, 0]));
+  // (Flat arrays, not [tier, p] pairs: this runs once per candidate — DETAIL-2 cut its allocations.)
+  const tierIds = tally ? Object.keys(DT_DENSITY) : [], nT = tierIds.length;
+  const tierP = new Float64Array(tierIds.map((t) => DT_DENSITY[t] * ((DT_FADE[t] ?? DT_FADE.high)[ring] ?? 0))), tierN = new Float64Array(nT);
   const bufs = DT_FAMILIES.map(() => new DtBuf());
-  const out = () => { const families = {}; let count = 0; DT_FAMILIES.forEach((f, i) => { families[f.id] = bufs[i].trim(); count += bufs[i].n; }); return { families, count, tiers: counts }; };
+  const out = () => { const families = {}; let count = 0; DT_FAMILIES.forEach((f, i) => { families[f.id] = bufs[i].trim(); count += bufs[i].n; }); const counts = {}; tierIds.forEach((t, i) => { counts[t] = tierN[i]; }); return { families, count, tiers: counts }; };
   if (keepP <= 0) return out();
   const x0 = -NP_SIZE / 2 + cx * NP_CHUNK, z0 = -NP_SIZE / 2 + cz * NP_CHUNK;
   const rng = npRng((prep.seed ^ Math.imul(cx + 101, 0x9e3779b1) ^ Math.imul(cz + 211, 0x85ebca77) ^ 0xd7a11) >>> 0);
@@ -253,10 +254,13 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
   const cover = new Array(DT_CELLS * DT_CELLS);
   for (let j = 0; j < DT_CELLS; j++) for (let i = 0; i < DT_CELLS; i++) cover[j * DT_CELLS + i] = npCoverAt(parish, x0 + (i + 0.5) * DT_CELL, z0 + (j + 0.5) * DT_CELL);
   const isWet = (c) => c === "water";
+  // Is a 4-neighbour inside the chunk wet (want = true) or dry (want = false)? (No per-cell arrays or closures.)
+  const nbWet = (i, j, want) => (i + 1 < DT_CELLS && isWet(cover[j * DT_CELLS + i + 1]) === want) || (i > 0 && isWet(cover[j * DT_CELLS + i - 1]) === want)
+    || (j + 1 < DT_CELLS && isWet(cover[(j + 1) * DT_CELLS + i]) === want) || (j > 0 && isWet(cover[(j - 1) * DT_CELLS + i]) === want);
   const put = (fam, kind, x, y, z, yaw, jit = 0.25, extra = null) => {
     // Every candidate draws its numbers first, then one threshold keeps it: lower tiers and farther rings are subsets.
     const u = rng(), a = rng(), b = rng(), e = rng();
-    for (const [t, p] of tiers) if (u < p) counts[t]++;
+    for (let q = 0; q < nT; q++) if (u < tierP[q]) tierN[q]++;
     if (u >= keepP) return;
     const sc = extra ?? DT_SCALE[kind] ?? [1, 1, 1], k = 1 - jit + a * jit * 2;
     let col = DT_COLOUR[kind];
@@ -273,10 +277,10 @@ export function dtDetailForChunk(parish, cx, cz, tier = "high", { ring = 0, spot
     if (c === "road") continue;
     let row = c;
     if (isWet(c)) {
-      const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([di, dj]) => { const ii = i + di, jj = j + dj; return ii >= 0 && jj >= 0 && ii < DT_CELLS && jj < DT_CELLS && !isWet(cover[jj * DT_CELLS + ii]); });
+      const nb = nbWet(i, j, false);
       row = nb ? (V.la ? "bayouedge" : "edgewater") : (V.la ? "crabwater" : "water");
     } else if (c !== "wetland") {
-      const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([di, dj]) => { const ii = i + di, jj = j + dj; return ii >= 0 && jj >= 0 && ii < DT_CELLS && jj < DT_CELLS && isWet(cover[jj * DT_CELLS + ii]); });
+      const nb = nbWet(i, j, true);
       row = nb ? (V.la ? "bayoushore" : "shore") : (variantAt(c, x0 + (i + 0.5) * DT_CELL, z0 + (j + 0.5) * DT_CELL) ?? dtCharacterRow(c));
     } else if (V.la) row = "cypress";
     const tab = DT_TABLE[row] ?? DT_TABLE.grass;
