@@ -230,15 +230,6 @@
       "why": "A pay slip is a small table of arithmetic. The gross pay is what was earned, the deductions are what is taken before it reaches you, and the net pay is what arrives. Finding all three first stops you planning with the wrong number, which is the commonest mistake a first-time earner makes."
     },
     {
-      "cue": "Turn the slip face down when you are not working on it.",
-      "id": "keep-your-practice-details-private",
-      "kind": "select",
-      "prompt": "Turn the slip face down when you are not working on it.",
-      "target": "kbp-private-card",
-      "title": "Keep your practice details private",
-      "why": "Keeping personal financial details private is a life skill in its own right, and it starts in practice. The slip uses made-up details, but turning it face down when you are not working on it builds the same habit you will need with a real slip, a bank card or a message asking for account details."
-    },
-    {
       "cue": "Net pay first, then needs, then something saved, then wants.",
       "id": "put-the-budget-steps-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "The order is what makes a budget work. Starting from the net pay tells you what you actually have; covering needs such as rent, food and travel comes next because they cannot be skipped; setting something aside before the wants means saving actually happens, instead of being whatever is left."
     },
     {
-      "cue": "Hold your place and add the bills on the table one by one.",
-      "holdBreakNote": "You lost your place and skipped a bill. Go back to the last one you are sure of.",
-      "id": "add-up-the-bills-without-skipping",
-      "kind": "hold",
-      "prompt": "Hold your place and add the bills on the table one by one.",
-      "seconds": 6,
-      "target": "kbp-add-bills",
-      "title": "Add up the bills without skipping one",
-      "why": "Adding a column of bills is easy to get wrong by skipping one or counting one twice. Working through them one by one, keeping your place, gives a total you can trust; it is the same care anyone takes with a real month's bills, where one forgotten bill can undo the whole plan."
+      "cue": "Turn the slip face down when you are not working on it.",
+      "id": "keep-your-practice-details-private",
+      "kind": "select",
+      "prompt": "Turn the slip face down when you are not working on it.",
+      "target": "kbp-private-card",
+      "title": "Keep your practice details private",
+      "why": "Keeping personal financial details private is a life skill in its own right, and it starts in practice. The slip uses made-up details, but turning it face down when you are not working on it builds the same habit you will need with a real slip, a bank card or a message asking for account details."
     },
     {
       "cue": "Turn the dial from the fraction of pay spent on rent to the same amount as a percentage.",
@@ -303,6 +292,17 @@
       "why": "Saving too little leaves nothing for a surprise; saving so much that the needs go unpaid leads to borrowing, which undoes the saving. A realistic amount is one the month can actually bear, and it is the same judgement adults make every month."
     },
     {
+      "cue": "Hold your place and add the bills on the table one by one.",
+      "holdBreakNote": "You lost your place and skipped a bill. Go back to the last one you are sure of.",
+      "id": "add-up-the-bills-without-skipping",
+      "kind": "hold",
+      "prompt": "Hold your place and add the bills on the table one by one.",
+      "seconds": 6,
+      "target": "kbp-add-bills",
+      "title": "Add up the bills without skipping one",
+      "why": "Adding a column of bills is easy to get wrong by skipping one or counting one twice. Working through them one by one, keeping your place, gives a total you can trust; it is the same care anyone takes with a real month's bills, where one forgotten bill can undo the whole plan."
+    },
+    {
       "cue": "A surprise cost arrives. Drag it onto the amount you kept back.",
       "drag": {
         "missNote": "It is not covered yet. Take it all the way to what you kept back.",
@@ -315,15 +315,6 @@
       "target": "kbp-surprise-token",
       "title": "Cover the surprise from the buffer",
       "why": "This is what the kept-back amount is for. Covering a surprise from the buffer, rather than from the needs or by borrowing, shows the plan working exactly as designed, and it is why every budget keeps something in reserve."
-    },
-    {
-      "cue": "Check that everything planned adds up to the net pay, no more.",
-      "id": "check-the-budget-balances",
-      "kind": "select",
-      "prompt": "Check that everything planned adds up to the net pay, no more.",
-      "target": "kbp-check-card",
-      "title": "Check the budget balances",
-      "why": "A budget balances when everything planned adds up to what arrives. Checking it before the month starts, rather than finding out at the end, is what separates a plan from a hope, and it is the same check a business does with its own accounts."
     },
     {
       "cue": "Look at the draft budget and mark each problem before it is handed in.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's budget",
       "why": "Checking someone else's budget trains you to see the traps in your own. The usual problems are planning from the gross pay, a percentage taken of the wrong total and nothing kept back for surprises. Each one looks fine on paper until the month begins."
+    },
+    {
+      "cue": "Check that everything planned adds up to the net pay, no more.",
+      "id": "check-the-budget-balances",
+      "kind": "select",
+      "prompt": "Check that everything planned adds up to the net pay, no more.",
+      "target": "kbp-check-card",
+      "title": "Check the budget balances",
+      "why": "A budget balances when everything planned adds up to what arrives. Checking it before the month starts, rather than finding out at the end, is what separates a plan from a hope, and it is the same check a business does with its own accounts."
     },
     {
       "cue": "Hold spending in band with the plan as the weeks go by.",

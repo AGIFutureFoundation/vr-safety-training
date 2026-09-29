@@ -188,7 +188,7 @@
       "scale-some-ingredients",
       "skip-washing-hands"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "A heaped spoon can hold a lot more than a level one, which quietly undoes careful arithmetic. Levelling each spoonful makes the measurement match the number you calculated, the same way a scientist reads a measuring cylinder at eye level."
     },
     {
+      "cue": "Say which is bigger, a half or a quarter, and why.",
+      "id": "say-which-fraction-is-bigger",
+      "kind": "select",
+      "prompt": "Say which is bigger, a half or a quarter, and why.",
+      "target": "kfk-compare-card",
+      "title": "Say which fraction is bigger",
+      "why": "A half is bigger than a quarter because the whole is cut into fewer, larger parts. Being able to say why, not just which, is the understanding that stops the commonest fraction mistake."
+    },
+    {
+      "cue": "Look at the draft scaled recipe and mark each problem.",
+      "decoyNotes": {
+        "kfk-rc-fraction-written": "Writing the fraction once at the top is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kfk-rc-no-unit": "a quantity with no unit",
+        "kfk-rc-unscaled": "an ingredient left unscaled",
+        "kfk-rc-wrong-way": "a quarter written as more than a half"
+      },
+      "itemNotes": {
+        "kfk-rc-no-unit": "Keep the unit with the number.",
+        "kfk-rc-unscaled": "Every quantity gets the same fraction.",
+        "kfk-rc-wrong-way": "More parts means smaller parts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft scaled recipe and mark each problem.",
+      "targets": [
+        "kfk-rc-unscaled",
+        "kfk-rc-no-unit",
+        "kfk-rc-wrong-way"
+      ],
+      "title": "Spot the problems in a classmate's scaled recipe",
+      "why": "Scaled recipes go wrong in predictable ways: one ingredient left unscaled, a unit lost and a fraction compared the wrong way round. Spotting them in someone else's card helps you check your own."
+    },
+    {
       "cue": "Turn the dial from the whole recipe to half, for half as many people.",
       "id": "turn-the-recipe-from-whole-to",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kfk-spoon-token",
       "title": "Choose the right measuring spoon",
       "why": "Half of a half is a quarter, which is why the quarter spoon is the right one here. Choosing the right measure, rather than guessing with the wrong one and hoping, is fractions used for real, and it is the moment the arithmetic on the card becomes food in the bowl."
-    },
-    {
-      "cue": "Say which is bigger, a half or a quarter, and why.",
-      "id": "say-which-fraction-is-bigger",
-      "kind": "select",
-      "prompt": "Say which is bigger, a half or a quarter, and why.",
-      "target": "kfk-compare-card",
-      "title": "Say which fraction is bigger",
-      "why": "A half is bigger than a quarter because the whole is cut into fewer, larger parts. Being able to say why, not just which, is the understanding that stops the commonest fraction mistake."
-    },
-    {
-      "cue": "Look at the draft scaled recipe and mark each problem.",
-      "decoyNotes": {
-        "kfk-rc-fraction-written": "Writing the fraction once at the top is good practice. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmate",
-      "itemNames": {
-        "kfk-rc-no-unit": "a quantity with no unit",
-        "kfk-rc-unscaled": "an ingredient left unscaled",
-        "kfk-rc-wrong-way": "a quarter written as more than a half"
-      },
-      "itemNotes": {
-        "kfk-rc-no-unit": "Keep the unit with the number.",
-        "kfk-rc-unscaled": "Every quantity gets the same fraction.",
-        "kfk-rc-wrong-way": "More parts means smaller parts."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft scaled recipe and mark each problem.",
-      "targets": [
-        "kfk-rc-unscaled",
-        "kfk-rc-no-unit",
-        "kfk-rc-wrong-way"
-      ],
-      "title": "Spot the problems in a classmate's scaled recipe",
-      "why": "Scaled recipes go wrong in predictable ways: one ingredient left unscaled, a unit lost and a fraction compared the wrong way round. Spotting them in someone else's card helps you check your own."
     },
     {
       "cue": "Hold the mix in band with the scaled recipe as you combine the ingredients.",

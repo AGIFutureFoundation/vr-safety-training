@@ -47,7 +47,7 @@
     "check_tracks.mjs": 1102,
     "check_signage.mjs": 12323,
     "check_fleet.mjs": 474,
-    "check_race.mjs": 8934,
+    "check_race.mjs": 10788,
     "check_arcade.mjs": 421,
     "check_eggs.mjs": 1723,
     "check_eggs_app.mjs": 294,
@@ -63,7 +63,7 @@
     "check_gates.mjs": 233,
     "check_parish_play.mjs": 596,
     "check_krewe.mjs": 24270,
-    "check_unity_export.mjs": 6182,
+    "check_unity_export.mjs": 7776,
     "check_sky.mjs": 109,
     "check_regatta.mjs": 1096,
     "check_underwater.mjs": 316,
@@ -89,10 +89,13 @@
     "check_proving.mjs": 170,
     "check_payments.mjs": 2000,
     "check_drivables.mjs": 579,
-    "check_parishes.mjs": 11024,
+    "check_parishes.mjs": 17679,
     "check_npc.mjs": 1332
   },
   "notes": {
-    "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression."
+    "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression.",
+    "check_parishes.mjs": "2026-09-29 01:10 UTC: rebaselined 11.0 s -> 17.7 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the engine checks ten maps (five New Orleans parishes and five San Francisco districts, all strict) instead of five.",
+    "check_unity_export.mjs": "2026-09-29 01:10 UTC: rebaselined 6.2 s -> 7.8 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the export carries the twelve Bayou K-12 stations and the San Francisco content.",
+    "check_race.mjs": "2026-09-29 01:10 UTC: rebaselined 8.9 s -> 10.8 s on a quiet run (load 1.6 -> 2.6 on 4 cores): race.html grew by the shared bar and design-system modules that the Crescent run and the Holodeck rescue bundle into every page."
   }
 }

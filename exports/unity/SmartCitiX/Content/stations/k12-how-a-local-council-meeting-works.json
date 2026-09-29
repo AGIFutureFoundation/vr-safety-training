@@ -188,7 +188,7 @@
       "rely-on-memory-for-the-decision",
       "speak-without-signing-up"
     ],
-    "meshes": 275
+    "meshes": 297
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "A public meeting runs on three things residents can use: the agenda that lists what will be discussed, the sign-up sheet for public comment and the minutes that record what was decided. Knowing where each is lets anyone take part, not just people who have been before. The council here is generic, not any real one."
     },
     {
-      "cue": "Find the item you care about on the agenda and when it comes up.",
-      "id": "read-the-agenda-before-the-meeting",
-      "kind": "select",
-      "prompt": "Find the item you care about on the agenda and when it comes up.",
-      "target": "kcm-agenda-card",
-      "title": "Read the agenda before the meeting",
-      "why": "Reading the agenda tells you whether the issue you care about is being discussed and roughly when. Public comment on the item under discussion is heard at the right moment; turning up without reading it means missing your chance."
-    },
-    {
       "cue": "Your name and where you live, the item, your point, what you ask for.",
       "id": "put-the-public-comment-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "An effective public comment is short and in a clear order: who you are, which item you are speaking on, the point you want to make and what you are asking the council to do. The order helps the council, the clerk and the other residents follow you."
     },
     {
-      "cue": "Hold still and listen to the council's discussion of the item.",
-      "holdBreakNote": "You stopped listening and started rehearsing. Listen to what is actually being said.",
-      "id": "listen-to-the-discussion-before-you",
-      "kind": "hold",
-      "prompt": "Hold still and listen to the council's discussion of the item.",
-      "seconds": 6,
-      "target": "kcm-listen-debate",
-      "title": "Listen to the discussion before you speak",
-      "why": "Listening to the discussion first tells you what has already been said and what the council is unsure about. A comment that answers a real question in the room is far more useful than one that repeats what everyone has heard."
+      "cue": "Find the item you care about on the agenda and when it comes up.",
+      "id": "read-the-agenda-before-the-meeting",
+      "kind": "select",
+      "prompt": "Find the item you care about on the agenda and when it comes up.",
+      "target": "kcm-agenda-card",
+      "title": "Read the agenda before the meeting",
+      "why": "Reading the agenda tells you whether the issue you care about is being discussed and roughly when. Public comment on the item under discussion is heard at the right moment; turning up without reading it means missing your chance."
     },
     {
       "cue": "Your name is called. Turn from listening to speaking.",
@@ -303,6 +292,17 @@
       "why": "Public comment is usually short, which tempts people to rush. A clear, steady pace makes sure the council and the clerk actually catch your point; a rushed one loses it. Practising the comment aloud beforehand is the easiest way to find the pace that fits the time allowed."
     },
     {
+      "cue": "Hold still and listen to the council's discussion of the item.",
+      "holdBreakNote": "You stopped listening and started rehearsing. Listen to what is actually being said.",
+      "id": "listen-to-the-discussion-before-you",
+      "kind": "hold",
+      "prompt": "Hold still and listen to the council's discussion of the item.",
+      "seconds": 6,
+      "target": "kcm-listen-debate",
+      "title": "Listen to the discussion before you speak",
+      "why": "Listening to the discussion first tells you what has already been said and what the council is unsure about. A comment that answers a real question in the room is far more useful than one that repeats what everyone has heard."
+    },
+    {
       "cue": "Drag your written comment to the clerk so it can be entered in the record.",
       "drag": {
         "missNote": "Not in place yet. Take it all the way to with the clerk.",
@@ -315,15 +315,6 @@
       "target": "kcm-comment-token",
       "title": "Hand your written comment to the clerk",
       "why": "Handing a written version to the clerk means your point is recorded accurately, even if the minutes summarise the spoken comments. It is a simple step that makes a public comment last beyond the meeting. A written copy also helps the clerk record your point accurately in the minutes."
-    },
-    {
-      "cue": "Make your point about the issue and what should be done, not about a person.",
-      "id": "keep-it-about-the-issue",
-      "kind": "select",
-      "prompt": "Make your point about the issue and what should be done, not about a person.",
-      "target": "kcm-respect-card",
-      "title": "Keep it about the issue",
-      "why": "Comments about the issue are heard; comments about a person are resisted. Keeping to the issue and what you want done is both more respectful and more effective, and it is what most meetings' conduct rules ask for. Speaking to the chair keeps the exchange about the issue rather than about the people in the room."
     },
     {
       "cue": "Look at the draft public comment and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's comment",
       "why": "Public comments go wrong in predictable ways: no clear ask, a personal attack and a claim with no source. Spotting them in a draft is how you learn to write a comment that gets heard. The usual problems are the same every time: wandering off the item, running long and leaving out the ask."
+    },
+    {
+      "cue": "Make your point about the issue and what should be done, not about a person.",
+      "id": "keep-it-about-the-issue",
+      "kind": "select",
+      "prompt": "Make your point about the issue and what should be done, not about a person.",
+      "target": "kcm-respect-card",
+      "title": "Keep it about the issue",
+      "why": "Comments about the issue are heard; comments about a person are resisted. Keeping to the issue and what you want done is both more respectful and more effective, and it is what most meetings' conduct rules ask for. Speaking to the chair keeps the exchange about the issue rather than about the people in the room."
     },
     {
       "cue": "Hold your composure in band as another resident speaks against your point.",

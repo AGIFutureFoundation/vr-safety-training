@@ -188,7 +188,7 @@
       "plug-into-the-wall",
       "short-the-battery"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "Tracing the loop by hand finds a loose clip or a gap faster than guessing. If your finger cannot get back to where it started along wires and parts, the current cannot either, and the bulb will stay dark. Finding the break by following the loop, part by part, is the same fault-finding an electrician does."
     },
     {
+      "cue": "Say what you do if a battery or wire feels warm.",
+      "id": "say-what-to-do-if-a",
+      "kind": "select",
+      "prompt": "Say what you do if a battery or wire feels warm.",
+      "target": "kce-warm-card",
+      "title": "Say what to do if a battery feels warm",
+      "why": "A warm battery or wire is a sign that something is wrong, often a short. Disconnecting it and telling the teacher at once is the rule, and knowing it before anything warms up is what lets you act quickly. A warm wire or battery is a sign to disconnect and tell the teacher, never to carry on."
+    },
+    {
+      "cue": "Look at the classmate's circuit and mark each fault.",
+      "decoyNotes": {
+        "kce-fault-tidy": "Tidy wiring makes faults easy to find. Keep it."
+      },
+      "id": "spot-the-faults-in-a-classmate",
+      "itemNames": {
+        "kce-fault-gap": "a gap in the loop",
+        "kce-fault-loose-bulb": "a bulb not seated",
+        "kce-fault-short": "a wire straight across the battery"
+      },
+      "itemNotes": {
+        "kce-fault-gap": "No complete loop, no current. Close it.",
+        "kce-fault-loose-bulb": "A loose bulb is a gap. Seat it.",
+        "kce-fault-short": "A short circuit. Take it out before the battery goes in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the classmate's circuit and mark each fault.",
+      "targets": [
+        "kce-fault-gap",
+        "kce-fault-short",
+        "kce-fault-loose-bulb"
+      ],
+      "title": "Spot the faults in a classmate's circuit",
+      "why": "Fault-finding is what makes circuits make sense. The usual faults are a gap in the loop, a wire straight across the battery and a bulb not seated in its holder. Finding them in someone else's circuit, with the battery out, trains the same method you will use on your own."
+    },
+    {
       "cue": "Turn the switch to close the gap in the loop.",
       "id": "close-the-switch",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kce-bulb-token",
       "title": "Move the second bulb onto its own branch",
       "why": "In parallel, each bulb has its own branch back to the battery, so each gets the full push and glows as brightly as one alone. Moving the bulb and seeing the change is the clearest way to learn the difference between series and parallel."
-    },
-    {
-      "cue": "Say what you do if a battery or wire feels warm.",
-      "id": "say-what-to-do-if-a",
-      "kind": "select",
-      "prompt": "Say what you do if a battery or wire feels warm.",
-      "target": "kce-warm-card",
-      "title": "Say what to do if a battery feels warm",
-      "why": "A warm battery or wire is a sign that something is wrong, often a short. Disconnecting it and telling the teacher at once is the rule, and knowing it before anything warms up is what lets you act quickly. A warm wire or battery is a sign to disconnect and tell the teacher, never to carry on."
-    },
-    {
-      "cue": "Look at the classmate's circuit and mark each fault.",
-      "decoyNotes": {
-        "kce-fault-tidy": "Tidy wiring makes faults easy to find. Keep it."
-      },
-      "id": "spot-the-faults-in-a-classmate",
-      "itemNames": {
-        "kce-fault-gap": "a gap in the loop",
-        "kce-fault-loose-bulb": "a bulb not seated",
-        "kce-fault-short": "a wire straight across the battery"
-      },
-      "itemNotes": {
-        "kce-fault-gap": "No complete loop, no current. Close it.",
-        "kce-fault-loose-bulb": "A loose bulb is a gap. Seat it.",
-        "kce-fault-short": "A short circuit. Take it out before the battery goes in."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the classmate's circuit and mark each fault.",
-      "targets": [
-        "kce-fault-gap",
-        "kce-fault-short",
-        "kce-fault-loose-bulb"
-      ],
-      "title": "Spot the faults in a classmate's circuit",
-      "why": "Fault-finding is what makes circuits make sense. The usual faults are a gap in the loop, a wire straight across the battery and a bulb not seated in its holder. Finding them in someone else's circuit, with the battery out, trains the same method you will use on your own."
     },
     {
       "cue": "Hold your attention in band as you switch between series and parallel and note each change.",

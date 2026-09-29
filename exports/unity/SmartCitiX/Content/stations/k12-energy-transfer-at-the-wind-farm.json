@@ -188,7 +188,7 @@
       "kew-watch-lamp",
       "say-the-turbine-makes-energy"
     ],
-    "meshes": 275
+    "meshes": 235
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "Following energy starts with finding where it is: in the moving air from the fan, in the turning blades and shaft, and in the electrical circuit that lights the small lamp. Naming each store and transfer before testing anything is what lets you tell the full energy story afterwards."
     },
     {
-      "cue": "Stand at the visitor point; the guide brings the model turbine to you.",
-      "id": "take-your-place-behind-the-barrier",
-      "kind": "select",
-      "prompt": "Stand at the visitor point; the guide brings the model turbine to you.",
-      "target": "kew-barrier-card",
-      "title": "Take your place behind the barrier",
-      "why": "The visitor barrier keeps people clear of the working area around real turbines, and the model is brought to the visitor point for exactly that reason. Starting behind the barrier is the site's rule, and a lesson at a working site always keeps the site's rules first."
-    },
-    {
       "cue": "Moving air, turning blades, generator, electricity in the circuit.",
       "id": "put-the-energy-chain-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "Each link in the chain passes energy to the next: moving air pushes the blades, the turning shaft drives the generator, and the generator transfers energy into the circuit. Putting the links in order shows how the energy travels, which matters far more than memorising the words."
     },
     {
-      "cue": "Keep still and watch the lamp brighten as the model's blades speed up.",
-      "holdBreakNote": "You nudged the model and spoiled the observation. Let it run on its own again.",
-      "id": "watch-the-lamp-as-the-blades",
-      "kind": "hold",
-      "prompt": "Keep still and watch the lamp brighten as the model's blades speed up.",
-      "seconds": 6,
-      "target": "kew-watch-lamp",
-      "title": "Watch the lamp as the blades turn",
-      "why": "Watching the lamp while the blades turn links something you can see to the energy transfer you cannot. Keeping still and watching carefully, without nudging the model, lets you see the lamp respond to the moving air, which is the evidence for the whole chain."
+      "cue": "Stand at the visitor point; the guide brings the model turbine to you.",
+      "id": "take-your-place-behind-the-barrier",
+      "kind": "select",
+      "prompt": "Stand at the visitor point; the guide brings the model turbine to you.",
+      "target": "kew-barrier-card",
+      "title": "Take your place behind the barrier",
+      "why": "The visitor barrier keeps people clear of the working area around real turbines, and the model is brought to the visitor point for exactly that reason. Starting behind the barrier is the site's rule, and a lesson at a working site always keeps the site's rules first."
     },
     {
       "cue": "Turn only the fan setting up, keeping the blades the same.",
@@ -303,6 +292,17 @@
       "why": "Blades flat to the wind are pushed but do not turn well; blades edge on let the air slip past. An angle in between turns the push of the air into rotation best, which is why real turbines can change their blade angle. Turning the blades lets a turbine catch more of a gentle wind and spill some of a strong one."
     },
     {
+      "cue": "Keep still and watch the lamp brighten as the model's blades speed up.",
+      "holdBreakNote": "You nudged the model and spoiled the observation. Let it run on its own again.",
+      "id": "watch-the-lamp-as-the-blades",
+      "kind": "hold",
+      "prompt": "Keep still and watch the lamp brighten as the model's blades speed up.",
+      "seconds": 6,
+      "target": "kew-watch-lamp",
+      "title": "Watch the lamp as the blades turn",
+      "why": "Watching the lamp while the blades turn links something you can see to the energy transfer you cannot. Keeping still and watching carefully, without nudging the model, lets you see the lamp respond to the moving air, which is the evidence for the whole chain."
+    },
+    {
       "cue": "Drag your result card onto the class results board beside everyone else's.",
       "drag": {
         "missNote": "Not in place yet. Take it all the way to on the class results board.",
@@ -315,15 +315,6 @@
       "target": "kew-result-token",
       "title": "Put your result on the class board",
       "why": "One group's result could be a fluke; the whole class's results together show whether the pattern is real. Putting yours on the board is how science builds confidence in a finding, and it lets the class spot any result worth repeating. Comparing results across groups shows which patterns hold up and which were chance."
-    },
-    {
-      "cue": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
-      "id": "name-where-energy-is-wasted",
-      "kind": "select",
-      "prompt": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
-      "target": "kew-waste-card",
-      "title": "Name where energy is wasted",
-      "why": "The hum and the warm shaft are energy transferred to places we did not want: sound and heat. Naming the wasted energy completes the story and explains why no machine turns all of its input into useful output. Engineers work to reduce that waste, but they can never remove it completely."
     },
     {
       "cue": "Look at the classmate's energy story and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's energy story",
       "why": "Energy stories go wrong in predictable ways: saying energy is made, forgetting wasted energy and drawing a conclusion from an unfair test. Spotting them in someone else's story makes your own explanation more careful and more complete. Finding a missing step in someone else's chain often reveals the same gap in your own."
+    },
+    {
+      "cue": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
+      "id": "name-where-energy-is-wasted",
+      "kind": "select",
+      "prompt": "The model hums and the shaft is slightly warm. Say where energy is being wasted.",
+      "target": "kew-waste-card",
+      "title": "Name where energy is wasted",
+      "why": "The hum and the warm shaft are energy transferred to places we did not want: sound and heat. Naming the wasted energy completes the story and explains why no machine turns all of its input into useful output. Engineers work to reduce that waste, but they can never remove it completely."
     },
     {
       "cue": "Hold your notes in band with what the lamp actually does as you change settings.",

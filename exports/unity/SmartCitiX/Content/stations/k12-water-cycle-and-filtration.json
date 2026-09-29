@@ -188,7 +188,7 @@
       "skip-the-control-jar",
       "taste-the-filtered-water"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "The water cycle is not only a diagram: it is happening around the plant right now. A puddle drying in the sun is evaporation, droplets forming on a cold pipe are condensation, and rain gathering into the channel is collection. Finding the stages in a real place is what makes the diagram mean something, and it is how a scientist starts: by looking."
     },
     {
-      "cue": "Stand on the marked walkway behind the rail before the educator brings the samples.",
-      "id": "take-your-place-behind-the-rail",
-      "kind": "select",
-      "prompt": "Stand on the marked walkway behind the rail before the educator brings the samples.",
-      "target": "kwf-behind-rail",
-      "title": "Take your place behind the rail",
-      "why": "At any working plant the visitors' walkway and rail are the first rule, and the educator brings the water to the bench so that nobody has to go near a channel edge. Starting every visit behind the rail is the same habit a real operator keeps: the site's safety line comes before the curiosity, however interesting the channel is."
-    },
-    {
       "cue": "Evaporation, condensation, precipitation, collection.",
       "id": "put-the-cycle-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "The stages follow from each other: warm water evaporates, the vapour cools and condenses into clouds, the droplets grow heavy and fall as precipitation, and the water collects in seas, lakes and channels until it is warmed again. Putting them in order shows the cause linking each stage to the next, which matters more than remembering the names."
     },
     {
-      "cue": "Keep still and watch the muddy jar as the heavier bits sink.",
-      "holdBreakNote": "The jar was shaken and the mud came back up. Keep it still and let the heavy bits sink.",
-      "id": "watch-the-jar-settle-without-shaking",
-      "kind": "hold",
-      "prompt": "Keep still and watch the muddy jar as the heavier bits sink.",
-      "seconds": 6,
-      "target": "kwf-watch-settle",
-      "title": "Watch the jar settle without shaking it",
-      "why": "Settling is the first thing a treatment plant does, and it works only if the water is left still: heavy particles sink under their own weight and the water above them clears. Watching without shaking the jar lets you see sedimentation happen, and it shows why the plant's settling channels are long and calm."
+      "cue": "Stand on the marked walkway behind the rail before the educator brings the samples.",
+      "id": "take-your-place-behind-the-rail",
+      "kind": "select",
+      "prompt": "Stand on the marked walkway behind the rail before the educator brings the samples.",
+      "target": "kwf-behind-rail",
+      "title": "Take your place behind the rail",
+      "why": "At any working plant the visitors' walkway and rail are the first rule, and the educator brings the water to the bench so that nobody has to go near a channel edge. Starting every visit behind the rail is the same habit a real operator keeps: the site's safety line comes before the curiosity, however interesting the channel is."
     },
     {
       "cue": "Turn the selector to the finer layer that goes under the gravel: sand.",
@@ -303,6 +292,17 @@
       "why": "Pouring too fast stirs up the top layer and pushes mud straight through, so the filter looks like it failed when really the test was spoiled. A slow, even pour lets every layer do its work, and it is why a real filter is fed gently and evenly rather than all at once."
     },
     {
+      "cue": "Keep still and watch the muddy jar as the heavier bits sink.",
+      "holdBreakNote": "The jar was shaken and the mud came back up. Keep it still and let the heavy bits sink.",
+      "id": "watch-the-jar-settle-without-shaking",
+      "kind": "hold",
+      "prompt": "Keep still and watch the muddy jar as the heavier bits sink.",
+      "seconds": 6,
+      "target": "kwf-watch-settle",
+      "title": "Watch the jar settle without shaking it",
+      "why": "Settling is the first thing a treatment plant does, and it works only if the water is left still: heavy particles sink under their own weight and the water above them clears. Watching without shaking the jar lets you see sedimentation happen, and it shows why the plant's settling channels are long and calm."
+    },
+    {
       "cue": "Drag the filtered sample next to the unfiltered jar so the two can be compared fairly.",
       "drag": {
         "missNote": "The two jars are not side by side yet. Put them together so the comparison is fair.",
@@ -315,15 +315,6 @@
       "target": "kwf-sample-token",
       "title": "Set the filtered sample beside the control",
       "why": "A result means something only when it is compared with a control. Standing the filtered sample next to a jar of the same muddy water left unfiltered, under the same light, is what lets you say the filter made the difference, rather than time or settling alone."
-    },
-    {
-      "cue": "The filtered water looks clear. Say why it is still not safe to drink.",
-      "id": "say-why-the-clear-water-is",
-      "kind": "select",
-      "prompt": "The filtered water looks clear. Say why it is still not safe to drink.",
-      "target": "kwf-not-safe-card",
-      "title": "Say why the clear water is still not drinkable",
-      "why": "A sand filter removes particles you can see, but germs and dissolved substances are far too small for it to catch. That is why a real plant disinfects the water after filtering and its operators test it before it leaves; being able to say why clear water is not yet safe is the most important idea in the lesson."
     },
     {
       "cue": "Look at the draft lab report and mark each weakness before it is handed in.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the weak points in a classmate's report",
       "why": "A good science report says what was done, what was seen and what it means, and it separates observation from opinion. The usual weak points are a result with no comparison, a claim the evidence cannot support, and a step missing from the method. Finding them in a draft is how scientists review each other's work before anyone relies on it."
+    },
+    {
+      "cue": "The filtered water looks clear. Say why it is still not safe to drink.",
+      "id": "say-why-the-clear-water-is",
+      "kind": "select",
+      "prompt": "The filtered water looks clear. Say why it is still not safe to drink.",
+      "target": "kwf-not-safe-card",
+      "title": "Say why the clear water is still not drinkable",
+      "why": "A sand filter removes particles you can see, but germs and dissolved substances are far too small for it to catch. That is why a real plant disinfects the water after filtering and its operators test it before it leaves; being able to say why clear water is not yet safe is the most important idea in the lesson."
     },
     {
       "cue": "Hold your recorded observation in band with what the sample actually shows as it sits.",

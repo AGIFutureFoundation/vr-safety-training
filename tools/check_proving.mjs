@@ -19,7 +19,8 @@
  *     what they measured.
  *  5. docs/perf/checkers-baseline.json exists and names every checker in
  *     check_all; when docs/perf/checkers-last.json (written by check_all) is
- *     from a run whose load average was at or under the core count at both its start and its end, no
+ *     from a run whose load average was at or under the core count at both its start and its end (and whose sampled
+ *     peak stayed within half again the cores), no
  *     checker took more than 20% longer than its baseline (plus a 1.5 s
  *     floor for the smallest ones) — a run made under contention is
  *     reported, not judged.
@@ -132,10 +133,11 @@ if (checkersBase) {
   const missing = listed.filter((n) => !(n in checkersBase.checkers));
   check(missing.length === 0, "the checker baseline names every checker in check_all", missing.join(", "));
   if (last) {
-    // A run is judged only if the machine was quiet at both ends: other work starting mid-run (a console's own checkers) inflates every time after it.
+    // A run is judged only if the machine was quiet at both ends and its sampled peak stayed within half again the
+    // cores (the suite itself keeps up to one job per core busy): other work mid-run inflates every time it overlaps.
     const load = Math.max(last.loadAvgStart, last.loadAvgEnd ?? 0);
-    const quiet = load <= last.cores;
-    if (!quiet) console.log(`  · the last check_all ran at load ${last.loadAvgStart}→${last.loadAvgEnd} on ${last.cores} cores — its times are recorded, not judged`);
+    const quiet = load <= last.cores && (last.loadAvgPeak ?? 0) <= last.cores * 1.5;
+    if (!quiet) console.log(`  · the last check_all ran at load ${last.loadAvgStart}→${last.loadAvgEnd} (peak ${last.loadAvgPeak ?? "not sampled"}) on ${last.cores} cores — its times are recorded, not judged`);
     else {
       const slow = [];
       for (const [n, v] of Object.entries(last.checkers)) {

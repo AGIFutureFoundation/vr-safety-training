@@ -188,7 +188,7 @@
       "skip-the-if-it-goes-wrong",
       "start-before-reading-to-the-end"
     ],
-    "meshes": 275
+    "meshes": 240
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -271,6 +271,42 @@
       "why": "Keeping your place, with a finger or a ruler under the line, stops the eye jumping ahead and missing a step that looks like the one before it. Careful readers of instructions do this with anything that matters, because a skipped step is often the one that makes the rest work."
     },
     {
+      "cue": "One instruction could be read two ways. Ask the teacher which it means.",
+      "id": "ask-the-teacher-about-the-part",
+      "kind": "select",
+      "prompt": "One instruction could be read two ways. Ask the teacher which it means.",
+      "target": "kri-ask-card",
+      "title": "Ask the teacher about the part you are unsure of",
+      "why": "When an instruction can be read two ways, asking is the skilled thing to do, not a sign of weakness. Adults at work ask the same question every day, and the person who wrote the instruction would always rather be asked than have it done wrongly."
+    },
+    {
+      "cue": "Look at the classmate's draft instructions and mark each problem.",
+      "decoyNotes": {
+        "kri-draft-numbered": "Numbered steps help the reader keep their place. Keep them."
+      },
+      "id": "spot-the-problems-in-badly-written",
+      "itemNames": {
+        "kri-draft-jargon": "a word the reader will not know",
+        "kri-draft-no-help": "nothing on what to do if it goes wrong",
+        "kri-draft-order": "two steps in the wrong order"
+      },
+      "itemNotes": {
+        "kri-draft-jargon": "Explain it or use a plainer word. A reader cannot follow what they cannot understand.",
+        "kri-draft-no-help": "Every set of instructions needs this part, even if it is only 'stop and get an adult'.",
+        "kri-draft-order": "A reader follows steps in the order written. Out of order means done wrong."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the classmate's draft instructions and mark each problem.",
+      "targets": [
+        "kri-draft-order",
+        "kri-draft-jargon",
+        "kri-draft-no-help"
+      ],
+      "title": "Spot the problems in badly written instructions",
+      "why": "Writing instructions is the best way to learn to read them. Badly written instructions usually give steps out of order, use a word the reader will not know without explaining it, and leave out what to do if something goes wrong. Spotting these in a draft teaches you to notice them in real instructions, and to ask about them."
+    },
+    {
       "cue": "One word in step four is new. Turn the dial from the word to its meaning before going on.",
       "id": "look-up-the-word-you-do",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kri-bottle-token",
       "title": "Return the product to its labelled place",
       "why": "A product kept in its own labelled container, in its labelled place, can always be read by the next person who uses it. Putting it back properly finishes the task and protects everyone who comes after you, which is the reason labels exist in the first place."
-    },
-    {
-      "cue": "One instruction could be read two ways. Ask the teacher which it means.",
-      "id": "ask-the-teacher-about-the-part",
-      "kind": "select",
-      "prompt": "One instruction could be read two ways. Ask the teacher which it means.",
-      "target": "kri-ask-card",
-      "title": "Ask the teacher about the part you are unsure of",
-      "why": "When an instruction can be read two ways, asking is the skilled thing to do, not a sign of weakness. Adults at work ask the same question every day, and the person who wrote the instruction would always rather be asked than have it done wrongly."
-    },
-    {
-      "cue": "Look at the classmate's draft instructions and mark each problem.",
-      "decoyNotes": {
-        "kri-draft-numbered": "Numbered steps help the reader keep their place. Keep them."
-      },
-      "id": "spot-the-problems-in-badly-written",
-      "itemNames": {
-        "kri-draft-jargon": "a word the reader will not know",
-        "kri-draft-no-help": "nothing on what to do if it goes wrong",
-        "kri-draft-order": "two steps in the wrong order"
-      },
-      "itemNotes": {
-        "kri-draft-jargon": "Explain it or use a plainer word. A reader cannot follow what they cannot understand.",
-        "kri-draft-no-help": "Every set of instructions needs this part, even if it is only 'stop and get an adult'.",
-        "kri-draft-order": "A reader follows steps in the order written. Out of order means done wrong."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the classmate's draft instructions and mark each problem.",
-      "targets": [
-        "kri-draft-order",
-        "kri-draft-jargon",
-        "kri-draft-no-help"
-      ],
-      "title": "Spot the problems in badly written instructions",
-      "why": "Writing instructions is the best way to learn to read them. Badly written instructions usually give steps out of order, use a word the reader will not know without explaining it, and leave out what to do if something goes wrong. Spotting these in a draft teaches you to notice them in real instructions, and to ask about them."
     },
     {
       "cue": "Hold your attention in band as you carry out each step, checking back to the page.",

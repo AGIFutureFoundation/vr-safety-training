@@ -271,6 +271,42 @@
       "why": "Taking a moment to picture exactly what you saw, before writing, separates memory from assumption. It is often in that pause that you notice you did not actually see the pupil's foot catch, only the fall. Being honest about what you did not see is as important as reporting what you did."
     },
     {
+      "cue": "Read your report back as if you were someone who was not there.",
+      "id": "read-the-report-back-before-handing",
+      "kind": "select",
+      "prompt": "Read your report back as if you were someone who was not there.",
+      "target": "kir-readback-card",
+      "title": "Read the report back before handing it in",
+      "why": "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught. Reading aloud slows you down enough to hear a missing word, a muddled order or a guess that crept in."
+    },
+    {
+      "cue": "Look at the draft report and mark each problem.",
+      "decoyNotes": {
+        "kir-ir-time": "When and where are exactly right. Keep them."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kir-ir-blame": "blame instead of description",
+        "kir-ir-guess": "a guess written as fact",
+        "kir-ir-no-response": "nothing on what was done"
+      },
+      "itemNotes": {
+        "kir-ir-blame": "Describe what happened; blame is not the report's job.",
+        "kir-ir-guess": "Did they see it? Label it or leave it out.",
+        "kir-ir-no-response": "The response belongs in every report."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft report and mark each problem.",
+      "targets": [
+        "kir-ir-guess",
+        "kir-ir-blame",
+        "kir-ir-no-response"
+      ],
+      "title": "Spot the problems in a classmate's report",
+      "why": "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own. Reading someone else's draft with fresh eyes is easier than reading your own, which is why checking in pairs works so well."
+    },
+    {
       "cue": "Turn the dial from 'they weren't looking' to what you actually saw.",
       "id": "turn-a-guess-into-a-statement",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kir-report-token",
       "title": "Hand the report to the right person",
       "why": "A report only helps once it reaches the person who can act on it. Handing it to the supervisor, rather than leaving it on a desk or sharing it around, means it gets acted on and other people's details stay private. A report left in a bag or shared around the class helps nobody and can hurt the people named in it."
-    },
-    {
-      "cue": "Read your report back as if you were someone who was not there.",
-      "id": "read-the-report-back-before-handing",
-      "kind": "select",
-      "prompt": "Read your report back as if you were someone who was not there.",
-      "target": "kir-readback-card",
-      "title": "Read the report back before handing it in",
-      "why": "Reading a report back as a stranger would shows at once where it is unclear or where a guess slipped in. Every good writer rereads before handing over; for a report, it is where most mistakes are caught. Reading aloud slows you down enough to hear a missing word, a muddled order or a guess that crept in."
-    },
-    {
-      "cue": "Look at the draft report and mark each problem.",
-      "decoyNotes": {
-        "kir-ir-time": "When and where are exactly right. Keep them."
-      },
-      "id": "spot-the-problems-in-a-classmate",
-      "itemNames": {
-        "kir-ir-blame": "blame instead of description",
-        "kir-ir-guess": "a guess written as fact",
-        "kir-ir-no-response": "nothing on what was done"
-      },
-      "itemNotes": {
-        "kir-ir-blame": "Describe what happened; blame is not the report's job.",
-        "kir-ir-guess": "Did they see it? Label it or leave it out.",
-        "kir-ir-no-response": "The response belongs in every report."
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft report and mark each problem.",
-      "targets": [
-        "kir-ir-guess",
-        "kir-ir-blame",
-        "kir-ir-no-response"
-      ],
-      "title": "Spot the problems in a classmate's report",
-      "why": "Reports go wrong in predictable ways: a guess written as fact, blame instead of description and a missing 'what was done'. Spotting them in someone else's draft trains you to see them in your own. Reading someone else's draft with fresh eyes is easier than reading your own, which is why checking in pairs works so well."
     },
     {
       "cue": "Hold the report in band with what you saw as you finish the last lines.",

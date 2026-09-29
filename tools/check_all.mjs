@@ -148,6 +148,11 @@ function report(r) {
 
 const wallStart = Date.now();
 const loadAtStart = loadavg()[0];
+// The load's peak across the run, sampled every five seconds: other work that starts and stops mid-run (a console's
+// own checkers) leaves both ends quiet, and check_proving judges a run's times only when the peak stayed low too.
+let loadPeak = loadAtStart;
+const loadSampler = setInterval(() => { loadPeak = Math.max(loadPeak, loadavg()[0]); }, 5000);
+loadSampler.unref();
 for (const name of SERIAL_FIRST) report(await runOne(name));
 
 const queue = CHECKERS.filter((n) => !SERIAL_FIRST.includes(n));
@@ -173,7 +178,7 @@ const wallMs = Date.now() - wallStart;
 const sumMs = [...results.values()].reduce((a, r) => a + r.ms, 0);
 const record = {
   at: new Date().toISOString(), cores: CORES, maxJobs: MAX_JOBS, peakParallel: peak,
-  loadAvgStart: +loadAtStart.toFixed(2), loadAvgEnd: +loadavg()[0].toFixed(2), wallMs, sumMs,
+  loadAvgStart: +loadAtStart.toFixed(2), loadAvgEnd: +loadavg()[0].toFixed(2), loadAvgPeak: +Math.max(loadPeak, loadavg()[0]).toFixed(2), wallMs, sumMs,
   checkers: Object.fromEntries(CHECKERS.map((n) => [n, { ms: results.get(n)?.ms ?? null, ok: results.get(n)?.ok ?? false }])),
 };
 try {

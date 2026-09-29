@@ -188,7 +188,7 @@
       "try-a-treatment",
       "vague-location"
     ],
-    "meshes": 275
+    "meshes": 297
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "Before acting, notice three things: whether there is any danger to you, whether the person is responding, and where exactly you are. Noticing these first keeps you safe and gives you what the person on the phone will ask for."
     },
     {
-      "cue": "Shout for, or run to, the nearest trusted adult.",
-      "id": "get-a-trusted-adult-straight-away",
-      "kind": "select",
-      "prompt": "Shout for, or run to, the nearest trusted adult.",
-      "target": "kfa-adult-card",
-      "title": "Get a trusted adult straight away",
-      "why": "Getting an adult is almost always the fastest route to help, and it is the right first move for a young person. An adult can call, keep others back and take charge, so you are never left dealing with it alone."
-    },
-    {
       "cue": "Where you are, what happened, how many people, then stay on the line.",
       "id": "put-the-call-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "The person answering needs to know where to send help first, because that is what gets people moving. Then what happened and how many people are hurt help them send the right help; staying on the line lets them guide you until it arrives."
     },
     {
-      "cue": "Hold the phone and listen until they say you can hang up.",
-      "holdBreakNote": "You hung up too early. Stay on the line until they tell you it is fine to go.",
-      "id": "stay-on-the-line",
-      "kind": "hold",
-      "prompt": "Hold the phone and listen until they say you can hang up.",
-      "seconds": 6,
-      "target": "kfa-stay-line",
-      "title": "Stay on the line",
-      "why": "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off. If you are not sure what to say, the person answering will guide you with questions, so stay with them."
+      "cue": "Shout for, or run to, the nearest trusted adult.",
+      "id": "get-a-trusted-adult-straight-away",
+      "kind": "select",
+      "prompt": "Shout for, or run to, the nearest trusted adult.",
+      "target": "kfa-adult-card",
+      "title": "Get a trusted adult straight away",
+      "why": "Getting an adult is almost always the fastest route to help, and it is the right first move for a young person. An adult can call, keep others back and take charge, so you are never left dealing with it alone."
     },
     {
       "cue": "Turn the phone to speaker so your hands are free and the adult can hear.",
@@ -303,6 +292,17 @@
       "why": "A calm, clear voice gets information across first time; a rushed or shouted one has to be repeated, which costs time. Taking a breath before speaking is the simplest way to be understood in an emergency. Saying where you are first, before anything else, means help can start moving even if the call is cut short."
     },
     {
+      "cue": "Hold the phone and listen until they say you can hang up.",
+      "holdBreakNote": "You hung up too early. Stay on the line until they tell you it is fine to go.",
+      "id": "stay-on-the-line",
+      "kind": "hold",
+      "prompt": "Hold the phone and listen until they say you can hang up.",
+      "seconds": 6,
+      "target": "kfa-stay-line",
+      "title": "Stay on the line",
+      "why": "Staying on the line means the person answering can ask more questions and tell you what to do next, such as keeping the person still or waving at the arriving help. Hanging up early cuts that help off. If you are not sure what to say, the person answering will guide you with questions, so stay with them."
+    },
+    {
       "cue": "Drag the waving arm to the safe spot by the road where help will arrive.",
       "drag": {
         "missNote": "Not in place yet. Take it all the way to at the road edge, safely.",
@@ -315,15 +315,6 @@
       "target": "kfa-wave-token",
       "title": "Show help where to come",
       "why": "Showing arriving help exactly where to go saves time. Standing safely at the road edge, with an adult, and waving is a useful job a young person can do while trained people take over. Responders arriving at a busy place lose time finding the right spot, so a clear signal from a safe place gets them there sooner."
-    },
-    {
-      "cue": "Say why you will not try to treat the injury yourself.",
-      "id": "say-what-you-will-not-do",
-      "kind": "select",
-      "prompt": "Say why you will not try to treat the injury yourself.",
-      "target": "kfa-clinical-card",
-      "title": "Say what you will not do",
-      "why": "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most. Trying a treatment you have not been trained in can make things worse, and it takes an adult's attention away from calling for help."
     },
     {
       "cue": "Look at the classmate's help plan and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's plan",
       "why": "Help plans go wrong in predictable ways: running into danger, trying a treatment and giving a vague location. Spotting them in someone else's plan helps you remember the right order when it matters. The right order is always the same: stay safe, fetch an adult, call for help and say exactly where you are."
+    },
+    {
+      "cue": "Say why you will not try to treat the injury yourself.",
+      "id": "say-what-you-will-not-do",
+      "kind": "select",
+      "prompt": "Say why you will not try to treat the injury yourself.",
+      "target": "kfa-clinical-card",
+      "title": "Say what you will not do",
+      "why": "Knowing what not to do is part of being helpful. Leaving treatment to trained people, and doing the things you can do well, staying safe, calling and guiding, is what actually helps the person most. Trying a treatment you have not been trained in can make things worse, and it takes an adult's attention away from calling for help."
     },
     {
       "cue": "Hold yourself in band — calm and near the adult — until help arrives.",

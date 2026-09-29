@@ -188,7 +188,7 @@
       "mix-minutes-and-hours",
       "step-over-the-landing-rope"
     ],
-    "meshes": 275
+    "meshes": 235
   },
   "schema": "smartcitix.station/1",
   "stepKinds": [
@@ -230,15 +230,6 @@
       "why": "Before measuring anything, find what the map provides: the scale bar that links map length to real distance, the start and the destination, and the route between them. With these three a map becomes a calculation, and without any one of them it is only a picture."
     },
     {
-      "cue": "Stand behind the landing rope where the board is meant to be read.",
-      "id": "read-the-map-from-behind-the",
-      "kind": "select",
-      "prompt": "Stand behind the landing rope where the board is meant to be read.",
-      "target": "kms-behind-rope",
-      "title": "Read the map from behind the rope",
-      "why": "At a ferry landing, the rope marks where people wait safely while the boat comes in. The map board is placed to be read from that side; staying behind the rope is the landing's own rule, and following a site's rules comes before any lesson held there."
-    },
-    {
       "cue": "Measure on the map, scale it up, choose the speed, then work out the time.",
       "id": "put-the-method-in-order",
       "itemNames": {
@@ -260,15 +251,13 @@
       "why": "The order follows the reasoning: you cannot scale a length you have not measured, and you cannot find a time until you know the real distance and the speed. Working in this order, and writing each result with its unit, means anyone can follow the working and find a slip."
     },
     {
-      "cue": "Hold the string along the winding route from start to end.",
-      "holdBreakNote": "The string slipped off the route. Lay it back along the path from the last point you are sure of.",
-      "id": "trace-the-route-with-the-string",
-      "kind": "hold",
-      "prompt": "Hold the string along the winding route from start to end.",
-      "seconds": 6,
-      "target": "kms-trace-route",
-      "title": "Trace the route with the string",
-      "why": "A winding route cannot be measured with a straight ruler, so the string follows every bend and is then straightened against the ruler. Holding it carefully along the route gives the true path length, the same trick map readers have always used."
+      "cue": "Stand behind the landing rope where the board is meant to be read.",
+      "id": "read-the-map-from-behind-the",
+      "kind": "select",
+      "prompt": "Stand behind the landing rope where the board is meant to be read.",
+      "target": "kms-behind-rope",
+      "title": "Read the map from behind the rope",
+      "why": "At a ferry landing, the rope marks where people wait safely while the boat comes in. The map board is placed to be read from that side; staying behind the rope is the landing's own rule, and following a site's rules comes before any lesson held there."
     },
     {
       "cue": "The speed is per hour. Turn the dial so the time is worked in hours too.",
@@ -303,6 +292,17 @@
       "why": "A calculation is only as good as the numbers put into it. Choosing a sensible speed for the way the class will actually travel makes the time realistic, and questioning whether an input makes sense is a skill every good problem-solver uses."
     },
     {
+      "cue": "Hold the string along the winding route from start to end.",
+      "holdBreakNote": "The string slipped off the route. Lay it back along the path from the last point you are sure of.",
+      "id": "trace-the-route-with-the-string",
+      "kind": "hold",
+      "prompt": "Hold the string along the winding route from start to end.",
+      "seconds": 6,
+      "target": "kms-trace-route",
+      "title": "Trace the route with the string",
+      "why": "A winding route cannot be measured with a straight ruler, so the string follows every bend and is then straightened against the ruler. Holding it carefully along the route gives the true path length, the same trick map readers have always used."
+    },
+    {
       "cue": "Drag the journey time onto the class timetable to see when you arrive.",
       "drag": {
         "missNote": "Not in place yet. Take it all the way to on the day's timetable.",
@@ -315,15 +315,6 @@
       "target": "kms-time-token",
       "title": "Put the journey time on the timetable",
       "why": "Placing the journey time on the day's timetable turns a calculation into a plan: it shows when the class arrives and whether it fits before the ferry leaves. This is why people work out journey times at all."
-    },
-    {
-      "cue": "Ask whether the journey time is believable for that walk.",
-      "id": "check-the-answer-against-common-sense",
-      "kind": "select",
-      "prompt": "Ask whether the journey time is believable for that walk.",
-      "target": "kms-sense-card",
-      "title": "Check the answer against common sense",
-      "why": "A quick sense check catches the big errors: a walk across a small park should not take a day, and a long route should not take moments. If the answer looks wrong it probably is, and the usual culprit is a missed scale or mixed units."
     },
     {
       "cue": "Look at the draft route plan and mark each problem.",
@@ -351,6 +342,15 @@
       ],
       "title": "Spot the problems in a classmate's route plan",
       "why": "Route plans go wrong in predictable ways: a straight line measured where the path winds, a map length used without the scale, and units mixed in the time. Spotting them in someone else's plan teaches you to check your own before the class sets off."
+    },
+    {
+      "cue": "Ask whether the journey time is believable for that walk.",
+      "id": "check-the-answer-against-common-sense",
+      "kind": "select",
+      "prompt": "Ask whether the journey time is believable for that walk.",
+      "target": "kms-sense-card",
+      "title": "Check the answer against common sense",
+      "why": "A quick sense check catches the big errors: a walk across a small park should not take a day, and a long route should not take moments. If the answer looks wrong it probably is, and the usual culprit is a missed scale or mixed units."
     },
     {
       "cue": "Hold the pace in band as the class walks the route.",

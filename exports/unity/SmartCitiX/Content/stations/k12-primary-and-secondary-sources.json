@@ -271,6 +271,42 @@
       "why": "Reading a source all the way through before judging it stops you seizing on the first line that fits what you expected. Historians read slowly because the detail that changes the meaning is often late in a document: a date, a condition, a sentence that undercuts the rest."
     },
     {
+      "cue": "The diary has a missing page. Say what the evidence cannot tell us.",
+      "id": "say-where-the-evidence-runs-out",
+      "kind": "select",
+      "prompt": "The diary has a missing page. Say what the evidence cannot tell us.",
+      "target": "kps-gap-card",
+      "title": "Say where the evidence runs out",
+      "why": "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
+    },
+    {
+      "cue": "Look at the draft essay and mark each problem before it is handed in.",
+      "decoyNotes": {
+        "kps-ess-question": "Naming an open question is good history. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kps-ess-book-as-witness": "the book quoted as if it were there",
+        "kps-ess-guess-fact": "a guess written as fact",
+        "kps-ess-no-source": "a claim with no source"
+      },
+      "itemNotes": {
+        "kps-ess-book-as-witness": "The book was written later. It is an interpretation, not a witness.",
+        "kps-ess-guess-fact": "Where the evidence stops, say so. A guess must be labelled as one.",
+        "kps-ess-no-source": "Every claim needs evidence behind it. Where is it from?"
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft essay and mark each problem before it is handed in.",
+      "targets": [
+        "kps-ess-no-source",
+        "kps-ess-book-as-witness",
+        "kps-ess-guess-fact"
+      ],
+      "title": "Spot the problems in a classmate's essay",
+      "why": "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
+    },
+    {
       "cue": "Now turn the lens from the letter to the later book that tells the same story.",
       "id": "turn-from-the-primary-to-the",
       "kind": "turn",
@@ -315,42 +351,6 @@
       "target": "kps-claim-token",
       "title": "Link the claim to its evidence",
       "why": "Tracing a claim to the evidence behind it is how historians check each other's work. Placing the book's claim beside the letter that supports it shows the reader exactly where the claim comes from, and it reveals at once any claim with nothing beneath it, which is the claim to be most careful about."
-    },
-    {
-      "cue": "The diary has a missing page. Say what the evidence cannot tell us.",
-      "id": "say-where-the-evidence-runs-out",
-      "kind": "select",
-      "prompt": "The diary has a missing page. Say what the evidence cannot tell us.",
-      "target": "kps-gap-card",
-      "title": "Say where the evidence runs out",
-      "why": "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
-    },
-    {
-      "cue": "Look at the draft essay and mark each problem before it is handed in.",
-      "decoyNotes": {
-        "kps-ess-question": "Naming an open question is good history. Keep it."
-      },
-      "id": "spot-the-problems-in-a-classmate",
-      "itemNames": {
-        "kps-ess-book-as-witness": "the book quoted as if it were there",
-        "kps-ess-guess-fact": "a guess written as fact",
-        "kps-ess-no-source": "a claim with no source"
-      },
-      "itemNotes": {
-        "kps-ess-book-as-witness": "The book was written later. It is an interpretation, not a witness.",
-        "kps-ess-guess-fact": "Where the evidence stops, say so. A guess must be labelled as one.",
-        "kps-ess-no-source": "Every claim needs evidence behind it. Where is it from?"
-      },
-      "kind": "find",
-      "noHint": true,
-      "prompt": "Look at the draft essay and mark each problem before it is handed in.",
-      "targets": [
-        "kps-ess-no-source",
-        "kps-ess-book-as-witness",
-        "kps-ess-guess-fact"
-      ],
-      "title": "Spot the problems in a classmate's essay",
-      "why": "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
     },
     {
       "cue": "Hold your conclusion in band — weighing both sources, not leaning on one.",
