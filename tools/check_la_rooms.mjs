@@ -194,5 +194,67 @@ const bundler = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
 check(/larRegisterDressers\(/.test(app) && /lar-rooms\.js/.test(app), "the parishes app registers the Louisiana dressers");
 check(/lar-rooms\.js/.test(bundler), "tools/bundle_webxr.py lists shared/lar-rooms.js");
 
+// 8. Browser pass (opt-in: `--browser`, LAR_PORT=9023): the real parishes page on la-meta-richland — the data hall's door, E
+// goes in, the room is lar-data-hall with its dressing and object actions, the world root hides, E at the door comes back.
+if (process.argv.includes("--browser")) {
+  const { createServer } = await import("node:http");
+  const { existsSync, statSync } = await import("node:fs");
+  const { extname, normalize } = await import("node:path");
+  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
+  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" }); res.end(readFileSync(file));
+  });
+  await new Promise((r) => { server.once("error", () => server.listen(0, "127.0.0.1", r)); server.listen(Number(process.env.LAR_PORT || 9023), "127.0.0.1", r); });
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const THREE_SRC = readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8");
+  let browser;
+  try {
+    const { chromium } = await import(PW);
+    browser = await chromium.launch({ executablePath: EXE, args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+    const ctx = await browser.newContext({ viewport: { width: 1024, height: 700 } });
+    await ctx.route("**/*", (route) => {
+      const u = route.request().url();
+      if (u.startsWith(base)) return route.continue();
+      if (/three(\.module)?(\.min)?\.js$/.test(u)) return route.fulfill({ status: 200, contentType: "application/javascript", body: THREE_SRC });
+      return route.abort();
+    });
+    const page = await ctx.newPage();
+    const errors = []; page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+    await page.goto(`${base}/parishes/parishes.html?parish=la-meta-richland`, { waitUntil: "load" });
+    await page.waitForFunction(() => !!window.__parishTest?.interiors, null, { timeout: 120000 });
+    const door = await page.evaluate(() => {
+      const T = window.__parishTest; T.begin();
+      const d = T.interiors.doors.find((x) => x.site.id === "lmr-data-hall-fitout");
+      if (d) T.teleport(d.x, d.z, 0.7, -0.1);
+      return d ? { x: d.x, z: d.z } : null;
+    });
+    check(!!door, "browser: the data hall has a door spot on la-meta-richland");
+    await page.waitForFunction(() => window.__parishTest.np.near?.kind === "door", null, { timeout: 60000 }).catch(() => {});
+    const before = await page.evaluate(() => { const T = window.__parishTest; return { near: T.np.near?.kind, x: T.np.x, z: T.np.z }; });
+    await page.keyboard.press("KeyE");
+    await page.waitForFunction(() => window.__parishTest.camera.position.y > 3000, null, { timeout: 20000 }).catch(() => {});
+    const inside = await page.evaluate(() => { const T = window.__parishTest, m = T.interiors.mount, r = m.room;
+      return { inside: m.inside(), room: r?.id, root: T.interiors.root.visible, dressed: !!r?.group.getObjectByName("lar-dress"), acts: (r?.actions ?? []).filter((a) => /^lar-/.test(a.id)).length, meshes: r?.meshes() }; });
+    check(before.near === "door" && inside.inside && inside.room === "lar-data-hall" && inside.root === false, `browser: E at the door enters ${inside.room} with the world hidden`);
+    check(inside.dressed && inside.acts >= 10 && inside.meshes <= 120, `browser: the room is dressed (${inside.acts} object actions, ${inside.meshes} meshes)`);
+    const nearTile = await page.evaluate(() => { const m = window.__parishTest.interiors.mount; const a = m.room.actions.find((x) => x.id === "lar-tile"); m.pose.x = a.x; m.pose.z = a.z; return m.near()?.id; });
+    check(nearTile === "lar-tile", `browser: standing at the tile lifter offers it (${nearTile})`);
+    await page.evaluate(() => { const m = window.__parishTest.interiors.mount; m.pose.x = m.room.door.x; m.pose.z = m.room.door.z; });
+    await page.keyboard.press("KeyE");
+    await page.waitForFunction(() => window.__parishTest.camera.position.y < 3000, null, { timeout: 20000 }).catch(() => {});
+    const after = await page.evaluate(() => { const T = window.__parishTest; return { inside: T.interiors.mount.inside(), root: T.interiors.root.visible, x: T.np.x, z: T.np.z }; });
+    check(!after.inside && after.root && after.x === before.x && after.z === before.z, "browser: E at the door comes back out to the same spot");
+    check(!errors.length, `browser: no page errors${errors.length ? `: ${errors.slice(0, 3).join(" | ")}` : ""}`);
+    console.log(`  browser: ${JSON.stringify({ door, room: inside.room, acts: inside.acts, meshes: inside.meshes, nearTile, errors: errors.length })}`);
+  } catch (e) {
+    check(false, `browser pass: ${String(e.message).split("\n")[0]}`);
+  } finally { await browser?.close(); server.close(); }
+}
+
 console.log(`check_la_rooms: ${failed ? "FAIL" : "ok"} — ${passed} passed, ${failed} failed · ${Date.now() - T0} ms`);
 process.exit(failed ? 1 : 0);

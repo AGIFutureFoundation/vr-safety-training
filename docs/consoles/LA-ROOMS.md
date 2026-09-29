@@ -52,6 +52,10 @@ Louisiana programme itself; all 326 resolve.
 4. Reason: mount it in the page and the bundle. Act: `larRegisterDressers` in app.js with `crLaunch`, the bundler entry after
    cr-classrooms.js, the check_all list and the baseline. Observe: check_la_rooms 3598 passed, 0 failed; check_interiors 733/0;
    check_classrooms 1684/0; check_parishes 62985/0.
+5. Reason: prove it in the real page, not just the module. Act: `node tools/check_la_rooms.mjs --browser` (LAR_PORT 9023)
+   drives parishes.html?parish=la-meta-richland: teleport to the data hall's door, E, check the room, stand at the tile lifter,
+   E at the door. Observe: 3604 passed, 0 failed. The page entered `lar-data-hall` with 11 object actions and 15 meshes, offered
+   `lar-tile` at its spot, came back to the same door spot, with no page errors.
 
 ## Checkers (last lines)
 
