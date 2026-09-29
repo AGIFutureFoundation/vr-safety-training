@@ -285,7 +285,12 @@
       "parish": "orleans",
       "sites": [
         "hospital-district",
-        "university-campus"
+        "university-campus",
+        "no-sw-algiers-school-campus",
+        "no-sw-lakeview-and-gentilly-recreation-centre",
+        "no-sw-lower-ninth-ward-park-grounds-yard",
+        "no-sw-industrial-canal-boat-repair-yard",
+        "no-sw-mid-city-recreation-centre"
       ]
     },
     {
@@ -294,7 +299,11 @@
       "sites": [
         "jf-harvey-canal-yard",
         "jf-hospital",
-        "jf-lafreniere-park"
+        "jf-lafreniere-park",
+        "jf-sw-kenner-school-campus",
+        "jf-sw-metairie-recreation-centre",
+        "jf-sw-kenner-park-grounds-yard",
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
       ]
     },
     {
@@ -302,14 +311,19 @@
       "parish": "st-bernard",
       "sites": [
         "sb-refinery",
-        "sb-school-campus"
+        "sb-school-campus",
+        "sb-sw-shell-beach-boat-repair-yard",
+        "sb-sw-arabi-and-chalmette-recreation-centre",
+        "sb-sw-violet-and-poydras-recreation-centre",
+        "sb-sw-chalmette-park-grounds-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "plaquemines",
       "sites": [
-        "pq-pipeline-yard"
+        "pq-pipeline-yard",
+        "pq-sw-scarsdale-and-braithwaite-school-campus"
       ]
     },
     {
@@ -317,7 +331,17 @@
       "parish": "st-tammany",
       "sites": [
         "st-hospital",
-        "st-covington-campus"
+        "st-covington-campus",
+        "st-sw-piney-woods-west-school-campus",
+        "st-sw-piney-woods-east-renovation-site",
+        "st-sw-piney-woods-west-park-grounds-yard",
+        "st-sw-slidell-park-grounds-yard",
+        "st-sw-piney-woods-west-renovation-site",
+        "st-sw-piney-woods-east-recreation-centre",
+        "st-sw-old-mandeville-park-grounds-yard",
+        "st-sw-piney-woods-east-school-campus",
+        "st-sw-slidell-recreation-centre",
+        "st-sw-piney-woods-east-west-renovation-site"
       ]
     },
     {
@@ -325,7 +349,14 @@
       "parish": "sf-downtown",
       "sites": [
         "cathedral-hill-hospital",
-        "financial-district-high-rise"
+        "financial-district-high-rise",
+        "dt-sw-mission-dolores-school-campus",
+        "dt-sw-western-addition-school-campus",
+        "dt-sw-russian-hill-park-grounds-yard",
+        "dt-sw-western-addition-park-grounds-yard",
+        "dt-sw-russian-hill-renovation-site",
+        "dt-sw-western-addition-renovation-site",
+        "dt-sw-mission-dolores-recreation-centre"
       ]
     },
     {
@@ -333,7 +364,16 @@
       "parish": "sf-mission",
       "sites": [
         "mission-school-campus",
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-noe-valley-school-campus",
+        "mi-sw-bernal-heights-school-campus",
+        "mi-sw-rincon-high-rise-site",
+        "mi-sw-mission-renovation-site",
+        "mi-sw-noe-valley-park-grounds-yard",
+        "mi-sw-bernal-heights-park-grounds-yard",
+        "mi-sw-potrero-hill-renovation-site",
+        "mi-sw-mission-bay-research-lab-building",
+        "mi-sw-dogpatch-boat-repair-yard"
       ]
     },
     {
@@ -341,14 +381,25 @@
       "parish": "sf-golden-gate-park",
       "sites": [
         "lone-mountain-university-campus",
-        "sunset-school-campus"
+        "sunset-school-campus",
+        "gg-sw-sunset-recreation-centre",
+        "gg-sw-lake-merced-park-grounds-yard",
+        "gg-sw-inner-richmond-park-grounds-yard",
+        "gg-sw-lone-mountain-campus-central-plant",
+        "gg-sw-inner-richmond-recreation-centre",
+        "gg-sw-golden-gate-park-recreation-centre",
+        "gg-sw-outer-richmond-recreation-centre"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-marina",
       "sites": [
-        "fort-mason-piers"
+        "fort-mason-piers",
+        "ma-sw-inner-richmond-school-campus",
+        "ma-sw-western-addition-renovation-site",
+        "ma-sw-pacific-heights-school-campus",
+        "ma-sw-inner-richmond-recreation-centre"
       ]
     },
     {
@@ -357,7 +408,38 @@
       "sites": [
         "shipyard-groundwater-yard",
         "bayview-rec-centre",
-        "india-basin-park-crew"
+        "india-basin-park-crew",
+        "bv-sw-visitacion-valley-school-campus",
+        "bv-sw-excelsior-school-campus",
+        "bv-sw-excelsior-renovation-site",
+        "bv-sw-portola-park-grounds-yard",
+        "bv-sw-visitacion-valley-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "mcclymonds-school-campus",
+        "defremery-recreation-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site",
+        "pill-hill-hospital-campus",
+        "laney-college-campus",
+        "downtown-fire-station",
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-school-campus"
       ]
     }
   ],
@@ -422,7 +504,7 @@
     "ed-custodial-chemical-dilution-and-floor-machine": "Custodial Chemical Dilution & Floor Machine"
   },
   "version": "1.0.0",
-  "contentHash": "4757f925",
+  "contentHash": "ae7b8d7b",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -369,7 +369,8 @@
       "sites": [
         "port-terminal",
         "canal-lock",
-        "ferry-landing"
+        "ferry-landing",
+        "no-sw-industrial-canal-boat-repair-yard"
       ]
     },
     {
@@ -378,7 +379,11 @@
       "sites": [
         "jf-causeway-yard",
         "jf-harvey-canal-yard",
-        "jf-gretna-landing"
+        "jf-gretna-landing",
+        "jf-sw-west-bank-waterfront-boat-harbour",
+        "jf-sw-west-bank-waterfront-workboat-landing",
+        "jf-sw-west-bank-waterfront-cargo-terminal",
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
       ]
     },
     {
@@ -388,7 +393,10 @@
         "sb-violet-floodgate",
         "sb-shell-beach",
         "sb-chalmette-ferry",
-        "sb-surge-barrier"
+        "sb-surge-barrier",
+        "sb-sw-shell-beach-boat-repair-yard",
+        "sb-sw-shell-beach-boat-harbour",
+        "sb-sw-shell-beach-workboat-landing"
       ]
     },
     {
@@ -426,7 +434,8 @@
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-dogpatch-boat-repair-yard"
       ]
     },
     {
@@ -450,6 +459,31 @@
       "sites": [
         "port-southern-terminals",
         "shipyard-shoreline-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "outer-harbor-container-terminal",
+        "seventh-street-marine-terminal",
+        "port-maintenance-shop",
+        "port-truck-staging-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lake-merritt-boating-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "brooklyn-basin-marina",
+        "alameda-estuary-boatyard"
       ]
     }
   ],
@@ -528,7 +562,7 @@
     "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side"
   },
   "version": "1.0.0",
-  "contentHash": "dca28bf6",
+  "contentHash": "88b58583",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

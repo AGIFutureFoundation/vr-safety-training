@@ -72,7 +72,8 @@
       "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-kenner-rail"
+        "jf-kenner-rail",
+        "jf-sw-kenner-airport-side-rail-siding"
       ]
     },
     {
@@ -86,14 +87,17 @@
       "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "cable-car-barn"
+        "cable-car-barn",
+        "dt-sw-south-of-market-rail-siding"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "king-street-rail-yard"
+        "king-street-rail-yard",
+        "mi-sw-islais-creek-rail-siding",
+        "mi-sw-south-of-market-rail-siding"
       ]
     },
     {
@@ -109,6 +113,14 @@
       "sites": [
         "islais-rail-yard"
       ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-rail-yard",
+        "west-oakland-transit-station"
+      ]
     }
   ],
   "stationNames": {
@@ -122,7 +134,7 @@
     "ra-blue-flag-protection-in-the-yard": "Blue Flag Protection in the Yard"
   },
   "version": "1.0.0",
-  "contentHash": "23a41447",
+  "contentHash": "80346945",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -50,6 +50,8 @@ const CHECKERS = [
   "check_flowhub.mjs",
   // The four classroom programmes, their stations, flows and world anchors (docs/k12.md).
   "check_k12.mjs",
+  // SCHOLAR: K-12 lesson sessions in the worlds, the scoreboard and the class board (docs/consoles/SCHOLAR.md).
+  "check_scholar.mjs",
   "check_home.mjs", "check_districts.mjs", "check_ladders.mjs", "check_tracks.mjs", "check_signage.mjs", "check_fleet.mjs",
   "check_race.mjs", "check_arcade.mjs", "check_eggs.mjs", "check_eggs_app.mjs", "check_treasures.mjs", "check_props.mjs", "check_textures.mjs", "check_fairway_game.mjs",
   "check_fairway.mjs", "check_bayworld_game.mjs", "check_bay_quests.mjs", "check_bayworld.mjs", "check_mapbox.mjs",
@@ -63,13 +65,18 @@ const CHECKERS = [
   "check_menagerie.mjs",
   // STORYLINE: the seven paths, their side stories and the chosen path (docs/consoles/STORYLINE.md).
   "check_storyline.mjs",
+  "check_drills.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   // NEWTON: gravity, walls, wading and swimming, crashes and the after-a-collision card (docs/consoles/NEWTON.md).
   "check_newton.mjs",
+  // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
+  "check_reactor.mjs",
   "check_unity_export.mjs",
   // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
   "check_packs.mjs",
+  // COGNITION: the K-12 learning module — unit -> lesson -> flow, adaptive re-teach, the in-world runner (docs/consoles/COGNITION.md).
+  "check_cognition.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",
@@ -84,6 +91,8 @@ const CHECKERS = [
   "check_terraform.mjs",
   // CITYWORKS: street fabric in the field and off water, road graph components, sidewalks dry, a collider per building, budgets (docs/consoles/CITYWORKS.md).
   "check_cityworks.mjs",
+  // ATMOS: deterministic weather, lamps at dusk/dawn, fog never hides a board, a silent-by-default synth soundscape, budgets (docs/consoles/ATMOS.md).
+  "check_atmos.mjs",
   // NPC characters that pass knowledge along: verbatim lines, hand-offs, placement, the phone panel (docs/consoles/GRIOT.md).
   "check_npc.mjs",
   "check_investor.mjs",
@@ -100,6 +109,8 @@ const CHECKERS = [
   "check_auth.mjs",
   // The organisation layer: cohorts, the cohort view, the enterprise block, audit and privacy (docs/enterprise.md).
   "check_enterprise.mjs",
+  // DEAN: versions, modules, the world apply step and the Trade Craft Academy shared export (docs/modules.md).
+  "check_dean.mjs",
   // Enterprise seat billing: the payments block, the adapter and mock, the budget agent, the Billing tab, the Worker handler (docs/payments.md).
   "check_payments.mjs",
   // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).

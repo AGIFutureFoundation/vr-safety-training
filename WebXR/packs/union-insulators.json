@@ -65,23 +65,65 @@
     },
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-industrial-canal-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-harvey-canal-yard"
+        "jf-harvey-canal-yard",
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "st-bernard",
       "sites": [
-        "sb-refinery"
+        "sb-refinery",
+        "sb-sw-shell-beach-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-sw-piney-woods-east-renovation-site",
+        "st-sw-piney-woods-west-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-russian-hill-renovation-site",
+        "dt-sw-western-addition-renovation-site"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-mission-renovation-site",
+        "mi-sw-potrero-hill-renovation-site",
+        "mi-sw-dogpatch-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-western-addition-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-excelsior-renovation-site"
       ]
     }
   ],
@@ -96,7 +138,7 @@
     "ib-mechanical-insulation-pipe-and-jacketing": "Mechanical Insulation, Pipe and Jacketing"
   },
   "version": "1.0.0",
-  "contentHash": "42bb71a8",
+  "contentHash": "7e3c4429",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

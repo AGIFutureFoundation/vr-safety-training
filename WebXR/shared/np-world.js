@@ -254,21 +254,30 @@ export function npBuildParish(root, THREE, parish, opts = {}) {
     ferryBoat.name = "parish-ferry"; fixed.add(ferryBoat);
   }
 
-  // Sites: a low building, a job board on its post, a flag pole.
+  // Sites: a low building and a job board on its post. The buildings and posts are one instanced mesh each (a map
+  // carries up to ~35 sites since SITEWORKS; three meshes a site would eat the draw-call budget); each board stays its
+  // own mesh, named "site-board" in its `site-<id>` group, so a board can take a glow material (DEAN) on its own.
   const boardMat = new THREE.MeshLambertMaterial({ color: 0xffb020, emissive: 0x442800 });
   const bldMat = new THREE.MeshLambertMaterial({ color: 0xcfc4ae });
   const postMat = new THREE.MeshLambertMaterial({ color: 0x5b4a36 });
+  const boardGeo = new THREE.BoxGeometry(2.6, 1.6, 0.2);
+  const siteN = Math.max(1, prep.sites.length);
+  const houses = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0), bldMat, siteN);
+  const legs = new THREE.InstancedMesh(new THREE.BoxGeometry(0.15, 1.6, 0.15).translate(0, 0.8, 0), postMat, siteN);
+  houses.name = "parish-site-buildings"; legs.name = "parish-site-posts";
   const siteBoards = [];
   prep.sites.forEach((s, i) => {
     const y = npHeightAt(parish, s.position[0], s.position[1]);
     const g = new THREE.Group(); g.name = `site-${s.id}`; g.position.set(s.position[0], y, s.position[1]);
     const w = 16 + (i % 3) * 4, d = 10 + (i % 2) * 4, h = 5 + (i % 4);
-    const house = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), bldMat); house.position.set(-14, h / 2, -12);
-    const board = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.6, 0.2), boardMat); board.position.set(0, 1.6, 6);
-    const leg = new THREE.Mesh(new THREE.BoxGeometry(0.15, 1.6, 0.15), postMat); leg.position.set(0, 0.8, 6);
-    g.add(house, board, leg); fixed.add(g);
+    m4.makeScale(w, h, d).setPosition(s.position[0] - 14, y, s.position[1] - 12); houses.setMatrixAt(i, m4);
+    m4.makeTranslation(s.position[0], y, s.position[1] + 6); legs.setMatrixAt(i, m4);
+    const board = new THREE.Mesh(boardGeo, boardMat); board.name = "site-board"; board.position.set(0, 1.6, 6);
+    g.add(board); fixed.add(g);
     siteBoards.push({ site: s, x: s.position[0], z: s.position[1] + 6, y });
   });
+  if (!prep.sites.length) { m4.makeScale(0.0001, 0.0001, 0.0001); houses.setMatrixAt(0, m4); legs.setMatrixAt(0, m4); }
+  fixed.add(houses, legs);
 
   // Landmarks (green signs), connectors (tall white signposts at the way out) and field lessons (blue signs): instanced.
   const landmarks = parish.landmarks ?? [];

@@ -435,3 +435,16 @@ question (a `checkin` node carrying `params.check`) → the hand-off to the two-
 `external` node whose `ref` is a KREWE kiosk id or a BAYOU mini-game, with the fallback in `params`) → the closing
 check-in. A GRIOT character drives one on device through `WebXR/shared/by-flow-agent.js` (greet, step, check,
 hand off). As everywhere in this document, this is the SmartCiti.X side of the contract only.
+
+## The K-12 learning module flows (COGNITION)
+
+28 flows, one per K-12 station that had no flow with a station node for it, generated with the learning module
+(`WebXR/shared/cg-units.js`, unit → lesson → flow for each K-12 programme) by `node tools/gen_cg_units.mjs` from the
+station's own steps and a check question taken from its field lesson (or, where none exists, its first interruption):
+`cg-a-controlled-experiment`, `cg-building-a-timeline-from-documents`, `cg-buoyancy-and-pressure-in-the-deep`, `cg-circuits-at-the-electrical-bench`, `cg-digital-citizenship-and-online-safety`, `cg-ecosystems-at-the-kelp-transect`, `cg-energy-transfer-at-the-wind-farm`, `cg-first-aid-awareness-call-for-help`, `cg-fractions-in-the-kitchen`, `cg-geometry-of-a-turbine-blade-sweep`, `cg-graphing-tide-readings-at-the-pier`, `cg-guilds-and-the-history-of-work`, `cg-household-budget-and-first-paycheck`, `cg-how-a-local-council-meeting-works`, `cg-map-literacy-across-eras`, `cg-measuring-and-scaling-the-court`, `cg-oral-history-interview-skills`, `cg-primary-and-secondary-sources`, `cg-probability-with-a-fair-spinner`, `cg-public-speaking-at-the-hall`, `cg-reading-a-map-scale-in-bay-world`, `cg-reading-instructions-and-safety-labels`, `cg-simple-machines-at-a-crane`, `cg-slope-and-angles-on-a-ramp`, `cg-teamwork-and-feedback`, `cg-water-cycle-and-filtration`, `cg-weather-and-the-sky`, `cg-writing-a-clear-incident-report`.
+Each is pre-brief → the station (back to the brief until passed) → a check question (`checkin`, `params.check`) →
+the closing check-in, with the **adaptive step**: a missed check takes the fallback edge to a simpler re-teach node (a
+`brief` of the same station whose `params.reteach` holds the station's own short step titles) and returns to the check.
+`WebXR/shared/cg-runner.js` plays any lesson's flow through a GRIOT character (rendered by `by-flow-agent.js`'s
+`byMountFlowAgent`) and reports the finished lesson to SCHOLAR's session and DEAN's module-progress shapes, guarded.
+`node tools/check_cognition.mjs` is its gate. As everywhere in this document, this is the SmartCiti.X side of the contract only.

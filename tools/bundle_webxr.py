@@ -262,6 +262,24 @@ APPS = {
             SHARED / "payments.js",
             SHARED / "pm-agent.js",
             WEBXR / "instructor/js/billing.js",
+            # DEAN (docs/modules.md): the lesson index across worlds (the parish maps, field and parish lessons)
+            # and the Versions & modules tab, after org.js.
+            SHARED / "np-geo.js",
+            *[SHARED / f"np-data-{n}.js" for n in ["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview"]],
+            SHARED / "sg-ways.js",
+            # BAYMAP's Oakland districts and their ways: np-parishes.js registers them, so every app that bundles it carries them.
+            SHARED / "np-data-oak-west-oakland.js",
+            SHARED / "np-data-oak-downtown-lake.js",
+            SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "bm-ways.js",
+            SHARED / "np-parishes.js",
+            SHARED / "links.js",
+            SHARED / "side-game-mechanics.js",
+            SHARED / "field-lessons.js",
+            SHARED / "by-parish-lessons.js",
+            SHARED / "dn-modules.js",
+            SHARED / "dn-index.js",
+            WEBXR / "instructor/js/dean.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -643,12 +661,16 @@ APPS = {
             WEBXR / "redwood/js/rw-career.js",
             WEBXR / "redwood/js/rw-world.js",
             SHARED / "tf-water.js",  # TERRAFORM: the shared wind and the river's ripple
+            SHARED / "at-atmos.js",  # ATMOS: the seeded weather and the sound mix
+            SHARED / "at-sound.js",  # ATMOS: the synthesised soundscape (muted by default)
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
             SHARED / "passport.js",
             SHARED / "field-lessons.js",  # the K-12 list call
             SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
+            SHARED / "sc-scholar.js",  # SCHOLAR: the K-12 lesson session and its scoring
+            SHARED / "sc-session-ui.js",
             SHARED / "auth.js",
             SHARED / "account.js",
             SHARED / "controls.js",
@@ -660,6 +682,12 @@ APPS = {
             SHARED / "side-games-data.js",
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
+            # COGNITION: the Cognition.X learning-module runner and what it imports (flowhub, BAYOU's flow agent, the units).
+            SHARED / "flowhub.js",
+            SHARED / "by-parish-lessons.js",
+            SHARED / "by-flow-agent.js",
+            SHARED / "cg-units.js",
+            SHARED / "cg-runner.js",
             WEBXR / "redwood/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -746,6 +774,10 @@ APPS = {
             SHARED / "np-data-sf-marina.js",
             SHARED / "np-data-sf-bayview.js",
             SHARED / "sg-ways.js",
+            SHARED / "np-data-oak-west-oakland.js",
+            SHARED / "np-data-oak-downtown-lake.js",
+            SHARED / "np-data-oak-fruitvale-estuary.js",
+            SHARED / "bm-ways.js",
             SHARED / "np-parishes.js",
             SHARED / "np-world.js",
             # TERRAFORM: water, wind and ground cover (the pure half registers the engine's terrain hooks).
@@ -761,6 +793,9 @@ APPS = {
             SHARED / "cw-streets-st-tammany.js",
             SHARED / "cw-cityworks.js",
             SHARED / "cw-streets-world.js",
+            SHARED / "at-atmos.js",  # ATMOS: weather, lamps, fog, sound mix (docs/consoles/ATMOS.md)
+            SHARED / "at-world.js",
+            SHARED / "at-sound.js",
             SHARED / "game.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
@@ -773,6 +808,10 @@ APPS = {
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             SHARED / "sl-parish-play.js",
+            # SCHOLAR (the Packs run, second wave): BAYOU's parish lessons and the K-12 lesson session panel.
+            SHARED / "by-parish-lessons.js",
+            SHARED / "sc-scholar.js",
+            SHARED / "sc-session-ui.js",
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
             SHARED / "crew.js",
@@ -795,6 +834,9 @@ APPS = {
             SHARED / "st-paths.js",
             SHARED / "st-stories-data.js",
             SHARED / "st-stories.js",
+            # DRILLS: the scenario drills (data, then the registry and mount; after st-paths.js and npc-data.js).
+            SHARED / "dr-drills-data.js",
+            SHARED / "dr-drills.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",
@@ -802,6 +844,13 @@ APPS = {
             SHARED / "auth.js",
             SHARED / "account.js",
             SHARED / "controls.js",
+            # DEAN (docs/modules.md): versions and assigned modules applied at load (after org.js, which account.js brings).
+            SHARED / "dn-modules.js",
+            # COGNITION: the Cognition.X learning-module runner and what it imports (flowhub, BAYOU's flow agent, the units).
+            SHARED / "flowhub.js",
+            SHARED / "by-flow-agent.js",
+            SHARED / "cg-units.js",
+            SHARED / "cg-runner.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -908,6 +957,7 @@ APPS = {
 # "flows" is not an app but is reached the same way: the instructor console
 # fetches "../flows/index.json", which needs the same one-level fixup in dist.
 SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs"]
+SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "scholar"]  # scholar: the K-12 scoreboard (SCHOLAR)
 AUTH_CONFIG = "auth-config.json"
 # The apps whose bundle reads the sign-in configuration, and therefore need a
 # copy of it beside the bundle. A deployment edits the copy it serves.

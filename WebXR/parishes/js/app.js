@@ -8,7 +8,7 @@ import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
 import { mgMountLife } from "../../shared/mg-life.js";
-import { ppCompleted, ppHerePage, ppReturnSite, ppRecords, ppAward } from "../../shared/passport.js";
+import { ppCompleted, ppHerePage, ppReturnSite, ppRecords, ppAward, ppAwarded } from "../../shared/passport.js";
 import { tyLedger, tySettle, tyTick, tySignsFor, tyMountLedger, tyBoardRows, tySetRecorder, TY_CURRENCY } from "../../shared/ty-economy.js";
 import { lkStationLink, lkStationLabel, lkWorldLink } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
@@ -32,7 +32,17 @@ import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
-import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+import { pkPacks, pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+import { Auth } from "../../shared/auth.js";
+import { dnApplyModule, dnSetEnterprise, dnUsePacks, dnUseSessions } from "../../shared/dn-modules.js";
+import { scSessions } from "../../shared/sc-scholar.js";
+import { byLessonsFor } from "../../shared/by-parish-lessons.js";
+import { scMountSession } from "../../shared/sc-session-ui.js";
+import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
+import { AT_BUCKET_HOUR, atWeather, atWeatherOf, atSkyKind, atDarken, atFog, atSoundMix } from "../../shared/at-atmos.js";
+import { atMountAtmos, atNearness } from "../../shared/at-world.js";
+import { atMountSound } from "../../shared/at-sound.js";
+import { drMountDrills, drSetRecorder } from "../../shared/dr-drills.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -44,7 +54,7 @@ const $ = (id) => document.getElementById(id);
 const NP_RUNNER = "../smartcity/index.html";
 const NP_EYE = 1.7;
 const NP_TIMES = ["dawn", "day", "dusk", "night"];
-const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm"];
+const NP_WEATHERS = ["clear", "overcast", "fog", "wind", "storm", "live"]; // "live": ATMOS's seeded weather for this parish and hour
 
 // Which parish: ?parish=, else the parish of a return's site (`#site=<parish>/<site>`), else the first.
 const npParams = new URLSearchParams(location.search);
@@ -95,6 +105,22 @@ const tfLand = tfMountTerraform({ THREE, root, parish, tier: npTierName, reduced
 tfLand.update(np.x, np.z, 99);
 const tfRain = tfMountRain({ THREE, root, tier: npTierName, reduced: tfReducedMotion() });
 const connectors = npResolveConnectors(parish);
+// ATMOS: lit windows, porch and site lights at dusk (one instanced mesh), fog banks over water, a wet sheen on the
+// streets after rain, storm darkening, and a synthesised soundscape muted by default (docs/consoles/ATMOS.md).
+const atWetMats = []; cwStreetsMount.group.traverse((o) => { if (o.isMesh && /^cw-streets-/.test(o.name) && !atWetMats.includes(o.material)) atWetMats.push(o.material); });
+for (const m of world.roadMeshes ?? []) if (m?.material && !atWetMats.includes(m.material)) atWetMats.push(m.material);
+const atmos = atMountAtmos({ THREE, root, parish, tier: npTierName, reduced: tfReducedMotion(), massFilter: cwMassFilter(parish), siteLights: world.siteBoards, wetMaterials: atWetMats });
+atmos.update(np.x, np.z);
+const atSound = atMountSound({ reduced: tfReducedMotion() });
+let atWeatherNow = null, atSoundT = 1, atMix = null;
+{
+  const b = document.createElement("button");
+  b.id = "at-sound"; b.type = "button"; b.setAttribute("aria-pressed", "false"); b.textContent = "Sound: off";
+  b.title = tfReducedMotion() ? "Sound stays off while reduced motion is set" : "Turn the synthesised soundscape on or off";
+  b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui";
+  b.addEventListener("click", () => { const on = atSound.setEnabled(!atSound.enabled()); b.textContent = on ? "Sound: on" : "Sound: off"; b.setAttribute("aria-pressed", String(on)); });
+  document.body.appendChild(b);
+}
 
 // NEWTON's physics (docs/consoles/NEWTON.md): gravity, walls, wading and swimming for the walk, props that tumble,
 // and the Motor Pool's drive mode with crash response. TERRAFORM's water and flow and CITYWORKS' colliders are read
@@ -105,7 +131,7 @@ const nwPhys = nwMountPhysics({
   three: THREE, root, parish, tier: npTierName, reduced: npReduced,
   seams: { tfWaterDepthAt, tfFlowAt, cwColliders, tfLitterAt }, // TERRAFORM's water and litter, CITYWORKS's colliders
   link: (id) => npLink(id, null),
-  onCard: () => npKeys.clear(),
+  onCard: () => { npKeys.clear(); drWorld?.offer("dr-traffic"); }, // DRILLS: the card becomes the traffic incident drill
 });
 nwPhys.place(np.x, np.z);
 let nwMode = "walk";
@@ -128,20 +154,27 @@ const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and wa
 let sky = null, npRecipe = null;
 function npApplySky() {
   if (sky) root.remove(sky.root);
-  const weather = weatherFor(NP_WEATHERS[np.weatherIdx]);
+  const atHour = AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12, atLive = NP_WEATHERS[np.weatherIdx] === "live";
+  const atNear = atNearness(parish, np.x, np.z);
+  atWeatherNow = atLive ? atWeather(parish.id, atHour, 1, { nearWater: atNear.water > 0.5 }) : atWeatherOf(NP_WEATHERS[np.weatherIdx], atHour);
+  const weather = weatherFor(atLive ? atSkyKind(atWeatherNow) : NP_WEATHERS[np.weatherIdx]);
   sky = buildSky(root, { time: NP_TIMES[np.timeIdx], weather, radius: 3000 });
   npRecipe = sky.recipe;
-  scene.background.setHex(npRecipe.sky);
-  scene.fog.color.setHex(npRecipe.fog);
+  const atDim = atDarken(atWeatherNow), atShade = (hex) => new THREE.Color(hex).multiplyScalar(atDim).getHex();
+  scene.background.setHex(atShade(npRecipe.sky));
+  scene.fog.color.setHex(atShade(npRecipe.fog));
   const vis = Math.max(800, (npRecipe.visibility ?? 1200) * 2.0) / (npTierSet.fogScale ?? 1);
-  scene.fog.near = vis * 0.15; scene.fog.far = vis;
+  // ATMOS's fog: thicker in a fog bank over water, never so thick that a site board is lost inside its read distance.
+  const atF = atFog({ weather: atWeatherNow, band: atWeatherNow.band, nearWater: atNear.water });
+  scene.fog.near = Math.min(vis * 0.15, atF.near); scene.fog.far = Math.min(vis, atF.far);
+  atmos.set({ hour: atHour, weather: atWeatherNow });
   const night = NP_TIMES[np.timeIdx] === "night";
-  sun.intensity = night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6;
-  hemi.intensity = night ? 0.25 : 0.95;
+  sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim; // a storm front darkens the light
+  hemi.intensity = (night ? 0.25 : 0.95) * atDim;
   cwStreetsMount.setNight(night || NP_TIMES[np.timeIdx] === "dusk");
   $("hud-clock").textContent = NP_TIMES[np.timeIdx];
   $("hud-weather").textContent = NP_WEATHERS[np.weatherIdx];
-  tfRain?.set(NP_WEATHERS[np.weatherIdx] === "storm");
+  tfRain?.set(NP_WEATHERS[np.weatherIdx] === "storm" || atWeatherNow.rain > 0.3); // the front drives TERRAFORM's wind-slanted rain
 }
 npApplySky();
 
@@ -224,7 +257,9 @@ function npOpenBoard(site) {
   $("board-blurb").textContent = site.blurb ?? "";
   const ul = $("board-stations"); ul.textContent = "";
   for (const id of site.stations) {
+    if (dnHere.hidden.stations.has(id)) continue; // DEAN: a station only switched-off packs carry leaves the board
     const li = document.createElement("li");
+    if (dnHere.glow.stations.has(id)) li.className = "dn-assigned";
     const name = document.createElement("span"); name.textContent = `${ppCompleted(id) ? "✓ " : ""}${lkStationLabel(id)}`;
     if (ppCompleted(id)) name.className = "done";
     const a = document.createElement("a"); a.className = "btn primary"; a.href = npLink(id, site.id); a.dataset.station = id; a.textContent = "Start";
@@ -446,17 +481,25 @@ function frame(now) {
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
   tfRain.animate(now / 1000, dt, camera.position.x, camera.position.y, camera.position.z);
+  atmos.update(np.x, np.z); atmos.animate(now / 1000, dt);
+  if (atSound.enabled()) {
+    atSoundT += dt;
+    if (atSoundT > 0.5 || !atMix) { atSoundT = 0; atMix = atSoundMix({ hour: AT_BUCKET_HOUR[NP_TIMES[np.timeIdx]] ?? 12, weather: atWeatherNow, wind: tfWind(now / 1000).gust, near: atNearness(parish, np.x, np.z) }); }
+    atSound.update(atMix, now / 1000);
+  }
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
   mgLife?.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
+  drWorld?.animate(dt);
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
     np.near = npNearest();
     npQmApproach(np.near);
+    if (np.playing) scSession.tick(np.x, np.z);
     for (const s of parish.sites) if (Math.hypot(np.x - s.position[0], np.z - s.position[1]) < 40 && npVisit(np.state, parish.id, s.id)) { npToast(`Visited: ${s.name}. Fast travel unlocked.`); npSave(np.state); }
   }
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
@@ -464,6 +507,14 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
+
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson or a BAYOU lesson.
+const scSession = scMountSession({
+  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id)],
+  siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
+  stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
+});
+window.scSessionPanel = scSession; // the headless session test drives it (docs/consoles/SCHOLAR.md)
 
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;
@@ -574,6 +625,32 @@ function tyAfterTick(events) {
   tyRefresh();
 }
 $("menu-ledger").addEventListener("click", tyOpenLedger);
+// DEAN (docs/modules.md): the class's version and assigned modules, applied at load. Assigned lessons glow on their
+// boards (the board's material is swapped for a brighter one — no new mesh), stations only switched-off packs carry
+// leave the boards, and the menu names the module and its due date. The enterprise block is the stricter side.
+function dnApplyHere() {
+  try { dnSetEnterprise(Auth.config?.enterprise ?? null); } catch (_) { /* no config yet */ }
+  const a = dnApplyModule("parishes", { sites: parish.sites });
+  const glowMat = new THREE.MeshLambertMaterial({ color: 0xffe066, emissive: 0x8a6a00 });
+  for (const b of world.siteBoards) {
+    const board = root.getObjectByName(`site-${b.site.id}`)?.getObjectByName("site-board");
+    if (!board) continue;
+    board.userData.dnBase ??= board.material;
+    board.material = a.glow.sites.has(b.site.id) ? glowMat : board.userData.dnBase;
+  }
+  const line = $("menu-dean");
+  if (line) {
+    line.hidden = !a.modules.length && a.allowed;
+    line.textContent = !a.allowed ? "Your class's version does not include this world; ask your teacher which worlds are on."
+      : a.modules.map((m) => `Assigned: ${m.title}${m.due ? ` · due ${m.due}` : ""} · ${m.lessons.length} lesson(s) · glowing boards: ${a.glow.sites.size}`).join(" · ");
+  }
+  return a;
+}
+// DEAN reads PACKS' registry and SCHOLAR's sessions through its hooks (docs/modules.md).
+dnUsePacks(pkPacks); dnUseSessions(scSessions);
+let dnHere = { hidden: { stations: new Set() }, glow: { stations: new Set(), sites: new Set() }, modules: [] };
+try { dnHere = dnApplyHere(); } catch (_) { /* DEAN is optional */ }
+addEventListener("gt:profile", () => { try { dnHere = dnApplyHere(); } catch (_) { /* keep */ } });
 
 // Live-test handle (tools/check_parishes.mjs and the capture scripts).
 window.__parishTest = {
@@ -581,7 +658,10 @@ window.__parishTest = {
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
+  atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   krewe: kwDress, begin: npBegin, newton: nwPhys, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"), tycoon: { open: () => tyOpenLedger(), signs: tySigns, refresh: tyRefresh },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
+  krewe: kwDress, begin: npBegin, dean: () => dnHere, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */
@@ -600,8 +680,18 @@ var stWorld = stMountPaths({
   stationHref: (id, siteId) => npLink(id, siteId),
 });
 window.__parishTest.storyline = stWorld;
+// DRILLS (docs/consoles/DRILLS.md): timed scenario drills at fitting sites — briefing, objectives tied to real station
+// steps, a debrief — offered on the First Responders, Disaster Relief and UN Training paths, recorded to the passport.
+drSetRecorder(ppAward);
+var drWorld = drMountDrills({
+  three: THREE, root, parish, el: $("menu-drills"), tier: npTierName, reducedMotion: npReduced, toast: npToast,
+  stationHref: (id, siteId) => npLink(id, siteId),
+});
+window.__parishTest.drills = drWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
+// COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
+window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast) });
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";

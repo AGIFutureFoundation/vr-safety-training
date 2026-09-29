@@ -36,9 +36,24 @@
   "worlds": [
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-industrial-canal-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "st-bernard",
       "sites": [
-        "sb-refinery"
+        "sb-refinery",
+        "sb-sw-shell-beach-boat-repair-yard"
       ]
     },
     {
@@ -46,6 +61,13 @@
       "parish": "plaquemines",
       "sites": [
         "pq-pipeline-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mi-sw-dogpatch-boat-repair-yard"
       ]
     }
   ],
@@ -56,7 +78,7 @@
     "paint-sprayer": "Coatings Bay"
   },
   "version": "1.0.0",
-  "contentHash": "d255bcae",
+  "contentHash": "f34040ea",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

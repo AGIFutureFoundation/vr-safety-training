@@ -50,7 +50,15 @@
   "k12Bands": [],
   "path": "union-trades",
   "alsoPaths": [],
-  "worlds": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "uptown-theatre-stage-crew"
+      ]
+    }
+  ],
   "stationNames": {
     "md-intimacy-and-conduct-coordination-briefing": "Intimacy & Conduct Coordination Briefing",
     "md-newsroom-storm-scene-and-live-truck-mast": "Newsroom Storm Scene & Live Truck Mast",
@@ -62,7 +70,7 @@
     "md-set-safety-meeting-and-stunt-go-no-go": "Set Safety Meeting & Stunt Go/No-Go"
   },
   "version": "1.0.0",
-  "contentHash": "926e55ae",
+  "contentHash": "4e2cf3aa",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

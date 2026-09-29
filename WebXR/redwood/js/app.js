@@ -6,7 +6,8 @@ import { createGamepad, GAMEPAD_DEADZONE } from "../../shared/input.js";
 import { tcTier, tcTierChoice, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { gtStorage } from "../../shared/profiles.js";
-import { ppCompleteReturns, ppHerePage, ppReturnSite } from "../../shared/passport.js";
+import { ppCompleteReturns, ppHerePage, ppReturnSite, ppAward, ppAwarded } from "../../shared/passport.js";
+import { scMountSession } from "../../shared/sc-session-ui.js";
 import { qmMissing, qmCachedSnapshot, qmInvalidate } from "../../shared/skill-gates.js";
 import { lkStationLink, lkRenderStations, lkSiteHeading, lkStationLabel } from "../../shared/links.js";
 // Skill-gated side quests (docs/skill-gates.md): the shared chip, quest-log panel, board rows, map pins and lock toast.
@@ -24,10 +25,13 @@ import {
   rwScoreActivity, rwRecordActivity,
 } from "./rw-career.js";
 import { rwBuildWorld } from "./rw-world.js";
-import { tfAnimateWater, tfReducedMotion, tfMotion } from "../../shared/tf-water.js";
+import { tfAnimateWater, tfReducedMotion, tfMotion, tfWind } from "../../shared/tf-water.js";
+import { atWeather, atSoundMix } from "../../shared/at-atmos.js";
+import { atMountSound } from "../../shared/at-sound.js";
 import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
 // NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
 import { grMount } from "../../shared/npc.js";
+import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 
 // Redwood Reach — the app: the menu, the walk (and the fire-road vehicle),
 // the HUD, the job boards, the quest log with its skill gates, the field tins,
@@ -91,6 +95,20 @@ function rwInitScene() {
       rwApp.tfStill = tfReducedMotion();
       rwApp.tfWater = tfAnimateWater(THREE, river.material, { reduced: rwApp.tfStill });
     }
+  }
+  // ATMOS (docs/consoles/ATMOS.md): the synthesised soundscape — wind, rain, the river near its banks, birds by day,
+  // crickets by night — muted by default behind a Sound toggle, and never on under reduced motion.
+  {
+    const river = scene.getObjectByName("rw-river"), p = river?.geometry?.attributes?.position?.array, pts = [];
+    if (p) for (let i = 0; i + 5 < p.length; i += 6 * 4) pts.push([(p[i] + p[i + 3]) / 2, (p[i + 2] + p[i + 5]) / 2]);
+    rwApp.atRiver = pts;
+    rwApp.atSound = atMountSound({ reduced: tfReducedMotion() });
+    const b = document.createElement("button");
+    b.id = "at-sound"; b.type = "button"; b.setAttribute("aria-pressed", "false"); b.textContent = "Sound: off";
+    b.title = tfReducedMotion() ? "Sound stays off while reduced motion is set" : "Turn the synthesised soundscape on or off";
+    b.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:30;padding:6px 10px;border-radius:8px;border:1px solid #fff6;background:#0009;color:#fff;font:13px system-ui";
+    b.addEventListener("click", () => { const on = rwApp.atSound.setEnabled(!rwApp.atSound.enabled()); b.textContent = on ? "Sound: on" : "Sound: off"; b.setAttribute("aria-pressed", String(on)); });
+    document.body.appendChild(b);
   }
   for (const id of rwApp.state.found) world.markFound(id);
   // The treasure layer's logbook pages and trail blazes (docs/treasures.md):
@@ -284,6 +302,8 @@ function rwOpenBoard(site) {
     ll.appendChild(li);
   }
   if (!ll.children.length) ll.innerHTML = "<li>None at this site.</li>";
+  // COGNITION: the K-12 learning module runner for this site, guided by the crew boss (docs/consoles/COGNITION.md).
+  rwApp.cognition = cgMountRunner($("jb-cognition"), { world: "redwood", site: site.id, guide: "gr-rw-crew-boss", report: cgWorldReport() });
   rwShow("scr-board");
 }
 
@@ -391,6 +411,11 @@ function rwWaypoint(act, w) {
 // Redwood's lessons in the shared K-12 shape: one passport award kind and one
 // Field Notes badge across every world (WebXR/shared/field-kiosk.js).
 const RW_K2 = RW_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "redwood"));
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson (L opens it).
+const rwScholar = scMountSession({
+  world: "redwood", lessons: RW_FIELD_LESSONS, siteAt: (_p, siteId) => rwSite(siteId)?.position ?? null,
+  stationHref: (l) => lkStationLink(l.k12, { runner: RW_RUNNER, from: "redwood", page: ppHerePage(), siteId: l.site }), award: ppAward, awarded: ppAwarded,
+});
 function rwRunLesson(fl) {
   let i = 0;
   const next = () => {
@@ -551,6 +576,15 @@ function rwFrame(now) {
     rwApp.world.update(dt, rwApp.camera);
     rwApp.npc?.animate(now / 1000, dt);
     if (rwApp.tfWater) rwApp.tfWater.uTfTime.value = tfMotion(rwApp.tfStill, now / 1000).t;
+    if (rwApp.atSound?.enabled()) {
+      rwApp.atT = (rwApp.atT ?? 1) + dt;
+      if (rwApp.atT > 0.5) {
+        rwApp.atT = 0;
+        const h = rwApp.world.hour ?? 10, d = Math.min(...(rwApp.atRiver ?? []).map(([x, z]) => Math.hypot(x - rwApp.x, z - rwApp.z)), 1e9);
+        rwApp.atMix = atSoundMix({ hour: h, weather: atWeather("redwood", h), wind: tfWind(now / 1000).gust, near: { water: Math.max(0, 1 - d / 150), arterial: 0, port: 0 } });
+      }
+      rwApp.atSound.update(rwApp.atMix ?? {}, now / 1000);
+    }
     rwApp.renderer.render(rwApp.scene, rwApp.camera);
   }
   rwEdge.clear();
@@ -590,6 +624,7 @@ function rwTick(dt) {
   const near = rwNearest();
   rwApp.near = near;
   rwQmApproach(near);
+  rwScholar.tick(rwApp.x, rwApp.z);
   const prompt = $("hud-prompt");
   if (near) {
     prompt.hidden = false;

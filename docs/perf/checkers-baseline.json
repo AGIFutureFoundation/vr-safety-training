@@ -41,6 +41,7 @@
     "check_models.mjs": 425,
     "check_flowhub.mjs": 161,
     "check_k12.mjs": 1285,
+    "check_scholar.mjs": 1420,
     "check_home.mjs": 32169,
     "check_districts.mjs": 2324,
     "check_ladders.mjs": 3225,
@@ -63,6 +64,7 @@
     "check_gates.mjs": 233,
     "check_parish_play.mjs": 596,
     "check_storyline.mjs": 320,
+    "check_drills.mjs": 200,
     "check_krewe.mjs": 24270,
     "check_menagerie.mjs": 1900,
     "check_unity_export.mjs": 7776,
@@ -83,6 +85,7 @@
     "check_treasures_live.mjs": 47940,
     "check_auth.mjs": 954,
     "check_enterprise.mjs": 33972,
+    "check_dean.mjs": 400,
     "check_i18n.mjs": 149537,
     "check_seo.mjs": 58690,
     "check_design.mjs": 1013,
@@ -97,14 +100,19 @@
     "check_terraform.mjs": 30000,
     "check_cityworks.mjs": 58400,
     "check_packs.mjs": 1100,
-    "check_tycoon.mjs": 440
+    "check_tycoon.mjs": 440,
+    "check_cognition.mjs": 2900,
+    "check_atmos.mjs": 52000,
+    "check_reactor.mjs": 35809
   },
   "notes": {
+    "check_cognition.mjs": "2026-09-29 02:20 UTC: new (console COGNITION). 2.9 s standalone: the generator --check (headless rooms load), 40 flows validated, 28 adaptive walks and 40 headless runner finishes.",
     "check_terraform.mjs": "2026-09-29 01:32 UTC: new (console TERRAFORM). 25 s of CPU (69 s wall under seven consoles' load): the pure checks over ten maps plus a headless build of the engine with TERRAFORM at every site on two tiers.",
     "check_treasures_live.mjs": "2026-09-28 22:45 UTC: rebaselined 21.9 s -> 47.9 s. GRIOT added crew characters with per-frame animation to Redwood Reach; its page loads and walk steps are slower in SwiftShader (Redwood section 30 s of 45 s standalone). Feature cost, not a regression.",
     "check_parishes.mjs": "2026-09-29 01:10 UTC: rebaselined 11.0 s -> 17.7 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the engine checks ten maps (five New Orleans parishes and five San Francisco districts, all strict) instead of five.",
     "check_unity_export.mjs": "2026-09-29 01:10 UTC: rebaselined 6.2 s -> 7.8 s on a quiet run (load 1.6 -> 2.6 on 4 cores): the export carries the twelve Bayou K-12 stations and the San Francisco content.",
     "check_race.mjs": "2026-09-29 01:10 UTC: rebaselined 8.9 s -> 10.8 s on a quiet run (load 1.6 -> 2.6 on 4 cores): race.html grew by the shared bar and design-system modules that the Crescent run and the Holodeck rescue bundle into every page.",
-    "check_cityworks.mjs": "2026-09-29 01:30 UTC: first baseline (CITYWORKS, the Packs run): ten maps, colliders over all 256 chunks each, and a headless parish + streets build at every site on two tiers."
+    "check_cityworks.mjs": "2026-09-29 01:30 UTC: first baseline (CITYWORKS, the Packs run): ten maps, colliders over all 256 chunks each, and a headless parish + streets build at every site on two tiers.",
+    "check_atmos.mjs": "2026-09-29 02:10 UTC: new (console ATMOS). 52 s wall under the third wave's load: pure weather/fog/light/sound checks over ten maps plus a headless engine + CITYWORKS + TERRAFORM + ATMOS build at four sites of every map on two tiers."
   }
 }

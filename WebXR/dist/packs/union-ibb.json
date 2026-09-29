@@ -74,16 +74,25 @@
     },
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-industrial-canal-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "jefferson",
       "sites": [
-        "jf-harvey-canal-yard"
+        "jf-harvey-canal-yard",
+        "jf-sw-west-bank-waterfront-boat-repair-yard"
       ]
     },
     {
       "world": "parishes",
       "parish": "st-bernard",
       "sites": [
-        "sb-refinery"
+        "sb-refinery",
+        "sb-sw-shell-beach-boat-repair-yard"
       ]
     },
     {
@@ -97,7 +106,18 @@
       "world": "parishes",
       "parish": "st-tammany",
       "sites": [
-        "st-madisonville-boatyard"
+        "st-madisonville-boatyard",
+        "st-sw-piney-woods-east-renovation-site",
+        "st-sw-piney-woods-west-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-russian-hill-renovation-site",
+        "dt-sw-south-of-market-fabrication-shop",
+        "dt-sw-western-addition-renovation-site"
       ]
     },
     {
@@ -105,7 +125,38 @@
       "parish": "sf-mission",
       "sites": [
         "soma-maker-workshop",
-        "dogpatch-shipyard"
+        "dogpatch-shipyard",
+        "mi-sw-mission-renovation-site",
+        "mi-sw-potrero-hill-renovation-site",
+        "mi-sw-dogpatch-boat-repair-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-western-addition-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-excelsior-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "laney-college-campus"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "embarcadero-metal-workshop"
       ]
     }
   ],
@@ -122,7 +173,7 @@
     "welding": "Weld Bay"
   },
   "version": "1.0.0",
-  "contentHash": "cee0c19c",
+  "contentHash": "2f4c0668",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

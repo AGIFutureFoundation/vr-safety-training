@@ -23,6 +23,7 @@
 // is prefixed st/ST_ (the bundler shares one scope).
 
 import { gtStorage } from "./profiles.js";
+import { dnCanSwitchPath } from "./dn-modules.js";
 
 export const ST_KEY = "vr-passport-storyline-v1";
 export const ST_PATH_IDS = ["union-trades", "k12", "first-responders", "un-training", "disaster-relief", "teachers", "roam"];
@@ -97,6 +98,9 @@ export function stSave(state) { try { stStore()?.setItem(ST_KEY, JSON.stringify(
 export function stChosenPath() { return stLoad().path; }
 export function stChoosePath(id) {
   const s = stLoad();
+  // A teacher or admin can lock a class's version to one path (DEAN): a locked path does not switch.
+  // An unknown id clears the pick (as null does); the lock is asked only about real paths.
+  try { if (id && stPath(id) && !dnCanSwitchPath(id)) return s.path; } catch (_) { /* no version set */ }
   s.path = stPath(id) ? id : null;
   stSave(s);
   try { globalThis.dispatchEvent?.(new CustomEvent("st:path", { detail: { path: s.path } })); } catch (_) { /* headless */ }

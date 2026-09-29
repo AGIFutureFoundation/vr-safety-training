@@ -220,3 +220,50 @@ module is never edited to carry one. The parishes app draws a world way as a way
 label) and crosses with `lkWorldLink` (`&from=parishes&return=<page>#site=<district>/<site>`, encoded); the passport
 lives in the origin's storage and crosses with the learner. Bay World's Atlas and its map carry the way back,
 `../parishes/parishes.html?parish=sf-downtown`.
+
+## Oakland & the East Bay — the third region (console BAYMAP)
+
+Region `oakland` ("Oakland & East Bay Districts", a map is a *district*) in `NP_REGIONS` and in check_parish_data's
+`ND_REGIONS`. Three 4096 m districts on the same schema (with `hills`), written once by a scratch generator from
+approximate public lon/lat through one north-up uniform scale of about 2.1 real metres per map metre, with one shared
+East Bay shoreline, the Oakland Estuary (a ribbon), Lake Merritt and the creeks clipped to each field, so the districts
+agree on the shore; the boxes overlap. Site names and crews are procedural training places; real places are named only.
+
+| district | id | module | export | sites | hills | connectors |
+|---|---|---|---|---|---|---|
+| West Oakland & the Port | `oak-west-oakland` | `np-data-oak-west-oakland.js` | `NP_OAK_WEST_OAKLAND` | 13 | — (the shore walls give relief) | 4 |
+| Downtown Oakland & Lake Merritt | `oak-downtown-lake` | `np-data-oak-downtown-lake.js` | `NP_OAK_DOWNTOWN_LAKE` | 12 | Adams Point, the Piedmont hills | 4 |
+| Fruitvale & the Estuary | `oak-fruitvale-estuary` | `np-data-oak-fruitvale-estuary.js` | `NP_OAK_FRUITVALE_ESTUARY` | 12 | the Oakland hills, Lincoln Highlands | 3 |
+
+**West Oakland & the Port** — the Outer Harbor and Seventh Street container terminals, the port's crane shop and truck
+staging yard, the rail yard, the Mandela Parkway union hall and warehouse row, a school campus, the deFremery recreation
+centre, the transit station, an air monitoring station, a substation by the Emeryville shore and the Bay Bridge toll
+plaza crew yard. **Downtown Oakland & Lake Merritt** — the civic centre on Frank Ogawa Plaza, a downtown high-rise site,
+the Uptown theatre stage crew (the Fox Theater and the Paramount Theatre stand as places), the Pill Hill hospital
+campus, the Laney College campus by the channel, the Lakeside Park grounds crew and the boating dock on Lake Merritt, a
+bus yard, Chinatown's kitchens, Jack London's hotel row, a downtown fire station and a tower plant room. **Fruitvale &
+the Estuary** — the Fruitvale public market and transit station, Brooklyn Basin's marina, the Alameda estuary boatyard,
+a school campus, a metal workshop on the Embarcadero, the San Leandro Bay shoreline crew, a fire station, the High
+Street warehouse yard, the Sausal Creek storm drain crew, the Fruitvale Bridge crew and a community clinic.
+
+### Oakland connectors
+
+Each side lists the crossing under its own district-prefixed id at the same `lonlat`; the far end is projected from
+that shared lon/lat through the other district's fit.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| West Grand Avenue | road | oak-west-oakland ↔ oak-downtown-lake | -122.281, 37.815 | `bm-wo-west-grand`, `bm-dl-west-grand` |
+| Broadway at Jack London Square | road | oak-west-oakland ↔ oak-downtown-lake | -122.276, 37.797 | `bm-wo-jack-london`, `bm-dl-jack-london` |
+| International Boulevard | road | oak-downtown-lake ↔ oak-fruitvale-estuary | -122.250, 37.793 | `bm-dl-international`, `bm-fe-international` |
+| The Embarcadero along the estuary | road | oak-downtown-lake ↔ oak-fruitvale-estuary | -122.258, 37.789 | `bm-dl-embarcadero`, `bm-fe-embarcadero` |
+| Webster Street through the tube (Alameda) | road | oak-west-oakland ↔ oak-fruitvale-estuary | -122.2764, 37.787 | `bm-wo-webster-tube`, `bm-fe-webster-tube` |
+| The Bay Bridge (mid-crossing, by Yerba Buena Island) | bridge | oak-west-oakland ↔ sf-downtown | -122.358, 37.812 | `bm-wo-bay-bridge-west`, `sf-dt-bay-bridge-east` |
+| Into Bay World's West Oakland | world (`bm-ways.js`) | oak-west-oakland → Bay World | -122.290, 37.809 | `bm-wo-bay-world` |
+| Into Bay World's Lake Loop | world (`bm-ways.js`) | oak-downtown-lake → Bay World | -122.247, 37.805 | `bm-dl-bay-world` |
+| Into Bay World's estuary waterfront | world (`bm-ways.js`) | oak-fruitvale-estuary → Bay World | -122.245, 37.786 | `bm-fe-bay-world` |
+
+The Bay Bridge is now a walkable bridge between the regions as well as GOLDEN-B's world way: `sf-dt-bay-bridge-east`
+leaves Downtown from the anchorage, `bm-wo-bay-bridge-west` leaves West Oakland from the toll plaza, and both name the
+mid-crossing point both fields hold. The world ways live in `shared/bm-ways.js` (GOLDEN-B's pattern) and are appended by
+`npResolveConnectors`, so the district modules never carry a `world` connector.

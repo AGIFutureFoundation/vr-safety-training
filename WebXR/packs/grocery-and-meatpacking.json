@@ -50,7 +50,45 @@
   "k12Bands": [],
   "path": "union-trades",
   "alsoPaths": [],
-  "worlds": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-lakeview-and-gentilly-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-metairie-grocery-distribution-centre",
+        "jf-sw-kenner-airport-side-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-arabi-and-chalmette-grocery-distribution-centre",
+        "sb-sw-violet-and-poydras-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "gg-sw-sunset-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-public-market"
+      ]
+    }
+  ],
   "stationNames": {
     "gr-meat-dept-band-saw-and-grinder-lockout": "Meat Dept Band Saw & Grinder Lockout",
     "gr-deli-slicer-sanitation-and-allergen-line": "Deli Slicer Sanitation & Allergen Line",
@@ -62,7 +100,7 @@
     "gr-pharmacy-floral-chemical-handling-and-sds": "Pharmacy & Floral Chemical Handling and SDS"
   },
   "version": "1.0.0",
-  "contentHash": "763c94dc",
+  "contentHash": "b7562233",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

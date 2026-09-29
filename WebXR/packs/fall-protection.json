@@ -65,23 +65,49 @@
     },
     {
       "world": "parishes",
+      "parish": "orleans",
+      "sites": [
+        "no-sw-mid-city-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-refinery-corridor-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-sw-piney-woods-west-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "sf-downtown",
       "sites": [
-        "financial-district-high-rise"
+        "financial-district-high-rise",
+        "dt-sw-western-addition-fire-station"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-mission",
       "sites": [
-        "mission-bay-construction-site"
+        "mission-bay-construction-site",
+        "mi-sw-rincon-high-rise-site"
       ]
     },
     {
       "world": "parishes",
       "parish": "sf-golden-gate-park",
       "sites": [
-        "richmond-fire-station"
+        "richmond-fire-station",
+        "gg-sw-inner-richmond-fire-station",
+        "gg-sw-outer-richmond-fire-station",
+        "gg-sw-sunset-housing-construction-site"
       ]
     },
     {
@@ -89,6 +115,21 @@
       "parish": "sf-marina",
       "sites": [
         "chestnut-construction"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-portola-fire-station",
+        "bv-sw-bayview-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "downtown-high-rise-site"
       ]
     }
   ],
@@ -102,7 +143,7 @@
     "fp-anchor-selection-and-rescue-plan": "Anchor Selection & Rescue Plan"
   },
   "version": "1.0.0",
-  "contentHash": "91575667",
+  "contentHash": "3a74f9ba",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
