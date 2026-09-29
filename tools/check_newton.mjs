@@ -88,7 +88,9 @@ for (const h of [2, 10, 40]) {
 // ------------------------------------------------------------------ water
 {
   const w = N.nwWorld({ groundAt: () => -5, waterDepthAt: () => 5 });
-  let a = N.nwAvatarState(0, 0, w); a.y = 0.5;
+  const placed = N.nwAvatarState(0, 0, w);
+  check("buoyancy", placed.mode === "swim" && Math.abs(placed.y + N.NW_AVATAR.swimFloat) < 1e-9, "a learner placed in deep water starts afloat at the surface, not on the bed");
+  let a = { ...placed, y: 0.5 };
   for (let i = 0; i < 60 * 6; i++) a = N.nwAvatarStep(a, { vx: 0, vz: 0 }, H, w);
   const target = 0 - N.NW_AVATAR.swimFloat;
   check("buoyancy", a.mode === "swim" && Math.abs(a.y - target) < 0.05, `buoyancy holds a swimmer at the surface (feet ${a.y.toFixed(3)} m, float line ${target.toFixed(2)} m, mode ${a.mode})`);
@@ -172,6 +174,11 @@ function ram(speed, { angle = 0, bodies = null } = {}) {
   check("props", !cones.crash && cones.hits >= 1 && moved >= 1, `cones are knocked aside and tumble, no crash (${moved} of four moved, ${cones.hits} hits)`);
   const car = ram(12, { bodies: (w) => w.addBody({ id: "parked", kind: "car", pos: [0, 0.75, 20], half: [0.95, 0.75, 2.3], mass: 1200, sleeping: true }) });
   check("props", car.crash && car.card && car.w.bodies[0].sleeping === false, "a parked car stops the vehicle as a crash and is shoved (woken)");
+  const cw = N.nwWorld({ groundAt: () => 0, colliders: [{ min: [-2, 0, -2], max: [2, 6, 2], kind: "building" }] });
+  check("start", !N.nwVehicleClear(N.nwVehicleState(0, 1, 0, [0.95, 0.8, 2.4], cw), cw) && N.nwVehicleClear(N.nwVehicleState(0, 12, 0, [0.95, 0.8, 2.4], cw), cw), "nwVehicleClear refuses a start inside a building and allows one in the open");
+  let back = { ...N.nwVehicleState(0, 4.5, 0, [0.95, 0.8, 2.4], cw), speed: 0 };
+  for (let i = 0; i < 60; i++) back = N.nwVehicleStep(back, { throttle: 0.5 }, H, cw, light.profile).state;
+  check("start", back.z > 5, `a vehicle nosed against a wall can pull away from it (z ${back.z.toFixed(2)})`);
   say(`props: cones tumble (${moved} knocked), a parked car at 12 m/s is a crash`);
 }
 

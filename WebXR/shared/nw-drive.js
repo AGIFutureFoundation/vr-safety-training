@@ -20,7 +20,7 @@
 // drivable's class (MOTORPOOL's full builders stay out of the parish bundle
 // for weight); `link(stationId)` builds the card's station link.
 import { NP_WATER_Y, npHeightAt, npNearestRoad, npPolyDistance, npPolyPointAt } from "./np-parish.js";
-import { nwParishWorld, nwAvatarState, nwAvatarStep, nwVehicleState, nwVehicleStep, nwCrashCard, NW_AVATAR } from "./nw-physics.js";
+import { nwParishWorld, nwAvatarState, nwAvatarStep, nwVehicleState, nwVehicleStep, nwVehicleClear, nwCrashCard, NW_AVATAR } from "./nw-physics.js";
 
 /** Schematic footprint [w, h, l] by the Motor Pool board's class word (game shapes, never a maker's figure). */
 export const NW_CLASS_DIMS = {
@@ -204,6 +204,11 @@ export function nwMountPhysics({ three, root, parish, seams = {}, tier = "balanc
     vehMesh = buildVehicle(entry);
     const [w, h, l] = vehMesh.userData.dims;
     veh = nwVehicleState(sx, sz, heading, [w / 2, h / 2, l / 2], world);
+    // Never start inside a wall or a trunk: step along the heading, ahead then behind, until the footprint is clear.
+    for (let k = 1; k <= 12 && !nwVehicleClear(veh, world); k++) {
+      const d = Math.ceil(k / 2) * 4 * (k % 2 ? 1 : -1);
+      veh = nwVehicleState(sx + Math.sin(heading) * d, sz + Math.cos(heading) * d, heading, veh.half, world);
+    }
     root.add(vehMesh);
     placeVehicle();
     return true;

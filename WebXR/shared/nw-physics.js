@@ -228,7 +228,10 @@ export function nwWorld({ groundAt = () => 0, colliders = [], waterDepthAt = () 
 
 /** A fresh avatar standing at (x, z). */
 export function nwAvatarState(x, z, world) {
-  return { x, y: world.groundAt(x, z), z, vy: 0, mode: "walk", breath: 1, onGround: true, splash: false, cue: null, landed: 0 };
+  // Placed in deep water (a teleport, a fast travel), the learner starts afloat at the surface, not on the bed.
+  const g = world.groundAt(x, z), d = world.waterDepthAt(x, z) || 0;
+  if (d >= NW_AVATAR.swimDepth) return { x, y: g + d - NW_AVATAR.swimFloat, z, vy: 0, mode: "swim", breath: 1, onGround: false, splash: false, cue: null, landed: 0 };
+  return { x, y: g, z, vy: 0, mode: "walk", breath: 1, onGround: true, splash: false, cue: null, landed: 0 };
 }
 
 /** Is the avatar's circle at (x, z), feet at y, clear of every wall (a box taller than a step)? */
@@ -311,6 +314,16 @@ function nwVehicleCircles(half, x, z, heading) {
   const out = [];
   for (let i = 0; i < n; i++) { const t = -half[2] + half[0] + ((2 * half[2] - 2 * half[0]) * i) / (n - 1); out.push([x + fx * t, z + fz * t]); }
   return out;
+}
+
+/** Is a vehicle's footprint clear of every box (a place it can start from)? */
+export function nwVehicleClear(veh, world) {
+  const r = veh.half[0], y0 = veh.y + 0.4, y1 = veh.y + veh.half[1] * 2;
+  for (const [cx, cz] of nwVehicleCircles(veh.half, veh.x, veh.z, veh.heading)) {
+    for (const b of world.boxesNear(cx, cz, r + 1)) if (nwCircleBox(cx, cz, r, y0, y1, b)) return false;
+    if ((world.waterDepthAt(cx, cz) || 0) > 0.6) return false;
+  }
+  return true;
 }
 
 /**
