@@ -456,3 +456,14 @@ One flow per K-12 Bay ecology lesson, generated from `ES_LESSONS` in `WebXR/shar
 until passed) → a check question (`checkin` with `params.check`) → the hand-off to the two-minute apply step (an
 `external` node whose `ref` is a BAYQUEST `bq-` game id with ESTUARY's `es-apply-` fallback in `params`, or the fallback
 alone) → the closing check-in. SmartCiti.X side of the contract only.
+
+## The Louisiana lesson flows (LA-COHORTS)
+
+One flow per LA-K12 Louisiana lesson, generated from `LK_LESSONS` in `WebXR/shared/lk-la-lessons.js` and the apply games in
+`WebXR/shared/lco-la-flows.js` by `node tools/gen_lco_flows.mjs`: `lk-new-marsh.json`, `lk-lock-and-levee.json`,
+`lk-power-path.json`, `lk-wing-lift.json`, `lk-steel-hull.json` and `lk-crews-behind-the-build.json`. Same shape as the
+Bay ecology flows: pre-brief → the station (back to the brief until passed) → a check question (`checkin` with
+`params.check`, three options) → the hand-off to the two-minute apply game (an `external` node whose `ref` is an
+`lco-apply-` game at the lesson's first fixed anchor; three rounds that use the lesson's one idea) → the closing check-in.
+They sit beside COGNITION's `cg-lk-*` learning-module flows for the same stations (those carry the adaptive re-teach
+step; these carry the apply game). `node tools/check_la_cohorts.mjs` is their gate. SmartCiti.X side of the contract only.
