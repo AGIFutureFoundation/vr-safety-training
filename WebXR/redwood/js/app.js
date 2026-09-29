@@ -29,6 +29,7 @@ import { tfAnimateWater, tfReducedMotion, tfMotion } from "../../shared/tf-water
 import { tzWatchWorld, tzLessonAnswered } from "../../shared/treasures.js";
 // NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
 import { grMount } from "../../shared/npc.js";
+import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 
 // Redwood Reach — the app: the menu, the walk (and the fire-road vehicle),
 // the HUD, the job boards, the quest log with its skill gates, the field tins,
@@ -285,6 +286,8 @@ function rwOpenBoard(site) {
     ll.appendChild(li);
   }
   if (!ll.children.length) ll.innerHTML = "<li>None at this site.</li>";
+  // COGNITION: the K-12 learning module runner for this site, guided by the crew boss (docs/consoles/COGNITION.md).
+  rwApp.cognition = cgMountRunner($("jb-cognition"), { world: "redwood", site: site.id, guide: "gr-rw-crew-boss", report: cgWorldReport() });
   rwShow("scr-board");
 }
 

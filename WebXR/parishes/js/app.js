@@ -32,11 +32,13 @@ import { kwDressParish } from "../../shared/kw-kits.js";
 import { npLoad, npSave, npVisit, npVisited, npAnswerLesson } from "./state.js";
 import { stChosenPath, stPromptsOn } from "../../shared/st-paths.js";
 import { stMountPaths } from "../../shared/st-stories.js";
-import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
+import { pkPacks, pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
 import { Auth } from "../../shared/auth.js";
-import { dnApplyModule, dnSetEnterprise } from "../../shared/dn-modules.js";
+import { dnApplyModule, dnSetEnterprise, dnUsePacks, dnUseSessions } from "../../shared/dn-modules.js";
+import { scSessions } from "../../shared/sc-scholar.js";
 import { byLessonsFor } from "../../shared/by-parish-lessons.js";
 import { scMountSession } from "../../shared/sc-session-ui.js";
+import { cgMountRunner, cgWorldReport } from "../../shared/cg-runner.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -610,6 +612,8 @@ function dnApplyHere() {
   }
   return a;
 }
+// DEAN reads PACKS' registry and SCHOLAR's sessions through its hooks (docs/modules.md).
+dnUsePacks(pkPacks); dnUseSessions(scSessions);
 let dnHere = { hidden: { stations: new Set() }, glow: { stations: new Set(), sites: new Set() }, modules: [] };
 try { dnHere = dnApplyHere(); } catch (_) { /* DEAN is optional */ }
 addEventListener("gt:profile", () => { try { dnHere = dnApplyHere(); } catch (_) { /* keep */ } });
@@ -643,6 +647,8 @@ var stWorld = stMountPaths({
 window.__parishTest.storyline = stWorld;
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
+// COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).
+window.__parishTest.cognition = cgMountRunner($("menu-cognition"), { world: "parishes", parish: parish.id, report: cgWorldReport(npToast) });
 function npMountPacks(el, parishId) {
   if (!el) return;
   const PK_PAGE = "../packs/index.html";
