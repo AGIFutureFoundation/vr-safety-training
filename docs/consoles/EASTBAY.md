@@ -54,6 +54,18 @@ crew's blurb, with no amount.
    0 failed`, `check_cognition: 347 passed, 0 failed`; `check_tycoon: 4552 passed, 0 failed — 5 businesses, 10 crew,
    16 maps`; check_npc prints its summary with no failure; `All drills checks pass.`; `check_cityworks: 2903 checks, 0
    failed`; `check_terraform: 195392 checks, 0 failed`.
+5. Reason: each new map boots in the real page at desktop and 390×844 with its region title and no page error —
+   proof: a headless walk on port 8963 (`$SP/packs/eastbay/walk.mjs`, three.js served from `WebXR/vendor/`). Observe:
+   the first two runs never booted (cdnjs blocked, then my abort route shadowed the vendored-three route); after fixing
+   the route order: "Emeryville & Berkeley's Waterfront — Oakland & East Bay Districts", "San Pablo & Richmond's Shore —
+   North East Bay Districts", "Downtown San Jose — South Bay Districts", canvas drawn, HUD "Sites 1/13 · Lessons 0/3",
+   no page errors (only the source layout's missing `media/backgrounds.json`, pre-existing), 14–23 s to settle under
+   swiftshader with other consoles running.
+6. Reason: the ASSAYER rubric scores the new maps — proof: `node tools/eval_worlds.mjs`. Observe: `eval_worlds: 21
+   subjects, mean 98, 14 findings`; each new map 97 (loads 2/2, legible 9/9, resolves 63/63 · 60/60 · 62/62,
+   completable 4/5, budget 6/6, facts 35/35 · 32/32 · 35/35) — the one point missing is the same as every Oakland map
+   and three SF maps: "the play layer offers three or more field lessons (0)" (SECONDLINE → BAYOU). No before-run at
+   the base was taken (the 18 existing subjects are untouched by this change).
 
 ## Seams
 
