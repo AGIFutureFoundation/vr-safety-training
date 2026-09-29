@@ -5923,6 +5923,7 @@
     "amalgam-waste-handling",
     "ambulance-scene-safety",
     "apprenticeship-application-and-test",
+    "apprenticeship-standards-reading",
     "arc-flash-label-study",
     "arena-rigging",
     "av-borescope-and-tool-control-inventory",
@@ -5988,7 +5989,10 @@
     "charge-point",
     "chiller-plant",
     "chlorine-room",
+    "cm-concrete-saw-cutting-with-water-and-silica-control",
     "cm-exterior-plaster-scratch-brown-and-finish-coats",
+    "cm-power-trowel-operation-and-guarding",
+    "cm-slab-screed-bull-float-and-trowel",
     "cnc-cell",
     "community-soil-split",
     "concrete-pour",
@@ -6002,6 +6006,7 @@
     "cp-hydrogen-fuel-cell-equipment-and-fuelling",
     "cp-zero-emission-drayage-truck-pre-trip",
     "cp-zero-emission-terminal-equipment-pre-use",
+    "crane-yard",
     "creosote-pile-removal",
     "cs-non-entry-retrieval-and-tripod",
     "cs-permit-entry-and-attendant-duties",
@@ -6044,11 +6049,13 @@
     "ew-hoistway-false-car-and-rail-setting",
     "fire-pump",
     "firefighter-rehab-sector",
+    "first-period-evaluation",
     "fluoride-and-sealants",
     "fly-system",
     "forklift-dock",
     "formwork-shoring",
     "four-handed-dentistry",
+    "fp-anchor-selection-and-rescue-plan",
     "front-office-treatment-coordination",
     "fryer-oil-change",
     "garment-inspection-finish",
@@ -6103,6 +6110,8 @@
     "ib-asbestos-glovebag-removal-on-a-pipe",
     "ib-boiler-tube-replacement-and-rolling",
     "ib-firestop-and-fire-wrap-installation",
+    "ib-hydrostatic-test-and-inspector-witness",
+    "ib-mechanical-insulation-pipe-and-jacketing",
     "ib-pressure-vessel-confined-entry-and-hot-work",
     "ib-refractory-and-castable-installation",
     "implant-surgery-assisting",
@@ -6182,6 +6191,8 @@
     "periodontal-charting",
     "phlebotomy",
     "pl-copper-press-and-solder-rough-in",
+    "pl-fire-sprinkler-riser-and-flow-test",
+    "pl-hydronic-boiler-piping-and-hydrotest",
     "pl-medical-gas-brazing-and-purge",
     "pl-natural-gas-pressure-test-and-leak-check",
     "pl-steam-trap-and-condensate-line-repair",
@@ -6193,6 +6204,7 @@
     "pm-fitness-room-and-gym",
     "pm-landscaping-and-irrigation",
     "pm-pool-and-spa-chemistry",
+    "pm-sprinkler-riser-room",
     "po-lashing-gear-inspection-and-tagging",
     "po-yard-hostler-and-pedestrian-separation",
     "prep-cooling",
@@ -6220,9 +6232,11 @@
     "receiving-dock-food",
     "reefer-yard-monitoring",
     "rf-roof-tear-off-and-debris-chute",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe",
     "rf-skylight-and-hatch-guarding",
     "rf-torch-applied-membrane-and-fire-watch",
     "rigging-loft",
+    "rl-critical-lift-plan-and-signalperson",
     "sample-kit-shipping",
     "sampling-well",
     "scaffold-erection",
@@ -6239,6 +6253,7 @@
     "signal-cabinet",
     "slicer-lockout",
     "sm-duct-fabrication-and-seams",
+    "sm-duct-hanging-and-seismic-bracing",
     "sm-plasma-table-and-fume",
     "sm-shop-layout-and-shear",
     "sm-tig-and-spot-welding",
@@ -6259,6 +6274,8 @@
     "tdl-backing-and-docking",
     "tdl-cargo-securement-and-hours",
     "tdl-coupling-and-uncoupling",
+    "tdl-hazmat-labeling-and-segregation",
+    "tdl-lifting-and-ergonomics",
     "tdl-pallet-jack-and-racking",
     "tdl-pick-pack-and-scan",
     "tdl-pretrip-inspection",
@@ -6266,6 +6283,7 @@
     "teledentistry-and-triage",
     "temporary-site-power",
     "tide-gate",
+    "tower-climb",
     "tr-wheelchair-lift-and-securement-on-a-bus",
     "track-access",
     "traffic-incident-management",
@@ -6295,10 +6313,15 @@
     "walk-in-cooler",
     "welding",
     "well-install",
+    "wellness-shift-work-sleep-and-stress",
     "who-ppe-donning-and-doffing",
     "who-treatment-centre-triage",
     "who-vaccination-line",
     "wildland-urban-interface",
+    "ws-crah-alarm-response-in-a-live-hall",
+    "ws-data-hall-busway-install-and-torque-signoff",
+    "ws-raised-floor-tile-lift-and-cable-tray-safety",
+    "ws-substation-switching-under-a-permit",
     "yc-engine-room-pre-start-and-bilge-check",
     "yc-fuel-dock-transfer-and-spill-kit",
     "yc-galley-fire-and-fixed-system",
@@ -6339,6 +6362,15 @@
     "jf-fl-causeway-as-a-ruler",
     "jf-fl-pumps-lift-the-rain",
     "jf-fl-ramp-hand-signals",
+    "la-ldf-fl-keeping-it-cool",
+    "la-ldf-fl-river-and-levee",
+    "la-ldf-fl-steel-frame",
+    "la-lmr-fl-crane-and-signals",
+    "la-lmr-fl-power-to-the-halls",
+    "la-lmr-fl-rain-on-a-big-roof",
+    "la-lsp-fl-barges-on-the-river",
+    "la-lsp-fl-reading-labels",
+    "la-lsp-fl-river-levee",
     "np-orleans-fl-crane-lever",
     "np-orleans-fl-levee-cross-section",
     "np-orleans-fl-map-of-the-crescent",
@@ -12085,6 +12117,505 @@
      ]
     }
    ]
+  },
+  {
+   "id": "la-meta-richland",
+   "name": "Richland Parish Data Center Site",
+   "region": "louisiana-sites",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -91.660001,
+    32.450006
+   ],
+   "bounds": {
+    "minLng": -91.747216,
+    "minLat": 32.376423,
+    "maxLng": -91.572787,
+    "maxLat": 32.52359
+   },
+   "sites": [
+    {
+     "id": "lmr-workforce-centre",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-standards-reading",
+      "union-hall-and-dispatch",
+      "wellness-shift-work-sleep-and-stress"
+     ]
+    },
+    {
+     "id": "lmr-security-gate",
+     "stations": [
+      "tdl-backing-and-docking",
+      "tdl-pretrip-inspection",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "lmr-site-grading",
+     "stations": [
+      "op-dozer-slope-work-and-rollover-protection",
+      "op-grader-fine-grade-and-crown",
+      "op-compactor-lift-thickness-and-edge",
+      "op-loader-truck-loading-and-blind-spots"
+     ]
+    },
+    {
+     "id": "lmr-duct-bank-crew",
+     "stations": [
+      "op-excavator-trench-and-utility-locate",
+      "trench-box",
+      "concrete-pour",
+      "manhole-entry-and-atmospheric-monitoring"
+     ]
+    },
+    {
+     "id": "lmr-substation-build",
+     "stations": [
+      "substation-switching",
+      "ws-substation-switching-under-a-permit",
+      "arc-flash-label-study",
+      "rl-critical-lift-plan-and-signalperson"
+     ]
+    },
+    {
+     "id": "lmr-data-hall-fitout",
+     "stations": [
+      "ws-data-hall-busway-install-and-torque-signoff",
+      "ws-raised-floor-tile-lift-and-cable-tray-safety",
+      "temporary-site-power",
+      "motor-control-center"
+     ]
+    },
+    {
+     "id": "lmr-cooling-plant",
+     "stations": [
+      "chiller-plant",
+      "cooling-tower",
+      "pl-hydronic-boiler-piping-and-hydrotest",
+      "ib-mechanical-insulation-pipe-and-jacketing"
+     ]
+    },
+    {
+     "id": "lmr-laydown-yard",
+     "stations": [
+      "forklift-dock",
+      "tdl-trailer-loading-and-dock-plate",
+      "tdl-cargo-securement-and-hours",
+      "crane-yard"
+     ]
+    },
+    {
+     "id": "lmr-crane-pad",
+     "stations": [
+      "op-crawler-crane-assembly-and-load-chart",
+      "rl-critical-lift-plan-and-signalperson",
+      "steel-erector",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lmr-transmission-line-crew",
+     "stations": [
+      "or-transmission-line-right-of-way-patrol",
+      "line-truck",
+      "tower-climb"
+     ]
+    },
+    {
+     "id": "lmr-generator-yard",
+     "stations": [
+      "battery-storage-container-commissioning",
+      "battery-yard",
+      "fire-pump",
+      "ut-night-storm-response-crew-and-portable-generator"
+     ]
+    },
+    {
+     "id": "lmr-fiber-vault-crew",
+     "stations": [
+      "cs-permit-entry-and-attendant-duties",
+      "cs-ventilation-and-air-monitoring-plan",
+      "valve-vault"
+     ]
+    },
+    {
+     "id": "lmr-concrete-batch-plant",
+     "stations": [
+      "concrete-pour",
+      "cm-slab-screed-bull-float-and-trowel",
+      "cm-power-trowel-operation-and-guarding",
+      "cm-concrete-saw-cutting-with-water-and-silica-control"
+     ]
+    },
+    {
+     "id": "lmr-roofing-crew",
+     "stations": [
+      "rf-single-ply-tpo-heat-welding-and-seam-probe",
+      "rf-skylight-and-hatch-guarding",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    },
+    {
+     "id": "lmr-fire-protection-riser",
+     "stations": [
+      "pl-fire-sprinkler-riser-and-flow-test",
+      "pm-sprinkler-riser-room",
+      "fire-pump"
+     ]
+    },
+    {
+     "id": "lmr-commissioning-office",
+     "stations": [
+      "se-building-automation-alarm-triage",
+      "ws-crah-alarm-response-in-a-live-hall",
+      "arc-flash-label-study"
+     ]
+    },
+    {
+     "id": "lmr-stormwater-pond",
+     "stations": [
+      "stormwater-outfall",
+      "bk-bioretention-rain-garden-excavation",
+      "op-excavator-trench-and-utility-locate"
+     ]
+    },
+    {
+     "id": "lmr-bayou-buffer-survey",
+     "stations": [
+      "marsh-transect-survey",
+      "stormwater-outfall",
+      "br-native-planting-and-erosion-mats"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "la-delta-forge-rapides",
+   "name": "Delta Forge Campus near Boyce",
+   "region": "louisiana-sites",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -92.660007,
+    31.385004
+   ],
+   "bounds": {
+    "minLng": -92.724696,
+    "minLat": 31.329812,
+    "maxLng": -92.595319,
+    "maxLat": 31.440196
+   },
+   "sites": [
+    {
+     "id": "ldf-workforce-centre",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "apprenticeship-application-and-test",
+      "union-hall-and-dispatch",
+      "first-period-evaluation"
+     ]
+    },
+    {
+     "id": "ldf-security-gate",
+     "stations": [
+      "tdl-backing-and-docking",
+      "tdl-pretrip-inspection",
+      "traffic-incident-management"
+     ]
+    },
+    {
+     "id": "ldf-site-grading",
+     "stations": [
+      "op-dozer-slope-work-and-rollover-protection",
+      "op-grader-fine-grade-and-crown",
+      "op-compactor-lift-thickness-and-edge",
+      "op-equipment-daily-walkaround-and-fluids"
+     ]
+    },
+    {
+     "id": "ldf-steel-erection",
+     "stations": [
+      "steel-erector",
+      "bs-structural-bolting-and-torque",
+      "leading-edge-and-horizontal-lifeline",
+      "rl-critical-lift-plan-and-signalperson"
+     ]
+    },
+    {
+     "id": "ldf-electrical-room",
+     "stations": [
+      "motor-control-center",
+      "arc-flash-label-study",
+      "temporary-site-power",
+      "ws-data-hall-busway-install-and-torque-signoff"
+     ]
+    },
+    {
+     "id": "ldf-network-cabling",
+     "stations": [
+      "ws-raised-floor-tile-lift-and-cable-tray-safety",
+      "ws-crah-alarm-response-in-a-live-hall",
+      "tower-climb"
+     ]
+    },
+    {
+     "id": "ldf-cooling-plant",
+     "stations": [
+      "chiller-plant",
+      "cooling-tower",
+      "ib-hydrostatic-test-and-inspector-witness",
+      "sm-duct-hanging-and-seismic-bracing"
+     ]
+    },
+    {
+     "id": "ldf-substation-build",
+     "stations": [
+      "substation-switching",
+      "ws-substation-switching-under-a-permit",
+      "rl-critical-lift-plan-and-signalperson",
+      "arc-flash-label-study"
+     ]
+    },
+    {
+     "id": "ldf-laydown-yard",
+     "stations": [
+      "forklift-dock",
+      "tdl-cargo-securement-and-hours",
+      "crane-yard",
+      "tdl-lifting-and-ergonomics"
+     ]
+    },
+    {
+     "id": "ldf-crane-pad",
+     "stations": [
+      "op-crawler-crane-assembly-and-load-chart",
+      "rigging-loft",
+      "chain-hoist"
+     ]
+    },
+    {
+     "id": "ldf-duct-bank-crew",
+     "stations": [
+      "op-excavator-trench-and-utility-locate",
+      "trench-box",
+      "concrete-pour",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "ldf-concrete-pour",
+     "stations": [
+      "concrete-pour",
+      "formwork-shoring",
+      "bt-rebar-tying-and-impalement-protection",
+      "cm-slab-screed-bull-float-and-trowel"
+     ]
+    },
+    {
+     "id": "ldf-generator-yard",
+     "stations": [
+      "battery-storage-container-commissioning",
+      "battery-yard",
+      "ut-night-storm-response-crew-and-portable-generator"
+     ]
+    },
+    {
+     "id": "ldf-fire-protection-crew",
+     "stations": [
+      "pl-fire-sprinkler-riser-and-flow-test",
+      "fire-pump",
+      "pm-sprinkler-riser-room"
+     ]
+    },
+    {
+     "id": "ldf-stormwater-pond",
+     "stations": [
+      "stormwater-outfall",
+      "op-excavator-trench-and-utility-locate",
+      "bk-bioretention-rain-garden-excavation"
+     ]
+    },
+    {
+     "id": "ldf-red-river-levee-patrol",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "br-cold-water-immersion-and-mob-recovery",
+      "stormwater-outfall"
+     ]
+    },
+    {
+     "id": "ldf-commissioning-office",
+     "stations": [
+      "se-building-automation-alarm-triage",
+      "ws-crah-alarm-response-in-a-live-hall",
+      "arc-flash-label-study"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "la-shintech-plaquemine",
+   "name": "Plaquemine Expansion Site",
+   "region": "louisiana-sites",
+   "size": 4096,
+   "fips": null,
+   "centre": [
+    -91.239996,
+    30.269991
+   ],
+   "bounds": {
+    "minLng": -91.303898,
+    "minLat": 30.214789,
+    "maxLng": -91.176093,
+    "maxLat": 30.325194
+   },
+   "sites": [
+    {
+     "id": "lsp-workforce-centre",
+     "stations": [
+      "jobsite-orientation-and-osha-10",
+      "hazwoper-site-orientation",
+      "apprenticeship-standards-reading",
+      "union-hall-and-dispatch"
+     ]
+    },
+    {
+     "id": "lsp-gate-and-badging",
+     "stations": [
+      "hazwoper-site-orientation",
+      "tdl-hazmat-labeling-and-segregation",
+      "tdl-pretrip-inspection"
+     ]
+    },
+    {
+     "id": "lsp-process-unit-build",
+     "stations": [
+      "ib-pressure-vessel-confined-entry-and-hot-work",
+      "steel-erector",
+      "scaffold-erection",
+      "cs-permit-entry-and-attendant-duties"
+     ]
+    },
+    {
+     "id": "lsp-pipe-rack-crew",
+     "stations": [
+      "rl-critical-lift-plan-and-signalperson",
+      "leading-edge-and-horizontal-lifeline",
+      "ib-hydrostatic-test-and-inspector-witness",
+      "chain-hoist"
+     ]
+    },
+    {
+     "id": "lsp-control-room",
+     "stations": [
+      "motor-control-center",
+      "arc-flash-label-study",
+      "se-building-automation-alarm-triage"
+     ]
+    },
+    {
+     "id": "lsp-river-dock",
+     "stations": [
+      "mooring-line",
+      "dock-crane",
+      "vessel-gangway-and-hatch-cover-safety",
+      "yc-fuel-dock-transfer-and-spill-kit"
+     ]
+    },
+    {
+     "id": "lsp-tank-farm",
+     "stations": [
+      "tank-lining",
+      "cs-ventilation-and-air-monitoring-plan",
+      "drum-sampling-and-overpack",
+      "ib-pressure-vessel-confined-entry-and-hot-work"
+     ]
+    },
+    {
+     "id": "lsp-laydown-yard",
+     "stations": [
+      "forklift-dock",
+      "tdl-cargo-securement-and-hours",
+      "crane-yard"
+     ]
+    },
+    {
+     "id": "lsp-heavy-lift-crane-pad",
+     "stations": [
+      "op-crawler-crane-assembly-and-load-chart",
+      "rl-critical-lift-plan-and-signalperson",
+      "rigging-loft"
+     ]
+    },
+    {
+     "id": "lsp-rail-yard",
+     "stations": [
+      "ra-blue-flag-protection-in-the-yard",
+      "ra-roadway-worker-protection-and-job-briefing",
+      "ra-switch-inspection-and-lubrication",
+      "ra-hand-brake-and-securement-on-a-grade"
+     ]
+    },
+    {
+     "id": "lsp-electrical-substation",
+     "stations": [
+      "substation-switching",
+      "ws-substation-switching-under-a-permit",
+      "transformer-vault"
+     ]
+    },
+    {
+     "id": "lsp-insulation-crew",
+     "stations": [
+      "ib-mechanical-insulation-pipe-and-jacketing",
+      "ib-firestop-and-fire-wrap-installation",
+      "ib-asbestos-glovebag-removal-on-a-pipe"
+     ]
+    },
+    {
+     "id": "lsp-scaffold-yard",
+     "stations": [
+      "scaffold-erection",
+      "fp-anchor-selection-and-rescue-plan",
+      "masonry-silica-scaffold"
+     ]
+    },
+    {
+     "id": "lsp-hydrotest-crew",
+     "stations": [
+      "ib-hydrostatic-test-and-inspector-witness",
+      "pl-hydronic-boiler-piping-and-hydrotest",
+      "pl-natural-gas-pressure-test-and-leak-check"
+     ]
+    },
+    {
+     "id": "lsp-levee-crossing",
+     "stations": [
+      "br-levee-inspection-and-seepage",
+      "op-excavator-trench-and-utility-locate",
+      "br-cold-water-immersion-and-mob-recovery"
+     ]
+    },
+    {
+     "id": "lsp-emergency-response-station",
+     "stations": [
+      "hz-level-b-entry-and-scba-change-out",
+      "decon-line",
+      "structure-fire-sizeup",
+      "triage-point"
+     ]
+    },
+    {
+     "id": "lsp-cooling-tower-build",
+     "stations": [
+      "cooling-tower",
+      "formwork-shoring",
+      "leading-edge-and-horizontal-lifeline"
+     ]
+    }
+   ]
   }
  ],
  "provenance": [
@@ -12335,6 +12866,16 @@
       "bp-san-leandro-bay",
       "bp-san-mateo-shoreline",
       "bp-nutrient-pilot"
+     ]
+    },
+    {
+     "id": "louisiana-sites",
+     "name": "Louisiana Development Sites",
+     "noun": "site area",
+     "maps": [
+      "la-meta-richland",
+      "la-delta-forge-rapides",
+      "la-shintech-plaquemine"
      ]
     },
     {
@@ -19567,6 +20108,719 @@
        "name": "Lookout Rise"
       }
      ]
+    },
+    {
+     "id": "la-meta-richland",
+     "name": "Richland Parish Data Center Site",
+     "region": "louisiana-sites",
+     "sites": [
+      {
+       "id": "lmr-workforce-centre",
+       "name": "Richland Site Workforce Centre",
+       "kind": "campus",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-standards-reading",
+        "union-hall-and-dispatch",
+        "wellness-shift-work-sleep-and-stress"
+       ]
+      },
+      {
+       "id": "lmr-security-gate",
+       "name": "Campus Security Gate",
+       "kind": "office",
+       "stations": [
+        "tdl-backing-and-docking",
+        "tdl-pretrip-inspection",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "lmr-site-grading",
+       "name": "Data Center Site Grading",
+       "kind": "excavation",
+       "stations": [
+        "op-dozer-slope-work-and-rollover-protection",
+        "op-grader-fine-grade-and-crown",
+        "op-compactor-lift-thickness-and-edge",
+        "op-loader-truck-loading-and-blind-spots"
+       ]
+      },
+      {
+       "id": "lmr-duct-bank-crew",
+       "name": "Duct Bank Crew",
+       "kind": "utility",
+       "stations": [
+        "op-excavator-trench-and-utility-locate",
+        "trench-box",
+        "concrete-pour",
+        "manhole-entry-and-atmospheric-monitoring"
+       ]
+      },
+      {
+       "id": "lmr-substation-build",
+       "name": "Campus Substation Build",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "ws-substation-switching-under-a-permit",
+        "arc-flash-label-study",
+        "rl-critical-lift-plan-and-signalperson"
+       ]
+      },
+      {
+       "id": "lmr-data-hall-fitout",
+       "name": "Data Hall Fit-Out",
+       "kind": "construction",
+       "stations": [
+        "ws-data-hall-busway-install-and-torque-signoff",
+        "ws-raised-floor-tile-lift-and-cable-tray-safety",
+        "temporary-site-power",
+        "motor-control-center"
+       ]
+      },
+      {
+       "id": "lmr-cooling-plant",
+       "name": "Cooling Plant Build",
+       "kind": "plant",
+       "stations": [
+        "chiller-plant",
+        "cooling-tower",
+        "pl-hydronic-boiler-piping-and-hydrotest",
+        "ib-mechanical-insulation-pipe-and-jacketing"
+       ]
+      },
+      {
+       "id": "lmr-laydown-yard",
+       "name": "Laydown Yard",
+       "kind": "staging",
+       "stations": [
+        "forklift-dock",
+        "tdl-trailer-loading-and-dock-plate",
+        "tdl-cargo-securement-and-hours",
+        "crane-yard"
+       ]
+      },
+      {
+       "id": "lmr-crane-pad",
+       "name": "Tower Crane Pad",
+       "kind": "construction",
+       "stations": [
+        "op-crawler-crane-assembly-and-load-chart",
+        "rl-critical-lift-plan-and-signalperson",
+        "steel-erector",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lmr-transmission-line-crew",
+       "name": "Transmission Line Crew",
+       "kind": "utility",
+       "stations": [
+        "or-transmission-line-right-of-way-patrol",
+        "line-truck",
+        "tower-climb"
+       ]
+      },
+      {
+       "id": "lmr-generator-yard",
+       "name": "Backup Generator Yard",
+       "kind": "energy-storage",
+       "stations": [
+        "battery-storage-container-commissioning",
+        "battery-yard",
+        "fire-pump",
+        "ut-night-storm-response-crew-and-portable-generator"
+       ]
+      },
+      {
+       "id": "lmr-fiber-vault-crew",
+       "name": "Fiber Vault Crew",
+       "kind": "utility",
+       "stations": [
+        "cs-permit-entry-and-attendant-duties",
+        "cs-ventilation-and-air-monitoring-plan",
+        "valve-vault"
+       ]
+      },
+      {
+       "id": "lmr-concrete-batch-plant",
+       "name": "Concrete Batch Plant",
+       "kind": "industrial",
+       "stations": [
+        "concrete-pour",
+        "cm-slab-screed-bull-float-and-trowel",
+        "cm-power-trowel-operation-and-guarding",
+        "cm-concrete-saw-cutting-with-water-and-silica-control"
+       ]
+      },
+      {
+       "id": "lmr-roofing-crew",
+       "name": "Data Hall Roofing Crew",
+       "kind": "construction",
+       "stations": [
+        "rf-single-ply-tpo-heat-welding-and-seam-probe",
+        "rf-skylight-and-hatch-guarding",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      },
+      {
+       "id": "lmr-fire-protection-riser",
+       "name": "Fire Protection Riser Room",
+       "kind": "fire",
+       "stations": [
+        "pl-fire-sprinkler-riser-and-flow-test",
+        "pm-sprinkler-riser-room",
+        "fire-pump"
+       ]
+      },
+      {
+       "id": "lmr-commissioning-office",
+       "name": "Commissioning Office",
+       "kind": "office",
+       "stations": [
+        "se-building-automation-alarm-triage",
+        "ws-crah-alarm-response-in-a-live-hall",
+        "arc-flash-label-study"
+       ]
+      },
+      {
+       "id": "lmr-stormwater-pond",
+       "name": "Site Stormwater Pond",
+       "kind": "stormwater",
+       "stations": [
+        "stormwater-outfall",
+        "bk-bioretention-rain-garden-excavation",
+        "op-excavator-trench-and-utility-locate"
+       ]
+      },
+      {
+       "id": "lmr-bayou-buffer-survey",
+       "name": "Bayou Buffer Survey",
+       "kind": "wetland",
+       "stations": [
+        "marsh-transect-survey",
+        "stormwater-outfall",
+        "br-native-planting-and-erosion-mats"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "illustrative-layout-sign",
+       "name": "a sign: the project layout is illustrative; the parish, waterways and towns are real",
+       "kind": "point",
+       "lm": null
+      },
+      {
+       "id": "holly-ridge-place",
+       "name": "Holly Ridge",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "holly-ridge-exit",
+       "name": "the interstate at the Holly Ridge exit",
+       "kind": "bridge",
+       "lm": null
+      },
+      {
+       "id": "farm-bayou-bank",
+       "name": "the farm bayou's bank (procedural)",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "richland-fields",
+       "name": "Richland Parish farmland",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "campus-overlook",
+       "name": "the campus overlook (illustrative)",
+       "kind": "point",
+       "lm": null
+      },
+      {
+       "id": "substation-fence",
+       "name": "the substation fence line (illustrative)",
+       "kind": "point",
+       "lm": null
+      }
+     ],
+     "hills": []
+    },
+    {
+     "id": "la-delta-forge-rapides",
+     "name": "Delta Forge Campus near Boyce",
+     "region": "louisiana-sites",
+     "sites": [
+      {
+       "id": "ldf-workforce-centre",
+       "name": "Boyce Workforce Centre",
+       "kind": "campus",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-application-and-test",
+        "union-hall-and-dispatch",
+        "first-period-evaluation"
+       ]
+      },
+      {
+       "id": "ldf-security-gate",
+       "name": "Campus Security Gate",
+       "kind": "office",
+       "stations": [
+        "tdl-backing-and-docking",
+        "tdl-pretrip-inspection",
+        "traffic-incident-management"
+       ]
+      },
+      {
+       "id": "ldf-site-grading",
+       "name": "Campus Site Grading",
+       "kind": "excavation",
+       "stations": [
+        "op-dozer-slope-work-and-rollover-protection",
+        "op-grader-fine-grade-and-crown",
+        "op-compactor-lift-thickness-and-edge",
+        "op-equipment-daily-walkaround-and-fluids"
+       ]
+      },
+      {
+       "id": "ldf-steel-erection",
+       "name": "Steel Erection",
+       "kind": "construction",
+       "stations": [
+        "steel-erector",
+        "bs-structural-bolting-and-torque",
+        "leading-edge-and-horizontal-lifeline",
+        "rl-critical-lift-plan-and-signalperson"
+       ]
+      },
+      {
+       "id": "ldf-electrical-room",
+       "name": "Electrical Room",
+       "kind": "substation",
+       "stations": [
+        "motor-control-center",
+        "arc-flash-label-study",
+        "temporary-site-power",
+        "ws-data-hall-busway-install-and-torque-signoff"
+       ]
+      },
+      {
+       "id": "ldf-network-cabling",
+       "name": "Network Cabling Crew",
+       "kind": "utility",
+       "stations": [
+        "ws-raised-floor-tile-lift-and-cable-tray-safety",
+        "ws-crah-alarm-response-in-a-live-hall",
+        "tower-climb"
+       ]
+      },
+      {
+       "id": "ldf-cooling-plant",
+       "name": "Cooling Plant Build",
+       "kind": "plant",
+       "stations": [
+        "chiller-plant",
+        "cooling-tower",
+        "ib-hydrostatic-test-and-inspector-witness",
+        "sm-duct-hanging-and-seismic-bracing"
+       ]
+      },
+      {
+       "id": "ldf-substation-build",
+       "name": "Campus Substation Build",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "ws-substation-switching-under-a-permit",
+        "rl-critical-lift-plan-and-signalperson",
+        "arc-flash-label-study"
+       ]
+      },
+      {
+       "id": "ldf-laydown-yard",
+       "name": "Laydown Yard",
+       "kind": "staging",
+       "stations": [
+        "forklift-dock",
+        "tdl-cargo-securement-and-hours",
+        "crane-yard",
+        "tdl-lifting-and-ergonomics"
+       ]
+      },
+      {
+       "id": "ldf-crane-pad",
+       "name": "Crane Pad",
+       "kind": "construction",
+       "stations": [
+        "op-crawler-crane-assembly-and-load-chart",
+        "rigging-loft",
+        "chain-hoist"
+       ]
+      },
+      {
+       "id": "ldf-duct-bank-crew",
+       "name": "Duct Bank Crew",
+       "kind": "utility",
+       "stations": [
+        "op-excavator-trench-and-utility-locate",
+        "trench-box",
+        "concrete-pour",
+        "cs-permit-entry-and-attendant-duties"
+       ]
+      },
+      {
+       "id": "ldf-concrete-pour",
+       "name": "Foundation Pour",
+       "kind": "construction",
+       "stations": [
+        "concrete-pour",
+        "formwork-shoring",
+        "bt-rebar-tying-and-impalement-protection",
+        "cm-slab-screed-bull-float-and-trowel"
+       ]
+      },
+      {
+       "id": "ldf-generator-yard",
+       "name": "Backup Generator Yard",
+       "kind": "energy-storage",
+       "stations": [
+        "battery-storage-container-commissioning",
+        "battery-yard",
+        "ut-night-storm-response-crew-and-portable-generator"
+       ]
+      },
+      {
+       "id": "ldf-fire-protection-crew",
+       "name": "Fire Protection Crew",
+       "kind": "fire",
+       "stations": [
+        "pl-fire-sprinkler-riser-and-flow-test",
+        "fire-pump",
+        "pm-sprinkler-riser-room"
+       ]
+      },
+      {
+       "id": "ldf-stormwater-pond",
+       "name": "Site Stormwater Pond",
+       "kind": "stormwater",
+       "stations": [
+        "stormwater-outfall",
+        "op-excavator-trench-and-utility-locate",
+        "bk-bioretention-rain-garden-excavation"
+       ]
+      },
+      {
+       "id": "ldf-red-river-levee-patrol",
+       "name": "Red River Levee Patrol",
+       "kind": "levee",
+       "stations": [
+        "br-levee-inspection-and-seepage",
+        "br-cold-water-immersion-and-mob-recovery",
+        "stormwater-outfall"
+       ]
+      },
+      {
+       "id": "ldf-commissioning-office",
+       "name": "Commissioning Office",
+       "kind": "office",
+       "stations": [
+        "se-building-automation-alarm-triage",
+        "ws-crah-alarm-response-in-a-live-hall",
+        "arc-flash-label-study"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "illustrative-layout-sign",
+       "name": "a sign: the project layout is illustrative; the parish, waterways and towns are real",
+       "kind": "point",
+       "lm": null
+      },
+      {
+       "id": "boyce-place",
+       "name": "Boyce",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "red-river-bank",
+       "name": "the Red River bank at Boyce",
+       "kind": "river",
+       "lm": null
+      },
+      {
+       "id": "red-river-levee-crest",
+       "name": "the Red River levee crest",
+       "kind": "point",
+       "lm": null
+      },
+      {
+       "id": "interstate-overpass",
+       "name": "the interstate overpass by the campus",
+       "kind": "bridge",
+       "lm": null
+      },
+      {
+       "id": "bayou-rapides-bank",
+       "name": "the Bayou Rapides bank (course procedural)",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "red-river-oxbow-shore",
+       "name": "the shore of the Red River's old bend",
+       "kind": "shore",
+       "lm": null
+      },
+      {
+       "id": "pine-hills",
+       "name": "the pine hills (procedural)",
+       "kind": "hill",
+       "lm": null
+      }
+     ],
+     "hills": [
+      {
+       "id": "pine-hills-south-west",
+       "name": "the pine hills rising to the south-west (procedural)"
+      }
+     ]
+    },
+    {
+     "id": "la-shintech-plaquemine",
+     "name": "Plaquemine Expansion Site",
+     "region": "louisiana-sites",
+     "sites": [
+      {
+       "id": "lsp-workforce-centre",
+       "name": "Plaquemine Workforce Centre",
+       "kind": "campus",
+       "stations": [
+        "jobsite-orientation-and-osha-10",
+        "hazwoper-site-orientation",
+        "apprenticeship-standards-reading",
+        "union-hall-and-dispatch"
+       ]
+      },
+      {
+       "id": "lsp-gate-and-badging",
+       "name": "Gate and Badging",
+       "kind": "office",
+       "stations": [
+        "hazwoper-site-orientation",
+        "tdl-hazmat-labeling-and-segregation",
+        "tdl-pretrip-inspection"
+       ]
+      },
+      {
+       "id": "lsp-process-unit-build",
+       "name": "Process Unit Build",
+       "kind": "construction",
+       "stations": [
+        "ib-pressure-vessel-confined-entry-and-hot-work",
+        "steel-erector",
+        "scaffold-erection",
+        "cs-permit-entry-and-attendant-duties"
+       ]
+      },
+      {
+       "id": "lsp-pipe-rack-crew",
+       "name": "Pipe Rack Crew",
+       "kind": "construction",
+       "stations": [
+        "rl-critical-lift-plan-and-signalperson",
+        "leading-edge-and-horizontal-lifeline",
+        "ib-hydrostatic-test-and-inspector-witness",
+        "chain-hoist"
+       ]
+      },
+      {
+       "id": "lsp-control-room",
+       "name": "Control Room Build-Out",
+       "kind": "office",
+       "stations": [
+        "motor-control-center",
+        "arc-flash-label-study",
+        "se-building-automation-alarm-triage"
+       ]
+      },
+      {
+       "id": "lsp-river-dock",
+       "name": "River Dock",
+       "kind": "port",
+       "stations": [
+        "mooring-line",
+        "dock-crane",
+        "vessel-gangway-and-hatch-cover-safety",
+        "yc-fuel-dock-transfer-and-spill-kit"
+       ]
+      },
+      {
+       "id": "lsp-tank-farm",
+       "name": "Tank Farm",
+       "kind": "chemical",
+       "stations": [
+        "tank-lining",
+        "cs-ventilation-and-air-monitoring-plan",
+        "drum-sampling-and-overpack",
+        "ib-pressure-vessel-confined-entry-and-hot-work"
+       ]
+      },
+      {
+       "id": "lsp-laydown-yard",
+       "name": "Laydown Yard",
+       "kind": "staging",
+       "stations": [
+        "forklift-dock",
+        "tdl-cargo-securement-and-hours",
+        "crane-yard"
+       ]
+      },
+      {
+       "id": "lsp-heavy-lift-crane-pad",
+       "name": "Heavy-Lift Crane Pad",
+       "kind": "construction",
+       "stations": [
+        "op-crawler-crane-assembly-and-load-chart",
+        "rl-critical-lift-plan-and-signalperson",
+        "rigging-loft"
+       ]
+      },
+      {
+       "id": "lsp-rail-yard",
+       "name": "Rail Spur Yard",
+       "kind": "rail",
+       "stations": [
+        "ra-blue-flag-protection-in-the-yard",
+        "ra-roadway-worker-protection-and-job-briefing",
+        "ra-switch-inspection-and-lubrication",
+        "ra-hand-brake-and-securement-on-a-grade"
+       ]
+      },
+      {
+       "id": "lsp-electrical-substation",
+       "name": "Plant Substation",
+       "kind": "substation",
+       "stations": [
+        "substation-switching",
+        "ws-substation-switching-under-a-permit",
+        "transformer-vault"
+       ]
+      },
+      {
+       "id": "lsp-insulation-crew",
+       "name": "Insulation Crew",
+       "kind": "workshop",
+       "stations": [
+        "ib-mechanical-insulation-pipe-and-jacketing",
+        "ib-firestop-and-fire-wrap-installation",
+        "ib-asbestos-glovebag-removal-on-a-pipe"
+       ]
+      },
+      {
+       "id": "lsp-scaffold-yard",
+       "name": "Scaffold Yard",
+       "kind": "yard",
+       "stations": [
+        "scaffold-erection",
+        "fp-anchor-selection-and-rescue-plan",
+        "masonry-silica-scaffold"
+       ]
+      },
+      {
+       "id": "lsp-hydrotest-crew",
+       "name": "Hydrotest Crew",
+       "kind": "utility",
+       "stations": [
+        "ib-hydrostatic-test-and-inspector-witness",
+        "pl-hydronic-boiler-piping-and-hydrotest",
+        "pl-natural-gas-pressure-test-and-leak-check"
+       ]
+      },
+      {
+       "id": "lsp-levee-crossing",
+       "name": "Levee Crossing",
+       "kind": "levee",
+       "stations": [
+        "br-levee-inspection-and-seepage",
+        "op-excavator-trench-and-utility-locate",
+        "br-cold-water-immersion-and-mob-recovery"
+       ]
+      },
+      {
+       "id": "lsp-emergency-response-station",
+       "name": "Emergency Response Station",
+       "kind": "fire-station",
+       "stations": [
+        "hz-level-b-entry-and-scba-change-out",
+        "decon-line",
+        "structure-fire-sizeup",
+        "triage-point"
+       ]
+      },
+      {
+       "id": "lsp-cooling-tower-build",
+       "name": "Cooling Tower Build",
+       "kind": "construction",
+       "stations": [
+        "cooling-tower",
+        "formwork-shoring",
+        "leading-edge-and-horizontal-lifeline"
+       ]
+      }
+     ],
+     "landmarks": [
+      {
+       "id": "illustrative-layout-sign",
+       "name": "a sign: the project layout is illustrative; the parish, waterways and towns are real",
+       "kind": "point",
+       "lm": null
+      },
+      {
+       "id": "plaquemine-place",
+       "name": "Plaquemine",
+       "kind": "place",
+       "lm": null
+      },
+      {
+       "id": "plaquemine-lock",
+       "name": "the Plaquemine Lock",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "mississippi-west-bank",
+       "name": "the Mississippi's bank at Plaquemine",
+       "kind": "river",
+       "lm": null
+      },
+      {
+       "id": "bayou-plaquemine-bank",
+       "name": "the Bayou Plaquemine bank",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "west-field-canal-bank",
+       "name": "the field canal bank (procedural)",
+       "kind": "canal",
+       "lm": null
+      },
+      {
+       "id": "east-bank-place",
+       "name": "the east bank inside the bend",
+       "kind": "shore",
+       "lm": null
+      }
+     ],
+     "hills": []
     }
    ]
   }

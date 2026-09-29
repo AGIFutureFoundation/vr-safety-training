@@ -502,9 +502,9 @@ company named. Written once by `tools/gen_ln_sites.mjs`; the modules are the sou
 
 | map | id | module | export | region | scale | sites | connectors |
 |---|---|---|---|---|---|---|---|
-| Richland Parish Data Center Site | `la-meta-richland` | `np-data-la-meta-richland.js` | `NP_LA_META_RICHLAND` | louisiana-sites | 4 m | 18 | 2 |
-| Delta Forge Campus near Boyce | `la-delta-forge-rapides` | `np-data-la-delta-forge-rapides.js` | `NP_LA_DELTA_FORGE_RAPIDES` | louisiana-sites | 3 m | 17 | 2 |
-| Plaquemine Expansion Site | `la-shintech-plaquemine` | `np-data-la-shintech-plaquemine.js` | `NP_LA_SHINTECH_PLAQUEMINE` | louisiana-sites | 3 m | 17 | 2 |
+| Richland Parish Data Center Site | `la-meta-richland` | `np-data-la-meta-richland.js` | `NP_LA_META_RICHLAND` | louisiana-sites | 4 real metres | 18 | 2 |
+| Delta Forge Campus near Boyce | `la-delta-forge-rapides` | `np-data-la-delta-forge-rapides.js` | `NP_LA_DELTA_FORGE_RAPIDES` | louisiana-sites | 3 real metres | 17 | 2 |
+| Plaquemine Expansion Site | `la-shintech-plaquemine` | `np-data-la-shintech-plaquemine.js` | `NP_LA_SHINTECH_PLAQUEMINE` | louisiana-sites | 3 real metres | 17 | 2 |
 
 **Richland Parish** (the Meta data center) — flat farmland on Interstate Twenty and US Highway Eighty near Holly Ridge, a procedural
 farm bayou and field ditches, the illustrative campus south of the interstate: site grading, the duct bank crew, the campus

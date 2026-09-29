@@ -77,7 +77,7 @@ const gate = (id, title, parish, s, summary, stations, note) => ({ id, kind: "si
     site("lmr-fire-protection-riser", "Fire Protection Riser Room", "fire", [1300, 700], ["ua", "iaff"], ["plumbers-and-pipefitters", "stationary-engineer"], ["pl-fire-sprinkler-riser-and-flow-test", "pm-sprinkler-riser-room", "fire-pump"], "The riser room where the sprinkler mains come in: flow tests witnessed, valves tagged, and the fire pump run on schedule."),
     site("lmr-commissioning-office", "Commissioning Office", "office", [300, 1350], ["ibew", "ua", "ifpte"], ["stationary-engineer", "wind-and-data-infrastructure"], ["se-building-automation-alarm-triage", "ws-crah-alarm-response-in-a-live-hall", "arc-flash-label-study"], "The office where systems are proven before a hall goes live: alarm triage on the automation screens, a live-hall response drill, and the labels checked."),
     site("lmr-stormwater-pond", "Site Stormwater Pond", "stormwater", [1100, 1750], ["liuna", "iuoe"], ["hazmat-environmental", "heavy-equipment-operators"], ["stormwater-outfall", "bk-bioretention-rain-garden-excavation", "op-excavator-trench-and-utility-locate"], "The pond that holds the campus's rain before it leaves the site: the outfall inspected, the banks kept, and silt kept out of the field ditches."),
-    site("lmr-bayou-buffer-survey", "Bayou Buffer Survey", "survey", [-1200, 300], ["liuna", "afscme"], ["hazmat-environmental", "marine-ecology-and-restoration"], ["marsh-transect-survey", "stormwater-outfall", "br-native-planting-and-erosion-mats"], "The survey crew walking the bayou's wooded bank west of the campus: the buffer flagged, erosion mats where the bank is bare, and outfalls checked after rain."),
+    site("lmr-bayou-buffer-survey", "Bayou Buffer Survey", "wetland", [-1200, 300], ["liuna", "afscme"], ["hazmat-environmental", "marine-ecology-and-restoration"], ["marsh-transect-survey", "stormwater-outfall", "br-native-planting-and-erosion-mats"], "The survey crew walking the bayou's wooded bank west of the campus: the buffer flagged, erosion mats where the bank is bare, and outfalls checked after rain."),
   ];
   const S = Object.fromEntries(sites.map((s) => [s.id, s]));
   emit("np-data-la-meta-richland.js", "NP_LA_META_RICHLAND", [
@@ -107,11 +107,11 @@ const gate = (id, title, parish, s, summary, stations, note) => ({ id, kind: "si
     water: [
       { id: "farm-bayou", name: "a farm bayou (procedural)", kind: "bayou", width: 24, poly: [[-1350, -2048], [-1250, -1400], [-1400, -800], [-1280, -200], [-1420, 400], [-1300, 1100], [-1450, 2048]] },
       { id: "field-drainage-canal", name: "a field drainage canal (procedural)", kind: "canal", width: 10, poly: [[1960, -2048], [1930, -600], [1980, 400], [1960, 2048]] },
-      { id: "site-stormwater-pond", name: "the site stormwater pond (illustrative)", kind: "lake", poly: [[1200, 1600], [1650, 1600], [1650, 1900], [1200, 1900]] },
+      { id: "site-stormwater-pond", name: "the site stormwater pond (illustrative)", kind: "lake", poly: [[1200, 1600], [1625, 1600], [1625, 1900], [1200, 1900]] },
       { id: "south-field-ditch", name: "a south field ditch (procedural)", kind: "canal", width: 8, poly: [[-1440, 1500], [-800, 1560], [0, 1700], [900, 1950], [1200, 2048]] },
     ],
     levees: [
-      { id: "pond-berm", name: "the stormwater pond berm (illustrative)", height: 2, pts: [[1180, 1575], [1675, 1575], [1675, 1920]] },
+      { id: "pond-berm", name: "the stormwater pond berm (illustrative)", height: 3.5, pts: [[1180, 1582], [1648, 1582], [1648, 1920]] },
       { id: "bayou-spoil-bank", name: "the bayou's spoil bank (procedural)", height: 1.5, pts: [[-1235, -200], [-1370, 400], [-1255, 1100]] },
     ],
     roads: [
