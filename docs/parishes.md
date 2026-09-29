@@ -267,3 +267,47 @@ The Bay Bridge is now a walkable bridge between the regions as well as GOLDEN-B'
 leaves Downtown from the anchorage, `bm-wo-bay-bridge-west` leaves West Oakland from the toll plaza, and both name the
 mid-crossing point both fields hold. The world ways live in `shared/bm-ways.js` (GOLDEN-B's pattern) and are appended by
 `npResolveConnectors`, so the district modules never carry a `world` connector.
+
+## More of the Bay Area — Emeryville & Berkeley, San Pablo & Richmond, Downtown San Jose (console EASTBAY)
+
+Three more 4096 m districts on the same schema (with `hills`), written once by a scratch generator (BAYMAP's projection
+and clipping) from approximate public lon/lat through one north-up uniform scale of about two real metres per map metre,
+with one shared shore north of Oakland clipped to each East Bay field. Two new regions follow Oakland in `NP_REGIONS`
+and in check_parish_data's `ND_REGIONS`: `north-east-bay` ("North East Bay Districts") and `south-bay` ("South Bay
+Districts"). `bay-san-pablo` is in `north-east-bay`, not `oakland`: San Pablo and Richmond are Contra Costa cities on San
+Pablo Bay, the `oakland` region's convention is `oak-` ids with BAYMAP's `bm-` ways into Bay World, and the region leaves
+room for the rest of that shore. The incoming Bay Program maps (`bp-strip-marsh-east` on San Pablo Bay along Highway 37,
+`bp-san-leandro-bay`) lie outside all three boxes. Hills sit at their approximate public lon/lat projected through each
+map's own fit; heights are schematic. The two EPA San Francisco Bay Program projects named for these cities (the City
+of San Jose's green stormwater infrastructure implementation plan; the City of San Pablo's green stormwater
+infrastructure to capture and treat stormwater runoff) are told once each, as worded in the program's facts, in a
+procedural stormwater crew's blurb.
+
+| district | id | module | export | region | sites | hills | connectors |
+|---|---|---|---|---|---|---|---|
+| Emeryville & Berkeley's Waterfront | `oak-emeryville-berkeley` | `np-data-oak-emeryville-berkeley.js` | `NP_OAK_EMERYVILLE_BERKELEY` | `oakland` | 13 | the Berkeley Hills, Albany Hill | 3 |
+| San Pablo & Richmond's Shore | `bay-san-pablo` | `np-data-bay-san-pablo.js` | `NP_BAY_SAN_PABLO` | `north-east-bay` | 13 | the Point Richmond hills, the El Cerrito hills | 2 |
+| Downtown San Jose | `bay-san-jose` | `np-data-bay-san-jose.js` | `NP_BAY_SAN_JOSE` | `south-bay` | 13 | — (flat; the Guadalupe River's flood walls give relief) | 2 |
+
+**Emeryville & Berkeley's Waterfront** — Emeryville's rail station, warehouse studios and a lab building site, the
+Aquatic Park storm drain crew, the Berkeley Marina harbour, the Eastshore shoreline crew, a maker workshop in West
+Berkeley, the downtown transit station and civic centre, the university campus plant under the Berkeley Hills, a school,
+a fire station and a hospital campus; the Berkeley Pier, Sather Tower, Aquatic Park, Albany Hill and Eastshore State
+Park stand as places. **San Pablo & Richmond's Shore** — the Richmond transit station and civic centre on Macdonald
+Avenue, the Marina Bay harbour, a shipyard crew and the harbour terminal on the inner harbour, a refinery turnaround
+yard, the San Pablo stormwater crew by Wildcat and San Pablo creeks, a school, a hospital campus, a fire station, the
+rail yard, a substation and the Point Isabel shoreline crew; the Rosie the Riveter Memorial and Point Richmond stand as
+places. **Downtown San Jose** — the Diridon transit hub, the university campus plant, the civic centre, the downtown
+stormwater crew yard, the Guadalupe River Park grounds yard, a high-rise site, the convention centre stage crew, a
+hospital campus, the airport ramp at the north edge, the North First Street rail barn, a fire station, a school and a
+union hall; the Guadalupe River (a channel), Los Gatos Creek and Coyote Creek are its water.
+
+### EASTBAY connectors
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| San Pablo Avenue at the Oakland–Emeryville line | road | oak-west-oakland ↔ oak-emeryville-berkeley | -122.287, 37.836 | `eb-wo-san-pablo-avenue-north`, `eb-em-san-pablo-avenue-south` |
+| San Pablo Avenue at the Albany–El Cerrito line | road | oak-emeryville-berkeley ↔ bay-san-pablo | -122.300, 37.899 | `eb-em-san-pablo-avenue-north`, `eb-sp-san-pablo-avenue-south` |
+| The Eastshore Freeway at Albany | road | oak-emeryville-berkeley ↔ bay-san-pablo | -122.311, 37.899 | `eb-em-eastshore-north`, `eb-sp-eastshore-south` |
+| The Alameda toward Santa Clara | road | bay-san-jose → bay-santa-clara (no map yet) | -121.930, 37.342 | `eb-sj-alameda-north` |
+| The Bayshore Freeway toward the Peninsula | road | bay-san-jose → bay-peninsula (no map yet) | -121.933, 37.371 | `eb-sj-bayshore-north` |

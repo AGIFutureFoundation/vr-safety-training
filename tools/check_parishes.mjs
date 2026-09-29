@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -327,12 +327,12 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 // engine, the brief's kinds of site and water, named hills, paired connectors, the Bay Bridge to Downtown and the ways to Bay World.
 {
   const BM = await imp("shared/bm-ways.js");
-  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).join() === "new-orleans,san-francisco,oakland", "regions: Oakland & the East Bay follows San Francisco (districts)");
+  check(R.npRegion("oakland")?.noun === "district" && R.NP_REGIONS.map((r) => r.id).slice(0, 3).join() === "new-orleans,san-francisco,oakland", "regions: Oakland & the East Bay follows San Francisco (districts)");
   const oak = R.npRegionGroups().find((g) => g.region.id === "oakland")?.parishes ?? [];
   const bmKinds = { "oak-west-oakland": ["port", "rail", "union-hall", "school", "recreation", "transit"], "oak-downtown-lake": ["construction", "hospital", "campus", "civic", "theatre"], "oak-fruitvale-estuary": ["marina", "market", "school", "workshop", "park"] };
   const bmWaters = { "oak-west-oakland": ["bay"], "oak-downtown-lake": ["lake"], "oak-fruitvale-estuary": ["canal", "bay"] };
   check(Object.keys(bmKinds).every((id) => oak.some((p) => p.id === id)), `Oakland: the three districts are registered (${oak.map((p) => p.id).join(", ")})`);
-  for (const p of oak) {
+  for (const p of oak.filter((x) => bmKinds[x.id])) {
     check(p.id.startsWith("oak-") && p.region === "oakland" && NP_ENGINE_STRICT.has(p.id), `${p.id}: an oak- id in region oakland, held strict`);
     check(p.sites.length >= 10, `${p.id}: ten or more sites (${p.sites.length})`);
     for (const k of bmKinds[p.id] ?? []) check(p.sites.some((s) => s.kind === k), `${p.id}: a ${k} site`);
@@ -344,7 +344,7 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb ?? ""}`;
     check(!/\d/.test(text), `${p.id}: no figure in a name or blurb`);
     const pairs = p.connectors.filter((c) => c.to.parish !== p.id);
-    check(pairs.length >= 2 && pairs.every((c) => /^bm-(wo|dl|fe)-/.test(c.id)), `${p.id}: two or more bm- connectors`);
+    check(pairs.filter((c) => /^bm-(wo|dl|fe)-/.test(c.id)).length >= 2 && pairs.every((c) => /^(bm-(wo|dl|fe)|eb-wo)-/.test(c.id)), `${p.id}: two or more bm- connectors (EASTBAY's eb-wo- pair joins Emeryville)`);
     const way = R.npResolveConnectors(p).find((c) => c.kind === "world");
     check(!!way && way.world === "bayworld" && WORLD_SITES.bayworld.has(way.to.site) && G.npInField(p, way.from.position) && !E.npWaterAt(p, ...way.from.position), `${p.id}: a way into Bay World (${way?.to.site}) from dry ground inside the field`);
   }
@@ -357,6 +357,46 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
   check(BM.BM_WAYS.every((w) => w.kind === "world" && w.id.startsWith("bm-") && w.to.href === `../bayworld/index.html?site=${w.to.site}`), "every Oakland way opens Bay World's page with ?site=");
   check(BAY_SITES.find((s) => s.id === BM.BM_WAYS.find((w) => w.id === "bm-wo-bay-world")?.to.site)?.zone === "west-oakland", "West Oakland's way lands at a West Oakland site in Bay World");
   check(readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8").includes('SHARED / "bm-ways.js"'), "bm-ways.js is in the parishes bundle");
+}
+
+// More of the Bay Area (console EASTBAY, docs/consoles/EASTBAY.md): Emeryville & Berkeley in Oakland, San Pablo & Richmond in
+// the North East Bay, Downtown San Jose in the South Bay — strict, 12+ sites of the brief's kinds, named hills clear of every
+// pad, paired eb- connectors, the two EPA-named stormwater projects told only in the program's words, and clear of the
+// incoming Bay Program maps' areas.
+{
+  const ebMaps = { "oak-emeryville-berkeley": { region: "oakland", kinds: ["transit", "marina", "campus", "civic", "utility", "wetland"], waters: ["bay", "lake", "canal"], hills: ["the Berkeley Hills", "Albany Hill"] },
+    "bay-san-jose": { region: "south-bay", kinds: ["transit", "campus", "civic", "utility", "park", "airport"], waters: ["canal"], hills: [] },
+    "bay-san-pablo": { region: "north-east-bay", kinds: ["transit", "civic", "marina", "port", "shipyard", "utility"], waters: ["bay", "canal"], hills: ["the Point Richmond hills", "the El Cerrito hills"] } };
+  check(R.npRegion("south-bay")?.name === "South Bay" && R.npRegion("north-east-bay")?.noun === "district", "regions: South Bay and North East Bay are registered (districts)");
+  const bp = [["bp-strip-marsh-east (San Pablo Bay along Highway 37)", [-122.30, 38.12]], ["bp-san-leandro-bay", [-122.21, 37.745]]];
+  for (const [id, want] of Object.entries(ebMaps)) {
+    const p = R.npParish(id);
+    check(!!p && p.region === want.region && NP_ENGINE_STRICT.has(id), `${id}: registered in region ${want.region}, held strict`);
+    if (!p) continue;
+    check(p.sites.length >= 12, `${id}: twelve or more sites (${p.sites.length})`);
+    for (const k of want.kinds) check(p.sites.some((s) => s.kind === k), `${id}: a ${k} site`);
+    for (const k of want.waters) check(p.water.some((w) => w.kind === k), `${id}: ${k} water`);
+    check((p.hills ?? []).map((h) => h.name).join() === want.hills.join(), `${id}: named hills where the ground rises (${(p.hills ?? []).map((h) => h.name).join(", ") || "none — the field is flat"})`);
+    for (const h of p.hills ?? []) for (const s of p.sites) check(Math.hypot(s.position[0] - h.center[0], s.position[1] - h.center[1]) > h.radius + 40, `${id}/${s.id}: the pad sits clear of ${h.name}`);
+    check(p.landmarks.length >= 5 && p.landmarks.every((l) => !/\d/.test(l.name)), `${id}: five or more named landmarks (${p.landmarks.length})`);
+    check((p.fieldLessons ?? []).length >= 3 && p.fieldLessons.every((l) => /^eb-fl-/.test(l.id) && ctx.k12.has(l.k12) && ctx.stations.has(l.station)), `${id}: three or more eb-fl- field lessons, each on a K-12 station with a trade station`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
+    check(!/population|founded|built in|opened in|census|since \d|\best\.|\bcirca\b|elevation|feet high|metres high|meters high|\$|million|acres/i.test(src), `${id}: no history, statistics, amounts or elevations`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts, ...(p.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb ?? ""}`;
+    check(!/\d/.test(text), `${id}: no figure in a name or blurb`);
+    const pairs = p.connectors.filter((c) => c.to.parish !== id);
+    check(pairs.length >= 2 && pairs.every((c) => /^eb-(em|sp|sj)-/.test(c.id)), `${id}: two or more eb- connectors`);
+    for (const c of pairs) check(!E.npWaterAt(p, ...c.from.position), `${id}/${c.id}: leaves from dry ground`);
+    for (const [name, ll] of bp) check(!G.npGeoContains(p, ll), `${id}: clear of ${name}`);
+  }
+  // the EPA facts, only as worded in the program's facts (no amount, the project's own words)
+  const sj = R.npParish("bay-san-jose"), sp = R.npParish("bay-san-pablo");
+  check(!!sj?.sites.some((s) => s.blurb.includes("develop a green stormwater infrastructure implementation plan") && s.blurb.includes("EPA's San Francisco Bay Program")), "bay-san-jose: the City of San Jose's named project is told in the program's words");
+  check(!!sp?.sites.some((s) => s.blurb.includes("green stormwater infrastructure, designed to capture and treat stormwater runoff") && s.blurb.includes("EPA's San Francisco Bay Program")), "bay-san-pablo: the City of San Pablo's named project is told in the program's words");
+  const wo = R.npParish("oak-west-oakland"), em = R.npParish("oak-emeryville-berkeley");
+  const spa = wo?.connectors.find((c) => c.id === "eb-wo-san-pablo-avenue-north"), spb = em?.connectors.find((c) => c.id === "eb-em-san-pablo-avenue-south");
+  check(!!spa && !!spb && spa.lonlat.join() === spb.lonlat.join() && spa.to.parish === em.id && spb.to.parish === wo.id, "San Pablo Avenue pairs West Oakland and Emeryville (eb-wo-san-pablo-avenue-north, eb-em-san-pablo-avenue-south) at one crossing");
+  check(readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8").split('SHARED / "np-data-bay-san-pablo.js"').length === 3, "the three EASTBAY modules are in both bundles that carry np-parishes.js");
 }
 
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);
