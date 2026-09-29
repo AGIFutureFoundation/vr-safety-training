@@ -267,7 +267,7 @@ export const SIM_K12_LK_WHY_A_STEEL_BOAT_FLOATS = {
       alert: "The yard crane sounds its horn as it lifts a steel plate.",
       cue: "Stop where you are, look up and stay out from under the load until it has passed.",
       why: "A crane horn warns everyone that a load is moving overhead. Nobody walks under a hanging load, ever. Stopping and looking up lets you see where it is going and stay clear, just as the yard crew does.",
-      missNote: "The class kept walking under the path of the moving plate.",
+      missNote: "The class kept walking under the path of the moving plate. When the crane horn sounds, stop and step clear, because nobody stands or walks under a load that is being lifted.",
       wrongNote: "That keeps the class under the load. Stop and look up. Choose the response that deals with it now."
     },
     {

@@ -267,7 +267,7 @@ export const SIM_K12_LK_HOW_A_WING_LIFTS_AN_AIRCRAFT = {
       alert: "A tug starts to back an aircraft out through the hangar door.",
       cue: "Stand still on the painted walkway and wait until the tug and aircraft are clear.",
       why: "A tug driver pushing an aircraft backward cannot see everything behind the wings. Staying still on the walkway keeps you where the wing walker and driver expect people to be. Ground crews stop and wait for moving aircraft every day.",
-      missNote: "The class kept walking toward the door as the aircraft came out.",
+      missNote: "The class kept walking toward the door as the aircraft came out. When a tug moves an aircraft, stop behind the painted line and let the wing walker wave you on.",
       wrongNote: "That puts the class in the aircraft's path. Stand still on the walkway. Choose the response that deals with it now."
     },
     {

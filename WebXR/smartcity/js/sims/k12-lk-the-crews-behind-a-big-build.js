@@ -267,7 +267,7 @@ export const SIM_K12_LK_THE_CREWS_BEHIND_A_BIG_BUILD = {
       alert: "A forklift beeps as it reverses across the training bay with a pallet.",
       cue: "Step onto the marked walkway and wait until the forklift has passed.",
       why: "A reversing beep means a machine is backing up and the driver's view is limited. Moving to the walkway and waiting keeps you where the driver expects people to be. On every site, people and machines keep to their own lanes.",
-      missNote: "The class stayed in the bay while the forklift reversed.",
+      missNote: "The class stayed in the bay while the forklift reversed. When a reversing alarm beeps, step back to the marked walkway and wait until the driver has stopped and seen you.",
       wrongNote: "That keeps the class in the forklift's path. Step onto the walkway. Choose the response that deals with it now."
     },
     {

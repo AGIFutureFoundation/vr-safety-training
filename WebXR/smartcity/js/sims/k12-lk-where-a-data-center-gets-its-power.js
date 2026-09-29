@@ -267,7 +267,7 @@ export const SIM_K12_LK_WHERE_A_DATA_CENTER_GETS_ITS_POWER = {
       alert: "Thunder rumbles and dark clouds roll over the substation yard.",
       cue: "Walk with the class into the building and wait until the storm has passed.",
       why: "If you can hear thunder, lightning is close enough to reach you, and tall metal equipment and open yards are the wrong place to be. Moving indoors straight away is what the crew does too.",
-      missNote: "The class stayed in the open yard while the thunder got closer.",
+      missNote: "The class stayed in the open yard while the thunder got closer. When you hear thunder, go inside a building straight away and stay there until the storm has passed.",
       wrongNote: "That keeps the class outside. Move indoors now. Choose the response that deals with it now."
     },
     {
