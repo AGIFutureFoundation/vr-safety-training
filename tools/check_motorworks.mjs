@@ -139,7 +139,8 @@ const { npWaterAt, npHeightAt } = await imp("shared/np-parish.js");
 
 // ------------------------------------------------------------------ placements
 {
-  let total = 0, lowTotal = 0, maps = 0, fails = [];
+  let total = 0, lowTotal = 0, maps = 0, fails = [], arrivals = 0;
+  const arrivalFails = [];
   const empty = [];
   const classes = new Set(), perDrivable = new Map();
   let first = null;
@@ -168,9 +169,12 @@ const { npWaterAt, npHeightAt } = await imp("shared/np-parish.js");
       }
       if (!N.nwVehicleClear(N.nwVehicleState(v.x, v.z, v.heading, [w / 2, v.dims[1] / 2, l / 2], world), world)) fails.push(`${v.id}: inside a building box`);
       if (MW.mvPropPoints(site).some(([px, pz]) => Math.hypot(px - v.x, pz - v.z) < 2)) fails.push(`${v.id}: on NEWTON's props`);
+      // SURVEYOR-2: no parked vehicle over the point the app sets the player down at any site (start and fast travel).
+      for (const s2 of p.sites) { const [ax, az] = MW.mvArrivalPoint(s2), d = Math.hypot(ax - v.x, az - v.z); arrivals++; if (d < l / 2 + MW.MV_ARRIVAL_CLEAR) arrivalFails.push(`${v.id}: ${d.toFixed(1)} m from ${s2.id}'s arrival point`); }
       void npHeightAt;
     }
   }
+  check("place", !arrivalFails.length && arrivals > 0, `no parked vehicle stands within its half-length + ${MW.MV_ARRIVAL_CLEAR} m of a site's arrival point (${MW.MV_ARRIVAL_OFFSET} m from the site, where the start and fast travel set the camera; ${total} vehicles × their map's sites)${arrivalFails.length ? ": " + arrivalFails.slice(0, 5).join("; ") : ""}`);
   check("place", !fails.length, `${maps} maps: ${total} parked vehicles (phone tier ${lowTotal}), each gated with a class, one per site, fitting the site kind, dry, off the road centreline by half-width + ${MW.MV_ROAD_MARGIN} m, clear of boxes and props${fails.length ? ": " + fails.slice(0, 5).join("; ") : ""}`);
   check("place", maps >= 22 && empty.length <= 1, `${maps - empty.length} of ${maps} parish-engine maps park vehicles${empty.length ? ` (none on ${empty.join(", ")}: every fitting site's ring is marsh or water)` : ""}`);
   const again = N.nwParishWorld(NP_PARISHES[0]);

@@ -30,6 +30,16 @@ import { MV_SITE_RULES, MV_BUDGET, mvProfile, mvLivery, mvRuleFor } from "./mv-m
 
 /** Clearance (m) past a road's half width that a parked footprint keeps from the centreline. */
 export const MV_ROAD_MARGIN = 1.5;
+/**
+ * Where the parishes app sets the player down at a site (the start and fast travel: app.js puts the eye 16 m on +z from
+ * the site). SURVEYOR-2: the first ring's bearing 0 was 1 m from it, so a parked cab stood over the arriving camera (the
+ * black shape in the la-avex-new-iberia start capture); a parked footprint now keeps MV_ARRIVAL_CLEAR m past its own
+ * half-length from every site's arrival point.
+ */
+export const MV_ARRIVAL_OFFSET = 16;
+export const MV_ARRIVAL_CLEAR = 3;
+export function mvArrivalPoint(site) { return [site.position[0], site.position[1] + MV_ARRIVAL_OFFSET]; }
+
 /** Candidate rings around a site (radius m) and bearings. */
 const MV_RADII = [17, 23, 30, 38];
 const MV_BEARINGS = 12;
@@ -93,6 +103,7 @@ export function mvPlacements(parish, world, { tier = "balanced" } = {}) {
   });
   cands.sort((a, b) => (b.match - a.match) || (a.order - b.order));
   const out = [], per = new Map();
+  const arrivals = parish.sites.map(mvArrivalPoint);
   for (const c of cands) {
     if (out.length >= cap) break;
     if ((per.get(c.id) ?? 0) >= 2) continue;
@@ -105,6 +116,7 @@ export function mvPlacements(parish, world, { tier = "balanced" } = {}) {
         const x = c.site.position[0] + Math.sin(a) * r, z = c.site.position[1] + Math.cos(a) * r;
         if (props.some(([px, pz]) => Math.hypot(px - x, pz - z) < dims[2] / 2 + 2.5)) continue;
         if (out.some((o) => Math.hypot(o.x - x, o.z - z) < 14)) continue;
+        if (arrivals.some(([ax, az]) => Math.hypot(ax - x, az - z) < dims[2] / 2 + MV_ARRIVAL_CLEAR)) continue;
         // Park parallel to the nearest road (kerbside), else facing away from the site.
         const rc = mvRoadClearance(parish, x, z);
         let heading = a;
