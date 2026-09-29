@@ -435,3 +435,12 @@ question (a `checkin` node carrying `params.check`) → the hand-off to the two-
 `external` node whose `ref` is a KREWE kiosk id or a BAYOU mini-game, with the fallback in `params`) → the closing
 check-in. A GRIOT character drives one on device through `WebXR/shared/by-flow-agent.js` (greet, step, check,
 hand off). As everywhere in this document, this is the SmartCiti.X side of the contract only.
+
+## The Bay ecology lesson flows (ESTUARY)
+
+One flow per K-12 Bay ecology lesson, generated from `ES_LESSONS` in `WebXR/shared/es-bay-lessons.js` by
+`node tools/gen_es_flows.mjs`: `es-storm-drain.json` and `es-trash-capture.json` so far (ten more lesson ids are
+published in `docs/consoles/ESTUARY.md`). Same shape as the parish flows: pre-brief → the station (back to the brief
+until passed) → a check question (`checkin` with `params.check`) → the hand-off to the two-minute apply step (an
+`external` node whose `ref` is a BAYQUEST `bq-` game id with ESTUARY's `es-apply-` fallback in `params`, or the fallback
+alone) → the closing check-in. SmartCiti.X side of the contract only.

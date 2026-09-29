@@ -29176,5 +29176,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "k12-es-where-the-storm-drain-goes",
+    "index": "871",
+    "domain": "Education",
+    "trade": "Science walk with the storm drain crew on a street by the Bay — learner and storm drain crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "Where the Storm Drain Goes",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Where the Storm Drain Goes VR",
+    "tagline": "Rain on the street runs to the drain, and the drain runs to the Bay — trace it, then keep it clean",
+    "accent": 5214136,
+    "accentCss": "#4f8fb8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "drain-tracer",
+      "name": "Drain Tracer",
+      "note": "Traced rain from a street to the Bay, explained why only rain belongs in a drain and helped the crew mark a drain"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Drain Board",
+      "currency": "DROPS",
+      "ranks": [
+        "Drop",
+        "Trickle",
+        "Stream",
+        "Creek",
+        "Drain Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "k12-es-what-a-trash-capture-device-does",
+    "index": "872",
+    "domain": "Education",
+    "trade": "Science visit with the drain cleaning crew at a trash capture device — learner and cleaning crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+    "name": "What a Trash Capture Device Does",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ What a Trash Capture Device Does VR",
+    "tagline": "A screen in the drain lets water through and keeps trash back — test one, then watch the crew clean it",
+    "accent": 6068858,
+    "accentCss": "#5c9a7a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "screen-keeper",
+      "name": "Screen Keeper",
+      "note": "Tested a model trash screen, explained why it lets water pass and keeps trash back, and helped sort what the crew cleaned out"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Screen Board",
+      "currency": "CATCHES",
+      "ranks": [
+        "Net",
+        "Sieve",
+        "Screen",
+        "Basket",
+        "Trash Keeper"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

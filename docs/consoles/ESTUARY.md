@@ -23,3 +23,21 @@ Port 8972 · Prefix `es`. Facts: `$SP/epa/epa-2026-facts.md` only, and only in t
 
 Registry module: `WebXR/shared/es-bay-lessons.js` (`ES_LESSONS`, `ES_APPLY_STEPS`, `esLessons()`, `esApplyFor(id)`,
 `esStartLesson(id, where)` → SCHOLAR `scStartSession` guarded, `esModule()` → a DEAN-assignable module shape).
+
+## Plan (fixed before code)
+- Twelve K-12 stations from `tools/k12-data/es-*.json` via `gen_k12_station.mjs` + `add_station.mjs`, wired by
+  `tools/k12-data/es-wire.mjs` into `k12-science` / `k12-practical-math` / `k12-literacy-and-life-skills` (BAYOU's route).
+- Anchors: San Francisco district sites (np-data-sf-*.js); Oakland ids from BAYMAP (`oak-west-oakland`) as a guarded
+  second anchor (`npParish(id)?.sites.find(...)`) for the port, trash capture and careers lessons.
+- `WebXR/shared/es-bay-lessons.js`; flows `WebXR/flows/es-*.json` from `tools/gen_es_flows.mjs`; check_k12 section 10.
+- Program facts only in `k12-es-who-does-this-work` and `k12-es-clean-air-at-the-port`, words not digits, from the facts file.
+
+## Cycles
+1. Reason: the station pipeline works for Bay lessons (storm drain, trash capture) → eval_content 95+. Observe: 94/93 first
+   (explanation 91, originality 0) — fixed in cycle 3.
+2. Reason: registry + flows + check_k12 section 10 → "All K-12 checks pass". Observe: failed once — trash capture read at
+   Flesch–Kincaid 3.5, under the station floor of 4.
+3. Reason: lengthen nine whys in trash capture (reasons, not padding) → reading 4–8 and eval 95. Observe: reads 4.9 (storm
+   drain 4.4), both stations 95; check_k12 all pass (2,522 checks).
+4. Reason: flows documented → check_flowhub passes. Observe: failed ("docs/flowhub.md does not describe es-storm-drain.json"),
+   section added, "All FlowHub checks pass".

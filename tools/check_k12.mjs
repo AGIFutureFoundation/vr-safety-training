@@ -68,7 +68,9 @@ const REG_IDS = new Set(REG.standards.map((s) => s.id));
 const BYL = await import("../WebXR/shared/by-parish-lessons.js");
 // The New Orleans parish stations (BAYOU) join the existing programmes; section 9
 // checks them, and the brief's counts below are of the core stations only.
-const BY_IDS = new Set(BYL.BY_LESSONS.map((l) => l.station));
+const ESL = await import("../WebXR/shared/es-bay-lessons.js");
+// BAYOU parish stations and ESTUARY Bay ecology stations launch from their map sites and count apart from the core.
+const BY_IDS = new Set([...BYL.BY_LESSONS.map((l) => l.station), ...ESL.ES_LESSONS.map((l) => l.station)]);
 const city = await loadSmartCity();
 const ROOMS = new Map(city.ROOMS.map((r) => [r.id, r]));
 
@@ -541,6 +543,85 @@ for (const w of ["summit", "redwood"]) if (!/K2_WORLD_PAGES = \{[^}]*\b/.test(re
   const idx = JSON.parse(read("WebXR/flows/index.json"));
   for (const l of list) if (!idx.flows.some((r) => r.id === l.flow)) fail(l.id, "flow not listed in flows/index.json"); else ok();
   console.log(`  · ${list.length} parish lessons across ${parishes.size} parishes, ${BYL.BY_APPLY_GAMES.length} apply mini-games, ${list.filter((l) => l.apply.id.startsWith("kw-")).length} KREWE kiosks`);
+}
+
+// 10 — the Bay ecology lessons (ESTUARY, WebXR/shared/es-bay-lessons.js): each station in a classroom
+// programme, anchored at a San Francisco district site (np-data-<district>.js), its band's reading ceiling
+// held, three one-idea steps and a check question, no digit and no fear framing, program facts only in the
+// careers and clean-air lessons, a flow per lesson that validates and hands off to its apply step (a
+// BAYQUEST bq- id with an ESTUARY fallback, or the fallback alone on a shared mechanic), SCHOLAR and DEAN
+// hooks shaped and guarded.
+{
+  const { QM_MECHANICS } = await import("../WebXR/shared/side-game-mechanics.js");
+  const FEAR = /\b(scary|scared|disaster|catastroph\w*|devastat\w*|deadly|drown\w*|terrif\w*|destroy\w*|panic|poison\w*|dying|dead)\b/i;
+  const PROGRAM = /\b(EPA|Environmental Protection Agency|Clean Ports|Bay Program|million|grant)\b/i;
+  const FACT_LESSONS = new Set(["es-lesson-who-does-this-work", "es-lesson-clean-air-port"]);
+  const districts = {};
+  for (const d of ["sf-bayview", "sf-mission", "sf-marina", "sf-downtown", "sf-golden-gate-park"]) {
+    const m = await import(`../WebXR/shared/np-data-${d}.js`);
+    districts[d] = Object.values(m).find((v) => v && Array.isArray(v.sites));
+  }
+  const programmes = new Map(CURRICULA.map((c) => [c.id, c]));
+  const idx = JSON.parse(read("WebXR/flows/index.json"));
+  const seen = new Set();
+  for (const l of ESL.ES_LESSONS) {
+    const where = l.id;
+    if (!/^es-lesson-/.test(l.id) || seen.has(l.id)) fail(where, "lesson id is not a unique es-lesson- id"); else ok();
+    seen.add(l.id);
+    const prog = programmes.get(l.programme);
+    if (!prog || prog.audience !== "classroom" || !prog.stations.some((s) => s.id === l.station)) fail(where, `station ${l.station} is not in classroom programme ${l.programme}`); else ok();
+    const r = ROOMS.get(l.station);
+    if (!r) { fail(where, `station ${l.station} is not a SmartCiti.X station`); continue; }
+    if (!districts[l.district]?.sites.some((s) => s.id === l.site)) fail(where, `site ${l.district}/${l.site} is not a site of np-data-${l.district}.js`); else ok();
+    if (l.oakland && !/^oak-/.test(l.oakland.parish)) fail(where, "Oakland anchor is not a BAYMAP oak- map"); else ok();
+    const ceiling = ESL.ES_BAND_CEILING[l.band];
+    if (!ceiling) fail(where, `band "${l.band}" unknown`);
+    else {
+      const st = readingStats((r.steps ?? []).map((s) => `${s.cue} ${s.why}`).join(" "));
+      if (st.grade > ceiling) fail(where, `station reading level ${st.grade.toFixed(1)} over the ${l.band} ceiling ${ceiling}`); else ok();
+      const ls = readingStats([`${l.title}.`, ...l.steps, l.check.q].join(" "));
+      if (ls.grade > Math.min(ceiling, RL_LESSON_MAX)) fail(where, `lesson lines read at ${ls.grade.toFixed(1)}, over ${Math.min(ceiling, RL_LESSON_MAX)}`); else ok();
+      console.log(`  · ${l.station}: station reads at ${st.grade.toFixed(1)}, lesson lines at ${ls.grade.toFixed(1)} (${l.band} ceiling ${ceiling})`);
+    }
+    const c = l.check;
+    if (!c?.q || !Array.isArray(c.options) || c.options.length < 2 || !Number.isInteger(c.answer) || c.answer < 0 || c.answer >= c.options.length || !c.why) fail(where, "check question malformed"); else ok();
+    if (!Array.isArray(l.steps) || l.steps.length !== 3) fail(where, "not three one-idea steps"); else ok();
+    const text = [l.title, l.siteName, ...l.steps, c.q, ...c.options, c.why].join(" ");
+    if (/\d/.test(text)) fail(where, "lesson text states a figure (a digit)"); else ok();
+    const all = `${text} ${prose(r)}`;
+    if (FEAR.test(all)) fail(where, `fear framing (${all.match(FEAR)[0]})`); else ok();
+    if (!FACT_LESSONS.has(l.id) && PROGRAM.test(all)) fail(where, `program facts outside the careers and clean-air lessons (${all.match(PROGRAM)[0]})`); else ok();
+    for (const aid of [l.apply.id, l.apply.fallback].filter(Boolean)) {
+      if (aid.startsWith("bq-")) { if (!ESL.ES_BQ_GAMES.includes(aid)) fail(where, `${aid} is not a published BAYQUEST game id`); else ok(); continue; }
+      const g = ESL.esApplyGame(aid);
+      if (!g) { fail(where, `apply step ${aid} is not an ESTUARY game`); continue; }
+      if (!QM_MECHANICS[g.mechanic] || !ESL.esApplySteps(aid).length) fail(where, `game ${aid} builds no steps on ${g.mechanic}`); else ok();
+      if (g.district !== l.district || g.site !== l.site || g.minutes !== 2) fail(where, `game ${aid} is not a two-minute step at the lesson's site`); else ok();
+    }
+    if (!l.apply.fallback) fail(where, "no ESTUARY fallback game"); else ok();
+    const a = ESL.esApplyFor(l, { bqGame: null });
+    if (!a || a.kind !== "mini-game") fail(where, "no playable apply step without BAYQUEST"); else ok();
+    const b = ESL.esApplyFor(l, { bqGame: (id) => ({ id }) });
+    if (l.apply.id && b?.kind !== "bayquest") fail(where, "BAYQUEST's game is not preferred when present"); else ok();
+    if (!ESL.esStationHref(l).includes(`sim=${l.station}`)) fail(where, "station link does not launch its station"); else ok();
+    const fp = `WebXR/flows/${l.flow}.json`;
+    if (!existsSync(join(ROOT, fp))) { fail(where, `no flow at ${fp} — run node tools/gen_es_flows.mjs`); continue; }
+    const flow = JSON.parse(read(fp));
+    const v = F.validateFlow(flow, catalog);
+    if (!v.ok) fail(where, `flow does not validate: ${v.errors.join("; ")}`); else ok();
+    const ext = flow.nodes.find((n) => n.kind === "external");
+    if (!ext || ext.ref !== (l.apply.id ?? l.apply.fallback)) fail(where, "flow does not hand off to the lesson's apply step"); else ok();
+    if (!flow.nodes.some((n) => n.kind === "station" && n.ref === l.station) || !flow.nodes.some((n) => n.params?.check?.q === c.q)) fail(where, "flow lacks the station or the check question"); else ok();
+    if (!idx.flows.some((row) => row.id === l.flow)) fail(where, "flow not listed in flows/index.json"); else ok();
+    const calls = [];
+    ESL.esStartLesson(l.id, null, { scStartSession: (id, w) => (calls.push([id, w]), { id }) });
+    if (calls.length !== 1 || calls[0][0] !== l.id || calls[0][1].site !== l.site) fail(where, "SCHOLAR hook did not start a session at the lesson's site"); else ok();
+    if (ESL.esStartLesson(l.id, null, { scStartSession: null }) !== null) fail(where, "SCHOLAR hook is not guarded"); else ok();
+  }
+  const mod = ESL.esModule();
+  if (!mod.id || mod.audience !== "classroom" || mod.lessons.length !== ESL.ES_LESSONS.length) fail("estuary", "DEAN module shape malformed"); else ok();
+  const planned = ESL.ES_PLANNED.filter((p) => !ROOMS.has(p.station)).length;
+  console.log(`  · ${ESL.ES_LESSONS.length} Bay ecology lessons built, ${planned} published id(s) still without a station, DEAN module ${mod.id}`);
 }
 
 // 6 — the finder, the doc

@@ -696,7 +696,7 @@ export const PROGRAMME_COMPETENCIES = [
       "k12-water-cycle-and-filtration", "k12-buoyancy-and-pressure-in-the-deep", "k12-circuits-at-the-electrical-bench", "k12-energy-transfer-at-the-wind-farm",
       "k12-ecosystems-at-the-kelp-transect", "k12-weather-and-the-sky", "k12-simple-machines-at-a-crane", "k12-a-controlled-experiment",
       "k12-by-how-a-levee-holds-water-back", "k12-by-what-a-pump-station-does-in-the-rain", "k12-by-wetlands-as-a-storms-speed-bump", "k12-by-the-rivers-current-and-a-pilots-job",
-      "k12-by-the-water-cycle-from-lake-to-tap"
+      "k12-by-the-water-cycle-from-lake-to-tap", "k12-es-where-the-storm-drain-goes", "k12-es-what-a-trash-capture-device-does"
     ],
     require: 6,
   },

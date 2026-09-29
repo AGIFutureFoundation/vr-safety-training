@@ -1408,6 +1408,8 @@ export const CURRICULA = [
       { app: "smartcity", id: "k12-by-wetlands-as-a-storms-speed-bump", why: "A fair wave-tank test with and without marsh plants, the wave's energy followed as it shrinks, and the restoration crew's replanting seen from the boat." },
       { app: "smartcity", id: "k12-by-the-rivers-current-and-a-pilots-job", why: "Floats timed across a channel and round a bend, the current added to or taken from a boat's speed, and an upstream aim to cross, the way a river pilot plans a turn." },
       { app: "smartcity", id: "k12-by-the-water-cycle-from-lake-to-tap", why: "The water cycle traced around the lake in a lamp-and-lid model, and the treatment plant's cleaning stages ordered before any water reaches a tap, with clear never mistaken for safe." },
+      { app: "smartcity", id: "k12-es-where-the-storm-drain-goes", why: "Rain traced from a roof to the gutter, the drain and the Bay on a street model and the crew's drain map, and why only rain belongs in a storm drain." },
+      { app: "smartcity", id: "k12-es-what-a-trash-capture-device-does", why: "A fair test with a model screen in a drain, a bottle cap followed to the screen, and the crew's safe cleanout of a real device watched from behind the barrier." },
     ],
   },
   {
