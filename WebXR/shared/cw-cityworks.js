@@ -50,7 +50,7 @@ export const CW_LIGHT_SPACING = 45;
 /** Crosswalks are painted at junctions of sidewalk streets within this distance of a site. */
 export const CW_CROSSWALK_NEAR_SITE = 320;
 /** Budgets per streamed chunk: the street mesh's triangles, streetlights, and the local street length the generator keeps. */
-export const CW_BUDGET = { chunkTriangles: 9000, chunkLights: 24, chunkLocalMetres: 1400, meshesPerChunk: 1, fixedMeshes: 3 };
+export const CW_BUDGET = { chunkTriangles: 9000, chunkLights: 24, chunkLocalMetres: 1400, meshesPerChunk: 1, fixedMeshes: 4 };
 /** Streets appear only in these chunk rings, per tier (the massing ring or less). */
 export const CW_STREET_RADIUS = { low: 1, balanced: 2, high: 2 };
 

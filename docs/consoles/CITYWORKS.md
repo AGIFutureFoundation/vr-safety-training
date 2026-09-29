@@ -38,3 +38,22 @@ Console CITYWORKS of the Packs run ("SmartCiti.X Powered by AGI Corp", brief `to
 - `cwRoadGraph(parish) -> { nodes: [[x, z]], edges: [{ a, b, cls, width }] }` — NEWTON's drive mode, MENAGERIE's crossings.
 - `cwMassFilter(parish) -> (spot) => bool` — passed to `npBuildParish` as `opts.massFilter`.
 - `cwMountStreets({ THREE, root, parish, tier }) -> { update(x, z), setNight(bool), stats() }` — mounted in the parishes app.
+
+## Log
+- 01:18 Base reset to d85a41f (the worktree started on 589f0d8). Eval before (`AS_PORT=8981 node tools/eval_worlds.mjs`,
+  browser included): mean 98, the five New Orleans parishes 100 each, the five San Francisco districts 97 each.
+- 01:24 `tools/gen_cw_streets.mjs`: orleans 568 streets (13 arterial / 56 collector / 499 local), jefferson 227,
+  st-bernard 478, plaquemines 340, st-tammany 824 — every piece in the field, off water, levees and pads, no islands.
+- 01:30 `check_cityworks.mjs` 2710 checks, 0 failed. Road graph components with the fabric vs the named roads alone:
+  orleans 5 (8), jefferson 3 (5), st-bernard 2 (2), plaquemines 1 (1), st-tammany 1 (2), the SF districts unchanged.
+  Worst combined build 190 of 260 meshes and 87,497 of 400,000 triangles; worst street chunk 2,506 of 9,000 triangles.
+  Singles: check_parishes 12920/0, check_fleet (143 builders in budget), check_budget (697 stations), check_mobile 158 pass.
+- 01:36 Light pools on the pavement at night; night and phone-tier checks.
+
+## What is left
+- The walk slides along walls but site buildings are solid boxes with a door panel — no interior to enter yet.
+- KREWE's kits (`kw-kits.js`) place porches and props by district without knowing the streets; a few stand on a
+  sidewalk. Give `kwDressParish` the same `cwMassFilter` (or a `cwSidewalkAt` test) after the merge.
+- NEWTON's drive mode should route on `cwRoadGraph` and collide with `cwColliders`; MENAGERIE's passers-by read
+  `cwSidewalkAt` and cross at `cwMountStreets(...).crosswalks`.
+- The map (M) does not draw the fabric yet; a thin grey layer from `cwStreets(parish)` would be cheap.

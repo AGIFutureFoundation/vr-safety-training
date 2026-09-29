@@ -35295,7 +35295,7 @@ const CW_LIGHT_SPACING = 45;
 /** Crosswalks are painted at junctions of sidewalk streets within this distance of a site. */
 const CW_CROSSWALK_NEAR_SITE = 320;
 /** Budgets per streamed chunk: the street mesh's triangles, streetlights, and the local street length the generator keeps. */
-const CW_BUDGET = { chunkTriangles: 9000, chunkLights: 24, chunkLocalMetres: 1400, meshesPerChunk: 1, fixedMeshes: 3 };
+const CW_BUDGET = { chunkTriangles: 9000, chunkLights: 24, chunkLocalMetres: 1400, meshesPerChunk: 1, fixedMeshes: 4 };
 /** Streets appear only in these chunk rings, per tier (the massing ring or less). */
 const CW_STREET_RADIUS = { low: 1, balanced: 2, high: 2 };
 
@@ -35648,7 +35648,7 @@ void NP_SIZE; void NP_CHUNK; void NP_PAD; void npPolyDistance;
 //   Streams with the parish: one merged vertex-coloured mesh per chunk inside CW_STREET_RADIUS[tier] (surfaces of the
 //   AUTHORED procedural fabric, lane dashes on arterials and named avenues, kerbs and sidewalks both sides of arterials,
 //   collectors and named avenues/streets, zebra crosswalks at junctions near a site), streetlights along arterials and
-//   avenues as two InstancedMeshes for the whole loaded set (poles; heads lit at night), and one merged mesh of doors on
+//   avenues as three InstancedMeshes for the whole loaded set (poles; heads lit at night; light pools shown at night), and one merged mesh of doors on
 //   the site buildings' road faces. Nothing animates, so reduced motion needs nothing. Phone tier ("low"): ring 1, no lane
 //   dashes, every other light.
 //
@@ -35808,7 +35808,10 @@ function cwMountStreets({ THREE, root, parish, tier = "high" }) {
   const headMat = new THREE.MeshBasicMaterial({ color: 0x8a8f96 });
   const poles = new THREE.InstancedMesh(poleGeo, poleMat, cap); poles.name = "cw-streetlight-poles"; poles.count = 0;
   const heads = new THREE.InstancedMesh(new THREE.BoxGeometry(0.5, 0.18, 0.8).translate(0, 6.78, 1.7), headMat, cap); heads.name = "cw-streetlight-heads"; heads.count = 0;
-  group.add(poles, heads);
+  // Light pools on the pavement: flat warm discs, shown only at night (one more InstancedMesh; nothing moves).
+  const poolMat = new THREE.MeshBasicMaterial({ color: 0xffd98a, transparent: true, opacity: 0.22, depthWrite: false });
+  const pools = new THREE.InstancedMesh(new THREE.CircleGeometry(5, 12).rotateX(-Math.PI / 2).translate(0, -0.1, 1.7), poolMat, cap); pools.name = "cw-streetlight-pools"; pools.count = 0; pools.visible = false;
+  group.add(poles, heads, pools);
 
   // Doors on the site buildings' road faces: one merged mesh.
   const doorBoxes = npPrepare(parish).sites.map((_, i) => {
@@ -35826,11 +35829,11 @@ function cwMountStreets({ THREE, root, parish, tier = "high" }) {
     for (const c of loaded.values()) for (const s of c.lights) {
       if (n >= cap) break;
       q.setFromAxisAngle(up, s.yaw); m4.compose(v.set(s.x, npHeightAt(parish, s.x, s.z) + CW_SIDEWALK_LIFT, s.z), q, one);
-      poles.setMatrixAt(n, m4); heads.setMatrixAt(n, m4); n++;
+      poles.setMatrixAt(n, m4); heads.setMatrixAt(n, m4); pools.setMatrixAt(n, m4); n++;
     }
-    poles.count = heads.count = n;
-    poles.instanceMatrix.needsUpdate = heads.instanceMatrix.needsUpdate = true;
-    poles.computeBoundingSphere?.(); heads.computeBoundingSphere?.();
+    poles.count = heads.count = pools.count = n;
+    poles.instanceMatrix.needsUpdate = heads.instanceMatrix.needsUpdate = pools.instanceMatrix.needsUpdate = true;
+    poles.computeBoundingSphere?.(); heads.computeBoundingSphere?.(); pools.computeBoundingSphere?.();
   }
   function drop(k) { const c = loaded.get(k); if (c.mesh) { group.remove(c.mesh); c.mesh.geometry.dispose(); } loaded.delete(k); }
   function update(x, z, budget = 2) {
@@ -35851,7 +35854,7 @@ function cwMountStreets({ THREE, root, parish, tier = "high" }) {
     if (changed) refreshLights();
     return built;
   }
-  function setNight(on) { headMat.color.setHex(on ? 0xfff0b8 : 0x8a8f96); }
+  function setNight(on) { headMat.color.setHex(on ? 0xfff0b8 : 0x8a8f96); pools.visible = !!on; }
   function chunkStats() { return [...loaded.entries()].map(([key, c]) => ({ key, meshes: c.mesh ? 1 : 0, triangles: c.triangles, lights: c.lights.length })); }
   function stats() {
     let meshes = 0, triangles = 0;

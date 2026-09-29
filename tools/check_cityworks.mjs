@@ -29,6 +29,7 @@ const S = await imp("shared/cw-streets-world.js");
 let checks = 0, failed = 0;
 function check(ok, msg) { checks++; if (!ok) { failed++; console.log(`  FAIL ${msg}`); } return ok; }
 const only = process.argv[2];
+const lightsByTier = {};
 const maps = P.NP_PARISHES.filter((p) => !only || p.id === only);
 
 for (const p of maps) {
@@ -149,6 +150,11 @@ for (const p of maps) {
     check(worstChunkT <= C.CW_BUDGET.chunkTriangles, `${tag}/${tier}: every street chunk at most ${C.CW_BUDGET.chunkTriangles} triangles (worst ${worstChunkT})`);
     check(worstChunkL <= C.CW_BUDGET.chunkLights && worstChunkM <= C.CW_BUDGET.meshesPerChunk, `${tag}/${tier}: every street chunk one mesh and at most ${C.CW_BUDGET.chunkLights} lights (worst ${worstChunkL})`);
     check(cw.stats().chunks <= (2 * C.CW_STREET_RADIUS[tier] + 1) ** 2, `${tag}/${tier}: streets stream inside ring ${C.CW_STREET_RADIUS[tier]}`);
+    const pools = cw.group.getObjectByName("cw-streetlight-pools"), heads = cw.group.getObjectByName("cw-streetlight-heads");
+    cw.setNight(true); const lit = pools.visible && heads.material.color.getHex() !== 0x8a8f96;
+    cw.setNight(false); check(lit && !pools.visible && heads.material.color.getHex() === 0x8a8f96, `${tag}/${tier}: streetlights light at night and go dark by day`);
+    (lightsByTier[tag] ??= {})[tier] = cw.stats().lights;
+    if (tier === "high") check(lightsByTier[tag].low <= lightsByTier[tag].high, `${tag}: the phone tier carries no more lights than high (${lightsByTier[tag].low} vs ${lightsByTier[tag].high})`);
     console.log(`  ${tag}/${tier}: worst ${worstM} meshes / ${worstT} triangles with streets; worst street chunk ${worstChunkT} triangles, ${worstChunkL} lights; ${cw.lights.length} streetlights, ${cw.crosswalks.length} crosswalk junctions`);
   }
 }
