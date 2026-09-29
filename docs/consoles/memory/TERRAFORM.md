@@ -9,3 +9,6 @@
   per-vertex `tfFlow`, source to mouth). Bundler lists carry the tf modules.
 - Checker `tools/check_terraform.mjs` in `check_all` and the baseline (30 s).
 - Eval before: `eval_worlds` mean 98 (parishes 100 ×5, SF districts 97 ×5).
+- Eval after: mean 98, unchanged (the SF 97s are the play layer's missing SF field lessons, not TERRAFORM).
+- Singles green: check_terraform 66,670/0, check_parishes 12,920/0, check_redwood 395, check_imports 927 modules,
+  check_budget 697 stations, check_fleet 143 builders, check_mobile 158. Never ran check_all.
