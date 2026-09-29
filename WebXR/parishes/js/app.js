@@ -27,7 +27,8 @@ import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
 import { tfWind, tfReducedMotion } from "../../shared/tf-water.js";
 import { tfWaterDepthAt, tfFlowAt, tfLitterAt } from "../../shared/tf-terraform.js";
 import { tfMountTerraform, tfMountRain } from "../../shared/tf-world.js";
-import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt } from "../../shared/cw-cityworks.js";
+import { cwMassFilter, cwStreets, cwColliders, cwSidewalkAt, cwSiteBuilding, cwDoorOf } from "../../shared/cw-cityworks.js";
+import { ixMountInteriors, ixTycoonStyle, ixDoorSpot } from "../../shared/ix-interiors.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
@@ -187,6 +188,45 @@ function mvUse(p) {
   if (row) { row.querySelector(`[data-dv-open="${p.drivable}"]`)?.click(); row.scrollIntoView?.({ block: "center" }); }
 }
 let nwMode = "walk";
+
+// INTERIORS (docs/consoles/INTERIORS.md): every site building has a door on CITYWORKS' road face; the door spot stands
+// 1.4 m outside the footprint. "E — go inside" builds a generic room for the site's kind (never the real building's
+// interior): the world root (sky, chunks, streets, water, atmosphere) is hidden and stops updating, the walk runs on
+// NEWTON's avatar step against the room's walls, the site's board and stations open from inside, and the door returns the
+// learner to the exact outdoor pose they entered from.
+const ixDoors = parish.sites.map((s0, i) => {
+  try {
+    const b = cwSiteBuilding(parish, i), spot = ixDoorSpot(cwDoorOf(parish, b));
+    const site = parish.sites.find((s) => s.id === b.site.id) ?? s0;
+    return { site, ...spot };
+  } catch { return null; }
+}).filter(Boolean);
+const ixWorld = ixMountInteriors({
+  three: THREE, scene, hide: [root], tier: npTierName,
+  onBoard: (s) => npOpenBoard(s),
+  onLaunch: (id, s) => { location.href = npLink(id, s.id); },
+  onToast: (m) => npToast(m, 5200),
+});
+// TYCOON: a rented room or shop has its own door 4 or 7 m along the same face, opening into a matching interior.
+let ixRentals = [], ixRentalsT = -1e9;
+function ixRentalDoors() {
+  const now = performance.now();
+  if (now - ixRentalsT < 2000) return ixRentals;
+  ixRentalsT = now;
+  const led = tyLedger();
+  const biz = led.business ? { id: led.business.id, listing: led.business.listing, name: led.business.name } : null;
+  ixRentals = led.rentals.filter((r) => r.parish === parish.id).map((r) => {
+    const d = ixDoors.find((x) => x.site.id === r.site);
+    if (!d) return null;
+    const along = d.face === "e" || d.face === "w" ? [0, 1] : [1, 0]; // along the face the site door is on
+    const here = biz?.listing === r.id ? biz : null;
+    const shift = r.type === "shop" ? 7 : 4;
+    return { site: d.site, x: d.x + along[0] * shift, z: d.z + along[1] * shift, style: ixTycoonStyle(r, here),
+      title: here ? `${here.name} — ${TY_CURRENCY} play business` : `${r.type === "room" ? "Your room" : "Your shop"} — rented in ${TY_CURRENCY}` };
+  }).filter(Boolean);
+  return ixRentals;
+}
+window.ixWorld = ixWorld; // the headless round-trip test drives it (docs/consoles/INTERIORS.md)
 const NW_MODE_TOAST = { wade: "Wading: slower going — keep your footing and watch the current.", swim: "Swimming: slower, and the current carries you. The breath meter is a readiness cue — head for the shore to rest." };
 
 // The satellite ground: only with a viewer's token (docs/mapbox.md); the procedural ground stays otherwise.
@@ -277,6 +317,7 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyE") npUse();
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
+  if (e.code === "KeyB" && ixWorld.inside()) { npToast("Step outside first: the Motor Pool is out on the street."); return; } // INTERIORS
   if (e.code === "KeyB") asOpenMotorPool();
   if (e.code === "KeyL") tyOpenLedger();
   if (e.code === "KeyT") { const wasNight = NP_TIMES[np.timeIdx] === "night"; np.timeIdx = (np.timeIdx + 1) % NP_TIMES.length; npApplySky(); if (wasNight !== (NP_TIMES[np.timeIdx] === "night")) mgRemount(); }
@@ -389,7 +430,7 @@ function npRenderMap() {
   const sc = npScale(parish);
   $("map-scale").textContent = `One map metre is about ${sc.x.toFixed(1)} real metres east–west and ${sc.z.toFixed(1)} north–south (a stylised map, not a survey).`;
 }
-function npTravel(s) { np.x = s.position[0]; np.z = s.position[1] + 16; np.yaw = 0; world.update(np.x, np.z, 999); npToast(`Fast travel: ${s.name}.`); }
+function npTravel(s) { if (ixWorld.inside()) ixWorld.exit(); /* INTERIORS: fast travel leaves the room first */ np.x = s.position[0]; np.z = s.position[1] + 16; np.yaw = 0; world.update(np.x, np.z, 999); npToast(`Fast travel: ${s.name}.`); }
 
 // ------------------------------------------------------------ parish selector
 
@@ -430,6 +471,8 @@ function npQmApproach(near) {
 function npNearest() {
   let best = null, bd = 9;
   for (const b of world.siteBoards) { const d = Math.hypot(np.x - b.x, np.z - b.z); if (d < bd) { bd = d; best = { kind: "board", site: b.site, at: [b.x, b.z] }; } }
+  for (const dd of ixDoors) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 3)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z] }; } }
+  for (const dd of ixRentalDoors()) { const d = Math.hypot(np.x - dd.x, np.z - dd.z); if (d < Math.min(bd, 2.2)) { bd = d; best = { kind: "door", site: dd.site, at: [dd.x, dd.z], style: dd.style, title: dd.title }; } }
   for (const s of world.lessonSigns) { const d = Math.hypot(np.x - s.x, np.z - s.z); if (d < Math.min(bd, 5)) { bd = d; best = { kind: "lesson", lesson: s.lesson, at: [s.x, s.z] }; } }
   for (const c of connectors) { const d = Math.hypot(np.x - c.from.position[0], np.z - c.from.position[1]); if (d < Math.min(bd, 7)) { bd = d; best = { kind: "connector", conn: c, at: c.from.position }; } }
   const mv = mvPark.near(np.x, np.z); // MOTORWORKS: a parked vehicle beside the learner (its body edge within the prompt distance)
@@ -440,9 +483,16 @@ function npNearest() {
 function npUse() {
   // In the drive mode, Use (E, the touch Use button, the pad's A) steps out of the vehicle, like Q.
   if (nwPhys.driving()) { const out = mvExitDrive(); np.x = out.x; np.z = out.z; npToast("Out of the vehicle. Open the Motor Pool (B) to drive again."); return; }
+  if (ixWorld.inside()) {
+    const r = ixWorld.use();
+    if (r?.kind === "exit") { np.x = r.pose.x; np.z = r.pose.z; np.yaw = r.pose.yaw; np.pitch = r.pose.pitch; np.near = npNearest(); npToast("Back outside."); }
+    npHud();
+    return;
+  }
   const n = np.near;
   if (!n) return;
-  if (n.kind === "board") npOpenBoard(n.site);
+  if (n.kind === "door") { npKeys.clear(); ixWorld.enter(n.site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: n.style, title: n.title }); np.near = null; }
+  else if (n.kind === "board") npOpenBoard(n.site);
   else if (n.kind === "lesson") npOpenLesson(n.lesson);
   else if (n.kind === "vehicle") mvUse(n.park);
   else if (n.kind === "connector") {
@@ -484,7 +534,8 @@ function npHud() {
   $("hud-visited").textContent = `${(np.state.visited[parish.id] ?? []).length}/${parish.sites.length}`;
   $("hud-credits").textContent = String(tyBalance);
   const p = $("hud-prompt");
-  if (np.near) { p.hidden = false; p.textContent = np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : np.near.kind === "vehicle" ? mvPark.prompt(np.near.park).text : `E — ${np.near.conn.name}`; }
+  if (ixWorld.inside()) { const a = ixWorld.near(); p.hidden = !a; if (a) p.textContent = `E — ${a.label}`; }
+  else if (np.near) { p.hidden = false; p.textContent = np.near.kind === "door" ? `E — go inside: ${np.near.title ?? np.near.site.name}` : np.near.kind === "board" ? `E — ${np.near.site.name} job board` : np.near.kind === "lesson" ? `E — field lesson: ${np.near.lesson.title}` : np.near.kind === "vehicle" ? mvPark.prompt(np.near.park).text : `E — ${np.near.conn.name}`; }
   else p.hidden = true;
 }
 
@@ -511,7 +562,10 @@ function frame(now) {
     const run = npKeys.has("ShiftLeft") || npKeys.has("ShiftRight") || !!snap?.buttons?.[10]?.pressed;
     const speed = run ? 14 : 5;
     const fx = -Math.sin(np.yaw), fz = -Math.cos(np.yaw);
-    if (nwPhys.driving()) {
+    if (ixWorld.inside()) {
+      // INTERIORS: the room walk (NEWTON's avatar step on the room's walls); the outdoor pose stays where it was.
+      ixWorld.walk({ vx: (fx * f - fz * s) * Math.min(speed, 5), vz: (fz * f + fx * s) * Math.min(speed, 5) }, dt);
+    } else if (nwPhys.driving()) {
       // Drive mode: W/S throttle, A/D steer, Space brakes; the crash response is nw-drive.js's.
       nwPhys.animate(dt, { throttle: Math.max(-1, Math.min(1, f)), steer: Math.max(-1, Math.min(1, turn - s)), brake: npKeys.has("Space") });
       const v = nwPhys.vehicle; np.x = v.x; np.z = v.z;
@@ -525,7 +579,11 @@ function frame(now) {
       nwPhys.animate(dt, null);
     }
   } else nwPhys.animate(dt, null);
-  if (np.playing && nwPhys.driving()) {
+  const ixCam = ixWorld.inside() ? ixWorld.camera(NP_EYE) : null;
+  if (ixCam) {
+    camera.position.set(ixCam.x, ixCam.y, ixCam.z);
+    camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
+  } else if (np.playing && nwPhys.driving()) {
     const cam = nwPhys.cameraPose(NP_EYE);
     camera.position.set(cam.x, cam.y, cam.z);
     camera.lookAt(cam.look[0], cam.look[1], cam.look[2]);
@@ -536,6 +594,8 @@ function frame(now) {
     camera.position.set(np.x, gy, np.z);
     camera.rotation.set(np.pitch, np.yaw, 0, "YXZ");
   }
+  // INTERIORS: inside a room the outdoor world neither streams nor animates (its root is hidden); it resumes on exit.
+  if (!ixCam) {
   world.update(np.x, np.z, 2);
   cwStreetsMount.update(np.x, np.z, 1);
   world.animate(dt);
@@ -551,6 +611,7 @@ function frame(now) {
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
   mgLife?.animate(now / 1000, dt);
+  }
   asNpc.animate(now / 1000, dt);
   stWorld?.animate(now / 1000);
   drWorld?.animate(dt);
@@ -560,7 +621,7 @@ function frame(now) {
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
     npVisitT = 0;
-    np.near = npNearest();
+    np.near = ixCam ? null : npNearest();
     npQmApproach(np.near);
     if (np.playing) scSession.tick(np.x, np.z);
     for (const s of parish.sites) if (Math.hypot(np.x - s.position[0], np.z - s.position[1]) < 40 && npVisit(np.state, parish.id, s.id)) { npToast(`Visited: ${s.name}. Fast travel unlocked.`); npSave(np.state); }
@@ -604,7 +665,7 @@ document.title = `${parish.name} — ${npRegionHere.title}`;
 let npTouch = null;
 try {
   npTouch = tcMountTouch({
-    hint: "Drag the stick to walk; drag the view to look; tap Use at a board, a sign or a way out.",
+    hint: "Drag the stick to walk; drag the view to look; tap Use at a board, a building door, a sign or a way out.",
     buttons: [
       { id: "np-use", label: "Use", aria: "Use", onDown: () => npUse() },
       { id: "np-map", label: "Map", aria: "Map", onDown: () => npToggle("map") },
@@ -675,7 +736,7 @@ function tyHangSigns() {
     m.position.set(x, npHeightAt(parish, x, z) + 5.5, z); m.name = `ty-sign-${sg.site}-${sg.type}`; tySigns.add(m);
   }
 }
-function tyRefresh() { tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi?.render(); if (np.playing) npHud(); }
+function tyRefresh() { ixRentalsT = -1e9; tyBalance = tyLedger().balance; tyHangSigns(); tyLedgerUi?.render(); if (np.playing) npHud(); }
 function tyOpenLedger() {
   if (!tyLedgerUi) tyLedgerUi = tyMountLedger($("ty-ledger"), { parishId: parish.id, completed: ppCompleted, toast: npToast, onChange: tyRefresh });
   else tyLedgerUi.render();
@@ -761,6 +822,7 @@ window.__parishTest = {
   // DEAN's applied module (one key per handle: a merge once repeated teleport/setTime here, dropping the streets,
   // ground and life updates — SURVEYOR, docs/evals/platform-review.md).
   dean: () => dnHere,
+  interiors: { mount: ixWorld, doors: ixDoors, rentals: () => ixRentalDoors(), use: () => npUse(), root }, // INTERIORS' browser pass
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */

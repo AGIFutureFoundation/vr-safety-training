@@ -863,6 +863,8 @@ APPS = {
             # MOTORWORKS: vehicle classes and handling (pure data) and the parked vehicles in the maps (after nw-drive.js).
             SHARED / "mv-motorworks.js",
             SHARED / "mv-world.js",
+            # INTERIORS: walk-in generic rooms for the site buildings (after nw-physics.js).
+            SHARED / "ix-interiors.js",
             # KREWE: the parish kiosks and quests, the kits' placement and the kits (after kit.js and np-parish.js).
             SHARED / "kw-play-data.js",
             # CLEANPORTS: the zero-emission port stations keyed to BAYMAP's West Oakland sites (pure data, guarded).
