@@ -178,7 +178,7 @@ export const SIM_LP_MARINE_VESSEL_ELECTRICAL_SAFETY = {
     const faultOn = /[?&]fault=backfeed(&|$)/.test(globalThis.location?.search ?? "");
     const fStep = SIM_LP_MARINE_VESSEL_ELECTRICAL_SAFETY.steps.find((s) => s.id === "find-backfeed");
     const fDecl = SIM_LP_MARINE_VESSEL_ELECTRICAL_SAFETY.faults[0];
-    if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
+    if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     if (faultOn) holoTag(g, "Backfeed source: CHECK", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.46 });
     faultLamp.visible = faultOn;
     return {

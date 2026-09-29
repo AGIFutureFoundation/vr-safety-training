@@ -188,7 +188,7 @@ export const SIM_LP_CRYOGENIC_PROPELLANT_AWARENESS = {
     const faultOn = /[?&]fault=frost-line(&|$)/.test(globalThis.location?.search ?? "");
     const fStep = SIM_LP_CRYOGENIC_PROPELLANT_AWARENESS.steps.find((s) => s.id === "find-frost");
     const fDecl = SIM_LP_CRYOGENIC_PROPELLANT_AWARENESS.faults[0];
-    if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
+    if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     if (faultOn) { cap["dry-line"].material = mat(0xf4fbff, { rough: 0.9 }); cap["frosted-line"].material = mat(0x9aa3ab, { rough: 0.4, metal: 0.6 }); holoTag(g, "Line frosting: CHECK", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.44 }); }
     faultLamp.visible = faultOn;
     return {

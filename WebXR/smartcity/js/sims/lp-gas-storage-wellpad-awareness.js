@@ -185,7 +185,7 @@ export const SIM_LP_GAS_STORAGE_WELLPAD_AWARENESS = {
     const faultOn = /[?&]fault=flange-weep(&|$)/.test(globalThis.location?.search ?? "");
     const fStep = SIM_LP_GAS_STORAGE_WELLPAD_AWARENESS.steps.find((s) => s.id === "find-weep");
     const fDecl = SIM_LP_GAS_STORAGE_WELLPAD_AWARENESS.faults[0];
-    if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
+    if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     if (faultOn) { frost.position.x = -0.53; holoTag(g, "Flange weep: CHECK", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.44 }); }
     faultLamp.visible = faultOn;
     return {
