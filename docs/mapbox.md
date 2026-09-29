@@ -87,3 +87,9 @@ not grow on a repeat; a failed tile or a timeout leaves the schematic ground.
 - with `fetch` and the script insertion stubbed and no token, `mapboxToken()` is null and `loadMapboxGl()`, `createBayMap()` and `bayGroundTexture()` all return null without a single request or insertion; with a fake token and a stub library, the loader inserts exactly the pinned cdnjs URL once, the map gets one marker per site and landmark and one polygon per zone, and the ground request goes to the Static Images endpoint alone;
 - the atlas page renders headlessly in fallback mode with one marker per site and per landmark, every deep link, and every programme chip;
 - `WebXR/auth-config.json` carries `mapboxToken: null`, the bundler lists the modules, the dist files exist and load no external asset, and the home page, the Bay World map screen and this index all link the atlas.
+
+## Sentinel-2 backdrops, Find me and the live layer (console GEO)
+
+Without any token the parish maps now carry a baked Copernicus Sentinel-2 backdrop per Louisiana map, an opt-in Find me
+(memory only) and an off-by-default live satellite layer (USGS National Map, NASA GIBS). See [geo.md](geo.md); checker
+`tools/check_geo.mjs`. The Mapbox ground and relief above are unchanged and still need a viewer's own token.
