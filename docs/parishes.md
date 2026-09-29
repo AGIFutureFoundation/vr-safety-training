@@ -290,8 +290,8 @@ infrastructure) — planted sidewalk filtration, a rain garden block, the underg
 Mission Street transit corridor, a sewer crew yard, a locate crew, a soil yard, a planting crew and a maintenance crew.
 | Mission Street | road | sf-outer-mission ↔ sf-mission | -122.426, 37.730 | `sf-om-mission-street`, `sf-mi-outer-mission-street` |
 | Alemany Boulevard at the Bayshore Freeway | road | sf-outer-mission ↔ sf-mission | -122.405, 37.725 | `sf-om-alemany`, `sf-mi-outer-alemany` |
-| The Nimitz Freeway | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary (BAYMAP, pending) | -122.195, 37.750 | `bp-sl-nimitz-fruitvale`, mirror to be listed by BAYMAP |
-| International Boulevard | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary (BAYMAP, pending) | -122.182, 37.751 | `bp-sl-international-fruitvale`, mirror to be listed by BAYMAP |
+| The Nimitz Freeway | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary | -122.195, 37.750 | `bp-sl-nimitz-fruitvale`, `bm-fe-nimitz-san-leandro` |
+| International Boulevard | road | bp-san-leandro-bay ↔ oak-fruitvale-estuary | -122.182, 37.751 | `bp-sl-international-fruitvale`, `bm-fe-international-san-leandro` |
 | Highway Thirty-Seven west | road | bp-strip-marsh-east → Sears Point (no map yet) | -122.397, 38.149 | `bp-sm-highway-37-west` |
 | Highway Thirty-Seven east | road | bp-strip-marsh-east → Vallejo (no map yet) | -122.294, 38.140 | `bp-sm-highway-37-east` |
 The Fruitvale crossings: Fruitvale's field reaches San Leandro Bay (its Nimitz Freeway ends at about -122.195, 37.750), so
