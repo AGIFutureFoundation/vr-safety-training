@@ -141,7 +141,8 @@ export const SIM_K12_BY_MEASURING_A_FLOODWALL_IN_STEPS = {
           0.4,
           0.58
         ],
-        missNote: "Not where your step landed. Read the tape right at your heel."
+        missNote: "Not where your step landed. Read the tape right at your heel.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the length of your paces on the tape",
       cue: "Commit when the marker sits where your last step landed on the tape.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_MEASURING_A_FLOODWALL_IN_STEPS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "PANELS"
+        label: "PANELS",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the panel joins along the wall",
       cue: "Keep the marker on each panel join as you walk back along the wall counting panels.",

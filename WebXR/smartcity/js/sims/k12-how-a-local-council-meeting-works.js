@@ -141,7 +141,8 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too fast and nobody catches your point; too slow and you run out of turn. Try again."
+        missNote: "Outside the band. Too fast and nobody catches your point; too slow and you run out of turn. Try again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Speak at a clear, steady pace",
       cue: "Commit when your pace is clear enough to follow — not rushed, not dragging.",
@@ -218,7 +219,8 @@ export const SIM_K12_HOW_A_LOCAL_COUNCIL_MEETING_WORKS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "CALM"
+        label: "CALM",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Stay calm while others disagree",
       cue: "Hold your composure in band as another resident speaks against your point.",

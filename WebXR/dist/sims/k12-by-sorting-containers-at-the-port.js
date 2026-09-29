@@ -185,7 +185,8 @@ export const SIM_K12_BY_SORTING_CONTAINERS_AT_THE_PORT = {
           0.4,
           0.58
         ],
-        missNote: "Too fast or too far. Stop just above the stack, then set it down."
+        missNote: "Too fast or too far. Stop just above the stack, then set it down.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Lower the box gently",
       cue: "Commit when the box is just above the stack, ready to be set down gently.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_SORTING_CONTAINERS_AT_THE_PORT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "LANE"
+        label: "LANE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the box along the truck lane",
       cue: "Keep the marker on the box as the model truck carries it along the lane to the ship.",

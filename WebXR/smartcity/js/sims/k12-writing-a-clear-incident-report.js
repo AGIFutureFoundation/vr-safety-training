@@ -185,7 +185,8 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too long and the facts get lost; too clipped and they stop making sense. Try again."
+        missNote: "Outside the band. Too long and the facts get lost; too clipped and they stop making sense. Try again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Keep sentences clear and short",
       cue: "Commit when your sentences are short enough to read at a glance but still complete.",
@@ -218,7 +219,8 @@ export const SIM_K12_WRITING_A_CLEAR_INCIDENT_REPORT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FACTUAL"
+        label: "FACTUAL",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the report factual to the end",
       cue: "Hold the report in band with what you saw as you finish the last lines.",

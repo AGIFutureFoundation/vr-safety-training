@@ -151,7 +151,8 @@ export const SIM_K12_BY_THE_RIVERS_CURRENT_AND_A_PILOTS_JOB = {
           0.4,
           0.58
         ],
-        missNote: "Not on the card's setting. Match the throttle to the operator's card."
+        missNote: "Not on the card's setting. Match the throttle to the operator's card.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Set the model boat's speed",
       cue: "Commit when the throttle reaches the setting on the operator's card.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_THE_RIVERS_CURRENT_AND_A_PILOTS_JOB = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "CHANNEL"
+        label: "CHANNEL",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the model boat on the channel line",
       cue: "Keep the marker on the channel line as the current pushes the model boat sideways.",

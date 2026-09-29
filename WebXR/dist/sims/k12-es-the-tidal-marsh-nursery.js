@@ -151,7 +151,8 @@ export const SIM_K12_ES_THE_TIDAL_MARSH_NURSERY = {
           0.4,
           0.58
         ],
-        missNote: "Not at the water line. Read where the water meets the post."
+        missNote: "Not at the water line. Read where the water meets the post.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the water level in the model channel",
       cue: "Commit when the marker sits at the water line on the channel post.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_THE_TIDAL_MARSH_NURSERY = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOLLOW"
+        label: "FOLLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow a young fish along the channel",
       cue: "Keep the marker on one young fish as it swims into the grass.",

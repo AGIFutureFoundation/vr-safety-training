@@ -151,7 +151,8 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
           0.4,
           0.58
         ],
-        missNote: "Not at the end yet. Stop when the timer reaches the mark."
+        missNote: "Not at the end yet. Stop when the timer reaches the mark.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the survey timer",
       cue: "Commit when the timer marker reaches the end of the counting time.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_COUNT_IT_A_FAIR_SURVEY = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOLLOW"
+        label: "FOLLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow one bird as it moves in the box",
       cue: "Keep the marker on the egret as it walks across the survey box.",

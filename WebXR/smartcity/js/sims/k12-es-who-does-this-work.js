@@ -185,7 +185,8 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
           0.4,
           0.58
         ],
-        missNote: "Not set yet. Ask the mentor and move the marker to match."
+        missNote: "Not set yet. Ask the mentor and move the marker to match.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Rate how much each job uses maths",
       cue: "Commit when the marker shows how much maths the chosen job uses.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_WHO_DOES_THIS_WORK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "PATH"
+        label: "PATH",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow one project from plan to crew",
       cue: "Keep the marker on the rain garden project as it moves from plan to build.",

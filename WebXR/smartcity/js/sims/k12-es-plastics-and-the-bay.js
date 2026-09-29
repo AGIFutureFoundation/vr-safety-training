@@ -141,7 +141,8 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
           0.4,
           0.58
         ],
-        missNote: "Not matched yet. Move the marker to match the floater pile."
+        missNote: "Not matched yet. Move the marker to match the floater pile.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read how many pieces floated",
       cue: "Commit when the marker matches the size of the floater pile.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_PLASTICS_AND_THE_BAY = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "DRIFT"
+        label: "DRIFT",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow a floating bag on the waves",
       cue: "Keep the marker on the floating bag as the waves carry it to the shore.",

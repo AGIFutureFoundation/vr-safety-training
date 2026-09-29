@@ -159,7 +159,8 @@ export const SIM_BB_LOSING_WELL_AND_FILM_REVIEW = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too fast and nothing is learned; too slow and every clip becomes a trial. Move at the pace of one fix per clip."
+        missNote: "Outside the band. Too fast and nothing is learned; too slow and every clip becomes a trial. Move at the pace of one fix per clip.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Run the film at the right pace",
       cue: "Commit when the film pace reads right — one clip, one fix, move on.",
@@ -226,7 +227,8 @@ export const SIM_BB_LOSING_WELL_AND_FILM_REVIEW = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "HONEST"
+        label: "HONEST",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the room honest and kind through the last clips",
       cue: "Hold the room in band — honest about the mistakes, kind about the people.",

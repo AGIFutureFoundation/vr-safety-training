@@ -151,7 +151,8 @@ export const SIM_K12_ES_WHERE_THE_STORM_DRAIN_GOES = {
           0.4,
           0.58
         ],
-        missNote: "Not at the water line. Read where the water meets the jar."
+        missNote: "Not at the water line. Read where the water meets the jar.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read how much water reaches the model Bay",
       cue: "Commit when the marker sits at the water line in the model Bay jar.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_WHERE_THE_STORM_DRAIN_GOES = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "PIPE"
+        label: "PIPE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the drain line on the crew's map",
       cue: "Keep the marker on the blue drain line from the street to the shore.",

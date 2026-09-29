@@ -35222,7 +35222,8 @@ const NP_SF_NORTH_BEACH = {
     -457,
     -646
    ],
-   "kind": "place"
+   "kind": "place",
+   "lm": "wharf-pier-shed"
   }
  ],
  "connectors": [
@@ -38997,7 +38998,7 @@ const NP_BAY_SAN_PABLO = {
     {"id":"richmond-station","name":"Richmond Station","position":[-351,-138],"kind":"station"},
     {"id":"marina-bay-shore","name":"the Marina Bay shore","position":[0,1355],"kind":"shore"},
     {"id":"wildcat-creek-marsh","name":"Wildcat Creek's marsh","position":[-834,-1714],"kind":"shore"},
-    {"id":"the-harbour-cranes","name":"the harbour's cranes","position":[-1317,1437],"kind":"port"},
+    {"id":"the-harbour-cranes","name":"the harbour's cranes","position":[-1317,1437],"kind":"port","lm":"container-cranes"},
   ],
   connectors: [
     {"id":"eb-sp-san-pablo-avenue-south","kind":"road","name":"San Pablo Avenue south to Albany and Berkeley","from":{"parish":"bay-san-pablo","position":[1975,1990]},"to":{"parish":"oak-emeryville-berkeley","position":[-439,-1824],"lonlat":[-122.3,37.899]},"lonlat":[-122.3,37.899],"approximate":true},
@@ -40482,7 +40483,11 @@ function tfStreamSurfaceAt(parish, s, x, z) {
 function tfWaterDepthAt(parish, x, z) {
   const w = npWaterAt(parish, x, z);
   const g = npHeightAt(parish, x, z);
-  if (w) return Math.max(0, (w.kind === "wetland" ? NP_WATER_Y - 0.12 : NP_WATER_Y) - g);
+  if (w) {
+    // A surface road crosses a marsh on its own raised bed (Strip Marsh East's access road): dry on the carriageway.
+    if (w.kind === "wetland") for (const r of tfPrep(parish).roads) if (tfInBox(r.box, x, z) && npPolyDist(x, z, r.road.pts) < r.half) return 0;
+    return Math.max(0, (w.kind === "wetland" ? NP_WATER_Y - 0.12 : NP_WATER_Y) - g);
+  }
   for (const s of tfPrep(parish).streams) {
     if (!tfInBox(s.box, x, z)) continue;
     const n = tfNearest(x, z, s.pts);

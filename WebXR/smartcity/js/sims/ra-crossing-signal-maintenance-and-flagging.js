@@ -167,6 +167,7 @@ export const SIM_RA_CROSSING_SIGNAL_MAINTENANCE_AND_FLAGGING = {
     },
     {
       id: "flag-traffic", kind: "track", target: "stop-paddle", seconds: 6,
+      track: { readout: (v) => (v < 0.42 ? "below the band" : v > 0.62 ? "above the band" : "in the band") }, // the engine's default band, in words
       title: "Flag traffic while the shunt is active",
       cue: "Hold the stop paddle steady and visible in the green band while the gates are down for the test.",
       why: "A test that lowers real gates over a real road needs a real person making sure no driver treats a lowered gate as a suggestion, and holding the paddle steady and visible is what actually gets seen from a windshield well before anyone is close enough to need the whistle instead.",

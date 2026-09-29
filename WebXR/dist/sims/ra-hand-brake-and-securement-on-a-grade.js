@@ -146,6 +146,7 @@ export const SIM_RA_HAND_BRAKE_AND_SECUREMENT_ON_A_GRADE = {
     },
     {
       id: "watch-dial", kind: "track", target: "watch-dial", seconds: 6,
+      track: { readout: (v) => (v < 0.42 ? "below the band" : v > 0.62 ? "above the band" : "in the band") }, // the engine's default band, in words
       title: "Watch for movement",
       cue: "Hold your attention on the cut in the green band for the full watch, not just the first few seconds.",
       why: "A securement failure does not always show itself the instant the air comes off — a brake that is barely holding can creep for several seconds before it either catches or lets go entirely, so the watch runs the full count rather than ending the moment nothing has happened yet.",

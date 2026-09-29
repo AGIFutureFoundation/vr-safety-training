@@ -141,7 +141,8 @@ export const SIM_K12_BY_WETLANDS_AS_A_STORMS_SPEED_BUMP = {
           0.4,
           0.58
         ],
-        missNote: "Not at the top of the wave. Read where the crest meets the ruler."
+        missNote: "Not at the top of the wave. Read where the crest meets the ruler.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the wave height at the far end",
       cue: "Commit when the marker sits at the top of the wave on the far ruler.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_WETLANDS_AS_A_STORMS_SPEED_BUMP = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOLLOW"
+        label: "FOLLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow a wave across the marsh strip",
       cue: "Keep the marker on one wave as it travels over the plants and shrinks.",

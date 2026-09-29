@@ -141,7 +141,8 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. That speed is not how a class walks. Choose again."
+        missNote: "Outside the band. That speed is not how a class walks. Choose again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Choose a sensible walking speed",
       cue: "Commit when the speed is a sensible walking pace for a class — not a run, not a crawl.",
@@ -218,7 +219,8 @@ export const SIM_K12_READING_A_MAP_SCALE_IN_BAY_WORLD = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "ON TIME"
+        label: "ON TIME",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the class on pace along the route",
       cue: "Hold the pace in band as the class walks the route.",

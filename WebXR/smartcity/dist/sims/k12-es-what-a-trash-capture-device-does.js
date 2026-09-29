@@ -185,7 +185,8 @@ export const SIM_K12_ES_WHAT_A_TRASH_CAPTURE_DEVICE_DOES = {
           0.4,
           0.58
         ],
-        missNote: "Not at the top of the pile. Read where the trash stops."
+        missNote: "Not at the top of the pile. Read where the trash stops.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the trash left in the jar",
       cue: "Commit when the marker sits at the top of the trash in the jar.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_WHAT_A_TRASH_CAPTURE_DEVICE_DOES = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOLLOW"
+        label: "FOLLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow a bottle cap to the screen",
       cue: "Keep the marker on the bottle cap as it floats to the screen.",

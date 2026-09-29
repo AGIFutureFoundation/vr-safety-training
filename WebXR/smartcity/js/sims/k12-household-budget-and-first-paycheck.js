@@ -141,7 +141,8 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too little and a surprise sinks the month; too much and the needs go unpaid. Try again."
+        missNote: "Outside the band. Too little and a surprise sinks the month; too much and the needs go unpaid. Try again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Choose a realistic amount to set aside",
       cue: "Commit when the amount saved is realistic: enough to matter, not so much the needs go unpaid.",
@@ -218,7 +219,8 @@ export const SIM_K12_HOUSEHOLD_BUDGET_AND_FIRST_PAYCHECK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "ON PLAN"
+        label: "ON PLAN",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep spending on plan through the month",
       cue: "Hold spending in band with the plan as the weeks go by.",

@@ -141,7 +141,8 @@ export const SIM_K12_ORAL_HISTORY_INTERVIEW_SKILLS = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Adjust the level before the main questions."
+        missNote: "Outside the band. Adjust the level before the main questions.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Check the voice level is in the band",
       cue: "Commit when the level meter sits in the band as they speak.",
@@ -218,7 +219,8 @@ export const SIM_K12_ORAL_HISTORY_INTERVIEW_SKILLS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "LISTENING"
+        label: "LISTENING",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep listening through a long answer",
       cue: "Keep your attention on the speaker through a long answer, noting follow-ups quietly.",

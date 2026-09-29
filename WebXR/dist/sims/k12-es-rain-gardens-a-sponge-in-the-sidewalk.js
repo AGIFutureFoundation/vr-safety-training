@@ -141,7 +141,8 @@ export const SIM_K12_ES_RAIN_GARDENS_A_SPONGE_IN_THE_SIDEWALK = {
           0.4,
           0.58
         ],
-        missNote: "Not at the moment the water was gone. Read when the top is dry."
+        missNote: "Not at the moment the water was gone. Read when the top is dry.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the timer when the water is gone",
       cue: "Commit when the timer marker sits where the last water soaked in.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_RAIN_GARDENS_A_SPONGE_IN_THE_SIDEWALK = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FLOW"
+        label: "FLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the water from the kerb to the soil",
       cue: "Keep the marker on the water as it flows through the kerb gap and spreads.",

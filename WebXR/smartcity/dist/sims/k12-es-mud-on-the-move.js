@@ -185,7 +185,8 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
           0.4,
           0.58
         ],
-        missNote: "Not at the top of the layer. Read where the new mud stops."
+        missNote: "Not at the top of the layer. Read where the new mud stops.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the mud layer in the tray",
       cue: "Commit when the marker sits at the top of the new mud layer.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_MUD_ON_THE_MOVE = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOLLOW"
+        label: "FOLLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow a cloud of mud across the tray",
       cue: "Keep the marker on the cloud of mud as it drifts and settles.",

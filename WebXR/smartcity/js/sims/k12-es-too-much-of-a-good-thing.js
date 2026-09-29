@@ -151,7 +151,8 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
           0.4,
           0.58
         ],
-        missNote: "Not matched yet. Slide the marker to the green that looks like the jar."
+        missNote: "Not matched yet. Slide the marker to the green that looks like the jar.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the colour of each jar",
       cue: "Commit when the marker matches the jar's colour on the green scale.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_TOO_MUCH_OF_A_GOOD_THING = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FLOW"
+        label: "FLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow runoff from the lawn to the lagoon",
       cue: "Keep the marker on the runoff as it flows from the lawn into the water.",

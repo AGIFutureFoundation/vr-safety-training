@@ -185,7 +185,8 @@ export const SIM_K12_SLOPE_AND_ANGLES_ON_A_RAMP = {
           0.4,
           0.58
         ],
-        missNote: "Off the mark. Line the base up with the ground and read from the side that starts at zero."
+        missNote: "Off the mark. Line the base up with the ground and read from the side that starts at zero.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the angle on the protractor",
       cue: "Commit when the protractor's pointer sits on the angle the drawing shows.",
@@ -218,7 +219,8 @@ export const SIM_K12_SLOPE_AND_ANGLES_ON_A_RAMP = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "SLOPE"
+        label: "SLOPE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the model ramp inside the plan's limit",
       cue: "Hold the model's slope inside the band as the engineer adds weight to the top.",

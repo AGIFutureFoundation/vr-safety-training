@@ -160,7 +160,8 @@ export const SIM_BB_PICK_AND_ROLL_COMMUNICATION = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too early and the screener changes angle after your call; too late and it lands at contact. Call it as the screener plants."
+        missNote: "Outside the band. Too early and the screener changes angle after your call; too late and it lands at contact. Call it as the screener plants.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Time the call as the screener plants",
       cue: "Commit when the call lands in the window — after the screener commits, before the ball-handler moves.",
@@ -227,7 +228,8 @@ export const SIM_BB_PICK_AND_ROLL_COMMUNICATION = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "TALK"
+        label: "TALK",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the team's talk steady through a live rep",
       cue: "Hold the talk level in the band through the rep — not silent, not five people shouting over each other.",

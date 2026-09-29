@@ -159,7 +159,8 @@ export const SIM_BB_TRANSITION_SPACING_AND_ROLES = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too early and the wing has not turned to receive it; too late and the defender has recovered. Pass as the wing looks back."
+        missNote: "Outside the band. Too early and the wing has not turned to receive it; too late and the defender has recovered. Pass as the wing looks back.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Time the pass ahead to the wing",
       cue: "Commit when the pass leaves in the window — as the wing looks back, before the defender recovers.",
@@ -226,7 +227,8 @@ export const SIM_BB_TRANSITION_SPACING_AND_ROLES = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.15,
-        label: "PACE"
+        label: "PACE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Hold the team's pace through three reps",
       cue: "Keep the pace in band — fast enough to be a break, controlled enough to stop inside the run-off.",

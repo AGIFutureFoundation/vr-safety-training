@@ -141,7 +141,8 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too rushed and you have to repeat yourself. Take a breath and try again."
+        missNote: "Outside the band. Too rushed and you have to repeat yourself. Take a breath and try again.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Speak calmly and clearly",
       cue: "Commit when your voice is calm and clear enough to be understood first time.",
@@ -218,7 +219,8 @@ export const SIM_K12_FIRST_AID_AWARENESS_CALL_FOR_HELP = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "STEADY"
+        label: "STEADY",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Stay steady until help arrives",
       cue: "Hold yourself in band — calm and near the adult — until help arrives.",

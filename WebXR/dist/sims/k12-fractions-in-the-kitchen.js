@@ -185,7 +185,8 @@ export const SIM_K12_FRACTIONS_IN_THE_KITCHEN = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Over or under the halved amount. Pour again carefully."
+        missNote: "Outside the band. Over or under the halved amount. Pour again carefully.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Measure the halved amount accurately",
       cue: "Commit when the jug shows the halved amount, not over and not under.",
@@ -218,7 +219,8 @@ export const SIM_K12_FRACTIONS_IN_THE_KITCHEN = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "PROPORTION"
+        label: "PROPORTION",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the proportions right as you combine",
       cue: "Hold the mix in band with the scaled recipe as you combine the ingredients.",

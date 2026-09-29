@@ -185,7 +185,8 @@ export const SIM_K12_GEOMETRY_OF_A_TURBINE_BLADE_SWEEP = {
           0.4,
           0.58
         ],
-        missNote: "Too far from the estimate. Check the radius and the formula before you trust it."
+        missNote: "Too far from the estimate. Check the radius and the formula before you trust it.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Check your answer against an estimate",
       cue: "Commit when the estimate bar sits where your calculated area should fall.",
@@ -218,7 +219,8 @@ export const SIM_K12_GEOMETRY_OF_A_TURBINE_BLADE_SWEEP = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "TIP"
+        label: "TIP",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the tip round the circle",
       cue: "Keep the pointer on the blade tip as the model rotor turns.",

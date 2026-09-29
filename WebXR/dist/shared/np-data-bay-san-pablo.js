@@ -74,7 +74,7 @@ export const NP_BAY_SAN_PABLO = {
     {"id":"richmond-station","name":"Richmond Station","position":[-351,-138],"kind":"station"},
     {"id":"marina-bay-shore","name":"the Marina Bay shore","position":[0,1355],"kind":"shore"},
     {"id":"wildcat-creek-marsh","name":"Wildcat Creek's marsh","position":[-834,-1714],"kind":"shore"},
-    {"id":"the-harbour-cranes","name":"the harbour's cranes","position":[-1317,1437],"kind":"port"},
+    {"id":"the-harbour-cranes","name":"the harbour's cranes","position":[-1317,1437],"kind":"port","lm":"container-cranes"},
   ],
   connectors: [
     {"id":"eb-sp-san-pablo-avenue-south","kind":"road","name":"San Pablo Avenue south to Albany and Berkeley","from":{"parish":"bay-san-pablo","position":[1975,1990]},"to":{"parish":"oak-emeryville-berkeley","position":[-439,-1824],"lonlat":[-122.3,37.899]},"lonlat":[-122.3,37.899],"approximate":true},

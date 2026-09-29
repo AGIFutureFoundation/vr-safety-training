@@ -141,7 +141,8 @@ export const SIM_K12_PROBABILITY_WITH_A_FAIR_SPINNER = {
           0.4,
           0.58
         ],
-        missNote: "Not clear yet. Wait until the pointer has stopped and read its tip."
+        missNote: "Not clear yet. Wait until the pointer has stopped and read its tip.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read which part the pointer stopped on",
       cue: "Commit when you can see clearly which part the pointer's tip is in.",
@@ -218,7 +219,8 @@ export const SIM_K12_PROBABILITY_WITH_A_FAIR_SPINNER = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "TALLY"
+        label: "TALLY",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep the tally going through a long run",
       cue: "Keep up with the spins, marking each one as it lands.",

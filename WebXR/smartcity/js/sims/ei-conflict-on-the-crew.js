@@ -158,7 +158,8 @@ export const SIM_EI_CONFLICT_ON_THE_CREW = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Rushed and nobody is heard; dragged out and it becomes a trial. Keep it short and complete."
+        missNote: "Outside the band. Rushed and nobody is heard; dragged out and it becomes a trial. Keep it short and complete.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Keep the conversation at the right pace",
       cue: "Commit when the pace reads right — each person heard fully, then on to the fix.",
@@ -225,7 +226,8 @@ export const SIM_EI_CONFLICT_ON_THE_CREW = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "TRUST"
+        label: "TRUST",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Hold crew trust as work restarts",
       cue: "Keep trust in band as the paused task restarts — not tense, not forced cheerful.",

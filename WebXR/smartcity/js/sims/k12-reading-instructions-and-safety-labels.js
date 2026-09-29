@@ -185,7 +185,8 @@ export const SIM_K12_READING_INSTRUCTIONS_AND_SAFETY_LABELS = {
           0.4,
           0.58
         ],
-        missNote: "Outside the band. Too fast and you skim the warnings; too slow and you lose the thread. Settle into a steady pace."
+        missNote: "Outside the band. Too fast and you skim the warnings; too slow and you lose the thread. Settle into a steady pace.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read at a pace that lets you understand",
       cue: "Commit when your reading pace is steady — not rushing, not stopping on every word.",
@@ -218,7 +219,8 @@ export const SIM_K12_READING_INSTRUCTIONS_AND_SAFETY_LABELS = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOCUS"
+        label: "FOCUS",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Keep your focus while you follow the steps",
       cue: "Hold your attention in band as you carry out each step, checking back to the page.",

@@ -185,7 +185,8 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
           0.4,
           0.58
         ],
-        missNote: "Not matched yet. Count every arrow that touches the fish."
+        missNote: "Not matched yet. Count every arrow that touches the fish.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Count the links for the small fish",
       cue: "Commit when the marker shows how many arrows touch the small fish.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_THE_BAY_FOOD_WEB = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "FOLLOW"
+        label: "FOLLOW",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow a pelican as it hunts",
       cue: "Keep the marker on the pelican as it circles and dives.",

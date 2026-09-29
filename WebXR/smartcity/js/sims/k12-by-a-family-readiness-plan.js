@@ -185,7 +185,8 @@ export const SIM_K12_BY_A_FAMILY_READINESS_PLAN = {
           0.4,
           0.58
         ],
-        missNote: "Not at the early point. Leave when the plan says, not at the last minute."
+        missNote: "Not at the early point. Leave when the plan says, not at the last minute.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Choose when to leave",
       cue: "Commit when the marker reaches the point on the plan's timeline where the family leaves early.",
@@ -218,7 +219,8 @@ export const SIM_K12_BY_A_FAMILY_READINESS_PLAN = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "ROUTE"
+        label: "ROUTE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Walk the practice route with your group",
       cue: "Keep the marker on the route line as your group walks to the meeting place on the floor map.",

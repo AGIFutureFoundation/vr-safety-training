@@ -185,7 +185,8 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
           0.4,
           0.58
         ],
-        missNote: "Not clear enough to call. Wait for a steady reading before counting."
+        missNote: "Not clear enough to call. Wait for a steady reading before counting.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Judge the visibility before counting",
       cue: "Commit when the visibility bar shows the water is clear enough to count.",
@@ -218,7 +219,8 @@ export const SIM_K12_ECOSYSTEMS_AT_THE_KELP_TRANSECT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "PACE"
+        label: "PACE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the diver along the line",
       cue: "Keep the survey marker on the diver as they move along the transect.",

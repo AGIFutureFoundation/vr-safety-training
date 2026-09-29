@@ -141,7 +141,8 @@ export const SIM_K12_ES_CLEAN_AIR_AT_THE_PORT = {
           0.4,
           0.58
         ],
-        missNote: "Not matched yet. Slide the marker to the grey that looks like the filter."
+        missNote: "Not matched yet. Slide the marker to the grey that looks like the filter.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the specks on the filter",
       cue: "Commit when the marker matches the filter's colour on the grey scale.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_CLEAN_AIR_AT_THE_PORT = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "BREEZE"
+        label: "BREEZE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Follow the breeze from the port",
       cue: "Keep the marker on the smoke puff as the breeze carries it inland.",

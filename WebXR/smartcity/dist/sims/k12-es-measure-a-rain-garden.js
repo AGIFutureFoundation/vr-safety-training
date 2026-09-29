@@ -141,7 +141,8 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
           0.4,
           0.58
         ],
-        missNote: "Not at the far stake. Read where the stake meets the tape."
+        missNote: "Not at the far stake. Read where the stake meets the tape.",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.58 ? "above the band" : "in the band"),
       },
       title: "Read the length on the tape",
       cue: "Commit when the marker sits where the far stake meets the tape.",
@@ -218,7 +219,8 @@ export const SIM_K12_ES_MEASURE_A_RAIN_GARDEN = {
         rise: 0.46,
         fall: 0.38,
         drift: 0.14,
-        label: "EDGE"
+        label: "EDGE",
+        readout: (v) => (v < 0.4 ? "below the band" : v > 0.62 ? "above the band" : "in the band"),
       },
       title: "Trace the edge of the bed on the grid",
       cue: "Keep the marker on the edge as you trace all the way round the bed.",
