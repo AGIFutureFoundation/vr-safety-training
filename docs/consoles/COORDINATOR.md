@@ -58,3 +58,28 @@ Every team keeps its own console under this folder (see `tools/briefs/console-br
 - Louisiana round (two-hour loop, 09:06–11:00): SITES-COAST, SITES-NORTH, CAPITAL, SOUTHWEST, ACADIANA, NOLA-DISTRICTS, DETAIL,
   LA-PROGRAMME. Brief and verified facts in the coordinator scratchpad (louisiana/wave-brief.md, la-facts.md); where the user's
   table differs from the sources, the sourced figure is used and the overview lists each difference.
+
+## 29 Sep 09:06–11:10 UTC — Louisiana development & districts loop (two hours, two rounds) pushed at 96a7f4e2
+
+- Round 1 (eight consoles):
+  - SITES-COAST and SITES-NORTH: the seven project-site maps.
+  - CAPITAL, SOUTHWEST and ACADIANA: growth-city districts.
+  - NOLA-DISTRICTS: four children of the Orleans map, with the parent/child overlap rule.
+  - DETAIL: 100× instanced detail.
+  - LA-PROGRAMME: the Louisiana Development Training Programme.
+- Round 2 (five consoles):
+  - LA-PLAY: play layer, world eval 100 on every Louisiana map.
+  - LA-K12: six K-12 stations.
+  - DETAIL-2: Louisiana scatter rows, baselines for every map, a sampled check_detail.
+  - GEO: opt-in "Find me" geolocation, Sentinel-2 backdrops for all 21 Louisiana maps, a live satellite layer.
+  - CAPTURE: stills and a walk video, kept out of the repo.
+- Totals: 46 maps, 863 job sites, 730 stations, 121 checkers.
+- Real Copernicus Sentinel-2 imagery turned out to be reachable on AWS Open Data. Every Louisiana map's water and roads were checked against it with `$SP/geo/s2view.py`.
+- Disk:
+  - The session's allowance filled at launch. After the user's go-ahead, 17 merged worktrees were removed.
+  - `git gc` packed 3.7 GB of loose objects down to 0.5 GB.
+  - Each merged console worktree was removed after its merge. The low was 1.5 MB free; the disk now holds 18 GB free.
+- Gates found 12 problems in all, each fixed at source; the list is in the final report.
+- Timing baselines: the rules were applied as written. Eight checkers were rebaselined at c0883a3 and six more at 96a7f4e2, only those that grow with the map count, taken from quiet runs.
+- The detail generation budget went from 12 to 14 ms for the Louisiana rows. The next step is moving generation to a worker.
+- The TradeQuest shared export is now written as compact JSON: 646 KiB of 768.
