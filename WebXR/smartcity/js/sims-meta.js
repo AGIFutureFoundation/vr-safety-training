@@ -29176,5 +29176,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+    "index": "841",
+    "domain": "Maritime",
+    "trade": "ILWU maintenance mechanic or IAM machinist isolating the high-voltage system on a battery-electric yard tractor in a terminal shop bay",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair training; IAM machinist training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
+    "name": "High-Voltage Lockout on Electric Cargo Equipment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ High-Voltage Lockout on Electric Cargo Equipment VR VR",
+    "tagline": "A battery-electric yard tractor in the shop bay with a coolant fault on its work order: the service procedure read, insulating gloves air-tested and on, a chafed orange cable found at a frame clip, the key out and in your pocket, the service disconnect pulled and locked in its box, the discharge wait sat out in full, absence of voltage proven live-dead-live, the clip replaced and torqued, insulation resistance watched in band, a coolant weep at the pack found, the release checklist walked, and the bay foreman told",
+    "accent": 15900971,
+    "accentCss": "#f2a12b",
+    "parSeconds": 360,
+    "badge": {
+      "id": "cphv-badge",
+      "name": "Zero Volts Proven",
+      "note": "The service disconnect locked, the wait sat out and the meter proving zero before a single orange cable was touched"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Zero Volts Proven",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-charging-yard-connectors-and-e-stops",
+    "index": "842",
+    "domain": "Energy",
+    "trade": "IBEW electrician and ILWU equipment operator opening a terminal charging yard for the shift — connectors, emergency stops and cable management",
+    "category": "Maritime & Ports",
+    "certification": "IBEW/NECA JATC apprenticeship and journeyman training; NFPA 70 (NEC) for electric vehicle power transfer equipment and its disconnecting means; NFPA 70E electrical safety in the workplace; 29 CFR 1910.147 the control of hazardous energy; OSHA 29 CFR 1917 marine terminals for vehicle routes and pedestrian separation; ANSI Z535.4 for the product safety signs on each dispenser",
+    "name": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Charging Yard: Connectors, E-Stops and Cable Management VR VR",
+    "tagline": "The charging yard before the first shift plugs in: the yard's switching log read, a walk of every dispenser, a cracked connector latch found and tagged out, a cable left across the drive lane coiled back onto its hanger, the yard e-stop tested and reset on purpose, a yard tractor plugged in and its session watched, a pooled puddle at a pedestal found, the faulted dispenser locked out at its breaker, the in-service board updated and the shift lead told",
+    "accent": 4178392,
+    "accentCss": "#3fc1d8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cpcy-badge",
+      "name": "Yard Walked",
+      "note": "Every connector looked at, every cable off the ground and the e-stop proven before a single session started"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Yard Walked",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cp-battery-energy-storage-site-awareness",
+    "index": "843",
+    "domain": "Energy",
+    "trade": "Port worker or IBEW electrician inducted to a battery energy storage system site: its hazards, its entry rules and who may go inside",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC training for qualified electrical workers; NFPA 855 installation of stationary energy storage systems, including hazard mitigation, signage and emergency response planning; NFPA 70E electrical safety in the workplace for DC arc flash and shock; NFPA 70 (NEC) for the energy storage system's disconnecting means; 29 CFR 1910.147 the control of hazardous energy; 29 CFR 1910.269 for work at electric supply stations; and the site's own emergency response plan",
+    "name": "Battery Energy Storage Site Awareness",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Battery Energy Storage Site Awareness VR VR",
+    "tagline": "A battery energy storage site inside the port fence: the entry sign and the site's rules read, the sign-in log, the gas detection panel read normal, a cabinet with a warning lamp found and reported rather than opened, the thermal readout watched, a visitor held behind the line, the fire department access route kept clear, the emergency stop and its meaning learned, a pallet of cardboard moved away from the enclosures, and the site signed out",
+    "accent": 15258170,
+    "accentCss": "#e8d23a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "cpbe-badge",
+      "name": "Line Held",
+      "note": "Nothing opened that was not yours to open, the visitor kept behind the line and the warning lamp reported, not investigated"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Held",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Zero-Emission Crew",
+        "Lead Hand",
+        "Certified Hand",
+        "Journey Level"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
