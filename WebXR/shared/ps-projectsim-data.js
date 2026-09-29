@@ -192,5 +192,10 @@ export const PS_GUARDED = [
   { sim: "ps-zero-emission-charging-yard", parish: "oak-west-oakland", site: "port-truck-staging-yard" },
   { sim: "ps-trash-capture-cleanout", parish: "bp-san-leandro-bay", kinds: ["stormwater", "trash-capture", "storm-drain", "work"] },
   { sim: "ps-tidal-channel-dig", parish: "bp-strip-marsh-east", kinds: ["tidal-channel", "wetland", "marsh", "restoration"] },
-  { sim: "ps-green-stormwater-build", parish: "sf-outer-mission", kinds: ["rain-garden", "green-stormwater", "infiltration", "construction"] },
+  { sim: "ps-green-stormwater-build", parish: "sf-outer-mission", kinds: ["stormwater", "rain-garden", "green-stormwater", "infiltration", "construction"] },
+  // PROJECTLANDS' precincts: the named projects' own maps carry their simulations.
+  { sim: "ps-green-stormwater-build", parish: "bay-san-pablo", site: "sp-gsi-bioretention-build" },
+  { sim: "ps-pcb-sampling", parish: "bp-san-mateo-shoreline", site: "smc-pcb-soil-sampling" },
+  { sim: "ps-zero-emission-charging-yard", parish: "oak-west-oakland", site: "oak-port-charging-yard" },
+  { sim: "ps-trash-capture-cleanout", parish: "oak-west-oakland", site: "oak-port-trash-capture-outer-harbor" },
 ];
