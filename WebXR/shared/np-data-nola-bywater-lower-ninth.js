@@ -1647,34 +1647,6 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
    "blurb": "The crew on the canal's floodwall on the Lower Ninth side: the seepage walk, the dozer on the slope and a floodwall pour."
   },
   {
-   "id": "nbw-canal-lock-crew",
-   "name": "the Industrial Canal Lock Crew",
-   "kind": "lock",
-   "position": [
-    182,
-    -45
-   ],
-   "trades": [
-    "iuoe",
-    "ibu",
-    "meba",
-    "mmp",
-    "siu"
-   ],
-   "programmes": [
-    "port-operations",
-    "hunters-point-bay-restoration",
-    "bay-area-union-edition"
-   ],
-   "stations": [
-    "mw-workboat-towing-and-line-handling",
-    "br-vhf-and-navigation-in-a-work-zone",
-    "mooring-line",
-    "pt-dock-fender-and-bollard-inspection"
-   ],
-   "blurb": "The crew that works vessels through the lock between the river and the canal: towing lines, the radio, mooring and fenders."
-  },
-  {
    "id": "nbw-river-levee-crew",
    "name": "the Holy Cross River Levee Crew",
    "kind": "levee",
@@ -2025,6 +1997,34 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
     "vessel-gangway-and-hatch-cover-safety"
    ],
    "blurb": "The Algiers Point landing for the ferry across to the Quarter: the gangway, passengers and a man-overboard drill."
+  },
+  {
+   "id": "nbw-canal-lock-crew",
+   "name": "the Industrial Canal Lock Crew",
+   "kind": "lock",
+   "position": [
+    182,
+    -45
+   ],
+   "trades": [
+    "iuoe",
+    "ibu",
+    "meba",
+    "mmp",
+    "siu"
+   ],
+   "programmes": [
+    "port-operations",
+    "hunters-point-bay-restoration",
+    "bay-area-union-edition"
+   ],
+   "stations": [
+    "mw-workboat-towing-and-line-handling",
+    "br-vhf-and-navigation-in-a-work-zone",
+    "mooring-line",
+    "pt-dock-fender-and-bollard-inspection"
+   ],
+   "blurb": "The crew that works vessels through the lock between the river and the canal: towing lines, the radio, mooring and fenders."
   }
  ],
  "landmarks": [
@@ -2074,7 +2074,7 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
     437,
     -53
    ],
-   "kind": "bridge",
+   "kind": "canal",
    "lm": "truss-bridge"
   },
   {

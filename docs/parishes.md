@@ -488,3 +488,67 @@ A programme world is a **procedural** district built for one programme — **not
   `programme-worlds-south`); they stay pending until such a world is registered.
 - Games and treasures on this map: `WebXR/shared/sm-smiles.js` (console SMILES, `docs/consoles/SMILES.md`); checker
   `tools/check_smiles.mjs`.
+
+## Districts inside a parish — the parent/child "zoom in" pattern (region `new-orleans-districts`, console NOLA-DISTRICTS)
+
+The `orleans` map holds the whole of the city's core at a compressed scale (about three and a half real metres per map
+metre). To walk a neighbourhood street by street, a **child map** zooms in on part of it at a near-true scale and declares
+`parent: "orleans"`. Any city can use the same pattern: a coarse parent for the whole place, children for the parts people
+want to walk.
+
+**The rule** (`npParentOf`, `npChildrenOf`, `npMayOverlap` in `np-parishes.js`; held by `check_parishes.mjs`):
+- A child declares `parent: "<map id>"` and a `scale` closer than its parent's; children are one level deep.
+- A child's field lies inside its parent's field and **overlaps only its parent** — never a sibling, never another child.
+  Where the parent's own box already shares ground with a neighbouring parish at parish scale (the Jefferson and
+  Plaquemines boxes reach over Orleans), a child inside it shares that overlap too; the checker allows it only where the
+  parent already overlaps the same map (inherited) and notes it.
+- **Walk-through connectors to the parent at the matching place.** Each child lists at least one connector `to` its parent,
+  and the parent lists the crossing back at the same `lonlat`; the parent's end stands inside the child's area on the
+  parent map (a "zoom in" door on the coarse map) and the child's end at the same ground point (within two pads). WALKABLE
+  pairs them both ways, so walking into the door on Orleans lands you in the district, and walking back out lands you on
+  Orleans where you left.
+- **Neighbouring children are joined** by their own paired crossing (their boxes may be separated by a gap narrower than a
+  connector margin; the two ends may then differ, within the 2 km connector rule, around one agreed `lonlat`).
+- No child site duplicates a parent site on the ground (within two pads); the child's sites are the street-level crews.
+
+To add children to another city: pick the parent, draw each child's box inside it with no two boxes overlapping (lay them
+out along the city's real seams: a river, an avenue, a canal), give each a closer `scale`, and write the connectors both ways
+(`tools/gen_nd_districts.mjs` is a working generator: it writes the children and mirrors the doors into the parent module).
+
+| district | id | module | export | declared scale | sites | connectors |
+|---|---|---|---|---|---|---|
+| The French Quarter, the CBD & the Riverfront | `nola-french-quarter-cbd` | `np-data-nola-french-quarter-cbd.js` | `NP_NOLA_FRENCH_QUARTER_CBD` | 0.52 real metres per map metre | 19 | 5 |
+| The Garden District & Uptown | `nola-uptown-garden` | `np-data-nola-uptown-garden.js` | `NP_NOLA_UPTOWN_GARDEN` | 0.9 real metres per map metre | 18 | 3 |
+| Mid-City, City Park & Gentilly | `nola-mid-city-gentilly` | `np-data-nola-mid-city-gentilly.js` | `NP_NOLA_MID_CITY_GENTILLY` | 1.5 real metres per map metre | 18 | 4 |
+| The Marigny, Bywater, the Lower Ninth Ward & Holy Cross | `nola-bywater-lower-ninth` | `np-data-nola-bywater-lower-ninth.js` | `NP_NOLA_BYWATER_LOWER_NINTH` | 1.25 real metres per map metre | 18 | 4 |
+
+The four boxes are laid along the city's seams so none overlaps another: Uptown along the river's crescent below the CBD's
+latitude; the Quarter and the CBD between Canal Street's edge and Esplanade Avenue; Mid-City and Gentilly north of the Quarter
+from the cemeteries to Elysian Fields; the Marigny, Bywater and the Lower Ninth east of Esplanade to the parish line. The
+river's crescent, the Industrial Canal, Bayou St. John, the outfall canals and City Park's lagoons were checked against
+Copernicus Sentinel-2 imagery (Contains modified Copernicus Sentinel data 2026); no figure was read off the image. The site
+layouts are illustrative; the streets, the river, the canals and the neighbourhoods are real.
+
+**Trades sites** (16+ each): historic restoration (galleries, masonry, Creole cottages, shotgun houses, ironwork),
+streetcar track and overhead wire (Canal, St. Charles, Carrollton, St. Claude, the riverfront line), drainage and pumping
+(pump stations, culverts, drain lines), levee and floodwall (the riverfront floodwall gate, the Uptown and Holy Cross river
+levees, the London Avenue and Industrial Canal floodwalls), hospitality (hotel kitchens, restaurant rows, the music venues,
+the Fair Grounds festival stage), port (the riverfront and Uptown wharves, the Canal Street and Algiers Point ferry landings,
+the Industrial Canal lock), plus schools, campuses, hospitals, firehouses, the park and marsh crews.
+
+| crossing | kind | between | point (lon, lat) | ids |
+|---|---|---|---|---|
+| Canal Street (zoom in) | road | nola-french-quarter-cbd ↔ orleans | -90.076, 29.9578 | `nd-fq-orleans-canal`, `conn-nd-french-quarter-canal` |
+| Esplanade Avenue (zoom in) | road | nola-french-quarter-cbd ↔ orleans | -90.062, 29.9638 | `nd-fq-orleans-esplanade`, `conn-nd-french-quarter-esplanade` |
+| St. Charles Avenue (zoom in) | road | nola-uptown-garden ↔ orleans | -90.110, 29.9285 | `nd-up-orleans-st-charles`, `conn-nd-uptown-st-charles` |
+| South Claiborne Avenue (zoom in) | road | nola-uptown-garden ↔ orleans | -90.090, 29.942 | `nd-up-orleans-claiborne`, `conn-nd-uptown-claiborne` |
+| North Carrollton Avenue (zoom in) | road | nola-mid-city-gentilly ↔ orleans | -90.0975, 29.9795 | `nd-mc-orleans-carrollton`, `conn-nd-mid-city-carrollton` |
+| Gentilly Boulevard (zoom in) | road | nola-mid-city-gentilly ↔ orleans | -90.068, 29.9962 | `nd-mc-orleans-gentilly`, `conn-nd-mid-city-gentilly` |
+| St. Claude Avenue (zoom in) | road | nola-bywater-lower-ninth ↔ orleans | -90.033, 29.9664 | `nd-bw-orleans-st-claude`, `conn-nd-bywater-st-claude` |
+| North Claiborne Avenue (zoom in) | road | nola-bywater-lower-ninth ↔ orleans | -90.015, 29.969 | `nd-bw-orleans-lower-ninth`, `conn-nd-lower-ninth-claiborne` |
+| St. Charles Avenue | road | nola-french-quarter-cbd ↔ nola-uptown-garden | -90.076, 29.944 | `nd-fq-uptown-st-charles`, `nd-up-fq-st-charles` |
+| Canal Street | road | nola-french-quarter-cbd ↔ nola-mid-city-gentilly | -90.083, 29.964 | `nd-fq-mid-city-canal`, `nd-mc-fq-canal` |
+| Esplanade Avenue | road | nola-french-quarter-cbd ↔ nola-bywater-lower-ninth | -90.0585, 29.963 | `nd-fq-bywater-esplanade`, `nd-bw-fq-esplanade` |
+| Elysian Fields Avenue | road | nola-mid-city-gentilly ↔ nola-bywater-lower-ninth | -90.0586, 29.976 | `nd-mc-bywater-elysian`, `nd-bw-mc-elysian` |
+
+Uptown and Mid-City do not meet (the CBD's back of town lies between them), so they have no crossing of their own.

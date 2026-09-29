@@ -151,20 +151,20 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "kind": "lake",
    "poly": [
     [
-     148,
-     -1434
+     -74,
+     -1734
     ],
     [
-     408,
-     -1541
+     185,
+     -1841
     ],
     [
-     501,
-     -1391
+     278,
+     -1691
     ],
     [
-     223,
-     -1284
+     0,
+     -1584
     ]
    ]
   },
@@ -174,20 +174,20 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "kind": "lake",
    "poly": [
     [
-     260,
-     -1199
+     -260,
+     -1520
     ],
     [
-     482,
-     -1284
+     -37,
+     -1606
     ],
     [
-     575,
-     -1156
+     56,
+     -1477
     ],
     [
-     334,
-     -1070
+     -185,
+     -1391
     ]
    ]
   }
@@ -199,32 +199,32 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "height": 4,
    "pts": [
     [
-     1696,
-     1988
+     1182,
+     1865
     ],
     [
-     1733,
-     1833
+     1219,
+     1710
     ],
     [
-     1770,
-     1678
+     1256,
+     1555
     ],
     [
-     1807,
-     1524
+     1293,
+     1401
     ],
     [
-     1844,
-     1367
+     1332,
+     1239
     ],
     [
-     1885,
-     1212
+     1375,
+     1075
     ],
     [
-     1897,
-     1172
+     1390,
+     1021
     ]
    ]
   },
@@ -733,32 +733,32 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "kind": "street",
    "pts": [
     [
-     1547,
-     1952
+     1041,
+     1831
     ],
     [
-     1584,
-     1797
+     1078,
+     1676
     ],
     [
-     1621,
-     1642
+     1115,
+     1521
     ],
     [
-     1658,
-     1488
+     1152,
+     1367
     ],
     [
-     1696,
-     1330
+     1191,
+     1204
     ],
     [
-     1737,
-     1172
+     1235,
+     1038
     ],
     [
-     1750,
-     1128
+     1252,
+     980
     ]
    ]
   },
@@ -1121,32 +1121,6 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "blurb": "The market's long sheds under roof repair above the stalls: the tear-off chute, guarded hatches and lifelines."
   },
   {
-   "id": "nfq-canal-streetcar-track",
-   "name": "the Canal Street Streetcar Track Crew",
-   "kind": "streetcar",
-   "position": [
-    -260,
-    257
-   ],
-   "trades": [
-    "atu",
-    "bmwed",
-    "ibew"
-   ],
-   "programmes": [
-    "transit-ramp",
-    "railroad-crafts"
-   ],
-   "stations": [
-    "track-access",
-    "signal-cabinet",
-    "ra-crossing-signal-maintenance-and-flagging",
-    "ra-switch-inspection-and-lubrication",
-    "ra-roadway-worker-protection-and-job-briefing"
-   ],
-   "blurb": "Track work on the Canal Street line between the traffic lanes: roadway worker protection, the switch and the crossing signals."
-  },
-  {
    "id": "nfq-riverfront-streetcar-track",
    "name": "the Riverfront Streetcar Track Crew",
    "kind": "streetcar",
@@ -1401,8 +1375,8 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "name": "a CBD Electrical Vault Crew",
    "kind": "substation",
    "position": [
-    -408,
-    1177
+    -1243,
+    -150
    ],
    "trades": [
     "ibew"
@@ -1496,6 +1470,32 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     "chain-hoist"
    ],
    "blurb": "The arena crew at the CBD's edge: the rigging points, the followspots, the barricade and show power."
+  },
+  {
+   "id": "nfq-canal-streetcar-track",
+   "name": "the Canal Street Streetcar Track Crew",
+   "kind": "streetcar",
+   "position": [
+    -260,
+    257
+   ],
+   "trades": [
+    "atu",
+    "bmwed",
+    "ibew"
+   ],
+   "programmes": [
+    "transit-ramp",
+    "railroad-crafts"
+   ],
+   "stations": [
+    "track-access",
+    "signal-cabinet",
+    "ra-crossing-signal-maintenance-and-flagging",
+    "ra-switch-inspection-and-lubrication",
+    "ra-roadway-worker-protection-and-job-briefing"
+   ],
+   "blurb": "Track work on the Canal Street line between the traffic lanes: roadway worker protection, the switch and the crossing signals."
   }
  ],
  "landmarks": [

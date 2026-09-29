@@ -1396,32 +1396,6 @@ export const NP_NOLA_UPTOWN_GARDEN = {
    "blurb": "Cast iron fences and galleries stripped and painted: the sprayer, dust control and the painter's lifeline."
   },
   {
-   "id": "nup-st-charles-streetcar-track",
-   "name": "the St. Charles Streetcar Track Crew",
-   "kind": "streetcar",
-   "position": [
-    375,
-    322
-   ],
-   "trades": [
-    "atu",
-    "bmwed",
-    "ibew"
-   ],
-   "programmes": [
-    "transit-ramp",
-    "railroad-crafts"
-   ],
-   "stations": [
-    "track-access",
-    "signal-cabinet",
-    "ra-crossing-signal-maintenance-and-flagging",
-    "ra-switch-inspection-and-lubrication",
-    "ra-roadway-worker-protection-and-job-briefing"
-   ],
-   "blurb": "Track work on the neutral ground under the oaks: roadway worker protection, the switch and the crossing signals."
-  },
-  {
    "id": "nup-streetcar-overhead-wire",
    "name": "the St. Charles Overhead Wire Crew",
    "kind": "streetcar",
@@ -1806,6 +1780,32 @@ export const NP_NOLA_UPTOWN_GARDEN = {
     "ra-hand-brake-and-securement-on-a-grade"
    ],
    "blurb": "Where the avenue's cars are kept up: the lift, the signal cabinet and a car secured on the yard track."
+  },
+  {
+   "id": "nup-st-charles-streetcar-track",
+   "name": "the St. Charles Streetcar Track Crew",
+   "kind": "streetcar",
+   "position": [
+    375,
+    322
+   ],
+   "trades": [
+    "atu",
+    "bmwed",
+    "ibew"
+   ],
+   "programmes": [
+    "transit-ramp",
+    "railroad-crafts"
+   ],
+   "stations": [
+    "track-access",
+    "signal-cabinet",
+    "ra-crossing-signal-maintenance-and-flagging",
+    "ra-switch-inspection-and-lubrication",
+    "ra-roadway-worker-protection-and-job-briefing"
+   ],
+   "blurb": "Track work on the neutral ground under the oaks: roadway worker protection, the switch and the crossing signals."
   }
  ],
  "landmarks": [

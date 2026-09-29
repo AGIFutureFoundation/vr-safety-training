@@ -95,6 +95,25 @@ export function npRegionGroups(parishes = NP_PARISHES) {
 /** A parish by id, or null. */
 export function npParish(id) { return NP_PARISHES.find((p) => p.id === id) ?? null; }
 
+// Parent and child maps (console NOLA-DISTRICTS, docs/parishes.md "Districts inside a parish"): a map may declare
+// `parent: "<map id>"` — a near-true-scale "zoom in" on part of a coarser map. The overlap rule: a child's field lies
+// inside its parent's and overlaps only its parent (plus whatever the parent's own field already shares with its
+// neighbours, inherited); it never overlaps a sibling or any other child. Children are one level deep.
+
+/** The parent map of a child map, or null (a map without `parent` is a top-level map). */
+export function npParentOf(parish, parishes = NP_PARISHES) { return parish?.parent ? parishes.find((p) => p.id === parish.parent) ?? null : null; }
+
+/** The child maps that declare `id` as their parent, in registry order. */
+export function npChildrenOf(id, parishes = NP_PARISHES) { return parishes.filter((p) => p.parent === id); }
+
+/** Whether two maps' fields may overlap under the parent/child rule (the lon/lat boxes are the caller's to test). */
+export function npMayOverlap(a, b) {
+  if (!a || !b || a.id === b.id) return true;
+  if (a.parent === b.id || b.parent === a.id) return true; // a child and its own parent
+  if (a.parent || b.parent) return false; // never a sibling, another child or a stranger (inherited overlaps are the checker's)
+  return true; // two top-level maps keep their own rules (the parishes' boxes already overlap at parish scale)
+}
+
 /** The ids in order (the selector, `?parish=`). */
 export function npParishIds() { return NP_PARISHES.map((p) => p.id); }
 

@@ -379,19 +379,19 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
    "poly": [
     [
      -289,
-     -779
+     -1336
     ],
     [
      -129,
-     -816
+     -1358
     ],
     [
      -64,
-     -1017
+     -1558
     ],
     [
      -225,
-     -1061
+     -1596
     ]
    ]
   }
@@ -1491,34 +1491,6 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
    "blurb": "The overhead wire where the line turns up Carrollton to the park: the line truck, the lookouts and the signal cabinet."
   },
   {
-   "id": "nmc-pumping-station",
-   "name": "a Mid-City Drainage Pumping Station",
-   "kind": "pump",
-   "position": [
-    -386,
-    -186
-   ],
-   "trades": [
-    "iuoe",
-    "ibew",
-    "uwua",
-    "afscme"
-   ],
-   "programmes": [
-    "electrical-first-period",
-    "confined-space",
-    "water-and-gas-utility-crews"
-   ],
-   "stations": [
-    "lift-station",
-    "ut-night-storm-response-crew-and-portable-generator",
-    "motor-control-center",
-    "cs-permit-entry-and-attendant-duties",
-    "valve-vault"
-   ],
-   "blurb": "A pumping station that sends the rain toward the lake through the Orleans Avenue Canal: the motor control centre, permit entry and the storm generator."
-  },
-  {
    "id": "nmc-london-canal-floodwall",
    "name": "the London Avenue Canal Floodwall Crew",
    "kind": "floodwall",
@@ -1868,6 +1840,34 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
     "triage-point"
    ],
    "blurb": "A hospital campus near Canal Street: moving patients safely, the crash cart, sterile processing and medical gas."
+  },
+  {
+   "id": "nmc-pumping-station",
+   "name": "a Mid-City Drainage Pumping Station",
+   "kind": "pump",
+   "position": [
+    -386,
+    -186
+   ],
+   "trades": [
+    "iuoe",
+    "ibew",
+    "uwua",
+    "afscme"
+   ],
+   "programmes": [
+    "electrical-first-period",
+    "confined-space",
+    "water-and-gas-utility-crews"
+   ],
+   "stations": [
+    "lift-station",
+    "ut-night-storm-response-crew-and-portable-generator",
+    "motor-control-center",
+    "cs-permit-entry-and-attendant-duties",
+    "valve-vault"
+   ],
+   "blurb": "A pumping station that sends the rain toward the lake through the Orleans Avenue Canal: the motor control centre, permit entry and the storm generator."
   }
  ],
  "landmarks": [
@@ -1924,7 +1924,7 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
    "name": "a boardwalk by a City Park lagoon",
    "position": [
     -321,
-    -928
+    -1462
    ],
    "kind": "park",
    "lm": "marsh-boardwalk"

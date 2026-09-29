@@ -68,7 +68,7 @@ function lkFlatten(links) {
 }
 
 /** Parishes whose engine geometry (fit, ground, field, chunks, build, massing) is held strict; the others are noted. */
-const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay", "bp-san-mateo-shoreline", "bp-nutrient-pilot", "sm-unspoken-smiles"]);
+const NP_ENGINE_STRICT = new Set(["orleans", "jefferson", "st-bernard", "plaquemines", "st-tammany", "sf-downtown", "sf-mission", "sf-golden-gate-park", "sf-marina", "sf-bayview", "oak-west-oakland", "oak-downtown-lake", "oak-fruitvale-estuary", "oak-emeryville-berkeley", "bay-san-jose", "bay-san-pablo", "sf-north-beach", "sf-haight-castro", "sf-sunset-south", "sf-outer-mission", "bp-strip-marsh-east", "bp-san-leandro-bay", "bp-san-mateo-shoreline", "bp-nutrient-pilot", "sm-unspoken-smiles", "nola-french-quarter-cbd", "nola-uptown-garden", "nola-mid-city-gentilly", "nola-bywater-lower-ninth"]);
 const deferred = [];
 // 2. each parish
 for (const p of R.NP_PARISHES) {
@@ -585,6 +585,102 @@ const app0 = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
     check(sm.sites.length >= 12, `sm-unspoken-smiles: twelve or more sites (${sm.sites.length})`);
     const text = [...sm.sites, ...sm.landmarks, ...sm.districts, ...(sm.hills ?? [])].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${sm.name} ${sm.blurb}`;
     check(!/\d/.test(text), "sm-unspoken-smiles: no figure in a site, landmark, district or hill name or blurb");
+  }
+}
+// Parent and child maps — the overlap rule extended (console NOLA-DISTRICTS, docs/consoles/NOLA-DISTRICTS.md,
+// docs/parishes.md "Districts inside a parish"): a map declaring `parent` lies inside its parent's field, overlaps only its
+// parent (an overlap with a third map is allowed only where the parent's own field already overlaps it — inherited — and
+// never with another child), never overlaps a sibling, and is walked into from the parent at the matching place and back.
+{
+  const WK = await imp("shared/wk-walkable.js");
+  const olapPc = (a, b) => [Math.min(a.maxLon, b.maxLon) - Math.max(a.minLon, b.minLon), Math.min(a.maxLat, b.maxLat) - Math.max(a.minLat, b.minLat)];
+  const hits = (a, b) => { const [ox, oy] = olapPc(a, b); return ox > 0 && oy > 0; };
+  const kids = R.NP_PARISHES.filter((p) => p.parent);
+  check(typeof R.npParentOf === "function" && typeof R.npChildrenOf === "function" && typeof R.npMayOverlap === "function", "np-parishes exports npParentOf, npChildrenOf and npMayOverlap (the parent/child seam)");
+  for (const c of kids) {
+    const par = R.npParentOf(c);
+    check(!!par && !par.parent, `${c.id}: its parent ${c.parent} is registered and is itself a top-level map (one level deep)`);
+    if (!par) continue;
+    const cb = G.npBounds(c), pb = G.npBounds(par);
+    check(cb.minLon >= pb.minLon && cb.maxLon <= pb.maxLon && cb.minLat >= pb.minLat && cb.maxLat <= pb.maxLat, `${c.id}: its field lies inside ${par.id}'s (lon ${cb.minLon.toFixed(4)} … ${cb.maxLon.toFixed(4)}, lat ${cb.minLat.toFixed(4)} … ${cb.maxLat.toFixed(4)})`);
+    check(Number.isFinite(c.scale) && Number.isFinite(G.npScale(par).x) && c.scale < G.npScale(par).x, `${c.id}: a closer scale than its parent (${c.scale} against ${G.npScale(par).x.toFixed(2)} real metres per map metre) — a zoom in`);
+    const inherited = [];
+    for (const o of R.NP_PARISHES) {
+      if (o.id === c.id || o.id === par.id || !hits(cb, G.npBounds(o))) continue;
+      if (o.parent) { check(false, `${c.id} overlaps ${o.id}: a child map never overlaps a sibling or another child`); continue; }
+      check(hits(pb, G.npBounds(o)), `${c.id} overlaps ${o.id} only where its parent ${par.id} already does (inherited)`);
+      inherited.push(o.id);
+    }
+    check(R.NP_PARISHES.every((o) => o.id === c.id || !o.parent || !hits(cb, G.npBounds(o))), `${c.id}: overlaps no sibling (${R.npChildrenOf(par.id).filter((s) => s.id !== c.id).map((s) => s.id).join(", ") || "none"})`);
+    if (inherited.length) note(`${c.id}: inside ${par.id}'s field, it shares the parish-scale overlap ${par.id} already has with ${inherited.join(", ")} (inherited, allowed)`);
+    // walk-through connectors to the parent, at the matching place, paired both ways
+    const up = c.connectors.filter((k) => k.to?.parish === par.id);
+    check(up.length >= 1, `${c.id}: ${up.length} walk-through connector(s) to its parent`);
+    for (const k of up) {
+      const back = par.connectors.find((b) => b.to?.parish === c.id && b.lonlat?.join() === k.lonlat.join());
+      check(!!back, `${c.id}/${k.id}: ${par.id} lists the crossing back at the same place (${back?.id ?? "none"})`);
+      if (!back) continue;
+      const gap = G.npGeoDistance(G.npToGeo(c, k.from.position), G.npToGeo(par, back.from.position));
+      check(gap < E.NP_PAD * 2, `${c.id}/${k.id}: the parent's end stands at the matching place (${Math.round(gap)} m apart on the ground)`);
+      check(G.npGeoContains(c, G.npToGeo(par, back.from.position)), `${c.id}/${k.id}: the parent's end ${back.id} lies inside the child's area on the parent map`);
+      check(!E.npWaterAt(c, ...k.from.position) && !E.npWaterAt(par, ...back.from.position), `${c.id}/${k.id}: both ends on dry ground`);
+      const a = WK.wkPair(c, R.npResolveConnectors(c).find((x) => x.id === k.id)), b = WK.wkPair(par, R.npResolveConnectors(par).find((x) => x.id === back.id));
+      check(a?.back?.id === back.id && b?.back?.id === k.id, `${c.id}/${k.id}: WALKABLE pairs it with ${back.id} both ways (${a?.back?.id ?? "none"} / ${b?.back?.id ?? "none"})`);
+    }
+  }
+  // neighbouring children (boxes within a connector margin) are joined by a walk-through crossing, paired both ways
+  for (let i = 0; i < kids.length; i++) for (let j = i + 1; j < kids.length; j++) {
+    const a = kids[i], b = kids[j];
+    if (a.parent !== b.parent) continue;
+    const [ox, oy] = olapPc(G.npBounds(a), G.npBounds(b));
+    if (ox < -0.0035 || oy < -0.0035) continue;
+    const ab = a.connectors.filter((k) => k.to?.parish === b.id), ba = b.connectors.filter((k) => k.to?.parish === a.id);
+    check(ab.length >= 1 && ab.every((k) => ba.some((x) => x.lonlat.join() === k.lonlat.join())), `${a.id} ↔ ${b.id}: neighbours joined by ${ab.map((k) => k.id).join(", ") || "no crossing"}, listed back by ${b.id}`);
+    for (const k of ab) { const pr = WK.wkPair(a, R.npResolveConnectors(a).find((x) => x.id === k.id)); check(!!pr && pr.to.id === b.id && !!pr.dry, `${a.id}/${k.id}: WALKABLE carries it to ${b.id} and lands dry (${pr?.back?.id ?? "none"})`); }
+  }
+}
+
+// The New Orleans neighbourhood districts (console NOLA-DISTRICTS): four children of the Orleans map at a near-true scale,
+// the brief's kinds of trades site, the real water by name, LANDMARKS' kinds, the illustrative sign, no figures.
+{
+  const ND = { "nola-french-quarter-cbd": { water: ["mississippi-river"], landmarks: ["Jackson Square", "St. Louis Cathedral", "the French Market"] },
+    "nola-uptown-garden": { water: ["mississippi-river"], landmarks: ["Lafayette Cemetery", "a streetcar on St. Charles Avenue"] },
+    "nola-mid-city-gentilly": { water: ["bayou-st-john", "london-avenue-canal", "orleans-avenue-canal"], landmarks: ["the Fair Grounds", "the Magnolia Bridge on Bayou St. John"] },
+    "nola-bywater-lower-ninth": { water: ["mississippi-river", "industrial-canal", "bayou-bienvenue"], landmarks: ["the Industrial Canal lock", "the Holy Cross levee"] } };
+  const reg = R.npRegion("new-orleans-districts");
+  check(!!reg && reg.name === "New Orleans Neighbourhoods" && reg.noun === "district", "regions: New Orleans Neighbourhoods (districts)");
+  let lmKindsNd = null;
+  try { const LM = await imp("shared/lm-landmarks.js"); lmKindsNd = new Set(LM.lmKinds()); } catch { lmKindsNd = null; }
+  const par = R.npParish("orleans");
+  const bundlerNd = readFileSync(join(ROOT, "tools", "bundle_webxr.py"), "utf8");
+  for (const [id, want] of Object.entries(ND)) {
+    const p = R.npParish(id);
+    check(!!p && p.region === "new-orleans-districts" && p.parent === "orleans" && NP_ENGINE_STRICT.has(id), `${id}: registered in new-orleans-districts, parent orleans, held strict`);
+    if (!p) continue;
+    check(p.scale >= 0.5 && p.scale <= 1.6, `${id}: a near-true declared scale (${p.scale} real metres per map metre)`);
+    check(p.sites.length >= 16, `${id}: sixteen or more sites (${p.sites.length})`);
+    const kinds = new Set(p.sites.map((s) => s.kind));
+    check(kinds.has("construction") && p.sites.some((s) => /restoration|repoint|repaint|ironwork/i.test(s.name)), `${id}: a historic restoration site`);
+    check(kinds.has("streetcar"), `${id}: a streetcar track site`);
+    check(kinds.has("pump") || kinds.has("stormwater"), `${id}: a drainage or pumping site`);
+    check(kinds.has("levee") || kinds.has("floodwall") || kinds.has("floodgate"), `${id}: a levee or floodwall site`);
+    check(kinds.has("hospitality") || kinds.has("hotel"), `${id}: a hospitality site`);
+    check(kinds.has("port") || kinds.has("ferry") || kinds.has("lock") || kinds.has("events"), `${id}: a port, ferry, lock or events site`);
+    check(new Set(p.sites.flatMap((s) => s.trades)).size >= 12, `${id}: many crafts' work (${new Set(p.sites.flatMap((s) => s.trades)).size} unions across its sites)`);
+    for (const w of want.water) check(p.water.some((x) => x.id === w), `${id}: water ${w}`);
+    for (const n of want.landmarks) check(p.landmarks.some((l) => l.name === n), `${id}: ${n} stands as a named place`);
+    const named = p.landmarks.filter((l) => l.lm);
+    check(named.length >= 3 && (!lmKindsNd || named.every((l) => lmKindsNd.has(l.lm))), `${id}: ${named.length} landmarks drawn by LANDMARKS' kinds (${[...new Set(named.map((l) => l.lm))].join(", ")})`);
+    check(p.landmarks.some((l) => l.kind === "sign" && /illustrative/.test(l.name)) && /illustrative/.test(p.blurb), `${id}: a sign and the blurb say the site layouts are illustrative`);
+    const src = readFileSync(join(WEBXR, "shared", `np-data-${id}.js`), "utf8");
+    check(src.includes("PROCEDURAL") && src.includes("Copernicus Sentinel-2") && src.includes('parent: "orleans"'), `${id}: the module header says procedural, parent orleans, and credits the Sentinel-2 check`);
+    const text = [...p.sites, ...p.landmarks, ...p.districts].map((x) => `${x.name} ${x.blurb ?? ""}`).join(" ") + ` ${p.name} ${p.blurb}`;
+    check(!/\d/.test(text) && !/\$|million|acres|founded|built in|partner/i.test(text), `${id}: no figure, amount, date or partnership claim in a name or blurb`);
+    // no district site duplicates a parent site on the ground (within two pads' reach)
+    const dup = [];
+    for (const s of p.sites) { const ll = G.npToGeo(p, s.position); for (const t of par.sites) if (G.npGeoDistance(ll, G.npToGeo(par, t.position)) < E.NP_PAD * 2) dup.push(`${s.id}~${t.id}`); }
+    check(dup.length === 0, `${id}: no site duplicates a parent site on the ground (${dup.join(", ") || "none within reach"})`);
+    check(bundlerNd.split(`SHARED / "np-data-${id}.js"`).length === 3, `${id}: in both bundles that carry np-parishes.js`);
   }
 }
 if (deferred.length) console.log(`  · ${deferred.length} engine-geometry finding(s) deferred for ${[...new Set(deferred.map((m) => m.split(/[:/]/)[0]))].join(", ")} — console ASSAYER (the Bayou run) brings each parish onto the engine and adds it to NP_ENGINE_STRICT`);

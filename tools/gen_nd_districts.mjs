@@ -106,10 +106,10 @@ const D = [
     anchors: [["Jackson Square", -90.063, 29.958], ["Lafayette Square", -90.071, 29.949], ["Louis Armstrong Park", -90.068, 29.962], ["the foot of Canal Street", -90.064, 29.951], ["the French Market", -90.061, 29.961], ["Duncan Plaza", -90.077, 29.953], ["the corner of Canal and Rampart", -90.072, 29.955]],
     water: [
       { id: "mississippi-river", name: "the Mississippi River", kind: "river", river: true },
-      { id: "armstrong-park-lagoon-north", name: "the lagoon in Louis Armstrong Park, north arm", kind: "lake", ll: [[-90.0690, 29.9622], [-90.0676, 29.9627], [-90.0671, 29.9620], [-90.0686, 29.9615]] },
-      { id: "armstrong-park-lagoon-south", name: "the lagoon in Louis Armstrong Park, south arm", kind: "lake", ll: [[-90.0684, 29.9611], [-90.0672, 29.9615], [-90.0667, 29.9609], [-90.0680, 29.9605]] },
+      { id: "armstrong-park-lagoon-north", name: "the lagoon in Louis Armstrong Park, north arm", kind: "lake", ll: [[-90.0702, 29.9636], [-90.0688, 29.9641], [-90.0683, 29.9634], [-90.0698, 29.9629]] },
+      { id: "armstrong-park-lagoon-south", name: "the lagoon in Louis Armstrong Park, south arm", kind: "lake", ll: [[-90.0712, 29.9626], [-90.0700, 29.9630], [-90.0695, 29.9624], [-90.0708, 29.9620]] },
     ],
-    levees: [["riverfront-floodwall", "the riverfront floodwall", 4, "bank", 1, 70], ["french-market-floodwall", "the floodwall behind the French Market", 4, [[-90.0612, 29.9575], [-90.0600, 29.9598], [-90.0592, 29.9612]]]],
+    levees: [["riverfront-floodwall", "the riverfront floodwall", 4, "bank", 1, 345], ["french-market-floodwall", "the floodwall behind the French Market", 4, [[-90.0612, 29.9575], [-90.0600, 29.9598], [-90.0592, 29.9612]]]],
     roads: [
       ["canal-street", "Canal Street and its streetcar", "avenue", [[-90.0645, 29.9512], [-90.0690, 29.9535], [-90.0740, 29.9565], [-90.0790, 29.9595], [-90.0830, 29.9615]]],
       ["decatur-street", "Decatur Street", "street", [[-90.0652, 29.9530], [-90.0632, 29.9560], [-90.0618, 29.9585], [-90.0600, 29.9615]]],
@@ -117,7 +117,7 @@ const D = [
       ["north-rampart-street", "North Rampart Street", "street", [[-90.0720, 29.9562], [-90.0698, 29.9593], [-90.0675, 29.9625], [-90.0655, 29.9655]]],
       ["poydras-street", "Poydras Street", "avenue", [[-90.0648, 29.9482], [-90.0700, 29.9488], [-90.0760, 29.9495], [-90.0815, 29.9505]]],
       ["st-charles-avenue", "St. Charles Avenue and its streetcar", "street", [[-90.0695, 29.9548], [-90.0702, 29.9515], [-90.0710, 29.9480], [-90.0718, 29.9445]]],
-      ["riverfront-streetcar", "the riverfront streetcar line", "street", "bank", 1, 150],
+      ["riverfront-streetcar", "the riverfront streetcar line", "street", "bank", 1, 420],
       ["claiborne-interstate", "the interstate over Claiborne Avenue", "interstate", [[-90.0830, 29.9555], [-90.0775, 29.9598], [-90.0735, 29.9640], [-90.0712, 29.9665]]],
       ["esplanade-avenue", "Esplanade Avenue", "avenue", [[-90.0590, 29.9612], [-90.0610, 29.9630], [-90.0635, 29.9650]]],
     ],
@@ -138,7 +138,7 @@ const D = [
       site("nfq-ferry-landing", "the Canal Street Ferry Landing Crew", "ferry", [-90.0640, 29.9515], "ferry", "The landing at the foot of Canal Street for the ferry across to Algiers: the gangway, passengers and a man-overboard drill."),
       site("nfq-high-rise-build", "a CBD High-Rise Build", "construction", [-90.0770, 29.9480], "build", "A tower going up off Poydras Street: the pour, the shoring and rebar caps on every bar."),
       site("nfq-water-main", "a CBD Water Main Crew", "utility", [-90.0780, 29.9545], "water", "A water main and its valve vault under a CBD street: the permit entry, the chemical delivery and the lift station."),
-      site("nfq-electrical-vault", "a CBD Electrical Vault Crew", "substation", [-90.0720, 29.9500], "vault", "An underground vault feeding the towers: switching, the transformer vault and the line truck."),
+      site("nfq-electrical-vault", "a CBD Electrical Vault Crew", "substation", [-90.0765, 29.9562], "vault", "An underground vault feeding the towers: switching, the transformer vault and the line truck."),
       site("nfq-street-and-sidewalk-crew", "a Quarter Street and Sidewalk Crew", "construction", [-90.0690, 29.9630], "street", "A street rebuilt block by block: the grade and crown, the compactor, the pour and traffic kept moving."),
       site("nfq-fire-station", "a French Quarter Fire Station", "fire-station", [-90.0700, 29.9590], "fire", "A firehouse by the Quarter: size-up on narrow streets under galleries, the aerial ladder and rehab after a long call."),
       site("nfq-arena-rigging", "a CBD Arena Rigging Crew", "stadium", [-90.0795, 29.9520], "arena", "The arena crew at the CBD's edge: the rigging points, the followspots, the barricade and show power."),
@@ -231,7 +231,7 @@ const D = [
       { id: "london-avenue-canal", name: "the London Avenue Canal", kind: "canal", width: 40, ll: [[-90.0692, 30.0225], [-90.0690, 30.0100], [-90.0690, 29.9925]] },
       { id: "orleans-avenue-canal", name: "the Orleans Avenue Canal", kind: "canal", width: 40, ll: [[-90.0985, 30.0225], [-90.0984, 30.0100], [-90.0983, 29.9960]] },
       { id: "city-park-big-lake", name: "City Park's Big Lake", kind: "lake", ll: [[-90.0935, 29.9888], [-90.0905, 29.9890], [-90.0898, 29.9908], [-90.0930, 29.9910]] },
-      { id: "city-park-lagoon", name: "a City Park lagoon", kind: "lake", ll: [[-90.0950, 30.0040], [-90.0925, 30.0045], [-90.0915, 30.0072], [-90.0940, 30.0078]] },
+      { id: "city-park-lagoon", name: "a City Park lagoon", kind: "lake", ll: [[-90.0950, 30.0115], [-90.0925, 30.0118], [-90.0915, 30.0145], [-90.0940, 30.0150]] },
     ],
     levees: [["london-canal-floodwall-east", "the London Avenue Canal floodwall, east side", 4, [[-90.0686, 30.0225], [-90.0685, 29.9930]]], ["london-canal-floodwall-west", "the London Avenue Canal floodwall, west side", 4, [[-90.0697, 30.0225], [-90.0696, 29.9930]]], ["orleans-canal-floodwall", "the Orleans Avenue Canal floodwall", 4, [[-90.0978, 30.0225], [-90.0977, 29.9965]]]],
     roads: [
@@ -267,7 +267,7 @@ const D = [
       site("nmc-substation", "a Mid-City Electrical Substation", "substation", [-90.1060, 29.9900], "vault", "A neighbourhood substation: switching, the transformer vault and the line truck."),
       site("nmc-hospital-campus", "a Mid-City Hospital Campus", "hospital", [-90.0835, 29.9680], "hospital", "A hospital campus near Canal Street: moving patients safely, the crash cart, sterile processing and medical gas."),
     ],
-    landmarks: [["city-park-oaks", "City Park's live oaks", "park", -90.0945, 29.9930], ["magnolia-bridge", "the Magnolia Bridge on Bayou St. John", "bridge", -90.0872, 29.9812, "truss-bridge"], ["fair-grounds", "the Fair Grounds", "place", -90.0808, 29.9838], ["london-canal-pump", "a pumping station on the London Avenue Canal", "canal", -90.0705, 30.0200, "levee-pump-station"], ["canal-streetcar-cemeteries", "a streetcar at the end of Canal Street", "place", -90.1060, 29.9795, "streetcar"], ["city-park-boardwalk", "a boardwalk by a City Park lagoon", "park", -90.0955, 30.0060, "marsh-boardwalk"], ["museum-colonnade", "the museum's columns in City Park", "place", -90.0932, 29.9862, "rotunda-colonnade"], ["nmc-sign", "a sign: the site layouts are illustrative; the streets, the canals, the bayou and the park are real", "sign", -90.0920, 29.9760]],
+    landmarks: [["city-park-oaks", "City Park's live oaks", "park", -90.0945, 29.9930], ["magnolia-bridge", "the Magnolia Bridge on Bayou St. John", "bridge", -90.0872, 29.9812, "truss-bridge"], ["fair-grounds", "the Fair Grounds", "place", -90.0808, 29.9838], ["london-canal-pump", "a pumping station on the London Avenue Canal", "canal", -90.0705, 30.0200, "levee-pump-station"], ["canal-streetcar-cemeteries", "a streetcar at the end of Canal Street", "place", -90.1060, 29.9795, "streetcar"], ["city-park-boardwalk", "a boardwalk by a City Park lagoon", "park", -90.0955, 30.0132, "marsh-boardwalk"], ["museum-colonnade", "the museum's columns in City Park", "place", -90.0932, 29.9862, "rotunda-colonnade"], ["nmc-sign", "a sign: the site layouts are illustrative; the streets, the canals, the bayou and the park are real", "sign", -90.0920, 29.9760]],
     connectors: [
       ["nd-mc-orleans-carrollton", "road", "North Carrollton Avenue out to the whole of New Orleans", "orleans", [-90.0975, 29.9795], "conn-nd-mid-city-carrollton", "North Carrollton Avenue into Mid-City and City Park (zoom in)"],
       ["nd-mc-orleans-gentilly", "road", "Gentilly Boulevard out to the whole of New Orleans", "orleans", [-90.0680, 29.9962], "conn-nd-mid-city-gentilly", "Gentilly Boulevard into Gentilly (zoom in)"],
@@ -327,7 +327,7 @@ const D = [
       site("nbw-riverfront-park-crew", "the Riverfront Park Grounds Crew", "park", [-90.0480, 29.9632], "grounds", "The crew that keeps the riverfront park along the Bywater: the pole saw, the trimmer's bystander zone and the irrigation box."),
       site("nbw-algiers-ferry-landing", "the Algiers Point Ferry Landing Crew", "ferry", [-90.0538, 29.9488], "ferry", "The Algiers Point landing for the ferry across to the Quarter: the gangway, passengers and a man-overboard drill."),
     ],
-    landmarks: [["industrial-canal-lock", "the Industrial Canal lock", "lock", -90.0262, 29.9608, "canal-lock"], ["holy-cross-levee", "the Holy Cross levee", "levee", -90.0140, 29.9560], ["bienvenue-boardwalk", "a boardwalk over the Bayou Bienvenue marsh", "wetland", -90.0170, 29.9800, "marsh-boardwalk"], ["bywater-shotgun-row", "a row of Bywater shotgun houses", "neighbourhood", -90.0400, 29.9660, "shotgun-row"], ["st-claude-bridge", "the St. Claude Avenue bridge over the canal", "bridge", -90.0262, 29.9636, "truss-bridge"], ["marigny-streetcar", "a streetcar on St. Claude Avenue", "place", -90.0500, 29.9670, "streetcar"], ["algiers-point-landing", "the landing at Algiers Point", "point", -90.0540, 29.9495], ["nbw-sign", "a sign: the site layouts are illustrative; the streets, the river, the canal and the neighbourhoods are real", "sign", -90.0420, 29.9690]],
+    landmarks: [["industrial-canal-lock", "the Industrial Canal lock", "lock", -90.0262, 29.9608, "canal-lock"], ["holy-cross-levee", "the Holy Cross levee", "levee", -90.0140, 29.9560], ["bienvenue-boardwalk", "a boardwalk over the Bayou Bienvenue marsh", "wetland", -90.0170, 29.9800, "marsh-boardwalk"], ["bywater-shotgun-row", "a row of Bywater shotgun houses", "neighbourhood", -90.0400, 29.9660, "shotgun-row"], ["st-claude-bridge", "the St. Claude Avenue bridge over the canal", "canal", -90.0262, 29.9636, "truss-bridge"], ["marigny-streetcar", "a streetcar on St. Claude Avenue", "place", -90.0500, 29.9670, "streetcar"], ["algiers-point-landing", "the landing at Algiers Point", "point", -90.0540, 29.9495], ["nbw-sign", "a sign: the site layouts are illustrative; the streets, the river, the canal and the neighbourhoods are real", "sign", -90.0420, 29.9690]],
     connectors: [
       ["nd-bw-orleans-st-claude", "road", "St. Claude Avenue out to the whole of New Orleans", "orleans", [-90.0330, 29.9664], "conn-nd-bywater-st-claude", "St. Claude Avenue into the Bywater (zoom in)"],
       ["nd-bw-orleans-lower-ninth", "road", "North Claiborne Avenue out to the whole of New Orleans", "orleans", [-90.0150, 29.9690], "conn-nd-lower-ninth-claiborne", "North Claiborne Avenue into the Lower Ninth Ward (zoom in)"],
@@ -385,6 +385,8 @@ for (const d of D) {
     fieldLessons: d.lessons,
     gated: d.gated.map((g) => ({ ...g, world: "parishes", parish: d.id, summary: g.title })),
   };
+  // the engine's budget probe stands at the last site: put the most central site last, so its streamed square is whole
+  { const k = p.sites.reduce((bi, s, i, arr) => (Math.max(Math.abs(s.position[0]), Math.abs(s.position[1])) < Math.max(Math.abs(arr[bi].position[0]), Math.abs(arr[bi].position[1])) ? i : bi), 0); p.sites.push(...p.sites.splice(k, 1)); }
   // keep drawn roads and pads off the river: report anything inside the ribbon
   for (const s of p.sites) {
     const dd = lineDist(s.position, river);
