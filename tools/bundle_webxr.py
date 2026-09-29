@@ -14,6 +14,7 @@ asset kit in WebXR/shared.
 
     python3 tools/bundle_webxr.py             # all apps
     python3 tools/bundle_webxr.py smartcity   # one app
+    python3 tools/bundle_webxr.py --pack ID   # one Holodeck Pack alone (tools/export_pack.mjs)
 """
 
 from __future__ import annotations
@@ -1332,6 +1333,12 @@ def build_combined() -> int:
 
 
 def main(argv: list[str]) -> int:
+    # One Holodeck Pack alone (console PACKS): `--pack <id>` emits that pack's content —
+    # its manifest, its Unity slice, a catalog cut to its stations and its card page —
+    # through tools/export_pack.mjs, and bundles nothing else.
+    if len(argv) > 2 and argv[1] == "--pack":
+        import subprocess
+        return subprocess.call(["node", str(ROOT / "tools" / "export_pack.mjs"), *argv[2:]])
     wanted = argv[1:] or list(APPS)
     for app in wanted:
         if app not in APPS:

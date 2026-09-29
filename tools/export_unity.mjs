@@ -5,6 +5,7 @@
  *     node tools/export_unity.mjs              # content + runtime package → exports/unity/SmartCitiX/
  *     node tools/export_unity.mjs --models     # also the glTF models (needs a real three.js, see below)
  *     node tools/export_unity.mjs --out DIR    # write somewhere else (the checker diffs against the committed copy)
+ *     node tools/export_unity.mjs --pack ID    # one Holodeck Pack alone → exports/packs/ID/ (tools/export_pack.mjs)
  *
  * The content stays authored in the WebXR modules; nothing here is written by
  * hand. Stations are read headlessly the way tools/lib/headless.mjs and
@@ -36,6 +37,16 @@ const WANT_MODELS = args.includes("--models");
 const OUT = args.includes("--out") ? args[args.indexOf("--out") + 1] : join(ROOT, "exports", "unity", "SmartCitiX");
 const QUIET = args.includes("--quiet");
 const log = (...a) => { if (!QUIET) console.log(...a); };
+
+// One Holodeck Pack alone (console PACKS): `--pack <id>` cuts this export to that pack's stations, programmes and
+// worlds through tools/export_pack.mjs and stops (the full export is untouched).
+if (args.includes("--pack")) {
+  const { pkExportPack } = await import("./export_pack.mjs");
+  const id = args[args.indexOf("--pack") + 1];
+  const r = pkExportPack(id, args.includes("--out") ? OUT : join(ROOT, "exports", "packs", id));
+  log(`[export_unity --pack] ${id}: ${r.stations} stations, ${r.programmes} programmes, worlds ${r.worlds.join(", ") || "none"}`);
+  process.exit(0);
+}
 
 export const KINDS = ["select", "sequence", "find", "gauge", "hold", "track", "turn", "drag", "drive"];
 const PACKAGE_VERSION = "1.0.0";

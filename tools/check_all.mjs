@@ -60,6 +60,8 @@ const CHECKERS = [
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   "check_unity_export.mjs",
+  // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
+  "check_packs.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",

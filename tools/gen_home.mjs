@@ -1545,6 +1545,8 @@ ${cards}
     ["Sign-in options", layout.doc("sign-in.md")],
     // The privacy page sits beside the homepage in both layouts (docs/enterprise.md).
     ["Privacy — what is stored where", "privacy.html"],
+    // The Holodeck Packs page sits beside the homepage in both layouts (console PACKS, tools/gen_packs.mjs).
+    ["Holodeck Packs — SmartCiti.X · Powered by AGI Corp", "packs/index.html"],
     ["Organisations and cohorts", layout.doc("enterprise.md")],
     ["Wallets and sharing", layout.doc("wallets-and-sharing.md")],
     ["Agent protocols", layout.doc("agent-protocols.md")],

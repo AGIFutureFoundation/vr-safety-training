@@ -176,7 +176,10 @@ export async function pkBuild() {
       audience: "open",
       summary: `Every ${cat.name} station in the catalog, to roam freely${loose ? ` — including ${loose === 1 ? "one station" : "stations"} no programme lists yet` : ""}.`,
       certification: null,
-      programmes: [...new Set(catalog.curricula.filter((c) => !isK12(c.id) && c.stations.some((s) => ids.includes(s.id))).map((c) => c.id))].sort(),
+      // A library holds stations, not programmes: the programmes that share its stations are named as related only,
+      // so an exported library carries no programme whose other stations it does not hold.
+      programmes: [],
+      relatedProgrammes: [...new Set(catalog.curricula.filter((c) => !isK12(c.id) && c.stations.some((s) => ids.includes(s.id))).map((c) => c.id))].sort(),
       stations: ids.map(st), unions: [], unionLine: null, k12Bands: [],
       path: "roam", alsoPaths: PK_LIBRARY_ALSO[cat.name] ?? [],
       worlds: worldsFor(ids, sites),
@@ -232,7 +235,7 @@ export const PK_LINKS = {
   source: {
     home: "../index.html", css: "../shared/design.css",
     station: (app, id) => (app === "trades" ? `../trades/index.html?room=${id}` : `../smartcity/index.html?sim=${id}`),
-    world: (w, parish) => ({ bayworld: "../bayworld/index.html", underwater: "../underwater/index.html", summit: "../summit/index.html", redwood: "../redwood/index.html" }[w] ?? `../parishes/parishes.html?parish=${parish}`),
+    world: (w, parish) => ({ bayworld: "../bayworld/index.html", underwater: "../underwater/underwater.html", summit: "../summit/index.html", redwood: "../redwood/redwood.html" }[w] ?? `../parishes/parishes.html?parish=${parish}`),
     track: (id) => `../home/tracks/${id}.html`,
     manifest: (id) => `./${id}.json`,
   },
