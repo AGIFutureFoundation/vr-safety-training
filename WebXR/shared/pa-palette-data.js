@@ -119,6 +119,9 @@ export const PA_REGION_CHARACTERS = {
   "south-bay": { quarter: "mission-stucco", garden: "valley-ranch", suburb: "valley-ranch", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   // The programme worlds (SMILES: a procedural community-health district) read as a bright small town.
   programmes: { quarter: "creole-cottage-pastels", garden: "craftsman-shingle", suburb: "sunset-pastels", industrial: "warehouse-greys", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  // Louisiana (the Louisiana wave): river cities and development sites read as the New Orleans region does.
+  "louisiana-cities": { quarter: "creole-cottage-pastels", garden: "garden-district-whites", suburb: "shotgun-brights", industrial: "riverfront-brick", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
+  "louisiana-sites": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "shotgun-brights", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
   "bay-program": { quarter: "marsh-weathered", garden: "marsh-weathered", suburb: "marsh-weathered", industrial: "port-steel", downtown: "downtown-stone", campus: "campus-stucco", refinery: "refinery-whites" },
 };
 /** A district's own override (map id -> character -> category id), where its character differs from its region's. */
