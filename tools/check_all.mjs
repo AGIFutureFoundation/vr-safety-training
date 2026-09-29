@@ -86,6 +86,8 @@ const CHECKERS = [
   "check_auth.mjs",
   // The organisation layer: cohorts, the cohort view, the enterprise block, audit and privacy (docs/enterprise.md).
   "check_enterprise.mjs",
+  // DEAN: versions, modules, the world apply step and the Trade Craft Academy shared export (docs/modules.md).
+  "check_dean.mjs",
   // Enterprise seat billing: the payments block, the adapter and mock, the budget agent, the Billing tab, the Worker handler (docs/payments.md).
   "check_payments.mjs",
   // 21 languages: the tables, the picker, RTL and a headless language switch (docs/i18n.md).
