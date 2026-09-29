@@ -69,6 +69,11 @@ import { NP_NOLA_BYWATER_LOWER_NINTH } from "./np-data-nola-bywater-lower-ninth.
 import { NP_LAF_DOWNTOWN } from "./np-data-laf-downtown.js";
 import { NP_LAF_CARENCRO_NORTH } from "./np-data-laf-carencro-north.js";
 import { NP_MONROE_WEST_MONROE } from "./np-data-monroe-west-monroe.js";
+// CAPITAL (docs/consoles/CAPITAL.md): Baton Rouge at district scale, in region louisiana-cities.
+import { NP_BR_DOWNTOWN_RIVERFRONT } from "./np-data-br-downtown-riverfront.js";
+import { NP_BR_NORTH_INDUSTRIAL } from "./np-data-br-north-industrial.js";
+import { NP_BR_RIVERPLEX_ASCENSION } from "./np-data-br-riverplex-ascension.js";
+import { NP_HAMMOND_DOWNTOWN } from "./np-data-hammond-downtown.js";
 // The world ways (GOLDEN-B): the Bay Bridge from Downtown across to Bay World.
 import { sgWaysFor } from "./sg-ways.js";
 // ...and BAYMAP's ways from the Oakland districts to their Bay World counterparts.
@@ -89,6 +94,7 @@ export const NP_PARISHES = [
   NP_LA_META_RICHLAND, NP_LA_DELTA_FORGE_RAPIDES, NP_LA_SHINTECH_PLAQUEMINE,
   NP_LC_LAKEFRONT_DOWNTOWN, NP_LC_CALCASIEU_CHANNEL, NP_LC_PORT_OF_VINTON,
   NP_NOLA_FRENCH_QUARTER_CBD, NP_NOLA_UPTOWN_GARDEN, NP_NOLA_MID_CITY_GENTILLY, NP_NOLA_BYWATER_LOWER_NINTH,
+  NP_BR_DOWNTOWN_RIVERFRONT, NP_BR_NORTH_INDUSTRIAL, NP_BR_RIVERPLEX_ASCENSION, NP_HAMMOND_DOWNTOWN,
 ];
 
 /** The regions, in the selector's order: id, name, the page title, and what one map is called. */

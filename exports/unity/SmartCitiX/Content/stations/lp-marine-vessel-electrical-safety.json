@@ -1,0 +1,382 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-source",
+    "name": "Every Source",
+    "note": "Found every source on the drawing, locked each one, proved the tester and never worked a live board"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBEW inside wireman training as a body; NFPA 70E standard for electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy, 29 CFR 1910.333 selection and use of work practices and 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1915 shipyard employment; the vessel's single-line drawing and the yard's electrical work permit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1915",
+        "id": "osha-1915",
+        "title": "29 CFR 1915 — Occupational safety and health standards for shipyard employment"
+      }
+    ]
+  },
+  "district": "aerospace-depot",
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "drawing-first",
+        "name": "Drawing First",
+        "note": "Read the single-line drawing before opening a panel"
+      },
+      {
+        "id": "never-live",
+        "name": "Never Live",
+        "note": "Never touched a conductor before it was proven dead"
+      },
+      {
+        "id": "steady-megger",
+        "name": "Steady Megger",
+        "note": "Held the insulation test near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-board",
+        "name": "Inside Par",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-board",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      }
+    ],
+    "currency": "kA",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Board Inducted",
+      "Marine Electrician",
+      "Lead Electrician",
+      "Every Source Certified"
+    ],
+    "system": "Every Source"
+  },
+  "hazards": {
+    "cable-in-water-hazard": "That runs the temporary power cable through the water pooled on deck. Water, steel decks and damaged insulation together make a path for current through anyone standing there.",
+    "reclose-hazard": "That re-closes the shore breaker to check a light while someone else is still in the board. A breaker under another worker's isolation is operated only by the procedure, never to test something.",
+    "skip-prove-hazard": "That trusts the tester without proving it on a known live source first. A meter with a flat battery or a broken lead reads zero on a live bus exactly as it does on a dead one.",
+    "work-live-hazard": "That opens the switchboard to fit the new breaker while it is still energised because the job is quick. Working a live board exposes the electrician to shock and arc flash for the length of the job, and NFPA 70E expects the board de-energised unless live work is justified and permitted."
+  },
+  "id": "lp-marine-vessel-electrical-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "absence-hold",
+      "alert": "The pier crew has re-closed the shore power pedestal breaker while your team is in the switchboard.",
+      "cue": "Call all-stop to the pier on the radio now.",
+      "delay": 3,
+      "id": "shore-reclosed",
+      "kind": "Source restored",
+      "missNote": "The work carried on after the shore breaker was re-closed. A restored source is answered by stopping all work first.",
+      "seconds": 11,
+      "target": "pier-radio",
+      "why": "A source restored while people are in the board breaks the isolation the whole job depends on, and the first answer is to stop everyone and reach the person at the pedestal, because no amount of care inside the board helps once energy is arriving from outside it.",
+      "wrongNote": "Not that — the restored source is answered by calling all-stop to the pier."
+    },
+    {
+      "after": "megger-track",
+      "alert": "Rain run-off is pooling across the deck where the temporary power cable lies.",
+      "cue": "Lift the cable onto its hangers, clear of the water.",
+      "delay": 3,
+      "id": "deck-flooding",
+      "kind": "Water on deck",
+      "missNote": "The cable stayed in the water. Temporary power is kept off the deck and out of water, not watched.",
+      "seconds": 11,
+      "target": "cable-hangers",
+      "why": "Temporary cables on a working deck get walked on, pinched and wet, and lifting them onto hangers keeps damaged insulation out of the water that would otherwise carry current across the steel deck to whoever is standing in it.",
+      "wrongNote": "That isn't it — the pooling water is answered by lifting the cable onto its hangers."
+    }
+  ],
+  "lateNotes": {
+    "arc-shirt": "Arc-rated clothing is worn to the category on the board's label, sleeves down, with nothing flammable underneath.",
+    "single-line-drawing": "The single-line drawing is read before any panel is opened, because a vessel can be fed from shore, from its own generator and from its batteries at once."
+  },
+  "name": "Marine Vessel Electrical Safety",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "absence-test-point",
+      "arc-hood",
+      "arc-shirt",
+      "battery-backfeed",
+      "board-boundary",
+      "board-breaker",
+      "boundary-chain",
+      "cable-hangers",
+      "cable-in-water-hazard",
+      "co2-extinguisher",
+      "dry-cable",
+      "gfci-test-button",
+      "isolated-genset",
+      "megger-meter",
+      "mv-log",
+      "mv-personal-lock",
+      "mv-tag",
+      "pier-radio",
+      "rated-gloves",
+      "reclose-hazard",
+      "single-line-drawing",
+      "skip-prove-hazard",
+      "test-meter",
+      "wet-cable",
+      "work-live-hazard"
+    ],
+    "meshes": 204
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the vessel's single-line drawing: every source that can feed the switchboard.",
+      "id": "single-line",
+      "kind": "select",
+      "prompt": "Read the vessel's single-line drawing: every source that can feed the switchboard.",
+      "target": "single-line-drawing",
+      "title": "Read the single-line drawing",
+      "why": "A vessel under outfitting can be fed from the shore pedestal, from its own generator and from a battery bank, sometimes at once, and the single-line drawing is the only place that shows every one of them, so it is read before any panel is opened rather than after a surprise."
+    },
+    {
+      "cue": "Prove the voltage tester on the known live proving unit and commit once it reads in the green.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "TESTER PROOF",
+        "missNote": "Not in the green — the tester is not proven; swap it before any test for absence of voltage.",
+        "speed": 0.6
+      },
+      "id": "prove-tester",
+      "kind": "gauge",
+      "prompt": "Prove the voltage tester on the known live proving unit and commit once it reads in the green.",
+      "target": "test-meter",
+      "title": "Prove the tester",
+      "why": "The absence-of-voltage test is only as trustworthy as the tester, and proving it on a known source before and after the test is what shows a zero reading means a dead conductor rather than a flat battery, a broken lead or the wrong range."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Arc-rated clothing, rated rubber gloves with leather protectors, arc-rated face shield.",
+      "id": "ppe-arc",
+      "itemNames": {
+        "arc-hood": "arc-rated face shield",
+        "arc-shirt": "arc-rated clothing",
+        "rated-gloves": "rated rubber gloves with protectors"
+      },
+      "kind": "sequence",
+      "prompt": "Arc-rated clothing, rated rubber gloves with leather protectors, arc-rated face shield.",
+      "targets": [
+        "arc-shirt",
+        "rated-gloves",
+        "arc-hood"
+      ],
+      "title": "Dress to the label",
+      "why": "Until the board is proven dead it has to be treated as live, and the PPE is chosen from the label's category so that the clothing will not ignite, the gloves are rated for the voltage and the face shield stands between the electrician and the flash if the test finds something the drawing did not."
+    },
+    {
+      "cue": "Walk the deck and find the temporary cable that is not safe.",
+      "decoyNotes": {
+        "dry-cable": "A temporary cable on its hangers with its jacket intact. Nothing to flag there."
+      },
+      "id": "find-wet-cable",
+      "itemNames": {
+        "wet-cable": "damaged temporary cable lying in water"
+      },
+      "itemNotes": {
+        "wet-cable": "A damaged temporary cable is taken out of service and replaced; one lying in water is lifted onto hangers and reported."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the deck and find the temporary cable that is not safe.",
+      "targets": [
+        "wet-cable"
+      ],
+      "title": "Find the unsafe temporary cable",
+      "why": "Temporary power on a new-build hull is dragged across steel decks, through hatches and past welding, and a cut jacket lying in water turns the whole deck into part of the circuit, so it is found and dealt with before anyone kneels by the board."
+    },
+    {
+      "cue": "Carry the chain to the arc-flash boundary in front of the switchboard.",
+      "drag": {
+        "missNote": "Not placed — set the chain at the arc-flash boundary in front of the switchboard.",
+        "radius": 0.4,
+        "to": "board-boundary"
+      },
+      "id": "set-boundary",
+      "kind": "drag",
+      "prompt": "Carry the chain to the arc-flash boundary in front of the switchboard.",
+      "target": "boundary-chain",
+      "title": "Set the arc-flash boundary",
+      "why": "The arc-flash boundary is the distance at which an arc could still cause a serious injury, and chaining it off keeps the fitters, painters and welders sharing the compartment outside it while the electricians are working the board."
+    },
+    {
+      "cue": "Hold the tester on each phase and phase-to-ground until every reading settles.",
+      "holdBreakNote": "Moved off before the reading settled. Hold the probes until every phase reads steady.",
+      "id": "absence-hold",
+      "kind": "hold",
+      "prompt": "Hold the tester on each phase and phase-to-ground until every reading settles.",
+      "seconds": 5,
+      "target": "absence-test-point",
+      "title": "Test for absence of voltage",
+      "why": "Every conductor that will be touched is tested, phase to phase and phase to ground, because a single open breaker can leave one phase fed from somewhere else, and the reading is held until it is steady so a slow-decaying charge is not mistaken for zero."
+    },
+    {
+      "cue": "Keep the insulation tester's test voltage inside the band across the new cable run.",
+      "holdBreakNote": "The test left the band. Bring it back and hold it through the run.",
+      "id": "megger-track",
+      "kind": "track",
+      "prompt": "Keep the insulation tester's test voltage inside the band across the new cable run.",
+      "seconds": 8,
+      "target": "megger-meter",
+      "title": "Insulation-test the new run",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TEST",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "An insulation test proves the new cable was not nicked on its way through the bulkheads, and holding the test steady through the whole run is what makes a good reading mean the insulation is sound rather than that the test was stopped early."
+    },
+    {
+      "cue": "Find the source that can still feed the board.",
+      "decoyNotes": {
+        "isolated-genset": "The generator's breaker open, locked and tagged. Nothing to flag there today."
+      },
+      "id": "find-backfeed",
+      "itemNames": {
+        "battery-backfeed": "battery bank still connected to the board"
+      },
+      "itemNotes": {
+        "battery-backfeed": "A source that can still feed the board is opened, locked and proven dead like the others before anyone works on the bus."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the source that can still feed the board.",
+      "targets": [
+        "battery-backfeed"
+      ],
+      "title": "Find the backfeed source",
+      "why": "Opening the shore breaker makes a vessel's switchboard look dead while its own generator or battery bank can still feed the bus from the other side, and finding the source that is still connected is the step that separates an isolation from a guess."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Open the switchboard breaker, apply your own lock, then sign and hang the tag.",
+      "id": "lock-board",
+      "itemNames": {
+        "board-breaker": "switchboard breaker opened",
+        "mv-personal-lock": "personal lock applied",
+        "mv-tag": "tag signed and hung"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — open the breaker, apply your own lock, then sign and hang the tag.",
+      "prompt": "Open the switchboard breaker, apply your own lock, then sign and hang the tag.",
+      "targets": [
+        "board-breaker",
+        "mv-personal-lock",
+        "mv-tag"
+      ],
+      "title": "Open, lock and tag the board",
+      "why": "The breaker is opened first so the lock holds it in the off position, the lock is the electrician's own so nobody else can undo it, and the signed tag tells everyone who comes by who is working and how to reach them."
+    },
+    {
+      "cue": "Press the test button on the temporary power's ground-fault protection and confirm it trips.",
+      "id": "gfci-test",
+      "kind": "select",
+      "prompt": "Press the test button on the temporary power's ground-fault protection and confirm it trips.",
+      "target": "gfci-test-button",
+      "title": "Test the ground-fault protection",
+      "why": "Ground-fault protection on temporary power is what trips when current finds a path through a person to the steel hull, and pressing its test button each shift is the only way to know it will actually trip when that happens."
+    },
+    {
+      "cue": "Find the carbon dioxide extinguisher for electrical fires nearest the switchboard.",
+      "id": "co2-locate",
+      "kind": "select",
+      "prompt": "Find the carbon dioxide extinguisher for electrical fires nearest the switchboard.",
+      "target": "co2-extinguisher",
+      "title": "Locate the CO2 extinguisher",
+      "why": "Water on an energised switchboard carries current back to whoever is holding the hose, so the extinguisher suited to electrical equipment is found before the work starts, when there is time to walk to it."
+    },
+    {
+      "cue": "Log every source, its lock, the tester proof and the insulation reading on the permit.",
+      "id": "mv-handover",
+      "kind": "select",
+      "prompt": "Log every source, its lock, the tester proof and the insulation reading on the permit.",
+      "target": "mv-log",
+      "title": "Log the isolation",
+      "why": "The next shift, the commissioning crew and the yard's electrical supervisor all rely on the permit to know which sources are isolated and by whom, and an isolation that is not written down cannot be handed over safely."
+    }
+  ],
+  "supportLine": "your IBEW local's member assistance programme, or the yard's employee assistance line if a shock, an arc or a near miss is what stayed with you",
+  "tagline": "Isolating a new-build vessel's switchboard at the outfitting pier when power can arrive from more than one place: the single-line drawing read, every source found — shore pedestal, generator, battery bank — each one opened, locked and proven dead, temporary cables kept out of the water, and the tester proven before and after",
+  "title": "SmartCiti.X~ Marine Vessel Electrical Safety VR",
+  "trade": "Marine electrician, new-build vessel outfitting — IBEW",
+  "underwater": null,
+  "weather": "overcast"
+}
