@@ -151,6 +151,8 @@ APPS = {
             # rollouts produce, so a human run and a synthetic one merge into
             # one dataset. Depends on the two modules just above it.
             SHARED / "episodes.js",
+            # DATAWORKS: the consent gate the recorder checks before it attaches.
+            SHARED / "dx-data.js",
             SHARED / "perf.js",
             SHARED / "weather.js",
             SHARED / "environment.js",
@@ -890,6 +892,13 @@ APPS = {
             SHARED / "by-flow-agent.js",
             SHARED / "cg-units.js",
             SHARED / "cg-runner.js",
+            # PLAYLAYER: the Bay Area play layer (reads GOLDEN-B's San Francisco lessons alongside the other maps').
+            SHARED / "sg-sf-play.js",
+            SHARED / "pl-bay-play.js",
+            # DATAWORKS: consent, capture and the Me-tab panel (nothing recorded without opt-in).
+            SHARED / "dx-data.js",
+            SHARED / "dx-consent-ui.js",
+            SHARED / "dx-world.js",
             WEBXR / "parishes/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

@@ -50,6 +50,8 @@ export const GT_PROFILE_KEYS = [
   "vr-membership-v1",
   // DEAN's versions and modules (shared/dn-modules.js, docs/modules.md).
   "vr-dean-v1",
+  // DATAWORKS' consented data system (shared/dx-data.js, docs/robot-datasets.md): consent, episodes, session salt.
+  "dx-consent-v1", "dx-episodes-v1", "dx-session-salt-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }

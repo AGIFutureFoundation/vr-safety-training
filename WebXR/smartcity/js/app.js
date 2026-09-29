@@ -19,6 +19,8 @@ import { Adapters as AGENT_ADAPTERS } from "../../shared/agent-protocols.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
 import { attachEpisodeRecorder, EpisodeStore, EPISODE_SCHEMA_VERSION } from "../../shared/episodes.js";
+// DATAWORKS: nothing is recorded without the learner's opt-in (and never for K-12, signed-out or demo sessions).
+import { dxCollecting } from "../../shared/dx-data.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
 
 import { Perf } from "../../shared/perf.js";
@@ -1003,7 +1005,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // write, so a live session and a synthetic one merge into one dataset (see
   // tools/export_dataset.mjs). Wraps the session's own action methods — no
   // other call site changes — and persists on the session's own onFinish.
-  state.episodeRec = episodesOn ? attachEpisodeRecorder(state.session, {
+  state.episodeRec = episodesOn && dxCollecting() ? attachEpisodeRecorder(state.session, {
     app: "smartcity", station: room.id, room, api: state.api,
     crewTag: Progress.playerName,
     viewMode: () => (renderer.xr.isPresenting ? "vr" : (state.mode === "ar" ? "ar" : "desktop")),
