@@ -51,8 +51,16 @@ Brief: `packs-brief.md` (Shared rules, seam shapes) and `packs-brief-2.md` (SCHO
 ### Seams
 
 - `scStartSession(lessonId, where)`, `scSessions()`, `scBoard(classCode)` in `WebXR/shared/sc-scholar.js`.
-- Reads (guarded): STORYLINE `stChosenPath?.()` — the chip shows only when the path is `k12`, `teachers` or unset;
+- `scMountSession({ world, lessons, parish?, siteAt?, stationHref?, award?, awarded?, path?, boardHref? })` in
+  `WebXR/shared/sc-session-ui.js` → `{ tick(x, z), open(id), close(), isOpen(), chipLesson(), lessons }`; mounted in
+  `WebXR/parishes/js/app.js` and `WebXR/redwood/js/app.js`.
+- Reads (guarded): STORYLINE's chosen path through `path` (pass `stChosenPath`; falls back to a page-level
+  global) — the chip shows only when the path is `k12`, `teachers` or unset, and stays quiet on `roam`;
   PACKS `pkPackOf?.(stationId)` — the dashboard names the pack a lesson's station belongs to when present.
 - DEAN reads `scSessions()` for per-learner progress.
 
 ### Log
+- 01:41 UTC · base reset 589f0d8 → 4713545; identity set; eval before (AS_PORT=8987): 15 subjects, mean 98, 10 findings · — · next: read, plan
+- 01:49 UTC · plan above; sc-scholar.js, sc-lessons.js (122 lessons, seven worlds, every one with a position and a subject), sc-session-ui.js; mounted in the parishes app (field lessons + BAYOU's) and Redwood Reach; bundle lists · f3c0d65 · next: checker, page
+- 01:53 UTC · check_scholar (1705 checks); WebXR/scholar/index.html; links from gen_home (index.html and home.html regenerated, three lines) and the instructor console's cohort view; bundles rebuilt · 185d41d · next: browser pass, single checkers
+- 02:05 UTC · headless pass (port 8987): a parishes session runs steps → wrong (clue shown, no score) → right (two stars, trail listed), the scoreboard reads it, the class board shows "Rocket" at place one, 360 px no overflow, Redwood mounts the chip, no page errors. Failed first: check_imports on a guarded `enCohorts()` call — now passed in as `cohorts`; STORYLINE's path the same way (`path`). `scholar` joined the bundler's sibling dirs (dist links); full bundle for the combined dist (check_home had flagged it stale) · — · next: docs, eval after

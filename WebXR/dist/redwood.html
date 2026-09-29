@@ -25162,6 +25162,534 @@ function k2OpenLesson(lesson, host, { linkFor, onDone, onClose } = {}) {
 function k2KioskPrompt(lesson) { return `Press E — field lesson: ${lesson.title}${k2LessonDone(lesson) ? " (answered)" : ""}`; }
 
 
+/* ===== shared/sc-scholar.js ===== */
+// SCHOLAR — K-12 lessons as you explore, with a scoreboard (Holodeck Packs run, second wave;
+// docs/consoles/SCHOLAR.md, docs/k12.md section 10).
+//
+// The pure core: no DOM, no three.js. A world registers the K-12 lessons it can play
+// (scRegisterLessons), the session panel (sc-session-ui.js) starts one when the learner
+// reaches its site, and this module scores it and remembers it.
+//
+// SEAMS (documented shapes; other consoles read these):
+//
+//   scStartSession(lessonId, where) -> session | null
+//       where: { world, parish?, site?, pos?: [x, z] }. The session is a plain object:
+//       { id, lessonId, lesson, where, step, tries, done, startedAt }. Walk it with
+//       scStep(session) (next step, then the check) and scAnswer(session, choiceIndex).
+//   scAnswer(session, i) -> { right, why, finished, stars, firstTry, streak, badges[], trail[] }
+//       Stars: 3 on a first-try answer, 2 on the second, 1 after that. Nothing is taken away.
+//   scSessions() -> [{ id, lessonId, world, parish, site, k12, subject, tries, stars, firstTry, at }]
+//       Every finished session on this device, oldest first (DEAN reads this for progress).
+//   scBoard(classCode, { entries?, me?, cohorts? }) -> { code, cohort, top: [{ rank, name, stars, sessions }],
+//       you: { name, stars, sessions, bestStreak, rank|null } | null, hidden, total }
+//       A class leaderboard: first names or chosen nicknames only, top ten plus "your best"
+//       (no rank shown below the top ten), opted-out learners hidden.
+//
+// Kids rule: no fear framing, praise for effort, a wrong answer shows the lesson's own why and
+// invites another look; the streak "rests", it is never lost. Privacy: local-first, one key
+// (`vr-scholar-v1`) through profiles.js's gtStorage; a class board is moved between devices by an
+// explicit export/import file, never a network request. No surname, e-mail or id is ever shown.
+//
+// Every top-level name carries the `sc`/`SC_` prefix (the bundler shares one scope).
+
+
+
+const SC_KEY = "vr-scholar-v1";
+const SC_VERSION = 1;
+/** Stars by the try the right answer came on (index 0 = first try); later tries score the last value. */
+const SC_STARS = [3, 2, 1];
+/** A badge per set: this many different lessons in one subject, or in one world. */
+const SC_SET_SIZE = 3;
+/** How many rows the class board ranks; everyone else sees "your best" without a rank. */
+const SC_BOARD_TOP = 10;
+/** The name shown when a nickname or first name cannot be shown safely. */
+const SC_FALLBACK_NAME = "Scholar";
+/** The reach, in metres, at which a lesson's site offers a session. */
+const SC_REACH = 28;
+
+/** The four classroom programmes as subjects, with the badge each set earns. */
+const SC_SUBJECTS = {
+  "k12-practical-math": { name: "Maths", badge: "Maths Explorer" },
+  "k12-science": { name: "Science", badge: "Science Explorer" },
+  "k12-history-and-civics": { name: "History and Civics", badge: "History Explorer" },
+  "k12-literacy-and-life-skills": { name: "Reading and Life Skills", badge: "Words and Life Explorer" },
+};
+const SC_WORLD_NAMES = {
+  bayworld: "Bay World", deep: "the Deep", regatta: "the Regatta", fairway: "Fairway Park", summit: "Sierra Summit",
+  redwood: "Redwood Reach", parishes: "the Parishes", "san-francisco": "San Francisco",
+};
+/** Every learner-facing line the session panel shows (the checker reads these against the youngest ceiling). */
+const SC_LINES = {
+  offer: "A lesson is here. Want to try it?",
+  start: "Start the lesson",
+  next: "Next step",
+  check: "Now the check.",
+  right: "Yes! Well done.",
+  firstTry: "First try. Three stars.",
+  again: "Take another look. Here is a clue.",
+  rest: "Your run rests here. Try the next one.",
+  trail: "Lessons near you",
+  badge: "New badge",
+  done: "You did it.",
+};
+
+// ------------------------------------------------------------------ subjects
+
+const scSubjectIndex = (() => {
+  const m = new Map();
+  for (const id of Object.keys(SC_SUBJECTS)) for (const s of PP_PROGRAMMES[id]?.stations ?? []) m.set(s, id);
+  return m;
+})();
+/** The classroom programme (subject id) a K-12 station belongs to, or null. */
+function scSubjectOf(stationId) { return scSubjectIndex.get(stationId) ?? null; }
+/** True when the id is a classroom station in one of the four programmes. */
+function scIsK12Station(stationId) { return scSubjectIndex.has(stationId); }
+
+// ------------------------------------------------------------------ lessons
+
+/**
+ * One lesson in the session shape, from any of the shapes the worlds keep: the shared K-12 field
+ * lesson (station = the K-12 station), Sierra Summit's (anchor, station = K-12, tradeStation),
+ * Redwood Reach's and the parishes' / districts' (site, k12, station = trade), and BAYOU's parish
+ * lessons (station = K-12, check.q). `where` fills what the list itself does not carry.
+ */
+function scNormalise(l, where = {}) {
+  if (!l) return null;
+  const c = l.check ?? {};
+  const k12 = l.k12 ?? l.station ?? null;
+  const world = where.world ?? l.world ?? null;
+  return {
+    id: String(l.id), world, parish: l.parish ?? where.parish ?? null,
+    site: l.site ?? l.anchor?.id ?? l.place ?? where.site ?? null,
+    k12, subject: scSubjectOf(k12), band: l.band ?? null,
+    title: l.title ?? "", trade: l.trade ?? "", tradeLine: l.tradeLine ?? "",
+    steps: Array.isArray(l.steps) ? l.steps.slice() : [],
+    check: { q: c.q ?? c.question ?? "", options: (c.options ?? c.choices ?? []).slice(), answer: c.answer, why: c.why ?? "" },
+    position: l.position ?? l.at ?? where.position ?? null,
+    minutes: l.minutes ?? null,
+  };
+}
+
+const scRegistry = new Map();
+
+/**
+ * Register the lessons a world can play. `where.world` names the world; `where.siteAt(parish, site)`
+ * (optional) returns [x, z] for a lesson that carries no position. Returns the normalised list.
+ */
+function scRegisterLessons(list, where = {}) {
+  const out = [];
+  for (const raw of list ?? []) {
+    const l = scNormalise(raw, where);
+    if (!l) continue;
+    if (!l.position && typeof where.siteAt === "function") l.position = where.siteAt(l.parish, l.site) ?? null;
+    scRegistry.set(l.id, l);
+    out.push(l);
+  }
+  return out;
+}
+function scLesson(id) { return scRegistry.get(id) ?? null; }
+function scRegistered() { return [...scRegistry.values()]; }
+
+// ------------------------------------------------------------------ the store
+
+function scStore() { try { return gtStorage(); } catch (_) { return null; } }
+
+function scBlank() { return { v: SC_VERSION, sessions: [], nick: "", optOut: false, me: null, boards: {} }; }
+
+function scLoad(store = scStore()) {
+  try {
+    const raw = JSON.parse(store?.getItem(SC_KEY) || "null");
+    if (!raw || typeof raw !== "object") return scBlank();
+    const b = scBlank();
+    if (Array.isArray(raw.sessions)) b.sessions = raw.sessions.filter((s) => s && typeof s.lessonId === "string");
+    b.nick = typeof raw.nick === "string" ? raw.nick.slice(0, 24) : "";
+    b.optOut = !!raw.optOut;
+    b.me = typeof raw.me === "string" ? raw.me : null;
+    if (raw.boards && typeof raw.boards === "object") for (const [k, v] of Object.entries(raw.boards)) if (Array.isArray(v)) b.boards[k] = v;
+    return b;
+  } catch (_) { return scBlank(); }
+}
+
+function scSave(state, store = scStore()) {
+  try {
+    if (state.sessions.length > 1000) state.sessions.splice(0, state.sessions.length - 1000);
+    store?.setItem(SC_KEY, JSON.stringify(state));
+  } catch (_) { /* private mode — the session stays unsaved */ }
+}
+
+/** Every finished session on this device, oldest first. */
+function scSessions(state = scLoad()) { return state.sessions.slice(); }
+
+// ------------------------------------------------------------------ scoring
+
+/** Stars for a right answer on try number `tries` (1-based). */
+function scStarsFor(tries) { return SC_STARS[Math.min(Math.max(1, tries | 0), SC_STARS.length) - 1]; }
+
+/**
+ * The learner's totals from a session list: best stars per lesson summed, sessions finished,
+ * the current first-try run and the best one, badges by subject and by world.
+ */
+function scSummary(sessions = scSessions()) {
+  const best = new Map();
+  let streak = 0, bestStreak = 0;
+  const bySubject = {}, byWorld = {};
+  for (const s of sessions) {
+    best.set(s.lessonId, Math.max(best.get(s.lessonId) ?? 0, s.stars | 0));
+    streak = s.firstTry ? streak + 1 : 0;
+    bestStreak = Math.max(bestStreak, streak);
+    const subj = s.subject ?? "other", w = scWorldKey(s);
+    (bySubject[subj] ??= { lessons: new Set(), stars: 0, sessions: 0 }).lessons.add(s.lessonId);
+    bySubject[subj].sessions += 1;
+    (byWorld[w] ??= { lessons: new Set(), stars: 0, sessions: 0 }).lessons.add(s.lessonId);
+    byWorld[w].sessions += 1;
+  }
+  const bestOf = (set) => [...set].reduce((n, id) => n + (best.get(id) ?? 0), 0);
+  const flat = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, { lessons: v.lessons.size, stars: bestOf(v.lessons), sessions: v.sessions }]));
+  const subjects = flat(bySubject), worlds = flat(byWorld);
+  const badges = [
+    ...Object.entries(subjects).filter(([k, v]) => SC_SUBJECTS[k] && v.lessons >= SC_SET_SIZE).map(([k]) => ({ id: `sc-subject-${k}`, kind: "subject", key: k, name: SC_SUBJECTS[k].badge })),
+    ...Object.entries(worlds).filter(([, v]) => v.lessons >= SC_SET_SIZE).map(([k]) => ({ id: `sc-world-${k}`, kind: "world", key: k, name: `${scWorldName(k)} Trail Badge` })),
+  ];
+  return { stars: [...best.values()].reduce((a, b) => a + b, 0), sessions: sessions.length, lessons: best.size, streak, bestStreak, subjects, worlds, badges };
+}
+
+/** The world a session counts toward: the parishes split into New Orleans and San Francisco. */
+function scWorldKey(s) {
+  if (s.world === "parishes" && typeof s.parish === "string" && s.parish.startsWith("sf-")) return "san-francisco";
+  return s.world ?? "other";
+}
+function scWorldName(k) { return SC_WORLD_NAMES[k] ?? String(k); }
+
+// ------------------------------------------------------------------ a session
+
+let scSeq = 0;
+
+/** Start a session on a registered lesson (or on `where.lesson`, a raw lesson in any shape). */
+function scStartSession(lessonId, where = {}) {
+  const lesson = scLesson(lessonId) ?? (where.lesson ? scNormalise(where.lesson, where) : null);
+  if (!lesson || !lesson.steps.length || !lesson.check.options.length) return null;
+  scSeq += 1;
+  return {
+    id: `sc-${Date.now().toString(36)}-${scSeq}`, lessonId: lesson.id, lesson,
+    where: { world: where.world ?? lesson.world, parish: where.parish ?? lesson.parish, site: where.site ?? lesson.site, pos: where.pos ?? null },
+    step: 0, tries: 0, done: false, startedAt: new Date().toISOString(),
+  };
+}
+
+/** Move to the next step; returns `{ kind: "step", text, index, of }` or `{ kind: "check", q, options }`. */
+function scStep(session) {
+  const L = session.lesson;
+  if (session.step < L.steps.length) {
+    const out = { kind: "step", text: L.steps[session.step], index: session.step + 1, of: L.steps.length };
+    session.step += 1;
+    return out;
+  }
+  return { kind: "check", q: L.check.q, options: L.check.options.slice() };
+}
+
+const scAwardFn = (o) => o.award ?? (typeof ppAward === "function" ? ppAward : null); // eslint-disable-line no-undef
+const scAwardedFn = (o) => o.awarded ?? (typeof ppAwarded === "function" ? ppAwarded : null); // eslint-disable-line no-undef
+
+/**
+ * Answer the check. A wrong answer returns the lesson's why and leaves the session open; a right one
+ * finishes it, records it on this device and on the passport (one `sc-session` award per lesson,
+ * never twice), and returns the stars, the run, any badge this answer earned and the lesson trail.
+ * `opts`: { state, store, award, awarded, lessons (for the trail), pos }.
+ */
+function scAnswer(session, i, opts = {}) {
+  if (!session || session.done) return { right: false, finished: !!session?.done, why: "", stars: 0, firstTry: false, streak: 0, badges: [], trail: [] };
+  const L = session.lesson;
+  session.tries += 1;
+  if (i !== L.check.answer) return { right: false, finished: false, why: L.check.why, stars: 0, firstTry: false, streak: 0, badges: [], trail: [] };
+  session.done = true;
+  const state = opts.state ?? scLoad(opts.store);
+  const before = scSummary(state.sessions);
+  const rec = {
+    id: session.id, lessonId: L.id, world: session.where.world ?? L.world, parish: session.where.parish ?? L.parish ?? null,
+    site: session.where.site ?? L.site ?? null, k12: L.k12, subject: L.subject, tries: session.tries,
+    stars: scStarsFor(session.tries), firstTry: session.tries === 1, at: new Date().toISOString(),
+  };
+  state.sessions.push(rec);
+  scSave(state, opts.store);
+  const after = scSummary(state.sessions);
+  const had = new Set(before.badges.map((b) => b.id));
+  const put = scAwardFn(opts), has = scAwardedFn(opts);
+  if (put && !(has && has("sc-session", L.id))) {
+    try { put("sc-session", { attemptId: L.id, reputation: rec.stars, reason: `K-12 lesson session: ${L.title}` }); } catch (_) { /* the passport never breaks a lesson */ }
+  }
+  const done = new Set(state.sessions.map((s) => s.lessonId));
+  return {
+    right: true, finished: true, why: L.check.why, stars: rec.stars, firstTry: rec.firstTry, streak: after.streak,
+    badges: after.badges.filter((b) => !had.has(b.id)),
+    trail: scTrail(opts.pos ?? session.where.pos ?? L.position, opts.lessons ?? scRegistered().filter((x) => x.world === L.world), done, L.id),
+  };
+}
+
+const SC_DIRS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"];
+
+/**
+ * The lesson trail: up to `n` nearest lessons not yet done, with metres and a compass word
+ * (the world's -z is north, as the parish and Redwood maps draw it).
+ */
+function scTrail(pos, lessons, done = new Set(), skip = null, n = 3) {
+  if (!Array.isArray(pos)) return [];
+  return (lessons ?? [])
+    .filter((l) => l.id !== skip && !done.has(l.id) && Array.isArray(l.position))
+    .map((l) => {
+      const dx = l.position[0] - pos[0], dz = l.position[1] - pos[1];
+      const ang = (Math.atan2(dx, -dz) * 180 / Math.PI + 360) % 360;
+      return { id: l.id, title: l.title, site: l.site, parish: l.parish, metres: Math.round(Math.hypot(dx, dz)), dir: SC_DIRS[Math.round(ang / 45) % 8] };
+    })
+    .sort((a, b) => a.metres - b.metres)
+    .slice(0, n);
+}
+
+/** The lessons whose site is within reach of [x, z] (the chip the panel shows), nearest first. */
+function scNearby(pos, lessons, reach = SC_REACH) {
+  if (!Array.isArray(pos)) return [];
+  return (lessons ?? []).filter((l) => Array.isArray(l.position))
+    .map((l) => ({ l, d: Math.hypot(l.position[0] - pos[0], l.position[1] - pos[1]) }))
+    .filter((x) => x.d <= reach).sort((a, b) => a.d - b.d).map((x) => x.l);
+}
+
+// ------------------------------------------------------------------ names and the class board
+
+/**
+ * The only name the board ever shows: the chosen nickname, else the first word of the display name.
+ * One word, letters only (no digits, no `@`, no web address), two to sixteen letters; anything else
+ * shows as "Scholar". A surname can never appear because only the first word is kept.
+ */
+function scSafeName(nick, name = "") {
+  for (const cand of [nick, name]) {
+    const s = String(cand ?? "").trim();
+    if (!s || /@|https?:|www\.|\.[a-z]{2,}(\s|$)|\d/i.test(s)) continue;
+    const w = s.split(/\s+/)[0].replace(/[^\p{L}'-]/gu, "").slice(0, 16);
+    if (w.length >= 2) return w;
+  }
+  return SC_FALLBACK_NAME;
+}
+
+/** A class code as the organisation layer writes it (`XXXX-XXXX`, its alphabet), or null. */
+function scNormaliseCode(v) {
+  const s = String(v ?? "").toUpperCase().replace(/[^A-Z2-9]/g, "");
+  return s.length === 8 ? `${s.slice(0, 4)}-${s.slice(4)}` : null;
+}
+
+function scMe(state) {
+  if (!state.me) state.me = `me-${Math.random().toString(36).slice(2, 10)}`;
+  return state.me;
+}
+
+/** Set the nickname and the opt-out on this device (the dashboard's two controls). */
+function scSetNick(nick, store) { const s = scLoad(store); s.nick = String(nick ?? "").slice(0, 24); scSave(s, store); return scSafeName(s.nick); }
+function scSetOptOut(on, store) {
+  const s = scLoad(store); s.optOut = !!on;
+  for (const list of Object.values(s.boards)) for (const e of list) if (e.member === s.me) e.optOut = s.optOut;
+  scSave(s, store); return s.optOut;
+}
+
+/** Put this learner's own entry on a class board (updates it when already there). */
+function scShareToClass(classCode, { name = "", store } = {}) {
+  const code = scNormaliseCode(classCode);
+  if (!code) return null;
+  const s = scLoad(store);
+  const sum = scSummary(s.sessions);
+  const entry = { member: scMe(s), nick: scSafeName(s.nick, name), stars: sum.stars, sessions: sum.sessions, bestStreak: sum.bestStreak, optOut: s.optOut, at: new Date().toISOString() };
+  const list = (s.boards[code] ??= []);
+  const i = list.findIndex((e) => e.member === entry.member);
+  if (i >= 0) list[i] = entry; else list.push(entry);
+  scSave(s, store);
+  return entry;
+}
+
+/** A class board as a file the teacher moves between devices: `{ kind, v, code, entries }`. */
+function scExportBoard(classCode, store) {
+  const code = scNormaliseCode(classCode);
+  const s = scLoad(store);
+  return { kind: "sc-class-board", v: SC_VERSION, code, entries: (s.boards[code] ?? []).map(scCleanEntry) };
+}
+
+function scCleanEntry(e) {
+  return {
+    member: String(e?.member ?? "").slice(0, 40), nick: scSafeName(e?.nick), stars: Math.max(0, Math.round(Number(e?.stars) || 0)),
+    sessions: Math.max(0, Math.round(Number(e?.sessions) || 0)), bestStreak: Math.max(0, Math.round(Number(e?.bestStreak) || 0)),
+    optOut: !!e?.optOut, at: typeof e?.at === "string" ? e.at.slice(0, 30) : null,
+  };
+}
+
+/** Merge a class-board file; every entry is re-cleaned (names re-derived), the newer entry per member wins. */
+function scImportBoard(file, store) {
+  if (!file || file.kind !== "sc-class-board") return { ok: false, reason: "That is not a class board file." };
+  const code = scNormaliseCode(file.code);
+  if (!code) return { ok: false, reason: "The file has no class code." };
+  const s = scLoad(store);
+  const list = (s.boards[code] ??= []);
+  let n = 0;
+  for (const raw of Array.isArray(file.entries) ? file.entries : []) {
+    const e = scCleanEntry(raw);
+    if (!e.member) continue;
+    const i = list.findIndex((x) => x.member === e.member);
+    if (i < 0) { list.push(e); n += 1; } else if (String(e.at ?? "") >= String(list[i].at ?? "")) { list[i] = e; n += 1; }
+  }
+  scSave(s, store);
+  return { ok: true, code, merged: n };
+}
+
+/**
+ * The class leaderboard. `opts.entries` overrides the stored board (the checker's fixtures);
+ * `opts.me` names this learner's member handle; `opts.cohorts` is the organisation layer's cohort list
+ * (org.js `enCohorts()`, passed by the page) for the class's name. Ranks are by stars, then sessions, then name.
+ */
+function scBoard(classCode, opts = {}) {
+  const code = scNormaliseCode(classCode);
+  if (!code) return null;
+  const s = opts.entries ? null : scLoad(opts.store);
+  const me = opts.me ?? s?.me ?? null;
+  const all = (opts.entries ?? s?.boards[code] ?? []).map(scCleanEntry);
+  const shown = all.filter((e) => !e.optOut);
+  shown.sort((a, b) => b.stars - a.stars || b.sessions - a.sessions || a.nick.localeCompare(b.nick));
+  const top = shown.slice(0, SC_BOARD_TOP).map((e, i) => ({ rank: i + 1, name: e.nick, stars: e.stars, sessions: e.sessions, you: e.member === me }));
+  const mine = all.find((e) => e.member === me) ?? null;
+  const rank = mine && !mine.optOut ? shown.findIndex((e) => e.member === me) : -1;
+  const cohort = (Array.isArray(opts.cohorts) ? opts.cohorts : []).find((c) => c?.code === code)?.name ?? null;
+  return {
+    code, cohort, top,
+    you: mine ? { name: mine.nick, stars: mine.stars, sessions: mine.sessions, bestStreak: mine.bestStreak, rank: rank >= 0 && rank < SC_BOARD_TOP ? rank + 1 : null, optOut: mine.optOut } : null,
+    hidden: all.length - shown.length, total: all.length,
+  };
+}
+
+
+/* ===== shared/sc-session-ui.js ===== */
+// SCHOLAR — the in-world lesson session panel (docs/consoles/SCHOLAR.md). DOM only, no three.js.
+//
+// SEAM: scMountSession({ world, lessons, parish?, siteAt?, stationHref?, award?, awarded?, path?, host?, boardHref? })
+//   -> { tick(x, z), open(lessonId), close(), isOpen(), chipLesson(), lessons }
+// `lessons` are raw lessons in any world's shape (registered here through scRegisterLessons);
+// `tick` runs a few times a second with the learner's position: within reach of a lesson's site a
+// chip offers the session (L or a tap). The panel walks the steps one at a time, then the check;
+// a right answer shows stars, the first-try run, any new badge and the lesson trail (what is near
+// next). STORYLINE's chosen path is read guarded: on "roam" (Just Roam) or a path that is not K-12
+// or Teachers the chip stays quiet; with no path chosen it shows.
+//
+// No animation (reduced motion needs nothing turned off); every line comes from the lesson or
+// SC_LINES. Every top-level name carries the `sc` prefix (the bundler shares one scope).
+
+
+const SC_PATHS_ON = [null, undefined, "", "k12", "teachers"];
+
+const SC_CSS = `
+.sc-chip{position:fixed;left:12px;bottom:84px;z-index:30;max-width:min(360px,calc(100vw - 24px));background:#0b141dee;color:#edf6fb;border:1px solid #4fd1ff88;border-radius:12px;padding:8px 12px;font:14px/1.35 system-ui,sans-serif;display:flex;gap:8px;align-items:center}
+.sc-chip button,.sc-panel button{font:inherit;min-height:40px;padding:6px 12px;border-radius:10px;border:1px solid #4fd1ff88;background:#142130;color:#edf6fb;cursor:pointer}
+.sc-chip button.sc-go,.sc-panel button.sc-go{background:#4fd1ff;color:#03202b;border-color:#4fd1ff;font-weight:600}
+.sc-panel{position:fixed;right:12px;top:72px;z-index:31;width:min(380px,calc(100vw - 24px));max-height:calc(100vh - 96px);overflow:auto;background:#0b141df2;color:#edf6fb;border:1px solid #4fd1ff66;border-radius:14px;padding:14px 16px;font:15px/1.45 system-ui,sans-serif}
+.sc-panel h2{font-size:17px;margin:0 0 4px}.sc-panel .sc-sub{font-size:12.5px;color:#a9c3d2;margin:0 0 10px}
+.sc-panel .sc-dots{display:flex;gap:6px;margin:6px 0 10px}.sc-panel .sc-dots i{width:10px;height:10px;border-radius:50%;background:#192a3b;border:1px solid #4fd1ff66}.sc-panel .sc-dots i.on{background:#4fd1ff}
+.sc-panel .sc-opts{display:grid;gap:8px;margin:10px 0}.sc-panel .sc-why{border-left:3px solid #f2c14b;padding-left:10px;font-size:14px;margin:8px 0}
+.sc-panel .sc-stars{font-size:22px;color:#f2c14b;letter-spacing:2px}.sc-panel ul{padding-left:18px;margin:6px 0}.sc-panel .sc-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sc-panel a{color:#7ee6ff}[hidden].sc-chip,[hidden].sc-panel{display:none!important}
+`;
+
+function scEl(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+/** Mount the session chip and panel in a world page. Returns the controller described above. */
+function scMountSession(opts = {}) {
+  if (typeof document === "undefined") return { tick() {}, open() { return false; }, close() {}, isOpen: () => false, chipLesson: () => null, lessons: [] };
+  const world = opts.world ?? "parishes";
+  const lessons = scRegisterLessons(opts.lessons ?? [], { world, parish: opts.parish, siteAt: opts.siteAt });
+  const host = opts.host ?? document.body;
+  if (!document.getElementById("sc-style")) { const st = scEl("style"); st.id = "sc-style"; st.textContent = SC_CSS; document.head.appendChild(st); }
+  const chip = scEl("div", "sc-chip"); chip.hidden = true; chip.setAttribute("role", "status");
+  const chipText = scEl("span"); const chipGo = scEl("button", "sc-go", SC_LINES.start);
+  chip.append(chipText, chipGo); host.appendChild(chip);
+  const panel = scEl("section", "sc-panel"); panel.hidden = true; panel.setAttribute("aria-label", "K-12 lesson session"); host.appendChild(panel);
+  let near = null, session = null, pos = null;
+
+  const pathOn = () => {
+    let p = null;
+    // STORYLINE's seam: the world passes `path` (its stChosenPath) when it has one; else a page-level global, guarded.
+    const get = typeof opts.path === "function" ? opts.path : globalThis.stChosenPath;
+    try { p = typeof get === "function" ? get() : null; } catch (_) { p = null; }
+    const id = p && typeof p === "object" ? p.id : p;
+    return SC_PATHS_ON.includes(id);
+  };
+
+  function render(view) {
+    panel.textContent = "";
+    const L = session.lesson;
+    panel.append(scEl("h2", null, L.title), scEl("p", "sc-sub", `${L.trade ? `${L.trade} · ` : ""}K-12 lesson in ${scWorldName(world)}`));
+    if (view.kind === "step") {
+      const dots = scEl("div", "sc-dots");
+      for (let i = 1; i <= view.of; i++) { const d = scEl("i"); if (i <= view.index) d.className = "on"; dots.appendChild(d); }
+      const next = scEl("button", "sc-go", view.index < view.of ? SC_LINES.next : SC_LINES.check);
+      next.onclick = () => render(scStep(session));
+      panel.append(dots, scEl("p", null, view.text), next);
+      next.focus();
+    } else if (view.kind === "check") {
+      panel.append(scEl("p", null, view.q));
+      const box = scEl("div", "sc-opts");
+      view.options.forEach((o, i) => {
+        const b = scEl("button", null, o);
+        b.onclick = () => {
+          const r = scAnswer(session, i, { award: opts.award, awarded: opts.awarded, pos });
+          if (r.right) render({ kind: "done", r });
+          else { panel.querySelector(".sc-why")?.remove(); const w = scEl("p", "sc-why", `${SC_LINES.again} ${r.why}`); box.after(w); }
+        };
+        box.appendChild(b);
+      });
+      panel.appendChild(box);
+      box.firstChild?.focus();
+    } else if (view.kind === "done") {
+      const r = view.r;
+      panel.append(scEl("p", null, `${SC_LINES.right} ${r.why}`), scEl("div", "sc-stars", "★".repeat(r.stars) + "☆".repeat(3 - r.stars)));
+      panel.appendChild(scEl("p", "sc-sub", r.firstTry ? `${SC_LINES.firstTry} First-try run: ${r.streak}.` : SC_LINES.rest));
+      for (const b of r.badges) panel.appendChild(scEl("p", null, `${SC_LINES.badge}: ${b.name}`));
+      if (r.trail.length) {
+        panel.appendChild(scEl("p", "sc-sub", SC_LINES.trail));
+        const ul = scEl("ul");
+        for (const t of r.trail) ul.appendChild(scEl("li", null, `${t.title} · ${t.metres < 10 ? "right here" : `${t.metres} m ${t.dir}`}`));
+        panel.appendChild(ul);
+      }
+      const row = scEl("div", "sc-row");
+      const done = scEl("button", "sc-go", SC_LINES.done); done.onclick = close;
+      row.appendChild(done);
+      const href = opts.stationHref?.(L);
+      if (href) { const a = scEl("a", null, "The full classroom station"); a.href = href; row.appendChild(a); }
+      const board = scEl("a", null, "Your scoreboard"); board.href = opts.boardHref ?? "../scholar/index.html"; row.appendChild(board);
+      panel.appendChild(row);
+      done.focus();
+    }
+  }
+
+  function open(id) {
+    session = scStartSession(id ?? near?.id, { world, parish: opts.parish, site: near?.site, pos });
+    if (!session) return false;
+    chip.hidden = true; panel.hidden = false;
+    render(scStep(session));
+    return true;
+  }
+  function close() { panel.hidden = true; session = null; }
+
+  chipGo.onclick = () => open();
+  addEventListener("keydown", (e) => {
+    if (e.code === "KeyL" && !e.repeat && near && panel.hidden && !chip.hidden) { e.preventDefault(); open(); }
+    else if (e.code === "Escape" && !panel.hidden) close();
+  });
+
+  return {
+    tick(x, z) {
+      pos = [x, z];
+      near = pathOn() ? scNearby(pos, lessons, opts.reach ?? SC_REACH)[0] ?? null : null;
+      const show = !!near && panel.hidden;
+      const text = show ? `${SC_LINES.offer} ${near.title} (L)` : "";
+      if (show && chipText.textContent !== text) chipText.textContent = text;
+      if (chip.hidden === show) chip.hidden = !show;
+    },
+    open, close, isOpen: () => !panel.hidden, chipLesson: () => near, lessons,
+  };
+}
+
+
 /* ===== shared/auth.js ===== */
 /**
  * Sign-in options for a static training page — honestly scoped.
@@ -33044,6 +33572,11 @@ function rwWaypoint(act, w) {
 // Redwood's lessons in the shared K-12 shape: one passport award kind and one
 // Field Notes badge across every world (WebXR/shared/field-kiosk.js).
 const RW_K2 = RW_FIELD_LESSONS.map((l) => k2AdaptLesson(l, "redwood"));
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson (L opens it).
+const rwScholar = scMountSession({
+  world: "redwood", lessons: RW_FIELD_LESSONS, siteAt: (_p, siteId) => rwSite(siteId)?.position ?? null,
+  stationHref: (l) => lkStationLink(l.k12, { runner: RW_RUNNER, from: "redwood", page: ppHerePage(), siteId: l.site }), award: ppAward, awarded: ppAwarded,
+});
 function rwRunLesson(fl) {
   let i = 0;
   const next = () => {
@@ -33242,6 +33775,7 @@ function rwTick(dt) {
   const near = rwNearest();
   rwApp.near = near;
   rwQmApproach(near);
+  rwScholar.tick(rwApp.x, rwApp.z);
   const prompt = $("hud-prompt");
   if (near) {
     prompt.hidden = false;

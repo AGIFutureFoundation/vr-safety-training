@@ -1,7 +1,7 @@
 // SCHOLAR — the in-world lesson session panel (docs/consoles/SCHOLAR.md). DOM only, no three.js.
 //
-// SEAM: scMountSession({ world, lessons, parish?, stationHref?, award?, awarded?, host? })
-//   -> { tick(x, z), open(lessonId), close(), isOpen(), chipLesson() }
+// SEAM: scMountSession({ world, lessons, parish?, siteAt?, stationHref?, award?, awarded?, path?, host?, boardHref? })
+//   -> { tick(x, z), open(lessonId), close(), isOpen(), chipLesson(), lessons }
 // `lessons` are raw lessons in any world's shape (registered here through scRegisterLessons);
 // `tick` runs a few times a second with the learner's position: within reach of a lesson's site a
 // chip offers the session (L or a tap). The panel walks the steps one at a time, then the check;
@@ -32,7 +32,7 @@ function scEl(tag, cls, text) { const e = document.createElement(tag); if (cls) 
 
 /** Mount the session chip and panel in a world page. Returns the controller described above. */
 export function scMountSession(opts = {}) {
-  if (typeof document === "undefined") return { tick() {}, open() { return false; }, close() {}, isOpen: () => false, chipLesson: () => null };
+  if (typeof document === "undefined") return { tick() {}, open() { return false; }, close() {}, isOpen: () => false, chipLesson: () => null, lessons: [] };
   const world = opts.world ?? "parishes";
   const lessons = scRegisterLessons(opts.lessons ?? [], { world, parish: opts.parish, siteAt: opts.siteAt });
   const host = opts.host ?? document.body;
@@ -45,7 +45,9 @@ export function scMountSession(opts = {}) {
 
   const pathOn = () => {
     let p = null;
-    try { p = typeof stChosenPath === "function" ? stChosenPath() : null; } catch (_) { p = null; } // eslint-disable-line no-undef
+    // STORYLINE's seam: the world passes `path` (its stChosenPath) when it has one; else a page-level global, guarded.
+    const get = typeof opts.path === "function" ? opts.path : globalThis.stChosenPath;
+    try { p = typeof get === "function" ? get() : null; } catch (_) { p = null; }
     const id = p && typeof p === "object" ? p.id : p;
     return SC_PATHS_ON.includes(id);
   };
@@ -83,7 +85,7 @@ export function scMountSession(opts = {}) {
       if (r.trail.length) {
         panel.appendChild(scEl("p", "sc-sub", SC_LINES.trail));
         const ul = scEl("ul");
-        for (const t of r.trail) ul.appendChild(scEl("li", null, `${t.title} · ${t.metres} m ${t.dir}`));
+        for (const t of r.trail) ul.appendChild(scEl("li", null, `${t.title} · ${t.metres < 10 ? "right here" : `${t.metres} m ${t.dir}`}`));
         panel.appendChild(ul);
       }
       const row = scEl("div", "sc-row");
@@ -121,6 +123,6 @@ export function scMountSession(opts = {}) {
       if (show && chipText.textContent !== text) chipText.textContent = text;
       if (chip.hidden === show) chip.hidden = !show;
     },
-    open, close, isOpen: () => !panel.hidden, chipLesson: () => near,
+    open, close, isOpen: () => !panel.hidden, chipLesson: () => near, lessons,
   };
 }

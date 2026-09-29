@@ -88,6 +88,7 @@
 <script type="module">
 import { scSessions, scSummary, scBoard, scShareToClass, scSetNick, scSetOptOut, scLoad, scNormaliseCode, scExportBoard, scImportBoard, scWorldKey, scWorldName, SC_SUBJECTS, SC_SET_SIZE } from "../shared/sc-scholar.js";
 import { SC_LESSONS, SC_WORLD_PAGES } from "../shared/sc-lessons.js";
+import { enCohorts } from "../shared/org.js";
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
@@ -133,7 +134,8 @@ function render() {
 }
 
 function renderBoard(code) {
-  const b = scBoard(code);
+  let cohorts = []; try { cohorts = enCohorts(); } catch (_) { cohorts = []; }
+  const b = scBoard(code, { cohorts });
   const t = $("sc-board"), you = $("sc-you");
   if (!b) { t.hidden = true; you.hidden = true; return; }
   const tb = t.tBodies[0]; tb.textContent = "";

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * SCHOLAR (Holodeck Packs run, second wave; docs/consoles/SCHOLAR.md, docs/k12.md section 10):
+ * SCHOLAR (Holodeck Packs run, second wave; docs/consoles/SCHOLAR.md, docs/k12.md "Lesson sessions and the scoreboard"):
  * K-12 lessons as you explore, with a scoreboard.
  *
  *   1. every lesson that can start a session resolves to a classroom station (a real room in a
@@ -165,6 +165,7 @@ console.log(`  · sources: ${Object.entries(bySource).map(([k, v]) => `${k} ${v}
   const b2 = SC.scBoard(code, { entries, me: "m2" });
   if (b2.you?.rank !== 2) fail("board", `a learner in the top ten sees their rank (got ${b2.you?.rank})`); else ok();
   if (SC.scBoard("abc", { entries })) fail("board", "a malformed class code returned a board"); else ok();
+  if (SC.scBoard(code, { entries, cohorts: [{ code, name: "Room Maple" }] })?.cohort !== "Room Maple") fail("board", "the organisation layer's cohort name does not reach the board"); else ok();
   // the device's own flow: share, opt out, export, import re-cleans
   SC.scSetNick("Star Reader");
   const e = SC.scShareToClass("abcd efgh", { name: "Jane Smith" });

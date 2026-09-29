@@ -382,6 +382,7 @@ const scSession = scMountSession({
   siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
   stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
 });
+window.scSessionPanel = scSession; // the headless session test drives it (docs/consoles/SCHOLAR.md)
 
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;

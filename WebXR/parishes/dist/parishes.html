@@ -38867,7 +38867,7 @@ function byCounts() {
 //       Stars: 3 on a first-try answer, 2 on the second, 1 after that. Nothing is taken away.
 //   scSessions() -> [{ id, lessonId, world, parish, site, k12, subject, tries, stars, firstTry, at }]
 //       Every finished session on this device, oldest first (DEAN reads this for progress).
-//   scBoard(classCode, { entries?, me? }) -> { code, cohort, top: [{ rank, name, stars, sessions }],
+//   scBoard(classCode, { entries?, me?, cohorts? }) -> { code, cohort, top: [{ rank, name, stars, sessions }],
 //       you: { name, stars, sessions, bestStreak, rank|null } | null, hidden, total }
 //       A class leaderboard: first names or chosen nicknames only, top ten plus "your best"
 //       (no rank shown below the top ten), opted-out learners hidden.
@@ -38913,7 +38913,7 @@ const SC_LINES = {
   check: "Now the check.",
   right: "Yes! Well done.",
   firstTry: "First try. Three stars.",
-  again: "Take another look. The why is below.",
+  again: "Take another look. Here is a clue.",
   rest: "Your run rests here. Try the next one.",
   trail: "Lessons near you",
   badge: "New badge",
@@ -39224,8 +39224,8 @@ function scImportBoard(file, store) {
 
 /**
  * The class leaderboard. `opts.entries` overrides the stored board (the checker's fixtures);
- * `opts.me` names this learner's member handle. The cohort's name comes from the organisation
- * layer when it is loaded (`enCohorts`, guarded). Ranks are by stars, then sessions, then name.
+ * `opts.me` names this learner's member handle; `opts.cohorts` is the organisation layer's cohort list
+ * (org.js `enCohorts()`, passed by the page) for the class's name. Ranks are by stars, then sessions, then name.
  */
 function scBoard(classCode, opts = {}) {
   const code = scNormaliseCode(classCode);
@@ -39238,8 +39238,7 @@ function scBoard(classCode, opts = {}) {
   const top = shown.slice(0, SC_BOARD_TOP).map((e, i) => ({ rank: i + 1, name: e.nick, stars: e.stars, sessions: e.sessions, you: e.member === me }));
   const mine = all.find((e) => e.member === me) ?? null;
   const rank = mine && !mine.optOut ? shown.findIndex((e) => e.member === me) : -1;
-  let cohort = null;
-  try { cohort = (typeof enCohorts === "function" ? enCohorts() : []).find((c) => c.code === code)?.name ?? null; } catch (_) { cohort = null; } // eslint-disable-line no-undef
+  const cohort = (Array.isArray(opts.cohorts) ? opts.cohorts : []).find((c) => c?.code === code)?.name ?? null;
   return {
     code, cohort, top,
     you: mine ? { name: mine.nick, stars: mine.stars, sessions: mine.sessions, bestStreak: mine.bestStreak, rank: rank >= 0 && rank < SC_BOARD_TOP ? rank + 1 : null, optOut: mine.optOut } : null,
@@ -39251,8 +39250,8 @@ function scBoard(classCode, opts = {}) {
 /* ===== shared/sc-session-ui.js ===== */
 // SCHOLAR — the in-world lesson session panel (docs/consoles/SCHOLAR.md). DOM only, no three.js.
 //
-// SEAM: scMountSession({ world, lessons, parish?, stationHref?, award?, awarded?, host? })
-//   -> { tick(x, z), open(lessonId), close(), isOpen(), chipLesson() }
+// SEAM: scMountSession({ world, lessons, parish?, siteAt?, stationHref?, award?, awarded?, path?, host?, boardHref? })
+//   -> { tick(x, z), open(lessonId), close(), isOpen(), chipLesson(), lessons }
 // `lessons` are raw lessons in any world's shape (registered here through scRegisterLessons);
 // `tick` runs a few times a second with the learner's position: within reach of a lesson's site a
 // chip offers the session (L or a tap). The panel walks the steps one at a time, then the check;
@@ -39282,7 +39281,7 @@ function scEl(tag, cls, text) { const e = document.createElement(tag); if (cls) 
 
 /** Mount the session chip and panel in a world page. Returns the controller described above. */
 function scMountSession(opts = {}) {
-  if (typeof document === "undefined") return { tick() {}, open() { return false; }, close() {}, isOpen: () => false, chipLesson: () => null };
+  if (typeof document === "undefined") return { tick() {}, open() { return false; }, close() {}, isOpen: () => false, chipLesson: () => null, lessons: [] };
   const world = opts.world ?? "parishes";
   const lessons = scRegisterLessons(opts.lessons ?? [], { world, parish: opts.parish, siteAt: opts.siteAt });
   const host = opts.host ?? document.body;
@@ -39295,7 +39294,9 @@ function scMountSession(opts = {}) {
 
   const pathOn = () => {
     let p = null;
-    try { p = typeof stChosenPath === "function" ? stChosenPath() : null; } catch (_) { p = null; } // eslint-disable-line no-undef
+    // STORYLINE's seam: the world passes `path` (its stChosenPath) when it has one; else a page-level global, guarded.
+    const get = typeof opts.path === "function" ? opts.path : globalThis.stChosenPath;
+    try { p = typeof get === "function" ? get() : null; } catch (_) { p = null; }
     const id = p && typeof p === "object" ? p.id : p;
     return SC_PATHS_ON.includes(id);
   };
@@ -39333,7 +39334,7 @@ function scMountSession(opts = {}) {
       if (r.trail.length) {
         panel.appendChild(scEl("p", "sc-sub", SC_LINES.trail));
         const ul = scEl("ul");
-        for (const t of r.trail) ul.appendChild(scEl("li", null, `${t.title} · ${t.metres} m ${t.dir}`));
+        for (const t of r.trail) ul.appendChild(scEl("li", null, `${t.title} · ${t.metres < 10 ? "right here" : `${t.metres} m ${t.dir}`}`));
         panel.appendChild(ul);
       }
       const row = scEl("div", "sc-row");
@@ -39371,7 +39372,7 @@ function scMountSession(opts = {}) {
       if (show && chipText.textContent !== text) chipText.textContent = text;
       if (chip.hidden === show) chip.hidden = !show;
     },
-    open, close, isOpen: () => !panel.hidden, chipLesson: () => near,
+    open, close, isOpen: () => !panel.hidden, chipLesson: () => near, lessons,
   };
 }
 
@@ -47892,6 +47893,7 @@ const scSession = scMountSession({
   siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
   stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
 });
+window.scSessionPanel = scSession; // the headless session test drives it (docs/consoles/SCHOLAR.md)
 
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;

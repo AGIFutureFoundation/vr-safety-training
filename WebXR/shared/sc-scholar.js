@@ -1,5 +1,5 @@
 // SCHOLAR — K-12 lessons as you explore, with a scoreboard (Holodeck Packs run, second wave;
-// docs/consoles/SCHOLAR.md, docs/k12.md section 10).
+// docs/consoles/SCHOLAR.md, docs/k12.md "Lesson sessions and the scoreboard").
 //
 // The pure core: no DOM, no three.js. A world registers the K-12 lessons it can play
 // (scRegisterLessons), the session panel (sc-session-ui.js) starts one when the learner
@@ -15,7 +15,7 @@
 //       Stars: 3 on a first-try answer, 2 on the second, 1 after that. Nothing is taken away.
 //   scSessions() -> [{ id, lessonId, world, parish, site, k12, subject, tries, stars, firstTry, at }]
 //       Every finished session on this device, oldest first (DEAN reads this for progress).
-//   scBoard(classCode, { entries?, me? }) -> { code, cohort, top: [{ rank, name, stars, sessions }],
+//   scBoard(classCode, { entries?, me?, cohorts? }) -> { code, cohort, top: [{ rank, name, stars, sessions }],
 //       you: { name, stars, sessions, bestStreak, rank|null } | null, hidden, total }
 //       A class leaderboard: first names or chosen nicknames only, top ten plus "your best"
 //       (no rank shown below the top ten), opted-out learners hidden.
@@ -62,7 +62,7 @@ export const SC_LINES = {
   check: "Now the check.",
   right: "Yes! Well done.",
   firstTry: "First try. Three stars.",
-  again: "Take another look. The why is below.",
+  again: "Take another look. Here is a clue.",
   rest: "Your run rests here. Try the next one.",
   trail: "Lessons near you",
   badge: "New badge",
@@ -373,8 +373,8 @@ export function scImportBoard(file, store) {
 
 /**
  * The class leaderboard. `opts.entries` overrides the stored board (the checker's fixtures);
- * `opts.me` names this learner's member handle. The cohort's name comes from the organisation
- * layer when it is loaded (`enCohorts`, guarded). Ranks are by stars, then sessions, then name.
+ * `opts.me` names this learner's member handle; `opts.cohorts` is the organisation layer's cohort list
+ * (org.js `enCohorts()`, passed by the page) for the class's name. Ranks are by stars, then sessions, then name.
  */
 export function scBoard(classCode, opts = {}) {
   const code = scNormaliseCode(classCode);
@@ -387,8 +387,7 @@ export function scBoard(classCode, opts = {}) {
   const top = shown.slice(0, SC_BOARD_TOP).map((e, i) => ({ rank: i + 1, name: e.nick, stars: e.stars, sessions: e.sessions, you: e.member === me }));
   const mine = all.find((e) => e.member === me) ?? null;
   const rank = mine && !mine.optOut ? shown.findIndex((e) => e.member === me) : -1;
-  let cohort = null;
-  try { cohort = (typeof enCohorts === "function" ? enCohorts() : []).find((c) => c.code === code)?.name ?? null; } catch (_) { cohort = null; } // eslint-disable-line no-undef
+  const cohort = (Array.isArray(opts.cohorts) ? opts.cohorts : []).find((c) => c?.code === code)?.name ?? null;
   return {
     code, cohort, top,
     you: mine ? { name: mine.nick, stars: mine.stars, sessions: mine.sessions, bestStreak: mine.bestStreak, rank: rank >= 0 && rank < SC_BOARD_TOP ? rank + 1 : null, optOut: mine.optOut } : null,
