@@ -8,7 +8,7 @@ import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
 import { mgMountLife } from "../../shared/mg-life.js";
-import { ppCompleted, ppHerePage, ppReturnSite, ppRecords, ppAward } from "../../shared/passport.js";
+import { ppCompleted, ppHerePage, ppReturnSite, ppRecords, ppAward, ppAwarded } from "../../shared/passport.js";
 import { tyLedger, tySettle, tyTick, tySignsFor, tyMountLedger, tyBoardRows, tySetRecorder, TY_CURRENCY } from "../../shared/ty-economy.js";
 import { lkStationLink, lkStationLabel, lkWorldLink } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
@@ -35,6 +35,8 @@ import { stMountPaths } from "../../shared/st-stories.js";
 import { pkPacksAt, PK_BRAND_LINE } from "../../shared/pk-packs.js";
 import { Auth } from "../../shared/auth.js";
 import { dnApplyModule, dnSetEnterprise } from "../../shared/dn-modules.js";
+import { byLessonsFor } from "../../shared/by-parish-lessons.js";
+import { scMountSession } from "../../shared/sc-session-ui.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -461,6 +463,7 @@ function frame(now) {
     npVisitT = 0;
     np.near = npNearest();
     npQmApproach(np.near);
+    if (np.playing) scSession.tick(np.x, np.z);
     for (const s of parish.sites) if (Math.hypot(np.x - s.position[0], np.z - s.position[1]) < 40 && npVisit(np.state, parish.id, s.id)) { npToast(`Visited: ${s.name}. Fast travel unlocked.`); npSave(np.state); }
   }
   if (npHudT > 0.25 && np.playing) { npHudT = 0; npHud(); }
@@ -468,6 +471,14 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
+
+// SCHOLAR: a K-12 lesson session when the learner reaches a site with a field lesson or a BAYOU lesson.
+const scSession = scMountSession({
+  world: "parishes", parish: parish.id, lessons: [...(parish.fieldLessons ?? []), ...byLessonsFor(parish.id)],
+  siteAt: (_p, siteId) => parish.sites.find((s) => s.id === siteId)?.position ?? null,
+  stationHref: (l) => (l.k12 ? npLink(l.k12, l.site) : null), award: ppAward, awarded: ppAwarded,
+});
+window.scSessionPanel = scSession; // the headless session test drives it (docs/consoles/SCHOLAR.md)
 
 function npBegin() {
   $("menu").hidden = true; $("hud").hidden = false; np.playing = true;

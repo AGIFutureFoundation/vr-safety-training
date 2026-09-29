@@ -662,6 +662,8 @@ APPS = {
             SHARED / "passport.js",
             SHARED / "field-lessons.js",  # the K-12 list call
             SHARED / "field-kiosk.js",  # the shared field-lesson passport award (after passport.js)
+            SHARED / "sc-scholar.js",  # SCHOLAR: the K-12 lesson session and its scoring
+            SHARED / "sc-session-ui.js",
             SHARED / "auth.js",
             SHARED / "account.js",
             SHARED / "controls.js",
@@ -790,6 +792,10 @@ APPS = {
             SHARED / "side-game-mechanics.js",
             SHARED / "skill-gates-ui.js",
             SHARED / "sl-parish-play.js",
+            # SCHOLAR (the Packs run, second wave): BAYOU's parish lessons and the K-12 lesson session panel.
+            SHARED / "by-parish-lessons.js",
+            SHARED / "sc-scholar.js",
+            SHARED / "sc-session-ui.js",
             # ASSAYER (the Bayou run): GRIOT's characters on the parish sites (after crew.js and links.js) and
             # MOTORPOOL's board (pure registry and the DOM-only board; no builder, so no kit weight).
             SHARED / "crew.js",
@@ -927,6 +933,7 @@ APPS = {
 # "flows" is not an app but is reached the same way: the instructor console
 # fetches "../flows/index.json", which needs the same one-level fixup in dist.
 SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "packs"]
+SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows", "scholar"]  # scholar: the K-12 scoreboard (SCHOLAR)
 AUTH_CONFIG = "auth-config.json"
 # The apps whose bundle reads the sign-in configuration, and therefore need a
 # copy of it beside the bundle. A deployment edits the copy it serves.
