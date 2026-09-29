@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 690
+      "stations": 691
     },
     "trades": {
       "entry": "trades/index.html",
@@ -136,6 +136,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "bk-wastewater-nutrient-chemical-feed",
         "br-beach-seine-fish-survey-and-handling",
         "br-volunteer-cleanup-day-safety-lead",
         "cs-non-entry-retrieval-and-tripod",
@@ -3953,6 +3954,11 @@
         },
         {
           "app": "smartcity",
+          "id": "bk-wastewater-nutrient-chemical-feed",
+          "why": "Nutrient reduction at a treatment plant is a chemical feed skid and an aeration basin: the SDS read, the metering pump locked out and bled, the dose calibrated, and the basin read from behind the rail."
+        },
+        {
+          "app": "smartcity",
           "id": "chlorine-room",
           "why": "Treatment plant operators work beside chemical feed every shift, and the room monitor, respirator and leak test come before any cylinder is touched."
         },
@@ -3980,7 +3986,7 @@
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1664,
+        "lessons": 1667,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -10108,6 +10114,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bk-wastewater-nutrient-chemical-feed",
+      "name": "Nutrient Reduction Chemical Feed and Aeration",
+      "title": "SmartCiti.X~ Nutrient Reduction Chemical Feed and Aeration VR",
+      "tagline": "A treatment plant's nutrient-removal rounds: the order and the SDS read, splash gear on, the feed area walked, the eyewash flushed, the metering pump locked out, the line bled, the drip tray set, the pump calibrated while a fitting sprays, the dose read, the basin walkway walked, the oxygen probe pulled while a coworker leans for a hard hat, the oxygen read, logged and the crew checked in",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Wastewater treatment plant operator on the nutrient-removal rounds: the chemical feed skid and the aeration basin",
+      "union": null,
+      "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.1200 hazard communication and the chemical's safety data sheet; 29 CFR 1910.132 and 1910.133 for the splash protection; ANSI Z358.1 for the eyewash and safety shower; 29 CFR 1910.147 control of hazardous energy for the metering pump; 29 CFR 1910.22 and 1910.23 walking-working surfaces and guardrails on the basin walkway; NFPA 820 for the plant's classified areas; NIOSH findings on drownings in aerated tanks",
+      "accent": "#b07ad8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": false,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "drag",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "dose-and-air",
+        "name": "Dose And Air",
+        "note": "The feed calibrated and the basin read without a splash on skin or a hand over the rail"
+      },
+      "meshes": 169,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BK-3",
+      "flat": false,
+      "system": "Nutrient Rounds",
+      "currency": "DOSE",
+      "ranks": [
+        "Rounds Trainee",
+        "Feed Hand",
+        "Process Operator",
+        "Shift Operator",
+        "Nutrient Rounds Certified"
+      ],
+      "awards": [
+        {
+          "id": "sds-first",
+          "name": "SDS First",
+          "note": "The order and the safety data sheet read and the feed area walked before a fitting was touched"
+        },
+        {
+          "id": "no-splash",
+          "name": "No Splash",
+          "note": "Never over the rail, never a line broken live, never chemicals mixed, never a drum poured overhead"
+        },
+        {
+          "id": "true-reads",
+          "name": "True Reads",
+          "note": "Dose and oxygen both committed inside their bands"
+        },
+        {
+          "id": "clean-rounds",
+          "name": "Clean Rounds",
+          "note": "No corrections from the order to the check-in"
+        },
+        {
+          "id": "steady-draw",
+          "name": "Steady Draw",
+          "note": "Held the calibration draw in band throughout"
+        },
+        {
+          "id": "on-shift",
+          "name": "On Shift",
+          "note": "Rounds logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bk-wastewater-nutrient-chemical-feed"
     },
     {
       "app": "smartcity",
@@ -36853,7 +36942,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

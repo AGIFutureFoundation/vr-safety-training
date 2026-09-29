@@ -62,7 +62,7 @@ export const BK_PROJECTS = [
   {
     id: "bacwa-nutrient-pilots", recipient: "Bay Area Clean Water Agencies (BACWA)", amount: "$7 million", place: "Bay-wide",
     does: "five pilot projects aimed at reducing nutrient inputs to San Francisco Bay",
-    stations: ["chlorine-room", "digester-gas", "lift-station"],
+    stations: ["bk-wastewater-nutrient-chemical-feed", "chlorine-room", "digester-gas"],
     unions: ["uwua", "afscme"],
     marker: { ...REGIONAL },
   },
@@ -120,7 +120,7 @@ export const BK_CATEGORY_STATIONS = {
   "fish habitat": ["br-culvert-retrofit-for-fish-passage", "br-fish-screen-maintenance", "br-beach-seine-fish-survey-and-handling"],
   "tidal marsh and wetland restoration": ["br-tidal-marsh-grading-amphibious-excavator", "br-native-planting-and-erosion-mats"],
   "sediment management": ["br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment"],
-  "nutrient reduction": ["chlorine-room", "digester-gas"],
+  "nutrient reduction": ["bk-wastewater-nutrient-chemical-feed", "chlorine-room", "digester-gas"],
 };
 
 export const BK_CLEAN_PORTS = {

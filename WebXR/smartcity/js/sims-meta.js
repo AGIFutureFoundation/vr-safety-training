@@ -29260,5 +29260,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bk-wastewater-nutrient-chemical-feed",
+    "index": "BK-3",
+    "domain": "Environmental",
+    "trade": "Wastewater treatment plant operator on the nutrient-removal rounds: the chemical feed skid and the aeration basin",
+    "category": "Water & Environmental",
+    "certification": "California State Water Resources Control Board wastewater treatment plant operator certification practice; OSHA 29 CFR 1910.1200 hazard communication and the chemical's safety data sheet; 29 CFR 1910.132 and 1910.133 for the splash protection; ANSI Z358.1 for the eyewash and safety shower; 29 CFR 1910.147 control of hazardous energy for the metering pump; 29 CFR 1910.22 and 1910.23 walking-working surfaces and guardrails on the basin walkway; NFPA 820 for the plant's classified areas; NIOSH findings on drownings in aerated tanks",
+    "name": "Nutrient Reduction Chemical Feed and Aeration",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Nutrient Reduction Chemical Feed and Aeration VR",
+    "tagline": "A treatment plant's nutrient-removal rounds: the order and the SDS read, splash gear on, the feed area walked, the eyewash flushed, the metering pump locked out, the line bled, the drip tray set, the pump calibrated while a fitting sprays, the dose read, the basin walkway walked, the oxygen probe pulled while a coworker leans for a hard hat, the oxygen read, logged and the crew checked in",
+    "accent": 11565784,
+    "accentCss": "#b07ad8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "dose-and-air",
+      "name": "Dose And Air",
+      "note": "The feed calibrated and the basin read without a splash on skin or a hand over the rail"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nutrient Rounds",
+      "currency": "DOSE",
+      "ranks": [
+        "Rounds Trainee",
+        "Feed Hand",
+        "Process Operator",
+        "Shift Operator",
+        "Nutrient Rounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
