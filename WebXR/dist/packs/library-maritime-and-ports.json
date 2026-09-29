@@ -16,6 +16,7 @@
     "ports-maritime-ecology",
     "rigging-lifting",
     "situational-awareness",
+    "wojrc-pathway-edition",
     "yacht-and-charter-crew"
   ],
   "stations": [
@@ -34,6 +35,22 @@
     {
       "app": "smartcity",
       "id": "bunkering-watch"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-charging-yard-connectors-and-e-stops"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
     },
     {
       "app": "smartcity",
@@ -318,6 +335,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "estuary-research-dock",
         "estuary-marina-boatyard",
         "island-yacht-harbor",
@@ -458,6 +476,10 @@
     "container-lashing": "Container Lashing",
     "mooring-line": "Mooring Line",
     "bunkering-watch": "Bunkering Watch",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-charging-yard-connectors-and-e-stops": "Charging Yard: Connectors, E-Stops and Cable Management",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "yc-shore-power-connection-and-in-water-electrical-safety": "Shore Power Connection & In-Water Electrical Safety",
     "yc-tender-launch-and-guest-transfer": "Tender Launch & Guest Transfer",
     "yc-galley-fire-and-fixed-system": "Galley Fire & Fixed System",
@@ -528,7 +550,7 @@
     "cd-underwater-wet-welding-and-cutting": "Underwater Wet Welding & Cutting — Surface Side"
   },
   "version": "1.0.0",
-  "contentHash": "dca28bf6",
+  "contentHash": "31c55fdf",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -72,6 +72,8 @@ const CHECKERS = [
   "check_newton.mjs",
   // REACTOR: the engine's hot-path shortcuts are exact, and the per-map boot and streaming profile (docs/consoles/REACTOR.md).
   "check_reactor.mjs",
+  // CLEANPORTS: zero-emission port stations, drivables and the WOJRC zero-emission careers level (docs/consoles/CLEANPORTS.md).
+  "check_cleanports.mjs",
   "check_unity_export.mjs",
   // The SmartCiti.X Powered by AGI Corp Holodeck Packs: manifests, registry, page, per-pack export (docs/consoles/PACKS.md).
   "check_packs.mjs",

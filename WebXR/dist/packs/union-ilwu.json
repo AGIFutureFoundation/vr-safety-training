@@ -61,6 +61,18 @@
     },
     {
       "app": "smartcity",
+      "id": "cp-zero-emission-terminal-equipment-pre-use"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-hydrogen-fuel-cell-equipment-and-fuelling"
+    },
+    {
+      "app": "smartcity",
+      "id": "cp-high-voltage-lockout-on-electric-cargo-equipment"
+    },
+    {
+      "app": "smartcity",
       "id": "br-benthic-grab-and-invertebrate-sorting"
     },
     {
@@ -544,6 +556,7 @@
       "world": "bayworld",
       "sites": [
         "port-container-terminal",
+        "port-maintenance-shop",
         "estuary-research-dock",
         "estuary-marina-boatyard",
         "downtown-tower-site",
@@ -736,6 +749,9 @@
     "forklift-dock": "Forklift Dock",
     "fly-system": "Fly System",
     "bunkering-watch": "Bunkering Watch",
+    "cp-zero-emission-terminal-equipment-pre-use": "Zero-Emission Terminal Equipment Pre-Use",
+    "cp-hydrogen-fuel-cell-equipment-and-fuelling": "Hydrogen Fuel Cell Equipment and Fuelling",
+    "cp-high-voltage-lockout-on-electric-cargo-equipment": "High-Voltage Lockout on Electric Cargo Equipment",
     "br-benthic-grab-and-invertebrate-sorting": "Benthic Grab & Invertebrate Sorting",
     "br-beach-seine-fish-survey-and-handling": "Beach Seine Fish Survey & Handling",
     "br-restoration-data-qa-and-public-reporting": "Restoration Data QA & Public Reporting",
@@ -856,7 +872,7 @@
     "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management"
   },
   "version": "1.0.0",
-  "contentHash": "1ac5e7d5",
+  "contentHash": "e9dacc81",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
