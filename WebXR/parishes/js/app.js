@@ -7,6 +7,7 @@ import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { weatherFor } from "../../shared/weather.js";
 import { buildSky } from "../../shared/sky.js";
 import { buildWildlife } from "../../shared/wildlife.js";
+import { mgMountLife } from "../../shared/mg-life.js";
 import { ppCompleted, ppHerePage, ppReturnSite } from "../../shared/passport.js";
 import { lkStationLink, lkStationLabel, lkWorldLink } from "../../shared/links.js";
 import { mapboxToken } from "../../shared/mapbox.js";
@@ -118,6 +119,24 @@ if (npWetland) { const c = npMid(npWetland.poly); npWild.push(buildWildlife(root
 if (npLake) { const c = npMid(npLake.poly); npWild.push(buildWildlife(root, { zone: { x: c[0], z: Math.max(c[1], -1900), w: 600, d: 200, y: 0 }, kind: "pelicans", count: 4 })); }
 if (npRiver) { const c = npRiver.poly[Math.floor(npRiver.poly.length / 2)]; npWild.push(buildWildlife(root, { zone: { x: c[0], z: c[1], w: 500, d: 160, y: 0 }, kind: "herons", count: 3 })); }
 
+// MENAGERIE: pets, animals and passers-by on the streets (docs/consoles/MENAGERIE.md), one InstancedMesh per kind.
+// CITYWORKS's sidewalks and colliders are passed when that module is in the tree (the seam: cwSidewalkAt, cwColliders);
+// without them the passers-by keep to the road edges. The night routine re-places life when T reaches night.
+let mgLife = null;
+function mgRemount() {
+  mgLife?.dispose();
+  const cwSide = globalThis.cwSidewalkAt, cwCol = globalThis.cwColliders;
+  mgLife = mgMountLife({
+    three: THREE, root, parish, tier: npTierName, night: NP_TIMES[np.timeIdx] === "night",
+    groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0),
+    sidewalkAt: typeof cwSide === "function" ? (x, z) => cwSide(parish, x, z) : undefined,
+    colliders: typeof cwCol === "function" ? (key) => cwCol(parish, key) : undefined,
+    pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
+    threats: () => globalThis.nwVehiclePositions?.(parish) ?? [],
+  });
+}
+mgRemount();
+
 addEventListener("resize", () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); npRenderer.setSize(innerWidth, innerHeight); });
 
 // ------------------------------------------------------------------ input
@@ -134,7 +153,7 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyM") npToggle("map");
   if (e.code === "KeyP") npToggle("parishes");
   if (e.code === "KeyB") asOpenMotorPool();
-  if (e.code === "KeyT") { np.timeIdx = (np.timeIdx + 1) % NP_TIMES.length; npApplySky(); }
+  if (e.code === "KeyT") { const wasNight = NP_TIMES[np.timeIdx] === "night"; np.timeIdx = (np.timeIdx + 1) % NP_TIMES.length; npApplySky(); if (wasNight !== (NP_TIMES[np.timeIdx] === "night")) mgRemount(); }
   if (e.code === "KeyF") { np.weatherIdx = (np.weatherIdx + 1) % NP_WEATHERS.length; npApplySky(); }
 });
 addEventListener("keyup", (e) => npKeys.delete(e.code));
@@ -359,6 +378,7 @@ function frame(now) {
   world.animate(dt);
   sky?.animate(now / 1000, dt, camera);
   for (const w of npWild) w.animate(now / 1000, dt);
+  mgLife?.animate(now / 1000, dt);
   asNpc.animate(now / 1000, dt);
   npHudT += dt; npVisitT += dt;
   if (npVisitT > 0.5) {
@@ -443,7 +463,7 @@ $("parishes-motorpool").addEventListener("click", asOpenMotorPool);
 window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); },
-  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, openMap: () => npToggle("map"),
+  krewe: kwDress, begin: npBegin, stats: () => world.stats(), npc: asNpc, motorPool: () => asOpenMotorPool(), setTime(i) { np.timeIdx = i; npApplySky(); mgRemount(); }, setWeather(i) { np.weatherIdx = i; npApplySky(); }, wildlife: npWild, life: () => mgLife, openMap: () => npToggle("map"),
 };
 
 /** The parish's own gated items plus the play layer's side games, each bound to a real site of this parish. */

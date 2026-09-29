@@ -15,7 +15,9 @@ import { gtStorage } from "../../shared/profiles.js";
 import { ctAvatarLoad } from "../../shared/crew.js";
 // NPC characters that pass knowledge along (console GRIOT, shared/npc.js): figures at the sites, G to talk.
 import { grMount } from "../../shared/npc.js";
-import { CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS } from "../../shared/bayworld-data.js";
+import { CT_BAY_LAYERS, CT_BAY_ASSETS, CT_BAY_ASSET_KINDS, BAY_ROADS, BAY_BOUNDS, bayZoneAt, bayRoadAt, txWaterTopAt } from "../../shared/bayworld-data.js";
+// MENAGERIE (docs/consoles/MENAGERIE.md): pets, animals and passers-by on the streets, instanced per kind.
+import { mgMountLife, mgBayMap } from "../../shared/mg-life.js";
 // K-12 field lessons in play (shared/field-kiosk.js): a kiosk per lesson, the lesson screen, the Field Notes badge.
 import { k2BuildKiosks, k2NearestKiosk, k2OpenLesson, k2KioskPrompt } from "../../shared/field-kiosk.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
@@ -604,6 +606,15 @@ function bwSetup3D() {
   // shared map carries.
   bwApp.pedestrians = BW_SITES.filter((_, i) => i % (tier.trafficScale < 1 ? 6 : 3) === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
+  // MENAGERIE: street life beside the site pedestrians — passers-by on the road edges, dogs, cats, pigeons, squirrels,
+  // gulls and sea lions at the waterfront; the traffic cars are threats (animals flee, passers-by step aside).
+  bwApp.life = mgMountLife({
+    three: THREE, root, tier: tier.trafficScale < 1 ? "low" : "high", night: bwApp.hours < 6 || bwApp.hours > 20,
+    map: mgBayMap({ roads: BAY_ROADS, sites: BW_SITES, zoneAt: (x, z) => bayZoneAt(x, z).id, roadAt: bayRoadAt, waterTopAt: txWaterTopAt, bounds: BAY_BOUNDS }),
+    groundAt: () => 0,
+    pos: () => (bwApp.screen === "game" && bwApp.mode === "foot" ? [bwApp.player.x, bwApp.player.z] : null),
+    threats: () => (bwApp.traffic ?? []).filter((v) => Number.isFinite(v.x)).map((v) => [v.x, v.z]),
+  });
 }
 
 function bwStep(dt) {
@@ -653,6 +664,7 @@ function bwStep(dt) {
   bwApp.world.placeCamera(bwApp.camera, bwApp.cameraMode, bwApp.player.x, 0, bwApp.player.z, bwApp.player.heading);
   bwApp.npcClock = (bwApp.npcClock ?? 0) + dt;
   bwApp.npc?.animate(bwApp.npcClock, dt);
+  bwApp.life?.animate(bwApp.npcClock, dt);
 
   bwApp.nearSite =bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
   bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_LANDMARKS, 16);
@@ -759,6 +771,7 @@ window.__bayworldTest = {
   asset: ctOpenAsset,
   assets: CT_BW_ASSETS,
   camera: () => bwApp.camera,
+  life: () => bwApp.life,
 };
 
 // The gated items with their site's display name, for the panel and the board rows.

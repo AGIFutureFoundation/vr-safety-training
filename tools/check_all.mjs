@@ -57,6 +57,8 @@ const CHECKERS = [
   // The five New Orleans parishes' play layer: the storm-season arc, side games, hand-offs, path boards (docs/parish-play.md).
   "check_parish_play.mjs",
   "check_krewe.mjs",
+  // MENAGERIE: pets, animals and passers-by on the parish maps and Bay World (docs/consoles/MENAGERIE.md).
+  "check_menagerie.mjs",
   // The Motor Pool: fifty drivables and twenty watercraft, their kit, gates and drive runs (docs/consoles/MOTORPOOL.md).
   "check_drivables.mjs",
   "check_unity_export.mjs",
