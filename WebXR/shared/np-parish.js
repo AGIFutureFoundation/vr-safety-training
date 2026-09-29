@@ -354,6 +354,85 @@ export function npHillRise(parish, x, z) {
   return rise;
 }
 
+/**
+ * BACKDROPS-2 (docs/geo.md §4): real relief from a committed USGS 3DEP height grid, opt-in per map. A map carries
+ * `relief: "3dep"` in its data and np-parishes.js attaches `reliefGrid` ({ grid, heights: integer decimetres, row = z,
+ * column = x, corners included, over the whole field }) from bd2-relief-data.js, which tools/geo_relief.py writes. Scaled
+ * into the map's schematic range the way RELIEF's Mapbox relief is (rl-relief.js; the constants below equal its RL_
+ * ones, check_geo proves it): the dry field's real range (2nd to 98th percentile, sea level at the bottom) squeezed under
+ * the tallest named hill (3 m on a map with none) and never more than 0.5 map metres per real metre; faded to nothing
+ * within 96 m of open water so water stays level with its banks; pads terrace at the rise (npHeightAt); water beds ignore
+ * it. The heights shape the schematic ground only: no figure is ever quoted from them.
+ */
+export const NP_DEM = { flatCap: 3, maxRatio: 0.5, shore: 96, grid: 8, pLo: 0.02, pHi: 0.98 };
+const npDemCache = new WeakMap();
+
+/** The prepared 3DEP sampler for a map with `relief: "3dep"` and a grid, or null: { at(x, z), raw(x, z), lo, hi, scale, cap, cachedChunks() }. */
+export function npDemSampler(parish) {
+  if (parish?.relief !== "3dep" || !parish.reliefGrid) return null;
+  let s = npDemCache.get(parish);
+  if (s) return s;
+  const { grid: G, heights } = parish.reliefGrid, half = (parish.size ?? NP_SIZE) / 2;
+  /** Real metres at (x, z), bilinear between grid nodes. */
+  const raw = (x, z) => {
+    const u = npClamp((x + half) / (2 * half), 0, 1) * (G - 1), v = npClamp((z + half) / (2 * half), 0, 1) * (G - 1);
+    const i = Math.min(G - 2, Math.floor(u)), j = Math.min(G - 2, Math.floor(v)), tu = u - i, tv = v - j;
+    const a = heights[j * G + i], b = heights[j * G + i + 1], c = heights[(j + 1) * G + i], d = heights[(j + 1) * G + i + 1];
+    return ((a * (1 - tu) + b * tu) * (1 - tv) + (c * (1 - tu) + d * tu) * tv) / 10;
+  };
+  const dry = [];
+  for (let j = 0; j <= 32; j++) for (let i = 0; i <= 32; i++) {
+    const x = -half + (i / 32) * half * 2, z = -half + (j / 32) * half * 2;
+    if (!npWaterAt(parish, x, z)) dry.push(raw(x, z));
+  }
+  dry.sort((p, q) => p - q);
+  const lo = Math.max(0, dry.length ? dry[Math.floor(NP_DEM.pLo * (dry.length - 1))] : 0);
+  const hi = dry.length ? dry[Math.floor(NP_DEM.pHi * (dry.length - 1))] : lo;
+  const hs = (parish.hills ?? []).map((h) => h.height).filter((h) => h > 0);
+  const cap = hs.length ? Math.max(...hs) : NP_DEM.flatCap;
+  const scale = Math.min(NP_DEM.maxRatio, cap / Math.max(1, hi - lo));
+  const shoreFade = (x, z) => {
+    if (npWaterAt(parish, x, z)) return 0;
+    const ring = (r) => { for (let k = 0; k < 8; k++) { const a = (k / 8) * Math.PI * 2; if (npWaterAt(parish, x + Math.cos(a) * r, z + Math.sin(a) * r)) return true; } return false; };
+    if (!ring(NP_DEM.shore)) return 1;
+    for (const r of [NP_DEM.shore / 4, NP_DEM.shore / 2, (NP_DEM.shore * 3) / 4]) if (ring(r)) return npSmooth(0, NP_DEM.shore, r);
+    return npSmooth(0, NP_DEM.shore, NP_DEM.shore * 0.875);
+  };
+  // Per-chunk node grids (NP_DEM.grid + 1 nodes a side, 32 m apart), built on first use and cached by chunk key.
+  const n = NP_DEM.grid + 1, step = NP_CHUNK / NP_DEM.grid, chunks = Math.ceil((half * 2) / NP_CHUNK), grids = new Map();
+  const nodes = (ci, cj) => {
+    const key = ci * 4096 + cj;
+    let g = grids.get(key);
+    if (g) return g;
+    g = new Float32Array(n * n);
+    const x0 = -half + ci * NP_CHUNK, z0 = -half + cj * NP_CHUNK;
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+      const x = x0 + i * step, z = z0 + j * step;
+      const v = npClamp((raw(x, z) - lo) * scale, 0, cap);
+      g[j * n + i] = v > 0 ? v * shoreFade(x, z) : 0;
+    }
+    grids.set(key, g);
+    return g;
+  };
+  const at = (x, z) => {
+    const fx = npClamp(x + half, 0, half * 2 - 1e-6) / NP_CHUNK, fz = npClamp(z + half, 0, half * 2 - 1e-6) / NP_CHUNK;
+    const ci = Math.min(chunks - 1, Math.floor(fx)), cj = Math.min(chunks - 1, Math.floor(fz));
+    const g = nodes(ci, cj), u = (fx - ci) * NP_DEM.grid, v = (fz - cj) * NP_DEM.grid;
+    const i = Math.min(NP_DEM.grid - 1, Math.floor(u)), j = Math.min(NP_DEM.grid - 1, Math.floor(v)), tu = u - i, tv = v - j;
+    const a = g[j * n + i], b = g[j * n + i + 1], c = g[(j + 1) * n + i], d = g[(j + 1) * n + i + 1];
+    return (a * (1 - tu) + b * tu) * (1 - tv) + (c * (1 - tu) + d * tu) * tv;
+  };
+  s = { at, raw, lo, hi, scale, cap, cachedChunks: () => grids.size };
+  npDemCache.set(parish, s);
+  return s;
+}
+
+/** The 3DEP rise (map metres) at (x, z); 0 on a map without committed relief. */
+export function npDemRise(parish, x, z) {
+  const s = npDemSampler(parish);
+  return s ? s.at(x, z) : 0;
+}
+
 /** The hill a point stands on (the one raising it most), or null. */
 export function npHillAt(parish, x, z) {
   let best = null, bh = 0.05;
@@ -372,6 +451,8 @@ export function npHillAt(parish, x, z) {
  */
 export function npGroundRise(parish, x, z) {
   const hill = npHillRise(parish, x, z);
+  // BACKDROPS-2: a map with committed 3DEP relief uses it (the higher of it and the hills); the Mapbox hook never stacks on it.
+  if (parish?.relief === "3dep" && parish.reliefGrid) { const d = npDemRise(parish, x, z); return d > hill ? d : hill; }
   if (!NP_TERRAIN_HOOKS.relief) return hill;
   const rel = NP_TERRAIN_HOOKS.relief(parish, x, z);
   return rel > hill ? rel : hill;
@@ -418,7 +499,7 @@ export function npHeightAt(parish, x, z) {
   h += lv;
   for (const s of prep.sites) {
     const d = Math.hypot(x - s.position[0], z - s.position[1]);
-    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length || NP_TERRAIN_HOOKS.relief ? npGroundRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
+    if (d < NP_PAD * 1.8) { const pad = NP_GROUND + (prep.hills.length || NP_TERRAIN_HOOKS.relief || parish.reliefGrid ? npGroundRise(parish, s.position[0], s.position[1]) : 0); h = pad + (h - pad) * npSmooth(NP_PAD, NP_PAD * 1.8, d); }
   }
   return h;
 }

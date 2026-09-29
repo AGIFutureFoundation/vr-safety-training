@@ -15,6 +15,7 @@ export const NP_LA_SHINTECH_PLAQUEMINE = {
   region: "louisiana-sites",
   size: 4096,
   scale: 3,
+  relief: "3dep", // BACKDROPS-2: real relief from the committed USGS 3DEP grid (assets/geo/<id>.relief.json, bd2-relief-data.js)
   blurb: "Plaquemine in Iberville Parish on the Mississippi's west bank: the river and its levees, Bayou Plaquemine and the old lock, the town, and fields south of town where a chemical plant expansion is being built — the process unit, the pipe rack, the control room, the river dock and the tank farm (process safety awareness only). The project layout is illustrative; the parish, waterways and towns are real.",
   start: "lsp-workforce-centre",
   anchors: [
