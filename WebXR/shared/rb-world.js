@@ -25,6 +25,7 @@ import { RB_SITES, RB_SITE_PRACTICES, RB_SSM, RB_SCENARIOS, RB_FORCE_N } from ".
 import { rbSsmMode, rbEnv, rbPolicy } from "./rb-env.js";
 import { npHeightAt } from "./np-parish.js";
 import { QM_MECHANICS } from "./side-game-mechanics.js";
+import { avSpriteSvg, avRobotLook } from "./av-sprites.js";
 
 export const RB_MESHES_PER_SITE = 8;
 
@@ -272,7 +273,8 @@ export function rbMountRobotics({ three = null, root = null, parish, el = null, 
     const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
     box.innerHTML = `<p class="eyebrow" style="margin-top:16px">Robotics sites on this map · ${sites.length}</p>` + sites.map((s) => {
       const href = stationHref?.(s.station, s.anchor);
-      return `<div class="rb-site" data-rb="${esc(s.id)}"><p><b>${esc(s.name)}</b> — beside ${esc(s.anchorName)} · robot ${esc(s.st.locked ? "locked out" : s.st.estopped ? "stopped" : s.st.mode === "full" ? "running" : s.st.mode === "reduced" ? "slowed" : "holding a stop")} · safe practice ${rbSiteScore(s.st)}/100${href ? ` · <a href="${esc(href)}">station</a>` : ""}</p>` +
+      const face = avSpriteSvg(avRobotLook(s.rig === "cobot" ? "cobot" : s.rig === "cell" ? "cell" : s.rig === "gantry" ? "gantry" : "amr"), { kind: "token", size: 28, title: `${s.rig} robot` });
+      return `<div class="rb-site" data-rb="${esc(s.id)}"><p><span class="rb-face" style="display:inline-flex;vertical-align:middle;margin-right:6px">${face}</span><b>${esc(s.name)}</b> — beside ${esc(s.anchorName)} · robot ${esc(s.st.locked ? "locked out" : s.st.estopped ? "stopped" : s.st.mode === "full" ? "running" : s.st.mode === "reduced" ? "slowed" : "holding a stop")} · safe practice ${rbSiteScore(s.st)}/100${href ? ` · <a href="${esc(href)}">station</a>` : ""}</p>` +
         `<div class="row" style="flex-wrap:wrap">${[["test-estop", "Test the e-stop"], ["press-estop", "Press the e-stop"], ["lockout", "Lock out at the gate"], ["restart", "Remove lock and restart"]].map(([k, t]) => `<button type="button" class="btn" data-rb-ev="${k}">${t}</button>`).join("")}</div></div>`;
     }).join("");
     for (const b of box.querySelectorAll("[data-rb-ev]")) b.addEventListener("click", () => act(b.closest("[data-rb]").getAttribute("data-rb"), b.getAttribute("data-rb-ev")));

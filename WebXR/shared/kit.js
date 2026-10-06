@@ -1111,7 +1111,7 @@ export function outfitFromTrade(t) {
   if (/robot|cobot|\bamr\b|automated guided|agv\b|robotics technician|robot technician/.test(t)) return "robotTech";
   if (/ai[- ]training|ai-trainer|teleop|headset|\bvr controller|agent (supervisor|dispatch)|training specialist|behaviou?r cloning|demonstration recorder/.test(t)) return "aiTrainer";
   if (/longshore|lasher|lashing|container terminal|\bilwu\b|\bila\b|stevedor|terminal foreman|port and terminal|gantry crane|straddle carrier/.test(t)) return "longshore";
-  if (/\bnurse|nursing|healthcare support|patient care|phlebotom|\bnnu\b|\bcna\b|seiu-uhw|\bnuhw\b|hospital|caregiver|home health/.test(t)) return "healthcare";
+  if (/\bnurse|nursing|healthcare support|patient care|phlebotom|\bnnu\b|\bcna\b|seiu-uhw|\bnuhw\b|\bhospital\b|caregiver|home health/.test(t)) return "healthcare";
   if (/\bchef\b|\bcook\b|culinary|kitchen|line cook|sous|pastry|\bbaker\b|unite here|banquet/.test(t)) return "chef";
   return null;
 }

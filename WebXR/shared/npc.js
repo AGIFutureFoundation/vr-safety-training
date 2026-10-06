@@ -26,6 +26,7 @@
 import { GR_ROSTER } from "./npc-data.js";
 import { ctAvatarFigure, ctAvatarVariety, CT_AVATAR_BUDGET } from "./crew.js";
 import { lkStationLink } from "./links.js";
+import { avCharacter, avSpriteFor } from "./av-characters.js";
 
 export const GR_ANIMATE_RADIUS = 150;
 export const GR_HIDE_RADIUS = 600;
@@ -260,6 +261,7 @@ export const GR_CSS = `
 #gr-panel[hidden]{display:none}
 #gr-panel header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(160,210,235,.25)}
 #gr-panel h2{margin:0;font-size:16px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gr-panel .gr-face{display:inline-flex;flex:none;border-radius:50%;overflow:hidden}#gr-panel .gr-face svg{display:block}
 #gr-panel .gr-log{flex:1;overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
 #gr-panel .gr-msg{padding:8px 10px;border-radius:10px;background:#12303f;overflow-wrap:anywhere}
 #gr-panel .gr-msg.gr-you{align-self:flex-end;background:#1d4a5e}
@@ -369,7 +371,7 @@ export function grMount(world, hooks = {}) {
     prompt.querySelector("#gr-talk").addEventListener("click", () => { const e = near(...(hooks.pos?.() ?? [Infinity, Infinity])); if (e) talk(e); });
     panel = document.createElement("section"); panel.id = "gr-panel"; panel.hidden = true; panel.className = "gd-avoid";
     panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "false"); panel.setAttribute("aria-labelledby", "gr-title");
-    panel.innerHTML = `<header><h2 id="gr-title"></h2><button type="button" id="gr-close" aria-label="Close">Close</button></header>
+    panel.innerHTML = `<header><span id="gr-face" class="gr-face" aria-hidden="true"></span><h2 id="gr-title"></h2><button type="button" id="gr-close" aria-label="Close">Close</button></header>
 <div class="gr-log" aria-live="polite"></div>
 <form id="gr-form"><label for="gr-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Ask about the work here</label>
 <input id="gr-q" type="text" autocomplete="off" placeholder="Ask about the work here…" enterkeyhint="send"><button type="submit" id="gr-send">Ask</button></form>`;
@@ -402,6 +404,8 @@ export function grMount(world, hooks = {}) {
     if (grHasDom) {
       ensureDom();
       panel.querySelector("#gr-title").textContent = `${entry.ch.name} · ${entry.ch.role}`;
+      const face = panel.querySelector("#gr-face");
+      if (face) face.innerHTML = avSpriteFor(avCharacter(entry.ch.id), { kind: "token", size: 36 });
       panel.querySelector(".gr-log").innerHTML = grRenderDialogueHtml(entry.ch, d, resolved);
       wireHandoff(resolved);
       panel.hidden = false; prompt.hidden = true;

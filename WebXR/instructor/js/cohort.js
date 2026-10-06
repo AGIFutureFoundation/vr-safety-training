@@ -19,6 +19,7 @@ import {
   enCertificateSVG, enAuditList, enLoadSample, enClear, EN_ROLES, EN_ATTENTION,
 } from "../../shared/org.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
+import { avSpriteSvg, avLookFromOutfit } from "../../shared/av-sprites.js";
 
 const enEl = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
 const enState = { root: null, cohortId: null, enterprise: null, toast: null };
@@ -179,7 +180,14 @@ function enMembersTable(root, view) {
   const tbody = enEl("tbody");
   for (const m of enMembers(view.cohort.id)) {
     const tr = enEl("tr");
-    tr.append(enEl("td", null, `${m.name}${m.local ? " (this device)" : ""}`));
+    // A token sprite per member, seeded from the member id (no photo is ever
+    // asked for); an instructor wears the role's gear, a learner plain clothes.
+    const tdName = enEl("td");
+    const face = enEl("span", "en-face"); face.setAttribute("aria-hidden", "true");
+    let seed = 0; for (const ch of String(m.id)) seed = (Math.imul(seed, 31) + ch.charCodeAt(0)) >>> 0;
+    try { face.innerHTML = avSpriteSvg(avLookFromOutfit(/instructor/i.test(m.role) ? "construction" : "office", seed), { kind: "token", size: 24 }); } catch (_) { /* stub DOM */ }
+    tdName.append(face, " ", `${m.name}${m.local ? " (this device)" : ""}`);
+    tr.append(tdName);
     const role = enSelect(EN_ROLES.map((r) => [r, r]), m.role);
     role.setAttribute("aria-label", `Role of ${m.name}`);
     role.addEventListener("change", () => { if (enSetRole(m.id, role.value)) { enSay(`${m.name} is now ${role.value}.`); enRender(root); } });

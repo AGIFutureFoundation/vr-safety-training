@@ -27,6 +27,7 @@ import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile,
 import { tzArmPage, tzMapHref, tzFoundIds } from "./treasures.js";
 import { TZ_TREASURES } from "./treasures-data.js";
 import { CT_AVATAR_STYLES, CT_AVATAR_AXES, ctAvatarLoad, ctAvatarSave, ctAvatarOption } from "./crew.js";
+import { avSpriteSvg, avLookFromStyle } from "./av-sprites.js";
 // The organisation layer (docs/enterprise.md): a learner joins a cohort from here too.
 import { enJoin, enMyCohorts } from "./org.js";
 
@@ -53,7 +54,9 @@ const gtCss = `
 #gt-dialog .gt-row button{min-height:40px;border-radius:8px;border:1px solid #6a8296;background:#1b2a38;color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;padding:0 12px}
 #gt-dialog label.gt-check{display:flex;gap:8px;align-items:center;font-size:14px;margin:0 0 10px}
 #gt-dialog label.gt-check input{width:auto;min-height:0;margin:0}
-#gt-account .ct-av{display:inline-block;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-sizing:content-box;flex:none}
+#gt-account .ct-av{display:inline-flex;width:22px;height:22px;border-radius:50%;flex:none;overflow:hidden}
+.ct-av svg{display:block}
+.ct-av-portrait{display:inline-flex;border-radius:12px;overflow:hidden;flex:none}
 #gt-dialog .ct-av-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;margin:0 0 10px}
 #gt-dialog .ct-av-grid label{font-size:14px;color:#d4dee8}
 #gt-dialog .ct-av-grid select{min-height:36px;border-radius:8px;border:1px solid #6a8296;background:#081018;color:#fff;font:15px system-ui,sans-serif;padding:0 8px}
@@ -174,14 +177,15 @@ function gtSignInView(panel) {
   trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
 
-/** The learner's avatar as a small swatch: skin tone inside, headwear or hard-hat colour as the ring. */
-function ctAvatarSwatch(style = ctAvatarLoad(gtStorage())) {
-  const hex = (n) => `#${(n >>> 0).toString(16).padStart(6, "0")}`;
-  const ppe = ctAvatarOption("ppe", style.ppe);
-  const ring = ppe.helmet ? ctAvatarOption("hardHat", style.hardHat).hex : ctAvatarOption("hairColour", style.hairColour).hex;
-  const el = gtEl("span", { class: "ct-av", "aria-hidden": "true" });
-  el.style.background = hex(ctAvatarOption("skin", style.skin).hex);
-  el.style.borderColor = hex(ring);
+/**
+ * The learner's own avatar as a token sprite (shared/av-sprites.js): the same
+ * skin, hair, covering and trade PPE their saved style gives their figure in
+ * the worlds, drawn from the 3D figure's own parts. `kind: "portrait"` is the
+ * head-and-shoulders card the picker previews.
+ */
+function ctAvatarSwatch(style = ctAvatarLoad(gtStorage()), kind = "token", size = 22) {
+  const el = gtEl("span", { class: kind === "token" ? "ct-av" : "ct-av-portrait", "aria-hidden": "true" });
+  try { el.innerHTML = avSpriteSvg(avLookFromStyle(style), { kind, size }); } catch (_) { /* a stub DOM without innerHTML */ }
   return el;
 }
 
@@ -192,7 +196,7 @@ function ctAvatarView(panel) {
   const style = ctAvatarLoad(gtStorage());
   panel.append(gtEl("p", { text: "Choose how your own figure looks in Bay World and the Deep. Every option works with every trade; it is kept with your profile on this device." }));
   const preview = gtEl("div", { class: "ct-av-preview", id: "ct-av-preview" });
-  const draw = () => { preview.textContent = ""; preview.append(ctAvatarSwatch(style), `${ctAvatarOption("body", style.body).label} · ${ctAvatarOption("hair", style.hair).label} · ${ctAvatarOption("ppe", style.ppe).label}`); };
+  const draw = () => { preview.textContent = ""; preview.append(ctAvatarSwatch(style, "portrait", 72), `${ctAvatarOption("body", style.body).label} · ${ctAvatarOption("hair", style.hair).label} · ${ctAvatarOption("ppe", style.ppe).label}`); };
   const grid = gtEl("div", { class: "ct-av-grid" });
   for (const axis of CT_AVATAR_AXES) {
     const id = `ct-av-${axis}`;
