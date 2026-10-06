@@ -309,6 +309,8 @@ await section(9, "robotics facets (TQ-ROBOTICS): programme, AGENTGYM, COLEARN, g
   ok(new Set(pst).size <= st.length && st.every((x) => catalog.has(x.id) && x.launch === `smartcity-x.html?sim=${x.id}&from=tradequest`) && st.filter((x) => x.robot).length === Object.keys(P.robotStations).length, `launch: ${st.length} station links (${st.filter((x) => x.robot).length} robot stations), every one a catalogue id`);
   ok(si.length === d.sites.length && si.every((x) => /^parishes\.html\?parish=[a-z0-9-]+&site=[a-z0-9-]+&from=tradequest$/.test(x.launch) && onDisk.maps.data.maps.find((m) => m.id === x.place)?.sites.some((s) => x.launch.includes(`site=${s.id}&`))), `launch: ${si.length} robotics sites, each opening its map at the building its rig stands beside`);
   ok(st.every((x) => !/^[a-z]+:\/\//.test(x.launch)) && !/https?:\/\//.test(JSON.stringify(R.launch)), "launch links are relative to the Holodeck's deployed root: no host is named");
+  ok(R.pathways.items.every((p) => p.levels.every((l) => l.collectsData === (l.id === "ai-training") && typeof l.who === "string")) && /no data is ever collected/.test(R.pathways.items[0].levels[0].who) && /opt-in/.test(R.pathways.consent) && /never K-12/.test(R.pathways.consent), "data is collected at the AI-training level only (opt-in, adults, never K-12); the awareness level says it collects none");
+  ok(d.scenarios.filter((s) => s.station).every((s) => st.find((x) => x.id === s.station)?.scenarios.includes(s.id)), "each gym scenario is linked from the station it teaches beside");
   ok(JSON.stringify(ad.tqAdapt(onDisk).registries.pathways) === JSON.stringify(R.pathways), "the new registries are deterministic");
 });
 

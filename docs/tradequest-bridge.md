@@ -45,8 +45,8 @@ sections with no code change** — `check_bridge` §4 proves this against a scra
 ## Size budget
 
 The written file (JSON, indent 1) must stay **≤ 768 KiB** and **≤ 128 KiB gzipped**; the exporter refuses to
-write past it and `check_bridge` §7 fails. Today: 674.2 KiB (gzip 119.0 KiB). v1 was 344 KiB and `maps` adds about
-172 KiB. The gzip budget is the tight one: after the robotics facets about 9.0 KiB gzipped remains. An owner that
+write past it and `check_bridge` §7 fails. Today: 674.7 KiB (gzip 119.2 KiB). v1 was 344 KiB and `maps` adds about
+172 KiB. The gzip budget is the tight one: after the robotics facets about 8.8 KiB gzipped remains. An owner that
 needs more should export ids and names, not geometry and not tables: every robotics facet has its own byte cap
 (`TQR_FACET_CAP` in `tools/tq_robotics.mjs`) and a facet over it is refused and left pending, so one owner cannot spend
 the whole budget.
@@ -73,9 +73,9 @@ tqAdapt(doc) → {
     fleet:     { pack, provenance: "AUTHORED",   status, classes, motorworks, items: [{ id, name, medium, class, trades, gatedOn, handling }] },
     scenarios: { pack, provenance: "PROCEDURAL", status, api, rules, ssm, facets, agentGym, colearn, governor, jobs, items: [robotics scenarios] },
     dataset:   { pack, provenance: "AUTHORED",   status, episodes, embodiment, episodeSchema, datasetCard, items: [] },
-    pathways:  { pack, provenance: "AUTHORED",   status, levels, standards, loop, coverage, consent, note, items: [{ id, title, kinds, scenario, standards: [{ id, label }], sites, levels: [{ id, title, requiredScore, dueDays, stations: [{ id, robot, launch }], capstone, credential, earnable, collectsData }] }] },
+    pathways:  { pack, provenance: "AUTHORED",   status, levels, standards, loop, coverage, consent, note, items: [{ id, title, kinds, scenario, standards: [{ id, label }], sites, levels: [{ id, title, who, requiredScore, dueDays, stations: [{ id, robot, launch }], capstone, credential, earnable, collectsData }] }] },
     credentials: { pack, provenance: "AUTHORED", status, note, items: [{ id, title, require, earnedAt: [{ pathway, level }] }] },
-    launch:    { pack, provenance: "AUTHORED",   status, base, note, items: [{ id, kind: "station", launch, robot, robotKind, pathways: [{ pathway, level }], places: [{ place, site, campus }] } | { id, kind: "site", name, rig, place, scenario, station, launch }] },
+    launch:    { pack, provenance: "AUTHORED",   status, base, note, items: [{ id, kind: "station", launch, robot, robotKind, scenarios, pathways: [{ pathway, level }], places: [{ place, site, campus }] } | { id, kind: "site", name, rig, place, scenario, station, launch }] },
   },
   stationIndex: { "<station id>": [{ place, site, campus }] },          // where each station plays
 }
@@ -125,7 +125,7 @@ Without `VB_SHARED` the bridge reads `VB_PHASES` / `VB_JOB_PHASES` / `vbPhases`,
 `VB_REASONS` / `VB_RULES` / `vbGovernorRules` from any `WebXR/shared/vb-*.js`, and the detail VBRIDGE's modules export
 today: `VB_PHYSICAL` (the physical-robot switch, shipped disabled), `VB_TASKS` (the allowlist), `VB_RIG_LIMITS` into
 `governor`; `VB_SCHEMA`, `VB_TERMINAL`, `VB_MOVES`, `VB_MEMO_TYPES`, `VB_DEADLINE_TICKS` into `jobs`. Rehearsed against
-VBRIDGE's own files (read from its worktree, not copied): both facets ready, 9 rules, 7 phases, 676.5 KiB in all. Extra
+VBRIDGE's own files (read from its worktree, not copied): both facets ready, 9 rules, 7 phases, 677.4 KiB in all. Extra
 keys on `governor` and on `jobs` travel as they are, inside the facet's byte cap.
 
 **What the section never carries.** It is simulation and policy data only. A facet that holds a key-shaped,

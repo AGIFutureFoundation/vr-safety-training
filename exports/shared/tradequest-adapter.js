@@ -151,7 +151,7 @@ function pathways(doc) {
     standards: arr(t.standards).map((id) => ({ id, label: std.get(id) ?? id })),
     sites: arr(t.rbSites).slice(),
     levels: arr(t.ladder).map((r) => ({
-      id: r.level, title: lv.get(r.level)?.title ?? r.level, requiredScore: lv.get(r.level)?.requiredScore ?? null, dueDays: lv.get(r.level)?.dueDays ?? null,
+      id: r.level, title: lv.get(r.level)?.title ?? r.level, who: lv.get(r.level)?.who ?? null, requiredScore: lv.get(r.level)?.requiredScore ?? null, dueDays: lv.get(r.level)?.dueDays ?? null,
       stations: arr(r.stations).map((id) => ({ id, robot: has(robot, id), launch: tqStationLaunch(id) })),
       capstone: arr(r.capstone).slice(), credential: r.credential ?? null, earnable: !!r.earnable, collectsData: r.level === "ai-training",
     })),
@@ -182,8 +182,10 @@ function launch(doc, placesRegistry) {
     where.get(id).push({ pathway: t.id, level: r.level });
   }
   for (const id of Object.keys(P?.robotStations ?? {})) if (!where.has(id)) where.set(id, []);
+  const gym = arr(sec(doc, "robotics").data?.scenarios);
   const stations = [...where.keys()].sort().map((id) => ({
     id, kind: "station", launch: tqStationLaunch(id), robot: has(P?.robotStations, id), robotKind: P?.robotStations?.[id] ?? null,
+    scenarios: gym.filter((g) => g.station === id).map((g) => g.id),
     pathways: where.get(id), places: (idx[id] ?? []).map((p) => ({ ...p })),
   }));
   const rb = sec(doc, "robotics");

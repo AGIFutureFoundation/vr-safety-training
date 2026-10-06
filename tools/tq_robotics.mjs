@@ -90,7 +90,7 @@ async function tqrProgramme(shared, root) {
   const admitted = tqrAdmit("programme", {
     name: P.RP_NAME, brand: P.RP_BRAND, note: P.RP_NO_PARTNERSHIP,
     standards: P.RP_STANDARDS.map((s) => ({ id: s.id, label: s.label })),
-    levels: P.RP_LEVELS.map((l) => ({ id: l.id, title: l.title, requiredScore: l.requiredScore, dueDays: l.dueDays })),
+    levels: P.RP_LEVELS.map((l) => ({ id: l.id, title: l.title, who: l.who, requiredScore: l.requiredScore, dueDays: l.dueDays })),
     credentials,
     robotStations: { ...P.RP_ROBOT_STATIONS },
     tracks,
