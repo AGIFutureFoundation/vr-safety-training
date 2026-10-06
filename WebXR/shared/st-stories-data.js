@@ -7684,50 +7684,50 @@ export const ST_STORIES = [
   "id": "st-union-trades-lc-calcasieu-channel-3",
   "path": "union-trades",
   "parish": "lc-calcasieu-channel",
-  "site": "lcc-crane-pad",
-  "siteName": "Heavy Crane Pad",
-  "character": "gr-np-port-foreman",
-  "characterName": "Dante",
-  "role": "Terminal foreman",
+  "site": "lcc-tank-foundation",
+  "siteName": "Tank Foundation Pour",
+  "character": "gr-np-pump-operator",
+  "characterName": "Amara",
+  "role": "Pumping station operator",
   "line": {
-   "text": "Deck stow securing: crane held off, twist-locks proven, rods and turnbuckles to the pattern, fall protection on the bridge, torque checked",
+   "text": "Wet-well pump pull: gas test, lockout, bypass pumping, guide-rail lift, no-entry retrieval, restart and level check",
    "src": {
-    "station": "container-lashing"
+    "station": "lift-station"
    }
   },
   "handoff": {
    "kind": "site",
    "parish": "lc-calcasieu-channel",
-   "site": "lcc-crane-pad",
-   "siteName": "Heavy Crane Pad",
-   "from": "lcc-marine-offload"
+   "site": "lcc-tank-foundation",
+   "siteName": "Tank Foundation Pour",
+   "from": "lcc-fire-water-station"
   },
-  "prompt": "Dante sends you to Heavy Crane Pad. How do you start?",
+  "prompt": "Amara sends you to Tank Foundation Pour. How do you start?",
   "branches": [
    {
     "id": "st-union-trades-lc-calcasieu-channel-3-a",
     "label": "Work it with the crew",
     "end": {
      "kind": "station",
-     "id": "op-crawler-crane-assembly-and-load-chart"
+     "id": "concrete-pour"
     },
-    "title": "Crawler Crane Assembly & Load Chart",
-    "practice": "Crawler crane assembly closed out and proved before the first pick: ground bearing confirmed, every pin and lacing member inspected, the backstop engaged, the chart read at the planned radius, and a test lift held before anything real goes on the hook",
+    "title": "Concrete Pour",
+    "practice": "Wall pour from a boom pump: pre-pour walk, rebar capped and forms braced, slump and air tested before the first yard, nobody under the boom, placement rate inside the form pressure, vibrated not segregated, cylinders cast, finish on the clock",
     "src": {
-     "station": "op-crawler-crane-assembly-and-load-chart"
+     "station": "concrete-pour"
     }
    },
    {
     "id": "st-union-trades-lc-calcasieu-channel-3-b",
-    "label": "Learn it first",
+    "label": "Walk it with the crew lead",
     "end": {
-     "kind": "lesson",
-     "id": "sw-cc-fl-crane-balance"
+     "kind": "station",
+     "id": "formwork-shoring"
     },
-    "title": "Balancing a Heavy Lift",
-    "practice": "Look at the big crane standing on its pad of packed stone.",
+    "title": "Formwork Shoring",
+    "practice": "Shoring a slab to the engineer's drawings: mudsills and post shores to the layout, stringers and joists, every shore plumbed and pinned, the reshoring plan read, the pour held for sign-off, and stripping in the sequence the drawing sets",
     "src": {
-     "lesson": "sw-cc-fl-crane-balance"
+     "station": "formwork-shoring"
     }
    }
   ],
@@ -7735,19 +7735,19 @@ export const ST_STORIES = [
   "chain": [
    {
     "kind": "character",
-    "id": "gr-np-port-foreman"
+    "id": "gr-np-pump-operator"
    },
    {
     "kind": "site",
-    "id": "lcc-crane-pad"
+    "id": "lcc-tank-foundation"
    },
    {
     "kind": "station",
-    "id": "op-crawler-crane-assembly-and-load-chart"
+    "id": "concrete-pour"
    },
    {
-    "kind": "lesson",
-    "id": "sw-cc-fl-crane-balance"
+    "kind": "station",
+    "id": "formwork-shoring"
    }
   ]
  },
@@ -15222,6 +15222,77 @@ export const ST_STORIES = [
   "id": "st-k12-la-saronic-franklin-1",
   "path": "k12",
   "parish": "la-saronic-franklin",
+  "site": "lsf-workforce-centre",
+  "siteName": "Franklin Shipyard Workforce Centre",
+  "character": "gr-np-campus-teacher",
+  "characterName": "Thandiwe",
+  "role": "K-12 teacher",
+  "line": {
+   "text": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+   "src": {
+    "station": "k12-weather-and-the-sky"
+   }
+  },
+  "handoff": {
+   "kind": "site",
+   "parish": "la-saronic-franklin",
+   "site": "lsf-workforce-centre",
+   "siteName": "Franklin Shipyard Workforce Centre",
+   "from": "lsf-workforce-centre"
+  },
+  "prompt": "Thandiwe waves you over: shall we try it with the crew, or learn it first?",
+  "branches": [
+   {
+    "id": "st-k12-la-saronic-franklin-1-a",
+    "label": "Work it with the crew",
+    "end": {
+     "kind": "station",
+     "id": "k12-rp-how-a-robot-knows-to-stop"
+    },
+    "title": "How a Robot Knows to Stop",
+    "practice": "Walk toward the robot, watch it slow and stop — then meet the people who keep robots safe",
+    "src": {
+     "station": "k12-rp-how-a-robot-knows-to-stop"
+    }
+   },
+   {
+    "id": "st-k12-la-saronic-franklin-1-b",
+    "label": "Walk it with the crew lead",
+    "end": {
+     "kind": "station",
+     "id": "jobsite-orientation-and-osha-10"
+    },
+    "title": "Jobsite Orientation & OSHA 10",
+    "practice": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
+    "src": {
+     "station": "jobsite-orientation-and-osha-10"
+    }
+   }
+  ],
+  "kiosk": null,
+  "chain": [
+   {
+    "kind": "character",
+    "id": "gr-np-campus-teacher"
+   },
+   {
+    "kind": "site",
+    "id": "lsf-workforce-centre"
+   },
+   {
+    "kind": "station",
+    "id": "k12-rp-how-a-robot-knows-to-stop"
+   },
+   {
+    "kind": "station",
+    "id": "jobsite-orientation-and-osha-10"
+   }
+  ]
+ },
+ {
+  "id": "st-k12-la-saronic-franklin-2",
+  "path": "k12",
+  "parish": "la-saronic-franklin",
   "site": "lsf-bulkhead-piling",
   "siteName": "Bulkhead Piling",
   "character": "gr-np-wetlands-ranger",
@@ -15243,7 +15314,7 @@ export const ST_STORIES = [
   "prompt": "Mira waves you over: shall we try it with the crew, or learn it first?",
   "branches": [
    {
-    "id": "st-k12-la-saronic-franklin-1-a",
+    "id": "st-k12-la-saronic-franklin-2-a",
     "label": "Work it with the crew",
     "end": {
      "kind": "station",
@@ -15256,7 +15327,7 @@ export const ST_STORIES = [
     }
    },
    {
-    "id": "st-k12-la-saronic-franklin-1-b",
+    "id": "st-k12-la-saronic-franklin-2-b",
     "label": "Learn it first",
     "end": {
      "kind": "lesson",
@@ -15286,77 +15357,6 @@ export const ST_STORIES = [
    {
     "kind": "lesson",
     "id": "lsf-fl-levee-bank"
-   }
-  ]
- },
- {
-  "id": "st-k12-la-saronic-franklin-2",
-  "path": "k12",
-  "parish": "la-saronic-franklin",
-  "site": "lsf-workforce-centre",
-  "siteName": "Franklin Shipyard Workforce Centre",
-  "character": "gr-np-campus-teacher",
-  "characterName": "Thandiwe",
-  "role": "K-12 teacher",
-  "line": {
-   "text": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
-   "src": {
-    "station": "k12-weather-and-the-sky"
-   }
-  },
-  "handoff": {
-   "kind": "site",
-   "parish": "la-saronic-franklin",
-   "site": "lsf-workforce-centre",
-   "siteName": "Franklin Shipyard Workforce Centre",
-   "from": "lsf-workforce-centre"
-  },
-  "prompt": "Thandiwe waves you over: shall we try it with the crew, or learn it first?",
-  "branches": [
-   {
-    "id": "st-k12-la-saronic-franklin-2-a",
-    "label": "Work it with the crew",
-    "end": {
-     "kind": "station",
-     "id": "jobsite-orientation-and-osha-10"
-    },
-    "title": "Jobsite Orientation & OSHA 10",
-    "practice": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
-    "src": {
-     "station": "jobsite-orientation-and-osha-10"
-    }
-   },
-   {
-    "id": "st-k12-la-saronic-franklin-2-b",
-    "label": "Walk it with the crew lead",
-    "end": {
-     "kind": "station",
-     "id": "wp-apprenticeship-enrollment-day"
-    },
-    "title": "Apprenticeship Enrollment Day",
-    "practice": "Gather the documents, sign the forms in the order that makes each one mean something, read the coordinator's checklist, understand the drug-test consent before you sign it, sit the physical without fidgeting, and file a complete packet",
-    "src": {
-     "station": "wp-apprenticeship-enrollment-day"
-    }
-   }
-  ],
-  "kiosk": null,
-  "chain": [
-   {
-    "kind": "character",
-    "id": "gr-np-campus-teacher"
-   },
-   {
-    "kind": "site",
-    "id": "lsf-workforce-centre"
-   },
-   {
-    "kind": "station",
-    "id": "jobsite-orientation-and-osha-10"
-   },
-   {
-    "kind": "station",
-    "id": "wp-apprenticeship-enrollment-day"
    }
   ]
  },
@@ -50237,6 +50237,77 @@ export const ST_STORIES = [
   "id": "st-teachers-la-saronic-franklin-1",
   "path": "teachers",
   "parish": "la-saronic-franklin",
+  "site": "lsf-workforce-centre",
+  "siteName": "Franklin Shipyard Workforce Centre",
+  "character": "gr-np-campus-teacher",
+  "characterName": "Thandiwe",
+  "role": "K-12 teacher",
+  "line": {
+   "text": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
+   "src": {
+    "station": "k12-weather-and-the-sky"
+   }
+  },
+  "handoff": {
+   "kind": "site",
+   "parish": "la-saronic-franklin",
+   "site": "lsf-workforce-centre",
+   "siteName": "Franklin Shipyard Workforce Centre",
+   "from": "lsf-workforce-centre"
+  },
+  "prompt": "Thandiwe sends you to Franklin Shipyard Workforce Centre. How do you start?",
+  "branches": [
+   {
+    "id": "st-teachers-la-saronic-franklin-1-a",
+    "label": "Work it with the crew",
+    "end": {
+     "kind": "station",
+     "id": "k12-rp-how-a-robot-knows-to-stop"
+    },
+    "title": "How a Robot Knows to Stop",
+    "practice": "Walk toward the robot, watch it slow and stop — then meet the people who keep robots safe",
+    "src": {
+     "station": "k12-rp-how-a-robot-knows-to-stop"
+    }
+   },
+   {
+    "id": "st-teachers-la-saronic-franklin-1-b",
+    "label": "Walk it with the crew lead",
+    "end": {
+     "kind": "station",
+     "id": "jobsite-orientation-and-osha-10"
+    },
+    "title": "Jobsite Orientation & OSHA 10",
+    "practice": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
+    "src": {
+     "station": "jobsite-orientation-and-osha-10"
+    }
+   }
+  ],
+  "kiosk": null,
+  "chain": [
+   {
+    "kind": "character",
+    "id": "gr-np-campus-teacher"
+   },
+   {
+    "kind": "site",
+    "id": "lsf-workforce-centre"
+   },
+   {
+    "kind": "station",
+    "id": "k12-rp-how-a-robot-knows-to-stop"
+   },
+   {
+    "kind": "station",
+    "id": "jobsite-orientation-and-osha-10"
+   }
+  ]
+ },
+ {
+  "id": "st-teachers-la-saronic-franklin-2",
+  "path": "teachers",
+  "parish": "la-saronic-franklin",
   "site": "lsf-bulkhead-piling",
   "siteName": "Bulkhead Piling",
   "character": "gr-np-wetlands-ranger",
@@ -50258,7 +50329,7 @@ export const ST_STORIES = [
   "prompt": "Mira sends you to Bulkhead Piling. How do you start?",
   "branches": [
    {
-    "id": "st-teachers-la-saronic-franklin-1-a",
+    "id": "st-teachers-la-saronic-franklin-2-a",
     "label": "Work it with the crew",
     "end": {
      "kind": "station",
@@ -50271,7 +50342,7 @@ export const ST_STORIES = [
     }
    },
    {
-    "id": "st-teachers-la-saronic-franklin-1-b",
+    "id": "st-teachers-la-saronic-franklin-2-b",
     "label": "Learn it first",
     "end": {
      "kind": "lesson",
@@ -50301,77 +50372,6 @@ export const ST_STORIES = [
    {
     "kind": "lesson",
     "id": "lsf-fl-levee-bank"
-   }
-  ]
- },
- {
-  "id": "st-teachers-la-saronic-franklin-2",
-  "path": "teachers",
-  "parish": "la-saronic-franklin",
-  "site": "lsf-workforce-centre",
-  "siteName": "Franklin Shipyard Workforce Centre",
-  "character": "gr-np-campus-teacher",
-  "characterName": "Thandiwe",
-  "role": "K-12 teacher",
-  "line": {
-   "text": "Read the sky and the instruments together — and head indoors when the lightning rule says so",
-   "src": {
-    "station": "k12-weather-and-the-sky"
-   }
-  },
-  "handoff": {
-   "kind": "site",
-   "parish": "la-saronic-franklin",
-   "site": "lsf-workforce-centre",
-   "siteName": "Franklin Shipyard Workforce Centre",
-   "from": "lsf-workforce-centre"
-  },
-  "prompt": "Thandiwe sends you to Franklin Shipyard Workforce Centre. How do you start?",
-  "branches": [
-   {
-    "id": "st-teachers-la-saronic-franklin-2-a",
-    "label": "Work it with the crew",
-    "end": {
-     "kind": "station",
-     "id": "jobsite-orientation-and-osha-10"
-    },
-    "title": "Jobsite Orientation & OSHA 10",
-    "practice": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
-    "src": {
-     "station": "jobsite-orientation-and-osha-10"
-    }
-   },
-   {
-    "id": "st-teachers-la-saronic-franklin-2-b",
-    "label": "Walk it with the crew lead",
-    "end": {
-     "kind": "station",
-     "id": "wp-apprenticeship-enrollment-day"
-    },
-    "title": "Apprenticeship Enrollment Day",
-    "practice": "Gather the documents, sign the forms in the order that makes each one mean something, read the coordinator's checklist, understand the drug-test consent before you sign it, sit the physical without fidgeting, and file a complete packet",
-    "src": {
-     "station": "wp-apprenticeship-enrollment-day"
-    }
-   }
-  ],
-  "kiosk": null,
-  "chain": [
-   {
-    "kind": "character",
-    "id": "gr-np-campus-teacher"
-   },
-   {
-    "kind": "site",
-    "id": "lsf-workforce-centre"
-   },
-   {
-    "kind": "station",
-    "id": "jobsite-orientation-and-osha-10"
-   },
-   {
-    "kind": "station",
-    "id": "wp-apprenticeship-enrollment-day"
    }
   ]
  },

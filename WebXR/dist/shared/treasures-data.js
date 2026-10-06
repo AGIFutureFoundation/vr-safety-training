@@ -21933,7 +21933,8 @@ export const TZ_TREASURES = [
     "jobsite-orientation-and-osha-10",
     "wp-apprenticeship-enrollment-day",
     "apprenticeship-standards-reading",
-    "apprenticeship-application-and-test"
+    "apprenticeship-application-and-test",
+    "k12-rp-how-a-robot-knows-to-stop"
    ]
   }
  },

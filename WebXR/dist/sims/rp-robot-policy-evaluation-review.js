@@ -98,25 +98,25 @@ export const SIM_RP_ROBOT_POLICY_EVALUATION_REVIEW = {
     stationPad(g, 2.9, ACC);
     const floor = box(g, 9.2, 0.12, 9.2, 0, 0.06, 0, 0xffffff, { rough: 0.6 });
     floor.material = texturedMat(surfaceTexture((cx, w, h) => tileFace(cx, w, h, { tiles: 8, tile: 0xcbd0d6, grout: "#8b9197" }), { repeat: 5, px: 512 }), { rough: 0.55, metal: 0.05, color: 0xffffff });
-    const wall = box(g, 9.2, 4.2, 0.2, 0, 2.1, -7.2, 0xffffff, { rough: 0.75 });
+    const wall = box(g, 9.2, 4.2, 0.2, 0, 2.1, -5.6, 0xffffff, { rough: 0.75 });
     wall.material = texturedMat(surfaceTexture((cx, w, h) => blockFace(cx, w, h, { rows: 5, cols: 8, block: 0x828b96 }), { repeat: 3, px: 512 }), { rough: 0.75, metal: 0.05, color: 0xffffff });
     const deck = box(g, 1.4, 0.03, 0.8, -3.6, 0.13, 3.4, 0xffffff, { rough: 0.7, cast: false });
     deck.material = texturedMat(surfaceTexture((cx, w, h) => gratingFace(cx, w, h, {}), { repeat: 2, px: 256 }), { rough: 0.7, metal: 0.4, color: 0xffffff });
-    holoTag(g, "policy review bay — procedural, generic cobot", 3.4, 3.7, -7.05, { css: "#b79cff", w: 0.6 });
+    holoTag(g, "policy review bay — procedural, generic cobot", 3.4, 3.7, -5.45, { css: "#b79cff", w: 0.6 });
     const rig = cobotBench(g, 0, 0, -3.6, {});
     const P = rig.userData.parts ?? {};
     const pendant = teachPendant(g, -1.3, 0.96, -3.6, { ry: 0.3 });
     // the review wall: three policy version plaques, an episode strip, a replay screen
-    const plaque = (id, label, x, colour) => { const p = box(g, 0.5, 0.34, 0.04, x, 2.4, -7.05, colour, { rough: 0.5 }); decal(p, 0.44, 0.28, 0, 0, 0.022, signFace(label, { bg: "#141022", accent: "#b79cff", scale: 0.26 }), { px: 256 }); reg(hits, p, id); return p; };
+    const plaque = (id, label, x, colour) => { const p = box(g, 0.5, 0.34, 0.04, x, 2.4, -5.45, colour, { rough: 0.5 }); decal(p, 0.44, 0.28, 0, 0, 0.022, signFace(label, { bg: "#141022", accent: "#b79cff", scale: 0.26 }), { px: 256 }); reg(hits, p, id); return p; };
     const cap = {};
     cap["policy-v1"] = plaque("policy-v1", "POLICY v1\nARCHIVED", -1.2, 0x2a2440);
     cap["policy-v2"] = plaque("policy-v2", "POLICY v2\nLINEAGE: D-03", -0.4, 0x2a2440);
     cap["policy-v3"] = plaque("policy-v3", "POLICY v3\nLINEAGE: D-04", 0.4, 0x2a2440);
-    const ep = (id, label, x, colour) => { const e = box(g, 0.34, 0.22, 0.04, x, 1.75, -7.05, colour, { rough: 0.5 }); decal(e, 0.3, 0.18, 0, 0, 0.022, signFace(label, { bg: "#141022", accent: "#ffffff", scale: 0.22 }), { px: 192 }); reg(hits, e, id); cap[id] = e; };
+    const ep = (id, label, x, colour) => { const e = box(g, 0.34, 0.22, 0.04, x, 1.75, -5.45, colour, { rough: 0.5 }); decal(e, 0.3, 0.18, 0, 0, 0.022, signFace(label, { bg: "#141022", accent: "#ffffff", scale: 0.22 }), { px: 192 }); reg(hits, e, id); cap[id] = e; };
     ep("episode-clean", "EP 7012\nCLEAN", -0.9, 0x2f6f5e);
     ep("episode-keepout", "EP 7031\nKEEP-OUT", -0.45, 0x6a2a2a);
     ep("episode-timeout", "EP 7044\nTIMEOUT", 0.0, 0x5a5a2a);
-    const replay = holoPanel(g, 0.8, 0.5, 1.6, 2.1, -6.9, (ctx, w, h) => {
+    const replay = holoPanel(g, 0.8, 0.5, 1.6, 2.1, -5.3, (ctx, w, h) => {
       ctx.fillStyle = "rgba(14,10,24,0.92)"; ctx.fillRect(0, 0, w, h); ctx.fillStyle = "#b79cff"; ctx.fillRect(0, 0, w, 5);
       ctx.fillStyle = "#efeaff"; ctx.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`; ctx.textAlign = "left"; ctx.textBaseline = "middle";
       ctx.fillText("GHOST REPLAY · HELD-OUT EPISODE", w * 0.06, h * 0.14);
@@ -186,7 +186,7 @@ export const SIM_RP_ROBOT_POLICY_EVALUATION_REVIEW = {
     for (const sx of [-0.35, 0.35]) { box(g, 0.5, 0.3, 0.03, 3.4 + sx, 1.0, -4.8, 0x14121c, { rough: 0.4 }); box(g, 0.05, 0.12, 0.05, 3.4 + sx, 0.83, -4.8, 0x2b2f34, { rough: 0.5 }); }
     box(g, 0.45, 0.06, 0.45, 3.4, 0.46, -4.0, 0x2a2440, { rough: 0.7 });
     cyl(g, 0.03, 0.03, 0.42, 3.4, 0.22, -4.0, 0x2b2f34, { rough: 0.5, seg: 8 });
-    for (let i = 0; i < 12; i++) box(g, 0.24, 0.32, 0.04, -4.2 + (i % 6) * 0.3, 1.0 + Math.floor(i / 6) * 0.4, -7.05, [0x3a78c9, 0xd8a63a, 0x6d767e][i % 3], { rough: 0.8 });
+    for (let i = 0; i < 12; i++) box(g, 0.24, 0.32, 0.04, -4.2 + (i % 6) * 0.3, 1.0 + Math.floor(i / 6) * 0.4, -5.45, [0x3a78c9, 0xd8a63a, 0x6d767e][i % 3], { rough: 0.8 });
     const faultLamp = ball(g, 0.07, 3.4, 2.0, -3.2, 0xd2312b, { emissive: 0xd2312b, ei: 1.6, seg: 12 });
     faultLamp.visible = false;
     const tech = standingFigure(g, 0.9, -2.4, { ry: -0.6, cloth: 0x3a4a5a, helmet: 0xf0b323 });

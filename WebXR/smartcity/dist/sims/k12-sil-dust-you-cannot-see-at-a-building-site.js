@@ -280,7 +280,7 @@ export const SIM_K12_SIL_DUST_YOU_CANNOT_SEE_AT_A_BUILDING_SITE = {
       alert: "Dust from another crew's work drifts toward the class on the breeze.",
       cue: "Step aside out of the dust's path with the crew lead, who asks the other crew to stop.",
       why: "Dust from someone else's tool is still dust to breathe. Stepping out of its path is the quick fix, and asking the other crew to catch their dust fixes the cause. Speaking up about dust is part of working safely together.",
-      missNote: "The class stayed in the dust's path until the crew lead moved everyone aside.",
+      missNote: "The class stayed in the dust's path until the crew lead moved everyone aside, upwind of the drill.",
       wrongNote: "That stays in the dust's path. Step aside first. Choose the response that deals with it now."
     }
   ],

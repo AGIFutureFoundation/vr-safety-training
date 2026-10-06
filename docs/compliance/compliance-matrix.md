@@ -1441,6 +1441,7 @@ Every station names the union and the certification a worker in that role holds,
 | Plastics and the Bay | Science class with the beach crew on a shoreline sweep — learner and beach crew lead | — |
 | Clean Air at the Port | Science visit with the terminal equipment crew at a container port — learner and equipment crew lead | — |
 | Dust You Cannot See at a Building Site | Science visit with a concrete drilling crew at a building site — learner and crew lead | — |
+| How a Robot Knows to Stop | Science and careers lesson on robot sensing with a robotics technician at a training lab — learner and robot technician | — |
 | Building New Marsh on the Coast | Science walk with a coastal marsh restoration crew — learner and restoration crew lead | — |
 | Where a Data Center Gets Its Power | Science lesson on energy and electricity with a power and cooling crew — learner and electrician | — |
 | How a Wing Lifts an Aircraft | Science lesson on flight with an aircraft maintenance crew at a regional airport — learner and aircraft mechanic | — |

@@ -78,13 +78,12 @@ Kinds of work: fenced robot cells, palletizers, press and machine tending. Stand
   - `k12-water-cycle-and-filtration` The Water Cycle and Filtration (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-ecosystems-at-the-kelp-transect` Ecosystems at the Kelp Transect (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - How did the robot know someone was near?
   - Who is allowed to start a robot again after it stops?
   - Which job on a robot team would you like to try?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the level and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-industrial-cells-operator` — Robot operator
 
@@ -190,13 +189,12 @@ Kinds of work: cobot workcells shared with people: speed and separation, power a
   - `k12-water-cycle-and-filtration` The Water Cycle and Filtration (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-ecosystems-at-the-kelp-transect` Ecosystems at the Kelp Transect (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - How did the robot know someone was near?
   - Who is allowed to start a robot again after it stops?
   - Which job on a robot team would you like to try?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the level and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-cobots-operator` — Robot operator
 
@@ -302,13 +300,12 @@ Kinds of work: autonomous mobile robots in aisles and yards, charging, mixed tra
   - `k12-water-cycle-and-filtration` The Water Cycle and Filtration (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-ecosystems-at-the-kelp-transect` Ecosystems at the Kelp Transect (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - How did the robot know someone was near?
   - Who is allowed to start a robot again after it stops?
   - Which job on a robot team would you like to try?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the level and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-mobile-amr-operator` — Robot operator
 
@@ -416,13 +413,12 @@ Kinds of work: ceiling-drilling and layout robots, remote demolition machines, s
   - `k12-water-cycle-and-filtration` The Water Cycle and Filtration (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-ecosystems-at-the-kelp-transect` Ecosystems at the Kelp Transect (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - How did the robot know someone was near?
   - Who is allowed to start a robot again after it stops?
   - Which job on a robot team would you like to try?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the level and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-construction-robotics-operator` — Robot operator
 
@@ -533,13 +529,12 @@ Kinds of work: service under lockout, jams, e-stop recovery and restart from out
   - `k12-water-cycle-and-filtration` The Water Cycle and Filtration (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-ecosystems-at-the-kelp-transect` Ecosystems at the Kelp Transect (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - How did the robot know someone was near?
   - Who is allowed to start a robot again after it stops?
   - Which job on a robot team would you like to try?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the level and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-maintenance-lockout-operator` — Robot operator
 
@@ -646,13 +641,12 @@ Kinds of work: teleoperation demonstrations, labelling, consent and dataset card
   - `k12-water-cycle-and-filtration` The Water Cycle and Filtration (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-buoyancy-and-pressure-in-the-deep` Buoyancy and Pressure in the Deep (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
   - `k12-energy-transfer-at-the-wind-farm` Energy Transfer at the Wind Farm (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
-  - `k12-ecosystems-at-the-kelp-transect` Ecosystems at the Kelp Transect (capstone) — Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows
 - **Consent:** This level collects no training data.
 - **Debrief prompts:**
   - How did the robot know someone was near?
   - Who is allowed to start a robot again after it stops?
   - Which job on a robot team would you like to try?
-- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 2 in the level and 4 in the capstone — and the cohort certificate.
+- **Assessment:** Every station passed with a module score of 60 or more. The level ends in the k12-science competency — 6 mastery runs, 3 in the level and 3 in the capstone — and the cohort certificate.
 
 #### `mod-rp-data-ai-training-operator` — Robot operator
 
