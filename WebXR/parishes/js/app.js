@@ -1074,7 +1074,8 @@ window.__parishTest.robotics = rbWorld;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });
 // ROBOTRAIN (docs/consoles/ROBOTRAIN.md): drive the teleop arm from a pointer pose; a take is kept only through DATAWORKS' recorder (inert unless opted in).
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); return rtMountTeleop(host, { reducedMotion: npReduced }); } catch (_) { return null; } })();
+// ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null }); } catch (_) { return null; } })();
 // VBRIDGE (docs/consoles/VBRIDGE.md): supervise jobs a mock software agent sends to the robot sites — the safety governor checks
 // each (e-stop wins, allowlist, limits, stale lineage), simulated robots only; every decision goes to ENTERPRISE-3's audit log.
 // ROBOTRAIN-2: jobs that name the COLEARN policy run a behaviour-cloning policy as the provider (trained lazily on synthetic demonstrations); guarded.

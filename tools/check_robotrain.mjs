@@ -154,15 +154,78 @@ const APP = read("WebXR/parishes/js/app.js");
 check(/import \{ rtMountTeleop \} from "\.\.\/\.\.\/shared\/rt-teleop\.js"/.test(APP) && /__parishTest\.teleop/.test(APP) && /try \{[^}]*rtMountTeleop/.test(APP), "programme", "the parishes app does not mount the teleop pad guarded");
 check(rt.rtMountTeleop(null) === null && rt.rtMountTeleop({}) === null, "programme", "the mount returns null without a DOM element");
 
+// ---------------------------------------------------------------- 7 loop 6 (ROBOTRAIN-2): XR pose source, rig follow, COLEARN provider, second task, K-12 lesson
+// 7a the WebXR controller pose source is pure over the WebXR shapes and falls back to null without a pose
+const xrSrc = { handedness: "right", gripSpace: {}, gamepad: { buttons: [{ value: 0.8, pressed: true }, { value: 0.3, pressed: false }, {}, { pressed: false }, { pressed: true }] } };
+const xrFrame = { getPose: () => ({ transform: { position: { x: 0.2, y: 1.25, z: -0.8 } } }), session: { inputSources: [xrSrc] } };
+const xp = rt.rtXRPose(xrSrc, xrFrame, {});
+check(xp && JSON.stringify(xp.p) === "[0.2,0.25,-0.3]" && xp.trigger === 0.8 && xp.squeeze === 0.3 && xp.estop === true && xp.hand === "right", "xr", `rtXRPose maps grip + gamepad into the bench frame (${JSON.stringify(xp)})`);
+check(rt.rtXRPose({ gamepad: {} }, xrFrame, {}) === null && rt.rtXRPose(xrSrc, { getPose: () => null }, {}) === null, "xr", "rtXRPose is null without a space or a pose");
+check(JSON.stringify(rt.rtPoseToAction(xp, obs0)) === JSON.stringify(rt.rtPoseToAction(xp, obs0)) && rt.rtPoseToAction(xp, obs0).type === "estop", "xr", "an XR pose with the face button held is the e-stop");
+// 7b the rig follows the effector with no new mesh, and rb-world's sweep yields while it is driven
+const rigStub = { rotation: { x: 0, y: 0, z: 0 }, userData: {}, children: [{ userData: { pivot: true }, rotation: { x: 0, y: 0, z: 0 } }] };
+const envF = rb.rbEnv(rt.RT_SCENARIO, { seed: 3 }); let obsF = envF.reset();
+for (let i = 0; i < 6; i++) obsF = envF.step({ type: "move", dx: 0.1, dy: 0.05, dz: 0.1 }).observation;
+const fol = rt.rtFollowRig(rigStub, obsF);
+check(fol && rigStub.userData.rtDriven === true && rigStub.rotation.y === fol.yaw && rigStub.children[0].rotation.x === fol.pitch && fol.yaw !== 0, "rig", `rtFollowRig turns the rig toward the effector (${JSON.stringify(fol)})`);
+const rbw = await imp("WebXR/shared/rb-world.js");
+rbw.rbPoseRig(rigStub, "cobot", 1.2);
+check(rigStub.rotation.y === fol.yaw, "rig", "rb-world's sweep leaves a pose-driven rig alone");
+rt.rtReleaseRig(rigStub); rbw.rbPoseRig(rigStub, "cobot", 1.2);
+check(rigStub.userData.rtDriven === false && rigStub.rotation.y !== fol.yaw, "rig", "after release the sweep drives the rig again");
+check(/rigNode:/.test(read("WebXR/shared/rb-world.js")) && /rtDriven/.test(read("WebXR/shared/rb-world.js")), "rig", "rb-world exposes rigNode(id) and honours rtDriven");
+check(/rtMountTeleop\(host, \{[^}]*rig:/.test(APP) && /rigNode\(/.test(APP), "rig", "the parishes app hands a robot site's rig to the teleop mount");
+check(!/new T\.Mesh|new THREE\.Mesh|Geometry\(/.test(FILES_RT()), "rig", "rt-teleop.js adds no mesh");
+// 7c the second task: the cell-entry pose path finishes a take and clones as well as synthetic demonstrations
+check(JSON.stringify(rt.RT_TASK_IDS) === JSON.stringify(["rb-teleop-pick-place", "rb-cell-entry"]), "task2", `RT_TASKS are ${rt.RT_TASK_IDS.join(",")}`);
+const envC = rb.rbEnv("rb-cell-entry", { seed: 5 }), humanC = rt.rtScriptedHumanCell(envC, { seed: 5, skill: 1 });
+const rollC = rb.rbRollout(envC, { seed: 5, policy: (o) => rt.rtPoseToActionCell(humanC(o), o) });
+check(rollC.summary.passed && rollC.summary.violationCount === 0, "task2", `the scripted walker passes cell entry through the pose path (${JSON.stringify(rollC.summary)})`);
+const seqC = rollC.steps.map((s) => s.action.type).filter((t) => t !== "wait" && t !== "walk");
+check(JSON.stringify(seqC) === JSON.stringify(["test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart"]), "task2", `cell controls in order: ${seqC.join(">")}`);
+const obsC = envC.reset();
+check(rt.rtPoseToActionCell({ p: [0.5, 1.1, -obsC.distance], trigger: 1, squeeze: 0.2 }, obsC).type === "test-estop" && rt.rtPoseToActionCell({ p: [0.5, 1.1, -obsC.distance], trigger: 1, squeeze: 0.9 }, obsC).type === "press-estop", "task2", "a light squeeze on the e-stop tests it, a firm one holds it");
+check(rt.rtPoseToActionCell({ p: [0, 0.9, -obsC.distance + 1.6], trigger: 0, squeeze: 0.2 }, obsC).d === 1 && rt.rtPoseToActionCell({ p: [0, 0.9, -obsC.distance], trigger: 0, squeeze: 0.2 }, obsC).type === "wait", "task2", "a body shift walks (capped at the step), standing still waits");
+const cmp2 = rt.rtCompare({ n: 40, heldOut: 60, scenario: "rb-cell-entry" });
+check(cmp2.recorded.success > cmp2.random.success && cmp2.synthetic.success > cmp2.random.success, "task2", `cell BC above random: recorded ${cmp2.recorded.success}, synthetic ${cmp2.synthetic.success}, random ${cmp2.random.success}`);
+check(cmp2.recorded.success >= cmp2.synthetic.success - 0.1 && cmp2.expert.success >= cmp2.recorded.success - 0.05, "task2", `cell recorded takes within 0.1 of synthetic (${cmp2.recorded.success} vs ${cmp2.synthetic.success}), expert ${cmp2.expert.success}`);
+check(Object.keys(rt.rtCompareAll({ n: 4, heldOut: 3 })).length === 2, "task2", "rtCompareAll reports both tasks");
+// 7d the COLEARN-trained policy runs as the agent-jobs provider, the governor on every step
+const vbc = await imp("WebXR/shared/vb-colearn.js"), vbb = await imp("WebXR/shared/vb-bridge.js"), vbg = await imp("WebXR/shared/vb-governor.js");
+const prov = vbc.vbColearnProvider();
+check(prov.policyFor("vb-scripted-expert", rb.rbEnv("rb-cell-entry")) === null && typeof prov.policyFor("vb-colearn-bc-knn", rb.rbEnv("rb-cell-entry")) === "function", "provider", "policyFor answers only the COLEARN policy id");
+const jobC = vbb.vbRunJob(vbc.vbSafeJobFor("rb-cell-entry", 0, "vb-colearn-bc-knn"), vbg.vbGovernor(), { supervisor: "Supervisor (check)", policyFor: prov.policyFor });
+check(jobC.phase === "COMPLETED" && jobC.provider.policyId === "vb-colearn-bc-knn" && jobC.deliverable.episode.steps.every((s) => !!s.info.governor), "provider", `a COLEARN-provided cell job completes with the governor's verdict on every step (${jobC.phase}, ${jobC.deliverable?.episode?.steps?.length} steps)`);
+const jobE = vbb.vbRunJob(vbc.vbSafeJobFor("rb-cell-entry", 1, "vb-colearn-bc-knn"), vbg.vbGovernor(), { supervisor: "Supervisor (check)", policyFor: prov.policyFor, estopAtStep: 2 });
+check(jobE.phase === "REJECTED" && jobE.deliverable.evalCard.halted?.action === "estop", "provider", "the e-stop halts a COLEARN-provided run");
+const pc = vbc.vbProviderCompare({ jobsPerTask: 10 });
+check(pc.governor.everyStep && pc.totals.colearn.completed >= pc.totals.scripted.completed - 4 && pc.totals.colearn.completed > 0, "provider", `COLEARN completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of}; governor on every step ${pc.governor.everyStep}`);
+check(Object.values(pc.tasks).every((t) => /synthetic human stand-in/.test(t.colearn.trainedOn?.source ?? "")), "provider", "the provider's training data is labelled as the synthetic stand-in");
+const PANEL = read("WebXR/shared/vb-panel.js");
+check(/policyFor = null/.test(PANEL) && /vbRun\(preview, vbGovernor\(\), \{ policyFor \}\)/.test(PANEL) && /estopAtStep: estopAt, policyFor/.test(PANEL) && PANEL.includes('policyId: "vb-colearn-bc-knn"'), "provider", "the panel runs jobs through policyFor and queues a COLEARN-provided job");
+check(/vbColearnProvider/.test(APP) && /policyFor: vbProvider \?/.test(APP) && read("tools/bundle_webxr.py").includes('SHARED / "vb-colearn.js"'), "provider", "the app mounts the provider guarded and the bundle list carries vb-colearn.js");
+// 7e the K-12 lesson "a robot waits for a grown-up's OK" follows the Louisiana-lesson pattern
+const LK = await imp("WebXR/shared/lk-la-lessons.js"), LCO = await imp("WebXR/shared/lco-la-flows.js");
+const lesson = LK.LK_LESSONS.find((l) => l.id === "lk-lesson-robot-waits-for-ok");
+check(!!lesson && lesson.station === "k12-rt-a-robot-waits-for-a-grown-ups-ok" && lesson.programme === "k12-science" && stations.has(lesson.station), "k12", "the lesson is registered on its K-12 science station");
+check(!!LCO.lcoGameFor("lk-lesson-robot-waits-for-ok") && LCO.lcoApplySteps(LCO.lcoGameFor("lk-lesson-robot-waits-for-ok").id).length === 3, "k12", "the OK Desk apply game has three rounds");
+check(existsSync(join(ROOT, "WebXR/flows/lk-robot-waits-for-ok.json")) && read("docs/flowhub.md").includes("lk-robot-waits-for-ok.json"), "k12", "the FlowHub flow exists and is documented");
+check(rp.RP_TRACKS.every((t) => t.levels.aware.includes("k12-rt-a-robot-waits-for-a-grown-ups-ok")), "k12", "the lesson's station sits in every track's awareness level");
+const K12 = read("WebXR/smartcity/js/sims/k12-rt-a-robot-waits-for-a-grown-ups-ok.js");
+check(/grown-up in charge/i.test(K12) && /stop/i.test(K12) && !/\bdanger|injur|kill/i.test(K12), "k12", "the K-12 station teaches the grown-up's OK and the stop without fear framing");
+
 // ---------------------------------------------------------------- 6 hygiene
-const FILES = { rt: read("WebXR/shared/rt-teleop.js"), console: read("docs/consoles/ROBOTRAIN.md"), data: DATA, fns: FNS, gen: read("tools/gen_robotics_programme.mjs"), page: PAGE, handbook: DOC, ...Object.fromEntries(GAPS.map((id) => [id, read(`WebXR/smartcity/js/sims/${id}.js`)])) };
+function FILES_RT() { return read("WebXR/shared/rt-teleop.js"); }
+const FILES = { rt: read("WebXR/shared/rt-teleop.js"), vbc: read("WebXR/shared/vb-colearn.js"), console: read("docs/consoles/ROBOTRAIN.md"), console2: read("docs/consoles/ROBOTRAIN-2.md"), data: DATA, fns: FNS, gen: read("tools/gen_robotics_programme.mjs"), page: PAGE, handbook: DOC, ...Object.fromEntries(GAPS.map((id) => [id, read(`WebXR/smartcity/js/sims/${id}.js`)])) };
 for (const [k, v] of Object.entries(FILES)) {
   check(v.length > 0, "hygiene", `${k}: missing`);
   check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket\s*\(|navigator\.sendBeacon/.test(v), "hygiene", `${k}: a network call`);
   check(!/claude-(opus|sonnet|haiku)|\bopus[- ]\d|\bsonnet[- ]\d|\bhaiku[- ]\d|\bgpt-\d/i.test(v), "hygiene", `${k}: a model identifier`);
   check(!/\b(partner(ed|ship)? with|in partnership with|affiliated with|endorsed by|backed by|sponsored by)\b/i.test(v.replace(/no partnership with any[^.]*\./gi, "")), "hygiene", `${k}: affiliation wording`);
 }
-check(!/import\s*\{[^}]*\sas\s/.test(FILES.rt), "hygiene", "an import alias in rt-teleop.js");
+check(!/import\s*\{[^}]*\sas\s/.test(FILES.rt) && !/import\s*\{[^}]*\sas\s/.test(FILES.vbc), "hygiene", "an import alias in rt-teleop.js or vb-colearn.js");
+check([...FILES.vbc.matchAll(/^export (?:const|function|let) (\w+)/gm)].every((m) => /^(vb|VB_)/.test(m[1])), "hygiene", "every export of vb-colearn.js is prefixed vb/VB_");
+check(FILES.console2.includes("## Cycles") && FILES.console2.includes("## Seams") && /before/.test(FILES.console2) && /after/.test(FILES.console2), "hygiene", "docs/consoles/ROBOTRAIN-2.md lacks Cycles, Seams or before/after evals");
 check(!/claude-(opus|sonnet|haiku)|\bopus[- ]\d|\bsonnet[- ]\d|\bhaiku[- ]\d|\bgpt-\d/i.test(read("tools/check_robotrain.mjs")), "hygiene", "checker: a model identifier");
 check(/^(export (const|function|let) (rt|RT_)|import |\/\/|\/\*| \*|\s*$|const rt|[})\]]|\s)/m.test(FILES.rt) && [...FILES.rt.matchAll(/^export (?:const|function|let) (\w+)/gm)].every((m) => /^(rt|RT_)/.test(m[1])), "hygiene", "every export of rt-teleop.js is prefixed rt/RT_");
 check(/adults only/.test(FILES.rt) && /revoking deletes/.test(FILES.rt) && /no upload endpoint/.test(FILES.rt), "hygiene", "rt-teleop.js states the data rules");
@@ -170,4 +233,4 @@ check(FILES.console.includes("## Cycles") && FILES.console.includes("## Seams"),
 
 const fmt = (x) => `success ${x.success} clean ${x.clean} steps ${x.meanSteps}`;
 if (fails.length) { for (const f of fails.slice(0, 40)) console.log("FAIL", f); console.log(`check_robotrain: FAILED ${fails.length} of ${checks} checks`); process.exit(1); }
-console.log(`check_robotrain: ok — ${checks} checks · gap coverage before ${before.covered}/${before.of} → after ${after.covered}/${after.of} (${after.gaps.map((g) => `${g.gap}: ${g.id} in ${inLevels(g.id).length} level(s)`).join("; ")}) · meshes ${GAPS.map((id) => meshCounts[id]).join("/")} · programme coverage ${cov.covered}/${cov.of} · recorded vs synthetic BC on ${cmp.heldOut} held-out seeds (N=${cmp.n}, stand-in labelled synthetic): recorded ${fmt(cmp.recorded)} (kept ${cmp.recorded.kept}/${cmp.recorded.offered}) · synthetic ${fmt(cmp.synthetic)} (kept ${cmp.synthetic.kept}/${cmp.synthetic.offered}) · random ${cmp.random.success} · expert ${cmp.expert.success} · recorder inert without consent, human take valid with receipt, revoke deletes · page: loop 5/5 live, recorder live, gaps 4/4`);
+console.log(`check_robotrain: ok — ${checks} checks · gap coverage before ${before.covered}/${before.of} → after ${after.covered}/${after.of} (${after.gaps.map((g) => `${g.gap}: ${g.id} in ${inLevels(g.id).length} level(s)`).join("; ")}) · meshes ${GAPS.map((id) => meshCounts[id]).join("/")} · programme coverage ${cov.covered}/${cov.of} · recorded vs synthetic BC on ${cmp.heldOut} held-out seeds (N=${cmp.n}, stand-in labelled synthetic): recorded ${fmt(cmp.recorded)} (kept ${cmp.recorded.kept}/${cmp.recorded.offered}) · synthetic ${fmt(cmp.synthetic)} (kept ${cmp.synthetic.kept}/${cmp.synthetic.offered}) · random ${cmp.random.success} · expert ${cmp.expert.success} · recorder inert without consent, human take valid with receipt, revoke deletes · page: loop 5/5 live, recorder live, gaps 4/4 · loop 6: XR pose source pure (grip + trigger/squeeze/e-stop), rig follows the pose with 0 new meshes · cell entry through the pose path: recorded ${fmt(cmp2.recorded)} (kept ${cmp2.recorded.kept}/${cmp2.recorded.offered}) · synthetic ${fmt(cmp2.synthetic)} · random ${cmp2.random.success} · expert ${cmp2.expert.success} · COLEARN provider on seeded safe jobs: completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of} (${Object.entries(pc.tasks).map(([k, t]) => `${k} ${t.colearn.completed}/${t.scripted.completed}`).join(", ")}), governor verdict on ${pc.governor.stepsMonitored}/${pc.governor.stepsRun} steps · K-12 lesson lk-lesson-robot-waits-for-ok on ${lesson?.station}`);
