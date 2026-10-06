@@ -30646,5 +30646,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rp-construction-drilling-robot-setup",
+    "index": "rp-3",
+    "domain": "Construction",
+    "trade": "Construction robot operator, ceiling-drilling robot for anchor layout — Carpenters/IBEW",
+    "category": "Construction & Structural Trades",
+    "certification": "Carpenters (UBC) and IBEW apprenticeship training as bodies; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction (its Table 1 names the controls for drilling into concrete), 29 CFR 1926.416 electrical safety-related work practices, 29 CFR 1926.21 safety training and education and 29 CFR 1926.102 eye and face protection; ANSI A10.9 concrete and masonry work; the robot maker's manual and the site's work plan for the deck",
+    "name": "Ceiling-Drilling Robot Set-Up",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Ceiling-Drilling Robot Set-Up VR",
+    "tagline": "Setting up a mobile ceiling-drilling robot on a concrete deck: the scan for embedded conduit and tendons read before any hole, the work zone barricaded so nobody stands under the mast, the robot's position checked against control points, the drill's vacuum dust collection running, a bit changed only with the battery isolated, and the dust cleaned with a vacuum instead of a broom",
+    "accent": 16757596,
+    "accentCss": "#ffb35c",
+    "parSeconds": 320,
+    "badge": {
+      "id": "clear-below",
+      "name": "Clear Below",
+      "note": "Read the deck scan, kept the zone under the mast clear, ran the dust collection and isolated the battery for every bit change"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clear Below",
+      "currency": "AN",
+      "ranks": [
+        "Labour Hand",
+        "Zone Keeper",
+        "Robot Operator",
+        "Layout Lead",
+        "Clear Below Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

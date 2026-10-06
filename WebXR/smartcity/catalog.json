@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 723
+      "stations": 724
     },
     "trades": {
       "entry": "trades/index.html",
@@ -352,6 +352,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rp-construction-drilling-robot-setup",
         "bk-bioretention-rain-garden-excavation",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
@@ -10266,6 +10267,83 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rp-construction-drilling-robot-setup",
+      "name": "Ceiling-Drilling Robot Set-Up",
+      "title": "SmartCiti.X~ Ceiling-Drilling Robot Set-Up VR",
+      "tagline": "Setting up a mobile ceiling-drilling robot on a concrete deck: the scan for embedded conduit and tendons read before any hole, the work zone barricaded so nobody stands under the mast, the robot's position checked against control points, the drill's vacuum dust collection running, a bit changed only with the battery isolated, and the dust cleaned with a vacuum instead of a broom",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Construction robot operator, ceiling-drilling robot for anchor layout — Carpenters/IBEW",
+      "union": null,
+      "certification": "Carpenters (UBC) and IBEW apprenticeship training as bodies; OSHA 29 CFR 1926.1153 respirable crystalline silica in construction (its Table 1 names the controls for drilling into concrete), 29 CFR 1926.416 electrical safety-related work practices and 29 CFR 1926.21 safety training and education; ANSI A10.9 concrete and masonry work; the robot maker's manual and the site's work plan for the deck",
+      "accent": "#ffb35c",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "find",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "clear-below",
+        "name": "Clear Below",
+        "note": "Read the deck scan, kept the zone under the mast clear, ran the dust collection and isolated the battery for every bit change"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rp-3",
+      "flat": false,
+      "system": "Clear Below",
+      "currency": "AN",
+      "ranks": [
+        "Labour Hand",
+        "Zone Keeper",
+        "Robot Operator",
+        "Layout Lead",
+        "Clear Below Certified"
+      ],
+      "awards": [
+        {
+          "id": "scan-first",
+          "name": "Scan First",
+          "note": "Read the deck scan before the robot moved"
+        },
+        {
+          "id": "zone-kept",
+          "name": "Zone Kept",
+          "note": "Stopped the robot when someone walked under the mast"
+        },
+        {
+          "id": "steady-flow",
+          "name": "Steady Flow",
+          "note": "Held the vacuum flow near band centre"
+        },
+        {
+          "id": "quick-setup",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Set-Up",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rp-construction-drilling-robot-setup"
     },
     {
       "app": "smartcity",
@@ -37550,7 +37628,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
