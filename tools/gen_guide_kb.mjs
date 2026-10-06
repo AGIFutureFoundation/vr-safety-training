@@ -220,7 +220,7 @@ async function build() {
     const lines = readFileSync(join(ROOT, rel), "utf8").split("\n");
     let docTitle = null, head = null, para = [], n = 0;
     const flush = () => {
-      if (head && para.length && n < (rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals/") ? 2 : 5)) { // five sections a doc: the KB holds its 672 KB cap as docs grow
+      if (head && para.length && n < (rel.startsWith("docs/programmes/") || rel.startsWith("docs/virtuals") || rel === "docs/robotics-programme.md" || rel === "docs/louisiana-cohorts.md" ? 2 : 5)) { // five sections a doc (two for generated programme docs and the agent-network docs): the KB holds its 672 KB cap as docs grow
         const text = plain(para.join(" "));
         if (text.length > 30) {
           add({ id: `doc:${rel.slice(5)}#${n}`, kind: "doc", title: head === docTitle ? docTitle : `${docTitle} — ${head}`, src: rel,
