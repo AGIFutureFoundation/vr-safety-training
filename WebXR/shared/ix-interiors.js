@@ -4,7 +4,8 @@
 //
 //   IX_STYLES                       plain data: the generic room styles { label, w, d, h, colours, dress: [[prop, pattern]] }
 //   IX_KIND_STYLE                   plain data: every parish-engine site kind -> a style id
-//   ixStyleFor(kind)                -> style id (never null: an unknown kind gets "civic-lobby")
+//   IX_SITE_STYLE                   plain data: single sites that open a style of their own (LA-ROOMS), read before the kind
+//   ixStyleFor(kind, siteId?)       -> style id (never null: an unknown kind gets "civic-lobby")
 //   ixBuild(styleId, { three, tier = "high", site = null, dressers = IX_DRESSERS })
 //                                   -> room { group, style, w, d, h, door: {x, z}, colliders: [{min, max}], actions: [...],
 //                                             addAction({ id, kind, x, z, r = 1.4, label, run }), meshes() }
@@ -68,6 +69,13 @@ export const IX_STYLES = {
   // TYCOON's rentals (Crew Credits, a play currency): a rented room and a rented shop, generic and procedural like the listings.
   "rented-room":  { label: "Rented room", w: 8, d: 7, h: 3, wall: 0xe8e0d0, floor: 0x7d6450, ceiling: 0xf2eee6, trim: 0x8a6a48, accent: 0x37d6c0, lamp: 0xffe6c0,
     dress: [["bed", "back:1"], ["desk", "wall:1"], ["locker", "back:2"], ["chair", "front"]] },
+  // LA-ROOMS (docs/consoles/LA-ROOMS.md): walk-in rooms for the Louisiana site kinds; lar-rooms.js furnishes them (dressers).
+  "lar-hangar":       { label: "Aircraft hangar", w: 26, d: 24, h: 11, wall: 0xc9ced3, floor: 0x70777d, ceiling: 0x9aa3aa, trim: 0x2f5d8c, accent: 0xf2c14b, lamp: 0xf2f8ff, dress: [] },
+  "lar-fab-shop":     { label: "Shipyard fabrication shop", w: 24, d: 20, h: 10, wall: 0xb9c1c7, floor: 0x535c63, ceiling: 0x828c94, trim: 0xf2a23b, accent: 0xf2c14b, lamp: 0xeef5fb, dress: [] },
+  "lar-data-hall":    { label: "Data hall and electrical room", w: 20, d: 16, h: 4.5, wall: 0xe4e8ec, floor: 0xb8bec4, ceiling: 0xd9dee2, trim: 0x2f6f8c, accent: 0x37d6c0, lamp: 0xf6fbff, dress: [] },
+  "lar-control-room": { label: "Process control room", w: 14, d: 12, h: 3.6, wall: 0xdcdfe2, floor: 0x5d6770, ceiling: 0xe8eaec, trim: 0x2f5d8c, accent: 0x4fb8c9, lamp: 0xf2f6fa, dress: [] },
+  "lar-compressor":   { label: "Gas storage compressor building", w: 20, d: 14, h: 8, wall: 0xbcc4ca, floor: 0x5f666c, ceiling: 0x8f989f, trim: 0xf2c14b, accent: 0xf2a23b, lamp: 0xeef5fb, dress: [] },
+  "lar-craft-hall":   { label: "Louisiana crafts training hall", w: 24, d: 18, h: 6, wall: 0xd8cfbf, floor: 0x7a5a42, ceiling: 0xe8e2d6, trim: 0x2f5d8c, accent: 0xc0392b, lamp: 0xfff0d8, dress: [] },
   "shop":         { label: "Rented shop", w: 11, d: 9, h: 3.6, wall: 0xf0ebe0, floor: 0x9a8f80, ceiling: 0xf4f1ea, trim: 0x2f6f8c, accent: 0xf2c14b, lamp: 0xfff4e0,
     dress: [["counter", "front"], ["rack", "wall:4"], ["crate", "row:2"]] },
 };
@@ -102,8 +110,26 @@ export const IX_KIND_STYLE = {
   // SMILES' community-health district.
   outreach: "clinic", plaza: "civic-lobby", office: "civic-lobby",
   // SITES-COAST's Louisiana project sites (docs/consoles/SITES-COAST.md).
-  "tank-farm": "plant-room", compressor: "plant-room", wellpad: "plant-room", pipeline: "workshop", dredge: "port-shed", slip: "port-shed",
-  hangar: "warehouse", "paint-shop": "workshop", "fuel-farm": "plant-room",
+  "tank-farm": "plant-room", pipeline: "workshop", dredge: "port-shed", slip: "port-shed",
+  hangar: "lar-hangar", "paint-shop": "workshop", "fuel-farm": "plant-room",
+  // LA-ROOMS: the Louisiana-only kinds that open their own rooms (shipyard stays "workshop": it is on ten other maps).
+  compressor: "lar-compressor", wellpad: "lar-compressor",
+};
+
+/**
+ * LA-ROOMS: single sites whose kind is generic ("office", "substation", "campus" …) but whose room is one of the Louisiana
+ * rooms. Plain data: site id -> style id. ixStyleFor(kind, siteId) reads it first; every id is a real site on a Louisiana map
+ * and never a CLASSROOMS room site (tools/check_la_rooms.mjs proves both).
+ */
+export const IX_SITE_STYLE = {
+  "lav-paint-hangar": "lar-hangar",
+  "lsf-hull-fabrication": "lar-fab-shop", "lsf-large-vessel-line": "lar-fab-shop", "lsf-plate-cutting-shop": "lar-fab-shop", "lsf-blast-and-paint": "lar-fab-shop",
+  "lmr-data-hall-fitout": "lar-data-hall", "ldf-electrical-room": "lar-data-hall", "ldf-network-cabling": "lar-data-hall",
+  "lsp-control-room": "lar-control-room", "lbb-control-building": "lar-control-room", "lcc-control-building": "lar-control-room",
+  "lbb-metering-station": "lar-compressor", "lbb-blending-skid": "lar-compressor",
+  "lmr-workforce-centre": "lar-craft-hall", "ldf-workforce-centre": "lar-craft-hall", "lsp-workforce-centre": "lar-craft-hall",
+  "lafd-workforce-centre": "lar-craft-hall", "mon-workforce-centre": "lar-craft-hall", "lcd-workforce-centre": "lar-craft-hall",
+  "lsb-workforce-trailer": "lar-craft-hall", "lbb-workforce-trailer": "lar-craft-hall", "lafc-workforce-trailer": "lar-craft-hall",
 };
 
 /**
@@ -125,9 +151,17 @@ export const IX_FEATURES = {
   "civic-lobby":   [[0.06, 1, 0.06, -0.3, 0.5, 0.2, "metal"], [0.06, 1, 0.06, 0.3, 0.5, 0.2, "metal"], [4.2, 0.05, 0.05, 0, 0.95, 0.2, "accent"], [3, 0.8, 0.05, 0, 3.2, -0.99, "pale"]],
   "rented-room":   [[1.4, 1.1, 0.05, 0.4, 1.5, -0.99, "pale"], [2.4, 0.02, 1.8, -0.1, 0.01, 0.1, "accent"]],
   "shop":          [[3, 1, 0.05, 0, 2.6, -0.99, "accent"], [2.4, 2.2, 0.05, 0.5, 1.2, 0.99, "pale"]],
+  // LA-ROOMS: the hangar's back doors and roof trusses; the fab shop's bridge crane; the data hall's trays and busway; the
+  // control room's video wall; the compressor building's crane beam and louvres; the craft hall's banner and bay screens.
+  "lar-hangar":       [[8, 9, 0.12, -0.5, 4.5, -0.99, "metal"], [8, 9, 0.12, 0.5, 4.5, -0.99, "metal"], [25, 0.4, 0.4, 0, 10.3, -0.4, "dark"], [25, 0.4, 0.4, 0, 10.3, 0.4, "dark"], [0.2, 0.02, 18, -0.6, 0.01, -0.2, "accent"], [0.2, 0.02, 18, 0.6, 0.01, -0.2, "accent"]],
+  "lar-fab-shop":     [[23.5, 0.6, 0.6, 0, 8.6, -0.2, "accent"], [0.3, 0.3, 19, -0.97, 8.2, 0, "dark"], [0.3, 0.3, 19, 0.97, 8.2, 0, "dark"], [0.6, 0.6, 18, 0.6, 9.3, 0, "metal"], [0.15, 0.02, 8, -0.35, 0.01, -0.3, "accent"]],
+  "lar-data-hall":    [[0.6, 0.1, 14, -0.4, 3.7, -0.1, "metal"], [0.6, 0.1, 14, 0.4, 3.7, -0.1, "metal"], [0.3, 0.2, 14, -0.1, 4.0, -0.1, "accent"], [19.6, 0.02, 0.05, 0, 0.01, 0.3, "dark"]],
+  "lar-control-room": [[8, 2, 0.08, 0, 2.2, -0.99, "dark"], [8.4, 0.1, 0.1, 0, 3.25, -0.98, "trim"], [10, 0.1, 1, 0, 3.4, -0.2, "pale"], [0.05, 1.2, 5, -0.99, 1.9, 0.5, "pale"]],
+  "lar-compressor":   [[19.5, 0.5, 0.5, 0, 7.2, 0, "accent"], [18, 0.35, 0.35, 0, 4.2, -0.8, "metal"], [0.05, 1.2, 4, 0.99, 5.5, 0, "dark"], [0.05, 1.2, 4, -0.99, 5.5, 0, "dark"], [18, 0.02, 1.2, 0, 0.01, 0.2, "accent"]],
+  "lar-craft-hall":   [[8, 1.4, 0.05, 0, 4.4, -0.99, "accent"], [0.05, 2, 5, -0.99, 3.4, -0.4, "pale"], [0.05, 2, 5, 0.99, 3.4, -0.4, "pale"], [0.15, 0.02, 14, 0, 0.01, 0, "accent"]],
 };
 
-export function ixStyleFor(kind) { return IX_KIND_STYLE[kind] ?? "civic-lobby"; }
+export function ixStyleFor(kind, siteId = null) { return (siteId && IX_SITE_STYLE[siteId]) || (IX_KIND_STYLE[kind] ?? "civic-lobby"); }
 
 /** The door spot of a site building: `out` metres outside CITYWORKS' door (cwDoorOf) on its face, clear of the footprint. */
 export const IX_DOOR_OUT = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
@@ -198,7 +232,10 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
     boxMesh(ww, hh, dd, x, hh / 2, z, wallM, `ix-wall-${i}`);
     colliders.push({ min: [x - ww / 2, 0, z - dd / 2], max: [x + ww / 2, hh, z + dd / 2], kind: "ix-wall" });
   });
-  boxMesh(w - 0.02, 0.5, d - 0.02, 0, 0.25, 0, mat(style.trim, { side: THREE.BackSide }), "ix-trim");
+  // The trim band: a BackSide box whose top and bottom faces are hidden (per-face materials +x −x +y −y +z −z), so its bottom
+  // face does not paint the floor in the trim colour (LA-ROOMS found every floor drawn trim-coloured).
+  { const tm = mat(style.trim, { side: THREE.BackSide }), none = new THREE.MeshBasicMaterial({ visible: false });
+    boxMesh(w - 0.02, 0.5, d - 0.02, 0, 0.25, 0, [tm, tm, none, none, tm, tm], "ix-trim"); }
   // The door (exit) in the middle of the +z wall, and its lit exit sign.
   const door = { x: 0, z: d / 2 - 1.1 };
   boxMesh(1.6, 2.3, 0.1, 0, 1.15, d / 2 - 0.02, mat(0x5e4128), "ix-door");
@@ -304,7 +341,7 @@ export function ixMountInteriors({ three, scene, hide = [], tier = "high", onBoa
     inside: () => !!room,
     enter(site, outdoor, { style = null, title = null } = {}) {
       if (room) return room;
-      const styleId = style && IX_STYLES[style] ? style : ixStyleFor(site?.kind);
+      const styleId = style && IX_STYLES[style] ? style : ixStyleFor(site?.kind, site?.id);
       room = ixBuild(styleId, { three, tier, site, title });
       if (!room) return null;
       saved = { pose: { ...outdoor }, vis: hide.map((o) => (o ? o.visible : null)), fog: scene?.fog ?? null };

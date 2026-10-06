@@ -86,6 +86,7 @@ import { usSims } from "../../shared/us-unionsims.js";
 import { lpRegisterSims } from "../../shared/lp-programme.js";
 lpRegisterSims({ psRegisterSims, lookup: npParish });
 import { crMountClassrooms, crRegisterDressers } from "../../shared/cr-classrooms.js";
+import { larRegisterDressers } from "../../shared/lar-rooms.js";
 import { hvMount } from "../../shared/hv-harvest.js";
 import { smilesMount } from "../../shared/sm-smiles.js";
 
@@ -986,6 +987,10 @@ function crLaunch(l, room) {
 }
 // INTERIORS' shell when it is in the build (guarded): the same rooms furnish its styles as dressers, and its doors take over.
 var crDressed = crRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser, IX_KIND_STYLE } : null, { parish, launch: crLaunch });
+// LA-ROOMS (docs/consoles/LA-ROOMS.md): the Louisiana rooms (hangar, fab shop, data hall, control room, compressor building,
+// craft hall) furnish their INTERIORS styles; each object opens a catalog station or a programme simulation through crLaunch.
+var larDressed = larRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null, { parish, launch: crLaunch });
+void larDressed;
 var crWorld = crMountClassrooms({
   three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
