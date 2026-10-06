@@ -54,9 +54,30 @@ export const RP_ROBOT_STATIONS = {
   "rp-robot-policy-evaluation-review": "robot policy evaluation",
   "rp-construction-drilling-robot-setup": "construction robot",
   "k12-rp-how-a-robot-knows-to-stop": "robot sensing (K-12 awareness)",
+  "rt-teach-pendant-safe-jogging": "industrial robot cell (teach pendant, enabling device, reduced speed)",
+  "rt-cobot-power-force-limit-check": "collaborative robot (power and force limiting)",
+  "rt-robot-estop-recovery-and-restart": "industrial robot cell (e-stop recovery and restart)",
+  "rt-speed-separation-monitoring-setup": "collaborative robot (speed and separation monitoring)",
 };
 /** The station ids this console authored (kept so the checker can hold them to the station brief). */
 export const RP_NEW_STATIONS = ["rp-teleop-demonstration-collection", "rp-robot-policy-evaluation-review", "rp-construction-drilling-robot-setup", "k12-rp-how-a-robot-knows-to-stop"];
+/**
+ * ROBOTRAIN's four gap stations (console ROBOTRAIN, docs/consoles/ROBOTRAIN.md; WebXR/smartcity/js/sims/rt-*.js) — the gaps
+ * ROBOPROG left open: safe teach-pendant use, a cobot power-and-force-limiting check, recovering a robot after an e-stop, and
+ * speed-and-separation monitoring set-up. `gap` names the gap each one closes; tools/check_robotrain.mjs measures the coverage.
+ */
+export const RP_GAP_STATIONS = [
+  { id: "rt-teach-pendant-safe-jogging", gap: "teach-pendant", title: "safe teach-pendant use (enabling device, reduced speed)" },
+  { id: "rt-cobot-power-force-limit-check", gap: "power-force-limiting", title: "cobot power-and-force-limiting check (ISO/TS 15066 named)" },
+  { id: "rt-robot-estop-recovery-and-restart", gap: "estop-recovery", title: "recovering a robot after an e-stop" },
+  { id: "rt-speed-separation-monitoring-setup", gap: "speed-separation", title: "speed-and-separation monitoring set-up" },
+];
+/**
+ * ROBOTRAIN's teleoperation demonstration recorder (shared/rt-teleop.js): the learner's controller or mouse pose drives the sim
+ * arm and each take is recorded through DATAWORKS' recorder (inert unless opted in). Referenced by name, GUARDED like RP_LOOP.
+ */
+export const RP_TELEOP_RECORDER = { module: "rt-teleop.js", fn: "rtRecorder", station: "rp-teleop-demonstration-collection",
+  what: "A controller (or mouse) pose drives the Teleop Pick-and-Place arm; each take is recorded as a demonstration through DATAWORKS' recorder, so nothing is kept unless an adult, signed-in learner has opted in, and revoking deletes it. Tests use a scripted human stand-in, labelled synthetic." };
 
 // The awareness level's classroom stations (shared by every track) — K-12 science, reading and careers.
 const RP_K12 = ["k12-rp-how-a-robot-knows-to-stop", "k12-simple-machines-at-a-crane", "k12-circuits-at-the-electrical-bench", "k12-reading-instructions-and-safety-labels", "k12-es-who-does-this-work"];
@@ -73,9 +94,9 @@ export const RP_TRACKS = [
     standards: ["iso-10218-1", "iso-10218-2", "ansi-a3-r15-06", "osha-1910-147"], scenario: "rb-cell-entry", rbSites: ["rb-site-soma-robot-cell"],
     levels: {
       aware: RP_K12,
-      operator: ["robot-cell", "tw-palletizer-cell-fenced-access-permit", "conveyor-guard", "press-brake"],
-      technician: ["ad-robot-cell-lockout-and-safe-reentry", "robot-cell", "cnc-cell", "conveyor-guard", "electrical"],
-      integrator: ["ad-robot-cell-lockout-and-safe-reentry", "tw-palletizer-cell-fenced-access-permit", "ad-cobot-risk-assessment-and-speed-separation", "robot-cell"],
+      operator: ["robot-cell", "rt-robot-estop-recovery-and-restart", "tw-palletizer-cell-fenced-access-permit", "conveyor-guard", "press-brake"],
+      technician: ["ad-robot-cell-lockout-and-safe-reentry", "rt-teach-pendant-safe-jogging", "robot-cell", "cnc-cell", "conveyor-guard", "electrical"],
+      integrator: ["ad-robot-cell-lockout-and-safe-reentry", "rt-teach-pendant-safe-jogging", "tw-palletizer-cell-fenced-access-permit", "ad-cobot-risk-assessment-and-speed-separation", "robot-cell"],
       "ai-training": ["robot-cell", ...RP_AI],
     },
     credentials: { aware: ["k12-science", "k12-literacy-and-life-skills"], operator: ["core-lockout-tagout", "aerospace-defense-and-robotics"], technician: ["core-lockout-tagout"], integrator: ["aerospace-defense-and-robotics", "situational-awareness"], "ai-training": ["aerospace-defense-and-robotics"] } },
@@ -84,8 +105,8 @@ export const RP_TRACKS = [
     levels: {
       aware: RP_K12,
       operator: ["ad-cobot-risk-assessment-and-speed-separation", "ad-cleanroom-gowning-and-esd-discipline", "robot-cell"],
-      technician: ["ad-cobot-risk-assessment-and-speed-separation", "ad-robot-cell-lockout-and-safe-reentry", "electrical", "robot-cell"],
-      integrator: ["ad-cobot-risk-assessment-and-speed-separation", "ad-robot-cell-lockout-and-safe-reentry", "ad-test-stand-exclusion-zone-and-holds", "robot-cell"],
+      technician: ["ad-cobot-risk-assessment-and-speed-separation", "rt-cobot-power-force-limit-check", "ad-robot-cell-lockout-and-safe-reentry", "electrical", "robot-cell"],
+      integrator: ["ad-cobot-risk-assessment-and-speed-separation", "rt-speed-separation-monitoring-setup", "rt-cobot-power-force-limit-check", "ad-robot-cell-lockout-and-safe-reentry", "ad-test-stand-exclusion-zone-and-holds", "robot-cell"],
       "ai-training": ["ad-cobot-risk-assessment-and-speed-separation", ...RP_AI],
     },
     credentials: { aware: ["k12-science", "k12-literacy-and-life-skills"], operator: ["aerospace-defense-and-robotics"], technician: ["aerospace-defense-and-robotics", "core-lockout-tagout"], integrator: ["aerospace-defense-and-robotics"], "ai-training": ["aerospace-defense-and-robotics"] } },
@@ -113,8 +134,8 @@ export const RP_TRACKS = [
     standards: ["osha-1910-147", "iso-10218-2", "ansi-a3-r15-06"], scenario: "rb-cell-entry", rbSites: ["rb-site-soma-robot-cell"],
     levels: {
       aware: RP_K12,
-      operator: ["robot-cell", "conveyor-guard", "tw-conveyor-jam-clearing-and-loto", "ml-parcel-sorter-conveyor-jam-and-loto"],
-      technician: ["ad-robot-cell-lockout-and-safe-reentry", "robot-cell", "motor-control-center", "electrical", "tw-amr-traffic-zone-entry-and-lockout"],
+      operator: ["robot-cell", "rt-robot-estop-recovery-and-restart", "conveyor-guard", "tw-conveyor-jam-clearing-and-loto", "ml-parcel-sorter-conveyor-jam-and-loto"],
+      technician: ["ad-robot-cell-lockout-and-safe-reentry", "rt-robot-estop-recovery-and-restart", "rt-teach-pendant-safe-jogging", "robot-cell", "motor-control-center", "electrical", "tw-amr-traffic-zone-entry-and-lockout"],
       integrator: ["ad-robot-cell-lockout-and-safe-reentry", "tw-palletizer-cell-fenced-access-permit", "arc-flash-label-study", "robot-cell"],
       "ai-training": ["ad-robot-cell-lockout-and-safe-reentry", ...RP_AI],
     },
@@ -125,7 +146,7 @@ export const RP_TRACKS = [
       aware: RP_K12,
       operator: ["ad-cobot-risk-assessment-and-speed-separation", "rp-teleop-demonstration-collection", "robot-cell"],
       technician: ["rp-teleop-demonstration-collection", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill"],
-      integrator: ["rp-robot-policy-evaluation-review", "ad-cobot-risk-assessment-and-speed-separation", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill"],
+      integrator: ["rp-robot-policy-evaluation-review", "rt-speed-separation-monitoring-setup", "ad-cobot-risk-assessment-and-speed-separation", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill"],
       "ai-training": ["ad-cobot-risk-assessment-and-speed-separation", ...RP_AI],
     },
     credentials: { aware: ["k12-science", "k12-literacy-and-life-skills"], operator: ["aerospace-defense-and-robotics"], technician: ["aerospace-defense-and-robotics"], integrator: ["aerospace-defense-and-robotics"], "ai-training": ["aerospace-defense-and-robotics"] } },

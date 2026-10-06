@@ -103,6 +103,8 @@ const CHECKERS = [
   // LA-PROGRAMME: the Louisiana programme — facts, guarded map/site ids, matrix, pathways, sims (docs/consoles/LA-PROGRAMME.md).
   "check_la_programme.mjs",
   "check_robotics_programme.mjs",
+  // ROBOTRAIN: the four gap stations, the controller-pose teleoperation recorder, recorded vs synthetic BC (docs/consoles/ROBOTRAIN.md).
+  "check_robotrain.mjs",
   // LA-COHORTS: Louisiana lesson flows and apply games, classroom boards, Home links, cohort run sheets (docs/consoles/LA-COHORTS.md).
   "check_la_cohorts.mjs",
   "check_geo.mjs",

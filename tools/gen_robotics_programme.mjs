@@ -20,7 +20,7 @@ export async function rpTreeIds() {
   const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json"), "utf8"));
   const tryImp = async (f) => { if (!existsSync(join(ROOT, f))) return null; try { return await imp(f); } catch (_) { return null; } };
   if (!globalThis.localStorage) { const m = new Map(); globalThis.localStorage = { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k), key: (i) => [...m.keys()][i] ?? null, get length() { return m.size; } }; }
-  return { catalog, stations: new Map(catalog.stations.map((s) => [s.id, s])), dx: await tryImp("WebXR/shared/dx-data.js"), col: await tryImp("WebXR/shared/col-learn.js") };
+  return { catalog, stations: new Map(catalog.stations.map((s) => [s.id, s])), dx: await tryImp("WebXR/shared/dx-data.js"), col: await tryImp("WebXR/shared/col-learn.js"), rt: await tryImp("WebXR/shared/rt-teleop.js") };
 }
 
 async function main() {
@@ -34,6 +34,8 @@ async function main() {
   const templates = rp.rpTemplates(opts);
   const creds = rp.rpCredentialIds(opts);
   const loop = rp.rpLoop({ dx: tree.dx, col: tree.col });
+  const recorder = rp.rpRecorder({ rt: tree.rt });
+  const gapCov = rp.rpGapCoverage(opts);
   const stdLabel = (id) => rp.RP_STANDARDS.find((s) => s.id === id)?.label ?? id;
 
   const trackHtml = rp.RP_TRACKS.map((t) => {
@@ -138,6 +140,8 @@ async function main() {
     <ul class="rp-loop">
       ${loopHtml}
     </ul>
+    <p class="rp-muted" data-rp-recorder="${recorder.live ? "live" : "pending"}"><strong>Recorder</strong> — <code>${esc(recorder.module)}</code> <code>${esc(recorder.fn)}()</code>${recorder.live ? "" : " (pending in this build)"}; taught at ${sLink(recorder.station)}. ${esc(recorder.what)}</p>
+    <p class="rp-muted" data-rp-gaps="${gapCov.covered}/${gapCov.of}">Gap stations (ROBOTRAIN): ${gapCov.covered} of ${gapCov.of} covered — ${gapCov.gaps.map((g) => `${esc(g.title)}: ${g.inTree && g.inLevel ? sLink(g.id) : `<code>${esc(g.id)}</code> pending`}`).join("; ")}.</p>
     <p class="rp-muted" data-rp-consent>Training data is collected only with opt-in consent from signed-in adults — never in K-12, demo or signed-out sessions. It stays on the device (there is no upload endpoint), and revoking consent deletes it and marks dependent policies stale.</p>
   </section>
 
@@ -193,7 +197,9 @@ $("rp-form").addEventListener("submit", (e) => {
   md.push("", `Total: ${cov.covered}/${cov.of} track levels covered.`, "");
   md.push("## The learning loop (AI-training level)", "");
   for (const s of loop) md.push(`- **${s.title}** — \`${s.module}\` \`${s.fn}()\`${s.live ? "" : " (pending in this build)"}; station \`${s.station}\`. ${s.what}`);
+  md.push(`- **Recorder (ROBOTRAIN)** — \`${recorder.module}\` \`${recorder.fn}()\`${recorder.live ? "" : " (pending in this build)"}; station \`${recorder.station}\`. ${recorder.what}`);
   md.push("", "Data rules (DATAWORKS): opt-in only, adults only, never in K-12, demo or signed-out sessions; local only, no upload endpoint; revoking deletes the data and marks dependent policies stale.", "");
+  md.push("## Gap stations (ROBOTRAIN)", "", `${gapCov.covered} of ${gapCov.of} gaps ROBOPROG left open are covered by a robot station of their own in a track level.`, "", ...gapCov.gaps.map((g) => `- ${g.title}: ${g.inTree && g.inLevel ? `\`${g.id}\`` : `\`${g.id}\` (pending in this build)`}`), "");
   md.push("## Levels", "", "| Level | Who | Module score | Due |", "|---|---|---|---|");
   for (const l of rp.RP_LEVELS) md.push(`| ${l.title} | ${l.who} | ${l.requiredScore} | ${l.dueDays} days |`);
   md.push("");

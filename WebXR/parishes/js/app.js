@@ -73,6 +73,7 @@ import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
 import { dxCaptureLesson, dxCaptureDrill, dxCaptureRollout } from "../../shared/dx-world.js";
 import { colMountCoLearn } from "../../shared/col-learn.js";
+import { rtMountTeleop } from "../../shared/rt-teleop.js";
 // CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
 cpPlaceInParish(npParish);
 // BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
@@ -1069,6 +1070,8 @@ window.__parishTest.robotics = rbWorld;
 // COLEARN (docs/consoles/COLEARN.md): watch the robot's cloned policy do the cell entry, then try it with the bandit tutor;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });
+// ROBOTRAIN (docs/consoles/ROBOTRAIN.md): drive the teleop arm from a pointer pose; a take is kept only through DATAWORKS' recorder (inert unless opted in).
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); return rtMountTeleop(host, { reducedMotion: npReduced }); } catch (_) { return null; } })();
 // PACKS: the Holodeck Packs that play in this map (docs/consoles/PACKS.md), the chosen STORYLINE path's first.
 npMountPacks($("menu-packs"), parish.id);
 // COGNITION: the K-12 learning module runner — this parish's lessons, each flow played through its GRIOT guide (docs/consoles/COGNITION.md).

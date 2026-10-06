@@ -15,9 +15,9 @@
 // Only competency.js is imported, so the page and the checker load this without the engine.
 
 import { COMPETENCY_BY_ID } from "./competency.js";
-import { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_TRACKS, RP_LOOP } from "./rp-programme-data.js";
+import { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_GAP_STATIONS, RP_TELEOP_RECORDER, RP_TRACKS, RP_LOOP } from "./rp-programme-data.js";
 
-export { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_TRACKS, RP_LOOP };
+export { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_GAP_STATIONS, RP_TELEOP_RECORDER, RP_TRACKS, RP_LOOP };
 export function rpTracks() { return RP_TRACKS; }
 export function rpTrack(id) { return RP_TRACKS.find((t) => t.id === id) ?? null; }
 export function rpLevel(id) { return RP_LEVELS.find((l) => l.id === id) ?? null; }
@@ -47,6 +47,19 @@ export function rpCapstone(credential, stations, stationIds = null) {
 }
 
 /** The guarded loop: a step is live only when the module handed in exports its function. */
+/** ROBOTRAIN's gap coverage: which of the four gap stations are in the tree (`stationIds`), in a track level and a robot station. */
+export function rpGapCoverage({ stationIds = null } = {}) {
+  const inLevel = new Set(RP_TRACKS.flatMap((t) => Object.values(t.levels).flat()));
+  const gaps = RP_GAP_STATIONS.map((g) => ({ ...g, inTree: !stationIds || stationIds.has(g.id), inLevel: inLevel.has(g.id), robot: g.id in RP_ROBOT_STATIONS }));
+  return { gaps, covered: gaps.filter((g) => g.inTree && g.inLevel && g.robot).length, of: gaps.length };
+}
+
+/** The teleoperation recorder, live when the guarded module `rt` exports the named function (no import). */
+export function rpRecorder({ rt = null } = {}) {
+  let live = false; try { live = typeof rt?.[RP_TELEOP_RECORDER.fn] === "function"; } catch (_) { live = false; }
+  return { ...RP_TELEOP_RECORDER, live };
+}
+
 export function rpLoop({ dx = null, col = null } = {}) {
   const mods = { "dx-data.js": dx, "col-learn.js": col };
   return RP_LOOP.map((s) => { let live = false; try { live = typeof mods[s.module]?.[s.fn] === "function"; } catch (_) { live = false; } return { ...s, live }; });

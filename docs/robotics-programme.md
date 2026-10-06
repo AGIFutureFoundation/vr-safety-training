@@ -30,9 +30,9 @@ A level is covered when one of its own stations (capstones not counted) is a rob
 | Level | Tracks covered | Robot-station places |
 |---|---|---|
 | Awareness / K-12 | 6/6 | 6 |
-| Robot operator | 6/6 | 11 |
-| Robot technician | 6/6 | 13 |
-| Integrator / safety lead | 6/6 | 17 |
+| Robot operator | 6/6 | 13 |
+| Robot technician | 6/6 | 17 |
+| Integrator / safety lead | 6/6 | 21 |
 | AI-training specialist | 6/6 | 18 |
 
 Total: 30/30 track levels covered.
@@ -44,8 +44,18 @@ Total: 30/30 track levels covered.
 - **Train a policy (behaviour cloning)** — `col-learn.js` `colTrain()`; station `rp-robot-policy-evaluation-review`. A k-nearest-neighbour behaviour-cloning policy copies what the demonstrations did in similar moments. It does not plan and does not generalise beyond its demonstrations.
 - **Evaluate on held-out seeds** — `col-learn.js` `colEvalScenario()`; station `rp-robot-policy-evaluation-review`. The policy runs on seeds it never saw, against the scripted expert and a random baseline; the success rate and the gap to the expert are reported as measured.
 - **The robot demonstrates back** — `col-learn.js` `colGhost()`; station `rp-robot-policy-evaluation-review`. The trained policy replays a task as a ghost, with a plain-language explanation of each choice from its features (colExplain, a heuristic, no language model), so the learner can watch it and then try it.
+- **Recorder (ROBOTRAIN)** — `rt-teleop.js` `rtRecorder()`; station `rp-teleop-demonstration-collection`. A controller (or mouse) pose drives the Teleop Pick-and-Place arm; each take is recorded as a demonstration through DATAWORKS' recorder, so nothing is kept unless an adult, signed-in learner has opted in, and revoking deletes it. Tests use a scripted human stand-in, labelled synthetic.
 
 Data rules (DATAWORKS): opt-in only, adults only, never in K-12, demo or signed-out sessions; local only, no upload endpoint; revoking deletes the data and marks dependent policies stale.
+
+## Gap stations (ROBOTRAIN)
+
+4 of 4 gaps ROBOPROG left open are covered by a robot station of their own in a track level.
+
+- safe teach-pendant use (enabling device, reduced speed): `rt-teach-pendant-safe-jogging`
+- cobot power-and-force-limiting check (ISO/TS 15066 named): `rt-cobot-power-force-limit-check`
+- recovering a robot after an e-stop: `rt-robot-estop-recovery-and-restart`
+- speed-and-separation monitoring set-up: `rt-speed-separation-monitoring-setup`
 
 ## Levels
 
@@ -93,6 +103,7 @@ Kinds of work: fenced robot cells, palletizers, press and machine tending. Stand
   - Name the standards that apply (ISO 10218-1, ISO 10218-2, ANSI/A3 R15.06, OSHA 29 CFR 1910.147) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
+  - `rt-robot-estop-recovery-and-restart` Bringing a Robot Back After an E-stop (robot) — UAW and IAM skilled-trades training as bodies
   - `tw-palletizer-cell-fenced-access-permit` Palletizer Cell Fenced-Access Permit (robot) — Teamsters warehouse and logistics automation training
   - `conveyor-guard` Conveyor Guard — UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout
   - `press-brake` Press Brake — IAM — OSHA 29 CFR 1910.147 lockout/tagout
@@ -111,6 +122,7 @@ Kinds of work: fenced robot cells, palletizers, press and machine tending. Stand
   - Name the standards that apply (ISO 10218-1, ISO 10218-2, ANSI/A3 R15.06, OSHA 29 CFR 1910.147) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-teach-pendant-safe-jogging` Teaching a Robot from the Pendant (robot) — UAW and IAM skilled-trades training as bodies
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
   - `cnc-cell` CNC Cell — IAM and USW machinist locals
   - `conveyor-guard` Conveyor Guard — UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout
@@ -130,6 +142,7 @@ Kinds of work: fenced robot cells, palletizers, press and machine tending. Stand
   - Name the standards that apply (ISO 10218-1, ISO 10218-2, ANSI/A3 R15.06, OSHA 29 CFR 1910.147) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-teach-pendant-safe-jogging` Teaching a Robot from the Pendant (robot) — UAW and IAM skilled-trades training as bodies
   - `tw-palletizer-cell-fenced-access-permit` Palletizer Cell Fenced-Access Permit (robot) — Teamsters warehouse and logistics automation training
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) — UAW and IAM skilled-trades training as bodies
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
@@ -223,6 +236,7 @@ Kinds of work: cobot workcells shared with people: speed and separation, power a
   - Name the standards that apply (ISO/TS 15066, ISO 10218-1, ISO 10218-2, ANSI/A3 R15.06) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-cobot-power-force-limit-check` Measuring a Cobot's Contact Forces (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
   - `electrical` Isolation Bay — NFPA 70E electrical safety in the workplace
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
@@ -243,6 +257,8 @@ Kinds of work: cobot workcells shared with people: speed and separation, power a
   - Name the standards that apply (ISO/TS 15066, ISO 10218-1, ISO 10218-2, ANSI/A3 R15.06) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-speed-separation-monitoring-setup` Setting Up Speed-and-Separation Monitoring (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-cobot-power-force-limit-check` Measuring a Cobot's Contact Forces (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-test-stand-exclusion-zone-and-holds` Test Stand Exclusion Zone & Holds — IAM and UAW test and assembly training as bodies
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
@@ -544,6 +560,7 @@ Kinds of work: service under lockout, jams, e-stop recovery and restart from out
   - Name the standards that apply (OSHA 29 CFR 1910.147, ISO 10218-2, ANSI/A3 R15.06) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
+  - `rt-robot-estop-recovery-and-restart` Bringing a Robot Back After an E-stop (robot) — UAW and IAM skilled-trades training as bodies
   - `conveyor-guard` Conveyor Guard — UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout
   - `tw-conveyor-jam-clearing-and-loto` Conveyor Jam Clearing & LOTO — Teamsters warehouse and logistics automation training
   - `ml-parcel-sorter-conveyor-jam-and-loto` Parcel Sorter Conveyor Jam & LOTO — OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout)
@@ -563,6 +580,8 @@ Kinds of work: service under lockout, jams, e-stop recovery and restart from out
   - Name the standards that apply (OSHA 29 CFR 1910.147, ISO 10218-2, ANSI/A3 R15.06) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-robot-estop-recovery-and-restart` Bringing a Robot Back After an E-stop (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-teach-pendant-safe-jogging` Teaching a Robot from the Pendant (robot) — UAW and IAM skilled-trades training as bodies
   - `robot-cell` Robot Cell (robot) — UAW — ANSI/RIA R15.06 robot safety qualified
   - `motor-control-center` Motor Control Center — IBEW inside wireman
   - `electrical` Isolation Bay — NFPA 70E electrical safety in the workplace
@@ -695,6 +714,7 @@ Kinds of work: teleoperation demonstrations, labelling, consent and dataset card
   - Name the standards that apply (ISO 10218-2, ISO/TS 15066) and explain the practice in your own words; no clause is quoted.
 - **The practice (each station's cited sources):**
   - `rp-robot-policy-evaluation-review` Reviewing a Robot Policy's Evaluation (robot) — UAW and IAM skilled-trades training as bodies
+  - `rt-speed-separation-monitoring-setup` Setting Up Speed-and-Separation Monitoring (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-cobot-risk-assessment-and-speed-separation` Cobot Risk Assessment & Speed-and-Separation (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-robot-cell-lockout-and-safe-reentry` Robot Cell Lockout & Safe Re-entry (robot) — UAW and IAM skilled-trades training as bodies
   - `ad-amr-fleet-traffic-and-estop-drill` AMR Fleet Traffic & E-stop Drill (robot) — UAW and IAM skilled-trades training as bodies

@@ -30814,5 +30814,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rt-teach-pendant-safe-jogging",
+    "index": "rt-1",
+    "domain": "Robotics",
+    "trade": "Robot programmer, teaching points inside a fenced industrial cell — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robots and their integration, with the manual reduced-speed mode and the enabling device described in the manufacturer's manual; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment and the site's teach-mode procedure",
+    "name": "Teaching a Robot from the Pendant",
+    "weather": "clear",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ Teaching a Robot from the Pendant VR",
+    "tagline": "Jogging an industrial arm from inside its cell to teach a path: manual reduced speed selected and read back, the pendant e-stop proven, the enabling device held in the middle for every move, a second person on the outside stop, an escape route that stays open, and automatic mode restored only from outside with the gate shut",
+    "accent": 15771194,
+    "accentCss": "#f0a63a",
+    "parSeconds": 340,
+    "badge": {
+      "id": "enabled-hand",
+      "name": "Enabled Hand",
+      "note": "Taught a path at reduced speed with the enabling device held, the pendant stop proven and the escape route open"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Enabled Hand",
+      "currency": "TP",
+      "ranks": [
+        "Visitor",
+        "Pendant Holder",
+        "Teacher",
+        "Cell Lead",
+        "Enabled Hand"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rt-cobot-power-force-limit-check",
+    "index": "rt-2",
+    "domain": "Robotics",
+    "trade": "Cobot integrator, power-and-force-limiting verification on a shared bench — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (power and force limiting, body regions), with ANSI R15.06 and ISO 10218 for the robot and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the application's written risk assessment, the measuring device's manual and the manufacturer's manual",
+    "name": "Measuring a Cobot's Contact Forces",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Measuring a Cobot's Contact Forces VR",
+    "tagline": "Verifying a power-and-force-limited cobot before people share its bench: body regions read from the risk assessment, the measuring device set for the region and seated where contact happens, transient and quasi-static contact measured separately, every reading judged against the card's band, a sharp tool edge found and covered, and the result recorded with the device's calibration",
+    "accent": 6010841,
+    "accentCss": "#5bb7d9",
+    "parSeconds": 330,
+    "badge": {
+      "id": "soft-contact",
+      "name": "Soft Contact",
+      "note": "Measured both contact cases for the right body region and let the readings, not the brochure, decide"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Soft Contact",
+      "currency": "FP",
+      "ranks": [
+        "Observer",
+        "Device Holder",
+        "Measurer",
+        "Verifier",
+        "Soft Contact Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rt-robot-estop-recovery-and-restart",
+    "index": "rt-3",
+    "domain": "Robotics",
+    "trade": "Robot operator, recovering a fenced cell after an emergency stop — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 for industrial robot systems, including restart from outside the safeguarded space; OSHA 29 CFR 1910.147 the control of hazardous energy for the entry to clear the cell, 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, its restart procedure and the manufacturer's manual",
+    "name": "Bringing a Robot Back After an E-stop",
+    "weather": "clear",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ Bringing a Robot Back After an E-stop VR",
+    "tagline": "Recovering a stopped robot cell without making it a second incident: the reason found before anything is reset, every person near the cell accounted for, the obstruction cleared under your own lock, the e-stop and the safety circuit reset from outside, the first cycle at reduced speed with a hand on the stop, and the event written down",
+    "accent": 14705482,
+    "accentCss": "#e0634a",
+    "parSeconds": 350,
+    "badge": {
+      "id": "reason-first",
+      "name": "Reason First",
+      "note": "Found why the cell stopped and who was near it before touching a reset"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reason First",
+      "currency": "RP",
+      "ranks": [
+        "Bystander",
+        "Reporter",
+        "Recoverer",
+        "Restart Lead",
+        "Reason First"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rt-speed-separation-monitoring-setup",
+    "index": "rt-4",
+    "domain": "Robotics",
+    "trade": "Robot integrator, area-scanner fields for a shared cobot cell — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ISO/TS 15066 for collaborative robot applications (speed and separation monitoring) and ISO 10218 with ANSI R15.06 for the robot system and its integration; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.132 personal protective equipment; the cell's written risk assessment, the scanner manufacturer's manual and the robot manufacturer's manual",
+    "name": "Setting Up Speed-and-Separation Monitoring",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Setting Up Speed-and-Separation Monitoring VR",
+    "tagline": "Configuring the area scanner around a shared cobot cell: the arm's reach marked on the floor, the protective field sized from the stopping distance the risk assessment worked out, the warning field outside it, the scanner's blind spot found behind a cabinet, muting confirmed off, every field walked with a test piece, the stop measured, and the configuration committed under its checksum",
+    "accent": 10190816,
+    "accentCss": "#9b7fe0",
+    "parSeconds": 340,
+    "badge": {
+      "id": "measured-distance",
+      "name": "Measured Distance",
+      "note": "Sized the fields from the stopping distance, found the shadow and walked every field before committing"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Measured Distance",
+      "currency": "SP",
+      "ranks": [
+        "Observer",
+        "Field Setter",
+        "Field Walker",
+        "Integrator",
+        "Measured Distance Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
