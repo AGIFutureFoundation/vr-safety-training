@@ -462,8 +462,11 @@
       "ok": false
     },
     "check_mobile.mjs": {
-      "ms": 189754,
-      "ok": true
+      "ms": 491127,
+      "ok": true,
+      "loadStart": 11.12,
+      "loadEnd": 35.97,
+      "loadPeak": 43.05
     },
     "check_interop.mjs": {
       "ms": 293,
@@ -533,5 +536,11 @@
       "ms": 118,
       "ok": true
     }
+  },
+  "remeasured": {
+    "at": "2026-10-06T08:51:10.822Z",
+    "checkers": [
+      "check_mobile.mjs"
+    ]
   }
 }
